@@ -6,7 +6,6 @@ using JJ.Data.Synthesizer;
 using JJ.Data.Canonical;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
-using JJ.Presentation.Synthesizer.ToEntity;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Validation;
@@ -105,8 +104,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 return userInput;
             }
 
-            // ToEntity
-            Scale scale = userInput.ToEntityWithRelatedEntities(_repositories);
+            // GetEntity
+            Scale scale = _repositories.ScaleRepository.Get(userInput.ScaleID);
 
             // Business
             VoidResult result = _scaleManager.Save(scale);

@@ -151,6 +151,24 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Brightness Modulation Depth.
+        /// </summary>
+        public static string BrightnessModulationDepth {
+            get {
+                return ResourceManager.GetString("BrightnessModulationDepth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Brightness Modulation Speed.
+        /// </summary>
+        public static string BrightnessModulationSpeed {
+            get {
+                return ResourceManager.GetString("BrightnessModulationSpeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bundle.
         /// </summary>
         public static string Bundle {
@@ -462,6 +480,24 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Intensity {
             get {
                 return ResourceManager.GetString("Intensity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Intensity Modulation Depth.
+        /// </summary>
+        public static string IntensityModulationDepth {
+            get {
+                return ResourceManager.GetString("IntensityModulationDepth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Intensity Modulation Speed.
+        /// </summary>
+        public static string IntensityModulationSpeed {
+            get {
+                return ResourceManager.GetString("IntensityModulationSpeed", resourceCulture);
             }
         }
         

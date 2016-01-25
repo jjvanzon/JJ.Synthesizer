@@ -17,6 +17,10 @@
         ReleaseDuration = 12,
         NoteStart = 13,
         Brightness = 14,
-        Intensity = 15
+        Intensity = 15,
+        BrightnessModulationSpeed = 16,
+        BrightnessModulationDepth = 17,
+        IntensityModulationSpeed = 18,
+        IntensityModulationDepth = 19
     }
 }

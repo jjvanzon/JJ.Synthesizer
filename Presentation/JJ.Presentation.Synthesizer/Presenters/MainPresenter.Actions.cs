@@ -1758,8 +1758,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
+        // WAS HERE REFACTORING, AND SampleDelete IS NOT FINISHED YET.
+
         public void SampleDelete(int sampleID)
         {
+            // GetViewModel
+            SampleGridViewModel userInput = DocumentViewModelHelper.GetSampleGridViewModel_BySampleID(MainViewModel.Document, sampleID);
+
+            // Set !Successful
+            userInput.Successful = false;
+
             // ToEntity
             Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
             Sample sample = _repositories.SampleRepository.Get(sampleID);
@@ -1778,10 +1786,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
-                MainViewModel.Successful &= validationResult.Successful;
-                MainViewModel.PopupMessages.AddRange(validationResult.Messages);
+                MainViewModel.Successful = validationResult.Successful;
+                MainViewModel.PopupMessages = validationResult.Messages;
                 return;
             }
+
+            // Set Successful
+            userInput.Successful = true;
 
             // ToViewModel
             IList<SamplePropertiesViewModel> propertiesViewModels = DocumentViewModelHelper.GetSamplePropertiesViewModels_ByDocumentID(MainViewModel.Document, documentID);
@@ -1790,18 +1801,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             SampleGridViewModel gridViewModel = DocumentViewModelHelper.GetSampleGridViewModel_ByDocumentID(MainViewModel.Document, documentID);
             gridViewModel.List.RemoveFirst(x => x.ID == sampleID);
 
-            // NOTE: 
-            // If it is a sample in the root document, it is present in all child document's sample lookups.
-            // If it is a sample in a child document, it will only be present in the child document's sample lookup and we have to do less work.
-            if (isRootDocument)
-            {
-                MainViewModel.Document.PatchDocumentList.ForEach(x => x.SampleLookup.RemoveFirst(y => y.ID == sampleID));
-            }
-            else
-            {
-                IList<IDAndName> lookup = DocumentViewModelHelper.GetPatchDocumentViewModel(MainViewModel.Document, documentID).SampleLookup;
-                lookup.RemoveFirst(x => x.ID == sampleID);
-            }
+            MainViewModel.Document.PatchDocumentList.ForEach(x => x.SampleLookup.TryRemoveFirst(y => y.ID == sampleID));
         }
 
         public void SamplePropertiesShow(int sampleID)

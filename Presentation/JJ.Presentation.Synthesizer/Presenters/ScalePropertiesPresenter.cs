@@ -93,7 +93,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntity
-            Scale entity = userInput.ToEntity(_repositories.ScaleRepository, _repositories.ScaleTypeRepository);
+            Scale entity = _repositories.ScaleRepository.Get(userInput.Entity.ID);
 
             // Business
             VoidResult result = _scaleManager.ValidateWithoutTones(entity);

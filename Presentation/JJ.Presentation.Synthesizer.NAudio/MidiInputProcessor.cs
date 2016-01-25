@@ -268,6 +268,10 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         private static Dictionary<int, ControllerInfo> Create_ControllerCode_To_ControllerInfo_Dictionary()
         {
+            double controllerFactorForVolumes = 4.0 / MAX_CONTROLLER_VALUE;
+            double controllerFactorForFilters = 8.0 / MAX_CONTROLLER_VALUE;
+            double controllerFactorForModulationSpeed = 30.0 / MAX_CONTROLLER_VALUE;
+
             var controllerInfos = new ControllerInfo[]
             {
                 new ControllerInfo
@@ -275,28 +279,28 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     InletTypeEnum = InletTypeEnum.AttackDuration,
                     ControllerCode = 73, // Recommended code
                     MinValue = 0.001,
-                    ConversionFactor = 4.0 / MAX_CONTROLLER_VALUE
+                    ConversionFactor = controllerFactorForVolumes
                 },
                 new ControllerInfo
                 {
                     InletTypeEnum = InletTypeEnum.ReleaseDuration,
                     ControllerCode = 72, // Recommended code
                     MinValue = 0.001,
-                    ConversionFactor = 4.0 / MAX_CONTROLLER_VALUE
+                    ConversionFactor = controllerFactorForVolumes
                 },
                 new ControllerInfo
                 {
                     InletTypeEnum = InletTypeEnum.Brightness,
                     ControllerCode = 74, // Recommended code
                     MinValue =  1.00001, // 1 shuts off the sound.
-                    ConversionFactor = 8.0 / MAX_CONTROLLER_VALUE
+                    ConversionFactor = controllerFactorForFilters
                 },
                 new ControllerInfo
                 {
                     InletTypeEnum = InletTypeEnum.VibratoSpeed,
                     ControllerCode = 76, // Default on Arturia MiniLab
                     MinValue = 0,
-                    ConversionFactor = 30.0 / MAX_CONTROLLER_VALUE
+                    ConversionFactor = controllerFactorForModulationSpeed
                 },
                 new ControllerInfo
                 {
@@ -317,7 +321,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     InletTypeEnum = InletTypeEnum.TremoloSpeed,
                     ControllerCode = 16, // Right below vibrato on Arturia MiniLab
                     MinValue = 0,
-                    ConversionFactor = 30.0 / MAX_CONTROLLER_VALUE
+                    ConversionFactor = controllerFactorForModulationSpeed
                 },
                 new ControllerInfo
                 {
@@ -331,8 +335,37 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     InletTypeEnum = InletTypeEnum.Intensity,
                     ControllerCode = 71, // Resonance on Arturia MiniLab. Recommended code for Timbre/Harmonic Content.
                     MinValue = 0,
-                    ConversionFactor = 8.0 / MAX_CONTROLLER_VALUE
-                }
+                    ConversionFactor = controllerFactorForFilters
+                },
+                // Completely arbitrarily mapped left-over knobs on my Artirua MiniLab
+                new ControllerInfo
+                {
+                    InletTypeEnum = InletTypeEnum.BrightnessModulationSpeed,
+                    ControllerCode = 18,
+                    MinValue = 0,
+                    ConversionFactor = controllerFactorForModulationSpeed
+                },
+                new ControllerInfo
+                {
+                    InletTypeEnum = InletTypeEnum.BrightnessModulationDepth,
+                    ControllerCode = 19,
+                    MinValue = 0,
+                    ConversionFactor = controllerFactorForFilters
+                },
+                new ControllerInfo
+                {
+                    InletTypeEnum = InletTypeEnum.IntensityModulationSpeed,
+                    ControllerCode = 93,
+                    MinValue = 0,
+                    ConversionFactor = controllerFactorForModulationSpeed
+                },
+                new ControllerInfo
+                {
+                    InletTypeEnum = InletTypeEnum.IntensityModulationDepth,
+                    ControllerCode = 91,
+                    MinValue = 0,
+                    ConversionFactor = controllerFactorForFilters
+                },
             };
 
             var dictionary = controllerInfos.ToDictionary(x => x.ControllerCode);

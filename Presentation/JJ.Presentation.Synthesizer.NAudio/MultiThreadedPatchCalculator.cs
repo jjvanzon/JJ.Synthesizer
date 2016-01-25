@@ -96,6 +96,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             _disposing = true;
 
             // TODO: This seems a lot of hassle to let the threads stop properly, but I do not know how else to do it.
+            // It still does not work, though.
             if (_threadInfos != null)
             {
                 if (_countdownEvent != null)
@@ -114,17 +115,17 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     _countdownEvent.Wait();
                 }
 
-                for (int i = 0; i < _threadInfos.Count; i++)
-                {
-                    ThreadInfo threadInfo = _threadInfos[i];
-                    threadInfo.Lock.Dispose();
-                }
+                //for (int i = 0; i < _threadInfos.Count; i++)
+                //{
+                //    ThreadInfo threadInfo = _threadInfos[i];
+                //    threadInfo.Lock.Dispose();
+                //}
             }
 
-            if (_countdownEvent != null)
-            {
-                _countdownEvent.Dispose();
-            }
+            //if (_countdownEvent != null)
+            //{
+            //    _countdownEvent.Dispose();
+            //}
 
             GC.SuppressFinalize(this);
         }

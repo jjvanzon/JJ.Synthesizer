@@ -502,4 +502,16 @@
   <data name="Reset" xml:space="preserve">
     <value>Terugzetten</value>
   </data>
+  <data name="BrightnessModulationDepth" xml:space="preserve">
+    <value>Helderheid modulatie diepte</value>
+  </data>
+  <data name="BrightnessModulationSpeed" xml:space="preserve">
+    <value>Helderheid modulatie snelheid</value>
+  </data>
+  <data name="IntensityModulationDepth" xml:space="preserve">
+    <value>Intensiteit modulatie diepte</value>
+  </data>
+  <data name="IntensityModulationSpeed" xml:space="preserve">
+    <value>Intensiteit modulatie snelheid</value>
+  </data>
 </root>

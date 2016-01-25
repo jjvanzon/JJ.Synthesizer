@@ -499,4 +499,16 @@
   <data name="Reset" xml:space="preserve">
     <value>Reset</value>
   </data>
+  <data name="BrightnessModulationDepth" xml:space="preserve">
+    <value>Brightness Modulation Depth</value>
+  </data>
+  <data name="BrightnessModulationSpeed" xml:space="preserve">
+    <value>Brightness Modulation Speed</value>
+  </data>
+  <data name="IntensityModulationDepth" xml:space="preserve">
+    <value>Intensity Modulation Depth</value>
+  </data>
+  <data name="IntensityModulationSpeed" xml:space="preserve">
+    <value>Intensity Modulation Speed</value>
+  </data>
 </root>
