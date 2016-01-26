@@ -517,4 +517,7 @@
   <data name="SustainVolume" xml:space="preserve">
     <value>Sustain Volume</value>
   </data>
+  <data name="LowPass" xml:space="preserve">
+    <value>Low Pass</value>
+  </data>
 </root>

@@ -592,6 +592,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Low Pass.
+        /// </summary>
+        public static string LowPass {
+            get {
+                return ResourceManager.GetString("LowPass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mono.
         /// </summary>
         public static string Mono {

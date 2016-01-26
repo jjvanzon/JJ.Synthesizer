@@ -60,6 +60,8 @@
         /// and other time / phase tracking mechanisms are reset to their initial state.
         /// The most common usage for this, is starting a new note.
         /// </summary>
-        Reset = 32
+        Reset = 32,
+
+        LowPass = 33
     }
 }

@@ -24,6 +24,7 @@ namespace JJ.Business.Synthesizer.Validation
             { OperatorTypeEnum.Earlier, typeof(OperatorValidator_Earlier) },
             { OperatorTypeEnum.Exponent, typeof(OperatorValidator_Exponent) },
             { OperatorTypeEnum.Loop, typeof(OperatorValidator_Loop) },
+            { OperatorTypeEnum.LowPass, typeof(OperatorValidator_LowPass) },
             { OperatorTypeEnum.Multiply, typeof(OperatorValidator_Multiply) },
             { OperatorTypeEnum.Narrower, typeof(OperatorValidator_Narrower) },
             { OperatorTypeEnum.Number, typeof(OperatorValidator_Number) },

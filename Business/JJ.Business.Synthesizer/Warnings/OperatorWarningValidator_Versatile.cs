@@ -22,6 +22,7 @@ namespace JJ.Business.Synthesizer.Warnings
             { OperatorTypeEnum.Earlier, typeof(OperatorWarningValidator_Earlier) },
             { OperatorTypeEnum.Exponent, typeof(OperatorWarningValidator_Exponent) },
             { OperatorTypeEnum.Loop, typeof(OperatorWarningValidator_Loop) },
+            { OperatorTypeEnum.LowPass, typeof(OperatorWarningValidator_LowPass) },
             { OperatorTypeEnum.Multiply, typeof(OperatorWarningValidator_Multiply) },
             { OperatorTypeEnum.Narrower, typeof(OperatorWarningValidator_Narrower) },
             { OperatorTypeEnum.Number, typeof(OperatorWarningValidator_Number) },

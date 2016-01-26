@@ -245,6 +245,21 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        public LowPass_OperatorWrapper LowPass(Outlet signal = null, Outlet maxFrequency = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.LowPass, inletCount: 2, outletCount: 1);
+
+            var wrapper = new LowPass_OperatorWrapper(op)
+            {
+                Signal = signal,
+                MaxFrequency = maxFrequency
+            };
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+
+            return wrapper;
+        }
+
         public Multiply_OperatorWrapper Multiply(Outlet operandA = null, Outlet operandB = null, Outlet origin = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Multiply, inletCount: 3, outletCount: 1);

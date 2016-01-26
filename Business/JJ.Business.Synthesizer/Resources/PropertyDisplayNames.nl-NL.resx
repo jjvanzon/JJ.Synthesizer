@@ -520,4 +520,7 @@
   <data name="SustainVolume" xml:space="preserve">
     <value>Aanhoud volume</value>
   </data>
+  <data name="LowPass" xml:space="preserve">
+    <value>Laag doorlaten</value>
+  </data>
 </root>

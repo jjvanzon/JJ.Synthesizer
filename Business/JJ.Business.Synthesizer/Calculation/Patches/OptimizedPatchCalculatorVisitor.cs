@@ -443,7 +443,47 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase endCalculator = _stack.Pop();
             OperatorCalculatorBase releaseCalculator = _stack.Pop();
 
+            // TODO: Specialized OperatorCalculators for performance.
             calculator = new Loop_OperatorCalculator(signalCalculator, attackCalculator, startCalculator, sustainCalculator, endCalculator, releaseCalculator);
+
+            _stack.Push(calculator);
+        }
+
+        protected override void VisitLowPass(Operator op)
+        {
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase maxFrequencyCalculator = _stack.Pop();
+
+            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
+            maxFrequencyCalculator = maxFrequencyCalculator ?? new Zero_OperatorCalculator();
+
+            double signal = signalCalculator.Calculate(0, 0);
+            double maxFrequency = maxFrequencyCalculator.Calculate(0, 0);
+
+            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+            bool maxFrequencyIsConst = maxFrequencyCalculator is Number_OperatorCalculator;
+
+            bool maxFrequencyIsConstZero = maxFrequencyIsConst && maxFrequency == 0.0;
+
+            if (signalIsConst)
+            {
+                calculator = signalCalculator;
+            }
+            else if (maxFrequencyIsConstZero)
+            {
+                // Weird number: time stands still.
+                calculator = new Number_OperatorCalculator(signal);
+            }
+            else if (maxFrequencyIsConst)
+            {
+                calculator = new LowPass_ConstMaxFrequency_OperatorCalculator(signalCalculator, maxFrequency);
+            }
+            else
+            {
+                calculator = new LowPass_VarMaxFrequency_OperatorCalculator(signalCalculator, maxFrequencyCalculator);
+            }
 
             _stack.Push(calculator);
         }

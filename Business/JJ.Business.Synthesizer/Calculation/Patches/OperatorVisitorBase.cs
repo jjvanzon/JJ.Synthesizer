@@ -26,6 +26,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.Earlier, VisitEarlier },
                 { OperatorTypeEnum.Exponent, VisitExponent },
                 { OperatorTypeEnum.Loop, VisitLoop },
+                { OperatorTypeEnum.LowPass, VisitLowPass },
                 { OperatorTypeEnum.Multiply, VisitMultiply },
                 { OperatorTypeEnum.Narrower, VisitNarrower },
                 { OperatorTypeEnum.Number, VisitNumber },
@@ -118,6 +119,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         /// <summary> does nothing </summary>
         protected virtual void VisitLoop(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitLowPass(Operator op) { }
 
         /// <summary> does nothing </summary>
         protected virtual void VisitMultiply(Operator op) { }

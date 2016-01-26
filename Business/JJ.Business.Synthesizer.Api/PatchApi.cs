@@ -99,6 +99,11 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Loop(signal, attack, start, sustain, end, release);
         }
 
+        public LowPass_OperatorWrapper LowPass(Outlet signal = null, Outlet maxFrequency = null)
+        {
+            return _patchManager.LowPass(signal, maxFrequency);
+        }
+
         public Multiply_OperatorWrapper Multiply(Outlet operandA = null, Outlet operandB = null, Outlet origin = null)
         {
             return _patchManager.Multiply(operandA, operandB, origin);
