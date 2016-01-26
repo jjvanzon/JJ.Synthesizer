@@ -511,4 +511,10 @@
   <data name="IntensityModulationSpeed" xml:space="preserve">
     <value>Intensity Modulation Speed</value>
   </data>
+  <data name="DecayDuration" xml:space="preserve">
+    <value>Decay Duration</value>
+  </data>
+  <data name="SustainVolume" xml:space="preserve">
+    <value>Sustain Volume</value>
+  </data>
 </root>

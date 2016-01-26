@@ -476,10 +476,10 @@
     <value>Noot tijdsduur</value>
   </data>
   <data name="AttackDuration" xml:space="preserve">
-    <value>Attack tijdsduur</value>
+    <value>Aanslag tijdsduur</value>
   </data>
   <data name="ReleaseDuration" xml:space="preserve">
-    <value>Release tijdsduur</value>
+    <value>Loslaat tijdsduur</value>
   </data>
   <data name="NoteStart" xml:space="preserve">
     <value>Noot start</value>
@@ -513,5 +513,11 @@
   </data>
   <data name="IntensityModulationSpeed" xml:space="preserve">
     <value>Intensiteit modulatie snelheid</value>
+  </data>
+  <data name="DecayDuration" xml:space="preserve">
+    <value>Afname tijdsduur</value>
+  </data>
+  <data name="SustainVolume" xml:space="preserve">
+    <value>Aanhoud volume</value>
   </data>
 </root>

@@ -21,6 +21,8 @@
         BrightnessModulationSpeed = 16,
         BrightnessModulationDepth = 17,
         IntensityModulationSpeed = 18,
-        IntensityModulationDepth = 19
+        IntensityModulationDepth = 19,
+        DecayDuration = 20,
+        SustainVolume = 21
     }
 }

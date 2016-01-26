@@ -295,6 +295,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Decay Duration.
+        /// </summary>
+        public static string DecayDuration {
+            get {
+                return ResourceManager.GetString("DecayDuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Default Value.
         /// </summary>
         public static string DefaultValue {
@@ -1065,6 +1074,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Subtract {
             get {
                 return ResourceManager.GetString("Subtract", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sustain Volume.
+        /// </summary>
+        public static string SustainVolume {
+            get {
+                return ResourceManager.GetString("SustainVolume", resourceCulture);
             }
         }
         

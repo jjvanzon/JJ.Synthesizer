@@ -268,7 +268,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         private static Dictionary<int, ControllerInfo> Create_ControllerCode_To_ControllerInfo_Dictionary()
         {
-            double controllerFactorForVolumes = 4.0 / MAX_CONTROLLER_VALUE;
+            double controllerFactorForVolumeChangeRate = 4.0 / MAX_CONTROLLER_VALUE;
             double controllerFactorForFilters = 8.0 / MAX_CONTROLLER_VALUE;
             double controllerFactorForModulationSpeed = 30.0 / MAX_CONTROLLER_VALUE;
 
@@ -279,14 +279,14 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     InletTypeEnum = InletTypeEnum.AttackDuration,
                     ControllerCode = 73, // Recommended code
                     MinValue = 0.001,
-                    ConversionFactor = controllerFactorForVolumes
+                    ConversionFactor = controllerFactorForVolumeChangeRate
                 },
                 new ControllerInfo
                 {
                     InletTypeEnum = InletTypeEnum.ReleaseDuration,
                     ControllerCode = 72, // Recommended code
                     MinValue = 0.001,
-                    ConversionFactor = controllerFactorForVolumes
+                    ConversionFactor = controllerFactorForVolumeChangeRate
                 },
                 new ControllerInfo
                 {
@@ -337,32 +337,45 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     MinValue = 0,
                     ConversionFactor = controllerFactorForFilters
                 },
-                // Completely arbitrarily mapped left-over knobs on my Artirua MiniLab
+                new ControllerInfo
+                {
+                    InletTypeEnum = InletTypeEnum.DecayDuration,
+                    ControllerCode = 75, // Decay on Arturia MiniLab. Recommended code for 'Sound Controller 6'
+                    MinValue = 0.00001,
+                    ConversionFactor = controllerFactorForVolumeChangeRate
+                },
+                new ControllerInfo
+                {
+                    InletTypeEnum = InletTypeEnum.SustainVolume,
+                    ControllerCode = 79, // Decay on Arturia MiniLab. Recommended code for 'Sound Controller 10'.
+                    MinValue = 0,
+                    ConversionFactor = 1.0 / MAX_CONTROLLER_VALUE
+                },
                 new ControllerInfo
                 {
                     InletTypeEnum = InletTypeEnum.BrightnessModulationSpeed,
-                    ControllerCode = 18,
+                    ControllerCode = 18, // Completely arbitrarily mapped on left-over knobs on my Artirua MiniLab
                     MinValue = 0,
-                    ConversionFactor = controllerFactorForModulationSpeed
+                    ConversionFactor = controllerFactorForModulationSpeed 
                 },
                 new ControllerInfo
                 {
                     InletTypeEnum = InletTypeEnum.BrightnessModulationDepth,
-                    ControllerCode = 19,
+                    ControllerCode = 19, // Completely arbitrarily mapped on left-over knobs on my Artirua MiniLab
                     MinValue = 0,
                     ConversionFactor = controllerFactorForFilters
                 },
                 new ControllerInfo
                 {
                     InletTypeEnum = InletTypeEnum.IntensityModulationSpeed,
-                    ControllerCode = 93,
+                    ControllerCode = 93, // Completely arbitrarily mapped on left-over knobs on my Artirua MiniLab
                     MinValue = 0,
                     ConversionFactor = controllerFactorForModulationSpeed
                 },
                 new ControllerInfo
                 {
                     InletTypeEnum = InletTypeEnum.IntensityModulationDepth,
-                    ControllerCode = 91,
+                    ControllerCode = 91, // Completely arbitrarily mapped on left-over knobs on my Artirua MiniLab
                     MinValue = 0,
                     ConversionFactor = controllerFactorForFilters
                 },
