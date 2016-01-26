@@ -12,6 +12,7 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Data.Canonical;
 using System;
+using JJ.Business.Synthesizer.Calculation;
 
 namespace JJ.Business.Synthesizer.Tests
 {
@@ -50,7 +51,7 @@ namespace JJ.Business.Synthesizer.Tests
 
                 PatchManager x = new PatchManager(new PatchRepositories(repositories));
                 Outlet outlet = x.SlowDown(x.Sample(sample), x.Number(timeMultiplier));
-                IPatchCalculator patchCalculator = x.CreateOptimizedCalculator(outlet);
+                IPatchCalculator patchCalculator = x.CreateOptimizedCalculator(new CalculatorCache(), outlet);
 
                 AudioFileOutputManager audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
@@ -88,7 +89,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Outlet outlet = x.Sample(sample);
 
                 // Trigger SampleCalculation
-                IPatchCalculator calculator = x.CreateOptimizedCalculator(outlet);
+                IPatchCalculator calculator = x.CreateOptimizedCalculator(new CalculatorCache(), outlet);
                 double value = calculator.Calculate(0, 0);
             }
         }

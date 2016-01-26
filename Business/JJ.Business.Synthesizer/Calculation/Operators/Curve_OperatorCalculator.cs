@@ -7,11 +7,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly OptimizedCurveCalculator _curveCalculator;
 
-        public Curve_OperatorCalculator(OptimizedCurveCalculator curveCalculator)
+        public Curve_OperatorCalculator(ICurveCalculator curveCalculator)
         {
             if (curveCalculator == null) throw new NullException(() => curveCalculator);
 
-            _curveCalculator = curveCalculator;
+            OptimizedCurveCalculator optimizedCurveCalculator = curveCalculator as OptimizedCurveCalculator;
+
+            if (optimizedCurveCalculator == null)
+            {
+                throw new IsNotTypeException<OptimizedCurveCalculator>(() => optimizedCurveCalculator);
+            }
+
+            _curveCalculator = optimizedCurveCalculator;
         }
 
         public override double Calculate(double time, int channelIndex)

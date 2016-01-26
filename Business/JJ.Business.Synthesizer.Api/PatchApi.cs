@@ -7,6 +7,7 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer;
 using JJ.Data.Synthesizer;
+using JJ.Business.Synthesizer.Calculation;
 
 namespace JJ.Business.Synthesizer.Api
 {
@@ -233,9 +234,9 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.WhiteNoise();
         }
 
-        public IPatchCalculator CreateOptimizedCalculator(params Outlet[] channelOutlets)
+        public IPatchCalculator CreateOptimizedCalculator(CalculatorCache calculatorCache, params Outlet[] channelOutlets)
         {
-            return _patchManager.CreateOptimizedCalculator(channelOutlets);
+            return _patchManager.CreateOptimizedCalculator(calculatorCache, channelOutlets);
         }
 
         public IPatchCalculator CreateInterpretedCalculator(params Outlet[] channelOutlets)

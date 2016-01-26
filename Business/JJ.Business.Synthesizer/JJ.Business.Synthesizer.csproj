@@ -46,6 +46,7 @@
     <Compile Include="Calculation\AudioFileOutputs\IAudioFileOutputCalculator.cs" />
     <Compile Include="Calculation\AudioFileOutputs\Int16AudioFileOutputCalculator.cs" />
     <Compile Include="Calculation\CalculationHelper.cs" />
+    <Compile Include="Calculation\CalculatorCache.cs" />
     <Compile Include="Calculation\Curves\ICurveCalculator.cs" />
     <Compile Include="Calculation\Operators\Divide OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Multiply OperatorCalculator Classes.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="Calculation\Operators\WhiteNoise_OperatorCalculator.cs" />
     <Compile Include="Calculation\Curves\OptimizedCurveCalculator.cs" />
     <Compile Include="Calculation\Operators\One_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Patches\2016-01-26 Backup of InterpretedPatchCalculator.cs" />
     <Compile Include="Calculation\Patches\IPatchCalculator.cs" />
     <Compile Include="Calculation\Operators\Zero_OperatorCalculator.cs" />
     <Compile Include="Calculation\Patches\OptimizedPatchCalculator.cs" />

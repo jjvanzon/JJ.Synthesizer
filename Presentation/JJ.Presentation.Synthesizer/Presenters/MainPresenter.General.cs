@@ -10,6 +10,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Data.Synthesizer;
+using JJ.Business.Synthesizer.Calculation;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -208,7 +209,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             switch (_patchCalculatorTypeEnum)
             {
                 case PatchCalculatorTypeEnum.OptimizedPatchCalculator:
-                    return patchManager.CreateOptimizedCalculator(outlet);
+                    return patchManager.CreateOptimizedCalculator(new CalculatorCache(), outlet);
 
                 case PatchCalculatorTypeEnum.InterpretedPatchCalculator:
                     return patchManager.CreateInterpretedCalculator(outlet);

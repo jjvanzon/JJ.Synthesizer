@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using JJ.Business.Synthesizer;
+using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer;
@@ -28,7 +29,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
         {
             var patchManager = new PatchManager(repositories);
             Outlet autoPatchOutlet = patchManager.AutoPatchPolyphonic(patches, maxConcurrentNotes);
-            IPatchCalculator patchCalculator = patchManager.CreateOptimizedCalculator(autoPatchOutlet);
+            IPatchCalculator patchCalculator = patchManager.CreateOptimizedCalculator(new CalculatorCache(), autoPatchOutlet);
 
             Lock.EnterWriteLock();
             try

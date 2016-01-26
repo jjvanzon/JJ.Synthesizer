@@ -63,49 +63,40 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private readonly ICurveRepository _curveRepository;
         private readonly ISampleRepository _sampleRepository;
         private readonly IPatchRepository _patchRepository;
-
-        private WhiteNoiseCalculator _whiteNoiseCalculator;
+        private readonly CalculatorCache _calculatorCache;
 
         private int _channelCount;
         private Stack<OperatorCalculatorBase> _stack;
         private Stack<int> _bundleIndexStack;
-
-        /// <summary>
-        /// This dictionary is about reusing the same CurveCalculator in multiple OperatorCalculator_Curve's
-        /// in case they uses the same Curve, more than optimizing things by using a dictionary.
-        /// </summary>
-        private Dictionary<Curve, OptimizedCurveCalculator> _curve_CurveCalculator_Dictionary;
-
-        /// <summary>
-        /// This dictionary is about reusing the same SampleCalculator in multiple OperatorCalculator_Sample's
-        /// in case they uses the same Sample, more than optimizing things by using a dictionary.
-        /// </summary>
-        private Dictionary<Sample, ISampleCalculator> _sample_SampleCalculator_Dictionary;
 
         private Dictionary<Operator, double> _operator_WhiteNoiseOffsetInSeconds_Dictionary;
         private Outlet _currentChannelOutlet;
         private Dictionary<Operator, VariableInput_OperatorCalculator> _patchInlet_Calculator_Dictionary;
         private IList<ResettableOperatorTuple> _resettableOperatorTuples;
 
-        public OptimizedPatchCalculatorVisitor(ICurveRepository curveRepository, ISampleRepository sampleRepository, IPatchRepository patchRepository)
+        public OptimizedPatchCalculatorVisitor(
+            ICurveRepository curveRepository, 
+            ISampleRepository sampleRepository, 
+            IPatchRepository patchRepository, 
+            CalculatorCache calculatorCache)
         {
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
             if (patchRepository == null) throw new NullException(() => patchRepository);
+            if (calculatorCache == null) throw new NullException(() => calculatorCache);
 
             _curveRepository = curveRepository;
             _sampleRepository = sampleRepository;
             _patchRepository = patchRepository;
+
+            _calculatorCache = calculatorCache;
         }
 
         /// <summary> Returns an OperatorCalculator for each channel. Null-channels will get an OperatorCalculator too. </summary>
         /// <param name="channelOutlets">Can contain nulls.</param>
-        public Result Execute(IList<Outlet> channelOutlets, WhiteNoiseCalculator whiteNoiseCalculator)
+        public Result Execute(IList<Outlet> channelOutlets)
         {
-            if (whiteNoiseCalculator == null) throw new NullException(() => whiteNoiseCalculator);
             if (channelOutlets == null) throw new NullException(() => channelOutlets);
-
-            _whiteNoiseCalculator = whiteNoiseCalculator;
 
             foreach (Outlet channelOutlet in channelOutlets)
             {
@@ -123,8 +114,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             _stack = new Stack<OperatorCalculatorBase>();
             _bundleIndexStack = new Stack<int>();
-            _curve_CurveCalculator_Dictionary = new Dictionary<Curve, OptimizedCurveCalculator>();
-            _sample_SampleCalculator_Dictionary = new Dictionary<Sample, ISampleCalculator>();
             _operator_WhiteNoiseOffsetInSeconds_Dictionary = new Dictionary<Operator, double>();
             _patchInlet_Calculator_Dictionary = new Dictionary<Operator, VariableInput_OperatorCalculator>();
             _resettableOperatorTuples = new List<ResettableOperatorTuple>();
@@ -225,12 +214,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                OptimizedCurveCalculator curveCalculator;
-                if (!_curve_CurveCalculator_Dictionary.TryGetValue(curve, out curveCalculator))
-                {
-                    curveCalculator = new OptimizedCurveCalculator(curve);
-                    _curve_CurveCalculator_Dictionary.Add(curve, curveCalculator);
-                }
+                ICurveCalculator curveCalculator = _calculatorCache.GetCurveCalculator(curve);
 
                 calculator = new Curve_OperatorCalculator(curveCalculator);
             }
@@ -763,13 +747,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                // Get SampleCalculator
-                ISampleCalculator sampleCalculator;
-                if (!_sample_SampleCalculator_Dictionary.TryGetValue(sampleInfo.Sample, out sampleCalculator))
-                {
-                    sampleCalculator = SampleCalculatorFactory.CreateSampleCalculator(sampleInfo.Sample, sampleInfo.Bytes);
-                    _sample_SampleCalculator_Dictionary.Add(sampleInfo.Sample, sampleCalculator);
-                }
+                ISampleCalculator sampleCalculator = _calculatorCache.GetSampleCalculator(sampleInfo);
 
                 int sampleChannelCount = sampleInfo.Sample.GetChannelCount();
 
@@ -1369,11 +1347,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double offset;
             if (!_operator_WhiteNoiseOffsetInSeconds_Dictionary.TryGetValue(op, out offset))
             {
-                offset = _whiteNoiseCalculator.GetRandomOffset();
+                offset = _calculatorCache.WiteNoiseCalculator.GetRandomOffset();
                 _operator_WhiteNoiseOffsetInSeconds_Dictionary.Add(op, offset);
             }
 
-            var calculator = new WhiteNoise_OperatorCalculator(_whiteNoiseCalculator, offset);
+            var calculator = new WhiteNoise_OperatorCalculator(_calculatorCache.WiteNoiseCalculator, offset);
             _stack.Push(calculator);
         }
 

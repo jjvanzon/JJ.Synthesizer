@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using JJ.Business.Synthesizer;
+using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
@@ -61,6 +62,8 @@ namespace JJ.Presentation.Synthesizer.NAudio
         {
             var patchManager = new PatchManager(repositories);
 
+            var calculatorCache = new CalculatorCache();
+
             MultiThreadedPatchCalculator newPolyphonyCalculator = CreateCalculator();
 
             var patchCalculators = new List<IPatchCalculator>(maxConcurrentNotes);
@@ -78,7 +81,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     signalOutlet = patchManager.Number(0.0);
                 }
 
-                IPatchCalculator patchCalculator = patchManager.CreateOptimizedCalculator(signalOutlet);
+                IPatchCalculator patchCalculator = patchManager.CreateOptimizedCalculator(calculatorCache, signalOutlet);
                 patchCalculators.Add(patchCalculator);
             }
 

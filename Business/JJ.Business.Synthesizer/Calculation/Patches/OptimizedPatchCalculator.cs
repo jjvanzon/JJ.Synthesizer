@@ -25,31 +25,20 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private Dictionary<InletTypeEnum, double> _valuesByInletTypeEnum = new Dictionary<InletTypeEnum, double>();
         private Dictionary<Tuple<InletTypeEnum, int>, double> _valuesByInletTypeEnumAndListIndex = new Dictionary<Tuple<InletTypeEnum, int>, double>();
 
-        /// <summary> This overload has ChannelOutlets as params. </summary>
-        /// <param name="channelOutlets">Can contain nulls.</param>
-        public OptimizedPatchCalculator(
-            WhiteNoiseCalculator whiteNoiseCalculator,
-            ICurveRepository curveRepository,
-            ISampleRepository sampleRepository,
-            IPatchRepository patchRepository,
-            params Outlet[] channelOutlets)
-            : this(channelOutlets, whiteNoiseCalculator, curveRepository, sampleRepository, patchRepository)
-        { }
-
         /// <summary> This overload has ChannelOutlets as an IList<T>. </summary>
         /// <param name="channelOutlets">Can contain nulls.</param>
         public OptimizedPatchCalculator(
             IList<Outlet> channelOutlets,
-            WhiteNoiseCalculator whiteNoiseCalculator,
+            CalculatorCache calculatorCache,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
             IPatchRepository patchRepository)
         {
             if (channelOutlets == null) throw new NullException(() => channelOutlets);
 
-            var visitor = new OptimizedPatchCalculatorVisitor(curveRepository, sampleRepository, patchRepository);
+            var visitor = new OptimizedPatchCalculatorVisitor(curveRepository, sampleRepository, patchRepository, calculatorCache);
 
-            OptimizedPatchCalculatorVisitor.Result result = visitor.Execute(channelOutlets, whiteNoiseCalculator);
+            OptimizedPatchCalculatorVisitor.Result result = visitor.Execute(channelOutlets);
 
             _outputOperatorCalculators = result.Output_OperatorCalculators.ToArray(); // TODO: Low priority: One would think that the outlet operators should be sorted by a list index too. But it does not have a ListIndex property.
             _inputOperatorCalculators = result.Input_OperatorCalculators.OrderBy(x => x.ListIndex).ToArray();

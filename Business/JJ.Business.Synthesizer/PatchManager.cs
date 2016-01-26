@@ -474,30 +474,36 @@ namespace JJ.Business.Synthesizer
         }
 
         /// <summary> Optimized has slower initialization and faster sound generation (best for outputting sound). </summary>
-        public IPatchCalculator CreateOptimizedCalculator(params Outlet[] channelOutlets)
+        public IPatchCalculator CreateOptimizedCalculator(
+            CalculatorCache calculatorCache,
+            params Outlet[] channelOutlets)
         {
-            return CreateOptimizedCalculator((IList<Outlet>)channelOutlets);
+            return CreateOptimizedCalculator(channelOutlets, calculatorCache);
         }
 
         /// <summary> Optimized has slower initialization and faster sound generation (best for outputting sound). </summary>
-        public IPatchCalculator CreateOptimizedCalculator(bool mustSubstituteSineForUnfilledInSignalPatchInlets, params Outlet[] channelOutlets)
+        public IPatchCalculator CreateOptimizedCalculator(
+            CalculatorCache calculatorCache,
+            bool mustSubstituteSineForUnfilledInSignalPatchInlets,
+            params Outlet[] channelOutlets)
         {
-            return CreateOptimizedCalculator(channelOutlets, mustSubstituteSineForUnfilledInSignalPatchInlets);
+            return CreateOptimizedCalculator(channelOutlets, calculatorCache, mustSubstituteSineForUnfilledInSignalPatchInlets);
         }
 
         /// <summary> Optimized has slower initialization and faster sound generation (best for outputting sound). </summary>
-        public IPatchCalculator CreateOptimizedCalculator(IList<Outlet> channelOutlets, bool mustSubstituteSineForUnfilledInSignalPatchInlets = true)
+        public IPatchCalculator CreateOptimizedCalculator(
+            IList<Outlet> channelOutlets,
+            CalculatorCache calculatorCache,
+            bool mustSubstituteSineForUnfilledInSignalPatchInlets = true)
         {
             if (mustSubstituteSineForUnfilledInSignalPatchInlets)
             {
                 SubstituteSineForUnfilledInSignalPatchInlets();
             }
 
-            WhiteNoiseCalculator whiteNoiseCalculator = GetWhiteNoiseCalculator();
-
             IPatchCalculator calculator = new OptimizedPatchCalculator(
                 channelOutlets,
-                whiteNoiseCalculator,
+                calculatorCache,
                 _repositories.CurveRepository,
                 _repositories.SampleRepository,
                 _repositories.PatchRepository);
@@ -512,24 +518,26 @@ namespace JJ.Business.Synthesizer
         }
 
         /// <summary> Interpreted mode has fast initialization and slow sound generation (best for previewing values or drawing out plots). </summary>
-        public IPatchCalculator CreateInterpretedCalculator(bool mustSubstituteSineForUnfilledInSignalPatchInlets, params Outlet[] channelOutlets)
+        public IPatchCalculator CreateInterpretedCalculator(
+            bool mustSubstituteSineForUnfilledInSignalPatchInlets,
+            params Outlet[] channelOutlets)
         {
             return CreateInterpretedCalculator(channelOutlets, mustSubstituteSineForUnfilledInSignalPatchInlets);
         }
 
         /// <summary> Interpreted mode has fast initialization and slow sound generation (best for previewing values or drawing out plots). </summary>
-        public IPatchCalculator CreateInterpretedCalculator(IList<Outlet> channelOutlets, bool mustSubstituteSineForUnfilledInSignalPatchInlets = true)
+        public IPatchCalculator CreateInterpretedCalculator(
+            IList<Outlet> channelOutlets, 
+            bool mustSubstituteSineForUnfilledInSignalPatchInlets = true)
         {
             if (mustSubstituteSineForUnfilledInSignalPatchInlets)
             {
                 SubstituteSineForUnfilledInSignalPatchInlets();
             }
 
-            WhiteNoiseCalculator whiteNoiseCalculator = GetWhiteNoiseCalculator();
-
             return new InterpretedPatchCalculator(
                 channelOutlets,
-                whiteNoiseCalculator,
+                new WhiteNoiseCalculator(44100), // TODO: Instantiate in a better way.
                 _repositories.CurveRepository,
                 _repositories.SampleRepository,
                 _repositories.PatchRepository);
@@ -549,23 +557,6 @@ namespace JJ.Business.Synthesizer
             foreach (PatchInlet_OperatorWrapper patchInletWrapper in patchInletWrappers)
             {
                 patchInletWrapper.Input = sineOutlet;
-            }
-        }
-
-        private static object _whiteNoiseCalculatorLock = new object();
-        private static WhiteNoiseCalculator _whiteNoiseCalculator;
-
-        private static WhiteNoiseCalculator GetWhiteNoiseCalculator()
-        {
-            lock (_whiteNoiseCalculatorLock)
-            {
-                if (_whiteNoiseCalculator == null)
-                {
-                    int assumedSamplingRate = 44100;
-                    _whiteNoiseCalculator = new WhiteNoiseCalculator(assumedSamplingRate);
-                }
-
-                return _whiteNoiseCalculator;
             }
         }
 
