@@ -1,4 +1,11 @@
-﻿using System;
+﻿// This is the last version of InterpretedPatchCalculator before it was removed from the main code.
+// Maintaining two versions of the same calculation is just not worth it, as more and more operators are introduced.
+// And interpreted mode probably does not even have the advantages it was kept alive for:
+// - That it would be easier to program is not longer the case.
+// - That it would have faster initialization time is questionnable, 
+// certainly now some things are precalculated anyway.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Framework.Reflection.Exceptions;
