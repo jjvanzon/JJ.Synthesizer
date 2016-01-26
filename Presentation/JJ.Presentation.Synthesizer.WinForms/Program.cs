@@ -41,9 +41,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            var noteRecycler = new NoteRecycler(winFormsConfig.MaxConcurrentNotes);
+
             if (winFormsConfig.MultiThreaded)
             {
-                PatchCalculatorContainer = new MultiThreadedPatchCalculatorContainer();
+                PatchCalculatorContainer = new MultiThreadedPatchCalculatorContainer(noteRecycler, winFormsConfig.MaxThreads);
             }
             else
             {
@@ -51,8 +53,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             }
 
             _audioOutputProcessor = new AudioOutputProcessor(PatchCalculatorContainer);
-            _midiInputProcessor = new MidiInputProcessor(PatchCalculatorContainer, _audioOutputProcessor);
-            _midiInputProcessor.MaxConcurrentNotes = winFormsConfig.MaxConcurrentNotes;
+            _midiInputProcessor = new MidiInputProcessor(PatchCalculatorContainer, _audioOutputProcessor, noteRecycler);
 
             _audioOutputThread = StartAudioOutputThread(_audioOutputProcessor);
             _midiInputThread = StartMidiInputThread(_midiInputProcessor);

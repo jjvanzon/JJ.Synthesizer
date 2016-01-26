@@ -15,20 +15,37 @@ namespace JJ.Presentation.Synthesizer.NAudio
 {
     public class MultiThreadedPatchCalculatorContainer : IPatchCalculatorContainer
     {
+        private readonly NoteRecycler _noteRecycler;
+        private readonly int _threadCount;
+
         public ReaderWriterLockSlim Lock { get; } = new ReaderWriterLockSlim();
 
         /// <summary> null if RecreateCalculator is not yet called. </summary>
         public IPatchCalculator Calculator { get; private set; }
 
-        private MultiThreadedPatchCalculator CreatePolyphonyCalculator()
+        public MultiThreadedPatchCalculatorContainer(NoteRecycler noteRecycler, int maxThreadCount)
         {
-            int numberOfHardwareThreads = Environment.ProcessorCount;
+            if (noteRecycler == null) throw new NullException(() => noteRecycler);
 
+            _noteRecycler = noteRecycler;
+
+            int numberOfHardwareThreads = Environment.ProcessorCount;
             int threadCount = numberOfHardwareThreads;
+            if (threadCount > maxThreadCount)
+            {
+                threadCount = maxThreadCount;
+            }
+
+            _threadCount = maxThreadCount;
+        }
+
+        private MultiThreadedPatchCalculator CreateCalculator()
+        {
+
             int bufferSize = 2205; // TODO: Manage that it is the same as what SampleProvider needs. Try doing it in an orderly fashion.
             double sampleDuration = 1.0 / 44100; // TODO: Manage that it is the same as what SampleProvider needs. Try doing it in an orderly fashion.
 
-            var polyphonyCalculator = new MultiThreadedPatchCalculator(threadCount, bufferSize, sampleDuration);
+            var polyphonyCalculator = new MultiThreadedPatchCalculator(_threadCount, bufferSize, sampleDuration, _noteRecycler);
 
             return polyphonyCalculator;
         }
@@ -44,7 +61,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
         {
             var patchManager = new PatchManager(repositories);
 
-            MultiThreadedPatchCalculator newPolyphonyCalculator = CreatePolyphonyCalculator();
+            MultiThreadedPatchCalculator newPolyphonyCalculator = CreateCalculator();
 
             var patchCalculators = new List<IPatchCalculator>(maxConcurrentNotes);
 

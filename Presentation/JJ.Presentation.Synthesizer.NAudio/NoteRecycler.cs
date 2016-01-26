@@ -6,33 +6,35 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
-    internal class NoteRecycler
+    public class NoteRecycler
     {
-        private const int DEFAULT_MAX_CONCURRENT_NOTES = 4;
+        private int _maxConcurrentNotes;
+        private readonly IList<NoteInfo> _noteInfos;
 
-        private volatile int _maxConcurrentNotes = DEFAULT_MAX_CONCURRENT_NOTES;
-        private readonly List<NoteInfo> _noteInfos = new List<NoteInfo>();
-
-        public int MaxConcurrentNotes
+        public NoteRecycler(int maxConcurrentNotes)
         {
-            get { return _maxConcurrentNotes; }
-            set { _maxConcurrentNotes = value; }
+            if (maxConcurrentNotes < 1) throw new LessThanException(() => maxConcurrentNotes, 1);
+
+            _maxConcurrentNotes = maxConcurrentNotes;
+
+            _noteInfos = new NoteInfo[_maxConcurrentNotes];
+
+            for (int i = 0; i < _maxConcurrentNotes; i++)
+            {
+                _noteInfos[i] = new NoteInfo
+                {
+                    ListIndex = i,
+                    EndTime = CalculationHelper.VERY_LOW_VALUE,
+                    ReleaseTime = CalculationHelper.VERY_LOW_VALUE,
+                    StartTime = CalculationHelper.VERY_LOW_VALUE
+                };
+            }
         }
 
         /// <summary> Returns null if max concurrent notes was exceeded. </summary>
         public NoteInfo TryGetNoteInfoToStart(int noteNumber, double presentTime)
         {
             NoteInfo noteInfo = _noteInfos.Where(x => x.EndTime < presentTime).FirstOrDefault();
-            if (noteInfo == null)
-            {
-                bool mustCreate = _noteInfos.Count < _maxConcurrentNotes;
-                if (mustCreate)
-                {
-                    noteInfo = new NoteInfo();
-                    noteInfo.ListIndex = _noteInfos.Count;
-                    _noteInfos.Add(noteInfo);
-                }
-            }
     
             if (noteInfo != null)
             {
@@ -53,7 +55,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
                                                       x.EndTime > presentTime) // Should never be evaluated, but does not cost anything to keep it in there.
                                           .OrderBy(x => x.StartTime)
                                           .FirstOrDefault();
-
             return noteInfo;
         }
 
@@ -63,6 +64,16 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
             noteInfo.ReleaseTime = releaseTime;
             noteInfo.EndTime = endTime;
+        }
+
+        public bool IsNoteReleased(int noteListIndex, double presentTime)
+        {
+            if (noteListIndex < 0) throw new LessThanException(() => noteListIndex, 0);
+            if (noteListIndex > _noteInfos.Count) throw new GreaterThanException(() => noteListIndex, () => _noteInfos.Count);
+
+            bool isReleased = _noteInfos[noteListIndex].EndTime < presentTime;
+
+            return isReleased;
         }
     }
 }

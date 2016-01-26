@@ -14,9 +14,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.Configuration
         public string DefaultCulture { get; set; }
 
         [XmlAttribute]
-        public int MaxConcurrentNotes { get; set; }
+        public bool MultiThreaded { get; set; }
 
         [XmlAttribute]
-        public bool MultiThreaded { get; set; }
+        public int MaxThreads { get; set; }
+
+        [XmlAttribute]
+        public int MaxConcurrentNotes { get; set; }
     }
 }

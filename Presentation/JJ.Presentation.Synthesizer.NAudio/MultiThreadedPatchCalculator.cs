@@ -46,6 +46,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
         private const int MAX_EXPECTED_PATCH_CALCULATORS_PER_THREAD = 32;
         private const int DEFAULT_CHANNEL_INDEX = 0; // TODO: Make multi-channel.
 
+        private readonly NoteRecycler _noteRecycler;
         private readonly IList<PatchCalculatorInfo> _patchCalculatorInfos;
         private readonly IList<ThreadInfo> _threadInfos;
         private readonly CountdownEvent _countdownEvent;
@@ -56,12 +57,16 @@ namespace JJ.Presentation.Synthesizer.NAudio
         private double _t0;
         private bool _disposing;
 
-        public MultiThreadedPatchCalculator(int threadCount, int bufferSize, double sampleDuration)
+        public MultiThreadedPatchCalculator(
+            int threadCount, int bufferSize, double sampleDuration,
+            NoteRecycler noteRecycler)
         {
             if (threadCount < 0) throw new LessThanException(() => threadCount, 0);
             if (bufferSize < 0) throw new LessThanException(() => bufferSize, 0);
+            if (noteRecycler == null) throw new NullException(() => noteRecycler);
 
             _sampleDuration = sampleDuration;
+            _noteRecycler = noteRecycler;
             _patchCalculatorInfos = new List<PatchCalculatorInfo>();
 
             _buffer = new double[bufferSize];
@@ -182,6 +187,9 @@ Wait:
                 for (int i = 0; i < patchCalculatorInfos.Count; i++)
                 {
                     PatchCalculatorInfo patchCalculatorInfo = patchCalculatorInfos[i];
+
+                    // Checking this here is not ideal, but the alternative, yet another thread, is too difficult to me.
+                    patchCalculatorInfo.IsActive = !_noteRecycler.IsNoteReleased(patchCalculatorInfo.NoteListIndex, _t0);
 
                     if (!patchCalculatorInfo.IsActive)
                     {

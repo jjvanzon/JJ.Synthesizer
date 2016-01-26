@@ -34,21 +34,20 @@ namespace JJ.Presentation.Synthesizer.NAudio
         private readonly AudioOutputProcessor _audioOutputProcessor;
 
         private MidiIn _midiIn;
-        private NoteRecycler _noteRecycler = new NoteRecycler();
+        private NoteRecycler _noteRecycler;
 
-        public MidiInputProcessor(IPatchCalculatorContainer patchCalculatorContainer, AudioOutputProcessor audioOutputProcessor)
+        public MidiInputProcessor(
+            IPatchCalculatorContainer patchCalculatorContainer, 
+            AudioOutputProcessor audioOutputProcessor,
+            NoteRecycler noteRecycler)
         {
             if (patchCalculatorContainer == null) throw new NullException(() => patchCalculatorContainer);
             if (audioOutputProcessor == null) throw new NullException(() => audioOutputProcessor);
+            if (noteRecycler == null) throw new NullException(() => noteRecycler);
 
             _patchCalculatorContainer = patchCalculatorContainer;
             _audioOutputProcessor = audioOutputProcessor;
-        }
-
-        public int MaxConcurrentNotes
-        {
-            get { return _noteRecycler.MaxConcurrentNotes; }
-            set { _noteRecycler.MaxConcurrentNotes = value; }
+            _noteRecycler = noteRecycler;
         }
 
         /// <summary> 

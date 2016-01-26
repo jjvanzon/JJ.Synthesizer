@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
-    internal class NoteInfo
+    public class NoteInfo
     {
         public int NoteNumber { get; set; }
         public int ListIndex { get; set; }
