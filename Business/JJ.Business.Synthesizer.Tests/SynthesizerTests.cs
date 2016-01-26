@@ -44,11 +44,11 @@ namespace JJ.Business.Synthesizer.Tests
                 var add = x.Add(x.Number(2), x.Number(3));
                 var subtract = x.Subtract(add, x.Number(1));
 
-                IPatchCalculator calculator1 = x.CreateOptimizedCalculator(new CalculatorCache(), add);
+                IPatchCalculator calculator1 = x.CreateCalculator(new CalculatorCache(), add);
                 double value = calculator1.Calculate(0, 0);
                 Assert.AreEqual(5, value, 0.0001);
 
-                IPatchCalculator calculator2 = x.CreateOptimizedCalculator(new CalculatorCache(), subtract);
+                IPatchCalculator calculator2 = x.CreateCalculator(new CalculatorCache(), subtract);
                 value = calculator2.Calculate(0, 0);
                 Assert.AreEqual(4, value, 0.0001);
 
@@ -128,7 +128,7 @@ namespace JJ.Business.Synthesizer.Tests
                 //IValidator validator = new OperatorValidator_Adder(adder.Operator);
                 //validator.Verify();
 
-                IPatchCalculator calculator = patchManager.CreateOptimizedCalculator(new CalculatorCache(), adder);
+                IPatchCalculator calculator = patchManager.CreateCalculator(new CalculatorCache(), adder);
                 double value = calculator.Calculate(0, 0);
 
                 //adder.Operator.Inlets[0].Name = "qwer";
@@ -192,7 +192,7 @@ namespace JJ.Business.Synthesizer.Tests
 
                 PatchManager patchManager = new PatchManager(new PatchRepositories(repositories));
 
-                var calculator = patchManager.CreateInterpretedCalculator(outlet);
+                var calculator = patchManager.CreateCalculator(new CalculatorCache(), outlet);
                 var values = new double[]
                 {
                     calculator.Calculate(0.00, 0),
@@ -240,7 +240,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Outlet sampleOperatorOutlet = patchManager.Sample(sample);
                 Outlet effect = EntityFactory.CreateTimePowerEffectWithEcho(patchManager, sampleOperatorOutlet);
 
-                IPatchCalculator patchCalculator = patchManager.CreateOptimizedCalculator(new CalculatorCache(), effect);
+                IPatchCalculator patchCalculator = patchManager.CreateCalculator(new CalculatorCache(), effect);
 
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = effect;
@@ -277,7 +277,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Outlet sampleOperatorOutlet = patchManager.Sample(sample);
                 Outlet effect = EntityFactory.CreateMultiplyWithEcho(patchManager, sampleOperatorOutlet);
 
-                IPatchCalculator patchCalculator = patchManager.CreateOptimizedCalculator(new CalculatorCache(), effect);
+                IPatchCalculator patchCalculator = patchManager.CreateCalculator(new CalculatorCache(), effect);
 
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = effect;
@@ -422,7 +422,7 @@ namespace JJ.Business.Synthesizer.Tests
                 PatchManager x = new PatchManager(new PatchRepositories(repositories));
 
                 Outlet outlet = x.Add(x.Number(1), x.Number(2));
-                var calculator =  x.CreateInterpretedCalculator(outlet);
+                var calculator =  x.CreateCalculator(new CalculatorCache(), outlet);
                 double result = calculator.Calculate(0, 0);
                 Assert.AreEqual(3.0, result, 0.0001);
             }
@@ -437,7 +437,7 @@ namespace JJ.Business.Synthesizer.Tests
                 RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
                 PatchManager x = new PatchManager(new PatchRepositories(repositories));
                 Outlet outlet = x.Add(null, x.Number(2));
-                IPatchCalculator calculator = x.CreateOptimizedCalculator(new CalculatorCache(), outlet);
+                IPatchCalculator calculator = x.CreateCalculator(new CalculatorCache(), outlet);
                 double result = calculator.Calculate(0, 0);
                 Assert.AreEqual(2.0, result, 0.000000001);
             }
@@ -452,7 +452,7 @@ namespace JJ.Business.Synthesizer.Tests
                 RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
                 PatchManager x = new PatchManager(new PatchRepositories(repositories));
                 Outlet outlet = x.Add(x.Number(1), x.Add(x.Number(2), null));
-                IPatchCalculator calculator = x.CreateOptimizedCalculator(new CalculatorCache(), outlet);
+                IPatchCalculator calculator = x.CreateCalculator(new CalculatorCache(), outlet);
                 double result = calculator.Calculate(0, 0);
                 Assert.AreEqual(3.0, result, 0.000000001);
             }
@@ -468,7 +468,7 @@ namespace JJ.Business.Synthesizer.Tests
                 PatchManager x = new PatchManager(new PatchRepositories(repositories));
 
                 Outlet outlet = x.Add(x.Add(x.Number(1), x.Number(2)), x.Number(4));
-                IPatchCalculator calculator = x.CreateOptimizedCalculator(new CalculatorCache(), outlet);
+                IPatchCalculator calculator = x.CreateCalculator(new CalculatorCache(), outlet);
                 double result = calculator.Calculate(0, 0);
                 Assert.AreEqual(7.0, result, 0.000000001);
             }
@@ -485,7 +485,7 @@ namespace JJ.Business.Synthesizer.Tests
 
                 Outlet outlet1 = x.Add(x.Add(x.Number(1), x.Number(2)), x.Number(4));
                 Outlet outlet2 = x.Add(x.Number(5), x.Number(6));
-                IPatchCalculator calculator = x.CreateOptimizedCalculator(new CalculatorCache(), outlet1, outlet2);
+                IPatchCalculator calculator = x.CreateCalculator(new CalculatorCache(), outlet1, outlet2);
                 double result1 = calculator.Calculate(0, 0);
                 double result2 = calculator.Calculate(0, 1);
                 Assert.AreEqual(7.0, result1, 0.000000001);
@@ -504,7 +504,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Outlet sharedOutlet = x.Number(1);
                 Outlet outlet1 = x.Add(sharedOutlet, x.Number(2));
                 Outlet outlet2 = x.Add(sharedOutlet, x.Number(3));
-                IPatchCalculator calculator = x.CreateOptimizedCalculator(new CalculatorCache(), outlet1, outlet2);
+                IPatchCalculator calculator = x.CreateCalculator(new CalculatorCache(), outlet1, outlet2);
                 double result1 = calculator.Calculate(0, 0);
                 double result2 = calculator.Calculate(0, 1);
                 Assert.AreEqual(3.0, result1, 0.000000001);
@@ -525,7 +525,7 @@ namespace JJ.Business.Synthesizer.Tests
 
                 Outlet outlet = x.Multiply(x.WhiteNoise(), x.Number(Int16.MaxValue));
 
-                IPatchCalculator patchCalculator = patchManager.CreateOptimizedCalculator(new CalculatorCache(), outlet);
+                IPatchCalculator patchCalculator = patchManager.CreateCalculator(new CalculatorCache(), outlet);
 
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
                 audioFileOutput.FilePath = "Test_Synthesizer_WhiteNoiseOperator.wav";
@@ -543,7 +543,7 @@ namespace JJ.Business.Synthesizer.Tests
                 string message = String.Format("Ratio: {0:0.00}%, {1}ms.", ratio * 100, sw.ElapsedMilliseconds);
 
                 // Also test interpreted calculator
-                IPatchCalculator calculator = patchManager.CreateInterpretedCalculator(outlet);
+                IPatchCalculator calculator = patchManager.CreateCalculator(new CalculatorCache(), outlet);
                 double value = calculator.Calculate(0.2, 0);
                 value = calculator.Calculate(0.2, 0);
                 value = calculator.Calculate(0.3, 0);
@@ -580,19 +580,19 @@ namespace JJ.Business.Synthesizer.Tests
                 audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_ConstantSamplingRate_WhiteNoise_Input.wav";
                 audioFileOutput.SamplingRate = outputSamplingRate;
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = whiteNoise;
-                patchCalculator = x.CreateOptimizedCalculator(new CalculatorCache(), whiteNoise);
+                patchCalculator = x.CreateCalculator(new CalculatorCache(), whiteNoise);
                 audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
 
                 audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_ConstantSamplingRate_WhiteNoise_WithLowerSamplingRate.wav";
                 audioFileOutput.SamplingRate = alternativeSamplingRate;
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = whiteNoise;
-                patchCalculator = x.CreateOptimizedCalculator(new CalculatorCache(), whiteNoise);
+                patchCalculator = x.CreateCalculator(new CalculatorCache(), whiteNoise);
                 audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
 
                 audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_ConstantSamplingRate_WhiteNoise_WithResampleOperator.wav";
                 audioFileOutput.SamplingRate = outputSamplingRate;
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = resampledWhiteNoise;
-                patchCalculator = x.CreateOptimizedCalculator(new CalculatorCache(), resampledWhiteNoise);
+                patchCalculator = x.CreateCalculator(new CalculatorCache(), resampledWhiteNoise);
 
                 // Only test performance here and not in the other tests.
 
@@ -649,19 +649,19 @@ namespace JJ.Business.Synthesizer.Tests
                 audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_ConstantSamplingRate_Sample_Input.wav";
                 audioFileOutput.SamplingRate = outputSamplingRate;
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = input;
-                patchCalculator = x.CreateOptimizedCalculator(new CalculatorCache(), input);
+                patchCalculator = x.CreateCalculator(new CalculatorCache(), input);
                 audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
 
                 audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_ConstantSamplingRate_Sample_WithLowerSamplingRate.wav";
                 audioFileOutput.SamplingRate = alternativeSamplingRate;
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = input;
-                patchCalculator = x.CreateOptimizedCalculator(new CalculatorCache(), input);
+                patchCalculator = x.CreateCalculator(new CalculatorCache(), input);
                 audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
 
                 audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_ConstantSamplingRate_Sample_WithResampleOperator.wav";
                 audioFileOutput.SamplingRate = outputSamplingRate;
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = resampled;
-                patchCalculator = x.CreateOptimizedCalculator(new CalculatorCache(), resampled);
+                patchCalculator = x.CreateCalculator(new CalculatorCache(), resampled);
                 audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
             }
         }
@@ -716,19 +716,19 @@ namespace JJ.Business.Synthesizer.Tests
                 audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_ConstantSamplingRate_Curve_Input.wav";
                 audioFileOutput.SamplingRate = outputSamplingRate;
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = curveIn;
-                patchCalculator = x.CreateOptimizedCalculator(new CalculatorCache(), curveIn);
+                patchCalculator = x.CreateCalculator(new CalculatorCache(), curveIn);
                 audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
 
                 audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_ConstantSamplingRate_Curve_WithLowerSamplingRate.wav";
                 audioFileOutput.SamplingRate = alternativeSamplingRate;
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = curveIn;
-                patchCalculator = x.CreateOptimizedCalculator(new CalculatorCache(), curveIn);
+                patchCalculator = x.CreateCalculator(new CalculatorCache(), curveIn);
                 audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
 
                 audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_ConstantSamplingRate_Curve_WithResampleOperator.wav";
                 audioFileOutput.SamplingRate = outputSamplingRate;
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = resampled;
-                patchCalculator = x.CreateOptimizedCalculator(new CalculatorCache(), resampled);
+                patchCalculator = x.CreateCalculator(new CalculatorCache(), resampled);
                 audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
             }
         }
@@ -755,7 +755,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Outlet input = x.Multiply(x.WhiteNoise(), x.Number(amplification));
                 Outlet outlet = x.Resample(input, x.Curve(curve));
 
-                IPatchCalculator patchCalculator = x.CreateOptimizedCalculator(new CalculatorCache(), outlet);
+                IPatchCalculator patchCalculator = x.CreateCalculator(new CalculatorCache(), outlet);
 
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
                 audioFileOutput.Duration = duration;
@@ -795,7 +795,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Outlet input = x.Sample(sample);
                 Outlet outlet = x.Resample(input, x.Curve(curve));
 
-                IPatchCalculator patchCalculator = x.CreateOptimizedCalculator(new CalculatorCache(), outlet);
+                IPatchCalculator patchCalculator = x.CreateCalculator(new CalculatorCache(), outlet);
 
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
                 audioFileOutput.Duration = duration;
@@ -834,12 +834,12 @@ namespace JJ.Business.Synthesizer.Tests
 
                 audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_Sine_Input.wav";
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = sine;
-                patchCalculator = x.CreateOptimizedCalculator(new CalculatorCache(), sine);
+                patchCalculator = x.CreateCalculator(new CalculatorCache(), sine);
                 audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
 
                 audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_Sine_Resampled.wav";
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = resampled;
-                patchCalculator = x.CreateOptimizedCalculator(new CalculatorCache(), resampled);
+                patchCalculator = x.CreateCalculator(new CalculatorCache(), resampled);
                 audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
             }
         }
@@ -901,7 +901,7 @@ namespace JJ.Business.Synthesizer.Tests
                 }
 
                 // Calculator
-                IPatchCalculator calculator = x.CreateInterpretedCalculator(customOperator.WrappedOperator.Outlets[0]);
+                IPatchCalculator calculator = x.CreateCalculator(new CalculatorCache(), customOperator.WrappedOperator.Outlets[0]);
                 double result = calculator.Calculate(0, 0);
             }
         }
@@ -912,7 +912,7 @@ namespace JJ.Business.Synthesizer.Tests
             var x = new PatchApi();
             var saw = x.SawTooth(x.Number(0.5));
 
-            IPatchCalculator patchCalculator = x.CreateOptimizedCalculator(new CalculatorCache(), saw);
+            IPatchCalculator patchCalculator = x.CreateCalculator(new CalculatorCache(), saw);
 
             double value1 = patchCalculator.Calculate(0.00, 0);
             double value2 = patchCalculator.Calculate(0.25, 0);
@@ -932,7 +932,7 @@ namespace JJ.Business.Synthesizer.Tests
             var x = new PatchApi();
             var saw = x.SawTooth(x.Number(1), x.Number(0.25));
 
-            IPatchCalculator patchCalculator = x.CreateOptimizedCalculator(new CalculatorCache(), saw);
+            IPatchCalculator patchCalculator = x.CreateCalculator(new CalculatorCache(), saw);
 
             double value1 = patchCalculator.Calculate(0.00, 0);
             double value2 = patchCalculator.Calculate(0.25, 0);
@@ -951,7 +951,7 @@ namespace JJ.Business.Synthesizer.Tests
             var patcher = new PatchApi();
             var outlet = patcher.TriangleWave(patcher.Number(1));
 
-            IPatchCalculator patchCalculator = patcher.CreateOptimizedCalculator(new CalculatorCache(), outlet);
+            IPatchCalculator patchCalculator = patcher.CreateCalculator(new CalculatorCache(), outlet);
 
             double[] values =
             {

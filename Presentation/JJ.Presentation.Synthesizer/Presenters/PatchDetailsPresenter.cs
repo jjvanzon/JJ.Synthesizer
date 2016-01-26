@@ -23,7 +23,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         private static double _patchPlayDuration = GetPatchPlayDuration();
         private static string _patchPlayOutputFilePath = GetPatchPlayOutputFilePath();
-        private static PatchCalculatorTypeEnum _patchCalculatorTypeEnum = GetPatchCalculatorTypeEnum();
 
         private PatchRepositories _repositories;
         private EntityPositionManager _entityPositionManager;
@@ -318,19 +317,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private IPatchCalculator CreatePatchCalculator(PatchRepositories repositories, Outlet outlet)
         {
-            PatchManager patchManager = new PatchManager(outlet.Operator.Patch, repositories);
-
-            switch (_patchCalculatorTypeEnum)
-            {
-                case PatchCalculatorTypeEnum.OptimizedPatchCalculator:
-                    return patchManager.CreateOptimizedCalculator(new CalculatorCache(), outlet);
-
-                case PatchCalculatorTypeEnum.InterpretedPatchCalculator:
-                    return patchManager.CreateInterpretedCalculator(outlet);
-
-                default:
-                    throw new ValueNotSupportedException(_patchCalculatorTypeEnum);
-            }
+            var patchManager = new PatchManager(outlet.Operator.Patch, repositories);
+            return patchManager.CreateCalculator(new CalculatorCache(), outlet);
         }
 
         private void AssertViewModel()
@@ -346,11 +334,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private static string GetPatchPlayOutputFilePath()
         {
             return ConfigurationHelper.GetSection<ConfigurationSection>().PatchPlayHackedAudioFileOutputFilePath;
-        }
-
-        private static PatchCalculatorTypeEnum GetPatchCalculatorTypeEnum()
-        {
-            return ConfigurationHelper.GetSection<ConfigurationSection>().PatchCalculatorType;
         }
     }
 }

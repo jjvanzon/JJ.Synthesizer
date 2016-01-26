@@ -81,7 +81,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     signalOutlet = patchManager.Number(0.0);
                 }
 
-                IPatchCalculator patchCalculator = patchManager.CreateOptimizedCalculator(calculatorCache, signalOutlet);
+                IPatchCalculator patchCalculator = patchManager.CreateCalculator(calculatorCache, signalOutlet);
                 patchCalculators.Add(patchCalculator);
             }
 

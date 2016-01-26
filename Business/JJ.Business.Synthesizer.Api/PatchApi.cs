@@ -239,14 +239,9 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.WhiteNoise();
         }
 
-        public IPatchCalculator CreateOptimizedCalculator(CalculatorCache calculatorCache, params Outlet[] channelOutlets)
+        public IPatchCalculator CreateCalculator(CalculatorCache calculatorCache, params Outlet[] channelOutlets)
         {
-            return _patchManager.CreateOptimizedCalculator(calculatorCache, channelOutlets);
-        }
-
-        public IPatchCalculator CreateInterpretedCalculator(params Outlet[] channelOutlets)
-        {
-            return _patchManager.CreateInterpretedCalculator(channelOutlets);
+            return _patchManager.CreateCalculator(calculatorCache, channelOutlets);
         }
     }
 }

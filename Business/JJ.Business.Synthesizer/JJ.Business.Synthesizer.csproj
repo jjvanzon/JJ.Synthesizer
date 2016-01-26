@@ -88,7 +88,6 @@
     <Compile Include="Calculation\Operators\WhiteNoise_OperatorCalculator.cs" />
     <Compile Include="Calculation\Curves\OptimizedCurveCalculator.cs" />
     <Compile Include="Calculation\Operators\One_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Patches\2016-01-26 Backup of InterpretedPatchCalculator.cs" />
     <Compile Include="Calculation\Patches\IPatchCalculator.cs" />
     <Compile Include="Calculation\Operators\Zero_OperatorCalculator.cs" />
     <Compile Include="Calculation\Patches\OptimizedPatchCalculator.cs" />
@@ -233,7 +232,6 @@
       <DependentUpon>Messages.resx</DependentUpon>
     </Compile>
     <Compile Include="Resources\MessageFormatter.cs" />
-    <Compile Include="Calculation\Patches\2016-01-27 IMPORTANT Backup of InterpretedPatchCalculator.cs" />
     <Compile Include="Resources\ResourceHelper.cs" />
     <Compile Include="SideEffects\AudioFileOutput_SideEffect_SetDefaults.cs" />
     <Compile Include="SideEffects\AudioFileOutput_SideEffect_GenerateName.cs" />

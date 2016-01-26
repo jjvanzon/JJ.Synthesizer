@@ -49,7 +49,6 @@
     <Compile Include="SingleThreadedPatchCalculatorContainer.cs" />
     <Compile Include="MultiThreadedPatchCalculator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="2016-01-24 Backup of AudioOutputSampleProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Business\JJ.Business.Canonical\JJ.Business.Canonical.csproj">

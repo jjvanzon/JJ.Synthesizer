@@ -33,7 +33,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private const double DEFAULT_DURATION = 0.75;
 
         private static string _playOutputFilePath = GetPlayOutputFilePath();
-        private static PatchCalculatorTypeEnum _patchCalculatorTypeEnum = GetPatchCalculatorTypeEnum();
 
         private readonly RepositoryWrapper _repositories;
         private readonly PatchRepositories _patchRepositories;
@@ -197,26 +196,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return ConfigurationHelper.GetSection<ConfigurationSection>().PatchPlayHackedAudioFileOutputFilePath;
         }
 
-        private static PatchCalculatorTypeEnum GetPatchCalculatorTypeEnum()
-        {
-            return ConfigurationHelper.GetSection<ConfigurationSection>().PatchCalculatorType;
-        }
-
         private IPatchCalculator CreatePatchCalculator(PatchRepositories repositories, Outlet outlet)
         {
-            PatchManager patchManager = new PatchManager(outlet.Operator.Patch, repositories);
-
-            switch (_patchCalculatorTypeEnum)
-            {
-                case PatchCalculatorTypeEnum.OptimizedPatchCalculator:
-                    return patchManager.CreateOptimizedCalculator(new CalculatorCache(), outlet);
-
-                case PatchCalculatorTypeEnum.InterpretedPatchCalculator:
-                    return patchManager.CreateInterpretedCalculator(outlet);
-
-                default:
-                    throw new ValueNotSupportedException(_patchCalculatorTypeEnum);
-            }
+            var patchManager = new PatchManager(outlet.Operator.Patch, repositories);
+            return patchManager.CreateCalculator(new CalculatorCache(), outlet);
         }
     }
 }

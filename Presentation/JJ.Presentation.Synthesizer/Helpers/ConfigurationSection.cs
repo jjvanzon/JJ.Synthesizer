@@ -15,8 +15,5 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
         [XmlAttribute]
         public double PatchPlayDurationInSeconds { get; set; }
-
-        [XmlAttribute]
-        public PatchCalculatorTypeEnum PatchCalculatorType { get; set; }
     }
 }

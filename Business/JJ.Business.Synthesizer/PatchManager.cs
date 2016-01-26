@@ -473,25 +473,22 @@ namespace JJ.Business.Synthesizer
             };
         }
 
-        /// <summary> Optimized has slower initialization and faster sound generation (best for outputting sound). </summary>
-        public IPatchCalculator CreateOptimizedCalculator(
+        public IPatchCalculator CreateCalculator(
             CalculatorCache calculatorCache,
             params Outlet[] channelOutlets)
         {
-            return CreateOptimizedCalculator(channelOutlets, calculatorCache);
+            return CreateCalculator(channelOutlets, calculatorCache);
         }
 
-        /// <summary> Optimized has slower initialization and faster sound generation (best for outputting sound). </summary>
-        public IPatchCalculator CreateOptimizedCalculator(
+        public IPatchCalculator CreateCalculator(
             CalculatorCache calculatorCache,
             bool mustSubstituteSineForUnfilledInSignalPatchInlets,
             params Outlet[] channelOutlets)
         {
-            return CreateOptimizedCalculator(channelOutlets, calculatorCache, mustSubstituteSineForUnfilledInSignalPatchInlets);
+            return CreateCalculator(channelOutlets, calculatorCache, mustSubstituteSineForUnfilledInSignalPatchInlets);
         }
 
-        /// <summary> Optimized has slower initialization and faster sound generation (best for outputting sound). </summary>
-        public IPatchCalculator CreateOptimizedCalculator(
+        public IPatchCalculator CreateCalculator(
             IList<Outlet> channelOutlets,
             CalculatorCache calculatorCache,
             bool mustSubstituteSineForUnfilledInSignalPatchInlets = true)
@@ -509,38 +506,6 @@ namespace JJ.Business.Synthesizer
                 _repositories.PatchRepository);
 
             return calculator;
-        }
-
-        /// <summary> Interpreted mode has fast initialization and slow sound generation (best for previewing values or drawing out plots). </summary>
-        public IPatchCalculator CreateInterpretedCalculator(params Outlet[] channelOutlets)
-        {
-            return CreateInterpretedCalculator((IList<Outlet>)channelOutlets);
-        }
-
-        /// <summary> Interpreted mode has fast initialization and slow sound generation (best for previewing values or drawing out plots). </summary>
-        public IPatchCalculator CreateInterpretedCalculator(
-            bool mustSubstituteSineForUnfilledInSignalPatchInlets,
-            params Outlet[] channelOutlets)
-        {
-            return CreateInterpretedCalculator(channelOutlets, mustSubstituteSineForUnfilledInSignalPatchInlets);
-        }
-
-        /// <summary> Interpreted mode has fast initialization and slow sound generation (best for previewing values or drawing out plots). </summary>
-        public IPatchCalculator CreateInterpretedCalculator(
-            IList<Outlet> channelOutlets, 
-            bool mustSubstituteSineForUnfilledInSignalPatchInlets = true)
-        {
-            if (mustSubstituteSineForUnfilledInSignalPatchInlets)
-            {
-                SubstituteSineForUnfilledInSignalPatchInlets();
-            }
-
-            return new InterpretedPatchCalculator(
-                channelOutlets,
-                new WhiteNoiseCalculator(44100), // TODO: Instantiate in a better way.
-                _repositories.CurveRepository,
-                _repositories.SampleRepository,
-                _repositories.PatchRepository);
         }
 
         private void SubstituteSineForUnfilledInSignalPatchInlets()
