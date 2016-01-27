@@ -62,6 +62,7 @@
         /// </summary>
         Reset = 32,
 
-        LowPass = 33
+        LowPassFilter = 33,
+        HighPassFilter = 34
     }
 }

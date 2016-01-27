@@ -4,9 +4,9 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class LowPass_OperatorWrapper : OperatorWrapperBase
+    public class LowPassFilter_OperatorWrapper : OperatorWrapperBase
     {
-        public LowPass_OperatorWrapper(Operator op)
+        public LowPassFilter_OperatorWrapper(Operator op)
             : base(op)
         { }
 
@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return OperatorHelper.GetOutlet(_wrappedOperator, OperatorConstants.LOW_PASS_RESULT_INDEX); }
         }
 
-        public static implicit operator Outlet(LowPass_OperatorWrapper wrapper)
+        public static implicit operator Outlet(LowPassFilter_OperatorWrapper wrapper)
         {
             if (wrapper == null) return null;
 

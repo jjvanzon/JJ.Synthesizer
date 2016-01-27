@@ -517,7 +517,10 @@
   <data name="SustainVolume" xml:space="preserve">
     <value>Sustain Volume</value>
   </data>
-  <data name="LowPass" xml:space="preserve">
-    <value>Low Pass</value>
+  <data name="LowPassFilter" xml:space="preserve">
+    <value>Low Pass Filter</value>
+  </data>
+  <data name="HighPassFilter" xml:space="preserve">
+    <value>High Pass Filter</value>
   </data>
 </root>

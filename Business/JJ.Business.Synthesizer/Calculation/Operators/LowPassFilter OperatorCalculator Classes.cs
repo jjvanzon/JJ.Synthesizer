@@ -8,7 +8,7 @@ using NAudio.Dsp;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class LowPass_VarMaxFrequency_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class LowPassFilter_VarMaxFrequency_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private const float ASSUMED_SAMPLE_RATE = 44100;
         private const float DEFAULT_MAX_FREQUENCY = 22050;
@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _maxFrequencyCalculator;
 
-        public LowPass_VarMaxFrequency_OperatorCalculator(
+        public LowPassFilter_VarMaxFrequency_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase maxFrequencyCalculator)
             : base(new OperatorCalculatorBase[] { signalCalculator, maxFrequencyCalculator })
@@ -48,7 +48,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class LowPass_ConstMaxFrequency_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class LowPassFilter_ConstMaxFrequency_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private const float ASSUMED_SAMPLE_RATE = 44100;
         private const float DEFAULT_BAND_WIDTH = 1;
@@ -57,7 +57,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private readonly OperatorCalculatorBase _signalCalculator;
 
-        public LowPass_ConstMaxFrequency_OperatorCalculator(
+        public LowPassFilter_ConstMaxFrequency_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
             double maxFrequency)
             : base(new OperatorCalculatorBase[] { signalCalculator })

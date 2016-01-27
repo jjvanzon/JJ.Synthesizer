@@ -221,6 +221,21 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        public HighPassFilter_OperatorWrapper HighPassFilter(Outlet signal = null, Outlet minFrequency = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.HighPassFilter, inletCount: 2, outletCount: 1);
+
+            var wrapper = new HighPassFilter_OperatorWrapper(op)
+            {
+                Signal = signal,
+                MinFrequency = minFrequency
+            };
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+
+            return wrapper;
+        }
+
         public Loop_OperatorWrapper Loop(
             Outlet signal = null, 
             Outlet attack = null, 
@@ -245,11 +260,11 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public LowPass_OperatorWrapper LowPass(Outlet signal = null, Outlet maxFrequency = null)
+        public LowPassFilter_OperatorWrapper LowPassFilter(Outlet signal = null, Outlet maxFrequency = null)
         {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.LowPass, inletCount: 2, outletCount: 1);
+            Operator op = CreateOperatorBase(OperatorTypeEnum.LowPassFilter, inletCount: 2, outletCount: 1);
 
-            var wrapper = new LowPass_OperatorWrapper(op)
+            var wrapper = new LowPassFilter_OperatorWrapper(op)
             {
                 Signal = signal,
                 MaxFrequency = maxFrequency

@@ -88,6 +88,11 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Exponent(low, high, ratio);
         }
 
+        public HighPassFilter_OperatorWrapper HighPassFilter(Outlet signal = null, Outlet minFrequency = null)
+        {
+            return _patchManager.HighPassFilter(signal, minFrequency);
+        }
+
         public Loop_OperatorWrapper Loop(
             Outlet signal = null,
             Outlet attack = null,
@@ -99,9 +104,9 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Loop(signal, attack, start, sustain, end, release);
         }
 
-        public LowPass_OperatorWrapper LowPass(Outlet signal = null, Outlet maxFrequency = null)
+        public LowPassFilter_OperatorWrapper LowPassFilter(Outlet signal = null, Outlet maxFrequency = null)
         {
-            return _patchManager.LowPass(signal, maxFrequency);
+            return _patchManager.LowPassFilter(signal, maxFrequency);
         }
 
         public Multiply_OperatorWrapper Multiply(Outlet operandA = null, Outlet operandB = null, Outlet origin = null)

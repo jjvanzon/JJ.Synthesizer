@@ -449,7 +449,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitLowPass(Operator op)
+        protected override void VisitLowPassFilter(Operator op)
         {
             OperatorCalculatorBase calculator;
 
@@ -478,11 +478,50 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (maxFrequencyIsConst)
             {
-                calculator = new LowPass_ConstMaxFrequency_OperatorCalculator(signalCalculator, maxFrequency);
+                calculator = new LowPassFilter_ConstMaxFrequency_OperatorCalculator(signalCalculator, maxFrequency);
             }
             else
             {
-                calculator = new LowPass_VarMaxFrequency_OperatorCalculator(signalCalculator, maxFrequencyCalculator);
+                calculator = new LowPassFilter_VarMaxFrequency_OperatorCalculator(signalCalculator, maxFrequencyCalculator);
+            }
+
+            _stack.Push(calculator);
+        }
+
+        protected override void VisitHighPassFilter(Operator op)
+        {
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase minFrequencyCalculator = _stack.Pop();
+
+            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
+            minFrequencyCalculator = minFrequencyCalculator ?? new Zero_OperatorCalculator();
+
+            double signal = signalCalculator.Calculate(0, 0);
+            double minFrequency = minFrequencyCalculator.Calculate(0, 0);
+
+            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+            bool minFrequencyIsConst = minFrequencyCalculator is Number_OperatorCalculator;
+
+            bool minFrequencyIsConstZero = minFrequencyIsConst && minFrequency == 0.0;
+
+            if (signalIsConst)
+            {
+                calculator = signalCalculator;
+            }
+            else if (minFrequencyIsConstZero)
+            {
+                // No filtering
+                calculator = signalCalculator;
+            }
+            else if (minFrequencyIsConst)
+            {
+                calculator = new HighPassFilter_ConstMinFrequency_OperatorCalculator(signalCalculator, minFrequency);
+            }
+            else
+            {
+                calculator = new HighPassFilter_VarMinFrequency_OperatorCalculator(signalCalculator, minFrequencyCalculator);
             }
 
             _stack.Push(calculator);

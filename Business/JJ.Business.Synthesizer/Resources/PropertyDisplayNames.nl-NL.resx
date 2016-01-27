@@ -520,7 +520,10 @@
   <data name="SustainVolume" xml:space="preserve">
     <value>Aanhoud volume</value>
   </data>
-  <data name="LowPass" xml:space="preserve">
-    <value>Laag doorlaten</value>
+  <data name="LowPassFilter" xml:space="preserve">
+    <value>Lage tonen doorlaten</value>
+  </data>
+  <data name="HighPassFilter" xml:space="preserve">
+    <value>Hoge tonen doorlaten</value>
   </data>
 </root>

@@ -49,7 +49,8 @@
     <Compile Include="Calculation\CalculatorCache.cs" />
     <Compile Include="Calculation\Curves\ICurveCalculator.cs" />
     <Compile Include="Calculation\Operators\Divide OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\LowPass_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\HighPassFilter OperatorCalculator Classes.cs" />
+    <Compile Include="Calculation\Operators\LowPassFilter OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Multiply OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\OperatorCalculatorBase_WithChildCalculators.cs" />
     <Compile Include="Calculation\Operators\Narrower OperatorCalculator Classes.cs" />
@@ -117,7 +118,8 @@
     <Compile Include="Calculation\WhiteNoiseCalculator.cs" />
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="Converters\PatchToOperatorConverter.cs" />
-    <Compile Include="EntityWrappers\LowPass_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\HighPassFilter_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\LowPassFilter_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Reset_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Shift_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Narrower_OperatorWrapper.cs" />
@@ -203,7 +205,8 @@
     <Compile Include="Validation\CurveValidator_InDocument.cs" />
     <Compile Include="Validation\CurveValidator_Nodes.cs" />
     <Compile Include="Validation\DocumentValidator_RootDocument.cs" />
-    <Compile Include="Validation\OperatorValidator_LowPass.cs" />
+    <Compile Include="Validation\OperatorValidator_HighPassFilter.cs" />
+    <Compile Include="Validation\OperatorValidator_LowPassFilter.cs" />
     <Compile Include="Validation\OperatorValidator_Reset.cs" />
     <Compile Include="Validation\OperatorValidator_Shift.cs" />
     <Compile Include="Validation\OperatorValidator_Narrower.cs" />
@@ -219,7 +222,8 @@
     <Compile Include="PatchManager.cs" />
     <Compile Include="SampleManager.cs" />
     <Compile Include="ScaleManager.cs" />
-    <Compile Include="Warnings\OperatorWarningValidator_LowPass.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_HighPassFilter.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_LowPassFilter.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Base_AllInletsFilled.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Reset.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Shift.cs" />

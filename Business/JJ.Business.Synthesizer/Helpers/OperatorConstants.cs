@@ -19,6 +19,9 @@
         public const int EXPONENT_LOW_INDEX = 0;
         public const int EXPONENT_RATIO_INDEX = 2;
         public const int EXPONENT_RESULT_INDEX = 0;
+        public const int HIGH_PASS_SIGNAL_INDEX = 0;
+        public const int HIGH_PASS_MIN_FREQUENCY_INDEX = 1;
+        public const int HIGH_PASS_RESULT_INDEX = 0;
         public const int LOOP_ATTACK_INDEX = 1;
         public const int LOOP_END_INDEX = 4;
         public const int LOOP_RELEASE_INDEX = 5;

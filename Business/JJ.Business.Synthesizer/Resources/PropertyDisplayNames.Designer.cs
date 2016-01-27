@@ -448,6 +448,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to High Pass Filter.
+        /// </summary>
+        public static string HighPassFilter {
+            get {
+                return ResourceManager.GetString("HighPassFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Inlet.
         /// </summary>
         public static string Inlet {
@@ -592,11 +601,11 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Low Pass.
+        ///   Looks up a localized string similar to Low Pass Filter.
         /// </summary>
-        public static string LowPass {
+        public static string LowPassFilter {
             get {
-                return ResourceManager.GetString("LowPass", resourceCulture);
+                return ResourceManager.GetString("LowPassFilter", resourceCulture);
             }
         }
         
