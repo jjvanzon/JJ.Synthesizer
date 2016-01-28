@@ -743,7 +743,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 var wrapper = new Spectrum_OperatorWrapper(entity);
                 wrapper.StartTime = 0.0;
                 wrapper.EndTime = 0.0022727272727272727;
-                wrapper.FrequencyCount = 4;
+                wrapper.FrequencyCount = 32;
             }
 
             return entity;
