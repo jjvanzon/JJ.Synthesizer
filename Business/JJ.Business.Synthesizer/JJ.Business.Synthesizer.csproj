@@ -54,6 +54,8 @@
     <Compile Include="Calculation\Operators\Multiply OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\OperatorCalculatorBase_WithChildCalculators.cs" />
     <Compile Include="Calculation\Operators\Narrower OperatorCalculator Classes.cs" />
+    <Compile Include="Calculation\Operators\2016-01-28 Backup of Spectrum_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Spectrum_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Stretch OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\VariableInput_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Power OperatorCalculator Classes.cs" />
@@ -120,6 +122,7 @@
     <Compile Include="Converters\PatchToOperatorConverter.cs" />
     <Compile Include="EntityWrappers\HighPassFilter_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\LowPassFilter_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\Spectrum_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Reset_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Shift_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Narrower_OperatorWrapper.cs" />
@@ -210,6 +213,7 @@
     <Compile Include="Validation\OperatorValidator_Reset.cs" />
     <Compile Include="Validation\OperatorValidator_Shift.cs" />
     <Compile Include="Validation\OperatorValidator_Narrower.cs" />
+    <Compile Include="Validation\OperatorValidator_Spectrum.cs" />
     <Compile Include="Validation\OperatorValidator_Stretch.cs" />
     <Compile Include="Validation\OutletValidator_ForOtherOperator.cs" />
     <Compile Include="Validation\InletValidator_ForOtherOperator.cs" />
@@ -228,6 +232,7 @@
     <Compile Include="Warnings\OperatorWarningValidator_Reset.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Shift.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Narrower.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_Spectrum.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Stretch.cs" />
     <Compile Include="WavHeaderManager.cs" />
     <Compile Include="Resources\Messages.Designer.cs">
@@ -370,6 +375,10 @@
     <Compile Include="Warnings\ScaleWarningValidator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\External Components\Lomont\Lomont.csproj">
+      <Project>{cda729cd-cd5e-4700-8308-b4b916c8eab9}</Project>
+      <Name>Lomont</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Framework\JJ.Framework.Business\JJ.Framework.Business.csproj">
       <Project>{f44d03e8-feec-40d4-b866-a87799185b4c}</Project>
       <Name>JJ.Framework.Business</Name>

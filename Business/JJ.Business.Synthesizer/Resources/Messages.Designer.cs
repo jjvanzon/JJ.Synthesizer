@@ -178,6 +178,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} must be a multiple of 2..
+        /// </summary>
+        internal static string MustBeMultipleOf2 {
+            get {
+                return ResourceManager.GetString("MustBeMultipleOf2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Either a name or an inlet type must be filled in..
         /// </summary>
         internal static string NameOrInletTypeMustBeFilledIn {

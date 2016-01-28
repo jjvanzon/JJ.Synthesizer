@@ -245,4 +245,8 @@
     <value>{0} van uitgang wijkt af van de onderliggende schakeling. Uitgang naam: '{1}', uitgang soort: '{2}', uitgang nummer: '{3}'.</value>
     <comment>{0} = property display name</comment>
   </data>
+  <data name="MustBeMultipleOf2" xml:space="preserve">
+    <value>{0} moet een veelvoud van 2 zijn.</value>
+    <comment>{0} = name of the value</comment>
+  </data>
 </root>

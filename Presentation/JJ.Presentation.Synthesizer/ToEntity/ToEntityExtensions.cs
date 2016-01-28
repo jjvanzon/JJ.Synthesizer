@@ -736,6 +736,16 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 entity.UnlinkOperatorType();
             }
 
+            // HACK: Try and make Spectrum operator work without having to program a property box.
+            // TODO: Remove hack and make a property box.
+            if (entity.GetOperatorTypeEnum() == OperatorTypeEnum.Spectrum)
+            {
+                var wrapper = new Spectrum_OperatorWrapper(entity);
+                wrapper.StartTime = 0.0;
+                wrapper.EndTime = 0.0022727272727272727;
+                wrapper.FrequencyCount = 4;
+            }
+
             return entity;
         }
 

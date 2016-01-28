@@ -22,6 +22,16 @@ namespace JJ.Business.Synthesizer.Helpers
             return sortedInlets;
         }
 
+        internal static Outlet GetInputOutlet(Operator _wrappedOperator, object sPECTRUM_SIGNAL_INDEX)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static Outlet GetOutlet(Operator _wrappedOperator, object sPECTRUM_RESULT_INDEX)
+        {
+            throw new NotImplementedException();
+        }
+
         public static IList<Outlet> GetSortedOutlets(Operator op)
         {
             if (op == null) throw new NullException(() => op);

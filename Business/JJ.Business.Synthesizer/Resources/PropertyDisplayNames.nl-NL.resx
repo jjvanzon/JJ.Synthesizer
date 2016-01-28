@@ -526,4 +526,13 @@
   <data name="HighPassFilter" xml:space="preserve">
     <value>Hoge tonen doorlaten</value>
   </data>
+  <data name="Spectrum" xml:space="preserve">
+    <value>Spectrum</value>
+  </data>
+  <data name="EndTime" xml:space="preserve">
+    <value>Eindtijd</value>
+  </data>
+  <data name="FrequencyCount" xml:space="preserve">
+    <value>Aantal frequenties</value>
+  </data>
 </root>

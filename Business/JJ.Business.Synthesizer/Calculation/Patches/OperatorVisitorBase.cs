@@ -42,6 +42,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.Shift, VisitShift },
                 { OperatorTypeEnum.Sine, VisitSine },
                 { OperatorTypeEnum.SlowDown, VisitSlowDown },
+                { OperatorTypeEnum.Spectrum, VisitSpectrum },
                 { OperatorTypeEnum.SpeedUp, VisitSpeedUp },
                 { OperatorTypeEnum.SquareWave, VisitSquareWave },
                 { OperatorTypeEnum.Stretch, VisitStretch },
@@ -168,6 +169,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         /// <summary> does nothing </summary>
         protected virtual void VisitSlowDown(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitSpectrum(Operator op) { }
 
         /// <summary> does nothing </summary>
         protected virtual void VisitSpeedUp(Operator op) { }

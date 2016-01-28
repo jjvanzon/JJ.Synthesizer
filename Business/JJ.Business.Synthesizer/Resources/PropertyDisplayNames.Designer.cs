@@ -367,6 +367,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to End Time.
+        /// </summary>
+        public static string EndTime {
+            get {
+                return ResourceManager.GetString("EndTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exponent.
         /// </summary>
         public static string Exponent {
@@ -426,6 +435,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Frequency {
             get {
                 return ResourceManager.GetString("Frequency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of Frequencies.
+        /// </summary>
+        public static string FrequencyCount {
+            get {
+                return ResourceManager.GetString("FrequencyCount", resourceCulture);
             }
         }
         
@@ -1038,6 +1056,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string SpeakerSetup {
             get {
                 return ResourceManager.GetString("SpeakerSetup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Spectrum.
+        /// </summary>
+        public static string Spectrum {
+            get {
+                return ResourceManager.GetString("Spectrum", resourceCulture);
             }
         }
         

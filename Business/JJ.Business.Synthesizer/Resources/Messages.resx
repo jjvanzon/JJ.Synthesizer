@@ -252,4 +252,8 @@
     <value>{0} of outlet does not match with underlying patch. Outlet name: '{1}', outlet type: '{2}', outlet number: '{3}'.</value>
     <comment>{0} = property name</comment>
   </data>
+  <data name="MustBeMultipleOf2" xml:space="preserve">
+    <value>{0} must be a multiple of 2.</value>
+    <comment>{0} = name of the value</comment>
+  </data>
 </root>

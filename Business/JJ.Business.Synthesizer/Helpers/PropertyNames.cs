@@ -104,5 +104,8 @@ namespace JJ.Business.Synthesizer.Helpers
         public const string SemiTones = "SemiTones";
         public const string UnderlyingPatch = "UnderlyingPatch";
         public const string ChildDocumentID = "ChildDocumentID";
+        public const string StartTime = "StartTime";
+        public const string EndTime = "EndTime";
+        public const string FrequencyCount = "FrequencyCount";
     }
 }

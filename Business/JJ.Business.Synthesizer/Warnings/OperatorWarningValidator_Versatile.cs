@@ -38,6 +38,7 @@ namespace JJ.Business.Synthesizer.Warnings
             { OperatorTypeEnum.Shift, typeof(OperatorWarningValidator_Shift) },
             { OperatorTypeEnum.Sine, typeof(OperatorWarningValidator_Sine) },
             { OperatorTypeEnum.SlowDown, typeof(OperatorWarningValidator_SlowDown) },
+            { OperatorTypeEnum.Spectrum, typeof(OperatorWarningValidator_Spectrum) },
             { OperatorTypeEnum.SpeedUp, typeof(OperatorWarningValidator_SpeedUp) },
             { OperatorTypeEnum.SquareWave, typeof(OperatorWarningValidator_SquareWave) },
             { OperatorTypeEnum.Stretch, typeof(OperatorWarningValidator_Stretch) },

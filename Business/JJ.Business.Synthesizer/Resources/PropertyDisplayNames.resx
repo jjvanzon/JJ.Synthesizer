@@ -523,4 +523,13 @@
   <data name="HighPassFilter" xml:space="preserve">
     <value>High Pass Filter</value>
   </data>
+  <data name="Spectrum" xml:space="preserve">
+    <value>Spectrum</value>
+  </data>
+  <data name="EndTime" xml:space="preserve">
+    <value>End Time</value>
+  </data>
+  <data name="FrequencyCount" xml:space="preserve">
+    <value>Number of Frequencies</value>
+  </data>
 </root>

@@ -1116,9 +1116,49 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = new SpeedUp_WithConstFactor_OperatorCalculator(signalCalculator, factor);
             }
-            else 
+            else
             {
                 calculator = new SpeedUp_WithVarFactor_OperatorCalculator(signalCalculator, factorCalculator);
+            }
+
+            _stack.Push(calculator);
+        }
+
+        protected override void VisitSpectrum(Operator op)
+        {
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase signalCalculator = _stack.Pop();
+
+            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
+
+            double signal = signalCalculator.Calculate(0, 0);
+            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+            bool signalIsConstZero = signalIsConst && signal == 0;
+            bool signalIsConstSpecialNumber = signalIsConst && Double.IsNaN(signal) || Double.IsInfinity(signal);
+
+            if (signalIsConstSpecialNumber)
+            {
+                // Weird number
+                calculator = new Number_OperatorCalculator(Double.NaN);
+            }
+            else if (signalIsConstZero)
+            {
+                calculator = new Zero_OperatorCalculator();
+            }
+            else if (signalIsConst)
+            {
+                calculator = new Zero_OperatorCalculator();
+            }
+            else
+            {
+                var wrapper = new Spectrum_OperatorWrapper(op);
+
+                calculator = new Spectrum_OperatorCalculator(
+                    signalCalculator, 
+                    wrapper.StartTime, 
+                    wrapper.EndTime, 
+                    wrapper.FrequencyCount);
             }
 
             _stack.Push(calculator);

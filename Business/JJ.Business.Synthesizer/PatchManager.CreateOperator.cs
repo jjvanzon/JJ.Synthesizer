@@ -523,6 +523,24 @@ namespace JJ.Business.Synthesizer
             wrapper.WrappedOperator.LinkTo(Patch);
             return wrapper;
         }
+        
+        public Spectrum_OperatorWrapper Spectrum(Outlet signal = null, double startTime = 0.0, double endTime = 0.0, int frequencyCount = 16)
+        {
+            if (frequencyCount <= 0) throw new LessThanOrEqualException(() => frequencyCount, 0);
+
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Spectrum, inletCount: 1, outletCount: 1);
+
+            var wrapper = new Spectrum_OperatorWrapper(op)
+            {
+                Signal = signal,
+                StartTime = startTime,
+                EndTime = endTime,
+                FrequencyCount = frequencyCount
+            };
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+            return wrapper;
+        }
 
         public SpeedUp_OperatorWrapper SpeedUp(Outlet signal = null, Outlet factor = null)
         {
@@ -679,6 +697,7 @@ namespace JJ.Business.Synthesizer
                     case OperatorTypeEnum.Adder:
                     case OperatorTypeEnum.Bundle:
                     case OperatorTypeEnum.Unbundle:
+                    case OperatorTypeEnum.Spectrum:
                         continue;
 
                     case OperatorTypeEnum.CustomOperator:
@@ -751,6 +770,9 @@ namespace JJ.Business.Synthesizer
 
                 case OperatorTypeEnum.Unbundle:
                     return Unbundle(); // Requires default values, not null parameters.
+
+                case OperatorTypeEnum.Spectrum:
+                    return Spectrum(); // Requires default values, not null parameters.
             }
 
             MethodInfo methodInfo;

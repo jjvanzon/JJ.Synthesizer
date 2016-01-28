@@ -67,6 +67,8 @@
         public const int SLOW_DOWN_RESULT_INDEX = 0;
         public const int SLOW_DOWN_SIGNAL_INDEX = 0;
         public const int SLOW_DOWN_FACTOR_INDEX = 1;
+        public const int SPECTRUM_RESULT_INDEX = 0;
+        public const int SPECTRUM_SIGNAL_INDEX = 0;
         public const int SPEED_UP_RESULT_INDEX = 0;
         public const int SPEED_UP_SIGNAL_INDEX = 0;
         public const int SPEED_UP_FACTOR_INDEX = 1;

@@ -40,6 +40,7 @@ namespace JJ.Business.Synthesizer.Validation
             { OperatorTypeEnum.Shift, typeof(OperatorValidator_Shift) },
             { OperatorTypeEnum.Sine, typeof(OperatorValidator_Sine) },
             { OperatorTypeEnum.SlowDown, typeof(OperatorValidator_SlowDown) },
+            { OperatorTypeEnum.Spectrum, typeof(OperatorValidator_Spectrum) },
             { OperatorTypeEnum.SpeedUp, typeof(OperatorValidator_SpeedUp) },
             { OperatorTypeEnum.SquareWave, typeof(OperatorValidator_SquareWave) },
             { OperatorTypeEnum.Stretch, typeof(OperatorValidator_Stretch) },

@@ -59,6 +59,11 @@ namespace JJ.Business.Synthesizer.Resources
             return String.Format(Messages.SampleNotLoaded, sampleName);
         }
 
+        public static string MustBeMultipleOf2(string frequencyCount)
+        {
+            return String.Format(Messages.MustBeMultipleOf2, frequencyCount);
+        }
+
         public static string ObjectAmplifier0(string objectTypeName, string objectName)
         {
             return String.Format(Messages.ObjectAmplifier0, objectTypeName, objectName);

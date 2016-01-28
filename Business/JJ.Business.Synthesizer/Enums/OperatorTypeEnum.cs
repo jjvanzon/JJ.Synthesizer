@@ -63,6 +63,7 @@
         Reset = 32,
 
         LowPassFilter = 33,
-        HighPassFilter = 34
+        HighPassFilter = 34,
+        Spectrum = 35
     }
 }
