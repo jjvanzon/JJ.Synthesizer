@@ -4,6 +4,7 @@ using JJ.Business.Synthesizer.Helpers;
 using System;
 using JJ.Framework.Validation.Resources;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Framework.Mathematics;
 
 namespace JJ.Business.Synthesizer.Validation
 {
@@ -53,9 +54,9 @@ namespace JJ.Business.Synthesizer.Validation
                 For(() => frequencyCount, PropertyDisplayNames.FrequencyCount)
                     .GreaterThanOrEqual(2);
 
-                if (frequencyCount % 2 != 0)
+                if (!Maths.IsPowerOf2(frequencyCount))
                 {
-                    string message = MessageFormatter.MustBeMultipleOf2(PropertyDisplayNames.FrequencyCount);
+                    string message = MessageFormatter.MustBePowerOf2(PropertyDisplayNames.FrequencyCount);
                     ValidationMessages.Add(PropertyDisplayNames.FrequencyCount, message);
                 }
             }

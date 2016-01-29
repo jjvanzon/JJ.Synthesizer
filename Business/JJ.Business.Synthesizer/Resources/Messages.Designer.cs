@@ -178,11 +178,11 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} must be a multiple of 2..
+        ///   Looks up a localized string similar to {0} must be a power of 2..
         /// </summary>
-        internal static string MustBeMultipleOf2 {
+        internal static string MustBePowerOf2 {
             get {
-                return ResourceManager.GetString("MustBeMultipleOf2", resourceCulture);
+                return ResourceManager.GetString("MustBePowerOf2", resourceCulture);
             }
         }
         
