@@ -48,6 +48,7 @@
     <Compile Include="Helpers\2016-01-27 Backup of PatchCalculatorTypeEnum.cs" />
     <Compile Include="Helpers\PresentationPropertyNames.cs" />
     <Compile Include="Presenters\CurrentPatchesPresenter.cs" />
+    <Compile Include="Presenters\OperatorPropertiesPresenter_ForSpectrum.cs" />
     <Compile Include="Presenters\PatchGridPresenter.cs" />
     <Compile Include="Presenters\MainPresenter.Actions.cs" />
     <Compile Include="Presenters\MainPresenter.DispatchViewModel.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="ViewModels\Entities\ToneViewModel.cs" />
     <Compile Include="ViewModels\Entities\PatchDocumentViewModel.cs" />
     <Compile Include="ViewModels\Entities\CurrentPatchItemViewModel.cs" />
+    <Compile Include="ViewModels\OperatorPropertiesViewModel_ForSpectrum.cs" />
     <Compile Include="ViewModels\PatchPropertiesViewModel.cs" />
     <Compile Include="ViewModels\PatchGridViewModel.cs" />
     <Compile Include="ViewModels\DocumentCannotDeleteViewModel.cs" />

@@ -736,15 +736,16 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 entity.UnlinkOperatorType();
             }
 
-            // HACK: Try and make Spectrum operator work without having to program a property box.
-            // TODO: Remove hack and make a property box.
-            if (entity.GetOperatorTypeEnum() == OperatorTypeEnum.Spectrum)
-            {
-                var wrapper = new Spectrum_OperatorWrapper(entity);
-                wrapper.StartTime = 0.0;
-                wrapper.EndTime = 0.0022727272727272727;
-                wrapper.FrequencyCount = 32;
-            }
+            // TODO: Remove outcommented code
+            //// HACK: Try and make Spectrum operator work without having to program a property box.
+            //// TODO: Remove hack and make a property box.
+            //if (entity.GetOperatorTypeEnum() == OperatorTypeEnum.Spectrum)
+            //{
+            //    var wrapper = new Spectrum_OperatorWrapper(entity);
+            //    wrapper.StartTime = 0.0;
+            //    wrapper.EndTime = 0.0022727272727272727;
+            //    wrapper.FrequencyCount = 32;
+            //}
 
             return entity;
         }
@@ -1008,6 +1009,32 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         }
 
         public static Operator ToEntity(
+            this OperatorPropertiesViewModel_ForSpectrum viewModel,
+            IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (operatorRepository == null) throw new NullException(() => operatorRepository);
+
+            Operator entity = operatorRepository.TryGet(viewModel.ID);
+            if (entity == null)
+            {
+                entity = new Operator();
+                entity.ID = viewModel.ID;
+                operatorRepository.Insert(entity);
+            }
+
+            entity.Name = viewModel.Name;
+            entity.SetOperatorTypeEnum(OperatorTypeEnum.Spectrum, operatorTypeRepository);
+
+            var wrapper = new Spectrum_OperatorWrapper(entity);
+            wrapper.StartTime = viewModel.StartTime;
+            wrapper.EndTime = viewModel.EndTime;
+            wrapper.FrequencyCount = viewModel.FrequencyCount;
+
+            return entity;
+        }
+
+        public static Operator ToEntity(
             this OperatorPropertiesViewModel_ForUnbundle viewModel,
             IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository)
         {
@@ -1179,6 +1206,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.SampleRepository);
             }
 
+            foreach (OperatorPropertiesViewModel_ForSpectrum propertiesViewModel in userInput.OperatorPropertiesList_ForSpectrums)
+            {
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
+            }
+
             foreach (OperatorPropertiesViewModel_ForUnbundle propertiesViewModel in userInput.OperatorPropertiesList_ForUnbundles)
             {
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
@@ -1201,42 +1233,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
 
             return entity;
-        }
-
-        // TODO: Remove unused method.
-        /// <summary> Leading for saving when it comes to the simple properties. </summary>
-        [Obsolete("", true)]
-        public static void ToChildDocuments(
-            this IList<PatchPropertiesViewModel> sourceViewModelList,
-            Document destParentDocument,
-            RepositoryWrapper repositories)
-        {
-            if (sourceViewModelList == null) throw new NullException(() => sourceViewModelList);
-            if (destParentDocument == null) throw new NullException(() => destParentDocument);
-            if (repositories == null) throw new NullException(() => repositories);
-
-            var idsToKeep = new HashSet<int>();
-
-            foreach (PatchPropertiesViewModel propertiesViewModel in sourceViewModelList)
-            {
-                Document entity = propertiesViewModel.ToChildDocument(repositories.DocumentRepository);
-
-                entity.LinkToParentDocument(destParentDocument);
-
-                if (!idsToKeep.Contains(entity.ID))
-                {
-                    idsToKeep.Add(entity.ID);
-                }
-            }
-
-            DocumentManager documentManager = new DocumentManager(repositories);
-
-            IList<int> existingIDs = destParentDocument.ChildDocuments.Select(x => x.ID).ToArray();
-            IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
-            foreach (int idToDelete in idsToDelete)
-            {
-                documentManager.DeleteWithRelatedEntities(idToDelete);
-            }
         }
 
         /// <summary> Leading for saving child entities, not leading for saving the simple properties. </summary>

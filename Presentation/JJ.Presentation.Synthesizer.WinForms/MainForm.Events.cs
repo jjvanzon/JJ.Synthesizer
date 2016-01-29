@@ -85,6 +85,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             operatorPropertiesUserControl_ForPatchOutlet.LoseFocusRequested += operatorPropertiesUserControl_ForPatchOutlet_LoseFocusRequested;
             operatorPropertiesUserControl_ForSample.CloseRequested += operatorPropertiesUserControl_ForSample_CloseRequested;
             operatorPropertiesUserControl_ForSample.LoseFocusRequested += operatorPropertiesUserControl_ForSample_LoseFocusRequested;
+            operatorPropertiesUserControl_ForSpectrum.CloseRequested += operatorPropertiesUserControl_ForSpectrum_CloseRequested;
+            operatorPropertiesUserControl_ForSpectrum.LoseFocusRequested += operatorPropertiesUserControl_ForSpectrum_LoseFocusRequested;
             operatorPropertiesUserControl_ForUnbundle.CloseRequested += operatorPropertiesUserControl_ForUnbundle_CloseRequested;
             operatorPropertiesUserControl_ForUnbundle.LoseFocusRequested += operatorPropertiesUserControl_ForUnbundle_LoseFocusRequested;
             patchDetailsUserControl.ChangeInputOutletRequested += patchDetailsUserControl_ChangeInputOutletRequested;
@@ -1030,6 +1032,32 @@ namespace JJ.Presentation.Synthesizer.WinForms
             try
             {
                 _presenter.OperatorPropertiesClose_ForSample();
+                ApplyViewModel();
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
+        }
+
+        private void operatorPropertiesUserControl_ForSpectrum_LoseFocusRequested(object sender, EventArgs e)
+        {
+            try
+            {
+                _presenter.OperatorPropertiesLoseFocus_ForSpectrum();
+                ApplyViewModel();
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
+        }
+
+        private void operatorPropertiesUserControl_ForSpectrum_CloseRequested(object sender, EventArgs e)
+        {
+            try
+            {
+                _presenter.OperatorPropertiesClose_ForSpectrum();
                 ApplyViewModel();
             }
             finally

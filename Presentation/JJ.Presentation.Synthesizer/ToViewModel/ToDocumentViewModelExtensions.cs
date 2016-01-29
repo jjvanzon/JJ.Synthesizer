@@ -90,6 +90,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorPropertiesList_ForPatchInlets = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForPatchInlets(repositories.InletTypeRepository)).ToList(),
                 OperatorPropertiesList_ForPatchOutlets = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForPatchOutlets(repositories.OutletTypeRepository)).ToList(),
                 OperatorPropertiesList_ForSamples = childDocument.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList_ForSamples(repositories.SampleRepository)).ToList(),
+                OperatorPropertiesList_ForSpectrums = childDocument.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList_ForSpectrums()).ToList(),
                 OperatorPropertiesList_ForUnbundles = childDocument.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList_ForUnbundles()).ToList(),
                 PatchDetails = childDocument.Patches[0].ToDetailsViewModel(repositories.OperatorTypeRepository, repositories.SampleRepository, repositories.CurveRepository, repositories.PatchRepository, entityPositionManager),
                 PatchProperties = childDocument.ToPatchPropertiesViewModel(),

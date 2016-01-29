@@ -43,6 +43,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(OperatorPropertiesViewModel_ForPatchInlet), DispatchOperatorPropertiesViewModel_ForPatchInlet },
                 { typeof(OperatorPropertiesViewModel_ForPatchOutlet), DispatchOperatorPropertiesViewModel_ForPatchOutlet },
                 { typeof(OperatorPropertiesViewModel_ForSample), DispatchOperatorPropertiesViewModel_ForSample },
+                { typeof(OperatorPropertiesViewModel_ForSpectrum), DispatchOperatorPropertiesViewModel_ForSpectrum },
                 { typeof(OperatorPropertiesViewModel_ForUnbundle), DispatchOperatorPropertiesViewModel_ForUnbundle },
                 { typeof(PatchDetailsViewModel), DispatchPatchDetailsViewModel },
                 { typeof(PatchGridViewModel), DispatchPatchGridViewModel },
@@ -507,6 +508,31 @@ namespace JJ.Presentation.Synthesizer.Presenters
             var castedViewModel = (OperatorPropertiesViewModel_ForNumber)viewModel2;
 
             var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForNumbers_ByOperatorID(MainViewModel.Document, castedViewModel.ID);
+            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
+            if (listIndex.HasValue)
+            {
+                list[listIndex.Value] = castedViewModel;
+            }
+            else
+            {
+                list.Add(castedViewModel);
+            }
+
+            if (castedViewModel.Visible)
+            {
+                HideAllPropertiesViewModels();
+                castedViewModel.Visible = true;
+            }
+
+            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            castedViewModel.ValidationMessages.Clear();
+        }
+
+        private void DispatchOperatorPropertiesViewModel_ForSpectrum(object viewModel2)
+        {
+            var castedViewModel = (OperatorPropertiesViewModel_ForSpectrum)viewModel2;
+
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForSpectrums_ByOperatorID(MainViewModel.Document, castedViewModel.ID);
             int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
             if (listIndex.HasValue)
             {

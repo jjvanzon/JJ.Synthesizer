@@ -33,6 +33,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.PatchInlet,
             OperatorTypeEnum.PatchOutlet,
             OperatorTypeEnum.Sample,
+            OperatorTypeEnum.Spectrum,
             OperatorTypeEnum.Unbundle
         };
 
@@ -362,6 +363,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                         .ToList();
         }
 
+        public static IList<OperatorPropertiesViewModel_ForSpectrum> ToOperatorPropertiesViewModelList_ForSpectrums(this Patch patch)
+        {
+            if (patch == null) throw new NullException(() => patch);
+
+            return patch.GetOperatorsOfType(OperatorTypeEnum.Spectrum)
+                        .Select(x => x.ToPropertiesViewModel_ForSpectrum())
+                        .ToList();
+        }
+
+
         public static IList<OperatorPropertiesViewModel_ForUnbundle> ToOperatorPropertiesViewModelList_ForUnbundles(this Patch patch)
         {
             if (patch == null) throw new NullException(() => patch);
@@ -556,6 +567,25 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 viewModel.Sample = sample.ToIDAndName();
             }
+
+            return viewModel;
+        }
+
+        public static OperatorPropertiesViewModel_ForSpectrum ToPropertiesViewModel_ForSpectrum(this Operator entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            var wrapper = new Spectrum_OperatorWrapper(entity);
+
+            var viewModel = new OperatorPropertiesViewModel_ForSpectrum
+            {
+                ID = entity.ID,
+                Name = entity.Name,
+                EndTime = wrapper.EndTime,
+                StartTime = wrapper.StartTime,
+                FrequencyCount = wrapper.FrequencyCount,
+                ValidationMessages = new List<Message>()
+            };
 
             return viewModel;
         }

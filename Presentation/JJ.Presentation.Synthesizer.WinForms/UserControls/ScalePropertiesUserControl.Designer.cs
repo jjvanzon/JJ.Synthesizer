@@ -51,17 +51,18 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.tableLayoutPanelMain.Controls.Add(this.titleBarUserControl, 0, 0);
             this.tableLayoutPanelMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelMain.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanelMain.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tableLayoutPanelMain.Name = "tableLayoutPanelMain";
             this.tableLayoutPanelMain.RowCount = 2;
-            this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 21F));
+            this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
             this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelMain.Size = new System.Drawing.Size(10, 10);
+            this.tableLayoutPanelMain.Size = new System.Drawing.Size(13, 12);
             this.tableLayoutPanelMain.TabIndex = 8;
             // 
             // tableLayoutPanelProperties
             // 
             this.tableLayoutPanelProperties.ColumnCount = 2;
-            this.tableLayoutPanelProperties.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
+            this.tableLayoutPanelProperties.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 160F));
             this.tableLayoutPanelProperties.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelProperties.Controls.Add(this.labelName, 0, 0);
             this.tableLayoutPanelProperties.Controls.Add(this.textBoxName, 1, 0);
@@ -70,14 +71,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.tableLayoutPanelProperties.Controls.Add(this.labelBaseFrequency, 0, 2);
             this.tableLayoutPanelProperties.Controls.Add(this.numericUpDownBaseFrequency, 1, 2);
             this.tableLayoutPanelProperties.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanelProperties.Location = new System.Drawing.Point(3, 24);
+            this.tableLayoutPanelProperties.Location = new System.Drawing.Point(4, 30);
+            this.tableLayoutPanelProperties.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tableLayoutPanelProperties.Name = "tableLayoutPanelProperties";
             this.tableLayoutPanelProperties.RowCount = 4;
-            this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelProperties.Size = new System.Drawing.Size(10, 10);
+            this.tableLayoutPanelProperties.Size = new System.Drawing.Size(13, 12);
             this.tableLayoutPanelProperties.TabIndex = 8;
             // 
             // labelName
@@ -86,7 +88,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelName.Location = new System.Drawing.Point(0, 0);
             this.labelName.Margin = new System.Windows.Forms.Padding(0);
             this.labelName.Name = "labelName";
-            this.labelName.Size = new System.Drawing.Size(120, 24);
+            this.labelName.Size = new System.Drawing.Size(160, 30);
             this.labelName.TabIndex = 2;
             this.labelName.Text = "labelName";
             this.labelName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -94,19 +96,19 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // textBoxName
             // 
             this.textBoxName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxName.Location = new System.Drawing.Point(120, 0);
+            this.textBoxName.Location = new System.Drawing.Point(160, 0);
             this.textBoxName.Margin = new System.Windows.Forms.Padding(0);
             this.textBoxName.Name = "textBoxName";
-            this.textBoxName.Size = new System.Drawing.Size(10, 20);
+            this.textBoxName.Size = new System.Drawing.Size(13, 22);
             this.textBoxName.TabIndex = 11;
             // 
             // labelScaleType
             // 
             this.labelScaleType.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelScaleType.Location = new System.Drawing.Point(0, 24);
+            this.labelScaleType.Location = new System.Drawing.Point(0, 30);
             this.labelScaleType.Margin = new System.Windows.Forms.Padding(0);
             this.labelScaleType.Name = "labelScaleType";
-            this.labelScaleType.Size = new System.Drawing.Size(120, 24);
+            this.labelScaleType.Size = new System.Drawing.Size(160, 30);
             this.labelScaleType.TabIndex = 17;
             this.labelScaleType.Text = "labelScaleType";
             this.labelScaleType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -116,19 +118,19 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.comboBoxScaleType.Dock = System.Windows.Forms.DockStyle.Fill;
             this.comboBoxScaleType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxScaleType.FormattingEnabled = true;
-            this.comboBoxScaleType.Location = new System.Drawing.Point(120, 24);
+            this.comboBoxScaleType.Location = new System.Drawing.Point(160, 30);
             this.comboBoxScaleType.Margin = new System.Windows.Forms.Padding(0);
             this.comboBoxScaleType.Name = "comboBoxScaleType";
-            this.comboBoxScaleType.Size = new System.Drawing.Size(10, 21);
+            this.comboBoxScaleType.Size = new System.Drawing.Size(13, 24);
             this.comboBoxScaleType.TabIndex = 16;
             // 
             // labelBaseFrequency
             // 
             this.labelBaseFrequency.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelBaseFrequency.Location = new System.Drawing.Point(0, 48);
+            this.labelBaseFrequency.Location = new System.Drawing.Point(0, 60);
             this.labelBaseFrequency.Margin = new System.Windows.Forms.Padding(0);
             this.labelBaseFrequency.Name = "labelBaseFrequency";
-            this.labelBaseFrequency.Size = new System.Drawing.Size(120, 24);
+            this.labelBaseFrequency.Size = new System.Drawing.Size(160, 30);
             this.labelBaseFrequency.TabIndex = 18;
             this.labelBaseFrequency.Text = "labelBaseFrequency";
             this.labelBaseFrequency.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -142,7 +144,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             0,
             0,
             65536});
-            this.numericUpDownBaseFrequency.Location = new System.Drawing.Point(120, 48);
+            this.numericUpDownBaseFrequency.Location = new System.Drawing.Point(160, 60);
             this.numericUpDownBaseFrequency.Margin = new System.Windows.Forms.Padding(0);
             this.numericUpDownBaseFrequency.Maximum = new decimal(new int[] {
             25000,
@@ -155,7 +157,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             0,
             0});
             this.numericUpDownBaseFrequency.Name = "numericUpDownBaseFrequency";
-            this.numericUpDownBaseFrequency.Size = new System.Drawing.Size(10, 20);
+            this.numericUpDownBaseFrequency.Size = new System.Drawing.Size(13, 22);
             this.numericUpDownBaseFrequency.TabIndex = 20;
             this.numericUpDownBaseFrequency.Value = new decimal(new int[] {
             1,
@@ -173,19 +175,20 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.titleBarUserControl.Margin = new System.Windows.Forms.Padding(0);
             this.titleBarUserControl.Name = "titleBarUserControl";
             this.titleBarUserControl.RemoveButtonVisible = false;
-            this.titleBarUserControl.Size = new System.Drawing.Size(16, 21);
+            this.titleBarUserControl.Size = new System.Drawing.Size(21, 26);
             this.titleBarUserControl.TabIndex = 7;
             this.titleBarUserControl.CloseClicked += new System.EventHandler(this.titleBarUserControl_CloseClicked);
             // 
             // ScalePropertiesUserControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.Controls.Add(this.tableLayoutPanelMain);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "ScalePropertiesUserControl";
-            this.Size = new System.Drawing.Size(10, 10);
+            this.Size = new System.Drawing.Size(13, 12);
             this.Load += new System.EventHandler(this.ScalePropertiesUserControl_Load);
             this.Leave += new System.EventHandler(this.ScalePropertiesUserControl_Leave);
             this.tableLayoutPanelMain.ResumeLayout(false);

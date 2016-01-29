@@ -913,6 +913,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
             {
+                OperatorPropertiesViewModel_ForSpectrum viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForSpectrum(MainViewModel.Document, id);
+                if (viewModel != null)
+                {
+                    OperatorPropertiesPresenter_ForSpectrum partialPresenter = _operatorPropertiesPresenter_ForSpectrum;
+                    partialPresenter.ViewModel = viewModel;
+                    partialPresenter.Show();
+                    DispatchViewModel(partialPresenter.ViewModel);
+                    return;
+                }
+            }
+            {
                 OperatorPropertiesViewModel_ForUnbundle viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForUnbundle(MainViewModel.Document, id);
                 if (viewModel != null)
                 {
@@ -967,6 +978,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesCloseOrLoseFocus_ForSample(() => _operatorPropertiesPresenter_ForSample.Close());
         }
 
+        public void OperatorPropertiesClose_ForSpectrum()
+        {
+            OperatorPropertiesCloseOrLoseFocus_ForSpectrum(() => _operatorPropertiesPresenter_ForSpectrum.Close());
+        }
+
         public void OperatorPropertiesClose_ForUnbundle()
         {
             OperatorPropertiesCloseOrLoseFocus_ForUnbundle(() => _operatorPropertiesPresenter_ForUnbundle.Close());
@@ -1010,6 +1026,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void OperatorPropertiesLoseFocus_ForSample()
         {
             OperatorPropertiesCloseOrLoseFocus_ForSample(() => _operatorPropertiesPresenter_ForSample.LoseFocus());
+        }
+
+        public void OperatorPropertiesLoseFocus_ForSpectrum()
+        {
+            OperatorPropertiesCloseOrLoseFocus_ForSpectrum(() => _operatorPropertiesPresenter_ForSpectrum.LoseFocus());
         }
 
         public void OperatorPropertiesLoseFocus_ForUnbundle()
@@ -1169,6 +1190,24 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void OperatorPropertiesCloseOrLoseFocus_ForSample(Action partialAction)
         {
             OperatorPropertiesPresenter_ForSample partialPresenter = _operatorPropertiesPresenter_ForSample;
+
+            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
+
+            OperatorEntityAndViewModel operatorEntityAndViewModel = ToEntityHelper.ToOperatorWithInletsAndOutletsAndPatch(MainViewModel.Document, partialPresenter.ViewModel.ID, _patchRepositories);
+
+            partialAction();
+
+            if (partialPresenter.ViewModel.Successful)
+            {
+                PatchDetails_RefreshOperator(operatorEntityAndViewModel.Operator, operatorEntityAndViewModel.OperatorViewModel);
+            }
+
+            DispatchViewModel(partialPresenter.ViewModel);
+        }
+
+        private void OperatorPropertiesCloseOrLoseFocus_ForSpectrum(Action partialAction)
+        {
+            OperatorPropertiesPresenter_ForSpectrum partialPresenter = _operatorPropertiesPresenter_ForSpectrum;
 
             Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
 

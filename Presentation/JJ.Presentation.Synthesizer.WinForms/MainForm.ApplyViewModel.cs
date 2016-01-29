@@ -144,7 +144,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
                         break;
                     }
                 }
-                
+
+                // OperatorProperties_ForSpectrum
+                operatorPropertiesUserControl_ForSpectrum.ViewModel =
+                    _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForSpectrums)
+                    .Where(x => x.Visible)
+                    .FirstOrDefault();
+
                 // OperatorProperties_ForUnbundle
                 operatorPropertiesUserControl_ForUnbundle.ViewModel =
                     _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForUnbundles)
@@ -233,6 +239,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
                                                                 operatorPropertiesUserControl_ForPatchOutlet.ViewModel.Visible;
                 bool operatorPropertiesVisible_ForSample = operatorPropertiesUserControl_ForSample.ViewModel != null &&
                                                            operatorPropertiesUserControl_ForSample.ViewModel.Visible;
+                bool operatorPropertiesVisible_ForSpectrum = operatorPropertiesUserControl_ForSpectrum.ViewModel != null &&
+                                                             operatorPropertiesUserControl_ForSpectrum.ViewModel.Visible;
                 bool operatorPropertiesVisible_ForUnbundle = operatorPropertiesUserControl_ForUnbundle.ViewModel != null &&
                                                              operatorPropertiesUserControl_ForUnbundle.ViewModel.Visible;
                 bool patchGridVisible = patchGridUserControl.ViewModel != null &&
@@ -271,6 +279,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (operatorPropertiesVisible_ForPatchInlet) operatorPropertiesUserControl_ForPatchInlet.Visible = true;
                 if (operatorPropertiesVisible_ForPatchOutlet) operatorPropertiesUserControl_ForPatchOutlet.Visible = true;
                 if (operatorPropertiesVisible_ForSample) operatorPropertiesUserControl_ForSample.Visible = true;
+                if (operatorPropertiesVisible_ForSpectrum) operatorPropertiesUserControl_ForSpectrum.Visible = true;
                 if (operatorPropertiesVisible_ForUnbundle) operatorPropertiesUserControl_ForUnbundle.Visible = true;
                 if (patchGridVisible) patchGridUserControl.Visible = true;
                 if (patchDetailsVisible) patchDetailsUserControl.Visible = true;
@@ -299,6 +308,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (!operatorPropertiesVisible_ForPatchInlet) operatorPropertiesUserControl_ForPatchInlet.Visible = false;
                 if (!operatorPropertiesVisible_ForPatchOutlet) operatorPropertiesUserControl_ForPatchOutlet.Visible = false;
                 if (!operatorPropertiesVisible_ForSample) operatorPropertiesUserControl_ForSample.Visible = false;
+                if (!operatorPropertiesVisible_ForSpectrum) operatorPropertiesUserControl_ForSpectrum.Visible = false;
                 if (!operatorPropertiesVisible_ForUnbundle) operatorPropertiesUserControl_ForUnbundle.Visible = false;
                 if (!patchDetailsVisible) patchDetailsUserControl.Visible = false;
                 if (!patchGridVisible) patchGridUserControl.Visible = false;
@@ -325,6 +335,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                                                     operatorPropertiesVisible_ForPatchInlet ||
                                                     operatorPropertiesVisible_ForPatchOutlet ||
                                                     operatorPropertiesVisible_ForSample ||
+                                                    operatorPropertiesVisible_ForSpectrum ||
                                                     operatorPropertiesVisible_ForUnbundle ||
                                                     samplePropertiesVisible ||
                                                     patchPropertiesVisible ||
@@ -461,6 +472,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
             if (mustFocusOperatorPropertiesUserControl_ForSample)
             {
                 operatorPropertiesUserControl_ForSample.Focus();
+            }
+
+            bool mustFocusOperatorPropertiesUserControl_ForSpectrum = operatorPropertiesUserControl_ForSpectrum.Visible &&
+                                                                   !operatorPropertiesUserControl_ForSpectrum.ViewModel.Successful;
+            if (mustFocusOperatorPropertiesUserControl_ForSpectrum)
+            {
+                operatorPropertiesUserControl_ForSpectrum.Focus();
             }
 
             bool mustFocusOperatorPropertiesUserControl_ForUnbundle = operatorPropertiesUserControl_ForUnbundle.Visible &&
