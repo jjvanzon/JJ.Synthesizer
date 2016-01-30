@@ -84,7 +84,7 @@
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\SlowDown OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\SpeedUp OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\SquareWave OperatorCalculator Classes.cs" />
+    <Compile Include="Calculation\Operators\Pulse OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Subtract OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\TimePower OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Earlier OperatorCalculator Classes.cs" />

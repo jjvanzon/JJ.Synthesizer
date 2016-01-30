@@ -2,9 +2,6 @@
 using System.Linq.Expressions;
 using JJ.Framework.Reflection.Exceptions;
 
-// TODO: Rename file from "SquareWave OperatorCalculator Classes.cs" to
-// "Pulse OperatorCalculator Classes.cs"
-
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Pulse_ConstFrequency_ConstWidth_ConstPhaseShift_OperatorCalculator : OperatorCalculatorBase
