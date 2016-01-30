@@ -14,6 +14,7 @@ using JJ.Business.Synthesizer.Enums;
 using System.Linq;
 using JJ.Business.Synthesizer.Calculation.Curves;
 using JJ.Business.Synthesizer.Calculation.Samples;
+using System.Reflection;
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {
@@ -59,6 +60,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             public string Name { get; private set; }
             public int? ListIndex { get; private set; }
         }
+
+        private const double DEFAULT_PULSE_WIDTH = 0.5;
 
         private readonly ICurveRepository _curveRepository;
         private readonly ISampleRepository _sampleRepository;
@@ -737,7 +740,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                throw new Exception("Error in Narrower Operator optimization. No approproate variation on the calculation was found.");
+                throw new Exception(String.Format("Error in {0} optimization. No approproate variation on the calculation was found.", MethodBase.GetCurrentMethod().Name));
             }
 
             _stack.Push(calculator);
@@ -816,16 +819,15 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             phaseShiftCalculator = phaseShiftCalculator ?? new Zero_OperatorCalculator();
 
             double frequency = frequencyCalculator.Calculate(0, 0);
-            double width = widthCalculator.Calculate(0, 0);
-            double phaseShift = phaseShiftCalculator.Calculate(0, 0);
+            double width = widthCalculator.Calculate(0, 0) % 1.0;
+            double phaseShift = phaseShiftCalculator.Calculate(0, 0) % 1.0;
 
             bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
             bool widthIsConst = widthCalculator is Number_OperatorCalculator;
             bool phaseShiftIsConst = phaseShiftCalculator is Number_OperatorCalculator;
 
             bool frequencyIsConstZero = frequencyIsConst && frequency == 0.0;
-            bool widthIsConstHalf = widthIsConst && width == 0.5;
-            bool phaseShiftIsConstZero = phaseShiftIsConst && phaseShift == 0.0;
+            bool widthIsConstZero = widthIsConst && width == 0.0;
 
             bool frequencyIsConstSpecialNumber = frequencyIsConst && (Double.IsNaN(frequency) || Double.IsInfinity(frequency));
             bool widthIsConstSpecialNumber = widthIsConst && (Double.IsNaN(width) || Double.IsInfinity(width));
@@ -843,10 +845,45 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 //  but I feel I would have to make disproportionate effort to take phase shift and width into account.)
                 calculator = new Zero_OperatorCalculator();
             }
-            // TODO: Create specialized calculators depending on the situation.
-            else
+            else if (widthIsConstZero)
+            {
+                calculator = new Zero_OperatorCalculator();
+            }
+            else if (frequencyIsConst && widthIsConst && phaseShiftIsConst)
+            {
+                calculator = new Pulse_ConstFrequency_ConstWidth_ConstPhaseShift_OperatorCalculator(frequency, width, phaseShift);
+            }
+            else if (frequencyIsConst && widthIsConst && !phaseShiftIsConst)
+            {
+                calculator = new Pulse_ConstFrequency_ConstWidth_VarPhaseShift_OperatorCalculator(frequency, width, phaseShiftCalculator);
+            }
+            else if (frequencyIsConst && !widthIsConst && phaseShiftIsConst)
+            {
+                calculator = new Pulse_ConstFrequency_VarWidth_ConstPhaseShift_OperatorCalculator(frequency, widthCalculator, phaseShift);
+            }
+            else if (frequencyIsConst && !widthIsConst && !phaseShiftIsConst)
+            {
+                calculator = new Pulse_ConstFrequency_VarWidth_VarPhaseShift_OperatorCalculator(frequency, widthCalculator, phaseShiftCalculator);
+            }
+            else if (!frequencyIsConst && widthIsConst && phaseShiftIsConst)
+            {
+                calculator = new Pulse_VarFrequency_ConstWidth_ConstPhaseShift_OperatorCalculator(frequencyCalculator, width, phaseShift);
+            }
+            else if (!frequencyIsConst && widthIsConst && !phaseShiftIsConst)
+            {
+                calculator = new Pulse_VarFrequency_ConstWidth_VarPhaseShift_OperatorCalculator(frequencyCalculator, width, phaseShiftCalculator);
+            }
+            else if (!frequencyIsConst && !widthIsConst && phaseShiftIsConst)
+            {
+                calculator = new Pulse_VarFrequency_VarWidth_ConstPhaseShift_OperatorCalculator(frequencyCalculator, widthCalculator, phaseShift);
+            }
+            else if (!frequencyIsConst && !widthIsConst && !phaseShiftIsConst)
             {
                 calculator = new Pulse_VarFrequency_VarWidth_VarPhaseShift_OperatorCalculator(frequencyCalculator, widthCalculator, phaseShiftCalculator);
+            }
+            else
+            {
+                throw new Exception(String.Format("Error in {0} optimization. No approproate variation on the calculation was found.", MethodBase.GetCurrentMethod().Name));
             }
 
             _stack.Push(calculator);
@@ -1262,13 +1299,23 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             frequencyCalculator = frequencyCalculator ?? new Zero_OperatorCalculator();
             phaseShiftCalculator = phaseShiftCalculator ?? new Zero_OperatorCalculator();
+
             double frequency = frequencyCalculator.Calculate(0, 0);
-            double phaseShift = phaseShiftCalculator.Calculate(0, 0);
+            double phaseShift = phaseShiftCalculator.Calculate(0, 0) % 1;
+
             bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
             bool phaseShiftIsConst = phaseShiftCalculator is Number_OperatorCalculator;
-            bool frequencyIsConstZero = frequencyIsConst && frequency == 0;
-            bool phaseShiftIsConstZero = phaseShiftIsConst && phaseShift % 1 == 0;
 
+            bool frequencyIsConstZero = frequencyIsConst && frequency == 0;
+
+            bool frequencyIsConstSpecialNumber = frequencyIsConst && (Double.IsNaN(frequency) || Double.IsInfinity(frequency));
+            bool phaseShiftIsConstSpecialNumber = phaseShiftIsConst && (Double.IsNaN(phaseShift) || Double.IsInfinity(phaseShift));
+
+            if (frequencyIsConstSpecialNumber || phaseShiftIsConstSpecialNumber)
+            {
+                // Weird number
+                calculator = new Number_OperatorCalculator(Double.NaN);
+            }
             if (frequencyIsConstZero)
             {
                 // Weird number
@@ -1276,19 +1323,23 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (frequencyIsConst && phaseShiftIsConst)
             {
-                calculator = new SquareWave_WithConstFrequency_WithConstPhaseShift_OperatorCalculator(frequency, phaseShift);
+                calculator = new Pulse_ConstFrequency_ConstWidth_ConstPhaseShift_OperatorCalculator(frequency, DEFAULT_PULSE_WIDTH, phaseShift);
             }
             else if (!frequencyIsConst && phaseShiftIsConst)
             {
-                calculator = new SquareWave_WithVarFrequency_WithConstPhaseShift_OperatorCalculator(frequencyCalculator, phaseShift);
+                calculator = new Pulse_VarFrequency_ConstWidth_ConstPhaseShift_OperatorCalculator(frequencyCalculator, DEFAULT_PULSE_WIDTH, phaseShift);
             }
             else if (frequencyIsConst && !phaseShiftIsConst)
             {
-                calculator = new SquareWave_WithConstFrequency_WithVarPhaseShift_OperatorCalculator(frequency, phaseShiftCalculator);
+                calculator = new Pulse_ConstFrequency_ConstWidth_VarPhaseShift_OperatorCalculator(frequency, DEFAULT_PULSE_WIDTH, phaseShiftCalculator);
+            }
+            else if (!frequencyIsConst && !phaseShiftIsConst)
+            {
+                calculator = new Pulse_VarFrequency_ConstWidth_VarPhaseShift_OperatorCalculator(frequencyCalculator, DEFAULT_PULSE_WIDTH, phaseShiftCalculator);
             }
             else
             {
-                calculator = new SquareWave_WithVarFrequency_WithVarPhaseShift_OperatorCalculator(frequencyCalculator, phaseShiftCalculator);
+                throw new Exception(String.Format("Error in {0} optimization. No approproate variation on the calculation was found.", MethodBase.GetCurrentMethod().Name));
             }
 
             _stack.Push(calculator);
@@ -1410,7 +1461,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                throw new Exception("Error in Stretch Operator optimization. No approproate variation on the calculation was found.");
+                throw new Exception(String.Format("Error in {0} optimization. No approproate variation on the calculation was found.", MethodBase.GetCurrentMethod().Name));
             }
 
             _stack.Push(calculator);
