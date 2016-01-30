@@ -54,9 +54,6 @@
     <Compile Include="Calculation\Operators\Multiply OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\OperatorCalculatorBase_WithChildCalculators.cs" />
     <Compile Include="Calculation\Operators\Narrower OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\2016-01-28 Backup of Spectrum_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\2016-01-26 Backup of Spectrum_OperatorCalculator %282%29.cs" />
-    <Compile Include="Calculation\Operators\2016-01-30 Backup of Pulse OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Spectrum_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Stretch OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\VariableInput_OperatorCalculator.cs" />

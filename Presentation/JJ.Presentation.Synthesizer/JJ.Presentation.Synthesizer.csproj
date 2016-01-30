@@ -45,7 +45,6 @@
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Helpers\MustNotConvertToOutletViewModelException.cs" />
     <Compile Include="Helpers\MustNotConvertToInletViewModelException.cs" />
-    <Compile Include="Helpers\2016-01-27 Backup of PatchCalculatorTypeEnum.cs" />
     <Compile Include="Helpers\PresentationPropertyNames.cs" />
     <Compile Include="Presenters\CurrentPatchesPresenter.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForSpectrum.cs" />
