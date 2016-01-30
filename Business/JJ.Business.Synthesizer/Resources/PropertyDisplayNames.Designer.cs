@@ -844,6 +844,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pulse.
+        /// </summary>
+        public static string Pulse {
+            get {
+                return ResourceManager.GetString("Pulse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ratio.
         /// </summary>
         public static string Ratio {
@@ -1290,6 +1299,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string WhiteNoise {
             get {
                 return ResourceManager.GetString("WhiteNoise", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Width.
+        /// </summary>
+        public static string Width {
+            get {
+                return ResourceManager.GetString("Width", resourceCulture);
             }
         }
     }

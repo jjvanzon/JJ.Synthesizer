@@ -358,6 +358,46 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
+        protected override void VisitEarlier(Operator op)
+        {
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase timeDifferenceCalculator = _stack.Pop();
+
+            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
+            timeDifferenceCalculator = timeDifferenceCalculator ?? new Zero_OperatorCalculator();
+            double signal = signalCalculator.Calculate(0, 0);
+            double timeDifference = timeDifferenceCalculator.Calculate(0, 0);
+            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+            bool timeDifferenceIsConst = timeDifferenceCalculator is Number_OperatorCalculator;
+            bool signalIsConstZero = signalIsConst && signal == 0;
+            bool timeDifferenceIsConstZero = timeDifferenceIsConst && signal == 0;
+
+            if (signalIsConstZero)
+            {
+                calculator = new Zero_OperatorCalculator();
+            }
+            else if (timeDifferenceIsConstZero)
+            {
+                calculator = signalCalculator;
+            }
+            else if (signalIsConst)
+            {
+                calculator = signalCalculator;
+            }
+            else if (timeDifferenceIsConst)
+            {
+                calculator = new Earlier_WithConstTimeDifference_OperatorCalculator(signalCalculator, timeDifference);
+            }
+            else
+            {
+                calculator = new Earlier_OperatorCalculator(signalCalculator, timeDifferenceCalculator);
+            }
+
+            _stack.Push(calculator);
+        }
+
         protected override void VisitExponent(Operator op)
         {
             OperatorCalculatorBase calculator;
@@ -758,6 +798,55 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             else
             {
                 calculator = new Power_OperatorCalculator(baseCalculator, exponentCalculator);
+            }
+
+            _stack.Push(calculator);
+        }
+
+        protected override void VisitPulse(Operator op)
+        {
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase frequencyCalculator = _stack.Pop();
+            OperatorCalculatorBase widthCalculator = _stack.Pop();
+            OperatorCalculatorBase phaseShiftCalculator = _stack.Pop();
+
+            frequencyCalculator = frequencyCalculator ?? new Zero_OperatorCalculator();
+            widthCalculator = widthCalculator ?? new Number_OperatorCalculator(0.5);
+            phaseShiftCalculator = phaseShiftCalculator ?? new Zero_OperatorCalculator();
+
+            double frequency = frequencyCalculator.Calculate(0, 0);
+            double width = widthCalculator.Calculate(0, 0);
+            double phaseShift = phaseShiftCalculator.Calculate(0, 0);
+
+            bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
+            bool widthIsConst = widthCalculator is Number_OperatorCalculator;
+            bool phaseShiftIsConst = phaseShiftCalculator is Number_OperatorCalculator;
+
+            bool frequencyIsConstZero = frequencyIsConst && frequency == 0.0;
+            bool widthIsConstHalf = widthIsConst && width == 0.5;
+            bool phaseShiftIsConstZero = phaseShiftIsConst && phaseShift == 0.0;
+
+            bool frequencyIsConstSpecialNumber = frequencyIsConst && (Double.IsNaN(frequency) || Double.IsInfinity(frequency));
+            bool widthIsConstSpecialNumber = widthIsConst && (Double.IsNaN(width) || Double.IsInfinity(width));
+            bool phaseShiftIsConstSpecialNumber = phaseShiftIsConst && (Double.IsNaN(phaseShift) || Double.IsInfinity(phaseShift));
+
+            if (frequencyIsConstSpecialNumber || widthIsConstSpecialNumber || phaseShiftIsConstSpecialNumber)
+            {
+                // Weird Number
+                calculator = new Number_OperatorCalculator(Double.NaN);
+            }
+            else if (frequencyIsConstZero)
+            {
+                // Weird Number
+                // (Frequency 0 means time stands still. In theory this could produce a different value than 0.
+                //  but I feel I would have to make disproportionate effort to take phase shift and width into account.)
+                calculator = new Zero_OperatorCalculator();
+            }
+            // TODO: Create specialized calculators depending on the situation.
+            else
+            {
+                calculator = new Pulse_VarFrequency_VarWidth_VarPhaseShift_OperatorCalculator(frequencyCalculator, widthCalculator, phaseShiftCalculator);
             }
 
             _stack.Push(calculator);
@@ -1322,46 +1411,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             else
             {
                 throw new Exception("Error in Stretch Operator optimization. No approproate variation on the calculation was found.");
-            }
-
-            _stack.Push(calculator);
-        }
-
-        protected override void VisitEarlier(Operator op)
-        {
-            OperatorCalculatorBase calculator;
-
-            OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase timeDifferenceCalculator = _stack.Pop();
-
-            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
-            timeDifferenceCalculator = timeDifferenceCalculator ?? new Zero_OperatorCalculator();
-            double signal = signalCalculator.Calculate(0, 0);
-            double timeDifference = timeDifferenceCalculator.Calculate(0, 0);
-            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
-            bool timeDifferenceIsConst = timeDifferenceCalculator is Number_OperatorCalculator;
-            bool signalIsConstZero = signalIsConst && signal == 0;
-            bool timeDifferenceIsConstZero = timeDifferenceIsConst && signal == 0;
-
-            if (signalIsConstZero)
-            {
-                calculator = new Zero_OperatorCalculator();
-            }
-            else if (timeDifferenceIsConstZero)
-            {
-                calculator = signalCalculator;
-            }
-            else if (signalIsConst)
-            {
-                calculator = signalCalculator;
-            }
-            else if (timeDifferenceIsConst)
-            {
-                calculator = new Earlier_WithConstTimeDifference_OperatorCalculator(signalCalculator, timeDifference);
-            }
-            else
-            {
-                calculator = new Earlier_OperatorCalculator(signalCalculator, timeDifferenceCalculator);
             }
 
             _stack.Push(calculator);

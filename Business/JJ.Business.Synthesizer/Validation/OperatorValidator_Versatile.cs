@@ -32,6 +32,7 @@ namespace JJ.Business.Synthesizer.Validation
             { OperatorTypeEnum.PatchInlet, typeof(OperatorValidator_PatchInlet) },
             { OperatorTypeEnum.PatchOutlet, typeof(OperatorValidator_PatchOutlet) },
             { OperatorTypeEnum.Power, typeof(OperatorValidator_Power) },
+            { OperatorTypeEnum.Pulse, typeof(OperatorValidator_Pulse) },
             { OperatorTypeEnum.Resample, typeof(OperatorValidator_Resample) },
             { OperatorTypeEnum.Reset, typeof(OperatorValidator_Reset) },
             { OperatorTypeEnum.Sample, typeof(OperatorValidator_Sample) },

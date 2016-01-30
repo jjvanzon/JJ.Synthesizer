@@ -570,6 +570,21 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        public Pulse_OperatorWrapper Pulse(Outlet frequency = null, Outlet width = null, Outlet phaseShift = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Pulse, inletCount: 3, outletCount: 1);
+
+            var wrapper = new Pulse_OperatorWrapper(op)
+            {
+                Frequency = frequency,
+                Width = width,
+                PhaseShift = phaseShift
+            };
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+            return wrapper;
+        }
+
         public Stretch_OperatorWrapper Stretch(Outlet signal = null, Outlet factor = null, Outlet origin = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Stretch, inletCount: 3, outletCount: 1);

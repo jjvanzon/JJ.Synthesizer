@@ -532,4 +532,10 @@
   <data name="FrequencyCount" xml:space="preserve">
     <value>Number of Frequencies</value>
   </data>
+  <data name="Pulse" xml:space="preserve">
+    <value>Pulse</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>Width</value>
+  </data>
 </root>

@@ -219,6 +219,11 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.SquareWave(frequency, phaseShift);
         }
 
+        public Pulse_OperatorWrapper Pulse(Outlet frequency = null, Outlet width = null, Outlet phaseShift = null)
+        {
+            return _patchManager.Pulse(frequency, width, phaseShift);
+        }
+
         public Stretch_OperatorWrapper Stretch(Outlet signal = null, Outlet factor = null, Outlet origin = null)
         {
             return _patchManager.Stretch(signal, factor, origin);

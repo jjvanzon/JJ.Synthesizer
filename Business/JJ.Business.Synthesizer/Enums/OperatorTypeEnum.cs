@@ -64,6 +64,8 @@
 
         LowPassFilter = 33,
         HighPassFilter = 34,
-        Spectrum = 35
+        Spectrum = 35,
+
+        Pulse = 36
     }
 }

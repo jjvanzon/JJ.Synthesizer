@@ -56,6 +56,7 @@
     <Compile Include="Calculation\Operators\Narrower OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\2016-01-28 Backup of Spectrum_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\2016-01-26 Backup of Spectrum_OperatorCalculator %282%29.cs" />
+    <Compile Include="Calculation\Operators\Pulse OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Spectrum_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Stretch OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\VariableInput_OperatorCalculator.cs" />
@@ -127,6 +128,7 @@
     <Compile Include="EntityWrappers\Reset_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Shift_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Narrower_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\Pulse_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Stretch_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Unbundle_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Bundle_OperatorWrapper.cs" />
@@ -215,6 +217,7 @@
     <Compile Include="Validation\OperatorValidator_Shift.cs" />
     <Compile Include="Validation\OperatorValidator_Narrower.cs" />
     <Compile Include="Validation\OperatorValidator_Spectrum.cs" />
+    <Compile Include="Validation\OperatorValidator_Pulse.cs" />
     <Compile Include="Validation\OperatorValidator_Stretch.cs" />
     <Compile Include="Validation\OutletValidator_ForOtherOperator.cs" />
     <Compile Include="Validation\InletValidator_ForOtherOperator.cs" />
@@ -234,6 +237,7 @@
     <Compile Include="Warnings\OperatorWarningValidator_Shift.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Narrower.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Spectrum.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_Pulse.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Stretch.cs" />
     <Compile Include="WavHeaderManager.cs" />
     <Compile Include="Resources\Messages.Designer.cs">
