@@ -413,6 +413,22 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        public Random_OperatorWrapper Random(Outlet frequency = null, Outlet phaseShift = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Random, inletCount: 2, outletCount: 1);
+
+            var wrapper = new Random_OperatorWrapper(op)
+            {
+                Frequency = frequency,
+                PhaseShift = phaseShift,
+                InterpolationTypeEnum = InterpolationTypeEnum.Block
+            };
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+
+            return wrapper;
+        }
+
         public Resample_OperatorWrapper Resample(Outlet signal = null, Outlet samplingRate = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Resample, inletCount: 2, outletCount: 1);

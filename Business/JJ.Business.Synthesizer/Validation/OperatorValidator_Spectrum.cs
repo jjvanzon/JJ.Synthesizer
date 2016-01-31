@@ -34,7 +34,6 @@ namespace JJ.Business.Synthesizer.Validation
                 .NotNullOrEmpty()
                 .IsInteger();
 
-
             double startTime;
             if (Double.TryParse(startTimeString, out startTime))
             {

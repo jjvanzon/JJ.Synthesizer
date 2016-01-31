@@ -44,6 +44,7 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             RepositoryHelper.EnsureEnumEntity(this, 34, "HighPassFilter");
             RepositoryHelper.EnsureEnumEntity(this, 35, "Spectrum");
             RepositoryHelper.EnsureEnumEntity(this, 36, "Pulse");
+            RepositoryHelper.EnsureEnumEntity(this, 37, "Random");
         }
     }
 }

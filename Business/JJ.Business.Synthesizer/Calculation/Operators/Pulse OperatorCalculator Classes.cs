@@ -15,9 +15,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double width,
             double phaseShift)
         {
-            Pulse_OperatorCalculator_Helper.AssertFrequency(frequency);
-            Pulse_OperatorCalculator_Helper.AssertWidth(width);
-            Pulse_OperatorCalculator_Helper.AssertPhaseShift(phaseShift);
+            OperatorCalculatorHelper.AssertFrequency(frequency);
+            OperatorCalculatorHelper.AssertWidth(width);
+            OperatorCalculatorHelper.AssertPhaseShift(phaseShift);
 
             _frequency = frequency;
             _width = width;
@@ -51,9 +51,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double phaseShift)
             : base(new OperatorCalculatorBase[] { widthCalculator })
         {
-            Pulse_OperatorCalculator_Helper.AssertFrequency(frequency);
-            Pulse_OperatorCalculator_Helper.AssertOperatorCalculatorBase(widthCalculator, () => widthCalculator);
-            Pulse_OperatorCalculator_Helper.AssertPhaseShift(phaseShift);
+            OperatorCalculatorHelper.AssertFrequency(frequency);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(widthCalculator, () => widthCalculator);
+            OperatorCalculatorHelper.AssertPhaseShift(phaseShift);
 
             _frequency = frequency;
             _widthCalculator = widthCalculator;
@@ -89,9 +89,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase phaseShiftCalculator)
             : base(new OperatorCalculatorBase[] { phaseShiftCalculator })
         {
-            Pulse_OperatorCalculator_Helper.AssertFrequency(frequency);
-            Pulse_OperatorCalculator_Helper.AssertWidth(width);
-            Pulse_OperatorCalculator_Helper.AssertOperatorCalculatorBase(phaseShiftCalculator, () => phaseShiftCalculator);
+            OperatorCalculatorHelper.AssertFrequency(frequency);
+            OperatorCalculatorHelper.AssertWidth(width);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(phaseShiftCalculator, () => phaseShiftCalculator);
 
             _frequency = frequency;
             _width = width;
@@ -128,9 +128,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase phaseShiftCalculator)
             : base(new OperatorCalculatorBase[] { widthCalculator, phaseShiftCalculator })
         {
-            Pulse_OperatorCalculator_Helper.AssertFrequency(frequency);
-            Pulse_OperatorCalculator_Helper.AssertOperatorCalculatorBase(widthCalculator, () => widthCalculator);
-            Pulse_OperatorCalculator_Helper.AssertOperatorCalculatorBase(phaseShiftCalculator, () => phaseShiftCalculator);
+            OperatorCalculatorHelper.AssertFrequency(frequency);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(widthCalculator, () => widthCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(phaseShiftCalculator, () => phaseShiftCalculator);
 
             _frequency = frequency;
             _widthCalculator = widthCalculator;
@@ -169,9 +169,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double phaseShift)
             : base(new OperatorCalculatorBase[] { frequencyCalculator })
         {
-            Pulse_OperatorCalculator_Helper.AssertOperatorCalculatorBase(frequencyCalculator, () => frequencyCalculator);
-            Pulse_OperatorCalculator_Helper.AssertWidth(width);
-            Pulse_OperatorCalculator_Helper.AssertPhaseShift(phaseShift);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(frequencyCalculator, () => frequencyCalculator);
+            OperatorCalculatorHelper.AssertWidth(width);
+            OperatorCalculatorHelper.AssertPhaseShift(phaseShift);
 
             _frequencyCalculator = frequencyCalculator;
             _width = width;
@@ -223,9 +223,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double phaseShift)
             : base(new OperatorCalculatorBase[] { frequencyCalculator, widthCalculator })
         {
-            Pulse_OperatorCalculator_Helper.AssertOperatorCalculatorBase(frequencyCalculator, () => frequencyCalculator);
-            Pulse_OperatorCalculator_Helper.AssertOperatorCalculatorBase(widthCalculator, () => widthCalculator);
-            Pulse_OperatorCalculator_Helper.AssertPhaseShift(phaseShift);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(frequencyCalculator, () => frequencyCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(widthCalculator, () => widthCalculator);
+            OperatorCalculatorHelper.AssertPhaseShift(phaseShift);
 
             _frequencyCalculator = frequencyCalculator;
             _widthCalculator = widthCalculator;
@@ -280,9 +280,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase phaseShiftCalculator)
             : base(new OperatorCalculatorBase[] { frequencyCalculator, phaseShiftCalculator })
         {
-            Pulse_OperatorCalculator_Helper.AssertOperatorCalculatorBase(frequencyCalculator, () => frequencyCalculator);
-            Pulse_OperatorCalculator_Helper.AssertWidth(width);
-            Pulse_OperatorCalculator_Helper.AssertOperatorCalculatorBase(phaseShiftCalculator, () => phaseShiftCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(frequencyCalculator, () => frequencyCalculator);
+            OperatorCalculatorHelper.AssertWidth(width);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(phaseShiftCalculator, () => phaseShiftCalculator);
 
             _frequencyCalculator = frequencyCalculator;
             _width = width;
@@ -338,9 +338,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase phaseShiftCalculator)
             : base(new OperatorCalculatorBase[] { frequencyCalculator, widthCalculator, phaseShiftCalculator })
         {
-            Pulse_OperatorCalculator_Helper.AssertOperatorCalculatorBase(frequencyCalculator, () => frequencyCalculator);
-            Pulse_OperatorCalculator_Helper.AssertOperatorCalculatorBase(widthCalculator, () => widthCalculator);
-            Pulse_OperatorCalculator_Helper.AssertOperatorCalculatorBase(phaseShiftCalculator, () => phaseShiftCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(frequencyCalculator, () => frequencyCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(widthCalculator, () => widthCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(phaseShiftCalculator, () => phaseShiftCalculator);
 
             _frequencyCalculator = frequencyCalculator;
             _phaseShiftCalculator = phaseShiftCalculator;
@@ -380,39 +380,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _previousTime = 0.0;
 
             base.ResetState();
-        }
-    }
-
-    internal static class Pulse_OperatorCalculator_Helper
-    {
-        public static void AssertFrequency(double frequency)
-        {
-            if (frequency == 0.0) throw new ZeroException(() => frequency);
-            if (Double.IsNaN(frequency)) throw new NaNException(() => frequency);
-            if (Double.IsInfinity(frequency)) throw new InfinityException(() => frequency);
-        }
-
-        public static void AssertWidth(double width)
-        {
-            if (width == 0.0) throw new ZeroException(() => width);
-            if (width >= 1.0) throw new GreaterThanOrEqualException(() => width, 1.0);
-            if (Double.IsNaN(width)) throw new NaNException(() => width);
-            if (Double.IsInfinity(width)) throw new InfinityException(() => width);
-        }
-
-        public static void AssertPhaseShift(double phaseShift)
-        {
-            if (phaseShift >= 1.0) throw new GreaterThanOrEqualException(() => phaseShift, 1.0);
-            if (Double.IsNaN(phaseShift)) throw new NaNException(() => phaseShift);
-            if (Double.IsInfinity(phaseShift)) throw new InfinityException(() => phaseShift);
-        }
-
-        public static void AssertOperatorCalculatorBase(
-            OperatorCalculatorBase operatorCalculatorBase,
-            Expression<Func<object>> expression)
-        {
-            if (operatorCalculatorBase == null) throw new NullException(expression);
-            if (operatorCalculatorBase is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(expression);
         }
     }
 }

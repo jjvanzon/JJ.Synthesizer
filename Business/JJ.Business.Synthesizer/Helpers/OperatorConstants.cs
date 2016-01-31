@@ -52,6 +52,9 @@
         public const int PULSE_WIDTH_INDEX = 1;
         public const int PULSE_PHASE_SHIFT_INDEX = 2;
         public const int PULSE_RESULT_INDEX = 0;
+        public const int RANDOM_FREQUENCY_INDEX = 0;
+        public const int RANDOM_PHASE_SHIFT_INDEX = 1;
+        public const int RANDOM_RESULT_INDEX = 0;
         public const int RESAMPLE_RESULT_INDEX = 0;
         public const int RESAMPLE_SAMPLING_RATE_INDEX = 1;
         public const int RESAMPLE_SIGNAL_INDEX = 0;

@@ -889,6 +889,58 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
+        protected override void VisitRandom(Operator op)
+        {
+            double whiteNoiseCalculatorOffset;
+            if (!_operator_WhiteNoiseOffsetInSeconds_Dictionary.TryGetValue(op, out whiteNoiseCalculatorOffset))
+            {
+                whiteNoiseCalculatorOffset = _calculatorCache.WhiteNoiseCalculator.GetRandomOffset();
+                _operator_WhiteNoiseOffsetInSeconds_Dictionary.Add(op, whiteNoiseCalculatorOffset);
+            }
+
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase frequencyCalculator = _stack.Pop();
+            OperatorCalculatorBase phaseShiftCalculator = _stack.Pop();
+
+            frequencyCalculator = frequencyCalculator ?? new Zero_OperatorCalculator();
+            phaseShiftCalculator = phaseShiftCalculator ?? new Zero_OperatorCalculator();
+
+            double frequency = frequencyCalculator.Calculate(0, 0);
+            double phaseShift = phaseShiftCalculator.Calculate(0, 0);
+
+            bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
+            bool phaseShiftIsConst = phaseShiftCalculator is Number_OperatorCalculator;
+
+            bool frequencyIsConstZero = frequencyIsConst && frequency == 0;
+            bool phaseShiftIsConstZero = phaseShiftIsConst && phaseShift == 0;
+
+            bool frequencyIsConstSpecialNumber = frequencyIsConst && (Double.IsNaN(frequency) || Double.IsInfinity(frequency));
+            bool phaseShiftIsConstSpecialNumber = phaseShiftIsConst && (Double.IsNaN(phaseShift) || Double.IsInfinity(phaseShift));
+
+            if (frequencyIsConstSpecialNumber || phaseShiftIsConstSpecialNumber)
+            {
+                // Weird number
+                calculator = new Number_OperatorCalculator(Double.NaN);
+            }
+            else if (frequencyIsConstZero)
+            {
+                // Weird number
+                calculator = new Zero_OperatorCalculator();
+            }
+            // TODO: Add more variations.
+            else
+            {
+                calculator = new Random_VarFrequency_VarPhaseShift_BlockInterpolation_OperatorCalculator(
+                    _calculatorCache.WhiteNoiseCalculator,
+                    whiteNoiseCalculatorOffset,
+                    frequencyCalculator,
+                    phaseShiftCalculator);
+            }
+
+            _stack.Push(calculator);
+        }
+
         protected override void VisitResample(Operator op)
         {
             OperatorCalculatorBase calculator;
@@ -1566,11 +1618,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double offset;
             if (!_operator_WhiteNoiseOffsetInSeconds_Dictionary.TryGetValue(op, out offset))
             {
-                offset = _calculatorCache.WiteNoiseCalculator.GetRandomOffset();
+                offset = _calculatorCache.WhiteNoiseCalculator.GetRandomOffset();
                 _operator_WhiteNoiseOffsetInSeconds_Dictionary.Add(op, offset);
             }
 
-            var calculator = new WhiteNoise_OperatorCalculator(_calculatorCache.WiteNoiseCalculator, offset);
+            var calculator = new WhiteNoise_OperatorCalculator(_calculatorCache.WhiteNoiseCalculator, offset);
             _stack.Push(calculator);
         }
 

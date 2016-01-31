@@ -66,6 +66,7 @@
         HighPassFilter = 34,
         Spectrum = 35,
 
-        Pulse = 36
+        Pulse = 36,
+        Random = 37
     }
 }

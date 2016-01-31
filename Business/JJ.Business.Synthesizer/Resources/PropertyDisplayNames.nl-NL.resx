@@ -426,10 +426,6 @@
   <data name="Unbundle" xml:space="preserve">
     <value>Ontbundelen</value>
   </data>
-  <data name="NotUnique_WithPropertyName_AndValue" xml:space="preserve">
-    <value>{0} '{1}' is niet uniek.</value>
-    <comment>{0} = property, {1} = value</comment>
-  </data>
   <data name="Frequencies" xml:space="preserve">
     <value>Frequenties</value>
   </data>
@@ -540,5 +536,8 @@
   </data>
   <data name="Width" xml:space="preserve">
     <value>Breedte</value>
+  </data>
+  <data name="Random" xml:space="preserve">
+    <value>Willekeurig</value>
   </data>
 </root>

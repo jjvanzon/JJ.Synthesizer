@@ -169,6 +169,11 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Power(@base, exponent);
         }
 
+        public Random_OperatorWrapper Random(Outlet frequency = null, Outlet phaseShift = null)
+        {
+            return _patchManager.Random(frequency, phaseShift);
+        }
+
         public Resample_OperatorWrapper Resample(Outlet signal = null, Outlet samplingRate = null)
         {
             return _patchManager.Resample(signal, samplingRate);
