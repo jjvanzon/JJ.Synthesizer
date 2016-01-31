@@ -45,6 +45,15 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             RepositoryHelper.EnsureEnumEntity(this, 35, "Spectrum");
             RepositoryHelper.EnsureEnumEntity(this, 36, "Pulse");
             RepositoryHelper.EnsureEnumEntity(this, 37, "Random");
+            RepositoryHelper.EnsureEnumEntity(this, 38, "Equal");
+            RepositoryHelper.EnsureEnumEntity(this, 39, "NotEqual");
+            RepositoryHelper.EnsureEnumEntity(this, 40, "LessThan");
+            RepositoryHelper.EnsureEnumEntity(this, 41, "GreaterThan");
+            RepositoryHelper.EnsureEnumEntity(this, 42, "LessThanOrEqual");
+            RepositoryHelper.EnsureEnumEntity(this, 43, "GreaterThanOrEqual");
+            RepositoryHelper.EnsureEnumEntity(this, 44, "And");
+            RepositoryHelper.EnsureEnumEntity(this, 45, "Or");
+            RepositoryHelper.EnsureEnumEntity(this, 46, "Not");
         }
     }
 }

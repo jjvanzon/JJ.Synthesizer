@@ -206,6 +206,21 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        public Equal_OperatorWrapper Equal(Outlet a = null, Outlet b = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Equal, inletCount: 2, outletCount: 1);
+
+            var wrapper = new Equal_OperatorWrapper(op)
+            {
+                A = a,
+                B = b
+            };
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+
+            return wrapper;
+        }
+
         public Exponent_OperatorWrapper Exponent(Outlet low = null, Outlet high = null, Outlet ratio = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Exponent, inletCount: 3, outletCount: 1);
@@ -729,6 +744,17 @@ namespace JJ.Business.Synthesizer
                     case OperatorTypeEnum.Bundle:
                     case OperatorTypeEnum.Unbundle:
                     case OperatorTypeEnum.Spectrum:
+                        continue;
+
+                    // TODO: These Temporarily (2016-01-31) have no method, but will later.
+                    case OperatorTypeEnum.NotEqual:
+                    case OperatorTypeEnum.LessThan:
+                    case OperatorTypeEnum.GreaterThan:
+                    case OperatorTypeEnum.LessThanOrEqual:
+                    case OperatorTypeEnum.GreaterThanOrEqual:
+                    case OperatorTypeEnum.And:
+                    case OperatorTypeEnum.Or:
+                    case OperatorTypeEnum.Not:
                         continue;
 
                     case OperatorTypeEnum.CustomOperator:

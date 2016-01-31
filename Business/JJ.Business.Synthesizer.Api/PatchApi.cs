@@ -83,6 +83,11 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Earlier(signal, timeDifference);
         }
 
+        public Equal_OperatorWrapper Equal(Outlet a = null, Outlet b = null)
+        {
+            return _patchManager.Equal(a, b);
+        }
+
         public Exponent_OperatorWrapper Exponent(Outlet low = null, Outlet high = null, Outlet ratio = null)
         {
             return _patchManager.Exponent(low, high, ratio);

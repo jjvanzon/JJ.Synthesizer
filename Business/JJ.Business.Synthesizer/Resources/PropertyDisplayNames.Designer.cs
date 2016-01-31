@@ -61,6 +61,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to a.
+        /// </summary>
+        public static string A {
+            get {
+                return ResourceManager.GetString("A", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add.
         /// </summary>
         public static string Add {
@@ -120,6 +129,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string AudioFileOutputs {
             get {
                 return ResourceManager.GetString("AudioFileOutputs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to b.
+        /// </summary>
+        public static string B {
+            get {
+                return ResourceManager.GetString("B", resourceCulture);
             }
         }
         
@@ -372,6 +390,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string EndTime {
             get {
                 return ResourceManager.GetString("EndTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to =.
+        /// </summary>
+        public static string Equal {
+            get {
+                return ResourceManager.GetString("Equal", resourceCulture);
             }
         }
         

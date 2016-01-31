@@ -8,6 +8,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal static class OperatorCalculatorHelper
     {
+        public static void AssertIsNotSpecialNumber(double value, Expression<Func<object>> expression)
+        {
+            if (Double.IsNaN(value)) throw new NaNException(expression);
+            if (Double.IsInfinity(value)) throw new InfinityException(expression);
+        }
+
         public static void AssertFrequency(double frequency)
         {
             if (frequency == 0.0) throw new ZeroException(() => frequency);

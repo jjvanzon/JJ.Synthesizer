@@ -541,4 +541,13 @@
   <data name="Random" xml:space="preserve">
     <value>Random</value>
   </data>
+  <data name="A" xml:space="preserve">
+    <value>a</value>
+  </data>
+  <data name="B" xml:space="preserve">
+    <value>b</value>
+  </data>
+  <data name="Equal" xml:space="preserve">
+    <value>=</value>
+  </data>
 </root>

@@ -24,6 +24,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.Delay, VisitDelay },
                 { OperatorTypeEnum.Divide, VisitDivide },
                 { OperatorTypeEnum.Earlier, VisitEarlier },
+                { OperatorTypeEnum.Equal, VisitEqual },
                 { OperatorTypeEnum.Exponent, VisitExponent },
                 { OperatorTypeEnum.HighPassFilter, VisitHighPassFilter },
                 { OperatorTypeEnum.Loop, VisitLoop },
@@ -117,6 +118,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         /// <summary> does nothing </summary>
         protected virtual void VisitEarlier(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitEqual(Operator op) { }
 
         /// <summary> does nothing </summary>
         protected virtual void VisitExponent(Operator op) { }

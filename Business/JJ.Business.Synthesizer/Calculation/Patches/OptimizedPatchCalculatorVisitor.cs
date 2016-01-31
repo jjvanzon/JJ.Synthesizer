@@ -686,9 +686,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             bool factorIsConstOne = factorIsConst && factor == 1;
 
-            bool signalIsConstSpecialNumber = signalIsConst && Double.IsNaN(signal) || Double.IsInfinity(signal);
-            bool factorIsConstSpecialNumber = factorIsConst && Double.IsNaN(factor) || Double.IsInfinity(factor);
-            bool originIsConstSpecialNumber = originIsConst && Double.IsNaN(origin) || Double.IsInfinity(origin);
+            bool signalIsConstSpecialNumber = signalIsConst && (Double.IsNaN(signal) || Double.IsInfinity(signal));
+            bool factorIsConstSpecialNumber = factorIsConst && (Double.IsNaN(factor) || Double.IsInfinity(factor));
+            bool originIsConstSpecialNumber = originIsConst && (Double.IsNaN(origin) || Double.IsInfinity(origin));
 
             if (signalIsConstSpecialNumber || factorIsConstSpecialNumber || originIsConstSpecialNumber)
             {
@@ -741,7 +741,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                throw new Exception(String.Format("Error in {0} optimization. No approproate variation on the calculation was found.", MethodBase.GetCurrentMethod().Name));
+                throw new NoCalculatorException(MethodBase.GetCurrentMethod());
             }
 
             _stack.Push(calculator);
@@ -884,7 +884,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                throw new Exception(String.Format("Error in {0} optimization. No approproate variation on the calculation was found.", MethodBase.GetCurrentMethod().Name));
+                throw new NoCalculatorException(MethodBase.GetCurrentMethod());
             }
 
             _stack.Push(calculator);
@@ -1052,7 +1052,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 }
                 else
                 {
-                    throw new Exception(String.Format("Combination of sampleChannelCount '{0}' and _channelCount '{1}' not supported.", sampleChannelCount, _channelCount));
+                    throw new NoCalculatorException(MethodBase.GetCurrentMethod());
                 }
             }
 
@@ -1207,8 +1207,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             bool factorIsConstOne = factorIsConst && factor == 1;
 
-            bool signalIsConstSpecialNumber = signalIsConst && Double.IsNaN(signal) || Double.IsInfinity(signal);
-            bool factorIsConstSpecialNumber = factorIsConst && Double.IsNaN(factor) || Double.IsInfinity(factor);
+            bool signalIsConstSpecialNumber = signalIsConst && (Double.IsNaN(signal) || Double.IsInfinity(signal));
+            bool factorIsConstSpecialNumber = factorIsConst && (Double.IsNaN(factor) || Double.IsInfinity(factor));
 
             if (factorIsConstSpecialNumber)
             {
@@ -1263,13 +1263,17 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             double signal = signalCalculator.Calculate(0, 0);
             double factor = factorCalculator.Calculate(0, 0);
+
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool factorIsConst = factorCalculator is Number_OperatorCalculator;
+
             bool signalIsConstZero = signalIsConst && signal == 0;
             bool factorIsConstZero = factorIsConst && factor == 0;
+
             bool factorIsConstOne = factorIsConst && factor == 1;
-            bool signalIsConstSpecialNumber = signalIsConst && Double.IsNaN(signal) || Double.IsInfinity(signal);
-            bool factorIsConstSpecialNumber = factorIsConst && Double.IsNaN(factor) || Double.IsInfinity(factor);
+
+            bool signalIsConstSpecialNumber = signalIsConst && (Double.IsNaN(signal) || Double.IsInfinity(signal));
+            bool factorIsConstSpecialNumber = factorIsConst && (Double.IsNaN(factor) || Double.IsInfinity(factor));
 
             if (factorIsConstSpecialNumber)
             {
@@ -1322,7 +1326,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double signal = signalCalculator.Calculate(0, 0);
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool signalIsConstZero = signalIsConst && signal == 0;
-            bool signalIsConstSpecialNumber = signalIsConst && Double.IsNaN(signal) || Double.IsInfinity(signal);
+            bool signalIsConstSpecialNumber = signalIsConst && (Double.IsNaN(signal) || Double.IsInfinity(signal));
 
             if (signalIsConstSpecialNumber)
             {
@@ -1400,7 +1404,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                throw new Exception(String.Format("Error in {0} optimization. No approproate variation on the calculation was found.", MethodBase.GetCurrentMethod().Name));
+                throw new NoCalculatorException(MethodBase.GetCurrentMethod());
             }
 
             _stack.Push(calculator);
@@ -1522,7 +1526,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                throw new Exception(String.Format("Error in {0} optimization. No approproate variation on the calculation was found.", MethodBase.GetCurrentMethod().Name));
+                throw new NoCalculatorException(MethodBase.GetCurrentMethod());
             }
 
             _stack.Push(calculator);

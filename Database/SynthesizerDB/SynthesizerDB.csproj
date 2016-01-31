@@ -147,6 +147,7 @@
     <Content Include="2015-11-23 030 SynthesizerDB fill Document.GroupName.sql" />
     <Content Include="2015-11-26 010 SynthesizerDB drop table ChildDocumentType and Document.ChildDocumentID and IXs and FKs.sql" />
     <Content Include="2016-01-06 010 SynthesizerDB Operator.Data replace comma decimal symbol with period.sql" />
+    <Content Include="2016-01-31 020 SynthesizerDB Comparative and Logical OperatorTypes.sql" />
     <Content Include="2016-01-31 010 SynthesizerDB OperatorType 37 - Random.sql" />
     <Content Include="2016-01-30 010 SynthesizerDB OperatorType 36 - Pulse.sql" />
     <Content Include="2016-01-28 010 SynthesizerDB OperatorType 35 - Spectrum.sql" />

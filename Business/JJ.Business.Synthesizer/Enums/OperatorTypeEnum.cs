@@ -20,6 +20,13 @@
         Number = 15,
         Curve = 16,
         Sample = 17,
+
+        /// <summary>
+        /// The WhiteNoise operator is for generating noise sound.
+        /// To generate random numbers, use the Random operator instead,
+        /// because white noise generates numbers between -1 and 1
+        /// and Random between 0 and 1 and it has other advantanges for random number generation too.
+        /// </summary>
         WhiteNoise = 18,
         Resample = 19,
         CustomOperator = 20,
@@ -67,6 +74,22 @@
         Spectrum = 35,
 
         Pulse = 36,
-        Random = 37
+
+        /// <summary>
+        /// More suited to the needs of generating random numbers than the WhiteNoise operator,
+        /// because it generates numbers between 0 and 1, instead of between -1 and 1,
+        /// offers interpolation options and explicit control over duration of a random value.
+        /// </summary>
+        Random = 37,
+
+        Equal = 38,
+        NotEqual = 39,
+        LessThan = 40,
+        GreaterThan = 41,
+        LessThanOrEqual = 42,
+        GreaterThanOrEqual = 43,
+        And = 44,
+        Or = 45,
+        Not = 46
     }
 }

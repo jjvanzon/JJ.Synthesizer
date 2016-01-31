@@ -22,6 +22,7 @@ namespace JJ.Business.Synthesizer.Validation
             { OperatorTypeEnum.Delay, typeof(OperatorValidator_Delay) },
             { OperatorTypeEnum.Divide, typeof(OperatorValidator_Divide) },
             { OperatorTypeEnum.Earlier, typeof(OperatorValidator_Earlier) },
+            { OperatorTypeEnum.Equal, typeof(OperatorValidator_Equal) },
             { OperatorTypeEnum.Exponent, typeof(OperatorValidator_Exponent) },
             { OperatorTypeEnum.HighPassFilter, typeof(OperatorValidator_HighPassFilter) },
             { OperatorTypeEnum.Loop, typeof(OperatorValidator_Loop) },
