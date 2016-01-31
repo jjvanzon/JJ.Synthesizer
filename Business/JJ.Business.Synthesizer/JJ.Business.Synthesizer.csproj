@@ -107,15 +107,17 @@
     </Compile>
     <Compile Include="Calculation\Patches\PatchCalculationHelper.cs" />
     <Compile Include="Calculation\Random\RandomCalculatorBase.cs" />
-    <Compile Include="Calculation\Samples\BlockInterpolation_SampleCalculatorBase.cs" />
-    <Compile Include="Calculation\Samples\Byte_BlockInterpolation_SampleCalculator.cs" />
+    <Compile Include="Calculation\Random\RandomCalculatorFactory.cs" />
+    <Compile Include="Calculation\Random\RandomCalculator_LineInterpolation.cs" />
+    <Compile Include="Calculation\Samples\SampleCalculator_BlockInterpolation_Base.cs" />
+    <Compile Include="Calculation\Samples\SampleCalculator_BlockInterpolation_Byte.cs" />
     <Compile Include="Calculation\Curves\InterpretedCurveCalculator.cs" />
-    <Compile Include="Calculation\Samples\Byte_LineInterpolation_SampleCalculator.cs" />
-    <Compile Include="Calculation\Samples\Int16_LineInterpolation_SampleCalculator.cs" />
-    <Compile Include="Calculation\Samples\LineInterpolation_SampleCalculatorBase.cs" />
+    <Compile Include="Calculation\Samples\SampleCalculator_LineInterpolation_Byte.cs" />
+    <Compile Include="Calculation\Samples\SampleCalculator_LineInterpolation_Int16.cs" />
+    <Compile Include="Calculation\Samples\SampleCalculator_LineInterpolation_Base.cs" />
     <Compile Include="Calculation\Samples\ISampleCalculator.cs" />
-    <Compile Include="Calculation\Samples\Int16_BlockInterpolation_SampleCalculator.cs" />
-    <Compile Include="Calculation\Samples\Zero_SampleCalculator.cs" />
+    <Compile Include="Calculation\Samples\SampleCalculator_BlockInterpolation_Int16.cs" />
+    <Compile Include="Calculation\Samples\SampleCalculator_Zero.cs" />
     <Compile Include="Calculation\Samples\SampleCalculatorBase.cs" />
     <Compile Include="Calculation\Samples\SampleCalculatorFactory.cs" />
     <Compile Include="Calculation\SineCalculator.cs" />

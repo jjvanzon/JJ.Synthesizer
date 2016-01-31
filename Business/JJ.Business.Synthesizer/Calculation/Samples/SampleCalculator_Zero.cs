@@ -1,10 +1,10 @@
 ﻿namespace JJ.Business.Synthesizer.Calculation.Samples
 {
-    internal class Zero_SampleCalculator : ISampleCalculator
+    internal class SampleCalculator_Zero : ISampleCalculator
     {
         private readonly int _channelCount;
 
-        public Zero_SampleCalculator(int channelCount)
+        public SampleCalculator_Zero(int channelCount)
         {
             _channelCount = channelCount;
         }

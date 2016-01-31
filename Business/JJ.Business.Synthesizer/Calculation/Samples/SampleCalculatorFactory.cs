@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
 
             if (bytes == null || bytes.Length == 0 || !sample.IsActive)
             {
-                return new Zero_SampleCalculator(sample.GetChannelCount());
+                return new SampleCalculator_Zero(sample.GetChannelCount());
             }
 
             SampleDataTypeEnum sampleDataType = sample.GetSampleDataTypeEnum();
@@ -27,10 +27,10 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
                     switch (sampleDataType)
                     {
                         case SampleDataTypeEnum.Int16:
-                            return new Int16_BlockInterpolation_SampleCalculator(sample, bytes);
+                            return new SampleCalculator_BlockInterpolation_Int16(sample, bytes);
 
                         case SampleDataTypeEnum.Byte:
-                            return new Byte_BlockInterpolation_SampleCalculator(sample, bytes);
+                            return new SampleCalculator_BlockInterpolation_Byte(sample, bytes);
                     }
                     break;
 
@@ -38,10 +38,10 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
                     switch (sampleDataType)
                     {
                         case SampleDataTypeEnum.Int16:
-                            return new Int16_LineInterpolation_SampleCalculator(sample, bytes);
+                            return new SampleCalculator_LineInterpolation_Int16(sample, bytes);
 
                         case SampleDataTypeEnum.Byte:
-                            return new Byte_LineInterpolation_SampleCalculator(sample, bytes);
+                            return new SampleCalculator_LineInterpolation_Byte(sample, bytes);
                     }
                     break;
             }

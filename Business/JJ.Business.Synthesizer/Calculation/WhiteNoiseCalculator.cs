@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Calculation
 
         private readonly int _samplingRate;
         private readonly double[] _samples;
-        private readonly int _sampleCountMinus1;
+        private readonly int _sampleCount;
 
         /// <summary>
         /// White noise is generated not on the fly, but by a cached 10 seconds of noise,
@@ -35,16 +35,14 @@ namespace JJ.Business.Synthesizer.Calculation
             if (samplingRate <= 0) throw new LessThanOrEqualException(() => samplingRate, 0);
             _samplingRate = samplingRate;
 
-            int sampleCount = _samplingRate * PRE_CALCULATED_SECONDS;
+            _sampleCount = _samplingRate * PRE_CALCULATED_SECONDS;
 
-            _samples = new double[sampleCount];
-            for (int i = 0; i < sampleCount; i++)
+            _samples = new double[_sampleCount];
+            for (int i = 0; i < _sampleCount; i++)
             {
                 double noiseSample = Randomizer.GetDouble() * 2.0 - 1.0;
                 _samples[i] = noiseSample;
             }
-
-            _sampleCountMinus1 = sampleCount - 1;
         }
 
         /// <summary> 
@@ -69,7 +67,7 @@ namespace JJ.Business.Synthesizer.Calculation
 
             double t = time * _samplingRate;
 
-            t = t % _sampleCountMinus1;
+            t = t % _sampleCount;
 
             int t0 = (int)t;
 

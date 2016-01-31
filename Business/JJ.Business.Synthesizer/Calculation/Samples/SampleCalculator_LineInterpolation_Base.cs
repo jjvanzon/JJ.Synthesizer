@@ -2,10 +2,10 @@
 
 namespace JJ.Business.Synthesizer.Calculation.Samples
 {
-    internal abstract class BlockInterpolation_SampleCalculatorBase : SampleCalculatorBase
+    internal abstract class SampleCalculator_LineInterpolation_Base : SampleCalculatorBase
     {
-        public BlockInterpolation_SampleCalculatorBase(Sample sample, byte[] bytes)
-            : base(sample, bytes, extraSampleCount: 0)
+        public SampleCalculator_LineInterpolation_Base(Sample sample, byte[] bytes)
+            : base(sample, bytes, extraSampleCount: 1)
         { }
 
         public override double CalculateValue(double time, int channelIndex)
@@ -16,10 +16,15 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
             if (time > _duration) return _valueAfter;
 
             double t = time * _rate;
-            int t0 = (int)t;
 
-            double value = _samples[channelIndex, t0];
-            return value;
+            int t0 = (int)t;
+            int t1 = t0 + 1; // See 'extraSampleCount' above.
+
+            double x0 = _samples[channelIndex, t0];
+            double x1 = _samples[channelIndex, t1];
+
+            double x = x0 + (x1 - x0) * (t - t0);
+            return x;
         }
     }
 }

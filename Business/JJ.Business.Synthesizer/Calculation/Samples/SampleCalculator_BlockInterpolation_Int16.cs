@@ -3,11 +3,11 @@ using System.IO;
 
 namespace JJ.Business.Synthesizer.Calculation.Samples
 {
-    internal class Int16_BlockInterpolation_SampleCalculator : BlockInterpolation_SampleCalculatorBase
+    internal class SampleCalculator_BlockInterpolation_Int16 : SampleCalculator_BlockInterpolation_Base
     {
         private const double VALUE_DIVIDER = (double)-short.MinValue;
 
-        public Int16_BlockInterpolation_SampleCalculator(Sample sample, byte[] bytes)
+        public SampleCalculator_BlockInterpolation_Int16(Sample sample, byte[] bytes)
             : base(sample, bytes)
         { }
 

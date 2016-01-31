@@ -932,7 +932,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             // TODO: Add more variations.
             else
             {
-                var randomCalculator = new RandomCalculator_BlockInterpolation();
+                var wrapper = new Random_OperatorWrapper(op);
+
+                // HACK
+                wrapper.InterpolationTypeEnum = InterpolationTypeEnum.Line;
+
+                var randomCalculator = RandomCalculatorFactory.CreateRandomCalculator(wrapper.InterpolationTypeEnum);
                 int randomCalculatorOffset = RandomCalculatorBase.GetRandomOffset();
 
                 calculator = new Random_VarFrequency_VarPhaseShift_OperatorCalculator(

@@ -3,11 +3,11 @@ using System.IO;
 
 namespace JJ.Business.Synthesizer.Calculation.Samples
 {
-    internal class Int16_LineInterpolation_SampleCalculator : LineInterpolation_SampleCalculatorBase
+    internal class SampleCalculator_LineInterpolation_Int16 : SampleCalculator_LineInterpolation_Base
     {
         private const double VALUE_DIVIDER = (double)-short.MinValue;
 
-        public Int16_LineInterpolation_SampleCalculator(Sample sample, byte[] bytes)
+        public SampleCalculator_LineInterpolation_Int16(Sample sample, byte[] bytes)
             : base(sample, bytes)
         { }
 

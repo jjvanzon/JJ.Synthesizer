@@ -6,7 +6,7 @@ namespace JJ.Business.Synthesizer.Calculation.Random
     {
         public override double GetValue(double time)
         {
-            double t = time % SAMPLE_COUNT_MINUS_ONE;
+            double t = time % SAMPLE_COUNT;
 
             int t0 = (int)t;
 
