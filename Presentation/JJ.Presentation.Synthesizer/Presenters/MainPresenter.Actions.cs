@@ -1045,17 +1045,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // ToEntity
             Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
             Operator op = _repositories.OperatorRepository.Get(partialPresenter.ViewModel.ID);
-            Patch patch = op.Patch;
 
             // Partial action
             partialAction();
 
             // ToViewModel
-            // TODO: Think of a better way.
-            OperatorEntityAndViewModel operatorEntityAndViewModel = ToEntityHelper.ToOperatorWithInletsAndOutletsAndPatch(MainViewModel.Document, partialPresenter.ViewModel.ID, _patchRepositories);
             if (partialPresenter.ViewModel.Successful)
             {
-                PatchDetails_RefreshOperator(operatorEntityAndViewModel.Operator, operatorEntityAndViewModel.OperatorViewModel);
+                OperatorViewModel operatorViewModel = DocumentViewModelHelper.GetOperatorViewModel(MainViewModel.Document, op.ID);
+                PatchDetails_RefreshOperator(op, operatorViewModel);
             }
 
             DispatchViewModel(partialPresenter.ViewModel);
