@@ -508,24 +508,26 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     calculator = elseCalculator;
                 }
             }
-            // TODO: Program specialized calculator.
-            //else if (thenIsConst && elseIsConst)
-            //{
-            //}
-            //else if (thenIsConst && !elseIsConst)
-            //{
-            //}
-            //else if (!thenIsConst && elseIsConst)
-            //{
-            //}
-            //else if (!thenIsConst && !elseIsConst)
-            //{
+            else if (thenIsConst && elseIsConst)
+            {
+                calculator = new If_VarCondition_ConstThen_ConstElse_OperatorCalculator(conditionCalculator, then, @else);
+            }
+            else if (thenIsConst && !elseIsConst)
+            {
+                calculator = new If_VarCondition_ConstThen_VarElse_OperatorCalculator(conditionCalculator, then, elseCalculator);
+            }
+            else if (!thenIsConst && elseIsConst)
+            {
+                calculator = new If_VarCondition_VarThen_ConstElse_OperatorCalculator(conditionCalculator, thenCalculator, @else);
+            }
+            else if (!thenIsConst && !elseIsConst)
+            {
                 calculator = new If_VarCondition_VarThen_VarElse_OperatorCalculator(conditionCalculator, thenCalculator, elseCalculator);
-            //}
-            //else
-            //{
-            //    throw new NoCalculatorException(MethodBase.GetCurrentMethod());
-            //}
+            }
+            else
+            {
+                throw new NoCalculatorException(MethodBase.GetCurrentMethod());
+            }
 
             _stack.Push(calculator);
         }
