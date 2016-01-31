@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly RandomCalculator_WithBlockInterpolation _randomCalculator;
         private readonly double _randomCalculatorOffset;
-        private readonly OperatorCalculatorBase _frequencyCalculator;
+        private readonly OperatorCalculatorBase _valueDurationCalculator;
         private readonly OperatorCalculatorBase _phaseShiftCalculator;
 
         private double _phase;
@@ -19,9 +19,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Random_VarFrequency_VarPhaseShift_BlockInterpolation_OperatorCalculator(
             RandomCalculator_WithBlockInterpolation randomCalculator,
             double randomCalculatorOffset,
-            OperatorCalculatorBase frequencyCalculator,
+            OperatorCalculatorBase valueDurationCalculator,
             OperatorCalculatorBase phaseShiftCalculator)
-            : base(new OperatorCalculatorBase[] { frequencyCalculator, phaseShiftCalculator })
+            : base(new OperatorCalculatorBase[] { valueDurationCalculator, phaseShiftCalculator })
         {
             if (randomCalculator == null) throw new NullException(() => randomCalculator);
             // TODO: Make assertion strict again, once you have more calculator variations.
@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             _randomCalculator = randomCalculator;
             _randomCalculatorOffset = randomCalculatorOffset;
-            _frequencyCalculator = frequencyCalculator;
+            _valueDurationCalculator = valueDurationCalculator;
             _phaseShiftCalculator = phaseShiftCalculator;
 
             _phase = _randomCalculatorOffset;
@@ -38,11 +38,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override double Calculate(double time, int channelIndex)
         {
-            double frequency = _frequencyCalculator.Calculate(time, channelIndex);
+            double valueDuration = _valueDurationCalculator.Calculate(time, channelIndex);
             double phaseShift = _phaseShiftCalculator.Calculate(time, channelIndex);
 
             double dt = time - _previousTime;
-            _phase = _phase + dt * frequency;
+            _phase = _phase + dt / valueDuration;
 
             double shiftedPhase = _phase + phaseShift;
 

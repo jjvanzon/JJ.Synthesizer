@@ -900,30 +900,30 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             OperatorCalculatorBase calculator;
 
-            OperatorCalculatorBase frequencyCalculator = _stack.Pop();
+            OperatorCalculatorBase valueDurationCalculator = _stack.Pop();
             OperatorCalculatorBase phaseShiftCalculator = _stack.Pop();
 
-            frequencyCalculator = frequencyCalculator ?? new Zero_OperatorCalculator();
+            valueDurationCalculator = valueDurationCalculator ?? new Zero_OperatorCalculator();
             phaseShiftCalculator = phaseShiftCalculator ?? new Zero_OperatorCalculator();
 
-            double frequency = frequencyCalculator.Calculate(0, 0);
+            double valueDuration = valueDurationCalculator.Calculate(0, 0);
             double phaseShift = phaseShiftCalculator.Calculate(0, 0);
 
-            bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
+            bool valueDurationIsConst = valueDurationCalculator is Number_OperatorCalculator;
             bool phaseShiftIsConst = phaseShiftCalculator is Number_OperatorCalculator;
 
-            bool frequencyIsConstZero = frequencyIsConst && frequency == 0;
+            bool valueDurationIsConstZero = valueDurationIsConst && valueDuration == 0;
             bool phaseShiftIsConstZero = phaseShiftIsConst && phaseShift == 0;
 
-            bool frequencyIsConstSpecialNumber = frequencyIsConst && (Double.IsNaN(frequency) || Double.IsInfinity(frequency));
+            bool valueDurationIsConstSpecialNumber = valueDurationIsConst && (Double.IsNaN(valueDuration) || Double.IsInfinity(valueDuration));
             bool phaseShiftIsConstSpecialNumber = phaseShiftIsConst && (Double.IsNaN(phaseShift) || Double.IsInfinity(phaseShift));
 
-            if (frequencyIsConstSpecialNumber || phaseShiftIsConstSpecialNumber)
+            if (valueDurationIsConstSpecialNumber || phaseShiftIsConstSpecialNumber)
             {
                 // Weird number
                 calculator = new Number_OperatorCalculator(Double.NaN);
             }
-            else if (frequencyIsConstZero)
+            else if (valueDurationIsConstZero)
             {
                 // Weird number
                 calculator = new Zero_OperatorCalculator();
@@ -937,7 +937,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 calculator = new Random_VarFrequency_VarPhaseShift_BlockInterpolation_OperatorCalculator(
                     randomCalculator,
                     randomCalculatorOffset,
-                    frequencyCalculator,
+                    valueDurationCalculator,
                     phaseShiftCalculator);
             }
 
