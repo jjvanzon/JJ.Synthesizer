@@ -612,6 +612,21 @@ namespace JJ.Presentation.Synthesizer.Helpers
             throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForSample> with Patch ID '{0}' not found in any of the PatchDocumentViewModels.", patchID));
         }
 
+        public static IList<OperatorPropertiesViewModel_ForSpectrum> GetOperatorPropertiesViewModelList_ForSpectrums_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentList)
+            {
+                if (patchDocumentViewModel.PatchDetails.Entity.PatchID == patchID)
+                {
+                    return patchDocumentViewModel.OperatorPropertiesList_ForSpectrums;
+                }
+            }
+
+            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForSpectrum> with Patch ID '{0}' not found in any of the PatchDocumentViewModels.", patchID));
+        }
+
         public static IList<OperatorPropertiesViewModel_ForUnbundle> GetOperatorPropertiesViewModelList_ForUnbundles_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);

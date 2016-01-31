@@ -1044,18 +1044,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // ToEntity
             Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
-            Operator op = _repositories.OperatorRepository.Get(partialPresenter.ViewModel.ID);
 
-            // Partial action
+            // Partial Action
             partialAction();
 
             // ToViewModel
             if (partialPresenter.ViewModel.Successful)
             {
-                OperatorViewModel operatorViewModel = DocumentViewModelHelper.GetOperatorViewModel(MainViewModel.Document, op.ID);
-                PatchDetails_RefreshOperator(op, operatorViewModel);
+                PatchDetails_RefreshOperator(partialPresenter.ViewModel.ID);
             }
 
+            // DispatchViewModel
             DispatchViewModel(partialPresenter.ViewModel);
         }
 
@@ -1065,17 +1064,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             OperatorPropertiesPresenter_ForBundle partialPresenter = _operatorPropertiesPresenter_ForBundle;
 
+            // ToEntity
             Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
 
-            OperatorEntityAndViewModel operatorEntityAndViewModel = ToEntityHelper.ToOperatorWithInletsAndOutletsAndPatch(MainViewModel.Document, partialPresenter.ViewModel.ID, _patchRepositories);
-
+            // Partial Action
             partialAction();
 
+            // ToViewModel
             if (partialPresenter.ViewModel.Successful)
             {
-                PatchDetails_RefreshOperator(operatorEntityAndViewModel.Operator, operatorEntityAndViewModel.OperatorViewModel);
+                PatchDetails_RefreshOperator(partialPresenter.ViewModel.ID);
             }
 
+            // DispatchViewModel
             DispatchViewModel(partialPresenter.ViewModel);
         }
 
@@ -1083,18 +1084,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             OperatorPropertiesPresenter_ForCurve partialPresenter = _operatorPropertiesPresenter_ForCurve;
 
+            // ToEntity
             Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
 
-            // TODO: Instead of convert, get both entity and view model.
-            OperatorEntityAndViewModel operatorEntityAndViewModel = ToEntityHelper.ToOperatorWithInletsAndOutletsAndPatch(MainViewModel.Document, partialPresenter.ViewModel.ID, _patchRepositories);
-
+            // Partial Action
             partialAction();
 
+            // ToViewModel
             if (partialPresenter.ViewModel.Successful)
             {
-                PatchDetails_RefreshOperator(operatorEntityAndViewModel.Operator, operatorEntityAndViewModel.OperatorViewModel);
+                PatchDetails_RefreshOperator(partialPresenter.ViewModel.ID);
             }
 
+            // DispatchViewModel
             DispatchViewModel(partialPresenter.ViewModel);
         }
 
@@ -1102,19 +1104,24 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             OperatorPropertiesPresenter_ForCustomOperator partialPresenter = _operatorPropertiesPresenter_ForCustomOperator;
 
+            // ToEntity
             Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
 
+            // Partial Action
             partialAction();
 
+            // Business
             IResult result = _documentManager.ValidateRecursive(rootDocument);
             partialPresenter.ViewModel.Successful &= result.Successful;
             partialPresenter.ViewModel.ValidationMessages.AddRange(result.Messages);
 
+            // ToViewModel
             if (partialPresenter.ViewModel.Successful)
             {
                 PatchDetails_RefreshOperator(partialPresenter.ViewModel.ID);
             }
 
+            // DispatchViewModel
             DispatchViewModel(partialPresenter.ViewModel);
         }
 
@@ -1122,17 +1129,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             OperatorPropertiesPresenter_ForNumber partialPresenter = _operatorPropertiesPresenter_ForNumber;
 
+            // ToEntity
             Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
 
-            OperatorEntityAndViewModel operatorEntityAndViewModel = ToEntityHelper.ToOperatorWithInletsAndOutletsAndPatch(MainViewModel.Document, partialPresenter.ViewModel.ID, _patchRepositories);
-
+            // Partial Action
             partialAction();
 
+            // ToViewModel
             if (partialPresenter.ViewModel.Successful)
             {
-                PatchDetails_RefreshOperator(operatorEntityAndViewModel.Operator, operatorEntityAndViewModel.OperatorViewModel);
+                PatchDetails_RefreshOperator(partialPresenter.ViewModel.ID);
             }
 
+            // DispatchViewModel
             DispatchViewModel(partialPresenter.ViewModel);
         }
 
@@ -1140,14 +1149,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             OperatorPropertiesPresenter_ForPatchInlet partialPresenter = _operatorPropertiesPresenter_ForPatchInlet;
 
+            // ToEntity
             Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
 
+            // Partial Action
             partialAction();
 
+            // Business
             IResult result = _documentManager.ValidateRecursive(rootDocument);
             partialPresenter.ViewModel.Successful &= result.Successful;
             partialPresenter.ViewModel.ValidationMessages.AddRange(result.Messages);
 
+            // ToViewModel
             if (partialPresenter.ViewModel.Successful)
             {
                 PatchDetails_RefreshOperator(partialPresenter.ViewModel.ID);
@@ -1156,6 +1169,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorViewModels_OfType_Refresh(OperatorTypeEnum.CustomOperator);
             }
 
+            // DispatchViewModel
             DispatchViewModel(partialPresenter.ViewModel);
         }
 
@@ -1166,14 +1180,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // ToEntity 
             Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
 
+            // Partial Action
             partialAction();
 
-            // Do a full validate, because of the error-proneness of the CustomOperator-UnderlyingPatch synchronization,
-            // to prevent getting stuck in a screen in which you cannot correct the problem.
+            // Business
             IResult result = _documentManager.ValidateRecursive(rootDocument);
             partialPresenter.ViewModel.Successful &= result.Successful;
             partialPresenter.ViewModel.ValidationMessages.AddRange(result.Messages);
 
+            // ToViewModel
             if (partialPresenter.ViewModel.Successful)
             {
                 PatchDetails_RefreshOperator(partialPresenter.ViewModel.ID);
@@ -1182,6 +1197,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorViewModels_OfType_Refresh(OperatorTypeEnum.CustomOperator);
             }
 
+            // DispatchViewModel
             DispatchViewModel(partialPresenter.ViewModel);
         }
 
@@ -1189,17 +1205,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             OperatorPropertiesPresenter_ForSample partialPresenter = _operatorPropertiesPresenter_ForSample;
 
+            // ToEntity
             Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
 
-            OperatorEntityAndViewModel operatorEntityAndViewModel = ToEntityHelper.ToOperatorWithInletsAndOutletsAndPatch(MainViewModel.Document, partialPresenter.ViewModel.ID, _patchRepositories);
-
+            // Partial Action
             partialAction();
 
+            // ToViewModel
             if (partialPresenter.ViewModel.Successful)
             {
-                PatchDetails_RefreshOperator(operatorEntityAndViewModel.Operator, operatorEntityAndViewModel.OperatorViewModel);
+                PatchDetails_RefreshOperator(partialPresenter.ViewModel.ID);
             }
 
+            // DispatchViewModel
             DispatchViewModel(partialPresenter.ViewModel);
         }
 
@@ -1207,17 +1225,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             OperatorPropertiesPresenter_ForSpectrum partialPresenter = _operatorPropertiesPresenter_ForSpectrum;
 
+            // ToEntity
             Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
 
-            OperatorEntityAndViewModel operatorEntityAndViewModel = ToEntityHelper.ToOperatorWithInletsAndOutletsAndPatch(MainViewModel.Document, partialPresenter.ViewModel.ID, _patchRepositories);
-
+            // Partial Action
             partialAction();
 
+            // ToViewModel
             if (partialPresenter.ViewModel.Successful)
             {
-                PatchDetails_RefreshOperator(operatorEntityAndViewModel.Operator, operatorEntityAndViewModel.OperatorViewModel);
+                PatchDetails_RefreshOperator(partialPresenter.ViewModel.ID);
             }
 
+            // DispatchViewModel
             DispatchViewModel(partialPresenter.ViewModel);
         }
 
@@ -1225,17 +1245,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             OperatorPropertiesPresenter_ForUnbundle partialPresenter = _operatorPropertiesPresenter_ForUnbundle;
 
+            // ToEntity
             Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
 
-            OperatorEntityAndViewModel operatorEntityAndViewModel = ToEntityHelper.ToOperatorWithInletsAndOutletsAndPatch(MainViewModel.Document, partialPresenter.ViewModel.ID, _patchRepositories);
-
+            // Partial Action
             partialAction();
 
+            // ToViewModel
             if (partialPresenter.ViewModel.Successful)
             {
-                PatchDetails_RefreshOperator(operatorEntityAndViewModel.Operator, operatorEntityAndViewModel.OperatorViewModel);
+                PatchDetails_RefreshOperator(partialPresenter.ViewModel.ID);
             }
 
+            // DispatchViewModel
             DispatchViewModel(partialPresenter.ViewModel);
         }
 
@@ -1378,6 +1400,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     {
                         OperatorPropertiesViewModel_ForSample propertiesViewModel = op.ToPropertiesViewModel_ForSample(_repositories.SampleRepository);
                         IList<OperatorPropertiesViewModel_ForSample> propertiesViewModelList = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForSamples_ByPatchID(MainViewModel.Document, patch.ID);
+                        propertiesViewModelList.Add(propertiesViewModel);
+                        break;
+                    }
+
+                case OperatorTypeEnum.Spectrum:
+                    {
+                        OperatorPropertiesViewModel_ForSpectrum propertiesViewModel = op.ToPropertiesViewModel_ForSpectrum();
+                        IList<OperatorPropertiesViewModel_ForSpectrum> propertiesViewModelList = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForSpectrums_ByPatchID(MainViewModel.Document, patch.ID);
                         propertiesViewModelList.Add(propertiesViewModel);
                         break;
                     }
