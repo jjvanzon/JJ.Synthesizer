@@ -8,8 +8,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Random_VarFrequency_VarPhaseShift_BlockInterpolation_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly WhiteNoiseCalculator _whiteNoiseCalculator;
-        private readonly double _whiteNoiseCalculatorOffset;
+        private readonly RandomCalculator_WithBlockInterpolation _randomCalculator;
+        private readonly double _randomCalculatorOffset;
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly OperatorCalculatorBase _phaseShiftCalculator;
 
@@ -17,23 +17,23 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _previousTime;
 
         public Random_VarFrequency_VarPhaseShift_BlockInterpolation_OperatorCalculator(
-            WhiteNoiseCalculator whiteNoiseCalculator,
-            double whiteNoiseCalculatorOffset,
+            RandomCalculator_WithBlockInterpolation randomCalculator,
+            double randomCalculatorOffset,
             OperatorCalculatorBase frequencyCalculator,
             OperatorCalculatorBase phaseShiftCalculator)
             : base(new OperatorCalculatorBase[] { frequencyCalculator, phaseShiftCalculator })
         {
-            if (whiteNoiseCalculator == null) throw new NullException(() => whiteNoiseCalculator);
+            if (randomCalculator == null) throw new NullException(() => randomCalculator);
             // TODO: Make assertion strict again, once you have more calculator variations.
             //OperatorCalculatorHelper.AssertOperatorCalculatorBase(frequencyCalculator, () => frequencyCalculator);
             //OperatorCalculatorHelper.AssertOperatorCalculatorBase(phaseShiftCalculator, () => phaseShiftCalculator);
 
-            _whiteNoiseCalculator = whiteNoiseCalculator;
-            _whiteNoiseCalculatorOffset = whiteNoiseCalculatorOffset;
+            _randomCalculator = randomCalculator;
+            _randomCalculatorOffset = randomCalculatorOffset;
             _frequencyCalculator = frequencyCalculator;
             _phaseShiftCalculator = phaseShiftCalculator;
 
-            _phase = _whiteNoiseCalculatorOffset;
+            _phase = _randomCalculatorOffset;
         }
 
         public override double Calculate(double time, int channelIndex)
@@ -41,18 +41,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double frequency = _frequencyCalculator.Calculate(time, channelIndex);
             double phaseShift = _phaseShiftCalculator.Calculate(time, channelIndex);
 
-            // Hack frequency, so WhiteNoiseCalculator will do what we want.
-            frequency = frequency / 44100.0;
-
             double dt = time - _previousTime;
             _phase = _phase + dt * frequency;
 
             double shiftedPhase = _phase + phaseShift;
 
-            double value = _whiteNoiseCalculator.GetValue(_phase);
-
-            // Hack value, so we get wat we want.
-            value = (value + 1.0) / 2.0;
+            double value = _randomCalculator.GetValue(_phase);
 
             _previousTime = time;
 
@@ -63,7 +57,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             base.ResetState();
 
-            _phase = _whiteNoiseCalculatorOffset;
+            _phase = _randomCalculatorOffset;
             _previousTime = 0;
         }
     }

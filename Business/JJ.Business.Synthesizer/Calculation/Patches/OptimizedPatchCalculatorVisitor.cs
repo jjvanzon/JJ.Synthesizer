@@ -931,9 +931,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             // TODO: Add more variations.
             else
             {
+                var randomCalculator = new RandomCalculator_WithBlockInterpolation();
+                int randomCalculatorOffset = randomCalculator.GetRandomOffset();
+
                 calculator = new Random_VarFrequency_VarPhaseShift_BlockInterpolation_OperatorCalculator(
-                    _calculatorCache.WhiteNoiseCalculator,
-                    whiteNoiseCalculatorOffset,
+                    randomCalculator,
+                    randomCalculatorOffset,
                     frequencyCalculator,
                     phaseShiftCalculator);
             }
