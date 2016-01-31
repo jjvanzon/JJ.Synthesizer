@@ -24,7 +24,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.Delay, VisitDelay },
                 { OperatorTypeEnum.Divide, VisitDivide },
                 { OperatorTypeEnum.Earlier, VisitEarlier },
-                { OperatorTypeEnum.Equal, VisitEqual },
                 { OperatorTypeEnum.Exponent, VisitExponent },
                 { OperatorTypeEnum.HighPassFilter, VisitHighPassFilter },
                 { OperatorTypeEnum.Loop, VisitLoop },
@@ -53,7 +52,17 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.TimePower, VisitTimePower },
                 { OperatorTypeEnum.TriangleWave, VisitTriangleWave },
                 { OperatorTypeEnum.Unbundle, VisitUnbundle },
-                { OperatorTypeEnum.WhiteNoise, VisitWhiteNoise }
+                { OperatorTypeEnum.WhiteNoise, VisitWhiteNoise },
+                // Comparison & Logical
+                { OperatorTypeEnum.Equal, VisitEqual },
+                { OperatorTypeEnum.NotEqual, VisitNotEqual },
+                { OperatorTypeEnum.LessThan, VisitLessThan },
+                { OperatorTypeEnum.GreaterThan, VisitGreaterThan },
+                { OperatorTypeEnum.LessThanOrEqual, VisitLessThanOrEqual },
+                { OperatorTypeEnum.GreaterThanOrEqual, VisitGreaterThanOrEqual },
+                { OperatorTypeEnum.And, VisitAnd },
+                { OperatorTypeEnum.Or, VisitOr },
+                { OperatorTypeEnum.Not, VisitNot }
             };
         }
 
@@ -118,9 +127,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         /// <summary> does nothing </summary>
         protected virtual void VisitEarlier(Operator op) { }
-
-        /// <summary> does nothing </summary>
-        protected virtual void VisitEqual(Operator op) { }
 
         /// <summary> does nothing </summary>
         protected virtual void VisitExponent(Operator op) { }
@@ -208,5 +214,34 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         /// <summary> does nothing </summary>
         protected virtual void VisitWhiteNoise(Operator op) { }
+
+        // Comparison & Logical
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitEqual(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitNotEqual(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitLessThan(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitGreaterThan(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitLessThanOrEqual(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitGreaterThanOrEqual(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitAnd(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitOr(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitNot(Operator op) { }
     }
 }

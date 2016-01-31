@@ -97,6 +97,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to And.
+        /// </summary>
+        public static string And {
+            get {
+                return ResourceManager.GetString("And", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Attack Duration.
         /// </summary>
         public static string AttackDuration {
@@ -475,6 +484,24 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &gt;.
+        /// </summary>
+        public static string GreaterThan {
+            get {
+                return ResourceManager.GetString("GreaterThan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &gt;=.
+        /// </summary>
+        public static string GreaterThanOrEqual {
+            get {
+                return ResourceManager.GetString("GreaterThanOrEqual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Group.
         /// </summary>
         public static string GroupName {
@@ -588,6 +615,24 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Left {
             get {
                 return ResourceManager.GetString("Left", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;.
+        /// </summary>
+        public static string LessThan {
+            get {
+                return ResourceManager.GetString("LessThan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;=.
+        /// </summary>
+        public static string LessThanOrEqual {
+            get {
+                return ResourceManager.GetString("LessThanOrEqual", resourceCulture);
             }
         }
         
@@ -709,11 +754,29 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Not.
+        /// </summary>
+        public static string Not {
+            get {
+                return ResourceManager.GetString("Not", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Note Duration.
         /// </summary>
         public static string NoteDuration {
             get {
                 return ResourceManager.GetString("NoteDuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;&gt;.
+        /// </summary>
+        public static string NotEqual {
+            get {
+                return ResourceManager.GetString("NotEqual", resourceCulture);
             }
         }
         
@@ -777,6 +840,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string OperatorTypeName {
             get {
                 return ResourceManager.GetString("OperatorTypeName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Or.
+        /// </summary>
+        public static string Or {
+            get {
+                return ResourceManager.GetString("Or", resourceCulture);
             }
         }
         
@@ -1344,6 +1416,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Width {
             get {
                 return ResourceManager.GetString("Width", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to X.
+        /// </summary>
+        public static string X {
+            get {
+                return ResourceManager.GetString("X", resourceCulture);
             }
         }
     }

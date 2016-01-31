@@ -549,4 +549,31 @@
   <data name="Equal" xml:space="preserve">
     <value>=</value>
   </data>
+  <data name="NotEqual" xml:space="preserve">
+    <value>&lt;&gt;</value>
+  </data>
+  <data name="And" xml:space="preserve">
+    <value>En</value>
+  </data>
+  <data name="GreaterThan" xml:space="preserve">
+    <value>&gt;</value>
+  </data>
+  <data name="GreaterThanOrEqual" xml:space="preserve">
+    <value>&gt;=</value>
+  </data>
+  <data name="LessThan" xml:space="preserve">
+    <value>&lt;</value>
+  </data>
+  <data name="LessThanOrEqual" xml:space="preserve">
+    <value>&lt;=</value>
+  </data>
+  <data name="Not" xml:space="preserve">
+    <value>Niet</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>Of</value>
+  </data>
+  <data name="X" xml:space="preserve">
+    <value>X</value>
+  </data>
 </root>

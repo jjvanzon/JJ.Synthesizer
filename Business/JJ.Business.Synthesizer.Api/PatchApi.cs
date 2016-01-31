@@ -83,11 +83,6 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Earlier(signal, timeDifference);
         }
 
-        public Equal_OperatorWrapper Equal(Outlet a = null, Outlet b = null)
-        {
-            return _patchManager.Equal(a, b);
-        }
-
         public Exponent_OperatorWrapper Exponent(Outlet low = null, Outlet high = null, Outlet ratio = null)
         {
             return _patchManager.Exponent(low, high, ratio);
@@ -262,6 +257,53 @@ namespace JJ.Business.Synthesizer.Api
         public IPatchCalculator CreateCalculator(CalculatorCache calculatorCache, params Outlet[] channelOutlets)
         {
             return _patchManager.CreateCalculator(calculatorCache, channelOutlets);
+        }
+
+        // Comparison & Logical
+
+        public Equal_OperatorWrapper Equal(Outlet a = null, Outlet b = null)
+        {
+            return _patchManager.Equal(a, b);
+        }
+
+        public NotEqual_OperatorWrapper NotEqual(Outlet a = null, Outlet b = null)
+        {
+            return _patchManager.NotEqual(a, b);
+        }
+
+        public LessThan_OperatorWrapper LessThan(Outlet a = null, Outlet b = null)
+        {
+            return _patchManager.LessThan(a, b);
+        }
+
+        public GreaterThan_OperatorWrapper GreaterThan(Outlet a = null, Outlet b = null)
+        {
+            return _patchManager.GreaterThan(a, b);
+        }
+
+        public LessThanOrEqual_OperatorWrapper LessThanOrEqual(Outlet a = null, Outlet b = null)
+        {
+            return _patchManager.LessThanOrEqual(a, b);
+        }
+
+        public GreaterThanOrEqual_OperatorWrapper GreaterThanOrEqual(Outlet a = null, Outlet b = null)
+        {
+            return _patchManager.GreaterThanOrEqual(a, b);
+        }
+
+        public And_OperatorWrapper And(Outlet a = null, Outlet b = null)
+        {
+            return _patchManager.And(a, b);
+        }
+
+        public Or_OperatorWrapper Or(Outlet a = null, Outlet b = null)
+        {
+            return _patchManager.Or(a, b);
+        }
+
+        public Not_OperatorWrapper Not(Outlet x = null)
+        {
+            return _patchManager.Not(x);
         }
     }
 }

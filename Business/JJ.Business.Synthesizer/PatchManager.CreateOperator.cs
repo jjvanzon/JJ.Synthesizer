@@ -206,21 +206,6 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Equal_OperatorWrapper Equal(Outlet a = null, Outlet b = null)
-        {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.Equal, inletCount: 2, outletCount: 1);
-
-            var wrapper = new Equal_OperatorWrapper(op)
-            {
-                A = a,
-                B = b
-            };
-
-            wrapper.WrappedOperator.LinkTo(Patch);
-
-            return wrapper;
-        }
-
         public Exponent_OperatorWrapper Exponent(Outlet low = null, Outlet high = null, Outlet ratio = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Exponent, inletCount: 3, outletCount: 1);
@@ -700,6 +685,142 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        // Comparison and Logical
+
+        public Equal_OperatorWrapper Equal(Outlet a = null, Outlet b = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Equal, inletCount: 2, outletCount: 1);
+
+            var wrapper = new Equal_OperatorWrapper(op)
+            {
+                A = a,
+                B = b
+            };
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+
+            return wrapper;
+        }
+
+        public NotEqual_OperatorWrapper NotEqual(Outlet a = null, Outlet b = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.NotEqual, inletCount: 2, outletCount: 1);
+
+            var wrapper = new NotEqual_OperatorWrapper(op)
+            {
+                A = a,
+                B = b
+            };
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+
+            return wrapper;
+        }
+
+        public LessThan_OperatorWrapper LessThan(Outlet a = null, Outlet b = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.LessThan, inletCount: 2, outletCount: 1);
+
+            var wrapper = new LessThan_OperatorWrapper(op)
+            {
+                A = a,
+                B = b
+            };
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+
+            return wrapper;
+        }
+
+        public GreaterThan_OperatorWrapper GreaterThan(Outlet a = null, Outlet b = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.GreaterThan, inletCount: 2, outletCount: 1);
+
+            var wrapper = new GreaterThan_OperatorWrapper(op)
+            {
+                A = a,
+                B = b
+            };
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+
+            return wrapper;
+        }
+
+        public LessThanOrEqual_OperatorWrapper LessThanOrEqual(Outlet a = null, Outlet b = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.LessThanOrEqual, inletCount: 2, outletCount: 1);
+
+            var wrapper = new LessThanOrEqual_OperatorWrapper(op)
+            {
+                A = a,
+                B = b
+            };
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+
+            return wrapper;
+        }
+
+        public GreaterThanOrEqual_OperatorWrapper GreaterThanOrEqual(Outlet a = null, Outlet b = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.GreaterThanOrEqual, inletCount: 2, outletCount: 1);
+
+            var wrapper = new GreaterThanOrEqual_OperatorWrapper(op)
+            {
+                A = a,
+                B = b
+            };
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+
+            return wrapper;
+        }
+
+        public And_OperatorWrapper And(Outlet a = null, Outlet b = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.And, inletCount: 2, outletCount: 1);
+
+            var wrapper = new And_OperatorWrapper(op)
+            {
+                A = a,
+                B = b
+            };
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+
+            return wrapper;
+        }
+
+        public Or_OperatorWrapper Or(Outlet a = null, Outlet b = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Or, inletCount: 2, outletCount: 1);
+
+            var wrapper = new Or_OperatorWrapper(op)
+            {
+                A = a,
+                B = b
+            };
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+
+            return wrapper;
+        }
+
+        public Not_OperatorWrapper Not(Outlet x = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Not, inletCount: 1, outletCount: 1);
+
+            var wrapper = new Not_OperatorWrapper(op)
+            {
+                X = x,
+            };
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+
+            return wrapper;
+        }
+
         // Helpers
 
         private void SetOperands(Operator op, IList<Outlet> operands)
@@ -744,17 +865,6 @@ namespace JJ.Business.Synthesizer
                     case OperatorTypeEnum.Bundle:
                     case OperatorTypeEnum.Unbundle:
                     case OperatorTypeEnum.Spectrum:
-                        continue;
-
-                    // TODO: These Temporarily (2016-01-31) have no method, but will later.
-                    case OperatorTypeEnum.NotEqual:
-                    case OperatorTypeEnum.LessThan:
-                    case OperatorTypeEnum.GreaterThan:
-                    case OperatorTypeEnum.LessThanOrEqual:
-                    case OperatorTypeEnum.GreaterThanOrEqual:
-                    case OperatorTypeEnum.And:
-                    case OperatorTypeEnum.Or:
-                    case OperatorTypeEnum.Not:
                         continue;
 
                     case OperatorTypeEnum.CustomOperator:

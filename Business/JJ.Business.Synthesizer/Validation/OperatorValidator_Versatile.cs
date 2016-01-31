@@ -22,7 +22,6 @@ namespace JJ.Business.Synthesizer.Validation
             { OperatorTypeEnum.Delay, typeof(OperatorValidator_Delay) },
             { OperatorTypeEnum.Divide, typeof(OperatorValidator_Divide) },
             { OperatorTypeEnum.Earlier, typeof(OperatorValidator_Earlier) },
-            { OperatorTypeEnum.Equal, typeof(OperatorValidator_Equal) },
             { OperatorTypeEnum.Exponent, typeof(OperatorValidator_Exponent) },
             { OperatorTypeEnum.HighPassFilter, typeof(OperatorValidator_HighPassFilter) },
             { OperatorTypeEnum.Loop, typeof(OperatorValidator_Loop) },
@@ -51,7 +50,17 @@ namespace JJ.Business.Synthesizer.Validation
             { OperatorTypeEnum.TimePower, typeof(OperatorValidator_TimePower) },
             { OperatorTypeEnum.TriangleWave, typeof(OperatorValidator_TriangleWave) },
             { OperatorTypeEnum.Unbundle, typeof(OperatorValidator_Unbundle) },
-            { OperatorTypeEnum.WhiteNoise, typeof(OperatorValidator_WhiteNoise) }
+            { OperatorTypeEnum.WhiteNoise, typeof(OperatorValidator_WhiteNoise) },
+            // Comparison & Logical
+            { OperatorTypeEnum.Equal, typeof(OperatorValidator_Equal) },
+            { OperatorTypeEnum.NotEqual, typeof(OperatorValidator_NotEqual) },
+            { OperatorTypeEnum.LessThan, typeof(OperatorValidator_LessThan) },
+            { OperatorTypeEnum.GreaterThan, typeof(OperatorValidator_GreaterThan) },
+            { OperatorTypeEnum.LessThanOrEqual, typeof(OperatorValidator_LessThanOrEqual) },
+            { OperatorTypeEnum.GreaterThanOrEqual, typeof(OperatorValidator_GreaterThanOrEqual) },
+            { OperatorTypeEnum.And, typeof(OperatorValidator_And) },
+            { OperatorTypeEnum.Or, typeof(OperatorValidator_Or) },
+            { OperatorTypeEnum.Not, typeof(OperatorValidator_Not) }
         };
 
         public OperatorValidator_Versatile(Operator obj, IPatchRepository patchRepository)

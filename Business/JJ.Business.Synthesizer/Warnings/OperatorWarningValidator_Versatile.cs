@@ -48,7 +48,17 @@ namespace JJ.Business.Synthesizer.Warnings
             { OperatorTypeEnum.TimePower, typeof(OperatorWarningValidator_TimePower) },
             { OperatorTypeEnum.TriangleWave, typeof(OperatorWarningValidator_TriangleWave) },
             { OperatorTypeEnum.Unbundle, typeof(OperatorWarningValidator_Unbundle) },
-            { OperatorTypeEnum.WhiteNoise, null }
+            { OperatorTypeEnum.WhiteNoise, null },
+            // Comparison & Logical
+            { OperatorTypeEnum.Equal, typeof(OperatorWarningValidator_Equal) },
+            { OperatorTypeEnum.NotEqual, typeof(OperatorWarningValidator_NotEqual) },
+            { OperatorTypeEnum.LessThan, typeof(OperatorWarningValidator_LessThan) },
+            { OperatorTypeEnum.GreaterThan, typeof(OperatorWarningValidator_GreaterThan) },
+            { OperatorTypeEnum.LessThanOrEqual, typeof(OperatorWarningValidator_LessThanOrEqual) },
+            { OperatorTypeEnum.GreaterThanOrEqual, typeof(OperatorWarningValidator_GreaterThanOrEqual) },
+            { OperatorTypeEnum.And, typeof(OperatorWarningValidator_And) },
+            { OperatorTypeEnum.Or, typeof(OperatorWarningValidator_Or) },
+            { OperatorTypeEnum.Not, typeof(OperatorWarningValidator_Not) }
         };
 
         public OperatorWarningValidator_Versatile(Operator obj)
