@@ -236,6 +236,22 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        public If_OperatorWrapper If(Outlet condition = null, Outlet then = null, Outlet @else = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.If, inletCount: 3, outletCount: 1);
+
+            var wrapper = new If_OperatorWrapper(op)
+            {
+                Condition = condition,
+                Then = then,
+                Else = @else
+            };
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+
+            return wrapper;
+        }
+
         public Loop_OperatorWrapper Loop(
             Outlet signal = null, 
             Outlet attack = null, 

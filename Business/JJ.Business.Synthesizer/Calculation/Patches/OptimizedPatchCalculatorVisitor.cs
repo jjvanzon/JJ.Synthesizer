@@ -476,6 +476,60 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
+        protected override void VisitIf(Operator op)
+        {
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase conditionCalculator = _stack.Pop();
+            OperatorCalculatorBase thenCalculator = _stack.Pop();
+            OperatorCalculatorBase elseCalculator = _stack.Pop();
+
+            conditionCalculator = conditionCalculator ?? new Zero_OperatorCalculator();
+            thenCalculator = thenCalculator ?? new Zero_OperatorCalculator();
+            elseCalculator = elseCalculator ?? new Zero_OperatorCalculator();
+
+            double condition = conditionCalculator.Calculate(0, 0);
+            double then = thenCalculator.Calculate(0, 0);
+            double @else = elseCalculator.Calculate(0, 0);
+
+            bool conditionIsConst = conditionCalculator is Number_OperatorCalculator;
+            bool thenIsConst = thenCalculator is Number_OperatorCalculator;
+            bool elseIsConst = elseCalculator is Number_OperatorCalculator;
+
+            if (conditionIsConst)
+            {
+                bool conditionIsTrue = condition != 0.0;
+                if (conditionIsTrue)
+                {
+                    calculator = thenCalculator;
+                }
+                else
+                {
+                    calculator = elseCalculator;
+                }
+            }
+            // TODO: Program specialized calculator.
+            //else if (thenIsConst && elseIsConst)
+            //{
+            //}
+            //else if (thenIsConst && !elseIsConst)
+            //{
+            //}
+            //else if (!thenIsConst && elseIsConst)
+            //{
+            //}
+            //else if (!thenIsConst && !elseIsConst)
+            //{
+                calculator = new If_VarCondition_VarThen_VarElse_OperatorCalculator(conditionCalculator, thenCalculator, elseCalculator);
+            //}
+            //else
+            //{
+            //    throw new NoCalculatorException(MethodBase.GetCurrentMethod());
+            //}
+
+            _stack.Push(calculator);
+        }
+
         protected override void VisitLoop(Operator op)
         {
             OperatorCalculatorBase calculator;

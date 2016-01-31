@@ -37,6 +37,10 @@
         public const int HIGH_PASS_SIGNAL_INDEX = 0;
         public const int HIGH_PASS_MIN_FREQUENCY_INDEX = 1;
         public const int HIGH_PASS_RESULT_INDEX = 0;
+        public const int IF_CONDITION_INDEX = 0;
+        public const int IF_THEN_INDEX = 1;
+        public const int IF_ELSE_INDEX = 2;
+        public const int IF_RESULT_INDEX = 0;
         public const int LESS_THAN_A_INDEX = 0;
         public const int LESS_THAN_B_INDEX = 1;
         public const int LESS_THAN_RESULT_INDEX = 1;

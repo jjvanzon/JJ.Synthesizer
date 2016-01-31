@@ -48,6 +48,7 @@
     <Compile Include="Calculation\CalculationHelper.cs" />
     <Compile Include="Calculation\CalculatorCache.cs" />
     <Compile Include="Calculation\Curves\ICurveCalculator.cs" />
+    <Compile Include="Calculation\Operators\If OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Not OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Or OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Divide OperatorCalculator Classes.cs" />
@@ -135,6 +136,7 @@
     <Compile Include="Calculation\WhiteNoiseCalculator.cs" />
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="Converters\PatchToOperatorConverter.cs" />
+    <Compile Include="EntityWrappers\If_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Not_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Or_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\And_OperatorWrapper.cs" />
@@ -235,6 +237,7 @@
     <Compile Include="Validation\CurveValidator_InDocument.cs" />
     <Compile Include="Validation\CurveValidator_Nodes.cs" />
     <Compile Include="Validation\DocumentValidator_RootDocument.cs" />
+    <Compile Include="Validation\OperatorValidator_If.cs" />
     <Compile Include="Validation\OperatorValidator_Not.cs" />
     <Compile Include="Validation\OperatorValidator_Or.cs" />
     <Compile Include="Validation\OperatorValidator_And.cs" />
@@ -264,6 +267,7 @@
     <Compile Include="PatchManager.cs" />
     <Compile Include="SampleManager.cs" />
     <Compile Include="ScaleManager.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_If.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Not.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Or.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_And.cs" />

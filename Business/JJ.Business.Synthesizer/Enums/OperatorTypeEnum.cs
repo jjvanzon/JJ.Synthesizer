@@ -90,6 +90,7 @@
         GreaterThanOrEqual = 43,
         And = 44,
         Or = 45,
-        Not = 46
+        Not = 46,
+        If = 47
     }
 }

@@ -576,4 +576,16 @@
   <data name="X" xml:space="preserve">
     <value>X</value>
   </data>
+  <data name="Condition" xml:space="preserve">
+    <value>Voorwaarde</value>
+  </data>
+  <data name="Else" xml:space="preserve">
+    <value>Anders</value>
+  </data>
+  <data name="If" xml:space="preserve">
+    <value>Als</value>
+  </data>
+  <data name="Then" xml:space="preserve">
+    <value>Dan</value>
+  </data>
 </root>

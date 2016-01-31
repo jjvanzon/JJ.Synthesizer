@@ -88,6 +88,11 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Exponent(low, high, ratio);
         }
 
+        public If_OperatorWrapper If(Outlet condition = null, Outlet then = null, Outlet @else = null)
+        {
+            return _patchManager.If(condition, then, @else);
+        }
+
         public HighPassFilter_OperatorWrapper HighPassFilter(Outlet signal = null, Outlet minFrequency = null)
         {
             return _patchManager.HighPassFilter(signal, minFrequency);

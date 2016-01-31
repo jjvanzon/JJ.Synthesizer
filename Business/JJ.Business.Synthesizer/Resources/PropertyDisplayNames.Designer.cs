@@ -286,6 +286,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Condition.
+        /// </summary>
+        public static string Condition {
+            get {
+                return ResourceManager.GetString("Condition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Curve.
         /// </summary>
         public static string Curve {
@@ -390,6 +399,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Earlier {
             get {
                 return ResourceManager.GetString("Earlier", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Else.
+        /// </summary>
+        public static string Else {
+            get {
+                return ResourceManager.GetString("Else", resourceCulture);
             }
         }
         
@@ -525,6 +543,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string HighPassFilter {
             get {
                 return ResourceManager.GetString("HighPassFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If.
+        /// </summary>
+        public static string If {
+            get {
+                return ResourceManager.GetString("If", resourceCulture);
             }
         }
         
@@ -1245,6 +1272,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string SustainVolume {
             get {
                 return ResourceManager.GetString("SustainVolume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Then.
+        /// </summary>
+        public static string Then {
+            get {
+                return ResourceManager.GetString("Then", resourceCulture);
             }
         }
         

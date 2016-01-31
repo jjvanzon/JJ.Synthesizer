@@ -577,4 +577,16 @@
   <data name="X" xml:space="preserve">
     <value>X</value>
   </data>
+  <data name="Condition" xml:space="preserve">
+    <value>Condition</value>
+  </data>
+  <data name="Else" xml:space="preserve">
+    <value>Else</value>
+  </data>
+  <data name="If" xml:space="preserve">
+    <value>If</value>
+  </data>
+  <data name="Then" xml:space="preserve">
+    <value>Then</value>
+  </data>
 </root>

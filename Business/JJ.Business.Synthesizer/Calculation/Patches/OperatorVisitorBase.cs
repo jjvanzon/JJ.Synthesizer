@@ -18,19 +18,29 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 { OperatorTypeEnum.Add, VisitAdd },
                 { OperatorTypeEnum.Adder, VisitAdder },
+                { OperatorTypeEnum.And, VisitAnd },
                 { OperatorTypeEnum.Bundle, VisitBundle },
                 { OperatorTypeEnum.Curve, VisitCurveOperator },
                 { OperatorTypeEnum.CustomOperator, VisitCustomOperator },
                 { OperatorTypeEnum.Delay, VisitDelay },
                 { OperatorTypeEnum.Divide, VisitDivide },
                 { OperatorTypeEnum.Earlier, VisitEarlier },
+                { OperatorTypeEnum.Equal, VisitEqual },
                 { OperatorTypeEnum.Exponent, VisitExponent },
+                { OperatorTypeEnum.GreaterThan, VisitGreaterThan },
+                { OperatorTypeEnum.GreaterThanOrEqual, VisitGreaterThanOrEqual },
                 { OperatorTypeEnum.HighPassFilter, VisitHighPassFilter },
+                { OperatorTypeEnum.If, VisitIf },
+                { OperatorTypeEnum.LessThan, VisitLessThan },
+                { OperatorTypeEnum.LessThanOrEqual, VisitLessThanOrEqual },
                 { OperatorTypeEnum.Loop, VisitLoop },
                 { OperatorTypeEnum.LowPassFilter, VisitLowPassFilter },
                 { OperatorTypeEnum.Multiply, VisitMultiply },
                 { OperatorTypeEnum.Narrower, VisitNarrower },
+                { OperatorTypeEnum.Not, VisitNot },
+                { OperatorTypeEnum.NotEqual, VisitNotEqual },
                 { OperatorTypeEnum.Number, VisitNumber },
+                { OperatorTypeEnum.Or, VisitOr },
                 { OperatorTypeEnum.PatchInlet, VisitPatchInlet },
                 { OperatorTypeEnum.PatchOutlet, VisitPatchOutlet },
                 { OperatorTypeEnum.Power, VisitPower },
@@ -53,16 +63,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.TriangleWave, VisitTriangleWave },
                 { OperatorTypeEnum.Unbundle, VisitUnbundle },
                 { OperatorTypeEnum.WhiteNoise, VisitWhiteNoise },
-                // Comparison & Logical
-                { OperatorTypeEnum.Equal, VisitEqual },
-                { OperatorTypeEnum.NotEqual, VisitNotEqual },
-                { OperatorTypeEnum.LessThan, VisitLessThan },
-                { OperatorTypeEnum.GreaterThan, VisitGreaterThan },
-                { OperatorTypeEnum.LessThanOrEqual, VisitLessThanOrEqual },
-                { OperatorTypeEnum.GreaterThanOrEqual, VisitGreaterThanOrEqual },
-                { OperatorTypeEnum.And, VisitAnd },
-                { OperatorTypeEnum.Or, VisitOr },
-                { OperatorTypeEnum.Not, VisitNot }
             };
         }
 
@@ -130,6 +130,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         /// <summary> does nothing </summary>
         protected virtual void VisitExponent(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitIf(Operator op) { }
 
         /// <summary> does nothing </summary>
         protected virtual void VisitHighPassFilter(Operator op) { }
@@ -214,8 +217,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         /// <summary> does nothing </summary>
         protected virtual void VisitWhiteNoise(Operator op) { }
-
-        // Comparison & Logical
 
         /// <summary> does nothing </summary>
         protected virtual void VisitEqual(Operator op) { }
