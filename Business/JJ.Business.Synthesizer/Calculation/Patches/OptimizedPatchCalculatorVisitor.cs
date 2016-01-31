@@ -15,6 +15,7 @@ using System.Linq;
 using JJ.Business.Synthesizer.Calculation.Curves;
 using JJ.Business.Synthesizer.Calculation.Samples;
 using System.Reflection;
+using JJ.Business.Synthesizer.Calculation.Random;
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {
@@ -931,10 +932,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             // TODO: Add more variations.
             else
             {
-                var randomCalculator = new RandomCalculator_WithBlockInterpolation();
-                int randomCalculatorOffset = randomCalculator.GetRandomOffset();
+                var randomCalculator = new RandomCalculator_BlockInterpolation();
+                int randomCalculatorOffset = RandomCalculatorBase.GetRandomOffset();
 
-                calculator = new Random_VarFrequency_VarPhaseShift_BlockInterpolation_OperatorCalculator(
+                calculator = new Random_VarFrequency_VarPhaseShift_OperatorCalculator(
                     randomCalculator,
                     randomCalculatorOffset,
                     valueDurationCalculator,

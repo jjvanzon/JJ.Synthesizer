@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Business.Synthesizer.Calculation.Random;
 using JJ.Framework.Mathematics;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Random_VarFrequency_VarPhaseShift_BlockInterpolation_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Random_VarFrequency_VarPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly RandomCalculator_WithBlockInterpolation _randomCalculator;
+        private readonly RandomCalculatorBase _randomCalculator;
         private readonly double _randomCalculatorOffset;
         private readonly OperatorCalculatorBase _valueDurationCalculator;
         private readonly OperatorCalculatorBase _phaseShiftCalculator;
@@ -16,8 +17,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _phase;
         private double _previousTime;
 
-        public Random_VarFrequency_VarPhaseShift_BlockInterpolation_OperatorCalculator(
-            RandomCalculator_WithBlockInterpolation randomCalculator,
+        public Random_VarFrequency_VarPhaseShift_OperatorCalculator(
+            RandomCalculatorBase randomCalculator,
             double randomCalculatorOffset,
             OperatorCalculatorBase valueDurationCalculator,
             OperatorCalculatorBase phaseShiftCalculator)

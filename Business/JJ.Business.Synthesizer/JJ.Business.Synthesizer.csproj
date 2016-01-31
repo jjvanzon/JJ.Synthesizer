@@ -106,6 +106,7 @@
       <DependentUpon>OptimizedPatchCalculatorVisitor.VisitAdder.tt</DependentUpon>
     </Compile>
     <Compile Include="Calculation\Patches\PatchCalculationHelper.cs" />
+    <Compile Include="Calculation\Random\RandomCalculatorBase.cs" />
     <Compile Include="Calculation\Samples\BlockInterpolation_SampleCalculatorBase.cs" />
     <Compile Include="Calculation\Samples\Byte_BlockInterpolation_SampleCalculator.cs" />
     <Compile Include="Calculation\Curves\InterpretedCurveCalculator.cs" />
@@ -118,7 +119,7 @@
     <Compile Include="Calculation\Samples\SampleCalculatorBase.cs" />
     <Compile Include="Calculation\Samples\SampleCalculatorFactory.cs" />
     <Compile Include="Calculation\SineCalculator.cs" />
-    <Compile Include="Calculation\Random\RandomCalculator_WithBlockInterpolation.cs" />
+    <Compile Include="Calculation\Random\RandomCalculator_BlockInterpolation.cs" />
     <Compile Include="Calculation\WhiteNoiseCalculator.cs" />
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="Converters\PatchToOperatorConverter.cs" />
