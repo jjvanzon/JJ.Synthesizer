@@ -3,12 +3,12 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class SawTooth_WithConstFrequency_WithConstPhaseShift_OperatorCalculator : OperatorCalculatorBase
+    internal class SawUp_WithConstFrequency_WithConstPhaseShift_OperatorCalculator : OperatorCalculatorBase
     {
         private readonly double _frequency;
         private readonly double _phaseShift;
 
-        public SawTooth_WithConstFrequency_WithConstPhaseShift_OperatorCalculator(double frequency, double phaseShift)
+        public SawUp_WithConstFrequency_WithConstPhaseShift_OperatorCalculator(double frequency, double phaseShift)
         {
             if (frequency == 0) throw new ZeroException(() => frequency);
 
@@ -24,12 +24,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class SawTooth_WithConstFrequency_WithVarPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class SawUp_WithConstFrequency_WithVarPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly double _frequency;
         private readonly OperatorCalculatorBase _phaseShiftCalculator;
 
-        public SawTooth_WithConstFrequency_WithVarPhaseShift_OperatorCalculator(
+        public SawUp_WithConstFrequency_WithVarPhaseShift_OperatorCalculator(
             double frequency,
             OperatorCalculatorBase phaseShiftCalculator)
             : base(new OperatorCalculatorBase[] { phaseShiftCalculator })
@@ -55,14 +55,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class SawTooth_WithVarFrequency_WithConstPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class SawUp_WithVarFrequency_WithConstPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
 
         private double _phase;
         private double _previousTime;
 
-        public SawTooth_WithVarFrequency_WithConstPhaseShift_OperatorCalculator(
+        public SawUp_WithVarFrequency_WithConstPhaseShift_OperatorCalculator(
             OperatorCalculatorBase frequencyCalculator,
             double phaseShift)
             : base(new OperatorCalculatorBase[] { frequencyCalculator })
@@ -97,7 +97,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class SawTooth_WithVarFrequency_WithVarPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class SawUp_WithVarFrequency_WithVarPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly OperatorCalculatorBase _phaseShiftCalculator;
@@ -105,7 +105,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _phase;
         private double _previousTime;
 
-        public SawTooth_WithVarFrequency_WithVarPhaseShift_OperatorCalculator(
+        public SawUp_WithVarFrequency_WithVarPhaseShift_OperatorCalculator(
             OperatorCalculatorBase frequencyCalculator,
             OperatorCalculatorBase phaseShiftCalculator)
             : base(new OperatorCalculatorBase[] { frequencyCalculator, phaseShiftCalculator })

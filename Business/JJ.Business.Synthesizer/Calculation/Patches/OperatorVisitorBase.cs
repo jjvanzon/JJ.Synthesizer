@@ -49,20 +49,20 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.Resample, VisitResample },
                 { OperatorTypeEnum.Reset, VisitReset },
                 { OperatorTypeEnum.Sample, VisitSampleOperator },
-                { OperatorTypeEnum.SawTooth, VisitSawTooth },
+                { OperatorTypeEnum.SawUp, VisitSawUp },
                 { OperatorTypeEnum.Select, VisitSelect },
                 { OperatorTypeEnum.Shift, VisitShift },
                 { OperatorTypeEnum.Sine, VisitSine },
                 { OperatorTypeEnum.SlowDown, VisitSlowDown },
                 { OperatorTypeEnum.Spectrum, VisitSpectrum },
                 { OperatorTypeEnum.SpeedUp, VisitSpeedUp },
-                { OperatorTypeEnum.SquareWave, VisitSquareWave },
+                { OperatorTypeEnum.Square, VisitSquare },
                 { OperatorTypeEnum.Stretch, VisitStretch },
                 { OperatorTypeEnum.Subtract, VisitSubtract },
                 { OperatorTypeEnum.TimePower, VisitTimePower },
-                { OperatorTypeEnum.TriangleWave, VisitTriangleWave },
+                { OperatorTypeEnum.Triangle, VisitTriangle },
                 { OperatorTypeEnum.Unbundle, VisitUnbundle },
-                { OperatorTypeEnum.WhiteNoise, VisitWhiteNoise },
+                { OperatorTypeEnum.Noise, VisitNoise },
             };
         }
 
@@ -177,7 +177,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected virtual void VisitSampleOperator(Operator op) { }
 
         /// <summary> does nothing </summary>
-        protected virtual void VisitSawTooth(Operator op) { }
+        protected virtual void VisitSawUp(Operator op) { }
 
         /// <summary> does nothing </summary>
         protected virtual void VisitSelect(Operator obj) { }
@@ -198,7 +198,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected virtual void VisitSpeedUp(Operator op) { }
 
         /// <summary> does nothing </summary>
-        protected virtual void VisitSquareWave(Operator op) { }
+        protected virtual void VisitSquare(Operator op) { }
 
         /// <summary> does nothing </summary>
         protected virtual void VisitStretch(Operator op) { }
@@ -210,13 +210,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected virtual void VisitTimePower(Operator op) { }
 
         /// <summary> does nothing </summary>
-        protected virtual void VisitTriangleWave(Operator op) { }
+        protected virtual void VisitTriangle(Operator op) { }
 
         /// <summary> does nothing </summary>
         protected virtual void VisitUnbundle(Operator op) { }
 
         /// <summary> does nothing </summary>
-        protected virtual void VisitWhiteNoise(Operator op) { }
+        protected virtual void VisitNoise(Operator op) { }
 
         /// <summary> does nothing </summary>
         protected virtual void VisitEqual(Operator op) { }

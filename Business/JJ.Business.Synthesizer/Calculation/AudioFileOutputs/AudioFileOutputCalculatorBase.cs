@@ -60,7 +60,7 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
                                                     .Select(x => x.Outlet)
                                                     .ToArray();
 
-            var whiteNoiseCalculator = new WhiteNoiseCalculator(audioFileOutput.SamplingRate);
+            var noiseCalculator = new NoiseCalculator(audioFileOutput.SamplingRate);
             
             // Calculate output and write file
             int channelCount = audioFileOutput.GetChannelCount();

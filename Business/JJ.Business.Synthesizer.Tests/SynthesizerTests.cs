@@ -513,7 +513,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_Synthesizer_WhiteNoiseOperator()
+        public void Test_Synthesizer_NoiseOperator()
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
@@ -523,12 +523,12 @@ namespace JJ.Business.Synthesizer.Tests
                 AudioFileOutputManager audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
                 PatchManager patchManager = new PatchManager(new PatchRepositories(repositories));
 
-                Outlet outlet = x.Multiply(x.WhiteNoise(), x.Number(Int16.MaxValue));
+                Outlet outlet = x.Multiply(x.Noise(), x.Number(Int16.MaxValue));
 
                 IPatchCalculator patchCalculator = patchManager.CreateCalculator(new CalculatorCache(), outlet);
 
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
-                audioFileOutput.FilePath = "Test_Synthesizer_WhiteNoiseOperator.wav";
+                audioFileOutput.FilePath = "Test_Synthesizer_NoiseOperator.wav";
                 audioFileOutput.Duration = 20;
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
 
@@ -569,30 +569,30 @@ namespace JJ.Business.Synthesizer.Tests
                 PatchManager x = new PatchManager(new PatchRepositories(repositories));
                 AudioFileOutputManager audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
 
-                Outlet whiteNoise = x.Multiply(x.WhiteNoise(), x.Number(amplification));
-                Outlet resampledWhiteNoise = x.Resample(whiteNoise, x.Number(alternativeSamplingRate));
+                Outlet noise = x.Multiply(x.Noise(), x.Number(amplification));
+                Outlet resampledNoise = x.Resample(noise, x.Number(alternativeSamplingRate));
 
                 IPatchCalculator patchCalculator;
 
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
                 audioFileOutput.Duration = duration;
 
-                audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_ConstantSamplingRate_WhiteNoise_Input.wav";
+                audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_ConstantSamplingRate_Noise_Input.wav";
                 audioFileOutput.SamplingRate = outputSamplingRate;
-                audioFileOutput.AudioFileOutputChannels[0].Outlet = whiteNoise;
-                patchCalculator = x.CreateCalculator(new CalculatorCache(), whiteNoise);
+                audioFileOutput.AudioFileOutputChannels[0].Outlet = noise;
+                patchCalculator = x.CreateCalculator(new CalculatorCache(), noise);
                 audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
 
-                audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_ConstantSamplingRate_WhiteNoise_WithLowerSamplingRate.wav";
+                audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_ConstantSamplingRate_Noise_WithLowerSamplingRate.wav";
                 audioFileOutput.SamplingRate = alternativeSamplingRate;
-                audioFileOutput.AudioFileOutputChannels[0].Outlet = whiteNoise;
-                patchCalculator = x.CreateCalculator(new CalculatorCache(), whiteNoise);
+                audioFileOutput.AudioFileOutputChannels[0].Outlet = noise;
+                patchCalculator = x.CreateCalculator(new CalculatorCache(), noise);
                 audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
 
-                audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_ConstantSamplingRate_WhiteNoise_WithResampleOperator.wav";
+                audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_ConstantSamplingRate_Noise_WithResampleOperator.wav";
                 audioFileOutput.SamplingRate = outputSamplingRate;
-                audioFileOutput.AudioFileOutputChannels[0].Outlet = resampledWhiteNoise;
-                patchCalculator = x.CreateCalculator(new CalculatorCache(), resampledWhiteNoise);
+                audioFileOutput.AudioFileOutputChannels[0].Outlet = resampledNoise;
+                patchCalculator = x.CreateCalculator(new CalculatorCache(), resampledNoise);
 
                 // Only test performance here and not in the other tests.
 
@@ -752,7 +752,7 @@ namespace JJ.Business.Synthesizer.Tests
 
                 Curve curve = curveManager.Create(duration, samplingRate1, samplingRate2);
 
-                Outlet input = x.Multiply(x.WhiteNoise(), x.Number(amplification));
+                Outlet input = x.Multiply(x.Noise(), x.Number(amplification));
                 Outlet outlet = x.Resample(input, x.Curve(curve));
 
                 IPatchCalculator patchCalculator = x.CreateCalculator(new CalculatorCache(), outlet);
@@ -907,10 +907,10 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_Synthesizer_SawTooth()
+        public void Test_Synthesizer_SawUp()
         {
             var x = new PatchApi();
-            var saw = x.SawTooth(x.Number(0.5));
+            var saw = x.SawUp(x.Number(0.5));
 
             IPatchCalculator patchCalculator = x.CreateCalculator(new CalculatorCache(), saw);
 
@@ -926,11 +926,11 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_Synthesizer_SawTooth_WithPhaseShift()
+        public void Test_Synthesizer_SawUp_WithPhaseShift()
         {
             // With a phase shift of 0.25 I would expect it to start counting at -0.5
             var x = new PatchApi();
-            var saw = x.SawTooth(x.Number(1), x.Number(0.25));
+            var saw = x.SawUp(x.Number(1), x.Number(0.25));
 
             IPatchCalculator patchCalculator = x.CreateCalculator(new CalculatorCache(), saw);
 
@@ -946,10 +946,10 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_Synthesizer_TriangleWave()
+        public void Test_Synthesizer_Triangle()
         {
             var patcher = new PatchApi();
-            var outlet = patcher.TriangleWave(patcher.Number(1));
+            var outlet = patcher.Triangle(patcher.Number(1));
 
             IPatchCalculator patchCalculator = patcher.CreateCalculator(new CalculatorCache(), outlet);
 

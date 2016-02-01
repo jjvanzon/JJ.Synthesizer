@@ -4,9 +4,9 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class SquareWave_OperatorWrapper : OperatorWrapperBase
+    public class Square_OperatorWrapper : OperatorWrapperBase
     {
-        public SquareWave_OperatorWrapper(Operator op)
+        public Square_OperatorWrapper(Operator op)
             : base(op)
         { }
 
@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return OperatorHelper.GetOutlet(_wrappedOperator, OperatorConstants.SQUARE_WAVE_RESULT_INDEX); }
         }
 
-        public static implicit operator Outlet(SquareWave_OperatorWrapper wrapper)
+        public static implicit operator Outlet(Square_OperatorWrapper wrapper)
         {
             if (wrapper == null) return null;
 

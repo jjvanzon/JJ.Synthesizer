@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Add" xml:space="preserve">
-    <value>Add</value>
+    <value>+</value>
     <comment>The arithmetic meaning, like "a + b".</comment>
   </data>
   <data name="Adder" xml:space="preserve">
@@ -128,7 +128,7 @@
     <value>Curve</value>
   </data>
   <data name="Divide" xml:space="preserve">
-    <value>Divide</value>
+    <value>÷</value>
   </data>
   <data name="Inlet" xml:space="preserve">
     <value>Inlet</value>
@@ -137,7 +137,7 @@
     <value>Inlets</value>
   </data>
   <data name="Multiply" xml:space="preserve">
-    <value>Multiply</value>
+    <value>×</value>
   </data>
   <data name="Nodes" xml:space="preserve">
     <value>Nodes</value>
@@ -167,7 +167,7 @@
     <value>Sine</value>
   </data>
   <data name="Subtract" xml:space="preserve">
-    <value>Subtract</value>
+    <value>–</value>
   </data>
   <data name="Delay" xml:space="preserve">
     <value>Delay</value>
@@ -274,8 +274,8 @@
   <data name="OriginalLocation" xml:space="preserve">
     <value>Original Location</value>
   </data>
-  <data name="WhiteNoise" xml:space="preserve">
-    <value>White Noise</value>
+  <data name="Noise" xml:space="preserve">
+    <value>Noise</value>
   </data>
   <data name="OperatorType" xml:space="preserve">
     <value>Operator Type</value>
@@ -397,14 +397,14 @@
   <data name="Value" xml:space="preserve">
     <value>Value</value>
   </data>
-  <data name="SawTooth" xml:space="preserve">
-    <value>Sawtooth</value>
+  <data name="SawUp" xml:space="preserve">
+    <value>Saw Up</value>
   </data>
-  <data name="SquareWave" xml:space="preserve">
-    <value>Square Wave</value>
+  <data name="Square" xml:space="preserve">
+    <value>Square</value>
   </data>
-  <data name="TriangleWave" xml:space="preserve">
-    <value>Triangle Wave</value>
+  <data name="Triangle" xml:space="preserve">
+    <value>Triangle</value>
   </data>
   <data name="High" xml:space="preserve">
     <value>High</value>

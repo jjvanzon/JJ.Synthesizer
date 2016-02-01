@@ -22,17 +22,17 @@
         Sample = 17,
 
         /// <summary>
-        /// The WhiteNoise operator is for generating noise sound.
+        /// The Noise operator is for generating noise sound.
         /// To generate random numbers, use the Random operator instead,
         /// because white noise generates numbers between -1 and 1
         /// and Random between 0 and 1 and it has other advantanges for random number generation too.
         /// </summary>
-        WhiteNoise = 18,
+        Noise = 18,
         Resample = 19,
         CustomOperator = 20,
-        SawTooth = 21,
-        SquareWave = 22,
-        TriangleWave = 23,
+        SawUp = 21,
+        Square = 22,
+        Triangle = 23,
         Exponent = 24,
         Loop = 25,
         Select = 26,
@@ -76,7 +76,7 @@
         Pulse = 36,
 
         /// <summary>
-        /// More suited to the needs of generating random numbers than the WhiteNoise operator,
+        /// More suited to the needs of generating random numbers than the Noise operator,
         /// because it generates numbers between 0 and 1, instead of between -1 and 1,
         /// offers interpolation options and explicit control over duration of a random value.
         /// </summary>

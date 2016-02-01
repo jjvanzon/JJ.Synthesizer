@@ -2,24 +2,24 @@
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class WhiteNoise_OperatorCalculator : OperatorCalculatorBase
+    internal class Noise_OperatorCalculator : OperatorCalculatorBase
     {
-        private readonly WhiteNoiseCalculator _whiteNoiseCalculator;
+        private readonly NoiseCalculator _noiseCalculator;
 
         /// <summary> Each operator should start at a different time offset in the pre-generated noise, to prevent artifacts. </summary>
         private readonly double _offset;
 
-        public WhiteNoise_OperatorCalculator(WhiteNoiseCalculator whiteNoiseCalculator, double offset)
+        public Noise_OperatorCalculator(NoiseCalculator noiseCalculator, double offset)
         {
-            if (whiteNoiseCalculator == null) throw new NullException(() => whiteNoiseCalculator);
+            if (noiseCalculator == null) throw new NullException(() => noiseCalculator);
 
-            _whiteNoiseCalculator = whiteNoiseCalculator;
+            _noiseCalculator = noiseCalculator;
             _offset = offset;
         }
 
         public override double Calculate(double time, int channelIndex)
         {
-            double x = _whiteNoiseCalculator.GetValue(time + _offset);
+            double x = _noiseCalculator.GetValue(time + _offset);
             return x;
         }
     }

@@ -73,7 +73,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private Stack<OperatorCalculatorBase> _stack;
         private Stack<int> _bundleIndexStack;
 
-        private Dictionary<Operator, double> _operator_WhiteNoiseOffsetInSeconds_Dictionary;
+        private Dictionary<Operator, double> _operator_NoiseOffsetInSeconds_Dictionary;
         private Outlet _currentChannelOutlet;
         private Dictionary<Operator, VariableInput_OperatorCalculator> _patchInlet_Calculator_Dictionary;
         private IList<ResettableOperatorTuple> _resettableOperatorTuples;
@@ -118,7 +118,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             _stack = new Stack<OperatorCalculatorBase>();
             _bundleIndexStack = new Stack<int>();
-            _operator_WhiteNoiseOffsetInSeconds_Dictionary = new Dictionary<Operator, double>();
+            _operator_NoiseOffsetInSeconds_Dictionary = new Dictionary<Operator, double>();
             _patchInlet_Calculator_Dictionary = new Dictionary<Operator, VariableInput_OperatorCalculator>();
             _resettableOperatorTuples = new List<ResettableOperatorTuple>();
 
@@ -948,11 +948,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitRandom(Operator op)
         {
-            double whiteNoiseCalculatorOffset;
-            if (!_operator_WhiteNoiseOffsetInSeconds_Dictionary.TryGetValue(op, out whiteNoiseCalculatorOffset))
+            double noiseCalculatorOffset;
+            if (!_operator_NoiseOffsetInSeconds_Dictionary.TryGetValue(op, out noiseCalculatorOffset))
             {
-                whiteNoiseCalculatorOffset = _calculatorCache.WhiteNoiseCalculator.GetRandomOffset();
-                _operator_WhiteNoiseOffsetInSeconds_Dictionary.Add(op, whiteNoiseCalculatorOffset);
+                noiseCalculatorOffset = _calculatorCache.NoiseCalculator.GetRandomOffset();
+                _operator_NoiseOffsetInSeconds_Dictionary.Add(op, noiseCalculatorOffset);
             }
 
             OperatorCalculatorBase calculator;
@@ -1115,7 +1115,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitSawTooth(Operator op)
+        protected override void VisitSawUp(Operator op)
         {
             OperatorCalculatorBase calculator;
 
@@ -1138,19 +1138,19 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (frequencyIsConst && phaseShiftIsConst)
             {
-                calculator = new SawTooth_WithConstFrequency_WithConstPhaseShift_OperatorCalculator(frequency, phaseShift);
+                calculator = new SawUp_WithConstFrequency_WithConstPhaseShift_OperatorCalculator(frequency, phaseShift);
             }
             else if (!frequencyIsConst && phaseShiftIsConst)
             {
-                calculator = new SawTooth_WithVarFrequency_WithConstPhaseShift_OperatorCalculator(frequencyCalculator, phaseShift);
+                calculator = new SawUp_WithVarFrequency_WithConstPhaseShift_OperatorCalculator(frequencyCalculator, phaseShift);
             }
             else if (frequencyIsConst && !phaseShiftIsConst)
             {
-                calculator = new SawTooth_WithConstFrequency_WithVarPhaseShift_OperatorCalculator(frequency, phaseShiftCalculator);
+                calculator = new SawUp_WithConstFrequency_WithVarPhaseShift_OperatorCalculator(frequency, phaseShiftCalculator);
             }
             else
             {
-                calculator = new SawTooth_WithVarFrequency_WithVarPhaseShift_OperatorCalculator(frequencyCalculator, phaseShiftCalculator);
+                calculator = new SawUp_WithVarFrequency_WithVarPhaseShift_OperatorCalculator(frequencyCalculator, phaseShiftCalculator);
             }
 
             _stack.Push(calculator);
@@ -1411,7 +1411,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitSquareWave(Operator op)
+        protected override void VisitSquare(Operator op)
         {
             OperatorCalculatorBase calculator;
 
@@ -1642,7 +1642,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitTriangleWave(Operator op)
+        protected override void VisitTriangle(Operator op)
         {
             OperatorCalculatorBase calculator;
 
@@ -1664,34 +1664,34 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (frequencyIsConst && phaseShiftIsConst)
             {
-                calculator = new TriangleWave_WithConstFrequency_WithConstPhaseShift_OperatorCalculator(frequency, phaseShift);
+                calculator = new Triangle_WithConstFrequency_WithConstPhaseShift_OperatorCalculator(frequency, phaseShift);
             }
             else if (!frequencyIsConst && phaseShiftIsConst)
             {
-                calculator = new TriangleWave_WithVarFrequency_WithConstPhaseShift_OperatorCalculator(frequencyCalculator, phaseShift);
+                calculator = new Triangle_WithVarFrequency_WithConstPhaseShift_OperatorCalculator(frequencyCalculator, phaseShift);
             }
             else if (frequencyIsConst && !phaseShiftIsConst)
             {
-                calculator = new TriangleWave_WithConstFrequency_WithVarPhaseShift_OperatorCalculator(frequency, phaseShiftCalculator);
+                calculator = new Triangle_WithConstFrequency_WithVarPhaseShift_OperatorCalculator(frequency, phaseShiftCalculator);
             }
             else
             {
-                calculator = new TriangleWave_WithVarFrequency_WithVarPhaseShift_OperatorCalculator(frequencyCalculator, phaseShiftCalculator);
+                calculator = new Triangle_WithVarFrequency_WithVarPhaseShift_OperatorCalculator(frequencyCalculator, phaseShiftCalculator);
             }
 
             _stack.Push(calculator);
         }
 
-        protected override void VisitWhiteNoise(Operator op)
+        protected override void VisitNoise(Operator op)
         {
             double offset;
-            if (!_operator_WhiteNoiseOffsetInSeconds_Dictionary.TryGetValue(op, out offset))
+            if (!_operator_NoiseOffsetInSeconds_Dictionary.TryGetValue(op, out offset))
             {
-                offset = _calculatorCache.WhiteNoiseCalculator.GetRandomOffset();
-                _operator_WhiteNoiseOffsetInSeconds_Dictionary.Add(op, offset);
+                offset = _calculatorCache.NoiseCalculator.GetRandomOffset();
+                _operator_NoiseOffsetInSeconds_Dictionary.Add(op, offset);
             }
 
-            var calculator = new WhiteNoise_OperatorCalculator(_calculatorCache.WhiteNoiseCalculator, offset);
+            var calculator = new Noise_OperatorCalculator(_calculatorCache.NoiseCalculator, offset);
             _stack.Push(calculator);
         }
 

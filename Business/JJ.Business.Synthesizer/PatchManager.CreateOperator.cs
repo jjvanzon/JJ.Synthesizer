@@ -486,11 +486,11 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public SawTooth_OperatorWrapper SawTooth(Outlet frequency = null, Outlet phaseShift = null)
+        public SawUp_OperatorWrapper SawUp(Outlet frequency = null, Outlet phaseShift = null)
         {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.SawTooth, inletCount: 2, outletCount: 1);
+            Operator op = CreateOperatorBase(OperatorTypeEnum.SawUp, inletCount: 2, outletCount: 1);
 
-            var wrapper = new SawTooth_OperatorWrapper(op)
+            var wrapper = new SawUp_OperatorWrapper(op)
             {
                 Frequency = frequency,
                 PhaseShift = phaseShift
@@ -588,11 +588,11 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public SquareWave_OperatorWrapper SquareWave(Outlet frequency = null, Outlet phaseShift = null)
+        public Square_OperatorWrapper Square(Outlet frequency = null, Outlet phaseShift = null)
         {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.SquareWave, inletCount: 2, outletCount: 1);
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Square, inletCount: 2, outletCount: 1);
 
-            var wrapper = new SquareWave_OperatorWrapper(op)
+            var wrapper = new Square_OperatorWrapper(op)
             {
                 Frequency = frequency,
                 PhaseShift = phaseShift
@@ -661,11 +661,11 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public TriangleWave_OperatorWrapper TriangleWave(Outlet frequency = null, Outlet phaseShift = null)
+        public Triangle_OperatorWrapper Triangle(Outlet frequency = null, Outlet phaseShift = null)
         {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.TriangleWave, inletCount: 2, outletCount: 1);
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Triangle, inletCount: 2, outletCount: 1);
 
-            var wrapper = new TriangleWave_OperatorWrapper(op)
+            var wrapper = new Triangle_OperatorWrapper(op)
             {
                 Frequency = frequency,
                 PhaseShift = phaseShift
@@ -691,11 +691,11 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public WhiteNoise_OperatorWrapper WhiteNoise()
+        public Noise_OperatorWrapper Noise()
         {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.WhiteNoise, inletCount: 0, outletCount: 1);
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Noise, inletCount: 0, outletCount: 1);
 
-            var wrapper = new WhiteNoise_OperatorWrapper(op);
+            var wrapper = new Noise_OperatorWrapper(op);
 
             wrapper.WrappedOperator.LinkTo(Patch);
             return wrapper;

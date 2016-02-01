@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Add" xml:space="preserve">
-    <value>Plus</value>
+    <value>+</value>
   </data>
   <data name="Adder" xml:space="preserve">
     <value>Opteller</value>
@@ -127,7 +127,7 @@
     <value>Curve</value>
   </data>
   <data name="Divide" xml:space="preserve">
-    <value>Delen</value>
+    <value>÷</value>
   </data>
   <data name="Inlet" xml:space="preserve">
     <value>Ingang</value>
@@ -136,7 +136,7 @@
     <value>Ingangen</value>
   </data>
   <data name="Multiply" xml:space="preserve">
-    <value>Maal</value>
+    <value>×</value>
   </data>
   <data name="Nodes" xml:space="preserve">
     <value>Knooppunten</value>
@@ -166,7 +166,7 @@
     <value>Sinus</value>
   </data>
   <data name="Subtract" xml:space="preserve">
-    <value>Min</value>
+    <value>–</value>
   </data>
   <data name="Delay" xml:space="preserve">
     <value>Uitstellen</value>
@@ -276,8 +276,8 @@
   <data name="OperatorType" xml:space="preserve">
     <value>Operator soort</value>
   </data>
-  <data name="WhiteNoise" xml:space="preserve">
-    <value>Witte ruis</value>
+  <data name="Noise" xml:space="preserve">
+    <value>Ruis</value>
   </data>
   <data name="Resample" xml:space="preserve">
     <value>Resample</value>
@@ -393,14 +393,14 @@
   <data name="Value" xml:space="preserve">
     <value>Waarde</value>
   </data>
-  <data name="SawTooth" xml:space="preserve">
-    <value>Zaagtand</value>
+  <data name="SawUp" xml:space="preserve">
+    <value>Zaag omhoog</value>
   </data>
-  <data name="SquareWave" xml:space="preserve">
-    <value>Blok golf</value>
+  <data name="Square" xml:space="preserve">
+    <value>Blok</value>
   </data>
-  <data name="TriangleWave" xml:space="preserve">
-    <value>Driehoeksgolf</value>
+  <data name="Triangle" xml:space="preserve">
+    <value>Driehoek</value>
   </data>
   <data name="High" xml:space="preserve">
     <value>Hoog</value>

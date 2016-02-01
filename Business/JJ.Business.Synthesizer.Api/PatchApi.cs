@@ -193,10 +193,10 @@ namespace JJ.Business.Synthesizer.Api
         {
             return _patchManager.Sample(sample);
         }
-
-        public SawTooth_OperatorWrapper SawTooth(Outlet frequency = null, Outlet phaseShift = null)
+        
+        public SawUp_OperatorWrapper SawUp(Outlet frequency = null, Outlet phaseShift = null)
         {
-            return _patchManager.SawTooth(frequency, phaseShift);
+            return _patchManager.SawUp(frequency, phaseShift);
         }
 
         public Select_OperatorWrapper Select(Outlet signal = null, Outlet time = null)
@@ -224,9 +224,9 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.SpeedUp(signal, factor);
         }
 
-        public SquareWave_OperatorWrapper SquareWave(Outlet frequency = null, Outlet phaseShift = null)
+        public Square_OperatorWrapper Square(Outlet frequency = null, Outlet phaseShift = null)
         {
-            return _patchManager.SquareWave(frequency, phaseShift);
+            return _patchManager.Square(frequency, phaseShift);
         }
 
         public Pulse_OperatorWrapper Pulse(Outlet frequency = null, Outlet width = null, Outlet phaseShift = null)
@@ -249,14 +249,14 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.TimePower(signal, exponent, origin);
         }
 
-        public TriangleWave_OperatorWrapper TriangleWave(Outlet frequency = null, Outlet phaseShift = null)
+        public Triangle_OperatorWrapper Triangle(Outlet frequency = null, Outlet phaseShift = null)
         {
-            return _patchManager.TriangleWave(frequency, phaseShift);
+            return _patchManager.Triangle(frequency, phaseShift);
         }
 
-        public WhiteNoise_OperatorWrapper WhiteNoise()
+        public Noise_OperatorWrapper Noise()
         {
-            return _patchManager.WhiteNoise();
+            return _patchManager.Noise();
         }
 
         public IPatchCalculator CreateCalculator(CalculatorCache calculatorCache, params Outlet[] channelOutlets)

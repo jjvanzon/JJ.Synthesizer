@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.Calculation
     /// which is faster and also necessary to be able to filter out frequencies using resampling and interpolation.
     /// 10 seconds should be enough to not notice a repeating pattern.
     /// </summary>
-    internal class WhiteNoiseCalculator
+    internal class NoiseCalculator
     {
         /// <summary>
         /// The amount of pre-calculated noise seconds should be large enough not to hear artifacts.
@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Calculation
         /// which is faster and also necessary to be able to filter out frequencies using resampling and interpolation.
         /// 10 seconds should be enough to not notice a repeating pattern.
         /// </summary>
-        public WhiteNoiseCalculator(int samplingRate)
+        public NoiseCalculator(int samplingRate)
         {
             if (samplingRate <= 0) throw new LessThanOrEqualException(() => samplingRate, 0);
             _samplingRate = samplingRate;

@@ -25,12 +25,12 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             RepositoryHelper.EnsureEnumEntity(this, 15, "Number");
             RepositoryHelper.EnsureEnumEntity(this, 16, "Curve");
             RepositoryHelper.EnsureEnumEntity(this, 17, "Sample");
-            RepositoryHelper.EnsureEnumEntity(this, 18, "WhiteNoise");
+            RepositoryHelper.EnsureEnumEntity(this, 18, "Noise");
             RepositoryHelper.EnsureEnumEntity(this, 19, "Resample");
             RepositoryHelper.EnsureEnumEntity(this, 20, "CustomOperator");
-            RepositoryHelper.EnsureEnumEntity(this, 21, "SawTooth");
-            RepositoryHelper.EnsureEnumEntity(this, 22, "SquareWave");
-            RepositoryHelper.EnsureEnumEntity(this, 23, "TriangleWave");
+            RepositoryHelper.EnsureEnumEntity(this, 21, "SawUp");
+            RepositoryHelper.EnsureEnumEntity(this, 22, "Square");
+            RepositoryHelper.EnsureEnumEntity(this, 23, "Triangle");
             RepositoryHelper.EnsureEnumEntity(this, 24, "Exponent");
             RepositoryHelper.EnsureEnumEntity(this, 25, "Loop");
             RepositoryHelper.EnsureEnumEntity(this, 26, "Select");

@@ -32,10 +32,10 @@ namespace JJ.Business.Synthesizer.Calculation
         public CalculatorCache()
         {
             int assumedSamplingRate = 44100;
-            WhiteNoiseCalculator = new WhiteNoiseCalculator(assumedSamplingRate);
+            NoiseCalculator = new NoiseCalculator(assumedSamplingRate);
         }
 
-        internal WhiteNoiseCalculator WhiteNoiseCalculator { get; private set; }
+        internal NoiseCalculator NoiseCalculator { get; private set; }
 
         internal ICurveCalculator GetCurveCalculator(Curve curve)
         {

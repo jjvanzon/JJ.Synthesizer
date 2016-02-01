@@ -70,7 +70,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add.
+        ///   Looks up a localized string similar to +.
         /// </summary>
         public static string Add {
             get {
@@ -358,7 +358,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Divide.
+        ///   Looks up a localized string similar to ÷.
         /// </summary>
         public static string Divide {
             get {
@@ -736,7 +736,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Multiply.
+        ///   Looks up a localized string similar to ×.
         /// </summary>
         public static string Multiply {
             get {
@@ -777,6 +777,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string NodeType {
             get {
                 return ResourceManager.GetString("NodeType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Noise.
+        /// </summary>
+        public static string Noise {
+            get {
+                return ResourceManager.GetString("Noise", resourceCulture);
             }
         }
         
@@ -1087,11 +1096,11 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sawtooth.
+        ///   Looks up a localized string similar to Saw Up.
         /// </summary>
-        public static string SawTooth {
+        public static string SawUp {
             get {
-                return ResourceManager.GetString("SawTooth", resourceCulture);
+                return ResourceManager.GetString("SawUp", resourceCulture);
             }
         }
         
@@ -1222,11 +1231,11 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Square Wave.
+        ///   Looks up a localized string similar to Square.
         /// </summary>
-        public static string SquareWave {
+        public static string Square {
             get {
-                return ResourceManager.GetString("SquareWave", resourceCulture);
+                return ResourceManager.GetString("Square", resourceCulture);
             }
         }
         
@@ -1258,7 +1267,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Subtract.
+        ///   Looks up a localized string similar to –.
         /// </summary>
         public static string Subtract {
             get {
@@ -1357,11 +1366,11 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Triangle Wave.
+        ///   Looks up a localized string similar to Triangle.
         /// </summary>
-        public static string TriangleWave {
+        public static string Triangle {
             get {
-                return ResourceManager.GetString("TriangleWave", resourceCulture);
+                return ResourceManager.GetString("Triangle", resourceCulture);
             }
         }
         
@@ -1434,15 +1443,6 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Wav {
             get {
                 return ResourceManager.GetString("Wav", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to White Noise.
-        /// </summary>
-        public static string WhiteNoise {
-            get {
-                return ResourceManager.GetString("WhiteNoise", resourceCulture);
             }
         }
         
