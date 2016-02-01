@@ -9,13 +9,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly double _sampleDuration;
         private readonly OperatorCalculatorBase _signalCalculator;
-        private readonly double[] _samples;
-
-        private int _currentIndex;
+        private readonly int _sampleCount;
 
         private double _previousTime;
         private double _passedSampleTime;
-        private double _maximum;
+        private int _sampleCounter;
+        private double _tempMaximum;
+        private double _minimum;
 
         public Maximum_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
@@ -29,7 +29,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             _signalCalculator = signalCalculator;
             _sampleDuration = timeSliceDuration / sampleCount;
-            _samples = new double[sampleCount];
+            _sampleCount = sampleCount;
+
+            ResetState();
         }
 
         public override double Calculate(double time, int channelIndex)
@@ -50,43 +52,38 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             if (_passedSampleTime >= _sampleDuration)
             {
+                _sampleCounter++;
+
                 double sample = _signalCalculator.Calculate(time, channelIndex);
 
-                _samples[_currentIndex] = sample;
-
-                _currentIndex++;
+                if (_tempMaximum < sample)
+                {
+                    _tempMaximum = sample;
+                }
 
                 _passedSampleTime = 0.0;
             }
 
-            if (_currentIndex == _samples.Length)
+            if (_sampleCounter == _sampleCount)
             {
-                _maximum = _samples[0];
+                _minimum = _tempMaximum;
 
-                for (int i = 1; i < _samples.Length; i++)
-                {
-                    double sample = _samples[i];
-
-                    if (_maximum < sample)
-                    {
-                        _maximum = sample;
-                    }
-                }
-
-                _currentIndex = 0;
+                _sampleCounter = 0;
+                _tempMaximum = CalculationHelper.VERY_LOW_VALUE;
             }
 
             _previousTime = time;
 
-            return _maximum;
+            return _minimum;
         }
 
         public override void ResetState()
         {
-            _currentIndex = 0;
             _previousTime = 0.0;
             _passedSampleTime = 0.0;
-            _maximum = 0.0;
+            _sampleCounter = 0;
+            _tempMaximum = CalculationHelper.VERY_LOW_VALUE;
+            _minimum = 0.0;
 
             base.ResetState();
         }
