@@ -68,6 +68,37 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        public And_OperatorWrapper And(Outlet a = null, Outlet b = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.And, inletCount: 2, outletCount: 1);
+
+            var wrapper = new And_OperatorWrapper(op)
+            {
+                A = a,
+                B = b
+            };
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+
+            return wrapper;
+        }
+
+        public Average_OperatorWrapper Average(Outlet signal = null, double timeSliceDuration = 0.1, int sampleCount = 250)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Average, inletCount: 1, outletCount: 1);
+
+            var wrapper = new Average_OperatorWrapper(op)
+            {
+                Signal = signal,
+                TimeSliceDuration = timeSliceDuration,
+                SampleCount = sampleCount
+            };
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+
+            return wrapper;
+        }
+
         public Bundle_OperatorWrapper Bundle(params Outlet[] operands)
         {
             return Bundle((IList<Outlet>)operands);
@@ -206,6 +237,21 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        public Equal_OperatorWrapper Equal(Outlet a = null, Outlet b = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Equal, inletCount: 2, outletCount: 1);
+
+            var wrapper = new Equal_OperatorWrapper(op)
+            {
+                A = a,
+                B = b
+            };
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+
+            return wrapper;
+        }
+
         public Exponent_OperatorWrapper Exponent(Outlet low = null, Outlet high = null, Outlet ratio = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Exponent, inletCount: 3, outletCount: 1);
@@ -218,6 +264,36 @@ namespace JJ.Business.Synthesizer
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
+            return wrapper;
+        }
+
+        public GreaterThan_OperatorWrapper GreaterThan(Outlet a = null, Outlet b = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.GreaterThan, inletCount: 2, outletCount: 1);
+
+            var wrapper = new GreaterThan_OperatorWrapper(op)
+            {
+                A = a,
+                B = b
+            };
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+
+            return wrapper;
+        }
+
+        public GreaterThanOrEqual_OperatorWrapper GreaterThanOrEqual(Outlet a = null, Outlet b = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.GreaterThanOrEqual, inletCount: 2, outletCount: 1);
+
+            var wrapper = new GreaterThanOrEqual_OperatorWrapper(op)
+            {
+                A = a,
+                B = b
+            };
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+
             return wrapper;
         }
 
@@ -245,6 +321,36 @@ namespace JJ.Business.Synthesizer
                 Condition = condition,
                 Then = then,
                 Else = @else
+            };
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+
+            return wrapper;
+        }
+
+        public LessThan_OperatorWrapper LessThan(Outlet a = null, Outlet b = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.LessThan, inletCount: 2, outletCount: 1);
+
+            var wrapper = new LessThan_OperatorWrapper(op)
+            {
+                A = a,
+                B = b
+            };
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+
+            return wrapper;
+        }
+
+        public LessThanOrEqual_OperatorWrapper LessThanOrEqual(Outlet a = null, Outlet b = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.LessThanOrEqual, inletCount: 2, outletCount: 1);
+
+            var wrapper = new LessThanOrEqual_OperatorWrapper(op)
+            {
+                A = a,
+                B = b
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
@@ -291,6 +397,38 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        public Maximum_OperatorWrapper Maximum(Outlet signal = null, double timeSliceDuration = 0.1, int sampleCount = 250)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Maximum, inletCount: 1, outletCount: 1);
+
+            var wrapper = new Maximum_OperatorWrapper(op)
+            {
+                Signal = signal,
+                TimeSliceDuration = timeSliceDuration,
+                SampleCount = sampleCount
+            };
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+
+            return wrapper;
+        }
+
+        public Minimum_OperatorWrapper Minimum(Outlet signal = null, double timeSliceDuration = 0.1, int sampleCount = 250)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Minimum, inletCount: 1, outletCount: 1);
+
+            var wrapper = new Minimum_OperatorWrapper(op)
+            {
+                Signal = signal,
+                TimeSliceDuration = timeSliceDuration,
+                SampleCount = sampleCount
+            };
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+
+            return wrapper;
+        }
+
         public Multiply_OperatorWrapper Multiply(Outlet operandA = null, Outlet operandB = null, Outlet origin = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Multiply, inletCount: 3, outletCount: 1);
@@ -321,6 +459,45 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        public Noise_OperatorWrapper Noise()
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Noise, inletCount: 0, outletCount: 1);
+
+            var wrapper = new Noise_OperatorWrapper(op);
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+            return wrapper;
+        }
+
+        public Not_OperatorWrapper Not(Outlet x = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Not, inletCount: 1, outletCount: 1);
+
+            var wrapper = new Not_OperatorWrapper(op)
+            {
+                X = x,
+            };
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+
+            return wrapper;
+        }
+
+        public NotEqual_OperatorWrapper NotEqual(Outlet a = null, Outlet b = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.NotEqual, inletCount: 2, outletCount: 1);
+
+            var wrapper = new NotEqual_OperatorWrapper(op)
+            {
+                A = a,
+                B = b
+            };
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+
+            return wrapper;
+        }
+
         public Number_OperatorWrapper Number(double number = 0)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Number, inletCount: 0, outletCount: 1);
@@ -331,6 +508,21 @@ namespace JJ.Business.Synthesizer
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
+            return wrapper;
+        }
+
+        public Or_OperatorWrapper Or(Outlet a = null, Outlet b = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Or, inletCount: 2, outletCount: 1);
+
+            var wrapper = new Or_OperatorWrapper(op)
+            {
+                A = a,
+                B = b
+            };
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+
             return wrapper;
         }
 
@@ -423,6 +615,21 @@ namespace JJ.Business.Synthesizer
             {
                 Base = @base,
                 Exponent = exponent
+            };
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+            return wrapper;
+        }
+
+        public Pulse_OperatorWrapper Pulse(Outlet frequency = null, Outlet width = null, Outlet phaseShift = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Pulse, inletCount: 3, outletCount: 1);
+
+            var wrapper = new Pulse_OperatorWrapper(op)
+            {
+                Frequency = frequency,
+                Width = width,
+                PhaseShift = phaseShift
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
@@ -555,7 +762,7 @@ namespace JJ.Business.Synthesizer
             wrapper.WrappedOperator.LinkTo(Patch);
             return wrapper;
         }
-        
+
         public Spectrum_OperatorWrapper Spectrum(Outlet signal = null, double startTime = 0.0, double endTime = 0.0, int frequencyCount = 16)
         {
             if (frequencyCount <= 0) throw new LessThanOrEqualException(() => frequencyCount, 0);
@@ -595,21 +802,6 @@ namespace JJ.Business.Synthesizer
             var wrapper = new Square_OperatorWrapper(op)
             {
                 Frequency = frequency,
-                PhaseShift = phaseShift
-            };
-
-            wrapper.WrappedOperator.LinkTo(Patch);
-            return wrapper;
-        }
-
-        public Pulse_OperatorWrapper Pulse(Outlet frequency = null, Outlet width = null, Outlet phaseShift = null)
-        {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.Pulse, inletCount: 3, outletCount: 1);
-
-            var wrapper = new Pulse_OperatorWrapper(op)
-            {
-                Frequency = frequency,
-                Width = width,
                 PhaseShift = phaseShift
             };
 
@@ -691,152 +883,6 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Noise_OperatorWrapper Noise()
-        {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.Noise, inletCount: 0, outletCount: 1);
-
-            var wrapper = new Noise_OperatorWrapper(op);
-
-            wrapper.WrappedOperator.LinkTo(Patch);
-            return wrapper;
-        }
-
-        // Comparison and Logical
-
-        public Equal_OperatorWrapper Equal(Outlet a = null, Outlet b = null)
-        {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.Equal, inletCount: 2, outletCount: 1);
-
-            var wrapper = new Equal_OperatorWrapper(op)
-            {
-                A = a,
-                B = b
-            };
-
-            wrapper.WrappedOperator.LinkTo(Patch);
-
-            return wrapper;
-        }
-
-        public NotEqual_OperatorWrapper NotEqual(Outlet a = null, Outlet b = null)
-        {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.NotEqual, inletCount: 2, outletCount: 1);
-
-            var wrapper = new NotEqual_OperatorWrapper(op)
-            {
-                A = a,
-                B = b
-            };
-
-            wrapper.WrappedOperator.LinkTo(Patch);
-
-            return wrapper;
-        }
-
-        public LessThan_OperatorWrapper LessThan(Outlet a = null, Outlet b = null)
-        {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.LessThan, inletCount: 2, outletCount: 1);
-
-            var wrapper = new LessThan_OperatorWrapper(op)
-            {
-                A = a,
-                B = b
-            };
-
-            wrapper.WrappedOperator.LinkTo(Patch);
-
-            return wrapper;
-        }
-
-        public GreaterThan_OperatorWrapper GreaterThan(Outlet a = null, Outlet b = null)
-        {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.GreaterThan, inletCount: 2, outletCount: 1);
-
-            var wrapper = new GreaterThan_OperatorWrapper(op)
-            {
-                A = a,
-                B = b
-            };
-
-            wrapper.WrappedOperator.LinkTo(Patch);
-
-            return wrapper;
-        }
-
-        public LessThanOrEqual_OperatorWrapper LessThanOrEqual(Outlet a = null, Outlet b = null)
-        {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.LessThanOrEqual, inletCount: 2, outletCount: 1);
-
-            var wrapper = new LessThanOrEqual_OperatorWrapper(op)
-            {
-                A = a,
-                B = b
-            };
-
-            wrapper.WrappedOperator.LinkTo(Patch);
-
-            return wrapper;
-        }
-
-        public GreaterThanOrEqual_OperatorWrapper GreaterThanOrEqual(Outlet a = null, Outlet b = null)
-        {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.GreaterThanOrEqual, inletCount: 2, outletCount: 1);
-
-            var wrapper = new GreaterThanOrEqual_OperatorWrapper(op)
-            {
-                A = a,
-                B = b
-            };
-
-            wrapper.WrappedOperator.LinkTo(Patch);
-
-            return wrapper;
-        }
-
-        public And_OperatorWrapper And(Outlet a = null, Outlet b = null)
-        {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.And, inletCount: 2, outletCount: 1);
-
-            var wrapper = new And_OperatorWrapper(op)
-            {
-                A = a,
-                B = b
-            };
-
-            wrapper.WrappedOperator.LinkTo(Patch);
-
-            return wrapper;
-        }
-
-        public Or_OperatorWrapper Or(Outlet a = null, Outlet b = null)
-        {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.Or, inletCount: 2, outletCount: 1);
-
-            var wrapper = new Or_OperatorWrapper(op)
-            {
-                A = a,
-                B = b
-            };
-
-            wrapper.WrappedOperator.LinkTo(Patch);
-
-            return wrapper;
-        }
-
-        public Not_OperatorWrapper Not(Outlet x = null)
-        {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.Not, inletCount: 1, outletCount: 1);
-
-            var wrapper = new Not_OperatorWrapper(op)
-            {
-                X = x,
-            };
-
-            wrapper.WrappedOperator.LinkTo(Patch);
-
-            return wrapper;
-        }
-
         // Helpers
 
         private void SetOperands(Operator op, IList<Outlet> operands)
@@ -881,6 +927,9 @@ namespace JJ.Business.Synthesizer
                     case OperatorTypeEnum.Bundle:
                     case OperatorTypeEnum.Unbundle:
                     case OperatorTypeEnum.Spectrum:
+                    case OperatorTypeEnum.Average:
+                    case OperatorTypeEnum.Maximum:
+                    case OperatorTypeEnum.Minimum:
                         continue;
 
                     case OperatorTypeEnum.CustomOperator:
@@ -956,6 +1005,15 @@ namespace JJ.Business.Synthesizer
 
                 case OperatorTypeEnum.Spectrum:
                     return Spectrum(); // Requires default values, not null parameters.
+
+                case OperatorTypeEnum.Average:
+                    return Average(); // Requires default values, not null parameters.
+
+                case OperatorTypeEnum.Maximum:
+                    return Maximum(); // Requires default values, not null parameters.
+
+                case OperatorTypeEnum.Minimum:
+                    return Minimum(); // Requires default values, not null parameters.
             }
 
             MethodInfo methodInfo;

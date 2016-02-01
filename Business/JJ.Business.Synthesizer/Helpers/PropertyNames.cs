@@ -108,5 +108,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public const string EndTime = "EndTime";
         public const string FrequencyCount = "FrequencyCount";
         public const string InterpolationTypeEnum = "InterpolationTypeEnum";
+        public const string TimeSliceDuration = "TimeSliceDuration";
+        public const string SampleCount = "SampleCount";
     }
 }

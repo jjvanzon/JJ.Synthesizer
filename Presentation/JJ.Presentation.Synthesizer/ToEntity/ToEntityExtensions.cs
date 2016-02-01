@@ -620,6 +620,35 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 entity.UnlinkOperatorType();
             }
 
+            // TODO: Remove hack after programming property box.
+            // HACK: Make Average, Maximum and Minimum operator work without a specialized property box.
+            switch (entity.GetOperatorTypeEnum())
+            {
+                case OperatorTypeEnum.Average:
+                    {
+                        var wrapper = new Average_OperatorWrapper(entity);
+                        wrapper.TimeSliceDuration = 0.1;
+                        wrapper.SampleCount = 250;
+                        break;
+                    }
+
+                case OperatorTypeEnum.Maximum:
+                    {
+                        var wrapper = new Maximum_OperatorWrapper(entity);
+                        wrapper.TimeSliceDuration = 0.1;
+                        wrapper.SampleCount = 250;
+                        break;
+                    }
+
+                case OperatorTypeEnum.Minimum:
+                    {
+                        var wrapper = new Minimum_OperatorWrapper(entity);
+                        wrapper.TimeSliceDuration = 0.1;
+                        wrapper.SampleCount = 250;
+                        break;
+                    }
+            }
+
             return entity;
         }
 
@@ -735,17 +764,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             {
                 entity.UnlinkOperatorType();
             }
-
-            // TODO: Remove outcommented code
-            //// HACK: Try and make Spectrum operator work without having to program a property box.
-            //// TODO: Remove hack and make a property box.
-            //if (entity.GetOperatorTypeEnum() == OperatorTypeEnum.Spectrum)
-            //{
-            //    var wrapper = new Spectrum_OperatorWrapper(entity);
-            //    wrapper.StartTime = 0.0;
-            //    wrapper.EndTime = 0.0022727272727272727;
-            //    wrapper.FrequencyCount = 32;
-            //}
 
             return entity;
         }

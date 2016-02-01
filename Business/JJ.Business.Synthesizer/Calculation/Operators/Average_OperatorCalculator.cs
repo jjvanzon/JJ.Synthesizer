@@ -9,8 +9,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly double _sampleDuration;
         private readonly OperatorCalculatorBase _signalCalculator;
-        private readonly double _timeSliceDuration;
-        private readonly double _sampleCount;
+        private readonly double _sampleCountDouble;
 
         private Queue<double> _queue;
 
@@ -25,28 +24,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Average_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
             double timeSliceDuration,
-            double sampleDuration)
+            int sampleCount)
             : base(new OperatorCalculatorBase[] { signalCalculator })
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
             if (timeSliceDuration <= 0.0) throw new LessThanException(() => timeSliceDuration, 0.0);
-            if (sampleDuration <= 0.0) throw new LessThanException(() => sampleDuration, 0.0);
-            if (sampleDuration > timeSliceDuration) throw new GreaterThanException(() => sampleDuration, () => timeSliceDuration);
+            if (sampleCount <= 0) throw new LessThanOrEqualException(() => sampleCount, 0);
 
             _signalCalculator = signalCalculator;
-            _timeSliceDuration = timeSliceDuration;
-            _sampleDuration = sampleDuration;
-
-            _sampleCount = _timeSliceDuration / _sampleDuration;
-
-            // Check for overflow
-            if (_sampleCount > Int32.MaxValue) throw new GreaterThanException(() => _sampleCount, Int32.MaxValue);
-
-            // Make sample count a whole number
-            _sampleCount = Math.Floor(_sampleCount);
-
-            // Correct sample duration to make _sampleCount fit exactly in timeSliceDuration.
-            _sampleDuration = _timeSliceDuration / _sampleCount;
+            _sampleCountDouble = sampleCount;
+            _sampleDuration = timeSliceDuration / _sampleCountDouble;
 
             _queue = CreateQueue();
         }
@@ -77,7 +64,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 _sum -= oldValue;
                 _sum += newValue;
 
-                _average = _sum / _sampleCount;
+                _average = _sum / _sampleCountDouble;
 
                 // It may not be arithmetically perfect, that we ignore the fact that
                 // _passedSampleTime may be significantly greater than _sampleDuration,
@@ -103,7 +90,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private Queue<double> CreateQueue()
         {
-            int sampleCountInt = (int)(_sampleCount);
+            int sampleCountInt = (int)(_sampleCountDouble);
 
             Queue<double> queue = new Queue<double>(sampleCountInt);
 

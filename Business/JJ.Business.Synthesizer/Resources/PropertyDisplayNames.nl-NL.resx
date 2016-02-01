@@ -588,4 +588,19 @@
   <data name="Then" xml:space="preserve">
     <value>Dan</value>
   </data>
+  <data name="Average" xml:space="preserve">
+    <value>Gemiddeld</value>
+  </data>
+  <data name="Maximum" xml:space="preserve">
+    <value>Maximum</value>
+  </data>
+  <data name="Minimum" xml:space="preserve">
+    <value>Minimum</value>
+  </data>
+  <data name="SampleCount" xml:space="preserve">
+    <value>Aantal punten</value>
+  </data>
+  <data name="TimeSliceDuration" xml:space="preserve">
+    <value>Tijdspan</value>
+  </data>
 </root>

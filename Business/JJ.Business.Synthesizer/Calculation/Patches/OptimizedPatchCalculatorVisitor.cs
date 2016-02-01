@@ -205,6 +205,28 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
+        protected override void VisitAverage(Operator op)
+        {
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
+            double signal = signalCalculator.Calculate(0, 0);
+            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+
+            if (signalIsConst)
+            {
+                calculator = signalCalculator;
+            }
+            else
+            {
+                var wrapper = new Average_OperatorWrapper(op);
+                calculator = new Average_OperatorCalculator(signalCalculator, wrapper.TimeSliceDuration, wrapper.SampleCount);
+            }
+
+            _stack.Push(calculator);
+        }
+
         protected override void VisitCurveOperator(Operator op)
         {
             OperatorCalculatorBase calculator;
@@ -622,6 +644,50 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             else
             {
                 calculator = new HighPassFilter_VarMinFrequency_OperatorCalculator(signalCalculator, minFrequencyCalculator);
+            }
+
+            _stack.Push(calculator);
+        }
+
+        protected override void VisitMaximum(Operator op)
+        {
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
+            double signal = signalCalculator.Calculate(0, 0);
+            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+
+            if (signalIsConst)
+            {
+                calculator = signalCalculator;
+            }
+            else
+            {
+                var wrapper = new Maximum_OperatorWrapper(op);
+                calculator = new Maximum_OperatorCalculator(signalCalculator, wrapper.TimeSliceDuration, wrapper.SampleCount);
+            }
+
+            _stack.Push(calculator);
+        }
+
+        protected override void VisitMinimum(Operator op)
+        {
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
+            double signal = signalCalculator.Calculate(0, 0);
+            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+
+            if (signalIsConst)
+            {
+                calculator = signalCalculator;
+            }
+            else
+            {
+                var wrapper = new Minimum_OperatorWrapper(op);
+                calculator = new Minimum_OperatorCalculator(signalCalculator, wrapper.TimeSliceDuration, wrapper.SampleCount);
             }
 
             _stack.Push(calculator);

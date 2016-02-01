@@ -17,6 +17,7 @@ namespace JJ.Business.Synthesizer.Validation
         {
             { OperatorTypeEnum.Add, typeof(OperatorValidator_Add) },
             { OperatorTypeEnum.Adder, typeof(OperatorValidator_Adder) },
+            { OperatorTypeEnum.Average, typeof(OperatorValidator_Average) },
             { OperatorTypeEnum.Bundle, typeof(OperatorValidator_Bundle) },
             { OperatorTypeEnum.Curve, typeof(OperatorValidator_Curve) },
             { OperatorTypeEnum.Delay, typeof(OperatorValidator_Delay) },
@@ -27,6 +28,8 @@ namespace JJ.Business.Synthesizer.Validation
             { OperatorTypeEnum.If, typeof(OperatorValidator_If) },
             { OperatorTypeEnum.Loop, typeof(OperatorValidator_Loop) },
             { OperatorTypeEnum.LowPassFilter, typeof(OperatorValidator_LowPassFilter) },
+            { OperatorTypeEnum.Minimum, typeof(OperatorValidator_Minimum) },
+            { OperatorTypeEnum.Maximum, typeof(OperatorValidator_Maximum) },
             { OperatorTypeEnum.Multiply, typeof(OperatorValidator_Multiply) },
             { OperatorTypeEnum.Narrower, typeof(OperatorValidator_Narrower) },
             { OperatorTypeEnum.Number, typeof(OperatorValidator_Number) },

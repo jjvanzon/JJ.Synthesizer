@@ -14,6 +14,7 @@ namespace JJ.Business.Synthesizer.Warnings
         {
             { OperatorTypeEnum.Add, typeof(OperatorWarningValidator_Add) },
             { OperatorTypeEnum.Adder, typeof(OperatorWarningValidator_Adder) },
+            { OperatorTypeEnum.Average, typeof(OperatorWarningValidator_Average) },
             { OperatorTypeEnum.Bundle, typeof(OperatorWarningValidator_Bundle) },
             { OperatorTypeEnum.Curve, typeof(OperatorWarningValidator_Curve) },
             { OperatorTypeEnum.CustomOperator, typeof(OperatorWarningValidator_CustomOperator) },
@@ -25,6 +26,8 @@ namespace JJ.Business.Synthesizer.Warnings
             { OperatorTypeEnum.If, typeof(OperatorWarningValidator_If) },
             { OperatorTypeEnum.Loop, typeof(OperatorWarningValidator_Loop) },
             { OperatorTypeEnum.LowPassFilter, typeof(OperatorWarningValidator_LowPassFilter) },
+            { OperatorTypeEnum.Minimum, typeof(OperatorWarningValidator_Minimum) },
+            { OperatorTypeEnum.Maximum, typeof(OperatorWarningValidator_Maximum) },
             { OperatorTypeEnum.Multiply, typeof(OperatorWarningValidator_Multiply) },
             { OperatorTypeEnum.Narrower, typeof(OperatorWarningValidator_Narrower) },
             { OperatorTypeEnum.Number, typeof(OperatorWarningValidator_Number) },

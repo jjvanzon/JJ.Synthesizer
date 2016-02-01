@@ -589,4 +589,19 @@
   <data name="Then" xml:space="preserve">
     <value>Then</value>
   </data>
+  <data name="Average" xml:space="preserve">
+    <value>Average</value>
+  </data>
+  <data name="Maximum" xml:space="preserve">
+    <value>Maximum</value>
+  </data>
+  <data name="Minimum" xml:space="preserve">
+    <value>Minimum</value>
+  </data>
+  <data name="SampleCount" xml:space="preserve">
+    <value>Sample Count</value>
+  </data>
+  <data name="TimeSliceDuration" xml:space="preserve">
+    <value>Time Slice Duration</value>
+  </data>
 </root>

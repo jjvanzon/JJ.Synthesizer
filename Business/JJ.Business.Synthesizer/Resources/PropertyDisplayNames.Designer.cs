@@ -142,6 +142,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Average.
+        /// </summary>
+        public static string Average {
+            get {
+                return ResourceManager.GetString("Average", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to b.
         /// </summary>
         public static string B {
@@ -727,6 +736,24 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Maximum.
+        /// </summary>
+        public static string Maximum {
+            get {
+                return ResourceManager.GetString("Maximum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Minimum.
+        /// </summary>
+        public static string Minimum {
+            get {
+                return ResourceManager.GetString("Minimum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mono.
         /// </summary>
         public static string Mono {
@@ -1069,6 +1096,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sample Count.
+        /// </summary>
+        public static string SampleCount {
+            get {
+                return ResourceManager.GetString("SampleCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sample Data Type.
         /// </summary>
         public static string SampleDataType {
@@ -1317,6 +1353,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string TimePower {
             get {
                 return ResourceManager.GetString("TimePower", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Time Slice Duration.
+        /// </summary>
+        public static string TimeSliceDuration {
+            get {
+                return ResourceManager.GetString("TimeSliceDuration", resourceCulture);
             }
         }
         

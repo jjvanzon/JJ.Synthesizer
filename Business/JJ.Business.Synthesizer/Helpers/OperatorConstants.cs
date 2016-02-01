@@ -9,6 +9,8 @@
         public const int AND_B_INDEX = 1;
         public const int AND_RESULT_INDEX = 0;
         public const int ADDER_RESULT_INDEX = 0;
+        public const int AVERAGE_SIGNAL_INDEX = 0;
+        public const int AVERAGE_RESULT_INDEX = 0;
         public const int BUNDLE_RESULT_INDEX = 0;
         public const int CURVE_OPERATOR_RESULT_INDEX = 0;
         public const int DELAY_RESULT_INDEX = 0;
@@ -57,6 +59,10 @@
         public const int LOW_PASS_SIGNAL_INDEX = 0;
         public const int LOW_PASS_MAX_FREQUENCY_INDEX = 1;
         public const int LOW_PASS_RESULT_INDEX = 0;
+        public const int MAXIMUM_SIGNAL_INDEX = 0;
+        public const int MAXIMUM_RESULT_INDEX = 0;
+        public const int MINIMUM_SIGNAL_INDEX = 0;
+        public const int MINIMUM_RESULT_INDEX = 0;
         public const int MULTIPLY_OPERAND_A_INDEX = 0;
         public const int MULTIPLY_OPERAND_B_INDEX = 1;
         public const int MULTIPLY_ORIGIN_INDEX = 2;

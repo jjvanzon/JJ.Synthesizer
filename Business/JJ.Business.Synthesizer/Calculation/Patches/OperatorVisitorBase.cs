@@ -19,6 +19,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.Add, VisitAdd },
                 { OperatorTypeEnum.Adder, VisitAdder },
                 { OperatorTypeEnum.And, VisitAnd },
+                { OperatorTypeEnum.Average, VisitAverage },
                 { OperatorTypeEnum.Bundle, VisitBundle },
                 { OperatorTypeEnum.Curve, VisitCurveOperator },
                 { OperatorTypeEnum.CustomOperator, VisitCustomOperator },
@@ -35,6 +36,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.LessThanOrEqual, VisitLessThanOrEqual },
                 { OperatorTypeEnum.Loop, VisitLoop },
                 { OperatorTypeEnum.LowPassFilter, VisitLowPassFilter },
+                { OperatorTypeEnum.Maximum, VisitMaximum },
+                { OperatorTypeEnum.Minimum, VisitMinimum },
                 { OperatorTypeEnum.Multiply, VisitMultiply },
                 { OperatorTypeEnum.Narrower, VisitNarrower },
                 { OperatorTypeEnum.Not, VisitNot },
@@ -111,6 +114,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected virtual void VisitAdder(Operator op) { }
 
         /// <summary> does nothing </summary>
+        protected virtual void VisitAverage(Operator op) { }
+
+        /// <summary> does nothing </summary>
         protected virtual void VisitBundle(Operator op) { }
 
         /// <summary> does nothing </summary>
@@ -142,6 +148,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         /// <summary> does nothing </summary>
         protected virtual void VisitLowPassFilter(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitMinimum(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitMaximum(Operator op) { }
 
         /// <summary> does nothing </summary>
         protected virtual void VisitMultiply(Operator op) { }

@@ -5,7 +5,7 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Minimum_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Maximum_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly double _sampleDuration;
         private readonly OperatorCalculatorBase _signalCalculator;
@@ -15,9 +15,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private double _previousTime;
         private double _passedSampleTime;
-        private double _minimum;
+        private double _maximum;
 
-        public Minimum_OperatorCalculator(
+        public Maximum_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
             double timeSliceDuration,
             int sampleCount)
@@ -61,15 +61,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             if (_currentIndex == _samples.Length)
             {
-                _minimum = _samples[0];
+                _maximum = _samples[0];
 
                 for (int i = 1; i < _samples.Length; i++)
                 {
                     double sample = _samples[i];
 
-                    if (_minimum > sample)
+                    if (_maximum < sample)
                     {
-                        _minimum = sample;
+                        _maximum = sample;
                     }
                 }
 
@@ -78,7 +78,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             _previousTime = time;
 
-            return _minimum;
+            return _maximum;
         }
 
         public override void ResetState()
@@ -86,7 +86,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _currentIndex = 0;
             _previousTime = 0.0;
             _passedSampleTime = 0.0;
-            _minimum = 0.0;
+            _maximum = 0.0;
 
             base.ResetState();
         }

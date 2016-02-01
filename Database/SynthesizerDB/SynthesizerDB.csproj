@@ -147,6 +147,9 @@
     <Content Include="2015-11-23 030 SynthesizerDB fill Document.GroupName.sql" />
     <Content Include="2015-11-26 010 SynthesizerDB drop table ChildDocumentType and Document.ChildDocumentID and IXs and FKs.sql" />
     <Content Include="2016-01-06 010 SynthesizerDB Operator.Data replace comma decimal symbol with period.sql" />
+    <Content Include="2016-02-01 050 SynthesizerDB OperatorType 50 - Average.sql" />
+    <Content Include="2016-02-01 050 SynthesizerDB OperatorType 49 - Maximum.sql" />
+    <Content Include="2016-02-01 050 SynthesizerDB OperatorType 48 - Minimum.sql" />
     <Content Include="2016-02-01 040 SynthesizerDB OperatorType rename WhiteNoise to Noise.sql" />
     <Content Include="2016-02-01 030 SynthesizerDB OperatorType rename SawTooth to SawUp.sql" />
     <Content Include="2016-02-01 020 SynthesizerDB OperatorType rename SquareWave to Square.sql" />

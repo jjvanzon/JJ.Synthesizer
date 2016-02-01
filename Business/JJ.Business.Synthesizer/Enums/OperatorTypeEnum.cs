@@ -91,6 +91,9 @@
         And = 44,
         Or = 45,
         Not = 46,
-        If = 47
+        If = 47,
+        Minimum = 48,
+        Maximum = 49,
+        Average = 50
     }
 }
