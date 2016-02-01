@@ -48,7 +48,9 @@
     <Compile Include="Calculation\CalculationHelper.cs" />
     <Compile Include="Calculation\CalculatorCache.cs" />
     <Compile Include="Calculation\Curves\ICurveCalculator.cs" />
+    <Compile Include="Calculation\Operators\Minimum_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\If OperatorCalculator Classes.cs" />
+    <Compile Include="Calculation\Operators\Average_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Not OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Or OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Divide OperatorCalculator Classes.cs" />
