@@ -8,6 +8,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
     {
         public const float DEFAULT_WIDTH = 85; // 125;
         public const float DEFAULT_HEIGHT = 40; // 60;
+        public const float MINIMUM_OPERATOR_WIDTH = 40;
 
         public const int DRAG_DROP_LINE_ZINDEX = 100;
 

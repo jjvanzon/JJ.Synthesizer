@@ -103,6 +103,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
                 minimumWidth = sourceOperatorViewModel.Inlets.Count * PositionHelper.MINIMUM_INLET_OR_OUTLET_WIDTH_IN_PIXELS;
             }
 
+            // Apply minimum operator width
+            if (minimumWidth < StyleHelper.MINIMUM_OPERATOR_WIDTH)
+            {
+                minimumWidth = StyleHelper.MINIMUM_OPERATOR_WIDTH;
+            }
+
             if (width < minimumWidth)
             {
                 width = minimumWidth;
