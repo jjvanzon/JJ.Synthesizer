@@ -40,6 +40,13 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BasicDataStructures\2016-02-03 Backup of Half-Refactored RedBlackTree  C Code\IRedBlackTree.cs" />
+    <Compile Include="BasicDataStructures\2016-02-03 Backup of Half-Refactored RedBlackTree  C Code\RedBlackTree - Copy %282%29.cs" />
+    <Compile Include="BasicDataStructures\2016-02-03 Backup of Half-Refactored RedBlackTree  C Code\RedBlackTree - Copy %283%29.cs" />
+    <Compile Include="BasicDataStructures\2016-02-03 Backup of Half-Refactored RedBlackTree  C Code\RedBlackTree - Copy %284%29.cs" />
+    <Compile Include="BasicDataStructures\2016-02-03 Backup of Half-Refactored RedBlackTree  C Code\RedBlackTree - Copy %285%29.cs" />
+    <Compile Include="BasicDataStructures\2016-02-03 Backup of Half-Refactored RedBlackTree  C Code\RedBlackTree - Copy.cs" />
+    <Compile Include="BasicDataStructures\RedBlackTree.cs" />
     <Compile Include="Calculation\AudioFileOutputs\AudioFileOutputCalculatorFactory.cs" />
     <Compile Include="Calculation\AudioFileOutputs\AudioFileOutputCalculatorBase.cs" />
     <Compile Include="Calculation\AudioFileOutputs\ByteAudioFileOutputCalculator.cs" />
@@ -179,6 +186,7 @@
     <Compile Include="Extensions\ToneExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Helpers\CurveRepositories.cs" />
+    <Compile Include="BasicDataStructures\2016-02-03 Backup of DoubleBinaryTree.cs" />
     <Compile Include="Helpers\NoCalculatorException.cs" />
     <Compile Include="Helpers\OperatorConstants.cs" />
     <Compile Include="Helpers\OperatorDataParser.cs" />
