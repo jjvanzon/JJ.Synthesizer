@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _sampleCountDouble = sampleCount;
 
             // HACK
-            _sampleCountDouble = 2205.0;
+            _sampleCountDouble = 441.0;
 
             _sampleDuration = timeSliceDuration / _sampleCountDouble;
 
@@ -68,8 +68,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 _redBlackTree.Insert(newValue, newValue);
 
                 _maximum = _redBlackTree.GetMaximum();
-                double treesMax = _maximum;
-                _maximum = _queue.Max();
+                //double treesMax = _maximum;
+                //_maximum = _queue.Max();
 
                 //if (treesMax != _maximum)
                 //{
