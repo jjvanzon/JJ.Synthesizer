@@ -55,6 +55,7 @@
     <Compile Include="Calculation\CalculationHelper.cs" />
     <Compile Include="Calculation\CalculatorCache.cs" />
     <Compile Include="Calculation\Curves\ICurveCalculator.cs" />
+    <Compile Include="Calculation\Operators\2016-02-04 Backup of Maximum_OperatorCalculator_RedBlackTree.cs" />
     <Compile Include="Calculation\Operators\Maximum_OperatorCalculator_RedBlackTree.cs" />
     <Compile Include="Calculation\Operators\Maximum_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Minimum_OperatorCalculator.cs" />

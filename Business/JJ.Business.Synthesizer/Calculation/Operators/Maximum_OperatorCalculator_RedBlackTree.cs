@@ -21,7 +21,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private RedBlackTree<double, double> _redBlackTree;
 
         private double _maximum;
-        private double _lastTime;
+        private double _previousTime;
+        private double _lastSampleTime;
         private readonly double _timeSliceDuration;
 
         /// <param name="sampleDuration">
@@ -52,67 +53,62 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override double Calculate(double time, int channelIndex)
         {
-            bool mustUpdateForward = _lastTime < time;
-            if (mustUpdateForward)
+            bool isForwardInTime = _previousTime <= time;
+
+            if (isForwardInTime)
             {
-                // Fake previous time if time difference too much.
-                // This prevents excessive sampling in case of a large jump in time.
-                // (Also takes care of the assumption that time would start at 0.)
-                double timeDifference = time - _lastTime;
-                double timeDifferenceTooMuch = timeDifference - _timeSliceDuration;
-                if (timeDifferenceTooMuch > 0.0)
+                bool mustUpdate = _lastSampleTime < time;
+                if (mustUpdate)
                 {
-                    _lastTime += timeDifferenceTooMuch;
-                }
+                    // Fake last sample time if time difference too much.
+                    // This prevents excessive sampling in case of a large jump in time.
+                    // (Also takes care of the assumption that time would start at 0.)
+                    double timeDifference = time - _lastSampleTime;
+                    double timeDifferenceTooMuch = timeDifference - _timeSliceDuration;
+                    if (timeDifferenceTooMuch > 0.0)
+                    {
+                        _lastSampleTime += timeDifferenceTooMuch;
+                    }
 
-                do
+                    do
+                    {
+                        CalculateValue_AndUpdateStatistics(_lastSampleTime, channelIndex);
+
+                        _lastSampleTime += _sampleDuration;
+                    }
+                    while (_lastSampleTime < time);
+
+                    _maximum = _redBlackTree.GetMaximum();
+                }
+            }
+            else
+            {
+                // Is backwards in time
+                bool mustUpdate = _lastSampleTime > time;
+                if (mustUpdate)
                 {
-                    CalculateValue_AndUpdateStatistics(_lastTime, channelIndex);
+                    // Fake last sample time if time difference too much.
+                    // This prevents excessive sampling in case of a large jump in time.
+                    // (Also takes care of the assumption that time would start at 0.)
+                    double timeDifference = _lastSampleTime - time;
+                    double timeDifferenceTooMuch = timeDifference - _timeSliceDuration;
+                    if (timeDifferenceTooMuch > 0.0)
+                    {
+                        _lastSampleTime -= timeDifferenceTooMuch;
+                    }
 
-                    _lastTime += _sampleDuration;
+                    do
+                    {
+                        CalculateValue_AndUpdateStatistics(_lastSampleTime, channelIndex);
+
+                        _lastSampleTime -= _sampleDuration;
+                    }
+                    while (_lastSampleTime > time);
+
+                    _maximum = _redBlackTree.GetMaximum();
                 }
-                while (_lastTime < time);
-
-                _maximum = _redBlackTree.GetMaximum();
-
-                // Assign exactly the time, to make 'backward or forward' detection easier next time around.
-                // Small deviations in sampling duration are not imporant (small in relation to the sample duration itself).
-                _lastTime = time;
-
-                return _maximum;
             }
 
-            // For time going in reverse
-            bool mustUpdateBackward = _lastTime > time;
-            if (mustUpdateBackward)
-            {
-                // Fake previous time if time difference too much.
-                // This prevents excessive sampling in case of a large jump in time.
-                // (Also takes care of the assumption that time would start at 0.)
-                double timeDifference = _lastTime - time;
-                double timeDifferenceTooMuch = timeDifference - _timeSliceDuration;
-                if (timeDifferenceTooMuch > 0.0)
-                {
-                    _lastTime -= timeDifferenceTooMuch;
-                }
-
-                do
-                {
-                    CalculateValue_AndUpdateStatistics(_lastTime, channelIndex);
-
-                    _lastTime -= _sampleDuration;
-                }
-                while (_lastTime > time);
-
-                _maximum = _redBlackTree.GetMaximum();
-
-                // Assign exactly the time, to make 'backward or forward' detection easier next time  around.
-                // Small deviations in sampling duration are not imporant (small in relation to the sample duration itself).
-                _lastTime = time;
-
-                return _maximum;
-            }
-           
 
             // Check difference with brute force:
             //double treeMax = _maximum;
@@ -121,6 +117,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             //{
             //    int i = 0;
             //}
+
+            _previousTime = time;
 
             return _maximum;
         }
@@ -141,7 +139,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _redBlackTree = new RedBlackTree<double, double>();
             _queue = CreateQueue();
             _maximum = 0.0;
-            _lastTime = 0.0;
+            _lastSampleTime = 0.0;
 
             base.ResetState();
         }
