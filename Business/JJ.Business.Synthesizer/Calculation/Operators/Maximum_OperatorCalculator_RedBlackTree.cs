@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private RedBlackTree<double, double> _redBlackTree;
 
         private double _maximum;
-        private double _previousTime;
+        private double _lastSampleTime;
 
         /// <param name="sampleDuration">
         /// sampleDuration might be internally corrected to exactly fit n times into timeSliceDuration.
@@ -45,24 +45,46 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override double Calculate(double time, int channelIndex)
         {
-            bool mustUpdate = _previousTime <= time;
-            if (mustUpdate)
+            bool mustUpdateForward = _lastSampleTime < time;
+            if (mustUpdateForward)
             {
-                // TODO: This only works when time goes forward. It also assumes time starts at 0.
+                // TODO: It assumes time starts at 0.
                 do
                 {
-                    double oldValue = _queue.Dequeue();
-                    double newValue = _signalCalculator.Calculate(_previousTime, channelIndex);
-                    _queue.Enqueue(newValue);
+                    UpdateStatistics(_lastSampleTime, channelIndex);
 
-                    _redBlackTree.Delete(oldValue);
-                    _redBlackTree.Insert(newValue, newValue);
-
-                    _previousTime += _sampleDuration;
+                    _lastSampleTime += _sampleDuration;
                 }
-                while (_previousTime <= time);
+                while (_lastSampleTime < time);
 
                 _maximum = _redBlackTree.GetMaximum();
+
+                // Assign exactly the time, to make 'backward or forward' detection easier next time.
+                // Small deviations in sampling duration are not imporant (small in relation to the sample duration itself).
+                _lastSampleTime = time;
+
+                return _maximum;
+            }
+
+            // For time going in reverse
+            bool mustUpdateBackward = _lastSampleTime > time;
+            if (mustUpdateBackward)
+            {
+                do
+                {
+                    UpdateStatistics(_lastSampleTime, channelIndex);
+
+                    _lastSampleTime -= _sampleDuration;
+                }
+                while (_lastSampleTime > time);
+
+                _maximum = _redBlackTree.GetMaximum();
+
+                // Assign exactly the time, to make 'backward or forward' detection easier next time.
+                // Small deviations in sampling duration are not imporant (small in relation to the sample duration itself).
+                _lastSampleTime = time;
+
+                return _maximum;
             }
 
             // Check difference with brute force:
@@ -76,12 +98,22 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return _maximum;
         }
 
+        private void UpdateStatistics(double time, int channelIndex)
+        {
+            double oldValue = _queue.Dequeue();
+            double newValue = _signalCalculator.Calculate(time, channelIndex);
+            _queue.Enqueue(newValue);
+
+            _redBlackTree.Delete(oldValue);
+            _redBlackTree.Insert(newValue, newValue);
+        }
+
         public override void ResetState()
         {
             _redBlackTree = new RedBlackTree<double, double>();
             _queue = CreateQueue();
             _maximum = 0.0;
-            _previousTime = 0.0;
+            _lastSampleTime = 0.0;
 
             base.ResetState();
         }
