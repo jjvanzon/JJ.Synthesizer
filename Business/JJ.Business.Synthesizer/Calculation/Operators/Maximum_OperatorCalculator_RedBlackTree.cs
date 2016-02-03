@@ -45,31 +45,30 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override double Calculate(double time, int channelIndex)
         {
-            // TODO: This always executes the same comparison twice...
             bool mustUpdate = _previousTime <= time;
-
-            // TODO: This only works when time goes forward. It also assumes time starts at 0.
-            while (_previousTime <= time)
-            {
-                double oldValue = _queue.Dequeue();
-                double newValue = _signalCalculator.Calculate(_previousTime, channelIndex);
-                _queue.Enqueue(newValue);
-
-                _redBlackTree.Delete(oldValue);
-                _redBlackTree.Insert(newValue, newValue);
-
-                _previousTime += _sampleDuration;
-            }
-
             if (mustUpdate)
             {
+                // TODO: This only works when time goes forward. It also assumes time starts at 0.
+                do
+                {
+                    double oldValue = _queue.Dequeue();
+                    double newValue = _signalCalculator.Calculate(_previousTime, channelIndex);
+                    _queue.Enqueue(newValue);
+
+                    _redBlackTree.Delete(oldValue);
+                    _redBlackTree.Insert(newValue, newValue);
+
+                    _previousTime += _sampleDuration;
+                }
+                while (_previousTime <= time);
+
                 _maximum = _redBlackTree.GetMaximum();
-            } 
+            }
 
             // Check difference with brute force:
-            //double treesMax = _maximum;
+            //double treeMax = _maximum;
             //_maximum = _queue.Max();
-            //if (treesMax != _maximum)
+            //if (treeMax != _maximum)
             //{
             //    int i = 0;
             //}
