@@ -72,7 +72,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
                     do
                     {
-                        CalculateValue_AndUpdateStatistics(_lastSampleTime, channelIndex);
+                        CalculateValueAndAddToCollections(_lastSampleTime, channelIndex);
 
                         _lastSampleTime += _sampleDuration;
                     }
@@ -99,7 +99,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
                     do
                     {
-                        CalculateValue_AndUpdateStatistics(_lastSampleTime, channelIndex);
+                        CalculateValueAndAddToCollections(_lastSampleTime, channelIndex);
 
                         _lastSampleTime -= _sampleDuration;
                     }
@@ -108,7 +108,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     _maximum = _redBlackTree.GetMaximum();
                 }
             }
-
 
             // Check difference with brute force:
             //double treeMax = _maximum;
@@ -123,7 +122,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return _maximum;
         }
 
-        private void CalculateValue_AndUpdateStatistics(double time, int channelIndex)
+        private void CalculateValueAndAddToCollections(double time, int channelIndex)
         {
             double newValue = _signalCalculator.Calculate(time, channelIndex);
 
