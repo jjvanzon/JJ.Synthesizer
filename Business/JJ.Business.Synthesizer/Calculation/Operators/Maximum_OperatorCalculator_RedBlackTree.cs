@@ -16,13 +16,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         /// <summary>
         /// Even though the RedBlackTree does not store duplicates,
-        /// which is something you would want, this may not significantly affect the outcome.
+        /// which is something you would want, this might not significantly affect the outcome.
         /// </summary>
         private RedBlackTree<double, double> _redBlackTree;
 
         private double _maximum;
         private double _previousTime;
-        private double _lastSampleTime;
+        private double _nextSampleTime;
         private readonly double _timeSliceDuration;
 
         /// <param name="sampleDuration">
@@ -53,30 +53,30 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override double Calculate(double time, int channelIndex)
         {
-            bool isForwardInTime = _previousTime <= time;
+            bool isForwardInTime = time >= _previousTime;
 
             if (isForwardInTime)
             {
-                bool mustUpdate = _lastSampleTime < time;
+                bool mustUpdate = time > _nextSampleTime;
                 if (mustUpdate)
                 {
                     // Fake last sample time if time difference too much.
                     // This prevents excessive sampling in case of a large jump in time.
                     // (Also takes care of the assumption that time would start at 0.)
-                    double timeDifference = time - _lastSampleTime;
+                    double timeDifference = time - _nextSampleTime;
                     double timeDifferenceTooMuch = timeDifference - _timeSliceDuration;
                     if (timeDifferenceTooMuch > 0.0)
                     {
-                        _lastSampleTime += timeDifferenceTooMuch;
+                        _nextSampleTime += timeDifferenceTooMuch;
                     }
 
                     do
                     {
-                        CalculateValueAndAddToCollections(_lastSampleTime, channelIndex);
+                        CalculateValueAndUpdateCollections(_nextSampleTime, channelIndex);
 
-                        _lastSampleTime += _sampleDuration;
+                        _nextSampleTime += _sampleDuration;
                     }
-                    while (_lastSampleTime < time);
+                    while (time > _nextSampleTime);
 
                     _maximum = _redBlackTree.GetMaximum();
                 }
@@ -84,32 +84,33 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             else
             {
                 // Is backwards in time
-                bool mustUpdate = _lastSampleTime > time;
+                bool mustUpdate = time < _nextSampleTime;
                 if (mustUpdate)
                 {
                     // Fake last sample time if time difference too much.
                     // This prevents excessive sampling in case of a large jump in time.
                     // (Also takes care of the assumption that time would start at 0.)
-                    double timeDifference = _lastSampleTime - time;
+                    double timeDifference = _nextSampleTime - time;
                     double timeDifferenceTooMuch = timeDifference - _timeSliceDuration;
                     if (timeDifferenceTooMuch > 0.0)
                     {
-                        _lastSampleTime -= timeDifferenceTooMuch;
+                        _nextSampleTime -= timeDifferenceTooMuch;
                     }
 
                     do
                     {
-                        CalculateValueAndAddToCollections(_lastSampleTime, channelIndex);
+                        CalculateValueAndUpdateCollections(_nextSampleTime, channelIndex);
 
-                        _lastSampleTime -= _sampleDuration;
+                        _nextSampleTime -= _sampleDuration;
                     }
-                    while (_lastSampleTime > time);
+                    while (time < _nextSampleTime);
 
                     _maximum = _redBlackTree.GetMaximum();
                 }
             }
 
-            // Check difference with brute force:
+            // Check difference with brute force
+            // (slight difference due to RedBlackTree not adding duplicates):
             //double treeMax = _maximum;
             //_maximum = _queue.Max();
             //if (treeMax != _maximum)
@@ -122,7 +123,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return _maximum;
         }
 
-        private void CalculateValueAndAddToCollections(double time, int channelIndex)
+        private void CalculateValueAndUpdateCollections(double time, int channelIndex)
         {
             double newValue = _signalCalculator.Calculate(time, channelIndex);
 
@@ -138,7 +139,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _redBlackTree = new RedBlackTree<double, double>();
             _queue = CreateQueue();
             _maximum = 0.0;
-            _lastSampleTime = 0.0;
+            _nextSampleTime = 0.0;
 
             base.ResetState();
         }
@@ -147,8 +148,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             int sampleCountInt = (int)(_sampleCountDouble);
 
-            Queue<double> queue = new Queue<double>(sampleCountInt);
-
+            var queue = new Queue<double>(sampleCountInt);
             for (int i = 0; i < sampleCountInt; i++)
             {
                 queue.Enqueue(0.0);
