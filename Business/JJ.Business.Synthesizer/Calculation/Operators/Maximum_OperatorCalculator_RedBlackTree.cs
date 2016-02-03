@@ -22,6 +22,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private double _maximum;
         private double _lastTime;
+        private readonly double _timeSliceDuration;
 
         /// <param name="sampleDuration">
         /// sampleDuration might be internally corrected to exactly fit n times into timeSliceDuration.
@@ -43,6 +44,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             timeSliceDuration = 0.02;
             _sampleCountDouble = 100.0;
 
+            _timeSliceDuration = timeSliceDuration;
             _sampleDuration = timeSliceDuration / _sampleCountDouble;
 
             ResetState();
@@ -53,10 +55,19 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             bool mustUpdateForward = _lastTime < time;
             if (mustUpdateForward)
             {
-                // TODO: It assumes time starts at 0.
+                // Fake previous time if time difference too much.
+                // This prevents excessive sampling in case of a large jump in time.
+                // (Also takes care of the assumption that time would start at 0.)
+                double timeDifference = time - _lastTime;
+                double timeDifferenceTooMuch = timeDifference - _timeSliceDuration;
+                if (timeDifferenceTooMuch > 0.0)
+                {
+                    _lastTime += timeDifferenceTooMuch;
+                }
+
                 do
                 {
-                    UpdateStatistics(_lastTime, channelIndex);
+                    CalculateValue_AndUpdateStatistics(_lastTime, channelIndex);
 
                     _lastTime += _sampleDuration;
                 }
@@ -75,9 +86,19 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             bool mustUpdateBackward = _lastTime > time;
             if (mustUpdateBackward)
             {
+                // Fake previous time if time difference too much.
+                // This prevents excessive sampling in case of a large jump in time.
+                // (Also takes care of the assumption that time would start at 0.)
+                double timeDifference = _lastTime - time;
+                double timeDifferenceTooMuch = timeDifference - _timeSliceDuration;
+                if (timeDifferenceTooMuch > 0.0)
+                {
+                    _lastTime -= timeDifferenceTooMuch;
+                }
+
                 do
                 {
-                    UpdateStatistics(_lastTime, channelIndex);
+                    CalculateValue_AndUpdateStatistics(_lastTime, channelIndex);
 
                     _lastTime -= _sampleDuration;
                 }
@@ -91,6 +112,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
                 return _maximum;
             }
+           
 
             // Check difference with brute force:
             //double treeMax = _maximum;
@@ -103,7 +125,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return _maximum;
         }
 
-        private void UpdateStatistics(double time, int channelIndex)
+        private void CalculateValue_AndUpdateStatistics(double time, int channelIndex)
         {
             double newValue = _signalCalculator.Calculate(time, channelIndex);
 
