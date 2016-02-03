@@ -17,7 +17,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private double _maximum;
         private double _previousTime;
-        private double _passedSampleTime;
 
         /// <param name="sampleDuration">
         /// sampleDuration might be internally corrected to exactly fit n times into timeSliceDuration.
@@ -36,8 +35,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _sampleCountDouble = sampleCount;
 
             // HACK
-            timeSliceDuration = 0.01;
-            _sampleCountDouble = 441.0;
+            timeSliceDuration = 0.02;
+            _sampleCountDouble = 100.0;
 
             _sampleDuration = timeSliceDuration / _sampleCountDouble;
 
@@ -46,8 +45,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override double Calculate(double time, int channelIndex)
         {
-            // TODO: This only works when time goes forward. It also assumes time starts at 0.
+            // TODO: This always executes the same comparison twice...
+            bool mustUpdate = _previousTime <= time;
 
+            // TODO: This only works when time goes forward. It also assumes time starts at 0.
             while (_previousTime <= time)
             {
                 double oldValue = _queue.Dequeue();
@@ -57,12 +58,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 _redBlackTree.Delete(oldValue);
                 _redBlackTree.Insert(newValue, newValue);
 
-                // TODO: You can prevent some additions by doing a multiplication outside the loop.
                 _previousTime += _sampleDuration;
             }
 
-            // TODO: You only need to do this if at least a _sampleDuration has passed.
-            _maximum = _redBlackTree.GetMaximum();
+            if (mustUpdate)
+            {
+                _maximum = _redBlackTree.GetMaximum();
+            } 
 
             // Check difference with brute force:
             //double treesMax = _maximum;
@@ -81,7 +83,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _queue = CreateQueue();
             _maximum = 0.0;
             _previousTime = 0.0;
-            _passedSampleTime = 0.0;
 
             base.ResetState();
         }
