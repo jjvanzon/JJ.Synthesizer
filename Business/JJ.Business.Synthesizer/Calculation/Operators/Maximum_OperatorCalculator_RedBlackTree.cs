@@ -36,6 +36,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _sampleCountDouble = sampleCount;
 
             // HACK
+            timeSliceDuration = 0.01;
             _sampleCountDouble = 441.0;
 
             _sampleDuration = timeSliceDuration / _sampleCountDouble;
@@ -45,41 +46,31 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override double Calculate(double time, int channelIndex)
         {
-            // Update _passedSampleTime
-            //double dt = time - _previousTime;
-            //if (dt >= 0)
-            //{
-            //    _passedSampleTime += dt;
-            //}
-            //else
-            //{
-            //    // Substitute for Math.Abs().
-            //    // This makes it work for time that goes in reverse and even time that quickly goes back and forth.
-            //    _passedSampleTime -= dt;
-            //}
+            // TODO: This only works when time goes forward. It also assumes time starts at 0.
 
-            //if (_passedSampleTime >= _sampleDuration)
-            //{
+            while (_previousTime <= time)
+            {
                 double oldValue = _queue.Dequeue();
-                double newValue = _signalCalculator.Calculate(time, channelIndex);
+                double newValue = _signalCalculator.Calculate(_previousTime, channelIndex);
                 _queue.Enqueue(newValue);
 
                 _redBlackTree.Delete(oldValue);
                 _redBlackTree.Insert(newValue, newValue);
 
-                _maximum = _redBlackTree.GetMaximum();
-                //double treesMax = _maximum;
-                //_maximum = _queue.Max();
+                // TODO: You can prevent some additions by doing a multiplication outside the loop.
+                _previousTime += _sampleDuration;
+            }
 
-                //if (treesMax != _maximum)
-                //{
-                //    int i = 0;
-                //}
+            // TODO: You only need to do this if at least a _sampleDuration has passed.
+            _maximum = _redBlackTree.GetMaximum();
 
-                //_passedSampleTime = 0.0;
+            // Check difference with brute force:
+            //double treesMax = _maximum;
+            //_maximum = _queue.Max();
+            //if (treesMax != _maximum)
+            //{
+            //    int i = 0;
             //}
-
-            //_previousTime = time;
 
             return _maximum;
         }
