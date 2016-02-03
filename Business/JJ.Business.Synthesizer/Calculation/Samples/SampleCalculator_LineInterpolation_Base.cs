@@ -4,8 +4,10 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
 {
     internal abstract class SampleCalculator_LineInterpolation_Base : SampleCalculatorBase
     {
+        // TODO: extraSampleCount 1 should be enough, but it went wrong when I tried a stereo sample.
+
         public SampleCalculator_LineInterpolation_Base(Sample sample, byte[] bytes)
-            : base(sample, bytes, extraSampleCount: 1)
+            : base(sample, bytes, extraSampleCount: 2)
         { }
 
         public override double CalculateValue(double time, int channelIndex)

@@ -63,7 +63,7 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
 
             int sampleCount = _samples.Length - extraSampleCount;
 
-            _duration = sampleCount / _rate;
+            _duration = sampleCount / _rate / ChannelCount;
         }
 
         private double[,] ReadSamples(Sample sample, byte[] bytes, int extraSampleCount)
