@@ -48,12 +48,12 @@
     <Compile Include="Calculation\CalculationHelper.cs" />
     <Compile Include="Calculation\CalculatorCache.cs" />
     <Compile Include="Calculation\Curves\ICurveCalculator.cs" />
-    <Compile Include="Calculation\Operators\2016-02-04 Backup of Maximum_OperatorCalculator_RedBlackTree.cs" />
-    <Compile Include="Calculation\Operators\Maximum_OperatorCalculator_RedBlackTree.cs" />
-    <Compile Include="Calculation\Operators\2016-02-04 Backup of Maximum_OperatorCalculator %28old%29.cs" />
     <Compile Include="Calculation\Operators\Minimum_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\MaximumOrMinimum_OperatorCalculatorBase.cs" />
+    <Compile Include="Calculation\Operators\2016-02-04 Backup of Minimum_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\If OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Average_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Maximum_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Not OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Or OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Divide OperatorCalculator Classes.cs" />
@@ -535,9 +535,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="BasicDataStructures\2016-02-03 Backup of Half-Refactored RedBlackTree  C Code\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -665,8 +665,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             else
             {
                 var wrapper = new Maximum_OperatorWrapper(op);
-                //calculator = new Maximum_OperatorCalculator(signalCalculator, wrapper.TimeSliceDuration, wrapper.SampleCount);
-                calculator = new Maximum_OperatorCalculator_RedBlackTree(signalCalculator, wrapper.TimeSliceDuration, wrapper.SampleCount);
+                calculator = new Maximum_OperatorCalculator(signalCalculator, wrapper.TimeSliceDuration, wrapper.SampleCount);
             }
 
             _stack.Push(calculator);

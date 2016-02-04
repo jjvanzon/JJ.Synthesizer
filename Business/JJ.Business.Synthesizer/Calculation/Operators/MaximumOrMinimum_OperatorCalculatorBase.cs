@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Collections;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Maximum_OperatorCalculator_RedBlackTree : OperatorCalculatorBase_WithChildCalculators
+    /// <summary>
+    /// Base class for Maximum_OperatorCalculator and Minimum_OperatorCalculator that have almost the same implementation.
+    /// </summary>
+    internal abstract class MaximumOrMinimum_OperatorCalculatorBase : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly double _sampleDuration;
         private readonly OperatorCalculatorBase _signalCalculator;
@@ -21,12 +23,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         /// </summary>
         private RedBlackTree<double, double> _redBlackTree;
 
-        private double _maximum;
+        private double _maximumOrMinimum;
         private double _previousTime;
         private double _nextSampleTime;
         private readonly double _timeSliceDuration;
 
-        public Maximum_OperatorCalculator_RedBlackTree(
+        public MaximumOrMinimum_OperatorCalculatorBase(
             OperatorCalculatorBase signalCalculator,
             double timeSliceDuration,
             int sampleCount)
@@ -48,6 +50,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             ResetState();
         }
+
+        protected abstract double GetMaximumOrMinimum(RedBlackTree<double, double> redBlackTree);
 
         public override double Calculate(double time, int channelIndex)
         {
@@ -76,7 +80,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     }
                     while (time > _nextSampleTime);
 
-                    _maximum = _redBlackTree.GetMaximum();
+                    _maximumOrMinimum = GetMaximumOrMinimum(_redBlackTree);
                 }
             }
             else
@@ -103,7 +107,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     }
                     while (time < _nextSampleTime);
 
-                    _maximum = _redBlackTree.GetMaximum();
+                    _maximumOrMinimum = GetMaximumOrMinimum(_redBlackTree);
                 }
             }
 
@@ -118,7 +122,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             _previousTime = time;
 
-            return _maximum;
+            return _maximumOrMinimum;
         }
 
         private void CalculateValueAndUpdateCollections(double time, int channelIndex)
@@ -136,7 +140,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             _redBlackTree = new RedBlackTree<double, double>();
             _queue = CreateQueue();
-            _maximum = 0.0;
+            _maximumOrMinimum = 0.0;
             _nextSampleTime = 0.0;
 
             base.ResetState();

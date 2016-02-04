@@ -7,15 +7,15 @@ using JJ.Framework.Collections;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Minimum_OperatorCalculator : MaximumOrMinimum_OperatorCalculatorBase
+    internal class Maximum_OperatorCalculator : MaximumOrMinimum_OperatorCalculatorBase
     {
-        public Minimum_OperatorCalculator(OperatorCalculatorBase signalCalculator, double timeSliceDuration, int sampleCount)
+        public Maximum_OperatorCalculator(OperatorCalculatorBase signalCalculator, double timeSliceDuration, int sampleCount)
             : base(signalCalculator, timeSliceDuration, sampleCount)
         { }
 
         protected override double GetMaximumOrMinimum(RedBlackTree<double, double> redBlackTree)
         {
-            return redBlackTree.GetMinimum();
+            return redBlackTree.GetMaximum();
         }
     }
 }
