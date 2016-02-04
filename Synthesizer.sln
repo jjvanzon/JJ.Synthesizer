@@ -97,6 +97,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Business.Canonical", "Bu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lomont", "External Components\Lomont\Lomont.csproj", "{CDA729CD-CD5E-4700-8308-B4B916C8EAB9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Collections", "Framework\JJ.Framework.Collections\JJ.Framework.Collections.csproj", "{5D06A212-5459-47F3-8109-E012C5FC9E3A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1028,6 +1030,30 @@ Global
 		{CDA729CD-CD5E-4700-8308-B4B916C8EAB9}.Release|x64.Build.0 = Release|Any CPU
 		{CDA729CD-CD5E-4700-8308-B4B916C8EAB9}.Release|x86.ActiveCfg = Release|Any CPU
 		{CDA729CD-CD5E-4700-8308-B4B916C8EAB9}.Release|x86.Build.0 = Release|Any CPU
+		{5D06A212-5459-47F3-8109-E012C5FC9E3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D06A212-5459-47F3-8109-E012C5FC9E3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D06A212-5459-47F3-8109-E012C5FC9E3A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{5D06A212-5459-47F3-8109-E012C5FC9E3A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{5D06A212-5459-47F3-8109-E012C5FC9E3A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5D06A212-5459-47F3-8109-E012C5FC9E3A}.Debug|x64.Build.0 = Debug|Any CPU
+		{5D06A212-5459-47F3-8109-E012C5FC9E3A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5D06A212-5459-47F3-8109-E012C5FC9E3A}.Debug|x86.Build.0 = Debug|Any CPU
+		{5D06A212-5459-47F3-8109-E012C5FC9E3A}.NPDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D06A212-5459-47F3-8109-E012C5FC9E3A}.NPDebug|Any CPU.Build.0 = Debug|Any CPU
+		{5D06A212-5459-47F3-8109-E012C5FC9E3A}.NPDebug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{5D06A212-5459-47F3-8109-E012C5FC9E3A}.NPDebug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{5D06A212-5459-47F3-8109-E012C5FC9E3A}.NPDebug|x64.ActiveCfg = Debug|Any CPU
+		{5D06A212-5459-47F3-8109-E012C5FC9E3A}.NPDebug|x64.Build.0 = Debug|Any CPU
+		{5D06A212-5459-47F3-8109-E012C5FC9E3A}.NPDebug|x86.ActiveCfg = Debug|Any CPU
+		{5D06A212-5459-47F3-8109-E012C5FC9E3A}.NPDebug|x86.Build.0 = Debug|Any CPU
+		{5D06A212-5459-47F3-8109-E012C5FC9E3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D06A212-5459-47F3-8109-E012C5FC9E3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D06A212-5459-47F3-8109-E012C5FC9E3A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{5D06A212-5459-47F3-8109-E012C5FC9E3A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{5D06A212-5459-47F3-8109-E012C5FC9E3A}.Release|x64.ActiveCfg = Release|Any CPU
+		{5D06A212-5459-47F3-8109-E012C5FC9E3A}.Release|x64.Build.0 = Release|Any CPU
+		{5D06A212-5459-47F3-8109-E012C5FC9E3A}.Release|x86.ActiveCfg = Release|Any CPU
+		{5D06A212-5459-47F3-8109-E012C5FC9E3A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1062,9 +1088,10 @@ Global
 		{529145D5-6CC3-4016-89B5-826563024AF1} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{62CA5AED-85D7-43CA-9410-7C6E7CDB4A34} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{4DBE5E36-4B54-4E5F-9B4F-5BBF33A3CEF1} = {72857B67-3003-486C-9BB3-34AF5748BE95}
+		{5D06A212-5459-47F3-8109-E012C5FC9E3A} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 47
+		SccNumberOfProjects = 48
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = http://83.82.26.17:8080/tfs/defaultcollection
 		SccLocalPath0 = .
@@ -1235,5 +1262,9 @@ Global
 		SccProjectUniqueName46 = External\u0020Components\\Lomont\\Lomont.csproj
 		SccProjectName46 = External\u0020Components/Lomont
 		SccLocalPath46 = External\u0020Components\\Lomont
+		SccProjectUniqueName47 = Framework\\JJ.Framework.Collections\\JJ.Framework.Collections.csproj
+		SccProjectTopLevelParentUniqueName47 = Synthesizer.sln
+		SccProjectName47 = Framework/JJ.Framework.Collections
+		SccLocalPath47 = Framework\\JJ.Framework.Collections
 	EndGlobalSection
 EndGlobal

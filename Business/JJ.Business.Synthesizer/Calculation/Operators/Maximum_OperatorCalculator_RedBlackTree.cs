@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Framework.Collections;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -25,9 +26,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _nextSampleTime;
         private readonly double _timeSliceDuration;
 
-        /// <param name="sampleDuration">
-        /// sampleDuration might be internally corrected to exactly fit n times into timeSliceDuration.
-        /// </param>
         public Maximum_OperatorCalculator_RedBlackTree(
             OperatorCalculatorBase signalCalculator,
             double timeSliceDuration,
