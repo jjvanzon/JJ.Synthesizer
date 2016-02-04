@@ -21,5 +21,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.Configuration
 
         [XmlAttribute]
         public int MaxConcurrentNotes { get; set; }
+
+        [XmlAttribute]
+        public bool AudioOutputEnabled { get; set; }
+
+        [XmlAttribute]
+        public bool MidiInputEnabled { get; set; }
     }
 }

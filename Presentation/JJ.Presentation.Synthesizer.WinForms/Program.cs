@@ -52,17 +52,17 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 PatchCalculatorContainer = new SingleThreadedPatchCalculatorContainer();
             }
 
-            _audioOutputProcessor = new AudioOutputProcessor(PatchCalculatorContainer);
-            _midiInputProcessor = new MidiInputProcessor(PatchCalculatorContainer, _audioOutputProcessor, noteRecycler);
+            if (winFormsConfig.AudioOutputEnabled) _audioOutputProcessor = new AudioOutputProcessor(PatchCalculatorContainer);
+            if (winFormsConfig.MidiInputEnabled) _midiInputProcessor = new MidiInputProcessor(PatchCalculatorContainer, _audioOutputProcessor, noteRecycler);
 
-            _audioOutputThread = StartAudioOutputThread(_audioOutputProcessor);
-            _midiInputThread = StartMidiInputThread(_midiInputProcessor);
+            if (winFormsConfig.AudioOutputEnabled) _audioOutputThread = StartAudioOutputThread(_audioOutputProcessor);
+            if (winFormsConfig.MidiInputEnabled) _midiInputThread = StartMidiInputThread(_midiInputProcessor);
 
             var form = new MainForm();
             Application.Run(form);
 
-            _audioOutputProcessor.Stop();
-            _midiInputProcessor.Stop();
+            if (winFormsConfig.AudioOutputEnabled) _audioOutputProcessor.Stop();
+            if (winFormsConfig.MidiInputEnabled) _midiInputProcessor.Stop();
 
             // TODO: Low priority: nothing really tells you that a could be disposable.
             IDisposable disposablePatchCalculator = PatchCalculatorContainer.Calculator as IDisposable;
