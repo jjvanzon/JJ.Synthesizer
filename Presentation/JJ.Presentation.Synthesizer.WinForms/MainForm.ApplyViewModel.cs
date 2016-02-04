@@ -84,6 +84,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     .Where(x => x.Visible)
                     .FirstOrDefault();
 
+                // OperatorProperties_ForAggregate
+                operatorPropertiesUserControl_ForAggregate.ViewModel =
+                    _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForAggregates)
+                    .Where(x => x.Visible)
+                    .FirstOrDefault();
+
                 // OperatorProperties_ForBundle
                 operatorPropertiesUserControl_ForBundle.ViewModel =
                     _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForBundles)
@@ -225,6 +231,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
                                              nodePropertiesUserControl.ViewModel.Visible;
                 bool operatorPropertiesVisible = operatorPropertiesUserControl.ViewModel != null &&
                                                  operatorPropertiesUserControl.ViewModel.Visible;
+                bool operatorPropertiesVisible_ForAggregate = operatorPropertiesUserControl_ForAggregate.ViewModel != null &&
+                                                              operatorPropertiesUserControl_ForAggregate.ViewModel.Visible;
                 bool operatorPropertiesVisible_ForBundle = operatorPropertiesUserControl_ForBundle.ViewModel != null &&
                                                            operatorPropertiesUserControl_ForBundle.ViewModel.Visible;
                 bool operatorPropertiesVisible_ForCurve = operatorPropertiesUserControl_ForCurve.ViewModel != null &&
@@ -272,6 +280,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (documentTreeVisible) documentTreeUserControl.Visible = true;
                 if (nodePropertiesVisible) nodePropertiesUserControl.Visible = true;
                 if (operatorPropertiesVisible) operatorPropertiesUserControl.Visible = true;
+                if (operatorPropertiesVisible_ForAggregate) operatorPropertiesUserControl_ForAggregate.Visible = true;
                 if (operatorPropertiesVisible_ForBundle) operatorPropertiesUserControl_ForBundle.Visible = true;
                 if (operatorPropertiesVisible_ForCurve) operatorPropertiesUserControl_ForCurve.Visible = true;
                 if (operatorPropertiesVisible_ForCustomOperator) operatorPropertiesUserControl_ForCustomOperator.Visible = true;
@@ -301,6 +310,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (!documentTreeVisible) documentTreeUserControl.Visible = false;
                 if (!nodePropertiesVisible) nodePropertiesUserControl.Visible = false;
                 if (!operatorPropertiesVisible) operatorPropertiesUserControl.Visible = false;
+                if (!operatorPropertiesVisible_ForAggregate) operatorPropertiesUserControl_ForAggregate.Visible = false;
                 if (!operatorPropertiesVisible_ForBundle) operatorPropertiesUserControl_ForBundle.Visible = false;
                 if (!operatorPropertiesVisible_ForCurve) operatorPropertiesUserControl_ForCurve.Visible = false;
                 if (!operatorPropertiesVisible_ForCustomOperator) operatorPropertiesUserControl_ForCustomOperator.Visible = false;
@@ -328,6 +338,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                                                     curvePropertiesVisible ||
                                                     nodePropertiesVisible ||
                                                     operatorPropertiesVisible ||
+                                                    operatorPropertiesVisible_ForAggregate ||
                                                     operatorPropertiesVisible_ForBundle ||
                                                     operatorPropertiesVisible_ForCurve ||
                                                     operatorPropertiesVisible_ForCustomOperator ||
@@ -423,6 +434,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
             if (mustFocusOperatorPropertiesUserControl)
             {
                 operatorPropertiesUserControl.Focus();
+            }
+
+            bool mustFocusOperatorPropertiesUserControl_ForAggregate = operatorPropertiesUserControl_ForAggregate.Visible &&
+                                                                      !operatorPropertiesUserControl_ForAggregate.ViewModel.Successful;
+            if (mustFocusOperatorPropertiesUserControl_ForAggregate)
+            {
+                operatorPropertiesUserControl_ForAggregate.Focus();
             }
 
             bool mustFocusOperatorPropertiesUserControl_ForBundle = operatorPropertiesUserControl_ForBundle.Visible &&

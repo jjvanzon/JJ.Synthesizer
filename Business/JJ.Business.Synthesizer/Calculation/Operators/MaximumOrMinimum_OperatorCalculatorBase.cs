@@ -41,10 +41,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _signalCalculator = signalCalculator;
             _sampleCountDouble = sampleCount;
 
-            // HACK
-            timeSliceDuration = 0.02;
-            _sampleCountDouble = 100.0;
-
             _timeSliceDuration = timeSliceDuration;
             _sampleDuration = timeSliceDuration / _sampleCountDouble;
 

@@ -836,6 +836,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
             {
+                OperatorPropertiesViewModel_ForAggregate viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForAggregate(MainViewModel.Document, id);
+                if (viewModel != null)
+                {
+                    OperatorPropertiesPresenter_ForAggregate partialPresenter = _operatorPropertiesPresenter_ForAggregate;
+                    partialPresenter.ViewModel = viewModel;
+                    partialPresenter.Show();
+                    DispatchViewModel(partialPresenter.ViewModel);
+                    return;
+                }
+            }
+            {
                 OperatorPropertiesViewModel_ForBundle viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForBundle(MainViewModel.Document, id);
                 if (viewModel != null)
                 {
@@ -943,6 +954,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesCloseOrLoseFocus(() => _operatorPropertiesPresenter.Close());
         }
 
+        public void OperatorPropertiesClose_ForAggregate()
+        {
+            OperatorPropertiesCloseOrLoseFocus_ForAggregate(() => _operatorPropertiesPresenter_ForAggregate.Close());
+        }
+
         public void OperatorPropertiesClose_ForBundle()
         {
             OperatorPropertiesCloseOrLoseFocus_ForBundle(() => _operatorPropertiesPresenter_ForBundle.Close());
@@ -991,6 +1007,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void OperatorPropertiesLoseFocus()
         {
             OperatorPropertiesCloseOrLoseFocus(() => _operatorPropertiesPresenter.LoseFocus());
+        }
+
+        public void OperatorPropertiesLoseFocus_ForAggregate()
+        {
+            OperatorPropertiesCloseOrLoseFocus_ForAggregate(() => _operatorPropertiesPresenter_ForAggregate.LoseFocus());
         }
 
         public void OperatorPropertiesLoseFocus_ForBundle()
@@ -1059,6 +1080,26 @@ namespace JJ.Presentation.Synthesizer.Presenters
         }
 
         // TODO: Fix all these other OperatorProperties actions that are similar to eachother.
+
+        private void OperatorPropertiesCloseOrLoseFocus_ForAggregate(Action partialAction)
+        {
+            OperatorPropertiesPresenter_ForAggregate partialPresenter = _operatorPropertiesPresenter_ForAggregate;
+
+            // ToEntity
+            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
+
+            // Partial Action
+            partialAction();
+
+            // ToViewModel
+            if (partialPresenter.ViewModel.Successful)
+            {
+                PatchDetails_RefreshOperator(partialPresenter.ViewModel.ID);
+            }
+
+            // DispatchViewModel
+            DispatchViewModel(partialPresenter.ViewModel);
+        }
 
         private void OperatorPropertiesCloseOrLoseFocus_ForBundle(Action partialAction)
         {
@@ -1364,6 +1405,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
             switch (operatorTypeEnum)
             {
+                case OperatorTypeEnum.Average:
+                case OperatorTypeEnum.Minimum:
+                case OperatorTypeEnum.Maximum:
+                    {
+                        OperatorPropertiesViewModel_ForAggregate propertiesViewModel = op.ToPropertiesViewModel_ForAggregate();
+                        IList<OperatorPropertiesViewModel_ForAggregate> propertiesViewModelList = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForAggregates_ByPatchID(MainViewModel.Document, patch.ID);
+                        propertiesViewModelList.Add(propertiesViewModel);
+                        break;
+                    }
+
                 case OperatorTypeEnum.Bundle:
                     {
                         OperatorPropertiesViewModel_ForBundle propertiesViewModel = op.ToPropertiesViewModel_ForBundle();
@@ -1464,6 +1515,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     PatchDocumentViewModel patchDocumentViewModel = MainViewModel.Document.PatchDocumentList.Where(x => x.ChildDocumentID == document.ID).First();
                     switch (operatorTypeEnum)
                     {
+                        case OperatorTypeEnum.Average:
+                        case OperatorTypeEnum.Minimum:
+                        case OperatorTypeEnum.Maximum:
+                            patchDocumentViewModel.OperatorPropertiesList_ForAggregates.RemoveFirst(x => x.ID == op.ID);
+                            break;
+
                         case OperatorTypeEnum.Bundle:
                             patchDocumentViewModel.OperatorPropertiesList_ForBundles.RemoveFirst(x => x.ID == op.ID);
                             break;

@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.And(a, b);
         }
 
-        public Average_OperatorWrapper Average(Outlet signal = null, double timeSliceDuration = 0.1, int sampleCount = 250)
+        public Average_OperatorWrapper Average(Outlet signal = null, double timeSliceDuration = 0.02, int sampleCount = 100)
         {
             return _patchManager.Average(signal, timeSliceDuration, sampleCount);
         }
@@ -149,12 +149,12 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.LowPassFilter(signal, maxFrequency);
         }
 
-        public Maximum_OperatorWrapper Maximum(Outlet signal = null, double timeSliceDuration = 0.1, int sampleCount = 250)
+        public Maximum_OperatorWrapper Maximum(Outlet signal = null, double timeSliceDuration = 0.02, int sampleCount = 100)
         {
             return _patchManager.Maximum(signal, timeSliceDuration, sampleCount);
         }
 
-        public Minimum_OperatorWrapper Minimum(Outlet signal = null, double timeSliceDuration = 0.1, int sampleCount = 250)
+        public Minimum_OperatorWrapper Minimum(Outlet signal = null, double timeSliceDuration = 0.02, int sampleCount = 100)
         {
             return _patchManager.Minimum(signal, timeSliceDuration, sampleCount);
         }

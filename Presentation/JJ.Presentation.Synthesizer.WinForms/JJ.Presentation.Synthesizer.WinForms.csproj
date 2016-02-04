@@ -141,6 +141,12 @@
     <Compile Include="UserControls\NodePropertiesUserControl.Designer.cs">
       <DependentUpon>NodePropertiesUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\OperatorPropertiesUserControl_ForAggregate.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\OperatorPropertiesUserControl_ForAggregate.Designer.cs">
+      <DependentUpon>OperatorPropertiesUserControl_ForAggregate.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_ForSpectrum.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -348,6 +354,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\NodePropertiesUserControl.resx">
       <DependentUpon>NodePropertiesUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForAggregate.resx">
+      <DependentUpon>OperatorPropertiesUserControl_ForAggregate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForSpectrum.resx">
       <DependentUpon>OperatorPropertiesUserControl_ForSpectrum.cs</DependentUpon>

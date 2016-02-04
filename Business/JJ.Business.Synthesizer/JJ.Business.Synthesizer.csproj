@@ -50,7 +50,6 @@
     <Compile Include="Calculation\Curves\ICurveCalculator.cs" />
     <Compile Include="Calculation\Operators\Minimum_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\MaximumOrMinimum_OperatorCalculatorBase.cs" />
-    <Compile Include="Calculation\Operators\2016-02-04 Backup of Minimum_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\If OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Average_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Maximum_OperatorCalculator.cs" />

@@ -83,15 +83,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 CurvePropertiesList = childDocument.Curves.Select(x => x.ToPropertiesViewModel()).ToList(),
                 NodePropertiesList = childDocument.Curves.SelectMany(x => x.Nodes).Select(x => x.ToPropertiesViewModel(repositories.NodeTypeRepository)).ToList(),
                 OperatorPropertiesList = childDocument.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList()).ToList(),
-                OperatorPropertiesList_ForBundles = childDocument.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList_ForBundles()).ToList(),
-                OperatorPropertiesList_ForCurves = childDocument.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList_ForCurves(repositories.CurveRepository)).ToList(),
-                OperatorPropertiesList_ForCustomOperators = childDocument.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList_ForCustomOperators(repositories.PatchRepository)).ToList(),
+                OperatorPropertiesList_ForAggregates = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForAggregates()).ToList(),
+                OperatorPropertiesList_ForBundles = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForBundles()).ToList(),
+                OperatorPropertiesList_ForCurves = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForCurves(repositories.CurveRepository)).ToList(),
+                OperatorPropertiesList_ForCustomOperators = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForCustomOperators(repositories.PatchRepository)).ToList(),
                 OperatorPropertiesList_ForNumbers = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForNumbers()).ToList(),
                 OperatorPropertiesList_ForPatchInlets = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForPatchInlets(repositories.InletTypeRepository)).ToList(),
                 OperatorPropertiesList_ForPatchOutlets = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForPatchOutlets(repositories.OutletTypeRepository)).ToList(),
-                OperatorPropertiesList_ForSamples = childDocument.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList_ForSamples(repositories.SampleRepository)).ToList(),
-                OperatorPropertiesList_ForSpectrums = childDocument.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList_ForSpectrums()).ToList(),
-                OperatorPropertiesList_ForUnbundles = childDocument.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList_ForUnbundles()).ToList(),
+                OperatorPropertiesList_ForSamples = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForSamples(repositories.SampleRepository)).ToList(),
+                OperatorPropertiesList_ForSpectrums = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForSpectrums()).ToList(),
+                OperatorPropertiesList_ForUnbundles = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForUnbundles()).ToList(),
                 PatchDetails = childDocument.Patches[0].ToDetailsViewModel(repositories.OperatorTypeRepository, repositories.SampleRepository, repositories.CurveRepository, repositories.PatchRepository, entityPositionManager),
                 PatchProperties = childDocument.ToPatchPropertiesViewModel(),
                 SampleGrid = childDocument.Samples.ToGridViewModel(childDocument.ID),
@@ -105,6 +106,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.CurvePropertiesList.ForEach(x => x.Successful = true);
             viewModel.NodePropertiesList.ForEach(x => x.Successful = true);
             viewModel.OperatorPropertiesList.ForEach(x => x.Successful = true);
+            viewModel.OperatorPropertiesList_ForAggregates.ForEach(x => x.Successful = true);
             viewModel.OperatorPropertiesList_ForBundles.ForEach(x => x.Successful = true);
             viewModel.OperatorPropertiesList_ForCurves.ForEach(x => x.Successful = true);
             viewModel.OperatorPropertiesList_ForCustomOperators.ForEach(x => x.Successful = true);

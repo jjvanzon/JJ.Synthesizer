@@ -18,13 +18,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _previousTime;
         private double _passedSampleTime;
 
-        /// <param name="sampleDuration">
-        /// sampleDuration might be internally corrected to exactly fit n times into timeSliceDuration.
-        /// </param>
-        public Average_OperatorCalculator(
-            OperatorCalculatorBase signalCalculator,
-            double timeSliceDuration,
-            int sampleCount)
+        public Average_OperatorCalculator(OperatorCalculatorBase signalCalculator, double timeSliceDuration, int sampleCount)
             : base(new OperatorCalculatorBase[] { signalCalculator })
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);

@@ -83,7 +83,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Average_OperatorWrapper Average(Outlet signal = null, double timeSliceDuration = 0.1, int sampleCount = 250)
+        public Average_OperatorWrapper Average(Outlet signal = null, double timeSliceDuration = 0.02, int sampleCount = 100)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Average, inletCount: 1, outletCount: 1);
 
@@ -397,7 +397,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Maximum_OperatorWrapper Maximum(Outlet signal = null, double timeSliceDuration = 0.1, int sampleCount = 250)
+        public Maximum_OperatorWrapper Maximum(Outlet signal = null, double timeSliceDuration = 0.02, int sampleCount = 100)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Maximum, inletCount: 1, outletCount: 1);
 
@@ -413,7 +413,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Minimum_OperatorWrapper Minimum(Outlet signal = null, double timeSliceDuration = 0.1, int sampleCount = 250)
+        public Minimum_OperatorWrapper Minimum(Outlet signal = null, double timeSliceDuration = 0.02, int sampleCount = 100)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Minimum, inletCount: 1, outletCount: 1);
 

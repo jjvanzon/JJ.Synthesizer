@@ -71,6 +71,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             nodePropertiesUserControl.LoseFocusRequested += nodePropertiesUserControl_LoseFocusRequested;
             operatorPropertiesUserControl.CloseRequested += operatorPropertiesUserControl_CloseRequested;
             operatorPropertiesUserControl.LoseFocusRequested += operatorPropertiesUserControl_LoseFocusRequested;
+            operatorPropertiesUserControl_ForAggregate.CloseRequested += operatorPropertiesUserControl_ForAggregate_CloseRequested;
+            operatorPropertiesUserControl_ForAggregate.LoseFocusRequested += operatorPropertiesUserControl_ForAggregate_LoseFocusRequested;
             operatorPropertiesUserControl_ForBundle.CloseRequested += operatorPropertiesUserControl_ForBundle_CloseRequested;
             operatorPropertiesUserControl_ForBundle.LoseFocusRequested += operatorPropertiesUserControl_ForBundle_LoseFocusRequested;
             operatorPropertiesUserControl_ForCurve.CloseRequested += operatorPropertiesUserControl_ForCurve_CloseRequested;
@@ -850,6 +852,32 @@ namespace JJ.Presentation.Synthesizer.WinForms
             try
             {
                 _presenter.OperatorPropertiesClose();
+                ApplyViewModel();
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
+        }
+
+        private void operatorPropertiesUserControl_ForAggregate_LoseFocusRequested(object sender, EventArgs e)
+        {
+            try
+            {
+                _presenter.OperatorPropertiesLoseFocus_ForAggregate();
+                ApplyViewModel();
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
+        }
+
+        private void operatorPropertiesUserControl_ForAggregate_CloseRequested(object sender, EventArgs e)
+        {
+            try
+            {
+                _presenter.OperatorPropertiesClose_ForAggregate();
                 ApplyViewModel();
             }
             finally
