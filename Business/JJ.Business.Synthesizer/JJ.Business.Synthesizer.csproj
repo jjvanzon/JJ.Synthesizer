@@ -40,12 +40,6 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BasicDataStructures\2016-02-03 Backup of Half-Refactored RedBlackTree  C Code\IRedBlackTree.cs" />
-    <Compile Include="BasicDataStructures\2016-02-03 Backup of Half-Refactored RedBlackTree  C Code\RedBlackTree - Copy %282%29.cs" />
-    <Compile Include="BasicDataStructures\2016-02-03 Backup of Half-Refactored RedBlackTree  C Code\RedBlackTree - Copy %283%29.cs" />
-    <Compile Include="BasicDataStructures\2016-02-03 Backup of Half-Refactored RedBlackTree  C Code\RedBlackTree - Copy %284%29.cs" />
-    <Compile Include="BasicDataStructures\2016-02-03 Backup of Half-Refactored RedBlackTree  C Code\RedBlackTree - Copy %285%29.cs" />
-    <Compile Include="BasicDataStructures\2016-02-03 Backup of Half-Refactored RedBlackTree  C Code\RedBlackTree - Copy.cs" />
     <Compile Include="Calculation\AudioFileOutputs\AudioFileOutputCalculatorFactory.cs" />
     <Compile Include="Calculation\AudioFileOutputs\AudioFileOutputCalculatorBase.cs" />
     <Compile Include="Calculation\AudioFileOutputs\ByteAudioFileOutputCalculator.cs" />
@@ -56,7 +50,7 @@
     <Compile Include="Calculation\Curves\ICurveCalculator.cs" />
     <Compile Include="Calculation\Operators\2016-02-04 Backup of Maximum_OperatorCalculator_RedBlackTree.cs" />
     <Compile Include="Calculation\Operators\Maximum_OperatorCalculator_RedBlackTree.cs" />
-    <Compile Include="Calculation\Operators\Maximum_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\2016-02-04 Backup of Maximum_OperatorCalculator %28old%29.cs" />
     <Compile Include="Calculation\Operators\Minimum_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\If OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Average_OperatorCalculator.cs" />
@@ -187,7 +181,6 @@
     <Compile Include="Extensions\ToneExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Helpers\CurveRepositories.cs" />
-    <Compile Include="BasicDataStructures\2016-02-03 Backup of DoubleBinaryTree.cs" />
     <Compile Include="Helpers\NoCalculatorException.cs" />
     <Compile Include="Helpers\OperatorConstants.cs" />
     <Compile Include="Helpers\OperatorDataParser.cs" />
@@ -542,7 +535,9 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="BasicDataStructures\2016-02-03 Backup of Half-Refactored RedBlackTree  C Code\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
