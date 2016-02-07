@@ -35,8 +35,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.textBoxName = new System.Windows.Forms.TextBox();
             this.labelOperatorTypeTitle = new System.Windows.Forms.Label();
             this.labelOperatorTypeValue = new System.Windows.Forms.Label();
-            this.labelInterpolationType = new System.Windows.Forms.Label();
-            this.comboBoxInterpolationType = new System.Windows.Forms.ComboBox();
+            this.labelInterpolation = new System.Windows.Forms.Label();
+            this.comboBoxInterpolation = new System.Windows.Forms.ComboBox();
             this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
             this.tableLayoutPanelMain.SuspendLayout();
             this.tableLayoutPanelProperties.SuspendLayout();
@@ -67,8 +67,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.tableLayoutPanelProperties.Controls.Add(this.textBoxName, 1, 1);
             this.tableLayoutPanelProperties.Controls.Add(this.labelOperatorTypeTitle, 0, 0);
             this.tableLayoutPanelProperties.Controls.Add(this.labelOperatorTypeValue, 1, 0);
-            this.tableLayoutPanelProperties.Controls.Add(this.labelInterpolationType, 0, 2);
-            this.tableLayoutPanelProperties.Controls.Add(this.comboBoxInterpolationType, 1, 2);
+            this.tableLayoutPanelProperties.Controls.Add(this.labelInterpolation, 0, 2);
+            this.tableLayoutPanelProperties.Controls.Add(this.comboBoxInterpolation, 1, 2);
             this.tableLayoutPanelProperties.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelProperties.Location = new System.Drawing.Point(4, 30);
             this.tableLayoutPanelProperties.Margin = new System.Windows.Forms.Padding(4);
@@ -125,27 +125,27 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelOperatorTypeValue.Text = "labelOperatorTypeValue";
             this.labelOperatorTypeValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // labelInterpolationType
+            // labelInterpolation
             // 
-            this.labelInterpolationType.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelInterpolationType.Location = new System.Drawing.Point(0, 60);
-            this.labelInterpolationType.Margin = new System.Windows.Forms.Padding(0);
-            this.labelInterpolationType.Name = "labelInterpolationType";
-            this.labelInterpolationType.Size = new System.Drawing.Size(147, 30);
-            this.labelInterpolationType.TabIndex = 20;
-            this.labelInterpolationType.Text = "labelInterpolationType";
-            this.labelInterpolationType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelInterpolation.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelInterpolation.Location = new System.Drawing.Point(0, 60);
+            this.labelInterpolation.Margin = new System.Windows.Forms.Padding(0);
+            this.labelInterpolation.Name = "labelInterpolation";
+            this.labelInterpolation.Size = new System.Drawing.Size(147, 30);
+            this.labelInterpolation.TabIndex = 20;
+            this.labelInterpolation.Text = "labelInterpolation";
+            this.labelInterpolation.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // comboBoxInterpolationType
+            // comboBoxInterpolation
             // 
-            this.comboBoxInterpolationType.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.comboBoxInterpolationType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxInterpolationType.FormattingEnabled = true;
-            this.comboBoxInterpolationType.Location = new System.Drawing.Point(147, 60);
-            this.comboBoxInterpolationType.Margin = new System.Windows.Forms.Padding(0);
-            this.comboBoxInterpolationType.Name = "comboBoxInterpolationType";
-            this.comboBoxInterpolationType.Size = new System.Drawing.Size(10, 24);
-            this.comboBoxInterpolationType.TabIndex = 21;
+            this.comboBoxInterpolation.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.comboBoxInterpolation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxInterpolation.FormattingEnabled = true;
+            this.comboBoxInterpolation.Location = new System.Drawing.Point(147, 60);
+            this.comboBoxInterpolation.Margin = new System.Windows.Forms.Padding(0);
+            this.comboBoxInterpolation.Name = "comboBoxInterpolation";
+            this.comboBoxInterpolation.Size = new System.Drawing.Size(10, 24);
+            this.comboBoxInterpolation.TabIndex = 21;
             // 
             // titleBarUserControl
             // 
@@ -189,7 +189,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private System.Windows.Forms.TextBox textBoxName;
         private System.Windows.Forms.Label labelOperatorTypeTitle;
         private System.Windows.Forms.Label labelOperatorTypeValue;
-        private System.Windows.Forms.Label labelInterpolationType;
-        private System.Windows.Forms.ComboBox comboBoxInterpolationType;
+        private System.Windows.Forms.Label labelInterpolation;
+        private System.Windows.Forms.ComboBox comboBoxInterpolation;
     }
 }

@@ -639,8 +639,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 ID = entity.ID,
                 Name = entity.Name,
-                InterpolationType = wrapper.ResampleInterpolationTypeEnum.ToIDAndDisplayName(),
-                InterpolationTypeLookup = ViewModelHelper.CreateResampleInterpolationTypeLookupViewModel(),
+                Interpolation = wrapper.ResampleInterpolationTypeEnum.ToIDAndDisplayName(),
+                InterpolationLookup = ViewModelHelper.CreateResampleInterpolationLookupViewModel(),
                 ValidationMessages = new List<Message>()
             };
 

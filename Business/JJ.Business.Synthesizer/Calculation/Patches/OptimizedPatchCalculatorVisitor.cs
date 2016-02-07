@@ -1128,8 +1128,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                         calculator = new Resample_OperatorCalculator_LineRememberT1(signalCalculator, samplingRateCalculator);
                         break;
 
-                    case ResampleInterpolationTypeEnum.CubicEquidistantT:
-                        calculator = new Resample_OperatorCalculator_CubicEquidistantT(signalCalculator, samplingRateCalculator);
+                    case ResampleInterpolationTypeEnum.CubicEquidistant:
+                        calculator = new Resample_OperatorCalculator_CubicEquidistant(signalCalculator, samplingRateCalculator);
                         break;
 
                     case ResampleInterpolationTypeEnum.CubicAbruptInclination:

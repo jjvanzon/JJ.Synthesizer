@@ -604,4 +604,28 @@
   <data name="TimeSliceDuration" xml:space="preserve">
     <value>Time Slice Duration</value>
   </data>
+  <data name="CubicAbruptInclination" xml:space="preserve">
+    <value>Cubic Abrupt Inclination</value>
+  </data>
+  <data name="CubicEquidistant" xml:space="preserve">
+    <value>Cubic Equidistant</value>
+  </data>
+  <data name="CubicSmoothInclination" xml:space="preserve">
+    <value>Cubic Smooth Inclination</value>
+  </data>
+  <data name="Hermite" xml:space="preserve">
+    <value>Hermite</value>
+  </data>
+  <data name="LineRememberT0" xml:space="preserve">
+    <value>Line Remember T0</value>
+  </data>
+  <data name="LineRememberT1" xml:space="preserve">
+    <value>Line Remember T1</value>
+  </data>
+  <data name="Stripe" xml:space="preserve">
+    <value>Stripe</value>
+  </data>
+  <data name="Interpolation" xml:space="preserve">
+    <value>Interpolation</value>
+  </data>
 </root>

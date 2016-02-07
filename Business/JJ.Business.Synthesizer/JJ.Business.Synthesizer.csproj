@@ -88,7 +88,7 @@
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_CubicSmoothInclination.cs" />
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_Hermite.cs" />
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_CubicAbruptInclination.cs" />
-    <Compile Include="Calculation\Operators\Resample_OperatorCalculator_CubicEquidistantT.cs" />
+    <Compile Include="Calculation\Operators\Resample_OperatorCalculator_CubicEquidistant.cs" />
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_LineRememberT1_Org.cs" />
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_LineRememberT1.cs" />
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_LineRememberT0.cs" />

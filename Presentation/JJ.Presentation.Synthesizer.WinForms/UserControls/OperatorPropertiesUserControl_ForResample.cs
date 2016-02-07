@@ -53,7 +53,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelName.Text = CommonTitles.Name;
             labelOperatorTypeTitle.Text = PropertyDisplayNames.OperatorType + ":";
             labelOperatorTypeValue.Text = PropertyDisplayNames.Resample;
-            labelInterpolationType.Text = PropertyDisplayNames.InterpolationType;
+            labelInterpolation.Text = PropertyDisplayNames.Interpolation;
         }
 
         private void ApplyStyling()
@@ -69,20 +69,20 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             textBoxName.Text = _viewModel.Name;
 
-            if (comboBoxInterpolationType.DataSource == null)
+            if (comboBoxInterpolation.DataSource == null)
             {
-                comboBoxInterpolationType.ValueMember = PropertyNames.ID;
-                comboBoxInterpolationType.DisplayMember = PropertyNames.Name;
-                comboBoxInterpolationType.DataSource = _viewModel.InterpolationTypeLookup;
+                comboBoxInterpolation.ValueMember = PropertyNames.ID;
+                comboBoxInterpolation.DisplayMember = PropertyNames.Name;
+                comboBoxInterpolation.DataSource = _viewModel.InterpolationLookup;
             }
 
-            if (_viewModel.InterpolationType != null)
+            if (_viewModel.Interpolation != null)
             {
-                comboBoxInterpolationType.SelectedValue = _viewModel.InterpolationType.ID;
+                comboBoxInterpolation.SelectedValue = _viewModel.Interpolation.ID;
             }
             else
             {
-                comboBoxInterpolationType.SelectedValue = 0;
+                comboBoxInterpolation.SelectedValue = 0;
             }
         }
 
@@ -91,7 +91,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (_viewModel == null) return;
 
             _viewModel.Name = textBoxName.Text;
-            _viewModel.InterpolationType = (IDAndName)comboBoxInterpolationType.SelectedItem;
+            _viewModel.Interpolation = (IDAndName)comboBoxInterpolation.SelectedItem;
         }
 
         // Actions

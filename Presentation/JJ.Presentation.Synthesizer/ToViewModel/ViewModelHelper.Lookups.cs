@@ -103,7 +103,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return idAndNames;
         }
 
-        public static IList<IDAndName> CreateResampleInterpolationTypeLookupViewModel()
+        public static IList<IDAndName> CreateResampleInterpolationLookupViewModel()
         {
             ResampleInterpolationTypeEnum[] enumValues = (ResampleInterpolationTypeEnum[])Enum.GetValues(typeof(ResampleInterpolationTypeEnum));
 

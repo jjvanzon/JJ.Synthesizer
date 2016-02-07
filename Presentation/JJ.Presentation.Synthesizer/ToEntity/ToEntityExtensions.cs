@@ -1042,10 +1042,10 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.SetOperatorTypeEnum(OperatorTypeEnum.Resample, operatorTypeRepository);
 
             var wrapper = new Resample_OperatorWrapper(entity);
-            bool interpolationTypeIsFilledIn = viewModel.InterpolationType != null && viewModel.InterpolationType.ID != 0;
+            bool interpolationTypeIsFilledIn = viewModel.Interpolation != null && viewModel.Interpolation.ID != 0;
             if (interpolationTypeIsFilledIn)
             {
-                wrapper.ResampleInterpolationTypeEnum = (ResampleInterpolationTypeEnum)viewModel.InterpolationType.ID;
+                wrapper.ResampleInterpolationTypeEnum = (ResampleInterpolationTypeEnum)viewModel.Interpolation.ID;
             }
             else
             {

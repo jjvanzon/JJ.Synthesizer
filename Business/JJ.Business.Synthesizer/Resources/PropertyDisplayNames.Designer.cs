@@ -304,6 +304,33 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cubic Abrupt Inclination.
+        /// </summary>
+        public static string CubicAbruptInclination {
+            get {
+                return ResourceManager.GetString("CubicAbruptInclination", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cubic Equidistant.
+        /// </summary>
+        public static string CubicEquidistant {
+            get {
+                return ResourceManager.GetString("CubicEquidistant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cubic Smooth Inclination.
+        /// </summary>
+        public static string CubicSmoothInclination {
+            get {
+                return ResourceManager.GetString("CubicSmoothInclination", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Curve.
         /// </summary>
         public static string Curve {
@@ -538,6 +565,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hermite.
+        /// </summary>
+        public static string Hermite {
+            get {
+                return ResourceManager.GetString("Hermite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to High.
         /// </summary>
         public static string High {
@@ -628,6 +664,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Interpolation.
+        /// </summary>
+        public static string Interpolation {
+            get {
+                return ResourceManager.GetString("Interpolation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Interpolation Type.
         /// </summary>
         public static string InterpolationType {
@@ -678,6 +723,24 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Line {
             get {
                 return ResourceManager.GetString("Line", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Line Remember T0.
+        /// </summary>
+        public static string LineRememberT0 {
+            get {
+                return ResourceManager.GetString("LineRememberT0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Line Remember T1.
+        /// </summary>
+        public static string LineRememberT1 {
+            get {
+                return ResourceManager.GetString("LineRememberT1", resourceCulture);
             }
         }
         
@@ -1299,6 +1362,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Stretch {
             get {
                 return ResourceManager.GetString("Stretch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stripe.
+        /// </summary>
+        public static string Stripe {
+            get {
+                return ResourceManager.GetString("Stripe", resourceCulture);
             }
         }
         

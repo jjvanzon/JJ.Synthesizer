@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Enums
         Stripe,
         LineRememberT0,
         LineRememberT1,
-        CubicEquidistantT,
+        CubicEquidistant,
         CubicAbruptInclination,
         CubicSmoothInclination,
         Hermite
