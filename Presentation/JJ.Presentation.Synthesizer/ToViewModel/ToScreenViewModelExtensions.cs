@@ -35,6 +35,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.Number,
             OperatorTypeEnum.PatchInlet,
             OperatorTypeEnum.PatchOutlet,
+            OperatorTypeEnum.Resample,
             OperatorTypeEnum.Sample,
             OperatorTypeEnum.Spectrum,
             OperatorTypeEnum.Unbundle
@@ -392,6 +393,15 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                         .ToList();
         }
 
+        public static IList<OperatorPropertiesViewModel_ForResample> ToPropertiesViewModelList_ForResamples(this Patch patch)
+        {
+            if (patch == null) throw new NullException(() => patch);
+
+            return patch.GetOperatorsOfType(OperatorTypeEnum.Resample)
+                        .Select(x => x.ToPropertiesViewModel_ForResample())
+                        .ToList();
+        }
+
         public static IList<OperatorPropertiesViewModel_ForSpectrum> ToPropertiesViewModelList_ForSpectrums(this Patch patch)
         {
             if (patch == null) throw new NullException(() => patch);
@@ -619,6 +629,24 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
+        public static OperatorPropertiesViewModel_ForResample ToPropertiesViewModel_ForResample(this Operator entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            var wrapper = new Resample_OperatorWrapper(entity);
+
+            var viewModel = new OperatorPropertiesViewModel_ForResample
+            {
+                ID = entity.ID,
+                Name = entity.Name,
+                InterpolationType = wrapper.ResampleInterpolationTypeEnum.ToIDAndDisplayName(),
+                InterpolationTypeLookup = ViewModelHelper.CreateResampleInterpolationTypeLookupViewModel(),
+                ValidationMessages = new List<Message>()
+            };
+
+            return viewModel;
+        }
+
         public static OperatorPropertiesViewModel_ForSample ToPropertiesViewModel_ForSample(this Operator entity, ISampleRepository sampleRepository)
         {
             if (entity == null) throw new NullException(() => entity);
@@ -785,7 +813,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 AudioFileFormatLookup = ViewModelHelper.CreateAudioFileFormatLookupViewModel(repositories.AudioFileFormatRepository),
                 SampleDataTypeLookup = ViewModelHelper.CreateSampleDataTypeLookupViewModel(repositories.SampleDataTypeRepository),
                 SpeakerSetupLookup = ViewModelHelper.CreateSpeakerSetupLookupViewModel(repositories.SpeakerSetupRepository),
-                InterpolationTypeLookup = ViewModelHelper.CreateInterpolationTypesLookupViewModel(repositories.InterpolationTypeRepository),
+                InterpolationTypeLookup = ViewModelHelper.CreateInterpolationTypeLookupViewModel(repositories.InterpolationTypeRepository),
                 ValidationMessages = new List<Message>()
             };
 

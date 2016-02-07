@@ -7,11 +7,16 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Presentation.Synthesizer.ViewModels;
 using System;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
     internal static partial class ViewModelHelper
     {
+        // TODO: Refactor these methods so they do not use repositories, but completely rely on the enum members,
+        // like already applied in CreateResampleInterpolationTypeLookupViewModel.
+
         public static IList<IDAndName> CreateAudioFileFormatLookupViewModel(IAudioFileFormatRepository repository)
         {
             if (repository == null) throw new NullException(() => repository);
@@ -51,7 +56,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return idAndNames;
         }
 
-        public static IList<IDAndName> CreateInterpolationTypesLookupViewModel(IInterpolationTypeRepository repository)
+        public static IList<IDAndName> CreateInterpolationTypeLookupViewModel(IInterpolationTypeRepository repository)
         {
             if (repository == null) throw new NullException(() => repository);
 
@@ -94,6 +99,28 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var idAndNames = new List<IDAndName>(entities.Count + 1);
             idAndNames.Add(new IDAndName { ID = 0, Name = null });
             idAndNames.AddRange(entities.Select(x => x.ToIDAndDisplayName()).OrderBy(x => x.Name));
+
+            return idAndNames;
+        }
+
+        public static IList<IDAndName> CreateResampleInterpolationTypeLookupViewModel()
+        {
+            ResampleInterpolationTypeEnum[] enumValues = (ResampleInterpolationTypeEnum[])Enum.GetValues(typeof(ResampleInterpolationTypeEnum));
+
+            var idAndNames = new List<IDAndName>(enumValues.Length);
+            idAndNames.Add(new IDAndName { ID = 0, Name = null });
+
+            foreach (ResampleInterpolationTypeEnum enumValue in enumValues)
+            {
+                if (enumValue == ResampleInterpolationTypeEnum.Undefined)
+                {
+                    continue;
+                }
+
+                var idAndName = enumValue.ToIDAndDisplayName();
+
+                idAndNames.Add(idAndName);
+            }
 
             return idAndNames;
         }

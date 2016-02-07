@@ -51,7 +51,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
 
-            string displayName = ResourceHelper.GetInletTypeDisplayName(entity);
+            string displayName = ResourceHelper.GetDisplayName(entity);
 
             return new IDAndName
             {
@@ -62,7 +62,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static IDAndName ToIDAndDisplayName(this InletTypeEnum enumValue)
         {
-            string displayName = ResourceHelper.GetInletTypeDisplayName(enumValue);
+            string displayName = ResourceHelper.GetDisplayName(enumValue);
 
             return new IDAndName
             {
@@ -112,7 +112,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
 
-            string displayName = ResourceHelper.GetOutletTypeDisplayName(entity);
+            string displayName = ResourceHelper.GetDisplayName(entity);
 
             return new IDAndName
             {
@@ -123,7 +123,18 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static IDAndName ToIDAndDisplayName(this OutletTypeEnum enumValue)
         {
-            string displayName = ResourceHelper.GetOutletTypeDisplayName(enumValue);
+            string displayName = ResourceHelper.GetDisplayName(enumValue);
+
+            return new IDAndName
+            {
+                ID = (int)enumValue,
+                Name = displayName
+            };
+        }
+
+        public static IDAndName ToIDAndDisplayName(this ResampleInterpolationTypeEnum enumValue)
+        {
+            string displayName = ResourceHelper.GetDisplayName(enumValue);
 
             return new IDAndName
             {
@@ -184,7 +195,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
 
-            string displayName = ResourceHelper.GetScaleTypeDisplayNamePlural(entity);
+            string displayName = ResourceHelper.GetDisplayNamePlural(entity);
 
             return new IDAndName
             {

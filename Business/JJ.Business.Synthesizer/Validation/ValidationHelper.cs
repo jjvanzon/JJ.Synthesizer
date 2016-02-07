@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Validation
 
             if (op.OperatorType != null)
             {
-                string operatorTypeDisplayName = ResourceHelper.GetOperatorTypeDisplayName(op.OperatorType);
+                string operatorTypeDisplayName = ResourceHelper.GetDisplayName(op.OperatorType);
                 return operatorTypeDisplayName;
             }
 

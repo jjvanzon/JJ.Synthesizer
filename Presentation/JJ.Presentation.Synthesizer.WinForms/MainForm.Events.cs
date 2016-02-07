@@ -85,6 +85,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             operatorPropertiesUserControl_ForPatchInlet.LoseFocusRequested += operatorPropertiesUserControl_ForPatchInlet_LoseFocusRequested;
             operatorPropertiesUserControl_ForPatchOutlet.CloseRequested += operatorPropertiesUserControl_ForPatchOutlet_CloseRequested;
             operatorPropertiesUserControl_ForPatchOutlet.LoseFocusRequested += operatorPropertiesUserControl_ForPatchOutlet_LoseFocusRequested;
+            operatorPropertiesUserControl_ForResample.CloseRequested += operatorPropertiesUserControl_ForResample_CloseRequested;
+            operatorPropertiesUserControl_ForResample.LoseFocusRequested += operatorPropertiesUserControl_ForResample_LoseFocusRequested;
             operatorPropertiesUserControl_ForSample.CloseRequested += operatorPropertiesUserControl_ForSample_CloseRequested;
             operatorPropertiesUserControl_ForSample.LoseFocusRequested += operatorPropertiesUserControl_ForSample_LoseFocusRequested;
             operatorPropertiesUserControl_ForSpectrum.CloseRequested += operatorPropertiesUserControl_ForSpectrum_CloseRequested;
@@ -1034,6 +1036,32 @@ namespace JJ.Presentation.Synthesizer.WinForms
             try
             {
                 _presenter.OperatorPropertiesClose_ForPatchOutlet();
+                ApplyViewModel();
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
+        }
+
+        private void operatorPropertiesUserControl_ForResample_LoseFocusRequested(object sender, EventArgs e)
+        {
+            try
+            {
+                _presenter.OperatorPropertiesLoseFocus_ForResample();
+                ApplyViewModel();
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
+        }
+
+        private void operatorPropertiesUserControl_ForResample_CloseRequested(object sender, EventArgs e)
+        {
+            try
+            {
+                _presenter.OperatorPropertiesClose_ForResample();
                 ApplyViewModel();
             }
             finally

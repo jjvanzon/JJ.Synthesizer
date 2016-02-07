@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Validation
             OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
             if (operatorTypeEnum != OperatorTypeEnum.Unbundle)
             {
-                string operatorTypeDisplayName = ResourceHelper.GetOperatorTypeDisplayName(operatorTypeEnum);
+                string operatorTypeDisplayName = ResourceHelper.GetDisplayName(operatorTypeEnum);
                 ValidationMessages.Add(() => op.OperatorType, MessageFormatter.OperatorTypeMustBeOfType(operatorTypeDisplayName));
             }
 

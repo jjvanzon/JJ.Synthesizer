@@ -90,6 +90,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorPropertiesList_ForNumbers = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForNumbers()).ToList(),
                 OperatorPropertiesList_ForPatchInlets = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForPatchInlets(repositories.InletTypeRepository)).ToList(),
                 OperatorPropertiesList_ForPatchOutlets = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForPatchOutlets(repositories.OutletTypeRepository)).ToList(),
+                OperatorPropertiesList_ForResamples = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForResamples()).ToList(),
                 OperatorPropertiesList_ForSamples = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForSamples(repositories.SampleRepository)).ToList(),
                 OperatorPropertiesList_ForSpectrums = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForSpectrums()).ToList(),
                 OperatorPropertiesList_ForUnbundles = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForUnbundles()).ToList(),
@@ -113,6 +114,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.OperatorPropertiesList_ForNumbers.ForEach(x => x.Successful = true);
             viewModel.OperatorPropertiesList_ForPatchInlets.ForEach(x => x.Successful = true);
             viewModel.OperatorPropertiesList_ForPatchOutlets.ForEach(x => x.Successful = true);
+            viewModel.OperatorPropertiesList_ForResamples.ForEach(x => x.Successful = true);
             viewModel.OperatorPropertiesList_ForSamples.ForEach(x => x.Successful = true);
             viewModel.OperatorPropertiesList_ForUnbundles.ForEach(x => x.Successful = true);
             viewModel.PatchDetails.Successful = true;

@@ -913,6 +913,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
             {
+                OperatorPropertiesViewModel_ForResample viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForResample(MainViewModel.Document, id);
+                if (viewModel != null)
+                {
+                    OperatorPropertiesPresenter_ForResample partialPresenter = _operatorPropertiesPresenter_ForResample;
+                    partialPresenter.ViewModel = viewModel;
+                    partialPresenter.Show();
+                    DispatchViewModel(partialPresenter.ViewModel);
+                    return;
+                }
+            }
+            {
                 OperatorPropertiesViewModel_ForSample viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForSample(MainViewModel.Document, id);
                 if (viewModel != null)
                 {
@@ -989,6 +1000,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesCloseOrLoseFocus_ForPatchOutlet(() => _operatorPropertiesPresenter_ForPatchOutlet.Close());
         }
 
+        public void OperatorPropertiesClose_ForResample()
+        {
+            OperatorPropertiesCloseOrLoseFocus_ForResample(() => _operatorPropertiesPresenter_ForResample.Close());
+        }
+
         public void OperatorPropertiesClose_ForSample()
         {
             OperatorPropertiesCloseOrLoseFocus_ForSample(() => _operatorPropertiesPresenter_ForSample.Close());
@@ -1042,6 +1058,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void OperatorPropertiesLoseFocus_ForPatchOutlet()
         {
             OperatorPropertiesCloseOrLoseFocus_ForPatchOutlet(() => _operatorPropertiesPresenter_ForPatchOutlet.LoseFocus());
+        }
+
+        public void OperatorPropertiesLoseFocus_ForResample()
+        {
+            OperatorPropertiesCloseOrLoseFocus_ForResample(() => _operatorPropertiesPresenter_ForResample.LoseFocus());
         }
 
         public void OperatorPropertiesLoseFocus_ForSample()
@@ -1236,6 +1257,26 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // Refresh Dependent Things
                 OperatorViewModels_OfType_Refresh(OperatorTypeEnum.CustomOperator);
+            }
+
+            // DispatchViewModel
+            DispatchViewModel(partialPresenter.ViewModel);
+        }
+
+        private void OperatorPropertiesCloseOrLoseFocus_ForResample(Action partialAction)
+        {
+            OperatorPropertiesPresenter_ForResample partialPresenter = _operatorPropertiesPresenter_ForResample;
+
+            // ToEntity
+            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
+
+            // Partial Action
+            partialAction();
+
+            // ToViewModel
+            if (partialPresenter.ViewModel.Successful)
+            {
+                PatchDetails_RefreshOperator(partialPresenter.ViewModel.ID);
             }
 
             // DispatchViewModel
@@ -1447,6 +1488,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         break;
                     }
 
+                case OperatorTypeEnum.Resample:
+                    {
+                        OperatorPropertiesViewModel_ForResample propertiesViewModel = op.ToPropertiesViewModel_ForResample();
+                        IList<OperatorPropertiesViewModel_ForResample> propertiesViewModelList = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForResamples_ByPatchID(MainViewModel.Document, patch.ID);
+                        propertiesViewModelList.Add(propertiesViewModel);
+                        break;
+                    }
+
                 case OperatorTypeEnum.Sample:
                     {
                         OperatorPropertiesViewModel_ForSample propertiesViewModel = op.ToPropertiesViewModel_ForSample(_repositories.SampleRepository);
@@ -1543,6 +1592,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                         case OperatorTypeEnum.PatchOutlet:
                             patchDocumentViewModel.OperatorPropertiesList_ForPatchOutlets.RemoveFirst(x => x.ID == op.ID);
+                            break;
+
+                        case OperatorTypeEnum.Resample:
+                            patchDocumentViewModel.OperatorPropertiesList_ForResamples.RemoveFirst(x => x.ID == op.ID);
                             break;
 
                         case OperatorTypeEnum.Sample:

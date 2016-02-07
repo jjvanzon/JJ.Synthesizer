@@ -24,82 +24,127 @@ namespace JJ.Business.Synthesizer.Resources
 
         // InletType
 
-        public static string GetInletTypeDisplayName(InletTypeEnum enumValue)
-        {
-            return PropertyDisplayNames.ResourceManager.GetString(enumValue.ToString());
-        }
-
-        public static string GetInletTypeDisplayName(InletType entity)
+        public static string GetDisplayName(InletType entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
             InletTypeEnum inletTypeEnum = (InletTypeEnum)entity.ID;
 
-            return GetInletTypeDisplayName(inletTypeEnum);
+            return GetDisplayName(inletTypeEnum);
+        }
+
+        public static string GetDisplayName(InletTypeEnum enumValue)
+        {
+            string displayName = PropertyDisplayNames.ResourceManager.GetString(enumValue.ToString());
+
+            if (String.IsNullOrEmpty(displayName))
+            {
+                displayName = enumValue.ToString();
+            }
+
+            return displayName;
         }
 
         // OperatorType
 
-        public static string GetOperatorTypeDisplayName(OperatorTypeEnum operatorTypeEnum)
-        {
-            return PropertyDisplayNames.ResourceManager.GetString(operatorTypeEnum.ToString());
-        }
-
-        public static string GetOperatorTypeDisplayName(OperatorType entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            OperatorTypeEnum operatorTypeEnum = (OperatorTypeEnum)entity.ID;
-
-            return GetOperatorTypeDisplayName(operatorTypeEnum);
-        }
-
         public static string GetOperatorTypeDisplayName(Operator op)
         {
             if (op == null) throw new NullException(() => op);
-            return GetOperatorTypeDisplayName(op.GetOperatorTypeEnum());
+            return GetDisplayName(op.GetOperatorTypeEnum());
+        }
+
+        public static string GetDisplayName(OperatorType entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            OperatorTypeEnum enumValue = (OperatorTypeEnum)entity.ID;
+
+            return GetDisplayName(enumValue);
+        }
+
+        public static string GetDisplayName(OperatorTypeEnum enumValue)
+        {
+            string displayName = PropertyDisplayNames.ResourceManager.GetString(enumValue.ToString());
+
+            if (String.IsNullOrEmpty(displayName))
+            {
+                displayName = enumValue.ToString();
+            }
+
+            return displayName;
         }
 
         // OutletType
 
-        public static string GetOutletTypeDisplayName(OutletTypeEnum enumValue)
-        {
-            return PropertyDisplayNames.ResourceManager.GetString(enumValue.ToString());
-        }
-
-        public static string GetOutletTypeDisplayName(OutletType entity)
+        public static string GetDisplayName(OutletType entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
             OutletTypeEnum outletTypeEnum = (OutletTypeEnum)entity.ID;
 
-            return GetOutletTypeDisplayName(outletTypeEnum);
+            return GetDisplayName(outletTypeEnum);
         }
 
-        // TODO: For Scale implement overloads that take entity as such that unproxy is avoided.
+        public static string GetDisplayName(OutletTypeEnum enumValue)
+        {
+            string displayName = PropertyDisplayNames.ResourceManager.GetString(enumValue.ToString());
+
+            if (String.IsNullOrEmpty(displayName))
+            {
+                displayName = enumValue.ToString();
+            }
+
+            return displayName;
+        }
+
+        // ResampleInterpolationType
+
+        public static string GetDisplayName(ResampleInterpolationTypeEnum enumValue)
+        {
+            string displayName = PropertyDisplayNames.ResourceManager.GetString(enumValue.ToString());
+
+            if (String.IsNullOrEmpty(displayName))
+            {
+                displayName = enumValue.ToString();
+            }
+
+            return displayName;
+        }
 
         // ScaleType Singular
+
+        // TODO: For Scale implement overloads that take entity as such that unproxy is avoided.
 
         public static string GetScaleTypeDisplayNameSingular(Scale scale)
         {
             if (scale == null) throw new NullException(() => scale);
 
-            return GetScaleTypeDisplayNameSingular(scale.ScaleType);
+            return GetDisplayNameSingular(scale.ScaleType);
         }
 
-        public static string GetScaleTypeDisplayNameSingular(ScaleType scaleType)
+        public static string GetDisplayNameSingular(ScaleType entity)
         {
-            if (scaleType == null) throw new NullException(() => scaleType);
+            if (entity == null) throw new NullException(() => entity);
 
-            return GetScaleTypeDisplayNameSingular(scaleType.Name);
+            ScaleTypeEnum enumValue = (ScaleTypeEnum)entity.ID;
+
+            return GetDisplayNameSingular(enumValue);
         }
 
-        public static string GetScaleTypeDisplayNameSingular(ScaleTypeEnum scaleTypeEnum)
+        public static string GetDisplayNameSingular(ScaleTypeEnum enumValue)
         {
-            return GetScaleTypeDisplayNameSingular(scaleTypeEnum.ToString());
+            string displayName = PropertyDisplayNames.ResourceManager.GetString(enumValue.ToString());
+
+            if (String.IsNullOrEmpty(displayName))
+            {
+                displayName = enumValue.ToString();
+            }
+
+            return displayName;
         }
 
-        public static string GetScaleTypeDisplayNameSingular(string scaleTypeName)
+        // TODO: Perhaps remove this overload.
+        internal static string GetScaleTypeDisplayNameSingular(string scaleTypeName)
         {
             return PropertyDisplayNames.ResourceManager.GetString(scaleTypeName);
         }
@@ -110,24 +155,20 @@ namespace JJ.Business.Synthesizer.Resources
         {
             if (scale == null) throw new NullException(() => scale);
 
-            return GetScaleTypeDisplayNamePlural(scale.ScaleType);
+            return GetDisplayNamePlural(scale.ScaleType);
         }
 
-        public static string GetScaleTypeDisplayNamePlural(ScaleType scaleType)
+        public static string GetDisplayNamePlural(ScaleType entity)
         {
-            if (scaleType == null) throw new NullException(() => scaleType);
+            if (entity == null) throw new NullException(() => entity);
 
-            return GetScaleTypeDisplayNamePlural(scaleType.Name);
-        }
+            ScaleTypeEnum enumValue = (ScaleTypeEnum)entity.ID;
 
-        public static string GetScaleTypeDisplayNamePlural(string scaleTypeName)
-        {
-            ScaleTypeEnum scaleTypeEnum = EnumHelper.Parse<ScaleTypeEnum>(scaleTypeName);
-            return GetScaleTypeDisplayNamePlural(scaleTypeEnum);
+            return GetDisplayNamePlural(enumValue);
         }
 
         // Notice that the deepest overload has a different parameter than the singular variation.
-        public static string GetScaleTypeDisplayNamePlural(ScaleTypeEnum scaleTypeEnum)
+        public static string GetDisplayNamePlural(ScaleTypeEnum scaleTypeEnum)
         {
             switch (scaleTypeEnum)
             {
@@ -149,11 +190,18 @@ namespace JJ.Business.Synthesizer.Resources
                 case ScaleTypeEnum.Undefined:
                     // A direct call to ResourceManager.GetString does not crash if the key does not exist,
                     // so do not throw an exception here.
-                    return GetScaleTypeDisplayNameSingular(scaleTypeEnum);
+                    return GetDisplayNameSingular(scaleTypeEnum);
 
                 default:
                     throw new InvalidValueException(scaleTypeEnum);
             }
+        }
+
+        // TODO: Perhaps remove this overload
+        internal static string GetScaleTypeDisplayNamePlural(string scaleTypeName)
+        {
+            ScaleTypeEnum scaleTypeEnum = EnumHelper.Parse<ScaleTypeEnum>(scaleTypeName);
+            return GetDisplayNamePlural(scaleTypeEnum);
         }
     }
 }

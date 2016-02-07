@@ -135,7 +135,7 @@ namespace JJ.Business.Synthesizer.Validation
                 {
                     string message = MessageFormatter.InletNotFoundInUnderlyingPatch(
                         customOperatorInlet.Name,
-                        ResourceHelper.GetInletTypeDisplayName(customOperatorInlet.GetInletTypeEnum()),
+                        ResourceHelper.GetDisplayName(customOperatorInlet.GetInletTypeEnum()),
                         customOperatorInlet.ListIndex);
 
                     ValidationMessages.Add(PropertyNames.Inlet, message);
@@ -184,7 +184,7 @@ namespace JJ.Business.Synthesizer.Validation
                 {
                     string message = MessageFormatter.OutletNotFoundInUnderlyingPatch(
                         customOperatorOutlet.Name,
-                        ResourceHelper.GetOutletTypeDisplayName(customOperatorOutlet.GetOutletTypeEnum()),
+                        ResourceHelper.GetDisplayName(customOperatorOutlet.GetOutletTypeEnum()),
                         customOperatorOutlet.ListIndex);
 
                     ValidationMessages.Add(PropertyNames.Outlet, message);
@@ -218,7 +218,7 @@ namespace JJ.Business.Synthesizer.Validation
             return MessageFormatter.InletPropertyDoesNotMatchWithUnderlyingPatch(
                 propertyDisplayName,
                 customOperatorInlet.Name,
-                ResourceHelper.GetInletTypeDisplayName(customOperatorInlet.InletType),
+                ResourceHelper.GetDisplayName(customOperatorInlet.InletType),
                 customOperatorInlet.ListIndex);
         }
 
@@ -227,7 +227,7 @@ namespace JJ.Business.Synthesizer.Validation
             return MessageFormatter.OutletPropertyDoesNotMatchWithUnderlyingPatch(
                 propertyDisplayName,
                 customOperatorOutlet.Name,
-                ResourceHelper.GetOutletTypeDisplayName(customOperatorOutlet.OutletType),
+                ResourceHelper.GetDisplayName(customOperatorOutlet.OutletType),
                 customOperatorOutlet.ListIndex);
         }
     }

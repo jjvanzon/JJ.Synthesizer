@@ -292,12 +292,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             InletTypeEnum inletTypeEnum = wrapper.Inlet.GetInletTypeEnum();
             if (inletTypeEnum != InletTypeEnum.Undefined)
             {
-                string inletTypeDisplayName = ResourceHelper.GetInletTypeDisplayName(inletTypeEnum);
+                string inletTypeDisplayName = ResourceHelper.GetDisplayName(inletTypeEnum);
                 return inletTypeDisplayName;
             }
 
             // Use OperatorType DisplayName as fallback.
-            string caption = ResourceHelper.GetOperatorTypeDisplayName(op.GetOperatorTypeEnum());
+            string caption = ResourceHelper.GetDisplayName(op.GetOperatorTypeEnum());
             return caption;
         }
 
@@ -314,12 +314,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OutletTypeEnum inletTypeEnum = wrapper.Result.GetOutletTypeEnum();
             if (inletTypeEnum != OutletTypeEnum.Undefined)
             {
-                string inletTypeDisplayName = ResourceHelper.GetOutletTypeDisplayName(inletTypeEnum);
+                string inletTypeDisplayName = ResourceHelper.GetDisplayName(inletTypeEnum);
                 return inletTypeDisplayName;
             }
 
             // Use OperatorType DisplayName as fallback.
-            string caption = ResourceHelper.GetOperatorTypeDisplayName(op.GetOperatorTypeEnum());
+            string caption = ResourceHelper.GetDisplayName(op.GetOperatorTypeEnum());
             return caption;
         }
 
@@ -343,7 +343,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
 
             // Use OperatorType DisplayName as fallback.
-            string caption = ResourceHelper.GetOperatorTypeDisplayName(op.GetOperatorTypeEnum());
+            string caption = ResourceHelper.GetDisplayName(op.GetOperatorTypeEnum());
             return caption;
         }
 
@@ -367,7 +367,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
 
             // Use OperatorType DisplayName as fallback.
-            string caption = ResourceHelper.GetOperatorTypeDisplayName(op.GetOperatorTypeEnum());
+            string caption = ResourceHelper.GetDisplayName(op.GetOperatorTypeEnum());
             return caption;
         }
 
@@ -390,7 +390,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
 
             // Use OperatorType DisplayName as fallback.
-            string caption = ResourceHelper.GetOperatorTypeDisplayName(op.GetOperatorTypeEnum());
+            string caption = ResourceHelper.GetDisplayName(op.GetOperatorTypeEnum());
             return caption;
         }
 
@@ -403,7 +403,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
 
             // Use OperatorType DisplayName as fallback.
-            string caption = ResourceHelper.GetOperatorTypeDisplayName(op.GetOperatorTypeEnum());
+            string caption = ResourceHelper.GetDisplayName(op.GetOperatorTypeEnum());
             return caption;
         }
 

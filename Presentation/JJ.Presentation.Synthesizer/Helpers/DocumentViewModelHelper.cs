@@ -404,6 +404,15 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return viewModel;
         }
 
+        public static OperatorPropertiesViewModel_ForResample TryGetOperatorPropertiesViewModel_ForResample(DocumentViewModel rootDocumentViewModel, int operatorID)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            OperatorPropertiesViewModel_ForResample viewModel = DocumentViewModelHelper.EnumerateOperatorPropertiesViewModels_ForResamples(rootDocumentViewModel)
+                                                                                       .FirstOrDefault(x => x.ID == operatorID); // First for performance.
+            return viewModel;
+        }
+
         public static OperatorPropertiesViewModel_ForSample TryGetOperatorPropertiesViewModel_ForSample(DocumentViewModel rootDocumentViewModel, int operatorID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
@@ -485,6 +494,13 @@ namespace JJ.Presentation.Synthesizer.Helpers
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
             return rootDocumentViewModel.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForPatchOutlets);
+        }
+
+        private static IEnumerable<OperatorPropertiesViewModel_ForResample> EnumerateOperatorPropertiesViewModels_ForResamples(DocumentViewModel rootDocumentViewModel)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            return rootDocumentViewModel.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForResamples);
         }
 
         private static IEnumerable<OperatorPropertiesViewModel_ForSample> EnumerateOperatorPropertiesViewModels_ForSamples(DocumentViewModel rootDocumentViewModel)
@@ -626,6 +642,21 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
 
             throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForPatchOutlet> for Patch ID '{0}' not found in any of the PatchDocumentViewModels.", patchID));
+        }
+
+        public static IList<OperatorPropertiesViewModel_ForResample> GetOperatorPropertiesViewModelList_ForResamples_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentList)
+            {
+                if (patchDocumentViewModel.PatchDetails.Entity.PatchID == patchID)
+                {
+                    return patchDocumentViewModel.OperatorPropertiesList_ForResamples;
+                }
+            }
+
+            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForResample> with Patch ID '{0}' not found in any of the PatchDocumentViewModels.", patchID));
         }
 
         public static IList<OperatorPropertiesViewModel_ForSample> GetOperatorPropertiesViewModelList_ForSamples_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
@@ -788,6 +819,25 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
 
             throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForPatchOutlet> for Operator ID '{0}' not found in any of the PatchDocumentViewModels.", operatorID));
+        }
+
+        public static IList<OperatorPropertiesViewModel_ForResample> GetOperatorPropertiesViewModelList_ForResamples_ByOperatorID(DocumentViewModel rootDocumentViewModel, int operatorID)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentList)
+            {
+                foreach (OperatorPropertiesViewModel_ForResample operatorPropertiesViewModel in patchDocumentViewModel.OperatorPropertiesList_ForResamples)
+                {
+                    if (operatorPropertiesViewModel.ID == operatorID)
+                    {
+                        return patchDocumentViewModel.OperatorPropertiesList_ForResamples;
+                    }
+                }
+
+            }
+
+            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForResample> for Operator ID '{0}' not found in any of the PatchDocumentViewModels.", operatorID));
         }
 
         public static IList<OperatorPropertiesViewModel_ForSample> GetOperatorPropertiesViewModelList_ForSamples_ByOperatorID(DocumentViewModel rootDocumentViewModel, int operatorID)

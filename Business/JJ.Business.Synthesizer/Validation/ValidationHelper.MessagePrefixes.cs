@@ -141,7 +141,7 @@ namespace JJ.Business.Synthesizer.Validation
                         {
                             if (!String.IsNullOrEmpty(underlyingEntity.Name))
                             {
-                                return GetMessagePrefix(ResourceHelper.GetOperatorTypeDisplayName(operatorTypeEnum), underlyingEntity.Name);
+                                return GetMessagePrefix(ResourceHelper.GetDisplayName(operatorTypeEnum), underlyingEntity.Name);
                             }
                         }
                         break;
@@ -155,7 +155,7 @@ namespace JJ.Business.Synthesizer.Validation
                         {
                             if (!String.IsNullOrEmpty(underlyingEntity.Name))
                             {
-                                return GetMessagePrefix(ResourceHelper.GetOperatorTypeDisplayName(operatorTypeEnum), underlyingEntity.Name);
+                                return GetMessagePrefix(ResourceHelper.GetDisplayName(operatorTypeEnum), underlyingEntity.Name);
                             }
                         }
                         break;
@@ -171,7 +171,7 @@ namespace JJ.Business.Synthesizer.Validation
             // because there are more conditions than the switch value alone
             // that must fallback to this last resort.
 
-            return ResourceHelper.GetOperatorTypeDisplayName(operatorTypeEnum) + ": ";
+            return ResourceHelper.GetDisplayName(operatorTypeEnum) + ": ";
         }
 
         /// <param name="number">1-based</param>
