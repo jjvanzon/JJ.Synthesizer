@@ -192,7 +192,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new PatchGridViewModel
             {
-                List = new List<ChildDocumentIDAndNameViewModel>()
+                List = new List<ChildDocumentIDAndNameViewModel>(),
+                ValidationMessages = new List<Message>()
             };
 
             return viewModel;

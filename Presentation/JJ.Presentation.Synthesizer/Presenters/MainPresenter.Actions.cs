@@ -1813,18 +1813,76 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void PatchGridShow(string group)
         {
-            MainViewModel.ToEntityWithRelatedEntities(_repositories);
+            // GetViewModel
+            PatchGridViewModel userInput = DocumentViewModelHelper.GetPatchGridViewModel_ByGroup(MainViewModel.Document, group);
 
-            PatchGridViewModel gridViewModel = DocumentViewModelHelper.GetPatchGridViewModel_ByGroup(MainViewModel.Document, group);
-            _patchGridPresenter.ViewModel = gridViewModel;
-            _patchGridPresenter.Show();
-            DispatchViewModel(_patchGridPresenter.ViewModel);
+            // Set !Successful
+            userInput.Successful = false;
+
+            // ToEntity
+            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
+
+            // Partial Action
+            PatchGridViewModel viewModel = _patchGridPresenter.Show(userInput);
+            if (!viewModel.Successful)
+            {
+                DispatchViewModel(viewModel);
+                return;
+            }
+
+            // Set !Successful
+            viewModel.Successful = false;
+
+            // Business
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
+            {
+                viewModel.ValidationMessages.AddRange(validationResult.Messages);
+                DispatchViewModel(userInput);
+                return;
+            }
+
+            // Successful
+            viewModel.Successful = true;
+
+            // DispatchViewModel
+            DispatchViewModel(viewModel);
         }
 
         public void PatchGridClose()
         {
-            _patchGridPresenter.Close();
-            DispatchViewModel(_patchGridPresenter.ViewModel);
+            // GetViewModel
+            PatchGridViewModel userInput = DocumentViewModelHelper.GetVisiblePatchGridViewModel(MainViewModel.Document);
+
+            // Set !Successful
+            userInput.Successful = false;
+
+            // ToEntity
+            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
+
+            // Partial Action
+            PatchGridViewModel viewModel = _patchGridPresenter.Close(userInput);
+            if (!viewModel.Successful)
+            {
+                DispatchViewModel(viewModel);
+                return;
+            }
+            viewModel.Successful = false;
+
+            // Business
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
+            {
+                viewModel.ValidationMessages.AddRange(validationResult.Messages);
+                DispatchViewModel(userInput);
+                return;
+            }
+
+            // Successful
+            viewModel.Successful = true;
+
+            // Dispatch ViewModel
+            DispatchViewModel(viewModel);
         }
 
         /// <param name="group">nullable</param>
@@ -2133,6 +2191,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 DispatchViewModel(viewModel);
                 return;
             }
+
+            // Set !Successful
             viewModel.Successful = false;
 
             // Business

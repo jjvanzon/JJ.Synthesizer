@@ -795,7 +795,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                                             .Select(x => x.ToChildDocumentIDAndNameViewModel())
                                             .ToList(),
                 RootDocumentID = rootDocumentID,
-                Group = group
+                Group = group,
+                ValidationMessages = new List<Message>()
             };
 
             return viewModel;

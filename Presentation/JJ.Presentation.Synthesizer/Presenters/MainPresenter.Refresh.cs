@@ -165,13 +165,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        private void PatchGridRefresh(PatchGridViewModel patchGridViewModel)
+        private void PatchGridRefresh(PatchGridViewModel userInput)
         {
-            if (patchGridViewModel == null) throw new NullException(() => patchGridViewModel);
-            _patchGridPresenter.ViewModel = patchGridViewModel;
-            object viewModel2 = _patchGridPresenter.Refresh();
-
-            DispatchViewModel(viewModel2);
+            if (userInput == null) throw new NullException(() => userInput);
+            PatchGridViewModel viewModel = _patchGridPresenter.Refresh(userInput);
+            DispatchViewModel(viewModel);
         }
 
         private void SampleGridRefresh(SampleGridViewModel userInput)

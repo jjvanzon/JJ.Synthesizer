@@ -10,8 +10,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         private IDocumentRepository _documentRepository;
 
-        public PatchGridViewModel ViewModel { get; set; }
-
         public PatchGridPresenter(IDocumentRepository documentRepository)
         {
             if (documentRepository == null) throw new NullException(() => documentRepository);
@@ -19,45 +17,52 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentRepository = documentRepository;
         }
 
-        public void Show()
+        public PatchGridViewModel Show(PatchGridViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            ViewModel.Visible = true;
+            // GetEntity
+            Document rootDocument = _documentRepository.Get(userInput.RootDocumentID);
+
+            // ToViewModel
+            PatchGridViewModel viewModel = rootDocument.ToPatchGridViewModel(userInput.Group);
+
+            // Non-Persisted
+            viewModel.Visible = true;
+
+            return viewModel;
         }
 
-        /// <summary> Can return PatchGridViewModel or NotFoundViewModel. </summary>
-        public object Refresh()
+        public PatchGridViewModel Refresh(PatchGridViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Document parentDocument = _documentRepository.TryGet(ViewModel.RootDocumentID);
-            if (parentDocument == null)
-            {
-                ViewModelHelper.CreateDocumentNotFoundViewModel();
-            }
+            // GetEntity
+            Document rootDocument = _documentRepository.Get(userInput.RootDocumentID);
 
-            bool visible = ViewModel.Visible;
+            // ToViewModel
+            PatchGridViewModel viewModel = rootDocument.ToPatchGridViewModel(userInput.Group);
 
-            ViewModel = parentDocument.ToPatchGridViewModel(ViewModel.Group);
+            // Non-Persisted
+            viewModel.Visible = userInput.Visible;
 
-            ViewModel.Visible = visible;
-
-            return ViewModel;
+            return viewModel;
         }
 
-        public void Close()
+        public PatchGridViewModel Close(PatchGridViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            ViewModel.Visible = false;
-        }
+            // GetEntity
+            Document rootDocument = _documentRepository.Get(userInput.RootDocumentID);
 
-        // Helpers
+            // ToViewModel
+            PatchGridViewModel viewModel = rootDocument.ToPatchGridViewModel(userInput.Group);
 
-        private void AssertViewModel()
-        {
-            if (ViewModel == null) throw new NullException(() => ViewModel);
+            // Non-Persisted
+            viewModel.Visible = false;
+
+            return viewModel;
         }
     }
 }

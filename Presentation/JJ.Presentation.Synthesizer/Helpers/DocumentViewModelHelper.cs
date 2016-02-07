@@ -991,6 +991,21 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return viewModel;
         }
 
+        public static PatchGridViewModel GetVisiblePatchGridViewModel(DocumentViewModel rootDocumentViewModel)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            PatchGridViewModel userInput = rootDocumentViewModel.PatchGridList
+                                                                .Where(x => x.Visible)
+                                                                .FirstOrDefault();
+            if (userInput == null)
+            {
+                throw new Exception("No Visible PatchGridViewModel found in rootDocumentViewModel.");
+            }
+
+            return userInput;
+        }
+
         // Sample
 
         public static SamplePropertiesViewModel GetVisibleSamplePropertiesViewModel(DocumentViewModel rootDocumentViewModel)
