@@ -915,6 +915,36 @@ namespace JJ.Presentation.Synthesizer.Helpers
             throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForUnbundle> for Operator ID '{0}' not found in any of the PatchDocumentViewModels.", operatorID));
         }
 
+        public static OperatorPropertiesViewModel_ForBundle GetVisibleOperatorPropertiesViewModel_ForBundle(DocumentViewModel rootDocumentViewModel)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            OperatorPropertiesViewModel_ForBundle viewModel = rootDocumentViewModel.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForBundles)
+                                                                                                     .Where(x => x.Visible)
+                                                                                                     .FirstOrDefault();
+            if (viewModel == null)
+            {
+                throw new Exception("No visible OperatorPropertiesViewModel_ForBundle found in rootDocumentViewModel.PatchDocumentList.");
+            }
+
+            return viewModel;
+        }
+
+        public static OperatorPropertiesViewModel_ForUnbundle GetVisibleOperatorPropertiesViewModel_ForUnbundle(DocumentViewModel rootDocumentViewModel)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            OperatorPropertiesViewModel_ForUnbundle viewModel = rootDocumentViewModel.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForUnbundles)
+                                                                                                       .Where(x => x.Visible)
+                                                                                                       .FirstOrDefault();
+            if (viewModel == null)
+            {
+                throw new Exception("No visible OperatorPropertiesViewModel_ForUnbundle found in rootDocumentViewModel.PatchDocumentList.");
+            }
+
+            return viewModel;
+        }
+
         // Patch
 
         public static PatchDetailsViewModel GetPatchDetailsViewModel(DocumentViewModel rootDocumentViewModel, int patchID)

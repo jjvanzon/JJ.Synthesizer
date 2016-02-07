@@ -44,6 +44,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             IList<Patch> patches = document.ChildDocuments.SelectMany(x => x.Patches).ToArray();
             viewModel.UnderlyingPatchLookup = ViewModelHelper.CreateUnderlyingPatchLookupViewModel(patches);
 
+            // TODO: This probably belongs in the MainPresenter.DocumentOpen action.
             // This should eventually (2016-01-22) be one of the few places where ToViewModel will set Successful to true.
             viewModel.AudioFileOutputGrid.Successful = true;
             viewModel.AudioFileOutputPropertiesList.ForEach(x => x.Successful = true);
@@ -101,6 +102,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 SamplePropertiesList = childDocument.Samples.Select(x => x.ToPropertiesViewModel(new SampleRepositories(repositories))).ToList()
             };
 
+            // TODO: This probably belongs in the MainPresenter.DocumentOpen action.
             // This should eventually (2016-01-22) be one of the few places where ToViewModel will set Successful to true.
             viewModel.CurveDetailsList.ForEach(x => x.Successful = true);
             viewModel.CurveGrid.Successful = true;

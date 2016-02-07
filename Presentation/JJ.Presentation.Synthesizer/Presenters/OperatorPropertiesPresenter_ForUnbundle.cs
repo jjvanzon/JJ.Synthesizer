@@ -9,14 +9,13 @@ using JJ.Presentation.Synthesizer.ToEntity;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ToViewModel;
+using JJ.Framework.Common;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class OperatorPropertiesPresenter_ForUnbundle
     {
         private PatchRepositories _repositories;
-
-        public OperatorPropertiesViewModel_ForUnbundle ViewModel { get; set; }
 
         public OperatorPropertiesPresenter_ForUnbundle(PatchRepositories repositories)
         {
@@ -25,74 +24,128 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _repositories = repositories;
         }
 
-        public void Show()
+        public OperatorPropertiesViewModel_ForUnbundle Show(OperatorPropertiesViewModel_ForUnbundle userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            ViewModel.Visible = true;
+            // GetEntity
+            Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
+
+            // ToViewModel
+            OperatorPropertiesViewModel_ForUnbundle viewModel = entity.ToPropertiesViewModel_ForUnbundle();
+
+            // Non-Persisted
+            CopyNonPersisted(userInput, viewModel);
+            viewModel.Visible = true;
+
+            return viewModel;
         }
 
-        public void Refresh()
+        public OperatorPropertiesViewModel_ForUnbundle Refresh(OperatorPropertiesViewModel_ForUnbundle userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Operator entity = _repositories.OperatorRepository.Get(ViewModel.ID);
+            // GetEntity
+            Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
 
-            bool visible = ViewModel.Visible;
-            int outletCount = ViewModel.OutletCount;
+            // ToViewModel
+            OperatorPropertiesViewModel_ForUnbundle viewModel = entity.ToPropertiesViewModel_ForUnbundle();
 
-            ViewModel = entity.ToPropertiesViewModel_ForUnbundle();
+            // Non-Persisted
+            CopyNonPersisted(userInput, viewModel);
 
-            ViewModel.Visible = visible;
-            ViewModel.OutletCount = outletCount;
+            return viewModel;
         }
 
-        public void Close()
+        public OperatorPropertiesViewModel_ForUnbundle Close(OperatorPropertiesViewModel_ForUnbundle userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Update();
+            OperatorPropertiesViewModel_ForUnbundle viewModel = Update(userInput);
 
-            if (ViewModel.Successful)
+            if (viewModel.Successful)
             {
-                ViewModel.Visible = false;
+                viewModel.Visible = false;
             }
+
+            return viewModel;
         }
 
-        public void LoseFocus()
+        public OperatorPropertiesViewModel_ForUnbundle LoseFocus(OperatorPropertiesViewModel_ForUnbundle userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Update();
+            OperatorPropertiesViewModel_ForUnbundle viewModel = Update(userInput);
+
+            return viewModel;
         }
 
-        private void Update()
+        private OperatorPropertiesViewModel_ForUnbundle Update(OperatorPropertiesViewModel_ForUnbundle userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Operator entity = ViewModel.ToEntity(_repositories.OperatorRepository, _repositories.OperatorTypeRepository);
+            // Set !Successful
+            userInput.Successful = false;
 
-            var patchManager = new PatchManager(entity.Patch, _repositories);
+            // GetEntity
+            Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
 
-            VoidResult result1 = patchManager.SetOperatorOutletCount(entity, ViewModel.OutletCount);
+            // Business
+            PatchManager patchManager = new PatchManager(entity.Patch, _repositories);
+            VoidResult result1 = patchManager.SetOperatorOutletCount(entity, userInput.OutletCount);
             if (!result1.Successful)
             {
-                ViewModel.Successful = result1.Successful;
-                ViewModel.ValidationMessages = result1.Messages;
-                return;
+                // ToViewModel
+                OperatorPropertiesViewModel_ForUnbundle viewModel = entity.ToPropertiesViewModel_ForUnbundle();
+
+                // Non-Persisted
+                CopyNonPersisted(userInput, viewModel);
+                viewModel.ValidationMessages.AddRange(result1.Messages);
+                viewModel.Successful = false;
+
+                return viewModel;
             }
 
+            // Business
             VoidResult result2 = patchManager.SaveOperator(entity);
-            ViewModel.Successful = result2.Successful;
-            ViewModel.ValidationMessages = result2.Messages;
-            return;
+            if (!result2.Successful)
+            {
+                // ToViewModel
+                OperatorPropertiesViewModel_ForUnbundle viewModel = entity.ToPropertiesViewModel_ForUnbundle();
+
+                // Non-Persisted
+                CopyNonPersisted(userInput, viewModel);
+                viewModel.ValidationMessages.AddRange(result2.Messages);
+                viewModel.Successful = false;
+
+                return viewModel;
+            }
+
+            // ToViewModel
+            OperatorPropertiesViewModel_ForUnbundle viewModel2 = entity.ToPropertiesViewModel_ForUnbundle();
+
+            // Non-Persisted
+            CopyNonPersisted(userInput, viewModel2);
+
+            // Successful
+            viewModel2.Successful = true;
+
+            return viewModel2;
         }
 
         // Helpers
 
-        private void AssertViewModel()
+        private void CopyNonPersisted(OperatorPropertiesViewModel_ForUnbundle sourceViewModel, OperatorPropertiesViewModel_ForUnbundle destViewModel)
         {
-            if (ViewModel == null) throw new NullException(() => ViewModel);
+            if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
+            if (destViewModel == null) throw new NullException(() => destViewModel);
+
+            destViewModel.ValidationMessages = sourceViewModel.ValidationMessages;
+            destViewModel.Visible = sourceViewModel.Visible;
+            destViewModel.Successful = sourceViewModel.Successful;
+
+            // TODO: How is this non-persisted. I do not get that. It should be part of the entity model.
+            destViewModel.OutletCount = sourceViewModel.OutletCount; 
         }
     }
 }

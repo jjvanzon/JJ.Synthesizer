@@ -100,9 +100,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // ToViewModel
             ScalePropertiesViewModel viewModel = entity.ToPropertiesViewModel(_repositories.ScaleTypeRepository);
-            viewModel.ValidationMessages = result.Messages;
 
             // Non-Persisted
+            viewModel.ValidationMessages = result.Messages;
             viewModel.Visible = userInput.Visible;
 
             // Successful
