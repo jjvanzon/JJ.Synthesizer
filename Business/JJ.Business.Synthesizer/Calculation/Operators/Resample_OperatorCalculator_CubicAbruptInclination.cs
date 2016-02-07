@@ -4,23 +4,23 @@ using System;
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     /// <summary>
-    /// It seems to work, except for the artifacts that linear interpolation gives us.
     /// A weakness though is, that the sampling rate is remembered until the next sample,
     /// which may work poorly when a very low sampling rate is provided.
     /// </summary>
-    internal class Resample_OperatorCalculator_CurveInterpolation_Org : OperatorCalculatorBase
+    internal class Resample_OperatorCalculator_CubicAbruptInclination : OperatorCalculatorBase
     {
         private double MINIMUM_SAMPLING_RATE = 1.0 / 8.0; // 8 Hz.
 
         private OperatorCalculatorBase _signalCalculator;
         private OperatorCalculatorBase _samplingRateCalculator;
 
-        public Resample_OperatorCalculator_CurveInterpolation_Org(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase samplingRateCalculator)
+        public Resample_OperatorCalculator_CubicAbruptInclination(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase samplingRateCalculator)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
+            if (signalCalculator is Number_OperatorCalculator) throw new IsNotTypeException<Number_OperatorCalculator>(() => signalCalculator);
             if (samplingRateCalculator == null) throw new NullException(() => samplingRateCalculator);
-            // TODO: Uncomment if the specialized calculator is up-to-date.
-            //if (samplingRateCalculator is Value_OperatorCalculator) throw new Exception("samplingRateCalculator cannot be a Value_OperatorCalculator.");
+            // TODO: Resample with constant sampling rate does not have specialized calculators yet. Reactivate code line after those specialized calculators have been programmed.
+            //if (samplingRateCalculator is Number_OperatorCalculator) throw new IsNotTypeException<Number_OperatorCalculator>(() => samplingRateCalculator);
 
             _signalCalculator = signalCalculator;
             _samplingRateCalculator = samplingRateCalculator;
@@ -81,7 +81,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 t = dx / _dx0;
             }
 
-            // TODO: Figure out how to prevent tau from becoming out of range.
+            // TODO: Figure out how to prevent t from becoming out of range.
             if (t > 1.0)
             {
                 return 0;

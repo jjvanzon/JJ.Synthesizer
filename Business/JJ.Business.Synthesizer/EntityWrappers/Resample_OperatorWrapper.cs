@@ -1,6 +1,7 @@
 ﻿using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
@@ -25,6 +26,12 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         public Outlet Result
         {
             get { return OperatorHelper.GetOutlet(_wrappedOperator, OperatorConstants.RESAMPLE_RESULT_INDEX); }
+        }
+
+        public ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum
+        {
+            get { return OperatorDataParser.GetEnum<ResampleInterpolationTypeEnum>(_wrappedOperator, PropertyNames.InterpolationType); }
+            set { OperatorDataParser.SetValue(_wrappedOperator, PropertyNames.InterpolationType, value); }
         }
 
         public static implicit operator Outlet(Resample_OperatorWrapper wrapper)

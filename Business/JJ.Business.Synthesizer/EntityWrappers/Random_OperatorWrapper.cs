@@ -29,6 +29,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return OperatorHelper.GetOutlet(_wrappedOperator, OperatorConstants.RANDOM_RESULT_INDEX); }
         }
 
+        // TODO: Replace property key with 'InterpolationType', so it is not too dependent on type changes in the future.
         public InterpolationTypeEnum InterpolationTypeEnum
         {
             get { return OperatorDataParser.GetEnum<InterpolationTypeEnum>(_wrappedOperator, PropertyNames.InterpolationTypeEnum); }

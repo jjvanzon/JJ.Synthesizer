@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     /// A weakness though is, that the sampling rate is remembered until the next sample,
     /// which may work poorly when a very low sampling rate is provided.
     /// </summary>
-    internal class Resample_OperatorCalculator_LinearInterpolation_RememberingT1 : OperatorCalculatorBase
+    internal class Resample_OperatorCalculator_LineRememberT1 : OperatorCalculatorBase
     {
         private double MINIMUM_SAMPLING_RATE = 1.0 / 8.0; // 8 Hz.
 
@@ -21,11 +21,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _x1;
         private double _a;
 
-        public Resample_OperatorCalculator_LinearInterpolation_RememberingT1(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase samplingRateCalculator)
+        public Resample_OperatorCalculator_LineRememberT1(
+            OperatorCalculatorBase signalCalculator, 
+            OperatorCalculatorBase samplingRateCalculator)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
+            if (signalCalculator is Number_OperatorCalculator) throw new IsNotTypeException<Number_OperatorCalculator>(() => signalCalculator);
             if (samplingRateCalculator == null) throw new NullException(() => samplingRateCalculator);
-            if (samplingRateCalculator is Number_OperatorCalculator) throw new Exception("samplingRateCalculator cannot be a Value_OperatorCalculator.");
+            // TODO: Resample with constant sampling rate does not have specialized calculators yet. Reactivate code line after those specialized calculators have been programmed.
+            //if (samplingRateCalculator is Number_OperatorCalculator) throw new IsNotTypeException<Number_OperatorCalculator>(() => samplingRateCalculator);
 
             _signalCalculator = signalCalculator;
             _samplingRateCalculator = samplingRateCalculator;

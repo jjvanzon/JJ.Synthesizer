@@ -85,16 +85,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Adder_OperatorCalculators.tt</DependentUpon>
     </Compile>
-    <Compile Include="Calculation\Operators\Resample_OperatorCalculator_CubicRamses.cs" />
-    <Compile Include="Calculation\Operators\Resample Operator Experiments\Resample_OperatorCalculator_HermiteInterpolation.cs" />
-    <Compile Include="Calculation\Operators\Resample Operator Experiments\Resample_OperatorCalculator_CurveInterpolation_Org.cs" />
-    <Compile Include="Calculation\Operators\Resample Operator Experiments\Resample_OperatorCalculator_CubicEquidistantInterpolation.cs" />
-    <Compile Include="Calculation\Operators\Resample Operator Experiments\Resample_OperatorCalculator_LinearInterpolation_RememberingT1_Org.cs" />
-    <Compile Include="Calculation\Operators\Resample Operator Experiments\Resample_OperatorCalculator_LinearInterpolation_RememberingT1.cs" />
-    <Compile Include="Calculation\Operators\Resample Operator Experiments\Resample_OperatorCalculator_LinearInterpolation_RememberingT0.cs" />
-    <Compile Include="Calculation\Operators\Resample Operator Experiments\Resample_OperatorCalculator_WithVaryingAlignment.cs" />
-    <Compile Include="Calculation\Operators\Resample Operator Experiments\Resample_WithConstSamplingRate_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\Resample_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Resample_OperatorCalculator_CubicSmoothInclination.cs" />
+    <Compile Include="Calculation\Operators\Resample_OperatorCalculator_Hermite.cs" />
+    <Compile Include="Calculation\Operators\Resample_OperatorCalculator_CubicAbruptInclination.cs" />
+    <Compile Include="Calculation\Operators\Resample_OperatorCalculator_CubicEquidistantT.cs" />
+    <Compile Include="Calculation\Operators\Resample_OperatorCalculator_LineRememberT1_Org.cs" />
+    <Compile Include="Calculation\Operators\Resample_OperatorCalculator_LineRememberT1.cs" />
+    <Compile Include="Calculation\Operators\Resample_OperatorCalculator_LineRememberT0.cs" />
+    <Compile Include="Calculation\Operators\Resample_OperatorCalculator_LineWithVaryingAlignment.cs" />
+    <Compile Include="Calculation\Operators\Resample_OperatorCalculator_LineWithConstSamplingRate.cs" />
+    <Compile Include="Calculation\Operators\2016-02-07 Backup of Resample_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\SlowDown OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\SpeedUp OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Pulse OperatorCalculator Classes.cs" />
@@ -175,6 +175,7 @@
     <Compile Include="EntityWrappers\SawUp_OperatorWrapper.cs" />
     <Compile Include="Enums\InletTypeEnum.cs" />
     <Compile Include="Enums\OutletTypeEnum.cs" />
+    <Compile Include="Enums\ResampleInterpolationTypeEnum.cs" />
     <Compile Include="Enums\ScaleTypeEnum.cs" />
     <Compile Include="Extensions\PatchExtensions.cs" />
     <Compile Include="Extensions\ToneExtensions.cs" />
@@ -534,7 +535,9 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Calculation\Operators\Resample Operator Experiments\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -549,6 +549,47 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
         }
 
+        public static void MigrateResampleOperators_SetToDefaultInterpolationTypeInDataProperty(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                var patchManager = new PatchManager(new PatchRepositories(repositories));
+
+                IList<Operator> operators = repositories.OperatorRepository
+                                                        .GetAll()
+                                                        .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.Resample)
+                                                        .ToArray();
+
+                for (int i = 0; i < operators.Count; i++)
+                {
+                    Operator op = operators[i];
+                    patchManager.Patch = op.Patch;
+
+                    var wrapper = new Resample_OperatorWrapper(op);
+                    wrapper.ResampleInterpolationTypeEnum = ResampleInterpolationTypeEnum.CubicSmoothInclination;
+
+                    VoidResult result = patchManager.SaveOperator(op);
+
+                    ResultHelper.Assert(result);
+
+                    string progressMessage = String.Format("Migrated operator {0}/{1}.", i + 1, operators.Count);
+                    progressCallback(progressMessage);
+                }
+
+                AssertDocuments(repositories, progressCallback);
+
+                context.Commit();
+            }
+
+            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        }
+
         private static void AssertDocuments(RepositoryWrapper repositories, Action<string> progressCallback)
         {
             var documentManager = new DocumentManager(repositories);

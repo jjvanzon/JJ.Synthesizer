@@ -9,16 +9,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     /// I see peaks, that I cannot explain, but my hunch it that it has to do
     /// with t catching up with t1 too quickly.
     /// </summary>
-    internal class Resample_OperatorCalculator_LinearInterpolation_RememberingT0 : OperatorCalculatorBase
+    internal class Resample_OperatorCalculator_LineRememberT0 : OperatorCalculatorBase
     {
         private OperatorCalculatorBase _signalCalculator;
         private OperatorCalculatorBase _samplingRateCalculator;
 
-        public Resample_OperatorCalculator_LinearInterpolation_RememberingT0(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase samplingRateCalculator)
+        public Resample_OperatorCalculator_LineRememberT0(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase samplingRateCalculator)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
+            if (signalCalculator is Number_OperatorCalculator) throw new IsNotTypeException<Number_OperatorCalculator>(() => signalCalculator);
             if (samplingRateCalculator == null) throw new NullException(() => samplingRateCalculator);
-            if (samplingRateCalculator is Number_OperatorCalculator) throw new Exception("samplingRateCalculator cannot be a Value_OperatorCalculator.");
+            // TODO: Resample with constant sampling rate does not have specialized calculators yet. Reactivate code line after those specialized calculators have been programmed.
+            //if (samplingRateCalculator is Number_OperatorCalculator) throw new IsNotTypeException<Number_OperatorCalculator>(() => samplingRateCalculator);
 
             _signalCalculator = signalCalculator;
             _samplingRateCalculator = samplingRateCalculator;

@@ -39,6 +39,7 @@
             this.radioButtonResavePatchInletOperatorsToSet_InletDefaultValue_AndInletInletType = new System.Windows.Forms.RadioButton();
             this.radioButtonRemove_PatchInletOperator_DataKeys_DefaultValue_AndInletTypeEnum = new System.Windows.Forms.RadioButton();
             this.radioButtonMigrate_PatchOutlet_OutletType_FromDataProperty_ToPatchOutletOutlet = new System.Windows.Forms.RadioButton();
+            this.radioButtonMigrateResampleOperators_SetToDefaultInterpolationTypeInDataProperty = new System.Windows.Forms.RadioButton();
             this.SuspendLayout();
             // 
             // radioButtonMigrateSineVolumes
@@ -175,7 +176,7 @@
             // radioButtonMigrate_PatchOutlet_OutletType_FromDataProperty_ToPatchOutletOutlet
             // 
             this.radioButtonMigrate_PatchOutlet_OutletType_FromDataProperty_ToPatchOutletOutlet.AutoSize = true;
-            this.radioButtonMigrate_PatchOutlet_OutletType_FromDataProperty_ToPatchOutletOutlet.Checked = true;
+            this.radioButtonMigrate_PatchOutlet_OutletType_FromDataProperty_ToPatchOutletOutlet.Enabled = false;
             this.radioButtonMigrate_PatchOutlet_OutletType_FromDataProperty_ToPatchOutletOutlet.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.radioButtonMigrate_PatchOutlet_OutletType_FromDataProperty_ToPatchOutletOutlet.Location = new System.Drawing.Point(263, 447);
             this.radioButtonMigrate_PatchOutlet_OutletType_FromDataProperty_ToPatchOutletOutlet.Margin = new System.Windows.Forms.Padding(4);
@@ -185,11 +186,25 @@
             this.radioButtonMigrate_PatchOutlet_OutletType_FromDataProperty_ToPatchOutletOutlet.Text = "Migrate_PatchOutlet_OutletType_FromDataProperty_ToPatchOutletOutlet";
             this.radioButtonMigrate_PatchOutlet_OutletType_FromDataProperty_ToPatchOutletOutlet.UseVisualStyleBackColor = true;
             // 
+            // radioButtonMigrateResampleOperators_SetToDefaultInterpolationTypeInDataProperty
+            // 
+            this.radioButtonMigrateResampleOperators_SetToDefaultInterpolationTypeInDataProperty.AutoSize = true;
+            this.radioButtonMigrateResampleOperators_SetToDefaultInterpolationTypeInDataProperty.Checked = true;
+            this.radioButtonMigrateResampleOperators_SetToDefaultInterpolationTypeInDataProperty.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.radioButtonMigrateResampleOperators_SetToDefaultInterpolationTypeInDataProperty.Location = new System.Drawing.Point(263, 479);
+            this.radioButtonMigrateResampleOperators_SetToDefaultInterpolationTypeInDataProperty.Margin = new System.Windows.Forms.Padding(4);
+            this.radioButtonMigrateResampleOperators_SetToDefaultInterpolationTypeInDataProperty.Name = "radioButtonMigrateResampleOperators_SetToDefaultInterpolationTypeInDataProperty";
+            this.radioButtonMigrateResampleOperators_SetToDefaultInterpolationTypeInDataProperty.Size = new System.Drawing.Size(579, 24);
+            this.radioButtonMigrateResampleOperators_SetToDefaultInterpolationTypeInDataProperty.TabIndex = 12;
+            this.radioButtonMigrateResampleOperators_SetToDefaultInterpolationTypeInDataProperty.Text = "MigrateResampleOperators_SetToDefaultInterpolationTypeInDataProperty";
+            this.radioButtonMigrateResampleOperators_SetToDefaultInterpolationTypeInDataProperty.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1180, 723);
+            this.ClientSize = new System.Drawing.Size(1180, 759);
+            this.Controls.Add(this.radioButtonMigrateResampleOperators_SetToDefaultInterpolationTypeInDataProperty);
             this.Controls.Add(this.radioButtonMigrate_PatchOutlet_OutletType_FromDataProperty_ToPatchOutletOutlet);
             this.Controls.Add(this.radioButtonRemove_PatchInletOperator_DataKeys_DefaultValue_AndInletTypeEnum);
             this.Controls.Add(this.radioButtonResavePatchInletOperatorsToSet_InletDefaultValue_AndInletInletType);
@@ -217,6 +232,7 @@
             this.Controls.SetChildIndex(this.radioButtonResavePatchInletOperatorsToSet_InletDefaultValue_AndInletInletType, 0);
             this.Controls.SetChildIndex(this.radioButtonRemove_PatchInletOperator_DataKeys_DefaultValue_AndInletTypeEnum, 0);
             this.Controls.SetChildIndex(this.radioButtonMigrate_PatchOutlet_OutletType_FromDataProperty_ToPatchOutletOutlet, 0);
+            this.Controls.SetChildIndex(this.radioButtonMigrateResampleOperators_SetToDefaultInterpolationTypeInDataProperty, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -235,6 +251,7 @@
         private System.Windows.Forms.RadioButton radioButtonResavePatchInletOperatorsToSet_InletDefaultValue_AndInletInletType;
         private System.Windows.Forms.RadioButton radioButtonRemove_PatchInletOperator_DataKeys_DefaultValue_AndInletTypeEnum;
         private System.Windows.Forms.RadioButton radioButtonMigrate_PatchOutlet_OutletType_FromDataProperty_ToPatchOutletOutlet;
+        private System.Windows.Forms.RadioButton radioButtonMigrateResampleOperators_SetToDefaultInterpolationTypeInDataProperty;
     }
 }
 

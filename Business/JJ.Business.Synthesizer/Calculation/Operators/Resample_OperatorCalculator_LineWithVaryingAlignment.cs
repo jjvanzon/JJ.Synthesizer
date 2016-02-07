@@ -4,20 +4,23 @@ using System;
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     /// <summary>
+    /// Not used.
     /// This variation on the Resample_OperatorCalculator
     /// does not work when the sampling rate gradually changes,
     /// because the alignment of sampling changes with the gradual change.
     /// </summary>
-    internal class Resample_OperatorCalculator_WithVaryingAlignment : OperatorCalculatorBase
+    internal class Resample_OperatorCalculator_LineWithVaryingAlignment : OperatorCalculatorBase
     {
         private OperatorCalculatorBase _signalCalculator;
         private OperatorCalculatorBase _samplingRateCalculator;
 
-        public Resample_OperatorCalculator_WithVaryingAlignment(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase samplingRateCalculator)
+        public Resample_OperatorCalculator_LineWithVaryingAlignment(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase samplingRateCalculator)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
+            if (signalCalculator is Number_OperatorCalculator) throw new IsNotTypeException<Number_OperatorCalculator>(() => signalCalculator);
             if (samplingRateCalculator == null) throw new NullException(() => samplingRateCalculator);
-            if (samplingRateCalculator is Number_OperatorCalculator) throw new Exception("samplingRateCalculator cannot be a Value_OperatorCalculator.");
+            // TODO: Resample with constant sampling rate does not have specialized calculators yet. Reactivate code line after those specialized calculators have been programmed.
+            //if (samplingRateCalculator is Number_OperatorCalculator) throw new IsNotTypeException<Number_OperatorCalculator>(() => samplingRateCalculator);
 
             _signalCalculator = signalCalculator;
             _samplingRateCalculator = samplingRateCalculator;

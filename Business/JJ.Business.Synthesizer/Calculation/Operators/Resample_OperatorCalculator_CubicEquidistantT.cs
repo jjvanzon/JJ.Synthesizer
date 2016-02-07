@@ -5,23 +5,23 @@ using System;
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     /// <summary>
-    /// It seems to work, except for the artifacts that linear interpolation gives us.
     /// A weakness though is, that the sampling rate is remembered until the next sample,
     /// which may work poorly when a very low sampling rate is provided.
     /// </summary>
-    internal class Resample_OperatorCalculator_CubicEquidistantInterpolation : OperatorCalculatorBase
+    internal class Resample_OperatorCalculator_CubicEquidistantT : OperatorCalculatorBase
     {
-        private double MINIMUM_SAMPLING_RATE = 1.0 / 8.0; // 8 Hz.
+        private double MINIMUM_SAMPLING_RATE = 16.0; // 8 Hz.
 
         private OperatorCalculatorBase _signalCalculator;
         private OperatorCalculatorBase _samplingRateCalculator;
 
-        public Resample_OperatorCalculator_CubicEquidistantInterpolation(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase samplingRateCalculator)
+        public Resample_OperatorCalculator_CubicEquidistantT(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase samplingRateCalculator)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
+            if (signalCalculator is Number_OperatorCalculator) throw new IsNotTypeException<Number_OperatorCalculator>(() => signalCalculator);
             if (samplingRateCalculator == null) throw new NullException(() => samplingRateCalculator);
-            // TODO: Uncomment if the specialized calculator is up-to-date.
-            //if (samplingRateCalculator is Value_OperatorCalculator) throw new Exception("samplingRateCalculator cannot be a Value_OperatorCalculator.");
+            // TODO: Resample with constant sampling rate does not have specialized calculators yet. Reactivate code line after those specialized calculators have been programmed.
+            //if (samplingRateCalculator is Number_OperatorCalculator) throw new IsNotTypeException<Number_OperatorCalculator>(() => samplingRateCalculator);
 
             _signalCalculator = signalCalculator;
             _samplingRateCalculator = samplingRateCalculator;
@@ -58,20 +58,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             double t = (x - _x0) / _dx;
 
-            // TODO: Remove outcommented code.
-            //Debug.WriteLine(
-            //    "x = {0:0.000}, _x0 = {1:0.000}, _x1 = {2:0.000}, _dx = {3:0.000}, _yMinus1 = {4:0.000}, _y0 = {5:0.000}, _y1 = {6:0.000}, _y2 = {7:0.000}, t = {8:0.000}",
-            //    x, _x0, _x1, _dx, _yMinus1, _y0, _y1, _y2, t);
-            //double y = Interpolator.Interpolate_CubicEquidistant((float)t, (short)_yMinus1, (short)_y0, (short)_y1, (short)_y2);
-
             double y = Interpolator.Interpolate_Cubic_Equidistant_SlightlyBetterThanLinear(_yMinus1, _y0, _y1, _y2, t);
             return y;
         }
 
-        /// <summary>
-        /// Gets the sampling rate, converts it to an absolute number
-        /// and ensures a minimum value.
-        /// </summary>
+        /// <summary> Gets the sampling rate, converts it to an absolute number and ensures a minimum value. </summary>
         private double GetSamplingRate(double x, int channelIndex)
         {
             double samplingRate = _samplingRateCalculator.Calculate(x, channelIndex);

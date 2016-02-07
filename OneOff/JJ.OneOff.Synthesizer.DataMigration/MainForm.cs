@@ -61,6 +61,10 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             {
                 DataMigrationExecutor.Migrate_PatchOutlet_OutletType_FromDataProperty_ToPatchOutletOutlet(x => ShowProgress(x));
             }
+            else if (radioButtonMigrateResampleOperators_SetToDefaultInterpolationTypeInDataProperty.Checked)
+            {
+                DataMigrationExecutor.MigrateResampleOperators_SetToDefaultInterpolationTypeInDataProperty(x => ShowProgress(x));
+            }
             else
             {
                 MessageBox.Show("Please select a radio button.");

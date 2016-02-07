@@ -2,12 +2,13 @@
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Resample_WithConstSamplingRate_OperatorCalculator : OperatorCalculatorBase
+    /// <summary> Not used. </summary>
+    internal class Resample_OperatorCalculator_LineWithConstSamplingRate : OperatorCalculatorBase
     {
         private OperatorCalculatorBase _signalCalculator;
         private double _samplePeriod;
 
-        public Resample_WithConstSamplingRate_OperatorCalculator(OperatorCalculatorBase signalCalculator, double samplingRate)
+        public Resample_OperatorCalculator_LineWithConstSamplingRate(OperatorCalculatorBase signalCalculator, double samplingRate)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (samplingRate <= 0) throw new LessThanOrEqualException(() => samplingRate, 0);

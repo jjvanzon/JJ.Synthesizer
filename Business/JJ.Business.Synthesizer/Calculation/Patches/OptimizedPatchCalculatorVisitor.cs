@@ -1057,7 +1057,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 var wrapper = new Random_OperatorWrapper(op);
 
                 // HACK
-                wrapper.InterpolationTypeEnum = InterpolationTypeEnum.Line;
+                wrapper.InterpolationTypeEnum = InterpolationTypeEnum.Block;
 
                 var randomCalculator = RandomCalculatorFactory.CreateRandomCalculator(wrapper.InterpolationTypeEnum);
                 int randomCalculatorOffset = RandomCalculatorBase.GetRandomOffset();
@@ -1084,8 +1084,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             double signal = signalCalculator.Calculate(0, 0);
             double samplingRate = samplingRateCalculator.Calculate(0, 0);
+
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool samplingRateIsConst = samplingRateCalculator is Number_OperatorCalculator;
+
             bool signalIsConstZero = signalIsConst && signal == 0;
             bool samplingRateIsConstZero = samplingRateIsConst && samplingRate == 0;
 
@@ -1104,9 +1106,44 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                calculator = new Resample_OperatorCalculator(signalCalculator, samplingRateCalculator);
-            }
+                var wrapper = new Resample_OperatorWrapper(op);
 
+                ResampleInterpolationTypeEnum resampleInterpolationTypeEnum = wrapper.ResampleInterpolationTypeEnum;
+
+                switch (resampleInterpolationTypeEnum)
+                {
+                    case ResampleInterpolationTypeEnum.Block:
+                        // TODO: Program a calculator.
+                        throw new ValueNotSupportedException(resampleInterpolationTypeEnum);
+
+                    case ResampleInterpolationTypeEnum.Stripe:
+                        // TODO: Program a calculator.
+                        throw new ValueNotSupportedException(resampleInterpolationTypeEnum);
+
+                    case ResampleInterpolationTypeEnum.LineRememberT0:
+                        calculator = new Resample_OperatorCalculator_LineRememberT0(signalCalculator, samplingRateCalculator);
+                        break;
+
+                    case ResampleInterpolationTypeEnum.LineRememberT1:
+                        calculator = new Resample_OperatorCalculator_LineRememberT1(signalCalculator, samplingRateCalculator);
+                        break;
+
+                    case ResampleInterpolationTypeEnum.CubicAbruptInclination:
+                        calculator = new Resample_OperatorCalculator_CubicAbruptInclination(signalCalculator, samplingRateCalculator);
+                        break;
+
+                    case ResampleInterpolationTypeEnum.CubicSmoothInclination:
+                        calculator = new Resample_OperatorCalculator_CubicSmoothInclination(signalCalculator, samplingRateCalculator);
+                        break;
+
+                    case ResampleInterpolationTypeEnum.Hermite:
+                        calculator = new Resample_OperatorCalculator_Hermite(signalCalculator, samplingRateCalculator);
+                        break;
+
+                    default:
+                        throw new ValueNotSupportedException(resampleInterpolationTypeEnum);
+                }
+            }
             _stack.Push(calculator);
         }
 
