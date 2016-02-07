@@ -1875,16 +1875,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.ToEntityWithRelatedEntities(_repositories);
             }
 
-            SampleGridViewModel gridViewModel = DocumentViewModelHelper.GetSampleGridViewModel_ByDocumentID(MainViewModel.Document, documentID);
-            _sampleGridPresenter.ViewModel = gridViewModel;
-            _sampleGridPresenter.Show();
-            DispatchViewModel(_sampleGridPresenter.ViewModel);
+            SampleGridViewModel userInput = DocumentViewModelHelper.GetSampleGridViewModel_ByDocumentID(MainViewModel.Document, documentID);
+            SampleGridViewModel viewModel = _sampleGridPresenter.Show(userInput);
+            DispatchViewModel(viewModel);
         }
 
         public void SampleGridClose()
         {
-            _sampleGridPresenter.Close();
-            DispatchViewModel(_sampleGridPresenter.ViewModel);
+            SampleGridViewModel userInput = DocumentViewModelHelper.GetVisibleSampleGridViewModel(MainViewModel.Document);
+            SampleGridViewModel viewModel = _sampleGridPresenter.Close(userInput);
+            DispatchViewModel(viewModel);
         }
 
         public void SampleCreate(int documentID)
@@ -2064,7 +2064,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Refresh
             int sampleID = viewModel.Entity.ID;
-            SampleGridRefreshItem(sampleID);
+            SampleGridRefresh(sampleID);
             SampleLookupsRefresh(sampleID);
             OperatorViewModels_OfType_Refresh(OperatorTypeEnum.Sample);
         }

@@ -174,18 +174,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(viewModel2);
         }
 
-        private void SampleGridRefresh(SampleGridViewModel sampleGridViewModel)
+        private void SampleGridRefresh(SampleGridViewModel userInput)
         {
-            _sampleGridPresenter.ViewModel = sampleGridViewModel;
-            object viewModel2 = _sampleGridPresenter.Refresh();
-            DispatchViewModel(viewModel2);
+            if (userInput == null) throw new NullException(() => userInput);
+            SampleGridViewModel viewModel = _sampleGridPresenter.Refresh(userInput);
+            DispatchViewModel(viewModel);
         }
 
-        private void SampleGridRefreshItem(int sampleID)
+        /// <summary> Will update the SampleGrid that the sample with sampleID is part of. </summary>
+        private void SampleGridRefresh(int sampleID)
         {
-            SampleGridViewModel gridViewModel = DocumentViewModelHelper.GetSampleGridViewModel_BySampleID(MainViewModel.Document, sampleID);
-            _sampleGridPresenter.ViewModel = gridViewModel;
-            _sampleGridPresenter.RefreshListItem(sampleID);
+            SampleGridViewModel userInput = DocumentViewModelHelper.GetSampleGridViewModel_BySampleID(MainViewModel.Document, sampleID);
+            SampleGridViewModel viewModel = _sampleGridPresenter.Refresh(userInput);
+            DispatchViewModel(viewModel);
         }
 
         private void SampleLookupsRefresh(int sampleID)

@@ -1,11 +1,9 @@
 ﻿using System.Linq;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
-using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ViewModels.Entities;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -13,8 +11,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         private IDocumentRepository _documentRepository;
         private ISampleRepository _sampleRepository;
-
-        public SampleGridViewModel ViewModel { get; set; }
 
         public SampleGridPresenter(IDocumentRepository documentRepository, ISampleRepository sampleRepository)
         {
@@ -25,59 +21,52 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _sampleRepository = sampleRepository;
         }
 
-        public void Show()
+        public SampleGridViewModel Show(SampleGridViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            ViewModel.Visible = true;
+            // GetEntity
+            Document document = _documentRepository.Get(userInput.DocumentID);
+
+            // ToViewModel
+            SampleGridViewModel viewModel = document.Samples.ToGridViewModel(document.ID);
+
+            // Non-Persisted
+            viewModel.Visible = true;
+
+            return viewModel;
         }
 
-        /// <summary>
-        /// Can return SampleGridViewModel or NotFoundViewModel.
-        /// </summary>
-        public object Refresh()
+        public SampleGridViewModel Refresh(SampleGridViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Document document = _documentRepository.TryGet(ViewModel.DocumentID);
-            if (document == null)
-            {
-                ViewModelHelper.CreateDocumentNotFoundViewModel();
-            }
+            // GetEntity
+            Document document = _documentRepository.Get(userInput.DocumentID);
+            
+            // ToViewModel
+            SampleGridViewModel viewModel = document.Samples.ToGridViewModel(document.ID);
 
-            bool visible = ViewModel.Visible;
+            // Non-Persisted
+            viewModel.Visible = userInput.Visible;
 
-            ViewModel = document.Samples.ToGridViewModel(ViewModel.DocumentID);
-
-            ViewModel.Visible = visible;
-
-            return ViewModel;
+            return viewModel;
         }
 
-        public void RefreshListItem(int sampleID)
+        public SampleGridViewModel Close(SampleGridViewModel userInput)
         {
-            Sample sample = _sampleRepository.Get(sampleID);
+            if (userInput == null) throw new NullException(() => userInput);
 
-            int listIndex = ViewModel.List.IndexOf(x => x.ID == sampleID);
+            // GetEntity
+            Document document = _documentRepository.Get(userInput.DocumentID);
 
-            SampleListItemViewModel viewModel2 = sample.ToListItemViewModel();
-            ViewModel.List[listIndex] = viewModel2;
+            // ToViewModel
+            SampleGridViewModel viewModel = document.Samples.ToGridViewModel(document.ID);
 
-            ViewModel.List = ViewModel.List.OrderBy(x => x.Name).ToList();
-        }
+            // Non-Persisted
+            viewModel.Visible = false;
 
-        public void Close()
-        {
-            AssertViewModel();
-
-            ViewModel.Visible = false;
-        }
-
-        // Helpers
-
-        private void AssertViewModel()
-        {
-            if (ViewModel == null) throw new NullException(() => ViewModel);
+            return viewModel;
         }
     }
 }

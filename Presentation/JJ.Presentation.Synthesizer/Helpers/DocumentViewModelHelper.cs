@@ -983,6 +983,21 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return userInput;
         }
 
+        public static SampleGridViewModel GetVisibleSampleGridViewModel(DocumentViewModel rootDocumentViewModel)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            SampleGridViewModel userInput = DocumentViewModelHelper.EnumerateSampleGridViewModels(rootDocumentViewModel)
+                                                                   .Where(x => x.Visible)
+                                                                   .FirstOrDefault();
+            if (userInput == null)
+            {
+                throw new Exception("No Visible SampleGridViewModel found in rootDocumentViewModel nor its PatchDocumentViewModels.");
+            }
+
+            return userInput;
+        }
+
         public static SamplePropertiesViewModel GetSamplePropertiesViewModel(DocumentViewModel rootDocumentViewModel, int sampleID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
