@@ -223,7 +223,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(viewModel);
         }
 
-        private void UnderylingDocumentLookupRefresh()
+        private void UnderylingPatchLookupRefresh()
         {
             Document rootDocument = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
             IList<Patch> patches = rootDocument.ChildDocuments.SelectMany(x => x.Patches).ToArray();

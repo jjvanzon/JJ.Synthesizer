@@ -1719,56 +1719,96 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void PatchPropertiesShow(int childDocumentID)
         {
-            _patchPropertiesPresenter.ViewModel = MainViewModel.Document.PatchDocumentList
-                                                                    .Where(x => x.ChildDocumentID == childDocumentID)
-                                                                    .Select(x => x.PatchProperties)
-                                                                    .First();
-            _patchPropertiesPresenter.Show();
+            // GetViewModel
+            PatchPropertiesViewModel userInput = DocumentViewModelHelper.GetPatchPropertiesViewModel_ByChildDocumentID(MainViewModel.Document, childDocumentID);
 
-            DispatchViewModel(_patchPropertiesPresenter.ViewModel);
-        }
+            // Set !Successful
+            userInput.Successful = false;
 
-        public void PatchPropertiesClose()
-        {
-            PatchPropertiesCloseOrLoseFocus(() => _patchPropertiesPresenter.Close());
-        }
-
-        public void PatchPropertiesLoseFocus()
-        {
-            PatchPropertiesCloseOrLoseFocus(() => _patchPropertiesPresenter.LoseFocus());
-        }
-
-        private void PatchPropertiesCloseOrLoseFocus(Action partialAction)
-        {
             // ToEntity
             Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
-            int childDocumentID = _patchPropertiesPresenter.ViewModel.ChildDocumentID;
 
             // Partial Action
-            partialAction();
+            PatchPropertiesViewModel viewModel = _patchPropertiesPresenter.Show(userInput);
+            if (!viewModel.Successful)
+            {
+                DispatchViewModel(viewModel);
+                return;
+            }
+
+            // Set !Successful
+            viewModel.Successful = false;
 
             // Business
             IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
-                MainViewModel.Successful &= validationResult.Successful;
-                MainViewModel.PopupMessages.AddRange(validationResult.Messages);
+                viewModel.ValidationMessages.AddRange(validationResult.Messages);
+                DispatchViewModel(viewModel);
                 return;
             }
 
-            // ToViewModel
-            // This might have to be done right after partial action>?
-            DispatchViewModel(_patchPropertiesPresenter.ViewModel);
+            // Set Successful
+            viewModel.Successful = true;
 
-            if (_patchPropertiesPresenter.ViewModel.Successful)
+            // DispatchViewModel
+            DispatchViewModel(viewModel);
+        }
+
+        public void PatchPropertiesClose()
+        {
+            PatchPropertiesCloseOrLoseFocus(x => _patchPropertiesPresenter.Close(x));
+        }
+
+        public void PatchPropertiesLoseFocus()
+        {
+            PatchPropertiesCloseOrLoseFocus(x => _patchPropertiesPresenter.LoseFocus(x));
+        }
+
+        private void PatchPropertiesCloseOrLoseFocus(Func<PatchPropertiesViewModel, PatchPropertiesViewModel> partialAction)
+        {
+            // GetViewModel
+            PatchPropertiesViewModel userInput = DocumentViewModelHelper.GetVisiblePatchPropertiesViewModel(MainViewModel.Document);
+
+            // Set !Successful
+            userInput.Successful = false;
+
+            // ToEntity
+            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
+
+            // Partial Action
+            PatchPropertiesViewModel viewModel = partialAction(userInput);
+            if (!viewModel.Successful)
             {
-                DocumentTreeRefresh();
-                CurrentPatchesRefresh();
-                PatchGridsRefresh(); // Refresh all patch grids, because a Patch's group can change.
-                UnderylingDocumentLookupRefresh();
-                OperatorViewModels_OfType_Refresh(OperatorTypeEnum.CustomOperator);
-                OperatorProperties_ForCustomOperatorViewModels_Refresh(underlyingPatchID: childDocumentID);
+                DispatchViewModel(viewModel);
+                return;
             }
+
+            // Set !Successful
+            viewModel.Successful = false;
+
+            // Business
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
+            {
+                viewModel.ValidationMessages.AddRange(validationResult.Messages);
+                DispatchViewModel(viewModel);
+                return;
+            }
+
+            // Successful
+            viewModel.Successful = true;
+
+            // DispatchViewModel
+            DispatchViewModel(viewModel);
+
+            // Refresh
+            DocumentTreeRefresh();
+            CurrentPatchesRefresh();
+            PatchGridsRefresh(); // Refresh all patch grids, because a Patch's group can change.
+            UnderylingPatchLookupRefresh();
+            OperatorViewModels_OfType_Refresh(OperatorTypeEnum.CustomOperator);
+            OperatorProperties_ForCustomOperatorViewModels_Refresh(underlyingPatchID: viewModel.ChildDocumentID);
         }
 
         public void PatchGridShow(string group)
@@ -1999,6 +2039,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 DispatchViewModel(viewModel);
                 return;
             }
+
+            // Set !Successful
             viewModel.Successful = false;
 
             // Business
@@ -2045,6 +2087,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 DispatchViewModel(viewModel);
                 return;
             }
+
+            // Set !Successful
             viewModel.Successful = false;
 
             // Business

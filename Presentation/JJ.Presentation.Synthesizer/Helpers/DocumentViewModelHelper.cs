@@ -957,13 +957,38 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return rootDocumentViewModel.PatchDocumentList.Select(x => x.PatchDetails);
         }
 
-        public static PatchPropertiesViewModel TryGetPatchPropertiesViewModel(DocumentViewModel rootDocumentViewModel, int childDocumentID)
+        public static PatchPropertiesViewModel TryGetPatchPropertiesViewModel_ByChildDocumentID(DocumentViewModel rootDocumentViewModel, int childDocumentID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
             return rootDocumentViewModel.PatchDocumentList.Where(x => x.ChildDocumentID == childDocumentID)
                                                           .Select(x => x.PatchProperties)
                                                           .FirstOrDefault();
+        }
+
+        public static PatchPropertiesViewModel GetPatchPropertiesViewModel_ByChildDocumentID(DocumentViewModel rootDocumentViewModel, int childDocumentID)
+        {
+            PatchPropertiesViewModel viewModel = TryGetPatchPropertiesViewModel_ByChildDocumentID(rootDocumentViewModel, childDocumentID);
+
+            if (viewModel == null)
+            {
+                throw new Exception(String.Format("PatchPropertiesViewModel for childDocmentID '{0}' not found.", childDocumentID));
+            }
+
+            return viewModel;       
+        }
+
+        public static PatchPropertiesViewModel GetVisiblePatchPropertiesViewModel(DocumentViewModel rootDocumentViewModel)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            PatchPropertiesViewModel viewModel = rootDocumentViewModel.PatchDocumentList.Select(x => x.PatchProperties).Where(x => x.Visible).FirstOrDefault();
+            if (viewModel == null)
+            {
+                throw new Exception("No visible PatchPropertiesViewModel found in the PatchDocumentViewModels.");
+            }
+
+            return viewModel;
         }
 
         // Sample

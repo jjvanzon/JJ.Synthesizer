@@ -5,8 +5,8 @@ using JJ.Data.Canonical;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ToEntity;
 using JJ.Presentation.Synthesizer.ToViewModel;
+using JJ.Framework.Common;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -16,8 +16,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private DocumentManager _documentManager;
         private PatchManager _patchManager;
-
-        public PatchPropertiesViewModel ViewModel { get; set; }
 
         public PatchPropertiesPresenter(RepositoryWrapper repositories)
         {
@@ -29,72 +27,92 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _patchManager = new PatchManager(new PatchRepositories(_repositories));
         }
 
-        public void Show()
+        public PatchPropertiesViewModel Show(PatchPropertiesViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            ViewModel.Visible = true;
+            // GetEntity
+            Document childDocument = _repositories.DocumentRepository.Get(userInput.ChildDocumentID);
+
+            // ToViewModel
+            PatchPropertiesViewModel viewModel = childDocument.ToPatchPropertiesViewModel();
+
+            // Non-Persisted
+            viewModel.Visible = true;
+
+            return viewModel;
         }
 
-        public void Refresh()
+        public PatchPropertiesViewModel Refresh(PatchPropertiesViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Document entity = _repositories.DocumentRepository.Get(ViewModel.ChildDocumentID);
+            // GetEntity
+            Document childDocument = _repositories.DocumentRepository.Get(userInput.ChildDocumentID);
 
-            bool visible = ViewModel.Visible;
+            // ToViewModel
+            PatchPropertiesViewModel viewModel = childDocument.ToPatchPropertiesViewModel();
 
-            ViewModel = entity.ToPatchPropertiesViewModel();
+            // Non-Persisted
+            viewModel.Visible = userInput.Visible;
 
-            ViewModel.Visible = visible;
+            return viewModel;
         }
 
-        public void Close()
+        public PatchPropertiesViewModel Close(PatchPropertiesViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Update();
+            PatchPropertiesViewModel viewModel = Update(userInput);
 
-            if (ViewModel.Successful)
+            if (viewModel.Successful)
             {
-                ViewModel.Visible = false;
+                viewModel.Visible = false;
             }
+
+            return viewModel;
         }
 
-        public void LoseFocus()
+        public PatchPropertiesViewModel LoseFocus(PatchPropertiesViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Update();
+            PatchPropertiesViewModel viewModel = Update(userInput);
+
+            return viewModel;
         }
 
-        private void Update()
+        private PatchPropertiesViewModel Update(PatchPropertiesViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Document childDocument = ViewModel.ToChildDocument(_repositories.DocumentRepository);
-            Patch patch = ViewModel.ToPatch(_repositories.PatchRepository);
+            // GetEntity
+            Document childDocument =_repositories.DocumentRepository.Get(userInput.ChildDocumentID);
 
+            // Business
             VoidResult result = _documentManager.SaveChildDocument(childDocument);
-            ViewModel.ValidationMessages = result.Messages;
-            ViewModel.Successful = result.Successful;
 
+            // ToViewModel
+            PatchPropertiesViewModel viewModel = childDocument.ToPatchPropertiesViewModel();
+
+            // Non-Persisted
+            viewModel.Visible = userInput.Visible;
+            viewModel.ValidationMessages = result.Messages;
+            viewModel.Successful = result.Successful;
             if (!result.Successful)
             {
-                return;
+                return viewModel;
             }
 
+            // Business
             _patchManager.Patch = childDocument.Patches[0];
             VoidResult result2 = _patchManager.SavePatch();
-            ViewModel.ValidationMessages = result.Messages;
-            ViewModel.Successful = result.Successful;
-        }
 
-        // Helpers
+            // Non-Persisted
+            viewModel.ValidationMessages.AddRange(result2.Messages);
+            viewModel.Successful = result2.Successful;
 
-        private void AssertViewModel()
-        {
-            if (ViewModel == null) throw new NullException(() => ViewModel);
+            return viewModel;
         }
     }
 }
