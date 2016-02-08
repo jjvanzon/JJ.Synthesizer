@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
-    public sealed class OperatorPropertiesViewModel_ForPatchOutlet
+    public sealed class OperatorPropertiesViewModel_ForPatchOutlet : ViewModelBase
     {
         public int ID { get; set; }
         public string Name { get; set; }
@@ -11,8 +11,5 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public int Number { get; set; }
         public IDAndName OutletType { get; set; }
         public IList<IDAndName> OutletTypeLookup { get; set; }
-        public bool Visible { get; set; }
-        public bool Successful { get; set; }
-        public IList<Message> ValidationMessages { get; set; }
     }
 }

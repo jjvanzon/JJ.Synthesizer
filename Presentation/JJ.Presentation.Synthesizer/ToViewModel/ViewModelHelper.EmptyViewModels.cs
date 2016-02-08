@@ -72,7 +72,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new DocumentCannotDeleteViewModel
             {
                 Document = new IDAndName(),
-                Messages = new List<Message>()
+                ValidationMessages = new List<Message>()
             };
 
             return viewModel;

@@ -196,7 +196,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new DocumentCannotDeleteViewModel
             {
                 Document = entity.ToIDAndName(),
-                Messages = messages
+                ValidationMessages = messages
             };
 
             return viewModel;

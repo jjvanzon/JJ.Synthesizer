@@ -4,9 +4,8 @@ using System;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
-    public sealed class DocumentTreeViewModel
+    public sealed class DocumentTreeViewModel : ViewModelBase
     {
-        public bool Visible { get; set; }
         public int ID { get; set; }
         public string Name { get; set; }
 
@@ -17,6 +16,5 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public DummyViewModel AudioFileOutputsNode { get; set; }
 
         public ReferencedDocumentsTreeNodeViewModel ReferencedDocumentsNode { get; set; }
-        public bool Successful { get; internal set; }
     }
 }

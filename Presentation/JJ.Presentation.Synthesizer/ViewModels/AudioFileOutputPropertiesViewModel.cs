@@ -4,12 +4,8 @@ using System.Collections.Generic;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
-    public sealed class AudioFileOutputPropertiesViewModel
+    public sealed class AudioFileOutputPropertiesViewModel : ViewModelBase
     {
-        public bool Visible { get; set; }
-        public bool Successful { get; set; }
-        public IList<Message> ValidationMessages { get; set; }
-
         public AudioFileOutputViewModel Entity { get; set; }
 
         public IList<IDAndName> AudioFileFormatLookup { get; set; }

@@ -1,7 +1,6 @@
 ﻿namespace JJ.Presentation.Synthesizer.ViewModels
 {
-    public class DocumentDeletedViewModel
+    public class DocumentDeletedViewModel : ViewModelBase
     {
-        public bool Visible { get; set; }
     }
 }

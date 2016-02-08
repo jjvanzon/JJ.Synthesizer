@@ -4,9 +4,8 @@ using System.Collections.Generic;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
-    public sealed class DocumentGridViewModel
+    public sealed class DocumentGridViewModel : ViewModelBase
     {
-        public bool Visible { get; set; }
         public IList<IDAndName> List { get; set; }
         public PagerViewModel Pager { get; set; }
     }

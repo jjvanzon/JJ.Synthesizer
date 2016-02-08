@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
-    public sealed class SamplePropertiesViewModel
+    public sealed class SamplePropertiesViewModel : ViewModelBase
     {
         public SampleViewModel Entity { get; set; }
 
@@ -12,9 +12,5 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public IList<IDAndName> InterpolationTypeLookup { get; set; }
         public IList<IDAndName> SampleDataTypeLookup { get; set; }
         public IList<IDAndName> SpeakerSetupLookup { get; set; }
-
-        public bool Visible { get; set; }
-        public bool Successful { get; set; }
-        public IList<Message> ValidationMessages { get; set; }
     }
 }

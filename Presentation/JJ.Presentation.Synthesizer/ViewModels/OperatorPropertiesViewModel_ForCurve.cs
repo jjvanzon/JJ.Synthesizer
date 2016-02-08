@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
-    public sealed class OperatorPropertiesViewModel_ForCurve
+    public sealed class OperatorPropertiesViewModel_ForCurve : ViewModelBase
     {
         public int ID { get; set; }
         public string Name { get; set; }
@@ -13,9 +13,5 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         /// to prevent a lot of repeated data. So use the lookup from there.
         /// </summary>
         public IDAndName Curve { get; set; }
-
-        public bool Visible { get; set; }
-        public bool Successful { get; set; }
-        public IList<Message> ValidationMessages { get; set; }
     }
 }
