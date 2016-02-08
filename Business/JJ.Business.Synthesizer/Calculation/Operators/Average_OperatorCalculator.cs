@@ -49,7 +49,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             if (_passedSampleTime >= _sampleDuration)
             {
-                // Use a queing trick to update the average without traversing a whole list.
+                // Use a queueing trick to update the average without traversing a whole list.
                 // This also makes the average update more continually.
                 double oldValue = _queue.Dequeue();
                 double newValue = _signalCalculator.Calculate(time, channelIndex);

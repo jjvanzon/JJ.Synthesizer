@@ -9,19 +9,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Resample_OperatorCalculator_Block : OperatorCalculatorBase_WithChildCalculators
     {
-        private double MINIMUM_SAMPLING_RATE = 1.0 / 8.0; // 8 Hz.
-
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _samplingRateCalculator;
 
-        private double _previousTime;
-
         private double _t0;
         private double _x0;
-        private double _tOffset;
 
         public Resample_OperatorCalculator_Block(
-            OperatorCalculatorBase signalCalculator, 
+            OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase samplingRateCalculator)
             : base(new OperatorCalculatorBase[] { signalCalculator, samplingRateCalculator })
         {
@@ -38,25 +33,25 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate(double time, int channelIndex)
         {
             double samplingRate = _samplingRateCalculator.Calculate(time, channelIndex);
-
-            if (samplingRate != 0.0) // Weird number: time stands still.
+            if (samplingRate == 0.0)
             {
-                double sampleDuration = 1.0 / samplingRate;
-
-                double dt = time - _previousTime;
-
-                _tOffset += dt;
-
-                if (_tOffset > sampleDuration)
-                {
-                    _t0 += sampleDuration;
-                    _x0 = _signalCalculator.Calculate(_t0, channelIndex);
-
-                    _tOffset -= sampleDuration;
-                }
+                // Weird number: sampling rate 0 = time stands still.
+                return _x0;
             }
 
-            _previousTime = time;
+            double tOffset = time - _t0;
+            double sampleDuration = 1.0 / samplingRate;
+
+            // TODO: Consider time going in reverse.
+            if (tOffset > sampleDuration)
+            {
+                // TODO: A sudden jump in time all of a sudden causes very frequent calculation,
+                // until _t0 catches up. Seems strange behavior.
+                // Perhaps skipping over sample durations is a better strategy,
+                // without harming the alignment of the samples.
+                _t0 += sampleDuration;
+                _x0 = _signalCalculator.Calculate(_t0, channelIndex);
+            }
 
             return _x0;
         }
