@@ -42,15 +42,28 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double tOffset = time - _t0;
             double sampleDuration = 1.0 / samplingRate;
 
-            // TODO: Consider time going in reverse.
-            if (tOffset > sampleDuration)
+            bool isForwardInTime = tOffset >= 0.0;
+
+            if (isForwardInTime)
             {
-                // TODO: A sudden jump in time all of a sudden causes very frequent calculation,
-                // until _t0 catches up. Seems strange behavior.
-                // Perhaps skipping over sample durations is a better strategy,
-                // without harming the alignment of the samples.
-                _t0 += sampleDuration;
-                _x0 = _signalCalculator.Calculate(_t0, channelIndex);
+                if (tOffset > sampleDuration)
+                {
+                    // TODO: A sudden jump in time all of a sudden causes very frequent calculation,
+                    // until _t0 catches up. Seems strange behavior.
+                    // Perhaps skipping over sample durations is a better strategy,
+                    // without harming the alignment of the samples.
+                    _t0 += sampleDuration;
+                    _x0 = _signalCalculator.Calculate(_t0, channelIndex);
+                }
+            }
+            else
+            {
+                // Time in reverse
+                if (tOffset < -sampleDuration)
+                {
+                    _t0 -= sampleDuration;
+                    _x0 = _signalCalculator.Calculate(_t0, channelIndex);
+                }
             }
 
             return _x0;
