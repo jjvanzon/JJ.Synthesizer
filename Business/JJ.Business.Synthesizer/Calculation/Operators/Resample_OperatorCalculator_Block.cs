@@ -53,20 +53,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     if (!exceedsMoreThanTwoSampleDurations)
                     {
                         _t0 += sampleDuration;
-                        _x0 = _signalCalculator.Calculate(_t0, channelIndex);
                     }
                     else
                     {
-                        // A sudden jump in time would cause very frequency calculation until _t0 catches up with time,
-                        // unless we skip over a multiple of sample durations, 
-                        // while taking the alignment of the samples into consideration.
-
                         double sampleCount = Math.Floor(tOffset * samplingRate);
-                        double tIncrement = sampleCount * sampleDuration;
-
-                        _t0 += tIncrement;
-                        _x0 = _signalCalculator.Calculate(_t0, channelIndex);
+                        _t0 += sampleCount * sampleDuration;
                     }
+
+                    _x0 = _signalCalculator.Calculate(_t0, channelIndex);
                 }
             }
             else
@@ -79,22 +73,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     if (!exceedsMoreThanTwoSampleDurations)
                     {
                         _t0 -= sampleDuration;
-                        _x0 = _signalCalculator.Calculate(_t0, channelIndex);
                     }
                     else
                     {
                         double sampleCount = Math.Ceiling(tOffset * samplingRate); // tOffset is negative.
-                        // By making the programming error below, and using a negative sample rate,
-                        // I was able to mix two copies of the sample sound at different delays
-                        // while I was not even adding two signals, just playing the samples in a different order.
-                        // Weird.
-                        //double sampleCount = tOffset * samplingRate; // tOffset is negative.
-
-                        double tIncrement = sampleCount * sampleDuration;
-
-                        _t0 += tIncrement;
-                        _x0 = _signalCalculator.Calculate(_t0, channelIndex);
+                        _t0 += sampleCount * sampleDuration;
                     }
+
+                    _x0 = _signalCalculator.Calculate(_t0, channelIndex);
                 }
             }
 
