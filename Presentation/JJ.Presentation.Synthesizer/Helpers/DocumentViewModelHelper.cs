@@ -783,6 +783,25 @@ namespace JJ.Presentation.Synthesizer.Helpers
             throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForCustomOperator> for Operator ID '{0}' not found in any of the PatchDocumentViewModels.", operatorID));
         }
 
+        public static IList<OperatorPropertiesViewModel_ForNumber> GetOperatorPropertiesViewModelList_ForNumbers_ByOperatorID(DocumentViewModel rootDocumentViewModel, int operatorID)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentList)
+            {
+                foreach (OperatorPropertiesViewModel_ForNumber operatorPropertiesViewModel in patchDocumentViewModel.OperatorPropertiesList_ForNumbers)
+                {
+                    if (operatorPropertiesViewModel.ID == operatorID)
+                    {
+                        return patchDocumentViewModel.OperatorPropertiesList_ForNumbers;
+                    }
+                }
+
+            }
+
+            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForNumber> for Operator ID '{0}' not found in any of the PatchDocumentViewModels.", operatorID));
+        }
+
         public static IList<OperatorPropertiesViewModel_ForPatchInlet> GetOperatorPropertiesViewModelList_ForPatchInlets_ByOperatorID(DocumentViewModel rootDocumentViewModel, int operatorID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
@@ -877,25 +896,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
             throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForSpectrum> for Operator ID '{0}' not found in any of the PatchDocumentViewModels.", operatorID));
         }
 
-        public static IList<OperatorPropertiesViewModel_ForNumber> GetOperatorPropertiesViewModelList_ForNumbers_ByOperatorID(DocumentViewModel rootDocumentViewModel, int operatorID)
-        {
-            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-            foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentList)
-            {
-                foreach (OperatorPropertiesViewModel_ForNumber operatorPropertiesViewModel in patchDocumentViewModel.OperatorPropertiesList_ForNumbers)
-                {
-                    if (operatorPropertiesViewModel.ID == operatorID)
-                    {
-                        return patchDocumentViewModel.OperatorPropertiesList_ForNumbers;
-                    }
-                }
-
-            }
-
-            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForNumber> for Operator ID '{0}' not found in any of the PatchDocumentViewModels.", operatorID));
-        }
-
         public static IList<OperatorPropertiesViewModel_ForUnbundle> GetOperatorPropertiesViewModelList_ForUnbundles_ByOperatorID(DocumentViewModel rootDocumentViewModel, int operatorID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
@@ -915,16 +915,161 @@ namespace JJ.Presentation.Synthesizer.Helpers
             throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForUnbundle> for Operator ID '{0}' not found in any of the PatchDocumentViewModels.", operatorID));
         }
 
+        public static OperatorPropertiesViewModel_ForAggregate GetVisibleOperatorPropertiesViewModel_ForAggregate(DocumentViewModel rootDocumentViewModel)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            OperatorPropertiesViewModel_ForAggregate viewModel = rootDocumentViewModel.PatchDocumentList
+                                                                                      .SelectMany(x => x.OperatorPropertiesList_ForAggregates)
+                                                                                      .Where(x => x.Visible)
+                                                                                      .FirstOrDefault();
+            if (viewModel == null)
+            {
+                throw new Exception("No visible OperatorPropertiesViewModel_ForAggregate found in rootDocumentViewModel.PatchDocumentList.");
+            }
+
+            return viewModel;
+        }
+
         public static OperatorPropertiesViewModel_ForBundle GetVisibleOperatorPropertiesViewModel_ForBundle(DocumentViewModel rootDocumentViewModel)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            OperatorPropertiesViewModel_ForBundle viewModel = rootDocumentViewModel.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForBundles)
-                                                                                                     .Where(x => x.Visible)
-                                                                                                     .FirstOrDefault();
+            OperatorPropertiesViewModel_ForBundle viewModel = rootDocumentViewModel.PatchDocumentList
+                                                                                   .SelectMany(x => x.OperatorPropertiesList_ForBundles)
+                                                                                   .Where(x => x.Visible)
+                                                                                   .FirstOrDefault();
             if (viewModel == null)
             {
                 throw new Exception("No visible OperatorPropertiesViewModel_ForBundle found in rootDocumentViewModel.PatchDocumentList.");
+            }
+
+            return viewModel;
+        }
+
+        public static OperatorPropertiesViewModel_ForCurve GetVisibleOperatorPropertiesViewModel_ForCurve(DocumentViewModel rootDocumentViewModel)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            OperatorPropertiesViewModel_ForCurve viewModel = rootDocumentViewModel.PatchDocumentList
+                                                                                  .SelectMany(x => x.OperatorPropertiesList_ForCurves)
+                                                                                  .Where(x => x.Visible)
+                                                                                  .FirstOrDefault();
+            if (viewModel == null)
+            {
+                throw new Exception("No visible OperatorPropertiesViewModel_ForCurve found in rootDocumentViewModel.PatchDocumentList.");
+            }
+
+            return viewModel;
+        }
+
+        public static OperatorPropertiesViewModel_ForCustomOperator GetVisibleOperatorPropertiesViewModel_ForCustomOperator(DocumentViewModel rootDocumentViewModel)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            OperatorPropertiesViewModel_ForCustomOperator viewModel = rootDocumentViewModel.PatchDocumentList
+                                                                                           .SelectMany(x => x.OperatorPropertiesList_ForCustomOperators)
+                                                                                           .Where(x => x.Visible)
+                                                                                           .FirstOrDefault();
+            if (viewModel == null)
+            {
+                throw new Exception("No visible OperatorPropertiesViewModel_ForCustomOperator found in rootDocumentViewModel.PatchDocumentList.");
+            }
+
+            return viewModel;
+        }
+
+        public static OperatorPropertiesViewModel_ForNumber GetVisibleOperatorPropertiesViewModel_ForNumber(DocumentViewModel rootDocumentViewModel)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            OperatorPropertiesViewModel_ForNumber viewModel = rootDocumentViewModel.PatchDocumentList
+                                                                                   .SelectMany(x => x.OperatorPropertiesList_ForNumbers)
+                                                                                   .Where(x => x.Visible)
+                                                                                   .FirstOrDefault();
+            if (viewModel == null)
+            {
+                throw new Exception("No visible OperatorPropertiesViewModel_ForNumber found in rootDocumentViewModel.PatchDocumentList.");
+            }
+
+            return viewModel;
+        }
+
+        public static OperatorPropertiesViewModel_ForPatchInlet GetVisibleOperatorPropertiesViewModel_ForPatchInlet(DocumentViewModel rootDocumentViewModel)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            OperatorPropertiesViewModel_ForPatchInlet viewModel = rootDocumentViewModel.PatchDocumentList
+                                                                                       .SelectMany(x => x.OperatorPropertiesList_ForPatchInlets)
+                                                                                       .Where(x => x.Visible)
+                                                                                       .FirstOrDefault();
+            if (viewModel == null)
+            {
+                throw new Exception("No visible OperatorPropertiesViewModel_ForPatchInlet found in rootDocumentViewModel.PatchDocumentList.");
+            }
+
+            return viewModel;
+        }
+
+        public static OperatorPropertiesViewModel_ForPatchOutlet GetVisibleOperatorPropertiesViewModel_ForPatchOutlet(DocumentViewModel rootDocumentViewModel)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            OperatorPropertiesViewModel_ForPatchOutlet viewModel = rootDocumentViewModel.PatchDocumentList
+                                                                                        .SelectMany(x => x.OperatorPropertiesList_ForPatchOutlets)
+                                                                                        .Where(x => x.Visible)
+                                                                                        .FirstOrDefault();
+            if (viewModel == null)
+            {
+                throw new Exception("No visible OperatorPropertiesViewModel_ForPatchOutlet found in rootDocumentViewModel.PatchDocumentList.");
+            }
+
+            return viewModel;
+        }
+
+        public static OperatorPropertiesViewModel_ForResample GetVisibleOperatorPropertiesViewModel_ForResample(DocumentViewModel rootDocumentViewModel)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            OperatorPropertiesViewModel_ForResample viewModel = rootDocumentViewModel.PatchDocumentList
+                                                                                     .SelectMany(x => x.OperatorPropertiesList_ForResamples)
+                                                                                     .Where(x => x.Visible)
+                                                                                     .FirstOrDefault();
+            if (viewModel == null)
+            {
+                throw new Exception("No visible OperatorPropertiesViewModel_ForResample found in rootDocumentViewModel.PatchDocumentList.");
+            }
+
+            return viewModel;
+        }
+
+        public static OperatorPropertiesViewModel_ForSample GetVisibleOperatorPropertiesViewModel_ForSample(DocumentViewModel rootDocumentViewModel)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            OperatorPropertiesViewModel_ForSample viewModel = rootDocumentViewModel.PatchDocumentList
+                                                                                   .SelectMany(x => x.OperatorPropertiesList_ForSamples)
+                                                                                   .Where(x => x.Visible)
+                                                                                   .FirstOrDefault();
+            if (viewModel == null)
+            {
+                throw new Exception("No visible OperatorPropertiesViewModel_ForSample found in rootDocumentViewModel.PatchDocumentList.");
+            }
+
+            return viewModel;
+        }
+
+        public static OperatorPropertiesViewModel_ForSpectrum GetVisibleOperatorPropertiesViewModel_ForSpectrum(DocumentViewModel rootDocumentViewModel)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            OperatorPropertiesViewModel_ForSpectrum viewModel = rootDocumentViewModel.PatchDocumentList
+                                                                                     .SelectMany(x => x.OperatorPropertiesList_ForSpectrums)
+                                                                                     .Where(x => x.Visible)
+                                                                                     .FirstOrDefault();
+            if (viewModel == null)
+            {
+                throw new Exception("No visible OperatorPropertiesViewModel_ForSpectrum found in rootDocumentViewModel.PatchDocumentList.");
             }
 
             return viewModel;
@@ -934,9 +1079,10 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            OperatorPropertiesViewModel_ForUnbundle viewModel = rootDocumentViewModel.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForUnbundles)
-                                                                                                       .Where(x => x.Visible)
-                                                                                                       .FirstOrDefault();
+            OperatorPropertiesViewModel_ForUnbundle viewModel = rootDocumentViewModel.PatchDocumentList
+                                                                                     .SelectMany(x => x.OperatorPropertiesList_ForUnbundles)
+                                                                                     .Where(x => x.Visible)
+                                                                                     .FirstOrDefault();
             if (viewModel == null)
             {
                 throw new Exception("No visible OperatorPropertiesViewModel_ForUnbundle found in rootDocumentViewModel.PatchDocumentList.");

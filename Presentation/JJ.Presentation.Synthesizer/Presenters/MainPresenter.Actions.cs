@@ -828,123 +828,120 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
 
             {
-                OperatorPropertiesViewModel viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel(MainViewModel.Document, id);
-                if (viewModel != null)
+                OperatorPropertiesViewModel userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel(MainViewModel.Document, id);
+                if (userInput != null)
                 {
                     OperatorPropertiesPresenter partialPresenter = _operatorPropertiesPresenter;
-                    partialPresenter.ViewModel = viewModel;
+                    partialPresenter.ViewModel = userInput;
                     partialPresenter.Show();
                     DispatchViewModel(partialPresenter.ViewModel);
                     return;
                 }
             }
             {
-                OperatorPropertiesViewModel_ForAggregate viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForAggregate(MainViewModel.Document, id);
-                if (viewModel != null)
+                OperatorPropertiesViewModel_ForAggregate userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForAggregate(MainViewModel.Document, id);
+                if (userInput != null)
                 {
                     OperatorPropertiesPresenter_ForAggregate partialPresenter = _operatorPropertiesPresenter_ForAggregate;
-                    partialPresenter.ViewModel = viewModel;
+                    partialPresenter.ViewModel = userInput;
                     partialPresenter.Show();
                     DispatchViewModel(partialPresenter.ViewModel);
                     return;
                 }
             }
             {
-                OperatorPropertiesViewModel_ForBundle viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForBundle(MainViewModel.Document, id);
-                if (viewModel != null)
+                OperatorPropertiesViewModel_ForBundle userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForBundle(MainViewModel.Document, id);
+                if (userInput != null)
                 {
                     OperatorPropertiesPresenter_ForBundle partialPresenter = _operatorPropertiesPresenter_ForBundle;
-                    partialPresenter.ViewModel = viewModel;
+                    partialPresenter.ViewModel = userInput;
                     partialPresenter.Show();
                     DispatchViewModel(partialPresenter.ViewModel);
                     return;
                 }
             }
             {
-                OperatorPropertiesViewModel_ForCurve viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForCurve(MainViewModel.Document, id);
-                if (viewModel != null)
+                OperatorPropertiesViewModel_ForCurve userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForCurve(MainViewModel.Document, id);
+                if (userInput != null)
                 {
                     OperatorPropertiesPresenter_ForCurve partialPresenter = _operatorPropertiesPresenter_ForCurve;
-                    partialPresenter.ViewModel = viewModel;
+                    partialPresenter.ViewModel = userInput;
                     partialPresenter.Show();
                     DispatchViewModel(partialPresenter.ViewModel);
                     return;
                 }
             }
             {
-                OperatorPropertiesViewModel_ForCustomOperator viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForCustomOperator(MainViewModel.Document, id);
-                if (viewModel != null)
+                OperatorPropertiesViewModel_ForCustomOperator userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForCustomOperator(MainViewModel.Document, id);
+                if (userInput != null)
                 {
                     OperatorPropertiesPresenter_ForCustomOperator partialPresenter = _operatorPropertiesPresenter_ForCustomOperator;
-                    partialPresenter.ViewModel = viewModel;
+                    partialPresenter.ViewModel = userInput;
                     partialPresenter.Show();
                     DispatchViewModel(partialPresenter.ViewModel);
                     return;
                 }
             }
             {
-                OperatorPropertiesViewModel_ForNumber viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForNumber(MainViewModel.Document, id);
-                if (viewModel != null)
+                OperatorPropertiesViewModel_ForNumber userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForNumber(MainViewModel.Document, id);
+                if (userInput != null)
                 {
                     OperatorPropertiesPresenter_ForNumber partialPresenter = _operatorPropertiesPresenter_ForNumber;
-                    partialPresenter.ViewModel = viewModel;
+                    partialPresenter.ViewModel = userInput;
                     partialPresenter.Show();
                     DispatchViewModel(partialPresenter.ViewModel);
                     return;
                 }
             }
             {
-                OperatorPropertiesViewModel_ForPatchInlet viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForPatchInlet(MainViewModel.Document, id);
-                if (viewModel != null)
+                OperatorPropertiesViewModel_ForPatchInlet userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForPatchInlet(MainViewModel.Document, id);
+                if (userInput != null)
                 {
                     OperatorPropertiesPresenter_ForPatchInlet partialPresenter = _operatorPropertiesPresenter_ForPatchInlet;
-                    partialPresenter.ViewModel = viewModel;
+                    partialPresenter.ViewModel = userInput;
                     partialPresenter.Show();
                     DispatchViewModel(partialPresenter.ViewModel);
                     return;
                 }
             }
             {
-                OperatorPropertiesViewModel_ForPatchOutlet viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForPatchOutlet(MainViewModel.Document, id);
-                if (viewModel != null)
+                OperatorPropertiesViewModel_ForPatchOutlet userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForPatchOutlet(MainViewModel.Document, id);
+                if (userInput != null)
                 {
                     OperatorPropertiesPresenter_ForPatchOutlet partialPresenter = _operatorPropertiesPresenter_ForPatchOutlet;
-                    partialPresenter.ViewModel = viewModel;
+                    partialPresenter.ViewModel = userInput;
                     partialPresenter.Show();
                     DispatchViewModel(partialPresenter.ViewModel);
                     return;
                 }
             }
             {
-                OperatorPropertiesViewModel_ForResample viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForResample(MainViewModel.Document, id);
-                if (viewModel != null)
+                OperatorPropertiesViewModel_ForResample userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForResample(MainViewModel.Document, id);
+                if (userInput != null)
                 {
                     OperatorPropertiesPresenter_ForResample partialPresenter = _operatorPropertiesPresenter_ForResample;
-                    partialPresenter.ViewModel = viewModel;
-                    partialPresenter.Show();
-                    DispatchViewModel(partialPresenter.ViewModel);
+                    OperatorPropertiesViewModel_ForResample viewModel = partialPresenter.Show(userInput);
+                    DispatchViewModel(viewModel);
                     return;
                 }
             }
             {
-                OperatorPropertiesViewModel_ForSample viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForSample(MainViewModel.Document, id);
-                if (viewModel != null)
+                OperatorPropertiesViewModel_ForSample userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForSample(MainViewModel.Document, id);
+                if (userInput != null)
                 {
                     OperatorPropertiesPresenter_ForSample partialPresenter = _operatorPropertiesPresenter_ForSample;
-                    partialPresenter.ViewModel = viewModel;
-                    partialPresenter.Show();
-                    DispatchViewModel(partialPresenter.ViewModel);
+                    OperatorPropertiesViewModel_ForSample viewModel = partialPresenter.Show(userInput);
+                    DispatchViewModel(viewModel);
                     return;
                 }
             }
             {
-                OperatorPropertiesViewModel_ForSpectrum viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForSpectrum(MainViewModel.Document, id);
-                if (viewModel != null)
+                OperatorPropertiesViewModel_ForSpectrum userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForSpectrum(MainViewModel.Document, id);
+                if (userInput != null)
                 {
                     OperatorPropertiesPresenter_ForSpectrum partialPresenter = _operatorPropertiesPresenter_ForSpectrum;
-                    partialPresenter.ViewModel = viewModel;
-                    partialPresenter.Show();
-                    DispatchViewModel(partialPresenter.ViewModel);
+                    OperatorPropertiesViewModel_ForSpectrum viewModel = partialPresenter.Show(userInput);
+                    DispatchViewModel(viewModel);
                     return;
                 }
             }
@@ -1004,17 +1001,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void OperatorPropertiesClose_ForResample()
         {
-            OperatorPropertiesCloseOrLoseFocus_ForResample(() => _operatorPropertiesPresenter_ForResample.Close());
+            OperatorPropertiesCloseOrLoseFocus_ForResample(x => _operatorPropertiesPresenter_ForResample.Close(x));
         }
 
         public void OperatorPropertiesClose_ForSample()
         {
-            OperatorPropertiesCloseOrLoseFocus_ForSample(() => _operatorPropertiesPresenter_ForSample.Close());
+            OperatorPropertiesCloseOrLoseFocus_ForSample(x => _operatorPropertiesPresenter_ForSample.Close(x));
         }
 
         public void OperatorPropertiesClose_ForSpectrum()
         {
-            OperatorPropertiesCloseOrLoseFocus_ForSpectrum(() => _operatorPropertiesPresenter_ForSpectrum.Close());
+            OperatorPropertiesCloseOrLoseFocus_ForSpectrum(x => _operatorPropertiesPresenter_ForSpectrum.Close(x));
         }
 
         public void OperatorPropertiesClose_ForUnbundle()
@@ -1064,17 +1061,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void OperatorPropertiesLoseFocus_ForResample()
         {
-            OperatorPropertiesCloseOrLoseFocus_ForResample(() => _operatorPropertiesPresenter_ForResample.LoseFocus());
+            OperatorPropertiesCloseOrLoseFocus_ForResample(x => _operatorPropertiesPresenter_ForResample.LoseFocus(x));
         }
 
         public void OperatorPropertiesLoseFocus_ForSample()
         {
-            OperatorPropertiesCloseOrLoseFocus_ForSample(() => _operatorPropertiesPresenter_ForSample.LoseFocus());
+            OperatorPropertiesCloseOrLoseFocus_ForSample(x => _operatorPropertiesPresenter_ForSample.LoseFocus(x));
         }
 
         public void OperatorPropertiesLoseFocus_ForSpectrum()
         {
-            OperatorPropertiesCloseOrLoseFocus_ForSpectrum(() => _operatorPropertiesPresenter_ForSpectrum.LoseFocus());
+            OperatorPropertiesCloseOrLoseFocus_ForSpectrum(x => _operatorPropertiesPresenter_ForSpectrum.LoseFocus(x));
         }
 
         public void OperatorPropertiesLoseFocus_ForUnbundle()
@@ -1265,64 +1262,142 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(partialPresenter.ViewModel);
         }
 
-        private void OperatorPropertiesCloseOrLoseFocus_ForResample(Action partialAction)
+        private void OperatorPropertiesCloseOrLoseFocus_ForResample(Func<OperatorPropertiesViewModel_ForResample, OperatorPropertiesViewModel_ForResample> partialAction)
         {
-            OperatorPropertiesPresenter_ForResample partialPresenter = _operatorPropertiesPresenter_ForResample;
+            // GetViewModel
+            OperatorPropertiesViewModel_ForResample userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForResample(MainViewModel.Document);
+
+            // Set !Successful
+            userInput.Successful = false;
 
             // ToEntity
             Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
 
             // Partial Action
-            partialAction();
-
-            // ToViewModel
-            if (partialPresenter.ViewModel.Successful)
+            OperatorPropertiesViewModel_ForResample viewModel = partialAction(userInput);
+            if (!viewModel.Successful)
             {
-                PatchDetails_RefreshOperator(partialPresenter.ViewModel.ID);
+                // DispatchViewModel
+                DispatchViewModel(viewModel);
+
+                return;
             }
 
+            // Set !Successful
+            viewModel.Successful = false;
+
+            // Business
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
+            {
+                // Non-Persited
+                viewModel.ValidationMessages.AddRange(validationResult.Messages);
+
+                // DispatchViewModel
+                DispatchViewModel(viewModel);
+
+                return;
+            }
+
+            // Successful
+            viewModel.Successful = true;
+
             // DispatchViewModel
-            DispatchViewModel(partialPresenter.ViewModel);
+            DispatchViewModel(viewModel);
         }
 
-        private void OperatorPropertiesCloseOrLoseFocus_ForSample(Action partialAction)
+        private void OperatorPropertiesCloseOrLoseFocus_ForSample(Func<OperatorPropertiesViewModel_ForSample, OperatorPropertiesViewModel_ForSample> partialAction)
         {
-            OperatorPropertiesPresenter_ForSample partialPresenter = _operatorPropertiesPresenter_ForSample;
+            // GetViewModel
+            OperatorPropertiesViewModel_ForSample userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForSample(MainViewModel.Document);
+
+            // Set !Successful
+            userInput.Successful = false;
 
             // ToEntity
             Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
 
             // Partial Action
-            partialAction();
-
-            // ToViewModel
-            if (partialPresenter.ViewModel.Successful)
+            OperatorPropertiesViewModel_ForSample viewModel = partialAction(userInput);
+            if (!viewModel.Successful)
             {
-                PatchDetails_RefreshOperator(partialPresenter.ViewModel.ID);
+                // DispatchViewModel
+                DispatchViewModel(viewModel);
+
+                return;
             }
 
+            // Set !Successful
+            viewModel.Successful = false;
+
+            // Business
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
+            {
+                // Non-Persited
+                viewModel.ValidationMessages.AddRange(validationResult.Messages);
+
+                // DispatchViewModel
+                DispatchViewModel(viewModel);
+
+                return;
+            }
+
+            // Successful
+            viewModel.Successful = true;
+
             // DispatchViewModel
-            DispatchViewModel(partialPresenter.ViewModel);
+            DispatchViewModel(viewModel);
+
+            // Refresh
+            PatchDetails_RefreshOperator(viewModel.ID);
         }
 
-        private void OperatorPropertiesCloseOrLoseFocus_ForSpectrum(Action partialAction)
+        private void OperatorPropertiesCloseOrLoseFocus_ForSpectrum(Func<OperatorPropertiesViewModel_ForSpectrum, OperatorPropertiesViewModel_ForSpectrum> partialAction)
         {
-            OperatorPropertiesPresenter_ForSpectrum partialPresenter = _operatorPropertiesPresenter_ForSpectrum;
+            // GetViewModel
+            OperatorPropertiesViewModel_ForSpectrum userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForSpectrum(MainViewModel.Document);
+
+            // Set !Successful
+            userInput.Successful = false;
 
             // ToEntity
             Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
 
             // Partial Action
-            partialAction();
-
-            // ToViewModel
-            if (partialPresenter.ViewModel.Successful)
+            OperatorPropertiesViewModel_ForSpectrum viewModel = partialAction(userInput);
+            if (!viewModel.Successful)
             {
-                PatchDetails_RefreshOperator(partialPresenter.ViewModel.ID);
+                // DispatchViewModel
+                DispatchViewModel(viewModel);
+
+                return;
             }
 
+            // Set !Successful
+            viewModel.Successful = false;
+
+            // Business
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
+            {
+                // Non-Persited
+                viewModel.ValidationMessages.AddRange(validationResult.Messages);
+
+                // DispatchViewModel
+                DispatchViewModel(viewModel);
+
+                return;
+            }
+
+            // Successful
+            viewModel.Successful = true;
+
             // DispatchViewModel
-            DispatchViewModel(partialPresenter.ViewModel);
+            DispatchViewModel(viewModel);
+
+            // Refresh
+            PatchDetails_RefreshOperator(viewModel.ID);
         }
 
         private void OperatorPropertiesCloseOrLoseFocus_ForUnbundle(Func<OperatorPropertiesViewModel_ForUnbundle, OperatorPropertiesViewModel_ForUnbundle> partialAction)

@@ -7,14 +7,13 @@ using System.Collections.Generic;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ToViewModel;
+using JJ.Framework.Common;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class OperatorPropertiesPresenter_ForResample
     {
         private PatchRepositories _repositories;
-
-        public OperatorPropertiesViewModel_ForResample ViewModel { get; set; }
 
         public OperatorPropertiesPresenter_ForResample(PatchRepositories repositories)
         {
@@ -23,62 +22,110 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _repositories = repositories;
         }
 
-        public void Show()
+        public OperatorPropertiesViewModel_ForResample Show(OperatorPropertiesViewModel_ForResample userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            ViewModel.Visible = true;
+            // GetEntity
+            Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
+
+            // ToViewModel
+            OperatorPropertiesViewModel_ForResample viewModel = entity.ToPropertiesViewModel_ForResample();
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+            viewModel.Visible = true;
+
+            return viewModel;
         }
 
-        public void Refresh()
+        public OperatorPropertiesViewModel_ForResample Refresh(OperatorPropertiesViewModel_ForResample userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Operator entity = _repositories.OperatorRepository.Get(ViewModel.ID);
-            bool visible = ViewModel.Visible;
-            ViewModel = entity.ToPropertiesViewModel_ForResample();
-            ViewModel.Visible = visible;
+            // GetEntity
+            Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
+
+            // ToViewModel
+            OperatorPropertiesViewModel_ForResample viewModel = entity.ToPropertiesViewModel_ForResample();
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+
+            return viewModel;
         }
 
-        public void Close()
+        public OperatorPropertiesViewModel_ForResample Close(OperatorPropertiesViewModel_ForResample userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Update();
+            OperatorPropertiesViewModel_ForResample viewModel = Update(userInput);
 
-            if (ViewModel.Successful)
+            if (viewModel.Successful)
             {
-                ViewModel.Visible = false;
+                viewModel.Visible = false;
             }
+
+            return viewModel;
         }
 
-        public void LoseFocus()
+        public OperatorPropertiesViewModel_ForResample LoseFocus(OperatorPropertiesViewModel_ForResample userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Update();
+            OperatorPropertiesViewModel_ForResample viewModel = Update(userInput);
+
+            return viewModel;
         }
 
-        private void Update()
+        private OperatorPropertiesViewModel_ForResample Update(OperatorPropertiesViewModel_ForResample userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Operator entity = ViewModel.ToEntity(
-                _repositories.OperatorRepository,
-                _repositories.OperatorTypeRepository);
+            // Set !Successful
+            userInput.Successful = false;
 
-            var patchManager = new PatchManager(entity.Patch, _repositories);
+            // GetEntity
+            Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
+
+            // Business
+            PatchManager patchManager = new PatchManager(entity.Patch, _repositories);
             VoidResult result = patchManager.SaveOperator(entity);
+            if (!result.Successful)
+            {
+                // ToViewModel
+                OperatorPropertiesViewModel_ForResample viewModel = entity.ToPropertiesViewModel_ForResample();
 
-            ViewModel.Successful = result.Successful;
-            ViewModel.ValidationMessages = result.Messages;
+                // Non-Persisted
+                CopyNonPersistedProperties(userInput, viewModel);
+                viewModel.ValidationMessages.AddRange(result.Messages);
+                viewModel.Successful = false;
+
+                return viewModel;
+            }
+
+            // ToViewModel
+            OperatorPropertiesViewModel_ForResample viewModel2 = entity.ToPropertiesViewModel_ForResample();
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel2);
+
+            // Successful
+            viewModel2.Successful = true;
+
+            return viewModel2;
         }
 
         // Helpers
 
-        private void AssertViewModel()
+        private void CopyNonPersistedProperties(OperatorPropertiesViewModel_ForResample sourceViewModel, OperatorPropertiesViewModel_ForResample destViewModel)
         {
-            if (ViewModel == null) throw new NullException(() => ViewModel);
+            if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
+            if (destViewModel == null) throw new NullException(() => destViewModel);
+
+            destViewModel.ValidationMessages = sourceViewModel.ValidationMessages;
+            destViewModel.Visible = sourceViewModel.Visible;
+            destViewModel.Successful = sourceViewModel.Successful;
         }
     }
 }

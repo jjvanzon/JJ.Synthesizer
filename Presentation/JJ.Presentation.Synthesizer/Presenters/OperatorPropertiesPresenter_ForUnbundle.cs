@@ -34,7 +34,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesViewModel_ForUnbundle viewModel = entity.ToPropertiesViewModel_ForUnbundle();
 
             // Non-Persisted
-            CopyNonPersisted(userInput, viewModel);
+            CopyNonPersistedProperties(userInput, viewModel);
             viewModel.Visible = true;
 
             return viewModel;
@@ -51,7 +51,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesViewModel_ForUnbundle viewModel = entity.ToPropertiesViewModel_ForUnbundle();
 
             // Non-Persisted
-            CopyNonPersisted(userInput, viewModel);
+            CopyNonPersistedProperties(userInput, viewModel);
 
             return viewModel;
         }
@@ -98,7 +98,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForUnbundle viewModel = entity.ToPropertiesViewModel_ForUnbundle();
 
                 // Non-Persisted
-                CopyNonPersisted(userInput, viewModel);
+                CopyNonPersistedProperties(userInput, viewModel);
                 viewModel.ValidationMessages.AddRange(result1.Messages);
                 viewModel.Successful = false;
 
@@ -113,7 +113,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForUnbundle viewModel = entity.ToPropertiesViewModel_ForUnbundle();
 
                 // Non-Persisted
-                CopyNonPersisted(userInput, viewModel);
+                CopyNonPersistedProperties(userInput, viewModel);
                 viewModel.ValidationMessages.AddRange(result2.Messages);
                 viewModel.Successful = false;
 
@@ -124,7 +124,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesViewModel_ForUnbundle viewModel2 = entity.ToPropertiesViewModel_ForUnbundle();
 
             // Non-Persisted
-            CopyNonPersisted(userInput, viewModel2);
+            CopyNonPersistedProperties(userInput, viewModel2);
 
             // Successful
             viewModel2.Successful = true;
@@ -134,7 +134,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Helpers
 
-        private void CopyNonPersisted(OperatorPropertiesViewModel_ForUnbundle sourceViewModel, OperatorPropertiesViewModel_ForUnbundle destViewModel)
+        private void CopyNonPersistedProperties(OperatorPropertiesViewModel_ForUnbundle sourceViewModel, OperatorPropertiesViewModel_ForUnbundle destViewModel)
         {
             if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
             if (destViewModel == null) throw new NullException(() => destViewModel);

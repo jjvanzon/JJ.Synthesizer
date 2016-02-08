@@ -249,9 +249,12 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Random(valueDuration, phaseShift);
         }
 
-        public Resample_OperatorWrapper Resample(Outlet signal = null, Outlet samplingRate = null)
+        public Resample_OperatorWrapper Resample(
+            Outlet signal = null,
+            Outlet samplingRate = null,
+            ResampleInterpolationTypeEnum interpolationType = ResampleInterpolationTypeEnum.CubicSmoothInclination)
         {
-            return _patchManager.Resample(signal, samplingRate);
+            return _patchManager.Resample(signal, samplingRate, interpolationType);
         }
 
         public Reset_OperatorWrapper Reset(Outlet operand = null)

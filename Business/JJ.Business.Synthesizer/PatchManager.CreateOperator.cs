@@ -652,14 +652,18 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Resample_OperatorWrapper Resample(Outlet signal = null, Outlet samplingRate = null)
+        public Resample_OperatorWrapper Resample(
+            Outlet signal = null, 
+            Outlet samplingRate = null, 
+            ResampleInterpolationTypeEnum interpolationType = ResampleInterpolationTypeEnum.CubicSmoothInclination)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Resample, inletCount: 2, outletCount: 1);
 
             var wrapper = new Resample_OperatorWrapper(op)
             {
                 Signal = signal,
-                SamplingRate = samplingRate
+                SamplingRate = samplingRate,
+                ResampleInterpolationTypeEnum = interpolationType
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
@@ -924,12 +928,13 @@ namespace JJ.Business.Synthesizer
                 {
                     case OperatorTypeEnum.Undefined:
                     case OperatorTypeEnum.Adder:
-                    case OperatorTypeEnum.Bundle:
-                    case OperatorTypeEnum.Unbundle:
-                    case OperatorTypeEnum.Spectrum:
                     case OperatorTypeEnum.Average:
+                    case OperatorTypeEnum.Bundle:
                     case OperatorTypeEnum.Maximum:
                     case OperatorTypeEnum.Minimum:
+                    case OperatorTypeEnum.Resample:
+                    case OperatorTypeEnum.Spectrum:
+                    case OperatorTypeEnum.Unbundle:
                         continue;
 
                     case OperatorTypeEnum.CustomOperator:
@@ -999,6 +1004,9 @@ namespace JJ.Business.Synthesizer
 
                 case OperatorTypeEnum.Bundle:
                     return Bundle(new Outlet[inletCount]);
+
+                case OperatorTypeEnum.Resample:
+                    return Resample(); // Requires default values, not null parameters.
 
                 case OperatorTypeEnum.Unbundle:
                     return Unbundle(); // Requires default values, not null parameters.
