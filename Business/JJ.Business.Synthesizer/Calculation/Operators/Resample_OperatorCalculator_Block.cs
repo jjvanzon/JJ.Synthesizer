@@ -39,30 +39,62 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 return _x0;
             }
 
-            double tOffset = time - _t0;
             double sampleDuration = 1.0 / samplingRate;
 
-            bool isForwardInTime = tOffset >= 0.0;
+            double tOffset = time - _t0;
 
+            bool isForwardInTime = tOffset >= 0.0;
             if (isForwardInTime)
             {
-                if (tOffset > sampleDuration)
+                bool exceedsSampleDuration = tOffset > sampleDuration;
+                if (exceedsSampleDuration)
                 {
-                    // TODO: A sudden jump in time all of a sudden causes very frequent calculation,
-                    // until _t0 catches up. Seems strange behavior.
-                    // Perhaps skipping over sample durations is a better strategy,
-                    // without harming the alignment of the samples.
-                    _t0 += sampleDuration;
-                    _x0 = _signalCalculator.Calculate(_t0, channelIndex);
+                    bool exceedsMoreThanTwoSampleDurations = tOffset > sampleDuration + sampleDuration;
+                    if (!exceedsMoreThanTwoSampleDurations)
+                    {
+                        _t0 += sampleDuration;
+                        _x0 = _signalCalculator.Calculate(_t0, channelIndex);
+                    }
+                    else
+                    {
+                        // A sudden jump in time would cause very frequency calculation until _t0 catches up with time,
+                        // unless we skip over a multiple of sample durations, 
+                        // while taking the alignment of the samples into consideration.
+
+                        double sampleCount = Math.Floor(tOffset * samplingRate);
+                        double tIncrement = sampleCount * sampleDuration;
+
+                        _t0 += tIncrement;
+                        _x0 = _signalCalculator.Calculate(_t0, channelIndex);
+                    }
                 }
             }
             else
             {
                 // Time in reverse
-                if (tOffset < -sampleDuration)
+                bool exceedsSampleDuration = tOffset < -sampleDuration;
+                if (exceedsSampleDuration)
                 {
-                    _t0 -= sampleDuration;
-                    _x0 = _signalCalculator.Calculate(_t0, channelIndex);
+                    bool exceedsMoreThanTwoSampleDurations = tOffset < -sampleDuration - sampleDuration;
+                    if (!exceedsMoreThanTwoSampleDurations)
+                    {
+                        _t0 -= sampleDuration;
+                        _x0 = _signalCalculator.Calculate(_t0, channelIndex);
+                    }
+                    else
+                    {
+                        double sampleCount = Math.Ceiling(tOffset * samplingRate); // tOffset is negative.
+                        // By making the programming error below, and using a negative sample rate,
+                        // I was able to mix two copies of the sample sound at different delays
+                        // while I was not even adding two signals, just playing the samples in a different order.
+                        // Weird.
+                        //double sampleCount = tOffset * samplingRate; // tOffset is negative.
+
+                        double tIncrement = sampleCount * sampleDuration;
+
+                        _t0 += tIncrement;
+                        _x0 = _signalCalculator.Calculate(_t0, channelIndex);
+                    }
                 }
             }
 
