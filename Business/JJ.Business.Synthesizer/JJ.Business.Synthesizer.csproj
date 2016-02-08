@@ -70,6 +70,7 @@
     <Compile Include="Calculation\Operators\Narrower OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\OperatorCalculatorHelper.cs" />
     <Compile Include="Calculation\Operators\Random OperatorCalculator Classes.cs" />
+    <Compile Include="Calculation\Operators\2016-02-09 Backup of Resample_OperatorCalculator_Block %28with many specialized cases%29.cs" />
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_Block.cs" />
     <Compile Include="Calculation\Operators\Spectrum_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Stretch OperatorCalculator Classes.cs" />

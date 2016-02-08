@@ -33,55 +33,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate(double time, int channelIndex)
         {
             double samplingRate = _samplingRateCalculator.Calculate(time, channelIndex);
-            if (samplingRate == 0.0)
-            {
-                // Weird number: sampling rate 0 = time stands still.
-                return _x0;
-            }
 
-            double sampleDuration = 1.0 / samplingRate;
-
+            // This covers time in reverse and negative rates.
             double tOffset = time - _t0;
+            double sampleCount = tOffset * samplingRate;
+            sampleCount = Math.Truncate(sampleCount);
 
-            bool isForwardInTime = tOffset >= 0.0;
-            if (isForwardInTime)
+            if (sampleCount != 0.0)
             {
-                bool exceedsSampleDuration = tOffset > sampleDuration;
-                if (exceedsSampleDuration)
-                {
-                    bool exceedsMoreThanTwoSampleDurations = tOffset > sampleDuration + sampleDuration;
-                    if (!exceedsMoreThanTwoSampleDurations)
-                    {
-                        _t0 += sampleDuration;
-                    }
-                    else
-                    {
-                        double sampleCount = Math.Floor(tOffset * samplingRate);
-                        _t0 += sampleCount * sampleDuration;
-                    }
-
-                    _x0 = _signalCalculator.Calculate(_t0, channelIndex);
-                }
-            }
-            else
-            {
-                // Time in reverse
-                bool exceedsSampleDuration = tOffset < -sampleDuration;
-                if (exceedsSampleDuration)
-                {
-                    bool exceedsMoreThanTwoSampleDurations = tOffset < -sampleDuration - sampleDuration;
-                    if (!exceedsMoreThanTwoSampleDurations)
-                    {
-                        _t0 -= sampleDuration;
-                    }
-                    else
-                    {
-                        double sampleCount = Math.Ceiling(tOffset * samplingRate); // tOffset is negative.
-                        _t0 += sampleCount * sampleDuration;
-                    }
-
-                    _x0 = _signalCalculator.Calculate(_t0, channelIndex);
-                }
+                _t0 += sampleCount / samplingRate;
+                _x0 = _signalCalculator.Calculate(_t0, channelIndex);
             }
 
             return _x0;
