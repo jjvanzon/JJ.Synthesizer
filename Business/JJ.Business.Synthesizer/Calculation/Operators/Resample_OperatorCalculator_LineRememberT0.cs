@@ -11,8 +11,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     /// </summary>
     internal class Resample_OperatorCalculator_LineRememberT0 : OperatorCalculatorBase
     {
-        private OperatorCalculatorBase _signalCalculator;
-        private OperatorCalculatorBase _samplingRateCalculator;
+        private readonly OperatorCalculatorBase _signalCalculator;
+        private readonly OperatorCalculatorBase _samplingRateCalculator;
 
         public Resample_OperatorCalculator_LineRememberT0(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase samplingRateCalculator)
         {

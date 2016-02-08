@@ -1113,8 +1113,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 switch (resampleInterpolationTypeEnum)
                 {
                     case ResampleInterpolationTypeEnum.Block:
-                        // TODO: Program a calculator.
-                        throw new ValueNotSupportedException(resampleInterpolationTypeEnum);
+                        calculator = new Resample_OperatorCalculator_Block(signalCalculator, samplingRateCalculator);
+                        break;
 
                     case ResampleInterpolationTypeEnum.Stripe:
                         // TODO: Program a calculator.
