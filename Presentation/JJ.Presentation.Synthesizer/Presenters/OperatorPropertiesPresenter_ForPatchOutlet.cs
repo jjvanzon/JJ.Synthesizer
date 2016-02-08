@@ -11,14 +11,13 @@ using JJ.Framework.Validation;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.Validators;
 using JJ.Business.Canonical;
+using JJ.Framework.Common;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class OperatorPropertiesPresenter_ForPatchOutlet
     {
         private PatchRepositories _repositories;
-
-        public OperatorPropertiesViewModel_ForPatchOutlet ViewModel { get; set; }
 
         public OperatorPropertiesPresenter_ForPatchOutlet(PatchRepositories repositories)
         {
@@ -27,66 +26,108 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _repositories = repositories;
         }
 
-        public void Show()
+        public OperatorPropertiesViewModel_ForPatchOutlet Show(OperatorPropertiesViewModel_ForPatchOutlet userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            ViewModel.Visible = true;
+            // GetEntity
+            Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
+
+            // ToViewModel
+            OperatorPropertiesViewModel_ForPatchOutlet viewModel = entity.ToPropertiesViewModel_ForPatchOutlet(_repositories.OutletTypeRepository);
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+            viewModel.Visible = true;
+
+            return viewModel;
         }
 
-        public void Refresh()
+        public OperatorPropertiesViewModel_ForPatchOutlet Refresh(OperatorPropertiesViewModel_ForPatchOutlet userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Operator entity = _repositories.OperatorRepository.Get(ViewModel.ID);
-            bool visible = ViewModel.Visible;
-            ViewModel = entity.ToPropertiesViewModel_ForPatchOutlet(_repositories.OutletTypeRepository);
-            ViewModel.Visible = visible;
+            // GetEntity
+            Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
+
+            // ToViewModel
+            OperatorPropertiesViewModel_ForPatchOutlet viewModel = entity.ToPropertiesViewModel_ForPatchOutlet(_repositories.OutletTypeRepository);
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+
+            return viewModel;
         }
 
-        public void Close()
+        public OperatorPropertiesViewModel_ForPatchOutlet Close(OperatorPropertiesViewModel_ForPatchOutlet userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Update();
+            OperatorPropertiesViewModel_ForPatchOutlet viewModel = Update(userInput);
 
-            if (ViewModel.Successful)
+            if (viewModel.Successful)
             {
-                ViewModel.Visible = false;
+                viewModel.Visible = false;
             }
+
+            return viewModel;
         }
 
-        public void LoseFocus()
+        public OperatorPropertiesViewModel_ForPatchOutlet LoseFocus(OperatorPropertiesViewModel_ForPatchOutlet userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Update();
+            OperatorPropertiesViewModel_ForPatchOutlet viewModel = Update(userInput);
+
+            return viewModel;
         }
 
-        private void Update()
+        private OperatorPropertiesViewModel_ForPatchOutlet Update(OperatorPropertiesViewModel_ForPatchOutlet userInput)
         {
-            IValidator validator = new OperatorPropertiesViewModel_ForPatchOutlet_Validator(ViewModel);
+            if (userInput == null) throw new NullException(() => userInput);
+
+            // Set !Successful
+            userInput.Successful = false;
+
+            // ViewModel Validator
+            IValidator validator = new OperatorPropertiesViewModel_ForPatchOutlet_Validator(userInput);
             if (!validator.IsValid)
             {
-                ViewModel.Successful = validator.IsValid;
-                ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
-                return;
+                userInput.Successful = validator.IsValid;
+                userInput.ValidationMessages = validator.ValidationMessages.ToCanonical();
+                return userInput;
             }
 
-            Operator op = ViewModel.ToOperatorWithOutlet(_repositories);
+            // GetEntity
+            Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
 
-            PatchManager patchManager = new PatchManager(op.Patch, _repositories);
-            VoidResult result = patchManager.SaveOperator(op);
+            // Business
+            PatchManager patchManager = new PatchManager(entity.Patch, _repositories);
+            VoidResult result = patchManager.SaveOperator(entity);
 
-            ViewModel.Successful = result.Successful;
-            ViewModel.ValidationMessages = result.Messages;
+            // ToViewModel
+            OperatorPropertiesViewModel_ForPatchOutlet viewModel = entity.ToPropertiesViewModel_ForPatchOutlet(_repositories.OutletTypeRepository);
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+            viewModel.ValidationMessages.AddRange(result.Messages);
+
+            // Successful?
+            viewModel.Successful = result.Successful;
+
+            return viewModel;
         }
 
         // Helpers
 
-        private void AssertViewModel()
+        private void CopyNonPersistedProperties(OperatorPropertiesViewModel_ForPatchOutlet sourceViewModel, OperatorPropertiesViewModel_ForPatchOutlet destViewModel)
         {
-            if (ViewModel == null) throw new NullException(() => ViewModel);
+            if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
+            if (destViewModel == null) throw new NullException(() => destViewModel);
+
+            destViewModel.ValidationMessages = sourceViewModel.ValidationMessages;
+            destViewModel.Visible = sourceViewModel.Visible;
+            destViewModel.Successful = sourceViewModel.Successful;
         }
     }
 }

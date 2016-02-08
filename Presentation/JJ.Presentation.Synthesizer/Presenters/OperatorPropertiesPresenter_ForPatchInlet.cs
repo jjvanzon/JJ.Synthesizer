@@ -11,14 +11,13 @@ using JJ.Framework.Validation;
 using JJ.Presentation.Synthesizer.Validators;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Business.Canonical;
+using JJ.Framework.Common;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class OperatorPropertiesPresenter_ForPatchInlet
     {
         private PatchRepositories _repositories;
-
-        public OperatorPropertiesViewModel_ForPatchInlet ViewModel { get; set; }
 
         public OperatorPropertiesPresenter_ForPatchInlet(PatchRepositories repositories)
         {
@@ -27,66 +26,108 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _repositories = repositories;
         }
 
-        public void Show()
+        public OperatorPropertiesViewModel_ForPatchInlet Show(OperatorPropertiesViewModel_ForPatchInlet userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            ViewModel.Visible = true;
+            // GetEntity
+            Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
+
+            // ToViewModel
+            OperatorPropertiesViewModel_ForPatchInlet viewModel = entity.ToPropertiesViewModel_ForPatchInlet(_repositories.InletTypeRepository);
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+            viewModel.Visible = true;
+
+            return viewModel;
         }
 
-        public void Refresh()
+        public OperatorPropertiesViewModel_ForPatchInlet Refresh(OperatorPropertiesViewModel_ForPatchInlet userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Operator entity = _repositories.OperatorRepository.Get(ViewModel.ID);
-            bool visible = ViewModel.Visible;
-            ViewModel = entity.ToPropertiesViewModel_ForPatchInlet(_repositories.InletTypeRepository);
-            ViewModel.Visible = visible;
+            // GetEntity
+            Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
+
+            // ToViewModel
+            OperatorPropertiesViewModel_ForPatchInlet viewModel = entity.ToPropertiesViewModel_ForPatchInlet(_repositories.InletTypeRepository);
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+
+            return viewModel;
         }
 
-        public void Close()
+        public OperatorPropertiesViewModel_ForPatchInlet Close(OperatorPropertiesViewModel_ForPatchInlet userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Update();
+            OperatorPropertiesViewModel_ForPatchInlet viewModel = Update(userInput);
 
-            if (ViewModel.Successful)
+            if (viewModel.Successful)
             {
-                ViewModel.Visible = false;
-            }
-        }
-
-        public void LoseFocus()
-        {
-            AssertViewModel();
-
-            Update();
-        }
-
-        private void Update()
-        {
-            IValidator presentationValidator = new OperatorPropertiesViewModel_ForPatchInlet_Validator(ViewModel);
-            if (!presentationValidator.IsValid)
-            {
-                ViewModel.Successful = presentationValidator.IsValid;
-                ViewModel.ValidationMessages = presentationValidator.ValidationMessages.ToCanonical();
-                return;
+                viewModel.Visible = false;
             }
 
-            Operator op = ViewModel.ToOperatorWithInlet(_repositories);
+            return viewModel;
+        }
 
-            PatchManager patchManager = new PatchManager(op.Patch, _repositories);
-            VoidResult result = patchManager.SaveOperator(op);
+        public OperatorPropertiesViewModel_ForPatchInlet LoseFocus(OperatorPropertiesViewModel_ForPatchInlet userInput)
+        {
+            if (userInput == null) throw new NullException(() => userInput);
 
-            ViewModel.Successful = result.Successful;
-            ViewModel.ValidationMessages = result.Messages;
+            OperatorPropertiesViewModel_ForPatchInlet viewModel = Update(userInput);
+
+            return viewModel;
+        }
+
+        private OperatorPropertiesViewModel_ForPatchInlet Update(OperatorPropertiesViewModel_ForPatchInlet userInput)
+        {
+            if (userInput == null) throw new NullException(() => userInput);
+
+            // Set !Successful
+            userInput.Successful = false;
+
+            // ViewModel Validator
+            IValidator validator = new OperatorPropertiesViewModel_ForPatchInlet_Validator(userInput);
+            if (!validator.IsValid)
+            {
+                userInput.Successful = validator.IsValid;
+                userInput.ValidationMessages = validator.ValidationMessages.ToCanonical();
+                return userInput;
+            }
+
+            // GetEntity
+            Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
+
+            // Business
+            PatchManager patchManager = new PatchManager(entity.Patch, _repositories);
+            VoidResult result = patchManager.SaveOperator(entity);
+
+            // ToViewModel
+            OperatorPropertiesViewModel_ForPatchInlet viewModel = entity.ToPropertiesViewModel_ForPatchInlet(_repositories.InletTypeRepository);
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+            viewModel.ValidationMessages.AddRange(result.Messages);
+
+            // Successful?
+            viewModel.Successful = result.Successful;
+
+            return viewModel;
         }
 
         // Helpers
 
-        private void AssertViewModel()
+        private void CopyNonPersistedProperties(OperatorPropertiesViewModel_ForPatchInlet sourceViewModel, OperatorPropertiesViewModel_ForPatchInlet destViewModel)
         {
-            if (ViewModel == null) throw new NullException(() => ViewModel);
+            if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
+            if (destViewModel == null) throw new NullException(() => destViewModel);
+
+            destViewModel.ValidationMessages = sourceViewModel.ValidationMessages;
+            destViewModel.Visible = sourceViewModel.Visible;
+            destViewModel.Successful = sourceViewModel.Successful;
         }
     }
 }

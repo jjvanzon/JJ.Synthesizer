@@ -5,18 +5,16 @@ using JJ.Data.Canonical;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ToEntity;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ToViewModel;
+using JJ.Framework.Common;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class OperatorPropertiesPresenter_ForBundle
     {
         private PatchRepositories _repositories;
-
-        public OperatorPropertiesViewModel_ForBundle ViewModel { get; set; }
 
         public OperatorPropertiesPresenter_ForBundle(PatchRepositories repositories)
         {
@@ -25,74 +23,124 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _repositories = repositories;
         }
 
-        public void Show()
+        public OperatorPropertiesViewModel_ForBundle Show(OperatorPropertiesViewModel_ForBundle userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            ViewModel.Visible = true;
+            // GetEntity
+            Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
+
+            // ToViewModel
+            OperatorPropertiesViewModel_ForBundle viewModel = entity.ToPropertiesViewModel_ForBundle();
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+            viewModel.Visible = true;
+
+            return viewModel;
         }
 
-        public void Refresh()
+        public OperatorPropertiesViewModel_ForBundle Refresh(OperatorPropertiesViewModel_ForBundle userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Operator entity = _repositories.OperatorRepository.Get(ViewModel.ID);
+            // GetEntity
+            Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
 
-            bool visible = ViewModel.Visible;
-            int inletCount = ViewModel.InletCount;
+            // ToViewModel
+            OperatorPropertiesViewModel_ForBundle viewModel = entity.ToPropertiesViewModel_ForBundle();
 
-            ViewModel = entity.ToPropertiesViewModel_ForBundle();
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
 
-            ViewModel.Visible = visible;
-            ViewModel.InletCount = inletCount;
+            return viewModel;
         }
 
-        public void Close()
+        public OperatorPropertiesViewModel_ForBundle Close(OperatorPropertiesViewModel_ForBundle userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Update();
+            OperatorPropertiesViewModel_ForBundle viewModel = Update(userInput);
 
-            if (ViewModel.Successful)
+            if (viewModel.Successful)
             {
-                ViewModel.Visible = false;
+                viewModel.Visible = false;
             }
+
+            return viewModel;
         }
 
-        public void LoseFocus()
+        public OperatorPropertiesViewModel_ForBundle LoseFocus(OperatorPropertiesViewModel_ForBundle userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Update();
+            OperatorPropertiesViewModel_ForBundle viewModel = Update(userInput);
+
+            return viewModel;
         }
 
-        private void Update()
+        private OperatorPropertiesViewModel_ForBundle Update(OperatorPropertiesViewModel_ForBundle userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Operator entity = ViewModel.ToEntity(_repositories.OperatorRepository, _repositories.OperatorTypeRepository);
+            // Set !Successful
+            userInput.Successful = false;
 
+            // GetEntity
+            Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
+
+            // Business
             var patchManager = new PatchManager(entity.Patch, _repositories);
 
-            VoidResult result1 = patchManager.SetOperatorInletCount(entity, ViewModel.InletCount);
+            VoidResult result1 = patchManager.SetOperatorInletCount(entity, userInput.InletCount);
             if (!result1.Successful)
             {
-                ViewModel.Successful = result1.Successful;
-                ViewModel.ValidationMessages = result1.Messages;
-                return;
+                // ToViewModel
+                OperatorPropertiesViewModel_ForBundle viewModel = entity.ToPropertiesViewModel_ForBundle();
+
+                // Non-Persisted
+                CopyNonPersistedProperties(userInput, viewModel);
+                viewModel.ValidationMessages.AddRange(result1.Messages);
+                viewModel.Successful = false;
+
+                return viewModel;
             }
 
             VoidResult result2 = patchManager.SaveOperator(entity);
-            ViewModel.Successful = result2.Successful;
-            ViewModel.ValidationMessages = result2.Messages;
-            return;
+            if (!result2.Successful)
+            {
+                // ToViewModel
+                OperatorPropertiesViewModel_ForBundle viewModel = entity.ToPropertiesViewModel_ForBundle();
+
+                // Non-Persisted
+                CopyNonPersistedProperties(userInput, viewModel);
+                viewModel.ValidationMessages.AddRange(result2.Messages);
+
+                return viewModel;
+            }
+
+            // ToViewModel
+            OperatorPropertiesViewModel_ForBundle viewModel2 = entity.ToPropertiesViewModel_ForBundle();
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel2);
+
+            // Successful
+            viewModel2.Successful = true;
+
+            return viewModel2;
         }
 
         // Helpers
 
-        private void AssertViewModel()
+        private void CopyNonPersistedProperties(OperatorPropertiesViewModel_ForBundle sourceViewModel, OperatorPropertiesViewModel_ForBundle destViewModel)
         {
-            if (ViewModel == null) throw new NullException(() => ViewModel);
+            if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
+            if (destViewModel == null) throw new NullException(() => destViewModel);
+
+            destViewModel.ValidationMessages = sourceViewModel.ValidationMessages;
+            destViewModel.Visible = sourceViewModel.Visible;
+            destViewModel.Successful = sourceViewModel.Successful;
         }
     }
 }

@@ -7,14 +7,13 @@ using System.Collections.Generic;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ToViewModel;
+using JJ.Framework.Common;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class OperatorPropertiesPresenter_ForCurve
     {
         private PatchRepositories _repositories;
-
-        public OperatorPropertiesViewModel_ForCurve ViewModel { get; set; }
 
         public OperatorPropertiesPresenter_ForCurve(PatchRepositories repositories)
         {
@@ -23,63 +22,99 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _repositories = repositories;
         }
 
-        public void Show()
+        public OperatorPropertiesViewModel_ForCurve Show(OperatorPropertiesViewModel_ForCurve userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            ViewModel.Visible = true;
+            // GetEntity
+            Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
+
+            // ToViewModel
+            OperatorPropertiesViewModel_ForCurve viewModel = entity.ToPropertiesViewModel_ForCurve(_repositories.CurveRepository);
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+            viewModel.Visible = true;
+
+            return viewModel;
         }
 
-        public void Refresh()
+        public OperatorPropertiesViewModel_ForCurve Refresh(OperatorPropertiesViewModel_ForCurve userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Operator entity = _repositories.OperatorRepository.Get(ViewModel.ID);
-            bool visible = ViewModel.Visible;
-            ViewModel = entity.ToPropertiesViewModel_ForCurve(_repositories.CurveRepository);
-            ViewModel.Visible = visible;
+            // GetEntity
+            Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
+
+            // ToViewModel
+            OperatorPropertiesViewModel_ForCurve viewModel = entity.ToPropertiesViewModel_ForCurve(_repositories.CurveRepository);
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+
+            return viewModel;
         }
 
-        public void Close()
+        public OperatorPropertiesViewModel_ForCurve Close(OperatorPropertiesViewModel_ForCurve userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Update();
+            OperatorPropertiesViewModel_ForCurve viewModel = Update(userInput);
 
-            if (ViewModel.Successful)
+            if (viewModel.Successful)
             {
-                ViewModel.Visible = false;
+                viewModel.Visible = false;
             }
+
+            return viewModel;
         }
 
-        public void LoseFocus()
+        public OperatorPropertiesViewModel_ForCurve LoseFocus(OperatorPropertiesViewModel_ForCurve userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Update();
+            OperatorPropertiesViewModel_ForCurve viewModel = Update(userInput);
+
+            return viewModel;
         }
 
-        private void Update()
+        private OperatorPropertiesViewModel_ForCurve Update(OperatorPropertiesViewModel_ForCurve userInput)
         {
-            AssertViewModel();
-            
-            Operator entity = ViewModel.ToEntity(
-                _repositories.OperatorRepository,
-                _repositories.OperatorTypeRepository,
-                _repositories.CurveRepository);
+            if (userInput == null) throw new NullException(() => userInput);
 
+            // Set !Successful
+            userInput.Successful = false;
+
+            // GetEntity
+            Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
+
+            // Business
             var patchManager = new PatchManager(entity.Patch, _repositories);
             VoidResult result = patchManager.SaveOperator(entity);
 
-            ViewModel.Successful = result.Successful;
-            ViewModel.ValidationMessages = result.Messages;
+            // ToViewModel
+            OperatorPropertiesViewModel_ForCurve viewModel = entity.ToPropertiesViewModel_ForCurve(_repositories.CurveRepository);
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+            viewModel.ValidationMessages.AddRange(result.Messages);
+
+            // Successful?
+            viewModel.Successful = result.Successful;
+
+            return viewModel;
         }
 
         // Helpers
 
-        private void AssertViewModel()
+        private void CopyNonPersistedProperties(OperatorPropertiesViewModel_ForCurve sourceViewModel, OperatorPropertiesViewModel_ForCurve destViewModel)
         {
-            if (ViewModel == null) throw new NullException(() => ViewModel);
+            if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
+            if (destViewModel == null) throw new NullException(() => destViewModel);
+
+            destViewModel.ValidationMessages = sourceViewModel.ValidationMessages;
+            destViewModel.Visible = sourceViewModel.Visible;
+            destViewModel.Successful = sourceViewModel.Successful;
         }
     }
 }

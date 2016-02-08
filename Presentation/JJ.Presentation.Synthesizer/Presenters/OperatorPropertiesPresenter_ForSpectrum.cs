@@ -90,29 +90,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Business
             PatchManager patchManager = new PatchManager(entity.Patch, _repositories);
             VoidResult result = patchManager.SaveOperator(entity);
-            if (!result.Successful)
-            {
-                // ToViewModel
-                OperatorPropertiesViewModel_ForSpectrum viewModel = entity.ToPropertiesViewModel_ForSpectrum();
-
-                // Non-Persisted
-                CopyNonPersistedProperties(userInput, viewModel);
-                viewModel.ValidationMessages.AddRange(result.Messages);
-                viewModel.Successful = false;
-
-                return viewModel;
-            }
 
             // ToViewModel
-            OperatorPropertiesViewModel_ForSpectrum viewModel2 = entity.ToPropertiesViewModel_ForSpectrum();
+            OperatorPropertiesViewModel_ForSpectrum viewModel = entity.ToPropertiesViewModel_ForSpectrum();
 
             // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel2);
+            CopyNonPersistedProperties(userInput, viewModel);
+            viewModel.ValidationMessages.AddRange(result.Messages);
 
-            // Successful
-            viewModel2.Successful = true;
+            // Successful?
+            viewModel.Successful = result.Successful;
 
-            return viewModel2;
+            return viewModel;
         }
 
         // Helpers

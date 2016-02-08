@@ -93,12 +93,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        private void OperatorProperties_ForCustomOperatorViewModel_Refresh(OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel)
+        private void OperatorProperties_ForCustomOperatorViewModel_Refresh(OperatorPropertiesViewModel_ForCustomOperator userInput)
         {
-            _operatorPropertiesPresenter_ForCustomOperator.ViewModel = propertiesViewModel;
-            _operatorPropertiesPresenter_ForCustomOperator.Refresh();
+            OperatorPropertiesViewModel_ForCustomOperator viewModel = _operatorPropertiesPresenter_ForCustomOperator.Refresh(userInput);
 
-            DispatchViewModel(_operatorPropertiesPresenter_ForCustomOperator.ViewModel);
+            DispatchViewModel(viewModel);
         }
 
         /// <summary>

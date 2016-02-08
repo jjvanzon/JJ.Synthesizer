@@ -142,9 +142,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             destViewModel.ValidationMessages = sourceViewModel.ValidationMessages;
             destViewModel.Visible = sourceViewModel.Visible;
             destViewModel.Successful = sourceViewModel.Successful;
-
-            // TODO: How is this non-persisted. I do not get that. It should be part of the entity model.
-            destViewModel.OutletCount = sourceViewModel.OutletCount; 
         }
     }
 }
