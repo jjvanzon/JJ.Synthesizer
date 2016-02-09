@@ -41,6 +41,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             if (sampleCount != 0.0)
             {
+                // But this undoes the negative rate.
+                // And if I put an if here things seem to go out of control,
+                // beause time goes forward, _t0 goes backward,
+                // and tOffset increases exponentially.
                 _t0 += sampleCount / samplingRate;
                 _x0 = _signalCalculator.Calculate(_t0, channelIndex);
             }
