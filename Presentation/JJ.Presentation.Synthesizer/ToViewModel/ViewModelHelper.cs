@@ -18,11 +18,18 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
     /// <summary> Empty view models start out with Visible = false. </summary>
     internal static partial class ViewModelHelper
     {
-        public static NotFoundViewModel CreateNotFoundViewModel(string entityTypeDisplayName)
+        public static NotFoundViewModel CreateNotFoundViewModel_WithEntityTypeDisplayName(string entityTypeDisplayName)
+        {
+            string message = CommonMessageFormatter.ObjectNotFound(entityTypeDisplayName);
+            var viewModel = CreateNotFoundViewModel_WithMessage(message);
+            return viewModel;
+        }
+
+        public static NotFoundViewModel CreateNotFoundViewModel_WithMessage(string message)
         {
             var viewModel = new NotFoundViewModel
             {
-                Message = CommonMessageFormatter.ObjectNotFound(entityTypeDisplayName)
+                Message = message
             };
 
             return viewModel;
@@ -38,7 +45,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             string entityTypeName = typeof(TEntity).Name;
             string entityTypeDisplayName = ResourceHelper.GetPropertyDisplayName(entityTypeName);
 
-            NotFoundViewModel viewModel = CreateNotFoundViewModel(entityTypeDisplayName);
+            NotFoundViewModel viewModel = CreateNotFoundViewModel_WithEntityTypeDisplayName(entityTypeDisplayName);
             return viewModel;
         }
 

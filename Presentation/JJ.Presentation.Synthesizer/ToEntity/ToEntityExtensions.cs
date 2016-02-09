@@ -278,7 +278,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 repositories.CurveRepository.Insert(curve);
             }
 
-            viewModel.Nodes.ToNodes(curve, repositories);
+            viewModel.Nodes.ToEntities(curve, repositories);
 
             return curve;
         }
@@ -328,7 +328,9 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             userInput.AudioFileOutputPropertiesList.ToAudioFileOutputsWithRelatedEntities(destDocument, new AudioFileOutputRepositories(repositories));
             userInput.CurvePropertiesList.ToEntities(destDocument, curveRepositories);
             userInput.CurveDetailsList.ToEntitiesWithRelatedEntities(destDocument, curveRepositories);
-            // userInput.NodePropertiesList's data is also present in the CurveDetails so nothing additional needs to be converted.
+            // TODO: Low priority: It is not 'netjes' to not have a plural variation that also does the delete operations,
+            // even though the CurveDetailsList ToEntity already covers deletion.
+            userInput.NodePropertiesList.ForEach(x => x.ToEntity(repositories.NodeRepository, repositories.NodeTypeRepository));
             userInput.SamplePropertiesList.ToSamples(destDocument, new SampleRepositories(repositories));
             userInput.ScalePropertiesList.ToEntities(scaleRepositories, destDocument);
             userInput.ToneGridEditList.ForEach(x => x.ToEntityWithRelatedEntities(scaleRepositories));
@@ -464,7 +466,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         // Nodes
 
-        public static void ToNodes(this IList<NodeViewModel> viewModelList, Curve destCurve, CurveRepositories repositories)
+        public static void ToEntities(this IList<NodeViewModel> viewModelList, Curve destCurve, CurveRepositories repositories)
         {
             if (viewModelList == null) throw new NullException(() => viewModelList);
             if (destCurve == null) throw new NullException(() => destCurve);

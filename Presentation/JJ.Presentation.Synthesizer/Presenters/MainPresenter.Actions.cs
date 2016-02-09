@@ -48,8 +48,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void NotFoundOK()
         {
-            _notFoundPresenter.OK();
-            DispatchViewModel(_notFoundPresenter.ViewModel);
+            NotFoundViewModel userInput = MainViewModel.NotFound;
+            NotFoundViewModel viewModel = _notFoundPresenter.OK(userInput);
+            DispatchViewModel(viewModel);
         }
 
         public void PopupMessagesOK()
@@ -597,48 +598,65 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void NodePropertiesShow(int nodeID)
         {
-            NodePropertiesViewModel viewModel = DocumentViewModelHelper.GetNodePropertiesViewModel(MainViewModel.Document, nodeID);
-            _nodePropertiesPresenter.ViewModel = viewModel;
-            _nodePropertiesPresenter.Show();
-            DispatchViewModel(_nodePropertiesPresenter.ViewModel);
+            NodePropertiesViewModel userInput = DocumentViewModelHelper.GetNodePropertiesViewModel(MainViewModel.Document, nodeID);
+            NodePropertiesViewModel viewModel = _nodePropertiesPresenter.Show(userInput);
+            DispatchViewModel(viewModel);
         }
 
         public void NodePropertiesClose()
         {
-            NodePropertiesCloseOrLoseFocus(() => _nodePropertiesPresenter.Close());
+            NodePropertiesCloseOrLoseFocus(x => _nodePropertiesPresenter.Close(x));
         }
 
         public void NodePropertiesLoseFocus()
         {
-            NodePropertiesCloseOrLoseFocus(() => _nodePropertiesPresenter.LoseFocus());
+            NodePropertiesCloseOrLoseFocus(x => _nodePropertiesPresenter.LoseFocus(x));
         }
 
-        public void NodePropertiesCloseOrLoseFocus(Action partialAction)
+        public void NodePropertiesCloseOrLoseFocus(Func<NodePropertiesViewModel, NodePropertiesViewModel> partialAction)
         {
-            NodePropertiesPresenter partialPresenter = _nodePropertiesPresenter;
+            // GetViewModel
+            NodePropertiesViewModel userInput = DocumentViewModelHelper.GetVisibleNodePropertiesViewModel(MainViewModel.Document);
+
+            // Set !Successful
+            userInput.Successful = false;
 
             // ToEntity
             Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
 
             // Partial Action
-            partialAction();
+            NodePropertiesViewModel viewModel = partialAction(userInput);
+            if (!viewModel.Successful)
+            {
+                // DispatchViewModel
+                DispatchViewModel(viewModel);
+                return;
+            }
+
+            // Set !Successful
+            viewModel.Successful = false;
 
             // Business
             IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
-                MainViewModel.Successful &= validationResult.Successful;
-                MainViewModel.PopupMessages.AddRange(validationResult.Messages);
+                // Non-Persited
+                viewModel.ValidationMessages.AddRange(validationResult.Messages);
+
+                // DispatchViewModel
+                DispatchViewModel(viewModel);
                 return;
             }
 
-            // ToViewModel
-            if (partialPresenter.ViewModel.Successful)
-            {
-                int nodeID = partialPresenter.ViewModel.Entity.ID;
-                CurveDetailsNodeRefresh(nodeID);
-            }
-            DispatchViewModel(partialPresenter.ViewModel);
+            // Successful
+            viewModel.Successful = true;
+
+            // DispatchViewModel
+            DispatchViewModel(viewModel);
+
+            // Refresh
+            int nodeID = viewModel.Entity.ID;
+            CurveDetailsNodeRefresh(nodeID);
         }
 
         public void NodeSelect(int nodeID)

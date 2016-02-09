@@ -15,8 +15,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly CurveRepositories _repositories;
         private readonly CurveManager _curveManager;
 
-        public NodePropertiesViewModel ViewModel { get; set; }
-
         public NodePropertiesPresenter(CurveRepositories repositories)
         {
             if (repositories == null) throw new NullException(() => repositories);
@@ -25,62 +23,98 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _curveManager = new CurveManager(_repositories);
         }
 
-        public void Show()
+        public NodePropertiesViewModel Show(NodePropertiesViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            ViewModel.Visible = true;
+            // GetEntity
+            Node entity = _repositories.NodeRepository.Get(userInput.Entity.ID);
+
+            // ToViewModel
+            NodePropertiesViewModel viewModel = entity.ToPropertiesViewModel(_repositories.NodeTypeRepository);
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+            viewModel.Visible = true;
+
+            return viewModel;
         }
 
-        public void Refresh()
+        public NodePropertiesViewModel Refresh(NodePropertiesViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Node entity = _repositories.NodeRepository.Get(ViewModel.Entity.ID);
+            // GetEntity
+            Node entity = _repositories.NodeRepository.Get(userInput.Entity.ID);
 
-            bool visible = ViewModel.Visible;
+            // ToViewModel
+            NodePropertiesViewModel viewModel = entity.ToPropertiesViewModel(_repositories.NodeTypeRepository);
 
-            ViewModel = entity.ToPropertiesViewModel(_repositories.NodeTypeRepository);
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
 
-            ViewModel.Visible = visible;
+            return viewModel;
         }
 
-        public void Close()
+        public NodePropertiesViewModel Close(NodePropertiesViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Update();
+            NodePropertiesViewModel viewModel = Update(userInput);
 
-            if (ViewModel.Successful)
+            if (viewModel.Successful)
             {
-                ViewModel.Visible = false;
+                viewModel.Visible = false;
             }
+
+            return viewModel;
         }
 
-        public void LoseFocus()
+        public NodePropertiesViewModel LoseFocus(NodePropertiesViewModel userInput)
         {
-            Update();
+            if (userInput == null) throw new NullException(() => userInput);
+
+            NodePropertiesViewModel viewModel = Update(userInput);
+
+            return viewModel;
         }
 
-        private void Update()
+        private NodePropertiesViewModel Update(NodePropertiesViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Node node = ViewModel.ToEntity(_repositories.NodeRepository, _repositories.NodeTypeRepository);
+            // Set !Successful
+            userInput.Successful = false;
+
+            // GetEntity
+            Node entity = _repositories.NodeRepository.Get(userInput.Entity.ID);
 
             // TODO: Low priority: I doubt it is wise to validate without parent,
             // because it is incorrect data.
-            VoidResult result = _curveManager.ValidateNodeWithoutParent(node);
+            VoidResult result = _curveManager.ValidateNodeWithoutParent(entity);
 
-            ViewModel.Successful = result.Successful;
-            ViewModel.ValidationMessages = result.Messages;
+            // ToViewModel
+            NodePropertiesViewModel viewModel = entity.ToPropertiesViewModel(_repositories.NodeTypeRepository);
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+
+            // Successful?
+            viewModel.Successful = result.Successful;
+
+            return viewModel;
         }
 
         // Helpers
 
-        private void AssertViewModel()
+        private void CopyNonPersistedProperties(NodePropertiesViewModel sourceViewModel, NodePropertiesViewModel destViewModel)
         {
-            if (ViewModel == null) throw new NullException(() => ViewModel);
+            if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
+            if (destViewModel == null) throw new NullException(() => destViewModel);
+
+            destViewModel.ValidationMessages = sourceViewModel.ValidationMessages;
+            destViewModel.Visible = sourceViewModel.Visible;
+            destViewModel.Successful = sourceViewModel.Successful;
         }
     }
 }

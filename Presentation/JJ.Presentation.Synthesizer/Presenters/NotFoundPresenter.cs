@@ -6,27 +6,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class NotFoundPresenter
     {
-        public NotFoundViewModel ViewModel { get; private set; }
-
         public NotFoundViewModel Show(string entityTypeDisplayName)
         {
-            ViewModel = ViewModelHelper.CreateNotFoundViewModel(entityTypeDisplayName);
-            ViewModel.Visible = true;
-            return ViewModel;
+            NotFoundViewModel viewModel = ViewModelHelper.CreateNotFoundViewModel_WithEntityTypeDisplayName(entityTypeDisplayName);
+            viewModel.Visible = true;
+            return viewModel;
         }
 
-        public void OK()
+        public NotFoundViewModel OK(NotFoundViewModel userInput)
         {
-            AssertViewModel();
-
-            ViewModel.Visible = false;
-        }
-
-        // Helpers
-
-        private void AssertViewModel()
-        {
-            if (ViewModel == null) throw new NullException(() => ViewModel);
+            if (userInput == null) throw new NullException(() => userInput);
+            NotFoundViewModel viewModel = ViewModelHelper.CreateNotFoundViewModel_WithMessage(userInput.Message);
+            viewModel.Visible = false;
+            return viewModel;
         }
     }
 }

@@ -309,6 +309,20 @@ namespace JJ.Presentation.Synthesizer.Helpers
             throw new Exception(String.Format("IList<NodePropertiesViewModel> for nodeID '{0}' not found in rootDocumentViewModel nor any of its PatchDocumentViewModels.", nodeID));
         }
 
+        public static NodePropertiesViewModel GetVisibleNodePropertiesViewModel(DocumentViewModel rootDocumentViewModel)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            NodePropertiesViewModel viewModel = EnumerateNodePropertiesViewModels(rootDocumentViewModel).Where(x => x.Visible)
+                                                                                                        .FirstOrDefault();
+            if (viewModel == null)
+            {
+                throw new Exception("No visible NodePropertiesViewModel found in rootDocumentViewModel or any of its PatchDocumentViewModels.");
+            }
+
+            return viewModel;
+        }
+
         // Operator
 
         public static OperatorViewModel GetOperatorViewModel(DocumentViewModel rootDocumentViewModel, int operatorID)

@@ -21,6 +21,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             _repositories = repositories;
         }
+
         public OperatorPropertiesViewModel Show(OperatorPropertiesViewModel userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
