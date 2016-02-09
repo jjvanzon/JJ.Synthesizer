@@ -832,9 +832,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 if (userInput != null)
                 {
                     OperatorPropertiesPresenter partialPresenter = _operatorPropertiesPresenter;
-                    partialPresenter.ViewModel = userInput;
-                    partialPresenter.Show();
-                    DispatchViewModel(partialPresenter.ViewModel);
+                    OperatorPropertiesViewModel viewModel = partialPresenter.Show(userInput);
+                    DispatchViewModel(viewModel);
                     return;
                 }
             }
@@ -843,9 +842,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 if (userInput != null)
                 {
                     OperatorPropertiesPresenter_ForAggregate partialPresenter = _operatorPropertiesPresenter_ForAggregate;
-                    partialPresenter.ViewModel = userInput;
-                    partialPresenter.Show();
-                    DispatchViewModel(partialPresenter.ViewModel);
+                    OperatorPropertiesViewModel_ForAggregate viewModel = partialPresenter.Show(userInput);
+                    DispatchViewModel(viewModel);
                     return;
                 }
             }
@@ -955,12 +953,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void OperatorPropertiesClose()
         {
-            OperatorPropertiesCloseOrLoseFocus(() => _operatorPropertiesPresenter.Close());
+            OperatorPropertiesCloseOrLoseFocus(x => _operatorPropertiesPresenter.Close(x));
         }
 
         public void OperatorPropertiesClose_ForAggregate()
         {
-            OperatorPropertiesCloseOrLoseFocus_ForAggregate(() => _operatorPropertiesPresenter_ForAggregate.Close());
+            OperatorPropertiesCloseOrLoseFocus_ForAggregate(x => _operatorPropertiesPresenter_ForAggregate.Close(x));
         }
 
         public void OperatorPropertiesClose_ForBundle()
@@ -1015,12 +1013,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void OperatorPropertiesLoseFocus()
         {
-            OperatorPropertiesCloseOrLoseFocus(() => _operatorPropertiesPresenter.LoseFocus());
+            OperatorPropertiesCloseOrLoseFocus(x => _operatorPropertiesPresenter.LoseFocus(x));
         }
 
         public void OperatorPropertiesLoseFocus_ForAggregate()
         {
-            OperatorPropertiesCloseOrLoseFocus_ForAggregate(() => _operatorPropertiesPresenter_ForAggregate.LoseFocus());
+            OperatorPropertiesCloseOrLoseFocus_ForAggregate(x => _operatorPropertiesPresenter_ForAggregate.LoseFocus(x));
         }
 
         public void OperatorPropertiesLoseFocus_ForBundle()
@@ -1073,46 +1071,94 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesCloseOrLoseFocus_ForUnbundle(x => _operatorPropertiesPresenter_ForUnbundle.LoseFocus(x));
         }
 
-        private void OperatorPropertiesCloseOrLoseFocus(Action partialAction)
+        private void OperatorPropertiesCloseOrLoseFocus(Func<OperatorPropertiesViewModel, OperatorPropertiesViewModel> partialAction)
         {
-            OperatorPropertiesPresenter partialPresenter = _operatorPropertiesPresenter;
+            // GetViewModel
+            OperatorPropertiesViewModel userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel(MainViewModel.Document);
+
+            // Set !Successful
+            userInput.Successful = false;
 
             // ToEntity
             Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
 
             // Partial Action
-            partialAction();
-
-            // ToViewModel
-            if (partialPresenter.ViewModel.Successful)
+            OperatorPropertiesViewModel viewModel = partialAction(userInput);
+            if (!viewModel.Successful)
             {
-                PatchDetails_RefreshOperator(partialPresenter.ViewModel.ID);
+                // DispatchViewModel
+                DispatchViewModel(viewModel);
+                return;
             }
 
+            // Set !Successful
+            viewModel.Successful = false;
+
+            // Business
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
+            {
+                // Non-Persited
+                viewModel.ValidationMessages.AddRange(validationResult.Messages);
+
+                // DispatchViewModel
+                DispatchViewModel(viewModel);
+                return;
+            }
+
+            // Successful
+            viewModel.Successful = true;
+
             // DispatchViewModel
-            DispatchViewModel(partialPresenter.ViewModel);
+            DispatchViewModel(viewModel);
+
+            // Refresh
+            PatchDetails_RefreshOperator(viewModel.ID);
         }
 
-        // TODO: Fix all these other OperatorProperties actions that are similar to eachother.
-
-        private void OperatorPropertiesCloseOrLoseFocus_ForAggregate(Action partialAction)
+        private void OperatorPropertiesCloseOrLoseFocus_ForAggregate(Func<OperatorPropertiesViewModel_ForAggregate, OperatorPropertiesViewModel_ForAggregate> partialAction)
         {
-            OperatorPropertiesPresenter_ForAggregate partialPresenter = _operatorPropertiesPresenter_ForAggregate;
+            // GetViewModel
+            OperatorPropertiesViewModel_ForAggregate userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForAggregate(MainViewModel.Document);
+
+            // Set !Successful
+            userInput.Successful = false;
 
             // ToEntity
             Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
 
             // Partial Action
-            partialAction();
-
-            // ToViewModel
-            if (partialPresenter.ViewModel.Successful)
+            OperatorPropertiesViewModel_ForAggregate viewModel = partialAction(userInput);
+            if (!viewModel.Successful)
             {
-                PatchDetails_RefreshOperator(partialPresenter.ViewModel.ID);
+                // DispatchViewModel
+                DispatchViewModel(viewModel);
+                return;
             }
 
+            // Set !Successful
+            viewModel.Successful = false;
+
+            // Business
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
+            {
+                // Non-Persited
+                viewModel.ValidationMessages.AddRange(validationResult.Messages);
+
+                // DispatchViewModel
+                DispatchViewModel(viewModel);
+                return;
+            }
+
+            // Successful
+            viewModel.Successful = true;
+
             // DispatchViewModel
-            DispatchViewModel(partialPresenter.ViewModel);
+            DispatchViewModel(viewModel);
+
+            // Refresh
+            PatchDetails_RefreshOperator(viewModel.ID);
         }
 
         private void OperatorPropertiesCloseOrLoseFocus_ForBundle(Func<OperatorPropertiesViewModel_ForBundle, OperatorPropertiesViewModel_ForBundle> partialAction)
