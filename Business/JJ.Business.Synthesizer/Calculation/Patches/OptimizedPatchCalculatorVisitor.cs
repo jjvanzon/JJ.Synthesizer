@@ -1091,18 +1091,25 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool signalIsConstZero = signalIsConst && signal == 0;
             bool samplingRateIsConstZero = samplingRateIsConst && samplingRate == 0;
 
-            if (samplingRateIsConstZero)
+            bool signalIsConstSpecialNumber = signalIsConst && (Double.IsNaN(signal) || Double.IsInfinity(signal));
+            bool samplingRateIsConstSpecialNumber = samplingRateIsConst && (Double.IsNaN(samplingRate) || Double.IsInfinity(samplingRate));
+
+            if (signalIsConst)
             {
-                // Weird number
-                calculator = new Zero_OperatorCalculator();
-            }
-            else if (signalIsConstZero)
-            {
-                calculator = new Zero_OperatorCalculator();
-            }
-            else if (signalIsConst)
-            {
+                // Const signal Preceeds weird numbers.
                 calculator = new Number_OperatorCalculator(signal);
+            }
+            else if (samplingRateIsConstZero)
+            {
+                // Weird number: Time stands still.
+                calculator = new Number_OperatorCalculator(signal);
+            }
+            else if (samplingRateIsConstSpecialNumber)
+            {
+                // Wierd number
+                // Note that if signal is const,
+                // an indeterminate sampling rate can still render a determinite result.
+                calculator = new Number_OperatorCalculator(Double.NaN);
             }
             else
             {
@@ -1117,8 +1124,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                         break;
 
                     case ResampleInterpolationTypeEnum.Stripe:
-                        // TODO: Program a calculator.
-                        throw new ValueNotSupportedException(resampleInterpolationTypeEnum);
+                        calculator = new Resample_OperatorCalculator_Striped(signalCalculator, samplingRateCalculator);
+                        break;
 
                     case ResampleInterpolationTypeEnum.LineRememberT0:
                         calculator = new Resample_OperatorCalculator_LineRememberT0(signalCalculator, samplingRateCalculator);

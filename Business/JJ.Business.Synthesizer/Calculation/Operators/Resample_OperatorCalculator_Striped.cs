@@ -1,24 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Resample_OperatorCalculator_Block : OperatorCalculatorBase_WithChildCalculators
+    internal class Resample_OperatorCalculator_Striped : Resample_OperatorCalculator_Block
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _samplingRateCalculator;
 
-        private double _t0;
-        protected double _x0;
-
-        public Resample_OperatorCalculator_Block(
+        public Resample_OperatorCalculator_Striped(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase samplingRateCalculator)
-            : base(new OperatorCalculatorBase[] { signalCalculator, samplingRateCalculator })
+            : base(signalCalculator, samplingRateCalculator)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (signalCalculator is Number_OperatorCalculator) throw new IsNotTypeException<Number_OperatorCalculator>(() => signalCalculator);
@@ -33,24 +28,21 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate(double time, int channelIndex)
         {
             double samplingRate = _samplingRateCalculator.Calculate(time, channelIndex);
-
-            return Calculate(time, channelIndex, samplingRate);
-        }
-
-        /// <summary> Overload that prevents additional invokations of the _samplingRateCalculator in derived classes </summary>
-        protected double Calculate(double time, int channelIndex, double samplingRate)
-        {
-            double tOffset = time - _t0;
-            double sampleCount = tOffset * samplingRate;
-            sampleCount = Math.Truncate(sampleCount);
-
-            if (sampleCount != 0.0)
+            if (samplingRate == 0.0)
             {
-                _t0 += sampleCount / samplingRate;
-                _x0 = _signalCalculator.Calculate(_t0, channelIndex);
+                // Weird number: Cannot divide by 0. Time stands still. Do not advance the signal.
+                return _x0;
             }
 
-            return _x0;
+            // Derived from the following:
+            // sampleDuration = 1.0 / samplingRate;
+            // timeShift = sampleDuration / 2.0;
+            double earlierTimeShiftToGetFromBlockedToStriped = 0.5 / samplingRate;
+
+            // IMPORTANT: To subtract time from the output, you have add time to the input.
+            double transformedTime = time + earlierTimeShiftToGetFromBlockedToStriped;
+
+            return Calculate(transformedTime, channelIndex, samplingRate);
         }
     }
 }

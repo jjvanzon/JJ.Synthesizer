@@ -72,6 +72,7 @@
     <Compile Include="Calculation\Operators\Random OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\2016-02-09 Backup of Resample_OperatorCalculator_Block %28with many specialized cases%29.cs" />
     <Compile Include="Calculation\Operators\2016-02-09 Backup of Resample_OperatorCalculator_Block %28out of control with neg rate and forward time%29.cs" />
+    <Compile Include="Calculation\Operators\Resample_OperatorCalculator_Striped.cs" />
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_Block.cs" />
     <Compile Include="Calculation\Operators\Spectrum_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Stretch OperatorCalculator Classes.cs" />
@@ -118,10 +119,10 @@
     <Compile Include="Calculation\Operators\Delay OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Number_OperatorCalculator.cs" />
     <Compile Include="Calculation\Patches\OptimizedPatchCalculatorVisitor.ComparisonOperators.cs" />
-    <Compile Include="Calculation\Patches\OptimizedPatchCalculatorVisitor.VisitAdder.cs">
+    <Compile Include="Calculation\Patches\OptimizedPatchCalculatorVisitor.Adder.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>OptimizedPatchCalculatorVisitor.VisitAdder.tt</DependentUpon>
+      <DependentUpon>OptimizedPatchCalculatorVisitor.Adder.tt</DependentUpon>
     </Compile>
     <Compile Include="Calculation\Patches\PatchCalculationHelper.cs" />
     <Compile Include="Calculation\Random\RandomCalculatorBase.cs" />
@@ -528,9 +529,9 @@
       <LastGenOutput>Adder_OperatorCalculators.cs</LastGenOutput>
     </None>
     <None Include="Calculation\Operators\OperatorCalculator Inheritance.cd" />
-    <None Include="Calculation\Patches\OptimizedPatchCalculatorVisitor.VisitAdder.tt">
+    <None Include="Calculation\Patches\OptimizedPatchCalculatorVisitor.Adder.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>OptimizedPatchCalculatorVisitor.VisitAdder.cs</LastGenOutput>
+      <LastGenOutput>OptimizedPatchCalculatorVisitor.Adder.cs</LastGenOutput>
     </None>
     <None Include="Calculation\Samples\SampleCalculators.cd" />
     <Compile Include="Validation\ValidationHelper.Unicity.cs" />
