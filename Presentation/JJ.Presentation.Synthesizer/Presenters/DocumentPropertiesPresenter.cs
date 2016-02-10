@@ -1,12 +1,8 @@
 ﻿using JJ.Data.Synthesizer;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToEntity;
-using JJ.Presentation.Synthesizer.Helpers;
 using System.Collections.Generic;
-using JJ.Business.Synthesizer.Validation;
-using JJ.Framework.Validation;
 using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Business.Synthesizer.Helpers;

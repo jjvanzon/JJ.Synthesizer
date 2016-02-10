@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         public ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum
         {
             get { return OperatorDataParser.GetEnum<ResampleInterpolationTypeEnum>(_wrappedOperator, PropertyNames.InterpolationType); }
-            set { OperatorDataParser.SetValue(_wrappedOperator, PropertyNames.InterpolationTypeEnum, value); }
+            set { OperatorDataParser.SetValue(_wrappedOperator, PropertyNames.InterpolationType, value); }
         }
 
         public static implicit operator Outlet(Random_OperatorWrapper wrapper)

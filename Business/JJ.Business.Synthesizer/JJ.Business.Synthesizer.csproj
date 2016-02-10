@@ -72,7 +72,9 @@
     <Compile Include="Calculation\Operators\Random OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\2016-02-09 Backup of Resample_OperatorCalculator_Block %28with many specialized cases%29.cs" />
     <Compile Include="Calculation\Operators\2016-02-09 Backup of Resample_OperatorCalculator_Block %28out of control with neg rate and forward time%29.cs" />
-    <Compile Include="Calculation\Operators\Resample_OperatorCalculator_Striped.cs" />
+    <Compile Include="Calculation\Operators\Random_OperatorCalculator_OtherInterpolations.cs" />
+    <Compile Include="Calculation\Operators\Random_OperatorCalculator_Stripe.cs" />
+    <Compile Include="Calculation\Operators\Resample_OperatorCalculator_Stripe.cs" />
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_Block.cs" />
     <Compile Include="Calculation\Operators\Spectrum_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Stretch OperatorCalculator Classes.cs" />
@@ -127,6 +129,7 @@
     <Compile Include="Calculation\Patches\PatchCalculationHelper.cs" />
     <Compile Include="Calculation\Random\RandomCalculatorBase.cs" />
     <Compile Include="Calculation\Random\RandomCalculatorFactory.cs" />
+    <Compile Include="Calculation\Random\RandomCalculator_StripeInterpolation.cs" />
     <Compile Include="Calculation\Random\RandomCalculator_LineInterpolation.cs" />
     <Compile Include="Calculation\Samples\SampleCalculator_BlockInterpolation_Base.cs" />
     <Compile Include="Calculation\Samples\SampleCalculator_BlockInterpolation_Byte.cs" />

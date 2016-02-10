@@ -5,12 +5,12 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Resample_OperatorCalculator_Striped : Resample_OperatorCalculator_Block
+    internal class Resample_OperatorCalculator_Stripe : Resample_OperatorCalculator_Block
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _samplingRateCalculator;
 
-        public Resample_OperatorCalculator_Striped(
+        public Resample_OperatorCalculator_Stripe(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase samplingRateCalculator)
             : base(signalCalculator, samplingRateCalculator)

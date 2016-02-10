@@ -1056,17 +1056,76 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 var wrapper = new Random_OperatorWrapper(op);
 
-                // HACK
-                wrapper.ResampleInterpolationTypeEnum = ResampleInterpolationTypeEnum.Block;
+                ResampleInterpolationTypeEnum resampleInterpolationTypeEnum = wrapper.ResampleInterpolationTypeEnum;
 
-                var randomCalculator = RandomCalculatorFactory.CreateRandomCalculator(wrapper.ResampleInterpolationTypeEnum);
-                int randomCalculatorOffset = RandomCalculatorBase.GetRandomOffset();
+                switch (resampleInterpolationTypeEnum)
+                {
+                    case ResampleInterpolationTypeEnum.Block:
+                        {
+                            var randomCalculator = new RandomCalculator_BlockInterpolation();
+                            int randomCalculatorOffset = RandomCalculatorBase.GetRandomOffset();
 
-                calculator = new Random_VarFrequency_VarPhaseShift_OperatorCalculator(
-                    randomCalculator,
-                    randomCalculatorOffset,
-                    valueDurationCalculator,
-                    phaseShiftCalculator);
+                            calculator = new Random_VarFrequency_VarPhaseShift_OperatorCalculator(
+                                randomCalculator,
+                                randomCalculatorOffset,
+                                valueDurationCalculator,
+                                phaseShiftCalculator);
+
+                            break;
+                        }
+
+                    case ResampleInterpolationTypeEnum.Stripe:
+                        {
+                            var randomCalculator = new RandomCalculator_StripeInterpolation();
+                            int randomCalculatorOffset = RandomCalculatorBase.GetRandomOffset();
+
+                            calculator = new Random_VarFrequency_VarPhaseShift_OperatorCalculator(
+                                randomCalculator,
+                                randomCalculatorOffset,
+                                valueDurationCalculator,
+                                phaseShiftCalculator);
+
+                            break;
+
+                            //var randomCalculator = new RandomCalculator_BlockInterpolation();
+                            //int randomCalculatorOffset = RandomCalculatorBase.GetRandomOffset();
+
+                            //calculator = new Random_OperatorCalculator_Stripe(
+                            //    randomCalculator,
+                            //    randomCalculatorOffset,
+                            //    valueDurationCalculator,
+                            //    phaseShiftCalculator);
+
+                            //break;
+                        }
+
+                    case ResampleInterpolationTypeEnum.LineRememberT0:
+                    case ResampleInterpolationTypeEnum.LineRememberT1:
+                    case ResampleInterpolationTypeEnum.CubicEquidistant:
+                    case ResampleInterpolationTypeEnum.CubicAbruptInclination:
+                    case ResampleInterpolationTypeEnum.CubicSmoothInclination:
+                    case ResampleInterpolationTypeEnum.Hermite:
+                        {
+                            var randomCalculator = new RandomCalculator_StripeInterpolation();
+                            int randomCalculatorOffset = RandomCalculatorBase.GetRandomOffset();
+
+                            calculator = new Random_OperatorCalculator_OtherInterpolations(
+                                randomCalculator,
+                                randomCalculatorOffset,
+                                valueDurationCalculator,
+                                phaseShiftCalculator);
+
+                            // Hack in a Resample calculator.
+                            //PatchManager patchManager = null; // TODO: Create patchmanager. Requires more repositories.
+                            //patchManager.Resample(
+                            //VisitResample(
+
+                            break;
+                        }
+
+                    default:
+                        throw new ValueNotSupportedException(resampleInterpolationTypeEnum);
+                }
             }
 
             _stack.Push(calculator);
@@ -1124,7 +1183,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                         break;
 
                     case ResampleInterpolationTypeEnum.Stripe:
-                        calculator = new Resample_OperatorCalculator_Striped(signalCalculator, samplingRateCalculator);
+                        calculator = new Resample_OperatorCalculator_Stripe(signalCalculator, samplingRateCalculator);
                         break;
 
                     case ResampleInterpolationTypeEnum.LineRememberT0:

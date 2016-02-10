@@ -12,7 +12,8 @@ namespace JJ.Business.Synthesizer.Calculation.Random
     /// </summary>
     internal abstract class RandomCalculatorBase
     {
-        protected const int SAMPLE_COUNT = 100000;
+        private const int SAMPLE_COUNT = 100000;
+        protected const int SAMPLE_COUNT_DOUBLE = SAMPLE_COUNT;
         private const int OFFSET_COUNT = 100;
         private const int OFFSET_SNAP = SAMPLE_COUNT / OFFSET_COUNT;
 

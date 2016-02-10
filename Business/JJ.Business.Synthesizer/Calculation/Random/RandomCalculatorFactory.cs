@@ -20,6 +20,9 @@ namespace JJ.Business.Synthesizer.Calculation.Random
                 case ResampleInterpolationTypeEnum.Block:
                     return new RandomCalculator_BlockInterpolation();
 
+                case ResampleInterpolationTypeEnum.Stripe:
+                    return new RandomCalculator_StripeInterpolation();
+
                 case ResampleInterpolationTypeEnum.LineRememberT0:
                 case ResampleInterpolationTypeEnum.LineRememberT1:
                     return new RandomCalculator_LineInterpolation();
