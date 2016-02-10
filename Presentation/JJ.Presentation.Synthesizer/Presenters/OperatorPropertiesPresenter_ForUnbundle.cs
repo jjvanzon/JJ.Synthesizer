@@ -13,73 +13,18 @@ using JJ.Framework.Common;
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class OperatorPropertiesPresenter_ForUnbundle
+        : OperatorPropertiesPresenterBase<OperatorPropertiesViewModel_ForUnbundle>
     {
-        private PatchRepositories _repositories;
-
         public OperatorPropertiesPresenter_ForUnbundle(PatchRepositories repositories)
-        {
-            if (repositories == null) throw new NullException(() => repositories);
+            : base(repositories)
+        { }
 
-            _repositories = repositories;
+        protected override OperatorPropertiesViewModel_ForUnbundle ToViewModel(Operator op)
+        {
+            return op.ToPropertiesViewModel_ForUnbundle();
         }
 
-        public OperatorPropertiesViewModel_ForUnbundle Show(OperatorPropertiesViewModel_ForUnbundle userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // GetEntity
-            Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
-
-            // ToViewModel
-            OperatorPropertiesViewModel_ForUnbundle viewModel = entity.ToPropertiesViewModel_ForUnbundle();
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.Visible = true;
-
-            return viewModel;
-        }
-
-        public OperatorPropertiesViewModel_ForUnbundle Refresh(OperatorPropertiesViewModel_ForUnbundle userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // GetEntity
-            Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
-
-            // ToViewModel
-            OperatorPropertiesViewModel_ForUnbundle viewModel = entity.ToPropertiesViewModel_ForUnbundle();
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-
-            return viewModel;
-        }
-
-        public OperatorPropertiesViewModel_ForUnbundle Close(OperatorPropertiesViewModel_ForUnbundle userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            OperatorPropertiesViewModel_ForUnbundle viewModel = Update(userInput);
-
-            if (viewModel.Successful)
-            {
-                viewModel.Visible = false;
-            }
-
-            return viewModel;
-        }
-
-        public OperatorPropertiesViewModel_ForUnbundle LoseFocus(OperatorPropertiesViewModel_ForUnbundle userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            OperatorPropertiesViewModel_ForUnbundle viewModel = Update(userInput);
-
-            return viewModel;
-        }
-
-        private OperatorPropertiesViewModel_ForUnbundle Update(OperatorPropertiesViewModel_ForUnbundle userInput)
+        protected override OperatorPropertiesViewModel_ForUnbundle Update(OperatorPropertiesViewModel_ForUnbundle userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
 
@@ -130,18 +75,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             viewModel2.Successful = true;
 
             return viewModel2;
-        }
-
-        // Helpers
-
-        private void CopyNonPersistedProperties(OperatorPropertiesViewModel_ForUnbundle sourceViewModel, OperatorPropertiesViewModel_ForUnbundle destViewModel)
-        {
-            if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
-            if (destViewModel == null) throw new NullException(() => destViewModel);
-
-            destViewModel.ValidationMessages = sourceViewModel.ValidationMessages;
-            destViewModel.Visible = sourceViewModel.Visible;
-            destViewModel.Successful = sourceViewModel.Successful;
         }
     }
 }

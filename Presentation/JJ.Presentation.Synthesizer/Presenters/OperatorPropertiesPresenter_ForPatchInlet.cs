@@ -12,77 +12,23 @@ using JJ.Presentation.Synthesizer.Validators;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Business.Canonical;
 using JJ.Framework.Common;
+using System;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class OperatorPropertiesPresenter_ForPatchInlet
+        : OperatorPropertiesPresenterBase<OperatorPropertiesViewModel_ForPatchInlet>
     {
-        private PatchRepositories _repositories;
-
         public OperatorPropertiesPresenter_ForPatchInlet(PatchRepositories repositories)
-        {
-            if (repositories == null) throw new NullException(() => repositories);
+            : base(repositories)
+        { }
 
-            _repositories = repositories;
+        protected override OperatorPropertiesViewModel_ForPatchInlet ToViewModel(Operator op)
+        {
+            return op.ToPropertiesViewModel_ForPatchInlet(_repositories.InletTypeRepository);
         }
 
-        public OperatorPropertiesViewModel_ForPatchInlet Show(OperatorPropertiesViewModel_ForPatchInlet userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // GetEntity
-            Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
-
-            // ToViewModel
-            OperatorPropertiesViewModel_ForPatchInlet viewModel = entity.ToPropertiesViewModel_ForPatchInlet(_repositories.InletTypeRepository);
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.Visible = true;
-
-            return viewModel;
-        }
-
-        public OperatorPropertiesViewModel_ForPatchInlet Refresh(OperatorPropertiesViewModel_ForPatchInlet userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // GetEntity
-            Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
-
-            // ToViewModel
-            OperatorPropertiesViewModel_ForPatchInlet viewModel = entity.ToPropertiesViewModel_ForPatchInlet(_repositories.InletTypeRepository);
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-
-            return viewModel;
-        }
-
-        public OperatorPropertiesViewModel_ForPatchInlet Close(OperatorPropertiesViewModel_ForPatchInlet userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            OperatorPropertiesViewModel_ForPatchInlet viewModel = Update(userInput);
-
-            if (viewModel.Successful)
-            {
-                viewModel.Visible = false;
-            }
-
-            return viewModel;
-        }
-
-        public OperatorPropertiesViewModel_ForPatchInlet LoseFocus(OperatorPropertiesViewModel_ForPatchInlet userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            OperatorPropertiesViewModel_ForPatchInlet viewModel = Update(userInput);
-
-            return viewModel;
-        }
-
-        private OperatorPropertiesViewModel_ForPatchInlet Update(OperatorPropertiesViewModel_ForPatchInlet userInput)
+        protected override OperatorPropertiesViewModel_ForPatchInlet Update(OperatorPropertiesViewModel_ForPatchInlet userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
 
@@ -116,18 +62,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             viewModel.Successful = result.Successful;
 
             return viewModel;
-        }
-
-        // Helpers
-
-        private void CopyNonPersistedProperties(OperatorPropertiesViewModel_ForPatchInlet sourceViewModel, OperatorPropertiesViewModel_ForPatchInlet destViewModel)
-        {
-            if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
-            if (destViewModel == null) throw new NullException(() => destViewModel);
-
-            destViewModel.ValidationMessages = sourceViewModel.ValidationMessages;
-            destViewModel.Visible = sourceViewModel.Visible;
-            destViewModel.Successful = sourceViewModel.Successful;
         }
     }
 }

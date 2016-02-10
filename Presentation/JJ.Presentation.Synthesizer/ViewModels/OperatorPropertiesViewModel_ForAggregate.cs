@@ -4,9 +4,8 @@ using JJ.Presentation.Synthesizer.ViewModels.Entities;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
-    public sealed class OperatorPropertiesViewModel_ForAggregate : ViewModelBase
+    public sealed class OperatorPropertiesViewModel_ForAggregate : OperatorPropertiesViewModelBase
     {
-        public int ID { get; set; }
         public OperatorTypeViewModel OperatorType { get; set; }
 
         public string Name { get; set; }

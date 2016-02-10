@@ -12,77 +12,23 @@ using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.Validators;
 using JJ.Business.Canonical;
 using JJ.Framework.Common;
+using System;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class OperatorPropertiesPresenter_ForPatchOutlet
+        : OperatorPropertiesPresenterBase<OperatorPropertiesViewModel_ForPatchOutlet>
     {
-        private PatchRepositories _repositories;
-
         public OperatorPropertiesPresenter_ForPatchOutlet(PatchRepositories repositories)
-        {
-            if (repositories == null) throw new NullException(() => repositories);
+            : base(repositories)
+        { }
 
-            _repositories = repositories;
+        protected override OperatorPropertiesViewModel_ForPatchOutlet ToViewModel(Operator op)
+        {
+            return op.ToPropertiesViewModel_ForPatchOutlet(_repositories.OutletTypeRepository);
         }
 
-        public OperatorPropertiesViewModel_ForPatchOutlet Show(OperatorPropertiesViewModel_ForPatchOutlet userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // GetEntity
-            Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
-
-            // ToViewModel
-            OperatorPropertiesViewModel_ForPatchOutlet viewModel = entity.ToPropertiesViewModel_ForPatchOutlet(_repositories.OutletTypeRepository);
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.Visible = true;
-
-            return viewModel;
-        }
-
-        public OperatorPropertiesViewModel_ForPatchOutlet Refresh(OperatorPropertiesViewModel_ForPatchOutlet userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // GetEntity
-            Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
-
-            // ToViewModel
-            OperatorPropertiesViewModel_ForPatchOutlet viewModel = entity.ToPropertiesViewModel_ForPatchOutlet(_repositories.OutletTypeRepository);
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-
-            return viewModel;
-        }
-
-        public OperatorPropertiesViewModel_ForPatchOutlet Close(OperatorPropertiesViewModel_ForPatchOutlet userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            OperatorPropertiesViewModel_ForPatchOutlet viewModel = Update(userInput);
-
-            if (viewModel.Successful)
-            {
-                viewModel.Visible = false;
-            }
-
-            return viewModel;
-        }
-
-        public OperatorPropertiesViewModel_ForPatchOutlet LoseFocus(OperatorPropertiesViewModel_ForPatchOutlet userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            OperatorPropertiesViewModel_ForPatchOutlet viewModel = Update(userInput);
-
-            return viewModel;
-        }
-
-        private OperatorPropertiesViewModel_ForPatchOutlet Update(OperatorPropertiesViewModel_ForPatchOutlet userInput)
+        protected override OperatorPropertiesViewModel_ForPatchOutlet Update(OperatorPropertiesViewModel_ForPatchOutlet userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
 
@@ -116,18 +62,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             viewModel.Successful = result.Successful;
 
             return viewModel;
-        }
-
-        // Helpers
-
-        private void CopyNonPersistedProperties(OperatorPropertiesViewModel_ForPatchOutlet sourceViewModel, OperatorPropertiesViewModel_ForPatchOutlet destViewModel)
-        {
-            if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
-            if (destViewModel == null) throw new NullException(() => destViewModel);
-
-            destViewModel.ValidationMessages = sourceViewModel.ValidationMessages;
-            destViewModel.Visible = sourceViewModel.Visible;
-            destViewModel.Successful = sourceViewModel.Successful;
         }
     }
 }

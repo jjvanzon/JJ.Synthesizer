@@ -1094,44 +1094,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             OperatorPropertiesViewModel userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel(MainViewModel.Document);
 
-            // Set !Successful
-            userInput.Successful = false;
-
-            // ToEntity
-            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
-
-            // Partial Action
-            OperatorPropertiesViewModel viewModel = partialAction(userInput);
-            if (!viewModel.Successful)
-            {
-                // DispatchViewModel
-                DispatchViewModel(viewModel);
-                return;
-            }
-
-            // Set !Successful
-            viewModel.Successful = false;
-
-            // Business
-            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
-            if (!validationResult.Successful)
-            {
-                // Non-Persited
-                viewModel.ValidationMessages.AddRange(validationResult.Messages);
-
-                // DispatchViewModel
-                DispatchViewModel(viewModel);
-                return;
-            }
-
-            // Successful
-            viewModel.Successful = true;
-
-            // DispatchViewModel
-            DispatchViewModel(viewModel);
-
-            // Refresh
-            PatchDetails_RefreshOperator(viewModel.ID);
+            // Base Methods
+            OperatorPropertiesCloseOrLoseFocus_Base(userInput, partialAction);
         }
 
         private void OperatorPropertiesCloseOrLoseFocus_ForAggregate(Func<OperatorPropertiesViewModel_ForAggregate, OperatorPropertiesViewModel_ForAggregate> partialAction)
@@ -1139,44 +1103,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             OperatorPropertiesViewModel_ForAggregate userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForAggregate(MainViewModel.Document);
 
-            // Set !Successful
-            userInput.Successful = false;
-
-            // ToEntity
-            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
-
-            // Partial Action
-            OperatorPropertiesViewModel_ForAggregate viewModel = partialAction(userInput);
-            if (!viewModel.Successful)
-            {
-                // DispatchViewModel
-                DispatchViewModel(viewModel);
-                return;
-            }
-
-            // Set !Successful
-            viewModel.Successful = false;
-
-            // Business
-            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
-            if (!validationResult.Successful)
-            {
-                // Non-Persited
-                viewModel.ValidationMessages.AddRange(validationResult.Messages);
-
-                // DispatchViewModel
-                DispatchViewModel(viewModel);
-                return;
-            }
-
-            // Successful
-            viewModel.Successful = true;
-
-            // DispatchViewModel
-            DispatchViewModel(viewModel);
-
-            // Refresh
-            PatchDetails_RefreshOperator(viewModel.ID);
+            // Base Methods
+            OperatorPropertiesCloseOrLoseFocus_Base(userInput, partialAction);
         }
 
         private void OperatorPropertiesCloseOrLoseFocus_ForBundle(Func<OperatorPropertiesViewModel_ForBundle, OperatorPropertiesViewModel_ForBundle> partialAction)
@@ -1184,44 +1112,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             OperatorPropertiesViewModel_ForBundle userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForBundle(MainViewModel.Document);
 
-            // Set !Successful
-            userInput.Successful = false;
-
-            // ToEntity
-            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
-
-            // Partial Action
-            OperatorPropertiesViewModel_ForBundle viewModel = partialAction(userInput);
-            if (!viewModel.Successful)
-            {
-                // DispatchViewModel
-                DispatchViewModel(viewModel);
-                return;
-            }
-
-            // Set !Successful
-            viewModel.Successful = false;
-
-            // Business
-            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
-            if (!validationResult.Successful)
-            {
-                // Non-Persited
-                viewModel.ValidationMessages.AddRange(validationResult.Messages);
-
-                // DispatchViewModel
-                DispatchViewModel(viewModel);
-                return;
-            }
-
-            // Successful
-            viewModel.Successful = true;
-
-            // DispatchViewModel
-            DispatchViewModel(viewModel);
-
-            // Refresh
-            PatchDetails_RefreshOperator(viewModel.ID);
+            // Base Methods
+            OperatorPropertiesCloseOrLoseFocus_Base(userInput, partialAction);
         }
 
         private void OperatorPropertiesCloseOrLoseFocus_ForCurve(Func<OperatorPropertiesViewModel_ForCurve, OperatorPropertiesViewModel_ForCurve> partialAction)
@@ -1229,44 +1121,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             OperatorPropertiesViewModel_ForCurve userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForCurve(MainViewModel.Document);
 
-            // Set !Successful
-            userInput.Successful = false;
-
-            // ToEntity
-            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
-
-            // Partial Action
-            OperatorPropertiesViewModel_ForCurve viewModel = partialAction(userInput);
-            if (!viewModel.Successful)
-            {
-                // DispatchViewModel
-                DispatchViewModel(viewModel);
-                return;
-            }
-
-            // Set !Successful
-            viewModel.Successful = false;
-
-            // Business
-            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
-            if (!validationResult.Successful)
-            {
-                // Non-Persited
-                viewModel.ValidationMessages.AddRange(validationResult.Messages);
-
-                // DispatchViewModel
-                DispatchViewModel(viewModel);
-                return;
-            }
-
-            // Successful
-            viewModel.Successful = true;
-
-            // DispatchViewModel
-            DispatchViewModel(viewModel);
-
-            // Refresh
-            PatchDetails_RefreshOperator(viewModel.ID);
+            // Base Methods
+            OperatorPropertiesCloseOrLoseFocus_Base(userInput, partialAction);
         }
 
         private void OperatorPropertiesCloseOrLoseFocus_ForCustomOperator(Func<OperatorPropertiesViewModel_ForCustomOperator, OperatorPropertiesViewModel_ForCustomOperator> partialAction)
@@ -1274,44 +1130,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             OperatorPropertiesViewModel_ForCustomOperator userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForCustomOperator(MainViewModel.Document);
 
-            // Set !Successful
-            userInput.Successful = false;
-
-            // ToEntity
-            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
-
-            // Partial Action
-            OperatorPropertiesViewModel_ForCustomOperator viewModel = partialAction(userInput);
-            if (!viewModel.Successful)
-            {
-                // DispatchViewModel
-                DispatchViewModel(viewModel);
-                return;
-            }
-
-            // Set !Successful
-            viewModel.Successful = false;
-
-            // Business
-            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
-            if (!validationResult.Successful)
-            {
-                // Non-Persited
-                viewModel.ValidationMessages.AddRange(validationResult.Messages);
-
-                // DispatchViewModel
-                DispatchViewModel(viewModel);
-                return;
-            }
-
-            // Successful
-            viewModel.Successful = true;
-
-            // DispatchViewModel
-            DispatchViewModel(viewModel);
-
-            // Refresh
-            PatchDetails_RefreshOperator(viewModel.ID);
+            // Base Methods
+            OperatorPropertiesCloseOrLoseFocus_Base(userInput, partialAction);
         }
 
         private void OperatorPropertiesCloseOrLoseFocus_ForNumber(Func<OperatorPropertiesViewModel_ForNumber, OperatorPropertiesViewModel_ForNumber> partialAction)
@@ -1319,44 +1139,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             OperatorPropertiesViewModel_ForNumber userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForNumber(MainViewModel.Document);
 
-            // Set !Successful
-            userInput.Successful = false;
-
-            // ToEntity
-            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
-
-            // Partial Action
-            OperatorPropertiesViewModel_ForNumber viewModel = partialAction(userInput);
-            if (!viewModel.Successful)
-            {
-                // DispatchViewModel
-                DispatchViewModel(viewModel);
-                return;
-            }
-
-            // Set !Successful
-            viewModel.Successful = false;
-
-            // Business
-            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
-            if (!validationResult.Successful)
-            {
-                // Non-Persited
-                viewModel.ValidationMessages.AddRange(validationResult.Messages);
-
-                // DispatchViewModel
-                DispatchViewModel(viewModel);
-                return;
-            }
-
-            // Successful
-            viewModel.Successful = true;
-
-            // DispatchViewModel
-            DispatchViewModel(viewModel);
-
-            // Refresh
-            PatchDetails_RefreshOperator(viewModel.ID);
+            // Base Methods
+            OperatorPropertiesCloseOrLoseFocus_Base(userInput, partialAction);
         }
 
         private void OperatorPropertiesCloseOrLoseFocus_ForPatchInlet(Func<OperatorPropertiesViewModel_ForPatchInlet, OperatorPropertiesViewModel_ForPatchInlet> partialAction)
@@ -1364,44 +1148,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             OperatorPropertiesViewModel_ForPatchInlet userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForPatchInlet(MainViewModel.Document);
 
-            // Set !Successful
-            userInput.Successful = false;
 
-            // ToEntity
-            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
-
-            // Partial Action
-            OperatorPropertiesViewModel_ForPatchInlet viewModel = partialAction(userInput);
-            if (!viewModel.Successful)
-            {
-                // DispatchViewModel
-                DispatchViewModel(viewModel);
-                return;
-            }
-
-            // Set !Successful
-            viewModel.Successful = false;
-
-            // Business
-            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
-            if (!validationResult.Successful)
-            {
-                // Non-Persited
-                viewModel.ValidationMessages.AddRange(validationResult.Messages);
-
-                // DispatchViewModel
-                DispatchViewModel(viewModel);
-                return;
-            }
-
-            // Successful
-            viewModel.Successful = true;
-
-            // DispatchViewModel
-            DispatchViewModel(viewModel);
+            // Base Methods
+            OperatorPropertiesCloseOrLoseFocus_Base(userInput, partialAction);
 
             // Refresh
-            PatchDetails_RefreshOperator(viewModel.ID);
             OperatorViewModels_OfType_Refresh(OperatorTypeEnum.CustomOperator); // Refresh Dependencies
         }
 
@@ -1410,44 +1161,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             OperatorPropertiesViewModel_ForPatchOutlet userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForPatchOutlet(MainViewModel.Document);
 
-            // Set !Successful
-            userInput.Successful = false;
-
-            // ToEntity
-            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
-
-            // Partial Action
-            OperatorPropertiesViewModel_ForPatchOutlet viewModel = partialAction(userInput);
-            if (!viewModel.Successful)
-            {
-                // DispatchViewModel
-                DispatchViewModel(viewModel);
-                return;
-            }
-
-            // Set !Successful
-            viewModel.Successful = false;
-
-            // Business
-            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
-            if (!validationResult.Successful)
-            {
-                // Non-Persited
-                viewModel.ValidationMessages.AddRange(validationResult.Messages);
-
-                // DispatchViewModel
-                DispatchViewModel(viewModel);
-                return;
-            }
-
-            // Successful
-            viewModel.Successful = true;
-
-            // DispatchViewModel
-            DispatchViewModel(viewModel);
+            // Base Methods
+            OperatorPropertiesCloseOrLoseFocus_Base(userInput, partialAction);
 
             // Refresh
-            PatchDetails_RefreshOperator(viewModel.ID);
             OperatorViewModels_OfType_Refresh(OperatorTypeEnum.CustomOperator); // Refresh Dependent Things
         }
 
@@ -1456,41 +1173,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             OperatorPropertiesViewModel_ForResample userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForResample(MainViewModel.Document);
 
-            // Set !Successful
-            userInput.Successful = false;
-
-            // ToEntity
-            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
-
-            // Partial Action
-            OperatorPropertiesViewModel_ForResample viewModel = partialAction(userInput);
-            if (!viewModel.Successful)
-            {
-                // DispatchViewModel
-                DispatchViewModel(viewModel);
-                return;
-            }
-
-            // Set !Successful
-            viewModel.Successful = false;
-
-            // Business
-            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
-            if (!validationResult.Successful)
-            {
-                // Non-Persited
-                viewModel.ValidationMessages.AddRange(validationResult.Messages);
-
-                // DispatchViewModel
-                DispatchViewModel(viewModel);
-                return;
-            }
-
-            // Successful
-            viewModel.Successful = true;
-
-            // DispatchViewModel
-            DispatchViewModel(viewModel);
+            // Base Methods
+            OperatorPropertiesCloseOrLoseFocus_Base(userInput, partialAction);
         }
 
         private void OperatorPropertiesCloseOrLoseFocus_ForSample(Func<OperatorPropertiesViewModel_ForSample, OperatorPropertiesViewModel_ForSample> partialAction)
@@ -1498,45 +1182,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             OperatorPropertiesViewModel_ForSample userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForSample(MainViewModel.Document);
 
-            // Set !Successful
-            userInput.Successful = false;
-
-            // ToEntity
-            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
-
-            // Partial Action
-            OperatorPropertiesViewModel_ForSample viewModel = partialAction(userInput);
-            if (!viewModel.Successful)
-            {
-                // DispatchViewModel
-                DispatchViewModel(viewModel);
-
-                return;
-            }
-
-            // Set !Successful
-            viewModel.Successful = false;
-
-            // Business
-            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
-            if (!validationResult.Successful)
-            {
-                // Non-Persited
-                viewModel.ValidationMessages.AddRange(validationResult.Messages);
-
-                // DispatchViewModel
-                DispatchViewModel(viewModel);
-                return;
-            }
-
-            // Successful
-            viewModel.Successful = true;
-
-            // DispatchViewModel
-            DispatchViewModel(viewModel);
-
-            // Refresh
-            PatchDetails_RefreshOperator(viewModel.ID);
+            // Base Methods
+            OperatorPropertiesCloseOrLoseFocus_Base(userInput, partialAction);
         }
 
         private void OperatorPropertiesCloseOrLoseFocus_ForSpectrum(Func<OperatorPropertiesViewModel_ForSpectrum, OperatorPropertiesViewModel_ForSpectrum> partialAction)
@@ -1544,45 +1191,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             OperatorPropertiesViewModel_ForSpectrum userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForSpectrum(MainViewModel.Document);
 
-            // Set !Successful
-            userInput.Successful = false;
-
-            // ToEntity
-            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
-
-            // Partial Action
-            OperatorPropertiesViewModel_ForSpectrum viewModel = partialAction(userInput);
-            if (!viewModel.Successful)
-            {
-                // DispatchViewModel
-                DispatchViewModel(viewModel);
-                return;
-            }
-
-            // Set !Successful
-            viewModel.Successful = false;
-
-            // Business
-            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
-            if (!validationResult.Successful)
-            {
-                // Non-Persited
-                viewModel.ValidationMessages.AddRange(validationResult.Messages);
-
-                // DispatchViewModel
-                DispatchViewModel(viewModel);
-
-                return;
-            }
-
-            // Successful
-            viewModel.Successful = true;
-
-            // DispatchViewModel
-            DispatchViewModel(viewModel);
-
-            // Refresh
-            PatchDetails_RefreshOperator(viewModel.ID);
+            // Base Method
+            OperatorPropertiesCloseOrLoseFocus_Base(userInput, partialAction);
         }
 
         private void OperatorPropertiesCloseOrLoseFocus_ForUnbundle(Func<OperatorPropertiesViewModel_ForUnbundle, OperatorPropertiesViewModel_ForUnbundle> partialAction)
@@ -1590,6 +1200,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             OperatorPropertiesViewModel_ForUnbundle userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForUnbundle(MainViewModel.Document);
 
+            // Base Method
+            OperatorPropertiesCloseOrLoseFocus_Base(userInput, partialAction);
+        }
+
+        private void OperatorPropertiesCloseOrLoseFocus_Base<TViewModel>(
+            TViewModel userInput,
+            Func<TViewModel, TViewModel> partialAction)
+            where TViewModel : OperatorPropertiesViewModelBase
+        {
+            if (userInput == null) throw new NullException(() => userInput);
+
             // Set !Successful
             userInput.Successful = false;
 
@@ -1597,7 +1218,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
 
             // Partial Action
-            OperatorPropertiesViewModel_ForUnbundle viewModel = partialAction(userInput);
+            OperatorPropertiesViewModelBase viewModel = partialAction(userInput);
             if (!viewModel.Successful)
             {
                 // DispatchViewModel
@@ -1631,6 +1252,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Refresh
             PatchDetails_RefreshOperator(viewModel.ID);
         }
+
 
         public void OperatorCreate(int operatorTypeID)
         {

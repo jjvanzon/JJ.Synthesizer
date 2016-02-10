@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
-    public sealed class OperatorPropertiesViewModel_ForNumber : ViewModelBase
+    public sealed class OperatorPropertiesViewModel_ForNumber : OperatorPropertiesViewModelBase
     {
-        public int ID { get; set; }
         public string Name { get; set; }
         public string Number { get; set; }
     }
