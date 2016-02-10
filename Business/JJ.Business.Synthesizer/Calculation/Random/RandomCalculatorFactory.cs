@@ -13,14 +13,15 @@ namespace JJ.Business.Synthesizer.Calculation.Random
         /// <summary>
         /// Returns a base class, not an interface, because dispatch through a base class is faster than using an interface.
         /// </summary>
-        public static RandomCalculatorBase CreateRandomCalculator(InterpolationTypeEnum interpolationTypeEnum)
+        public static RandomCalculatorBase CreateRandomCalculator(ResampleInterpolationTypeEnum interpolationTypeEnum)
         {
             switch (interpolationTypeEnum)
             {
-                case InterpolationTypeEnum.Block:
+                case ResampleInterpolationTypeEnum.Block:
                     return new RandomCalculator_BlockInterpolation();
 
-                case InterpolationTypeEnum.Line:
+                case ResampleInterpolationTypeEnum.LineRememberT0:
+                case ResampleInterpolationTypeEnum.LineRememberT1:
                     return new RandomCalculator_LineInterpolation();
 
                 default:

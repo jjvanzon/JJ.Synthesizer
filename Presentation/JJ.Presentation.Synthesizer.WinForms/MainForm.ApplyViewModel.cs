@@ -136,6 +136,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     .Where(x => x.Visible)
                     .FirstOrDefault();
 
+                // OperatorProperties_ForRandom
+                operatorPropertiesUserControl_ForRandom.ViewModel =
+                    _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForRandoms)
+                    .Where(x => x.Visible)
+                    .FirstOrDefault();
+
                 // OperatorProperties_ForResample
                 operatorPropertiesUserControl_ForResample.ViewModel =
                     _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForResamples)
@@ -251,6 +257,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
                                                                operatorPropertiesUserControl_ForPatchInlet.ViewModel.Visible;
                 bool operatorPropertiesVisible_ForPatchOutlet = operatorPropertiesUserControl_ForPatchOutlet.ViewModel != null &&
                                                                 operatorPropertiesUserControl_ForPatchOutlet.ViewModel.Visible;
+                bool operatorPropertiesVisible_ForRandom = operatorPropertiesUserControl_ForRandom.ViewModel != null &&
+                                                           operatorPropertiesUserControl_ForRandom.ViewModel.Visible;
                 bool operatorPropertiesVisible_ForResample = operatorPropertiesUserControl_ForResample.ViewModel != null &&
                                                              operatorPropertiesUserControl_ForResample.ViewModel.Visible;
                 bool operatorPropertiesVisible_ForSample = operatorPropertiesUserControl_ForSample.ViewModel != null &&
@@ -295,6 +303,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (operatorPropertiesVisible_ForNumber) operatorPropertiesUserControl_ForNumber.Visible = true;
                 if (operatorPropertiesVisible_ForPatchInlet) operatorPropertiesUserControl_ForPatchInlet.Visible = true;
                 if (operatorPropertiesVisible_ForPatchOutlet) operatorPropertiesUserControl_ForPatchOutlet.Visible = true;
+                if (operatorPropertiesVisible_ForRandom) operatorPropertiesUserControl_ForRandom.Visible = true;
                 if (operatorPropertiesVisible_ForResample) operatorPropertiesUserControl_ForResample.Visible = true;
                 if (operatorPropertiesVisible_ForSample) operatorPropertiesUserControl_ForSample.Visible = true;
                 if (operatorPropertiesVisible_ForSpectrum) operatorPropertiesUserControl_ForSpectrum.Visible = true;
@@ -326,6 +335,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (!operatorPropertiesVisible_ForNumber) operatorPropertiesUserControl_ForNumber.Visible = false;
                 if (!operatorPropertiesVisible_ForPatchInlet) operatorPropertiesUserControl_ForPatchInlet.Visible = false;
                 if (!operatorPropertiesVisible_ForPatchOutlet) operatorPropertiesUserControl_ForPatchOutlet.Visible = false;
+                if (!operatorPropertiesVisible_ForRandom) operatorPropertiesUserControl_ForRandom.Visible = false;
                 if (!operatorPropertiesVisible_ForResample) operatorPropertiesUserControl_ForResample.Visible = false;
                 if (!operatorPropertiesVisible_ForSample) operatorPropertiesUserControl_ForSample.Visible = false;
                 if (!operatorPropertiesVisible_ForSpectrum) operatorPropertiesUserControl_ForSpectrum.Visible = false;
@@ -355,6 +365,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                                                     operatorPropertiesVisible_ForNumber ||
                                                     operatorPropertiesVisible_ForPatchInlet ||
                                                     operatorPropertiesVisible_ForPatchOutlet ||
+                                                    operatorPropertiesVisible_ForRandom ||
                                                     operatorPropertiesVisible_ForResample ||
                                                     operatorPropertiesVisible_ForSample ||
                                                     operatorPropertiesVisible_ForSpectrum ||
@@ -494,6 +505,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
             if (mustFocusOperatorPropertiesUserControl_ForPatchOutlet)
             {
                 operatorPropertiesUserControl_ForPatchOutlet.Focus();
+            }
+
+            bool mustFocusOperatorPropertiesUserControl_ForRandom = operatorPropertiesUserControl_ForRandom.Visible &&
+                                                                   !operatorPropertiesUserControl_ForRandom.ViewModel.Successful;
+            if (mustFocusOperatorPropertiesUserControl_ForRandom)
+            {
+                operatorPropertiesUserControl_ForRandom.Focus();
             }
 
             bool mustFocusOperatorPropertiesUserControl_ForResample = operatorPropertiesUserControl_ForResample.Visible &&

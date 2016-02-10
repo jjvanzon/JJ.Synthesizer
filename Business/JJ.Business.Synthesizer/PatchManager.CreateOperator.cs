@@ -789,7 +789,7 @@ namespace JJ.Business.Synthesizer
             {
                 ValueDuration = valueDuration,
                 PhaseShift = phaseShift,
-                InterpolationTypeEnum = InterpolationTypeEnum.Block
+                ResampleInterpolationTypeEnum = ResampleInterpolationTypeEnum.Block
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);

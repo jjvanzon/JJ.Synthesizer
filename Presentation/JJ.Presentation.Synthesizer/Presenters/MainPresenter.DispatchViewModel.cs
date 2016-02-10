@@ -43,6 +43,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(OperatorPropertiesViewModel_ForNumber), DispatchOperatorPropertiesViewModel_ForNumber },
                 { typeof(OperatorPropertiesViewModel_ForPatchInlet), DispatchOperatorPropertiesViewModel_ForPatchInlet },
                 { typeof(OperatorPropertiesViewModel_ForPatchOutlet), DispatchOperatorPropertiesViewModel_ForPatchOutlet },
+                { typeof(OperatorPropertiesViewModel_ForRandom), DispatchOperatorPropertiesViewModel_ForRandom },
                 { typeof(OperatorPropertiesViewModel_ForResample), DispatchOperatorPropertiesViewModel_ForResample },
                 { typeof(OperatorPropertiesViewModel_ForSample), DispatchOperatorPropertiesViewModel_ForSample },
                 { typeof(OperatorPropertiesViewModel_ForSpectrum), DispatchOperatorPropertiesViewModel_ForSpectrum },
@@ -485,6 +486,31 @@ namespace JJ.Presentation.Synthesizer.Presenters
             var castedViewModel = (OperatorPropertiesViewModel_ForPatchOutlet)viewModel2;
 
             var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForPatchOutlets_ByOperatorID(MainViewModel.Document, castedViewModel.ID);
+            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
+            if (listIndex.HasValue)
+            {
+                list[listIndex.Value] = castedViewModel;
+            }
+            else
+            {
+                list.Add(castedViewModel);
+            }
+
+            if (castedViewModel.Visible)
+            {
+                HideAllPropertiesViewModels();
+                castedViewModel.Visible = true;
+            }
+
+            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            castedViewModel.ValidationMessages.Clear();
+        }
+
+        private void DispatchOperatorPropertiesViewModel_ForRandom(object viewModel2)
+        {
+            var castedViewModel = (OperatorPropertiesViewModel_ForRandom)viewModel2;
+
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForRandoms_ByOperatorID(MainViewModel.Document, castedViewModel.ID);
             int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
             if (listIndex.HasValue)
             {

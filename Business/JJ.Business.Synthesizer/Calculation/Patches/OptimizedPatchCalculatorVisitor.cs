@@ -1057,9 +1057,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 var wrapper = new Random_OperatorWrapper(op);
 
                 // HACK
-                wrapper.InterpolationTypeEnum = InterpolationTypeEnum.Block;
+                wrapper.ResampleInterpolationTypeEnum = ResampleInterpolationTypeEnum.Block;
 
-                var randomCalculator = RandomCalculatorFactory.CreateRandomCalculator(wrapper.InterpolationTypeEnum);
+                var randomCalculator = RandomCalculatorFactory.CreateRandomCalculator(wrapper.ResampleInterpolationTypeEnum);
                 int randomCalculatorOffset = RandomCalculatorBase.GetRandomOffset();
 
                 calculator = new Random_VarFrequency_VarPhaseShift_OperatorCalculator(

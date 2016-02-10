@@ -50,6 +50,7 @@
     <Compile Include="Presenters\OperatorPropertiesPresenterBase.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForAggregate.cs" />
     <Compile Include="Presenters\2016-02-10 Backup of OperatorPropertiesPresenterBase_WithDefaultUpdate.cs" />
+    <Compile Include="Presenters\OperatorPropertiesPresenter_ForRandom.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForResample.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForSpectrum.cs" />
     <Compile Include="Presenters\PatchGridPresenter.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="ViewModels\Entities\ToneViewModel.cs" />
     <Compile Include="ViewModels\Entities\PatchDocumentViewModel.cs" />
     <Compile Include="ViewModels\Entities\CurrentPatchItemViewModel.cs" />
+    <Compile Include="ViewModels\OperatorPropertiesViewModel_ForRandom.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForResample.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForAggregate.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForSpectrum.cs" />

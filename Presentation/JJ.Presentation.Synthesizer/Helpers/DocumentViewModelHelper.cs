@@ -418,6 +418,15 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return viewModel;
         }
 
+        public static OperatorPropertiesViewModel_ForRandom TryGetOperatorPropertiesViewModel_ForRandom(DocumentViewModel rootDocumentViewModel, int operatorID)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            OperatorPropertiesViewModel_ForRandom viewModel = DocumentViewModelHelper.EnumerateOperatorPropertiesViewModels_ForRandoms(rootDocumentViewModel)
+                                                                                     .FirstOrDefault(x => x.ID == operatorID); // First for performance.
+            return viewModel;
+        }
+
         public static OperatorPropertiesViewModel_ForResample TryGetOperatorPropertiesViewModel_ForResample(DocumentViewModel rootDocumentViewModel, int operatorID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
@@ -508,6 +517,13 @@ namespace JJ.Presentation.Synthesizer.Helpers
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
             return rootDocumentViewModel.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForPatchOutlets);
+        }
+
+        private static IEnumerable<OperatorPropertiesViewModel_ForRandom> EnumerateOperatorPropertiesViewModels_ForRandoms(DocumentViewModel rootDocumentViewModel)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            return rootDocumentViewModel.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForRandoms);
         }
 
         private static IEnumerable<OperatorPropertiesViewModel_ForResample> EnumerateOperatorPropertiesViewModels_ForResamples(DocumentViewModel rootDocumentViewModel)
@@ -656,6 +672,21 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
 
             throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForPatchOutlet> for Patch ID '{0}' not found in any of the PatchDocumentViewModels.", patchID));
+        }
+
+        public static IList<OperatorPropertiesViewModel_ForRandom> GetOperatorPropertiesViewModelList_ForRandoms_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentList)
+            {
+                if (patchDocumentViewModel.PatchDetails.Entity.PatchID == patchID)
+                {
+                    return patchDocumentViewModel.OperatorPropertiesList_ForRandoms;
+                }
+            }
+
+            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForRandom> with Patch ID '{0}' not found in any of the PatchDocumentViewModels.", patchID));
         }
 
         public static IList<OperatorPropertiesViewModel_ForResample> GetOperatorPropertiesViewModelList_ForResamples_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
@@ -854,6 +885,24 @@ namespace JJ.Presentation.Synthesizer.Helpers
             throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForPatchOutlet> for Operator ID '{0}' not found in any of the PatchDocumentViewModels.", operatorID));
         }
 
+        public static IList<OperatorPropertiesViewModel_ForRandom> GetOperatorPropertiesViewModelList_ForRandoms_ByOperatorID(DocumentViewModel rootDocumentViewModel, int operatorID)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentList)
+            {
+                foreach (OperatorPropertiesViewModel_ForRandom operatorPropertiesViewModel in patchDocumentViewModel.OperatorPropertiesList_ForRandoms)
+                {
+                    if (operatorPropertiesViewModel.ID == operatorID)
+                    {
+                        return patchDocumentViewModel.OperatorPropertiesList_ForRandoms;
+                    }
+                }
+            }
+
+            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForRandom> for Operator ID '{0}' not found in any of the PatchDocumentViewModels.", operatorID));
+        }
+
         public static IList<OperatorPropertiesViewModel_ForResample> GetOperatorPropertiesViewModelList_ForResamples_ByOperatorID(DocumentViewModel rootDocumentViewModel, int operatorID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
@@ -867,7 +916,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
                         return patchDocumentViewModel.OperatorPropertiesList_ForResamples;
                     }
                 }
-
             }
 
             throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForResample> for Operator ID '{0}' not found in any of the PatchDocumentViewModels.", operatorID));
@@ -1052,6 +1100,22 @@ namespace JJ.Presentation.Synthesizer.Helpers
             if (viewModel == null)
             {
                 throw new Exception("No visible OperatorPropertiesViewModel_ForPatchOutlet found in rootDocumentViewModel.PatchDocumentList.");
+            }
+
+            return viewModel;
+        }
+
+        public static OperatorPropertiesViewModel_ForRandom GetVisibleOperatorPropertiesViewModel_ForRandom(DocumentViewModel rootDocumentViewModel)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            OperatorPropertiesViewModel_ForRandom viewModel = rootDocumentViewModel.PatchDocumentList
+                                                                                   .SelectMany(x => x.OperatorPropertiesList_ForRandoms)
+                                                                                   .Where(x => x.Visible)
+                                                                                   .FirstOrDefault();
+            if (viewModel == null)
+            {
+                throw new Exception("No visible OperatorPropertiesViewModel_ForRandom found in rootDocumentViewModel.PatchDocumentList.");
             }
 
             return viewModel;

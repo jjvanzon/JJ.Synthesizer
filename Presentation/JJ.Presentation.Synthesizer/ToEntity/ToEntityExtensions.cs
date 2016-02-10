@@ -1024,6 +1024,37 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return op;
         }
 
+        public static Operator ToEntity(
+            this OperatorPropertiesViewModel_ForRandom viewModel,
+            IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (operatorRepository == null) throw new NullException(() => operatorRepository);
+
+            Operator entity = operatorRepository.TryGet(viewModel.ID);
+            if (entity == null)
+            {
+                entity = new Operator();
+                entity.ID = viewModel.ID;
+                operatorRepository.Insert(entity);
+            }
+
+            entity.Name = viewModel.Name;
+            entity.SetOperatorTypeEnum(OperatorTypeEnum.Random, operatorTypeRepository);
+
+            var wrapper = new Random_OperatorWrapper(entity);
+            bool interpolationTypeIsFilledIn = viewModel.Interpolation != null && viewModel.Interpolation.ID != 0;
+            if (interpolationTypeIsFilledIn)
+            {
+                wrapper.ResampleInterpolationTypeEnum = (ResampleInterpolationTypeEnum)viewModel.Interpolation.ID;
+            }
+            else
+            {
+                wrapper.ResampleInterpolationTypeEnum = ResampleInterpolationTypeEnum.Undefined;
+            }
+
+            return entity;
+        }
 
         public static Operator ToEntity(
             this OperatorPropertiesViewModel_ForResample viewModel,
@@ -1056,7 +1087,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             return entity;
         }
-
 
         public static Operator ToEntity(
             this OperatorPropertiesViewModel_ForSample viewModel,
@@ -1287,6 +1317,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             foreach (OperatorPropertiesViewModel_ForPatchOutlet propertiesViewModel in userInput.OperatorPropertiesList_ForPatchOutlets)
             {
                 propertiesViewModel.ToOperatorWithOutlet(patchRepositories);
+            }
+
+            foreach (OperatorPropertiesViewModel_ForRandom propertiesViewModel in userInput.OperatorPropertiesList_ForRandoms)
+            {
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
             }
 
             foreach (OperatorPropertiesViewModel_ForResample propertiesViewModel in userInput.OperatorPropertiesList_ForResamples)

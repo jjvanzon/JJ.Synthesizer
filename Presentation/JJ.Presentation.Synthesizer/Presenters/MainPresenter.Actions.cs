@@ -926,6 +926,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
             {
+                OperatorPropertiesViewModel_ForRandom userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForRandom(MainViewModel.Document, id);
+                if (userInput != null)
+                {
+                    OperatorPropertiesPresenter_ForRandom partialPresenter = _operatorPropertiesPresenter_ForRandom;
+                    OperatorPropertiesViewModel_ForRandom viewModel = partialPresenter.Show(userInput);
+                    DispatchViewModel(viewModel);
+                    return;
+                }
+            }
+            {
                 OperatorPropertiesViewModel_ForResample userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForResample(MainViewModel.Document, id);
                 if (userInput != null)
                 {
@@ -1009,6 +1019,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesCloseOrLoseFocus_ForPatchOutlet(x => _operatorPropertiesPresenter_ForPatchOutlet.Close(x));
         }
 
+        public void OperatorPropertiesClose_ForRandom()
+        {
+            OperatorPropertiesCloseOrLoseFocus_ForRandom(x => _operatorPropertiesPresenter_ForRandom.Close(x));
+        }
+
         public void OperatorPropertiesClose_ForResample()
         {
             OperatorPropertiesCloseOrLoseFocus_ForResample(x => _operatorPropertiesPresenter_ForResample.Close(x));
@@ -1069,6 +1084,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesCloseOrLoseFocus_ForPatchOutlet(x => _operatorPropertiesPresenter_ForPatchOutlet.LoseFocus(x));
         }
 
+        public void OperatorPropertiesLoseFocus_ForRandom()
+        {
+            OperatorPropertiesCloseOrLoseFocus_ForRandom(x => _operatorPropertiesPresenter_ForRandom.LoseFocus(x));
+        }
+
         public void OperatorPropertiesLoseFocus_ForResample()
         {
             OperatorPropertiesCloseOrLoseFocus_ForResample(x => _operatorPropertiesPresenter_ForResample.LoseFocus(x));
@@ -1094,7 +1114,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             OperatorPropertiesViewModel userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel(MainViewModel.Document);
 
-            // Base Methods
+            // Base Method
             OperatorPropertiesCloseOrLoseFocus_Base(userInput, partialAction);
         }
 
@@ -1103,7 +1123,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             OperatorPropertiesViewModel_ForAggregate userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForAggregate(MainViewModel.Document);
 
-            // Base Methods
+            // Base Method
             OperatorPropertiesCloseOrLoseFocus_Base(userInput, partialAction);
         }
 
@@ -1112,7 +1132,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             OperatorPropertiesViewModel_ForBundle userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForBundle(MainViewModel.Document);
 
-            // Base Methods
+            // Base Method
             OperatorPropertiesCloseOrLoseFocus_Base(userInput, partialAction);
         }
 
@@ -1121,7 +1141,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             OperatorPropertiesViewModel_ForCurve userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForCurve(MainViewModel.Document);
 
-            // Base Methods
+            // Base Method
             OperatorPropertiesCloseOrLoseFocus_Base(userInput, partialAction);
         }
 
@@ -1130,7 +1150,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             OperatorPropertiesViewModel_ForCustomOperator userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForCustomOperator(MainViewModel.Document);
 
-            // Base Methods
+            // Base Method
             OperatorPropertiesCloseOrLoseFocus_Base(userInput, partialAction);
         }
 
@@ -1139,7 +1159,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             OperatorPropertiesViewModel_ForNumber userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForNumber(MainViewModel.Document);
 
-            // Base Methods
+            // Base Method
             OperatorPropertiesCloseOrLoseFocus_Base(userInput, partialAction);
         }
 
@@ -1149,7 +1169,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesViewModel_ForPatchInlet userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForPatchInlet(MainViewModel.Document);
 
 
-            // Base Methods
+            // Base Method
             OperatorPropertiesCloseOrLoseFocus_Base(userInput, partialAction);
 
             // Refresh
@@ -1161,11 +1181,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             OperatorPropertiesViewModel_ForPatchOutlet userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForPatchOutlet(MainViewModel.Document);
 
-            // Base Methods
+            // Base Method
             OperatorPropertiesCloseOrLoseFocus_Base(userInput, partialAction);
 
             // Refresh
             OperatorViewModels_OfType_Refresh(OperatorTypeEnum.CustomOperator); // Refresh Dependent Things
+        }
+
+        private void OperatorPropertiesCloseOrLoseFocus_ForRandom(Func<OperatorPropertiesViewModel_ForRandom, OperatorPropertiesViewModel_ForRandom> partialAction)
+        {
+            // GetViewModel
+            OperatorPropertiesViewModel_ForRandom userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForRandom(MainViewModel.Document);
+
+            // Base Method
+            OperatorPropertiesCloseOrLoseFocus_Base(userInput, partialAction);
         }
 
         private void OperatorPropertiesCloseOrLoseFocus_ForResample(Func<OperatorPropertiesViewModel_ForResample, OperatorPropertiesViewModel_ForResample> partialAction)
@@ -1173,7 +1202,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             OperatorPropertiesViewModel_ForResample userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForResample(MainViewModel.Document);
 
-            // Base Methods
+            // Base Method
             OperatorPropertiesCloseOrLoseFocus_Base(userInput, partialAction);
         }
 
@@ -1182,7 +1211,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             OperatorPropertiesViewModel_ForSample userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForSample(MainViewModel.Document);
 
-            // Base Methods
+            // Base Method
             OperatorPropertiesCloseOrLoseFocus_Base(userInput, partialAction);
         }
 
@@ -1399,6 +1428,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         break;
                     }
 
+                case OperatorTypeEnum.Random:
+                    {
+                        OperatorPropertiesViewModel_ForRandom propertiesViewModel = op.ToPropertiesViewModel_ForRandom();
+                        IList<OperatorPropertiesViewModel_ForRandom> propertiesViewModelList = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForRandoms_ByPatchID(MainViewModel.Document, patch.ID);
+                        propertiesViewModelList.Add(propertiesViewModel);
+                        break;
+                    }
+
                 case OperatorTypeEnum.Resample:
                     {
                         OperatorPropertiesViewModel_ForResample propertiesViewModel = op.ToPropertiesViewModel_ForResample();
@@ -1503,6 +1540,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                         case OperatorTypeEnum.PatchOutlet:
                             patchDocumentViewModel.OperatorPropertiesList_ForPatchOutlets.RemoveFirst(x => x.ID == op.ID);
+                            break;
+
+                        case OperatorTypeEnum.Random:
+                            patchDocumentViewModel.OperatorPropertiesList_ForRandoms.RemoveFirst(x => x.ID == op.ID);
                             break;
 
                         case OperatorTypeEnum.Resample:

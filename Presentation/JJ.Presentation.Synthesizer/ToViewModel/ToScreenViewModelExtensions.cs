@@ -35,6 +35,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.Number,
             OperatorTypeEnum.PatchInlet,
             OperatorTypeEnum.PatchOutlet,
+            OperatorTypeEnum.Random,
             OperatorTypeEnum.Resample,
             OperatorTypeEnum.Sample,
             OperatorTypeEnum.Spectrum,
@@ -393,6 +394,15 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                         .ToList();
         }
 
+        public static IList<OperatorPropertiesViewModel_ForRandom> ToPropertiesViewModelList_ForRandoms(this Patch patch)
+        {
+            if (patch == null) throw new NullException(() => patch);
+
+            return patch.GetOperatorsOfType(OperatorTypeEnum.Random)
+                        .Select(x => x.ToPropertiesViewModel_ForRandom())
+                        .ToList();
+        }
+
         public static IList<OperatorPropertiesViewModel_ForResample> ToPropertiesViewModelList_ForResamples(this Patch patch)
         {
             if (patch == null) throw new NullException(() => patch);
@@ -625,6 +635,24 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 viewModel.OutletType = new IDAndName();
             }
+
+            return viewModel;
+        }
+
+        public static OperatorPropertiesViewModel_ForRandom ToPropertiesViewModel_ForRandom(this Operator entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            var wrapper = new Random_OperatorWrapper(entity);
+
+            var viewModel = new OperatorPropertiesViewModel_ForRandom
+            {
+                ID = entity.ID,
+                Name = entity.Name,
+                Interpolation = wrapper.ResampleInterpolationTypeEnum.ToIDAndDisplayName(),
+                InterpolationLookup = ViewModelHelper.CreateResampleInterpolationLookupViewModel(),
+                ValidationMessages = new List<Message>()
+            };
 
             return viewModel;
         }
