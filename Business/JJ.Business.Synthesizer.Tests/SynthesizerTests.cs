@@ -21,6 +21,7 @@ using JJ.Data.Canonical;
 using System.Linq;
 using JJ.Business.Synthesizer.Api;
 using JJ.Business.Synthesizer.Calculation;
+using JJ.Framework.Testing;
 
 namespace JJ.Business.Synthesizer.Tests
 {
@@ -999,5 +1000,19 @@ namespace JJ.Business.Synthesizer.Tests
                 }
             }
         }
+
+        [TestMethod]
+        public void Test_CreateOperator_Average_ThrowsInCaseOfWrongParameters()
+        {
+            CultureHelper.SetThreadCultureName("en-US");
+
+            AssertHelper.ThrowsException(() =>
+            {
+                var x = new PatchApi();
+                x.Average(null, 0, 0);
+            }, 
+            "Sample Count is not above 0.\r\nTime Slice Duration is not above 0.");
+        }
+
     }
 }

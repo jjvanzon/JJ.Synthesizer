@@ -54,6 +54,10 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             RepositoryHelper.EnsureEnumEntity(this, 44, "And");
             RepositoryHelper.EnsureEnumEntity(this, 45, "Or");
             RepositoryHelper.EnsureEnumEntity(this, 46, "Not");
+            RepositoryHelper.EnsureEnumEntity(this, 47, "If");
+            RepositoryHelper.EnsureEnumEntity(this, 48, "Minimum");
+            RepositoryHelper.EnsureEnumEntity(this, 49, "Maximum");
+            RepositoryHelper.EnsureEnumEntity(this, 50, "Average");
         }
     }
 }

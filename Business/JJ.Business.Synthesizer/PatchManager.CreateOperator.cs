@@ -11,7 +11,8 @@ using JJ.Business.Synthesizer.Extensions;
 using System.Reflection;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Framework.Reflection;
+using JJ.Data.Canonical;
+using JJ.Business.Canonical;
 
 namespace JJ.Business.Synthesizer
 {
@@ -28,6 +29,9 @@ namespace JJ.Business.Synthesizer
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
 
             return wrapper;
         }
@@ -65,6 +69,10 @@ namespace JJ.Business.Synthesizer
 
             var wrapper = new Adder_OperatorWrapper(op);
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -79,6 +87,9 @@ namespace JJ.Business.Synthesizer
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
 
             return wrapper;
         }
@@ -95,6 +106,9 @@ namespace JJ.Business.Synthesizer
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
 
             return wrapper;
         }
@@ -132,6 +146,10 @@ namespace JJ.Business.Synthesizer
 
             var wrapper = new Bundle_OperatorWrapper(op);
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -147,6 +165,10 @@ namespace JJ.Business.Synthesizer
             }
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -160,6 +182,10 @@ namespace JJ.Business.Synthesizer
             var wrapper = new CustomOperator_OperatorWrapper(op, _repositories.PatchRepository);
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -170,6 +196,9 @@ namespace JJ.Business.Synthesizer
 
             ISideEffect sideEffect = new Operator_SideEffect_ApplyUnderlyingPatch(op, _repositories);
             sideEffect.Execute();
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
 
             return op;
         }
@@ -185,6 +214,10 @@ namespace JJ.Business.Synthesizer
             SetOperands(wrapper.WrappedOperator, operands);
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(wrapper.WrappedOperator);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -205,6 +238,10 @@ namespace JJ.Business.Synthesizer
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -220,6 +257,10 @@ namespace JJ.Business.Synthesizer
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -234,6 +275,10 @@ namespace JJ.Business.Synthesizer
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -248,6 +293,9 @@ namespace JJ.Business.Synthesizer
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
 
             return wrapper;
         }
@@ -264,6 +312,10 @@ namespace JJ.Business.Synthesizer
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -278,6 +330,9 @@ namespace JJ.Business.Synthesizer
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
 
             return wrapper;
         }
@@ -294,6 +349,9 @@ namespace JJ.Business.Synthesizer
 
             wrapper.WrappedOperator.LinkTo(Patch);
 
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -308,6 +366,9 @@ namespace JJ.Business.Synthesizer
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
 
             return wrapper;
         }
@@ -325,6 +386,9 @@ namespace JJ.Business.Synthesizer
 
             wrapper.WrappedOperator.LinkTo(Patch);
 
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -340,6 +404,9 @@ namespace JJ.Business.Synthesizer
 
             wrapper.WrappedOperator.LinkTo(Patch);
 
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -354,6 +421,9 @@ namespace JJ.Business.Synthesizer
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
 
             return wrapper;
         }
@@ -379,6 +449,10 @@ namespace JJ.Business.Synthesizer
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -393,6 +467,9 @@ namespace JJ.Business.Synthesizer
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
 
             return wrapper;
         }
@@ -410,6 +487,9 @@ namespace JJ.Business.Synthesizer
 
             wrapper.WrappedOperator.LinkTo(Patch);
 
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -426,6 +506,9 @@ namespace JJ.Business.Synthesizer
 
             wrapper.WrappedOperator.LinkTo(Patch);
 
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -441,6 +524,10 @@ namespace JJ.Business.Synthesizer
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -456,6 +543,10 @@ namespace JJ.Business.Synthesizer
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -466,6 +557,10 @@ namespace JJ.Business.Synthesizer
             var wrapper = new Noise_OperatorWrapper(op);
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -479,6 +574,9 @@ namespace JJ.Business.Synthesizer
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
 
             return wrapper;
         }
@@ -495,6 +593,9 @@ namespace JJ.Business.Synthesizer
 
             wrapper.WrappedOperator.LinkTo(Patch);
 
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -508,6 +609,10 @@ namespace JJ.Business.Synthesizer
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -522,6 +627,9 @@ namespace JJ.Business.Synthesizer
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
 
             return wrapper;
         }
@@ -540,6 +648,9 @@ namespace JJ.Business.Synthesizer
 
             ExecuteSideEffectsForCreatingPatchInletOrPatchOutlet(wrapper.WrappedOperator);
 
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -547,6 +658,10 @@ namespace JJ.Business.Synthesizer
         {
             PatchInlet_OperatorWrapper wrapper = PatchInlet();
             wrapper.Inlet.SetInletTypeEnum(inletTypeEnum, _repositories.InletTypeRepository);
+
+            VoidResult result = ValidateOperatorNonRecursive(wrapper.WrappedOperator);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -554,6 +669,10 @@ namespace JJ.Business.Synthesizer
         {
             PatchInlet_OperatorWrapper wrapper = PatchInlet();
             wrapper.Name = name;
+
+            VoidResult result = ValidateOperatorNonRecursive(wrapper.WrappedOperator);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -562,6 +681,10 @@ namespace JJ.Business.Synthesizer
             PatchInlet_OperatorWrapper wrapper = PatchInlet();
             wrapper.Name = name;
             wrapper.Inlet.DefaultValue = defaultValue;
+
+            VoidResult result = ValidateOperatorNonRecursive(wrapper.WrappedOperator);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -571,6 +694,9 @@ namespace JJ.Business.Synthesizer
             Inlet patchInletInlet = wrapper.Inlet;
             patchInletInlet.SetInletTypeEnum(inletTypeEnum, _repositories.InletTypeRepository);
             patchInletInlet.DefaultValue = defaultValue;
+
+            VoidResult result = ValidateOperatorNonRecursive(wrapper.WrappedOperator);
+            ResultHelper.Assert(result);
 
             return wrapper;
         }
@@ -590,6 +716,9 @@ namespace JJ.Business.Synthesizer
 
             ExecuteSideEffectsForCreatingPatchInletOrPatchOutlet(wrapper.WrappedOperator);
 
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -597,6 +726,10 @@ namespace JJ.Business.Synthesizer
         {
             PatchOutlet_OperatorWrapper wrapper = PatchOutlet(input);
             wrapper.Result.SetOutletTypeEnum(outletTypeEnum, _repositories.OutletTypeRepository);
+
+            VoidResult result = ValidateOperatorNonRecursive(wrapper.WrappedOperator);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -604,6 +737,10 @@ namespace JJ.Business.Synthesizer
         {
             PatchOutlet_OperatorWrapper wrapper = PatchOutlet(input);
             wrapper.Name = name;
+
+            VoidResult result = ValidateOperatorNonRecursive(wrapper.WrappedOperator);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -618,6 +755,10 @@ namespace JJ.Business.Synthesizer
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -633,6 +774,10 @@ namespace JJ.Business.Synthesizer
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -648,6 +793,9 @@ namespace JJ.Business.Synthesizer
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
 
             return wrapper;
         }
@@ -667,6 +815,10 @@ namespace JJ.Business.Synthesizer
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -680,6 +832,10 @@ namespace JJ.Business.Synthesizer
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -694,6 +850,10 @@ namespace JJ.Business.Synthesizer
             }
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -708,6 +868,10 @@ namespace JJ.Business.Synthesizer
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -722,6 +886,10 @@ namespace JJ.Business.Synthesizer
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -736,6 +904,10 @@ namespace JJ.Business.Synthesizer
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -750,6 +922,10 @@ namespace JJ.Business.Synthesizer
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -764,6 +940,10 @@ namespace JJ.Business.Synthesizer
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -782,6 +962,10 @@ namespace JJ.Business.Synthesizer
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -796,6 +980,10 @@ namespace JJ.Business.Synthesizer
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -810,6 +998,10 @@ namespace JJ.Business.Synthesizer
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -825,6 +1017,10 @@ namespace JJ.Business.Synthesizer
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -839,6 +1035,10 @@ namespace JJ.Business.Synthesizer
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -854,6 +1054,10 @@ namespace JJ.Business.Synthesizer
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -868,6 +1072,10 @@ namespace JJ.Business.Synthesizer
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -883,6 +1091,9 @@ namespace JJ.Business.Synthesizer
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
 
             return wrapper;
         }
