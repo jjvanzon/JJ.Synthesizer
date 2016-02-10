@@ -1086,8 +1086,11 @@ Global
 		{CEEB755D-DE12-4E70-816E-546C429B44B7} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{5909BFE7-93CF-4E5F-BE22-6293368AF01D} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{529145D5-6CC3-4016-89B5-826563024AF1} = {72857B67-3003-486C-9BB3-34AF5748BE95}
+		{DA4F02E3-0B5E-42CD-B8D9-5583FA51D66E} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{62CA5AED-85D7-43CA-9410-7C6E7CDB4A34} = {72857B67-3003-486C-9BB3-34AF5748BE95}
+		{C37A547B-F31E-45FB-870A-CFA704D06152} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{4DBE5E36-4B54-4E5F-9B4F-5BBF33A3CEF1} = {72857B67-3003-486C-9BB3-34AF5748BE95}
+		{CDA729CD-CD5E-4700-8308-B4B916C8EAB9} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{5D06A212-5459-47F3-8109-E012C5FC9E3A} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
@@ -1240,6 +1243,7 @@ Global
 		SccProjectName39 = Database/SynthesizerDB
 		SccLocalPath39 = Database\\SynthesizerDB
 		SccProjectUniqueName40 = External\u0020Components\\NAudio\\Source\u0020Code\\1.7.2\\NAudio\\NAudio.csproj
+		SccProjectTopLevelParentUniqueName40 = Synthesizer.sln
 		SccProjectName40 = External\u0020Components/NAudio/Source\u0020Code/1.7.2/NAudio
 		SccLocalPath40 = External\u0020Components\\NAudio\\Source\u0020Code\\1.7.2\\NAudio
 		SccProjectUniqueName41 = OneOff\\JJ.OneOff.Synthesizer.DataMigration\\JJ.OneOff.Synthesizer.DataMigration.csproj
@@ -1253,6 +1257,7 @@ Global
 		SccProjectName43 = Presentation/JJ.Presentation.Synthesizer.NAudio
 		SccLocalPath43 = Presentation\\JJ.Presentation.Synthesizer.NAudio
 		SccProjectUniqueName44 = External\u0020Components\\NAudio\\Source\u0020Code\\1.7.2\\NAudioDemo\\NAudioDemo.csproj
+		SccProjectTopLevelParentUniqueName44 = Synthesizer.sln
 		SccProjectName44 = External\u0020Components/NAudio/Source\u0020Code/1.7.2/NAudioDemo
 		SccLocalPath44 = External\u0020Components\\NAudio\\Source\u0020Code\\1.7.2\\NAudioDemo
 		SccProjectUniqueName45 = Business\\JJ.Business.Canonical\\JJ.Business.Canonical.csproj
@@ -1260,6 +1265,7 @@ Global
 		SccProjectName45 = Business/JJ.Business.Canonical
 		SccLocalPath45 = Business\\JJ.Business.Canonical
 		SccProjectUniqueName46 = External\u0020Components\\Lomont\\Lomont.csproj
+		SccProjectTopLevelParentUniqueName46 = Synthesizer.sln
 		SccProjectName46 = External\u0020Components/Lomont
 		SccLocalPath46 = External\u0020Components\\Lomont
 		SccProjectUniqueName47 = Framework\\JJ.Framework.Collections\\JJ.Framework.Collections.csproj

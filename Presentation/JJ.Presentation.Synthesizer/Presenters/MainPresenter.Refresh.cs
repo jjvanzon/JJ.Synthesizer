@@ -78,8 +78,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void DocumentTreeRefresh()
         {
-            object viewModel2 = _documentTreePresenter.Refresh();
-            DispatchViewModel(viewModel2);
+            DocumentTreeViewModel viewModel = _documentTreePresenter.Refresh(MainViewModel.Document.DocumentTree);
+            DispatchViewModel(viewModel);
         }
 
         private void OperatorProperties_ForCustomOperatorViewModels_Refresh(int underlyingPatchID)

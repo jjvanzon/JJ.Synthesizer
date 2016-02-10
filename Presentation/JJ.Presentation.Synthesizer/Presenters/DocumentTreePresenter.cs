@@ -14,8 +14,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         private IDocumentRepository _documentRepository;
 
-        public DocumentTreeViewModel ViewModel { get; set; }
-
         public DocumentTreePresenter(IDocumentRepository documentRepository)
         {
             if (documentRepository == null) throw new NullException(() => documentRepository);
@@ -23,39 +21,57 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentRepository = documentRepository;
         }
 
-        public void Show()
+        public DocumentTreeViewModel Show(DocumentTreeViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            ViewModel.Visible = true;
+            // GetEntity
+            Document document = _documentRepository.Get(userInput.ID);
+
+            // ToViewModel
+            DocumentTreeViewModel viewModel = document.ToTreeViewModel();
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+            viewModel.Visible = true;
+
+            return viewModel;
         }
 
-        public object Refresh()
+        public DocumentTreeViewModel Refresh(DocumentTreeViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Document document = _documentRepository.TryGet(ViewModel.ID);
-            if (document == null)
-            {
-                ViewModelHelper.CreateDocumentNotFoundViewModel();
-            }
+            // GetEntity
+            Document document = _documentRepository.Get(userInput.ID);
 
-            DocumentTreeViewModel viewModel2 = document.ToTreeViewModel();
+            // ToViewModel
+            DocumentTreeViewModel viewModel = document.ToTreeViewModel();
 
-            CopyNonPersistedProperties(ViewModel, viewModel2);
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
 
-            ViewModel = viewModel2;
-
-            return ViewModel;
+            return viewModel;
         }
 
-        public void ExpandNode(int childDocumentID)
+        public DocumentTreeViewModel ExpandNode(DocumentTreeViewModel userInput, int childDocumentID)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
+
+            // GetEntity
+            Document document = _documentRepository.Get(userInput.ID);
+
+            // ToViewModel
+            DocumentTreeViewModel viewModel = document.ToTreeViewModel();
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
 
             // 'Business'
             PatchTreeNodeViewModel nodeViewModel = 
-                EnumeratePatchTreeNodeViewModels(ViewModel).Where(x => x.ChildDocumentID == childDocumentID).SingleOrDefault();
+                EnumeratePatchTreeNodeViewModels(viewModel)
+                .Where(x => x.ChildDocumentID == childDocumentID)
+                .SingleOrDefault();
 
             if (nodeViewModel == null)
             {
@@ -63,15 +79,28 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             nodeViewModel.IsExpanded = true;
+
+            return viewModel;
         }
 
-        public void CollapseNode(int childDocumentID)
+        public DocumentTreeViewModel CollapseNode(DocumentTreeViewModel userInput, int childDocumentID)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
+
+            // GetEntity
+            Document document = _documentRepository.Get(userInput.ID);
+
+            // ToViewModel
+            DocumentTreeViewModel viewModel = document.ToTreeViewModel();
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
 
             // 'Business'
             PatchTreeNodeViewModel nodeViewModel =
-                EnumeratePatchTreeNodeViewModels(ViewModel).Where(x => x.ChildDocumentID == childDocumentID).SingleOrDefault();
+                EnumeratePatchTreeNodeViewModels(viewModel)
+                .Where(x => x.ChildDocumentID == childDocumentID)
+                .SingleOrDefault();
 
             if (nodeViewModel == null)
             {
@@ -79,13 +108,25 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             nodeViewModel.IsExpanded = false;
+
+            return viewModel;
         }
 
-        public void Close()
+        public DocumentTreeViewModel Close(DocumentTreeViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            ViewModel.Visible = false;
+            // GetEntity
+            Document document = _documentRepository.Get(userInput.ID);
+
+            // ToViewModel
+            DocumentTreeViewModel viewModel = document.ToTreeViewModel();
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+            viewModel.Visible = false;
+
+            return viewModel;
         }
 
         // Helpers
@@ -118,11 +159,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return Enumerable.Union(
                 documentTreeViewModel.PatchesNode.PatchNodes,
                 documentTreeViewModel.PatchesNode.PatchGroupNodes.SelectMany(x => x.Patches));
-        }
-
-        private void AssertViewModel()
-        {
-            if (ViewModel == null) throw new NullException(() => ViewModel);
         }
     }
 }
