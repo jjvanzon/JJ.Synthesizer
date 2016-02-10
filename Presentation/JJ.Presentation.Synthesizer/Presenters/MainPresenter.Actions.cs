@@ -1891,6 +1891,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                             patchDocumentViewModel.OperatorPropertiesList_ForSamples.RemoveFirst(x => x.ID == op.ID);
                             break;
 
+                        case OperatorTypeEnum.Spectrum:
+                            patchDocumentViewModel.OperatorPropertiesList_ForSpectrums.RemoveFirst(x => x.ID == op.ID);
+                            break;
+
                         case OperatorTypeEnum.Unbundle:
                             patchDocumentViewModel.OperatorPropertiesList_ForUnbundles.RemoveFirst(x => x.ID == op.ID);
                             break;
