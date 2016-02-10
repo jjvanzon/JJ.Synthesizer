@@ -6,7 +6,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Resample_OperatorCalculator_CubicSmoothInclination : OperatorCalculatorBase_WithChildCalculators
     {
-        private const double MINIMUM_SAMPLING_RATE = 16.0; // 8 Hz.
+        private const double MINIMUM_SAMPLING_RATE = 0.01666666666666667; // Once a minute
 
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _samplingRateCalculator;

@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     /// </summary>
     internal class Resample_OperatorCalculator_CubicEquidistant : OperatorCalculatorBase
     {
-        private double MINIMUM_SAMPLING_RATE = 16.0; // 8 Hz.
+        private const double MINIMUM_SAMPLING_RATE = 0.01666666666666667; // Once a minute
 
         private OperatorCalculatorBase _signalCalculator;
         private OperatorCalculatorBase _samplingRateCalculator;

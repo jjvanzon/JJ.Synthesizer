@@ -43,7 +43,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             : base(new OperatorCalculatorBase[] { operandACalculator })
         {
             if (operandACalculator == null) throw new NullException(() => operandACalculator);
-            if (operandACalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandACalculator);
+            // TODO: Enable this code line again after debugging the hacsk in Random_OperatorCalculator_OtherInterpolations's
+            // constructor that creates an instance of Divide_WithoutOrigin_WithConstNumerator_OperatorCalculator.
+            // It that no longer happens in that constructor, you can enable this code line again.
+            //if (operandACalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandACalculator);
 
             _operandACalculator = operandACalculator;
             _operandBValue = operandBValue;
