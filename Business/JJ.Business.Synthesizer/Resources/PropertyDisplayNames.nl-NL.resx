@@ -627,4 +627,19 @@
   <data name="Interpolation" xml:space="preserve">
     <value>Interpolatie</value>
   </data>
+  <data name="SourceValueA" xml:space="preserve">
+    <value>Bron waarde A</value>
+  </data>
+  <data name="SourceValueB" xml:space="preserve">
+    <value>Bron waarde B</value>
+  </data>
+  <data name="TargetValueA" xml:space="preserve">
+    <value>Doel waarde A</value>
+  </data>
+  <data name="TargetValueB" xml:space="preserve">
+    <value>Doel waarde B</value>
+  </data>
+  <data name="Scaler" xml:space="preserve">
+    <value>Schaler</value>
+  </data>
 </root>

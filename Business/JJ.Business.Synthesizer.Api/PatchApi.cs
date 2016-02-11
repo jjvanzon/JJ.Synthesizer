@@ -272,6 +272,17 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.SawUp(frequency, phaseShift);
         }
 
+
+        public Scaler_OperatorWrapper Scaler(
+            Outlet signal = null,
+            Outlet sourceValueA = null,
+            Outlet sourceValueB = null,
+            Outlet targetValueA = null,
+            Outlet targetValueB = null)
+        {
+            return _patchManager.Scaler(signal, sourceValueA, sourceValueB, targetValueA, targetValueB);
+        }
+
         public Select_OperatorWrapper Select(Outlet signal = null, Outlet time = null)
         {
             return _patchManager.Select(signal, time);

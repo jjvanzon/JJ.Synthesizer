@@ -1329,6 +1329,27 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
+        protected override void VisitScaler(Operator obj)
+        {
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase sourceValueACalculator = _stack.Pop();
+            OperatorCalculatorBase sourceValueBCalculator = _stack.Pop();
+            OperatorCalculatorBase targetValueACalculator = _stack.Pop();
+            OperatorCalculatorBase targetValueBCalculator = _stack.Pop();
+
+            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
+            sourceValueACalculator = sourceValueACalculator ?? new Zero_OperatorCalculator();
+            sourceValueBCalculator = sourceValueBCalculator ?? new Zero_OperatorCalculator();
+            targetValueACalculator = targetValueACalculator ?? new Zero_OperatorCalculator();
+            targetValueBCalculator = targetValueBCalculator ?? new Zero_OperatorCalculator();
+
+            calculator = new Scaler_OperatorCalculator(signalCalculator, sourceValueACalculator, sourceValueBCalculator, targetValueACalculator, targetValueBCalculator);
+
+            _stack.Push(calculator);
+        }
+
         protected override void VisitSelect(Operator op)
         {
             OperatorCalculatorBase calculator;

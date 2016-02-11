@@ -875,6 +875,32 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        public Scaler_OperatorWrapper Scaler(
+            Outlet signal = null,
+            Outlet sourceValueA = null,
+            Outlet sourceValueB = null,
+            Outlet targetValueA = null,
+            Outlet targetValueB = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Scaler, inletCount: 5, outletCount: 1);
+
+            var wrapper = new Scaler_OperatorWrapper(op)
+            {
+                Signal = signal,
+                SourceValueA = sourceValueA,
+                SourceValueB = sourceValueB,
+                TargetValueA = targetValueA,
+                TargetValueB = targetValueB,
+            };
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
         public Select_OperatorWrapper Select(Outlet signal = null, Outlet time = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Select, inletCount: 2, outletCount: 1);
@@ -1125,129 +1151,68 @@ namespace JJ.Business.Synthesizer
 
         // Generic methods for operator creation
 
-        private static Dictionary<OperatorTypeEnum, MethodInfo> _limitedCreationMethodDictionary = CreateLimitedCreationMethodDictionary();
-
-        private static Dictionary<OperatorTypeEnum, MethodInfo> CreateLimitedCreationMethodDictionary()
-        {
-            OperatorTypeEnum[] enumMembers = (OperatorTypeEnum[])Enum.GetValues(typeof(OperatorTypeEnum));
-
-            var methodDictionary = new Dictionary<OperatorTypeEnum, MethodInfo>(enumMembers.Length);
-
-            foreach (OperatorTypeEnum operatorTypeEnum in enumMembers)
-            {
-                switch (operatorTypeEnum)
-                {
-                    case OperatorTypeEnum.Undefined:
-                    case OperatorTypeEnum.Adder:
-                    case OperatorTypeEnum.Average:
-                    case OperatorTypeEnum.Bundle:
-                    case OperatorTypeEnum.Maximum:
-                    case OperatorTypeEnum.Minimum:
-                    case OperatorTypeEnum.Resample:
-                    case OperatorTypeEnum.Spectrum:
-                    case OperatorTypeEnum.Unbundle:
-                        continue;
-
-                    case OperatorTypeEnum.CustomOperator:
-                        {
-                            MethodInfo methodInfo = typeof(PatchManager).GetMethod(operatorTypeEnum.ToString(), Type.EmptyTypes);
-                            if (methodInfo == null)
-                            {
-                                throw new Exception(String.Format("MethodInfo '{0}' not found in type '{1}'.", operatorTypeEnum, typeof(PatchManager).Name));
-                            }
-                            methodDictionary.Add(operatorTypeEnum, methodInfo);
-                            break;
-                        }
-
-                    case OperatorTypeEnum.PatchInlet:
-                        {
-                            string methodName = operatorTypeEnum.ToString();
-                            MethodInfo methodInfo = typeof(PatchManager).GetMethod(methodName, Type.EmptyTypes);
-                            if (methodInfo == null)
-                            {
-                                throw new Exception(String.Format("Method '{0}' not found in type '{1}'.", methodName, typeof(PatchManager).Name));
-                            }
-                            methodDictionary.Add(operatorTypeEnum, methodInfo);
-                            break;
-                        }
-
-                    case OperatorTypeEnum.PatchOutlet:
-                        {
-                            string methodName = operatorTypeEnum.ToString();
-                            Type[] parameterTypes = new Type[] { typeof(Outlet) };
-                            MethodInfo methodInfo = typeof(PatchManager).GetMethod(methodName, parameterTypes);
-                            if (methodInfo == null)
-                            {
-                                throw new Exception(String.Format("Method '{0}' not found in type '{1}'.", methodName, typeof(PatchManager).Name));
-                            }
-                            methodDictionary.Add(operatorTypeEnum, methodInfo);
-                            break;
-                        }
-
-                    default:
-                        {
-                            string methodName = operatorTypeEnum.ToString();
-                            MethodInfo methodInfo = typeof(PatchManager).GetMethod(methodName);
-                            if (methodInfo == null)
-                            {
-                                throw new Exception(String.Format("Method '{0}' not found in type '{1}'.", methodName, typeof(PatchManager).Name));
-                            }
-                            methodDictionary.Add(operatorTypeEnum, methodInfo);
-                            break;
-                        }
-                        break;
-                }
-            }
-
-            return methodDictionary;
-        }
-
         /// <param name="inletCount">
         /// Applies to operators with a variable amount of inlets, such as the Adder operator and the Bundle operator.
         /// </param>
         public Operator CreateOperator(OperatorTypeEnum operatorTypeEnum, int inletCount = 16)
         {
-            // Handle operators for which we do not use a generic instantiation.
             switch (operatorTypeEnum)
             {
-                case OperatorTypeEnum.Adder:
-                    return Adder(new Outlet[inletCount]);
+                case OperatorTypeEnum.Add: return Add();
+                case OperatorTypeEnum.Adder: return Adder(new Outlet[inletCount]);
+                case OperatorTypeEnum.Divide: return Divide();
+                case OperatorTypeEnum.Multiply: return Multiply();
+                case OperatorTypeEnum.PatchInlet: return PatchInlet();
+                case OperatorTypeEnum.PatchOutlet: return PatchOutlet();
+                case OperatorTypeEnum.Power: return Power();
+                case OperatorTypeEnum.Sine: return Sine();
+                case OperatorTypeEnum.Subtract: return Subtract();
+                case OperatorTypeEnum.Delay: return Delay();
+                case OperatorTypeEnum.SpeedUp: return SpeedUp();
+                case OperatorTypeEnum.SlowDown: return SlowDown();
+                case OperatorTypeEnum.TimePower: return TimePower();
+                case OperatorTypeEnum.Earlier: return Earlier();
+                case OperatorTypeEnum.Number: return Number();
+                case OperatorTypeEnum.Curve: return Curve();
+                case OperatorTypeEnum.Sample: return Sample();
+                case OperatorTypeEnum.Noise: return Noise();
+                case OperatorTypeEnum.Resample: return Resample();
+                case OperatorTypeEnum.CustomOperator: return CustomOperator();
+                case OperatorTypeEnum.SawUp: return SawUp();
+                case OperatorTypeEnum.Square: return Square();
+                case OperatorTypeEnum.Triangle: return Triangle();
+                case OperatorTypeEnum.Exponent: return Exponent();
+                case OperatorTypeEnum.Loop: return Loop();
+                case OperatorTypeEnum.Select: return Select();
+                case OperatorTypeEnum.Bundle: return Bundle(new Outlet[inletCount]);
+                case OperatorTypeEnum.Unbundle: return Unbundle();
+                case OperatorTypeEnum.Stretch: return Stretch();
+                case OperatorTypeEnum.Narrower: return Narrower();
+                case OperatorTypeEnum.Shift: return Shift();
+                case OperatorTypeEnum.Reset: return Reset();
+                case OperatorTypeEnum.LowPassFilter: return LowPassFilter();
+                case OperatorTypeEnum.HighPassFilter: return HighPassFilter();
+                case OperatorTypeEnum.Spectrum: return Spectrum();
+                case OperatorTypeEnum.Pulse: return Pulse();
+                case OperatorTypeEnum.Random: return Random();
+                case OperatorTypeEnum.Equal: return Equal();
+                case OperatorTypeEnum.NotEqual: return NotEqual();
+                case OperatorTypeEnum.LessThan: return LessThan();
+                case OperatorTypeEnum.GreaterThan: return GreaterThan();
+                case OperatorTypeEnum.LessThanOrEqual: return LessThanOrEqual();
+                case OperatorTypeEnum.GreaterThanOrEqual: return GreaterThanOrEqual();
+                case OperatorTypeEnum.And: return And();
+                case OperatorTypeEnum.Or: return Or();
+                case OperatorTypeEnum.Not: return Not();
+                case OperatorTypeEnum.If: return If();
+                case OperatorTypeEnum.Minimum: return Minimum();
+                case OperatorTypeEnum.Maximum: return Maximum();
+                case OperatorTypeEnum.Average: return Average();
+                case OperatorTypeEnum.Scaler: return Scaler();
 
-                case OperatorTypeEnum.Bundle:
-                    return Bundle(new Outlet[inletCount]);
-
-                case OperatorTypeEnum.Resample:
-                    return Resample(); // Requires default values, not null parameters.
-
-                case OperatorTypeEnum.Unbundle:
-                    return Unbundle(); // Requires default values, not null parameters.
-
-                case OperatorTypeEnum.Spectrum:
-                    return Spectrum(); // Requires default values, not null parameters.
-
-                case OperatorTypeEnum.Average:
-                    return Average(); // Requires default values, not null parameters.
-
-                case OperatorTypeEnum.Maximum:
-                    return Maximum(); // Requires default values, not null parameters.
-
-                case OperatorTypeEnum.Minimum:
-                    return Minimum(); // Requires default values, not null parameters.
+                default:
+                    throw new ValueNotSupportedException(operatorTypeEnum);
             }
-
-            MethodInfo methodInfo;
-
-            if (!_limitedCreationMethodDictionary.TryGetValue(operatorTypeEnum, out methodInfo))
-            {
-                throw new ValueNotSupportedException(operatorTypeEnum);
-            }
-
-            object[] nullParameters = new object[methodInfo.GetParameters().Length];
-            OperatorWrapperBase wrapper = (OperatorWrapperBase)methodInfo.Invoke(this, nullParameters);
-            Operator op = wrapper.WrappedOperator;
-            op.LinkTo(Patch);
-
-            return op;
         }
 
         private Operator CreateOperatorBase(OperatorTypeEnum operatorTypeEnum, int inletCount, int outletCount)

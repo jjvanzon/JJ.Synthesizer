@@ -101,6 +101,12 @@
         public const int SAW_TOOTH_PHASE_SHIFT_INDEX = 1;
         public const int SAW_TOOTH_FREQUENCY_INDEX = 0;
         public const int SAW_TOOTH_RESULT_INDEX = 0;
+        public const int SCALER_SIGNAL_INDEX = 0;
+        public const int SCALER_SOURCE_VALUE_A_INDEX = 1;
+        public const int SCALER_SOURCE_VALUE_B_INDEX = 2;
+        public const int SCALER_TARGET_VALUE_A_INDEX = 3;
+        public const int SCALER_TARGET_VALUE_B_INDEX = 4;
+        public const int SCALER_RESULT_INDEX = 0;
         public const int SELECT_RESULT_INDEX = 0;
         public const int SELECT_SIGNAL_INDEX = 0;
         public const int SELECT_TIME_INDEX = 1;

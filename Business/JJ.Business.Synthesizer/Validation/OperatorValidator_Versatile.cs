@@ -41,6 +41,7 @@ namespace JJ.Business.Synthesizer.Validation
             { OperatorTypeEnum.Resample, typeof(OperatorValidator_Resample) },
             { OperatorTypeEnum.Reset, typeof(OperatorValidator_Reset) },
             { OperatorTypeEnum.Sample, typeof(OperatorValidator_Sample) },
+            { OperatorTypeEnum.Scaler, typeof(OperatorValidator_Scaler) },
             { OperatorTypeEnum.SawUp, typeof(OperatorValidator_SawUp) },
             { OperatorTypeEnum.Select, typeof(OperatorValidator_Select) },
             { OperatorTypeEnum.Shift, typeof(OperatorValidator_Shift) },

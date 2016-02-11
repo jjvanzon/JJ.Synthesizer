@@ -58,6 +58,7 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             RepositoryHelper.EnsureEnumEntity(this, 48, "Minimum");
             RepositoryHelper.EnsureEnumEntity(this, 49, "Maximum");
             RepositoryHelper.EnsureEnumEntity(this, 50, "Average");
+            RepositoryHelper.EnsureEnumEntity(this, 51, "Scaler");
         }
     }
 }

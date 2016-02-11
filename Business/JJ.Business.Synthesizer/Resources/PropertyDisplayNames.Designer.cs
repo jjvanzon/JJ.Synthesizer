@@ -1213,6 +1213,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Scaler.
+        /// </summary>
+        public static string Scaler {
+            get {
+                return ResourceManager.GetString("Scaler", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Scales.
         /// </summary>
         public static string Scales {
@@ -1303,6 +1312,24 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Source Value A.
+        /// </summary>
+        public static string SourceValueA {
+            get {
+                return ResourceManager.GetString("SourceValueA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Source Value B.
+        /// </summary>
+        public static string SourceValueB {
+            get {
+                return ResourceManager.GetString("SourceValueB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Speaker Setup.
         /// </summary>
         public static string SpeakerSetup {
@@ -1389,6 +1416,24 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string SustainVolume {
             get {
                 return ResourceManager.GetString("SustainVolume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Target Value A.
+        /// </summary>
+        public static string TargetValueA {
+            get {
+                return ResourceManager.GetString("TargetValueA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Target Value B.
+        /// </summary>
+        public static string TargetValueB {
+            get {
+                return ResourceManager.GetString("TargetValueB", resourceCulture);
             }
         }
         

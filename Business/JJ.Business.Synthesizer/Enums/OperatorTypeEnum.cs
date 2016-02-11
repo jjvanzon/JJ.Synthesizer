@@ -94,6 +94,7 @@
         If = 47,
         Minimum = 48,
         Maximum = 49,
-        Average = 50
+        Average = 50,
+        Scaler = 51
     }
 }
