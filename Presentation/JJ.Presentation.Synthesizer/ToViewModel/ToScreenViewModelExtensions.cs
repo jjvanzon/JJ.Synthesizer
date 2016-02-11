@@ -22,8 +22,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 {
     internal static class ToScreenViewModelExtensions
     {
-        private static int _maxVisiblePageNumbers = GetMaxVisiblePageNumbers();
-
         private static HashSet<OperatorTypeEnum> _operatorTypeEnums_WithTheirOwnPropertyViews = new HashSet<OperatorTypeEnum>
         {
             OperatorTypeEnum.Average,
@@ -266,14 +264,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static DocumentGridViewModel ToGridViewModel(this IList<Document> pageOfEntities, int pageIndex, int pageSize, int totalCount)
+        public static DocumentGridViewModel ToGridViewModel(this IList<Document> entities)
         {
-            if (pageOfEntities == null) throw new NullException(() => pageOfEntities);
+            if (entities == null) throw new NullException(() => entities);
 
             var viewModel = new DocumentGridViewModel
             {
-                List = pageOfEntities.Select(x => x.ToIDAndName()).ToList(),
-                Pager = PagerViewModelFactory.Create(pageIndex, pageSize, totalCount, _maxVisiblePageNumbers)
+                List = entities.Select(x => x.ToIDAndName()).ToList(),
             };
 
             return viewModel;
@@ -924,14 +921,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                                                       .Select(x => x.ToViewModel())
                                                       .ToList();
             return viewModels;
-        }
-
-        // Helpers
-
-        private static int GetMaxVisiblePageNumbers()
-        {
-            ConfigurationSection config = ConfigurationHelper.GetSection<ConfigurationSection>();
-            return config.MaxVisiblePageNumbers;
         }
     }
 }

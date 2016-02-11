@@ -21,6 +21,14 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
             _context = (NHibernateContext)context;
         }
 
+        public override IList<Document> GetRootDocumentsOrderedByName()
+        {
+            return _context.Session.QueryOver<Document>()
+                                   .Where(x => x.ParentDocument == null)
+                                   .OrderBy(x => x.Name).Asc
+                                   .List();
+        }
+
         public override IList<Document> GetPageOfRootDocumentsOrderedByName(int firstIndex, int count)
         {
             SynthesizerSqlExecutor sqlExecutor = SqlExecutorHelper.CreateSynthesizerSqlExecutor(_context);

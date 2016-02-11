@@ -49,7 +49,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentGridUserControl.CreateRequested += documentGridUserControl_CreateRequested;
             documentGridUserControl.DeleteRequested += documentGridUserControl_DeleteRequested;
             documentGridUserControl.OpenRequested += documentGridUserControl_OpenRequested;
-            documentGridUserControl.ShowRequested += documentGridUserControl_ShowRequested;
             documentPropertiesUserControl.CloseRequested += documentPropertiesUserControl_CloseRequested;
             documentPropertiesUserControl.LoseFocusRequested += documentPropertiesUserControl_LoseFocusRequested;
             documentTreeUserControl.CloseRequested += documentTreeUserControl_CloseRequested;
@@ -468,19 +467,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Document Grid
 
-        private void documentGridUserControl_ShowRequested(object sender, Int32EventArgs e)
-        {
-            try
-            {
-                _presenter.DocumentGridShow(e.Value);
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
-        }
-
         private void documentGridUserControl_CreateRequested(object sender, EventArgs e)
         {
             try
@@ -743,7 +729,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
         {
             try
             {
-                _presenter.DocumentGridShow(pageNumber: 1);
+                _presenter.DocumentGridShow();
                 ApplyViewModel();
             }
             finally

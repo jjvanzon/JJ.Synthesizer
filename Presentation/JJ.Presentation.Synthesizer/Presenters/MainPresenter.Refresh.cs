@@ -72,8 +72,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void DocumentGridRefresh()
         {
-            _documentGridPresenter.Refresh();
-            DispatchViewModel(_documentGridPresenter.ViewModel);
+            TemplateActionMethod(MainViewModel.DocumentGrid, _documentGridPresenter.Refresh);
         }
 
         private void DocumentTreeRefresh()

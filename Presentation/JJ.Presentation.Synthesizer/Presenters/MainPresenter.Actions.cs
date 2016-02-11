@@ -39,9 +39,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MenuViewModel menuViewModel = _menuPresenter.Show(documentIsOpen: false);
             DispatchViewModel(menuViewModel);
 
-            _documentGridPresenter.ViewModel = MainViewModel.DocumentGrid;
-            _documentGridPresenter.Show();
-            DispatchViewModel(_documentGridPresenter.ViewModel);
+            DocumentGridViewModel documentGridViewModel = _documentGridPresenter.Show(MainViewModel.DocumentGrid);
+            DispatchViewModel(documentGridViewModel);
 
             MainViewModel.WindowTitle = Titles.ApplicationName;
         }
@@ -395,20 +394,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MainViewModel.Document = rootDocument.ToViewModel(_repositories, _entityPositionManager);
         }
 
-        // Document List
+        // Document Grid
 
-        public void DocumentGridShow(int pageNumber)
+        public void DocumentGridShow()
         {
-            _documentGridPresenter.ViewModel = MainViewModel.DocumentGrid;
-            DocumentGridViewModel viewModel = _documentGridPresenter.Show(pageNumber);
-            DispatchViewModel(viewModel);
+            TemplateActionMethod(MainViewModel.DocumentGrid, _documentGridPresenter.Show);
         }
 
         public void DocumentGridClose()
         {
-            _documentGridPresenter.ViewModel = MainViewModel.DocumentGrid;
-            _documentGridPresenter.Close();
-            DispatchViewModel(_documentGridPresenter.ViewModel);
+            TemplateActionMethod(MainViewModel.DocumentGrid, _documentGridPresenter.Close);
         }
 
         public void DocumentDetailsCreate()
@@ -528,41 +523,25 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void DocumentPropertiesShow()
         {
-            _documentPropertiesPresenter.ViewModel = MainViewModel.Document.DocumentProperties;
-            _documentPropertiesPresenter.Show();
-            DispatchViewModel(_documentPropertiesPresenter.ViewModel);
+            TemplateActionMethod(MainViewModel.Document.DocumentProperties, _documentPropertiesPresenter.Show);
         }
 
         public void DocumentPropertiesClose()
         {
-            DocumentPropertiesCloseOrLoseFocus(() => _documentPropertiesPresenter.Close());
+            TemplateActionMethod(MainViewModel.Document.DocumentProperties, _documentPropertiesPresenter.Close);
+
+            if (MainViewModel.Document.DocumentProperties.Successful)
+            {
+                DocumentGridRefresh();
+                DocumentTreeRefresh();
+            }
         }
 
         public void DocumentPropertiesLoseFocus()
         {
-            DocumentPropertiesCloseOrLoseFocus(() => _documentPropertiesPresenter.LoseFocus());
-        }
+            TemplateActionMethod(MainViewModel.Document.DocumentProperties, _documentPropertiesPresenter.LoseFocus);
 
-        private void DocumentPropertiesCloseOrLoseFocus(Action partialAction)
-        {
-            // ToEntity
-            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
-
-            // Partial Action
-            partialAction();
-
-            // Business
-            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
-            if (!validationResult.Successful)
-            {
-                MainViewModel.Successful &= validationResult.Successful;
-                MainViewModel.PopupMessages.AddRange(validationResult.Messages);
-                return;
-            }
-
-            // ToViewModel
-            DispatchViewModel(_documentPropertiesPresenter.ViewModel);
-            if (_documentPropertiesPresenter.ViewModel.Successful)
+            if (MainViewModel.Document.DocumentProperties.Successful)
             {
                 DocumentGridRefresh();
                 DocumentTreeRefresh();
@@ -571,22 +550,22 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void DocumentTreeShow()
         {
-            TemplateMethod(MainViewModel.Document.DocumentTree, _documentTreePresenter.Show);
+            TemplateActionMethod(MainViewModel.Document.DocumentTree, _documentTreePresenter.Show);
         }
 
         public void DocumentTreeExpandNode(int nodeIndex)
         {
-            TemplateMethod(MainViewModel.Document.DocumentTree, x => _documentTreePresenter.ExpandNode(x, nodeIndex));
+            TemplateActionMethod(MainViewModel.Document.DocumentTree, x => _documentTreePresenter.ExpandNode(x, nodeIndex));
         }
 
         public void DocumentTreeCollapseNode(int nodeIndex)
         {
-            TemplateMethod(MainViewModel.Document.DocumentTree, x => _documentTreePresenter.CollapseNode(x, nodeIndex));
+            TemplateActionMethod(MainViewModel.Document.DocumentTree, x => _documentTreePresenter.CollapseNode(x, nodeIndex));
         }
 
         public void DocumentTreeClose()
         {
-            TemplateMethod(MainViewModel.Document.DocumentTree, _documentTreePresenter.Close);
+            TemplateActionMethod(MainViewModel.Document.DocumentTree, _documentTreePresenter.Close);
         }
 
         // Node
@@ -594,6 +573,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void NodePropertiesShow(int nodeID)
         {
             NodePropertiesViewModel userInput = DocumentViewModelHelper.GetNodePropertiesViewModel(MainViewModel.Document, nodeID);
+
             NodePropertiesViewModel viewModel = _nodePropertiesPresenter.Show(userInput);
             DispatchViewModel(viewModel);
         }
@@ -613,45 +593,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             NodePropertiesViewModel userInput = DocumentViewModelHelper.GetVisibleNodePropertiesViewModel(MainViewModel.Document);
 
-            // Set !Successful
-            userInput.Successful = false;
-
-            // ToEntity
-            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
-
-            // Partial Action
-            NodePropertiesViewModel viewModel = partialAction(userInput);
-            if (!viewModel.Successful)
-            {
-                // DispatchViewModel
-                DispatchViewModel(viewModel);
-                return;
-            }
-
-            // Set !Successful
-            viewModel.Successful = false;
-
-            // Business
-            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
-            if (!validationResult.Successful)
-            {
-                // Non-Persited
-                viewModel.ValidationMessages.AddRange(validationResult.Messages);
-
-                // DispatchViewModel
-                DispatchViewModel(viewModel);
-                return;
-            }
-
-            // Successful
-            viewModel.Successful = true;
-
-            // DispatchViewModel
-            DispatchViewModel(viewModel);
+            // TemplateMethod
+            NodePropertiesViewModel viewModel = TemplateActionMethod(userInput, partialAction);
 
             // Refresh
-            int nodeID = viewModel.Entity.ID;
-            CurveDetailsNodeRefresh(nodeID);
+            if (viewModel.Successful)
+            {
+                int nodeID = viewModel.Entity.ID;
+                CurveDetailsNodeRefresh(nodeID);
+            }
         }
 
         public void NodeSelect(int nodeID)
@@ -844,7 +794,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel(MainViewModel.Document, id);
                 if (userInput != null)
                 {
-                    TemplateMethod(userInput, _operatorPropertiesPresenter.Show);
+                    TemplateActionMethod(userInput, _operatorPropertiesPresenter.Show);
                     return;
                 }
             }
@@ -852,7 +802,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForAggregate userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForAggregate(MainViewModel.Document, id);
                 if (userInput != null)
                 {
-                    TemplateMethod(userInput, _operatorPropertiesPresenter_ForAggregate.Show);
+                    TemplateActionMethod(userInput, _operatorPropertiesPresenter_ForAggregate.Show);
                     return;
                 }
             }
@@ -860,7 +810,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForBundle userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForBundle(MainViewModel.Document, id);
                 if (userInput != null)
                 {
-                    TemplateMethod(userInput, _operatorPropertiesPresenter_ForBundle.Show);
+                    TemplateActionMethod(userInput, _operatorPropertiesPresenter_ForBundle.Show);
                     return;
                 }
             }
@@ -868,7 +818,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForCurve userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForCurve(MainViewModel.Document, id);
                 if (userInput != null)
                 {
-                    TemplateMethod(userInput, _operatorPropertiesPresenter_ForCurve.Show);
+                    TemplateActionMethod(userInput, _operatorPropertiesPresenter_ForCurve.Show);
                     return;
                 }
             }
@@ -876,7 +826,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForCustomOperator userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForCustomOperator(MainViewModel.Document, id);
                 if (userInput != null)
                 {
-                    TemplateMethod(userInput, _operatorPropertiesPresenter_ForCustomOperator.Show);
+                    TemplateActionMethod(userInput, _operatorPropertiesPresenter_ForCustomOperator.Show);
                     return;
                 }
             }
@@ -884,7 +834,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForNumber userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForNumber(MainViewModel.Document, id);
                 if (userInput != null)
                 {
-                    TemplateMethod(userInput, _operatorPropertiesPresenter_ForNumber.Show);
+                    TemplateActionMethod(userInput, _operatorPropertiesPresenter_ForNumber.Show);
                     return;
                 }
             }
@@ -892,7 +842,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForPatchInlet userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForPatchInlet(MainViewModel.Document, id);
                 if (userInput != null)
                 {
-                    TemplateMethod(userInput, _operatorPropertiesPresenter_ForPatchInlet.Show);
+                    TemplateActionMethod(userInput, _operatorPropertiesPresenter_ForPatchInlet.Show);
                     return;
                 }
             }
@@ -900,7 +850,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForPatchOutlet userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForPatchOutlet(MainViewModel.Document, id);
                 if (userInput != null)
                 {
-                    TemplateMethod(userInput, _operatorPropertiesPresenter_ForPatchOutlet.Show);
+                    TemplateActionMethod(userInput, _operatorPropertiesPresenter_ForPatchOutlet.Show);
                     return;
                 }
             }
@@ -908,7 +858,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForRandom userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForRandom(MainViewModel.Document, id);
                 if (userInput != null)
                 {
-                    TemplateMethod(userInput, _operatorPropertiesPresenter_ForRandom.Show);
+                    TemplateActionMethod(userInput, _operatorPropertiesPresenter_ForRandom.Show);
                     return;
                 }
             }
@@ -916,7 +866,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForResample userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForResample(MainViewModel.Document, id);
                 if (userInput != null)
                 {
-                    TemplateMethod(userInput, _operatorPropertiesPresenter_ForResample.Show);
+                    TemplateActionMethod(userInput, _operatorPropertiesPresenter_ForResample.Show);
                     return;
                 }
             }
@@ -924,7 +874,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForSample userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForSample(MainViewModel.Document, id);
                 if (userInput != null)
                 {
-                    TemplateMethod(userInput, _operatorPropertiesPresenter_ForSample.Show);
+                    TemplateActionMethod(userInput, _operatorPropertiesPresenter_ForSample.Show);
                     return;
                 }
             }
@@ -932,7 +882,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForSpectrum userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForSpectrum(MainViewModel.Document, id);
                 if (userInput != null)
                 {
-                    TemplateMethod(userInput, _operatorPropertiesPresenter_ForSpectrum.Show);
+                    TemplateActionMethod(userInput, _operatorPropertiesPresenter_ForSpectrum.Show);
                     return;
                 }
             }
@@ -940,7 +890,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForUnbundle userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForUnbundle(MainViewModel.Document, id);
                 if (userInput != null)
                 {
-                    TemplateMethod(userInput, _operatorPropertiesPresenter_ForUnbundle.Show);
+                    TemplateActionMethod(userInput, _operatorPropertiesPresenter_ForUnbundle.Show);
                     return;
                 }
             }
@@ -1084,10 +1034,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesViewModel userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel(MainViewModel.Document);
 
             // TemplateMethod
-            TemplateMethod(userInput, partialAction);
+            OperatorPropertiesViewModel viewModel = TemplateActionMethod(userInput, partialAction);
 
             // Refresh
-            PatchDetails_RefreshOperator(userInput.ID);
+            if (viewModel.Successful)
+            {
+                PatchDetails_RefreshOperator(userInput.ID);
+            }
         }
 
         private void OperatorPropertiesCloseOrLoseFocus_ForAggregate(Func<OperatorPropertiesViewModel_ForAggregate, OperatorPropertiesViewModel_ForAggregate> partialAction)
@@ -1096,10 +1049,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesViewModel_ForAggregate userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForAggregate(MainViewModel.Document);
 
             // TemplateMethod
-            TemplateMethod(userInput, partialAction);
+            OperatorPropertiesViewModel_ForAggregate viewModel = TemplateActionMethod(userInput, partialAction);
 
             // Refresh
-            PatchDetails_RefreshOperator(userInput.ID);
+            if (viewModel.Successful)
+            {
+                PatchDetails_RefreshOperator(userInput.ID);
+            }
         }
 
         private void OperatorPropertiesCloseOrLoseFocus_ForBundle(Func<OperatorPropertiesViewModel_ForBundle, OperatorPropertiesViewModel_ForBundle> partialAction)
@@ -1108,10 +1064,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesViewModel_ForBundle userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForBundle(MainViewModel.Document);
 
             // TemplateMethod
-            TemplateMethod(userInput, partialAction);
+            OperatorPropertiesViewModel_ForBundle viewModel = TemplateActionMethod(userInput, partialAction);
 
             // Refresh
-            PatchDetails_RefreshOperator(userInput.ID);
+            if (viewModel.Successful)
+            {
+                PatchDetails_RefreshOperator(userInput.ID);
+            }
         }
 
         private void OperatorPropertiesCloseOrLoseFocus_ForCurve(Func<OperatorPropertiesViewModel_ForCurve, OperatorPropertiesViewModel_ForCurve> partialAction)
@@ -1120,10 +1079,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesViewModel_ForCurve userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForCurve(MainViewModel.Document);
 
             // TemplateMethod
-            TemplateMethod(userInput, partialAction);
+            OperatorPropertiesViewModel_ForCurve viewModel = TemplateActionMethod(userInput, partialAction);
 
             // Refresh
-            PatchDetails_RefreshOperator(userInput.ID);
+            if (viewModel.Successful)
+            {
+                PatchDetails_RefreshOperator(userInput.ID);
+            }
         }
 
         private void OperatorPropertiesCloseOrLoseFocus_ForCustomOperator(Func<OperatorPropertiesViewModel_ForCustomOperator, OperatorPropertiesViewModel_ForCustomOperator> partialAction)
@@ -1132,10 +1094,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesViewModel_ForCustomOperator userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForCustomOperator(MainViewModel.Document);
 
             // TemplateMethod
-            TemplateMethod(userInput, partialAction);
+            OperatorPropertiesViewModel_ForCustomOperator viewModel = TemplateActionMethod(userInput, partialAction);
 
             // Refresh
-            PatchDetails_RefreshOperator(userInput.ID);
+            if (viewModel.Successful)
+            {
+                PatchDetails_RefreshOperator(userInput.ID);
+            }
         }
 
         private void OperatorPropertiesCloseOrLoseFocus_ForNumber(Func<OperatorPropertiesViewModel_ForNumber, OperatorPropertiesViewModel_ForNumber> partialAction)
@@ -1144,10 +1109,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesViewModel_ForNumber userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForNumber(MainViewModel.Document);
 
             // TemplateMethod
-            TemplateMethod(userInput, partialAction);
+            OperatorPropertiesViewModel_ForNumber viewModel = TemplateActionMethod(userInput, partialAction);
 
             // Refresh
-            PatchDetails_RefreshOperator(userInput.ID);
+            if (viewModel.Successful)
+            {
+                PatchDetails_RefreshOperator(userInput.ID);
+            }
         }
 
         private void OperatorPropertiesCloseOrLoseFocus_ForPatchInlet(Func<OperatorPropertiesViewModel_ForPatchInlet, OperatorPropertiesViewModel_ForPatchInlet> partialAction)
@@ -1156,11 +1124,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesViewModel_ForPatchInlet userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForPatchInlet(MainViewModel.Document);
 
             // TemplateMethod
-            TemplateMethod(userInput, partialAction);
+            OperatorPropertiesViewModel_ForPatchInlet viewModel = TemplateActionMethod(userInput, partialAction);
 
             // Refresh
-            PatchDetails_RefreshOperator(userInput.ID);
-            OperatorViewModels_OfType_Refresh(OperatorTypeEnum.CustomOperator); // Refresh Dependencies
+            if (viewModel.Successful)
+            {
+                PatchDetails_RefreshOperator(userInput.ID);
+                OperatorViewModels_OfType_Refresh(OperatorTypeEnum.CustomOperator); // Refresh Dependencies
+            }
         }
 
         private void OperatorPropertiesCloseOrLoseFocus_ForPatchOutlet(Func<OperatorPropertiesViewModel_ForPatchOutlet, OperatorPropertiesViewModel_ForPatchOutlet> partialAction)
@@ -1169,11 +1140,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesViewModel_ForPatchOutlet userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForPatchOutlet(MainViewModel.Document);
 
             // TemplateMethod
-            TemplateMethod(userInput, partialAction);
+            OperatorPropertiesViewModel_ForPatchOutlet viewModel = TemplateActionMethod(userInput, partialAction);
 
             // Refresh
-            PatchDetails_RefreshOperator(userInput.ID);
-            OperatorViewModels_OfType_Refresh(OperatorTypeEnum.CustomOperator); // Refresh Dependent Things
+            if (viewModel.Successful)
+            {
+                PatchDetails_RefreshOperator(userInput.ID);
+                OperatorViewModels_OfType_Refresh(OperatorTypeEnum.CustomOperator); // Refresh Dependent Things
+            }
         }
 
         private void OperatorPropertiesCloseOrLoseFocus_ForRandom(Func<OperatorPropertiesViewModel_ForRandom, OperatorPropertiesViewModel_ForRandom> partialAction)
@@ -1182,10 +1156,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesViewModel_ForRandom userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForRandom(MainViewModel.Document);
 
             // TemplateMethod
-            TemplateMethod(userInput, partialAction);
+            OperatorPropertiesViewModel_ForRandom viewModel = TemplateActionMethod(userInput, partialAction);
 
             // Refresh
-            PatchDetails_RefreshOperator(userInput.ID);
+            if (viewModel.Successful)
+            {
+                PatchDetails_RefreshOperator(userInput.ID);
+            }
         }
 
         private void OperatorPropertiesCloseOrLoseFocus_ForResample(Func<OperatorPropertiesViewModel_ForResample, OperatorPropertiesViewModel_ForResample> partialAction)
@@ -1194,10 +1171,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesViewModel_ForResample userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForResample(MainViewModel.Document);
 
             // TemplateMethod
-            TemplateMethod(userInput, partialAction);
+            OperatorPropertiesViewModel_ForResample viewModel = TemplateActionMethod(userInput, partialAction);
 
             // Refresh
-            PatchDetails_RefreshOperator(userInput.ID);
+            if (viewModel.Successful)
+            {
+                PatchDetails_RefreshOperator(userInput.ID);
+            }
         }
 
         private void OperatorPropertiesCloseOrLoseFocus_ForSample(Func<OperatorPropertiesViewModel_ForSample, OperatorPropertiesViewModel_ForSample> partialAction)
@@ -1206,10 +1186,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesViewModel_ForSample userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForSample(MainViewModel.Document);
 
             // TemplateMethod
-            TemplateMethod(userInput, partialAction);
+            OperatorPropertiesViewModel_ForSample viewModel = TemplateActionMethod(userInput, partialAction);
 
             // Refresh
-            PatchDetails_RefreshOperator(userInput.ID);
+            if (viewModel.Successful)
+            {
+                PatchDetails_RefreshOperator(userInput.ID);
+            }
         }
 
         private void OperatorPropertiesCloseOrLoseFocus_ForSpectrum(Func<OperatorPropertiesViewModel_ForSpectrum, OperatorPropertiesViewModel_ForSpectrum> partialAction)
@@ -1218,10 +1201,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesViewModel_ForSpectrum userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForSpectrum(MainViewModel.Document);
 
             // TemplateMethod
-            TemplateMethod(userInput, partialAction);
+            OperatorPropertiesViewModel_ForSpectrum viewModel = TemplateActionMethod(userInput, partialAction);
 
             // Refresh
-            PatchDetails_RefreshOperator(userInput.ID);
+            if (viewModel.Successful)
+            {
+                PatchDetails_RefreshOperator(userInput.ID);
+            }
         }
 
         private void OperatorPropertiesCloseOrLoseFocus_ForUnbundle(Func<OperatorPropertiesViewModel_ForUnbundle, OperatorPropertiesViewModel_ForUnbundle> partialAction)
@@ -1230,10 +1216,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesViewModel_ForUnbundle userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForUnbundle(MainViewModel.Document);
 
             // TemplateMethod
-            TemplateMethod(userInput, partialAction);
+            OperatorPropertiesViewModel_ForUnbundle viewModel = TemplateActionMethod(userInput, partialAction);
 
             // Refresh
-            PatchDetails_RefreshOperator(userInput.ID);
+            if (viewModel.Successful)
+            {
+                PatchDetails_RefreshOperator(userInput.ID);
+            }
         }
 
         public void OperatorCreate(int operatorTypeID)
@@ -1629,7 +1618,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             PatchPropertiesViewModel userInput = DocumentViewModelHelper.GetPatchPropertiesViewModel_ByChildDocumentID(MainViewModel.Document, childDocumentID);
 
             // Template Method
-            TemplateMethod(userInput, _patchPropertiesPresenter.Show);
+            TemplateActionMethod(userInput, _patchPropertiesPresenter.Show);
         }
 
         public void PatchPropertiesClose()
@@ -1648,15 +1637,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
             PatchPropertiesViewModel userInput = DocumentViewModelHelper.GetVisiblePatchPropertiesViewModel(MainViewModel.Document);
 
             // Template Method
-            TemplateMethod(userInput, partialAction);
+            PatchPropertiesViewModel viewModel = TemplateActionMethod(userInput, partialAction);
 
             // Refresh
-            DocumentTreeRefresh();
-            CurrentPatchesRefresh();
-            PatchGridsRefresh(); // Refresh all patch grids, because a Patch's group can change.
-            UnderylingPatchLookupRefresh();
-            OperatorViewModels_OfType_Refresh(OperatorTypeEnum.CustomOperator);
-            OperatorProperties_ForCustomOperatorViewModels_Refresh(underlyingPatchID: userInput.ChildDocumentID);
+            if (viewModel.Successful)
+            {
+                DocumentTreeRefresh();
+                CurrentPatchesRefresh();
+                PatchGridsRefresh(); // Refresh all patch grids, because a Patch's group can change.
+                UnderylingPatchLookupRefresh();
+                OperatorViewModels_OfType_Refresh(OperatorTypeEnum.CustomOperator);
+                OperatorProperties_ForCustomOperatorViewModels_Refresh(underlyingPatchID: userInput.ChildDocumentID);
+            }
         }
 
         public void PatchGridShow(string group)
@@ -1665,7 +1657,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             PatchGridViewModel userInput = DocumentViewModelHelper.GetPatchGridViewModel_ByGroup(MainViewModel.Document, group);
 
             // Template Method
-            TemplateMethod(userInput, _patchGridPresenter.Show);
+            TemplateActionMethod(userInput, _patchGridPresenter.Show);
         }
 
         public void PatchGridClose()
@@ -1674,7 +1666,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             PatchGridViewModel userInput = DocumentViewModelHelper.GetVisiblePatchGridViewModel(MainViewModel.Document);
 
             // Template Method
-            TemplateMethod(userInput, _patchGridPresenter.Close);
+            TemplateActionMethod(userInput, _patchGridPresenter.Close);
         }
 
         /// <param name="group">nullable</param>
@@ -1747,7 +1739,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 gridViewModel.List.TryRemoveFirst(x => x.ChildDocumentID == childDocumentID);
             }
-
         }
 
         // Sample
@@ -1758,7 +1749,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             SampleGridViewModel userInput = DocumentViewModelHelper.GetSampleGridViewModel_ByDocumentID(MainViewModel.Document, documentID);
 
             // Template Method
-            TemplateMethod(userInput, _sampleGridPresenter.Show);
+            TemplateActionMethod(userInput, _sampleGridPresenter.Show);
         }
 
         public void SampleGridClose()
@@ -1767,7 +1758,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             SampleGridViewModel userInput = DocumentViewModelHelper.GetVisibleSampleGridViewModel(MainViewModel.Document);
 
             // Template Method
-            TemplateMethod(userInput, _sampleGridPresenter.Close);
+            TemplateActionMethod(userInput, _sampleGridPresenter.Close);
         }
 
         public void SampleCreate(int documentID)
@@ -1870,7 +1861,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             SamplePropertiesViewModel userInput = DocumentViewModelHelper.GetSamplePropertiesViewModel(MainViewModel.Document, sampleID);
 
             // Template Method
-            TemplateMethod(userInput, _samplePropertiesPresenter.Show);
+            TemplateActionMethod(userInput, _samplePropertiesPresenter.Show);
         }
 
         public void SamplePropertiesClose()
@@ -1889,13 +1880,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
             SamplePropertiesViewModel userInput = DocumentViewModelHelper.GetVisibleSamplePropertiesViewModel(MainViewModel.Document);
 
             // TemplateMethod
-            TemplateMethod(userInput, partialAction);
+            SamplePropertiesViewModel viewModel = TemplateActionMethod(userInput, partialAction);
 
             // Refresh
-            int sampleID = userInput.Entity.ID;
-            SampleGridRefresh(sampleID);
-            SampleLookupsRefresh(sampleID);
-            OperatorViewModels_OfType_Refresh(OperatorTypeEnum.Sample);
+            if (viewModel.Successful)
+            {
+                int sampleID = userInput.Entity.ID;
+                SampleGridRefresh(sampleID);
+                SampleLookupsRefresh(sampleID);
+                OperatorViewModels_OfType_Refresh(OperatorTypeEnum.Sample);
+            }
         }
 
         // Scale
@@ -1906,7 +1900,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ScaleGridViewModel userInput = MainViewModel.Document.ScaleGrid;
 
             // Template Method
-            TemplateMethod(userInput, _scaleGridPresenter.Show);
+            TemplateActionMethod(userInput, _scaleGridPresenter.Show);
         }
 
         public void ScaleGridClose()
@@ -1915,7 +1909,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ScaleGridViewModel userInput = MainViewModel.Document.ScaleGrid;
 
             // Template Method
-            TemplateMethod(userInput, _scaleGridPresenter.Close);
+            TemplateActionMethod(userInput, _scaleGridPresenter.Close);
         }
 
         public void ScaleCreate()
@@ -2054,11 +2048,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ScalePropertiesViewModel userInput = DocumentViewModelHelper.GetVisibleScalePropertiesViewModel(MainViewModel.Document);
 
             // Template Method
-            TemplateMethod(userInput, partialAction);
+            ScalePropertiesViewModel viewModel = TemplateActionMethod(userInput, partialAction);
 
             // Refresh
-            ToneGridEditRefresh(userInput.Entity.ID);
-            ScaleGridRefresh();
+            if (viewModel.Successful)
+            {
+                ToneGridEditRefresh(userInput.Entity.ID);
+                ScaleGridRefresh();
+            }
         }
 
         // Tone
@@ -2156,14 +2153,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void ToneGridEditClose()
         {
             ToneGridEditViewModel userInput = DocumentViewModelHelper.GetVisibleToneGridEditViewModel(MainViewModel.Document);
-            TemplateMethod(userInput, _toneGridEditPresenter.Close);
+            TemplateActionMethod(userInput, _toneGridEditPresenter.Close);
         }
 
         public void ToneGridEditLoseFocus()
         {
             ToneGridEditViewModel userInput = DocumentViewModelHelper.GetVisibleToneGridEditViewModel(MainViewModel.Document);
-            TemplateMethod(userInput, _toneGridEditPresenter.LoseFocus);
-
+            TemplateActionMethod(userInput, _toneGridEditPresenter.LoseFocus);
         }
 
         /// <summary>
@@ -2261,7 +2257,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// provide a delegate to the sub-presenter's action method
         /// and possibly do some refreshing of other view models afterwards.
         /// </summary>
-        private void TemplateMethod<TViewModel>(
+        private TViewModel TemplateActionMethod<TViewModel>(
             TViewModel userInput,
             Func<TViewModel, TViewModel> partialAction)
             where TViewModel : ViewModelBase
@@ -2275,12 +2271,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
 
             // Partial Action
-            ViewModelBase viewModel = partialAction(userInput);
+            TViewModel viewModel = partialAction(userInput);
             if (!viewModel.Successful)
             {
                 // DispatchViewModel
                 DispatchViewModel(viewModel);
-                return;
+                return viewModel;
             }
 
             // Set !Successful
@@ -2295,7 +2291,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // DispatchViewModel
                 DispatchViewModel(viewModel);
-                return;
+                return viewModel;
             }
 
             // Successful
@@ -2303,6 +2299,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // DispatchViewModel
             DispatchViewModel(viewModel);
+
+            return viewModel;
         }
     }
 }

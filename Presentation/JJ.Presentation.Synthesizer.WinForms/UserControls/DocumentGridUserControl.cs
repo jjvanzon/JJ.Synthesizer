@@ -12,7 +12,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     {
         private const string ID_COLUMN_NAME = "IDColumn";
 
-        public event EventHandler<Int32EventArgs> ShowRequested;
         public event EventHandler CreateRequested;
         public event EventHandler<Int32EventArgs> OpenRequested;
         public event EventHandler<Int32EventArgs> DeleteRequested;
@@ -49,19 +48,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (_viewModel == null) return;
 
-            pagerControl.PagerViewModel = _viewModel.Pager;
             dataGridView.DataSource = _viewModel.List;
         }
 
         // Actions
-
-        private void Show(int pageNumber)
-        {
-            if (ShowRequested != null)
-            {
-                ShowRequested(this, new Int32EventArgs(pageNumber));
-            }
-        }
 
         private void Create()
         {
@@ -104,37 +94,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         }
 
         // Events
-
-        private void pagerControl_GoToFirstPageClicked(object sender, EventArgs e)
-        {
-            Show(1);
-        }
-
-        private void pagerControl_GoToPreviousPageClicked(object sender, EventArgs e)
-        {
-            if (_viewModel == null) return;
-
-            Show(_viewModel.Pager.PageNumber - 1);
-        }
-
-        private void pagerControl_PageNumberClicked(object sender, PageNumberEventArgs e)
-        {
-            Show(e.PageNumber);
-        }
-
-        private void pagerControl_GoToNextPageClicked(object sender, EventArgs e)
-        {
-            if (_viewModel == null) return;
-
-            Show(_viewModel.Pager.PageNumber + 1);
-        }
-
-        private void pagerControl_GoToLastPageClicked(object sender, EventArgs e)
-        {
-            if (_viewModel == null) return;
-
-            Show(_viewModel.Pager.PageCount);
-        }
 
         private void titleBarUserControl_AddClicked(object sender, EventArgs e)
         {

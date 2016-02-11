@@ -5,6 +5,8 @@ namespace JJ.Data.Synthesizer.DefaultRepositories.Interfaces
 {
     public interface IDocumentRepository : IRepository<Document, int>
     {
+        IList<Document> GetRootDocumentsOrderedByName();
+
         IList<Document> GetPageOfRootDocumentsOrderedByName(int firstIndex, int pageSize);
         int CountRootDocuments();
 

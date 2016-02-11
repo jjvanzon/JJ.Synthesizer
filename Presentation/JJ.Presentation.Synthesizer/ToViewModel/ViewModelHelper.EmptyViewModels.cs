@@ -110,8 +110,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new DocumentGridViewModel
             {
-                List = new List<IDAndName>(),
-                Pager = CreateEmptyPagerViewModel()
+                List = new List<IDAndName>()
             };
 
             return viewModel;

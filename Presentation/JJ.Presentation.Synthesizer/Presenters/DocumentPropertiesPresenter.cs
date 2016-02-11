@@ -7,6 +7,7 @@ using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
+using JJ.Framework.Common;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -14,8 +15,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         private RepositoryWrapper _repositories;
         private DocumentManager _documentManager;
-
-        public DocumentPropertiesViewModel ViewModel { get; set; }
 
         public DocumentPropertiesPresenter(RepositoryWrapper repositories)
         {
@@ -25,57 +24,98 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentManager = new DocumentManager(repositories);
         }
 
-        public void Show()
+        public DocumentPropertiesViewModel Show(DocumentPropertiesViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            ViewModel.Visible = true;
+            // GetEntity
+            Document entity = _repositories.DocumentRepository.Get(userInput.Entity.ID);
+
+            // ToViewModel
+            DocumentPropertiesViewModel viewModel = entity.ToPropertiesViewModel();
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+            viewModel.Visible = true;
+
+            return viewModel;
         }
 
-        public void Refresh()
+        public DocumentPropertiesViewModel Refresh(DocumentPropertiesViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Document entity = _repositories.DocumentRepository.Get(ViewModel.Entity.ID);
-            bool visible = ViewModel.Visible;
-            ViewModel = entity.ToPropertiesViewModel();
-            ViewModel.Visible = visible;
+            // GetEntity
+            Document entity = _repositories.DocumentRepository.Get(userInput.Entity.ID);
+
+            // ToViewModel
+            DocumentPropertiesViewModel viewModel = entity.ToPropertiesViewModel();
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+            viewModel.Visible = userInput.Visible;
+
+            return viewModel;
         }
 
-        public void Close()
+        public DocumentPropertiesViewModel Close(DocumentPropertiesViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Update();
+            DocumentPropertiesViewModel viewModel = Update(userInput);
 
-            if (ViewModel.Successful)
+            if (viewModel.Successful)
             {
-                ViewModel.Visible = false;
+                viewModel.Visible = false;
             }
+
+            return viewModel;
         }
 
-        public void LoseFocus()
+        public DocumentPropertiesViewModel LoseFocus(DocumentPropertiesViewModel userInput)
         {
-            Update();
+            if (userInput == null) throw new NullException(() => userInput);
+
+            DocumentPropertiesViewModel viewModel = Update(userInput);
+
+            return viewModel;
         }
 
-        private void Update()
+        private DocumentPropertiesViewModel Update(DocumentPropertiesViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Document document = ViewModel.ToEntity(_repositories.DocumentRepository);
+            // Set !Successful
+            userInput.Successful = false;
 
+            // GetEntity
+            Document document = _repositories.DocumentRepository.Get(userInput.Entity.ID);
+
+            // Business
             VoidResult result = _documentManager.ValidateNonRecursive(document);
 
-            ViewModel.Successful = result.Successful;
-            ViewModel.ValidationMessages = result.Messages;
+            // ToViewModel
+            DocumentPropertiesViewModel viewModel = document.ToPropertiesViewModel();
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+            viewModel.ValidationMessages.AddRange(result.Messages);
+
+            // Successful?
+            viewModel.Successful = result.Successful;
+
+            return viewModel;
         }
 
-        // Helpers
-
-        private void AssertViewModel()
+        private void CopyNonPersistedProperties(DocumentPropertiesViewModel sourceViewModel, DocumentPropertiesViewModel destViewModel)
         {
-            if (ViewModel == null) throw new NullException(() => ViewModel);
+            if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
+            if (destViewModel == null) throw new NullException(() => destViewModel);
+
+            destViewModel.ValidationMessages = sourceViewModel.ValidationMessages;
+            destViewModel.Visible = sourceViewModel.Visible;
+            destViewModel.Successful = sourceViewModel.Successful;
         }
+
     }
 }

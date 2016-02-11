@@ -7,6 +7,5 @@ namespace JJ.Presentation.Synthesizer.ViewModels
     public sealed class DocumentGridViewModel : ViewModelBase
     {
         public IList<IDAndName> List { get; set; }
-        public PagerViewModel Pager { get; set; }
     }
 }

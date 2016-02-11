@@ -5,7 +5,6 @@ using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
@@ -23,47 +22,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (repositories == null) throw new NullException(() => repositories);
 
             _repositories = repositories;
-        }
-
-        // Protected Members
-
-        protected abstract TViewModel ToViewModel(Operator op);
-
-        protected virtual TViewModel Update(TViewModel userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // GetEntity
-            Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
-
-            // Business
-            PatchManager patchManager = new PatchManager(entity.Patch, _repositories);
-            VoidResult result = patchManager.SaveOperator(entity);
-
-            // ToViewModel
-            TViewModel viewModel = ToViewModel(entity);
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.ValidationMessages.AddRange(result.Messages);
-
-            // Successful?
-            viewModel.Successful = result.Successful;
-
-            return viewModel;
-        }
-
-        protected virtual void CopyNonPersistedProperties(TViewModel sourceViewModel, TViewModel destViewModel)
-        {
-            if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
-            if (destViewModel == null) throw new NullException(() => destViewModel);
-
-            destViewModel.ValidationMessages = sourceViewModel.ValidationMessages;
-            destViewModel.Visible = sourceViewModel.Visible;
-            destViewModel.Successful = sourceViewModel.Successful;
         }
 
         // Action Methods
@@ -122,6 +80,47 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TViewModel viewModel = Update(userInput);
 
             return viewModel;
+        }
+
+        // Protected Members
+
+        protected abstract TViewModel ToViewModel(Operator op);
+
+        protected virtual TViewModel Update(TViewModel userInput)
+        {
+            if (userInput == null) throw new NullException(() => userInput);
+
+            // Set !Successful
+            userInput.Successful = false;
+
+            // GetEntity
+            Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
+
+            // Business
+            PatchManager patchManager = new PatchManager(entity.Patch, _repositories);
+            VoidResult result = patchManager.SaveOperator(entity);
+
+            // ToViewModel
+            TViewModel viewModel = ToViewModel(entity);
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+            viewModel.ValidationMessages.AddRange(result.Messages);
+
+            // Successful?
+            viewModel.Successful = result.Successful;
+
+            return viewModel;
+        }
+
+        protected virtual void CopyNonPersistedProperties(TViewModel sourceViewModel, TViewModel destViewModel)
+        {
+            if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
+            if (destViewModel == null) throw new NullException(() => destViewModel);
+
+            destViewModel.ValidationMessages = sourceViewModel.ValidationMessages;
+            destViewModel.Visible = sourceViewModel.Visible;
+            destViewModel.Successful = sourceViewModel.Successful;
         }
     }
 }

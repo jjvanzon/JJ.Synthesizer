@@ -29,18 +29,20 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView = new SpecializedDataGridView();
-            this.pagerControl = new JJ.Framework.Presentation.WinForms.Controls.PagerControl();
-            this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
+            this.dataGridView = new JJ.Presentation.Synthesizer.WinForms.UserControls.SpecializedDataGridView();
             this.IDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.tableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridView
             // 
+            this.dataGridView.AllowUserToAddRows = false;
+            this.dataGridView.AllowUserToDeleteRows = false;
+            this.dataGridView.AllowUserToResizeRows = false;
             this.dataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
@@ -54,44 +56,41 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.dataGridView.Margin = new System.Windows.Forms.Padding(0);
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.RowHeadersVisible = false;
-            this.dataGridView.Size = new System.Drawing.Size(851, 380);
+            this.dataGridView.Size = new System.Drawing.Size(851, 404);
             this.dataGridView.TabIndex = 0;
             this.dataGridView.DoubleClick += new System.EventHandler(this.dataGridView_DoubleClick);
             this.dataGridView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView_KeyDown);
             // 
-            // pagerControl
+            // IDColumn
             // 
-            this.pagerControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pagerControl.Location = new System.Drawing.Point(0, 406);
-            this.pagerControl.Margin = new System.Windows.Forms.Padding(0);
-            this.pagerControl.Name = "pagerControl";
-            this.pagerControl.Padding = new System.Windows.Forms.Padding(3);
-            this.pagerControl.Size = new System.Drawing.Size(851, 19);
-            this.pagerControl.TabIndex = 2;
-            this.pagerControl.GoToFirstPageClicked += new System.EventHandler(this.pagerControl_GoToFirstPageClicked);
-            this.pagerControl.GoToPreviousPageClicked += new System.EventHandler(this.pagerControl_GoToPreviousPageClicked);
-            this.pagerControl.PageNumberClicked += new System.EventHandler<JJ.Framework.Presentation.WinForms.EventArg.PageNumberEventArgs>(this.pagerControl_PageNumberClicked);
-            this.pagerControl.GoToNextPageClicked += new System.EventHandler(this.pagerControl_GoToNextPageClicked);
-            this.pagerControl.GoToLastPageClicked += new System.EventHandler(this.pagerControl_GoToLastPageClicked);
+            this.IDColumn.DataPropertyName = "ID";
+            this.IDColumn.HeaderText = "ID";
+            this.IDColumn.Name = "IDColumn";
+            this.IDColumn.ReadOnly = true;
+            this.IDColumn.Visible = false;
+            this.IDColumn.Width = 80;
+            // 
+            // NameColumn
+            // 
+            this.NameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.NameColumn.DataPropertyName = "Name";
+            this.NameColumn.HeaderText = "Name";
+            this.NameColumn.Name = "NameColumn";
+            this.NameColumn.ReadOnly = true;
             // 
             // tableLayoutPanel
             // 
             this.tableLayoutPanel.ColumnCount = 1;
             this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel.Controls.Add(this.dataGridView, 0, 1);
-            this.tableLayoutPanel.Controls.Add(this.pagerControl, 0, 2);
             this.tableLayoutPanel.Controls.Add(this.titleBarUserControl, 0, 0);
             this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel.Name = "tableLayoutPanel";
-            this.tableLayoutPanel.RowCount = 3;
+            this.tableLayoutPanel.RowCount = 2;
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel.Size = new System.Drawing.Size(851, 430);
             this.tableLayoutPanel.TabIndex = 3;
@@ -112,23 +111,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.titleBarUserControl.RemoveClicked += new System.EventHandler(this.titleBarUserControl_RemoveClicked);
             this.titleBarUserControl.AddClicked += new System.EventHandler(this.titleBarUserControl_AddClicked);
             // 
-            // IDColumn
-            // 
-            this.IDColumn.DataPropertyName = "ID";
-            this.IDColumn.HeaderText = "ID";
-            this.IDColumn.Name = "IDColumn";
-            this.IDColumn.ReadOnly = true;
-            this.IDColumn.Visible = false;
-            this.IDColumn.Width = 80;
-            // 
-            // NameColumn
-            // 
-            this.NameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.NameColumn.DataPropertyName = "Name";
-            this.NameColumn.HeaderText = "Name";
-            this.NameColumn.Name = "NameColumn";
-            this.NameColumn.ReadOnly = true;
-            // 
             // DocumentGridUserControl
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -145,7 +127,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         #endregion
 
         private SpecializedDataGridView dataGridView;
-        private Framework.Presentation.WinForms.Controls.PagerControl pagerControl;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
         private TitleBarUserControl titleBarUserControl;
         private System.Windows.Forms.DataGridViewTextBoxColumn IDColumn;
