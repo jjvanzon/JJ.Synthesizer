@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Calculation.Samples;
+﻿using System;
+using JJ.Business.Synthesizer.Calculation.Samples;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -32,7 +33,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double rate = frequency / Sample_OperatorCalculator_Helper.BASE_FREQUENCY;
             
             double dt = time - _previousTime;
-            _phase = _phase + dt * rate;
+            double phase = _phase + dt * rate;
+
+            // Prevent phase from becoming a special number, rendering it unusable forever.
+            if (Double.IsNaN(phase) || Double.IsInfinity(phase))
+            {
+                return Double.NaN;
+            }
+            _phase = phase;
 
             double value = _sampleCalculator.CalculateValue(_phase, channelIndex);
 
@@ -69,7 +77,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate(double time, int channelIndex)
         {
             double dt = time - _previousTime;
-            _phase = _phase + dt * _rate;
+            double phase = _phase + dt * _rate;
+
+            // Prevent phase from becoming a special number, rendering it unusable forever.
+            if (Double.IsNaN(phase) || Double.IsInfinity(phase))
+            {
+                return Double.NaN;
+            }
+            _phase = phase;
 
             double value = _sampleCalculator.CalculateValue(_phase, channelIndex);
 
@@ -111,7 +126,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double rate = frequency / Sample_OperatorCalculator_Helper.BASE_FREQUENCY;
 
             double dt = time - _previousTime;
-            _phase = _phase + dt * rate;
+            double phase = _phase + dt * rate;
+
+            // Prevent phase from becoming a special number, rendering it unusable forever.
+            if (Double.IsNaN(phase) || Double.IsInfinity(phase))
+            {
+                return Double.NaN;
+            }
+            _phase = phase;
 
             // Return the single channel for both channels.
             double value = _sampleCalculator.CalculateValue(_phase, 0);
@@ -149,7 +171,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate(double time, int channelIndex)
         {
             double dt = time - _previousTime;
-            _phase = _phase + dt * _rate;
+            double phase = _phase + dt * _rate;
+
+            // Prevent phase from becoming a special number, rendering it unusable forever.
+            if (Double.IsNaN(phase) || Double.IsInfinity(phase))
+            {
+                return Double.NaN;
+            }
+            _phase = phase;
 
             // Return the single channel for both channels.
             double value = _sampleCalculator.CalculateValue(_phase, 0);
@@ -192,7 +221,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double rate = frequency / Sample_OperatorCalculator_Helper.BASE_FREQUENCY;
 
             double dt = time - _previousTime;
-            _phase = _phase + dt * rate;
+            double phase = _phase + dt * rate;
+
+            // Prevent phase from becoming a special number, rendering it unusable forever.
+            if (Double.IsNaN(phase) || Double.IsInfinity(phase))
+            {
+                return Double.NaN;
+            }
+            _phase = phase;
 
             double value0 = _sampleCalculator.CalculateValue(_phase, 0);
             double value1 = _sampleCalculator.CalculateValue(_phase, 1);
@@ -230,7 +266,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate(double time, int channelIndex)
         {
             double dt = time - _previousTime;
-            _phase = _phase + dt * _rate;
+            double phase = _phase + dt * _rate;
+
+            // Prevent phase from becoming a special number, rendering it unusable forever.
+            if (Double.IsNaN(phase) || Double.IsInfinity(phase))
+            {
+                return Double.NaN;
+            }
+            _phase = phase;
 
             double value0 = _sampleCalculator.CalculateValue(_phase, 0);
             double value1 = _sampleCalculator.CalculateValue(_phase, 1);

@@ -24,7 +24,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double frequency = _frequencyCalculator.Calculate(time, channelIndex);
 
             double dt = time - _previousTime;
-            _phase = _phase + Maths.TWO_PI * dt * frequency;
+            double phase = _phase + Maths.TWO_PI * dt * frequency;
+
+            // Prevent phase from becoming a special number, rendering it unusable forever.
+            if (Double.IsNaN(phase) || Double.IsInfinity(phase))
+            {
+                return Double.NaN;
+            }
+            _phase = phase;
 
             double value = SineCalculator.Sin(_phase);
 
@@ -67,7 +74,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double frequency = _frequencyCalculator.Calculate(time, channelIndex);
 
             double dt = time - _previousTime;
-            _phase = _phase + Maths.TWO_PI * dt * frequency;
+            double phase = _phase + Maths.TWO_PI * dt * frequency;
+
+            // Prevent phase from becoming a special number, rendering it unusable forever.
+            if (Double.IsNaN(phase) || Double.IsInfinity(phase))
+            {
+                return Double.NaN;
+            }
+            _phase = phase;
 
             double result = SineCalculator.Sin(_phase + _phaseShiftTimesTwoPi);
 
@@ -111,7 +125,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double phaseShift = _phaseShiftCalculator.Calculate(time, channelIndex);
 
             double dt = time - _previousTime;
-            _phase = _phase + Maths.TWO_PI * dt * frequency;
+            double phase = _phase + Maths.TWO_PI * dt * frequency;
+
+            // Prevent phase from becoming a special number, rendering it unusable forever.
+            if (Double.IsNaN(phase) || Double.IsInfinity(phase))
+            {
+                return Double.NaN;
+            }
+            _phase = phase;
 
             double result = SineCalculator.Sin(_phase + Maths.TWO_PI * phaseShift);
 

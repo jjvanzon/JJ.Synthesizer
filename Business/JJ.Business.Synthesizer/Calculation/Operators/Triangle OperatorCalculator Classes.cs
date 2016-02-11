@@ -95,6 +95,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (frequencyCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => frequencyCalculator);
 
             _frequencyCalculator = frequencyCalculator;
+
+            // TODO: Assert so it does not become NaN.
             _phase = phaseShift;
 
             // Correct the phase, because our calculation starts with value -1, but in practice you want to start at value 0 going up.
@@ -106,7 +108,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double frequency = _frequencyCalculator.Calculate(time, channelIndex);
 
             double dt = time - _previousTime;
-            _phase = _phase + dt * frequency;
+            double phase = _phase + dt * frequency;
+
+            // Prevent phase from becoming a special number, rendering it unusable forever.
+            if (Double.IsNaN(phase) || Double.IsInfinity(phase))
+            {
+                return Double.NaN;
+            }
+            _phase = phase;
 
             double value;
             double relativePhase = _phase % 1.0;
@@ -167,7 +176,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double phaseShift = _phaseShiftCalculator.Calculate(time, channelIndex);
 
             double dt = time - _previousTime;
-            _phase = _phase + dt * frequency;
+            double phase = _phase + dt * frequency;
+
+            // Prevent phase from becoming a special number, rendering it unusable forever.
+            if (Double.IsNaN(phase) || Double.IsInfinity(phase))
+            {
+                return Double.NaN;
+            }
+            _phase = phase;
 
             double shiftedPhase = _phase + phaseShift;
             double relativePhase = shiftedPhase % 1.0;

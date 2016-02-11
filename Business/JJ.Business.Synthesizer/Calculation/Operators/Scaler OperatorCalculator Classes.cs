@@ -32,13 +32,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (targetValueACalculator == null) throw new NullException(() => targetValueACalculator);
             if (targetValueBCalculator == null) throw new NullException(() => targetValueBCalculator);
 
-            // TODO: Do stricter assertions once you have specialized calculators.
-            //OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
-            //OperatorCalculatorHelper.AssertOperatorCalculatorBase(sourceValueACalculator, () => sourceValueACalculator);
-            //OperatorCalculatorHelper.AssertOperatorCalculatorBase(sourceValueBCalculator, () => sourceValueBCalculator);
-            //OperatorCalculatorHelper.AssertOperatorCalculatorBase(targetValueACalculator, () => targetValueACalculator);
-            //OperatorCalculatorHelper.AssertOperatorCalculatorBase(targetValueBCalculator, () => targetValueBCalculator);
-
             _signalCalculator = signalCalculator;
             _sourceValueACalculator = sourceValueACalculator;
             _sourceValueBCalculator = sourceValueBCalculator;
@@ -55,9 +48,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double targetValueB = _targetValueBCalculator.Calculate(time, channelIndex);
 
             double sourceRange = sourceValueB - sourceValueA;
-            double between0And1 = (signal - sourceValueA) / sourceRange;
-
             double targetRange = targetValueB - targetValueA;
+            double between0And1 = (signal - sourceValueA) / sourceRange;
             double result = between0And1 * targetRange + targetValueA;
 
             return result;

@@ -183,7 +183,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double frequency = _frequencyCalculator.Calculate(time, channelIndex);
 
             double dt = time - _previousTime;
-            _phase = _phase + dt * frequency;
+            double phase = _phase + dt * frequency;
+
+            // Prevent phase from becoming a special number, rendering it unusable forever.
+            if (Double.IsNaN(phase) || Double.IsInfinity(phase))
+            {
+                return Double.NaN;
+            }
+            _phase = phase;
 
             double value;
             double relativePhase = _phase % 1;
@@ -238,7 +245,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double frequency = _frequencyCalculator.Calculate(time, channelIndex);
 
             double dt = time - _previousTime;
-            _phase = _phase + dt * frequency;
+            double phase = _phase + dt * frequency;
+
+            // Prevent phase from becoming a special number, rendering it unusable forever.
+            if (Double.IsNaN(phase) || Double.IsInfinity(phase))
+            {
+                return Double.NaN;
+            }
+            _phase = phase;
 
             double value;
             double relativePhase = _phase % 1;
@@ -295,7 +309,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double phaseShift = _phaseShiftCalculator.Calculate(time, channelIndex);
 
             double dt = time - _previousTime;
-            _phase = _phase + dt * frequency;
+            double phase = _phase + dt * frequency;
+
+            // Prevent phase from becoming a special number, rendering it unusable forever.
+            if (Double.IsNaN(phase) || Double.IsInfinity(phase))
+            {
+                return Double.NaN;
+            }
+            _phase = phase;
 
             double value;
             double shiftedPhase = _phase + phaseShift;
@@ -354,7 +375,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double width = _widthCalculator.Calculate(time, channelIndex);
 
             double dt = time - _previousTime;
-            _phase = _phase + dt * frequency;
+            double phase = _phase + dt * frequency;
+
+            // Prevent phase from becoming a special number, rendering it unusable forever.
+            if (Double.IsNaN(phase) || Double.IsInfinity(phase))
+            {
+                return Double.NaN;
+            }
+            _phase = phase;
 
             double value;
             double shiftedPhase = _phase + phaseShift;

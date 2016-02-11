@@ -35,11 +35,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             {
                 return Double.NaN;
             }
+            _phase = phase;
 
             double result = _signalCalculator.Calculate(_phase, channelIndex);
 
             _previousTime = time;
-            _phase = phase;
 
             return result;
         }

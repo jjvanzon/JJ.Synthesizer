@@ -34,6 +34,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _valueDurationCalculator = valueDurationCalculator;
             _phaseShiftCalculator = phaseShiftCalculator;
 
+            // TODO: Make sure you asser this strictly, so it does not become NaN.
             _phase = _randomCalculatorOffset;
         }
 
@@ -43,7 +44,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double phaseShift = _phaseShiftCalculator.Calculate(time, channelIndex);
 
             double dt = time - _previousTime;
-            _phase = _phase + dt / valueDuration;
+            double phase = _phase + dt / valueDuration;
+
+            // Prevent phase from becoming a special number, rendering it unusable forever.
+            if (Double.IsNaN(phase) || Double.IsInfinity(phase))
+            {
+                return Double.NaN;
+            }
+            _phase = phase;
+
 
             double shiftedPhase = _phase + phaseShift;
 
