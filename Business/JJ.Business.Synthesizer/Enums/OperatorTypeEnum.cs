@@ -97,6 +97,7 @@
         Average = 50,
         Scaler = 51,
         SawDown = 52,
-        Absolute = 53
+        Absolute = 53,
+        Reverse = 54
     }
 }

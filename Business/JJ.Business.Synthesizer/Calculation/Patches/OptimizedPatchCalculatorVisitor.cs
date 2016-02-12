@@ -1670,6 +1670,59 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
+        protected override void VisitReverse(Operator op)
+        {
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase speedCalculator = _stack.Pop();
+
+            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
+            speedCalculator = speedCalculator ?? new One_OperatorCalculator();
+
+            double signal = signalCalculator.Calculate(0, 0);
+            double speed = speedCalculator.Calculate(0, 0);
+
+            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+            bool speedIsConst = speedCalculator is Number_OperatorCalculator;
+
+            bool speedIsConstZero = speedIsConst && speed == 0;
+
+            bool signalIsConstSpecialNumber = signalIsConst && (Double.IsNaN(signal) || Double.IsInfinity(signal));
+            bool speedIsConstSpecialNumber = speedIsConst && (Double.IsNaN(speed) || Double.IsInfinity(speed));
+
+            if (speedIsConstSpecialNumber)
+            {
+                // Weird number
+                calculator = new Number_OperatorCalculator(Double.NaN);
+            }
+            else if (signalIsConstSpecialNumber)
+            {
+                // Weird number
+                calculator = new Number_OperatorCalculator(signal);
+            }
+            else if (speedIsConstZero)
+            {
+                // Weird number
+                // Speed-up of 0 means time stands still.
+                calculator = new Number_OperatorCalculator(signal);
+            }
+            else if (signalIsConst)
+            {
+                calculator = signalCalculator;
+            }
+            else if (speedIsConst)
+            {
+                calculator = new Reverse_WithConstSpeed_OperatorCalculator(signalCalculator, speed);
+            }
+            else
+            {
+                calculator = new Reverse_WithVarSpeed_OperatorCalculator(signalCalculator, speedCalculator);
+            }
+
+            _stack.Push(calculator);
+        }
+
         protected override void VisitSampleOperator(Operator op)
         {
             OperatorCalculatorBase calculator;

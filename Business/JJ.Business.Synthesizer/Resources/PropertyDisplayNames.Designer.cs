@@ -1150,6 +1150,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reverse.
+        /// </summary>
+        public static string Reverse {
+            get {
+                return ResourceManager.GetString("Reverse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Right.
         /// </summary>
         public static string Right {

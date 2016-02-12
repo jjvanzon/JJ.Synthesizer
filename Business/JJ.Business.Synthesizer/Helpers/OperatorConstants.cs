@@ -101,6 +101,9 @@
         public const int RESAMPLE_SIGNAL_INDEX = 0;
         public const int RESET_OPERAND_INDEX = 0;
         public const int RESET_RESULT_INDEX = 0;
+        public const int REVERSE_RESULT_INDEX = 0;
+        public const int REVERSE_SIGNAL_INDEX = 0;
+        public const int REVERSE_SPEED_INDEX = 1;
         public const int SAMPLE_FREQUENCY_INDEX = 0;
         public const int SAMPLE_OPERATOR_RESULT_INDEX = 0;
         public const int SAW_DOWN_FREQUENCY_INDEX = 0;

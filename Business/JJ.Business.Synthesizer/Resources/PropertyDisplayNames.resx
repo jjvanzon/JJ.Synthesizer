@@ -649,4 +649,7 @@
   <data name="Absolute" xml:space="preserve">
     <value>Absolute</value>
   </data>
+  <data name="Reverse" xml:space="preserve">
+    <value>Reverse</value>
+  </data>
 </root>

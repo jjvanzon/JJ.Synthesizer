@@ -648,4 +648,7 @@
   <data name="Absolute" xml:space="preserve">
     <value>Absoluut</value>
   </data>
+  <data name="Reverse" xml:space="preserve">
+    <value>Achteruit</value>
+  </data>
 </root>

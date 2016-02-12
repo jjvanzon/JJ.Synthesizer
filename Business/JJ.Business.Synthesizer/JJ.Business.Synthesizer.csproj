@@ -80,6 +80,7 @@
     <Compile Include="Calculation\Operators\SawDown OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Scaler OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Spectrum_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Reverse OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Stretch OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\VariableInput_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Power OperatorCalculator Classes.cs" />
@@ -174,6 +175,7 @@
     <Compile Include="EntityWrappers\Shift_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Narrower_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Pulse_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\Reverse_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Stretch_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Unbundle_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Bundle_OperatorWrapper.cs" />
@@ -283,6 +285,7 @@
     <Compile Include="Validation\OperatorValidator_Minimum.cs" />
     <Compile Include="Validation\OperatorValidator_Spectrum.cs" />
     <Compile Include="Validation\OperatorValidator_Pulse.cs" />
+    <Compile Include="Validation\OperatorValidator_Reverse.cs" />
     <Compile Include="Validation\OperatorValidator_Stretch.cs" />
     <Compile Include="Validation\OutletValidator_ForOtherOperator.cs" />
     <Compile Include="Validation\InletValidator_ForOtherOperator.cs" />
@@ -320,6 +323,7 @@
     <Compile Include="Warnings\OperatorWarningValidator_Narrower.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Spectrum.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Pulse.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_Reverse.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Stretch.cs" />
     <Compile Include="WavHeaderManager.cs" />
     <Compile Include="Resources\Messages.Designer.cs">
