@@ -79,9 +79,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private IList<ResettableOperatorTuple> _resettableOperatorTuples;
 
         public OptimizedPatchCalculatorVisitor(
-            ICurveRepository curveRepository, 
-            ISampleRepository sampleRepository, 
-            IPatchRepository patchRepository, 
+            ICurveRepository curveRepository,
+            ISampleRepository sampleRepository,
+            IPatchRepository patchRepository,
             CalculatorCache calculatorCache)
         {
             if (curveRepository == null) throw new NullException(() => curveRepository);
@@ -110,7 +110,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 }
 
                 IValidator validator = new OperatorValidator_Recursive(
-                    channelOutlet.Operator, 
+                    channelOutlet.Operator,
                     _curveRepository, _sampleRepository, _patchRepository,
                     alreadyDone: new HashSet<object>());
                 validator.Assert();
@@ -151,9 +151,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
 
             return new Result(
-                outputOperatorCalculators, 
+                outputOperatorCalculators,
                 _patchInlet_Calculator_Dictionary.Values.ToArray(),
-                _resettableOperatorTuples); 
+                _resettableOperatorTuples);
         }
 
         protected override void VisitAbsolute(Operator op)
@@ -1739,19 +1739,51 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double step = stepCalculator.Calculate(0, 0);
             double offset = offsetCalculator.Calculate(0, 0);
 
-            bool stepIsConst = stepCalculator is Number_OperatorCalculator;
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+            bool stepIsConst = stepCalculator is Number_OperatorCalculator;
             bool offsetIsConst = offsetCalculator is Number_OperatorCalculator;
 
             bool signalIsConstZero = signalIsConst && signal == 0;
             bool stepIsConstZero = stepIsConst && step == 0;
-            bool offsetIsConstZero = offsetIsConst && offset == 0;
+            bool offsetIsConstZero = offsetIsConst && offset % 1.0 == 0;
 
             bool stepIsConstOne = stepIsConst && step == 1;
 
-            // TODO: Specialize based on the variables above.
-
-            calculator = new Round_VarStep_VarOffSet_OperatorCalculator(signalCalculator, stepCalculator, offsetCalculator);
+            if (signalIsConst)
+            {
+                calculator = signalCalculator;
+            }
+            else
+            {
+                if (stepIsConst && offsetIsConstZero)
+                {
+                    calculator = new Round_ConstStep_ZeroOffSet_OperatorCalculator(signalCalculator, step);
+                }
+                else if (stepIsConst && offsetIsConst)
+                {
+                    calculator = new Round_ConstStep_ConstOffSet_OperatorCalculator(signalCalculator, step, offset);
+                }
+                else if (stepIsConst && !offsetIsConst)
+                {
+                    calculator = new Round_ConstStep_VarOffSet_OperatorCalculator(signalCalculator, step, offsetCalculator);
+                }
+                else if (!stepIsConst && offsetIsConstZero)
+                {
+                    calculator = new Round_VarStep_ZeroOffSet_OperatorCalculator(signalCalculator, stepCalculator);
+                }
+                else if (!stepIsConst && offsetIsConst)
+                {
+                    calculator = new Round_VarStep_ConstOffSet_OperatorCalculator(signalCalculator, stepCalculator, offset);
+                }
+                else if (!stepIsConst && !offsetIsConst)
+                {
+                    calculator = new Round_VarStep_VarOffSet_OperatorCalculator(signalCalculator, stepCalculator, offsetCalculator);
+                }
+                else
+                {
+                    throw new NoCalculatorException(MethodBase.GetCurrentMethod());
+                }
+            }
 
             _stack.Push(calculator);
         }
@@ -2112,9 +2144,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 var wrapper = new Spectrum_OperatorWrapper(op);
 
                 calculator = new Spectrum_OperatorCalculator(
-                    signalCalculator, 
-                    wrapper.StartTime, 
-                    wrapper.EndTime, 
+                    signalCalculator,
+                    wrapper.StartTime,
+                    wrapper.EndTime,
                     wrapper.FrequencyCount);
             }
 
@@ -2366,7 +2398,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             OperatorCalculatorBase calculator;
 
-            OperatorCalculatorBase signalCalculator = _stack.Pop();;
+            OperatorCalculatorBase signalCalculator = _stack.Pop(); ;
             OperatorCalculatorBase exponentCalculator = _stack.Pop();
             OperatorCalculatorBase originCalculator = _stack.Pop();
 
