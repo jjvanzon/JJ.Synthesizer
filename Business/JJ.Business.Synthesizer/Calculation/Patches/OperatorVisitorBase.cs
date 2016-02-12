@@ -52,6 +52,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.Resample, VisitResample },
                 { OperatorTypeEnum.Reset, VisitReset },
                 { OperatorTypeEnum.Sample, VisitSampleOperator },
+                { OperatorTypeEnum.SawDown, VisitSawDown },
                 { OperatorTypeEnum.SawUp, VisitSawUp },
                 { OperatorTypeEnum.Scaler, VisitScaler },
                 { OperatorTypeEnum.Select, VisitSelect },
@@ -188,6 +189,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         /// <summary> does nothing </summary>
         protected virtual void VisitSampleOperator(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitSawDown(Operator op) { }
 
         /// <summary> does nothing </summary>
         protected virtual void VisitSawUp(Operator op) { }

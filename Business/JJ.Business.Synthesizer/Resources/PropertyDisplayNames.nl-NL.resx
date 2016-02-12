@@ -642,4 +642,7 @@
   <data name="Scaler" xml:space="preserve">
     <value>Schaler</value>
   </data>
+  <data name="SawDown" xml:space="preserve">
+    <value>Zaag omlaag</value>
+  </data>
 </root>

@@ -643,4 +643,7 @@
   <data name="Scaler" xml:space="preserve">
     <value>Scaler</value>
   </data>
+  <data name="SawDown" xml:space="preserve">
+    <value>Saw Down</value>
+  </data>
 </root>

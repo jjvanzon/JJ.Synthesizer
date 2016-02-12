@@ -76,6 +76,7 @@
     <Compile Include="Calculation\Operators\2016-02-10 Backup of Random_OperatorCalculator_Stripe.cs" />
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_Stripe.cs" />
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_Block.cs" />
+    <Compile Include="Calculation\Operators\SawDown OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Scaler OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Spectrum_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Stretch OperatorCalculator Classes.cs" />
@@ -150,6 +151,7 @@
     <Compile Include="Converters\PatchToOperatorConverter.cs" />
     <Compile Include="EntityWrappers\If_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Average_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\SawDown_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Scaler_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Maximum_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Not_OperatorWrapper.cs" />
@@ -254,6 +256,7 @@
     <Compile Include="Validation\CurveValidator_InDocument.cs" />
     <Compile Include="Validation\CurveValidator_Nodes.cs" />
     <Compile Include="Validation\DocumentValidator_RootDocument.cs" />
+    <Compile Include="Validation\OperatorValidator_SawDown.cs" />
     <Compile Include="Validation\OperatorValidator_Scaler.cs" />
     <Compile Include="Validation\OperatorValidator_If.cs" />
     <Compile Include="Validation\OperatorValidator_Base_Aggregate.cs" />
@@ -289,6 +292,7 @@
     <Compile Include="PatchManager.cs" />
     <Compile Include="SampleManager.cs" />
     <Compile Include="ScaleManager.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_SawDown.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Scaler.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Maximum.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Minimum.cs" />

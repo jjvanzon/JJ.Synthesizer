@@ -39,6 +39,7 @@ namespace JJ.Business.Synthesizer.Warnings
             { OperatorTypeEnum.Resample, typeof(OperatorWarningValidator_Resample) },
             { OperatorTypeEnum.Reset, typeof(OperatorWarningValidator_Reset) },
             { OperatorTypeEnum.Sample, typeof(OperatorWarningValidator_Sample) },
+            { OperatorTypeEnum.SawDown, typeof(OperatorWarningValidator_SawDown) },
             { OperatorTypeEnum.SawUp, typeof(OperatorWarningValidator_SawUp) },
             { OperatorTypeEnum.Select, typeof(OperatorWarningValidator_Select) },
             { OperatorTypeEnum.Shift, typeof(OperatorWarningValidator_Shift) },

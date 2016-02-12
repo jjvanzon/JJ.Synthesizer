@@ -56,9 +56,9 @@
         public const int LOOP_SIGNAL_INDEX = 0;
         public const int LOOP_START_INDEX = 2;
         public const int LOOP_SUSTAIN_INDEX = 3;
-        public const int LOW_PASS_SIGNAL_INDEX = 0;
-        public const int LOW_PASS_MAX_FREQUENCY_INDEX = 1;
-        public const int LOW_PASS_RESULT_INDEX = 0;
+        public const int LOW_PASS_FILTER_SIGNAL_INDEX = 0;
+        public const int LOW_PASS_FILTER_MAX_FREQUENCY_INDEX = 1;
+        public const int LOW_PASS_FILTER_RESULT_INDEX = 0;
         public const int MAXIMUM_SIGNAL_INDEX = 0;
         public const int MAXIMUM_RESULT_INDEX = 0;
         public const int MINIMUM_SIGNAL_INDEX = 0;
@@ -98,9 +98,12 @@
         public const int RESET_RESULT_INDEX = 0;
         public const int SAMPLE_FREQUENCY_INDEX = 0;
         public const int SAMPLE_OPERATOR_RESULT_INDEX = 0;
-        public const int SAW_TOOTH_PHASE_SHIFT_INDEX = 1;
-        public const int SAW_TOOTH_FREQUENCY_INDEX = 0;
-        public const int SAW_TOOTH_RESULT_INDEX = 0;
+        public const int SAW_DOWN_PHASE_SHIFT_INDEX = 1;
+        public const int SAW_DOWN_FREQUENCY_INDEX = 0;
+        public const int SAW_DOWN_RESULT_INDEX = 0;
+        public const int SAW_UP_PHASE_SHIFT_INDEX = 1;
+        public const int SAW_UP_FREQUENCY_INDEX = 0;
+        public const int SAW_UP_RESULT_INDEX = 0;
         public const int SCALER_SIGNAL_INDEX = 0;
         public const int SCALER_SOURCE_VALUE_A_INDEX = 1;
         public const int SCALER_SOURCE_VALUE_B_INDEX = 2;
@@ -121,9 +124,9 @@
         public const int SPEED_UP_RESULT_INDEX = 0;
         public const int SPEED_UP_SIGNAL_INDEX = 0;
         public const int SPEED_UP_FACTOR_INDEX = 1;
-        public const int SQUARE_WAVE_PHASE_SHIFT_INDEX = 1;
-        public const int SQUARE_WAVE_FREQUENCY_INDEX = 0;
-        public const int SQUARE_WAVE_RESULT_INDEX = 0;
+        public const int SQUARE_PHASE_SHIFT_INDEX = 1;
+        public const int SQUARE_FREQUENCY_INDEX = 0;
+        public const int SQUARE_RESULT_INDEX = 0;
         public const int STRETCH_RESULT_INDEX = 0;
         public const int STRETCH_SIGNAL_INDEX = 0;
         public const int STRETCH_FACTOR_INDEX = 1;
@@ -141,9 +144,9 @@
         public const int EARLIER_RESULT_INDEX = 0;
         public const int EARLIER_SIGNAL_INDEX = 0;
         public const int EARLIER_TIME_DIFFERENCE_INDEX = 1;
-        public const int TRIANGLE_WAVE_PHASE_SHIFT_INDEX = 1;
-        public const int TRIANGLE_WAVE_FREQUENCY_INDEX = 0;
-        public const int TRIANGLE_WAVE_RESULT_INDEX = 0;
+        public const int TRIANGLE_PHASE_SHIFT_INDEX = 1;
+        public const int TRIANGLE_FREQUENCY_INDEX = 0;
+        public const int TRIANGLE_RESULT_INDEX = 0;
         public const int UNBUNDLE_OPERAND_INDEX = 0;
         public const int WHITE_NOISE_RESULT_INDEX = 0;
     }

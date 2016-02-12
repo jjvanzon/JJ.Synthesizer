@@ -267,11 +267,15 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Sample(sample);
         }
 
+        public SawDown_OperatorWrapper SawDown(Outlet frequency = null, Outlet phaseShift = null)
+        {
+            return _patchManager.SawDown(frequency, phaseShift);
+        }
+
         public SawUp_OperatorWrapper SawUp(Outlet frequency = null, Outlet phaseShift = null)
         {
             return _patchManager.SawUp(frequency, phaseShift);
         }
-
 
         public Scaler_OperatorWrapper Scaler(
             Outlet signal = null,

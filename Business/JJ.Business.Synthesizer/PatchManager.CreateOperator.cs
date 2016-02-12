@@ -857,6 +857,24 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        public SawDown_OperatorWrapper SawDown(Outlet frequency = null, Outlet phaseShift = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.SawDown, inletCount: 2, outletCount: 1);
+
+            var wrapper = new SawDown_OperatorWrapper(op)
+            {
+                Frequency = frequency,
+                PhaseShift = phaseShift
+            };
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
         public SawUp_OperatorWrapper SawUp(Outlet frequency = null, Outlet phaseShift = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.SawUp, inletCount: 2, outletCount: 1);
@@ -1178,6 +1196,7 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.Noise: return Noise();
                 case OperatorTypeEnum.Resample: return Resample();
                 case OperatorTypeEnum.CustomOperator: return CustomOperator();
+                case OperatorTypeEnum.SawDown: return SawDown();
                 case OperatorTypeEnum.SawUp: return SawUp();
                 case OperatorTypeEnum.Square: return Square();
                 case OperatorTypeEnum.Triangle: return Triangle();

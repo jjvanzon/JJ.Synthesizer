@@ -1195,6 +1195,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Saw Down.
+        /// </summary>
+        public static string SawDown {
+            get {
+                return ResourceManager.GetString("SawDown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Saw Up.
         /// </summary>
         public static string SawUp {

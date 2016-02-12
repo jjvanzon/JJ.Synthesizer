@@ -1,0 +1,1 @@
+insert into OperatorType (ID, Name) values (52, 'SawDown');
