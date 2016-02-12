@@ -909,7 +909,10 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.Name = viewModel.Name;
             entity.SetOperatorTypeEnum(OperatorTypeEnum.Number, operatorTypeRepository);
 
-            entity.Data = viewModel.Number;
+            var wrapper = new Number_OperatorWrapper(entity);
+            double number;
+            Double.TryParse(viewModel.Number, out number);
+            wrapper.Number = number;
 
             return entity;
         }
