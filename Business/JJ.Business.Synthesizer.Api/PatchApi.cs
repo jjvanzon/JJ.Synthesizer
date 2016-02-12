@@ -272,6 +272,11 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Reverse(signal, speed);
         }
 
+        public Round_OperatorWrapper Round(Outlet signal = null, Outlet step = null, Outlet offset = null)
+        {
+            return _patchManager.Round(signal, step, offset);
+        }
+
         public Sample_OperatorWrapper Sample(Sample sample = null)
         {
             return _patchManager.Sample(sample);

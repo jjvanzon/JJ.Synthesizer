@@ -651,4 +651,8 @@
   <data name="Reverse" xml:space="preserve">
     <value>Achteruit</value>
   </data>
+  <data name="Round" xml:space="preserve">
+    <value>Afronden</value>
+    <comment>As in: round up a number.</comment>
+  </data>
 </root>

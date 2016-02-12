@@ -104,6 +104,10 @@
         public const int REVERSE_RESULT_INDEX = 0;
         public const int REVERSE_SIGNAL_INDEX = 0;
         public const int REVERSE_SPEED_INDEX = 1;
+        public const int ROUND_OFFSET_INDEX = 2;
+        public const int ROUND_RESULT_INDEX = 0;
+        public const int ROUND_SIGNAL_INDEX = 0;
+        public const int ROUND_STEP_INDEX = 1;
         public const int SAMPLE_FREQUENCY_INDEX = 0;
         public const int SAMPLE_OPERATOR_RESULT_INDEX = 0;
         public const int SAW_DOWN_FREQUENCY_INDEX = 0;

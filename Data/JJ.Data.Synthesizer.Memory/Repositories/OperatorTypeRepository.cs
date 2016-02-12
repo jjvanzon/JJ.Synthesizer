@@ -62,6 +62,7 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             RepositoryHelper.EnsureEnumEntity(this, 52, "SawDown");
             RepositoryHelper.EnsureEnumEntity(this, 53, "Absolute");
             RepositoryHelper.EnsureEnumEntity(this, 54, "Reverse");
+            RepositoryHelper.EnsureEnumEntity(this, 55, "Round");
         }
     }
 }

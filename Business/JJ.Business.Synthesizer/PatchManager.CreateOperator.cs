@@ -874,6 +874,25 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        public Round_OperatorWrapper Round(Outlet signal = null, Outlet step = null, Outlet offset = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Round, inletCount: 3, outletCount: 1);
+
+            var wrapper = new Round_OperatorWrapper(op)
+            {
+                Signal = signal,
+                Step = step,
+                Offset = offset
+            };
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
         public Sample_OperatorWrapper Sample(Sample sample = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Sample, inletCount: 1, outletCount: 1);
@@ -1249,6 +1268,7 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.Resample: return Resample();
                 case OperatorTypeEnum.Reset: return Reset();
                 case OperatorTypeEnum.Reverse: return Reverse();
+                case OperatorTypeEnum.Round: return Round();
                 case OperatorTypeEnum.Sample: return Sample();
                 case OperatorTypeEnum.SawDown: return SawDown();
                 case OperatorTypeEnum.SawUp: return SawUp();

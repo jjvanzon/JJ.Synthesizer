@@ -98,6 +98,7 @@
         Scaler = 51,
         SawDown = 52,
         Absolute = 53,
-        Reverse = 54
+        Reverse = 54,
+        Round = 55
     }
 }

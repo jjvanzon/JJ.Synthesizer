@@ -1723,6 +1723,39 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
+        protected override void VisitRound(Operator op)
+        {
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase stepCalculator = _stack.Pop();
+            OperatorCalculatorBase offsetCalculator = _stack.Pop();
+
+            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
+            stepCalculator = stepCalculator ?? new One_OperatorCalculator();
+            offsetCalculator = offsetCalculator ?? new Zero_OperatorCalculator();
+
+            double signal = signalCalculator.Calculate(0, 0);
+            double step = stepCalculator.Calculate(0, 0);
+            double offset = offsetCalculator.Calculate(0, 0);
+
+            bool stepIsConst = stepCalculator is Number_OperatorCalculator;
+            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+            bool offsetIsConst = offsetCalculator is Number_OperatorCalculator;
+
+            bool signalIsConstZero = signalIsConst && signal == 0;
+            bool stepIsConstZero = stepIsConst && step == 0;
+            bool offsetIsConstZero = offsetIsConst && offset == 0;
+
+            bool stepIsConstOne = stepIsConst && step == 1;
+
+            // TODO: Specialize based on the variables above.
+
+            calculator = new Round_VarStep_VarOffSet_OperatorCalculator(signalCalculator, stepCalculator, offsetCalculator);
+
+            _stack.Push(calculator);
+        }
+
         protected override void VisitSampleOperator(Operator op)
         {
             OperatorCalculatorBase calculator;
