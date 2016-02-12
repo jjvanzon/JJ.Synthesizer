@@ -16,6 +16,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             _delegateDictionary = new Dictionary<OperatorTypeEnum, Action<Operator>>
             {
+                { OperatorTypeEnum.Absolute, VisitAbsolute },
                 { OperatorTypeEnum.Add, VisitAdd },
                 { OperatorTypeEnum.Adder, VisitAdder },
                 { OperatorTypeEnum.And, VisitAnd },
@@ -108,6 +109,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             Operator op = outlet.Operator;
             VisitOperator(op);
         }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitAbsolute(Operator op) { }
 
         /// <summary> does nothing </summary>
         protected virtual void VisitAdd(Operator op) { }

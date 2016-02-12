@@ -18,6 +18,23 @@ namespace JJ.Business.Synthesizer
 {
     public partial class PatchManager
     {
+        public Absolute_OperatorWrapper Absolute(Outlet x = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Absolute, inletCount: 1, outletCount: 1);
+
+            var wrapper = new Absolute_OperatorWrapper(op)
+            {
+                X = x,
+            };
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
         public Add_OperatorWrapper Add(Outlet operandA = null, Outlet operandB = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Add, inletCount: 2, outletCount: 1);
@@ -1176,58 +1193,59 @@ namespace JJ.Business.Synthesizer
         {
             switch (operatorTypeEnum)
             {
+                case OperatorTypeEnum.Absolute: return Absolute();
                 case OperatorTypeEnum.Add: return Add();
                 case OperatorTypeEnum.Adder: return Adder(new Outlet[inletCount]);
+                case OperatorTypeEnum.And: return And();
+                case OperatorTypeEnum.Average: return Average();
+                case OperatorTypeEnum.Bundle: return Bundle(new Outlet[inletCount]);
+                case OperatorTypeEnum.Curve: return Curve();
+                case OperatorTypeEnum.CustomOperator: return CustomOperator();
+                case OperatorTypeEnum.Delay: return Delay();
                 case OperatorTypeEnum.Divide: return Divide();
+                case OperatorTypeEnum.Earlier: return Earlier();
+                case OperatorTypeEnum.Equal: return Equal();
+                case OperatorTypeEnum.Exponent: return Exponent();
+                case OperatorTypeEnum.GreaterThan: return GreaterThan();
+                case OperatorTypeEnum.GreaterThanOrEqual: return GreaterThanOrEqual();
+                case OperatorTypeEnum.HighPassFilter: return HighPassFilter();
+                case OperatorTypeEnum.If: return If();
+                case OperatorTypeEnum.LessThan: return LessThan();
+                case OperatorTypeEnum.LessThanOrEqual: return LessThanOrEqual();
+                case OperatorTypeEnum.Loop: return Loop();
+                case OperatorTypeEnum.LowPassFilter: return LowPassFilter();
+                case OperatorTypeEnum.Maximum: return Maximum();
+                case OperatorTypeEnum.Minimum: return Minimum();
                 case OperatorTypeEnum.Multiply: return Multiply();
+                case OperatorTypeEnum.Narrower: return Narrower();
+                case OperatorTypeEnum.Noise: return Noise();
+                case OperatorTypeEnum.Not: return Not();
+                case OperatorTypeEnum.NotEqual: return NotEqual();
+                case OperatorTypeEnum.Number: return Number();
+                case OperatorTypeEnum.Or: return Or();
                 case OperatorTypeEnum.PatchInlet: return PatchInlet();
                 case OperatorTypeEnum.PatchOutlet: return PatchOutlet();
                 case OperatorTypeEnum.Power: return Power();
-                case OperatorTypeEnum.Sine: return Sine();
-                case OperatorTypeEnum.Subtract: return Subtract();
-                case OperatorTypeEnum.Delay: return Delay();
-                case OperatorTypeEnum.SpeedUp: return SpeedUp();
-                case OperatorTypeEnum.SlowDown: return SlowDown();
-                case OperatorTypeEnum.TimePower: return TimePower();
-                case OperatorTypeEnum.Earlier: return Earlier();
-                case OperatorTypeEnum.Number: return Number();
-                case OperatorTypeEnum.Curve: return Curve();
-                case OperatorTypeEnum.Sample: return Sample();
-                case OperatorTypeEnum.Noise: return Noise();
-                case OperatorTypeEnum.Resample: return Resample();
-                case OperatorTypeEnum.CustomOperator: return CustomOperator();
-                case OperatorTypeEnum.SawDown: return SawDown();
-                case OperatorTypeEnum.SawUp: return SawUp();
-                case OperatorTypeEnum.Square: return Square();
-                case OperatorTypeEnum.Triangle: return Triangle();
-                case OperatorTypeEnum.Exponent: return Exponent();
-                case OperatorTypeEnum.Loop: return Loop();
-                case OperatorTypeEnum.Select: return Select();
-                case OperatorTypeEnum.Bundle: return Bundle(new Outlet[inletCount]);
-                case OperatorTypeEnum.Unbundle: return Unbundle();
-                case OperatorTypeEnum.Stretch: return Stretch();
-                case OperatorTypeEnum.Narrower: return Narrower();
-                case OperatorTypeEnum.Shift: return Shift();
-                case OperatorTypeEnum.Reset: return Reset();
-                case OperatorTypeEnum.LowPassFilter: return LowPassFilter();
-                case OperatorTypeEnum.HighPassFilter: return HighPassFilter();
-                case OperatorTypeEnum.Spectrum: return Spectrum();
                 case OperatorTypeEnum.Pulse: return Pulse();
                 case OperatorTypeEnum.Random: return Random();
-                case OperatorTypeEnum.Equal: return Equal();
-                case OperatorTypeEnum.NotEqual: return NotEqual();
-                case OperatorTypeEnum.LessThan: return LessThan();
-                case OperatorTypeEnum.GreaterThan: return GreaterThan();
-                case OperatorTypeEnum.LessThanOrEqual: return LessThanOrEqual();
-                case OperatorTypeEnum.GreaterThanOrEqual: return GreaterThanOrEqual();
-                case OperatorTypeEnum.And: return And();
-                case OperatorTypeEnum.Or: return Or();
-                case OperatorTypeEnum.Not: return Not();
-                case OperatorTypeEnum.If: return If();
-                case OperatorTypeEnum.Minimum: return Minimum();
-                case OperatorTypeEnum.Maximum: return Maximum();
-                case OperatorTypeEnum.Average: return Average();
+                case OperatorTypeEnum.Resample: return Resample();
+                case OperatorTypeEnum.Reset: return Reset();
+                case OperatorTypeEnum.Sample: return Sample();
+                case OperatorTypeEnum.SawDown: return SawDown();
+                case OperatorTypeEnum.SawUp: return SawUp();
                 case OperatorTypeEnum.Scaler: return Scaler();
+                case OperatorTypeEnum.Select: return Select();
+                case OperatorTypeEnum.Shift: return Shift();
+                case OperatorTypeEnum.Sine: return Sine();
+                case OperatorTypeEnum.SlowDown: return SlowDown();
+                case OperatorTypeEnum.Spectrum: return Spectrum();
+                case OperatorTypeEnum.SpeedUp: return SpeedUp();
+                case OperatorTypeEnum.Square: return Square();
+                case OperatorTypeEnum.Stretch: return Stretch();
+                case OperatorTypeEnum.Subtract: return Subtract();
+                case OperatorTypeEnum.TimePower: return TimePower();
+                case OperatorTypeEnum.Triangle: return Triangle();
+                case OperatorTypeEnum.Unbundle: return Unbundle();
 
                 default:
                     throw new ValueNotSupportedException(operatorTypeEnum);

@@ -26,6 +26,11 @@ namespace JJ.Business.Synthesizer.Api
             _patchManager.CreatePatch();
         }
 
+        public Absolute_OperatorWrapper Absolute(Outlet x = null)
+        {
+            return _patchManager.Absolute(x);
+        }
+
         public Add_OperatorWrapper Add(Outlet operandA = null, Outlet operandB = null)
         {
             return _patchManager.Add(operandA, operandB);

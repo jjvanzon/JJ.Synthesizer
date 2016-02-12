@@ -96,6 +96,7 @@
         Maximum = 49,
         Average = 50,
         Scaler = 51,
-        SawDown = 52
+        SawDown = 52,
+        Absolute = 53
     }
 }

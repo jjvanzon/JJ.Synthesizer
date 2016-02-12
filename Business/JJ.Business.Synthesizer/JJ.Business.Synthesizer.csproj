@@ -53,7 +53,8 @@
     <Compile Include="Calculation\Operators\If OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Average_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Maximum_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\Not OperatorCalculator Classes.cs" />
+    <Compile Include="Calculation\Operators\Absolute_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Not_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Or OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Divide OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\And OperatorCalculator Classes.cs" />
@@ -122,7 +123,7 @@
     <Compile Include="Calculation\Operators\OperatorCalculatorBase.cs" />
     <Compile Include="Calculation\Operators\Delay OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Number_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Patches\OptimizedPatchCalculatorVisitor.ComparisonOperators.cs" />
+    <Compile Include="Calculation\Patches\2016-02-12 Backup of OptimizedPatchCalculatorVisitor.ComparisonOperators.cs" />
     <Compile Include="Calculation\Patches\OptimizedPatchCalculatorVisitor.Adder.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -151,6 +152,7 @@
     <Compile Include="Converters\PatchToOperatorConverter.cs" />
     <Compile Include="EntityWrappers\If_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Average_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\Absolute_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\SawDown_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Scaler_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Maximum_OperatorWrapper.cs" />
@@ -256,6 +258,7 @@
     <Compile Include="Validation\CurveValidator_InDocument.cs" />
     <Compile Include="Validation\CurveValidator_Nodes.cs" />
     <Compile Include="Validation\DocumentValidator_RootDocument.cs" />
+    <Compile Include="Validation\OperatorValidator_Absolute.cs" />
     <Compile Include="Validation\OperatorValidator_SawDown.cs" />
     <Compile Include="Validation\OperatorValidator_Scaler.cs" />
     <Compile Include="Validation\OperatorValidator_If.cs" />
@@ -292,6 +295,7 @@
     <Compile Include="PatchManager.cs" />
     <Compile Include="SampleManager.cs" />
     <Compile Include="ScaleManager.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_Absolute.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_SawDown.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Scaler.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Maximum.cs" />

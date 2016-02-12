@@ -156,6 +156,45 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 _resettableOperatorTuples); 
         }
 
+        protected override void VisitAbsolute(Operator op)
+        {
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase calculatorX = _stack.Pop();
+
+            calculatorX = calculatorX ?? new Zero_OperatorCalculator();
+
+            double x = calculatorX.Calculate(0, 0);
+
+            bool xIsConst = calculatorX is Number_OperatorCalculator;
+
+            if (xIsConst)
+            {
+                double value;
+
+                if (x >= 0.0)
+                {
+                    value = x;
+                }
+                else
+                {
+                    value = -x;
+                }
+
+                calculator = new Number_OperatorCalculator(value);
+            }
+            else if (!xIsConst)
+            {
+                calculator = new Absolute_OperatorCalculator(calculatorX);
+            }
+            else
+            {
+                throw new NoCalculatorException(MethodBase.GetCurrentMethod());
+            }
+
+            _stack.Push(calculator);
+        }
+
         protected override void VisitAdd(Operator op)
         {
             OperatorCalculatorBase calculator;
@@ -200,6 +239,54 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             else
             {
                 calculator = new Add_OperatorCalculator(operandACalculator, operandBCalculator);
+            }
+
+            _stack.Push(calculator);
+        }
+
+        protected override void VisitAnd(Operator op)
+        {
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase calculatorA = _stack.Pop();
+            OperatorCalculatorBase calculatorB = _stack.Pop();
+
+            calculatorA = calculatorA ?? new Zero_OperatorCalculator();
+            calculatorB = calculatorB ?? new Zero_OperatorCalculator();
+
+            double a = calculatorA.Calculate(0, 0);
+            double b = calculatorB.Calculate(0, 0);
+
+            bool aIsConst = calculatorA is Number_OperatorCalculator;
+            bool bIsConst = calculatorB is Number_OperatorCalculator;
+
+            if (aIsConst && bIsConst)
+            {
+                double value;
+
+                bool aIsTrue = a != 0.0;
+                bool bIsTrue = b != 0.0;
+
+                if (aIsTrue && bIsTrue) value = 1.0;
+                else value = 0.0;
+
+                calculator = new Number_OperatorCalculator(value);
+            }
+            else if (!aIsConst && bIsConst)
+            {
+                calculator = new And_VarA_ConstB_OperatorCalculator(calculatorA, b);
+            }
+            else if (aIsConst && !bIsConst)
+            {
+                calculator = new And_ConstA_VarB_OperatorCalculator(a, calculatorB);
+            }
+            else if (!aIsConst && !bIsConst)
+            {
+                calculator = new And_VarA_VarB_OperatorCalculator(calculatorA, calculatorB);
+            }
+            else
+            {
+                throw new NoCalculatorException(MethodBase.GetCurrentMethod());
             }
 
             _stack.Push(calculator);
@@ -424,6 +511,51 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
+        protected override void VisitEqual(Operator op)
+        {
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase calculatorA = _stack.Pop();
+            OperatorCalculatorBase calculatorB = _stack.Pop();
+
+            calculatorA = calculatorA ?? new Zero_OperatorCalculator();
+            calculatorB = calculatorB ?? new Zero_OperatorCalculator();
+
+            double a = calculatorA.Calculate(0, 0);
+            double b = calculatorB.Calculate(0, 0);
+
+            bool aIsConst = calculatorA is Number_OperatorCalculator;
+            bool bIsConst = calculatorB is Number_OperatorCalculator;
+
+            if (aIsConst && bIsConst)
+            {
+                double value;
+
+                if (a == b) value = 1.0;
+                else value = 0.0;
+
+                calculator = new Number_OperatorCalculator(value);
+            }
+            else if (!aIsConst && bIsConst)
+            {
+                calculator = new Equal_VarA_ConstB_OperatorCalculator(calculatorA, b);
+            }
+            else if (aIsConst && !bIsConst)
+            {
+                calculator = new Equal_ConstA_VarB_OperatorCalculator(a, calculatorB);
+            }
+            else if (!aIsConst && !bIsConst)
+            {
+                calculator = new Equal_VarA_VarB_OperatorCalculator(calculatorA, calculatorB);
+            }
+            else
+            {
+                throw new NoCalculatorException(MethodBase.GetCurrentMethod());
+            }
+
+            _stack.Push(calculator);
+        }
+
         protected override void VisitExponent(Operator op)
         {
             OperatorCalculatorBase calculator;
@@ -498,6 +630,135 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
+        protected override void VisitGreaterThan(Operator op)
+        {
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase calculatorA = _stack.Pop();
+            OperatorCalculatorBase calculatorB = _stack.Pop();
+
+            calculatorA = calculatorA ?? new Zero_OperatorCalculator();
+            calculatorB = calculatorB ?? new Zero_OperatorCalculator();
+
+            double a = calculatorA.Calculate(0, 0);
+            double b = calculatorB.Calculate(0, 0);
+
+            bool aIsConst = calculatorA is Number_OperatorCalculator;
+            bool bIsConst = calculatorB is Number_OperatorCalculator;
+
+            if (aIsConst && bIsConst)
+            {
+                double value;
+
+                if (a > b) value = 1.0;
+                else value = 0.0;
+
+                calculator = new Number_OperatorCalculator(value);
+            }
+            else if (!aIsConst && bIsConst)
+            {
+                calculator = new GreaterThan_VarA_ConstB_OperatorCalculator(calculatorA, b);
+            }
+            else if (aIsConst && !bIsConst)
+            {
+                calculator = new GreaterThan_ConstA_VarB_OperatorCalculator(a, calculatorB);
+            }
+            else if (!aIsConst && !bIsConst)
+            {
+                calculator = new GreaterThan_VarA_VarB_OperatorCalculator(calculatorA, calculatorB);
+            }
+            else
+            {
+                throw new NoCalculatorException(MethodBase.GetCurrentMethod());
+            }
+
+            _stack.Push(calculator);
+        }
+
+        protected override void VisitGreaterThanOrEqual(Operator op)
+        {
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase calculatorA = _stack.Pop();
+            OperatorCalculatorBase calculatorB = _stack.Pop();
+
+            calculatorA = calculatorA ?? new Zero_OperatorCalculator();
+            calculatorB = calculatorB ?? new Zero_OperatorCalculator();
+
+            double a = calculatorA.Calculate(0, 0);
+            double b = calculatorB.Calculate(0, 0);
+
+            bool aIsConst = calculatorA is Number_OperatorCalculator;
+            bool bIsConst = calculatorB is Number_OperatorCalculator;
+
+            if (aIsConst && bIsConst)
+            {
+                double value;
+
+                if (a >= b) value = 1.0;
+                else value = 0.0;
+
+                calculator = new Number_OperatorCalculator(value);
+            }
+            else if (!aIsConst && bIsConst)
+            {
+                calculator = new GreaterThanOrEqual_VarA_ConstB_OperatorCalculator(calculatorA, b);
+            }
+            else if (aIsConst && !bIsConst)
+            {
+                calculator = new GreaterThanOrEqual_ConstA_VarB_OperatorCalculator(a, calculatorB);
+            }
+            else if (!aIsConst && !bIsConst)
+            {
+                calculator = new GreaterThanOrEqual_VarA_VarB_OperatorCalculator(calculatorA, calculatorB);
+            }
+            else
+            {
+                throw new NoCalculatorException(MethodBase.GetCurrentMethod());
+            }
+
+            _stack.Push(calculator);
+        }
+
+        protected override void VisitHighPassFilter(Operator op)
+        {
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase minFrequencyCalculator = _stack.Pop();
+
+            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
+            minFrequencyCalculator = minFrequencyCalculator ?? new Zero_OperatorCalculator();
+
+            double signal = signalCalculator.Calculate(0, 0);
+            double minFrequency = minFrequencyCalculator.Calculate(0, 0);
+
+            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+            bool minFrequencyIsConst = minFrequencyCalculator is Number_OperatorCalculator;
+
+            bool minFrequencyIsConstZero = minFrequencyIsConst && minFrequency == 0.0;
+
+            if (signalIsConst)
+            {
+                calculator = signalCalculator;
+            }
+            else if (minFrequencyIsConstZero)
+            {
+                // No filtering
+                calculator = signalCalculator;
+            }
+            else if (minFrequencyIsConst)
+            {
+                calculator = new HighPassFilter_ConstMinFrequency_OperatorCalculator(signalCalculator, minFrequency);
+            }
+            else
+            {
+                calculator = new HighPassFilter_VarMinFrequency_OperatorCalculator(signalCalculator, minFrequencyCalculator);
+            }
+
+            _stack.Push(calculator);
+        }
+
         protected override void VisitIf(Operator op)
         {
             OperatorCalculatorBase calculator;
@@ -545,6 +806,96 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             else if (!thenIsConst && !elseIsConst)
             {
                 calculator = new If_VarCondition_VarThen_VarElse_OperatorCalculator(conditionCalculator, thenCalculator, elseCalculator);
+            }
+            else
+            {
+                throw new NoCalculatorException(MethodBase.GetCurrentMethod());
+            }
+
+            _stack.Push(calculator);
+        }
+
+        protected override void VisitLessThan(Operator op)
+        {
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase calculatorA = _stack.Pop();
+            OperatorCalculatorBase calculatorB = _stack.Pop();
+
+            calculatorA = calculatorA ?? new Zero_OperatorCalculator();
+            calculatorB = calculatorB ?? new Zero_OperatorCalculator();
+
+            double a = calculatorA.Calculate(0, 0);
+            double b = calculatorB.Calculate(0, 0);
+
+            bool aIsConst = calculatorA is Number_OperatorCalculator;
+            bool bIsConst = calculatorB is Number_OperatorCalculator;
+
+            if (aIsConst && bIsConst)
+            {
+                double value;
+
+                if (a < b) value = 1.0;
+                else value = 0.0;
+
+                calculator = new Number_OperatorCalculator(value);
+            }
+            else if (!aIsConst && bIsConst)
+            {
+                calculator = new LessThan_VarA_ConstB_OperatorCalculator(calculatorA, b);
+            }
+            else if (aIsConst && !bIsConst)
+            {
+                calculator = new LessThan_ConstA_VarB_OperatorCalculator(a, calculatorB);
+            }
+            else if (!aIsConst && !bIsConst)
+            {
+                calculator = new LessThan_VarA_VarB_OperatorCalculator(calculatorA, calculatorB);
+            }
+            else
+            {
+                throw new NoCalculatorException(MethodBase.GetCurrentMethod());
+            }
+
+            _stack.Push(calculator);
+        }
+
+        protected override void VisitLessThanOrEqual(Operator op)
+        {
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase calculatorA = _stack.Pop();
+            OperatorCalculatorBase calculatorB = _stack.Pop();
+
+            calculatorA = calculatorA ?? new Zero_OperatorCalculator();
+            calculatorB = calculatorB ?? new Zero_OperatorCalculator();
+
+            double a = calculatorA.Calculate(0, 0);
+            double b = calculatorB.Calculate(0, 0);
+
+            bool aIsConst = calculatorA is Number_OperatorCalculator;
+            bool bIsConst = calculatorB is Number_OperatorCalculator;
+
+            if (aIsConst && bIsConst)
+            {
+                double value;
+
+                if (a <= b) value = 1.0;
+                else value = 0.0;
+
+                calculator = new Number_OperatorCalculator(value);
+            }
+            else if (!aIsConst && bIsConst)
+            {
+                calculator = new LessThanOrEqual_VarA_ConstB_OperatorCalculator(calculatorA, b);
+            }
+            else if (aIsConst && !bIsConst)
+            {
+                calculator = new LessThanOrEqual_ConstA_VarB_OperatorCalculator(a, calculatorB);
+            }
+            else if (!aIsConst && !bIsConst)
+            {
+                calculator = new LessThanOrEqual_VarA_VarB_OperatorCalculator(calculatorA, calculatorB);
             }
             else
             {
@@ -605,45 +956,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             else
             {
                 calculator = new LowPassFilter_VarMaxFrequency_OperatorCalculator(signalCalculator, maxFrequencyCalculator);
-            }
-
-            _stack.Push(calculator);
-        }
-
-        protected override void VisitHighPassFilter(Operator op)
-        {
-            OperatorCalculatorBase calculator;
-
-            OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase minFrequencyCalculator = _stack.Pop();
-
-            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
-            minFrequencyCalculator = minFrequencyCalculator ?? new Zero_OperatorCalculator();
-
-            double signal = signalCalculator.Calculate(0, 0);
-            double minFrequency = minFrequencyCalculator.Calculate(0, 0);
-
-            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
-            bool minFrequencyIsConst = minFrequencyCalculator is Number_OperatorCalculator;
-
-            bool minFrequencyIsConstZero = minFrequencyIsConst && minFrequency == 0.0;
-
-            if (signalIsConst)
-            {
-                calculator = signalCalculator;
-            }
-            else if (minFrequencyIsConstZero)
-            {
-                // No filtering
-                calculator = signalCalculator;
-            }
-            else if (minFrequencyIsConst)
-            {
-                calculator = new HighPassFilter_ConstMinFrequency_OperatorCalculator(signalCalculator, minFrequency);
-            }
-            else
-            {
-                calculator = new HighPassFilter_VarMinFrequency_OperatorCalculator(signalCalculator, minFrequencyCalculator);
             }
 
             _stack.Push(calculator);
@@ -869,12 +1181,153 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
+        protected override void VisitNoise(Operator op)
+        {
+            double offset;
+            if (!_operator_NoiseOffsetInSeconds_Dictionary.TryGetValue(op, out offset))
+            {
+                offset = _calculatorCache.NoiseCalculator.GetRandomOffset();
+                _operator_NoiseOffsetInSeconds_Dictionary.Add(op, offset);
+            }
+
+            var calculator = new Noise_OperatorCalculator(_calculatorCache.NoiseCalculator, offset);
+            _stack.Push(calculator);
+        }
+
+        protected override void VisitNot(Operator op)
+        {
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase calculatorX = _stack.Pop();
+
+            calculatorX = calculatorX ?? new Zero_OperatorCalculator();
+
+            double x = calculatorX.Calculate(0, 0);
+
+            bool xIsConst = calculatorX is Number_OperatorCalculator;
+
+            if (xIsConst)
+            {
+                double value;
+
+                bool aIsFalse = x == 0.0;
+
+                if (aIsFalse) value = 1.0;
+                else value = 0.0;
+
+                calculator = new Number_OperatorCalculator(value);
+            }
+            else if (!xIsConst)
+            {
+                calculator = new Not_OperatorCalculator(calculatorX);
+            }
+            else
+            {
+                throw new NoCalculatorException(MethodBase.GetCurrentMethod());
+            }
+
+            _stack.Push(calculator);
+        }
+
+        protected override void VisitNotEqual(Operator op)
+        {
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase calculatorA = _stack.Pop();
+            OperatorCalculatorBase calculatorB = _stack.Pop();
+
+            calculatorA = calculatorA ?? new Zero_OperatorCalculator();
+            calculatorB = calculatorB ?? new Zero_OperatorCalculator();
+
+            double a = calculatorA.Calculate(0, 0);
+            double b = calculatorB.Calculate(0, 0);
+
+            bool aIsConst = calculatorA is Number_OperatorCalculator;
+            bool bIsConst = calculatorB is Number_OperatorCalculator;
+
+            if (aIsConst && bIsConst)
+            {
+                double value;
+
+                if (a != b) value = 1.0;
+                else value = 0.0;
+
+                calculator = new Number_OperatorCalculator(value);
+            }
+            else if (!aIsConst && bIsConst)
+            {
+                calculator = new NotEqual_VarA_ConstB_OperatorCalculator(calculatorA, b);
+            }
+            else if (aIsConst && !bIsConst)
+            {
+                calculator = new NotEqual_ConstA_VarB_OperatorCalculator(a, calculatorB);
+            }
+            else if (!aIsConst && !bIsConst)
+            {
+                calculator = new NotEqual_VarA_VarB_OperatorCalculator(calculatorA, calculatorB);
+            }
+            else
+            {
+                throw new NoCalculatorException(MethodBase.GetCurrentMethod());
+            }
+
+            _stack.Push(calculator);
+        }
+
         protected override void VisitNumber(Operator op)
         {
             var wrapper = new Number_OperatorWrapper(op);
             double number = wrapper.Number;
 
             var calculator = new Number_OperatorCalculator(number);
+            _stack.Push(calculator);
+        }
+
+        protected override void VisitOr(Operator op)
+        {
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase calculatorA = _stack.Pop();
+            OperatorCalculatorBase calculatorB = _stack.Pop();
+
+            calculatorA = calculatorA ?? new Zero_OperatorCalculator();
+            calculatorB = calculatorB ?? new Zero_OperatorCalculator();
+
+            double a = calculatorA.Calculate(0, 0);
+            double b = calculatorB.Calculate(0, 0);
+
+            bool aIsConst = calculatorA is Number_OperatorCalculator;
+            bool bIsConst = calculatorB is Number_OperatorCalculator;
+
+            if (aIsConst && bIsConst)
+            {
+                double value;
+
+                bool aIsTrue = a != 0.0;
+                bool bIsTrue = b != 0.0;
+
+                if (aIsTrue || bIsTrue) value = 1.0;
+                else value = 0.0;
+
+                calculator = new Number_OperatorCalculator(value);
+            }
+            else if (!aIsConst && bIsConst)
+            {
+                calculator = new Or_VarA_ConstB_OperatorCalculator(calculatorA, b);
+            }
+            else if (aIsConst && !bIsConst)
+            {
+                calculator = new Or_ConstA_VarB_OperatorCalculator(a, calculatorB);
+            }
+            else if (!aIsConst && !bIsConst)
+            {
+                calculator = new Or_VarA_VarB_OperatorCalculator(calculatorA, calculatorB);
+            }
+            else
+            {
+                throw new NoCalculatorException(MethodBase.GetCurrentMethod());
+            }
+
             _stack.Push(calculator);
         }
 
@@ -1542,6 +1995,46 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
+        protected override void VisitSpectrum(Operator op)
+        {
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase signalCalculator = _stack.Pop();
+
+            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
+
+            double signal = signalCalculator.Calculate(0, 0);
+            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+            bool signalIsConstZero = signalIsConst && signal == 0;
+            bool signalIsConstSpecialNumber = signalIsConst && (Double.IsNaN(signal) || Double.IsInfinity(signal));
+
+            if (signalIsConstSpecialNumber)
+            {
+                // Weird number
+                calculator = new Number_OperatorCalculator(Double.NaN);
+            }
+            else if (signalIsConstZero)
+            {
+                calculator = new Zero_OperatorCalculator();
+            }
+            else if (signalIsConst)
+            {
+                calculator = new Zero_OperatorCalculator();
+            }
+            else
+            {
+                var wrapper = new Spectrum_OperatorWrapper(op);
+
+                calculator = new Spectrum_OperatorCalculator(
+                    signalCalculator, 
+                    wrapper.StartTime, 
+                    wrapper.EndTime, 
+                    wrapper.FrequencyCount);
+            }
+
+            _stack.Push(calculator);
+        }
+
         protected override void VisitSpeedUp(Operator op)
         {
             OperatorCalculatorBase calculator;
@@ -1606,46 +2099,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitSpectrum(Operator op)
-        {
-            OperatorCalculatorBase calculator;
-
-            OperatorCalculatorBase signalCalculator = _stack.Pop();
-
-            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
-
-            double signal = signalCalculator.Calculate(0, 0);
-            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
-            bool signalIsConstZero = signalIsConst && signal == 0;
-            bool signalIsConstSpecialNumber = signalIsConst && (Double.IsNaN(signal) || Double.IsInfinity(signal));
-
-            if (signalIsConstSpecialNumber)
-            {
-                // Weird number
-                calculator = new Number_OperatorCalculator(Double.NaN);
-            }
-            else if (signalIsConstZero)
-            {
-                calculator = new Zero_OperatorCalculator();
-            }
-            else if (signalIsConst)
-            {
-                calculator = new Zero_OperatorCalculator();
-            }
-            else
-            {
-                var wrapper = new Spectrum_OperatorWrapper(op);
-
-                calculator = new Spectrum_OperatorCalculator(
-                    signalCalculator, 
-                    wrapper.StartTime, 
-                    wrapper.EndTime, 
-                    wrapper.FrequencyCount);
-            }
-
-            _stack.Push(calculator);
-        }
-
         protected override void VisitSquare(Operator op)
         {
             OperatorCalculatorBase calculator;
@@ -1696,51 +2149,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             else
             {
                 throw new NoCalculatorException(MethodBase.GetCurrentMethod());
-            }
-
-            _stack.Push(calculator);
-        }
-
-        protected override void VisitSubtract(Operator op)
-        {
-            OperatorCalculatorBase calculator;
-
-            OperatorCalculatorBase operandACalculator = _stack.Pop();
-            OperatorCalculatorBase operandBCalculator = _stack.Pop();
-
-            operandACalculator = operandACalculator ?? new Zero_OperatorCalculator();
-            operandBCalculator = operandBCalculator ?? new Zero_OperatorCalculator();
-
-            double a = operandACalculator.Calculate(0, 0);
-            double b = operandBCalculator.Calculate(0, 0);
-            bool operandAIsConst = operandACalculator is Number_OperatorCalculator;
-            bool operandBIsConst = operandBCalculator is Number_OperatorCalculator;
-            bool operandAIsConstZero = operandAIsConst && a == 0;
-            bool operandBIsConstZero = operandBIsConst && b == 0;
-
-            if (operandAIsConstZero && operandBIsConstZero)
-            {
-                calculator = new Zero_OperatorCalculator();
-            }
-            else if (operandBIsConstZero)
-            {
-                calculator = operandACalculator;
-            }
-            else if (operandAIsConst && operandBIsConst)
-            {
-                calculator = new Number_OperatorCalculator(a - b);
-            }
-            else if (operandAIsConst)
-            {
-                calculator = new Subtract_WithConstOperandA_OperatorCalculator(a, operandBCalculator);
-            }
-            else if (operandBIsConst)
-            {
-                calculator = new Subtract_WithConstOperandB_OperatorCalculator(operandACalculator, b);
-            }
-            else
-            {
-                calculator = new Subtract_OperatorCalculator(operandACalculator, operandBCalculator);
             }
 
             _stack.Push(calculator);
@@ -1818,6 +2226,51 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             else
             {
                 throw new NoCalculatorException(MethodBase.GetCurrentMethod());
+            }
+
+            _stack.Push(calculator);
+        }
+
+        protected override void VisitSubtract(Operator op)
+        {
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase operandACalculator = _stack.Pop();
+            OperatorCalculatorBase operandBCalculator = _stack.Pop();
+
+            operandACalculator = operandACalculator ?? new Zero_OperatorCalculator();
+            operandBCalculator = operandBCalculator ?? new Zero_OperatorCalculator();
+
+            double a = operandACalculator.Calculate(0, 0);
+            double b = operandBCalculator.Calculate(0, 0);
+            bool operandAIsConst = operandACalculator is Number_OperatorCalculator;
+            bool operandBIsConst = operandBCalculator is Number_OperatorCalculator;
+            bool operandAIsConstZero = operandAIsConst && a == 0;
+            bool operandBIsConstZero = operandBIsConst && b == 0;
+
+            if (operandAIsConstZero && operandBIsConstZero)
+            {
+                calculator = new Zero_OperatorCalculator();
+            }
+            else if (operandBIsConstZero)
+            {
+                calculator = operandACalculator;
+            }
+            else if (operandAIsConst && operandBIsConst)
+            {
+                calculator = new Number_OperatorCalculator(a - b);
+            }
+            else if (operandAIsConst)
+            {
+                calculator = new Subtract_WithConstOperandA_OperatorCalculator(a, operandBCalculator);
+            }
+            else if (operandBIsConst)
+            {
+                calculator = new Subtract_WithConstOperandB_OperatorCalculator(operandACalculator, b);
+            }
+            else
+            {
+                calculator = new Subtract_OperatorCalculator(operandACalculator, operandBCalculator);
             }
 
             _stack.Push(calculator);
@@ -1914,19 +2367,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 calculator = new Triangle_WithVarFrequency_WithVarPhaseShift_OperatorCalculator(frequencyCalculator, phaseShiftCalculator);
             }
 
-            _stack.Push(calculator);
-        }
-
-        protected override void VisitNoise(Operator op)
-        {
-            double offset;
-            if (!_operator_NoiseOffsetInSeconds_Dictionary.TryGetValue(op, out offset))
-            {
-                offset = _calculatorCache.NoiseCalculator.GetRandomOffset();
-                _operator_NoiseOffsetInSeconds_Dictionary.Add(op, offset);
-            }
-
-            var calculator = new Noise_OperatorCalculator(_calculatorCache.NoiseCalculator, offset);
             _stack.Push(calculator);
         }
 

@@ -12,6 +12,7 @@ namespace JJ.Business.Synthesizer.Warnings
     {
         private IDictionary<OperatorTypeEnum, Type> _validatorTypeDictionary = new Dictionary<OperatorTypeEnum, Type>
         {
+            { OperatorTypeEnum.Absolute, typeof(OperatorWarningValidator_Absolute) },
             { OperatorTypeEnum.Add, typeof(OperatorWarningValidator_Add) },
             { OperatorTypeEnum.Adder, typeof(OperatorWarningValidator_Adder) },
             { OperatorTypeEnum.Average, typeof(OperatorWarningValidator_Average) },
