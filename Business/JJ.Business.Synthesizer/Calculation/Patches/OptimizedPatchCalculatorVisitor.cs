@@ -1543,24 +1543,80 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                         }
 
                     case ResampleInterpolationTypeEnum.LineRememberT0:
-                    case ResampleInterpolationTypeEnum.LineRememberT1:
-                    case ResampleInterpolationTypeEnum.CubicEquidistant:
-                    case ResampleInterpolationTypeEnum.CubicAbruptInclination:
-                    case ResampleInterpolationTypeEnum.CubicSmoothInclination:
-                    case ResampleInterpolationTypeEnum.Hermite:
                         {
                             var randomCalculator = new RandomCalculator_StripeInterpolation();
 
-                            calculator = new Random_OperatorCalculator_OtherInterpolations(
+                            calculator = new Random_OperatorCalculator_LineRememberT0(
                                 randomCalculator,
                                 randomCalculatorOffset,
                                 rateCalculator,
                                 phaseShiftCalculator);
 
-                            // TODO: Hack in a Resample calculator.
-                            //PatchManager patchManager = null; // TODO: Create patchmanager. Requires more repositories.
-                            //patchManager.Resample(
-                            //VisitResample(
+                            break;
+                        }
+
+
+                    case ResampleInterpolationTypeEnum.LineRememberT1:
+                        {
+                            var randomCalculator = new RandomCalculator_StripeInterpolation();
+
+                            calculator = new Random_OperatorCalculator_LineRememberT1(
+                                randomCalculator,
+                                randomCalculatorOffset,
+                                rateCalculator,
+                                phaseShiftCalculator);
+
+                            break;
+                        }
+
+                    case ResampleInterpolationTypeEnum.CubicEquidistant:
+                        {
+                            var randomCalculator = new RandomCalculator_StripeInterpolation();
+
+                            calculator = new Random_OperatorCalculator_CubicEquidistant(
+                                randomCalculator,
+                                randomCalculatorOffset,
+                                rateCalculator,
+                                phaseShiftCalculator);
+
+                            break;
+                        }
+
+                    case ResampleInterpolationTypeEnum.CubicAbruptInclination:
+                        {
+                            var randomCalculator = new RandomCalculator_StripeInterpolation();
+
+                            calculator = new Random_OperatorCalculator_CubicAbruptInclination(
+                                randomCalculator,
+                                randomCalculatorOffset,
+                                rateCalculator,
+                                phaseShiftCalculator);
+
+                            break;
+                        }
+
+                    case ResampleInterpolationTypeEnum.CubicSmoothInclination:
+                        {
+                            var randomCalculator = new RandomCalculator_StripeInterpolation();
+
+                            calculator = new Random_OperatorCalculator_CubicSmoothInclination(
+                                randomCalculator,
+                                randomCalculatorOffset,
+                                rateCalculator,
+                                phaseShiftCalculator);
+
+                            break;
+                        }
+
+                    case ResampleInterpolationTypeEnum.Hermite:
+                        {
+                            var randomCalculator = new RandomCalculator_StripeInterpolation();
+
+                            calculator = new Random_OperatorCalculator_Hermite(
+                                randomCalculator,
+                                randomCalculatorOffset,
+                                rateCalculator,
+                                phaseShiftCalculator);
 
                             break;
                         }
