@@ -16,6 +16,7 @@ using JJ.Business.Synthesizer.Calculation.Curves;
 using JJ.Business.Synthesizer.Calculation.Samples;
 using System.Reflection;
 using JJ.Business.Synthesizer.Calculation.Random;
+using JJ.Framework.Mathematics;
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {
@@ -1749,9 +1750,21 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             bool stepIsConstOne = stepIsConst && step == 1;
 
-            if (signalIsConst)
+            bool signalIsConstSpecialNumber = signalIsConst && (Double.IsNaN(signal) || Double.IsInfinity(signal));
+            bool stepIsConstSpecialNumber = stepIsConst && (Double.IsNaN(step) || Double.IsInfinity(step));
+            bool offsetIsConstSpecialNumber = offsetIsConst && (Double.IsNaN(offset) || Double.IsInfinity(offset));
+
+            if (signalIsConstSpecialNumber || stepIsConstSpecialNumber || offsetIsConstSpecialNumber)
             {
-                calculator = signalCalculator;
+                calculator = new Number_OperatorCalculator(Double.NaN);
+            }
+            else if (signalIsConst)
+            {
+                calculator = new Round_ConstSignal_OperatorCalculator(signal, stepCalculator, offsetCalculator);
+            }
+            else if (stepIsConstOne && offsetIsConstZero)
+            {
+                calculator = new Round_VarSignal_StepOne_OffsetZero(signalCalculator);
             }
             else
             {
