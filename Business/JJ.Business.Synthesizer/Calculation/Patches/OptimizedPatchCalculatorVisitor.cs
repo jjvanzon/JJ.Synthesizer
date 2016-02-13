@@ -75,6 +75,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private Stack<int> _bundleIndexStack;
 
         private Dictionary<Operator, double> _operator_NoiseOffsetInSeconds_Dictionary;
+        private Dictionary<Operator, int> _operator_RandomOffsetInSeconds_Dictionary;
         private Outlet _currentChannelOutlet;
         private Dictionary<Operator, VariableInput_OperatorCalculator> _patchInlet_Calculator_Dictionary;
         private IList<ResettableOperatorTuple> _resettableOperatorTuples;
@@ -120,6 +121,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack = new Stack<OperatorCalculatorBase>();
             _bundleIndexStack = new Stack<int>();
             _operator_NoiseOffsetInSeconds_Dictionary = new Dictionary<Operator, double>();
+            _operator_RandomOffsetInSeconds_Dictionary = new Dictionary<Operator, int>();
             _patchInlet_Calculator_Dictionary = new Dictionary<Operator, VariableInput_OperatorCalculator>();
             _resettableOperatorTuples = new List<ResettableOperatorTuple>();
 
@@ -1468,39 +1470,39 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitRandom(Operator op)
         {
-            double noiseCalculatorOffset;
-            if (!_operator_NoiseOffsetInSeconds_Dictionary.TryGetValue(op, out noiseCalculatorOffset))
+            int randomCalculatorOffset;
+            if (!_operator_RandomOffsetInSeconds_Dictionary.TryGetValue(op, out randomCalculatorOffset))
             {
-                noiseCalculatorOffset = _calculatorCache.NoiseCalculator.GetRandomOffset();
-                _operator_NoiseOffsetInSeconds_Dictionary.Add(op, noiseCalculatorOffset);
+                randomCalculatorOffset = RandomCalculatorBase.GetRandomOffset();
+                _operator_RandomOffsetInSeconds_Dictionary.Add(op, randomCalculatorOffset);
             }
 
             OperatorCalculatorBase calculator;
 
-            OperatorCalculatorBase valueDurationCalculator = _stack.Pop();
+            OperatorCalculatorBase rateCalculator = _stack.Pop();
             OperatorCalculatorBase phaseShiftCalculator = _stack.Pop();
 
-            valueDurationCalculator = valueDurationCalculator ?? new Zero_OperatorCalculator();
+            rateCalculator = rateCalculator ?? new Zero_OperatorCalculator();
             phaseShiftCalculator = phaseShiftCalculator ?? new Zero_OperatorCalculator();
 
-            double valueDuration = valueDurationCalculator.Calculate(0, 0);
+            double rate = rateCalculator.Calculate(0, 0);
             double phaseShift = phaseShiftCalculator.Calculate(0, 0);
 
-            bool valueDurationIsConst = valueDurationCalculator is Number_OperatorCalculator;
+            bool rateIsConst = rateCalculator is Number_OperatorCalculator;
             bool phaseShiftIsConst = phaseShiftCalculator is Number_OperatorCalculator;
 
-            bool valueDurationIsConstZero = valueDurationIsConst && valueDuration == 0;
+            bool rateIsConstZero = rateIsConst && rate == 0;
             bool phaseShiftIsConstZero = phaseShiftIsConst && phaseShift == 0;
 
-            bool valueDurationIsConstSpecialNumber = valueDurationIsConst && (Double.IsNaN(valueDuration) || Double.IsInfinity(valueDuration));
+            bool rateIsConstSpecialNumber = rateIsConst && (Double.IsNaN(rate) || Double.IsInfinity(rate));
             bool phaseShiftIsConstSpecialNumber = phaseShiftIsConst && (Double.IsNaN(phaseShift) || Double.IsInfinity(phaseShift));
 
-            if (valueDurationIsConstSpecialNumber || phaseShiftIsConstSpecialNumber)
+            if (rateIsConstSpecialNumber || phaseShiftIsConstSpecialNumber)
             {
                 // Weird number
                 calculator = new Number_OperatorCalculator(Double.NaN);
             }
-            else if (valueDurationIsConstZero)
+            else if (rateIsConstZero)
             {
                 // Weird number
                 calculator = new Zero_OperatorCalculator();
@@ -1517,12 +1519,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     case ResampleInterpolationTypeEnum.Block:
                         {
                             var randomCalculator = new RandomCalculator_BlockInterpolation();
-                            int randomCalculatorOffset = RandomCalculatorBase.GetRandomOffset();
 
                             calculator = new Random_VarFrequency_VarPhaseShift_OperatorCalculator(
                                 randomCalculator,
                                 randomCalculatorOffset,
-                                valueDurationCalculator,
+                                rateCalculator,
                                 phaseShiftCalculator);
 
                             break;
@@ -1531,26 +1532,14 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     case ResampleInterpolationTypeEnum.Stripe:
                         {
                             var randomCalculator = new RandomCalculator_StripeInterpolation();
-                            int randomCalculatorOffset = RandomCalculatorBase.GetRandomOffset();
 
                             calculator = new Random_VarFrequency_VarPhaseShift_OperatorCalculator(
                                 randomCalculator,
                                 randomCalculatorOffset,
-                                valueDurationCalculator,
+                                rateCalculator,
                                 phaseShiftCalculator);
 
                             break;
-
-                            //var randomCalculator = new RandomCalculator_BlockInterpolation();
-                            //int randomCalculatorOffset = RandomCalculatorBase.GetRandomOffset();
-
-                            //calculator = new Random_OperatorCalculator_Stripe(
-                            //    randomCalculator,
-                            //    randomCalculatorOffset,
-                            //    valueDurationCalculator,
-                            //    phaseShiftCalculator);
-
-                            //break;
                         }
 
                     case ResampleInterpolationTypeEnum.LineRememberT0:
@@ -1561,15 +1550,14 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     case ResampleInterpolationTypeEnum.Hermite:
                         {
                             var randomCalculator = new RandomCalculator_StripeInterpolation();
-                            int randomCalculatorOffset = RandomCalculatorBase.GetRandomOffset();
 
                             calculator = new Random_OperatorCalculator_OtherInterpolations(
                                 randomCalculator,
                                 randomCalculatorOffset,
-                                valueDurationCalculator,
+                                rateCalculator,
                                 phaseShiftCalculator);
 
-                            // Hack in a Resample calculator.
+                            // TODO: Hack in a Resample calculator.
                             //PatchManager patchManager = null; // TODO: Create patchmanager. Requires more repositories.
                             //patchManager.Resample(
                             //VisitResample(

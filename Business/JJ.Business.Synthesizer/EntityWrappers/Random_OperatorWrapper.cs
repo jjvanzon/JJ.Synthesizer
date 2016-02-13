@@ -12,10 +12,10 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             : base(op)
         { }
 
-        public Outlet ValueDuration
+        public Outlet Rate
         {
-            get { return OperatorHelper.GetInputOutlet(_wrappedOperator, OperatorConstants.RANDOM_VALUE_DURATION_INDEX); }
-            set { OperatorHelper.GetInlet(_wrappedOperator, OperatorConstants.RANDOM_VALUE_DURATION_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInputOutlet(_wrappedOperator, OperatorConstants.RANDOM_RATE_INDEX); }
+            set { OperatorHelper.GetInlet(_wrappedOperator, OperatorConstants.RANDOM_RATE_INDEX).LinkTo(value); }
         }
 
         public Outlet PhaseShift

@@ -798,13 +798,13 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Random_OperatorWrapper Random(Outlet valueDuration = null, Outlet phaseShift = null)
+        public Random_OperatorWrapper Random(Outlet rate = null, Outlet phaseShift = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Random, inletCount: 2, outletCount: 1);
 
             var wrapper = new Random_OperatorWrapper(op)
             {
-                ValueDuration = valueDuration,
+                Rate = rate,
                 PhaseShift = phaseShift,
                 ResampleInterpolationTypeEnum = ResampleInterpolationTypeEnum.Block
             };

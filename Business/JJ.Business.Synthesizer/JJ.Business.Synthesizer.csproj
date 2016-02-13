@@ -70,10 +70,10 @@
     <Compile Include="Calculation\Operators\OperatorCalculatorBase_WithChildCalculators.cs" />
     <Compile Include="Calculation\Operators\Narrower OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\OperatorCalculatorHelper.cs" />
-    <Compile Include="Calculation\Operators\Random OperatorCalculator Classes.cs" />
+    <Compile Include="Calculation\Operators\Random OperatorCalculator Classes, Block and Stripe Interpolation.cs" />
     <Compile Include="Calculation\Operators\2016-02-09 Backup of Resample_OperatorCalculator_Block %28with many specialized cases%29.cs" />
     <Compile Include="Calculation\Operators\2016-02-09 Backup of Resample_OperatorCalculator_Block %28out of control with neg rate and forward time%29.cs" />
-    <Compile Include="Calculation\Operators\Random_OperatorCalculator_OtherInterpolations.cs" />
+    <Compile Include="Calculation\Operators\Random OperatorCalculator Classes, Other Interpolations.cs" />
     <Compile Include="Calculation\Operators\2016-02-10 Backup of Random_OperatorCalculator_Stripe.cs" />
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_Stripe.cs" />
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_Block.cs" />
