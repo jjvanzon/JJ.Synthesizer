@@ -21,17 +21,36 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(viewModel2);
         }
 
+        private void AudioFileOutputPropertiesRefresh(AudioFileOutputPropertiesViewModel userInput)
+        {
+            _audioFileOutputPropertiesPresenter.Refresh();
+            DispatchViewModel(_audioFileOutputPropertiesPresenter.ViewModel);
+        }
+
         private void CurrentPatchesRefresh()
         {
             _currentPatchesPresenter.Refresh();
             DispatchViewModel(_currentPatchesPresenter.ViewModel);
         }
 
-        private void CurveGridRefresh(CurveGridViewModel curveGridViewModel)
+        private void CurveDetailsNodeRefresh(int nodeID)
         {
-            _curveGridPresenter.ViewModel = curveGridViewModel;
-            object viewModel2 = _curveGridPresenter.Refresh();
-            DispatchViewModel(viewModel2);
+            // TODO: This is not very fast.
+            CurveDetailsViewModel detailsViewModel = DocumentViewModelHelper.GetCurveDetailsViewModel_ByNodeID(MainViewModel.Document, nodeID);
+
+            // Remove original node
+            detailsViewModel.Nodes.RemoveFirst(x => x.ID == nodeID);
+
+            // Add new version of the node
+            Node node = _repositories.NodeRepository.Get(nodeID);
+            NodeViewModel nodeViewModel = node.ToViewModel();
+            detailsViewModel.Nodes.Add(nodeViewModel);
+        }
+
+        private void CurveDetailsRefresh(CurveDetailsViewModel userInput)
+        {
+            _curveDetailsPresenter.Refresh();
+            DispatchViewModel(_curveDetailsPresenter.ViewModel);
         }
 
         private void CurveGridItemRefresh(int curveID)
@@ -39,6 +58,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             CurveGridViewModel gridViewModel = DocumentViewModelHelper.GetCurveGridViewModel_ByCurveID(MainViewModel.Document, curveID);
             _curveGridPresenter.ViewModel = gridViewModel;
             _curveGridPresenter.RefreshListItem(curveID);
+        }
+
+        private void CurveGridRefresh(CurveGridViewModel curveGridViewModel)
+        {
+            _curveGridPresenter.ViewModel = curveGridViewModel;
+            object viewModel2 = _curveGridPresenter.Refresh();
+            DispatchViewModel(viewModel2);
         }
 
         private void CurveLookupsItemsRefresh(int curveID)
@@ -56,18 +82,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        private void CurveDetailsNodeRefresh(int nodeID)
+        private void CurvePropertiesRefresh(CurvePropertiesViewModel userInput)
         {
-            // TODO: This is not very fast.
-            CurveDetailsViewModel detailsViewModel = DocumentViewModelHelper.GetCurveDetailsViewModel_ByNodeID(MainViewModel.Document, nodeID);
-
-            // Remove original node
-            detailsViewModel.Nodes.RemoveFirst(x => x.ID == nodeID);
-
-            // Add new version of the node
-            Node node = _repositories.NodeRepository.Get(nodeID);
-            NodeViewModel nodeViewModel = node.ToViewModel();
-            detailsViewModel.Nodes.Add(nodeViewModel);
+            CurvePropertiesViewModel viewModel = _curvePropertiesPresenter.Refresh(userInput);
+            DispatchViewModel(viewModel);
         }
 
         private void DocumentGridRefresh()
@@ -75,52 +93,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(MainViewModel.DocumentGrid, _documentGridPresenter.Refresh);
         }
 
+        private void DocumentPropertiesRefresh()
+        {
+            DocumentPropertiesViewModel userInput = MainViewModel.Document.DocumentProperties;
+            DocumentPropertiesViewModel viewModel = _documentPropertiesPresenter.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
         private void DocumentTreeRefresh()
         {
             DocumentTreeViewModel viewModel = _documentTreePresenter.Refresh(MainViewModel.Document.DocumentTree);
             DispatchViewModel(viewModel);
-        }
-
-        private void OperatorProperties_ForCustomOperatorViewModels_Refresh(int underlyingPatchID)
-        {
-            IList<OperatorPropertiesViewModel_ForCustomOperator> propertiesViewModelList = 
-                MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForCustomOperators).ToArray();
-
-            foreach (OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel in propertiesViewModelList)
-            {
-                OperatorProperties_ForCustomOperatorViewModel_Refresh(propertiesViewModel);
-            }
-        }
-
-        private void OperatorProperties_ForCustomOperatorViewModel_Refresh(OperatorPropertiesViewModel_ForCustomOperator userInput)
-        {
-            OperatorPropertiesViewModel_ForCustomOperator viewModel = _operatorPropertiesPresenter_ForCustomOperator.Refresh(userInput);
-
-            DispatchViewModel(viewModel);
-        }
-
-        /// <summary>
-        /// When an underlying document of a custom operator is changed,
-        /// we do not know which PatchDetails OperatorViewModels are affected,
-        /// because no OperatorViewModel has as property saying what UnderlyingPatch it is. 
-        /// Therefore we refresh all CustomOperators.
-        /// 
-        /// But also, a custom operator would need to be updated if something connected to it is deleted,
-        /// because then the obsolete inlets and outlets might be cleaned up.
-        /// </summary>
-        private void OperatorViewModels_OfType_Refresh(OperatorTypeEnum operatorTypeEnum)
-        {
-            IList<PatchDetailsViewModel> patchDetailsViewModels = MainViewModel.Document.PatchDocumentList.Select(x => x.PatchDetails).ToArray();
-
-            IList<OperatorViewModel> operatorViewModels =
-                patchDetailsViewModels.SelectMany(x => x.Entity.Operators)
-                                      .Where(x => x.OperatorType.ID == (int)operatorTypeEnum)
-                                      .ToArray();
-
-            foreach (OperatorViewModel operatorViewModel in operatorViewModels)
-            {
-                PatchDetails_RefreshOperator(operatorViewModel);
-            }
         }
 
         private void DocumentViewModelRefresh()
@@ -142,12 +125,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
             viewModel.SamplePropertiesList.ToArray().ForEach(x => SamplePropertiesRefresh(x));
             viewModel.ScalePropertiesList.ToArray().ForEach(x => ScalePropertiesRefresh(x));
             viewModel.ToneGridEditList.ToArray().ForEach(x => ToneGridEditRefresh(x));
+            UnderylingPatchLookupRefresh();
 
             // Note that AutoPatchDetails cannot be refreshed.
 
             foreach (PatchDocumentViewModel patchDocumentViewModel in viewModel.PatchDocumentList)
             {
                 CurveGridRefresh(patchDocumentViewModel.CurveGrid);
+                CurveLookupRefresh(patchDocumentViewModel);
                 PatchDetailsRefresh(patchDocumentViewModel.PatchDetails);
                 patchDocumentViewModel.CurveDetailsList.ToArray().ForEach(x => CurveDetailsRefresh(x));
                 patchDocumentViewModel.CurvePropertiesList.ToArray().ForEach(x => CurvePropertiesRefresh(x));
@@ -167,12 +152,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 patchDocumentViewModel.SamplePropertiesList.ToArray().ForEach(x => SamplePropertiesRefresh(x));
                 PatchPropertiesRefresh(patchDocumentViewModel.PatchProperties);
                 SampleGridRefresh(patchDocumentViewModel.SampleGrid);
+                SampleLookupRefresh(patchDocumentViewModel);
             }
         }
 
-        private void OperatorPropertiesRefresh(OperatorPropertiesViewModel userInput)
+        private void CurveLookupRefresh(PatchDocumentViewModel patchDocumentViewModel)
         {
-            OperatorPropertiesViewModel viewModel = _operatorPropertiesPresenter.Refresh(userInput);
+            Document rootDocument = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
+            Document childDocument = _repositories.DocumentRepository.Get(patchDocumentViewModel.ChildDocumentID);
+            patchDocumentViewModel.CurveLookup = ViewModelHelper.CreateCurveLookupViewModel(rootDocument, childDocument);
+        }
+
+        private void NodePropertiesRefresh(NodePropertiesViewModel userInput)
+        {
+            NodePropertiesViewModel viewModel = _nodePropertiesPresenter.Refresh(userInput);
             DispatchViewModel(viewModel);
         }
 
@@ -198,6 +191,24 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             OperatorPropertiesViewModel_ForCustomOperator viewModel = _operatorPropertiesPresenter_ForCustomOperator.Refresh(userInput);
             DispatchViewModel(viewModel);
+        }
+
+        private void OperatorProperties_ForCustomOperatorViewModel_Refresh(OperatorPropertiesViewModel_ForCustomOperator userInput)
+        {
+            OperatorPropertiesViewModel_ForCustomOperator viewModel = _operatorPropertiesPresenter_ForCustomOperator.Refresh(userInput);
+
+            DispatchViewModel(viewModel);
+        }
+
+        private void OperatorProperties_ForCustomOperatorViewModels_Refresh(int underlyingPatchID)
+        {
+            IList<OperatorPropertiesViewModel_ForCustomOperator> propertiesViewModelList = 
+                MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForCustomOperators).ToArray();
+
+            foreach (OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel in propertiesViewModelList)
+            {
+                OperatorProperties_ForCustomOperatorViewModel_Refresh(propertiesViewModel);
+            }
         }
 
         private void OperatorProperties_ForNumber_Refresh(OperatorPropertiesViewModel_ForNumber userInput)
@@ -242,60 +253,34 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(viewModel);
         }
 
-        private void PatchDetailsRefresh(PatchDetailsViewModel userInput)
+        private void OperatorPropertiesRefresh(OperatorPropertiesViewModel userInput)
         {
-            _patchDetailsPresenter.ViewModel = userInput;
-            _patchDetailsPresenter.Refresh();
-            DispatchViewModel(_patchDetailsPresenter.ViewModel);
-        }
-
-        private void PatchPropertiesRefresh(PatchPropertiesViewModel userInput)
-        {
-            PatchPropertiesViewModel viewModel = _patchPropertiesPresenter.Refresh(userInput);
+            OperatorPropertiesViewModel viewModel = _operatorPropertiesPresenter.Refresh(userInput);
             DispatchViewModel(viewModel);
         }
 
-        private void ScalePropertiesRefresh(ScalePropertiesViewModel userInput)
+        /// <summary>
+        /// When an underlying document of a custom operator is changed,
+        /// we do not know which PatchDetails OperatorViewModels are affected,
+        /// because no OperatorViewModel has as property saying what UnderlyingPatch it is. 
+        /// Therefore we refresh all CustomOperators.
+        /// 
+        /// But also, a custom operator would need to be updated if something connected to it is deleted,
+        /// because then the obsolete inlets and outlets might be cleaned up.
+        /// </summary>
+        private void OperatorViewModels_OfType_Refresh(OperatorTypeEnum operatorTypeEnum)
         {
-            ScalePropertiesViewModel viewModel = _scalePropertiesPresenter.Refresh(userInput);
-            DispatchViewModel(viewModel);
-        }
+            IList<PatchDetailsViewModel> patchDetailsViewModels = MainViewModel.Document.PatchDocumentList.Select(x => x.PatchDetails).ToArray();
 
-        private void SamplePropertiesRefresh(SamplePropertiesViewModel userInput)
-        {
-            SamplePropertiesViewModel viewModel = _samplePropertiesPresenter.Refresh(userInput);
-            DispatchViewModel(viewModel);
-        }
+            IList<OperatorViewModel> operatorViewModels =
+                patchDetailsViewModels.SelectMany(x => x.Entity.Operators)
+                                      .Where(x => x.OperatorType.ID == (int)operatorTypeEnum)
+                                      .ToArray();
 
-        private void NodePropertiesRefresh(NodePropertiesViewModel userInput)
-        {
-            NodePropertiesViewModel viewModel = _nodePropertiesPresenter.Refresh(userInput);
-            DispatchViewModel(viewModel);
-        }
-
-        private void DocumentPropertiesRefresh()
-        {
-            DocumentPropertiesViewModel userInput = MainViewModel.Document.DocumentProperties;
-            DocumentPropertiesViewModel viewModel = _documentPropertiesPresenter.Refresh(userInput);
-            DispatchViewModel(viewModel);
-        }
-
-        private void CurvePropertiesRefresh(CurvePropertiesViewModel userInput)
-        {
-            CurvePropertiesViewModel viewModel = _curvePropertiesPresenter.Refresh(userInput);
-            DispatchViewModel(viewModel);
-        }
-
-        private void CurveDetailsRefresh(CurveDetailsViewModel userInput)
-        {
-            _curveDetailsPresenter.Refresh();
-            DispatchViewModel(_curveDetailsPresenter.ViewModel);
-        }
-
-        private void AudioFileOutputPropertiesRefresh(AudioFileOutputPropertiesViewModel userInput)
-        {
-            _audioFileOutputPropertiesPresenter.Refresh();
-            DispatchViewModel(_audioFileOutputPropertiesPresenter.ViewModel);
+            foreach (OperatorViewModel operatorViewModel in operatorViewModels)
+            {
+                PatchDetails_RefreshOperator(operatorViewModel);
+            }
         }
 
         private void PatchDetails_RefreshOperator(int operatorID)
@@ -318,11 +303,25 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _repositories.SampleRepository, _repositories.CurveRepository, _repositories.PatchRepository);
         }
 
+        private void PatchDetailsRefresh(PatchDetailsViewModel userInput)
+        {
+            _patchDetailsPresenter.ViewModel = userInput;
+            _patchDetailsPresenter.Refresh();
+            DispatchViewModel(_patchDetailsPresenter.ViewModel);
+        }
+
         private void PatchGridRefresh(string group)
         {
             PatchGridViewModel viewModel2 = DocumentViewModelHelper.GetPatchGridViewModel_ByGroup(MainViewModel.Document, group);
 
             PatchGridRefresh(viewModel2);
+        }
+
+        private void PatchGridRefresh(PatchGridViewModel userInput)
+        {
+            if (userInput == null) throw new NullException(() => userInput);
+            PatchGridViewModel viewModel = _patchGridPresenter.Refresh(userInput);
+            DispatchViewModel(viewModel);
         }
 
         private void PatchGridsRefresh()
@@ -338,10 +337,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        private void PatchGridRefresh(PatchGridViewModel userInput)
+        private void PatchPropertiesRefresh(PatchPropertiesViewModel userInput)
         {
-            if (userInput == null) throw new NullException(() => userInput);
-            PatchGridViewModel viewModel = _patchGridPresenter.Refresh(userInput);
+            PatchPropertiesViewModel viewModel = _patchPropertiesPresenter.Refresh(userInput);
             DispatchViewModel(viewModel);
         }
 
@@ -375,10 +373,29 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
+        private void SampleLookupRefresh(PatchDocumentViewModel patchDocumentViewModel)
+        {
+            Document rootDocument = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
+            Document childDocument = _repositories.DocumentRepository.Get(patchDocumentViewModel.ChildDocumentID);
+            patchDocumentViewModel.SampleLookup = ViewModelHelper.CreateSampleLookupViewModel(rootDocument, childDocument);
+        }
+
+        private void SamplePropertiesRefresh(SamplePropertiesViewModel userInput)
+        {
+            SamplePropertiesViewModel viewModel = _samplePropertiesPresenter.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
         private void ScaleGridRefresh()
         {
             ScaleGridViewModel userInput = MainViewModel.Document.ScaleGrid;
             ScaleGridViewModel viewModel = _scaleGridPresenter.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
+        private void ScalePropertiesRefresh(ScalePropertiesViewModel userInput)
+        {
+            ScalePropertiesViewModel viewModel = _scalePropertiesPresenter.Refresh(userInput);
             DispatchViewModel(viewModel);
         }
 

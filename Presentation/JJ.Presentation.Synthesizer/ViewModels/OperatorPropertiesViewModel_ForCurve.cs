@@ -8,7 +8,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public string Name { get; set; }
 
         /// <summary>
-        /// The lookup is inside the DocumentViewModel,
+        /// The lookup is inside the PatchDocumentViewModel,
         /// to prevent a lot of repeated data. So use the lookup from there.
         /// </summary>
         public IDAndName Curve { get; set; }
