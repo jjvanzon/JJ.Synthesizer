@@ -44,24 +44,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             IList<Patch> patches = document.ChildDocuments.SelectMany(x => x.Patches).ToArray();
             viewModel.UnderlyingPatchLookup = ViewModelHelper.CreateUnderlyingPatchLookupViewModel(patches);
 
-            // TODO: This probably belongs in the MainPresenter.DocumentOpen action.
-            // This should eventually (2016-01-22) be one of the few places where ToViewModel will set Successful to true.
-            viewModel.AudioFileOutputGrid.Successful = true;
-            viewModel.AudioFileOutputPropertiesList.ForEach(x => x.Successful = true);
-            viewModel.CurrentPatches.Successful = true;
-            viewModel.CurveDetailsList.ForEach(x => x.Successful = true);
-            viewModel.CurveGrid.Successful = true;
-            viewModel.CurvePropertiesList.ForEach(x => x.Successful = true);
-            viewModel.DocumentProperties.Successful = true;
-            viewModel.DocumentTree.Successful = true;
-            viewModel.PatchGridList.ForEach(x => x.Successful = true);
-            viewModel.NodePropertiesList.ForEach(x => x.Successful = true);
-            viewModel.SampleGrid.Successful = true;
-            viewModel.SamplePropertiesList.ForEach(x => x.Successful = true);
-            viewModel.ScaleGrid.Successful = true;
-            viewModel.ScalePropertiesList.ForEach(x => x.Successful = true);
-            viewModel.ToneGridEditList.ForEach(x => x.Successful = true);
-            viewModel.AutoPatchDetails.Successful = true;
             return viewModel;
         }
 
@@ -102,29 +84,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 SampleLookup = ViewModelHelper.CreateSampleLookupViewModel(childDocument.ParentDocument, childDocument),
                 SamplePropertiesList = childDocument.Samples.Select(x => x.ToPropertiesViewModel(new SampleRepositories(repositories))).ToList()
             };
-
-            // TODO: This probably belongs in the MainPresenter.DocumentOpen action.
-            // This should eventually (2016-01-22) be one of the few places where ToViewModel will set Successful to true.
-            viewModel.CurveDetailsList.ForEach(x => x.Successful = true);
-            viewModel.CurveGrid.Successful = true;
-            viewModel.CurvePropertiesList.ForEach(x => x.Successful = true);
-            viewModel.NodePropertiesList.ForEach(x => x.Successful = true);
-            viewModel.OperatorPropertiesList.ForEach(x => x.Successful = true);
-            viewModel.OperatorPropertiesList_ForAggregates.ForEach(x => x.Successful = true);
-            viewModel.OperatorPropertiesList_ForBundles.ForEach(x => x.Successful = true);
-            viewModel.OperatorPropertiesList_ForCurves.ForEach(x => x.Successful = true);
-            viewModel.OperatorPropertiesList_ForCustomOperators.ForEach(x => x.Successful = true);
-            viewModel.OperatorPropertiesList_ForNumbers.ForEach(x => x.Successful = true);
-            viewModel.OperatorPropertiesList_ForPatchInlets.ForEach(x => x.Successful = true);
-            viewModel.OperatorPropertiesList_ForPatchOutlets.ForEach(x => x.Successful = true);
-            viewModel.OperatorPropertiesList_ForRandoms.ForEach(x => x.Successful = true);
-            viewModel.OperatorPropertiesList_ForResamples.ForEach(x => x.Successful = true);
-            viewModel.OperatorPropertiesList_ForSamples.ForEach(x => x.Successful = true);
-            viewModel.OperatorPropertiesList_ForUnbundles.ForEach(x => x.Successful = true);
-            viewModel.PatchDetails.Successful = true;
-            viewModel.PatchProperties.Successful = true;
-            viewModel.SampleGrid.Successful = true;
-            viewModel.SamplePropertiesList.Select(x => x.Successful = true);
 
             return viewModel;
         }

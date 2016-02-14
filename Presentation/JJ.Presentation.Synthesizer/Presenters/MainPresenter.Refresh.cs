@@ -123,6 +123,181 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
+        private void DocumentViewModelRefresh()
+        {
+            DocumentViewModel viewModel = MainViewModel.Document;
+
+            AudioFileOutputGridRefresh();
+            CurrentPatchesRefresh();
+            CurveGridRefresh(viewModel.CurveGrid);
+            DocumentPropertiesRefresh();
+            DocumentTreeRefresh();
+            SampleGridRefresh(viewModel.SampleGrid);
+            ScaleGridRefresh();
+            viewModel.AudioFileOutputPropertiesList.ToArray().ForEach(x => AudioFileOutputPropertiesRefresh(x));
+            viewModel.CurveDetailsList.ToArray().ForEach(x => CurveDetailsRefresh(x));
+            viewModel.CurvePropertiesList.ToArray().ForEach(x => CurvePropertiesRefresh(x));
+            viewModel.NodePropertiesList.ToArray().ForEach(x => NodePropertiesRefresh(x));
+            viewModel.PatchGridList.ToArray().ForEach(x => PatchGridRefresh(x));
+            viewModel.SamplePropertiesList.ToArray().ForEach(x => SamplePropertiesRefresh(x));
+            viewModel.ScalePropertiesList.ToArray().ForEach(x => ScalePropertiesRefresh(x));
+            viewModel.ToneGridEditList.ToArray().ForEach(x => ToneGridEditRefresh(x));
+
+            // Note that AutoPatchDetails cannot be refreshed.
+
+            foreach (PatchDocumentViewModel patchDocumentViewModel in viewModel.PatchDocumentList)
+            {
+                CurveGridRefresh(patchDocumentViewModel.CurveGrid);
+                PatchDetailsRefresh(patchDocumentViewModel.PatchDetails);
+                patchDocumentViewModel.CurveDetailsList.ToArray().ForEach(x => CurveDetailsRefresh(x));
+                patchDocumentViewModel.CurvePropertiesList.ToArray().ForEach(x => CurvePropertiesRefresh(x));
+                patchDocumentViewModel.NodePropertiesList.ToArray().ForEach(x => NodePropertiesRefresh(x));
+                patchDocumentViewModel.OperatorPropertiesList.ToArray().ForEach(x => OperatorPropertiesRefresh(x));
+                patchDocumentViewModel.OperatorPropertiesList_ForAggregates.ToArray().ForEach(x => OperatorProperties_ForAggregate_Refresh(x));
+                patchDocumentViewModel.OperatorPropertiesList_ForBundles.ToArray().ForEach(x => OperatorProperties_ForBundle_Refresh(x));
+                patchDocumentViewModel.OperatorPropertiesList_ForCurves.ToArray().ForEach(x =>  OperatorProperties_ForCurve_Refresh(x));
+                patchDocumentViewModel.OperatorPropertiesList_ForCustomOperators.ToArray().ForEach(x => OperatorProperties_ForCustomOperator_Refresh(x));
+                patchDocumentViewModel.OperatorPropertiesList_ForNumbers.ToArray().ForEach(x =>  OperatorProperties_ForNumber_Refresh(x));
+                patchDocumentViewModel.OperatorPropertiesList_ForPatchInlets.ToArray().ForEach(x => OperatorProperties_ForPatchInlet_Refresh(x));
+                patchDocumentViewModel.OperatorPropertiesList_ForPatchOutlets.ToArray().ForEach(x => OperatorProperties_ForPatchOutletRefresh(x));
+                patchDocumentViewModel.OperatorPropertiesList_ForRandoms.ToArray().ForEach(x =>  OperatorProperties_ForRandom_Refresh(x));
+                patchDocumentViewModel.OperatorPropertiesList_ForResamples.ToArray().ForEach(x => OperatorProperties_ForResample_Refresh(x));
+                patchDocumentViewModel.OperatorPropertiesList_ForSamples.ToArray().ForEach(x =>  OperatorProperties_ForSample_Refresh(x));
+                patchDocumentViewModel.OperatorPropertiesList_ForUnbundles.ToArray().ForEach(x => OperatorProperties_ForUnbundle_Refresh(x));
+                patchDocumentViewModel.SamplePropertiesList.ToArray().ForEach(x => SamplePropertiesRefresh(x));
+                PatchPropertiesRefresh(patchDocumentViewModel.PatchProperties);
+                SampleGridRefresh(patchDocumentViewModel.SampleGrid);
+            }
+        }
+
+        private void OperatorPropertiesRefresh(OperatorPropertiesViewModel userInput)
+        {
+            OperatorPropertiesViewModel viewModel = _operatorPropertiesPresenter.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
+        private void OperatorProperties_ForAggregate_Refresh(OperatorPropertiesViewModel_ForAggregate userInput)
+        {
+            OperatorPropertiesViewModel_ForAggregate viewModel = _operatorPropertiesPresenter_ForAggregate.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
+        private void OperatorProperties_ForBundle_Refresh(OperatorPropertiesViewModel_ForBundle userInput)
+        {
+            OperatorPropertiesViewModel_ForBundle viewModel = _operatorPropertiesPresenter_ForBundle.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
+        private void OperatorProperties_ForCurve_Refresh(OperatorPropertiesViewModel_ForCurve userInput)
+        {
+            OperatorPropertiesViewModel_ForCurve viewModel = _operatorPropertiesPresenter_ForCurve.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
+        private void OperatorProperties_ForCustomOperator_Refresh(OperatorPropertiesViewModel_ForCustomOperator userInput)
+        {
+            OperatorPropertiesViewModel_ForCustomOperator viewModel = _operatorPropertiesPresenter_ForCustomOperator.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
+        private void OperatorProperties_ForNumber_Refresh(OperatorPropertiesViewModel_ForNumber userInput)
+        {
+            OperatorPropertiesViewModel_ForNumber viewModel = _operatorPropertiesPresenter_ForNumber.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
+        private void OperatorProperties_ForPatchInlet_Refresh(OperatorPropertiesViewModel_ForPatchInlet userInput)
+        {
+            OperatorPropertiesViewModel_ForPatchInlet viewModel = _operatorPropertiesPresenter_ForPatchInlet.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
+        private void OperatorProperties_ForPatchOutletRefresh(OperatorPropertiesViewModel_ForPatchOutlet userInput)
+        {
+            OperatorPropertiesViewModel_ForPatchOutlet viewModel = _operatorPropertiesPresenter_ForPatchOutlet.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
+        private void OperatorProperties_ForRandom_Refresh(OperatorPropertiesViewModel_ForRandom userInput)
+        {
+            OperatorPropertiesViewModel_ForRandom viewModel = _operatorPropertiesPresenter_ForRandom.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
+        private void OperatorProperties_ForResample_Refresh(OperatorPropertiesViewModel_ForResample userInput)
+        {
+            OperatorPropertiesViewModel_ForResample viewModel = _operatorPropertiesPresenter_ForResample.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
+        private void OperatorProperties_ForSample_Refresh(OperatorPropertiesViewModel_ForSample userInput)
+        {
+            OperatorPropertiesViewModel_ForSample viewModel = _operatorPropertiesPresenter_ForSample.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
+        private void OperatorProperties_ForUnbundle_Refresh(OperatorPropertiesViewModel_ForUnbundle userInput)
+        {
+            OperatorPropertiesViewModel_ForUnbundle viewModel = _operatorPropertiesPresenter_ForUnbundle.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
+        private void PatchDetailsRefresh(PatchDetailsViewModel userInput)
+        {
+            _patchDetailsPresenter.ViewModel = userInput;
+            _patchDetailsPresenter.Refresh();
+            DispatchViewModel(_patchDetailsPresenter.ViewModel);
+        }
+
+        private void PatchPropertiesRefresh(PatchPropertiesViewModel userInput)
+        {
+            PatchPropertiesViewModel viewModel = _patchPropertiesPresenter.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
+        private void ScalePropertiesRefresh(ScalePropertiesViewModel userInput)
+        {
+            ScalePropertiesViewModel viewModel = _scalePropertiesPresenter.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
+        private void SamplePropertiesRefresh(SamplePropertiesViewModel userInput)
+        {
+            SamplePropertiesViewModel viewModel = _samplePropertiesPresenter.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
+        private void NodePropertiesRefresh(NodePropertiesViewModel userInput)
+        {
+            NodePropertiesViewModel viewModel = _nodePropertiesPresenter.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
+        private void DocumentPropertiesRefresh()
+        {
+            DocumentPropertiesViewModel userInput = MainViewModel.Document.DocumentProperties;
+            DocumentPropertiesViewModel viewModel = _documentPropertiesPresenter.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
+        private void CurvePropertiesRefresh(CurvePropertiesViewModel userInput)
+        {
+            CurvePropertiesViewModel viewModel = _curvePropertiesPresenter.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
+        private void CurveDetailsRefresh(CurveDetailsViewModel userInput)
+        {
+            _curveDetailsPresenter.Refresh();
+            DispatchViewModel(_curveDetailsPresenter.ViewModel);
+        }
+
+        private void AudioFileOutputPropertiesRefresh(AudioFileOutputPropertiesViewModel userInput)
+        {
+            _audioFileOutputPropertiesPresenter.Refresh();
+            DispatchViewModel(_audioFileOutputPropertiesPresenter.ViewModel);
+        }
+
         private void PatchDetails_RefreshOperator(int operatorID)
         {
             OperatorViewModel viewModel = DocumentViewModelHelper.GetOperatorViewModel(MainViewModel.Document, operatorID);

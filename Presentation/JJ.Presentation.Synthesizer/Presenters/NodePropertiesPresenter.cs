@@ -7,6 +7,7 @@ using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
+using JJ.Framework.Common;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -89,8 +90,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetEntity
             Node entity = _repositories.NodeRepository.Get(userInput.Entity.ID);
 
-            // TODO: Low priority: I doubt it is wise to validate without parent,
-            // because it is incorrect data.
+            // TODO: Low priority: I doubt it is wise to validate without parent, because it is incorrect data.
             VoidResult result = _curveManager.ValidateNodeWithoutParent(entity);
 
             // ToViewModel
@@ -98,6 +98,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
+            result.Messages.AddRange(result.Messages);
 
             // Successful?
             viewModel.Successful = result.Successful;

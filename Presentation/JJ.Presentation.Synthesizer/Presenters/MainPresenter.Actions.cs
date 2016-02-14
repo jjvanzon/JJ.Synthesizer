@@ -244,16 +244,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             IList<CurveDetailsViewModel> detailsViewModels = DocumentViewModelHelper.GetCurveDetailsViewModelList_ByDocumentID(MainViewModel.Document, document.ID);
             CurveDetailsViewModel curveDetailsViewModel = curve.ToDetailsViewModel(_repositories.NodeTypeRepository);
+            curveDetailsViewModel.Successful = true;
             detailsViewModels.Add(curveDetailsViewModel);
 
             IList<CurvePropertiesViewModel> propertiesViewModels = DocumentViewModelHelper.GetCurvePropertiesViewModelList_ByDocumentID(MainViewModel.Document, document.ID);
             CurvePropertiesViewModel curvePropertiesViewModel = curve.ToPropertiesViewModel();
+            curvePropertiesViewModel.Successful = true;
             propertiesViewModels.Add(curvePropertiesViewModel);
 
             IList<NodePropertiesViewModel> nodePropertiesViewModelList = DocumentViewModelHelper.GetNodePropertiesViewModelList_ByCurveID(MainViewModel.Document, curve.ID);
             foreach (Node node in curve.Nodes)
             {
                 NodePropertiesViewModel nodePropertiesViewModel = node.ToPropertiesViewModel(_repositories.NodeTypeRepository);
+                nodePropertiesViewModel.Successful = true;
                 nodePropertiesViewModelList.Add(nodePropertiesViewModel);
             }
 
@@ -301,10 +304,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 return;
             }
 
-            // ToViewModel
-            MainViewModel.Document = rootDocument.ToViewModel(_repositories, _entityPositionManager);
-
-            // TODO: Non-persisted properties are not retained.
+            // Refresh
+            DocumentViewModelRefresh();
         }
 
         public void CurveDetailsShow(int curveID)
@@ -324,6 +325,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Partial Action
             _curveDetailsPresenter.Close();
 
+            // DispatchViewModel
             DispatchViewModel(_curveDetailsPresenter.ViewModel);
         }
 
@@ -344,54 +346,43 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 return;
             }
 
-            // ToViewModel
+            // DispatchViewModel
             DispatchViewModel(_curveDetailsPresenter.ViewModel);
         }
 
         public void CurvePropertiesShow(int curveID)
         {
-            CurvePropertiesViewModel propertiesViewModel = DocumentViewModelHelper.GetCurvePropertiesViewModel(MainViewModel.Document, curveID);
-            _curvePropertiesPresenter.ViewModel = propertiesViewModel;
-            _curvePropertiesPresenter.Show();
+            // GetViewModel
+            CurvePropertiesViewModel userInput = DocumentViewModelHelper.GetCurvePropertiesViewModel(MainViewModel.Document, curveID);
 
-            DispatchViewModel(_curvePropertiesPresenter.ViewModel);
+            // TemplateMethod
+            TemplateActionMethod(userInput, _curvePropertiesPresenter.Show);
         }
 
         public void CurvePropertiesClose()
         {
-            CurvePropertiesCloseOrLoseFocus(() => _curvePropertiesPresenter.Close());
+            CurvePropertiesCloseOrLoseFocus(x => _curvePropertiesPresenter.Close(x));
         }
 
         public void CurvePropertiesLoseFocus()
         {
-            CurvePropertiesCloseOrLoseFocus(() => _curvePropertiesPresenter.LoseFocus());
+            CurvePropertiesCloseOrLoseFocus(x => _curvePropertiesPresenter.LoseFocus(x));
         }
 
-        private void CurvePropertiesCloseOrLoseFocus(Action partialAction)
+        private void CurvePropertiesCloseOrLoseFocus(Func<CurvePropertiesViewModel, CurvePropertiesViewModel> partialAction)
         {
-            // ToEntity
-            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
+            // GetViewModel
+            CurvePropertiesViewModel userInput = DocumentViewModelHelper.GetVisibleCurvePropertiesViewModel(MainViewModel.Document);
 
-            // Partial Action
-            partialAction();
+            // TemplateMethod
+            CurvePropertiesViewModel viewModel = TemplateActionMethod(userInput, partialAction);
 
-            // Business
-            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
-            if (!validationResult.Successful)
+            // Refresh
+            if (viewModel.Successful)
             {
-                MainViewModel.Successful &= validationResult.Successful;
-                MainViewModel.PopupMessages.AddRange(validationResult.Messages);
-                return;
+                // Things that need to be refreshed: PatchDetails, Curve lookups, Curve Grid.
+                DocumentViewModelRefresh();
             }
-
-            // ToViewModel
-            DispatchViewModel(_curvePropertiesPresenter.ViewModel);
-            if (!_curvePropertiesPresenter.ViewModel.Successful)
-            {
-                return;
-            }
-
-            MainViewModel.Document = rootDocument.ToViewModel(_repositories, _entityPositionManager);
         }
 
         // Document Grid
@@ -487,7 +478,58 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             Document document = _repositories.DocumentRepository.GetComplete(documentID);
 
-            MainViewModel.Document = document.ToViewModel(_repositories, _entityPositionManager);
+            DocumentViewModel viewModel = document.ToViewModel(_repositories, _entityPositionManager);
+
+            // Non-Persisted
+            viewModel.DocumentTree.Visible = true;
+            viewModel.IsOpen = true;
+
+            // Set everything to successful.
+            viewModel.AudioFileOutputGrid.Successful = true;
+            viewModel.AudioFileOutputPropertiesList.ForEach(x => x.Successful = true);
+            viewModel.CurrentPatches.Successful = true;
+            viewModel.CurveDetailsList.ForEach(x => x.Successful = true);
+            viewModel.CurveGrid.Successful = true;
+            viewModel.CurvePropertiesList.ForEach(x => x.Successful = true);
+            viewModel.DocumentProperties.Successful = true;
+            viewModel.DocumentTree.Successful = true;
+            viewModel.PatchGridList.ForEach(x => x.Successful = true);
+            viewModel.NodePropertiesList.ForEach(x => x.Successful = true);
+            viewModel.SampleGrid.Successful = true;
+            viewModel.SamplePropertiesList.ForEach(x => x.Successful = true);
+            viewModel.ScaleGrid.Successful = true;
+            viewModel.ScalePropertiesList.ForEach(x => x.Successful = true);
+            viewModel.ToneGridEditList.ForEach(x => x.Successful = true);
+            viewModel.AutoPatchDetails.Successful = true;
+
+            foreach (PatchDocumentViewModel patchDocumentViewModel in viewModel.PatchDocumentList)
+            {
+                patchDocumentViewModel.CurveDetailsList.ForEach(x => x.Successful = true);
+                patchDocumentViewModel.CurveGrid.Successful = true;
+                patchDocumentViewModel.CurvePropertiesList.ForEach(x => x.Successful = true);
+                patchDocumentViewModel.NodePropertiesList.ForEach(x => x.Successful = true);
+                patchDocumentViewModel.OperatorPropertiesList.ForEach(x => x.Successful = true);
+                patchDocumentViewModel.OperatorPropertiesList_ForAggregates.ForEach(x => x.Successful = true);
+                patchDocumentViewModel.OperatorPropertiesList_ForBundles.ForEach(x => x.Successful = true);
+                patchDocumentViewModel.OperatorPropertiesList_ForCurves.ForEach(x => x.Successful = true);
+                patchDocumentViewModel.OperatorPropertiesList_ForCustomOperators.ForEach(x => x.Successful = true);
+                patchDocumentViewModel.OperatorPropertiesList_ForNumbers.ForEach(x => x.Successful = true);
+                patchDocumentViewModel.OperatorPropertiesList_ForPatchInlets.ForEach(x => x.Successful = true);
+                patchDocumentViewModel.OperatorPropertiesList_ForPatchOutlets.ForEach(x => x.Successful = true);
+                patchDocumentViewModel.OperatorPropertiesList_ForRandoms.ForEach(x => x.Successful = true);
+                patchDocumentViewModel.OperatorPropertiesList_ForResamples.ForEach(x => x.Successful = true);
+                patchDocumentViewModel.OperatorPropertiesList_ForSamples.ForEach(x => x.Successful = true);
+                patchDocumentViewModel.OperatorPropertiesList_ForUnbundles.ForEach(x => x.Successful = true);
+                patchDocumentViewModel.PatchDetails.Successful = true;
+                patchDocumentViewModel.PatchProperties.Successful = true;
+                patchDocumentViewModel.SampleGrid.Successful = true;
+                patchDocumentViewModel.SamplePropertiesList.Select(x => x.Successful = true);
+            }
+
+            // DispatchViewModel
+            MainViewModel.Document = viewModel;
+
+            // TODO: The rest of this method is not entirely in accordance with the new patterns.
 
             // Here only the view models are assigned that cannot vary.
             // E.g. SampleGrid is not assigned here, because it can be different for each child document.
@@ -496,15 +538,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             MainViewModel.WindowTitle = String.Format("{0} - {1}", document.Name, Titles.ApplicationName);
 
-            _menuPresenter.Show(documentIsOpen: true);
-            MainViewModel.Menu = _menuPresenter.ViewModel;
+            MainViewModel.Menu = _menuPresenter.Show(documentIsOpen: true);
 
             CurrentPatchesShow();
 
             MainViewModel.DocumentGrid.Visible = false;
-            MainViewModel.Document.DocumentTree.Visible = true;
-
-            MainViewModel.Document.IsOpen = true;
         }
 
         public void DocumentSave()
@@ -534,9 +572,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 MainViewModel.Document = ViewModelHelper.CreateEmptyDocumentViewModel();
                 MainViewModel.WindowTitle = Titles.ApplicationName;
-
-                _menuPresenter.Show(documentIsOpen: false);
-                MainViewModel.Menu = _menuPresenter.ViewModel;
+                MainViewModel.Menu = _menuPresenter.Show(documentIsOpen: false);
             }
         }
 

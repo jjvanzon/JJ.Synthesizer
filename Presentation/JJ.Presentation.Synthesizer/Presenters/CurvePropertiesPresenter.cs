@@ -1,17 +1,13 @@
 ﻿using System.Collections.Generic;
-using JJ.Framework.Validation;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
-using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Extensions;
-using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToEntity;
 using JJ.Presentation.Synthesizer.ToViewModel;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Business.Synthesizer;
 using JJ.Data.Canonical;
+using JJ.Framework.Common;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -19,8 +15,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         private CurveRepositories _repositories;
         private CurveManager _curveManager;
-
-        public CurvePropertiesViewModel ViewModel { get; set; }
 
         public CurvePropertiesPresenter(CurveRepositories repositories)
         {
@@ -30,57 +24,95 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _curveManager = new CurveManager(_repositories);
         }
 
-        public void Show()
+        public CurvePropertiesViewModel Show(CurvePropertiesViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            ViewModel.Visible = true;
+            // GetEntity
+            Curve entity = _repositories.CurveRepository.Get(userInput.Entity.ID);
+
+            // ToViewModel
+            CurvePropertiesViewModel viewModel = entity.ToPropertiesViewModel();
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+            viewModel.Visible = true;
+
+            return viewModel;
         }
 
-        public void Refresh()
+        public CurvePropertiesViewModel Refresh(CurvePropertiesViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Curve entity = _repositories.CurveRepository.Get(ViewModel.Entity.ID);
-            bool visible = ViewModel.Visible;
-            ViewModel = entity.ToPropertiesViewModel();
-            ViewModel.Visible = visible;
+            // GetEntity
+            Curve entity = _repositories.CurveRepository.Get(userInput.Entity.ID);
+
+            // ToViewModel
+            CurvePropertiesViewModel viewModel = entity.ToPropertiesViewModel();
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+
+            return viewModel;
         }
 
-        public void Close()
+        public CurvePropertiesViewModel Close(CurvePropertiesViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Update();
+            CurvePropertiesViewModel viewModel = Update(userInput);
 
-            if (ViewModel.Successful)
+            if (viewModel.Successful)
             {
-                ViewModel.Visible = false;
+                viewModel.Visible = false;
             }
+
+            return viewModel;
         }
 
-        public void LoseFocus()
+        public CurvePropertiesViewModel LoseFocus(CurvePropertiesViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Update();
+            CurvePropertiesViewModel viewModel = Update(userInput);
+
+            return viewModel;
         }
 
-        private void Update()
+        private CurvePropertiesViewModel Update(CurvePropertiesViewModel userInput)
         {
-            Curve entity = ViewModel.ToEntity(_repositories.CurveRepository);
+            // Set !Successful
+            userInput.Successful = false;
 
+            // GetEntity
+            Curve entity = _repositories.CurveRepository.Get(userInput.Entity.ID);
+
+            // Business
             VoidResult result = _curveManager.ValidateWithoutRelatedEntities(entity);
 
-            ViewModel.Successful = result.Successful;
-            ViewModel.ValidationMessages = result.Messages;
+            // ToViewModel
+            CurvePropertiesViewModel viewModel = entity.ToPropertiesViewModel();
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+            viewModel.ValidationMessages.AddRange(result.Messages);
+
+            // Successful?
+            viewModel.Successful = result.Successful;
+            return viewModel;
         }
 
         // Helpers
 
-        private void AssertViewModel()
+        private void CopyNonPersistedProperties(CurvePropertiesViewModel sourceViewModel, CurvePropertiesViewModel destViewModel)
         {
-            if (ViewModel == null) throw new NullException(() => ViewModel);
+            if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
+            if (destViewModel == null) throw new NullException(() => destViewModel);
+
+            destViewModel.ValidationMessages = sourceViewModel.ValidationMessages;
+            destViewModel.Visible = sourceViewModel.Visible;
+            destViewModel.Successful = sourceViewModel.Successful;
         }
     }
 }

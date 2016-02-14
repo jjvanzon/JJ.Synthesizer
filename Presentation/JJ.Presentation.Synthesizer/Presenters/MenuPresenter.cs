@@ -5,12 +5,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class MenuPresenter
     {
-        public MenuViewModel ViewModel { get; private set; }
-
         public MenuViewModel Show(bool documentIsOpen)
         {
-            ViewModel = ViewModelHelper.CreateMenuViewModel(documentIsOpen);
-            return ViewModel;
+            MenuViewModel viewModel = ViewModelHelper.CreateMenuViewModel(documentIsOpen);
+            return viewModel;
         }
     }
 }

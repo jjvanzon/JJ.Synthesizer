@@ -235,6 +235,20 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
         }
 
+        public static CurvePropertiesViewModel GetVisibleCurvePropertiesViewModel(DocumentViewModel rootDocumentViewModel)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            CurvePropertiesViewModel viewModel = EnumerateCurvePropertiesViewModels(rootDocumentViewModel).Where(x => x.Visible)
+                                                                                                          .FirstOrDefault();
+            if (viewModel == null)
+            {
+                throw new Exception("No visible CurvePropertiesViewModel found in rootDocumentViewModel or any of its PatchDocumentViewModels.");
+            }
+
+            return viewModel;
+        }
+
         // Node
 
         public static NodePropertiesViewModel GetNodePropertiesViewModel(DocumentViewModel rootDocumentViewModel, int nodeID)
