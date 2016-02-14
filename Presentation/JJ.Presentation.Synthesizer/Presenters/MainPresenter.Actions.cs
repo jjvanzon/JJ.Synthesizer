@@ -572,10 +572,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void NodePropertiesShow(int nodeID)
         {
+            // GetViewModel
             NodePropertiesViewModel userInput = DocumentViewModelHelper.GetNodePropertiesViewModel(MainViewModel.Document, nodeID);
 
-            NodePropertiesViewModel viewModel = _nodePropertiesPresenter.Show(userInput);
-            DispatchViewModel(viewModel);
+            // Template Method
+            NodePropertiesViewModel viewModel = TemplateActionMethod(userInput, _nodePropertiesPresenter.Show);
         }
 
         public void NodePropertiesClose()

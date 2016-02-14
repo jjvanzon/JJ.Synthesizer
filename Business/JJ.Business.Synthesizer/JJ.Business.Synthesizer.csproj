@@ -54,6 +54,8 @@
     <Compile Include="Calculation\Operators\Average_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Maximum_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Absolute_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\OneOverX_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Negative_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Not_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Or OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Divide OperatorCalculator Classes.cs" />
@@ -152,6 +154,8 @@
     <Compile Include="Calculation\NoiseCalculator.cs" />
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="Converters\PatchToOperatorConverter.cs" />
+    <Compile Include="EntityWrappers\OneOverX_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\Negative_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Round_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\If_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Average_OperatorWrapper.cs" />
@@ -263,6 +267,8 @@
     <Compile Include="Validation\CurveValidator_Nodes.cs" />
     <Compile Include="Validation\DocumentValidator_RootDocument.cs" />
     <Compile Include="Validation\OperatorValidator_Absolute.cs" />
+    <Compile Include="Validation\OperatorValidator_OneOverX.cs" />
+    <Compile Include="Validation\OperatorValidator_Negative.cs" />
     <Compile Include="Validation\OperatorValidator_Round.cs" />
     <Compile Include="Validation\OperatorValidator_SawDown.cs" />
     <Compile Include="Validation\OperatorValidator_Scaler.cs" />
@@ -302,6 +308,8 @@
     <Compile Include="SampleManager.cs" />
     <Compile Include="ScaleManager.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Absolute.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_OneOverX.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_Negative.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Round.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_SawDown.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Scaler.cs" />

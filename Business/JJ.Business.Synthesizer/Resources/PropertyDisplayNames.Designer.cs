@@ -853,6 +853,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Negative.
+        /// </summary>
+        public static string Negative {
+            get {
+                return ResourceManager.GetString("Negative", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Node.
         /// </summary>
         public static string Node {
@@ -948,6 +957,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Off {
             get {
                 return ResourceManager.GetString("Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1/X.
+        /// </summary>
+        public static string OneOverX {
+            get {
+                return ResourceManager.GetString("OneOverX", resourceCulture);
             }
         }
         

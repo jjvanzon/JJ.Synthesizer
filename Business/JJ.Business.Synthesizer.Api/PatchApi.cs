@@ -174,6 +174,11 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Narrower(signal, factor, origin);
         }
 
+        public Negative_OperatorWrapper Negative(Outlet x = null)
+        {
+            return _patchManager.Negative(x);
+        }
+
         public Noise_OperatorWrapper Noise()
         {
             return _patchManager.Noise();
@@ -192,6 +197,11 @@ namespace JJ.Business.Synthesizer.Api
         public Number_OperatorWrapper Number(double number = 0)
         {
             return _patchManager.Number(number);
+        }
+
+        public OneOverX_OperatorWrapper OneOverX(Outlet x = null)
+        {
+            return _patchManager.OneOverX(x);
         }
 
         public Or_OperatorWrapper Or(Outlet a = null, Outlet b = null)

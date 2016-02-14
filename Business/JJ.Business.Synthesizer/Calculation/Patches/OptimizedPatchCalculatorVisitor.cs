@@ -1184,6 +1184,28 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
+        protected override void VisitNegative(Operator op)
+        {
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase xCalculator = _stack.Pop();
+
+            xCalculator = xCalculator ?? new Zero_OperatorCalculator();
+            double x = xCalculator.Calculate(0, 0);
+            bool xIsConst = xCalculator is Number_OperatorCalculator;
+
+            if (xIsConst)
+            {
+                calculator = new Number_OperatorCalculator(-x);
+            }
+            else
+            {
+                calculator = new Negative_OperatorCalculator(xCalculator);
+            }
+
+            _stack.Push(calculator);
+        }
+
         protected override void VisitNoise(Operator op)
         {
             double offset;
@@ -1201,13 +1223,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             OperatorCalculatorBase calculator;
 
-            OperatorCalculatorBase calculatorX = _stack.Pop();
+            OperatorCalculatorBase xCalculator = _stack.Pop();
 
-            calculatorX = calculatorX ?? new Zero_OperatorCalculator();
+            xCalculator = xCalculator ?? new Zero_OperatorCalculator();
 
-            double x = calculatorX.Calculate(0, 0);
+            double x = xCalculator.Calculate(0, 0);
 
-            bool xIsConst = calculatorX is Number_OperatorCalculator;
+            bool xIsConst = xCalculator is Number_OperatorCalculator;
 
             if (xIsConst)
             {
@@ -1222,7 +1244,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (!xIsConst)
             {
-                calculator = new Not_OperatorCalculator(calculatorX);
+                calculator = new Not_OperatorCalculator(xCalculator);
             }
             else
             {
@@ -1283,6 +1305,28 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double number = wrapper.Number;
 
             var calculator = new Number_OperatorCalculator(number);
+            _stack.Push(calculator);
+        }
+
+        protected override void VisitOneOverX(Operator op)
+        {
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase xCalculator = _stack.Pop();
+
+            xCalculator = xCalculator ?? new One_OperatorCalculator();
+            double x = xCalculator.Calculate(0, 0);
+            bool xIsConst = xCalculator is Number_OperatorCalculator;
+
+            if (xIsConst)
+            {
+                calculator = new Number_OperatorCalculator(1 / x);
+            }
+            else
+            {
+                calculator = new OneOverX_OperatorCalculator(xCalculator);
+            }
+
             _stack.Push(calculator);
         }
 

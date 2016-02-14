@@ -656,4 +656,10 @@
     <value>Round</value>
     <comment>As in: round up a number.</comment>
   </data>
+  <data name="Negative" xml:space="preserve">
+    <value>Negative</value>
+  </data>
+  <data name="OneOverX" xml:space="preserve">
+    <value>1/X</value>
+  </data>
 </root>

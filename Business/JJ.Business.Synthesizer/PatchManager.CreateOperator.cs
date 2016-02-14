@@ -567,6 +567,23 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        public Negative_OperatorWrapper Negative(Outlet x = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Negative, inletCount: 1, outletCount: 1);
+
+            var wrapper = new Negative_OperatorWrapper(op)
+            {
+                X = x,
+            };
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
         public Noise_OperatorWrapper Noise()
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Noise, inletCount: 0, outletCount: 1);
@@ -623,6 +640,23 @@ namespace JJ.Business.Synthesizer
             var wrapper = new Number_OperatorWrapper(op)
             {
                 Number = number
+            };
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
+        public OneOverX_OperatorWrapper OneOverX(Outlet x = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.OneOverX, inletCount: 1, outletCount: 1);
+
+            var wrapper = new OneOverX_OperatorWrapper(op)
+            {
+                X = x,
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
@@ -1258,7 +1292,9 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.Noise: return Noise();
                 case OperatorTypeEnum.Not: return Not();
                 case OperatorTypeEnum.NotEqual: return NotEqual();
+                case OperatorTypeEnum.Negative: return Negative();
                 case OperatorTypeEnum.Number: return Number();
+                case OperatorTypeEnum.OneOverX: return OneOverX();
                 case OperatorTypeEnum.Or: return Or();
                 case OperatorTypeEnum.PatchInlet: return PatchInlet();
                 case OperatorTypeEnum.PatchOutlet: return PatchOutlet();

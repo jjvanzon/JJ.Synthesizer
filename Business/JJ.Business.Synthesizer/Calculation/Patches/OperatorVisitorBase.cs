@@ -41,9 +41,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.Minimum, VisitMinimum },
                 { OperatorTypeEnum.Multiply, VisitMultiply },
                 { OperatorTypeEnum.Narrower, VisitNarrower },
+                { OperatorTypeEnum.Negative, VisitNegative },
+                { OperatorTypeEnum.Noise, VisitNoise },
                 { OperatorTypeEnum.Not, VisitNot },
                 { OperatorTypeEnum.NotEqual, VisitNotEqual },
                 { OperatorTypeEnum.Number, VisitNumber },
+                { OperatorTypeEnum.OneOverX, VisitOneOverX },
                 { OperatorTypeEnum.Or, VisitOr },
                 { OperatorTypeEnum.PatchInlet, VisitPatchInlet },
                 { OperatorTypeEnum.PatchOutlet, VisitPatchOutlet },
@@ -70,7 +73,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.TimePower, VisitTimePower },
                 { OperatorTypeEnum.Triangle, VisitTriangle },
                 { OperatorTypeEnum.Unbundle, VisitUnbundle },
-                { OperatorTypeEnum.Noise, VisitNoise },
             };
         }
 
@@ -122,6 +124,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected virtual void VisitAdder(Operator op) { }
 
         /// <summary> does nothing </summary>
+        protected virtual void VisitAnd(Operator op) { }
+
+        /// <summary> does nothing </summary>
         protected virtual void VisitAverage(Operator op) { }
 
         /// <summary> does nothing </summary>
@@ -143,13 +148,28 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected virtual void VisitEarlier(Operator op) { }
 
         /// <summary> does nothing </summary>
+        protected virtual void VisitEqual(Operator op) { }
+
+        /// <summary> does nothing </summary>
         protected virtual void VisitExponent(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitGreaterThan(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitGreaterThanOrEqual(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitHighPassFilter(Operator op) { }
 
         /// <summary> does nothing </summary>
         protected virtual void VisitIf(Operator op) { }
 
         /// <summary> does nothing </summary>
-        protected virtual void VisitHighPassFilter(Operator op) { }
+        protected virtual void VisitLessThan(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitLessThanOrEqual(Operator op) { }
 
         /// <summary> does nothing </summary>
         protected virtual void VisitLoop(Operator op) { }
@@ -158,10 +178,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected virtual void VisitLowPassFilter(Operator op) { }
 
         /// <summary> does nothing </summary>
-        protected virtual void VisitMinimum(Operator op) { }
+        protected virtual void VisitMaximum(Operator op) { }
 
         /// <summary> does nothing </summary>
-        protected virtual void VisitMaximum(Operator op) { }
+        protected virtual void VisitMinimum(Operator op) { }
 
         /// <summary> does nothing </summary>
         protected virtual void VisitMultiply(Operator op) { }
@@ -170,7 +190,25 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected virtual void VisitNarrower(Operator op) { }
 
         /// <summary> does nothing </summary>
+        protected virtual void VisitNegative(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitNoise(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitNot(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitNotEqual(Operator op) { }
+
+        /// <summary> does nothing </summary>
         protected virtual void VisitNumber(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitOneOverX(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitOr(Operator op) { }
 
         /// <summary> does nothing </summary>
         protected virtual void VisitPatchInlet(Operator obj) { }
@@ -246,35 +284,5 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         /// <summary> does nothing </summary>
         protected virtual void VisitUnbundle(Operator op) { }
-
-        /// <summary> does nothing </summary>
-        protected virtual void VisitNoise(Operator op) { }
-
-        /// <summary> does nothing </summary>
-        protected virtual void VisitEqual(Operator op) { }
-
-        /// <summary> does nothing </summary>
-        protected virtual void VisitNotEqual(Operator op) { }
-
-        /// <summary> does nothing </summary>
-        protected virtual void VisitLessThan(Operator op) { }
-
-        /// <summary> does nothing </summary>
-        protected virtual void VisitGreaterThan(Operator op) { }
-
-        /// <summary> does nothing </summary>
-        protected virtual void VisitLessThanOrEqual(Operator op) { }
-
-        /// <summary> does nothing </summary>
-        protected virtual void VisitGreaterThanOrEqual(Operator op) { }
-
-        /// <summary> does nothing </summary>
-        protected virtual void VisitAnd(Operator op) { }
-
-        /// <summary> does nothing </summary>
-        protected virtual void VisitOr(Operator op) { }
-
-        /// <summary> does nothing </summary>
-        protected virtual void VisitNot(Operator op) { }
     }
 }
