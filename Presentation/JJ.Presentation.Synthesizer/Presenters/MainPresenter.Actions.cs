@@ -408,7 +408,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void DocumentDetailsCreate()
         {
-            // PartialAction
+            // Partial Action
             DocumentDetailsViewModel viewModel = _documentDetailsPresenter.Create();
 
             // DispatchViewModel
@@ -417,7 +417,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void DocumentDetailsClose()
         {
-            // PartialAction
+            // Partial Action
             DocumentDetailsViewModel viewModel = _documentDetailsPresenter.Close(MainViewModel.DocumentDetails);
 
             // DispatchViewModel
@@ -426,7 +426,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void DocumentDetailsSave()
         {
-            // PartialAction
+            // Partial Action
             DocumentDetailsViewModel viewModel = _documentDetailsPresenter.Save(MainViewModel.DocumentDetails);
 
             // DispatchViewModel
@@ -444,8 +444,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void DocumentCannotDeleteOK()
         {
-            _documentCannotDeletePresenter.OK();
-            DispatchViewModel(_documentCannotDeletePresenter.ViewModel);
+            // Partial Action
+            object viewModel = _documentCannotDeletePresenter.OK(MainViewModel.DocumentCannotDelete);
+
+            // DispatchViewModel
+            DispatchViewModel(viewModel);
         }
 
         public void DocumentConfirmDelete(int id)
@@ -462,13 +465,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void DocumentCancelDelete()
         {
-            _documentDeletePresenter.Cancel();
-            DispatchViewModel(_documentDeletePresenter.ViewModel);
+            // Partial Action
+            object viewModel = _documentDeletePresenter.Cancel(MainViewModel.DocumentDelete);
+
+            // DispatchViewModel
+            DispatchViewModel(viewModel);
         }
 
         public void DocumentDeletedOK()
         {
+            // Partial Action
             DocumentDeletedViewModel viewModel = _documentDeletedPresenter.OK();
+
+            // DispatchViewModel
             DispatchViewModel(viewModel);
         }
 

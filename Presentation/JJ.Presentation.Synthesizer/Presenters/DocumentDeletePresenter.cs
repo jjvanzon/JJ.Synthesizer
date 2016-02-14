@@ -14,8 +14,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private IDocumentRepository _documentRepository;
         private DocumentManager _documentManager;
 
-        public DocumentDeleteViewModel ViewModel { get; private set; }
-
         public DocumentDeletePresenter(RepositoryWrapper repositoryWrapper)
         {
             if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
@@ -27,26 +25,34 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// <summary> return DocumentDeleteViewModel, NotFoundViewModel or DocumentCannotDeleteViewModel. </summary>
         public object Show(int id)
         {
+            // GetEntity
             Document document = _documentRepository.TryGet(id);
             if (document == null)
             {
+                // Redirect
                 return ViewModelHelper.CreateDocumentNotFoundViewModel();
             }
             else
             {
+                // Business
                 VoidResult result = _documentManager.CanDelete(document);
 
                 if (!result.Successful)
                 {
+                    // Redirect
                     var presenter2 = new DocumentCannotDeletePresenter(_documentRepository);
                     object viewModel2 = presenter2.Show(id, result.Messages);
                     return viewModel2;
                 }
                 else
                 {
-                    ViewModel = document.ToDeleteViewModel();
-                    ViewModel.Visible = true;
-                    return ViewModel;
+                    // ToViewModel
+                    DocumentDeleteViewModel viewModel = document.ToDeleteViewModel();
+
+                    // Non-Persisted
+                    viewModel.Visible = true;
+
+                    return viewModel;
                 }
             }
         }
@@ -54,42 +60,54 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// <summary> Can return DocumentDeletedViewModel or NotFoundViewModel. </summary>
         public object Confirm(int id)
         {
+            // GetEntity
             Document document = _documentRepository.TryGet(id);
             if (document == null)
             {
+                // Redirect
                 return ViewModelHelper.CreateDocumentNotFoundViewModel();
             }
             else
             {
+                // Business
                 VoidResult result = _documentManager.DeleteWithRelatedEntities(document);
 
                 if (!result.Successful)
                 {
+                    // Redirect
                     var presenter2 = new DocumentCannotDeletePresenter(_documentRepository);
-                    object viewModel2 = presenter2.Show(id, result.Messages);
-                    return viewModel2;
+                    object viewModel = presenter2.Show(id, result.Messages);
+                    return viewModel;
                 }
                 else
                 {
+                    // REdirect
                     var presenter2 = new DocumentDeletedPresenter();
-                    presenter2.Show();
-                    return presenter2.ViewModel;
+                    object viewModel = presenter2.Show();
+                    return viewModel;
                 }
             }
         }
 
-        public void Cancel()
+        public object Cancel(DocumentDeleteViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            ViewModel.Visible = false;
-        }
+            // GetEntity
+            Document document = _documentRepository.TryGet(userInput.Document.ID);
+            if (document == null)
+            {
+                // Redirect
+                return ViewModelHelper.CreateDocumentNotFoundViewModel();
+            }
 
-        // Helpers
+            // ToViewModel
+            DocumentDeleteViewModel viewModel = document.ToDeleteViewModel();
 
-        private void AssertViewModel()
-        {
-            if (ViewModel == null) throw new NullException(() => ViewModel);
+            // Non-Persisted
+            viewModel.Visible = false;
+
+            return viewModel;
         }
     }
 }

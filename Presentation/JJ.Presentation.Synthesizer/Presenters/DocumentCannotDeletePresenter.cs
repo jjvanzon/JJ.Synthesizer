@@ -12,8 +12,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         private IDocumentRepository _documentRepository;
 
-        public DocumentCannotDeleteViewModel ViewModel { get; private set; }
-
         public DocumentCannotDeletePresenter(IDocumentRepository documentRepository)
         {
             if (documentRepository == null) throw new NullException(() => documentRepository);
@@ -24,31 +22,46 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// <summary> Can return NotFoundViewModel or DocumentCannotDeleteViewModel. </summary>
         public object Show(int id, IList<Message> messages)
         {
+            // GetEntity
             Document document = _documentRepository.TryGet(id);
             if (document == null)
             {
+                // Redirect
                 return ViewModelHelper.CreateDocumentNotFoundViewModel();
             }
             else
             {
-                ViewModel = document.ToCannotDeleteViewModel(messages);
-                ViewModel.Visible = true;
-                return ViewModel;
+                // ToViewModel
+                DocumentCannotDeleteViewModel viewModel = document.ToCannotDeleteViewModel(messages);
+
+                // Non-Persisted
+                viewModel.Visible = true;
+
+                return viewModel;
             }
         }
 
-        public void OK()
+        public object OK(DocumentCannotDeleteViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            ViewModel.Visible = false;
-        }
+            // GetEntity
+            Document document = _documentRepository.TryGet(userInput.Document.ID);
+            if (document == null)
+            {
+                // Redirect
+                return ViewModelHelper.CreateDocumentNotFoundViewModel();
+            }
+            else
+            {
+                // ToViewModel
+                DocumentCannotDeleteViewModel viewModel = document.ToCannotDeleteViewModel(userInput.ValidationMessages);
 
-        // Helpers
+                // Non-Persisted
+                viewModel.Visible = false;
 
-        private void AssertViewModel()
-        {
-            if (ViewModel == null) throw new NullException(() => ViewModel);
+                return viewModel;
+            }
         }
     }
 }
