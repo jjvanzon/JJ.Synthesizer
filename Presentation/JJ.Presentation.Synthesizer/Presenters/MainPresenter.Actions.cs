@@ -210,23 +210,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void CurveGridShow(int documentID)
         {
-            bool isRootDocument = documentID == MainViewModel.Document.ID;
-            if (isRootDocument)
-            {
-                // Needed to create uncommitted child documents.
-                MainViewModel.ToEntityWithRelatedEntities(_repositories);
-            }
+            // GetViewModel
+            CurveGridViewModel userInput = DocumentViewModelHelper.GetCurveGridViewModel_ByDocumentID(MainViewModel.Document, documentID);
 
-            CurveGridViewModel gridViewModel = DocumentViewModelHelper.GetCurveGridViewModel_ByDocumentID(MainViewModel.Document, documentID);
-            _curveGridPresenter.ViewModel = gridViewModel;
-            _curveGridPresenter.Show();
-            DispatchViewModel(_curveGridPresenter.ViewModel);
+            // TemplateMethod
+            TemplateActionMethod(userInput, _curveGridPresenter.Show);
         }
 
         public void CurveGridClose()
         {
-            _curveGridPresenter.Close();
-            DispatchViewModel(_curveGridPresenter.ViewModel);
+            // GetViewModel
+            CurveGridViewModel userInput = DocumentViewModelHelper.GetVisibleCurveGridViewModel(MainViewModel.Document);
+
+            // TemplateMethod
+            TemplateActionMethod(userInput, _curveGridPresenter.Show);
         }
 
         public void CurveCreate(int documentID)

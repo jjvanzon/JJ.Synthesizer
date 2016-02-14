@@ -12,70 +12,92 @@ namespace JJ.Presentation.Synthesizer.Presenters
     internal class CurveGridPresenter
     {
         private IDocumentRepository _documentRepository;
-        private ICurveRepository _curveRepository;
 
-        public CurveGridViewModel ViewModel { get; set; }
-
-        public CurveGridPresenter(IDocumentRepository documentRepository, ICurveRepository curveRepository)
+        public CurveGridPresenter(IDocumentRepository documentRepository)
         {
             if (documentRepository == null) throw new NullException(() => documentRepository);
-            if (curveRepository == null) throw new NullException(() => curveRepository);
 
             _documentRepository = documentRepository;
-            _curveRepository = curveRepository;
         }
 
-        public void Show()
+        public CurveGridViewModel Show(CurveGridViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            ViewModel.Visible = true;
+            // Set !Successful
+            userInput.Successful = false;
+
+            // GetEntity
+            Document document = _documentRepository.Get(userInput.DocumentID);
+
+            // ToViewModel
+            CurveGridViewModel viewModel = document.Curves.ToGridViewModel(userInput.DocumentID);
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+            viewModel.Visible = true;
+
+            // Successful
+            viewModel.Successful = true;
+
+            return viewModel;
         }
 
-        /// <summary> Can return CurveGridViewModel or NotFoundViewModel. </summary>
-        public object Refresh()
+        public CurveGridViewModel Refresh(CurveGridViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Document document = _documentRepository.TryGet(ViewModel.DocumentID);
-            if (document == null)
-            {
-                ViewModelHelper.CreateDocumentNotFoundViewModel();
-            }
+            // Set !Successful
+            userInput.Successful = false;
 
-            bool visible = ViewModel.Visible;
+            // GetEntity
+            Document document = _documentRepository.Get(userInput.DocumentID);
 
-            ViewModel = document.Curves.ToGridViewModel(ViewModel.DocumentID);
+            // ToViewModel
+            CurveGridViewModel viewModel = document.Curves.ToGridViewModel(userInput.DocumentID);
 
-            ViewModel.Visible = visible;
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
 
-            return ViewModel;
+            // Successful
+            viewModel.Successful = true;
+
+            return viewModel;
         }
 
-        public void RefreshListItem(int curveID)
+        public CurveGridViewModel Close(CurveGridViewModel userInput)
         {
-            Curve curve = _curveRepository.Get(curveID);
+            if (userInput == null) throw new NullException(() => userInput);
 
-            int listIndex = ViewModel.List.IndexOf(x => x.ID == curveID);
+            // Set !Successful
+            userInput.Successful = false;
 
-            IDAndName viewModel2 = curve.ToIDAndName();
-            ViewModel.List[listIndex] = viewModel2;
+            // GetEntity
+            Document document = _documentRepository.Get(userInput.DocumentID);
 
-            ViewModel.List = ViewModel.List.OrderBy(x => x.Name).ToList();
-        }
+            // ToViewModel
+            CurveGridViewModel viewModel = document.Curves.ToGridViewModel(userInput.DocumentID);
 
-        public void Close()
-        {
-            AssertViewModel();
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+            viewModel.Visible = false;
 
-            ViewModel.Visible = false;
+            // Successful
+            viewModel.Successful = true;
+
+            return viewModel;
         }
 
         // Helpers
 
-        private void AssertViewModel()
+        private void CopyNonPersistedProperties(CurveGridViewModel sourceViewModel, CurveGridViewModel destViewModel)
         {
-            if (ViewModel == null) throw new NullException(() => ViewModel);
+            if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
+            if (destViewModel == null) throw new NullException(() => destViewModel);
+
+            destViewModel.ValidationMessages = sourceViewModel.ValidationMessages;
+            destViewModel.Visible = sourceViewModel.Visible;
+            destViewModel.Successful = sourceViewModel.Successful;
         }
     }
 }

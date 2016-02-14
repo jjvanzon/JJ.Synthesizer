@@ -53,18 +53,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(_curveDetailsPresenter.ViewModel);
         }
 
-        private void CurveGridItemRefresh(int curveID)
+        private void CurveGridRefresh(CurveGridViewModel userInput)
         {
-            CurveGridViewModel gridViewModel = DocumentViewModelHelper.GetCurveGridViewModel_ByCurveID(MainViewModel.Document, curveID);
-            _curveGridPresenter.ViewModel = gridViewModel;
-            _curveGridPresenter.RefreshListItem(curveID);
-        }
-
-        private void CurveGridRefresh(CurveGridViewModel curveGridViewModel)
-        {
-            _curveGridPresenter.ViewModel = curveGridViewModel;
-            object viewModel2 = _curveGridPresenter.Refresh();
-            DispatchViewModel(viewModel2);
+            CurveGridViewModel viewModel = _curveGridPresenter.Refresh(userInput);
+            DispatchViewModel(viewModel);
         }
 
         private void CurveLookupsItemsRefresh(int curveID)
