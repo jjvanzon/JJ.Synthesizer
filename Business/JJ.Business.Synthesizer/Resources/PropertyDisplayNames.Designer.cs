@@ -961,7 +961,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 1/X.
+        ///   Looks up a localized string similar to 1/x.
         /// </summary>
         public static string OneOverX {
             get {

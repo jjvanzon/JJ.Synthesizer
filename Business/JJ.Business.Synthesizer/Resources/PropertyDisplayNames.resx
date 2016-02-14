@@ -660,6 +660,6 @@
     <value>Negative</value>
   </data>
   <data name="OneOverX" xml:space="preserve">
-    <value>1/X</value>
+    <value>1/x</value>
   </data>
 </root>

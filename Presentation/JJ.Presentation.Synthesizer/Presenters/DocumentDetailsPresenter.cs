@@ -1,12 +1,8 @@
 ﻿using JJ.Data.Synthesizer;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ToEntity;
-using JJ.Framework.Validation;
-using JJ.Presentation.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Canonical;
@@ -18,8 +14,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private RepositoryWrapper _repositories;
         private DocumentManager _documentManager;
 
-        public DocumentDetailsViewModel ViewModel { get; private set; }
-
         public DocumentDetailsPresenter(RepositoryWrapper repositories)
         {
             if (repositories == null) throw new NullException(() => repositories);
@@ -30,55 +24,70 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public DocumentDetailsViewModel Create()
         {
+            // Business
             var document = new Document();
             document.ID = _repositories.IDRepository.GetID();
             _repositories.DocumentRepository.Insert(document);
 
-            ViewModel = document.ToDetailsViewModel();
-            ViewModel.IDVisible = false;
-            ViewModel.CanDelete = false;
-            ViewModel.Visible = true;
+            // ToViewModel
+            DocumentDetailsViewModel viewModel = document.ToDetailsViewModel();
 
-            return ViewModel;
+            // Non-Persisted
+            viewModel.IDVisible = false;
+            viewModel.CanDelete = false;
+            viewModel.Visible = true;
+
+            return viewModel;
         }
 
-        public void Save()
+        public DocumentDetailsViewModel Save(DocumentDetailsViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Document document = ViewModel.ToEntity(_repositories.DocumentRepository);
+            // ToEntity
+            Document document = userInput.ToEntity(_repositories.DocumentRepository);
 
+            // Business
             VoidResult result = _documentManager.ValidateNonRecursive(document);
             if (!result.Successful)
             {
-                ViewModel.ValidationMessages = result.Messages;
+                // ToViewModel
+                DocumentDetailsViewModel viewModel = document.ToDetailsViewModel();
+
+                // Non-Persisted
+                viewModel.ValidationMessages = result.Messages;
+
+                return viewModel;
             }
             else
             {
                 // TODO: Perhaps report success and leave Committing to the MainPresenter.
                 _repositories.DocumentRepository.Commit();
 
-                if (ViewModel == null)
-                {
-                    ViewModel = ViewModelHelper.CreateEmptyDocumentDetailsViewModel();
-                }
+                // ToViewModel
+                DocumentDetailsViewModel viewModel = ViewModelHelper.CreateEmptyDocumentDetailsViewModel();
 
-                ViewModel.Visible = false;
+                // Non-Persisted
+                viewModel.Visible = false;
+
+                return viewModel;
             }
         }
 
-        public void Close()
+        public DocumentDetailsViewModel Close(DocumentDetailsViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            ViewModel.Visible = false;
-        }
+            // ToEntity
+            Document document = userInput.ToEntity(_repositories.DocumentRepository);
 
-        // Helpers
+            // ToViewModel
+            DocumentDetailsViewModel viewModel = document.ToDetailsViewModel();
 
-        private void AssertViewModel()
-        {
-            if (ViewModel == null) throw new NullException(() => ViewModel);
+            // Non-Persisted
+            viewModel.Visible = false;
+
+            return viewModel;
         }
     }
 }

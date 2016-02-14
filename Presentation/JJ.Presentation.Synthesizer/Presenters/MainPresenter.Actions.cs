@@ -408,21 +408,31 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void DocumentDetailsCreate()
         {
+            // PartialAction
             DocumentDetailsViewModel viewModel = _documentDetailsPresenter.Create();
+
+            // DispatchViewModel
             DispatchViewModel(viewModel);
         }
 
         public void DocumentDetailsClose()
         {
-            _documentDetailsPresenter.Close();
-            DispatchViewModel(_documentDetailsPresenter.ViewModel);
+            // PartialAction
+            DocumentDetailsViewModel viewModel = _documentDetailsPresenter.Close(MainViewModel.DocumentDetails);
+
+            // DispatchViewModel
+            DispatchViewModel(viewModel);
         }
 
         public void DocumentDetailsSave()
         {
-            _documentDetailsPresenter.Save();
-            DispatchViewModel(_documentDetailsPresenter.ViewModel);
+            // PartialAction
+            DocumentDetailsViewModel viewModel = _documentDetailsPresenter.Save(MainViewModel.DocumentDetails);
 
+            // DispatchViewModel
+            DispatchViewModel(viewModel);
+
+            // Refresh
             DocumentGridRefresh();
         }
 
