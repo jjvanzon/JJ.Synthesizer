@@ -96,32 +96,33 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void AudioFileOutputPropertiesShow(int id)
         {
-            _audioFileOutputPropertiesPresenter.ViewModel = MainViewModel.Document.AudioFileOutputPropertiesList
-                                                                              .First(x => x.Entity.ID == id);
-            _audioFileOutputPropertiesPresenter.Show();
+            // GetViewModel
+            AudioFileOutputPropertiesViewModel userInput = DocumentViewModelHelper.GetAudioFileOutputPropertiesViewModel(MainViewModel.Document, id);
 
-            DispatchViewModel(_audioFileOutputPropertiesPresenter.ViewModel);
+            // TemplateMethod
+            TemplateActionMethod(userInput, _audioFileOutputPropertiesPresenter.Show);
         }
 
         public void AudioFileOutputPropertiesClose()
         {
-            AudioFileOutputPropertiesCloseOrLoseFocus(() => _audioFileOutputPropertiesPresenter.Close());
+            AudioFileOutputPropertiesCloseOrLoseFocus(_audioFileOutputPropertiesPresenter.Close);
         }
 
         public void AudioFileOutputPropertiesLoseFocus()
         {
-            AudioFileOutputPropertiesCloseOrLoseFocus(() => _audioFileOutputPropertiesPresenter.LoseFocus());
+            AudioFileOutputPropertiesCloseOrLoseFocus(_audioFileOutputPropertiesPresenter.LoseFocus);
         }
 
-        private void AudioFileOutputPropertiesCloseOrLoseFocus(Action partialAction)
+        private void AudioFileOutputPropertiesCloseOrLoseFocus(Func<AudioFileOutputPropertiesViewModel, AudioFileOutputPropertiesViewModel> partialAction)
         {
-            MainViewModel.ToEntityWithRelatedEntities(_repositories);
+            // GetViewModel
+            AudioFileOutputPropertiesViewModel userInput = DocumentViewModelHelper.GetVisibleAudioFileOutputPropertiesViewModel(MainViewModel.Document);
 
-            partialAction();
+            // TemplateMethod
+            AudioFileOutputPropertiesViewModel viewModel = TemplateActionMethod(userInput, partialAction);
 
-            DispatchViewModel(_audioFileOutputPropertiesPresenter.ViewModel);
-
-            if (_audioFileOutputPropertiesPresenter.ViewModel.Successful)
+            // Refresh
+            if (viewModel.Successful)
             {
                 AudioFileOutputGridRefresh();
             }
@@ -2293,12 +2294,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
         // Helpers
 
         /// <summary>
-        /// A template method for an MainPresenter action method.
+        /// A template method for a MainPresenter action method.
         /// Works for most actions. Less suitable for specialized cases.
-        /// 
+        ///
         /// Executes a sub-presenter's action and surrounds it with
         /// converting the full document view model to entity,
-        /// doing a full document validation and 
+        /// doing a full document validation and
         /// managing view model transactionality.
         /// All you need to do is provide the right sub-viewmodel,
         /// provide a delegate to the sub-presenter's action method

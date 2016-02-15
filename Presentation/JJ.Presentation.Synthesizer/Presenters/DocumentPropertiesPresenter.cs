@@ -116,6 +116,5 @@ namespace JJ.Presentation.Synthesizer.Presenters
             destViewModel.Visible = sourceViewModel.Visible;
             destViewModel.Successful = sourceViewModel.Successful;
         }
-
     }
 }

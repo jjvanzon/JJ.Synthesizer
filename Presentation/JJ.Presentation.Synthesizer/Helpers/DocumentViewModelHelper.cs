@@ -11,6 +11,37 @@ namespace JJ.Presentation.Synthesizer.Helpers
     // of Lists in these view models, to make it O(1) instead of O(n)
     internal static class DocumentViewModelHelper
     {
+        // AudioFileOutput
+
+        public static AudioFileOutputPropertiesViewModel GetAudioFileOutputPropertiesViewModel(DocumentViewModel rootDocumentViewModel, int audioFileOutputID)
+        {
+            AudioFileOutputPropertiesViewModel viewModel = rootDocumentViewModel.AudioFileOutputPropertiesList
+                                                                                .FirstOrDefault(x => x.Entity.ID == audioFileOutputID);
+
+            if (viewModel == null)
+            {
+                throw new Exception(String.Format(
+                    "AudioFileOutputPropertiesViewModel with audioFileOutputID '{0}' not found in rootDocumentViewModel.AudioFileOutputPropertiesList",
+                    audioFileOutputID));
+            }
+
+            return viewModel;
+        }
+
+        public static AudioFileOutputPropertiesViewModel GetVisibleAudioFileOutputPropertiesViewModel(DocumentViewModel rootDocumentViewModel)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            AudioFileOutputPropertiesViewModel viewModel = rootDocumentViewModel.AudioFileOutputPropertiesList.Where(x => x.Visible)
+                                                                                                              .FirstOrDefault();
+            if (viewModel == null)
+            {
+                throw new Exception("No visible AudioFileOutputPropertiesViewModel found in rootDocumentViewModel.");
+            }
+
+            return viewModel;
+        }
+
         // PatchDocument
 
         public static PatchDocumentViewModel GetPatchDocumentViewModel(DocumentViewModel rootDocumentViewModel, int childDocumentID)

@@ -23,8 +23,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void AudioFileOutputPropertiesRefresh(AudioFileOutputPropertiesViewModel userInput)
         {
-            _audioFileOutputPropertiesPresenter.Refresh();
-            DispatchViewModel(_audioFileOutputPropertiesPresenter.ViewModel);
+            // Partial Action
+            AudioFileOutputPropertiesViewModel viewModel = _audioFileOutputPropertiesPresenter.Refresh(userInput);
+
+            // DispatchViewModel
+            DispatchViewModel(viewModel);
         }
 
         private void CurrentPatchesRefresh()
