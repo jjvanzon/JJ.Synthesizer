@@ -29,8 +29,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void CurrentPatchesRefresh()
         {
-            _currentPatchesPresenter.Refresh();
-            DispatchViewModel(_currentPatchesPresenter.ViewModel);
+            // GetViewModel
+            CurrentPatchesViewModel userInput = MainViewModel.Document.CurrentPatches;
+
+            // Partial Action
+            CurrentPatchesViewModel viewModel = _currentPatchesPresenter.Refresh(userInput);
+
+            // DispatchViewModel
+            DispatchViewModel(viewModel);
         }
 
         private void CurveDetailsNodeRefresh(int nodeID)

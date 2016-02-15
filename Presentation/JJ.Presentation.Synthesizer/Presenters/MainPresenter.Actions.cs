@@ -131,43 +131,47 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void CurrentPatchesShow()
         {
-            _currentPatchesPresenter.Show();
+            // GetViewModel
+            CurrentPatchesViewModel userInput = MainViewModel.Document.CurrentPatches;
 
-            DispatchViewModel(_currentPatchesPresenter.ViewModel);
+            // TemplateMethod
+            TemplateActionMethod(userInput, _currentPatchesPresenter.Show);
         }
 
         public void CurrentPatchesClose()
         {
-            _currentPatchesPresenter.Close();
+            // GetViewModel
+            CurrentPatchesViewModel userInput = MainViewModel.Document.CurrentPatches;
 
-            DispatchViewModel(_currentPatchesPresenter.ViewModel);
+            // TemplateMethod
+            TemplateActionMethod(userInput, _currentPatchesPresenter.Close);
         }
 
         public void CurrentPatchAdd(int childDocumentID)
         {
-            MainViewModel.ToEntityWithRelatedEntities(_repositories);
+            // GetViewModel
+            CurrentPatchesViewModel userInput = MainViewModel.Document.CurrentPatches;
 
-            _currentPatchesPresenter.Add(childDocumentID);
-
-            DispatchViewModel(_currentPatchesPresenter.ViewModel);
+            // TemplateMethod
+            TemplateActionMethod(userInput, x => _currentPatchesPresenter.Add(x, childDocumentID));
         }
 
         public void CurrentPatchRemove(int childDocumentID)
         {
-            MainViewModel.ToEntityWithRelatedEntities(_repositories);
+            // GetViewModel
+            CurrentPatchesViewModel userInput = MainViewModel.Document.CurrentPatches;
 
-            _currentPatchesPresenter.Remove(childDocumentID);
-
-            DispatchViewModel(_currentPatchesPresenter.ViewModel);
+            // TemplateMethod
+            TemplateActionMethod(userInput, x => _currentPatchesPresenter.Remove(x, childDocumentID));
         }
 
         public void CurrentPatchMove(int childDocumentID, int newPosition)
         {
-            MainViewModel.ToEntityWithRelatedEntities(_repositories);
+            // GetViewModel
+            CurrentPatchesViewModel userInput = MainViewModel.Document.CurrentPatches;
 
-            _currentPatchesPresenter.Move(childDocumentID, newPosition);
-
-            DispatchViewModel(_currentPatchesPresenter.ViewModel);
+            // TemplateMethod
+            TemplateActionMethod(userInput, x => _currentPatchesPresenter.Move(x, childDocumentID, newPosition));
         }
 
         public void CurrentPatchesPreviewAutoPatch()
@@ -519,7 +523,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Here only the view models are assigned that cannot vary.
             // E.g. SampleGrid is not assigned here, because it can be different for each child document.
             _audioFileOutputGridPresenter.ViewModel = MainViewModel.Document.AudioFileOutputGrid;
-            _currentPatchesPresenter.ViewModel = MainViewModel.Document.CurrentPatches;
 
             MainViewModel.WindowTitle = String.Format("{0} - {1}", document.Name, Titles.ApplicationName);
 

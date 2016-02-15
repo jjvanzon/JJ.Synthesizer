@@ -120,6 +120,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
+            // Set !Successful
+            userInput.Successful = false;
+
             // GetEntity
             Curve entity = _repositories.CurveRepository.Get(userInput.ID);
 

@@ -7,15 +7,12 @@ using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ViewModels.Entities;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class CurrentPatchesPresenter
     {
         private IDocumentRepository _documentRepository;
-
-        public CurrentPatchesViewModel ViewModel { get; set; }
 
         public CurrentPatchesPresenter(IDocumentRepository documentRepository)
         {
@@ -24,63 +21,168 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentRepository = documentRepository;
         }
 
-        public void Show()
+        public CurrentPatchesViewModel Show(CurrentPatchesViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            ViewModel.Visible = true;
+            // Set !Successful
+            userInput.Successful = false;
+
+            // GetEntities
+            IEnumerable<int> childDocumentIDs = userInput.List.Select(x => x.ChildDocumentID);
+            IList<Document> childDocuments = childDocumentIDs.Select(x => _documentRepository.Get(x)).ToList();
+
+            // ToViewModel
+            CurrentPatchesViewModel viewModel = ViewModelHelper.CreateCurrentPatchesViewModel(childDocuments);
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+            viewModel.Visible = true;
+
+            // Successful
+            viewModel.Successful = true;
+
+            return viewModel;
         }
 
-        public void Close()
+        public CurrentPatchesViewModel Close(CurrentPatchesViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            ViewModel.Visible = false;
+            // Set !Successful
+            userInput.Successful = false;
+
+            // GetEntities
+            IEnumerable<int> childDocumentIDs = userInput.List.Select(x => x.ChildDocumentID);
+            IList<Document> childDocuments = childDocumentIDs.Select(x => _documentRepository.Get(x)).ToList();
+
+            // ToViewModel
+            CurrentPatchesViewModel viewModel = ViewModelHelper.CreateCurrentPatchesViewModel(childDocuments);
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+            viewModel.Visible = false;
+
+            // Successful
+            viewModel.Successful = true;
+
+            return viewModel;
         }
 
-        public void Add(int childDocumentID)
+        public CurrentPatchesViewModel Add(CurrentPatchesViewModel userInput, int childDocumentID)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Document document = _documentRepository.Get(childDocumentID);
-            CurrentPatchItemViewModel itemViewModel = document.ToCurrentPatchViewModel();
-            ViewModel.List.Add(itemViewModel);
+            // Set !Successful
+            userInput.Successful = false;
+
+            // GetEntities
+            IEnumerable<int> childDocumentIDs = userInput.List.Select(x => x.ChildDocumentID);
+            IList<Document> childDocuments = childDocumentIDs.Select(x => _documentRepository.Get(x)).ToList();
+
+            // Business
+            Document childDocument = _documentRepository.Get(childDocumentID);
+            childDocuments.Add(childDocument);
+
+            // ToViewModel
+            CurrentPatchesViewModel viewModel = ViewModelHelper.CreateCurrentPatchesViewModel(childDocuments);
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+
+            // Successful
+            viewModel.Successful = true;
+
+            return viewModel;
         }
 
-        public void Remove(int childDocumentID)
+        public CurrentPatchesViewModel Remove(CurrentPatchesViewModel userInput, int childDocumentID)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            ViewModel.List.RemoveFirst(x => x.ChildDocumentID == childDocumentID);
+            // Set !Successful
+            userInput.Successful = false;
+
+            // GetEntities
+            IEnumerable<int> childDocumentIDs = userInput.List.Select(x => x.ChildDocumentID);
+            IList<Document> childDocuments = childDocumentIDs.Select(x => _documentRepository.Get(x)).ToList();
+
+            // Business
+            childDocuments.RemoveFirst(x => x.ID == childDocumentID);
+
+            // ToViewModel
+            CurrentPatchesViewModel viewModel = ViewModelHelper.CreateCurrentPatchesViewModel(childDocuments);
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+
+            // Successful
+            viewModel.Successful = true;
+
+            return viewModel;
         }
 
-        public void Move(int childDocumentID, int newPosition)
+        public CurrentPatchesViewModel Move(CurrentPatchesViewModel userInput, int childDocumentID, int newPosition)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            int currentPosition = ViewModel.List.IndexOf(x => x.ChildDocumentID == childDocumentID);
-            CurrentPatchItemViewModel itemViewModel = ViewModel.List[currentPosition];
-            ViewModel.List.RemoveAt(currentPosition);
-            ViewModel.List.Insert(newPosition, itemViewModel);
+            // Set !Successful
+            userInput.Successful = false;
+
+            // GetEntities
+            IEnumerable<int> childDocumentIDs = userInput.List.Select(x => x.ChildDocumentID);
+            IList<Document> childDocuments = childDocumentIDs.Select(x => _documentRepository.Get(x)).ToList();
+
+            // Business
+            int currentPosition = childDocuments.IndexOf(x => x.ID == childDocumentID);
+            Document childDocument = childDocuments[currentPosition];
+            childDocuments.RemoveAt(currentPosition);
+            childDocuments.Insert(newPosition, childDocument);
+
+            // ToViewModel
+            CurrentPatchesViewModel viewModel = ViewModelHelper.CreateCurrentPatchesViewModel(childDocuments);
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+
+            // Successful
+            viewModel.Successful = true;
+
+            return viewModel;
         }
 
         /// <summary> No new view model is created. Just the child view models are replaced. </summary>
-        public void Refresh()
+        public CurrentPatchesViewModel Refresh(CurrentPatchesViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            for (int i = 0; i < ViewModel.List.Count; i++)
-            {
-                CurrentPatchItemViewModel itemViewModel = ViewModel.List[i];
-                Document document = _documentRepository.Get(itemViewModel.ChildDocumentID);
-                CurrentPatchItemViewModel itemViewModel2 = document.ToCurrentPatchViewModel();
-                ViewModel.List[i] = itemViewModel2;
-            }
+            // Set !Successful
+            userInput.Successful = false;
+
+            // GetEntities
+            IEnumerable<int> childDocumentIDs = userInput.List.Select(x => x.ChildDocumentID);
+            IList<Document> childDocuments = childDocumentIDs.Select(x => _documentRepository.Get(x)).ToList();
+
+            // ToViewModel
+            CurrentPatchesViewModel viewModel = ViewModelHelper.CreateCurrentPatchesViewModel(childDocuments);
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+
+            // Successful
+            viewModel.Successful = true;
+
+            return viewModel;
         }
 
-        private void AssertViewModel()
+        private void CopyNonPersistedProperties(CurrentPatchesViewModel sourceViewModel, CurrentPatchesViewModel destViewModel)
         {
-            if (ViewModel == null) throw new NullException(() => ViewModel);
+            if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
+            if (destViewModel == null) throw new NullException(() => destViewModel);
+
+            destViewModel.ValidationMessages = sourceViewModel.ValidationMessages;
+            destViewModel.Visible = sourceViewModel.Visible;
+            destViewModel.Successful = sourceViewModel.Successful;
         }
     }
 }

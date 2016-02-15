@@ -12,12 +12,61 @@ using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Data.Canonical;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
     /// <summary> Empty view models start out with Visible = false. </summary>
     internal static partial class ViewModelHelper
     {
+        public static CurrentPatchesViewModel CreateCurrentPatchesViewModel(IList<Document> childDocuments)
+        {
+            if (childDocuments == null) throw new NullException(() => childDocuments);
+
+            var viewModel = new CurrentPatchesViewModel
+            {
+                List = childDocuments.Select(x => x.ToCurrentPatchViewModel()).ToList(),
+                ValidationMessages = new List<Message>()
+            };
+
+            return viewModel;
+        }
+
+        public static DocumentDeletedViewModel CreateDocumentDeletedViewModel()
+        {
+            var viewModel = new DocumentDeletedViewModel();
+
+            return viewModel;
+        }
+
+        public static NotFoundViewModel CreateDocumentNotFoundViewModel()
+        {
+            return CreateNotFoundViewModel<Document>();
+        }
+
+        public static MenuViewModel CreateMenuViewModel(bool documentIsOpen)
+        {
+            var viewModel = new MenuViewModel
+            {
+                DocumentsMenuItem = new MenuItemViewModel { Visible = true },
+                DocumentTreeMenuItem = new MenuItemViewModel { Visible = documentIsOpen },
+                DocumentCloseMenuItem = new MenuItemViewModel { Visible = documentIsOpen },
+                DocumentSaveMenuItem = new MenuItemViewModel { Visible = documentIsOpen },
+                CurrentPatches = new MenuItemViewModel { Visible = documentIsOpen }
+            };
+
+            return viewModel;
+        }
+
+        public static NotFoundViewModel CreateNotFoundViewModel<TEntity>()
+        {
+            string entityTypeName = typeof(TEntity).Name;
+            string entityTypeDisplayName = ResourceHelper.GetPropertyDisplayName(entityTypeName);
+
+            NotFoundViewModel viewModel = CreateNotFoundViewModel_WithEntityTypeDisplayName(entityTypeDisplayName);
+            return viewModel;
+        }
+
         public static NotFoundViewModel CreateNotFoundViewModel_WithEntityTypeDisplayName(string entityTypeDisplayName)
         {
             string message = CommonMessageFormatter.ObjectNotFound(entityTypeDisplayName);
@@ -35,66 +84,39 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static NotFoundViewModel CreateDocumentNotFoundViewModel()
+        public static string GetOperatorCaption(
+            Operator op, ISampleRepository sampleRepository, ICurveRepository curveRepository, IPatchRepository patchRepository)
         {
-            return CreateNotFoundViewModel<Document>();
-        }
+            if (op == null) throw new NullException(() => op);
+            if (sampleRepository == null) throw new NullException(() => sampleRepository);
+            if (curveRepository == null) throw new NullException(() => curveRepository);
+            if (patchRepository == null) throw new NullException(() => patchRepository);
 
-        public static NotFoundViewModel CreateNotFoundViewModel<TEntity>()
-        {
-            string entityTypeName = typeof(TEntity).Name;
-            string entityTypeDisplayName = ResourceHelper.GetPropertyDisplayName(entityTypeName);
+            OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
 
-            NotFoundViewModel viewModel = CreateNotFoundViewModel_WithEntityTypeDisplayName(entityTypeDisplayName);
-            return viewModel;
-        }
-
-        public static MenuViewModel CreateMenuViewModel(bool documentIsOpen)
-        {
-            var viewModel = new MenuViewModel
+            switch (operatorTypeEnum)
             {
-                DocumentsMenuItem = new MenuItemViewModel { Visible = true },
-                DocumentTreeMenuItem = new MenuItemViewModel { Visible = documentIsOpen },
-                DocumentCloseMenuItem = new MenuItemViewModel { Visible = documentIsOpen },
-                DocumentSaveMenuItem = new MenuItemViewModel { Visible = documentIsOpen },
-                CurrentPatches = new MenuItemViewModel { Visible = documentIsOpen }
-            };
+                case OperatorTypeEnum.Number:
+                    return GetOperatorCaption_ForNumber(op);
 
-            return viewModel;
-        }
+                case OperatorTypeEnum.PatchInlet:
+                    return GetOperatorCaption_ForPatchInlet(op);
 
-        public static DocumentDeletedViewModel CreateDocumentDeletedViewModel()
-        {
-            var viewModel = new DocumentDeletedViewModel();
+                case OperatorTypeEnum.PatchOutlet:
+                    return GetOperatorCaption_ForPatchOutlet(op);
 
-            return viewModel;
-        }
+                case OperatorTypeEnum.Sample:
+                    return GetOperatorCaption_ForSample(op, sampleRepository);
 
-        /// <summary>
-        /// Is used to be able to update an existing operator view model in-place
-        /// without having to re-establish the intricate relations with other operators.
-        /// </summary>
-        public static void RefreshViewModel_WithoutEntityPosition(
-            Operator entity, OperatorViewModel viewModel,
-            ISampleRepository sampleRepository, ICurveRepository curveRepository, IPatchRepository patchRepository)
-        {
-            if (entity == null) throw new NullException(() => entity);
-            if (viewModel == null) throw new NullException(() => viewModel);
+                case OperatorTypeEnum.Curve:
+                    return GetOperatorCaption_ForCurve(op, curveRepository);
 
-            viewModel.Name = entity.Name;
-            viewModel.ID = entity.ID;
-            viewModel.Caption = GetOperatorCaption(entity, sampleRepository, curveRepository, patchRepository);
+                case OperatorTypeEnum.CustomOperator:
+                    return GetOperatorCaption_ForCustomOperator(op, patchRepository);
 
-            if (entity.OperatorType != null)
-            {
-                viewModel.OperatorType = entity.OperatorType.ToViewModel();
+                default:
+                    return GetOperatorCaption_ForOtherOperators(op);
             }
-            else
-            {
-                viewModel.OperatorType = null; // Should never happen.
-            }
-
-            viewModel.IsOwned = GetOperatorIsOwned(entity);
         }
 
         /// <summary>
@@ -119,17 +141,29 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return false;
         }
 
-        /// <summary>
-        /// Is used to be able to update an existing operator view model in-place
-        /// without having to re-establish the intricate relations with other operators.
-        /// </summary>
-        public static void RefreshViewModel_WithInletsAndOutlets_WithoutEntityPosition(
-            Operator entity, OperatorViewModel operatorViewModel,
-            ISampleRepository sampleRepository, ICurveRepository curveRepository, IPatchRepository patchRepository)
+        public static string GetToneGridEditNumberTitle(Scale entity)
         {
-            RefreshViewModel_WithoutEntityPosition(entity, operatorViewModel, sampleRepository, curveRepository, patchRepository);
-            RefreshInletViewModels(entity.Inlets, operatorViewModel);
-            RefreshOutletViewModels(entity.Outlets, operatorViewModel);
+            if (entity == null) throw new NullException(() => entity);
+
+            return ResourceHelper.GetScaleTypeDisplayNameSingular(entity);
+        }
+
+        /// <summary> The inlet of a PatchInlet operator is never converted to view model. </summary>
+        public static bool MustConvertToInletViewModel(Inlet inlet)
+        {
+            if (inlet == null) throw new NullException(() => inlet);
+
+            bool mustConvert = inlet.Operator.GetOperatorTypeEnum() != OperatorTypeEnum.PatchInlet;
+            return mustConvert;
+        }
+
+        /// <summary> The outlet of a PatchOutlet operator is never converted to view model. </summary>
+        public static bool MustConvertToOutletViewModel(Outlet outlet)
+        {
+            if (outlet == null) throw new NullException(() => outlet);
+
+            bool mustConvert = outlet.Operator.GetOperatorTypeEnum() != OperatorTypeEnum.PatchOutlet;
+            return mustConvert;
         }
 
         /// <summary>
@@ -217,57 +251,91 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             destOperatorViewModel.Outlets = destOperatorViewModel.Outlets.OrderBy(x => x.ListIndex).ToList();
         }
 
-        /// <summary> The inlet of a PatchInlet operator is never converted to view model. </summary>
-        public static bool MustConvertToInletViewModel(Inlet inlet)
+        /// <summary>
+        /// Is used to be able to update an existing operator view model in-place
+        /// without having to re-establish the intricate relations with other operators.
+        /// </summary>
+        public static void RefreshViewModel_WithInletsAndOutlets_WithoutEntityPosition(
+            Operator entity, OperatorViewModel operatorViewModel,
+            ISampleRepository sampleRepository, ICurveRepository curveRepository, IPatchRepository patchRepository)
         {
-            if (inlet == null) throw new NullException(() => inlet);
-
-            bool mustConvert = inlet.Operator.GetOperatorTypeEnum() != OperatorTypeEnum.PatchInlet;
-            return mustConvert;
+            RefreshViewModel_WithoutEntityPosition(entity, operatorViewModel, sampleRepository, curveRepository, patchRepository);
+            RefreshInletViewModels(entity.Inlets, operatorViewModel);
+            RefreshOutletViewModels(entity.Outlets, operatorViewModel);
         }
 
-        /// <summary> The outlet of a PatchOutlet operator is never converted to view model. </summary>
-        public static bool MustConvertToOutletViewModel(Outlet outlet)
+        /// <summary>
+        /// Is used to be able to update an existing operator view model in-place
+        /// without having to re-establish the intricate relations with other operators.
+        /// </summary>
+        public static void RefreshViewModel_WithoutEntityPosition(
+            Operator entity, OperatorViewModel viewModel,
+            ISampleRepository sampleRepository, ICurveRepository curveRepository, IPatchRepository patchRepository)
         {
-            if (outlet == null) throw new NullException(() => outlet);
+            if (entity == null) throw new NullException(() => entity);
+            if (viewModel == null) throw new NullException(() => viewModel);
 
-            bool mustConvert = outlet.Operator.GetOperatorTypeEnum() != OperatorTypeEnum.PatchOutlet;
-            return mustConvert;
-        }
+            viewModel.Name = entity.Name;
+            viewModel.ID = entity.ID;
+            viewModel.Caption = GetOperatorCaption(entity, sampleRepository, curveRepository, patchRepository);
 
-        public static string GetOperatorCaption(
-            Operator op, ISampleRepository sampleRepository, ICurveRepository curveRepository, IPatchRepository patchRepository)
-        {
-            if (op == null) throw new NullException(() => op);
-            if (sampleRepository == null) throw new NullException(() => sampleRepository);
-            if (curveRepository == null) throw new NullException(() => curveRepository);
-            if (patchRepository == null) throw new NullException(() => patchRepository);
-
-            OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
-
-            switch (operatorTypeEnum)
+            if (entity.OperatorType != null)
             {
-                case OperatorTypeEnum.Number:
-                    return GetOperatorCaption_ForNumber(op);
-
-                case OperatorTypeEnum.PatchInlet:
-                    return GetOperatorCaption_ForPatchInlet(op);
-
-                case OperatorTypeEnum.PatchOutlet:
-                    return GetOperatorCaption_ForPatchOutlet(op);
-
-                case OperatorTypeEnum.Sample:
-                    return GetOperatorCaption_ForSample(op, sampleRepository);
-
-                case OperatorTypeEnum.Curve:
-                    return GetOperatorCaption_ForCurve(op, curveRepository);
-
-                case OperatorTypeEnum.CustomOperator:
-                    return GetOperatorCaption_ForCustomOperator(op, patchRepository);
-
-                default:
-                    return GetOperatorCaption_ForOtherOperators(op);
+                viewModel.OperatorType = entity.OperatorType.ToViewModel();
             }
+            else
+            {
+                viewModel.OperatorType = null; // Should never happen.
+            }
+
+            viewModel.IsOwned = GetOperatorIsOwned(entity);
+        }
+
+        private static string GetOperatorCaption_ForCurve(Operator op, ICurveRepository curveRepository)
+        {
+            // Prefer Operator's explicit Name.
+            if (!String.IsNullOrWhiteSpace(op.Name))
+            {
+                return op.Name;
+            }
+
+            // Use Curve Name as fallback.
+            var wrapper = new Curve_OperatorWrapper(op, curveRepository);
+            Curve underlyingEntity = wrapper.Curve;
+            if (underlyingEntity != null)
+            {
+                if (!String.IsNullOrWhiteSpace(underlyingEntity.Name))
+                {
+                    return underlyingEntity.Name;
+                }
+            }
+
+            // Use OperatorType DisplayName as fallback.
+            string caption = ResourceHelper.GetDisplayName(op.GetOperatorTypeEnum());
+            return caption;
+        }
+
+        private static string GetOperatorCaption_ForCustomOperator(Operator op, IPatchRepository patchRepository)
+        {
+            // Prefer Operator's explicit Name.
+            if (!String.IsNullOrWhiteSpace(op.Name))
+            {
+                return op.Name;
+            }
+
+            var wrapper = new CustomOperator_OperatorWrapper(op, patchRepository);
+            Patch underlyingPatch = wrapper.UnderlyingPatch;
+            if (underlyingPatch != null)
+            {
+                if (!String.IsNullOrWhiteSpace(underlyingPatch.Name))
+                {
+                    return underlyingPatch.Name;
+                }
+            }
+
+            // Use OperatorType DisplayName as fallback.
+            string caption = ResourceHelper.GetDisplayName(op.GetOperatorTypeEnum());
+            return caption;
         }
 
         /// <summary> Value Operator: display name and value or only value. </summary>
@@ -284,6 +352,19 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 return String.Format("{0}: {1}", op.Name, formattedValue);
             }
+        }
+
+        private static string GetOperatorCaption_ForOtherOperators(Operator op)
+        {
+            // Prefer Operator's explicit Name.
+            if (!String.IsNullOrWhiteSpace(op.Name))
+            {
+                return op.Name;
+            }
+
+            // Use OperatorType DisplayName as fallback.
+            string caption = ResourceHelper.GetDisplayName(op.GetOperatorTypeEnum());
+            return caption;
         }
 
         private static string GetOperatorCaption_ForPatchInlet(Operator op)
@@ -352,73 +433,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             // Use OperatorType DisplayName as fallback.
             string caption = ResourceHelper.GetDisplayName(op.GetOperatorTypeEnum());
             return caption;
-        }
-
-        private static string GetOperatorCaption_ForCurve(Operator op, ICurveRepository curveRepository)
-        {
-            // Prefer Operator's explicit Name.
-            if (!String.IsNullOrWhiteSpace(op.Name))
-            {
-                return op.Name;
-            }
-
-            // Use Curve Name as fallback.
-            var wrapper = new Curve_OperatorWrapper(op, curveRepository);
-            Curve underlyingEntity = wrapper.Curve;
-            if (underlyingEntity != null)
-            {
-                if (!String.IsNullOrWhiteSpace(underlyingEntity.Name))
-                {
-                    return underlyingEntity.Name;
-                }
-            }
-
-            // Use OperatorType DisplayName as fallback.
-            string caption = ResourceHelper.GetDisplayName(op.GetOperatorTypeEnum());
-            return caption;
-        }
-
-        private static string GetOperatorCaption_ForCustomOperator(Operator op, IPatchRepository patchRepository)
-        {
-            // Prefer Operator's explicit Name.
-            if (!String.IsNullOrWhiteSpace(op.Name))
-            {
-                return op.Name;
-            }
-
-            var wrapper = new CustomOperator_OperatorWrapper(op, patchRepository);
-            Patch underlyingPatch = wrapper.UnderlyingPatch;
-            if (underlyingPatch != null)
-            {
-                if (!String.IsNullOrWhiteSpace(underlyingPatch.Name))
-                {
-                    return underlyingPatch.Name;
-                }
-            }
-
-            // Use OperatorType DisplayName as fallback.
-            string caption = ResourceHelper.GetDisplayName(op.GetOperatorTypeEnum());
-            return caption;
-        }
-
-        private static string GetOperatorCaption_ForOtherOperators(Operator op)
-        {
-            // Prefer Operator's explicit Name.
-            if (!String.IsNullOrWhiteSpace(op.Name))
-            {
-                return op.Name;
-            }
-
-            // Use OperatorType DisplayName as fallback.
-            string caption = ResourceHelper.GetDisplayName(op.GetOperatorTypeEnum());
-            return caption;
-        }
-
-        public static string GetToneGridEditNumberTitle(Scale entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            return ResourceHelper.GetScaleTypeDisplayNameSingular(entity);
         }
     }
 }

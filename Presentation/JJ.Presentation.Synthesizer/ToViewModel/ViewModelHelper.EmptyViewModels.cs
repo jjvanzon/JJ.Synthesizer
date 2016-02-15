@@ -5,6 +5,9 @@ using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using System.Collections.Generic;
 using System;
+using JJ.Data.Synthesizer;
+using JJ.Framework.Reflection.Exceptions;
+using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -24,7 +27,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new CurrentPatchesViewModel
             {
-                List = new List<CurrentPatchItemViewModel>()
+                List = new List<CurrentPatchItemViewModel>(),
+                ValidationMessages = new List<Message>()
             };
 
             return viewModel;

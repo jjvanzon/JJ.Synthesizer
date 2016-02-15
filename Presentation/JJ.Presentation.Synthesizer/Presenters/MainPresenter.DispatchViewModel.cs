@@ -124,7 +124,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void DispatchCurrentPatchesViewModel(object viewModel2)
         {
-            // Currently does nothing. But all view models have a dispatch method, so I think I need a placeholder here.
+            var castedViewModel = (CurrentPatchesViewModel)viewModel2;
+
+            MainViewModel.Document.CurrentPatches = castedViewModel;
+
+            MainViewModel.ValidationMessages.AddRange(castedViewModel.ValidationMessages);
+            castedViewModel.ValidationMessages.Clear();
         }
 
         private void DispatchCurveDetailsViewModel(object viewModel2)
