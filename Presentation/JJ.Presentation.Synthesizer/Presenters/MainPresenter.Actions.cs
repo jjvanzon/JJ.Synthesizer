@@ -61,14 +61,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void AudioFileOutputGridShow()
         {
-            _audioFileOutputGridPresenter.Show();
-            DispatchViewModel(_audioFileOutputGridPresenter.ViewModel);
+            // GetViewModel
+            AudioFileOutputGridViewModel userInput = MainViewModel.Document.AudioFileOutputGrid;
+
+            // TemplateMethod
+            TemplateActionMethod(userInput, _audioFileOutputGridPresenter.Show);
         }
 
         public void AudioFileOutputGridClose()
         {
-            _audioFileOutputGridPresenter.Close();
-            DispatchViewModel(_audioFileOutputGridPresenter.ViewModel);
+            // GetViewModel
+            AudioFileOutputGridViewModel userInput = MainViewModel.Document.AudioFileOutputGrid;
+
+            // TemplateMethod
+            TemplateActionMethod(userInput, _audioFileOutputGridPresenter.Close);
         }
 
         public void AudioFileOutputCreate()
@@ -519,12 +525,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // DispatchViewModel
             MainViewModel.Document = viewModel;
 
-            // TODO: The rest of this method is not entirely in accordance with the new patterns.
-
-            // Here only the view models are assigned that cannot vary.
-            // E.g. SampleGrid is not assigned here, because it can be different for each child document.
-            _audioFileOutputGridPresenter.ViewModel = MainViewModel.Document.AudioFileOutputGrid;
-
+            // The rest of this method is not entirely in accordance with the new patterns.
             MainViewModel.WindowTitle = String.Format("{0} - {1}", document.Name, Titles.ApplicationName);
 
             MainViewModel.Menu = _menuPresenter.Show(documentIsOpen: true);

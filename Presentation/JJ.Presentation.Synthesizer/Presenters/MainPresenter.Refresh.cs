@@ -17,8 +17,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         private void AudioFileOutputGridRefresh()
         {
-            object viewModel2 = _audioFileOutputGridPresenter.Refresh();
-            DispatchViewModel(viewModel2);
+            // GetViewModel
+            AudioFileOutputGridViewModel userInput = MainViewModel.Document.AudioFileOutputGrid;
+
+            // Partial Action
+            AudioFileOutputGridViewModel viewModel = _audioFileOutputGridPresenter.Refresh(userInput);
+
+            // DispatchViewModel
+            DispatchViewModel(viewModel);
         }
 
         private void AudioFileOutputPropertiesRefresh(AudioFileOutputPropertiesViewModel userInput)

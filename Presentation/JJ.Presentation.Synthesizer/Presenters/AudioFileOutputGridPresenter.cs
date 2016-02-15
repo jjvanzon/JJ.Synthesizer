@@ -10,8 +10,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         private IDocumentRepository _documentRepository;
 
-        public AudioFileOutputGridViewModel ViewModel { get; set; }
-
         public AudioFileOutputGridPresenter(IDocumentRepository documentRepository)
         {
             if (documentRepository == null) throw new NullException(() => documentRepository);
@@ -19,40 +17,82 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentRepository = documentRepository;
         }
 
-        public void Show()
+        public AudioFileOutputGridViewModel Show(AudioFileOutputGridViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            ViewModel.Visible = true;
+            // Set !Successful
+            userInput.Successful = false;
+
+            // GetEntity
+            Document document = _documentRepository.Get(userInput.DocumentID);
+
+            // ToViewModel
+            AudioFileOutputGridViewModel viewModel = document.ToAudioFileOutputGridViewModel();
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+            viewModel.Visible = true;
+
+            // Successful
+            viewModel.Successful = true;
+
+            return viewModel;
         }
 
-        /// <summary> return AudioFileOutputGridViewModel or NotFoundViewModel. <summary>
-        public object Refresh()
+        public AudioFileOutputGridViewModel Refresh(AudioFileOutputGridViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Document document = _documentRepository.TryGet(ViewModel.DocumentID);
-            if (document == null)
-            {
-                ViewModelHelper.CreateDocumentNotFoundViewModel();
-            }
+            // Set !Successful
+            userInput.Successful = false;
 
-            bool visible = ViewModel.Visible;
-            ViewModel = document.ToAudioFileOutputGridViewModel();
-            ViewModel.Visible = visible;
-            return ViewModel;
+            // GetEntity
+            Document document = _documentRepository.Get(userInput.DocumentID);
+
+            // ToViewModel
+            AudioFileOutputGridViewModel viewModel = document.ToAudioFileOutputGridViewModel();
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+
+            // Successful
+            viewModel.Successful = true;
+
+            return viewModel;
         }
 
-        public void Close()
+        public AudioFileOutputGridViewModel Close(AudioFileOutputGridViewModel userInput)
         {
-            ViewModel.Visible = false;
+            if (userInput == null) throw new NullException(() => userInput);
+
+            // Set !Successful
+            userInput.Successful = false;
+
+            // GetEntity
+            Document document = _documentRepository.Get(userInput.DocumentID);
+
+            // ToViewModel
+            AudioFileOutputGridViewModel viewModel = document.ToAudioFileOutputGridViewModel();
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+            viewModel.Visible = false;
+
+            // Successful
+            viewModel.Successful = true;
+
+            return viewModel;
         }
 
-        // Helpers
-
-        private void AssertViewModel()
+        private void CopyNonPersistedProperties(AudioFileOutputGridViewModel sourceViewModel, AudioFileOutputGridViewModel destViewModel)
         {
-            if (ViewModel == null) throw new NullException(() => ViewModel);
+            if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
+            if (destViewModel == null) throw new NullException(() => destViewModel);
+
+            destViewModel.ValidationMessages = sourceViewModel.ValidationMessages;
+            destViewModel.Visible = sourceViewModel.Visible;
+            destViewModel.Successful = sourceViewModel.Successful;
         }
     }
 }
