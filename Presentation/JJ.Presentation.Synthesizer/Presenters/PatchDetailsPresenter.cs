@@ -27,8 +27,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private PatchRepositories _repositories;
         private EntityPositionManager _entityPositionManager;
 
-        public PatchDetailsViewModel ViewModel { get; set; }
-
         public PatchDetailsPresenter(PatchRepositories repositories, EntityPositionManager entityPositionManager)
         {
             if (repositories == null) throw new NullException(() => repositories);
@@ -38,175 +36,248 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _entityPositionManager = entityPositionManager;
         }
 
-        public void Show()
+        public PatchDetailsViewModel Show(PatchDetailsViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            ViewModel.Visible = true;
-        }
+            // Set !Successful
+            userInput.Successful = false;
 
-        public void Refresh()
-        {
-            AssertViewModel();
+            // GetEntity
+            Patch entity = _repositories.PatchRepository.Get(userInput.Entity.PatchID);
 
-            Patch entity = _repositories.PatchRepository.Get(ViewModel.Entity.PatchID);
-
-            bool visible = ViewModel.Visible;
-            int? selectedOperatorID = null;
-            if (ViewModel.SelectedOperator != null)
-            {
-                selectedOperatorID = ViewModel.SelectedOperator.ID;
-            }
-            
-            ViewModel = entity.ToDetailsViewModel(
+            // ToViewModel
+            PatchDetailsViewModel viewModel = entity.ToDetailsViewModel(
                 _repositories.OperatorTypeRepository,
                 _repositories.SampleRepository,
                 _repositories.CurveRepository,
                 _repositories.PatchRepository,
                 _entityPositionManager);
 
-            ViewModel.Visible = visible;
-            if (selectedOperatorID.HasValue)
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+            viewModel.Visible = true;
+
+            // Successful
+            viewModel.Successful = true;
+
+            return viewModel;
+        }
+
+        public PatchDetailsViewModel Refresh(PatchDetailsViewModel userInput)
+        {
+            if (userInput == null) throw new NullException(() => userInput);
+
+            // Set !Successful
+            userInput.Successful = false;
+
+            // GetEntity
+            Patch entity = _repositories.PatchRepository.Get(userInput.Entity.PatchID);
+
+            // ToViewModel
+            PatchDetailsViewModel viewModel = entity.ToDetailsViewModel(
+                _repositories.OperatorTypeRepository,
+                _repositories.SampleRepository,
+                _repositories.CurveRepository,
+                _repositories.PatchRepository,
+                _entityPositionManager);
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+
+            // Successful
+            viewModel.Successful = true;
+
+            return viewModel;
+        }
+
+        public PatchDetailsViewModel Close(PatchDetailsViewModel userInput)
+        {
+            if (userInput == null) throw new NullException(() => userInput);
+
+            PatchDetailsViewModel viewModel = Update(userInput);
+
+            if (viewModel.Successful)
             {
-                SetSelectedOperator(selectedOperatorID.Value);
+                viewModel.Visible = false;
             }
+
+            return viewModel;
         }
 
-        public void Close()
+        public PatchDetailsViewModel LoseFocus(PatchDetailsViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Update();
+            PatchDetailsViewModel viewModel = Update(userInput);
 
-            ViewModel.Visible = false;
+            return viewModel;
         }
 
-        public void LoseFocus()
+        private PatchDetailsViewModel Update(PatchDetailsViewModel userInput)
         {
-            Update();
-        }
+            if (userInput == null) throw new NullException(() => userInput);
 
-        private void Update()
-        {
-            AssertViewModel();
+            // Set !Successful
+            userInput.Successful = false;
 
-            Patch patch = ViewModel.ToPatchWithRelatedEntities(_repositories);
+            // GetEntity
+            Patch entity = _repositories.PatchRepository.Get(userInput.Entity.PatchID);
 
-            var patchManager = new PatchManager(patch, _repositories);
+            // Business
+            var patchManager = new PatchManager(entity, _repositories);
             VoidResult result = patchManager.SavePatch();
 
-            ViewModel.ValidationMessages = result.Messages;
-            ViewModel.Successful = result.Successful;
+            // ToViewModel
+            PatchDetailsViewModel viewModel = entity.ToDetailsViewModel(
+                _repositories.OperatorTypeRepository,
+                _repositories.SampleRepository,
+                _repositories.CurveRepository,
+                _repositories.PatchRepository,
+                _entityPositionManager);
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+            viewModel.ValidationMessages.AddRange(result.Messages);
+
+            // Successful?
+            viewModel.Successful = result.Successful;
+
+            return viewModel;
         }
 
-        public void MoveOperator(int operatorID, float centerX, float centerY)
+        public PatchDetailsViewModel MoveOperator(PatchDetailsViewModel userInput, int operatorID, float centerX, float centerY)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            OperatorViewModel operatorViewModel = ViewModel.Entity.Operators.Single(x => x.ID == operatorID);
+            // Set !Successful
+            userInput.Successful = false;
 
-            float deltaX = centerX - operatorViewModel.CenterX;
-            float deltaY = centerY - operatorViewModel.CenterY;
+            // GetEntity
+            Patch patch = _repositories.PatchRepository.Get(userInput.Entity.PatchID);
+            Operator op = _repositories.OperatorRepository.Get(operatorID);
 
-            operatorViewModel.CenterX += deltaX;
-            operatorViewModel.CenterY += deltaY;
+            // Business
+            _entityPositionManager.MoveOperator(op, centerX, centerY);
 
-            // Move owned operators along with the owner.
+            // ToViewModel
+            PatchDetailsViewModel viewModel = patch.ToDetailsViewModel(
+                _repositories.OperatorTypeRepository,
+                _repositories.SampleRepository,
+                _repositories.CurveRepository,
+                _repositories.PatchRepository,
+                _entityPositionManager);
 
-            // Note that the owned operator can be connected to the same owner operator twice (in two different inlets),
-            // but make sure that this does not result in applying the move twice (with the Distinct operator below).
-            IEnumerable<OperatorViewModel> ownedOperatorViewModels = operatorViewModel.Inlets
-                                                                                      .Where(x => x.InputOutlet != null)
-                                                                                      .Where(x => x.InputOutlet.Operator.IsOwned)
-                                                                                      .Select(x => x.InputOutlet.Operator)
-                                                                                      .Distinct();
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
 
-            foreach (OperatorViewModel ownedOperatorViewModel in ownedOperatorViewModels)
-            {
-                ownedOperatorViewModel.CenterX += deltaX;
-                ownedOperatorViewModel.CenterY += deltaY;
-            }
+            // Successful
+            viewModel.Successful = true;
+
+            return viewModel;
         }
 
-        public void ChangeInputOutlet(int inletID, int inputOutletID)
+        public PatchDetailsViewModel ChangeInputOutlet(PatchDetailsViewModel userInput, int inletID, int inputOutletID)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            InletViewModel inletViewModel = ViewModel.Entity.Operators
-                                                            .SelectMany(x => x.Inlets)
-                                                            .Where(x => x.ID == inletID)
-                                                            .Single();
+            // Set !Successful
+            userInput.Successful = false;
 
-            OutletViewModel inputOutletViewModel = ViewModel.Entity.Operators
-                                                                   .SelectMany(x => x.Outlets)
-                                                                   .Where(x => x.ID == inputOutletID)
-                                                                   .Single();
-            inletViewModel.InputOutlet = inputOutletViewModel;
+            // GetEntities
+            Patch patch = _repositories.PatchRepository.Get(userInput.Entity.PatchID);
+            Inlet inlet = _repositories.InletRepository.Get(inletID);
+            Outlet inputOutlet = _repositories.OutletRepository.Get(inputOutletID);
 
-            // We need to restore the whole patch,
-            // because we need to update the IsOwned property,
-            // based on the state of other (uncommitted) operators.
-            Patch patch = ViewModel.ToPatchWithRelatedEntities(_repositories);
+            // Business
+            inlet.LinkTo(inputOutlet);
 
-            // Refresh IsOwned.
-            Operator op = _repositories.OperatorRepository.Get(inputOutletViewModel.Operator.ID);
-            OperatorViewModel operatorViewModel = ViewModel.Entity.Operators.First(x => x.ID == op.ID);
-            operatorViewModel.IsOwned = ViewModelHelper.GetOperatorIsOwned(op);
+            // ToViewModel
+            PatchDetailsViewModel viewModel = CreateViewModel(patch);
+
+            // Non-Persited
+            CopyNonPersistedProperties(userInput, viewModel);
+
+            // Successful
+            viewModel.Successful = true;
+
+            return viewModel;
         }
 
-        public void SelectOperator(int operatorID)
+        public PatchDetailsViewModel SelectOperator(PatchDetailsViewModel userInput, int operatorID)
         {
-            SetSelectedOperator(operatorID);
+            if (userInput == null) throw new NullException(() => userInput);
+
+            // Set !Successful
+            userInput.Successful = false;
+
+            // GetEntity
+            Patch entity = _repositories.PatchRepository.Get(userInput.Entity.PatchID);
+
+            // ToViewModel
+            PatchDetailsViewModel viewModel = entity.ToDetailsViewModel(
+                _repositories.OperatorTypeRepository,
+                _repositories.SampleRepository,
+                _repositories.CurveRepository,
+                _repositories.PatchRepository,
+                _entityPositionManager);
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+            SetSelectedOperator(viewModel, operatorID);
+
+            // Successful
+            viewModel.Successful = true;
+
+            return viewModel;
         }
 
         /// <summary>
-        /// This method only changes the view model, not the entity model!
-        /// Deletes the selected operator. 
+        /// Deletes the selected operator.
         /// Produces a validation message if no operator is selected.
         /// </summary>
-        public void DeleteOperator()
+        public PatchDetailsViewModel DeleteOperator(PatchDetailsViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            if (ViewModel.SelectedOperator == null)
+            // Set !Successful
+            userInput.Successful = false;
+
+            // GetEntity
+            Patch entity = _repositories.PatchRepository.Get(userInput.Entity.PatchID);
+
+            // ViewModel Validation
+            if (userInput.SelectedOperator == null)
             {
-                ViewModel.Successful = false;
-                ViewModel.ValidationMessages.Add(new Message
+                // Non-Persisted
+                userInput.ValidationMessages.Add(new Message
                 {
                     PropertyKey = PresentationPropertyNames.SelectedOperator,
                     Text = PresentationMessages.SelectAnOperatorFirst
                 });
 
-                return;
+                userInput.Successful = false;
+
+                return userInput;
             }
-
-            // ToViewModel
-            int listIndex = ViewModel.Entity.Operators.IndexOf(x => x.ID == ViewModel.SelectedOperator.ID);
-
-            OperatorViewModel operatorViewModel = ViewModel.Entity.Operators[listIndex];
-
-            // Unlink related operator's inlets to which the input operator is connected.
-            IList<InletViewModel> relatedInletViewModels = GetConnectedInletViewModels(ViewModel.Entity.Operators, operatorViewModel);
-            foreach (InletViewModel relatedInletViewModel in relatedInletViewModels)
+            else
             {
-                relatedInletViewModel.InputOutlet = null;
+                // Business
+                var patchManager = new PatchManager(entity, _repositories);
+                patchManager.DeleteOperator(userInput.SelectedOperator.ID);
+
+                // ToViewModel
+                PatchDetailsViewModel viewModel = CreateViewModel(entity);
+
+                // Non-Persisted
+                CopyNonPersistedProperties(userInput, viewModel);
+                viewModel.SelectedOperator = null;
+
+                // Successful
+                viewModel.Successful = true;
+
+                return viewModel;
             }
-
-            // Unlink op.Inlets.InputOutlet
-            operatorViewModel.Inlets.ForEach(x => x.InputOutlet = null);
-            // Unlink op.Inlets
-            operatorViewModel.Inlets = new List<InletViewModel>();
-
-            // Unlink op.Outlet[..].Operator
-            operatorViewModel.Outlets.ForEach(x => x.Operator = null);
-            // Unlink op.Outlets
-            operatorViewModel.Outlets = new List<OutletViewModel>();
-
-            ViewModel.Entity.Operators.RemoveAt(listIndex);
-
-            ViewModel.SelectedOperator = null;
-
-            ViewModel.Successful = true;
         }
 
         /// <summary>
@@ -215,14 +286,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// TODO: This action is too dependent on infrastructure, because the AudioFileOutput business logic is.
         /// Instead of writing to a file it had better write to a stream.
         /// </summary>
-        public string Play(RepositoryWrapper repositories)
+        public string Play(PatchDetailsViewModel userInput, RepositoryWrapper repositories)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
+            if (repositories == null) throw new NullException(() => repositories);
 
-            if (ViewModel.SelectedOperator == null)
+            // Set !Successful
+            userInput.Successful = false;
+
+            // ViewModel Validation
+            if (userInput.SelectedOperator == null)
             {
-                ViewModel.Successful = false;
-                ViewModel.ValidationMessages.Add(new Message
+                // Non-Persisted
+                userInput.ValidationMessages.Add(new Message
                 {
                     PropertyKey = PresentationPropertyNames.SelectedOperator,
                     Text = PresentationMessages.SelectAnOperatorFirst
@@ -231,11 +307,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 return null;
             }
 
-            Operator selectedOperator = _repositories.OperatorRepository.Get(ViewModel.SelectedOperator.ID);
+            Operator selectedOperator = _repositories.OperatorRepository.Get(userInput.SelectedOperator.ID);
             if (selectedOperator.Outlets.Count != 1)
             {
-                ViewModel.Successful = false;
-                ViewModel.ValidationMessages.Add(new Message
+                // Non-Persisted
+                userInput.ValidationMessages.Add(new Message
                 {
                     PropertyKey = PresentationPropertyNames.SelectedOperator,
                     Text = PresentationMessages.SelectAnOperatorWithASingleOutlet
@@ -243,8 +319,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 return null;
             }
+
+            // GetEntity
             Outlet outlet = selectedOperator.Outlets.Single();
 
+            // Business
             IPatchCalculator patchCalculator = CreatePatchCalculator(new PatchRepositories(repositories), outlet);
 
             AudioFileOutputManager audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
@@ -255,7 +334,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
 
-            ViewModel.Successful = true;
+            // Successful
+            userInput.Successful = true;
 
             return _patchPlayOutputFilePath;
         }
@@ -270,16 +350,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// setting IsSelected to false unless it is the selected operator,
         /// and sets the details view model's SelectedOperator property.
         /// </summary>
-        private void SetSelectedOperator(int operatorID)
+        private void SetSelectedOperator(PatchDetailsViewModel viewModel, int operatorID)
         {
-            ViewModel.SelectedOperator = null;
+            viewModel.SelectedOperator = null;
 
-            foreach (OperatorViewModel operatorViewModel in ViewModel.Entity.Operators)
+            foreach (OperatorViewModel operatorViewModel in viewModel.Entity.Operators)
             {
                 if (operatorViewModel.ID == operatorID)
                 {
                     operatorViewModel.IsSelected = true;
-                    ViewModel.SelectedOperator = operatorViewModel;
+                    viewModel.SelectedOperator = operatorViewModel;
                 }
                 else
                 {
@@ -288,42 +368,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        /// <summary>
-        /// Gets related operator's inlets to which the input operator is connected
-        /// (at the ViewModel level).
-        /// </summary>
-        private IList<InletViewModel> GetConnectedInletViewModels(IList<OperatorViewModel> allOperatorViewModels, OperatorViewModel inputOperatorViewModel)
-        {
-            // TODO: This makes operating on the view model to execute the delete action quite expensive.
-            // Is it possible and less expensive to do a partial ToEntity and operate on the entity model?
-            var list = new List<InletViewModel>();
-
-            foreach (OperatorViewModel operatorViewModel in allOperatorViewModels)
-            {
-                foreach (InletViewModel inletViewModel in operatorViewModel.Inlets)
-                {
-                    if (inletViewModel.InputOutlet != null)
-                    {
-                        if (inletViewModel.InputOutlet.Operator.ID == inputOperatorViewModel.ID)
-                        {
-                            list.Add(inletViewModel);
-                        }
-                    }
-                }
-            }
-
-            return list;
-        }
-
         private IPatchCalculator CreatePatchCalculator(PatchRepositories repositories, Outlet outlet)
         {
             var patchManager = new PatchManager(outlet.Operator.Patch, repositories);
             return patchManager.CreateCalculator(new CalculatorCache(), outlet);
-        }
-
-        private void AssertViewModel()
-        {
-            if (ViewModel == null) throw new NullException(() => ViewModel);
         }
 
         private static double GetPatchPlayDuration()
@@ -334,6 +382,26 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private static string GetPatchPlayOutputFilePath()
         {
             return ConfigurationHelper.GetSection<ConfigurationSection>().PatchPlayHackedAudioFileOutputFilePath;
+        }
+
+        private PatchDetailsViewModel CreateViewModel(Patch patch)
+        {
+            return patch.ToDetailsViewModel(
+                _repositories.OperatorTypeRepository,
+                _repositories.SampleRepository,
+                _repositories.CurveRepository,
+                _repositories.PatchRepository,
+                _entityPositionManager);
+        }
+
+        private void CopyNonPersistedProperties(PatchDetailsViewModel sourceViewModel, PatchDetailsViewModel destViewModel)
+        {
+            destViewModel.Visible = sourceViewModel.Visible;
+            if (sourceViewModel.SelectedOperator != null)
+            {
+                SetSelectedOperator(destViewModel, sourceViewModel.SelectedOperator.ID);
+            }
+            destViewModel.ValidationMessages.AddRange(sourceViewModel.ValidationMessages);
         }
     }
 }

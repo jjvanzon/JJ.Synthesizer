@@ -99,13 +99,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // ToViewModel
             SamplePropertiesViewModel viewModel = entity.ToPropertiesViewModel(_repositories);
-            viewModel.Successful = result.Successful;
-            viewModel.ValidationMessages = result.Messages;
 
             // Non-Persisted
             viewModel.Visible = userInput.Visible;
+            viewModel.ValidationMessages = result.Messages;
 
-            // Successful
+            // Successful?
             viewModel.Successful = result.Successful;
 
             return viewModel;

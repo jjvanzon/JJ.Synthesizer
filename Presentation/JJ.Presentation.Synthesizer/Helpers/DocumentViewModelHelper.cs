@@ -1349,6 +1349,19 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return userInput;
         }
 
+        public static PatchDetailsViewModel GetVisiblePatchDetailsViewModel(DocumentViewModel rootDocumentViewModel)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            PatchDetailsViewModel viewModel = rootDocumentViewModel.PatchDocumentList.Select(x => x.PatchDetails).Where(x => x.Visible).FirstOrDefault();
+            if (viewModel == null)
+            {
+                throw new Exception("No visible PatchDetailsViewModel found in the PatchDocumentViewModels.");
+            }
+
+            return viewModel;
+        }
+
         // Sample
 
         public static SamplePropertiesViewModel GetVisibleSamplePropertiesViewModel(DocumentViewModel rootDocumentViewModel)

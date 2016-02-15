@@ -100,6 +100,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void BindVectorGraphicsEvents()
         {
             _vectorGraphics.SelectOperatorGesture.OperatorSelected += SelectOperatorGesture_OperatorSelected;
+            _vectorGraphics.MoveGesture.Moving += MoveGesture_Moving;
             _vectorGraphics.MoveGesture.Moved += MoveGesture_Moved;
             _vectorGraphics.DropLineGesture.Dropped += DropLineGesture_Dropped;
             _vectorGraphics.DeleteOperatorGesture.DeleteRequested += DeleteOperatorGesture_DeleteRequested;
@@ -263,6 +264,20 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             int outletID = VectorGraphicsTagHelper.GetOutletID(e.DraggedElement.Tag);
 
             ChangeInputOutlet(inletID, outletID);
+        }
+
+        private void MoveGesture_Moving(object sender, ElementEventArgs e)
+        {
+            //int operatorIndexNumber = VectorGraphicsTagHelper.GetOperatorID(e.Element.Tag);
+
+
+
+            //float centerX = e.Element.AbsoluteX + e.Element.Width / 2f;
+            //float centerY = e.Element.AbsoluteY + e.Element.Height / 2f;
+
+            //MoveOperator(operatorIndexNumber, centerX, centerY);
+
+            //throw new NotImplementedException();
         }
 
         private void MoveGesture_Moved(object sender, ElementEventArgs e)

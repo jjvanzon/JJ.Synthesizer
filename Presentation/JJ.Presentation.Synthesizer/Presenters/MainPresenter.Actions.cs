@@ -1276,36 +1276,35 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void OperatorCreate(int operatorTypeID)
         {
-            bool isPatchInletOrPatchOutlet = operatorTypeID == (int)OperatorTypeEnum.PatchInlet ||
-                                             operatorTypeID == (int)OperatorTypeEnum.PatchOutlet;
-            if (isPatchInletOrPatchOutlet)
-            {
-                OperatorCreate_ForPatchInletOrPatchOutlet(operatorTypeID);
-            }
-            else
-            {
-                OperatorCreate_ForOtherOperatorTypes(operatorTypeID);
-            }
-        }
+            // GetViewModel
+            PatchDetailsViewModel userInput = DocumentViewModelHelper.GetVisiblePatchDetailsViewModel(MainViewModel.Document);
 
-        // TODO: Now that executing the side-effects is moved to the PatchManager, do I still need this specialized method?
-        private void OperatorCreate_ForPatchInletOrPatchOutlet(int operatorTypeID)
-        {
+            // Set !Successful
+            userInput.Successful = false;
+
             // ToEntity
             Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
-            Patch patch = _repositories.PatchRepository.Get(_patchDetailsPresenter.ViewModel.Entity.PatchID);
+            Patch patch = _repositories.PatchRepository.Get(userInput.Entity.PatchID);
 
             // Business
             var patchManager = new PatchManager(patch, _patchRepositories);
             Operator op = patchManager.CreateOperator((OperatorTypeEnum)operatorTypeID);
 
+            // Business
             IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
-                MainViewModel.Successful &= validationResult.Successful;
-                MainViewModel.PopupMessages.AddRange(validationResult.Messages);
+                // Non-Persisted
+                userInput.ValidationMessages.AddRange(validationResult.Messages);
+
+                // DispatchViewModel
+                DispatchViewModel(userInput);
+
                 return;
             }
+
+            // Successful
+            userInput.Successful = true;
 
             // ToViewModel
 
@@ -1315,7 +1314,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _repositories.CurveRepository,
                 _repositories.PatchRepository,
                 _entityPositionManager);
-            _patchDetailsPresenter.ViewModel.Entity.Operators.Add(operatorViewModel);
+            userInput.Entity.Operators.Add(operatorViewModel);
 
             // OperatorPropertiesViewModel
             OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
@@ -1336,47 +1335,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         propertiesViewModelList.Add(propertiesViewModel);
                         break;
                     }
-
-                default:
-                    throw new ValueNotSupportedException(operatorTypeEnum);
-            }
-
-            // Refresh Dependent Things
-            OperatorViewModels_OfType_Refresh(OperatorTypeEnum.CustomOperator);
-        }
-
-        private void OperatorCreate_ForOtherOperatorTypes(int operatorTypeID)
-        {
-            // ToEntity
-            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
-            Patch patch = _repositories.PatchRepository.Get(_patchDetailsPresenter.ViewModel.Entity.PatchID);
-
-            // Business
-            var patchManager = new PatchManager(patch, _patchRepositories);
-            Operator op = patchManager.CreateOperator((OperatorTypeEnum)operatorTypeID);
-
-            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
-            if (!validationResult.Successful)
-            {
-                MainViewModel.Successful &= validationResult.Successful;
-                MainViewModel.PopupMessages.AddRange(validationResult.Messages);
-                return;
-            }
-
-            // ToViewModel
-
-            // PatchDetails OperatorViewModel
-            OperatorViewModel operatorViewModel = op.ToViewModelWithRelatedEntitiesAndInverseProperties(
-                _repositories.SampleRepository,
-                _repositories.CurveRepository,
-                _repositories.PatchRepository,
-                _entityPositionManager);
-            _patchDetailsPresenter.ViewModel.Entity.Operators.Add(operatorViewModel);
-
-            // Operator Properties
-            OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
-            switch (operatorTypeEnum)
-            {
                 case OperatorTypeEnum.Average:
                 case OperatorTypeEnum.Minimum:
                 case OperatorTypeEnum.Maximum:
@@ -1467,144 +1425,176 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         break;
                     }
             }
+
+            switch (operatorTypeEnum)
+            {
+                case OperatorTypeEnum.PatchInlet:
+                case OperatorTypeEnum.PatchOutlet:
+                    // Refresh Dependent Things
+                    OperatorViewModels_OfType_Refresh(OperatorTypeEnum.CustomOperator);
+                    break;
+            }
         }
 
-        /// <summary> Deletes the operator selected in PatchDetails. Does not delete anything if no operator is selected. </summary>
+        /// <summary> Deletes the operator selected in PatchDetails. </summary>
         public void OperatorDelete()
         {
-            if (_patchDetailsPresenter.ViewModel.SelectedOperator != null)
+            // GetViewModel
+            PatchDetailsViewModel userInput = DocumentViewModelHelper.GetVisiblePatchDetailsViewModel(MainViewModel.Document);
+
+            // Set !Successful
+            userInput.Successful = false;
+
+            // ToEntity
+            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
+
+            // GetEntities
+            Patch patch = _repositories.PatchRepository.Get(userInput.Entity.PatchID);
+            Operator op = null;
+            OperatorTypeEnum operatorTypeEnum = OperatorTypeEnum.Undefined;
+            if (userInput.SelectedOperator != null)
             {
-                // ToEntity
-                Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
-                Patch patch = _repositories.PatchRepository.Get(_patchDetailsPresenter.ViewModel.Entity.PatchID);
-                Document document = patch.Document;
-                Operator op = _repositories.OperatorRepository.Get(_patchDetailsPresenter.ViewModel.SelectedOperator.ID);
-                OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
-
-                // Business
-                var patchManager = new PatchManager(patch, _patchRepositories);
-                patchManager.DeleteOperator(op);
-
-                IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
-                if (!validationResult.Successful)
-                {
-                    MainViewModel.Successful &= validationResult.Successful;
-                    MainViewModel.PopupMessages.AddRange(validationResult.Messages);
-                    return;
-                }
-
-                // Partial Action
-                _patchDetailsPresenter.DeleteOperator();
-
-                // ToViewModel
-                if (_patchDetailsPresenter.ViewModel.Successful)
-                {
-                    // Do a lot of if'ing and switching to be a little faster in removing the item a specific place in the view model.
-                    PatchDocumentViewModel patchDocumentViewModel = MainViewModel.Document.PatchDocumentList.Where(x => x.ChildDocumentID == document.ID).First();
-                    switch (operatorTypeEnum)
-                    {
-                        case OperatorTypeEnum.Average:
-                        case OperatorTypeEnum.Minimum:
-                        case OperatorTypeEnum.Maximum:
-                            patchDocumentViewModel.OperatorPropertiesList_ForAggregates.RemoveFirst(x => x.ID == op.ID);
-                            break;
-
-                        case OperatorTypeEnum.Bundle:
-                            patchDocumentViewModel.OperatorPropertiesList_ForBundles.RemoveFirst(x => x.ID == op.ID);
-                            break;
-
-                        case OperatorTypeEnum.Curve:
-                            patchDocumentViewModel.OperatorPropertiesList_ForCurves.RemoveFirst(x => x.ID == op.ID);
-                            break;
-
-                        case OperatorTypeEnum.CustomOperator:
-                            patchDocumentViewModel.OperatorPropertiesList_ForCustomOperators.RemoveFirst(x => x.ID == op.ID);
-                            break;
-
-                        case OperatorTypeEnum.Number:
-                            patchDocumentViewModel.OperatorPropertiesList_ForNumbers.RemoveFirst(x => x.ID == op.ID);
-                            break;
-
-                        case OperatorTypeEnum.PatchInlet:
-                            patchDocumentViewModel.OperatorPropertiesList_ForPatchInlets.RemoveFirst(x => x.ID == op.ID);
-                            break;
-
-                        case OperatorTypeEnum.PatchOutlet:
-                            patchDocumentViewModel.OperatorPropertiesList_ForPatchOutlets.RemoveFirst(x => x.ID == op.ID);
-                            break;
-
-                        case OperatorTypeEnum.Random:
-                            patchDocumentViewModel.OperatorPropertiesList_ForRandoms.RemoveFirst(x => x.ID == op.ID);
-                            break;
-
-                        case OperatorTypeEnum.Resample:
-                            patchDocumentViewModel.OperatorPropertiesList_ForResamples.RemoveFirst(x => x.ID == op.ID);
-                            break;
-
-                        case OperatorTypeEnum.Sample:
-                            patchDocumentViewModel.OperatorPropertiesList_ForSamples.RemoveFirst(x => x.ID == op.ID);
-                            break;
-
-                        case OperatorTypeEnum.Spectrum:
-                            patchDocumentViewModel.OperatorPropertiesList_ForSpectrums.RemoveFirst(x => x.ID == op.ID);
-                            break;
-
-                        case OperatorTypeEnum.Unbundle:
-                            patchDocumentViewModel.OperatorPropertiesList_ForUnbundles.RemoveFirst(x => x.ID == op.ID);
-                            break;
-
-                        case OperatorTypeEnum.Undefined:
-                            throw new ValueNotSupportedException(operatorTypeEnum);
-
-                        default:
-                            patchDocumentViewModel.OperatorPropertiesList.RemoveFirst(x => x.ID == op.ID);
-                            break;
-                    }
-                }
-
-                // Refresh Dependent Things
-                OperatorViewModels_OfType_Refresh(OperatorTypeEnum.CustomOperator);
+                op = _repositories.OperatorRepository.Get(userInput.SelectedOperator.ID);
+                operatorTypeEnum = op.GetOperatorTypeEnum();
             }
 
-            DispatchViewModel(_patchDetailsPresenter.ViewModel);
+            // Partial Action
+            PatchDetailsViewModel viewModel = _patchDetailsPresenter.DeleteOperator(userInput);
+            if (!viewModel.Successful)
+            {
+                // DispatchViewModel
+                DispatchViewModel(viewModel);
+                return;
+            }
+
+            // Set !Successful
+            viewModel.Successful = false;
+
+            // Business
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
+            {
+                // Non-Persisted
+                viewModel.ValidationMessages.AddRange(validationResult.Messages);
+
+                // DispatchViewModel
+                DispatchViewModel(viewModel);
+                return;
+            }
+
+            // Successful
+            viewModel.Successful = true;
+
+            // DispatchViewModel
+            DispatchViewModel(viewModel);
+
+            // Refresh / ToViewModel
+            if (viewModel.Successful)
+            {
+                // Do a lot of if'ing and switching to be a little faster in removing the item a specific place in the view model.
+                PatchDocumentViewModel patchDocumentViewModel = DocumentViewModelHelper.GetPatchDocumentViewModel(MainViewModel.Document, patch.Document.ID);
+
+                switch (operatorTypeEnum)
+                {
+                    case OperatorTypeEnum.Average:
+                    case OperatorTypeEnum.Minimum:
+                    case OperatorTypeEnum.Maximum:
+                        patchDocumentViewModel.OperatorPropertiesList_ForAggregates.RemoveFirst(x => x.ID == op.ID);
+                        break;
+
+                    case OperatorTypeEnum.Bundle:
+                        patchDocumentViewModel.OperatorPropertiesList_ForBundles.RemoveFirst(x => x.ID == op.ID);
+                        break;
+
+                    case OperatorTypeEnum.Curve:
+                        patchDocumentViewModel.OperatorPropertiesList_ForCurves.RemoveFirst(x => x.ID == op.ID);
+                        break;
+
+                    case OperatorTypeEnum.CustomOperator:
+                        patchDocumentViewModel.OperatorPropertiesList_ForCustomOperators.RemoveFirst(x => x.ID == op.ID);
+                        break;
+
+                    case OperatorTypeEnum.Number:
+                        patchDocumentViewModel.OperatorPropertiesList_ForNumbers.RemoveFirst(x => x.ID == op.ID);
+                        break;
+
+                    case OperatorTypeEnum.PatchInlet:
+                        patchDocumentViewModel.OperatorPropertiesList_ForPatchInlets.RemoveFirst(x => x.ID == op.ID);
+                        break;
+
+                    case OperatorTypeEnum.PatchOutlet:
+                        patchDocumentViewModel.OperatorPropertiesList_ForPatchOutlets.RemoveFirst(x => x.ID == op.ID);
+                        break;
+
+                    case OperatorTypeEnum.Random:
+                        patchDocumentViewModel.OperatorPropertiesList_ForRandoms.RemoveFirst(x => x.ID == op.ID);
+                        break;
+
+                    case OperatorTypeEnum.Resample:
+                        patchDocumentViewModel.OperatorPropertiesList_ForResamples.RemoveFirst(x => x.ID == op.ID);
+                        break;
+
+                    case OperatorTypeEnum.Sample:
+                        patchDocumentViewModel.OperatorPropertiesList_ForSamples.RemoveFirst(x => x.ID == op.ID);
+                        break;
+
+                    case OperatorTypeEnum.Spectrum:
+                        patchDocumentViewModel.OperatorPropertiesList_ForSpectrums.RemoveFirst(x => x.ID == op.ID);
+                        break;
+
+                    case OperatorTypeEnum.Unbundle:
+                        patchDocumentViewModel.OperatorPropertiesList_ForUnbundles.RemoveFirst(x => x.ID == op.ID);
+                        break;
+
+                    case OperatorTypeEnum.Undefined:
+                        throw new ValueNotSupportedException(operatorTypeEnum);
+
+                    default:
+                        patchDocumentViewModel.OperatorPropertiesList.RemoveFirst(x => x.ID == op.ID);
+                        break;
+                }
+            }
+
+            // Refresh Dependent Things
+            OperatorViewModels_OfType_Refresh(OperatorTypeEnum.CustomOperator);
         }
 
         public void OperatorMove(int operatorID, float centerX, float centerY)
         {
-            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
+            // GetViewModel
+            PatchDetailsViewModel userInput = DocumentViewModelHelper.GetVisiblePatchDetailsViewModel(MainViewModel.Document);
 
-            _patchDetailsPresenter.MoveOperator(operatorID, centerX, centerY);
-
-            DispatchViewModel(_patchDetailsPresenter.ViewModel);
+            // TemplateMethod
+            TemplateActionMethod(userInput, x => _patchDetailsPresenter.MoveOperator(x, operatorID, centerX, centerY));
         }
 
         public void OperatorChangeInputOutlet(int inletID, int inputOutletID)
         {
-            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
+            // GetViewModel
+            PatchDetailsViewModel userInput = DocumentViewModelHelper.GetVisiblePatchDetailsViewModel(MainViewModel.Document);
 
-            _patchDetailsPresenter.ChangeInputOutlet(inletID, inputOutletID);
-
-            DispatchViewModel(_patchDetailsPresenter.ViewModel);
+            // TemplateMethod
+            TemplateActionMethod(userInput, x => _patchDetailsPresenter.ChangeInputOutlet(x, inletID, inputOutletID));
         }
 
         public void OperatorSelect(int operatorID)
         {
-            // HACK: If SelectOperator is too slow I cannot double click it.
-            //Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
+            // GetViewModel
+            PatchDetailsViewModel userInput = DocumentViewModelHelper.GetVisiblePatchDetailsViewModel(MainViewModel.Document);
 
-            _patchDetailsPresenter.SelectOperator(operatorID);
-
-            DispatchViewModel(_patchDetailsPresenter.ViewModel);
+            // Partial Action
+            TemplateActionMethod(userInput, x => _patchDetailsPresenter.SelectOperator(x, operatorID));
         }
 
         // Patch
 
         public void PatchDetailsShow(int childDocumentID)
         {
-            PatchDetailsViewModel detailsViewModel = DocumentViewModelHelper.GetPatchDetailsViewModel_ByDocumentID(MainViewModel.Document, childDocumentID);
-            _patchDetailsPresenter.ViewModel = detailsViewModel;
-            _patchDetailsPresenter.Show();
-            DispatchViewModel(_patchDetailsPresenter.ViewModel);
+            // GetViewModel
+            PatchDetailsViewModel userInput = DocumentViewModelHelper.GetPatchDetailsViewModel_ByDocumentID(MainViewModel.Document, childDocumentID);
+
+            // TemplateMethod
+            TemplateActionMethod(userInput, _patchDetailsPresenter.Show);
 
             // TODO: Change to permanent solution. (Double click on empty area in PatchDetails should show PatchProperties.)
             PatchPropertiesShow(childDocumentID);
@@ -1612,51 +1602,41 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void PatchDetailsClose()
         {
-            PatchDetailsCloseOrLoseFocus(() => _patchDetailsPresenter.Close());
+            PatchDetailsCloseOrLoseFocus(x => _patchDetailsPresenter.Close(x));
         }
 
         public void PatchDetailsLoseFocus()
         {
-            PatchDetailsCloseOrLoseFocus(() => _patchDetailsPresenter.LoseFocus());
+            PatchDetailsCloseOrLoseFocus(x => _patchDetailsPresenter.LoseFocus(x));
         }
 
-        private void PatchDetailsCloseOrLoseFocus(Action partialAction)
+        private void PatchDetailsCloseOrLoseFocus(Func<PatchDetailsViewModel, PatchDetailsViewModel> partialAction)
         {
-            // ToEntity
-            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
+            // GetViewModel
+            PatchDetailsViewModel userInput = DocumentViewModelHelper.GetVisiblePatchDetailsViewModel(MainViewModel.Document);
 
-            // Partial Action
-            partialAction();
-
-            // Business
-            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
-            if (!validationResult.Successful)
-            {
-                MainViewModel.Successful &= validationResult.Successful;
-                MainViewModel.PopupMessages.AddRange(validationResult.Messages);
-                return;
-            }
-
-            // ToViewModel
-            DispatchViewModel(_patchDetailsPresenter.ViewModel);
+            // TemplateMethod
+            TemplateActionMethod(userInput, partialAction);
         }
 
         /// <summary> Returns output file path if ViewModel.Successful. <summary>
         public string PatchPlay()
         {
-            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
+            // GetViewModel
+            PatchDetailsViewModel userInput = DocumentViewModelHelper.GetVisiblePatchDetailsViewModel(MainViewModel.Document);
 
-            string outputFilePath = _patchDetailsPresenter.Play(_repositories);
+            // TemplateMethod
+            string outputFilePath = null;
+            TemplateActionMethod(userInput, x =>
+            {
+                outputFilePath = _patchDetailsPresenter.Play(x, _repositories);
+                return x;
+            });
 
-            DispatchViewModel(_patchDetailsPresenter.ViewModel);
-
-            // Move messages to popup messages, because the default dispatching for PatchDetailsViewModel moves it to the ValidationMessages.
-            MainViewModel.PopupMessages.AddRange(_patchDetailsPresenter.ViewModel.ValidationMessages);
-            _patchDetailsPresenter.ViewModel.ValidationMessages.Clear();
-
-            MainViewModel.Successful = _patchDetailsPresenter.ViewModel.Successful;
-
-            DispatchViewModel(_patchDetailsPresenter.ViewModel);
+            // Move messages to popup messages, because the default
+            // dispatching for PatchDetailsViewModel moves it to the ValidationMessages.
+            MainViewModel.PopupMessages.AddRange(userInput.ValidationMessages);
+            userInput.ValidationMessages.Clear();
 
             return outputFilePath;
         }

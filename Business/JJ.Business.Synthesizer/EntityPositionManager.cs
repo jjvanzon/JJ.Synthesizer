@@ -3,6 +3,10 @@ using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using System.Collections.Generic;
+using System;
+using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Enums;
+using System.Linq;
 
 namespace JJ.Business.Synthesizer
 {
@@ -85,6 +89,65 @@ namespace JJ.Business.Synthesizer
             entityPosition.Y = y;
 
             return entityPosition;
+        }
+
+        /// <summary>
+        /// Moves the operator, and along with it, the operators it 'owns'.
+        /// </summary>
+        public void MoveOperator(Operator op, float x, float y)
+        {
+            if (op == null) throw new NullException(() => op);
+
+            EntityPosition entityPosition = GetOrCreateOperatorPosition(op.ID);
+
+            float deltaX = x - entityPosition.X;
+            float deltaY = y - entityPosition.Y;
+
+            entityPosition.X += deltaX;
+            entityPosition.Y += deltaY;
+
+            // Move owned operators along with the owner.
+
+            // Note that the owned operator can be connected to the same owner operator twice (in two different inlets),
+            // but make sure that this does not result in applying the move twice (with the Distinct operator below).
+
+            IEnumerable<Operator> ownedOperators = op.Inlets
+                                                     .Where(o => o.InputOutlet != null)
+                                                     .Where(o => GetOperatorIsOwned(o.InputOutlet.Operator))
+                                                     .Select(o => o.InputOutlet.Operator)
+                                                     .Distinct()
+                                                     .ToArray();
+
+            foreach (Operator ownedOperator in ownedOperators)
+            {
+                EntityPosition entityPosition2 = GetOrCreateOperatorPosition(ownedOperator.ID);
+                entityPosition2.X += deltaX;
+                entityPosition2.Y += deltaY;
+            }
+        }
+
+
+        /// <summary>
+        /// A Number Operator can be considered 'owned' by another operator if
+        /// it is the only operator it is connected to.
+        /// In that case it is convenient that the Number Operator moves along
+        /// with the operator it is connected to.
+        /// TODO: Remove the following line of comment, that is about to become irrelevant (2016-02-15):
+        /// In the Vector Graphics we accomplish this by making the Number Operator Rectangle a child of the owning Operator's Rectangle. 
+        /// But also in the MoveOperator action we must move the owned operators along with their owner.
+        /// </summary>
+        public static bool GetOperatorIsOwned(Operator entity)
+        {
+            if (entity.Outlets.Count > 0)
+            {
+                bool isOwned = entity.GetOperatorTypeEnum() == OperatorTypeEnum.Number &&
+                               // Make sure the connected inlets are all of the same operator.
+                               entity.Outlets[0].ConnectedInlets.Select(x => x.Operator).Distinct().Count() == 1;
+
+                return isOwned;
+            }
+
+            return false;
         }
     }
 }

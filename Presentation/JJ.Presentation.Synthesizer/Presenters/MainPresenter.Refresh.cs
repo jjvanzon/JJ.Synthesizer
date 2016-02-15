@@ -312,9 +312,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void PatchDetailsRefresh(PatchDetailsViewModel userInput)
         {
-            _patchDetailsPresenter.ViewModel = userInput;
-            _patchDetailsPresenter.Refresh();
-            DispatchViewModel(_patchDetailsPresenter.ViewModel);
+            PatchDetailsViewModel viewModel = _patchDetailsPresenter.Refresh(userInput);
+            DispatchViewModel(viewModel);
         }
 
         private void PatchGridRefresh(string group)

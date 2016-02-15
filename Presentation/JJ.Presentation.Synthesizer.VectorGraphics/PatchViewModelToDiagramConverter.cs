@@ -179,30 +179,30 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                         destCurve.ControlPointB = operatorVectorGraphicsElements2.OutletControlPoints[outletIndex.Value];
 
                         // Owned operators move along with the operator they are connected to.
-                        bool operator2IsOwned = inletViewModel.InputOutlet.Operator.IsOwned;
-                        if (operator2IsOwned)
-                        {
-                            operatorVectorGraphicsElements2.OperatorRectangle.Parent = operatorVectorGraphicsElements1.OperatorRectangle;
-                            operatorVectorGraphicsElements2.OperatorRectangle.MustBubble = false;
+                        //bool operator2IsOwned = inletViewModel.InputOutlet.Operator.IsOwned;
+                        //if (operator2IsOwned)
+                        //{
+                        //    operatorVectorGraphicsElements2.OperatorRectangle.Parent = operatorVectorGraphicsElements1.OperatorRectangle;
+                        //    operatorVectorGraphicsElements2.OperatorRectangle.MustBubble = false;
 
-                            // Make coordinates relative to the owner rectangle
-                            // and take into account that the centers are stored, 
-                            // while the top-left corner is assigned to the
-                            // vector graphics elements.
-                            operatorVectorGraphicsElements2.OperatorRectangle.X =
-                                sourceOperatorViewModel2.CenterX - sourceOperatorViewModel1.CenterX
-                                - operatorVectorGraphicsElements2.OperatorRectangle.Width / 2f
-                                + operatorVectorGraphicsElements1.OperatorRectangle.Width / 2f;
+                        //    // Make coordinates relative to the owner rectangle
+                        //    // and take into account that the centers are stored, 
+                        //    // while the top-left corner is assigned to the
+                        //    // vector graphics elements.
+                        //    operatorVectorGraphicsElements2.OperatorRectangle.X =
+                        //        sourceOperatorViewModel2.CenterX - sourceOperatorViewModel1.CenterX
+                        //        - operatorVectorGraphicsElements2.OperatorRectangle.Width / 2f
+                        //        + operatorVectorGraphicsElements1.OperatorRectangle.Width / 2f;
 
-                            operatorVectorGraphicsElements2.OperatorRectangle.Y =
-                                sourceOperatorViewModel2.CenterY - sourceOperatorViewModel1.CenterY
-                                - operatorVectorGraphicsElements2.OperatorRectangle.Height / 2f
-                                + operatorVectorGraphicsElements1.OperatorRectangle.Height / 2f;
-                        }
-                        else
-                        {
+                        //    operatorVectorGraphicsElements2.OperatorRectangle.Y =
+                        //        sourceOperatorViewModel2.CenterY - sourceOperatorViewModel1.CenterY
+                        //        - operatorVectorGraphicsElements2.OperatorRectangle.Height / 2f
+                        //        + operatorVectorGraphicsElements1.OperatorRectangle.Height / 2f;
+                        //}
+                        //else
+                        //{
                             operatorVectorGraphicsElements2.OperatorRectangle.Parent = destDiagram.Background;
-                        }
+                        //}
                     }
                 }
             }

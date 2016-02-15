@@ -20,10 +20,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
         public float CenterY { get; set; }
         public bool IsSelected { get; set; }
 
-        // TODO: Use this code again when you finish the numbers operators' moving along with their owner.
-        /// <summary> that the operator should move around with the operator it is connected to. </summary>
-        public bool IsOwned { get; set; }
-
         public IList<InletViewModel> Inlets { get; set; }
 
         /// <summary>
@@ -35,6 +31,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
         // TODO: It might make more sense if this is simple OperatorTypeViewModel.
         /// <summary> persistence. Does not need to be displayed. </summary>
         public OperatorTypeViewModel OperatorType { get; set; }
+
+        public bool IsOwned { get; set; }
 
         private string DebuggerDisplay
         {

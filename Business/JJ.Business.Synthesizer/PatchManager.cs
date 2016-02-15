@@ -258,6 +258,18 @@ namespace JJ.Business.Synthesizer
         /// Also applies changes to underlying documents to dependent CustomOperators.
         /// Also cleans up obsolete inlets and outlets from custom operators.
         /// </summary>
+        public void DeleteOperator(int id)
+        {
+            Operator op = _repositories.OperatorRepository.Get(id);
+            DeleteOperator(op);
+        }
+
+        /// <summary>
+        /// Deletes the operator, its inlets and outlets
+        /// and connections to its inlets and outlets.
+        /// Also applies changes to underlying documents to dependent CustomOperators.
+        /// Also cleans up obsolete inlets and outlets from custom operators.
+        /// </summary>
         public void DeleteOperator(Operator op)
         {
             AssertPatch();
