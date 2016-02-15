@@ -49,8 +49,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void CurveDetailsRefresh(CurveDetailsViewModel userInput)
         {
-            _curveDetailsPresenter.Refresh();
-            DispatchViewModel(_curveDetailsPresenter.ViewModel);
+            CurveDetailsViewModel viewModel = _curveDetailsPresenter.Refresh(userInput);
+            DispatchViewModel(viewModel);
         }
 
         private void CurveGridRefresh(CurveGridViewModel userInput)

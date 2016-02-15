@@ -307,44 +307,32 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void CurveDetailsShow(int curveID)
         {
-            CurveDetailsViewModel detailsViewModel = DocumentViewModelHelper.GetCurveDetailsViewModel(MainViewModel.Document, curveID);
-            _curveDetailsPresenter.ViewModel = detailsViewModel;
-            _curveDetailsPresenter.Show();
+            // GetViewModel
+            CurveDetailsViewModel userInput = DocumentViewModelHelper.GetCurveDetailsViewModel(MainViewModel.Document, curveID);
 
-            DispatchViewModel(_curveDetailsPresenter.ViewModel);
+            // Partial Action
+            CurveDetailsViewModel viewModel = _curveDetailsPresenter.Show(userInput);
+
+            // DispatchViewModel
+            DispatchViewModel(viewModel);
         }
 
         public void CurveDetailsClose()
         {
-            // ToEntity
-            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
+            // GetViewModel
+            CurveDetailsViewModel userInput = DocumentViewModelHelper.GetVisibleCurveDetailsViewModel(MainViewModel.Document);
 
-            // Partial Action
-            _curveDetailsPresenter.Close();
-
-            // DispatchViewModel
-            DispatchViewModel(_curveDetailsPresenter.ViewModel);
+            // TemplateMethod
+            TemplateActionMethod(userInput, _curveDetailsPresenter.Close);
         }
 
         public void CurveDetailsLoseFocus()
         {
-            // ToEntity
-            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
+            // GetViewModel
+            CurveDetailsViewModel userInput = DocumentViewModelHelper.GetVisibleCurveDetailsViewModel(MainViewModel.Document);
 
-            // Partial Action
-            _curveDetailsPresenter.LoseFocus();
-
-            // Business
-            IResult result = _documentManager.ValidateRecursive(rootDocument);
-            if (!result.Successful)
-            {
-                MainViewModel.Successful &= result.Successful;
-                MainViewModel.PopupMessages.AddRange(result.Messages);
-                return;
-            }
-
-            // DispatchViewModel
-            DispatchViewModel(_curveDetailsPresenter.ViewModel);
+            // TemplateMethod
+            TemplateActionMethod(userInput, _curveDetailsPresenter.LoseFocus);
         }
 
         public void CurvePropertiesShow(int curveID)
@@ -659,22 +647,25 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void NodeSelect(int nodeID)
         {
-            _curveDetailsPresenter.SelectNode(nodeID);
-            DispatchViewModel(_curveDetailsPresenter.ViewModel);
+            // GetViewModel
+            CurveDetailsViewModel userInput = DocumentViewModelHelper.GetVisibleCurveDetailsViewModel(MainViewModel.Document);
+
+            // TemplateMethod
+            TemplateActionMethod(userInput, x => _curveDetailsPresenter.SelectNode(x, nodeID));
         }
 
         public void NodeCreate()
         {
-            if (_curveDetailsPresenter.ViewModel == null) throw new NullException(() => _curveDetailsPresenter.ViewModel);
+            CurveDetailsViewModel userInput = DocumentViewModelHelper.GetVisibleCurveDetailsViewModel(MainViewModel.Document);
 
             // ToEntity
             Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
 
-            Curve curve = _repositories.CurveRepository.Get(_curveDetailsPresenter.ViewModel.ID);
+            Curve curve = _repositories.CurveRepository.Get(userInput.ID);
             Node afterNode;
-            if (_curveDetailsPresenter.ViewModel.SelectedNodeID.HasValue)
+            if (userInput.SelectedNodeID.HasValue)
             {
-                afterNode = _repositories.NodeRepository.Get(_curveDetailsPresenter.ViewModel.SelectedNodeID.Value);
+                afterNode = _repositories.NodeRepository.Get(userInput.SelectedNodeID.Value);
             }
             else
             {
@@ -697,7 +688,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // CurveDetails NodeViewModel
             NodeViewModel nodeViewModel = node.ToViewModel();
-            _curveDetailsPresenter.ViewModel.Nodes.Add(nodeViewModel);
+            userInput.Nodes.Add(nodeViewModel);
 
             // NodeProperties
             NodePropertiesViewModel nodePropertiesViewModel = node.ToPropertiesViewModel(_repositories.NodeTypeRepository);
@@ -707,9 +698,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void NodeDelete()
         {
-            if (_curveDetailsPresenter.ViewModel == null) throw new NullException(() => _curveDetailsPresenter.ViewModel);
+            CurveDetailsViewModel userInput = DocumentViewModelHelper.GetVisibleCurveDetailsViewModel(MainViewModel.Document);
 
-            if (!_curveDetailsPresenter.ViewModel.SelectedNodeID.HasValue)
+            if (!userInput.SelectedNodeID.HasValue)
             {
                 MainViewModel.ValidationMessages.Add(new Message
                 {
@@ -720,7 +711,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             // TODO: Verify this in the business.
-            if (_curveDetailsPresenter.ViewModel.Nodes.Count <= 2)
+            if (userInput.Nodes.Count <= 2)
             {
                 MainViewModel.ValidationMessages.Add(new Message
                 {
@@ -733,9 +724,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // ToEntity
             Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
-            Curve curve = _repositories.CurveRepository.Get(_curveDetailsPresenter.ViewModel.ID);
+            Curve curve = _repositories.CurveRepository.Get(userInput.ID);
             Document document = curve.Document;
-            int nodeID = _curveDetailsPresenter.ViewModel.SelectedNodeID.Value;
+            int nodeID = userInput.SelectedNodeID.Value;
             Node node = _repositories.NodeRepository.Get(nodeID);
 
             // Business
@@ -752,8 +743,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // ToViewModel
 
             // CurveDetails NodeViewModel
-            _curveDetailsPresenter.ViewModel.Nodes.RemoveFirst(x => x.ID == nodeID);
-            _curveDetailsPresenter.ViewModel.SelectedNodeID = null;
+            userInput.Nodes.RemoveFirst(x => x.ID == nodeID);
+            userInput.SelectedNodeID = null;
 
             // NodeProperties
             bool isRemoved = MainViewModel.Document.NodePropertiesList.TryRemoveFirst(x => x.Entity.ID == nodeID);
@@ -776,9 +767,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void NodeMove(int nodeID, double time, double value)
         {
-            if (_curveDetailsPresenter.ViewModel == null) throw new NullException(() => _curveDetailsPresenter.ViewModel);
+            CurveDetailsViewModel userInput = DocumentViewModelHelper.GetVisibleCurveDetailsViewModel(MainViewModel.Document);
 
-            NodeViewModel nodeViewModel = _curveDetailsPresenter.ViewModel.Nodes.Where(x => x.ID == nodeID).Single();
+            NodeViewModel nodeViewModel = userInput.Nodes.Where(x => x.ID == nodeID).Single();
             nodeViewModel.Time = time;
             nodeViewModel.Value = value;
 
@@ -793,17 +784,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// </summary>
         public void NodeChangeNodeType()
         {
-            if (_curveDetailsPresenter.ViewModel == null) throw new NullException(() => _curveDetailsPresenter.ViewModel);
+            CurveDetailsViewModel userInput = DocumentViewModelHelper.GetVisibleCurveDetailsViewModel(MainViewModel.Document);
 
-            if (!_curveDetailsPresenter.ViewModel.SelectedNodeID.HasValue)
+            if (!userInput.SelectedNodeID.HasValue)
             {
                 return;
             }
 
             // ToViewModel
-            int nodeID = _curveDetailsPresenter.ViewModel.SelectedNodeID.Value;
+            int nodeID = userInput.SelectedNodeID.Value;
 
-            NodeViewModel nodeViewModel1 = _curveDetailsPresenter.ViewModel.Nodes.Where(x => x.ID == nodeID).Single();
+            NodeViewModel nodeViewModel1 = userInput.Nodes.Where(x => x.ID == nodeID).Single();
 
             NodeTypeEnum nodeTypeEnum = (NodeTypeEnum)nodeViewModel1.NodeType.ID;
             switch (nodeTypeEnum)
