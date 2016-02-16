@@ -4,17 +4,17 @@ using System.Linq;
 
 namespace JJ.Business.Synthesizer.Calculation.Arrays
 {
-    internal abstract class ArrayCalculator_Line_Base : ArrayCalculatorBase
+    internal abstract class ArrayCalculatorBase_Line : ArrayCalculatorBase
     {
-        private const int EXTRA_TIME_TICK_COUNT = 1;
+        private const int EXTRA_TICK_COUNT = 1;
 
-        public ArrayCalculator_Line_Base(double[] array, double rate, double minTime)
-            : base(array, rate, minTime, EXTRA_TIME_TICK_COUNT)
+        public ArrayCalculatorBase_Line(double[] array, double rate, double minTime)
+            : base(array, rate, minTime, EXTRA_TICK_COUNT)
         { }
 
-        public ArrayCalculator_Line_Base(
+        public ArrayCalculatorBase_Line(
             double[] array, double valueBefore, double valueAfter, double rate, double minTime)
-            : base(array, valueBefore, valueAfter, rate, minTime, EXTRA_TIME_TICK_COUNT)
+            : base(array, valueBefore, valueAfter, rate, minTime, EXTRA_TICK_COUNT)
         { }
 
         /// <summary> Base method does not check bounds of time or transform time from seconds to samples. </summary>

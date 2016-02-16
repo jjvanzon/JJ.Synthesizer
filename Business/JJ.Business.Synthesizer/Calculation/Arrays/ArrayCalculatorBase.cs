@@ -45,7 +45,13 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
             {
                 double[] array2 = new double[tickCountInt + extraTickCount];
                 Array.Copy(_array, array2, tickCountInt);
-                Array.Clear(array2, tickCountInt, extraTickCount);
+
+                // Set extra array elements to _valueAfter.
+                for (int i = tickCountInt; i < tickCountInt + extraTickCount; i++)
+                {
+                    array2[i] = _valueAfter;
+                }
+
                 _array = array2;
             }
         }

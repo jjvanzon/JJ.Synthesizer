@@ -4,15 +4,15 @@ using System.Linq;
 
 namespace JJ.Business.Synthesizer.Calculation.Arrays
 {
-    internal class ArrayCalculator_MinTimeZero_Block : ArrayCalculatorBase_Block
+    internal class ArrayCalculator_MinTimeZero_Stripe : ArrayCalculatorBase_Stripe
     {
         private const double MIN_TIME = 0.0;
 
-        public ArrayCalculator_MinTimeZero_Block(double[] array, double rate) 
+        public ArrayCalculator_MinTimeZero_Stripe(double[] array, double rate) 
             : base(array, rate, MIN_TIME)
         { }
 
-        public ArrayCalculator_MinTimeZero_Block(
+        public ArrayCalculator_MinTimeZero_Stripe(
             double[] array, double valueBefore, double valueAfter, double rate)
             : base(array, valueBefore, valueAfter, rate, MIN_TIME)
         { }

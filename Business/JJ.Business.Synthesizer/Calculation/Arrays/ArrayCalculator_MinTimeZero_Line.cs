@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace JJ.Business.Synthesizer.Calculation.Arrays
 {
-    internal class ArrayCalculator_MinTimeZero_Line : ArrayCalculator_Line_Base
+    internal class ArrayCalculator_MinTimeZero_Line : ArrayCalculatorBase_Line
     {
         private const double MIN_TIME = 0.0;
 

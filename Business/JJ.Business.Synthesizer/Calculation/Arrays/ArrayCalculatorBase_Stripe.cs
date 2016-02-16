@@ -4,20 +4,24 @@ using System.Linq;
 
 namespace JJ.Business.Synthesizer.Calculation.Arrays
 {
-    internal class ArrayCalculator_Block_Base : ArrayCalculatorBase
+    internal class ArrayCalculatorBase_Stripe : ArrayCalculatorBase
     {
-        public ArrayCalculator_Block_Base(double[] array, double rate, double minTime)
-            : base(array, rate, minTime)
+        private const int EXTRA_TICK_COUNT = 1;
+
+        public ArrayCalculatorBase_Stripe(double[] array, double rate, double minTime)
+            : base(array, rate, minTime, EXTRA_TICK_COUNT)
         { }
 
-        public ArrayCalculator_Block_Base(
+        public ArrayCalculatorBase_Stripe(
             double[] array, double valueBefore, double valueAfter, double rate, double minTime)
-            : base(array, valueBefore, valueAfter, rate, minTime)
+            : base(array, valueBefore, valueAfter, rate, minTime, EXTRA_TICK_COUNT)
         { }
 
         /// <summary> Base method does not check bounds of time or transform time from seconds to samples. </summary>
         public override double CalculateValue(double t)
         {
+            t += 0.5;
+
             int t0 = (int)t;
 
             double value = _array[t0];
