@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return Calculate(time, channelIndex, samplingRate);
         }
 
-        /// <summary> Overload that prevents additional invokations of the _samplingRateCalculator in derived classes </summary>
+        /// <summary> This extra overload prevents additional invokations of the _samplingRateCalculator in derived classes </summary>
         protected double Calculate(double time, int channelIndex, double samplingRate)
         {
             double tOffset = time - _t0;

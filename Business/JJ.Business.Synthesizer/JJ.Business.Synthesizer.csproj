@@ -40,6 +40,9 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Calculation\Arrays\ArrayCalculatorBase.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_Line.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_Block.cs" />
     <Compile Include="Calculation\AudioFileOutputs\AudioFileOutputCalculatorFactory.cs" />
     <Compile Include="Calculation\AudioFileOutputs\AudioFileOutputCalculatorBase.cs" />
     <Compile Include="Calculation\AudioFileOutputs\ByteAudioFileOutputCalculator.cs" />
