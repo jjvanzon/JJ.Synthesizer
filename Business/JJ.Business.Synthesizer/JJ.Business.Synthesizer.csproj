@@ -40,17 +40,20 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Calculation\Arrays\ArrayCalculatorBase_MinTime.cs" />
+    <Compile Include="Calculation\Arrays\2016-02-17 Backup of ArrayCalculatorBase.cs" />
+    <Compile Include="Calculation\Arrays\2016-02-17 Backup of ArrayCalculatorBase_MinTime.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculatorBase.cs" />
-    <Compile Include="Calculation\Arrays\ArrayCalculatorBase_Channels.cs" />
-    <Compile Include="Calculation\Arrays\ArrayCalculatorBase_MinTime_Channels.cs" />
-    <Compile Include="Calculation\Arrays\ArrayCalculator_Block.cs" />
-    <Compile Include="Calculation\Arrays\ArrayCalculator_Block_MinTime.cs" />
-    <Compile Include="Calculation\Arrays\ArrayCalculator_Line.cs" />
-    <Compile Include="Calculation\Arrays\ArrayCalculator_Line_MinTime.cs" />
-    <Compile Include="Calculation\Arrays\ArrayCalculator_Line_Channels.cs" />
-    <Compile Include="Calculation\Arrays\ArrayCalculator_Line_MinTime_Channels.cs" />
-    <Compile Include="Calculation\Arrays\ArrayCalculator_Block_MinTime_Channels.cs" />
+    <Compile Include="Calculation\Arrays\2016-02-16 Backup of ArrayCalculatorBase_Channels.cs" />
+    <Compile Include="Calculation\Arrays\2016-02-16 Backup of ArrayCalculatorBase_MinTime_Channels.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_MinTimeZero_Block.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_Block_Base.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_MinTime_Block.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_Line_Base.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_MinTimeZero_Line.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_MinTime_Line.cs" />
+    <Compile Include="Calculation\Arrays\2016-02-16 Backup of ArrayCalculator_Line_Channels.cs" />
+    <Compile Include="Calculation\Arrays\2016-02-16 Backup of ArrayCalculator_Line_MinTime_Channels.cs" />
+    <Compile Include="Calculation\Arrays\2016-02-16 Backup of ArrayCalculator_Block_MinTime_Channels.cs" />
     <Compile Include="Calculation\AudioFileOutputs\AudioFileOutputCalculatorFactory.cs" />
     <Compile Include="Calculation\AudioFileOutputs\AudioFileOutputCalculatorBase.cs" />
     <Compile Include="Calculation\AudioFileOutputs\ByteAudioFileOutputCalculator.cs" />
