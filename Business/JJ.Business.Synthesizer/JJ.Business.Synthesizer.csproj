@@ -40,9 +40,17 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Calculation\Arrays\ArrayCalculatorBase_MinTime.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculatorBase.cs" />
-    <Compile Include="Calculation\Arrays\ArrayCalculator_Line.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculatorBase_Channels.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculatorBase_MinTime_Channels.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculator_Block.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_Block_MinTime.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_Line.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_Line_MinTime.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_Line_Channels.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_Line_MinTime_Channels.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_Block_MinTime_Channels.cs" />
     <Compile Include="Calculation\AudioFileOutputs\AudioFileOutputCalculatorFactory.cs" />
     <Compile Include="Calculation\AudioFileOutputs\AudioFileOutputCalculatorBase.cs" />
     <Compile Include="Calculation\AudioFileOutputs\ByteAudioFileOutputCalculator.cs" />
