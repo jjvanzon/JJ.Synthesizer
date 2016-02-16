@@ -47,12 +47,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Patch entity = _repositories.PatchRepository.Get(userInput.Entity.PatchID);
 
             // ToViewModel
-            PatchDetailsViewModel viewModel = entity.ToDetailsViewModel(
-                _repositories.OperatorTypeRepository,
-                _repositories.SampleRepository,
-                _repositories.CurveRepository,
-                _repositories.PatchRepository,
-                _entityPositionManager);
+            PatchDetailsViewModel viewModel = CreateViewModel(entity);
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
@@ -75,12 +70,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Patch entity = _repositories.PatchRepository.Get(userInput.Entity.PatchID);
 
             // ToViewModel
-            PatchDetailsViewModel viewModel = entity.ToDetailsViewModel(
-                _repositories.OperatorTypeRepository,
-                _repositories.SampleRepository,
-                _repositories.CurveRepository,
-                _repositories.PatchRepository,
-                _entityPositionManager);
+            PatchDetailsViewModel viewModel = CreateViewModel(entity);
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
@@ -129,12 +119,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             VoidResult result = patchManager.SavePatch();
 
             // ToViewModel
-            PatchDetailsViewModel viewModel = entity.ToDetailsViewModel(
-                _repositories.OperatorTypeRepository,
-                _repositories.SampleRepository,
-                _repositories.CurveRepository,
-                _repositories.PatchRepository,
-                _entityPositionManager);
+            PatchDetailsViewModel viewModel = CreateViewModel(entity);
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
@@ -161,12 +146,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _entityPositionManager.MoveOperator(op, centerX, centerY);
 
             // ToViewModel
-            PatchDetailsViewModel viewModel = patch.ToDetailsViewModel(
-                _repositories.OperatorTypeRepository,
-                _repositories.SampleRepository,
-                _repositories.CurveRepository,
-                _repositories.PatchRepository,
-                _entityPositionManager);
+            PatchDetailsViewModel viewModel = CreateViewModel(patch);
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
@@ -215,12 +195,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Patch entity = _repositories.PatchRepository.Get(userInput.Entity.PatchID);
 
             // ToViewModel
-            PatchDetailsViewModel viewModel = entity.ToDetailsViewModel(
-                _repositories.OperatorTypeRepository,
-                _repositories.SampleRepository,
-                _repositories.CurveRepository,
-                _repositories.PatchRepository,
-                _entityPositionManager);
+            PatchDetailsViewModel viewModel = CreateViewModel(entity);
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
@@ -397,11 +372,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void CopyNonPersistedProperties(PatchDetailsViewModel sourceViewModel, PatchDetailsViewModel destViewModel)
         {
             destViewModel.Visible = sourceViewModel.Visible;
+            destViewModel.ValidationMessages.AddRange(sourceViewModel.ValidationMessages);
+
             if (sourceViewModel.SelectedOperator != null)
             {
                 SetSelectedOperator(destViewModel, sourceViewModel.SelectedOperator.ID);
             }
-            destViewModel.ValidationMessages.AddRange(sourceViewModel.ValidationMessages);
         }
     }
 }
