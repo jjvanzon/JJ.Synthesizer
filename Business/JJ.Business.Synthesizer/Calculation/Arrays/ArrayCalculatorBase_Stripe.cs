@@ -6,15 +6,16 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
 {
     internal class ArrayCalculatorBase_Stripe : ArrayCalculatorBase
     {
-        private const int EXTRA_TICK_COUNT = 1;
+        private const int EXTRA_TICKS_BEFORE = 0;
+        private const int EXTRA_TICKS_AFTER = 1;
 
         public ArrayCalculatorBase_Stripe(double[] array, double rate, double minTime)
-            : base(array, rate, minTime, EXTRA_TICK_COUNT)
+            : base(array, rate, minTime, EXTRA_TICKS_BEFORE, EXTRA_TICKS_AFTER)
         { }
 
         public ArrayCalculatorBase_Stripe(
             double[] array, double valueBefore, double valueAfter, double rate, double minTime)
-            : base(array, valueBefore, valueAfter, rate, minTime, EXTRA_TICK_COUNT)
+            : base(array, valueBefore, valueAfter, rate, minTime, EXTRA_TICKS_BEFORE, EXTRA_TICKS_AFTER)
         { }
 
         /// <summary> Base method does not check bounds of time or transform time from seconds to samples. </summary>

@@ -19,13 +19,11 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
         protected double _duration;
 
         public ArrayCalculatorBase(
-            double[] array,
-            double rate,
-            double minTime,
-            int extraTickCount = 0)
+            double[] array, double rate, double minTime, int extraTicksBefore, int extraTicksAfter)
         {
             if (array == null) throw new NullException(() => array);
-            if (extraTickCount < 0) throw new LessThanException(() => extraTickCount, 0);
+            if (extraTicksBefore < 0) throw new LessThanException(() => extraTicksBefore, 0);
+            if (extraTicksAfter < 0) throw new LessThanException(() => extraTicksAfter, 0);
 
             _array = array;
 
@@ -41,13 +39,19 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
 
             _duration = _maxTime - _minTime;
 
+            int extraTickCount = extraTicksBefore + extraTicksAfter;
             if (extraTickCount > 0)
             {
                 double[] array2 = new double[tickCountInt + extraTickCount];
-                Array.Copy(_array, array2, tickCountInt);
 
-                // Set extra array elements to _valueAfter.
-                for (int i = tickCountInt; i < tickCountInt + extraTickCount; i++)
+                for (int i = 0; i < extraTicksBefore; i++)
+                {
+                    array2[i] = _valueBefore;
+                }
+
+                Array.Copy(_array, 0, array2, extraTicksBefore, tickCountInt);
+
+                for (int i = tickCountInt + extraTicksBefore; i < tickCountInt + extraTickCount; i++)
                 {
                     array2[i] = _valueAfter;
                 }
@@ -57,13 +61,11 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
         }
 
         public ArrayCalculatorBase(
-            double[] array,
-            double valueBefore,
-            double valueAfter,
-            double rate,
-            double minTime,
-            int extraTickCount = 0)
-            : this(array, rate, minTime, extraTickCount)
+            double[] array, 
+            double valueBefore, double valueAfter, 
+            double rate, double minTime, 
+            int extraTicksBefore, int extraTicksAfter)
+            : this(array, rate, minTime, extraTicksBefore, extraTicksAfter)
         {
             _valueBefore = valueBefore;
             _valueAfter = valueAfter;
