@@ -49,7 +49,6 @@
     <Compile Include="Presenters\CurrentPatchesPresenter.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenterBase.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForAggregate.cs" />
-    <Compile Include="Presenters\2016-02-10 Backup of OperatorPropertiesPresenterBase_WithDefaultUpdate.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForRandom.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForResample.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForSpectrum.cs" />

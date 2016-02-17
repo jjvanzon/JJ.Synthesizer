@@ -40,14 +40,11 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Calculation\Arrays\2016-02-17 Backup of ArrayCalculatorBase.cs" />
-    <Compile Include="Calculation\Arrays\2016-02-17 Backup of ArrayCalculatorBase_MinTime.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculatorBase.cs" />
-    <Compile Include="Calculation\Arrays\2016-02-16 Backup of ArrayCalculatorBase_Channels.cs" />
-    <Compile Include="Calculation\Arrays\2016-02-16 Backup of ArrayCalculatorBase_MinTime_Channels.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculatorBase_Hermite.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculatorBase_Cubic.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculatorBase_Stripe.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculatorFactory.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculator_MinTimeZero_Hermite.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculator_MinTimeZero_Cubic.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculator_MinTimeZero_Stripe.cs" />
@@ -65,9 +62,7 @@
     <Compile Include="Calculation\Arrays\ArrayCalculatorBase_Line.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculator_MinTimeZero_Line.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculator_MinTime_Line.cs" />
-    <Compile Include="Calculation\Arrays\2016-02-16 Backup of ArrayCalculator_Line_Channels.cs" />
-    <Compile Include="Calculation\Arrays\2016-02-16 Backup of ArrayCalculator_Line_MinTime_Channels.cs" />
-    <Compile Include="Calculation\Arrays\2016-02-16 Backup of ArrayCalculator_Block_MinTime_Channels.cs" />
+    <Compile Include="Calculation\Arrays\IArrayCalculator.cs" />
     <Compile Include="Calculation\AudioFileOutputs\AudioFileOutputCalculatorFactory.cs" />
     <Compile Include="Calculation\AudioFileOutputs\AudioFileOutputCalculatorBase.cs" />
     <Compile Include="Calculation\AudioFileOutputs\ByteAudioFileOutputCalculator.cs" />
@@ -101,10 +96,7 @@
     <Compile Include="Calculation\Operators\Narrower OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\OperatorCalculatorHelper.cs" />
     <Compile Include="Calculation\Operators\Random OperatorCalculator Classes, Block and Stripe Interpolation.cs" />
-    <Compile Include="Calculation\Operators\2016-02-09 Backup of Resample_OperatorCalculator_Block %28with many specialized cases%29.cs" />
-    <Compile Include="Calculation\Operators\2016-02-09 Backup of Resample_OperatorCalculator_Block %28out of control with neg rate and forward time%29.cs" />
     <Compile Include="Calculation\Operators\Random OperatorCalculator Classes, Other Interpolations.cs" />
-    <Compile Include="Calculation\Operators\2016-02-10 Backup of Random_OperatorCalculator_Stripe.cs" />
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_Stripe.cs" />
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_Block.cs" />
     <Compile Include="Calculation\Operators\Round OperatorCalculator Classes.cs" />
@@ -135,7 +127,6 @@
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_LineRememberT0.cs" />
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_LineWithVaryingAlignment.cs" />
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_LineWithConstSamplingRate.cs" />
-    <Compile Include="Calculation\Operators\2016-02-07 Backup of Resample_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\SlowDown OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\SpeedUp OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Pulse OperatorCalculator Classes.cs" />
@@ -155,7 +146,6 @@
     <Compile Include="Calculation\Operators\OperatorCalculatorBase.cs" />
     <Compile Include="Calculation\Operators\Delay OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Number_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Patches\2016-02-12 Backup of OptimizedPatchCalculatorVisitor.ComparisonOperators.cs" />
     <Compile Include="Calculation\Patches\OptimizedPatchCalculatorVisitor.Adder.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

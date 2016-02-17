@@ -14,15 +14,15 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
         { }
 
         public ArrayCalculatorBase_Line(
-            double[] array, double valueBefore, double valueAfter, double rate, double minTime)
-            : base(array, valueBefore, valueAfter, rate, minTime, EXTRA_TICKS_BEFORE, EXTRA_TICKS_AFTER)
+            double[] array, double rate, double minTime, double valueBefore, double valueAfter)
+            : base(array, rate, minTime, EXTRA_TICKS_BEFORE, EXTRA_TICKS_AFTER, valueBefore, valueAfter)
         { }
 
         /// <summary> Base method does not check bounds of time or transform time from seconds to samples. </summary>
         public override double CalculateValue(double t)
         {
             int t0 = (int)t;
-            int t1 = t0 + 1; // Note that extra tick count = 1.
+            int t1 = t0 + 1;
 
             double x0 = _array[t0];
             double x1 = _array[t1];

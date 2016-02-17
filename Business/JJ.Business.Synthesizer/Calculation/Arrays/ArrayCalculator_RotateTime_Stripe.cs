@@ -6,13 +6,16 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
 {
     internal class ArrayCalculator_RotateTime_Stripe : ArrayCalculatorBase_Stripe
     {
-        public ArrayCalculator_RotateTime_Stripe(double[] array, double rate, double minTime) 
-            : base(array, rate, minTime)
+        private const double DEFAULT_MIN_TIME = 0;
+
+        public ArrayCalculator_RotateTime_Stripe(
+            double[] array, double rate) 
+            : base(array, rate, DEFAULT_MIN_TIME)
         { }
 
         public ArrayCalculator_RotateTime_Stripe(
-            double[] array, double valueBefore, double valueAfter, double rate, double minTime)
-            : base(array, valueBefore, valueAfter, rate, minTime)
+            double[] array, double rate, double valueBefore, double valueAfter)
+            : base(array, rate, DEFAULT_MIN_TIME, valueBefore, valueAfter)
         { }
 
         public override double CalculateValue(double time)

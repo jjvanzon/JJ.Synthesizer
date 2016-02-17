@@ -15,8 +15,8 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
         { }
 
         public ArrayCalculatorBase_Hermite(
-            double[] array, double valueBefore, double valueAfter, double rate, double minTime)
-            : base(array, valueBefore, valueAfter, rate, minTime, EXTRA_TICKS_BEFORE, EXTRA_TICKS_AFTER)
+            double[] array, double rate, double minTime, double valueBefore, double valueAfter)
+            : base(array, rate, minTime, EXTRA_TICKS_BEFORE, EXTRA_TICKS_AFTER, valueBefore, valueAfter)
         { }
 
         /// <summary> Base method does not check bounds of time or transform time from seconds to samples. </summary>

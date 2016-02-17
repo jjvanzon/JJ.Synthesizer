@@ -8,13 +8,14 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
     {
         private const double MIN_TIME = 0.0;
 
-        public ArrayCalculator_MinTimeZero_Hermite(double[] array, double rate)
+        public ArrayCalculator_MinTimeZero_Hermite(
+            double[] array, double rate)
             : base(array, rate, MIN_TIME)
         { }
 
         public ArrayCalculator_MinTimeZero_Hermite(
-            double[] array, double valueBefore, double valueAfter, double rate)
-            : base(array, valueBefore, valueAfter, rate, MIN_TIME)
+            double[] array, double rate, double valueBefore, double valueAfter)
+            : base(array, rate, MIN_TIME, valueBefore, valueAfter)
         { }
 
         public override double CalculateValue(double time)

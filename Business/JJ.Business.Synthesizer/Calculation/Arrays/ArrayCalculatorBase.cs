@@ -5,18 +5,18 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Arrays
 {
-    internal abstract class ArrayCalculatorBase
+    internal abstract class ArrayCalculatorBase : IArrayCalculator
     {
         // Fields for performance
         protected double[] _array;
         protected double _valueBefore;
         protected double _valueAfter;
 
-        protected double _tickCount;
-        protected double _rate;
         protected double _minTime;
         protected double _maxTime;
         protected double _duration;
+        protected double _rate;
+        protected double _tickCount;
 
         public ArrayCalculatorBase(
             double[] array, double rate, double minTime, int extraTicksBefore, int extraTicksAfter)
@@ -61,10 +61,13 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
         }
 
         public ArrayCalculatorBase(
-            double[] array, 
-            double valueBefore, double valueAfter, 
-            double rate, double minTime, 
-            int extraTicksBefore, int extraTicksAfter)
+            double[] array,
+            double rate,
+            double minTime,
+            int extraTicksBefore,
+            int extraTicksAfter,
+            double valueBefore,
+            double valueAfter)
             : this(array, rate, minTime, extraTicksBefore, extraTicksAfter)
         {
             _valueBefore = valueBefore;
