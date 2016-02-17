@@ -1,25 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.Synthesizer.Calculation.Arrays;
-using JJ.Business.Synthesizer.Enums;
 using JJ.Data.Synthesizer;
+using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Curves
 {
-    /// <summary>
-    /// To optimize the calculation, it converts a curve to equally spaced samples
-    /// and linearly interpolates the samples.
-    /// </summary>
-    internal class OptimizedCurveCalculator : ICurveCalculator
+    internal static class CurveArrayHelper
     {
         private const double MINIMUM_SAMPLES_PER_NODE = 100.0;
         private const int MAXIMUM_SAMPLE_COUNT = 10000;
 
-        private IArrayCalculator _arrayCalculator;
-
-        public OptimizedCurveCalculator(Curve curve)
+        public static CurveArrayInfo GetArrayInfo(Curve curve)
         {
+            if (curve == null) throw new NullException(() => curve);
+
             IList<Node> sortedNodes = curve.Nodes.OrderBy(x => x.Time).ToArray();
 
             double valueBefore = sortedNodes.First().Value;
@@ -53,17 +48,14 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
                 time += step;
             }
 
-            _arrayCalculator = ArrayCalculatorFactory.CreateArrayCalculator(
-                samples, 
-                samplingRate, 
-                minTime,
-                // Value before might not be the same as the first sample: 
-                // if first node has value 1 but is an 'Off' node it will result in value 0 the whole period,
-                // but just before that, the value is 1.
-                valueBefore, 
-                valueAfter,
-                // TODO: Vary interpolation from the outside.
-                ResampleInterpolationTypeEnum.LineRememberT0);
+            return new CurveArrayInfo
+            {
+                Array = samples,
+                Rate = samplingRate,
+                MinTime = minTime,
+                ValueBefore = valueBefore,
+                ValueAfter = valueAfter
+            };
         }
 
         private static double GetMinNodeLength(IList<Node> sortedNodes)
@@ -84,12 +76,6 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
             }
 
             return minNodeLength;
-        }
-
-        public double CalculateValue(double time)
-        {
-            double value = _arrayCalculator.CalculateValue(time);
-            return value;
         }
     }
 }

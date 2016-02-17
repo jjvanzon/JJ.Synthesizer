@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Arrays
 {
@@ -19,6 +20,7 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
         { }
 
         /// <summary> Base method does not check bounds of time or transform time from seconds to samples. </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double CalculateValue(double t)
         {
             t += 0.5;

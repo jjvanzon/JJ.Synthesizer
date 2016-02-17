@@ -70,7 +70,10 @@
     <Compile Include="Calculation\AudioFileOutputs\Int16AudioFileOutputCalculator.cs" />
     <Compile Include="Calculation\CalculationHelper.cs" />
     <Compile Include="Calculation\CalculatorCache.cs" />
+    <Compile Include="Calculation\Curves\CurveArrayInfo.cs" />
+    <Compile Include="Calculation\Curves\CurveArrayHelper.cs" />
     <Compile Include="Calculation\Curves\ICurveCalculator.cs" />
+    <Compile Include="Calculation\Curves\OptimizedCurveCalculator_Line.cs" />
     <Compile Include="Calculation\Operators\Minimum_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\MaximumOrMinimum_OperatorCalculatorBase.cs" />
     <Compile Include="Calculation\Operators\If OperatorCalculator Classes.cs" />

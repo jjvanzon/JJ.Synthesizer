@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Arrays
 {
@@ -18,6 +19,7 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
             : base(array, rate, DEFAULT_MIN_TIME, valueBefore, valueAfter)
         { }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double CalculateValue(double time)
         {
             time = time % _duration;
