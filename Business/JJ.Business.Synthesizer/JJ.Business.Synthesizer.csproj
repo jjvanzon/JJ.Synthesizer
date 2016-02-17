@@ -72,8 +72,10 @@
     <Compile Include="Calculation\CalculatorCache.cs" />
     <Compile Include="Calculation\Curves\CurveArrayInfo.cs" />
     <Compile Include="Calculation\Curves\CurveArrayHelper.cs" />
+    <Compile Include="Calculation\Curves\CurveCalculatorFactory.cs" />
     <Compile Include="Calculation\Curves\ICurveCalculator.cs" />
-    <Compile Include="Calculation\Curves\OptimizedCurveCalculator_Line.cs" />
+    <Compile Include="Calculation\Curves\CurveCalculator_MinTimeZero_Line.cs" />
+    <Compile Include="Calculation\Curves\CurveCalculator_MinTime_Line.cs" />
     <Compile Include="Calculation\Operators\Minimum_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\MaximumOrMinimum_OperatorCalculatorBase.cs" />
     <Compile Include="Calculation\Operators\If OperatorCalculator Classes.cs" />
@@ -139,7 +141,7 @@
     <Compile Include="Calculation\Operators\Triangle OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Sine OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Noise_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Curves\OptimizedCurveCalculator.cs" />
+    <Compile Include="Calculation\Curves\CurveCalculator.cs" />
     <Compile Include="Calculation\Operators\One_OperatorCalculator.cs" />
     <Compile Include="Calculation\Patches\IPatchCalculator.cs" />
     <Compile Include="Calculation\Operators\Zero_OperatorCalculator.cs" />

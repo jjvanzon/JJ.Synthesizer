@@ -332,7 +332,7 @@ namespace JJ.Business.Synthesizer
         /// <summary> Slower initialization, faster calculation. </summary>
         public ICurveCalculator CreateOptimizedCalculator(Curve curve)
         {
-            return new OptimizedCurveCalculator(curve);
+            return CurveCalculatorFactory.CreateCurveCalculator(curve);
         }
 
         // Helpers

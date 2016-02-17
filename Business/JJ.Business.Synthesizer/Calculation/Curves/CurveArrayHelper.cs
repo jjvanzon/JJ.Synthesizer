@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
         private const double MINIMUM_SAMPLES_PER_NODE = 100.0;
         private const int MAXIMUM_SAMPLE_COUNT = 10000;
 
-        public static CurveArrayInfo GetArrayInfo(Curve curve)
+        public static CurveArrayInfo GetCurveArrayInfo(Curve curve)
         {
             if (curve == null) throw new NullException(() => curve);
 

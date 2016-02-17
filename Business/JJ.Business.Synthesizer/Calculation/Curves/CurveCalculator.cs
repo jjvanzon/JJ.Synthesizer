@@ -11,14 +11,14 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
     /// To optimize the calculation, it converts a curve to equally spaced samples
     /// and linearly interpolates the samples.
     /// </summary>
-    internal class OptimizedCurveCalculator : ICurveCalculator
+    internal class CurveCalculator : ICurveCalculator
     {
         private const double MINIMUM_SAMPLES_PER_NODE = 100.0;
         private const int MAXIMUM_SAMPLE_COUNT = 10000;
 
         private IArrayCalculator _arrayCalculator;
 
-        public OptimizedCurveCalculator(Curve curve)
+        public CurveCalculator(Curve curve)
         {
             IList<Node> sortedNodes = curve.Nodes.OrderBy(x => x.Time).ToArray();
 

@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Calculation
                 ICurveCalculator curveCalculator;
                 if (!_curve_CurveCalculator_Dictionary.TryGetValue(curve, out curveCalculator))
                 {
-                    curveCalculator = new OptimizedCurveCalculator(curve);
+                    curveCalculator =  CurveCalculatorFactory.CreateCurveCalculator(curve);
                     _curve_CurveCalculator_Dictionary.Add(curve, curveCalculator);
                 }
 
