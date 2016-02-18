@@ -52,9 +52,12 @@
     <Compile Include="Calculation\Arrays\ArrayCalculatorBase_Block.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculator_MinTime_Hermite.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculator_MinTime_Cubic.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_RotateTime_Block_NoRate.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculator_RotateTime_Hermite.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculator_RotateTime_Cubic.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_RotateTime_Line_NoRate.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculator_RotateTime_Line.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_RotateTime_Stripe_NoRate.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculator_RotateTime_Stripe.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculator_RotateTime_Block.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculator_MinTime_Stripe.cs" />
@@ -158,7 +161,7 @@
     </Compile>
     <Compile Include="Calculation\Patches\PatchCalculationHelper.cs" />
     <Compile Include="Calculation\Random\RandomCalculatorBase.cs" />
-    <Compile Include="Calculation\Random\RandomCalculatorFactory.cs" />
+    <Compile Include="Calculation\Random\2016-02-18 Backup of RandomCalculatorFactory.cs" />
     <Compile Include="Calculation\Random\RandomCalculator_StripeInterpolation.cs" />
     <Compile Include="Calculation\Random\RandomCalculator_LineInterpolation.cs" />
     <Compile Include="Calculation\Samples\SampleCalculator_BlockInterpolation_Base.cs" />

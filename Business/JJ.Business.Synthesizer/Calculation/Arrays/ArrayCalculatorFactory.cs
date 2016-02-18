@@ -6,6 +6,9 @@ using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer.Calculation.Arrays
 {
+    // Already I have a maintenance penalty, because this factory has to incorporate any new variation on a class.
+    // I have already not incorporated the _NoRate variations.
+    [Obsolete("Get rid of it if you do not use it. It seems a handy class, but if you do not use it, it has no right to exist.")]
     internal static class ArrayCalculatorFactory
     {
         public static ArrayCalculatorBase CreateArrayCalculator_RotateTime(
