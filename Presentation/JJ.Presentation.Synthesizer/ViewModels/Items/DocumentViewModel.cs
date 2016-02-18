@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System;
 
-namespace JJ.Presentation.Synthesizer.ViewModels.Entities
+namespace JJ.Presentation.Synthesizer.ViewModels.Items
 {
     public sealed class DocumentViewModel
     {

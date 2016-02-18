@@ -6,7 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ViewModels.Entities;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;

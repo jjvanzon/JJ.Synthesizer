@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Presentation.Synthesizer.ViewModels.Entities;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.Helpers
 {

@@ -65,6 +65,7 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             RepositoryHelper.EnsureEnumEntity(this, 55, "Round");
             RepositoryHelper.EnsureEnumEntity(this, 56, "Negative");
             RepositoryHelper.EnsureEnumEntity(this, 57, "OneOverX");
+            RepositoryHelper.EnsureEnumEntity(this, 58, "Cache");
         }
     }
 }

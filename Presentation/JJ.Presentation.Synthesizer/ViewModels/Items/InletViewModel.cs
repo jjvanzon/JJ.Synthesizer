@@ -2,7 +2,7 @@
 using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.Helpers;
 
-namespace JJ.Presentation.Synthesizer.ViewModels.Entities
+namespace JJ.Presentation.Synthesizer.ViewModels.Items
 {
     [DebuggerDisplay("{DebuggerDisplay}")]
     public sealed class InletViewModel

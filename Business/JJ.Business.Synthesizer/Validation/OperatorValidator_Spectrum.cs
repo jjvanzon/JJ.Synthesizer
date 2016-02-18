@@ -24,15 +24,21 @@ namespace JJ.Business.Synthesizer.Validation
 
             For(() => startTimeString, PropertyDisplayNames.StartTime)
                 .NotNullOrEmpty()
-                .IsDouble();
+                .IsDouble()
+                .NotInfinity()
+                .NotNaN();
 
             For(() => endTimeString, PropertyDisplayNames.EndTime)
                 .NotNullOrEmpty()
-                .IsDouble();
+                .IsDouble()
+                .NotInfinity()
+                .NotNaN();
 
             For(() => frequencyCountString, PropertyDisplayNames.FrequencyCount)
                 .NotNullOrEmpty()
-                .IsInteger();
+                .IsInteger()
+                .NotInfinity()
+                .NotNaN();
 
             double startTime;
             if (Double.TryParse(startTimeString, out startTime))

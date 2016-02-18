@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace JJ.Presentation.Synthesizer.ViewModels.Entities
+namespace JJ.Presentation.Synthesizer.ViewModels.Items
 {
     /// <summary>
     /// NOTE: This is one of the few view models with an inverse property.

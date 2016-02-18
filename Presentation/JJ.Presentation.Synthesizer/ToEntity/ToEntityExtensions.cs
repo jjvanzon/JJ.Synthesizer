@@ -3,7 +3,7 @@ using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ViewModels.Entities;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.LinkTo;
 using System.Collections.Generic;
@@ -821,6 +821,42 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         }
 
         public static Operator ToEntity(
+            this OperatorPropertiesViewModel_ForCache viewModel,
+            IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (operatorRepository == null) throw new NullException(() => operatorRepository);
+
+            Operator entity = operatorRepository.TryGet(viewModel.ID);
+            if (entity == null)
+            {
+                entity = new Operator();
+                entity.ID = viewModel.ID;
+                operatorRepository.Insert(entity);
+            }
+
+            entity.Name = viewModel.Name;
+            entity.SetOperatorTypeEnum(OperatorTypeEnum.Cache, operatorTypeRepository);
+
+            var wrapper = new Cache_OperatorWrapper(entity);
+            wrapper.StartTime = viewModel.StartTime;
+            wrapper.EndTime = viewModel.EndTime;
+            wrapper.SamplingRate = viewModel.SamplingRate;
+
+            bool interpolationIsFilledIn = viewModel.Interpolation != null && viewModel.Interpolation.ID != 0;
+            if (interpolationIsFilledIn)
+            {
+                wrapper.ResampleInterpolationTypeEnum = (ResampleInterpolationTypeEnum)viewModel.Interpolation.ID;
+            }
+            else
+            {
+                wrapper.ResampleInterpolationTypeEnum = ResampleInterpolationTypeEnum.Undefined;
+            }
+
+            return entity;
+        }
+
+        public static Operator ToEntity(
             this OperatorPropertiesViewModel_ForCurve viewModel,
             IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository, ICurveRepository curveRepository)
         {
@@ -1293,6 +1329,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
 
             foreach (OperatorPropertiesViewModel_ForBundle propertiesViewModel in userInput.OperatorPropertiesList_ForBundles)
+            {
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
+            }
+
+            foreach (OperatorPropertiesViewModel_ForCache propertiesViewModel in userInput.OperatorPropertiesList_ForCaches)
             {
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
             }

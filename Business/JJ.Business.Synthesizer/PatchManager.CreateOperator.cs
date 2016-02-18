@@ -170,6 +170,32 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        public Cache_OperatorWrapper Cache(
+            Outlet signal = null, 
+            double startTime = 0.0, 
+            double endTime = 1.0, 
+            int samplingRate = 44100, 
+            ResampleInterpolationTypeEnum resampleInterpolationTypeEnum = ResampleInterpolationTypeEnum.LineRememberT0)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Cache, inletCount: 1, outletCount: 1);
+
+            var wrapper = new Cache_OperatorWrapper(op)
+            {
+                Signal = signal,
+                StartTime = startTime,
+                EndTime = endTime,
+                SamplingRate = samplingRate,
+                ResampleInterpolationTypeEnum = resampleInterpolationTypeEnum
+            };
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
         public Curve_OperatorWrapper Curve(Curve curve = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Curve, inletCount: 0, outletCount: 1);
@@ -1079,7 +1105,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Spectrum_OperatorWrapper Spectrum(Outlet signal = null, double startTime = 0.0, double endTime = 0.0, int frequencyCount = 16)
+        public Spectrum_OperatorWrapper Spectrum(Outlet signal = null, double startTime = 0.0, double endTime = 1.0, int frequencyCount = 16)
         {
             if (frequencyCount <= 0) throw new LessThanOrEqualException(() => frequencyCount, 0);
 
@@ -1270,6 +1296,7 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.And: return And();
                 case OperatorTypeEnum.Average: return Average();
                 case OperatorTypeEnum.Bundle: return Bundle(new Outlet[inletCount]);
+                case OperatorTypeEnum.Cache: return Cache();
                 case OperatorTypeEnum.Curve: return Curve();
                 case OperatorTypeEnum.CustomOperator: return CustomOperator();
                 case OperatorTypeEnum.Delay: return Delay();

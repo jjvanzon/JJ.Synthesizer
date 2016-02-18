@@ -21,7 +21,7 @@ using JJ.Presentation.Synthesizer.ToEntity;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.Validators;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ViewModels.Entities;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Calculation.Patches;
@@ -864,6 +864,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
             {
+                OperatorPropertiesViewModel_ForCache userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForCache(MainViewModel.Document, id);
+                if (userInput != null)
+                {
+                    TemplateActionMethod(userInput, _operatorPropertiesPresenter_ForCache.Show);
+                    return;
+                }
+            }
+            {
                 OperatorPropertiesViewModel_ForCurve userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForCurve(MainViewModel.Document, id);
                 if (userInput != null)
                 {
@@ -962,6 +970,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesCloseOrLoseFocus_ForBundle(_operatorPropertiesPresenter_ForBundle.Close);
         }
 
+        public void OperatorPropertiesClose_ForCache()
+        {
+            OperatorPropertiesCloseOrLoseFocus_ForCache(_operatorPropertiesPresenter_ForCache.Close);
+        }
+
         public void OperatorPropertiesClose_ForCurve()
         {
             OperatorPropertiesCloseOrLoseFocus_ForCurve(_operatorPropertiesPresenter_ForCurve.Close);
@@ -1025,6 +1038,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void OperatorPropertiesLoseFocus_ForBundle()
         {
             OperatorPropertiesCloseOrLoseFocus_ForBundle(_operatorPropertiesPresenter_ForBundle.LoseFocus);
+        }
+
+        public void OperatorPropertiesLoseFocus_ForCache()
+        {
+            OperatorPropertiesCloseOrLoseFocus_ForCache(_operatorPropertiesPresenter_ForCache.LoseFocus);
         }
 
         public void OperatorPropertiesLoseFocus_ForCurve()
@@ -1114,6 +1132,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // TemplateMethod
             OperatorPropertiesViewModel_ForBundle viewModel = TemplateActionMethod(userInput, partialAction);
+
+            // Refresh
+            if (viewModel.Successful)
+            {
+                PatchDetails_RefreshOperator(userInput.ID);
+            }
+        }
+
+        private void OperatorPropertiesCloseOrLoseFocus_ForCache(Func<OperatorPropertiesViewModel_ForCache, OperatorPropertiesViewModel_ForCache> partialAction)
+        {
+            // GetViewModel
+            OperatorPropertiesViewModel_ForCache userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForCache(MainViewModel.Document);
+
+            // TemplateMethod
+            OperatorPropertiesViewModel_ForCache viewModel = TemplateActionMethod(userInput, partialAction);
 
             // Refresh
             if (viewModel.Successful)
@@ -1353,6 +1386,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         break;
                     }
 
+                case OperatorTypeEnum.Cache:
+                    {
+                        OperatorPropertiesViewModel_ForCache propertiesViewModel = op.ToPropertiesViewModel_ForCache();
+                        IList<OperatorPropertiesViewModel_ForCache> propertiesViewModelList = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForCaches_ByPatchID(MainViewModel.Document, patch.ID);
+                        propertiesViewModelList.Add(propertiesViewModel);
+                        break;
+                    }
+
                 case OperatorTypeEnum.Curve:
                     {
                         OperatorPropertiesViewModel_ForCurve propertiesViewModel = op.ToPropertiesViewModel_ForCurve(_repositories.CurveRepository);
@@ -1504,6 +1545,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                     case OperatorTypeEnum.Bundle:
                         patchDocumentViewModel.OperatorPropertiesList_ForBundles.RemoveFirst(x => x.ID == op.ID);
+                        break;
+
+                    case OperatorTypeEnum.Cache:
+                        patchDocumentViewModel.OperatorPropertiesList_ForCaches.RemoveFirst(x => x.ID == op.ID);
                         break;
 
                     case OperatorTypeEnum.Curve:

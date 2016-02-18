@@ -8,12 +8,16 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Framework.Common;
+using JJ.Business.Synthesizer.Configuration;
 
 namespace JJ.Business.Synthesizer.Validation
 {
     /// <summary> Validates the inlet and outlet ListIndexes and that the inlet names are NOT filled in. </summary>
     public abstract class OperatorValidator_Base : FluentValidator<Operator>
     {
+        private readonly static int? _dataMaxLength = GetDataMaxLength();
+
         private OperatorTypeEnum _expectedOperatorTypeEnum;
         private int _expectedInletCount;
         private int _expectedOutletCount;
@@ -40,6 +44,11 @@ namespace JJ.Business.Synthesizer.Validation
             Operator op = Object;
 
             For(() => op.GetOperatorTypeEnum(), PropertyDisplayNames.OperatorType).Is(_expectedOperatorTypeEnum);
+
+            if (_dataMaxLength.HasValue)
+            {
+                For(() => op.Data, PropertyDisplayNames.Data).MaxLength(_dataMaxLength.Value);
+            }
 
             For(() => op.Inlets.Count, GetPropertyDisplayName_ForInletCount())
                 .Is(_expectedInletCount);
@@ -80,6 +89,11 @@ namespace JJ.Business.Synthesizer.Validation
         private string GetPropertyDisplayName_ForOutletCount()
         {
             return CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Outlets);
+        }
+
+        private static int? GetDataMaxLength()
+        {
+            return ConfigurationHelper.GetSection<ConfigurationSection>().OperatorDataMaxLength;
         }
     }
 }

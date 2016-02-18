@@ -9,6 +9,7 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Framework.Presentation.WinForms.Extensions;
+using JJ.Presentation.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -52,7 +53,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             titleBarUserControl.Text = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Operator);
 
             labelName.Text = CommonTitles.Name;
-            labelOperatorTypeTitle.Text = PropertyDisplayNames.OperatorType + ":";
+            labelOperatorTypeTitle.Text = Titles.Type + ":";
             labelCurve.Text = PropertyDisplayNames.Curve;
 
             labelOperatorTypeValue.Text = PropertyDisplayNames.Curve;

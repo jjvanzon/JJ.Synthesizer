@@ -3,7 +3,7 @@ using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ViewModels.Entities;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.LinkTo;
 using System;

@@ -7,5 +7,8 @@ namespace JJ.Business.Synthesizer.Configuration
     {
         [XmlAttribute]
         public int? NameMaxLength { get; set; }
+
+        [XmlAttribute]
+        public int? OperatorDataMaxLength { get; set; }
     }
 }

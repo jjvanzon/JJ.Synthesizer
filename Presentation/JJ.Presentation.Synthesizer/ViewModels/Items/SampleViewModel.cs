@@ -1,25 +1,23 @@
 ﻿using JJ.Data.Canonical;
-using System.Collections.Generic;
 
-namespace JJ.Presentation.Synthesizer.ViewModels.Entities
+namespace JJ.Presentation.Synthesizer.ViewModels.Items
 {
-    public sealed class AudioFileOutputViewModel
+    public sealed class SampleViewModel
     {
         public int ID { get; set; }
         public string Name { get; set; }
-
         public int SamplingRate { get; set; }
         public IDAndName AudioFileFormat { get; set; }
         public IDAndName SampleDataType { get; set; }
         public IDAndName SpeakerSetup { get; set; }
-
-        public double StartTime { get; set; }
-        public double Duration { get; set; }
         public double Amplifier { get; set; }
         public double TimeMultiplier { get; set; }
-
-        public string FilePath { get; set; }
-
-        public IList<AudioFileOutputChannelViewModel> Channels { get; set; }
+        public bool IsActive { get; set; }
+        public int BytesToSkip { get; set; }
+        public IDAndName InterpolationType { get; set; }
+        public string OriginalLocation { get; set; }
+        public byte[] Bytes { get; set; }
+        /// <summary> read-only </summary>
+        public double Duration { get; set; }
     }
 }

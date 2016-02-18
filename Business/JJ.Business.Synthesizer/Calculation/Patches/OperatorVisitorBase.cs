@@ -22,6 +22,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.And, VisitAnd },
                 { OperatorTypeEnum.Average, VisitAverage },
                 { OperatorTypeEnum.Bundle, VisitBundle },
+                { OperatorTypeEnum.Cache, VisitCache },
                 { OperatorTypeEnum.Curve, VisitCurveOperator },
                 { OperatorTypeEnum.CustomOperator, VisitCustomOperator },
                 { OperatorTypeEnum.Delay, VisitDelay },
@@ -131,6 +132,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         /// <summary> does nothing </summary>
         protected virtual void VisitBundle(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitCache(Operator op) { }
 
         /// <summary> does nothing </summary>
         protected virtual void VisitCurveOperator(Operator op) { }

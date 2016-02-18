@@ -1,7 +1,7 @@
 ﻿using JJ.Data.Canonical;
 using System.Collections.Generic;
 
-namespace JJ.Presentation.Synthesizer.ViewModels.Entities
+namespace JJ.Presentation.Synthesizer.ViewModels.Items
 {
     /// <summary> Leading for saving related entities, not leading for saving the simple properties. </summary>
     public sealed class PatchDocumentViewModel
@@ -20,6 +20,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
         public IList<OperatorPropertiesViewModel> OperatorPropertiesList { get; set; }
         public IList<OperatorPropertiesViewModel_ForAggregate> OperatorPropertiesList_ForAggregates { get; set; }
         public IList<OperatorPropertiesViewModel_ForBundle> OperatorPropertiesList_ForBundles { get; set; }
+        public IList<OperatorPropertiesViewModel_ForCache> OperatorPropertiesList_ForCaches { get; set; }
         public IList<OperatorPropertiesViewModel_ForCurve> OperatorPropertiesList_ForCurves { get; set; }
         public IList<OperatorPropertiesViewModel_ForCustomOperator> OperatorPropertiesList_ForCustomOperators { get; set; }
         public IList<OperatorPropertiesViewModel_ForNumber> OperatorPropertiesList_ForNumbers { get; set; }

@@ -6,7 +6,7 @@ using JJ.Data.Canonical;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ViewModels.Entities;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using System;
 using JJ.Framework.Reflection.Exceptions;
@@ -185,6 +185,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void OperatorProperties_ForBundle_Refresh(OperatorPropertiesViewModel_ForBundle userInput)
         {
             OperatorPropertiesViewModel_ForBundle viewModel = _operatorPropertiesPresenter_ForBundle.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
+        private void OperatorProperties_ForCache_Refresh(OperatorPropertiesViewModel_ForCache userInput)
+        {
+            OperatorPropertiesViewModel_ForCache viewModel = _operatorPropertiesPresenter_ForCache.Refresh(userInput);
             DispatchViewModel(viewModel);
         }
 

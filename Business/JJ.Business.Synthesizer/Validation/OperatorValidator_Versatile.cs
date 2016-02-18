@@ -21,6 +21,7 @@ namespace JJ.Business.Synthesizer.Validation
             { OperatorTypeEnum.And, typeof(OperatorValidator_And) },
             { OperatorTypeEnum.Average, typeof(OperatorValidator_Average) },
             { OperatorTypeEnum.Bundle, typeof(OperatorValidator_Bundle) },
+            { OperatorTypeEnum.Cache, typeof(OperatorValidator_Cache) },
             { OperatorTypeEnum.Curve, typeof(OperatorValidator_Curve) },
             { OperatorTypeEnum.Delay, typeof(OperatorValidator_Delay) },
             { OperatorTypeEnum.Divide, typeof(OperatorValidator_Divide) },

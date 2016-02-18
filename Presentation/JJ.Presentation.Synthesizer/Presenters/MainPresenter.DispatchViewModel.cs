@@ -4,7 +4,7 @@ using JJ.Framework.Presentation;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ViewModels.Entities;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +38,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(OperatorPropertiesViewModel), DispatchOperatorPropertiesViewModel },
                 { typeof(OperatorPropertiesViewModel_ForAggregate), DispatchOperatorPropertiesViewModel_ForAggregate },
                 { typeof(OperatorPropertiesViewModel_ForBundle), DispatchOperatorPropertiesViewModel_ForBundle },
+                { typeof(OperatorPropertiesViewModel_ForCache), DispatchOperatorPropertiesViewModel_ForCache },
                 { typeof(OperatorPropertiesViewModel_ForCurve), DispatchOperatorPropertiesViewModel_ForCurve },
                 { typeof(OperatorPropertiesViewModel_ForCustomOperator), DispatchOperatorPropertiesViewModel_ForCustomOperator },
                 { typeof(OperatorPropertiesViewModel_ForNumber), DispatchOperatorPropertiesViewModel_ForNumber },
@@ -391,6 +392,31 @@ namespace JJ.Presentation.Synthesizer.Presenters
             var castedViewModel = (OperatorPropertiesViewModel_ForBundle)viewModel2;
 
             var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForBundles_ByOperatorID(MainViewModel.Document, castedViewModel.ID);
+            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
+            if (listIndex.HasValue)
+            {
+                list[listIndex.Value] = castedViewModel;
+            }
+            else
+            {
+                list.Add(castedViewModel);
+            }
+
+            if (castedViewModel.Visible)
+            {
+                HideAllPropertiesViewModels();
+                castedViewModel.Visible = true;
+            }
+
+            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            castedViewModel.ValidationMessages.Clear();
+        }
+
+        private void DispatchOperatorPropertiesViewModel_ForCache(object viewModel2)
+        {
+            var castedViewModel = (OperatorPropertiesViewModel_ForCache)viewModel2;
+
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForCaches_ByOperatorID(MainViewModel.Document, castedViewModel.ID);
             int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
             if (listIndex.HasValue)
             {

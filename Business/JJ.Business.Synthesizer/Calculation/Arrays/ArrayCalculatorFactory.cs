@@ -6,9 +6,11 @@ using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer.Calculation.Arrays
 {
-    // Already I have a maintenance penalty, because this factory has to incorporate any new variation on a class.
-    // I have already not incorporated the _NoRate variations.
-    [Obsolete("Get rid of it if you do not use it. It seems a handy class, but if you do not use it, it has no right to exist.")]
+    // TODO: Remove comment.
+    //// Already I have a maintenance penalty, because this factory has to incorporate any new variation on a class.
+    //// I have already not incorporated the _NoRate variations.
+    //[Obsolete("Get rid of it if you do not use it. It seems a handy class, but if you do not use it, it has no right to exist.")]
+
     internal static class ArrayCalculatorFactory
     {
         public static ArrayCalculatorBase CreateArrayCalculator_RotateTime(
@@ -19,7 +21,14 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
             switch (resampleInterpolationTypeEnum)
             {
                 case ResampleInterpolationTypeEnum.Block:
-                    return new ArrayCalculator_RotateTime_Block(array, rate);
+                    if (rate == 1.0)
+                    {
+                        return new ArrayCalculator_RotateTime_Block_NoRate(array);
+                    }
+                    else
+                    {
+                        return new ArrayCalculator_RotateTime_Block(array, rate);
+                    }
 
                 case ResampleInterpolationTypeEnum.CubicAbruptInclination:
                 case ResampleInterpolationTypeEnum.CubicEquidistant:
@@ -31,10 +40,24 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
 
                 case ResampleInterpolationTypeEnum.LineRememberT0:
                 case ResampleInterpolationTypeEnum.LineRememberT1:
-                    return new ArrayCalculator_RotateTime_Line(array, rate);
+                    if (rate == 1.0)
+                    {
+                        return new ArrayCalculator_RotateTime_Line_NoRate(array);
+                    }
+                    else
+                    {
+                        return new ArrayCalculator_RotateTime_Line(array, rate);
+                    }
 
                 case ResampleInterpolationTypeEnum.Stripe:
-                    return new ArrayCalculator_RotateTime_Stripe(array, rate);
+                    if (rate == 1.0)
+                    {
+                        return new ArrayCalculator_RotateTime_Stripe_NoRate(array);
+                    }
+                    else
+                    {
+                        return new ArrayCalculator_RotateTime_Stripe(array, rate);
+                    }
 
                 default:
                     throw new ValueNotSupportedException(resampleInterpolationTypeEnum);

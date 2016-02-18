@@ -74,6 +74,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             operatorPropertiesUserControl_ForAggregate.LoseFocusRequested += operatorPropertiesUserControl_ForAggregate_LoseFocusRequested;
             operatorPropertiesUserControl_ForBundle.CloseRequested += operatorPropertiesUserControl_ForBundle_CloseRequested;
             operatorPropertiesUserControl_ForBundle.LoseFocusRequested += operatorPropertiesUserControl_ForBundle_LoseFocusRequested;
+            operatorPropertiesUserControl_ForCache.CloseRequested += operatorPropertiesUserControl_ForCache_CloseRequested;
+            operatorPropertiesUserControl_ForCache.LoseFocusRequested += operatorPropertiesUserControl_ForCache_LoseFocusRequested;
             operatorPropertiesUserControl_ForCurve.CloseRequested += operatorPropertiesUserControl_ForCurve_CloseRequested;
             operatorPropertiesUserControl_ForCurve.LoseFocusRequested += operatorPropertiesUserControl_ForCurve_LoseFocusRequested;
             operatorPropertiesUserControl_ForCustomOperator.CloseRequested += operatorPropertiesUserControl_ForCustomOperator_CloseRequested;
@@ -894,6 +896,32 @@ namespace JJ.Presentation.Synthesizer.WinForms
             try
             {
                 _presenter.OperatorPropertiesClose_ForBundle();
+                ApplyViewModel();
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
+        }
+
+        private void operatorPropertiesUserControl_ForCache_LoseFocusRequested(object sender, EventArgs e)
+        {
+            try
+            {
+                _presenter.OperatorPropertiesLoseFocus_ForCache();
+                ApplyViewModel();
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
+        }
+
+        private void operatorPropertiesUserControl_ForCache_CloseRequested(object sender, EventArgs e)
+        {
+            try
+            {
+                _presenter.OperatorPropertiesClose_ForCache();
                 ApplyViewModel();
             }
             finally

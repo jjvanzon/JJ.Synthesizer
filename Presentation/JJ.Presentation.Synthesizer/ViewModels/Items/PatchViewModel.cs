@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace JJ.Presentation.Synthesizer.ViewModels.Entities
+namespace JJ.Presentation.Synthesizer.ViewModels.Items
 {
     public sealed class PatchViewModel
     {

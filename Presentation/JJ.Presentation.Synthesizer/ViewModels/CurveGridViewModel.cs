@@ -1,4 +1,4 @@
-﻿using JJ.Presentation.Synthesizer.ViewModels.Entities;
+﻿using JJ.Presentation.Synthesizer.ViewModels.Items;
 using System.Collections.Generic;
 using JJ.Data.Canonical;
 

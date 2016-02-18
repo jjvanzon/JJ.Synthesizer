@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ViewModels.Entities;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 
 namespace JJ.Presentation.Synthesizer.WinForms
@@ -93,6 +93,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 // OperatorProperties_ForBundle
                 operatorPropertiesUserControl_ForBundle.ViewModel =
                     _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForBundles)
+                    .Where(x => x.Visible)
+                    .FirstOrDefault();
+
+                // OperatorProperties_ForCache
+                operatorPropertiesUserControl_ForCache.ViewModel =
+                    _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForCaches)
                     .Where(x => x.Visible)
                     .FirstOrDefault();
 
@@ -247,6 +253,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
                                                               operatorPropertiesUserControl_ForAggregate.ViewModel.Visible;
                 bool operatorPropertiesVisible_ForBundle = operatorPropertiesUserControl_ForBundle.ViewModel != null &&
                                                            operatorPropertiesUserControl_ForBundle.ViewModel.Visible;
+                bool operatorPropertiesVisible_ForCache = operatorPropertiesUserControl_ForCache.ViewModel != null &&
+                                                           operatorPropertiesUserControl_ForCache.ViewModel.Visible;
                 bool operatorPropertiesVisible_ForCurve = operatorPropertiesUserControl_ForCurve.ViewModel != null &&
                                                           operatorPropertiesUserControl_ForCurve.ViewModel.Visible;
                 bool operatorPropertiesVisible_ForCustomOperator = operatorPropertiesUserControl_ForCustomOperator.ViewModel != null &&
@@ -298,6 +306,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (operatorPropertiesVisible) operatorPropertiesUserControl.Visible = true;
                 if (operatorPropertiesVisible_ForAggregate) operatorPropertiesUserControl_ForAggregate.Visible = true;
                 if (operatorPropertiesVisible_ForBundle) operatorPropertiesUserControl_ForBundle.Visible = true;
+                if (operatorPropertiesVisible_ForCache) operatorPropertiesUserControl_ForCache.Visible = true;
                 if (operatorPropertiesVisible_ForCurve) operatorPropertiesUserControl_ForCurve.Visible = true;
                 if (operatorPropertiesVisible_ForCustomOperator) operatorPropertiesUserControl_ForCustomOperator.Visible = true;
                 if (operatorPropertiesVisible_ForNumber) operatorPropertiesUserControl_ForNumber.Visible = true;
@@ -330,6 +339,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (!operatorPropertiesVisible) operatorPropertiesUserControl.Visible = false;
                 if (!operatorPropertiesVisible_ForAggregate) operatorPropertiesUserControl_ForAggregate.Visible = false;
                 if (!operatorPropertiesVisible_ForBundle) operatorPropertiesUserControl_ForBundle.Visible = false;
+                if (!operatorPropertiesVisible_ForCache) operatorPropertiesUserControl_ForCache.Visible = false;
                 if (!operatorPropertiesVisible_ForCurve) operatorPropertiesUserControl_ForCurve.Visible = false;
                 if (!operatorPropertiesVisible_ForCustomOperator) operatorPropertiesUserControl_ForCustomOperator.Visible = false;
                 if (!operatorPropertiesVisible_ForNumber) operatorPropertiesUserControl_ForNumber.Visible = false;
@@ -360,6 +370,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                                                     operatorPropertiesVisible ||
                                                     operatorPropertiesVisible_ForAggregate ||
                                                     operatorPropertiesVisible_ForBundle ||
+                                                    operatorPropertiesVisible_ForCache ||
                                                     operatorPropertiesVisible_ForCurve ||
                                                     operatorPropertiesVisible_ForCustomOperator ||
                                                     operatorPropertiesVisible_ForNumber ||
@@ -470,6 +481,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
             if (mustFocusOperatorPropertiesUserControl_ForBundle)
             {
                 operatorPropertiesUserControl_ForBundle.Focus();
+            }
+
+            bool mustFocusOperatorPropertiesUserControl_ForCache = operatorPropertiesUserControl_ForCache.Visible &&
+                                                                   !operatorPropertiesUserControl_ForCache.ViewModel.Successful;
+            if (mustFocusOperatorPropertiesUserControl_ForCache)
+            {
+                operatorPropertiesUserControl_ForCache.Focus();
             }
 
             bool mustFocusOperatorPropertiesUserControl_ForCurve = operatorPropertiesUserControl_ForCurve.Visible &&

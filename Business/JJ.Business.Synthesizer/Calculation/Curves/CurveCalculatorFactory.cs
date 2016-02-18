@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
         {
             if (curve == null) throw new NullException(() => curve);
 
-            var curveArrayInfo = CurveArrayHelper.GetCurveArrayInfo(curve);
+            var curveArrayInfo = CurveArrayHelper.ConvertToCurveArrayInfo(curve);
 
             if (curveArrayInfo.MinTime == 0.0)
             {

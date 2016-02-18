@@ -6,7 +6,7 @@ using JJ.Framework.Reflection.Exceptions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ViewModels.Entities;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Data.Synthesizer;
@@ -58,6 +58,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly OperatorPropertiesPresenter _operatorPropertiesPresenter;
         private readonly OperatorPropertiesPresenter_ForAggregate _operatorPropertiesPresenter_ForAggregate;
         private readonly OperatorPropertiesPresenter_ForBundle _operatorPropertiesPresenter_ForBundle;
+        private readonly OperatorPropertiesPresenter_ForCache _operatorPropertiesPresenter_ForCache;
         private readonly OperatorPropertiesPresenter_ForCurve _operatorPropertiesPresenter_ForCurve;
         private readonly OperatorPropertiesPresenter_ForCustomOperator _operatorPropertiesPresenter_ForCustomOperator;
         private readonly OperatorPropertiesPresenter_ForNumber _operatorPropertiesPresenter_ForNumber;
@@ -126,6 +127,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _operatorPropertiesPresenter = new OperatorPropertiesPresenter(_patchRepositories);
             _operatorPropertiesPresenter_ForAggregate = new OperatorPropertiesPresenter_ForAggregate(_patchRepositories);
             _operatorPropertiesPresenter_ForBundle = new OperatorPropertiesPresenter_ForBundle(_patchRepositories);
+            _operatorPropertiesPresenter_ForCache = new OperatorPropertiesPresenter_ForCache(_patchRepositories);
             _operatorPropertiesPresenter_ForCurve = new OperatorPropertiesPresenter_ForCurve(_patchRepositories);
             _operatorPropertiesPresenter_ForCustomOperator = new OperatorPropertiesPresenter_ForCustomOperator(_patchRepositories);
             _operatorPropertiesPresenter_ForNumber = new OperatorPropertiesPresenter_ForNumber(_patchRepositories);

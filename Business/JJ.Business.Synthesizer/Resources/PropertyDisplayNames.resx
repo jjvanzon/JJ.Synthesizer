@@ -662,4 +662,7 @@
   <data name="OneOverX" xml:space="preserve">
     <value>1/x</value>
   </data>
+  <data name="Cache" xml:space="preserve">
+    <value>Cache</value>
+  </data>
 </root>

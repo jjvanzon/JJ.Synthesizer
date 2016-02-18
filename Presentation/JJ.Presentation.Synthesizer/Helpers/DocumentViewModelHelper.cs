@@ -1,6 +1,6 @@
 ﻿using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ViewModels.Entities;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -446,12 +446,21 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return viewModel;
         }
 
+        public static OperatorPropertiesViewModel_ForCache TryGetOperatorPropertiesViewModel_ForCache(DocumentViewModel rootDocumentViewModel, int operatorID)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            OperatorPropertiesViewModel_ForCache viewModel = DocumentViewModelHelper.EnumerateOperatorPropertiesViewModels_ForCaches(rootDocumentViewModel)
+                                                                                    .FirstOrDefault(x => x.ID == operatorID); // First for performance.
+            return viewModel;
+        }
+
         public static OperatorPropertiesViewModel_ForCurve TryGetOperatorPropertiesViewModel_ForCurve(DocumentViewModel rootDocumentViewModel, int operatorID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
             OperatorPropertiesViewModel_ForCurve viewModel = DocumentViewModelHelper.EnumerateOperatorPropertiesViewModels_ForCurves(rootDocumentViewModel)
-                                                                                .FirstOrDefault(x => x.ID == operatorID); // First for performance.
+                                                                                    .FirstOrDefault(x => x.ID == operatorID); // First for performance.
             return viewModel;
         }
 
@@ -555,6 +564,13 @@ namespace JJ.Presentation.Synthesizer.Helpers
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
             return rootDocumentViewModel.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForBundles);
+        }
+
+        private static IEnumerable<OperatorPropertiesViewModel_ForCache> EnumerateOperatorPropertiesViewModels_ForCaches(DocumentViewModel rootDocumentViewModel)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            return rootDocumentViewModel.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForCaches);
         }
 
         private static IEnumerable<OperatorPropertiesViewModel_ForCurve> EnumerateOperatorPropertiesViewModels_ForCurves(DocumentViewModel rootDocumentViewModel)
@@ -670,6 +686,21 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
 
             throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForBundle> for Patch ID '{0}' not found in any of the PatchDocumentViewModels.", patchID));
+        }
+
+        public static IList<OperatorPropertiesViewModel_ForCache> GetOperatorPropertiesViewModelList_ForCaches_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentList)
+            {
+                if (patchDocumentViewModel.PatchDetails.Entity.PatchID == patchID)
+                {
+                    return patchDocumentViewModel.OperatorPropertiesList_ForCaches;
+                }
+            }
+
+            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForCache> for Patch ID '{0}' not found in any of the PatchDocumentViewModels.", patchID));
         }
 
         public static IList<OperatorPropertiesViewModel_ForCurve> GetOperatorPropertiesViewModelList_ForCurves_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
@@ -865,6 +896,21 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
 
             throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForBundle> for operatorID '{0}' not found in any of the PatchDocumentViewModels.", operatorID));
+        }
+
+        public static IList<OperatorPropertiesViewModel_ForCache> GetOperatorPropertiesViewModelList_ForCaches_ByOperatorID(DocumentViewModel rootDocumentViewModel, int operatorID)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentList)
+            {
+                if (patchDocumentViewModel.OperatorPropertiesList_ForCaches.Any(x => x.ID == operatorID))
+                {
+                    return patchDocumentViewModel.OperatorPropertiesList_ForCaches;
+                }
+            }
+
+            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForCache> for operatorID '{0}' not found in any of the PatchDocumentViewModels.", operatorID));
         }
 
         public static IList<OperatorPropertiesViewModel_ForCurve> GetOperatorPropertiesViewModelList_ForCurves_ByOperatorID(DocumentViewModel rootDocumentViewModel, int operatorID)
@@ -1093,6 +1139,22 @@ namespace JJ.Presentation.Synthesizer.Helpers
             if (viewModel == null)
             {
                 throw new Exception("No visible OperatorPropertiesViewModel_ForBundle found in rootDocumentViewModel.PatchDocumentList.");
+            }
+
+            return viewModel;
+        }
+
+        public static OperatorPropertiesViewModel_ForCache GetVisibleOperatorPropertiesViewModel_ForCache(DocumentViewModel rootDocumentViewModel)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            OperatorPropertiesViewModel_ForCache viewModel = rootDocumentViewModel.PatchDocumentList
+                                                                                  .SelectMany(x => x.OperatorPropertiesList_ForCaches)
+                                                                                  .Where(x => x.Visible)
+                                                                                  .FirstOrDefault();
+            if (viewModel == null)
+            {
+                throw new Exception("No visible OperatorPropertiesViewModel_ForCache found in rootDocumentViewModel.PatchDocumentList.");
             }
 
             return viewModel;

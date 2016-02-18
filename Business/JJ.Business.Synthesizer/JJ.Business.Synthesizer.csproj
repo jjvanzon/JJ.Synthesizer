@@ -79,6 +79,7 @@
     <Compile Include="Calculation\Curves\ICurveCalculator.cs" />
     <Compile Include="Calculation\Curves\CurveCalculator_MinTimeZero.cs" />
     <Compile Include="Calculation\Curves\CurveCalculator_MinTime.cs" />
+    <Compile Include="Calculation\Operators\Cache_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Minimum_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\MaximumOrMinimum_OperatorCalculatorBase.cs" />
     <Compile Include="Calculation\Operators\If OperatorCalculator Classes.cs" />
@@ -119,7 +120,7 @@
     <Compile Include="Calculation\Operators\Select OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Loop_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Exponent_OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\Add_OperatorCalculator Classes.cs" />
+    <Compile Include="Calculation\Operators\Add OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Adder_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Adder_OperatorCalculators.cs">
       <AutoGen>True</AutoGen>
@@ -180,6 +181,7 @@
     <Compile Include="Calculation\NoiseCalculator.cs" />
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="Converters\PatchToOperatorConverter.cs" />
+    <Compile Include="EntityWrappers\Cache_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\OneOverX_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Negative_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Round_OperatorWrapper.cs" />
@@ -318,6 +320,7 @@
     <Compile Include="Validation\OperatorValidator_Shift.cs" />
     <Compile Include="Validation\OperatorValidator_Narrower.cs" />
     <Compile Include="Validation\OperatorValidator_Minimum.cs" />
+    <Compile Include="Validation\OperatorValidator_Cache.cs" />
     <Compile Include="Validation\OperatorValidator_Spectrum.cs" />
     <Compile Include="Validation\OperatorValidator_Pulse.cs" />
     <Compile Include="Validation\OperatorValidator_Reverse.cs" />
@@ -359,6 +362,7 @@
     <Compile Include="Warnings\OperatorWarningValidator_Reset.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Shift.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Narrower.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_Cache.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Spectrum.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Pulse.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Reverse.cs" />

@@ -317,6 +317,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
+        //protected override void VisitCache(Operator op)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
         protected override void VisitCurveOperator(Operator op)
         {
             OperatorCalculatorBase calculator = null;

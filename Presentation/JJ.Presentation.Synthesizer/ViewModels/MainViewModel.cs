@@ -1,5 +1,5 @@
 ﻿using JJ.Data.Canonical;
-using JJ.Presentation.Synthesizer.ViewModels.Entities;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 using System.Collections.Generic;
 
 namespace JJ.Presentation.Synthesizer.ViewModels

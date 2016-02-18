@@ -52,7 +52,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             titleBarUserControl.Text = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Operator);
 
             labelName.Text = CommonTitles.Name;
-            labelOperatorTypeTitle.Text = PropertyDisplayNames.OperatorType + ":";
+            labelOperatorTypeTitle.Text = Titles.Type + ":";
             labelOperatorTypeValue.Text = PropertyDisplayNames.PatchInlet;
             labelNumber.Text = Titles.Number;
             labelInletType.Text = PropertyDisplayNames.InletType;

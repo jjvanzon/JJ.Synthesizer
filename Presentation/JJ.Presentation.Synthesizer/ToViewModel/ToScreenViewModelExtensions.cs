@@ -15,7 +15,7 @@ using JJ.Business.Synthesizer;
 using JJ.Presentation.Synthesizer.Converters;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ViewModels.Entities;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
@@ -26,6 +26,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             OperatorTypeEnum.Average,
             OperatorTypeEnum.Bundle,
+            OperatorTypeEnum.Cache,
             OperatorTypeEnum.Curve,
             OperatorTypeEnum.CustomOperator,
             OperatorTypeEnum.Maximum,
@@ -334,6 +335,15 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                         .ToList();
         }
 
+        public static IList<OperatorPropertiesViewModel_ForCache> ToPropertiesViewModelList_ForCaches(this Patch patch)
+        {
+            if (patch == null) throw new NullException(() => patch);
+
+            return patch.GetOperatorsOfType(OperatorTypeEnum.Cache)
+                        .Select(x => x.ToPropertiesViewModel_ForCache())
+                        .ToList();
+        }
+
         public static IList<OperatorPropertiesViewModel_ForCurve> ToPropertiesViewModelList_ForCurves(this Patch patch, ICurveRepository curveRepository)
         {
             if (patch == null) throw new NullException(() => patch);
@@ -499,6 +509,27 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ID = entity.ID,
                 Name = entity.Name,
                 InletCount = entity.Inlets.Count,
+                ValidationMessages = new List<Message>()
+            };
+
+            return viewModel;
+        }
+
+        public static OperatorPropertiesViewModel_ForCache ToPropertiesViewModel_ForCache(this Operator entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            var wrapper = new Cache_OperatorWrapper(entity);
+
+            var viewModel = new OperatorPropertiesViewModel_ForCache
+            {
+                ID = entity.ID,
+                Name = entity.Name,
+                EndTime = wrapper.EndTime,
+                StartTime = wrapper.StartTime,
+                SamplingRate = wrapper.SamplingRate,
+                Interpolation = wrapper.ResampleInterpolationTypeEnum.ToIDAndDisplayName(),
+                InterpolationLookup = ViewModelHelper.CreateResampleInterpolationLookupViewModel(),
                 ValidationMessages = new List<Message>()
             };
 

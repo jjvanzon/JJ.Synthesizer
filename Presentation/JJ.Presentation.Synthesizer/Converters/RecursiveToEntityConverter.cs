@@ -1,6 +1,6 @@
 ﻿using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
-using JJ.Presentation.Synthesizer.ViewModels.Entities;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Business.Synthesizer.LinkTo;
 using System.Collections.Generic;
 using System.Linq;

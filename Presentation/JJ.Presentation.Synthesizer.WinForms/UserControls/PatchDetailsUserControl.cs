@@ -14,7 +14,7 @@ using JJ.Presentation.Synthesizer.VectorGraphics;
 using JJ.Presentation.Synthesizer.VectorGraphics.EventArg;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ViewModels.Entities;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.Configuration;
 

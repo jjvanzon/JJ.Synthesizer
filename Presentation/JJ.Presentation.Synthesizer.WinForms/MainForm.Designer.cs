@@ -28,6 +28,7 @@
             this.documentGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentGridUserControl();
             this.patchDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.PatchDetailsUserControl();
             this.sampleGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.SampleGridUserControl();
+            this.operatorPropertiesUserControl_ForCache = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForCache();
             this.operatorPropertiesUserControl_ForRandom = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForRandom();
             this.operatorPropertiesUserControl_ForResample = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForResample();
             this.operatorPropertiesUserControl_ForAggregate = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForAggregate();
@@ -113,6 +114,7 @@
             // 
             // splitContainerProperties.Panel2
             // 
+            this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForCache);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForRandom);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForResample);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForAggregate);
@@ -249,6 +251,18 @@
             this.sampleGridUserControl.Size = new System.Drawing.Size(904, 814);
             this.sampleGridUserControl.TabIndex = 9;
             this.sampleGridUserControl.Visible = false;
+            // 
+            // operatorPropertiesUserControl_ForCache
+            // 
+            this.operatorPropertiesUserControl_ForCache.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.operatorPropertiesUserControl_ForCache.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.operatorPropertiesUserControl_ForCache.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.operatorPropertiesUserControl_ForCache.Font = new System.Drawing.Font("Verdana", 10F);
+            this.operatorPropertiesUserControl_ForCache.Location = new System.Drawing.Point(0, 0);
+            this.operatorPropertiesUserControl_ForCache.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.operatorPropertiesUserControl_ForCache.Name = "operatorPropertiesUserControl_ForCache";
+            this.operatorPropertiesUserControl_ForCache.Size = new System.Drawing.Size(280, 814);
+            this.operatorPropertiesUserControl_ForCache.TabIndex = 1;
             // 
             // operatorPropertiesUserControl_ForRandom
             // 
@@ -572,5 +586,6 @@
         private UserControls.OperatorPropertiesUserControl_ForAggregate operatorPropertiesUserControl_ForAggregate;
         private UserControls.OperatorPropertiesUserControl_ForResample operatorPropertiesUserControl_ForResample;
         private UserControls.OperatorPropertiesUserControl_ForRandom operatorPropertiesUserControl_ForRandom;
+        private UserControls.OperatorPropertiesUserControl_ForCache operatorPropertiesUserControl_ForCache;
     }
 }

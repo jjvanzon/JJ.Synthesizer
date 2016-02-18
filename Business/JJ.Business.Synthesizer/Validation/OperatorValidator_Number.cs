@@ -17,7 +17,9 @@ namespace JJ.Business.Synthesizer.Validation
 
             For(() => Object.Data, PropertyDisplayNames.Number)
                 .NotNullOrEmpty()
-                .IsDouble();
+                .IsDouble()
+                .NotInfinity()
+                .NotNaN();
         }
     }
 }

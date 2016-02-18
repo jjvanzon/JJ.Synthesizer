@@ -10,7 +10,7 @@ using JJ.Business.Synthesizer.Api;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ViewModels.Entities;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer;

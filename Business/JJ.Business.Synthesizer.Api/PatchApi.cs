@@ -56,6 +56,16 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Average(signal, timeSliceDuration, sampleCount);
         }
 
+        public Cache_OperatorWrapper Cache(
+            Outlet signal = null,
+            double startTime = 0.0,
+            double endTime = 1.0,
+            int samplingRate = 44100,
+            ResampleInterpolationTypeEnum resampleInterpolationTypeEnum = ResampleInterpolationTypeEnum.LineRememberT0)
+        {
+            return _patchManager.Cache(signal, startTime, endTime, samplingRate, resampleInterpolationTypeEnum);
+        }
+
         public Curve_OperatorWrapper Curve(Curve curve = null)
         {
             return _patchManager.Curve(curve);
@@ -330,6 +340,15 @@ namespace JJ.Business.Synthesizer.Api
         public SlowDown_OperatorWrapper SlowDown(Outlet signal = null, Outlet factor = null)
         {
             return _patchManager.SlowDown(signal, factor);
+        }
+
+        public Spectrum_OperatorWrapper Spectrum(
+            Outlet signal = null,
+            double startTime = 0.0,
+            double endTime = 1.0,
+            int samplingRate = 44100)
+        {
+            return _patchManager.Spectrum(signal, startTime, endTime, samplingRate);
         }
 
         public SpeedUp_OperatorWrapper SpeedUp(Outlet signal = null, Outlet factor = null)

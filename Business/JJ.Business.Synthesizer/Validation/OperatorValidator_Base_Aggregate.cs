@@ -25,7 +25,9 @@ namespace JJ.Business.Synthesizer.Validation
 
             For(() => timeSliceDurationString, PropertyDisplayNames.TimeSliceDuration)
                 .NotNullOrEmpty()
-                .IsDouble();
+                .IsDouble()
+                .NotInfinity()
+                .NotNaN();
 
             int sampleCount;
             if (Int32.TryParse(sampleCountString, out sampleCount))

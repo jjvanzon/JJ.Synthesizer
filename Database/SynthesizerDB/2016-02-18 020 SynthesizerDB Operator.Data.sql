@@ -1,0 +1,1 @@
+alter table Operator alter column Data nvarchar(512) null;

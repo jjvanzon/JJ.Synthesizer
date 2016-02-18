@@ -1,6 +1,6 @@
 ﻿using JJ.Data.Synthesizer;
 
-namespace JJ.Presentation.Synthesizer.ViewModels.Entities
+namespace JJ.Presentation.Synthesizer.ViewModels.Items
 {
     public sealed class ToneViewModel
     {

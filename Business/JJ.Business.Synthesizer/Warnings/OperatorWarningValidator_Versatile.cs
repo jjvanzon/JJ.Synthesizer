@@ -18,6 +18,7 @@ namespace JJ.Business.Synthesizer.Warnings
             { OperatorTypeEnum.And, typeof(OperatorWarningValidator_And) },
             { OperatorTypeEnum.Average, typeof(OperatorWarningValidator_Average) },
             { OperatorTypeEnum.Bundle, typeof(OperatorWarningValidator_Bundle) },
+            { OperatorTypeEnum.Cache, typeof(OperatorWarningValidator_Cache) },
             { OperatorTypeEnum.Curve, typeof(OperatorWarningValidator_Curve) },
             { OperatorTypeEnum.CustomOperator, typeof(OperatorWarningValidator_CustomOperator) },
             { OperatorTypeEnum.Delay, typeof(OperatorWarningValidator_Delay) },

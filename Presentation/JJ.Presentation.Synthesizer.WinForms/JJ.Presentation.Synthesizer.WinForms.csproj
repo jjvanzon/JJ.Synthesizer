@@ -159,6 +159,12 @@
     <Compile Include="UserControls\OperatorPropertiesUserControl_ForResample.Designer.cs">
       <DependentUpon>OperatorPropertiesUserControl_ForResample.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\OperatorPropertiesUserControl_ForCache.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\OperatorPropertiesUserControl_ForCache.Designer.cs">
+      <DependentUpon>OperatorPropertiesUserControl_ForCache.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_ForSpectrum.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -375,6 +381,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForResample.resx">
       <DependentUpon>OperatorPropertiesUserControl_ForResample.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForCache.resx">
+      <DependentUpon>OperatorPropertiesUserControl_ForCache.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForSpectrum.resx">
       <DependentUpon>OperatorPropertiesUserControl_ForSpectrum.cs</DependentUpon>
