@@ -5,11 +5,11 @@ using System.Reflection;
 
 namespace JJ.Business.Synthesizer.Helpers
 {
-    public class NoCalculatorException : Exception
+    public class CalculatorNotFoundException : Exception
     {
         private string _message;
 
-        public NoCalculatorException(MethodBase method)
+        public CalculatorNotFoundException(MethodBase method)
         {
             if (method != null)
             {

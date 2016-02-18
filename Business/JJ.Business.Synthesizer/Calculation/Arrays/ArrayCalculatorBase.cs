@@ -5,7 +5,7 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Arrays
 {
-    internal abstract class ArrayCalculatorBase : IArrayCalculator
+    internal abstract class ArrayCalculatorBase
     {
         // Fields for performance
         protected double[] _array;

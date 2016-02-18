@@ -16,11 +16,11 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
 
             if (curveArrayInfo.MinTime == 0.0)
             {
-                return new CurveCalculator_MinTimeZero_Line(curveArrayInfo);
+                return new CurveCalculator_MinTimeZero(curveArrayInfo);
             }
             else
             {
-                return new CurveCalculator_MinTime_Line(curveArrayInfo);
+                return new CurveCalculator_MinTime(curveArrayInfo);
             }
         }
     }

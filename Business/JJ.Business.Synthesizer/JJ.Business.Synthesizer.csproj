@@ -62,7 +62,7 @@
     <Compile Include="Calculation\Arrays\ArrayCalculatorBase_Line.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculator_MinTimeZero_Line.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculator_MinTime_Line.cs" />
-    <Compile Include="Calculation\Arrays\IArrayCalculator.cs" />
+    <Compile Include="Calculation\Arrays\2016-02-18 Backup of IArrayCalculator.cs" />
     <Compile Include="Calculation\AudioFileOutputs\AudioFileOutputCalculatorFactory.cs" />
     <Compile Include="Calculation\AudioFileOutputs\AudioFileOutputCalculatorBase.cs" />
     <Compile Include="Calculation\AudioFileOutputs\ByteAudioFileOutputCalculator.cs" />
@@ -74,8 +74,8 @@
     <Compile Include="Calculation\Curves\CurveArrayHelper.cs" />
     <Compile Include="Calculation\Curves\CurveCalculatorFactory.cs" />
     <Compile Include="Calculation\Curves\ICurveCalculator.cs" />
-    <Compile Include="Calculation\Curves\CurveCalculator_MinTimeZero_Line.cs" />
-    <Compile Include="Calculation\Curves\CurveCalculator_MinTime_Line.cs" />
+    <Compile Include="Calculation\Curves\CurveCalculator_MinTimeZero.cs" />
+    <Compile Include="Calculation\Curves\CurveCalculator_MinTime.cs" />
     <Compile Include="Calculation\Operators\Minimum_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\MaximumOrMinimum_OperatorCalculatorBase.cs" />
     <Compile Include="Calculation\Operators\If OperatorCalculator Classes.cs" />
@@ -141,13 +141,13 @@
     <Compile Include="Calculation\Operators\Triangle OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Sine OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Noise_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Curves\CurveCalculator.cs" />
+    <Compile Include="Calculation\Curves\2016-02-18 Backup of CurveCalculator IMPORTANT.cs" />
     <Compile Include="Calculation\Operators\One_OperatorCalculator.cs" />
     <Compile Include="Calculation\Patches\IPatchCalculator.cs" />
     <Compile Include="Calculation\Operators\Zero_OperatorCalculator.cs" />
     <Compile Include="Calculation\Patches\OptimizedPatchCalculator.cs" />
     <Compile Include="Calculation\Operators\Sample OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\Curve_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Curve OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\OperatorCalculatorBase.cs" />
     <Compile Include="Calculation\Operators\Delay OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Number_OperatorCalculator.cs" />
@@ -225,7 +225,7 @@
     <Compile Include="Extensions\ToneExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Helpers\CurveRepositories.cs" />
-    <Compile Include="Helpers\NoCalculatorException.cs" />
+    <Compile Include="Helpers\CalculatorNotFoundException.cs" />
     <Compile Include="Helpers\OperatorConstants.cs" />
     <Compile Include="Helpers\OperatorDataParser.cs" />
     <Compile Include="Helpers\OperatorHelper.cs" />

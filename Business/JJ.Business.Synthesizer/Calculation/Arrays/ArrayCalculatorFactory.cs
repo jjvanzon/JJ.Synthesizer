@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
 {
     internal static class ArrayCalculatorFactory
     {
-        public static IArrayCalculator CreateArrayCalculator_RotateTime(
+        public static ArrayCalculatorBase CreateArrayCalculator_RotateTime(
             double[] array,
             double rate,
             ResampleInterpolationTypeEnum resampleInterpolationTypeEnum)
@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
             }
         }
 
-        public static IArrayCalculator CreateArrayCalculator_RotateTime(
+        public static ArrayCalculatorBase CreateArrayCalculator_RotateTime(
             double[] array,
             double rate,
             double valueBefore,
@@ -70,7 +70,7 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
             }
         }
 
-        public static IArrayCalculator CreateArrayCalculator(
+        public static ArrayCalculatorBase CreateArrayCalculator(
             double[] array,
             double rate,
             double minTime,
@@ -130,7 +130,7 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
             }
         }
 
-        public static IArrayCalculator CreateArrayCalculator(
+        public static ArrayCalculatorBase CreateArrayCalculator(
             double[] array,
             double rate,
             double minTime,

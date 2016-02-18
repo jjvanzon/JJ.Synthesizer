@@ -192,7 +192,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                throw new NoCalculatorException(MethodBase.GetCurrentMethod());
+                throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
 
             _stack.Push(calculator);
@@ -289,7 +289,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                throw new NoCalculatorException(MethodBase.GetCurrentMethod());
+                throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
 
             _stack.Push(calculator);
@@ -319,7 +319,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitCurveOperator(Operator op)
         {
-            OperatorCalculatorBase calculator;
+            OperatorCalculatorBase calculator = null;
 
             var wrapper = new Curve_OperatorWrapper(op, _curveRepository);
             Curve curve = wrapper.Curve;
@@ -332,7 +332,22 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 ICurveCalculator curveCalculator = _calculatorCache.GetCurveCalculator(curve);
 
-                calculator = new Curve_OperatorCalculator(curveCalculator);
+                var curveCalculator_MinTime = curveCalculator as CurveCalculator_MinTime;
+                if (curveCalculator_MinTime != null)
+                {
+                    calculator = new Curve_MinTime_OperatorCalculator(curveCalculator_MinTime);
+                }
+
+                var curveCalculator_MinTimeZero = curveCalculator as CurveCalculator_MinTimeZero;
+                if (curveCalculator_MinTimeZero != null)
+                {
+                    calculator = new Curve_MinTimeZero_OperatorCalculator(curveCalculator_MinTimeZero);
+                }
+            }
+
+            if (calculator == null)
+            {
+                throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
 
             _stack.Push(calculator);
@@ -553,7 +568,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                throw new NoCalculatorException(MethodBase.GetCurrentMethod());
+                throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
 
             _stack.Push(calculator);
@@ -672,7 +687,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                throw new NoCalculatorException(MethodBase.GetCurrentMethod());
+                throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
 
             _stack.Push(calculator);
@@ -717,7 +732,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                throw new NoCalculatorException(MethodBase.GetCurrentMethod());
+                throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
 
             _stack.Push(calculator);
@@ -812,7 +827,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                throw new NoCalculatorException(MethodBase.GetCurrentMethod());
+                throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
 
             _stack.Push(calculator);
@@ -857,7 +872,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                throw new NoCalculatorException(MethodBase.GetCurrentMethod());
+                throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
 
             _stack.Push(calculator);
@@ -902,7 +917,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                throw new NoCalculatorException(MethodBase.GetCurrentMethod());
+                throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
 
             _stack.Push(calculator);
@@ -1178,7 +1193,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                throw new NoCalculatorException(MethodBase.GetCurrentMethod());
+                throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
 
             _stack.Push(calculator);
@@ -1248,7 +1263,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                throw new NoCalculatorException(MethodBase.GetCurrentMethod());
+                throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
 
             _stack.Push(calculator);
@@ -1293,7 +1308,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                throw new NoCalculatorException(MethodBase.GetCurrentMethod());
+                throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
 
             _stack.Push(calculator);
@@ -1372,7 +1387,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                throw new NoCalculatorException(MethodBase.GetCurrentMethod());
+                throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
 
             _stack.Push(calculator);
@@ -1506,7 +1521,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                throw new NoCalculatorException(MethodBase.GetCurrentMethod());
+                throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
 
             _stack.Push(calculator);
@@ -1882,7 +1897,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 }
                 else
                 {
-                    throw new NoCalculatorException(MethodBase.GetCurrentMethod());
+                    throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
                 }
             }
 
@@ -1953,7 +1968,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 }
                 else
                 {
-                    throw new NoCalculatorException(MethodBase.GetCurrentMethod());
+                    throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
                 }
             }
 
@@ -2367,7 +2382,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                throw new NoCalculatorException(MethodBase.GetCurrentMethod());
+                throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
 
             _stack.Push(calculator);
@@ -2444,7 +2459,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                throw new NoCalculatorException(MethodBase.GetCurrentMethod());
+                throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
 
             _stack.Push(calculator);
