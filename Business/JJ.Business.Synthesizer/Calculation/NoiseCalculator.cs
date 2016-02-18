@@ -1,4 +1,6 @@
-﻿using JJ.Framework.Mathematics;
+﻿using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.Calculation.Arrays;
+using JJ.Framework.Mathematics;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation
@@ -14,6 +16,7 @@ namespace JJ.Business.Synthesizer.Calculation
         /// The amount of pre-calculated noise seconds should be large enough not to hear artifacts.
         /// </summary>
         private const int PRE_CALCULATED_SECONDS = 10;
+
         /// <summary> 
         /// Prevent artifacts by making sure the random offsets are not too close together,
         /// But also should not too far apart, or the chance that we get the same offset becomes bigger.
@@ -21,9 +24,12 @@ namespace JJ.Business.Synthesizer.Calculation
         private const double OFFSET_SNAP_IN_NUMBER_OF_SECONDS = 0.1;
         private const int OFFSET_SNAP_COUNT = (int)(PRE_CALCULATED_SECONDS / OFFSET_SNAP_IN_NUMBER_OF_SECONDS);
 
-        private readonly int _samplingRate;
-        private readonly double[] _samples;
-        private readonly int _sampleCount;
+        /// <summary>
+        /// Block interpolation should be enough, 
+        /// because in practice the time speed should so 
+        /// that each sample is a random number.
+        /// </summary>
+        private ArrayCalculator_RotateTime_Block _arrayCalculator;
 
         /// <summary>
         /// White noise is generated not on the fly, but by a cached 10 seconds of noise,
@@ -33,16 +39,17 @@ namespace JJ.Business.Synthesizer.Calculation
         public NoiseCalculator(int samplingRate)
         {
             if (samplingRate <= 0) throw new LessThanOrEqualException(() => samplingRate, 0);
-            _samplingRate = samplingRate;
 
-            _sampleCount = _samplingRate * PRE_CALCULATED_SECONDS;
+            int sampleCount = samplingRate * PRE_CALCULATED_SECONDS;
 
-            _samples = new double[_sampleCount];
-            for (int i = 0; i < _sampleCount; i++)
+            double[] samples = new double[sampleCount];
+            for (int i = 0; i < sampleCount; i++)
             {
                 double noiseSample = Randomizer.GetDouble() * 2.0 - 1.0;
-                _samples[i] = noiseSample;
+                samples[i] = noiseSample;
             }
+
+            _arrayCalculator = new ArrayCalculator_RotateTime_Block(samples, samplingRate);
         }
 
         /// <summary> 
@@ -59,20 +66,10 @@ namespace JJ.Business.Synthesizer.Calculation
         /// For each white noise operator it is advised to add an offset to the time.
         /// You can get a random offset using the GetRandomOffset() method.
         /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double GetValue(double time)
         {
-            // Block interpolation should be enough, 
-            // because in practice the time speed should so 
-            // that each sample is a random number.
-
-            double t = time * _samplingRate;
-
-            t = t % _sampleCount;
-
-            int t0 = (int)t;
-
-            double x = _samples[t0];
-            return x;
+            return _arrayCalculator.CalculateValue(time);
         }
     }
 }

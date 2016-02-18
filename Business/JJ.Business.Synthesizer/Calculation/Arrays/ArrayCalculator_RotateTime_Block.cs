@@ -14,11 +14,6 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
             : base(array, rate, DEFAULT_MIN_TIME)
         { }
 
-        public ArrayCalculator_RotateTime_Block(
-            double[] array, double rate, double valueBefore, double valueAfter)
-            : base(array, rate, DEFAULT_MIN_TIME, valueBefore, valueAfter)
-        { }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double CalculateValue(double time)
         {

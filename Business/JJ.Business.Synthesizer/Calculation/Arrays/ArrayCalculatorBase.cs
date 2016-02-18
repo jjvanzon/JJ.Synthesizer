@@ -18,6 +18,7 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
         protected double _rate;
         protected double _tickCount;
 
+        /// <param name="extraTicksBefore">You can let this base class add extra ticks _array for interpolation purposes.</param>
         public ArrayCalculatorBase(
             double[] array, double rate, double minTime, int extraTicksBefore, int extraTicksAfter)
         {
@@ -39,6 +40,12 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
 
             _duration = _maxTime - _minTime;
 
+            // The array copy actions here (to add extra ticks before and after),
+            // are an unfortunate memory impact and initialization time sacrifice.
+            // But it is done to prevent programming errors.
+            // If you would do it outside of this base class,
+            // chances are, you might program it wrong every now and then,
+            // and cause the sound generation to crash in exceptional cases.
             int extraTickCount = extraTicksBefore + extraTicksAfter;
             if (extraTickCount > 0)
             {

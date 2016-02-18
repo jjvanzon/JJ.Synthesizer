@@ -38,38 +38,6 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
             }
         }
 
-        public static ArrayCalculatorBase CreateArrayCalculator_RotateTime(
-            double[] array,
-            double rate,
-            double valueBefore,
-            double valueAfter,
-            ResampleInterpolationTypeEnum resampleInterpolationTypeEnum)
-        {
-            switch (resampleInterpolationTypeEnum)
-            {
-                case ResampleInterpolationTypeEnum.Block:
-                    return new ArrayCalculator_RotateTime_Block(array, rate, valueBefore, valueAfter);
-
-                case ResampleInterpolationTypeEnum.CubicAbruptInclination:
-                case ResampleInterpolationTypeEnum.CubicEquidistant:
-                case ResampleInterpolationTypeEnum.CubicSmoothInclination:
-                    return new ArrayCalculator_RotateTime_Cubic(array, rate, valueBefore, valueAfter);
-
-                case ResampleInterpolationTypeEnum.Hermite:
-                    return new ArrayCalculator_RotateTime_Hermite(array, rate, valueBefore, valueAfter);
-
-                case ResampleInterpolationTypeEnum.LineRememberT0:
-                case ResampleInterpolationTypeEnum.LineRememberT1:
-                    return new ArrayCalculator_RotateTime_Line(array, rate, valueBefore, valueAfter);
-
-                case ResampleInterpolationTypeEnum.Stripe:
-                    return new ArrayCalculator_RotateTime_Stripe(array, rate, valueBefore, valueAfter);
-
-                default:
-                    throw new ValueNotSupportedException(resampleInterpolationTypeEnum);
-            }
-        }
-
         public static ArrayCalculatorBase CreateArrayCalculator(
             double[] array,
             double rate,
