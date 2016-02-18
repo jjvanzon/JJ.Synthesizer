@@ -17,6 +17,7 @@ using JJ.Business.Synthesizer.Calculation.Samples;
 using System.Reflection;
 using JJ.Business.Synthesizer.Calculation.Random;
 using JJ.Framework.Mathematics;
+using JJ.Business.Synthesizer.Calculation.Arrays;
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {
@@ -317,10 +318,81 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        //protected override void VisitCache(Operator op)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        protected override void VisitCache(Operator op)
+        {
+            // TODO: Move this private method to the PatchCalculatorVisitor and call it.
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase signalCalculator = _stack.Pop();
+
+            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
+
+            double signal = signalCalculator.Calculate(0, 0);
+
+            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+
+            if (signalIsConst)
+            {
+                calculator = signalCalculator;
+            }
+            else
+            {
+                var wrapper = new Cache_OperatorWrapper(op);
+                // TODO: Cache the array calculators.
+                ArrayCalculatorBase[] arrayCalculators = CreateCacheArrayCalculators(
+                    signalCalculator,
+                    1, // TODO: SpeakerSetup!
+                    wrapper.StartTime,
+                    wrapper.EndTime,
+                    wrapper.SamplingRate,
+                    wrapper.ResampleInterpolationTypeEnum);
+
+                calculator = new Cache_OperatorCalculator(arrayCalculators);
+            }
+
+            _stack.Push(calculator);
+        }
+
+        private ArrayCalculatorBase[] CreateCacheArrayCalculators(
+            OperatorCalculatorBase signalCalculator,
+            int channelCount, double startTime, double endTime, double rate,
+            ResampleInterpolationTypeEnum resampleInterpolationTypeEnum)
+        {
+            if (signalCalculator == null) throw new NullException(() => signalCalculator);
+            if (channelCount < 1) throw new LessThanException(() => channelCount, 1);
+            if (Double.IsNaN(endTime)) throw new NaNException(() => endTime);
+            if (Double.IsInfinity(endTime)) throw new InfinityException(() => endTime);
+            if (Double.IsNaN(startTime)) throw new NaNException(() => startTime);
+            if (Double.IsInfinity(startTime)) throw new InfinityException(() => startTime);
+            if (Double.IsNaN(rate)) throw new NaNException(() => rate);
+            if (Double.IsInfinity(rate)) throw new InfinityException(() => rate);
+            if (rate == 0.0) throw new ZeroException(() => rate);
+            if (endTime <= startTime) throw new LessThanOrEqualException(() => endTime, () => startTime);
+
+            double duration = endTime - startTime;
+            int tickCount = (int)(duration * rate) + 1;
+            double tickDuration = 1.0 / rate;
+
+            var arrayCalculators = new ArrayCalculatorBase[channelCount];
+
+            for (int channelIndex = 0; channelIndex < channelCount; channelIndex++)
+            {
+                double[] samples = new double[tickCount];
+                double time = startTime;
+                for (int i = 0; i < tickCount; i++)
+                {
+                    double sample = signalCalculator.Calculate(time, channelIndex);
+                    samples[i] = sample;
+
+                    time += tickDuration;
+                }
+
+                ArrayCalculatorBase arrayCalculator = ArrayCalculatorFactory.CreateArrayCalculator(samples, rate, startTime, resampleInterpolationTypeEnum);
+                arrayCalculators[channelIndex] = arrayCalculator;
+            }
+
+            return arrayCalculators;
+        }
 
         protected override void VisitCurveOperator(Operator op)
         {

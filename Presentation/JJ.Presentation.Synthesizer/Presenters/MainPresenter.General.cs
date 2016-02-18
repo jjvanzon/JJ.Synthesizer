@@ -191,6 +191,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList).ForEach(x => x.Visible = false);
             MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForAggregates).ForEach(x => x.Visible = false);
             MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForBundles).ForEach(x => x.Visible = false);
+            MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForCaches).ForEach(x => x.Visible = false);
             MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForCurves).ForEach(x => x.Visible = false);
             MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForCustomOperators).ForEach(x => x.Visible = false);
             MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForNumbers).ForEach(x => x.Visible = false);
