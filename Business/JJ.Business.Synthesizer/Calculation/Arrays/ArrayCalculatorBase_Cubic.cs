@@ -34,11 +34,11 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
             double xMinus1 = _array[tMinus1];
             double x0 = _array[t0];
             double x1 = _array[t1];
-            double x2 = _array[t1];
+            double x2 = _array[t2];
 
-            double x = Interpolator.Interpolate_Cubic_Equidistant_SlightlyBetterThanLinear(
-                xMinus1, x0, x1, x2, t);
+            double offset = t - t0;
 
+            double x = Interpolator.Interpolate_Cubic_Equidistant(xMinus1, x0, x1, x2, offset);
             return x;
         }
     }
