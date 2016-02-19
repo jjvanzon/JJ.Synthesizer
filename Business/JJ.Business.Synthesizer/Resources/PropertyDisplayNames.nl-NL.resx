@@ -664,4 +664,7 @@
   <data name="Cache" xml:space="preserve">
     <value>Onthouden</value>
   </data>
+  <data name="Cubic" xml:space="preserve">
+    <value>Kubiek</value>
+  </data>
 </root>

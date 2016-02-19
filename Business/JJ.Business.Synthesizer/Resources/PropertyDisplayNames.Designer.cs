@@ -322,6 +322,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cubic.
+        /// </summary>
+        public static string Cubic {
+            get {
+                return ResourceManager.GetString("Cubic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cubic Abrupt Inclination.
         /// </summary>
         public static string CubicAbruptInclination {

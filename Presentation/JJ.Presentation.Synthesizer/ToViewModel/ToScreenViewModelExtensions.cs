@@ -528,7 +528,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 StartTime = wrapper.StartTime,
                 SamplingRate = wrapper.SamplingRate,
                 Interpolation = wrapper.ResampleInterpolationTypeEnum.ToIDAndDisplayName(),
-                InterpolationLookup = ViewModelHelper.CreateResampleInterpolationLookupViewModel(),
+                InterpolationLookup = ViewModelHelper.CreateResampleInterpolationLookupViewModel_ForCacheOperatorProperties(),
                 SpeakerSetup = wrapper.SpeakerSetupEnum.ToIDAndDisplayName(),
                 SpeakerSetupLookup = ViewModelHelper.CreateSpeakerSetupLookupViewModel(),
                 ValidationMessages = new List<Message>()
