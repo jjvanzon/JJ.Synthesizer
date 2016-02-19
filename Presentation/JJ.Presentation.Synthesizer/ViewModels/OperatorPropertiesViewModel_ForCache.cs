@@ -11,5 +11,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public int SamplingRate { get; set; }
         public IDAndName Interpolation { get; set; }
         public IList<IDAndName> InterpolationLookup { get; set; }
+        public IDAndName SpeakerSetup { get; set; }
+        public IList<IDAndName> SpeakerSetupLookup { get; set; }
     }
 }

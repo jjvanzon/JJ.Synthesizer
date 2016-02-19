@@ -97,6 +97,29 @@ namespace JJ.Business.Synthesizer.Resources
             return displayName;
         }
 
+        // SpeakerSetup
+
+        public static string GetDisplayName(SpeakerSetup entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            SpeakerSetupEnum outletTypeEnum = (SpeakerSetupEnum)entity.ID;
+
+            return GetDisplayName(outletTypeEnum);
+        }
+
+        public static string GetDisplayName(SpeakerSetupEnum enumValue)
+        {
+            string displayName = PropertyDisplayNames.ResourceManager.GetString(enumValue.ToString());
+
+            if (String.IsNullOrEmpty(displayName))
+            {
+                displayName = enumValue.ToString();
+            }
+
+            return displayName;
+        }
+
         // ResampleInterpolationType
 
         public static string GetDisplayName(ResampleInterpolationTypeEnum enumValue)

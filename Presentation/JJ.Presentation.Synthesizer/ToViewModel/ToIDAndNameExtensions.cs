@@ -143,6 +143,17 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
         }
 
+        public static IDAndName ToIDAndDisplayName(this SpeakerSetupEnum enumValue)
+        {
+            string displayName = ResourceHelper.GetDisplayName(enumValue);
+
+            return new IDAndName
+            {
+                ID = (int)enumValue,
+                Name = displayName
+            };
+        }
+
         public static IDAndName ToIDAndName(this Sample entity)
         {
             if (entity == null) throw new NullException(() => entity);

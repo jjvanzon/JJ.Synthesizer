@@ -40,10 +40,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelSamplingRate = new System.Windows.Forms.Label();
             this.numericUpDownStartTime = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownEndTime = new System.Windows.Forms.NumericUpDown();
-            this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
             this.numericUpDownSamplingRate = new System.Windows.Forms.NumericUpDown();
             this.labelInterpolation = new System.Windows.Forms.Label();
             this.comboBoxInterpolation = new System.Windows.Forms.ComboBox();
+            this.labelSpeakerSetup = new System.Windows.Forms.Label();
+            this.comboBoxSpeakerSetup = new System.Windows.Forms.ComboBox();
+            this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanelProperties.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownStartTime)).BeginInit();
@@ -84,11 +86,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.tableLayoutPanelProperties.Controls.Add(this.numericUpDownSamplingRate, 1, 4);
             this.tableLayoutPanelProperties.Controls.Add(this.labelInterpolation, 0, 5);
             this.tableLayoutPanelProperties.Controls.Add(this.comboBoxInterpolation, 1, 5);
+            this.tableLayoutPanelProperties.Controls.Add(this.labelSpeakerSetup, 0, 6);
+            this.tableLayoutPanelProperties.Controls.Add(this.comboBoxSpeakerSetup, 1, 6);
             this.tableLayoutPanelProperties.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelProperties.Location = new System.Drawing.Point(4, 30);
             this.tableLayoutPanelProperties.Margin = new System.Windows.Forms.Padding(4);
             this.tableLayoutPanelProperties.Name = "tableLayoutPanelProperties";
-            this.tableLayoutPanelProperties.RowCount = 7;
+            this.tableLayoutPanelProperties.RowCount = 8;
+            this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
@@ -234,20 +239,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             0,
             0});
             // 
-            // titleBarUserControl
-            // 
-            this.titleBarUserControl.AddButtonVisible = false;
-            this.titleBarUserControl.BackColor = System.Drawing.SystemColors.Control;
-            this.titleBarUserControl.CloseButtonVisible = true;
-            this.titleBarUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.titleBarUserControl.Location = new System.Drawing.Point(0, 0);
-            this.titleBarUserControl.Margin = new System.Windows.Forms.Padding(0);
-            this.titleBarUserControl.Name = "titleBarUserControl";
-            this.titleBarUserControl.RemoveButtonVisible = false;
-            this.titleBarUserControl.Size = new System.Drawing.Size(18, 26);
-            this.titleBarUserControl.TabIndex = 7;
-            this.titleBarUserControl.CloseClicked += new System.EventHandler(this.titleBarUserControl_CloseClicked);
-            // 
             // numericUpDownSamplingRate
             // 
             this.numericUpDownSamplingRate.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -289,6 +280,43 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.comboBoxInterpolation.Size = new System.Drawing.Size(10, 24);
             this.comboBoxInterpolation.TabIndex = 25;
             // 
+            // labelSpeakerSetup
+            // 
+            this.labelSpeakerSetup.Cursor = System.Windows.Forms.Cursors.Default;
+            this.labelSpeakerSetup.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelSpeakerSetup.Location = new System.Drawing.Point(0, 180);
+            this.labelSpeakerSetup.Margin = new System.Windows.Forms.Padding(0);
+            this.labelSpeakerSetup.Name = "labelSpeakerSetup";
+            this.labelSpeakerSetup.Size = new System.Drawing.Size(147, 30);
+            this.labelSpeakerSetup.TabIndex = 26;
+            this.labelSpeakerSetup.Text = "labelSpeakerSetup";
+            this.labelSpeakerSetup.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // comboBoxSpeakerSetup
+            // 
+            this.comboBoxSpeakerSetup.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.comboBoxSpeakerSetup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxSpeakerSetup.FormattingEnabled = true;
+            this.comboBoxSpeakerSetup.Location = new System.Drawing.Point(147, 180);
+            this.comboBoxSpeakerSetup.Margin = new System.Windows.Forms.Padding(0);
+            this.comboBoxSpeakerSetup.Name = "comboBoxSpeakerSetup";
+            this.comboBoxSpeakerSetup.Size = new System.Drawing.Size(10, 24);
+            this.comboBoxSpeakerSetup.TabIndex = 27;
+            // 
+            // titleBarUserControl
+            // 
+            this.titleBarUserControl.AddButtonVisible = false;
+            this.titleBarUserControl.BackColor = System.Drawing.SystemColors.Control;
+            this.titleBarUserControl.CloseButtonVisible = true;
+            this.titleBarUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.titleBarUserControl.Location = new System.Drawing.Point(0, 0);
+            this.titleBarUserControl.Margin = new System.Windows.Forms.Padding(0);
+            this.titleBarUserControl.Name = "titleBarUserControl";
+            this.titleBarUserControl.RemoveButtonVisible = false;
+            this.titleBarUserControl.Size = new System.Drawing.Size(18, 26);
+            this.titleBarUserControl.TabIndex = 7;
+            this.titleBarUserControl.CloseClicked += new System.EventHandler(this.titleBarUserControl_CloseClicked);
+            // 
             // OperatorPropertiesUserControl_ForCache
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -328,5 +356,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private System.Windows.Forms.NumericUpDown numericUpDownSamplingRate;
         private System.Windows.Forms.Label labelInterpolation;
         private System.Windows.Forms.ComboBox comboBoxInterpolation;
+        private System.Windows.Forms.Label labelSpeakerSetup;
+        private System.Windows.Forms.ComboBox comboBoxSpeakerSetup;
     }
 }

@@ -47,6 +47,12 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { OperatorDataParser.SetValue(_wrappedOperator, PropertyNames.InterpolationType, value); }
         }
 
+        public SpeakerSetupEnum SpeakerSetupEnum
+        {
+            get { return OperatorDataParser.GetEnum<SpeakerSetupEnum>(_wrappedOperator, PropertyNames.SpeakerSetup); }
+            set { OperatorDataParser.SetValue(_wrappedOperator, PropertyNames.SpeakerSetup, value); }
+        }
+
         public static implicit operator Outlet(Cache_OperatorWrapper wrapper)
         {
             if (wrapper == null) return null;

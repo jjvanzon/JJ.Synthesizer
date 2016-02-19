@@ -57,6 +57,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelEndTime.Text = PropertyDisplayNames.EndTime;
             labelSamplingRate.Text = PropertyDisplayNames.SamplingRate;
             labelInterpolation.Text = PropertyDisplayNames.Interpolation;
+            labelSpeakerSetup.Text = PropertyDisplayNames.SpeakerSetup;
 
             labelOperatorTypeValue.Text = PropertyDisplayNames.Cache;
         }
@@ -75,6 +76,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             numericUpDownEndTime.Value = (decimal)_viewModel.EndTime;
             numericUpDownSamplingRate.Value = _viewModel.SamplingRate;
 
+            // Interpolation
             if (comboBoxInterpolation.DataSource == null)
             {
                 comboBoxInterpolation.ValueMember = PropertyNames.ID;
@@ -90,6 +92,23 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 comboBoxInterpolation.SelectedValue = 0;
             }
+
+            // SpeakerSetup
+            if (comboBoxSpeakerSetup.DataSource == null)
+            {
+                comboBoxSpeakerSetup.ValueMember = PropertyNames.ID;
+                comboBoxSpeakerSetup.DisplayMember = PropertyNames.Name;
+                comboBoxSpeakerSetup.DataSource = _viewModel.SpeakerSetupLookup;
+            }
+
+            if (_viewModel.SpeakerSetup != null)
+            {
+                comboBoxSpeakerSetup.SelectedValue = _viewModel.SpeakerSetup.ID;
+            }
+            else
+            {
+                comboBoxSpeakerSetup.SelectedValue = 0;
+            }
         }
 
         private void ApplyControlsToViewModel()
@@ -101,6 +120,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             _viewModel.EndTime = (double)numericUpDownEndTime.Value;
             _viewModel.SamplingRate = (int)numericUpDownSamplingRate.Value;
             _viewModel.Interpolation = (IDAndName)comboBoxInterpolation.SelectedItem;
+            _viewModel.SpeakerSetup = (IDAndName)comboBoxSpeakerSetup.SelectedItem;
         }
 
         // Actions

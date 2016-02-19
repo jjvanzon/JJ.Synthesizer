@@ -71,7 +71,7 @@
             this.tableLayoutPanelMain.Controls.Add(this.titleBarUserControl, 0, 0);
             this.tableLayoutPanelMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelMain.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanelMain.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tableLayoutPanelMain.Margin = new System.Windows.Forms.Padding(4);
             this.tableLayoutPanelMain.Name = "tableLayoutPanelMain";
             this.tableLayoutPanelMain.RowCount = 2;
             this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
@@ -110,7 +110,7 @@
             this.tableLayoutPanelContent.Controls.Add(this.labelDurationValue, 1, 11);
             this.tableLayoutPanelContent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelContent.Location = new System.Drawing.Point(4, 30);
-            this.tableLayoutPanelContent.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tableLayoutPanelContent.Margin = new System.Windows.Forms.Padding(4);
             this.tableLayoutPanelContent.Name = "tableLayoutPanelContent";
             this.tableLayoutPanelContent.RowCount = 13;
             this.tableLayoutPanelContent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
@@ -395,7 +395,7 @@
             this.checkBoxIsActive.AutoSize = true;
             this.checkBoxIsActive.Dock = System.Windows.Forms.DockStyle.Fill;
             this.checkBoxIsActive.Location = new System.Drawing.Point(137, 214);
-            this.checkBoxIsActive.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkBoxIsActive.Margin = new System.Windows.Forms.Padding(4);
             this.checkBoxIsActive.Name = "checkBoxIsActive";
             this.checkBoxIsActive.Size = new System.Drawing.Size(15, 22);
             this.checkBoxIsActive.TabIndex = 22;
@@ -458,7 +458,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.Controls.Add(this.tableLayoutPanelMain);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "SamplePropertiesUserControl";
             this.Size = new System.Drawing.Size(10, 10);
             this.Load += new System.EventHandler(this.SamplePropertiesUserControl_Load);

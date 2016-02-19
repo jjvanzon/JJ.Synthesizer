@@ -178,16 +178,28 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return list;
         }
 
-        public static IList<IDAndName> CreateSpeakerSetupLookupViewModel(ISpeakerSetupRepository repository)
+        public static IList<IDAndName> CreateSpeakerSetupLookupViewModel()
         {
-            if (repository == null) throw new NullException(() => repository);
+            SpeakerSetupEnum[] enumValues = (SpeakerSetupEnum[])Enum.GetValues(typeof(SpeakerSetupEnum));
 
-            IList<SpeakerSetup> entities = repository.GetAll().OrderBy(x => x.ID).ToArray();
+            var idAndNames = new List<IDAndName>(enumValues.Length);
+            idAndNames.Add(new IDAndName { ID = 0, Name = null });
 
-            IList<IDAndName> idNames = entities.Select(x => x.ToIDAndDisplayName()).ToArray();
+            foreach (SpeakerSetupEnum enumValue in enumValues)
+            {
+                if (enumValue == SpeakerSetupEnum.Undefined)
+                {
+                    continue;
+                }
 
-            return idNames;
+                var idAndName = enumValue.ToIDAndDisplayName();
+
+                idAndNames.Add(idAndName);
+            }
+
+            return idAndNames;
         }
+
 
         public static IList<ChildDocumentIDAndNameViewModel> CreateUnderlyingPatchLookupViewModel(IList<Patch> underlyingPatches)
         {

@@ -515,7 +515,8 @@ namespace JJ.Business.Synthesizer
                 calculatorCache,
                 _repositories.CurveRepository,
                 _repositories.SampleRepository,
-                _repositories.PatchRepository);
+                _repositories.PatchRepository,
+                _repositories.SpeakerSetupRepository);
 
             return calculator;
         }

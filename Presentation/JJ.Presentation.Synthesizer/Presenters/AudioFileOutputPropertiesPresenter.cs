@@ -37,8 +37,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // ToViewModel
             AudioFileOutputPropertiesViewModel viewModel = entity.ToPropertiesViewModel(
                 _repositories.AudioFileFormatRepository,
-                _repositories.SampleDataTypeRepository,
-                _repositories.SpeakerSetupRepository);
+                _repositories.SampleDataTypeRepository);
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
@@ -63,8 +62,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // ToViewModel
             AudioFileOutputPropertiesViewModel viewModel = entity.ToPropertiesViewModel(
                 _repositories.AudioFileFormatRepository,
-                _repositories.SampleDataTypeRepository,
-                _repositories.SpeakerSetupRepository);
+                _repositories.SampleDataTypeRepository);
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
@@ -114,8 +112,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // ToViewModel
             AudioFileOutputPropertiesViewModel viewModel = entity.ToPropertiesViewModel(
                 _repositories.AudioFileFormatRepository,
-                _repositories.SampleDataTypeRepository,
-                _repositories.SpeakerSetupRepository);
+                _repositories.SampleDataTypeRepository);
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);

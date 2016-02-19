@@ -843,6 +843,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             wrapper.EndTime = viewModel.EndTime;
             wrapper.SamplingRate = viewModel.SamplingRate;
 
+            // Interpolation
             bool interpolationIsFilledIn = viewModel.Interpolation != null && viewModel.Interpolation.ID != 0;
             if (interpolationIsFilledIn)
             {
@@ -851,6 +852,17 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             else
             {
                 wrapper.ResampleInterpolationTypeEnum = ResampleInterpolationTypeEnum.Undefined;
+            }
+
+            // SpeakerSetup
+            bool speakerSetupIsFilledIn = viewModel.SpeakerSetup != null && viewModel.SpeakerSetup.ID != 0;
+            if (speakerSetupIsFilledIn)
+            {
+                wrapper.SpeakerSetupEnum = (SpeakerSetupEnum)viewModel.SpeakerSetup.ID;
+            }
+            else
+            {
+                wrapper.SpeakerSetupEnum = SpeakerSetupEnum.Undefined;
             }
 
             return entity;

@@ -21,6 +21,8 @@ namespace JJ.Business.Synthesizer.Validation
             string startTimeString = OperatorDataParser.GetString(Object, PropertyNames.StartTime);
             string endTimeString = OperatorDataParser.GetString(Object, PropertyNames.EndTime);
             string samplingRateString = OperatorDataParser.GetString(Object, PropertyNames.SamplingRate);
+            string speakerSetupString = OperatorDataParser.GetString(Object, PropertyNames.SpeakerSetup);
+            string interpolationTypeString = OperatorDataParser.GetString(Object, PropertyNames.InterpolationType);
 
             For(() => startTimeString, PropertyDisplayNames.StartTime)
                 .NotNullOrEmpty()
@@ -37,6 +39,16 @@ namespace JJ.Business.Synthesizer.Validation
             For(() => samplingRateString, PropertyDisplayNames.SamplingRate)
                 .NotNullOrEmpty()
                 .IsInteger();
+
+            For(() => interpolationTypeString, PropertyDisplayNames.InterpolationType)
+                .NotNullOrEmpty()
+                .IsEnum<ResampleInterpolationTypeEnum>()
+                .IsNot(ResampleInterpolationTypeEnum.Undefined);
+
+            For(() => speakerSetupString, PropertyDisplayNames.SpeakerSetup)
+                .NotNullOrEmpty()
+                .IsEnum<SpeakerSetupEnum>()
+                .IsNot(SpeakerSetupEnum.Undefined);
 
             double startTime;
             if (Double.TryParse(startTimeString, out startTime))

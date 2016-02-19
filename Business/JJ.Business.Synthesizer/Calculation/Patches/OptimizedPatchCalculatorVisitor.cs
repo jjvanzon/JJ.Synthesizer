@@ -69,6 +69,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private readonly ICurveRepository _curveRepository;
         private readonly ISampleRepository _sampleRepository;
         private readonly IPatchRepository _patchRepository;
+        private readonly ISpeakerSetupRepository _speakerSetupRepository;
         private readonly CalculatorCache _calculatorCache;
 
         private int _channelCount;
@@ -85,17 +86,19 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
             IPatchRepository patchRepository,
+            ISpeakerSetupRepository speakerSetupRepository,
             CalculatorCache calculatorCache)
         {
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
             if (patchRepository == null) throw new NullException(() => patchRepository);
+            if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
             if (calculatorCache == null) throw new NullException(() => calculatorCache);
 
             _curveRepository = curveRepository;
             _sampleRepository = sampleRepository;
             _patchRepository = patchRepository;
-
+            _speakerSetupRepository = speakerSetupRepository;
             _calculatorCache = calculatorCache;
         }
 
@@ -338,10 +341,14 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             else
             {
                 var wrapper = new Cache_OperatorWrapper(op);
+
+                SpeakerSetup speakerSetup = _speakerSetupRepository.Get((int)wrapper.SpeakerSetupEnum);
+                int channelCount = speakerSetup.SpeakerSetupChannels.Count;
+
                 // TODO: Cache the array calculators.
                 ArrayCalculatorBase[] arrayCalculators = CreateCacheArrayCalculators(
                     signalCalculator,
-                    1, // TODO: SpeakerSetup!
+                    channelCount,
                     wrapper.StartTime,
                     wrapper.EndTime,
                     wrapper.SamplingRate,

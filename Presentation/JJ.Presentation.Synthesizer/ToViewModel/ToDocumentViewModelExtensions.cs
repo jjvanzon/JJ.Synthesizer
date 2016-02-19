@@ -22,8 +22,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 AudioFileOutputGrid = document.ToAudioFileOutputGridViewModel(),
                 AudioFileOutputPropertiesList = document.AudioFileOutputs.Select(x => x.ToPropertiesViewModel(
                     repositories.AudioFileFormatRepository,
-                    repositories.SampleDataTypeRepository,
-                    repositories.SpeakerSetupRepository)).ToList(),
+                    repositories.SampleDataTypeRepository)).ToList(),
                 PatchDocumentList = document.ChildDocuments.Select(x => x.ToPatchDocumentViewModel(repositories, entityPositionManager)).ToList(),
                 CurrentPatches = ViewModelHelper.CreateEmptyCurrentPatchesViewModel(),
                 CurveDetailsList = document.Curves.Select(x => x.ToDetailsViewModel(repositories.NodeTypeRepository)).ToList(),

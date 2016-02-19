@@ -46,8 +46,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static AudioFileOutputPropertiesViewModel ToPropertiesViewModel(
             this AudioFileOutput entity,
             IAudioFileFormatRepository audioFileFormatRepository,
-            ISampleDataTypeRepository sampleDataTypeRepository,
-            ISpeakerSetupRepository speakerSetupRepository)
+            ISampleDataTypeRepository sampleDataTypeRepository)
         {
             if (entity == null) throw new NullException(() => entity);
             if (entity.Document == null) throw new NullException(() => entity.Document);
@@ -57,7 +56,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Entity = entity.ToViewModelWithRelatedEntities(),
                 AudioFileFormatLookup = ViewModelHelper.CreateAudioFileFormatLookupViewModel(audioFileFormatRepository),
                 SampleDataTypeLookup = ViewModelHelper.CreateSampleDataTypeLookupViewModel(sampleDataTypeRepository),
-                SpeakerSetupLookup = ViewModelHelper.CreateSpeakerSetupLookupViewModel(speakerSetupRepository),
+                SpeakerSetupLookup = ViewModelHelper.CreateSpeakerSetupLookupViewModel(),
                 ValidationMessages = new List<Message>()
             };
 
@@ -530,6 +529,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 SamplingRate = wrapper.SamplingRate,
                 Interpolation = wrapper.ResampleInterpolationTypeEnum.ToIDAndDisplayName(),
                 InterpolationLookup = ViewModelHelper.CreateResampleInterpolationLookupViewModel(),
+                SpeakerSetup = wrapper.SpeakerSetupEnum.ToIDAndDisplayName(),
+                SpeakerSetupLookup = ViewModelHelper.CreateSpeakerSetupLookupViewModel(),
                 ValidationMessages = new List<Message>()
             };
 
@@ -869,7 +870,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 AudioFileFormatLookup = ViewModelHelper.CreateAudioFileFormatLookupViewModel(repositories.AudioFileFormatRepository),
                 SampleDataTypeLookup = ViewModelHelper.CreateSampleDataTypeLookupViewModel(repositories.SampleDataTypeRepository),
-                SpeakerSetupLookup = ViewModelHelper.CreateSpeakerSetupLookupViewModel(repositories.SpeakerSetupRepository),
+                SpeakerSetupLookup = ViewModelHelper.CreateSpeakerSetupLookupViewModel(),
                 InterpolationTypeLookup = ViewModelHelper.CreateInterpolationTypeLookupViewModel(repositories.InterpolationTypeRepository),
                 ValidationMessages = new List<Message>()
             };

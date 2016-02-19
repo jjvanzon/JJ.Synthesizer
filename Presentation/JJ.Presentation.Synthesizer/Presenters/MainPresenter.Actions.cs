@@ -87,7 +87,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MainViewModel.Document.AudioFileOutputGrid.List.Add(listItemViewModel);
             MainViewModel.Document.AudioFileOutputGrid.List = MainViewModel.Document.AudioFileOutputGrid.List.OrderBy(x => x.Name).ToList();
 
-            AudioFileOutputPropertiesViewModel propertiesViewModel = audioFileOutput.ToPropertiesViewModel(_repositories.AudioFileFormatRepository, _repositories.SampleDataTypeRepository, _repositories.SpeakerSetupRepository);
+            AudioFileOutputPropertiesViewModel propertiesViewModel = audioFileOutput.ToPropertiesViewModel(_repositories.AudioFileFormatRepository, _repositories.SampleDataTypeRepository);
             MainViewModel.Document.AudioFileOutputPropertiesList.Add(propertiesViewModel);
         }
 

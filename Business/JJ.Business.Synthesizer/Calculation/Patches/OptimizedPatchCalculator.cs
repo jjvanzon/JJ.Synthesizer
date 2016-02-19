@@ -32,11 +32,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             CalculatorCache calculatorCache,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
-            IPatchRepository patchRepository)
+            IPatchRepository patchRepository,
+            ISpeakerSetupRepository speakerSetupRepository)
         {
             if (channelOutlets == null) throw new NullException(() => channelOutlets);
 
-            var visitor = new OptimizedPatchCalculatorVisitor(curveRepository, sampleRepository, patchRepository, calculatorCache);
+            var visitor = new OptimizedPatchCalculatorVisitor(curveRepository, sampleRepository, patchRepository, speakerSetupRepository, calculatorCache);
 
             OptimizedPatchCalculatorVisitor.Result result = visitor.Execute(channelOutlets);
 
