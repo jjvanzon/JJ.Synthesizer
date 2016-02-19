@@ -18,38 +18,38 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
                 return new SampleCalculator_Zero(sample.GetChannelCount());
             }
 
-            SampleDataTypeEnum sampleDataType = sample.GetSampleDataTypeEnum();
-            InterpolationTypeEnum interpolationType = sample.GetInterpolationTypeEnum();
+            InterpolationTypeEnum interpolationTypeEnum = sample.GetInterpolationTypeEnum();
+            SpeakerSetupEnum speakerSetupEnum = sample.GetSpeakerSetupEnum();
 
-            switch (interpolationType)
+            switch (interpolationTypeEnum)
             {
                 case InterpolationTypeEnum.Block:
-                    switch (sampleDataType)
+                    switch (speakerSetupEnum)
                     {
-                        case SampleDataTypeEnum.Int16:
-                            return new SampleCalculator_BlockInterpolation_Int16(sample, bytes);
+                        case SpeakerSetupEnum.Mono:
+                            return new SampleCalculator_Block_SingleChannel(sample, bytes);
 
-                        case SampleDataTypeEnum.Byte:
-                            return new SampleCalculator_BlockInterpolation_Byte(sample, bytes);
+                        case SpeakerSetupEnum.Stereo:
+                            return new SampleCalculator_Block_MultiChannel(sample, bytes);
                     }
                     break;
 
                 case InterpolationTypeEnum.Line:
-                    switch (sampleDataType)
+                    switch (speakerSetupEnum)
                     {
-                        case SampleDataTypeEnum.Int16:
-                            return new SampleCalculator_LineInterpolation_Int16(sample, bytes);
+                        case SpeakerSetupEnum.Mono:
+                            return new SampleCalculator_Line_SingleChannel(sample, bytes);
 
-                        case SampleDataTypeEnum.Byte:
-                            return new SampleCalculator_LineInterpolation_Byte(sample, bytes);
+                        case SpeakerSetupEnum.Stereo:
+                            return new SampleCalculator_Line_MultiChannel(sample, bytes);
                     }
                     break;
             }
 
             throw new Exception(String.Format(
                 "{0} '{1}' combined with {2} '{3}' is not supported.",
-                typeof(SampleDataTypeEnum).Name, sampleDataType,
-                typeof(InterpolationTypeEnum).Name, interpolationType));
+                typeof(SpeakerSetupEnum).Name, speakerSetupEnum,
+                typeof(InterpolationTypeEnum).Name, interpolationTypeEnum));
         }
     }
 }
