@@ -79,7 +79,7 @@
     <Compile Include="Calculation\Curves\ICurveCalculator.cs" />
     <Compile Include="Calculation\Curves\CurveCalculator_MinTimeZero.cs" />
     <Compile Include="Calculation\Curves\CurveCalculator_MinTime.cs" />
-    <Compile Include="Calculation\Operators\Cache_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Cache OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Minimum_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\MaximumOrMinimum_OperatorCalculatorBase.cs" />
     <Compile Include="Calculation\Operators\If OperatorCalculator Classes.cs" />

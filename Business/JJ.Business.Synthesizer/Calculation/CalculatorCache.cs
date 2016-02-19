@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Calculation
         private readonly Dictionary<Sample, ISampleCalculator> _sample_SampleCalculator_Dictionary = new Dictionary<Sample, ISampleCalculator>();
         private readonly object _sampleLock = new object();
 
-        private readonly Dictionary<int, ArrayCalculatorBase[]> _cacheOperatorID_To_ArrayCalculators_Dictionary = new Dictionary<int, ArrayCalculatorBase[]>();
+        private readonly Dictionary<int, IList<ArrayCalculatorBase>> _cacheOperatorID_To_ArrayCalculators_Dictionary = new Dictionary<int, IList<ArrayCalculatorBase>>();
         private readonly object _cacheOperatorID_To_ArrayCalculators_Dictionary_Lock = new object();
 
         /// <summary> Caches several calculators for shared use between PatchCalculators, to save memory. </summary>
@@ -78,7 +78,13 @@ namespace JJ.Business.Synthesizer.Calculation
             }
         }
 
-        internal ArrayCalculatorBase[] GetCacheArrayCalculators(
+        /// <summary>
+        /// Out comes an array calculator for each channel.
+        /// The concrete type of the ArrayCalculators is the same, 
+        /// so if you have to something with the concrete type,
+        /// you only have to check one of them.
+        /// </summary>
+        internal IList<ArrayCalculatorBase> GetCacheArrayCalculators(
             Operator op, 
             OperatorCalculatorBase signalCalculator,
             ISpeakerSetupRepository speakerSetupRepository)
@@ -89,7 +95,7 @@ namespace JJ.Business.Synthesizer.Calculation
 
             lock (_cacheOperatorID_To_ArrayCalculators_Dictionary_Lock)
             {
-                ArrayCalculatorBase[] arrayCalculators;
+                IList<ArrayCalculatorBase> arrayCalculators;
                 if (!_cacheOperatorID_To_ArrayCalculators_Dictionary.TryGetValue(op.ID, out arrayCalculators))
                 {
                     var wrapper = new Cache_OperatorWrapper(op);
@@ -112,7 +118,7 @@ namespace JJ.Business.Synthesizer.Calculation
             }
         }
 
-        private ArrayCalculatorBase[] CreateCacheArrayCalculators(
+        private IList<ArrayCalculatorBase> CreateCacheArrayCalculators(
             OperatorCalculatorBase signalCalculator,
             int channelCount, double startTime, double endTime, double rate,
             ResampleInterpolationTypeEnum resampleInterpolationTypeEnum)
@@ -146,7 +152,8 @@ namespace JJ.Business.Synthesizer.Calculation
                     time += tickDuration;
                 }
 
-                ArrayCalculatorBase arrayCalculator = ArrayCalculatorFactory.CreateArrayCalculator(samples, rate, startTime, resampleInterpolationTypeEnum);
+                ArrayCalculatorBase arrayCalculator = ArrayCalculatorFactory.CreateArrayCalculator(
+                    samples, rate, startTime, resampleInterpolationTypeEnum);
                 arrayCalculators[channelIndex] = arrayCalculator;
             }
 

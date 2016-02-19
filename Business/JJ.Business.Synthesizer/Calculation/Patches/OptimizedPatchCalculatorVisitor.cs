@@ -323,15 +323,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitCache(Operator op)
         {
-            // TODO: Move this private method to the PatchCalculatorVisitor and call it.
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
-
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
-
             double signal = signalCalculator.Calculate(0, 0);
-
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
 
             if (signalIsConst)
@@ -340,10 +336,109 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                ArrayCalculatorBase[] arrayCalculators = _calculatorCache.GetCacheArrayCalculators(
+                IList<ArrayCalculatorBase> arrayCalculators = _calculatorCache.GetCacheArrayCalculators(
                     op, signalCalculator, _speakerSetupRepository);
 
-                calculator = new Cache_OperatorCalculator(arrayCalculators);
+                var wrapper = new Cache_OperatorWrapper(op);
+                ResampleInterpolationTypeEnum resampleInterpolationTypeEnum = wrapper.ResampleInterpolationTypeEnum;
+
+                if (arrayCalculators.Count == 1)
+                {
+                    switch (resampleInterpolationTypeEnum)
+                    {
+                        case ResampleInterpolationTypeEnum.Block:
+                            {
+                                var castedArrayCalculator = (ArrayCalculator_MinTimeZero_Block)arrayCalculators[0];
+                                calculator = new Cache_OperatorCalculator_SingleChannel_MinTimeZero_Block(castedArrayCalculator);
+                                break;
+                            }
+
+                        case ResampleInterpolationTypeEnum.CubicAbruptInclination:
+                        case ResampleInterpolationTypeEnum.CubicEquidistant:
+                        case ResampleInterpolationTypeEnum.CubicSmoothInclination:
+                            {
+                                var castedArrayCalculator = (ArrayCalculator_MinTimeZero_Cubic)arrayCalculators[0];
+                                calculator = new Cache_OperatorCalculator_SingleChannel_MinTimeZero_Cubic(castedArrayCalculator);
+                                break;
+                            }
+
+                        case ResampleInterpolationTypeEnum.Hermite:
+                            {
+                                var castedArrayCalculator = (ArrayCalculator_MinTimeZero_Hermite)arrayCalculators[0];
+                                calculator = new Cache_OperatorCalculator_SingleChannel_MinTimeZero_Hermite(castedArrayCalculator);
+                                break;
+                            }
+
+                        case ResampleInterpolationTypeEnum.LineRememberT0:
+                        case ResampleInterpolationTypeEnum.LineRememberT1:
+                            {
+                                var castedArrayCalculator = (ArrayCalculator_MinTimeZero_Line)arrayCalculators[0];
+                                calculator = new Cache_OperatorCalculator_SingleChannel_MinTimeZero_Line(castedArrayCalculator);
+                                break;
+                            }
+
+                        case ResampleInterpolationTypeEnum.Stripe:
+                            {
+                                var castedArrayCalculator = (ArrayCalculator_MinTimeZero_Stripe)arrayCalculators[0];
+                                calculator = new Cache_OperatorCalculator_SingleChannel_MinTimeZero_Stripe(castedArrayCalculator);
+                                break;
+                            }
+
+                        default:
+                            throw new ValueNotSupportedException(resampleInterpolationTypeEnum);
+                    }
+                }
+                else
+                {
+                    switch (resampleInterpolationTypeEnum)
+                    {
+                        case ResampleInterpolationTypeEnum.Block:
+                            {
+                                IList<ArrayCalculator_MinTimeZero_Block> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTimeZero_Block)x).ToArray();
+                                calculator = new Cache_OperatorCalculator_MultiChannel_MinTimeZero_Block(castedArrayCalculators);
+                                break;
+                            }
+
+                        case ResampleInterpolationTypeEnum.CubicAbruptInclination:
+                        case ResampleInterpolationTypeEnum.CubicEquidistant:
+                        case ResampleInterpolationTypeEnum.CubicSmoothInclination:
+                            {
+                                IList<ArrayCalculator_MinTimeZero_Cubic> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTimeZero_Cubic)x).ToArray();
+                                calculator = new Cache_OperatorCalculator_MultiChannel_MinTimeZero_Cubic(castedArrayCalculators);
+                                break;
+                            }
+
+                        case ResampleInterpolationTypeEnum.Hermite:
+                            {
+                                IList<ArrayCalculator_MinTimeZero_Hermite> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTimeZero_Hermite)x).ToArray();
+                                calculator = new Cache_OperatorCalculator_MultiChannel_MinTimeZero_Hermite(castedArrayCalculators);
+                                break;
+                            }
+
+                        case ResampleInterpolationTypeEnum.LineRememberT0:
+                        case ResampleInterpolationTypeEnum.LineRememberT1:
+                            {
+                                IList<ArrayCalculator_MinTimeZero_Line> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTimeZero_Line)x).ToArray();
+                                calculator = new Cache_OperatorCalculator_MultiChannel_MinTimeZero_Line(castedArrayCalculators);
+                                break;
+                            }
+
+                        case ResampleInterpolationTypeEnum.Stripe:
+                            {
+                                IList<ArrayCalculator_MinTimeZero_Stripe> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTimeZero_Stripe)x).ToArray();
+                                calculator = new Cache_OperatorCalculator_MultiChannel_MinTimeZero_Stripe(castedArrayCalculators);
+                                break;
+                            }
+
+                        default:
+                            throw new ValueNotSupportedException(resampleInterpolationTypeEnum);
+                    }
+                }
+            }
+
+            if (calculator == null)
+            {
+                throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
 
             _stack.Push(calculator);

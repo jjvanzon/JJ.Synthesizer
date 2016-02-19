@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Arrays
 {
-    internal class ArrayCalculatorBase_Stripe : ArrayCalculatorBase
+    internal abstract class ArrayCalculatorBase_Stripe : ArrayCalculatorBase
     {
         private const int EXTRA_TICKS_BEFORE = 0;
         private const int EXTRA_TICKS_AFTER = 1;
