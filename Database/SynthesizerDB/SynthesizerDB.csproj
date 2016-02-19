@@ -94,8 +94,12 @@
     <Content Include="2015-10-29 010 SynthesizerDB Operator Type 26 - Select.sql" />
     <Content Include="2015-10-26 010 SynthesizerDB Operator Type 25 - Loop.sql" />
     <Content Include="2015-11-07 030 SynthesizerDB rename OperatorType TimeSubtract to Earlier - Copy.sql" />
-    <Content Include="2016-02-18 010 SynthesizerDB OperatorType 58 - Cache - Copy.sql" />
-    <Content Include="2016-02-18 020 SynthesizerDB Operator.Data.sql" />
+    <Content Include="2016-02-18 010 SynthesizerDB OperatorType 58 - Cache.sql" />
+    <Content Include="2016-02-19 040 SynthesizerDB InterpolationType rename Curve to Cubic.sql" />
+    <Content Include="2016-02-19 030 SynthesizerDB InterpolationType.SortOrder not null.sql" />
+    <Content Include="2016-02-19 020 SynthesizerDB InterpolationTypes Stripe, Curve and Hermite and update SortOrder.sql" />
+    <Content Include="2016-02-19 010 SynthesizerDB InterpolationType.SortOrder.sql" />
+    <Content Include="2016-02-18 020 SynthesizerDB Operator.Data %28512 characters%29.sql" />
     <Content Include="2016-02-14 020 SynthesizerDB OperatorType 57 - OneOverX.sql" />
     <Content Include="2016-02-14 010 SynthesizerDB OperatorType 56 - Negative.sql" />
     <Content Include="2016-02-12 040 SynthesizerDB OperatorType 55 - Round.sql" />

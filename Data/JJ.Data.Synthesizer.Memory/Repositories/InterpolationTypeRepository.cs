@@ -10,6 +10,24 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
         {
             RepositoryHelper.EnsureEnumEntity(this, 1, "Block");
             RepositoryHelper.EnsureEnumEntity(this, 2, "Line");
+            RepositoryHelper.EnsureEnumEntity(this, 3, "Stripe");
+            RepositoryHelper.EnsureEnumEntity(this, 4, "Cubic");
+            RepositoryHelper.EnsureEnumEntity(this, 5, "Hermite");
+
+            InterpolationType blockInterpolationType = Get(1);
+            blockInterpolationType.SortOrder = 1;
+
+            InterpolationType lineInterpolationType = Get(2);
+            blockInterpolationType.SortOrder = 3;
+
+            InterpolationType stripeInterpolationType = Get(3);
+            blockInterpolationType.SortOrder = 2;
+
+            InterpolationType curveInterpolationType = Get(4);
+            blockInterpolationType.SortOrder = 4;
+
+            InterpolationType hermiteInterpolationType = Get(5);
+            blockInterpolationType.SortOrder = 5;
         }
     }
 }

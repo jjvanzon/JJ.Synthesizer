@@ -60,7 +60,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (repository == null) throw new NullException(() => repository);
 
-            IList<InterpolationType> entities = repository.GetAll().OrderBy(x => x.ID).ToArray();
+            IList<InterpolationType> entities = repository.GetAll().OrderBy(x => x.SortOrder).ToArray();
 
             IList<IDAndName> idNames = entities.Select(x => x.ToIDAndDisplayName()).ToArray();
 

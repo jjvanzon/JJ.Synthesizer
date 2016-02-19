@@ -34,6 +34,17 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
                     }
                     break;
 
+                case InterpolationTypeEnum.Stripe:
+                    switch (speakerSetupEnum)
+                    {
+                        case SpeakerSetupEnum.Mono:
+                            return new SampleCalculator_Stripe_SingleChannel(sample, bytes);
+
+                        case SpeakerSetupEnum.Stereo:
+                            return new SampleCalculator_Stripe_MultiChannel(sample, bytes);
+                    }
+                    break;
+
                 case InterpolationTypeEnum.Line:
                     switch (speakerSetupEnum)
                     {
@@ -42,6 +53,28 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
 
                         case SpeakerSetupEnum.Stereo:
                             return new SampleCalculator_Line_MultiChannel(sample, bytes);
+                    }
+                    break;
+
+                case InterpolationTypeEnum.Cubic:
+                    switch (speakerSetupEnum)
+                    {
+                        case SpeakerSetupEnum.Mono:
+                            return new SampleCalculator_Cubic_SingleChannel(sample, bytes);
+
+                        case SpeakerSetupEnum.Stereo:
+                            return new SampleCalculator_Cubic_MultiChannel(sample, bytes);
+                    }
+                    break;
+
+                case InterpolationTypeEnum.Hermite:
+                    switch (speakerSetupEnum)
+                    {
+                        case SpeakerSetupEnum.Mono:
+                            return new SampleCalculator_Hermite_SingleChannel(sample, bytes);
+
+                        case SpeakerSetupEnum.Stereo:
+                            return new SampleCalculator_Hermite_MultiChannel(sample, bytes);
                     }
                     break;
             }

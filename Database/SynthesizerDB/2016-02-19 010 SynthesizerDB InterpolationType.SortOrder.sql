@@ -1,0 +1,1 @@
+alter table InterpolationType add SortOrder float null;
