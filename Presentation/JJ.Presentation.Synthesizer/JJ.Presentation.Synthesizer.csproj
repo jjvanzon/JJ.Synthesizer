@@ -114,7 +114,7 @@
     <Compile Include="ViewModels\DocumentDeletedViewModel.cs" />
     <Compile Include="Presenters\DocumentDetailsPresenter.cs" />
     <Compile Include="Presenters\MenuPresenter.cs" />
-    <Compile Include="Presenters\NotFoundPresenter.cs" />
+    <Compile Include="Presenters\2016-02-20 Backup of NotFoundPresenter.cs" />
     <Compile Include="Presenters\SamplePropertiesPresenter.cs" />
     <Compile Include="Presenters\CurveDetailsPresenter.cs" />
     <Compile Include="Presenters\SampleGridPresenter.cs" />
@@ -155,7 +155,7 @@
     <Compile Include="ViewModels\Items\SampleViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />
-    <Compile Include="ViewModels\NotFoundViewModel.cs" />
+    <Compile Include="ViewModels\2016-02-20 Backup of NotFoundViewModel.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForUnbundle.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForCurve.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForBundle.cs" />

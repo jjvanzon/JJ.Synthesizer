@@ -17,23 +17,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
     {
         private static object _dummySender = new object();
 
-        public static event EventHandler NotFoundOK;
         public static event EventHandler<Int32EventArgs> DocumentDeleteConfirmed;
         public static event EventHandler DocumentDeleteCanceled;
         public static event EventHandler DocumentDeletedOK;
         public static event EventHandler PopupMessagesOK;
-
-        public static void ShowNotFound(NotFoundViewModel viewModel)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-
-            MessageBox.Show(viewModel.Message);
-
-            if (NotFoundOK != null)
-            {
-                NotFoundOK(_dummySender, EventArgs.Empty);
-            }
-        }
 
         public static void ShowDocumentConfirmDelete(DocumentDeleteViewModel viewModel)
         {

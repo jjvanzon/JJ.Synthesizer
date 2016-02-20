@@ -53,7 +53,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly DocumentPropertiesPresenter _documentPropertiesPresenter;
         private readonly DocumentTreePresenter _documentTreePresenter;
         private readonly MenuPresenter _menuPresenter;
-        private readonly NotFoundPresenter _notFoundPresenter;
         private readonly NodePropertiesPresenter _nodePropertiesPresenter;
         private readonly OperatorPropertiesPresenter _operatorPropertiesPresenter;
         private readonly OperatorPropertiesPresenter_ForAggregate _operatorPropertiesPresenter_ForAggregate;
@@ -123,7 +122,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentTreePresenter = new DocumentTreePresenter(_repositories.DocumentRepository);
             _menuPresenter = new MenuPresenter();
             _nodePropertiesPresenter = new NodePropertiesPresenter(_curveRepositories);
-            _notFoundPresenter = new NotFoundPresenter();
             _operatorPropertiesPresenter = new OperatorPropertiesPresenter(_patchRepositories);
             _operatorPropertiesPresenter_ForAggregate = new OperatorPropertiesPresenter_ForAggregate(_patchRepositories);
             _operatorPropertiesPresenter_ForBundle = new OperatorPropertiesPresenter_ForBundle(_patchRepositories);

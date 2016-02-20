@@ -39,11 +39,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static NotFoundViewModel CreateDocumentNotFoundViewModel()
-        {
-            return CreateNotFoundViewModel<Document>();
-        }
-
         public static MenuViewModel CreateMenuViewModel(bool documentIsOpen)
         {
             var viewModel = new MenuViewModel
@@ -53,32 +48,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 DocumentCloseMenuItem = new MenuItemViewModel { Visible = documentIsOpen },
                 DocumentSaveMenuItem = new MenuItemViewModel { Visible = documentIsOpen },
                 CurrentPatches = new MenuItemViewModel { Visible = documentIsOpen }
-            };
-
-            return viewModel;
-        }
-
-        public static NotFoundViewModel CreateNotFoundViewModel<TEntity>()
-        {
-            string entityTypeName = typeof(TEntity).Name;
-            string entityTypeDisplayName = ResourceHelper.GetPropertyDisplayName(entityTypeName);
-
-            NotFoundViewModel viewModel = CreateNotFoundViewModel_WithEntityTypeDisplayName(entityTypeDisplayName);
-            return viewModel;
-        }
-
-        public static NotFoundViewModel CreateNotFoundViewModel_WithEntityTypeDisplayName(string entityTypeDisplayName)
-        {
-            string message = CommonMessageFormatter.ObjectNotFound(entityTypeDisplayName);
-            var viewModel = CreateNotFoundViewModel_WithMessage(message);
-            return viewModel;
-        }
-
-        public static NotFoundViewModel CreateNotFoundViewModel_WithMessage(string message)
-        {
-            var viewModel = new NotFoundViewModel
-            {
-                Message = message
             };
 
             return viewModel;

@@ -34,7 +34,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(DocumentTreeViewModel), DispatchDocumentTreeViewModel },
                 { typeof(MenuViewModel), DispatchMenuViewModel },
                 { typeof(NodePropertiesViewModel), DispatchNodePropertiesViewModel },
-                { typeof(NotFoundViewModel), DispatchNotFoundViewModel },
                 { typeof(OperatorPropertiesViewModel), DispatchOperatorPropertiesViewModel },
                 { typeof(OperatorPropertiesViewModel_ForAggregate), DispatchOperatorPropertiesViewModel_ForAggregate },
                 { typeof(OperatorPropertiesViewModel_ForBundle), DispatchOperatorPropertiesViewModel_ForBundle },
@@ -315,26 +314,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
             castedViewModel.ValidationMessages.Clear();
-        }
-
-        private void DispatchNotFoundViewModel(object viewModel2)
-        {
-            var castedViewModel = (NotFoundViewModel)viewModel2;
-
-            MainViewModel.NotFound = castedViewModel;
-
-            // HACK: Checking visibility of the NotFound view model
-            // prevents refreshing the DocumentList twice:
-            // once when showing the NotFound view model,
-            // a second time when clicking OK on it.
-
-            // TODO: Low priority: Eventually the NotFoundViewModel will create even more ambiguity,
-            // when it is reused for multiple entity types.
-
-            if (castedViewModel.Visible)
-            {
-                DocumentGridRefresh();
-            }
         }
 
         private void DispatchOperatorPropertiesViewModel(object viewModel2)

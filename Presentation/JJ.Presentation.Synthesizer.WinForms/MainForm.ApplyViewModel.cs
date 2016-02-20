@@ -392,11 +392,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 ResumeLayout();
             }
 
-            if (_presenter.MainViewModel.NotFound.Visible)
-            {
-                MessageBoxHelper.ShowNotFound(_presenter.MainViewModel.NotFound);
-            }
-
             if (_presenter.MainViewModel.DocumentDelete.Visible)
             {
                 MessageBoxHelper.ShowDocumentConfirmDelete(_presenter.MainViewModel.DocumentDelete);

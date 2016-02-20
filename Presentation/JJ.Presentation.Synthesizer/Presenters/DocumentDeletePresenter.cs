@@ -26,34 +26,27 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public object Show(int id)
         {
             // GetEntity
-            Document document = _documentRepository.TryGet(id);
-            if (document == null)
+            Document document = _documentRepository.Get(id);
+
+            // Business
+            VoidResult result = _documentManager.CanDelete(document);
+
+            if (!result.Successful)
             {
                 // Redirect
-                return ViewModelHelper.CreateDocumentNotFoundViewModel();
+                var presenter2 = new DocumentCannotDeletePresenter(_documentRepository);
+                object viewModel2 = presenter2.Show(id, result.Messages);
+                return viewModel2;
             }
             else
             {
-                // Business
-                VoidResult result = _documentManager.CanDelete(document);
+                // ToViewModel
+                DocumentDeleteViewModel viewModel = document.ToDeleteViewModel();
 
-                if (!result.Successful)
-                {
-                    // Redirect
-                    var presenter2 = new DocumentCannotDeletePresenter(_documentRepository);
-                    object viewModel2 = presenter2.Show(id, result.Messages);
-                    return viewModel2;
-                }
-                else
-                {
-                    // ToViewModel
-                    DocumentDeleteViewModel viewModel = document.ToDeleteViewModel();
+                // Non-Persisted
+                viewModel.Visible = true;
 
-                    // Non-Persisted
-                    viewModel.Visible = true;
-
-                    return viewModel;
-                }
+                return viewModel;
             }
         }
 
@@ -61,31 +54,24 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public object Confirm(int id)
         {
             // GetEntity
-            Document document = _documentRepository.TryGet(id);
-            if (document == null)
+            Document document = _documentRepository.Get(id);
+
+            // Business
+            VoidResult result = _documentManager.DeleteWithRelatedEntities(document);
+
+            if (!result.Successful)
             {
                 // Redirect
-                return ViewModelHelper.CreateDocumentNotFoundViewModel();
+                var presenter2 = new DocumentCannotDeletePresenter(_documentRepository);
+                object viewModel = presenter2.Show(id, result.Messages);
+                return viewModel;
             }
             else
             {
-                // Business
-                VoidResult result = _documentManager.DeleteWithRelatedEntities(document);
-
-                if (!result.Successful)
-                {
-                    // Redirect
-                    var presenter2 = new DocumentCannotDeletePresenter(_documentRepository);
-                    object viewModel = presenter2.Show(id, result.Messages);
-                    return viewModel;
-                }
-                else
-                {
-                    // REdirect
-                    var presenter2 = new DocumentDeletedPresenter();
-                    object viewModel = presenter2.Show();
-                    return viewModel;
-                }
+                // REdirect
+                var presenter2 = new DocumentDeletedPresenter();
+                object viewModel = presenter2.Show();
+                return viewModel;
             }
         }
 
@@ -94,12 +80,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (userInput == null) throw new NullException(() => userInput);
 
             // GetEntity
-            Document document = _documentRepository.TryGet(userInput.Document.ID);
-            if (document == null)
-            {
-                // Redirect
-                return ViewModelHelper.CreateDocumentNotFoundViewModel();
-            }
+            Document document = _documentRepository.Get(userInput.Document.ID);
 
             // ToViewModel
             DocumentDeleteViewModel viewModel = document.ToDeleteViewModel();

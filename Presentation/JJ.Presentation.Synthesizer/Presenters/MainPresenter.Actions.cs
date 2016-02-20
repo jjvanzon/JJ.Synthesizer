@@ -34,22 +34,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void Show()
         {
+            // Create ViewModel
             MainViewModel = ViewModelHelper.CreateEmptyMainViewModel();
 
+            // Partial Actions
             MenuViewModel menuViewModel = _menuPresenter.Show(documentIsOpen: false);
-            DispatchViewModel(menuViewModel);
-
             DocumentGridViewModel documentGridViewModel = _documentGridPresenter.Show(MainViewModel.DocumentGrid);
-            DispatchViewModel(documentGridViewModel);
 
             MainViewModel.WindowTitle = Titles.ApplicationName;
-        }
 
-        public void NotFoundOK()
-        {
-            NotFoundViewModel userInput = MainViewModel.NotFound;
-            NotFoundViewModel viewModel = _notFoundPresenter.OK(userInput);
-            DispatchViewModel(viewModel);
+            // Dispatch ViewModel
+            DispatchViewModel(menuViewModel);
+            DispatchViewModel(documentGridViewModel);
         }
 
         public void PopupMessagesOK()
@@ -79,10 +75,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void AudioFileOutputCreate()
         {
+            // ToEntity
             Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
 
+            // Business
             AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateWithRelatedEntities(rootDocument, mustGenerateName: true);
 
+            // ToViewModel
             AudioFileOutputListItemViewModel listItemViewModel = audioFileOutput.ToListItemViewModel();
             MainViewModel.Document.AudioFileOutputGrid.List.Add(listItemViewModel);
             MainViewModel.Document.AudioFileOutputGrid.List = MainViewModel.Document.AudioFileOutputGrid.List.OrderBy(x => x.Name).ToList();

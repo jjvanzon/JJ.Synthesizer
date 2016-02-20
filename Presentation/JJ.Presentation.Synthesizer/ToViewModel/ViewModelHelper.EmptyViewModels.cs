@@ -160,7 +160,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ValidationMessages = new List<Message>(),
                 WarningMessages = new List<Message>(),
                 PopupMessages = new List<Message>(),
-                NotFound = CreateEmptyNotFoundViewModel(),
                 Document = CreateEmptyDocumentViewModel(),
                 DocumentCannotDelete = CreateEmptyDocumentCannotDeleteViewModel(),
                 DocumentDelete = CreateEmptyDocumentDeleteViewModel(),
@@ -174,11 +173,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             MenuViewModel viewModel = CreateMenuViewModel(documentIsOpen: false);
             return viewModel;
-        }
-
-        public static NotFoundViewModel CreateEmptyNotFoundViewModel()
-        {
-            return new NotFoundViewModel();
         }
 
         public static PagerViewModel CreateEmptyPagerViewModel()

@@ -132,7 +132,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             _documentCannotDeleteForm.OKClicked += _documentCannotDeleteForm_OKClicked;
 
-            MessageBoxHelper.NotFoundOK += MessageBoxHelper_NotFoundOK;
             MessageBoxHelper.DocumentDeleteConfirmed += MessageBoxHelper_DocumentDeleteConfirmed;
             MessageBoxHelper.DocumentDeleteCanceled += MessageBoxHelper_DocumentDeleteCanceled;
             MessageBoxHelper.DocumentDeletedOK += MessageBoxHelper_DocumentDeletedOK;
@@ -1628,19 +1627,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
         }
 
         // Message Boxes
-
-        private void MessageBoxHelper_NotFoundOK(object sender, EventArgs e)
-        {
-            try
-            {
-                _presenter.NotFoundOK();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
-        }
 
         private void MessageBoxHelper_DocumentDeleteCanceled(object sender, EventArgs e)
         {

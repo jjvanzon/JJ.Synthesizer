@@ -125,52 +125,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return idAndNames;
         }
 
-        // TODO: Remove outcommented code.
-        /// <summary>
-        /// Cache operator uses the ResampleInterpolationTypeEnum, even though it is really not the right set of
-        /// interpolation options. Right now in the UI I just show the options differently.
-        /// In the future a different enum (probably InterpolationTypeEnum) would be used instead,
-        /// but that currently (2016-02-19) is not the right set of options either.
-        /// </summary>
-        //public static IList<IDAndName> CreateResampleInterpolationLookupViewModel_ForCacheOperatorProperties()
-        //{
-        //    var idAndNames = new List<IDAndName>
-        //    {
-        //        new IDAndName
-        //        {
-        //            ID = 0,
-        //            Name = null
-        //        },
-        //        new IDAndName
-        //        {
-        //            ID = (int)ResampleInterpolationTypeEnum.Block,
-        //            Name = PropertyDisplayNames.Block
-        //        },
-        //        new IDAndName
-        //        {
-        //            ID = (int)ResampleInterpolationTypeEnum.Stripe,
-        //            Name = PropertyDisplayNames.Stripe
-        //        },
-        //        new IDAndName
-        //        {
-        //            ID = (int)ResampleInterpolationTypeEnum.LineRememberT0,
-        //            Name = PropertyDisplayNames.Line
-        //        },
-        //        new IDAndName
-        //        {
-        //            ID = (int)ResampleInterpolationTypeEnum.CubicEquidistant,
-        //            Name = PropertyDisplayNames.Cubic
-        //        },
-        //        new IDAndName
-        //        {
-        //            ID = (int)ResampleInterpolationTypeEnum.Hermite,
-        //            Name = PropertyDisplayNames.Hermite
-        //        }
-        //     };
-
-        //    return idAndNames;
-        //}
-
         public static IList<IDAndName> CreateSampleDataTypeLookupViewModel(ISampleDataTypeRepository repository)
         {
             if (repository == null) throw new NullException(() => repository);

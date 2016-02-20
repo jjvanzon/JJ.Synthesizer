@@ -23,22 +23,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public object Show(int id, IList<Message> messages)
         {
             // GetEntity
-            Document document = _documentRepository.TryGet(id);
-            if (document == null)
-            {
-                // Redirect
-                return ViewModelHelper.CreateDocumentNotFoundViewModel();
-            }
-            else
-            {
-                // ToViewModel
-                DocumentCannotDeleteViewModel viewModel = document.ToCannotDeleteViewModel(messages);
+            Document document = _documentRepository.Get(id);
 
-                // Non-Persisted
-                viewModel.Visible = true;
+            // ToViewModel
+            DocumentCannotDeleteViewModel viewModel = document.ToCannotDeleteViewModel(messages);
 
-                return viewModel;
-            }
+            // Non-Persisted
+            viewModel.Visible = true;
+
+            return viewModel;
         }
 
         public object OK(DocumentCannotDeleteViewModel userInput)
@@ -46,22 +39,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (userInput == null) throw new NullException(() => userInput);
 
             // GetEntity
-            Document document = _documentRepository.TryGet(userInput.Document.ID);
-            if (document == null)
-            {
-                // Redirect
-                return ViewModelHelper.CreateDocumentNotFoundViewModel();
-            }
-            else
-            {
-                // ToViewModel
-                DocumentCannotDeleteViewModel viewModel = document.ToCannotDeleteViewModel(userInput.ValidationMessages);
+            Document document = _documentRepository.Get(userInput.Document.ID);
 
-                // Non-Persisted
-                viewModel.Visible = false;
+            // ToViewModel
+            DocumentCannotDeleteViewModel viewModel = document.ToCannotDeleteViewModel(userInput.ValidationMessages);
 
-                return viewModel;
-            }
+            // Non-Persisted
+            viewModel.Visible = false;
+
+            return viewModel;
         }
     }
 }
