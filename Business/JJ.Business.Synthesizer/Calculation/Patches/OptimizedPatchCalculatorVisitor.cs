@@ -323,7 +323,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitCache(Operator op)
         {
-            OperatorCalculatorBase calculator;
+            OperatorCalculatorBase calculator = null;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
@@ -340,92 +340,183 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     op, signalCalculator, _speakerSetupRepository);
 
                 var wrapper = new Cache_OperatorWrapper(op);
+                bool hasMinTime = wrapper.StartTime != 0.0;
                 InterpolationTypeEnum interpolationTypeEnum = wrapper.InterpolationTypeEnum;
 
-                if (arrayCalculators.Count == 1)
+                if (hasMinTime)
                 {
-                    switch (interpolationTypeEnum)
+                    if (arrayCalculators.Count == 1)
                     {
-                        case InterpolationTypeEnum.Block:
+                        ArrayCalculatorBase arrayCalculator = arrayCalculators[0];
+                        {
+                            var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinTime_Block;
+                            if (castedArrayCalculator != null)
                             {
-                                var castedArrayCalculator = (ArrayCalculator_MinTimeZero_Block)arrayCalculators[0];
-                                calculator = new Cache_OperatorCalculator_SingleChannel_MinTimeZero_Block(castedArrayCalculator);
-                                break;
+                                calculator = new Cache_OperatorCalculator_SingleChannel_MinTime_Block(castedArrayCalculator);
                             }
-
-                        case InterpolationTypeEnum.Cubic:
+                        }
+                        {
+                            var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinTime_Cubic;
+                            if (castedArrayCalculator != null)
                             {
-                                var castedArrayCalculator = (ArrayCalculator_MinTimeZero_Cubic)arrayCalculators[0];
-                                calculator = new Cache_OperatorCalculator_SingleChannel_MinTimeZero_Cubic(castedArrayCalculator);
-                                break;
+                                calculator = new Cache_OperatorCalculator_SingleChannel_MinTime_Cubic(castedArrayCalculator);
                             }
-
-                        case InterpolationTypeEnum.Hermite:
+                        }
+                        {
+                            var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinTime_Hermite;
+                            if (castedArrayCalculator != null)
                             {
-                                var castedArrayCalculator = (ArrayCalculator_MinTimeZero_Hermite)arrayCalculators[0];
-                                calculator = new Cache_OperatorCalculator_SingleChannel_MinTimeZero_Hermite(castedArrayCalculator);
-                                break;
+                                calculator = new Cache_OperatorCalculator_SingleChannel_MinTime_Hermite(castedArrayCalculator);
                             }
-
-                        case InterpolationTypeEnum.Line:
+                        }
+                        {
+                            var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinTime_Line;
+                            if (castedArrayCalculator != null)
                             {
-                                var castedArrayCalculator = (ArrayCalculator_MinTimeZero_Line)arrayCalculators[0];
-                                calculator = new Cache_OperatorCalculator_SingleChannel_MinTimeZero_Line(castedArrayCalculator);
-                                break;
+                                calculator = new Cache_OperatorCalculator_SingleChannel_MinTime_Line(castedArrayCalculator);
                             }
-
-                        case InterpolationTypeEnum.Stripe:
+                        }
+                        {
+                            var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinTime_Stripe;
+                            if (castedArrayCalculator != null)
                             {
-                                var castedArrayCalculator = (ArrayCalculator_MinTimeZero_Stripe)arrayCalculators[0];
-                                calculator = new Cache_OperatorCalculator_SingleChannel_MinTimeZero_Stripe(castedArrayCalculator);
-                                break;
+                                calculator = new Cache_OperatorCalculator_SingleChannel_MinTime_Stripe(castedArrayCalculator);
                             }
+                        }
+                    }
+                    else
+                    {
+                        // arrayCalculators.Count != 1
 
-                        default:
-                            throw new ValueNotSupportedException(interpolationTypeEnum);
+                        switch (interpolationTypeEnum)
+                        {
+                            case InterpolationTypeEnum.Block:
+                                {
+                                    IList<ArrayCalculator_MinTime_Block> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTime_Block)x).ToArray();
+                                    calculator = new Cache_OperatorCalculator_MultiChannel_MinTime_Block(castedArrayCalculators);
+                                    break;
+                                }
+
+                            case InterpolationTypeEnum.Cubic:
+                                {
+                                    IList<ArrayCalculator_MinTime_Cubic> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTime_Cubic)x).ToArray();
+                                    calculator = new Cache_OperatorCalculator_MultiChannel_MinTime_Cubic(castedArrayCalculators);
+                                    break;
+                                }
+
+                            case InterpolationTypeEnum.Hermite:
+                                {
+                                    IList<ArrayCalculator_MinTime_Hermite> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTime_Hermite)x).ToArray();
+                                    calculator = new Cache_OperatorCalculator_MultiChannel_MinTime_Hermite(castedArrayCalculators);
+                                    break;
+                                }
+
+                            case InterpolationTypeEnum.Line:
+                                {
+                                    IList<ArrayCalculator_MinTime_Line> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTime_Line)x).ToArray();
+                                    calculator = new Cache_OperatorCalculator_MultiChannel_MinTime_Line(castedArrayCalculators);
+                                    break;
+                                }
+
+                            case InterpolationTypeEnum.Stripe:
+                                {
+                                    IList<ArrayCalculator_MinTime_Stripe> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTime_Stripe)x).ToArray();
+                                    calculator = new Cache_OperatorCalculator_MultiChannel_MinTime_Stripe(castedArrayCalculators);
+                                    break;
+                                }
+
+                            default:
+                                throw new ValueNotSupportedException(interpolationTypeEnum);
+                        }
                     }
                 }
                 else
                 {
-                    switch (interpolationTypeEnum)
+                    // !hasMinTime
+                    if (arrayCalculators.Count == 1)
                     {
-                        case InterpolationTypeEnum.Block:
+                        ArrayCalculatorBase arrayCalculator = arrayCalculators[0];
+                        {
+                            var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinTimeZero_Block;
+                            if (castedArrayCalculator != null)
                             {
-                                IList<ArrayCalculator_MinTimeZero_Block> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTimeZero_Block)x).ToArray();
-                                calculator = new Cache_OperatorCalculator_MultiChannel_MinTimeZero_Block(castedArrayCalculators);
-                                break;
+                                calculator = new Cache_OperatorCalculator_SingleChannel_MinTimeZero_Block(castedArrayCalculator);
                             }
-
-                        case InterpolationTypeEnum.Cubic:
+                        }
+                        {
+                            var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinTimeZero_Cubic;
+                            if (castedArrayCalculator != null)
                             {
-                                IList<ArrayCalculator_MinTimeZero_Cubic> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTimeZero_Cubic)x).ToArray();
-                                calculator = new Cache_OperatorCalculator_MultiChannel_MinTimeZero_Cubic(castedArrayCalculators);
-                                break;
+                                calculator = new Cache_OperatorCalculator_SingleChannel_MinTimeZero_Cubic(castedArrayCalculator);
                             }
-
-                        case InterpolationTypeEnum.Hermite:
+                        }
+                        {
+                            var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinTimeZero_Hermite;
+                            if (castedArrayCalculator != null)
                             {
-                                IList<ArrayCalculator_MinTimeZero_Hermite> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTimeZero_Hermite)x).ToArray();
-                                calculator = new Cache_OperatorCalculator_MultiChannel_MinTimeZero_Hermite(castedArrayCalculators);
-                                break;
+                                calculator = new Cache_OperatorCalculator_SingleChannel_MinTimeZero_Hermite(castedArrayCalculator);
                             }
-
-                        case InterpolationTypeEnum.Line:
+                        }
+                        {
+                            var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinTimeZero_Line;
+                            if (castedArrayCalculator != null)
                             {
-                                IList<ArrayCalculator_MinTimeZero_Line> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTimeZero_Line)x).ToArray();
-                                calculator = new Cache_OperatorCalculator_MultiChannel_MinTimeZero_Line(castedArrayCalculators);
-                                break;
+                                calculator = new Cache_OperatorCalculator_SingleChannel_MinTimeZero_Line(castedArrayCalculator);
                             }
-
-                        case InterpolationTypeEnum.Stripe:
+                        }
+                        {
+                            var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinTimeZero_Stripe;
+                            if (castedArrayCalculator != null)
                             {
-                                IList<ArrayCalculator_MinTimeZero_Stripe> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTimeZero_Stripe)x).ToArray();
-                                calculator = new Cache_OperatorCalculator_MultiChannel_MinTimeZero_Stripe(castedArrayCalculators);
-                                break;
+                                calculator = new Cache_OperatorCalculator_SingleChannel_MinTimeZero_Stripe(castedArrayCalculator);
                             }
+                        }
+                    }
+                    else
+                    {
+                        // arrayCalculators.Count != 1
 
-                        default:
-                            throw new ValueNotSupportedException(interpolationTypeEnum);
+
+                        switch (interpolationTypeEnum)
+                        {
+                            case InterpolationTypeEnum.Block:
+                                {
+                                    IList<ArrayCalculator_MinTimeZero_Block> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTimeZero_Block)x).ToArray();
+                                    calculator = new Cache_OperatorCalculator_MultiChannel_MinTimeZero_Block(castedArrayCalculators);
+                                    break;
+                                }
+
+                            case InterpolationTypeEnum.Cubic:
+                                {
+                                    IList<ArrayCalculator_MinTimeZero_Cubic> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTimeZero_Cubic)x).ToArray();
+                                    calculator = new Cache_OperatorCalculator_MultiChannel_MinTimeZero_Cubic(castedArrayCalculators);
+                                    break;
+                                }
+
+                            case InterpolationTypeEnum.Hermite:
+                                {
+                                    IList<ArrayCalculator_MinTimeZero_Hermite> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTimeZero_Hermite)x).ToArray();
+                                    calculator = new Cache_OperatorCalculator_MultiChannel_MinTimeZero_Hermite(castedArrayCalculators);
+                                    break;
+                                }
+
+                            case InterpolationTypeEnum.Line:
+                                {
+                                    IList<ArrayCalculator_MinTimeZero_Line> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTimeZero_Line)x).ToArray();
+                                    calculator = new Cache_OperatorCalculator_MultiChannel_MinTimeZero_Line(castedArrayCalculators);
+                                    break;
+                                }
+
+                            case InterpolationTypeEnum.Stripe:
+                                {
+                                    IList<ArrayCalculator_MinTimeZero_Stripe> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTimeZero_Stripe)x).ToArray();
+                                    calculator = new Cache_OperatorCalculator_MultiChannel_MinTimeZero_Stripe(castedArrayCalculators);
+                                    break;
+                                }
+
+                            default:
+                                throw new ValueNotSupportedException(interpolationTypeEnum);
+                        }
                     }
                 }
             }
