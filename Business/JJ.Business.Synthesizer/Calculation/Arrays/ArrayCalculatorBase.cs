@@ -31,9 +31,6 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
             int tickCountInt = _array.Length;
             _tickCount = tickCountInt;
 
-            _valueBefore = _array[0];
-            _valueAfter = _array.Last();
-
             _minTime = minTime;
             _rate = rate;
             _maxTime = _minTime + (_tickCount - 1) / _rate; // 11 samples = 10 pieces of time.
