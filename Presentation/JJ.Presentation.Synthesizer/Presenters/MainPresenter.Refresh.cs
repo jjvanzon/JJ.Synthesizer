@@ -141,10 +141,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DocumentTreeRefresh();
             SampleGridRefresh(viewModel.SampleGrid);
             ScaleGridRefresh();
-            viewModel.AudioFileOutputPropertiesList.ToArray().ForEach(x => AudioFileOutputPropertiesRefresh(x));
-            viewModel.CurveDetailsList.ToArray().ForEach(x => CurveDetailsRefresh(x));
-            viewModel.CurvePropertiesList.ToArray().ForEach(x => CurvePropertiesRefresh(x));
-            viewModel.NodePropertiesList.ToArray().ForEach(x => NodePropertiesRefresh(x));
+
+            AudioFileOutputPropertiesRefresh();
+            CurveDetailsRefresh(viewModel);
+            CurvePropertiesRefresh(viewModel);
+            NodePropertiesRefresh(viewModel);
+
+            // TODO: Convert other lists TryGet-Insert-Update-Delete.
             viewModel.PatchGridList.ToArray().ForEach(x => PatchGridRefresh(x));
             viewModel.SamplePropertiesList.ToArray().ForEach(x => SamplePropertiesRefresh(x));
             viewModel.ScalePropertiesList.ToArray().ForEach(x => ScalePropertiesRefresh(x));
@@ -155,6 +158,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             foreach (PatchDocumentViewModel patchDocumentViewModel in viewModel.PatchDocumentList)
             {
+                // TODO: CurveDetails, CurveProperties, SampleProperties, what else?
                 CurveGridRefresh(patchDocumentViewModel.CurveGrid);
                 CurveLookupRefresh(patchDocumentViewModel);
                 PatchDetailsRefresh(patchDocumentViewModel.PatchDetails);
@@ -178,6 +182,106 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 SampleGridRefresh(patchDocumentViewModel.SampleGrid);
                 SampleLookupRefresh(patchDocumentViewModel);
             }
+        }
+
+        private void AudioFileOutputPropertiesRefresh()
+        {
+            Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
+            IList<AudioFileOutput> entities = document.AudioFileOutputs;
+
+            foreach (AudioFileOutput entity in entities)
+            {
+                AudioFileOutputPropertiesViewModel viewModel = DocumentViewModelHelper.GetAudioFileOutputPropertiesViewModel(MainViewModel.Document, entity.ID);
+                if (viewModel == null)
+                {
+                    viewModel = entity.ToPropertiesViewModel(_repositories.AudioFileFormatRepository, _repositories.SampleDataTypeRepository);
+                    viewModel.Successful = true;
+                }
+                else
+                {
+                    AudioFileOutputPropertiesRefresh(viewModel);
+                }
+            }
+
+            HashSet<int> idsToKeep = entities.Select(x => x.ID).ToHashSet();
+            MainViewModel.Document.AudioFileOutputPropertiesList = MainViewModel.Document.AudioFileOutputPropertiesList
+                                                                                         .Where(x => idsToKeep.Contains(x.Entity.ID))
+                                                                                         .ToList();
+        }
+
+        private void CurveDetailsRefresh(DocumentViewModel documentViewModel)
+        {
+            Document document = _repositories.DocumentRepository.Get(documentViewModel.ID);
+            IList<Curve> entities = document.Curves;
+
+            foreach (Curve entity in entities)
+            {
+                CurveDetailsViewModel viewModel = DocumentViewModelHelper.GetCurveDetailsViewModel(documentViewModel, entity.ID);
+                if (viewModel == null)
+                {
+                    viewModel = entity.ToDetailsViewModel(_repositories.NodeTypeRepository);
+                    viewModel.Successful = true;
+                }
+                else
+                {
+                    CurveDetailsRefresh(viewModel);
+                }
+            }
+
+            HashSet<int> idsToKeep = entities.Select(x => x.ID).ToHashSet();
+            documentViewModel.CurveDetailsList = documentViewModel.CurveDetailsList
+                                                                  .Where(x => idsToKeep.Contains(x.ID))
+                                                                  .ToList();
+        }
+
+        private void CurvePropertiesRefresh(DocumentViewModel documentViewModel)
+        {
+            Document document = _repositories.DocumentRepository.Get(documentViewModel.ID);
+            IList<Curve> entities = document.Curves;
+
+            foreach (Curve entity in entities)
+            {
+                CurvePropertiesViewModel viewModel = DocumentViewModelHelper.GetCurvePropertiesViewModel(documentViewModel, entity.ID);
+                if (viewModel == null)
+                {
+                    viewModel = entity.ToPropertiesViewModel();
+                    viewModel.Successful = true;
+                }
+                else
+                {
+                    CurvePropertiesRefresh(viewModel);
+                }
+            }
+
+            HashSet<int> idsToKeep = entities.Select(x => x.ID).ToHashSet();
+            documentViewModel.CurvePropertiesList = documentViewModel.CurvePropertiesList
+                                                                     .Where(x => idsToKeep.Contains(x.ID))
+                                                                     .ToList();
+        }
+
+        private void NodePropertiesRefresh(DocumentViewModel documentViewModel)
+        {
+            Document document = _repositories.DocumentRepository.Get(documentViewModel.ID);
+            IList<Node> entities = document.Curves.SelectMany(x => x.Nodes).ToArray();
+
+            foreach (Node entity in entities)
+            {
+                NodePropertiesViewModel viewModel = DocumentViewModelHelper.GetNodePropertiesViewModel(documentViewModel, entity.ID);
+                if (viewModel == null)
+                {
+                    viewModel = entity.ToPropertiesViewModel(_repositories.NodeTypeRepository);
+                    viewModel.Successful = true;
+                }
+                else
+                {
+                    NodePropertiesRefresh(viewModel);
+                }
+            }
+
+            HashSet<int> idsToKeep = entities.Select(x => x.ID).ToHashSet();
+            documentViewModel.NodePropertiesList = documentViewModel.NodePropertiesList
+                                                                    .Where(x => idsToKeep.Contains(x.Entity.ID))
+                                                                    .ToList();
         }
 
         private void NodePropertiesRefresh(NodePropertiesViewModel userInput)
