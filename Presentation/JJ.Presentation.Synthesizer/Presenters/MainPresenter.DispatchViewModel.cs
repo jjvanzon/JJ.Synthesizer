@@ -320,7 +320,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel)viewModel2;
 
-            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ByOperatorID(MainViewModel.Document, castedViewModel.ID);
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
             int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
             if (listIndex.HasValue)
             {
@@ -345,7 +345,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForAggregate)viewModel2;
 
-            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForAggregates_ByOperatorID(MainViewModel.Document, castedViewModel.ID);
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForAggregates_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
             int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
             if (listIndex.HasValue)
             {
@@ -370,7 +370,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForBundle)viewModel2;
 
-            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForBundles_ByOperatorID(MainViewModel.Document, castedViewModel.ID);
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForBundles_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
             int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
             if (listIndex.HasValue)
             {
@@ -395,7 +395,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForCache)viewModel2;
 
-            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForCaches_ByOperatorID(MainViewModel.Document, castedViewModel.ID);
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForCaches_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
             int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
             if (listIndex.HasValue)
             {
@@ -420,7 +420,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForCurve)viewModel2;
 
-            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForCurves_ByOperatorID(MainViewModel.Document, castedViewModel.ID);
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForCurves_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
             int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
             if (listIndex.HasValue)
             {
@@ -445,7 +445,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForCustomOperator)viewModel2;
 
-            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForCustomOperators_ByOperatorID(MainViewModel.Document, castedViewModel.ID);
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForCustomOperators_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
             int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
             if (listIndex.HasValue)
             {
@@ -470,7 +470,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForPatchInlet)viewModel2;
 
-            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForPatchInlets_ByOperatorID(MainViewModel.Document, castedViewModel.ID);
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForPatchInlets_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
             int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
             if (listIndex.HasValue)
             {
@@ -495,7 +495,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForPatchOutlet)viewModel2;
 
-            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForPatchOutlets_ByOperatorID(MainViewModel.Document, castedViewModel.ID);
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForPatchOutlets_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
             int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
             if (listIndex.HasValue)
             {
@@ -520,7 +520,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForRandom)viewModel2;
 
-            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForRandoms_ByOperatorID(MainViewModel.Document, castedViewModel.ID);
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForRandoms_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
             int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
             if (listIndex.HasValue)
             {
@@ -545,7 +545,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForResample)viewModel2;
 
-            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForResamples_ByOperatorID(MainViewModel.Document, castedViewModel.ID);
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForResamples_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
             int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
             if (listIndex.HasValue)
             {
@@ -570,7 +570,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForSample)viewModel2;
 
-            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForSamples_ByOperatorID(MainViewModel.Document, castedViewModel.ID);
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForSamples_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
             int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
             if (listIndex.HasValue)
             {
@@ -595,7 +595,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForNumber)viewModel2;
 
-            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForNumbers_ByOperatorID(MainViewModel.Document, castedViewModel.ID);
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForNumbers_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
             int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
             if (listIndex.HasValue)
             {
@@ -620,7 +620,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForSpectrum)viewModel2;
 
-            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForSpectrums_ByOperatorID(MainViewModel.Document, castedViewModel.ID);
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForSpectrums_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
             int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
             if (listIndex.HasValue)
             {
@@ -645,7 +645,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForUnbundle)viewModel2;
 
-            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForUnbundles_ByOperatorID(MainViewModel.Document, castedViewModel.ID);
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForUnbundles_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
             int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
             if (listIndex.HasValue)
             {
@@ -669,7 +669,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void DispatchPatchDetailsViewModel(object viewModel2)
         {
             var castedViewModel = (PatchDetailsViewModel)viewModel2;
-            
+
             var list = MainViewModel.Document.PatchDocumentList;
             int listIndex = MainViewModel.Document.PatchDocumentList.IndexOf(x => x.PatchDetails.Entity.PatchID == castedViewModel.Entity.PatchID);
             list[listIndex].PatchDetails = castedViewModel;
@@ -742,7 +742,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (SamplePropertiesViewModel)viewModel2;
 
-            var list = DocumentViewModelHelper.GetSamplePropertiesViewModelList_BySampleID(MainViewModel.Document, castedViewModel.Entity.ID);
+            var list = DocumentViewModelHelper.GetSamplePropertiesViewModelList_ByDocumentID(MainViewModel.Document, castedViewModel.DocumentID);
             int? listIndex = list.TryGetIndexOf(x => x.Entity.ID == castedViewModel.Entity.ID);
             if (listIndex.HasValue)
             {

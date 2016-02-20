@@ -8,6 +8,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
     {
         public OperatorTypeViewModel OperatorType { get; set; }
 
+        public int PatchID { get; internal set; }
         public string Name { get; set; }
         public double TimeSliceDuration { get; set; }
         public int SampleCount { get; set; }

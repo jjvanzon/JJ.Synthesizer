@@ -1886,7 +1886,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             gridViewModel.List.Add(listItemViewModel);
             gridViewModel.List = gridViewModel.List.OrderBy(x => x.Name).ToList();
 
-            IList<SamplePropertiesViewModel> propertiesViewModels = DocumentViewModelHelper.GetSamplePropertiesViewModels_ByDocumentID(MainViewModel.Document, document.ID);
+            IList<SamplePropertiesViewModel> propertiesViewModels = DocumentViewModelHelper.GetSamplePropertiesViewModelList_ByDocumentID(MainViewModel.Document, document.ID);
             SamplePropertiesViewModel propertiesViewModel = sample.ToPropertiesViewModel(_sampleRepositories);
             propertiesViewModels.Add(propertiesViewModel);
 
@@ -1948,7 +1948,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = true;
 
             // ToViewModel
-            IList<SamplePropertiesViewModel> propertiesViewModels = DocumentViewModelHelper.GetSamplePropertiesViewModels_ByDocumentID(MainViewModel.Document, documentID);
+            IList<SamplePropertiesViewModel> propertiesViewModels = DocumentViewModelHelper.GetSamplePropertiesViewModelList_ByDocumentID(MainViewModel.Document, documentID);
             propertiesViewModels.RemoveFirst(x => x.Entity.ID == sampleID);
 
             SampleGridViewModel gridViewModel = DocumentViewModelHelper.GetSampleGridViewModel_ByDocumentID(MainViewModel.Document, documentID);

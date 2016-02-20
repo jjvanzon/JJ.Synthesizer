@@ -1470,7 +1470,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return propertiesViewModel;
         }
 
-        public static IList<SamplePropertiesViewModel> GetSamplePropertiesViewModels_ByDocumentID(DocumentViewModel rootDocumentViewModel, int documentID)
+        public static IList<SamplePropertiesViewModel> GetSamplePropertiesViewModelList_ByDocumentID(DocumentViewModel rootDocumentViewModel, int documentID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 

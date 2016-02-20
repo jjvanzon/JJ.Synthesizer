@@ -9,6 +9,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         // Properties put directly here, instead of entity view model,
         // because entity view model is too elaborate.
 
+        public int PatchID { get; internal set; }
         public string Name { get; set; }
 
         public IDAndName Interpolation { get; set; }

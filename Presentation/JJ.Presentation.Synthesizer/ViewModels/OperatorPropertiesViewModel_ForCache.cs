@@ -5,6 +5,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 {
     public sealed class OperatorPropertiesViewModel_ForCache : OperatorPropertiesViewModelBase
     {
+        public int PatchID { get; internal set; }
         public string Name { get; set; }
         public double StartTime { get; set; }
         public double EndTime { get; set; }

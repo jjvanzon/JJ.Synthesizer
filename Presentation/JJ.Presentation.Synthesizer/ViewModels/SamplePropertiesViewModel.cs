@@ -7,6 +7,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
     public sealed class SamplePropertiesViewModel : ViewModelBase
     {
         public SampleViewModel Entity { get; set; }
+        public int DocumentID { get; set; }
 
         public IList<IDAndName> AudioFileFormatLookup { get; set; }
         public IList<IDAndName> InterpolationTypeLookup { get; set; }

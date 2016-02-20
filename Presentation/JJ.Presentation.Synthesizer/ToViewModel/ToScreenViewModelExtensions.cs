@@ -447,6 +447,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new OperatorPropertiesViewModel
             {
                 ID = entity.ID,
+                PatchID = entity.Patch.ID,
                 Name = entity.Name,
                 ValidationMessages = new List<Message>()
             };
@@ -466,6 +467,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new OperatorPropertiesViewModel_ForAggregate
             {
                 ID = entity.ID,
+                PatchID = entity.Patch.ID,
                 Name = entity.Name,
                 OperatorType = entity.OperatorType.ToViewModel(),
                 ValidationMessages = new List<Message>()
@@ -510,6 +512,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new OperatorPropertiesViewModel_ForBundle
             {
                 ID = entity.ID,
+                PatchID = entity.Patch.ID,
                 Name = entity.Name,
                 InletCount = entity.Inlets.Count,
                 ValidationMessages = new List<Message>()
@@ -527,6 +530,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new OperatorPropertiesViewModel_ForCache
             {
                 ID = entity.ID,
+                PatchID = entity.Patch.ID,
                 Name = entity.Name,
                 EndTime = wrapper.EndTime,
                 StartTime = wrapper.StartTime,
@@ -548,6 +552,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new OperatorPropertiesViewModel_ForCurve
             {
                 ID = entity.ID,
+                PatchID = entity.Patch.ID,
                 Name = entity.Name,
                 ValidationMessages = new List<Message>()
             };
@@ -571,6 +576,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new OperatorPropertiesViewModel_ForCustomOperator
             {
                 ID = entity.ID,
+                PatchID = entity.Patch.ID,
                 Name = entity.Name,
                 ValidationMessages = new List<Message>()
             };
@@ -595,6 +601,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new OperatorPropertiesViewModel_ForNumber
             {
                 ID = entity.ID,
+                PatchID = entity.Patch.ID,
                 Name = entity.Name,
                 Number = wrapper.Number.ToString(),
                 ValidationMessages = new List<Message>()
@@ -614,6 +621,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new OperatorPropertiesViewModel_ForPatchInlet
             {
                 ID = entity.ID,
+                PatchID = entity.Patch.ID,
                 Name = entity.Name,
                 DefaultValue = Convert.ToString(wrapper.Inlet.DefaultValue),
                 InletTypeLookup = ViewModelHelper.CreateInletTypeLookupViewModel(inletTypeRepository),
@@ -649,6 +657,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new OperatorPropertiesViewModel_ForPatchOutlet
             {
                 ID = entity.ID,
+                PatchID = entity.Patch.ID,
                 Name = entity.Name,
                 OutletTypeLookup = ViewModelHelper.CreateOutletTypeLookupViewModel(outletTypeRepository),
                 ValidationMessages = new List<Message>()
@@ -681,6 +690,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new OperatorPropertiesViewModel_ForRandom
             {
                 ID = entity.ID,
+                PatchID = entity.Patch.ID,
                 Name = entity.Name,
                 Interpolation = wrapper.ResampleInterpolationTypeEnum.ToIDAndDisplayName(),
                 InterpolationLookup = ViewModelHelper.CreateResampleInterpolationLookupViewModel(),
@@ -699,6 +709,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new OperatorPropertiesViewModel_ForResample
             {
                 ID = entity.ID,
+                PatchID = entity.Patch.ID,
                 Name = entity.Name,
                 Interpolation = wrapper.ResampleInterpolationTypeEnum.ToIDAndDisplayName(),
                 InterpolationLookup = ViewModelHelper.CreateResampleInterpolationLookupViewModel(),
@@ -715,6 +726,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new OperatorPropertiesViewModel_ForSample
             {
                 ID = entity.ID,
+                PatchID = entity.Patch.ID,
                 Name = entity.Name,
                 ValidationMessages = new List<Message>()
             };
@@ -739,6 +751,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new OperatorPropertiesViewModel_ForSpectrum
             {
                 ID = entity.ID,
+                PatchID = entity.Patch.ID,
                 Name = entity.Name,
                 EndTime = wrapper.EndTime,
                 StartTime = wrapper.StartTime,
@@ -758,6 +771,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new OperatorPropertiesViewModel_ForUnbundle
             {
                 ID = entity.ID,
+                PatchID = entity.Patch.ID,
                 Name = entity.Name,
                 OutletCount = entity.Outlets.Count,
                 ValidationMessages = new List<Message>()
@@ -872,6 +886,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = new SamplePropertiesViewModel
             {
+                DocumentID = entity.Document.ID,
                 AudioFileFormatLookup = ViewModelHelper.CreateAudioFileFormatLookupViewModel(repositories.AudioFileFormatRepository),
                 SampleDataTypeLookup = ViewModelHelper.CreateSampleDataTypeLookupViewModel(repositories.SampleDataTypeRepository),
                 SpeakerSetupLookup = ViewModelHelper.CreateSpeakerSetupLookupViewModel(),
