@@ -29,7 +29,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (userInput == null) throw new NullException(() => userInput);
 
             // GetEntity
-            Curve entity = _repositories.CurveRepository.Get(userInput.Entity.ID);
+            Curve entity = _repositories.CurveRepository.Get(userInput.ID);
 
             // ToViewModel
             CurvePropertiesViewModel viewModel = entity.ToPropertiesViewModel();
@@ -46,7 +46,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (userInput == null) throw new NullException(() => userInput);
 
             // GetEntity
-            Curve entity = _repositories.CurveRepository.Get(userInput.Entity.ID);
+            Curve entity = _repositories.CurveRepository.Get(userInput.ID);
 
             // ToViewModel
             CurvePropertiesViewModel viewModel = entity.ToPropertiesViewModel();
@@ -86,7 +86,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntity
-            Curve entity = _repositories.CurveRepository.Get(userInput.Entity.ID);
+            Curve entity = _repositories.CurveRepository.Get(userInput.ID);
 
             // Business
             VoidResult result = _curveManager.ValidateWithoutRelatedEntities(entity);

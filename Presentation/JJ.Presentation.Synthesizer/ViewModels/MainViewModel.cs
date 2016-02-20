@@ -1,6 +1,7 @@
 ﻿using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using System.Collections.Generic;
+using System;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
@@ -29,6 +30,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         // The Open Document
 
         public DocumentViewModel Document { get; set; }
+
+        [Obsolete("Probably obsolete. Not much is done with this flag.")]
         public bool Successful  { get; set; }
     }
 }

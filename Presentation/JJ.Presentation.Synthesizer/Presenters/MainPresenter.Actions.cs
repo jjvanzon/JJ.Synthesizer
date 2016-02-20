@@ -81,22 +81,47 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Business
             AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateWithRelatedEntities(rootDocument, mustGenerateName: true);
 
-            // ToViewModel
-            AudioFileOutputListItemViewModel listItemViewModel = audioFileOutput.ToListItemViewModel();
-            MainViewModel.Document.AudioFileOutputGrid.List.Add(listItemViewModel);
-            MainViewModel.Document.AudioFileOutputGrid.List = MainViewModel.Document.AudioFileOutputGrid.List.OrderBy(x => x.Name).ToList();
+            // Business
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
+            {
+                // Non-Persisted
+                MainViewModel.PopupMessages.AddRange(validationResult.Messages);
+                return;
+            }
 
+            // ToViewModel
             AudioFileOutputPropertiesViewModel propertiesViewModel = audioFileOutput.ToPropertiesViewModel(_repositories.AudioFileFormatRepository, _repositories.SampleDataTypeRepository);
-            MainViewModel.Document.AudioFileOutputPropertiesList.Add(propertiesViewModel);
+
+            // DispatchViewModel
+            DispatchViewModel(propertiesViewModel);
+
+            // Refresh
+            AudioFileOutputGridRefresh();
         }
 
         public void AudioFileOutputDelete(int id)
         {
+            // ToEntity
             Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
 
-            // 'Business' / ToViewModel
+            // Business
+            _audioFileOutputManager.DeleteWithRelatedEntities(id);
+
+            // Business
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
+            {
+                // Non-Persisted
+                MainViewModel.PopupMessages.AddRange(validationResult.Messages);
+                return;
+            }
+
+            // ToViewModel
             MainViewModel.Document.AudioFileOutputPropertiesList.RemoveFirst(x => x.Entity.ID == id);
-            MainViewModel.Document.AudioFileOutputGrid.List.RemoveFirst(x => x.ID == id);
+
+            // Refresh
+            AudioFileOutputGridRefresh();
         }
 
         public void AudioFileOutputPropertiesShow(int id)
@@ -183,7 +208,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void CurrentPatchesPreviewAutoPatch()
         {
             // ToEntity
-            MainViewModel.ToEntityWithRelatedEntities(_repositories);
+            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
 
             // Get Entities
             var underlyingPatches = new List<Patch>(MainViewModel.Document.CurrentPatches.List.Count);
@@ -205,15 +230,26 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // For debugging, use this code line instead to preview the polyponic auto-patch.
             //patchManager.AutoPatchPolyphonic(underlyingPatches, 2);
 
+            // Business
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
+            {
+                // Non-Persisted
+                MainViewModel.PopupMessages.AddRange(validationResult.Messages);
+                return;
+            }
+
             // ToViewModel
-            MainViewModel.Document.AutoPatchDetails = patchManager.Patch.ToDetailsViewModel(
+            PatchDetailsViewModel viewModel = patchManager.Patch.ToDetailsViewModel(
                 _repositories.OperatorTypeRepository,
                 _repositories.SampleRepository,
                 _repositories.CurveRepository,
                 _repositories.PatchRepository,
                 _entityPositionManager);
+            viewModel.Visible = true;
 
-            MainViewModel.Document.AutoPatchDetails.Visible = true;
+            // DispatchViewModel
+            MainViewModel.Document.AutoPatchDetails = viewModel;
         }
 
         // Curve
@@ -238,54 +274,50 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void CurveCreate(int documentID)
         {
+            // ToEntity
             Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
-            Document document = _repositories.DocumentRepository.TryGet(documentID);
+            Document document = _repositories.DocumentRepository.Get(documentID);
 
+            // Business
             Curve curve = _curveManager.Create(document, mustGenerateName: true);
 
-            // ToViewModel
-            CurveGridViewModel gridViewModel = DocumentViewModelHelper.GetCurveGridViewModel_ByDocumentID(MainViewModel.Document, document.ID);
-            IDAndName listItemViewModel = curve.ToIDAndName();
-            gridViewModel.List.Add(listItemViewModel);
-            gridViewModel.List = gridViewModel.List.OrderBy(x => x.Name).ToList();
+            // Business
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
+            {
+                // Non-Persisted
+                MainViewModel.PopupMessages.AddRange(validationResult.Messages);
+                return;
+            }
 
-            IList<CurveDetailsViewModel> detailsViewModels = DocumentViewModelHelper.GetCurveDetailsViewModelList_ByDocumentID(MainViewModel.Document, document.ID);
+            // ToViewModel
             CurveDetailsViewModel curveDetailsViewModel = curve.ToDetailsViewModel(_repositories.NodeTypeRepository);
             curveDetailsViewModel.Successful = true;
-            detailsViewModels.Add(curveDetailsViewModel);
 
-            IList<CurvePropertiesViewModel> propertiesViewModels = DocumentViewModelHelper.GetCurvePropertiesViewModelList_ByDocumentID(MainViewModel.Document, document.ID);
             CurvePropertiesViewModel curvePropertiesViewModel = curve.ToPropertiesViewModel();
             curvePropertiesViewModel.Successful = true;
-            propertiesViewModels.Add(curvePropertiesViewModel);
 
-            IList<NodePropertiesViewModel> nodePropertiesViewModelList = DocumentViewModelHelper.GetNodePropertiesViewModelList_ByCurveID(MainViewModel.Document, curve.ID);
+            var nodePropertiesViewModelModels = new List<NodePropertiesViewModel>(curve.Nodes.Count);
             foreach (Node node in curve.Nodes)
             {
                 NodePropertiesViewModel nodePropertiesViewModel = node.ToPropertiesViewModel(_repositories.NodeTypeRepository);
                 nodePropertiesViewModel.Successful = true;
-                nodePropertiesViewModelList.Add(nodePropertiesViewModel);
+                nodePropertiesViewModelModels.Add(nodePropertiesViewModel);
             }
 
-            // NOTE: Curves in a child document are only added to the curve lookup of that child document,
-            // while curve in the root document are added to all child documents.
-            bool isRootDocument = document.ParentDocument == null;
-            if (isRootDocument)
+            // DispatchViewModel
+            DispatchViewModel(curveDetailsViewModel);
+            DispatchViewModel(curvePropertiesViewModel);
+            foreach (NodePropertiesViewModel nodePropertiesViewModel in nodePropertiesViewModelModels)
             {
-                IDAndName idAndName = curve.ToIDAndName();
-                foreach (PatchDocumentViewModel patchDocumentViewModel in MainViewModel.Document.PatchDocumentList)
-                {
-                    patchDocumentViewModel.CurveLookup.Add(idAndName);
-                    patchDocumentViewModel.CurveLookup = patchDocumentViewModel.CurveLookup.OrderBy(x => x.Name).ToList();
-                }
+                DispatchViewModel(nodePropertiesViewModel);
             }
-            else
-            {
-                PatchDocumentViewModel patchDocumentViewModel = DocumentViewModelHelper.GetPatchDocumentViewModel(MainViewModel.Document, documentID);
-                IDAndName idAndName = curve.ToIDAndName();
-                patchDocumentViewModel.CurveLookup.Add(idAndName);
-                patchDocumentViewModel.CurveLookup = patchDocumentViewModel.CurveLookup.OrderBy(x => x.Name).ToList();
-            }
+
+            // Refresh
+            CurveGridViewModel gridViewModel = DocumentViewModelHelper.GetCurveGridViewModel_ByDocumentID(MainViewModel.Document, document.ID);
+            CurveGridRefresh(gridViewModel);
+
+            CurveLookupsRefresh();
         }
 
         public void CurveDelete(int curveID)
@@ -298,16 +330,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IResult result = _curveManager.DeleteWithRelatedEntities(curve);
             if (!result.Successful)
             {
-                MainViewModel.Successful &= result.Successful;
                 MainViewModel.PopupMessages.AddRange(result.Messages);
                 return;
             }
 
-            IResult result2 = _documentManager.ValidateRecursive(rootDocument);
-            if (!result2.Successful)
+            // Business
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
             {
-                MainViewModel.Successful &= result2.Successful;
-                MainViewModel.PopupMessages.AddRange(result2.Messages);
+                // Non-Persisted
+                MainViewModel.PopupMessages.AddRange(validationResult.Messages);
                 return;
             }
 

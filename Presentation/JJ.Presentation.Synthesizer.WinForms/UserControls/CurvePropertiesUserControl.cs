@@ -59,14 +59,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (_viewModel == null) return;
 
-            textBoxName.Text = _viewModel.Entity.Name;
+            textBoxName.Text = _viewModel.Name;
         }
 
         private void ApplyControlsToViewModel()
         {
             if (_viewModel == null) return;
 
-            _viewModel.Entity.Name = textBoxName.Text;
+            _viewModel.Name = textBoxName.Text;
         }
 
         // Actions

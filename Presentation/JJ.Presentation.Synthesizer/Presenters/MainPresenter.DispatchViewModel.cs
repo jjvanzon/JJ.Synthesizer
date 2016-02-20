@@ -136,7 +136,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (CurveDetailsViewModel)viewModel2;
 
-            var list = DocumentViewModelHelper.GetCurveDetailsViewModelList_ByCurveID(MainViewModel.Document, castedViewModel.ID);
+            var list = DocumentViewModelHelper.GetCurveDetailsViewModelList_ByDocumentID(MainViewModel.Document, castedViewModel.DocumentID);
             int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
             if (listIndex.HasValue)
             {
@@ -183,8 +183,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (CurvePropertiesViewModel)viewModel2;
 
-            var list = DocumentViewModelHelper.GetCurvePropertiesViewModelList_ByCurveID(MainViewModel.Document, castedViewModel.Entity.ID);
-            int? listIndex = list.TryGetIndexOf(x => x.Entity.ID == castedViewModel.Entity.ID);
+            var list = DocumentViewModelHelper.GetCurvePropertiesViewModelList_ByDocumentID(MainViewModel.Document, castedViewModel.DocumentID);
+            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
             if (listIndex.HasValue)
             {
                 list[listIndex.Value] = castedViewModel;
@@ -295,7 +295,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (NodePropertiesViewModel)viewModel2;
 
-            var list = DocumentViewModelHelper.GetNodePropertiesViewModelList_ByNodeID(MainViewModel.Document, castedViewModel.Entity.ID);
+            var list = DocumentViewModelHelper.GetNodePropertiesViewModelList_ByCurveID(MainViewModel.Document, castedViewModel.CurveID);
             int? listIndex = list.TryGetIndexOf(x => x.Entity.ID == castedViewModel.Entity.ID);
             if (listIndex.HasValue)
             {

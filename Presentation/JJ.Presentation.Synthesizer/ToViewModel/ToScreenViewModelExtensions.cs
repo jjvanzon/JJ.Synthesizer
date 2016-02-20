@@ -98,6 +98,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new CurveDetailsViewModel
             {
                 ID = entity.ID,
+                DocumentID = entity.Document.ID,
                 Nodes = entity.Nodes.ToViewModels(),
                 NodeTypeLookup = ViewModelHelper.CreateNodeTypeLookupViewModel(nodeTypeRepository),
                 ValidationMessages = new List<Message>()
@@ -127,7 +128,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = new CurvePropertiesViewModel
             {
-                Entity = entity.ToIDAndName(),
+                ID = entity.ID,
+                Name = entity.Name,
+                DocumentID = entity.Document.ID,
                 ValidationMessages = new List<Message>()
             };
 
@@ -140,6 +143,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = new NodePropertiesViewModel
             {
+                CurveID = entity.Curve.ID,
                 Entity = entity.ToViewModel(),
                 ValidationMessages = new List<Message>(),
                 NodeTypeLookup = ViewModelHelper.CreateNodeTypeLookupViewModel(nodeTypeRepository)
@@ -337,7 +341,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static IList<OperatorPropertiesViewModel_ForCache> ToPropertiesViewModelList_ForCaches(this Patch patch, IInterpolationTypeRepository interpolationTypeRepository)
         {
             if (patch == null) throw new NullException(() => patch);
-            
+
             return patch.GetOperatorsOfType(OperatorTypeEnum.Cache)
                         .Select(x => x.ToPropertiesViewModel_ForCache(interpolationTypeRepository))
                         .ToList();
@@ -766,7 +770,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static PatchDetailsViewModel ToDetailsViewModel(
             this Patch patch,
-            IOperatorTypeRepository operatorTypeRepository, 
+            IOperatorTypeRepository operatorTypeRepository,
             ISampleRepository sampleRepository,
             ICurveRepository curveRepository,
             IPatchRepository patchRepository,
@@ -936,7 +940,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new ToneGridEditViewModel
             {
                 ScaleID = entity.ID,
-                NumberTitle =  ViewModelHelper.GetToneGridEditNumberTitle(entity),
+                NumberTitle = ViewModelHelper.GetToneGridEditNumberTitle(entity),
                 Tones = entity.Tones.ToToneViewModels(),
                 ValidationMessages = new List<Message>()
             };

@@ -74,6 +74,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(viewModel);
         }
 
+        private void CurveLookupsRefresh()
+        {
+            Document rootDocument = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
+            foreach (Document childDocument in rootDocument.ChildDocuments)
+            {
+                PatchDocumentViewModel patchDocumentViewModel = DocumentViewModelHelper.GetPatchDocumentViewModel(MainViewModel.Document, childDocument.ID);
+                patchDocumentViewModel.CurveLookup = ViewModelHelper.CreateCurveLookupViewModel(rootDocument, childDocument);
+            }
+        }
+
+        private void CurveLookupRefresh(PatchDocumentViewModel patchDocumentViewModel)
+        {
+            Document rootDocument = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
+            Document childDocument = _repositories.DocumentRepository.Get(patchDocumentViewModel.ChildDocumentID);
+            patchDocumentViewModel.CurveLookup = ViewModelHelper.CreateCurveLookupViewModel(rootDocument, childDocument);
+        }
+
         private void CurveLookupsItemsRefresh(int curveID)
         {
             Curve curve = _repositories.CurveRepository.Get(curveID);
@@ -161,13 +178,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 SampleGridRefresh(patchDocumentViewModel.SampleGrid);
                 SampleLookupRefresh(patchDocumentViewModel);
             }
-        }
-
-        private void CurveLookupRefresh(PatchDocumentViewModel patchDocumentViewModel)
-        {
-            Document rootDocument = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-            Document childDocument = _repositories.DocumentRepository.Get(patchDocumentViewModel.ChildDocumentID);
-            patchDocumentViewModel.CurveLookup = ViewModelHelper.CreateCurveLookupViewModel(rootDocument, childDocument);
         }
 
         private void NodePropertiesRefresh(NodePropertiesViewModel userInput)
@@ -322,18 +332,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(viewModel);
         }
 
-        private void PatchGridRefresh(string group)
-        {
-            PatchGridViewModel viewModel2 = DocumentViewModelHelper.GetPatchGridViewModel_ByGroup(MainViewModel.Document, group);
-
-            PatchGridRefresh(viewModel2);
-        }
-
         private void PatchGridRefresh(PatchGridViewModel userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
             PatchGridViewModel viewModel = _patchGridPresenter.Refresh(userInput);
             DispatchViewModel(viewModel);
+        }
+
+        private void PatchGridRefresh(string group)
+        {
+            PatchGridViewModel viewModel2 = DocumentViewModelHelper.GetPatchGridViewModel_ByGroup(MainViewModel.Document, group);
+
+            PatchGridRefresh(viewModel2);
         }
 
         private void PatchGridsRefresh()
@@ -370,6 +380,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(viewModel);
         }
 
+        private void SampleLookupRefresh(PatchDocumentViewModel patchDocumentViewModel)
+        {
+            Document rootDocument = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
+            Document childDocument = _repositories.DocumentRepository.Get(patchDocumentViewModel.ChildDocumentID);
+            patchDocumentViewModel.SampleLookup = ViewModelHelper.CreateSampleLookupViewModel(rootDocument, childDocument);
+        }
+
         private void SampleLookupsRefresh(int sampleID)
         {
             Sample sample = _repositories.SampleRepository.Get(sampleID);
@@ -383,13 +400,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     patchDocumentViewModel.SampleLookup = patchDocumentViewModel.SampleLookup.OrderBy(x => x.Name).ToList();
                 }
             }
-        }
-
-        private void SampleLookupRefresh(PatchDocumentViewModel patchDocumentViewModel)
-        {
-            Document rootDocument = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-            Document childDocument = _repositories.DocumentRepository.Get(patchDocumentViewModel.ChildDocumentID);
-            patchDocumentViewModel.SampleLookup = ViewModelHelper.CreateSampleLookupViewModel(rootDocument, childDocument);
         }
 
         private void SamplePropertiesRefresh(SamplePropertiesViewModel userInput)
@@ -411,16 +421,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(viewModel);
         }
 
-        private void ToneGridEditRefresh(int scaleID)
-        {
-            ToneGridEditViewModel viewModel = DocumentViewModelHelper.GetToneGridEditViewModel(MainViewModel.Document, scaleID);
-            ToneGridEditRefresh(viewModel);
-        }
-
         private void ToneGridEditRefresh(ToneGridEditViewModel userInput)
         {
             ToneGridEditViewModel viewModel = _toneGridEditPresenter.Refresh(userInput);
             DispatchViewModel(viewModel);
+        }
+
+        private void ToneGridEditRefresh(int scaleID)
+        {
+            ToneGridEditViewModel viewModel = DocumentViewModelHelper.GetToneGridEditViewModel(MainViewModel.Document, scaleID);
+            ToneGridEditRefresh(viewModel);
         }
 
         private void UnderylingPatchLookupRefresh()
