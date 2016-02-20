@@ -6,21 +6,16 @@ using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer.Calculation.Arrays
 {
-    // TODO: Remove comment.
-    //// Already I have a maintenance penalty, because this factory has to incorporate any new variation on a class.
-    //// I have already not incorporated the _NoRate variations.
-    //[Obsolete("Get rid of it if you do not use it. It seems a handy class, but if you do not use it, it has no right to exist.")]
-
     internal static class ArrayCalculatorFactory
     {
         public static ArrayCalculatorBase CreateArrayCalculator_RotateTime(
             double[] array,
             double rate,
-            ResampleInterpolationTypeEnum resampleInterpolationTypeEnum)
+            InterpolationTypeEnum interpolationTypeEnum)
         {
-            switch (resampleInterpolationTypeEnum)
+            switch (interpolationTypeEnum)
             {
-                case ResampleInterpolationTypeEnum.Block:
+                case InterpolationTypeEnum.Block:
                     if (rate == 1.0)
                     {
                         return new ArrayCalculator_RotateTime_Block_NoRate(array);
@@ -30,16 +25,13 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
                         return new ArrayCalculator_RotateTime_Block(array, rate);
                     }
 
-                case ResampleInterpolationTypeEnum.CubicAbruptInclination:
-                case ResampleInterpolationTypeEnum.CubicEquidistant:
-                case ResampleInterpolationTypeEnum.CubicSmoothInclination:
+                case InterpolationTypeEnum.Cubic:
                     return new ArrayCalculator_RotateTime_Cubic(array, rate);
 
-                case ResampleInterpolationTypeEnum.Hermite:
+                case InterpolationTypeEnum.Hermite:
                     return new ArrayCalculator_RotateTime_Hermite(array, rate);
 
-                case ResampleInterpolationTypeEnum.LineRememberT0:
-                case ResampleInterpolationTypeEnum.LineRememberT1:
+                case InterpolationTypeEnum.Line:
                     if (rate == 1.0)
                     {
                         return new ArrayCalculator_RotateTime_Line_NoRate(array);
@@ -49,7 +41,7 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
                         return new ArrayCalculator_RotateTime_Line(array, rate);
                     }
 
-                case ResampleInterpolationTypeEnum.Stripe:
+                case InterpolationTypeEnum.Stripe:
                     if (rate == 1.0)
                     {
                         return new ArrayCalculator_RotateTime_Stripe_NoRate(array);
@@ -60,7 +52,7 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
                     }
 
                 default:
-                    throw new ValueNotSupportedException(resampleInterpolationTypeEnum);
+                    throw new ValueNotSupportedException(interpolationTypeEnum);
             }
         }
 
@@ -68,58 +60,52 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
             double[] array,
             double rate,
             double minTime,
-            ResampleInterpolationTypeEnum resampleInterpolationTypeEnum)
+            InterpolationTypeEnum interpolationTypeEnum)
         {
             if (minTime == 0.0)
             {
-                switch (resampleInterpolationTypeEnum)
+                switch (interpolationTypeEnum)
                 {
-                    case ResampleInterpolationTypeEnum.Block:
+                    case InterpolationTypeEnum.Block:
                         return new ArrayCalculator_MinTimeZero_Block(array, rate);
 
-                    case ResampleInterpolationTypeEnum.CubicAbruptInclination:
-                    case ResampleInterpolationTypeEnum.CubicEquidistant:
-                    case ResampleInterpolationTypeEnum.CubicSmoothInclination:
+                    case InterpolationTypeEnum.Cubic:
                         return new ArrayCalculator_MinTimeZero_Cubic(array, rate);
 
-                    case ResampleInterpolationTypeEnum.Hermite:
+                    case InterpolationTypeEnum.Hermite:
                         return new ArrayCalculator_MinTimeZero_Hermite(array, rate);
 
-                    case ResampleInterpolationTypeEnum.LineRememberT0:
-                    case ResampleInterpolationTypeEnum.LineRememberT1:
+                    case InterpolationTypeEnum.Line:
                         return new ArrayCalculator_MinTimeZero_Line(array, rate);
 
-                    case ResampleInterpolationTypeEnum.Stripe:
+                    case InterpolationTypeEnum.Stripe:
                         return new ArrayCalculator_MinTimeZero_Stripe(array, rate);
 
                     default:
-                        throw new ValueNotSupportedException(resampleInterpolationTypeEnum);
+                        throw new ValueNotSupportedException(interpolationTypeEnum);
                 }
             }
             else
             {
-                switch (resampleInterpolationTypeEnum)
+                switch (interpolationTypeEnum)
                 {
-                    case ResampleInterpolationTypeEnum.Block:
+                    case InterpolationTypeEnum.Block:
                         return new ArrayCalculator_MinTime_Block(array, rate, minTime);
 
-                    case ResampleInterpolationTypeEnum.CubicAbruptInclination:
-                    case ResampleInterpolationTypeEnum.CubicEquidistant:
-                    case ResampleInterpolationTypeEnum.CubicSmoothInclination:
+                    case InterpolationTypeEnum.Cubic:
                         return new ArrayCalculator_MinTime_Cubic(array, rate, minTime);
 
-                    case ResampleInterpolationTypeEnum.Hermite:
+                    case InterpolationTypeEnum.Hermite:
                         return new ArrayCalculator_MinTime_Hermite(array, rate, minTime);
 
-                    case ResampleInterpolationTypeEnum.LineRememberT0:
-                    case ResampleInterpolationTypeEnum.LineRememberT1:
+                    case InterpolationTypeEnum.Line:
                         return new ArrayCalculator_MinTime_Line(array, rate, minTime);
 
-                    case ResampleInterpolationTypeEnum.Stripe:
+                    case InterpolationTypeEnum.Stripe:
                         return new ArrayCalculator_MinTime_Stripe(array, rate, minTime);
 
                     default:
-                        throw new ValueNotSupportedException(resampleInterpolationTypeEnum);
+                        throw new ValueNotSupportedException(interpolationTypeEnum);
                 }
             }
         }
@@ -130,58 +116,52 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
             double minTime,
             double valueBefore,
             double valueAfter,
-            ResampleInterpolationTypeEnum resampleInterpolationTypeEnum)
+            InterpolationTypeEnum interpolationTypeEnum)
         {
             if (minTime == 0.0)
             {
-                switch (resampleInterpolationTypeEnum)
+                switch (interpolationTypeEnum)
                 {
-                    case ResampleInterpolationTypeEnum.Block:
+                    case InterpolationTypeEnum.Block:
                         return new ArrayCalculator_MinTimeZero_Block(array, rate, valueBefore, valueAfter);
 
-                    case ResampleInterpolationTypeEnum.CubicAbruptInclination:
-                    case ResampleInterpolationTypeEnum.CubicEquidistant:
-                    case ResampleInterpolationTypeEnum.CubicSmoothInclination:
+                    case InterpolationTypeEnum.Cubic:
                         return new ArrayCalculator_MinTimeZero_Cubic(array, rate, valueBefore, valueAfter);
 
-                    case ResampleInterpolationTypeEnum.Hermite:
+                    case InterpolationTypeEnum.Hermite:
                         return new ArrayCalculator_MinTimeZero_Hermite(array, rate, valueBefore, valueAfter);
 
-                    case ResampleInterpolationTypeEnum.LineRememberT0:
-                    case ResampleInterpolationTypeEnum.LineRememberT1:
+                    case InterpolationTypeEnum.Line:
                         return new ArrayCalculator_MinTimeZero_Line(array, rate, valueBefore, valueAfter);
 
-                    case ResampleInterpolationTypeEnum.Stripe:
+                    case InterpolationTypeEnum.Stripe:
                         return new ArrayCalculator_MinTimeZero_Stripe(array, rate, valueBefore, valueAfter);
 
                     default:
-                        throw new ValueNotSupportedException(resampleInterpolationTypeEnum);
+                        throw new ValueNotSupportedException(interpolationTypeEnum);
                 }
             }
             else
             {
-                switch (resampleInterpolationTypeEnum)
+                switch (interpolationTypeEnum)
                 {
-                    case ResampleInterpolationTypeEnum.Block:
+                    case InterpolationTypeEnum.Block:
                         return new ArrayCalculator_MinTime_Block(array, rate, minTime, valueBefore, valueAfter);
 
-                    case ResampleInterpolationTypeEnum.CubicAbruptInclination:
-                    case ResampleInterpolationTypeEnum.CubicEquidistant:
-                    case ResampleInterpolationTypeEnum.CubicSmoothInclination:
+                    case InterpolationTypeEnum.Cubic:
                         return new ArrayCalculator_MinTime_Cubic(array, rate, minTime, valueBefore, valueAfter);
 
-                    case ResampleInterpolationTypeEnum.Hermite:
+                    case InterpolationTypeEnum.Hermite:
                         return new ArrayCalculator_MinTime_Hermite(array, rate, minTime, valueBefore, valueAfter);
 
-                    case ResampleInterpolationTypeEnum.LineRememberT0:
-                    case ResampleInterpolationTypeEnum.LineRememberT1:
+                    case InterpolationTypeEnum.Line:
                         return new ArrayCalculator_MinTime_Line(array, rate, minTime, valueBefore, valueAfter);
 
-                    case ResampleInterpolationTypeEnum.Stripe:
+                    case InterpolationTypeEnum.Stripe:
                         return new ArrayCalculator_MinTime_Stripe(array, rate, minTime, valueBefore, valueAfter);
 
                     default:
-                        throw new ValueNotSupportedException(resampleInterpolationTypeEnum);
+                        throw new ValueNotSupportedException(interpolationTypeEnum);
                 }
             }
         }

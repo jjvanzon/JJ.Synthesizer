@@ -45,6 +45,29 @@ namespace JJ.Business.Synthesizer.Resources
             return displayName;
         }
 
+        // InterpolationType
+
+        public static string GetDisplayName(InterpolationType entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            InterpolationTypeEnum inletTypeEnum = (InterpolationTypeEnum)entity.ID;
+
+            return GetDisplayName(inletTypeEnum);
+        }
+
+        public static string GetDisplayName(InterpolationTypeEnum enumValue)
+        {
+            string displayName = PropertyDisplayNames.ResourceManager.GetString(enumValue.ToString());
+
+            if (String.IsNullOrEmpty(displayName))
+            {
+                displayName = enumValue.ToString();
+            }
+
+            return displayName;
+        }
+
         // OperatorType
 
         public static string GetOperatorTypeDisplayName(Operator op)

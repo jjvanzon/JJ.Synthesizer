@@ -334,12 +334,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                         .ToList();
         }
 
-        public static IList<OperatorPropertiesViewModel_ForCache> ToPropertiesViewModelList_ForCaches(this Patch patch)
+        public static IList<OperatorPropertiesViewModel_ForCache> ToPropertiesViewModelList_ForCaches(this Patch patch, IInterpolationTypeRepository interpolationTypeRepository)
         {
             if (patch == null) throw new NullException(() => patch);
-
+            
             return patch.GetOperatorsOfType(OperatorTypeEnum.Cache)
-                        .Select(x => x.ToPropertiesViewModel_ForCache())
+                        .Select(x => x.ToPropertiesViewModel_ForCache(interpolationTypeRepository))
                         .ToList();
         }
 
@@ -514,7 +514,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static OperatorPropertiesViewModel_ForCache ToPropertiesViewModel_ForCache(this Operator entity)
+        public static OperatorPropertiesViewModel_ForCache ToPropertiesViewModel_ForCache(this Operator entity, IInterpolationTypeRepository interpolationTypeRepository)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -527,8 +527,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 EndTime = wrapper.EndTime,
                 StartTime = wrapper.StartTime,
                 SamplingRate = wrapper.SamplingRate,
-                Interpolation = wrapper.ResampleInterpolationTypeEnum.ToIDAndDisplayName(),
-                InterpolationLookup = ViewModelHelper.CreateResampleInterpolationLookupViewModel_ForCacheOperatorProperties(),
+                Interpolation = wrapper.InterpolationTypeEnum.ToIDAndDisplayName(),
+                InterpolationLookup = ViewModelHelper.CreateInterpolationTypeLookupViewModel(interpolationTypeRepository),
                 SpeakerSetup = wrapper.SpeakerSetupEnum.ToIDAndDisplayName(),
                 SpeakerSetupLookup = ViewModelHelper.CreateSpeakerSetupLookupViewModel(),
                 ValidationMessages = new List<Message>()

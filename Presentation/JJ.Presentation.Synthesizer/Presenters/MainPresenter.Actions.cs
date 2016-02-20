@@ -321,11 +321,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             CurveDetailsViewModel userInput = DocumentViewModelHelper.GetCurveDetailsViewModel(MainViewModel.Document, curveID);
 
-            // Partial Action
-            CurveDetailsViewModel viewModel = _curveDetailsPresenter.Show(userInput);
-
-            // DispatchViewModel
-            DispatchViewModel(viewModel);
+            // TemplateMethod
+            TemplateActionMethod(userInput, _curveDetailsPresenter.Show);
         }
 
         public void CurveDetailsClose()
@@ -1388,7 +1385,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 case OperatorTypeEnum.Cache:
                     {
-                        OperatorPropertiesViewModel_ForCache propertiesViewModel = op.ToPropertiesViewModel_ForCache();
+                        OperatorPropertiesViewModel_ForCache propertiesViewModel = op.ToPropertiesViewModel_ForCache(_repositories.InterpolationTypeRepository);
                         IList<OperatorPropertiesViewModel_ForCache> propertiesViewModelList = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForCaches_ByPatchID(MainViewModel.Document, patch.ID);
                         propertiesViewModelList.Add(propertiesViewModel);
                         break;

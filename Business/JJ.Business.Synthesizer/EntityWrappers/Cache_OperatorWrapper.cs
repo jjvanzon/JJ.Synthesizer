@@ -41,9 +41,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { OperatorDataParser.SetValue(_wrappedOperator, PropertyNames.SamplingRate, value); }
         }
 
-        public ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum
+        public InterpolationTypeEnum InterpolationTypeEnum
         {
-            get { return OperatorDataParser.GetEnum<ResampleInterpolationTypeEnum>(_wrappedOperator, PropertyNames.InterpolationType); }
+            get { return OperatorDataParser.GetEnum<InterpolationTypeEnum>(_wrappedOperator, PropertyNames.InterpolationType); }
             set { OperatorDataParser.SetValue(_wrappedOperator, PropertyNames.InterpolationType, value); }
         }
 

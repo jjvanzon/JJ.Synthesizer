@@ -61,9 +61,9 @@ namespace JJ.Business.Synthesizer.Api
             double startTime = 0.0,
             double endTime = 1.0,
             int samplingRate = 44100,
-            ResampleInterpolationTypeEnum resampleInterpolationTypeEnum = ResampleInterpolationTypeEnum.LineRememberT0)
+            InterpolationTypeEnum interpolationTypeEnum = InterpolationTypeEnum.Line)
         {
-            return _patchManager.Cache(signal, startTime, endTime, samplingRate, resampleInterpolationTypeEnum);
+            return _patchManager.Cache(signal, startTime, endTime, samplingRate, interpolationTypeEnum);
         }
 
         public Curve_OperatorWrapper Curve(Curve curve = null)

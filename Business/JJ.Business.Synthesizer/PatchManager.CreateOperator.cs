@@ -175,7 +175,7 @@ namespace JJ.Business.Synthesizer
             double startTime = 0.0, 
             double endTime = 1.0, 
             int samplingRate = 44100, 
-            ResampleInterpolationTypeEnum resampleInterpolationTypeEnum = ResampleInterpolationTypeEnum.LineRememberT0)
+            InterpolationTypeEnum interpolationTypeEnum = InterpolationTypeEnum.Line)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Cache, inletCount: 1, outletCount: 1);
 
@@ -185,7 +185,7 @@ namespace JJ.Business.Synthesizer
                 StartTime = startTime,
                 EndTime = endTime,
                 SamplingRate = samplingRate,
-                ResampleInterpolationTypeEnum = resampleInterpolationTypeEnum
+                InterpolationTypeEnum = interpolationTypeEnum
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);

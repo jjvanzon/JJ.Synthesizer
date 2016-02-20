@@ -42,8 +42,8 @@ namespace JJ.Business.Synthesizer.Validation
 
             For(() => interpolationTypeString, PropertyDisplayNames.InterpolationType)
                 .NotNullOrEmpty()
-                .IsEnum<ResampleInterpolationTypeEnum>()
-                .IsNot(ResampleInterpolationTypeEnum.Undefined);
+                .IsEnum<InterpolationTypeEnum>()
+                .IsNot(InterpolationTypeEnum.Undefined);
 
             For(() => speakerSetupString, PropertyDisplayNames.SpeakerSetup)
                 .NotNullOrEmpty()

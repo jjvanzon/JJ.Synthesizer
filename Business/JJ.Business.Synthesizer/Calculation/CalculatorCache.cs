@@ -109,7 +109,7 @@ namespace JJ.Business.Synthesizer.Calculation
                         wrapper.StartTime,
                         wrapper.EndTime,
                         wrapper.SamplingRate,
-                        wrapper.ResampleInterpolationTypeEnum);
+                        wrapper.InterpolationTypeEnum);
 
                     _cacheOperatorID_To_ArrayCalculators_Dictionary.Add(op.ID, arrayCalculators);
                 }
@@ -121,7 +121,7 @@ namespace JJ.Business.Synthesizer.Calculation
         private IList<ArrayCalculatorBase> CreateCacheArrayCalculators(
             OperatorCalculatorBase signalCalculator,
             int channelCount, double startTime, double endTime, double rate,
-            ResampleInterpolationTypeEnum resampleInterpolationTypeEnum)
+            InterpolationTypeEnum interpolationTypeEnum)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (channelCount < 1) throw new LessThanException(() => channelCount, 1);
@@ -153,7 +153,7 @@ namespace JJ.Business.Synthesizer.Calculation
                 }
 
                 ArrayCalculatorBase arrayCalculator = ArrayCalculatorFactory.CreateArrayCalculator(
-                    samples, rate, startTime, resampleInterpolationTypeEnum);
+                    samples, rate, startTime, interpolationTypeEnum);
                 arrayCalculators[channelIndex] = arrayCalculator;
             }
 

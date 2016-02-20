@@ -847,11 +847,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             bool interpolationIsFilledIn = viewModel.Interpolation != null && viewModel.Interpolation.ID != 0;
             if (interpolationIsFilledIn)
             {
-                wrapper.ResampleInterpolationTypeEnum = (ResampleInterpolationTypeEnum)viewModel.Interpolation.ID;
+                wrapper.InterpolationTypeEnum = (InterpolationTypeEnum)viewModel.Interpolation.ID;
             }
             else
             {
-                wrapper.ResampleInterpolationTypeEnum = ResampleInterpolationTypeEnum.Undefined;
+                wrapper.InterpolationTypeEnum = InterpolationTypeEnum.Undefined;
             }
 
             // SpeakerSetup

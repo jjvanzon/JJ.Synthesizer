@@ -16,6 +16,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public IInletTypeRepository InletTypeRepository { get; private set; }
         public IOutletTypeRepository OutletTypeRepository { get; private set; }
         public ISpeakerSetupRepository SpeakerSetupRepository { get; private set; }
+        public IInterpolationTypeRepository InterpolationTypeRepository { get; set; }
 
         public IEntityPositionRepository EntityPositionRepository { get; private set; }
         public IIDRepository IDRepository { get; private set; }
@@ -35,6 +36,7 @@ namespace JJ.Business.Synthesizer.Helpers
             InletTypeRepository = repositoryWrapper.InletTypeRepository;
             OutletTypeRepository = repositoryWrapper.OutletTypeRepository;
             SpeakerSetupRepository = repositoryWrapper.SpeakerSetupRepository;
+            InterpolationTypeRepository = repositoryWrapper.InterpolationTypeRepository;
             EntityPositionRepository = repositoryWrapper.EntityPositionRepository;
             IDRepository = repositoryWrapper.IDRepository;
         }
@@ -51,6 +53,7 @@ namespace JJ.Business.Synthesizer.Helpers
             IInletTypeRepository inletTypeRepository,
             IOutletTypeRepository outletTypeRepository,
             ISpeakerSetupRepository speakerSetupRepository,
+            IInterpolationTypeRepository interpolationTypeRepository,
             IEntityPositionRepository entityPositionRepository,
             IIDRepository idRepository)
         {
@@ -65,6 +68,7 @@ namespace JJ.Business.Synthesizer.Helpers
             if (inletTypeRepository == null) throw new NullException(() => inletTypeRepository);
             if (outletTypeRepository == null) throw new NullException(() => outletTypeRepository);
             if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
+            if (interpolationTypeRepository == null) throw new NullException(() => interpolationTypeRepository);
             if (entityPositionRepository == null) throw new NullException(() => entityPositionRepository);
             if (idRepository == null) throw new NullException(() => idRepository);
 
@@ -79,6 +83,7 @@ namespace JJ.Business.Synthesizer.Helpers
             InletTypeRepository = inletTypeRepository;
             OutletTypeRepository = outletTypeRepository;
             SpeakerSetupRepository = speakerSetupRepository;
+            InterpolationTypeRepository = interpolationTypeRepository;
             EntityPositionRepository = entityPositionRepository;
             IDRepository = idRepository;
         }
