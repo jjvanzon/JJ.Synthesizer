@@ -19,6 +19,30 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
     /// <summary> Empty view models start out with Visible = false. </summary>
     internal static partial class ViewModelHelper
     {
+        private static HashSet<OperatorTypeEnum> _operatorTypeEnums_WithTheirOwnPropertyViews = new HashSet<OperatorTypeEnum>
+        {
+            OperatorTypeEnum.Average,
+            OperatorTypeEnum.Bundle,
+            OperatorTypeEnum.Cache,
+            OperatorTypeEnum.Curve,
+            OperatorTypeEnum.CustomOperator,
+            OperatorTypeEnum.Maximum,
+            OperatorTypeEnum.Minimum,
+            OperatorTypeEnum.Number,
+            OperatorTypeEnum.PatchInlet,
+            OperatorTypeEnum.PatchOutlet,
+            OperatorTypeEnum.Random,
+            OperatorTypeEnum.Resample,
+            OperatorTypeEnum.Sample,
+            OperatorTypeEnum.Spectrum,
+            OperatorTypeEnum.Unbundle
+        };
+
+        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithTheirOwnPropertyViews
+        {
+            get { return _operatorTypeEnums_WithTheirOwnPropertyViews; }
+        }
+
         public static CurrentPatchesViewModel CreateCurrentPatchesViewModel(IList<Document> childDocuments)
         {
             if (childDocuments == null) throw new NullException(() => childDocuments);

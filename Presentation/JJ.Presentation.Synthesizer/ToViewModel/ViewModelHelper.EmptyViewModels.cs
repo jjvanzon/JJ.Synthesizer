@@ -1,13 +1,11 @@
-﻿using JJ.Data.Canonical;
+﻿using System;
+using System.Linq;
+using System.Collections.Generic;
+using JJ.Data.Canonical;
 using JJ.Framework.Presentation;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
-using System.Collections.Generic;
-using System;
-using JJ.Data.Synthesizer;
-using JJ.Framework.Reflection.Exceptions;
-using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {

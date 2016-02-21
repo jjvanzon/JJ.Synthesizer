@@ -22,25 +22,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 {
     internal static class ToScreenViewModelExtensions
     {
-        private static HashSet<OperatorTypeEnum> _operatorTypeEnums_WithTheirOwnPropertyViews = new HashSet<OperatorTypeEnum>
-        {
-            OperatorTypeEnum.Average,
-            OperatorTypeEnum.Bundle,
-            OperatorTypeEnum.Cache,
-            OperatorTypeEnum.Curve,
-            OperatorTypeEnum.CustomOperator,
-            OperatorTypeEnum.Maximum,
-            OperatorTypeEnum.Minimum,
-            OperatorTypeEnum.Number,
-            OperatorTypeEnum.PatchInlet,
-            OperatorTypeEnum.PatchOutlet,
-            OperatorTypeEnum.Random,
-            OperatorTypeEnum.Resample,
-            OperatorTypeEnum.Sample,
-            OperatorTypeEnum.Spectrum,
-            OperatorTypeEnum.Unbundle
-        };
-
         // AudioFileOutput
 
         public static AudioFileOutputPropertiesViewModel ToPropertiesViewModel(
@@ -293,7 +274,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
 
-                if (!_operatorTypeEnums_WithTheirOwnPropertyViews.Contains(operatorTypeEnum))
+                if (!ViewModelHelper.OperatorTypeEnums_WithTheirOwnPropertyViews.Contains(operatorTypeEnum))
                 {
                     OperatorPropertiesViewModel viewModel = op.ToPropertiesViewModel();
                     viewModels.Add(viewModel);

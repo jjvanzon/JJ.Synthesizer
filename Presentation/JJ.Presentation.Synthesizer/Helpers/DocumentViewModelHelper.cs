@@ -13,10 +13,16 @@ namespace JJ.Presentation.Synthesizer.Helpers
     {
         // AudioFileOutput
 
-        public static AudioFileOutputPropertiesViewModel GetAudioFileOutputPropertiesViewModel(DocumentViewModel rootDocumentViewModel, int audioFileOutputID)
+        public static AudioFileOutputPropertiesViewModel TryGetAudioFileOutputPropertiesViewModel(DocumentViewModel rootDocumentViewModel, int audioFileOutputID)
         {
             AudioFileOutputPropertiesViewModel viewModel = rootDocumentViewModel.AudioFileOutputPropertiesList
                                                                                 .FirstOrDefault(x => x.Entity.ID == audioFileOutputID);
+            return viewModel;
+        }
+
+        public static AudioFileOutputPropertiesViewModel GetAudioFileOutputPropertiesViewModel(DocumentViewModel rootDocumentViewModel, int audioFileOutputID)
+        {
+            AudioFileOutputPropertiesViewModel viewModel = TryGetAudioFileOutputPropertiesViewModel(rootDocumentViewModel, audioFileOutputID);
 
             if (viewModel == null)
             {
@@ -44,13 +50,20 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
         // PatchDocument
 
-        public static PatchDocumentViewModel GetPatchDocumentViewModel(DocumentViewModel rootDocumentViewModel, int childDocumentID)
+        public static PatchDocumentViewModel TryGetPatchDocumentViewModel(DocumentViewModel rootDocumentViewModel, int childDocumentID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
             PatchDocumentViewModel patchDocumentViewModel = rootDocumentViewModel.PatchDocumentList
                                                                                  .Where(x => x.ChildDocumentID == childDocumentID)
                                                                                  .FirstOrDefault(); // First for performance.
+            return patchDocumentViewModel;
+        }
+
+        public static PatchDocumentViewModel GetPatchDocumentViewModel(DocumentViewModel rootDocumentViewModel, int childDocumentID)
+        {
+            PatchDocumentViewModel patchDocumentViewModel = TryGetPatchDocumentViewModel(rootDocumentViewModel, childDocumentID);
+
             if (patchDocumentViewModel == null)
             {
                 throw new Exception(String.Format("PatchDocumentViewModel with childDocumentID '{0}' not found in documentViewModel.PatchDocumentList.", childDocumentID));
@@ -59,7 +72,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return patchDocumentViewModel;
         }
 
-        public static PatchGridViewModel GetPatchGridViewModel_ByGroup(DocumentViewModel rootDocumentViewModel, string group)
+        public static PatchGridViewModel TryGetPatchGridViewModel_ByGroup(DocumentViewModel rootDocumentViewModel, string group)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
@@ -75,6 +88,14 @@ namespace JJ.Presentation.Synthesizer.Helpers
                 viewModel = rootDocumentViewModel.PatchGridList.Where(x => String.Equals(x.Group, group)).FirstOrDefault();
             }
 
+            return viewModel;
+        }
+
+
+        public static PatchGridViewModel GetPatchGridViewModel_ByGroup(DocumentViewModel rootDocumentViewModel, string group)
+        {
+            PatchGridViewModel viewModel = TryGetPatchGridViewModel_ByGroup(rootDocumentViewModel, group);
+
             if (viewModel == null)
             {
                 throw new Exception(String.Format("PatchGridViewModel for Group '{0}' not found in documentViewModel.PatchGridList.", group));
@@ -85,26 +106,40 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
         // Curve
 
-        public static CurveDetailsViewModel GetCurveDetailsViewModel(DocumentViewModel rootDocumentViewModel, int curveID)
+        public static CurveDetailsViewModel TryGetCurveDetailsViewModel(DocumentViewModel rootDocumentViewModel, int curveID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            CurveDetailsViewModel detailsViewModel = DocumentViewModelHelper.EnumerateCurveDetailsViewModels(rootDocumentViewModel)
-                                                                            .FirstOrDefault(x => x.ID == curveID);
-            if (detailsViewModel == null)
+            CurveDetailsViewModel viewModel = DocumentViewModelHelper.EnumerateCurveDetailsViewModels(rootDocumentViewModel)
+                                                                     .FirstOrDefault(x => x.ID == curveID);
+            return viewModel;
+        }
+
+        public static CurveDetailsViewModel GetCurveDetailsViewModel(DocumentViewModel rootDocumentViewModel, int curveID)
+        {
+            CurveDetailsViewModel viewModel = TryGetCurveDetailsViewModel(rootDocumentViewModel, curveID);
+
+            if (viewModel == null)
             {
                 throw new Exception(String.Format("CurveDetailsViewModel with ID '{0}' not found in rootDocumentViewModel nor its PatchDocumentViewModels.", curveID));
             }
 
-            return detailsViewModel;
+            return viewModel;
+        }
+
+        public static CurvePropertiesViewModel TryGetCurvePropertiesViewModel(DocumentViewModel rootDocumentViewModel, int curveID)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            CurvePropertiesViewModel viewModel = DocumentViewModelHelper.EnumerateCurvePropertiesViewModels(rootDocumentViewModel)
+                                                                        .FirstOrDefault(x => x.ID == curveID); // First for performance.
+            return viewModel;
         }
 
         public static CurvePropertiesViewModel GetCurvePropertiesViewModel(DocumentViewModel rootDocumentViewModel, int curveID)
         {
-            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+            CurvePropertiesViewModel propertiesViewModel = TryGetCurvePropertiesViewModel(rootDocumentViewModel, curveID);
 
-            CurvePropertiesViewModel propertiesViewModel = DocumentViewModelHelper.EnumerateCurvePropertiesViewModels(rootDocumentViewModel)
-                                                                                  .FirstOrDefault(x => x.ID == curveID); // First for performance.
             if (propertiesViewModel == null)
             {
                 throw new Exception(String.Format("CurvePropertiesViewModel with ID '{0}' not found in rootDocumentViewModel nor its PatchDocumentViewModels.", curveID));
@@ -310,12 +345,19 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
         // Node
 
-        public static NodePropertiesViewModel GetNodePropertiesViewModel(DocumentViewModel rootDocumentViewModel, int nodeID)
+        public static NodePropertiesViewModel TryGetNodePropertiesViewModel(DocumentViewModel rootDocumentViewModel, int nodeID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
             NodePropertiesViewModel viewModel = DocumentViewModelHelper.EnumerateNodePropertiesViewModels(rootDocumentViewModel)
                                                                        .FirstOrDefault(x => x.Entity.ID == nodeID); // First for performance.
+            return viewModel;
+        }
+
+        public static NodePropertiesViewModel GetNodePropertiesViewModel(DocumentViewModel rootDocumentViewModel, int nodeID)
+        {
+            NodePropertiesViewModel viewModel = TryGetNodePropertiesViewModel(rootDocumentViewModel, nodeID);
+
             if (viewModel == null)
             {
                 throw new Exception(String.Format("NodePropertiesViewModel with Node ID '{0}' not found in rootDocumentViewModel nor its PatchDocumentViewModels.", nodeID));
@@ -1456,18 +1498,26 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return userInput;
         }
 
-        public static SamplePropertiesViewModel GetSamplePropertiesViewModel(DocumentViewModel rootDocumentViewModel, int sampleID)
+        public static SamplePropertiesViewModel TryGetSamplePropertiesViewModel(DocumentViewModel rootDocumentViewModel, int sampleID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            SamplePropertiesViewModel propertiesViewModel = DocumentViewModelHelper.EnumerateSamplePropertiesViewModels(rootDocumentViewModel)
-                                                                                   .FirstOrDefault(x => x.Entity.ID == sampleID); // First for performance.
-            if (propertiesViewModel == null)
+            SamplePropertiesViewModel viewModel = DocumentViewModelHelper.EnumerateSamplePropertiesViewModels(rootDocumentViewModel)
+                                                                         .FirstOrDefault(x => x.Entity.ID == sampleID); // First for performance.
+
+            return viewModel;
+        }
+
+        public static SamplePropertiesViewModel GetSamplePropertiesViewModel(DocumentViewModel rootDocumentViewModel, int sampleID)
+        {
+            SamplePropertiesViewModel viewModel = TryGetSamplePropertiesViewModel(rootDocumentViewModel, sampleID);
+
+            if (viewModel == null)
             {
                 throw new Exception(String.Format("SamplePropertiesViewModel with ID '{0}' not found in rootDocumentViewModel nor its PatchDocumentViewModels.", sampleID));
             }
 
-            return propertiesViewModel;
+            return viewModel;
         }
 
         public static IList<SamplePropertiesViewModel> GetSamplePropertiesViewModelList_ByDocumentID(DocumentViewModel rootDocumentViewModel, int documentID)
@@ -1575,26 +1625,41 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return userInput;
         }
 
-        public static ScalePropertiesViewModel GetScalePropertiesViewModel(DocumentViewModel rootDocumentViewModel, int scaleID)
+        public static ScalePropertiesViewModel TryGetScalePropertiesViewModel(DocumentViewModel rootDocumentViewModel, int scaleID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            ScalePropertiesViewModel propertiesViewModel = rootDocumentViewModel.ScalePropertiesList.FirstOrDefault(x => x.Entity.ID == scaleID);
-            if (propertiesViewModel == null)
+            ScalePropertiesViewModel viewModel = rootDocumentViewModel.ScalePropertiesList.FirstOrDefault(x => x.Entity.ID == scaleID);
+
+            return viewModel;
+        }
+
+        public static ScalePropertiesViewModel GetScalePropertiesViewModel(DocumentViewModel rootDocumentViewModel, int scaleID)
+        {
+            ScalePropertiesViewModel viewModel = TryGetScalePropertiesViewModel(rootDocumentViewModel, scaleID);
+
+            if (viewModel == null)
             {
                 throw new Exception(String.Format("ScalePropertiesViewModel with ID '{0}' not found in rootDocumentViewModel.", scaleID));
             }
 
-            return propertiesViewModel;
+            return viewModel;
         }
 
         // Tone
 
-        public static ToneGridEditViewModel GetToneGridEditViewModel(DocumentViewModel rootDocumentViewModel, int scaleID)
+        public static ToneGridEditViewModel TryGetToneGridEditViewModel(DocumentViewModel rootDocumentViewModel, int scaleID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
             ToneGridEditViewModel viewModel = rootDocumentViewModel.ToneGridEditList.Where(x => x.ScaleID == scaleID).FirstOrDefault();
+
+            return viewModel;
+        }
+
+        public static ToneGridEditViewModel GetToneGridEditViewModel(DocumentViewModel rootDocumentViewModel, int scaleID)
+        {
+            ToneGridEditViewModel viewModel = TryGetToneGridEditViewModel(rootDocumentViewModel, scaleID);
 
             if (viewModel == null)
             {
