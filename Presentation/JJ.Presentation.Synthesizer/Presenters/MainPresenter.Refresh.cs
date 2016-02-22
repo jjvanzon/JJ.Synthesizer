@@ -388,6 +388,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                                                                     .ToList();
         }
 
+        private void NodePropertiesRefresh(int nodeID)
+        {
+            NodePropertiesViewModel userInput = DocumentViewModelHelper.GetNodePropertiesViewModel(MainViewModel.Document, nodeID);
+            NodePropertiesRefresh(userInput);
+        }
+
         private void NodePropertiesRefresh(NodePropertiesViewModel userInput)
         {
             NodePropertiesViewModel viewModel = _nodePropertiesPresenter.Refresh(userInput);

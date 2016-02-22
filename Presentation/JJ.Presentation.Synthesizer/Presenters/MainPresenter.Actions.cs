@@ -290,34 +290,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 return;
             }
 
-            // ToViewModel
-            CurveDetailsViewModel curveDetailsViewModel = curve.ToDetailsViewModel(_repositories.NodeTypeRepository);
-            curveDetailsViewModel.Successful = true;
-
-            CurvePropertiesViewModel curvePropertiesViewModel = curve.ToPropertiesViewModel();
-            curvePropertiesViewModel.Successful = true;
-
-            var nodePropertiesViewModelModels = new List<NodePropertiesViewModel>(curve.Nodes.Count);
-            foreach (Node node in curve.Nodes)
-            {
-                NodePropertiesViewModel nodePropertiesViewModel = node.ToPropertiesViewModel(_repositories.NodeTypeRepository);
-                nodePropertiesViewModel.Successful = true;
-                nodePropertiesViewModelModels.Add(nodePropertiesViewModel);
-            }
-
-            // DispatchViewModel
-            DispatchViewModel(curveDetailsViewModel);
-            DispatchViewModel(curvePropertiesViewModel);
-            foreach (NodePropertiesViewModel nodePropertiesViewModel in nodePropertiesViewModelModels)
-            {
-                DispatchViewModel(nodePropertiesViewModel);
-            }
-
             // Refresh
-            CurveGridViewModel gridViewModel = DocumentViewModelHelper.GetCurveGridViewModel_ByDocumentID(MainViewModel.Document, document.ID);
-            CurveGridRefresh(gridViewModel);
-
-            CurveLookupsRefresh();
+            DocumentViewModelRefresh();
         }
 
         public void CurveDelete(int curveID)
@@ -453,7 +427,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void DocumentDelete(int id)
         {
+            // Partial Action
             object viewModel = _documentDeletePresenter.Show(id);
+
+            // DispatchViewModel
             DispatchViewModel(viewModel);
         }
 
@@ -468,6 +445,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void DocumentConfirmDelete(int id)
         {
+            // Partial Action
             object viewModel = _documentDeletePresenter.Confirm(id);
 
             if (viewModel is DocumentDeletedViewModel)
@@ -475,6 +453,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _repositories.Commit();
             }
 
+            // DispatchViewModel
             DispatchViewModel(viewModel);
         }
 
@@ -570,7 +549,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Business
             IResult result = _documentManager.ValidateRecursive(document);
-
             if (result.Successful)
             {
                 _repositories.Commit();
@@ -596,13 +574,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void DocumentPropertiesShow()
         {
+            // Template Method
             TemplateActionMethod(MainViewModel.Document.DocumentProperties, _documentPropertiesPresenter.Show);
         }
 
         public void DocumentPropertiesClose()
         {
+            // Template Method
             TemplateActionMethod(MainViewModel.Document.DocumentProperties, _documentPropertiesPresenter.Close);
 
+            // Refresh
             if (MainViewModel.Document.DocumentProperties.Successful)
             {
                 DocumentGridRefresh();
@@ -612,8 +593,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void DocumentPropertiesLoseFocus()
         {
+            // Template Method
             TemplateActionMethod(MainViewModel.Document.DocumentProperties, _documentPropertiesPresenter.LoseFocus);
 
+            // Refresh
             if (MainViewModel.Document.DocumentProperties.Successful)
             {
                 DocumentGridRefresh();
@@ -623,21 +606,25 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void DocumentTreeShow()
         {
+            // Template Method
             TemplateActionMethod(MainViewModel.Document.DocumentTree, _documentTreePresenter.Show);
         }
 
         public void DocumentTreeExpandNode(int nodeIndex)
         {
+            // Template Method
             TemplateActionMethod(MainViewModel.Document.DocumentTree, x => _documentTreePresenter.ExpandNode(x, nodeIndex));
         }
 
         public void DocumentTreeCollapseNode(int nodeIndex)
         {
+            // Template Method
             TemplateActionMethod(MainViewModel.Document.DocumentTree, x => _documentTreePresenter.CollapseNode(x, nodeIndex));
         }
 
         public void DocumentTreeClose()
         {
+            // Template Method
             TemplateActionMethod(MainViewModel.Document.DocumentTree, _documentTreePresenter.Close);
         }
 
@@ -689,12 +676,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void NodeCreate()
         {
+            // GetViewModel
             CurveDetailsViewModel userInput = DocumentViewModelHelper.GetVisibleCurveDetailsViewModel(MainViewModel.Document);
 
             // ToEntity
             Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
-
             Curve curve = _repositories.CurveRepository.Get(userInput.ID);
+
+            // Business
+            // TODO: This kind of stuff belongs in the business layer.
             Node afterNode;
             if (userInput.SelectedNodeID.HasValue)
             {
@@ -709,30 +699,25 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Business
             Node node = _curveManager.CreateNode(curve, afterNode);
 
+            // Business
             IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
-                MainViewModel.Successful &= validationResult.Successful;
+                // Non-Persisted
                 MainViewModel.PopupMessages.AddRange(validationResult.Messages);
                 return;
             }
 
-            // ToViewModel
-
-            // CurveDetails NodeViewModel
-            NodeViewModel nodeViewModel = node.ToViewModel();
-            userInput.Nodes.Add(nodeViewModel);
-
-            // NodeProperties
-            NodePropertiesViewModel nodePropertiesViewModel = node.ToPropertiesViewModel(_repositories.NodeTypeRepository);
-            IList<NodePropertiesViewModel> propertiesViewModelList = DocumentViewModelHelper.GetNodePropertiesViewModelList_ByCurveID(MainViewModel.Document, curve.ID);
-            propertiesViewModelList.Add(nodePropertiesViewModel);
+            // Refresh
+            DocumentViewModelRefresh();
         }
 
         public void NodeDelete()
         {
+            // GetViewModel
             CurveDetailsViewModel userInput = DocumentViewModelHelper.GetVisibleCurveDetailsViewModel(MainViewModel.Document);
 
+            // ViewModel Validation
             if (!userInput.SelectedNodeID.HasValue)
             {
                 MainViewModel.ValidationMessages.Add(new Message
@@ -743,6 +728,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 return;
             }
 
+            // Business
             // TODO: Verify this in the business.
             if (userInput.Nodes.Count <= 2)
             {
@@ -765,50 +751,41 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Business
             _curveManager.DeleteNode(node);
 
+            // Business
             IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
-                MainViewModel.Successful &= validationResult.Successful;
+                // Non-Persisted
                 MainViewModel.PopupMessages.AddRange(validationResult.Messages);
                 return;
             }
 
-            // ToViewModel
-
-            // CurveDetails NodeViewModel
-            userInput.Nodes.RemoveFirst(x => x.ID == nodeID);
-            userInput.SelectedNodeID = null;
-
-            // NodeProperties
-            bool isRemoved = MainViewModel.Document.NodePropertiesList.TryRemoveFirst(x => x.Entity.ID == nodeID);
-            if (!isRemoved)
-            {
-                foreach (PatchDocumentViewModel patchDocumentViewModel in MainViewModel.Document.PatchDocumentList)
-                {
-                    isRemoved = patchDocumentViewModel.NodePropertiesList.TryRemoveFirst(x => x.Entity.ID == nodeID);
-                    if (isRemoved)
-                    {
-                        break;
-                    }
-                }
-            }
-            if (!isRemoved)
-            {
-                throw new Exception(String.Format("NodeProperties with Node ID '{0}' not found in either root DocumentViewModel or its PatchDocumentViewModels.", nodeID));
-            }
+            // Refresh
+            DocumentViewModelRefresh();
         }
 
         public void NodeMove(int nodeID, double time, double value)
         {
-            CurveDetailsViewModel userInput = DocumentViewModelHelper.GetVisibleCurveDetailsViewModel(MainViewModel.Document);
+            // ToEntity
+            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
+            Node node = _repositories.NodeRepository.Get(nodeID);
 
-            NodeViewModel nodeViewModel = userInput.Nodes.Where(x => x.ID == nodeID).Single();
-            nodeViewModel.Time = time;
-            nodeViewModel.Value = value;
+            // Business
+            node.Time = time;
+            node.Value = value;
 
-            NodePropertiesViewModel propertiesViewModel = DocumentViewModelHelper.GetNodePropertiesViewModel(MainViewModel.Document, nodeID);
-            propertiesViewModel.Entity.Time = time;
-            propertiesViewModel.Entity.Value = value;
+            // Business
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
+            {
+                // Non-Persisted
+                MainViewModel.PopupMessages.AddRange(validationResult.Messages);
+                return;
+            }
+
+            // Refresh
+            CurveDetailsNodeRefresh(nodeID);
+            NodePropertiesRefresh(nodeID);
         }
 
         /// <summary>
@@ -817,19 +794,22 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// </summary>
         public void NodeChangeNodeType()
         {
+            // GetViewModel
             CurveDetailsViewModel userInput = DocumentViewModelHelper.GetVisibleCurveDetailsViewModel(MainViewModel.Document);
 
+            // ViewModel Validation
             if (!userInput.SelectedNodeID.HasValue)
             {
                 return;
             }
-
-            // ToViewModel
             int nodeID = userInput.SelectedNodeID.Value;
 
-            NodeViewModel nodeViewModel1 = userInput.Nodes.Where(x => x.ID == nodeID).Single();
+            // ToEntity
+            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
+            Node node = _repositories.NodeRepository.Get(nodeID);
 
-            NodeTypeEnum nodeTypeEnum = (NodeTypeEnum)nodeViewModel1.NodeType.ID;
+            // Business
+            NodeTypeEnum nodeTypeEnum = node.GetNodeTypeEnum();
             switch (nodeTypeEnum)
             {
                 case NodeTypeEnum.Off:
@@ -851,22 +831,27 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 default:
                     throw new InvalidValueException(nodeTypeEnum);
             }
+            node.SetNodeTypeEnum(nodeTypeEnum, _repositories.NodeTypeRepository);
 
-            NodeType nodeType = _repositories.NodeTypeRepository.Get((int)nodeTypeEnum);
+            // Business
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
+            {
+                // Non-Persisted
+                MainViewModel.PopupMessages.AddRange(validationResult.Messages);
+                return;
+            }
 
-            nodeViewModel1.NodeType = nodeType.ToIDAndDisplayName();
-
-            NodePropertiesViewModel propertiesViewModel = DocumentViewModelHelper.GetNodePropertiesViewModel(MainViewModel.Document, nodeID);
-            propertiesViewModel.Entity.NodeType = nodeType.ToIDAndDisplayName();
+            // Refresh
+            CurveDetailsNodeRefresh(nodeID);
+            NodePropertiesRefresh(nodeID);
         }
 
         // Operator
 
         public void OperatorPropertiesShow(int id)
         {
-            // ToEntity
-            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
-
+            // GetViewModel & Partial Action
             {
                 OperatorPropertiesViewModel userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel(MainViewModel.Document, id);
                 if (userInput != null)
@@ -1360,7 +1345,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // DispatchViewModel
                 DispatchViewModel(userInput);
-
                 return;
             }
 
@@ -1368,141 +1352,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = true;
 
             // ToViewModel
-
-            // OperatorViewModel
-            OperatorViewModel operatorViewModel = op.ToViewModelWithRelatedEntitiesAndInverseProperties(
-                _repositories.SampleRepository,
-                _repositories.CurveRepository,
-                _repositories.PatchRepository,
-                _entityPositionManager);
-            userInput.Entity.Operators.Add(operatorViewModel);
-
-            // OperatorPropertiesViewModel
-            OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
-            switch (operatorTypeEnum)
-            {
-                case OperatorTypeEnum.PatchInlet:
-                    {
-                        OperatorPropertiesViewModel_ForPatchInlet propertiesViewModel = op.ToPropertiesViewModel_ForPatchInlet(_repositories.InletTypeRepository);
-                        IList<OperatorPropertiesViewModel_ForPatchInlet> propertiesViewModelList = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForPatchInlets_ByPatchID(MainViewModel.Document, patch.ID);
-                        propertiesViewModelList.Add(propertiesViewModel);
-                        break;
-                    }
-
-                case OperatorTypeEnum.PatchOutlet:
-                    {
-                        OperatorPropertiesViewModel_ForPatchOutlet propertiesViewModel = op.ToPropertiesViewModel_ForPatchOutlet(_repositories.OutletTypeRepository);
-                        IList<OperatorPropertiesViewModel_ForPatchOutlet> propertiesViewModelList = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForPatchOutlets_ByPatchID(MainViewModel.Document, patch.ID);
-                        propertiesViewModelList.Add(propertiesViewModel);
-                        break;
-                    }
-                case OperatorTypeEnum.Average:
-                case OperatorTypeEnum.Minimum:
-                case OperatorTypeEnum.Maximum:
-                    {
-                        OperatorPropertiesViewModel_ForAggregate propertiesViewModel = op.ToPropertiesViewModel_ForAggregate();
-                        IList<OperatorPropertiesViewModel_ForAggregate> propertiesViewModelList = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForAggregates_ByPatchID(MainViewModel.Document, patch.ID);
-                        propertiesViewModelList.Add(propertiesViewModel);
-                        break;
-                    }
-
-                case OperatorTypeEnum.Bundle:
-                    {
-                        OperatorPropertiesViewModel_ForBundle propertiesViewModel = op.ToPropertiesViewModel_ForBundle();
-                        IList<OperatorPropertiesViewModel_ForBundle> propertiesViewModelList = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForBundles_ByPatchID(MainViewModel.Document, patch.ID);
-                        propertiesViewModelList.Add(propertiesViewModel);
-                        break;
-                    }
-
-                case OperatorTypeEnum.Cache:
-                    {
-                        OperatorPropertiesViewModel_ForCache propertiesViewModel = op.ToPropertiesViewModel_ForCache(_repositories.InterpolationTypeRepository);
-                        IList<OperatorPropertiesViewModel_ForCache> propertiesViewModelList = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForCaches_ByPatchID(MainViewModel.Document, patch.ID);
-                        propertiesViewModelList.Add(propertiesViewModel);
-                        break;
-                    }
-
-                case OperatorTypeEnum.Curve:
-                    {
-                        OperatorPropertiesViewModel_ForCurve propertiesViewModel = op.ToPropertiesViewModel_ForCurve(_repositories.CurveRepository);
-                        IList<OperatorPropertiesViewModel_ForCurve> propertiesViewModelList = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForCurves_ByPatchID(MainViewModel.Document, patch.ID);
-                        propertiesViewModelList.Add(propertiesViewModel);
-                        break;
-                    }
-
-                case OperatorTypeEnum.CustomOperator:
-                    {
-                        OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel = op.ToPropertiesViewModel_ForCustomOperator(_repositories.PatchRepository);
-                        IList<OperatorPropertiesViewModel_ForCustomOperator> propertiesViewModelList = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForCustomOperators_ByPatchID(MainViewModel.Document, patch.ID);
-                        propertiesViewModelList.Add(propertiesViewModel);
-                        break;
-                    }
-
-                case OperatorTypeEnum.Number:
-                    {
-                        OperatorPropertiesViewModel_ForNumber propertiesViewModel = op.ToPropertiesViewModel_ForNumber();
-                        IList<OperatorPropertiesViewModel_ForNumber> propertiesViewModelList = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForNumbers_ByPatchID(MainViewModel.Document, patch.ID);
-                        propertiesViewModelList.Add(propertiesViewModel);
-                        break;
-                    }
-
-                case OperatorTypeEnum.Random:
-                    {
-                        OperatorPropertiesViewModel_ForRandom propertiesViewModel = op.ToPropertiesViewModel_ForRandom();
-                        IList<OperatorPropertiesViewModel_ForRandom> propertiesViewModelList = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForRandoms_ByPatchID(MainViewModel.Document, patch.ID);
-                        propertiesViewModelList.Add(propertiesViewModel);
-                        break;
-                    }
-
-                case OperatorTypeEnum.Resample:
-                    {
-                        OperatorPropertiesViewModel_ForResample propertiesViewModel = op.ToPropertiesViewModel_ForResample();
-                        IList<OperatorPropertiesViewModel_ForResample> propertiesViewModelList = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForResamples_ByPatchID(MainViewModel.Document, patch.ID);
-                        propertiesViewModelList.Add(propertiesViewModel);
-                        break;
-                    }
-
-                case OperatorTypeEnum.Sample:
-                    {
-                        OperatorPropertiesViewModel_ForSample propertiesViewModel = op.ToPropertiesViewModel_ForSample(_repositories.SampleRepository);
-                        IList<OperatorPropertiesViewModel_ForSample> propertiesViewModelList = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForSamples_ByPatchID(MainViewModel.Document, patch.ID);
-                        propertiesViewModelList.Add(propertiesViewModel);
-                        break;
-                    }
-
-                case OperatorTypeEnum.Spectrum:
-                    {
-                        OperatorPropertiesViewModel_ForSpectrum propertiesViewModel = op.ToPropertiesViewModel_ForSpectrum();
-                        IList<OperatorPropertiesViewModel_ForSpectrum> propertiesViewModelList = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForSpectrums_ByPatchID(MainViewModel.Document, patch.ID);
-                        propertiesViewModelList.Add(propertiesViewModel);
-                        break;
-                    }
-
-                case OperatorTypeEnum.Unbundle:
-                    {
-                        OperatorPropertiesViewModel_ForUnbundle propertiesViewModel = op.ToPropertiesViewModel_ForUnbundle();
-                        IList<OperatorPropertiesViewModel_ForUnbundle> propertiesViewModelList = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForUnbundles_ByPatchID(MainViewModel.Document, patch.ID);
-                        propertiesViewModelList.Add(propertiesViewModel);
-                        break;
-                    }
-
-                default:
-                    {
-                        OperatorPropertiesViewModel propertiesViewModel = op.ToPropertiesViewModel();
-                        IList<OperatorPropertiesViewModel> propertiesViewModelList = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ByPatchID(MainViewModel.Document, patch.ID);
-                        propertiesViewModelList.Add(propertiesViewModel);
-                        break;
-                    }
-            }
-
-            switch (operatorTypeEnum)
-            {
-                case OperatorTypeEnum.PatchInlet:
-                case OperatorTypeEnum.PatchOutlet:
-                    // Refresh Dependent Things
-                    OperatorViewModels_OfType_Refresh(OperatorTypeEnum.CustomOperator);
-                    break;
-            }
+            DocumentViewModelRefresh();
         }
 
         /// <summary> Deletes the operator selected in PatchDetails. </summary>

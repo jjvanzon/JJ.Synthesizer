@@ -19,8 +19,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentRepository = documentRepository;
         }
 
-        /// <summary> Can return NotFoundViewModel or DocumentCannotDeleteViewModel. </summary>
-        public object Show(int id, IList<Message> messages)
+        public DocumentCannotDeleteViewModel Show(int id, IList<Message> messages)
         {
             // GetEntity
             Document document = _documentRepository.Get(id);

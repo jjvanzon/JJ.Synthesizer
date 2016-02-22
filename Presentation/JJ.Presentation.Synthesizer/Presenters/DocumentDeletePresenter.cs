@@ -22,7 +22,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentManager = new DocumentManager(repositoryWrapper);
         }
 
-        /// <summary> return DocumentDeleteViewModel, NotFoundViewModel or DocumentCannotDeleteViewModel. </summary>
+        /// <summary> return DocumentDeleteViewModel or DocumentCannotDeleteViewModel. </summary>
         public object Show(int id)
         {
             // GetEntity
@@ -50,7 +50,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        /// <summary> Can return DocumentDeletedViewModel or NotFoundViewModel. </summary>
+        /// <summary> Can return DocumentDeletedViewModel or DocumentCannotDeletePresenter. </summary>
         public object Confirm(int id)
         {
             // GetEntity
@@ -68,7 +68,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
             else
             {
-                // REdirect
+                // Redirect
                 var presenter2 = new DocumentDeletedPresenter();
                 object viewModel = presenter2.Show();
                 return viewModel;
