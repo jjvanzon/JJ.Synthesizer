@@ -28,6 +28,32 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(viewModel);
         }
 
+        private void AudioFileOutputPropertiesRefresh()
+        {
+            Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
+            IList<AudioFileOutput> entities = document.AudioFileOutputs;
+
+            foreach (AudioFileOutput entity in entities)
+            {
+                AudioFileOutputPropertiesViewModel viewModel = DocumentViewModelHelper.TryGetAudioFileOutputPropertiesViewModel(MainViewModel.Document, entity.ID);
+                if (viewModel == null)
+                {
+                    viewModel = entity.ToPropertiesViewModel(_repositories.AudioFileFormatRepository, _repositories.SampleDataTypeRepository);
+                    viewModel.Successful = true;
+                    MainViewModel.Document.AudioFileOutputPropertiesList.Add(viewModel);
+                }
+                else
+                {
+                    AudioFileOutputPropertiesRefresh(viewModel);
+                }
+            }
+
+            HashSet<int> idsToKeep = entities.Select(x => x.ID).ToHashSet();
+            MainViewModel.Document.AudioFileOutputPropertiesList = MainViewModel.Document.AudioFileOutputPropertiesList
+                                                                                         .Where(x => idsToKeep.Contains(x.Entity.ID))
+                                                                                         .ToList();
+        }
+
         private void AudioFileOutputPropertiesRefresh(AudioFileOutputPropertiesViewModel userInput)
         {
             // Partial Action
@@ -47,6 +73,58 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // DispatchViewModel
             DispatchViewModel(viewModel);
+        }
+
+        private void CurveDetailsListRefresh(PatchDocumentViewModel patchDocumentViewModel)
+        {
+            Document childDocument = _repositories.DocumentRepository.Get(patchDocumentViewModel.ChildDocumentID);
+            IList<Curve> curves = childDocument.Curves;
+
+            foreach (Curve curve in curves)
+            {
+                CurveDetailsViewModel curveDetailsViewModel = DocumentViewModelHelper.TryGetCurveDetailsViewModel(MainViewModel.Document, curve.ID);
+                if (curveDetailsViewModel == null)
+                {
+                    curveDetailsViewModel = curve.ToDetailsViewModel(_repositories.NodeTypeRepository);
+                    curveDetailsViewModel.Successful = true;
+                    patchDocumentViewModel.CurveDetailsList.Add(curveDetailsViewModel);
+                }
+                else
+                {
+                    CurveDetailsRefresh(curveDetailsViewModel);
+                }
+            }
+
+            HashSet<int> idsToKeep = curves.Select(x => x.ID).ToHashSet();
+            patchDocumentViewModel.CurveDetailsList = patchDocumentViewModel.CurveDetailsList
+                                                                            .Where(x => idsToKeep.Contains(x.ID))
+                                                                            .ToList();
+        }
+
+        private void CurveDetailsListRefresh(DocumentViewModel documentViewModel)
+        {
+            Document document = _repositories.DocumentRepository.Get(documentViewModel.ID);
+            IList<Curve> entities = document.Curves;
+
+            foreach (Curve entity in entities)
+            {
+                CurveDetailsViewModel viewModel = DocumentViewModelHelper.TryGetCurveDetailsViewModel(documentViewModel, entity.ID);
+                if (viewModel == null)
+                {
+                    viewModel = entity.ToDetailsViewModel(_repositories.NodeTypeRepository);
+                    viewModel.Successful = true;
+                    documentViewModel.CurveDetailsList.Add(viewModel);
+                }
+                else
+                {
+                    CurveDetailsRefresh(viewModel);
+                }
+            }
+
+            HashSet<int> idsToKeep = entities.Select(x => x.ID).ToHashSet();
+            documentViewModel.CurveDetailsList = documentViewModel.CurveDetailsList
+                                                                  .Where(x => idsToKeep.Contains(x.ID))
+                                                                  .ToList();
         }
 
         private void CurveDetailsNodeRefresh(int nodeID)
@@ -75,16 +153,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(viewModel);
         }
 
-        private void CurveLookupsRefresh()
-        {
-            Document rootDocument = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-            foreach (Document childDocument in rootDocument.ChildDocuments)
-            {
-                PatchDocumentViewModel patchDocumentViewModel = DocumentViewModelHelper.GetPatchDocumentViewModel(MainViewModel.Document, childDocument.ID);
-                patchDocumentViewModel.CurveLookup = ViewModelHelper.CreateCurveLookupViewModel(rootDocument, childDocument);
-            }
-        }
-
         private void CurveLookupRefresh(PatchDocumentViewModel patchDocumentViewModel)
         {
             Document rootDocument = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
@@ -105,6 +173,68 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     patchDocumentViewModel.CurveLookup = patchDocumentViewModel.CurveLookup.OrderBy(x => x.Name).ToList();
                 }
             }
+        }
+
+        private void CurveLookupsRefresh()
+        {
+            Document rootDocument = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
+            foreach (Document childDocument in rootDocument.ChildDocuments)
+            {
+                PatchDocumentViewModel patchDocumentViewModel = DocumentViewModelHelper.GetPatchDocumentViewModel(MainViewModel.Document, childDocument.ID);
+                patchDocumentViewModel.CurveLookup = ViewModelHelper.CreateCurveLookupViewModel(rootDocument, childDocument);
+            }
+        }
+
+        private void CurvePropertiesListRefresh(PatchDocumentViewModel patchDocumentViewModel)
+        {
+            Document childDocument = _repositories.DocumentRepository.Get(patchDocumentViewModel.ChildDocumentID);
+            IList<Curve> curves = childDocument.Curves;
+
+            foreach (Curve curve in curves)
+            {
+                CurvePropertiesViewModel curvePropertiesViewModel = DocumentViewModelHelper.TryGetCurvePropertiesViewModel(MainViewModel.Document, curve.ID);
+                if (curvePropertiesViewModel == null)
+                {
+                    curvePropertiesViewModel = curve.ToPropertiesViewModel();
+                    curvePropertiesViewModel.Successful = true;
+                    patchDocumentViewModel.CurvePropertiesList.Add(curvePropertiesViewModel);
+                }
+                else
+                {
+                    CurvePropertiesRefresh(curvePropertiesViewModel);
+                }
+            }
+
+            HashSet<int> idsToKeep = curves.Select(x => x.ID).ToHashSet();
+            patchDocumentViewModel.CurvePropertiesList = patchDocumentViewModel.CurvePropertiesList
+                                                                               .Where(x => idsToKeep.Contains(x.ID))
+                                                                               .ToList();
+        }
+
+        private void CurvePropertiesListRefresh(DocumentViewModel documentViewModel)
+        {
+            Document document = _repositories.DocumentRepository.Get(documentViewModel.ID);
+            IList<Curve> entities = document.Curves;
+
+            foreach (Curve entity in entities)
+            {
+                CurvePropertiesViewModel viewModel = DocumentViewModelHelper.TryGetCurvePropertiesViewModel(documentViewModel, entity.ID);
+                if (viewModel == null)
+                {
+                    viewModel = entity.ToPropertiesViewModel();
+                    viewModel.Successful = true;
+                    documentViewModel.CurvePropertiesList.Add(viewModel);
+                }
+                else
+                {
+                    CurvePropertiesRefresh(viewModel);
+                }
+            }
+
+            HashSet<int> idsToKeep = entities.Select(x => x.ID).ToHashSet();
+            documentViewModel.CurvePropertiesList = documentViewModel.CurvePropertiesList
+                                                                     .Where(x => idsToKeep.Contains(x.ID))
+                                                                     .ToList();
         }
 
         private void CurvePropertiesRefresh(CurvePropertiesViewModel userInput)
@@ -206,60 +336,152 @@ namespace JJ.Presentation.Synthesizer.Presenters
                                                                              .ToList();
         }
 
-        private void RefreshPatchDocument(PatchDocumentViewModel patchDocumentViewModel)
-        {
-            CurveGridRefresh(patchDocumentViewModel.CurveGrid);
-            CurveLookupRefresh(patchDocumentViewModel);
-            PatchDetailsRefresh(patchDocumentViewModel.PatchDetails);
-            CurveDetailsListRefresh(patchDocumentViewModel);
-            CurvePropertiesListRefresh(patchDocumentViewModel);
-            NodePropertiesListRefresh(patchDocumentViewModel);
-
-            OperatorPropertiesListRefresh(patchDocumentViewModel);
-            OperatorPropertiesList_ForAggregates_Refresh(patchDocumentViewModel);
-            OperatorPropertiesList_ForBundles_Refresh(patchDocumentViewModel);
-            OperatorPropertiesList_ForCurves_Refresh(patchDocumentViewModel);
-            OperatorPropertiesList_ForCustomOperators_Refresh(patchDocumentViewModel);
-            OperatorPropertiesList_ForNumbers_Refresh(patchDocumentViewModel);
-            OperatorPropertiesList_ForPatchInlets_Refresh(patchDocumentViewModel);
-            OperatorPropertiesList_ForPatchOutlets_Refresh(patchDocumentViewModel);
-            OperatorPropertiesList_ForRandoms_Refresh(patchDocumentViewModel);
-            OperatorPropertiesList_ForResamples_Refresh(patchDocumentViewModel);
-            OperatorPropertiesList_ForSamples_Refresh(patchDocumentViewModel);
-            OperatorPropertiesList_ForUnbundles_Refresh(patchDocumentViewModel);
-
-            SamplePropertiesListRefresh(patchDocumentViewModel);
-
-            PatchPropertiesRefresh(patchDocumentViewModel.PatchProperties);
-            SampleGridRefresh(patchDocumentViewModel.SampleGrid);
-            SampleLookupRefresh(patchDocumentViewModel);
-        }
-
-        private void OperatorPropertiesListRefresh(PatchDocumentViewModel patchDocumentViewModel)
+        private void NodePropertiesListRefresh(PatchDocumentViewModel patchDocumentViewModel)
         {
             Document childDocument = _repositories.DocumentRepository.Get(patchDocumentViewModel.ChildDocumentID);
-            IList<Operator> operators = childDocument.Patches[0].Operators
-                                                                .Where(x => ViewModelHelper.OperatorTypeEnums_WithTheirOwnPropertyViews.Contains(x.GetOperatorTypeEnum()))
-                                                                .ToArray();
-            foreach (Operator op in operators)
+            IList<Node> nodes = childDocument.Curves.SelectMany(x => x.Nodes).ToArray();
+
+            foreach (Node node in nodes)
             {
-                OperatorPropertiesViewModel viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel(MainViewModel.Document, op.ID);
-                if (viewModel == null)
+                NodePropertiesViewModel nodePropertiesViewModel = DocumentViewModelHelper.TryGetNodePropertiesViewModel(MainViewModel.Document, node.ID);
+                if (nodePropertiesViewModel == null)
                 {
-                    viewModel = op.ToPropertiesViewModel();
-                    viewModel.Successful = true;
-                    patchDocumentViewModel.OperatorPropertiesList.Add(viewModel);
+                    nodePropertiesViewModel = node.ToPropertiesViewModel(_repositories.NodeTypeRepository);
+                    nodePropertiesViewModel.Successful = true;
+                    patchDocumentViewModel.NodePropertiesList.Add(nodePropertiesViewModel);
                 }
                 else
                 {
-                    OperatorPropertiesRefresh(viewModel);
+                    NodePropertiesRefresh(nodePropertiesViewModel);
                 }
             }
 
-            HashSet<int> idsToKeep = operators.Select(x => x.ID).ToHashSet();
-            patchDocumentViewModel.OperatorPropertiesList = patchDocumentViewModel.OperatorPropertiesList
-                                                                                  .Where(x => idsToKeep.Contains(x.ID))
-                                                                                  .ToList();
+            HashSet<int> idsToKeep = nodes.Select(x => x.ID).ToHashSet();
+            patchDocumentViewModel.NodePropertiesList = patchDocumentViewModel.NodePropertiesList
+                                                                              .Where(x => idsToKeep.Contains(x.Entity.ID))
+                                                                              .ToList();
+        }
+
+        private void NodePropertiesListRefresh(DocumentViewModel documentViewModel)
+        {
+            Document document = _repositories.DocumentRepository.Get(documentViewModel.ID);
+            IList<Node> entities = document.Curves.SelectMany(x => x.Nodes).ToArray();
+
+            foreach (Node entity in entities)
+            {
+                NodePropertiesViewModel viewModel = DocumentViewModelHelper.TryGetNodePropertiesViewModel(documentViewModel, entity.ID);
+                if (viewModel == null)
+                {
+                    viewModel = entity.ToPropertiesViewModel(_repositories.NodeTypeRepository);
+                    viewModel.Successful = true;
+                    documentViewModel.NodePropertiesList.Add(viewModel);
+                }
+                else
+                {
+                    NodePropertiesRefresh(viewModel);
+                }
+            }
+
+            HashSet<int> idsToKeep = entities.Select(x => x.ID).ToHashSet();
+            documentViewModel.NodePropertiesList = documentViewModel.NodePropertiesList
+                                                                    .Where(x => idsToKeep.Contains(x.Entity.ID))
+                                                                    .ToList();
+        }
+
+        private void NodePropertiesRefresh(NodePropertiesViewModel userInput)
+        {
+            NodePropertiesViewModel viewModel = _nodePropertiesPresenter.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
+        private void OperatorProperties_ForAggregate_Refresh(OperatorPropertiesViewModel_ForAggregate userInput)
+        {
+            OperatorPropertiesViewModel_ForAggregate viewModel = _operatorPropertiesPresenter_ForAggregate.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
+        private void OperatorProperties_ForBundle_Refresh(OperatorPropertiesViewModel_ForBundle userInput)
+        {
+            OperatorPropertiesViewModel_ForBundle viewModel = _operatorPropertiesPresenter_ForBundle.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
+        private void OperatorProperties_ForCache_Refresh(OperatorPropertiesViewModel_ForCache userInput)
+        {
+            OperatorPropertiesViewModel_ForCache viewModel = _operatorPropertiesPresenter_ForCache.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
+        private void OperatorProperties_ForCurve_Refresh(OperatorPropertiesViewModel_ForCurve userInput)
+        {
+            OperatorPropertiesViewModel_ForCurve viewModel = _operatorPropertiesPresenter_ForCurve.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
+        private void OperatorProperties_ForCustomOperator_Refresh(OperatorPropertiesViewModel_ForCustomOperator userInput)
+        {
+            OperatorPropertiesViewModel_ForCustomOperator viewModel = _operatorPropertiesPresenter_ForCustomOperator.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
+        private void OperatorProperties_ForCustomOperatorViewModel_Refresh(OperatorPropertiesViewModel_ForCustomOperator userInput)
+        {
+            OperatorPropertiesViewModel_ForCustomOperator viewModel = _operatorPropertiesPresenter_ForCustomOperator.Refresh(userInput);
+
+            DispatchViewModel(viewModel);
+        }
+
+        private void OperatorProperties_ForCustomOperatorViewModels_Refresh(int underlyingPatchID)
+        {
+            IList<OperatorPropertiesViewModel_ForCustomOperator> propertiesViewModelList = 
+                MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForCustomOperators).ToArray();
+
+            foreach (OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel in propertiesViewModelList)
+            {
+                OperatorProperties_ForCustomOperatorViewModel_Refresh(propertiesViewModel);
+            }
+        }
+
+        private void OperatorProperties_ForNumber_Refresh(OperatorPropertiesViewModel_ForNumber userInput)
+        {
+            OperatorPropertiesViewModel_ForNumber viewModel = _operatorPropertiesPresenter_ForNumber.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
+        private void OperatorProperties_ForPatchInlet_Refresh(OperatorPropertiesViewModel_ForPatchInlet userInput)
+        {
+            OperatorPropertiesViewModel_ForPatchInlet viewModel = _operatorPropertiesPresenter_ForPatchInlet.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
+        private void OperatorProperties_ForPatchOutlet_Refresh(OperatorPropertiesViewModel_ForPatchOutlet userInput)
+        {
+            OperatorPropertiesViewModel_ForPatchOutlet viewModel = _operatorPropertiesPresenter_ForPatchOutlet.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
+        private void OperatorProperties_ForRandom_Refresh(OperatorPropertiesViewModel_ForRandom userInput)
+        {
+            OperatorPropertiesViewModel_ForRandom viewModel = _operatorPropertiesPresenter_ForRandom.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
+        private void OperatorProperties_ForResample_Refresh(OperatorPropertiesViewModel_ForResample userInput)
+        {
+            OperatorPropertiesViewModel_ForResample viewModel = _operatorPropertiesPresenter_ForResample.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
+        private void OperatorProperties_ForSample_Refresh(OperatorPropertiesViewModel_ForSample userInput)
+        {
+            OperatorPropertiesViewModel_ForSample viewModel = _operatorPropertiesPresenter_ForSample.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
+        private void OperatorProperties_ForUnbundle_Refresh(OperatorPropertiesViewModel_ForUnbundle userInput)
+        {
+            OperatorPropertiesViewModel_ForUnbundle viewModel = _operatorPropertiesPresenter_ForUnbundle.Refresh(userInput);
+            DispatchViewModel(viewModel);
         }
 
         private void OperatorPropertiesList_ForAggregates_Refresh(PatchDocumentViewModel patchDocumentViewModel)
@@ -551,413 +773,31 @@ namespace JJ.Presentation.Synthesizer.Presenters
                                                                                                .ToList();
         }
 
-        private void PatchGridListsRefresh()
-        {
-            Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-
-            HashSet<string> groups = document.ChildDocuments.Select(x => x.GroupName ?? "")
-                                                            .Distinct()
-                                                            .ToHashSet();
-            foreach (string group in groups)
-            {
-                PatchGridViewModel viewModel = DocumentViewModelHelper.TryGetPatchGridViewModel_ByGroup(MainViewModel.Document, group);
-                if (viewModel == null)
-                {
-                    viewModel = document.ToPatchGridViewModel(group);
-                    viewModel.Successful = true;
-                    MainViewModel.Document.PatchGridList.Add(viewModel);
-                }
-                else
-                {
-                    PatchGridRefresh(viewModel);
-                }
-            }
-
-            MainViewModel.Document.PatchGridList = MainViewModel.Document.PatchGridList
-                                                                         .Where(x => groups.Contains(x.Group ?? ""))
-                                                                         .ToList();
-        }
-
-        private void ToneGridEditListRefresh()
-        {
-            Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-            IList<Scale> entities = document.Scales;
-
-            foreach (Scale entity in entities)
-            {
-                ToneGridEditViewModel viewModel = DocumentViewModelHelper.TryGetToneGridEditViewModel(MainViewModel.Document, entity.ID);
-                if (viewModel == null)
-                {
-                    viewModel = entity.ToToneGridEditViewModel();
-                    viewModel.Successful = true;
-                    MainViewModel.Document.ToneGridEditList.Add(viewModel);
-                }
-                else
-                {
-                    ToneGridEditRefresh(viewModel);
-                }
-            }
-
-            HashSet<int> idsToKeep = entities.Select(x => x.ID).ToHashSet();
-            MainViewModel.Document.ToneGridEditList = MainViewModel.Document.ToneGridEditList
-                                                                            .Where(x => idsToKeep.Contains(x.ScaleID))
-                                                                            .ToList();
-        }
-
-        private void ScalePropertiesListRefresh()
-        {
-            Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-            IList<Scale> entities = document.Scales;
-
-            foreach (Scale entity in entities)
-            {
-                ScalePropertiesViewModel viewModel = DocumentViewModelHelper.TryGetScalePropertiesViewModel(MainViewModel.Document, entity.ID);
-                if (viewModel == null)
-                {
-                    viewModel = entity.ToPropertiesViewModel(_repositories.ScaleTypeRepository);
-                    viewModel.Successful = true;
-                    MainViewModel.Document.ScalePropertiesList.Add(viewModel);
-                }
-                else
-                {
-                    ScalePropertiesRefresh(viewModel);
-                }
-            }
-
-            HashSet<int> idsToKeep = entities.Select(x => x.ID).ToHashSet();
-            MainViewModel.Document.ScalePropertiesList = MainViewModel.Document.ScalePropertiesList
-                                                                               .Where(x => idsToKeep.Contains(x.Entity.ID))
-                                                                               .ToList();
-        }
-
-        private void SamplePropertiesListRefresh(DocumentViewModel documentViewModel)
-        {
-            Document document = _repositories.DocumentRepository.Get(documentViewModel.ID);
-            IList<Sample> entities = document.Samples;
-
-            foreach (Sample entity in entities)
-            {
-                SamplePropertiesViewModel viewModel = DocumentViewModelHelper.TryGetSamplePropertiesViewModel(documentViewModel, entity.ID);
-                if (viewModel == null)
-                {
-                    viewModel = entity.ToPropertiesViewModel(_sampleRepositories);
-                    viewModel.Successful = true;
-                    documentViewModel.SamplePropertiesList.Add(viewModel);
-                }
-                else
-                {
-                    SamplePropertiesRefresh(viewModel);
-                }
-            }
-
-            HashSet<int> idsToKeep = entities.Select(x => x.ID).ToHashSet();
-            documentViewModel.SamplePropertiesList = documentViewModel.SamplePropertiesList
-                                                                      .Where(x => idsToKeep.Contains(x.Entity.ID))
-                                                                      .ToList();
-        }
-
-        private void AudioFileOutputPropertiesRefresh()
-        {
-            Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-            IList<AudioFileOutput> entities = document.AudioFileOutputs;
-
-            foreach (AudioFileOutput entity in entities)
-            {
-                AudioFileOutputPropertiesViewModel viewModel = DocumentViewModelHelper.TryGetAudioFileOutputPropertiesViewModel(MainViewModel.Document, entity.ID);
-                if (viewModel == null)
-                {
-                    viewModel = entity.ToPropertiesViewModel(_repositories.AudioFileFormatRepository, _repositories.SampleDataTypeRepository);
-                    viewModel.Successful = true;
-                    MainViewModel.Document.AudioFileOutputPropertiesList.Add(viewModel);
-                }
-                else
-                {
-                    AudioFileOutputPropertiesRefresh(viewModel);
-                }
-            }
-
-            HashSet<int> idsToKeep = entities.Select(x => x.ID).ToHashSet();
-            MainViewModel.Document.AudioFileOutputPropertiesList = MainViewModel.Document.AudioFileOutputPropertiesList
-                                                                                         .Where(x => idsToKeep.Contains(x.Entity.ID))
-                                                                                         .ToList();
-        }
-
-        private void CurveDetailsListRefresh(DocumentViewModel documentViewModel)
-        {
-            Document document = _repositories.DocumentRepository.Get(documentViewModel.ID);
-            IList<Curve> entities = document.Curves;
-
-            foreach (Curve entity in entities)
-            {
-                CurveDetailsViewModel viewModel = DocumentViewModelHelper.TryGetCurveDetailsViewModel(documentViewModel, entity.ID);
-                if (viewModel == null)
-                {
-                    viewModel = entity.ToDetailsViewModel(_repositories.NodeTypeRepository);
-                    viewModel.Successful = true;
-                    documentViewModel.CurveDetailsList.Add(viewModel);
-                }
-                else
-                {
-                    CurveDetailsRefresh(viewModel);
-                }
-            }
-
-            HashSet<int> idsToKeep = entities.Select(x => x.ID).ToHashSet();
-            documentViewModel.CurveDetailsList = documentViewModel.CurveDetailsList
-                                                                  .Where(x => idsToKeep.Contains(x.ID))
-                                                                  .ToList();
-        }
-
-        private void CurveDetailsListRefresh(PatchDocumentViewModel patchDocumentViewModel)
+        private void OperatorPropertiesListRefresh(PatchDocumentViewModel patchDocumentViewModel)
         {
             Document childDocument = _repositories.DocumentRepository.Get(patchDocumentViewModel.ChildDocumentID);
-            IList<Curve> curves = childDocument.Curves;
-
-            foreach (Curve curve in curves)
+            IList<Operator> operators = childDocument.Patches[0].Operators
+                                                                .Where(x => ViewModelHelper.OperatorTypeEnums_WithTheirOwnPropertyViews.Contains(x.GetOperatorTypeEnum()))
+                                                                .ToArray();
+            foreach (Operator op in operators)
             {
-                CurveDetailsViewModel curveDetailsViewModel = DocumentViewModelHelper.TryGetCurveDetailsViewModel(MainViewModel.Document, curve.ID);
-                if (curveDetailsViewModel == null)
-                {
-                    curveDetailsViewModel = curve.ToDetailsViewModel(_repositories.NodeTypeRepository);
-                    curveDetailsViewModel.Successful = true;
-                    patchDocumentViewModel.CurveDetailsList.Add(curveDetailsViewModel);
-                }
-                else
-                {
-                    CurveDetailsRefresh(curveDetailsViewModel);
-                }
-            }
-
-            HashSet<int> idsToKeep = curves.Select(x => x.ID).ToHashSet();
-            patchDocumentViewModel.CurveDetailsList = patchDocumentViewModel.CurveDetailsList
-                                                                            .Where(x => idsToKeep.Contains(x.ID))
-                                                                            .ToList();
-        }
-
-        private void CurvePropertiesListRefresh(PatchDocumentViewModel patchDocumentViewModel)
-        {
-            Document childDocument = _repositories.DocumentRepository.Get(patchDocumentViewModel.ChildDocumentID);
-            IList<Curve> curves = childDocument.Curves;
-
-            foreach (Curve curve in curves)
-            {
-                CurvePropertiesViewModel curvePropertiesViewModel = DocumentViewModelHelper.TryGetCurvePropertiesViewModel(MainViewModel.Document, curve.ID);
-                if (curvePropertiesViewModel == null)
-                {
-                    curvePropertiesViewModel = curve.ToPropertiesViewModel();
-                    curvePropertiesViewModel.Successful = true;
-                    patchDocumentViewModel.CurvePropertiesList.Add(curvePropertiesViewModel);
-                }
-                else
-                {
-                    CurvePropertiesRefresh(curvePropertiesViewModel);
-                }
-            }
-
-            HashSet<int> idsToKeep = curves.Select(x => x.ID).ToHashSet();
-            patchDocumentViewModel.CurvePropertiesList = patchDocumentViewModel.CurvePropertiesList
-                                                                               .Where(x => idsToKeep.Contains(x.ID))
-                                                                               .ToList();
-        }
-
-        private void SamplePropertiesListRefresh(PatchDocumentViewModel patchDocumentViewModel)
-        {
-            Document childDocument = _repositories.DocumentRepository.Get(patchDocumentViewModel.ChildDocumentID);
-            IList<Sample> samples = childDocument.Samples;
-
-            foreach (Sample sample in samples)
-            {
-                SamplePropertiesViewModel samplePropertiesViewModel = DocumentViewModelHelper.TryGetSamplePropertiesViewModel(MainViewModel.Document, sample.ID);
-                if (samplePropertiesViewModel == null)
-                {
-                    samplePropertiesViewModel = sample.ToPropertiesViewModel(_sampleRepositories);
-                    samplePropertiesViewModel.Successful = true;
-                    patchDocumentViewModel.SamplePropertiesList.Add(samplePropertiesViewModel);
-                }
-                else
-                {
-                    SamplePropertiesRefresh(samplePropertiesViewModel);
-                }
-            }
-
-            HashSet<int> idsToKeep = samples.Select(x => x.ID).ToHashSet();
-            patchDocumentViewModel.SamplePropertiesList = patchDocumentViewModel.SamplePropertiesList
-                                                                               .Where(x => idsToKeep.Contains(x.Entity.ID))
-                                                                               .ToList();
-        }
-
-        private void CurvePropertiesListRefresh(DocumentViewModel documentViewModel)
-        {
-            Document document = _repositories.DocumentRepository.Get(documentViewModel.ID);
-            IList<Curve> entities = document.Curves;
-
-            foreach (Curve entity in entities)
-            {
-                CurvePropertiesViewModel viewModel = DocumentViewModelHelper.TryGetCurvePropertiesViewModel(documentViewModel, entity.ID);
+                OperatorPropertiesViewModel viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel(MainViewModel.Document, op.ID);
                 if (viewModel == null)
                 {
-                    viewModel = entity.ToPropertiesViewModel();
+                    viewModel = op.ToPropertiesViewModel();
                     viewModel.Successful = true;
-                    documentViewModel.CurvePropertiesList.Add(viewModel);
+                    patchDocumentViewModel.OperatorPropertiesList.Add(viewModel);
                 }
                 else
                 {
-                    CurvePropertiesRefresh(viewModel);
+                    OperatorPropertiesRefresh(viewModel);
                 }
             }
 
-            HashSet<int> idsToKeep = entities.Select(x => x.ID).ToHashSet();
-            documentViewModel.CurvePropertiesList = documentViewModel.CurvePropertiesList
-                                                                     .Where(x => idsToKeep.Contains(x.ID))
-                                                                     .ToList();
-        }
-
-        private void NodePropertiesListRefresh(DocumentViewModel documentViewModel)
-        {
-            Document document = _repositories.DocumentRepository.Get(documentViewModel.ID);
-            IList<Node> entities = document.Curves.SelectMany(x => x.Nodes).ToArray();
-
-            foreach (Node entity in entities)
-            {
-                NodePropertiesViewModel viewModel = DocumentViewModelHelper.TryGetNodePropertiesViewModel(documentViewModel, entity.ID);
-                if (viewModel == null)
-                {
-                    viewModel = entity.ToPropertiesViewModel(_repositories.NodeTypeRepository);
-                    viewModel.Successful = true;
-                    documentViewModel.NodePropertiesList.Add(viewModel);
-                }
-                else
-                {
-                    NodePropertiesRefresh(viewModel);
-                }
-            }
-
-            HashSet<int> idsToKeep = entities.Select(x => x.ID).ToHashSet();
-            documentViewModel.NodePropertiesList = documentViewModel.NodePropertiesList
-                                                                    .Where(x => idsToKeep.Contains(x.Entity.ID))
-                                                                    .ToList();
-        }
-
-        private void NodePropertiesListRefresh(PatchDocumentViewModel patchDocumentViewModel)
-        {
-            Document childDocument = _repositories.DocumentRepository.Get(patchDocumentViewModel.ChildDocumentID);
-            IList<Node> nodes = childDocument.Curves.SelectMany(x => x.Nodes).ToArray();
-
-            foreach (Node node in nodes)
-            {
-                NodePropertiesViewModel nodePropertiesViewModel = DocumentViewModelHelper.TryGetNodePropertiesViewModel(MainViewModel.Document, node.ID);
-                if (nodePropertiesViewModel == null)
-                {
-                    nodePropertiesViewModel = node.ToPropertiesViewModel(_repositories.NodeTypeRepository);
-                    nodePropertiesViewModel.Successful = true;
-                    patchDocumentViewModel.NodePropertiesList.Add(nodePropertiesViewModel);
-                }
-                else
-                {
-                    NodePropertiesRefresh(nodePropertiesViewModel);
-                }
-            }
-
-            HashSet<int> idsToKeep = nodes.Select(x => x.ID).ToHashSet();
-            patchDocumentViewModel.NodePropertiesList = patchDocumentViewModel.NodePropertiesList
-                                                                              .Where(x => idsToKeep.Contains(x.Entity.ID))
-                                                                              .ToList();
-        }
-
-        private void NodePropertiesRefresh(NodePropertiesViewModel userInput)
-        {
-            NodePropertiesViewModel viewModel = _nodePropertiesPresenter.Refresh(userInput);
-            DispatchViewModel(viewModel);
-        }
-
-        private void OperatorProperties_ForAggregate_Refresh(OperatorPropertiesViewModel_ForAggregate userInput)
-        {
-            OperatorPropertiesViewModel_ForAggregate viewModel = _operatorPropertiesPresenter_ForAggregate.Refresh(userInput);
-            DispatchViewModel(viewModel);
-        }
-
-        private void OperatorProperties_ForBundle_Refresh(OperatorPropertiesViewModel_ForBundle userInput)
-        {
-            OperatorPropertiesViewModel_ForBundle viewModel = _operatorPropertiesPresenter_ForBundle.Refresh(userInput);
-            DispatchViewModel(viewModel);
-        }
-
-        private void OperatorProperties_ForCache_Refresh(OperatorPropertiesViewModel_ForCache userInput)
-        {
-            OperatorPropertiesViewModel_ForCache viewModel = _operatorPropertiesPresenter_ForCache.Refresh(userInput);
-            DispatchViewModel(viewModel);
-        }
-
-        private void OperatorProperties_ForCurve_Refresh(OperatorPropertiesViewModel_ForCurve userInput)
-        {
-            OperatorPropertiesViewModel_ForCurve viewModel = _operatorPropertiesPresenter_ForCurve.Refresh(userInput);
-            DispatchViewModel(viewModel);
-        }
-
-        private void OperatorProperties_ForCustomOperator_Refresh(OperatorPropertiesViewModel_ForCustomOperator userInput)
-        {
-            OperatorPropertiesViewModel_ForCustomOperator viewModel = _operatorPropertiesPresenter_ForCustomOperator.Refresh(userInput);
-            DispatchViewModel(viewModel);
-        }
-
-        private void OperatorProperties_ForCustomOperatorViewModel_Refresh(OperatorPropertiesViewModel_ForCustomOperator userInput)
-        {
-            OperatorPropertiesViewModel_ForCustomOperator viewModel = _operatorPropertiesPresenter_ForCustomOperator.Refresh(userInput);
-
-            DispatchViewModel(viewModel);
-        }
-
-        private void OperatorProperties_ForCustomOperatorViewModels_Refresh(int underlyingPatchID)
-        {
-            IList<OperatorPropertiesViewModel_ForCustomOperator> propertiesViewModelList = 
-                MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForCustomOperators).ToArray();
-
-            foreach (OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel in propertiesViewModelList)
-            {
-                OperatorProperties_ForCustomOperatorViewModel_Refresh(propertiesViewModel);
-            }
-        }
-
-        private void OperatorProperties_ForNumber_Refresh(OperatorPropertiesViewModel_ForNumber userInput)
-        {
-            OperatorPropertiesViewModel_ForNumber viewModel = _operatorPropertiesPresenter_ForNumber.Refresh(userInput);
-            DispatchViewModel(viewModel);
-        }
-
-        private void OperatorProperties_ForPatchInlet_Refresh(OperatorPropertiesViewModel_ForPatchInlet userInput)
-        {
-            OperatorPropertiesViewModel_ForPatchInlet viewModel = _operatorPropertiesPresenter_ForPatchInlet.Refresh(userInput);
-            DispatchViewModel(viewModel);
-        }
-
-        private void OperatorProperties_ForPatchOutlet_Refresh(OperatorPropertiesViewModel_ForPatchOutlet userInput)
-        {
-            OperatorPropertiesViewModel_ForPatchOutlet viewModel = _operatorPropertiesPresenter_ForPatchOutlet.Refresh(userInput);
-            DispatchViewModel(viewModel);
-        }
-
-        private void OperatorProperties_ForRandom_Refresh(OperatorPropertiesViewModel_ForRandom userInput)
-        {
-            OperatorPropertiesViewModel_ForRandom viewModel = _operatorPropertiesPresenter_ForRandom.Refresh(userInput);
-            DispatchViewModel(viewModel);
-        }
-
-        private void OperatorProperties_ForResample_Refresh(OperatorPropertiesViewModel_ForResample userInput)
-        {
-            OperatorPropertiesViewModel_ForResample viewModel = _operatorPropertiesPresenter_ForResample.Refresh(userInput);
-            DispatchViewModel(viewModel);
-        }
-
-        private void OperatorProperties_ForSample_Refresh(OperatorPropertiesViewModel_ForSample userInput)
-        {
-            OperatorPropertiesViewModel_ForSample viewModel = _operatorPropertiesPresenter_ForSample.Refresh(userInput);
-            DispatchViewModel(viewModel);
-        }
-
-        private void OperatorProperties_ForUnbundle_Refresh(OperatorPropertiesViewModel_ForUnbundle userInput)
-        {
-            OperatorPropertiesViewModel_ForUnbundle viewModel = _operatorPropertiesPresenter_ForUnbundle.Refresh(userInput);
-            DispatchViewModel(viewModel);
+            HashSet<int> idsToKeep = operators.Select(x => x.ID).ToHashSet();
+            patchDocumentViewModel.OperatorPropertiesList = patchDocumentViewModel.OperatorPropertiesList
+                                                                                  .Where(x => idsToKeep.Contains(x.ID))
+                                                                                  .ToList();
         }
 
         private void OperatorPropertiesRefresh(OperatorPropertiesViewModel userInput)
@@ -990,16 +830,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        private void PatchDetails_RefreshOperator(int operatorID)
-        {
-            OperatorViewModel viewModel = DocumentViewModelHelper.GetOperatorViewModel(MainViewModel.Document, operatorID);
-            PatchDetails_RefreshOperator(viewModel);
-        }
-
         private void PatchDetails_RefreshOperator(OperatorViewModel viewModel)
         {
             Operator entity = _repositories.OperatorRepository.Get(viewModel.ID);
             PatchDetails_RefreshOperator(entity, viewModel);
+        }
+
+        private void PatchDetails_RefreshOperator(int operatorID)
+        {
+            OperatorViewModel viewModel = DocumentViewModelHelper.GetOperatorViewModel(MainViewModel.Document, operatorID);
+            PatchDetails_RefreshOperator(viewModel);
         }
 
         private void PatchDetails_RefreshOperator(Operator entity, OperatorViewModel operatorViewModel)
@@ -1016,11 +856,31 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(viewModel);
         }
 
-        private void PatchGridRefresh(PatchGridViewModel userInput)
+        private void PatchGridListsRefresh()
         {
-            if (userInput == null) throw new NullException(() => userInput);
-            PatchGridViewModel viewModel = _patchGridPresenter.Refresh(userInput);
-            DispatchViewModel(viewModel);
+            Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
+
+            HashSet<string> groups = document.ChildDocuments.Select(x => x.GroupName ?? "")
+                                                            .Distinct()
+                                                            .ToHashSet();
+            foreach (string group in groups)
+            {
+                PatchGridViewModel viewModel = DocumentViewModelHelper.TryGetPatchGridViewModel_ByGroup(MainViewModel.Document, group);
+                if (viewModel == null)
+                {
+                    viewModel = document.ToPatchGridViewModel(group);
+                    viewModel.Successful = true;
+                    MainViewModel.Document.PatchGridList.Add(viewModel);
+                }
+                else
+                {
+                    PatchGridRefresh(viewModel);
+                }
+            }
+
+            MainViewModel.Document.PatchGridList = MainViewModel.Document.PatchGridList
+                                                                         .Where(x => groups.Contains(x.Group ?? ""))
+                                                                         .ToList();
         }
 
         private void PatchGridRefresh(string group)
@@ -1028,6 +888,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             PatchGridViewModel viewModel2 = DocumentViewModelHelper.GetPatchGridViewModel_ByGroup(MainViewModel.Document, group);
 
             PatchGridRefresh(viewModel2);
+        }
+
+        private void PatchGridRefresh(PatchGridViewModel userInput)
+        {
+            if (userInput == null) throw new NullException(() => userInput);
+            PatchGridViewModel viewModel = _patchGridPresenter.Refresh(userInput);
+            DispatchViewModel(viewModel);
         }
 
         private void PatchGridsRefresh()
@@ -1047,6 +914,35 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             PatchPropertiesViewModel viewModel = _patchPropertiesPresenter.Refresh(userInput);
             DispatchViewModel(viewModel);
+        }
+
+        private void RefreshPatchDocument(PatchDocumentViewModel patchDocumentViewModel)
+        {
+            CurveGridRefresh(patchDocumentViewModel.CurveGrid);
+            CurveLookupRefresh(patchDocumentViewModel);
+            PatchDetailsRefresh(patchDocumentViewModel.PatchDetails);
+            CurveDetailsListRefresh(patchDocumentViewModel);
+            CurvePropertiesListRefresh(patchDocumentViewModel);
+            NodePropertiesListRefresh(patchDocumentViewModel);
+
+            OperatorPropertiesListRefresh(patchDocumentViewModel);
+            OperatorPropertiesList_ForAggregates_Refresh(patchDocumentViewModel);
+            OperatorPropertiesList_ForBundles_Refresh(patchDocumentViewModel);
+            OperatorPropertiesList_ForCurves_Refresh(patchDocumentViewModel);
+            OperatorPropertiesList_ForCustomOperators_Refresh(patchDocumentViewModel);
+            OperatorPropertiesList_ForNumbers_Refresh(patchDocumentViewModel);
+            OperatorPropertiesList_ForPatchInlets_Refresh(patchDocumentViewModel);
+            OperatorPropertiesList_ForPatchOutlets_Refresh(patchDocumentViewModel);
+            OperatorPropertiesList_ForRandoms_Refresh(patchDocumentViewModel);
+            OperatorPropertiesList_ForResamples_Refresh(patchDocumentViewModel);
+            OperatorPropertiesList_ForSamples_Refresh(patchDocumentViewModel);
+            OperatorPropertiesList_ForUnbundles_Refresh(patchDocumentViewModel);
+
+            SamplePropertiesListRefresh(patchDocumentViewModel);
+
+            PatchPropertiesRefresh(patchDocumentViewModel.PatchProperties);
+            SampleGridRefresh(patchDocumentViewModel.SampleGrid);
+            SampleLookupRefresh(patchDocumentViewModel);
         }
 
         private void SampleGridRefresh(SampleGridViewModel userInput)
@@ -1090,6 +986,58 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
+        private void SamplePropertiesListRefresh(PatchDocumentViewModel patchDocumentViewModel)
+        {
+            Document childDocument = _repositories.DocumentRepository.Get(patchDocumentViewModel.ChildDocumentID);
+            IList<Sample> samples = childDocument.Samples;
+
+            foreach (Sample sample in samples)
+            {
+                SamplePropertiesViewModel samplePropertiesViewModel = DocumentViewModelHelper.TryGetSamplePropertiesViewModel(MainViewModel.Document, sample.ID);
+                if (samplePropertiesViewModel == null)
+                {
+                    samplePropertiesViewModel = sample.ToPropertiesViewModel(_sampleRepositories);
+                    samplePropertiesViewModel.Successful = true;
+                    patchDocumentViewModel.SamplePropertiesList.Add(samplePropertiesViewModel);
+                }
+                else
+                {
+                    SamplePropertiesRefresh(samplePropertiesViewModel);
+                }
+            }
+
+            HashSet<int> idsToKeep = samples.Select(x => x.ID).ToHashSet();
+            patchDocumentViewModel.SamplePropertiesList = patchDocumentViewModel.SamplePropertiesList
+                                                                               .Where(x => idsToKeep.Contains(x.Entity.ID))
+                                                                               .ToList();
+        }
+
+        private void SamplePropertiesListRefresh(DocumentViewModel documentViewModel)
+        {
+            Document document = _repositories.DocumentRepository.Get(documentViewModel.ID);
+            IList<Sample> entities = document.Samples;
+
+            foreach (Sample entity in entities)
+            {
+                SamplePropertiesViewModel viewModel = DocumentViewModelHelper.TryGetSamplePropertiesViewModel(documentViewModel, entity.ID);
+                if (viewModel == null)
+                {
+                    viewModel = entity.ToPropertiesViewModel(_sampleRepositories);
+                    viewModel.Successful = true;
+                    documentViewModel.SamplePropertiesList.Add(viewModel);
+                }
+                else
+                {
+                    SamplePropertiesRefresh(viewModel);
+                }
+            }
+
+            HashSet<int> idsToKeep = entities.Select(x => x.ID).ToHashSet();
+            documentViewModel.SamplePropertiesList = documentViewModel.SamplePropertiesList
+                                                                      .Where(x => idsToKeep.Contains(x.Entity.ID))
+                                                                      .ToList();
+        }
+
         private void SamplePropertiesRefresh(SamplePropertiesViewModel userInput)
         {
             SamplePropertiesViewModel viewModel = _samplePropertiesPresenter.Refresh(userInput);
@@ -1108,10 +1056,62 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(viewModel);
         }
 
+        private void ScalePropertiesListRefresh()
+        {
+            Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
+            IList<Scale> entities = document.Scales;
+
+            foreach (Scale entity in entities)
+            {
+                ScalePropertiesViewModel viewModel = DocumentViewModelHelper.TryGetScalePropertiesViewModel(MainViewModel.Document, entity.ID);
+                if (viewModel == null)
+                {
+                    viewModel = entity.ToPropertiesViewModel(_repositories.ScaleTypeRepository);
+                    viewModel.Successful = true;
+                    MainViewModel.Document.ScalePropertiesList.Add(viewModel);
+                }
+                else
+                {
+                    ScalePropertiesRefresh(viewModel);
+                }
+            }
+
+            HashSet<int> idsToKeep = entities.Select(x => x.ID).ToHashSet();
+            MainViewModel.Document.ScalePropertiesList = MainViewModel.Document.ScalePropertiesList
+                                                                               .Where(x => idsToKeep.Contains(x.Entity.ID))
+                                                                               .ToList();
+        }
+
         private void ScalePropertiesRefresh(ScalePropertiesViewModel userInput)
         {
             ScalePropertiesViewModel viewModel = _scalePropertiesPresenter.Refresh(userInput);
             DispatchViewModel(viewModel);
+        }
+
+        private void ToneGridEditListRefresh()
+        {
+            Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
+            IList<Scale> entities = document.Scales;
+
+            foreach (Scale entity in entities)
+            {
+                ToneGridEditViewModel viewModel = DocumentViewModelHelper.TryGetToneGridEditViewModel(MainViewModel.Document, entity.ID);
+                if (viewModel == null)
+                {
+                    viewModel = entity.ToToneGridEditViewModel();
+                    viewModel.Successful = true;
+                    MainViewModel.Document.ToneGridEditList.Add(viewModel);
+                }
+                else
+                {
+                    ToneGridEditRefresh(viewModel);
+                }
+            }
+
+            HashSet<int> idsToKeep = entities.Select(x => x.ID).ToHashSet();
+            MainViewModel.Document.ToneGridEditList = MainViewModel.Document.ToneGridEditList
+                                                                            .Where(x => idsToKeep.Contains(x.ScaleID))
+                                                                            .ToList();
         }
 
         private void ToneGridEditRefresh(ToneGridEditViewModel userInput)
