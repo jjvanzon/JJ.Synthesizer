@@ -783,7 +783,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             Document childDocument = _repositories.DocumentRepository.Get(patchDocumentViewModel.ChildDocumentID);
             IList<Operator> operators = childDocument.Patches[0].Operators
-                                                                .Where(x => ViewModelHelper.OperatorTypeEnums_WithTheirOwnPropertyViews.Contains(x.GetOperatorTypeEnum()))
+                                                                .Where(x => !ViewModelHelper.OperatorTypeEnums_WithTheirOwnPropertyViews.Contains(x.GetOperatorTypeEnum()))
                                                                 .ToArray();
             foreach (Operator op in operators)
             {
