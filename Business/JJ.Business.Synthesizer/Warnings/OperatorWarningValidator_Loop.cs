@@ -12,9 +12,9 @@ namespace JJ.Business.Synthesizer.Warnings
         private static int[] indexesToCheck = new int[]
         {
             OperatorConstants.LOOP_SIGNAL_INDEX,
-            OperatorConstants.LOOP_START_INDEX,
-            OperatorConstants.LOOP_SUSTAIN_INDEX,
-            OperatorConstants.LOOP_END_INDEX
+            OperatorConstants.LOOP_LOOP_START_MARKER_INDEX,
+            OperatorConstants.LOOP_SUSTAIN_DURATION_INDEX,
+            OperatorConstants.LOOP_LOOP_END_MARKER_INDEX
         };
 
         public OperatorWarningValidator_Loop(Operator obj)

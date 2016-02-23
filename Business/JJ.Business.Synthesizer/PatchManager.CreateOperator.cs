@@ -473,22 +473,22 @@ namespace JJ.Business.Synthesizer
 
         public Loop_OperatorWrapper Loop(
             Outlet signal = null, 
-            Outlet attack = null, 
-            Outlet start = null, 
-            Outlet sustain = null, 
-            Outlet end = null, 
-            Outlet release = null)
+            Outlet skip = null, 
+            Outlet loopStartMarker = null, 
+            Outlet sustainDuration = null, 
+            Outlet loopEndMarker = null, 
+            Outlet releaseEndMarker = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Loop, inletCount: 6, outletCount: 1);
 
             var wrapper = new Loop_OperatorWrapper(op)
             {
                 Signal = signal,
-                AttackDuration = attack,
-                LoopStartMarker = start,
-                SustainDuration = sustain,
-                LoopEndMarker = end,
-                ReleaseEndMarker = release
+                Skip = skip,
+                LoopStartMarker = loopStartMarker,
+                SustainDuration = sustainDuration,
+                LoopEndMarker = loopEndMarker,
+                ReleaseEndMarker = releaseEndMarker
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);

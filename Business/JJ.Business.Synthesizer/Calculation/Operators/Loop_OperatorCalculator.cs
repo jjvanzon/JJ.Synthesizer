@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class Loop_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
-        private readonly OperatorCalculatorBase _attackDurationCalculator;
+        private readonly OperatorCalculatorBase _skipCalculator;
         private readonly OperatorCalculatorBase _loopStartMarkerCalculator;
         private readonly OperatorCalculatorBase _sustainDurationCalculator;
         private readonly OperatorCalculatorBase _loopEndMarkerCalculator;
@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public Loop_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
-            OperatorCalculatorBase attackDurationCalculator,
+            OperatorCalculatorBase skipCalculator,
             OperatorCalculatorBase loopStartMarkerCalculator,
             OperatorCalculatorBase sustainDurationCalculator,
             OperatorCalculatorBase loopEndMarkerCalculator,
@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             : base(new OperatorCalculatorBase[]
             {
                 signalCalculator,
-                attackDurationCalculator,
+                skipCalculator,
                 loopStartMarkerCalculator,
                 sustainDurationCalculator,
                 loopEndMarkerCalculator,
@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
 
             _signalCalculator = signalCalculator;
-            _attackDurationCalculator = attackDurationCalculator;
+            _skipCalculator = skipCalculator;
             _loopStartMarkerCalculator = loopStartMarkerCalculator;
             _sustainDurationCalculator = sustainDurationCalculator;
             _loopEndMarkerCalculator = loopEndMarkerCalculator;
@@ -44,9 +44,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate(double outputTime, int channelIndex)
         {
             // BeforeAttack
-            double inputAttackDuration = GetAttackDuration(outputTime, channelIndex);
-            double inputTime = outputTime + inputAttackDuration;
-            bool isBeforeAttack = inputTime < inputAttackDuration;
+            double inputSkip = GetSkip(outputTime, channelIndex);
+            double inputTime = outputTime + inputSkip;
+            bool isBeforeAttack = inputTime < inputSkip;
             if (isBeforeAttack)
             {
                 return 0;
@@ -64,7 +64,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             // InLoop
             double outputSustainDuration = GetSustainDuration(outputTime, channelIndex);
             double inputLoopEndMarker = GetLoopEndMarker(outputTime, channelIndex);
-            double outputLoopEndTime = inputLoopStartMarker - inputAttackDuration + outputSustainDuration;
+            double outputLoopEndTime = inputLoopStartMarker - inputSkip + outputSustainDuration;
             bool isInLoop = outputTime < outputLoopEndTime;
             if (isInLoop)
             {
@@ -93,15 +93,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private double GetAttackDuration(double outputTime, int channelIndex)
+        private double GetSkip(double outputTime, int channelIndex)
         {
-            double inputAttackDuration = 0;
-            if (_attackDurationCalculator != null)
+            double value = 0;
+            if (_skipCalculator != null)
             {
-                inputAttackDuration = _attackDurationCalculator.Calculate(outputTime, channelIndex);
+                value = _skipCalculator.Calculate(outputTime, channelIndex);
             }
 
-            return inputAttackDuration;
+            return value;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

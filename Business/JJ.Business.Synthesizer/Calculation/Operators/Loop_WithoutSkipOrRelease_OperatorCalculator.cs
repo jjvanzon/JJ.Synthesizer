@@ -5,14 +5,14 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Loop_WithoutAttackOrRelease_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Loop_WithoutSkipOrRelease_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _loopStartMarkerCalculator;
         private readonly OperatorCalculatorBase _sustainDurationCalculator;
         private readonly OperatorCalculatorBase _loopEndMarkerCalculator;
 
-        public Loop_WithoutAttackOrRelease_OperatorCalculator(
+        public Loop_WithoutSkipOrRelease_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase loopStartMarkerCalculator,
             OperatorCalculatorBase sustainDurationCalculator,
@@ -33,32 +33,39 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _loopEndMarkerCalculator = loopEndMarkerCalculator;
         }
 
-        public override double Calculate(double outputTime, int channelIndex)
+        public override double Calculate(double time, int channelIndex)
         {
-            double inputTime = outputTime;
-
-            // BeforeLoop
-            bool isBeforeLoop = inputTime < 0;
-            if (isBeforeLoop)
+            // BeforeAttack
+            bool isBeforeAttack = time < 0;
+            if (isBeforeAttack)
             {
                 return 0;
             }
 
-            // InLoop
-            double outputSustainDuration = GetSustainDuration(outputTime, channelIndex);
-            bool isInLoop = outputTime < outputSustainDuration;
+            // BeforeLoop
+            double loopStartMarker = GetLoopStartMarker(time, channelIndex);
+            bool isInAttack = time < loopStartMarker;
+            if (isInAttack)
+            {
+                double value = _signalCalculator.Calculate(time, channelIndex);
+                return value;
+            }
+
+            // InSustain
+            double outputSustainDuration = GetSustainDuration(time, channelIndex);
+            double outputLoopEndTime = loopStartMarker + outputSustainDuration;
+            bool isInLoop = time < outputLoopEndTime;
             if (isInLoop)
             {
-                double inputLoopStartMarker = GetLoopStartMarker(outputTime, channelIndex);
-                double inputLoopEndMarker = GetLoopEndMarker(outputTime, channelIndex);
-                double inputSustainDuration = inputLoopEndMarker - inputLoopStartMarker;
-                double positionInCycle = inputTime % inputSustainDuration;
-                inputTime = inputLoopStartMarker + positionInCycle;
+                double inputLoopEndMarker = GetLoopEndMarker(time, channelIndex);
+                double inputSustainDuration = inputLoopEndMarker - loopStartMarker;
+                double positionInCycle = (time - loopStartMarker) % inputSustainDuration;
+                double inputTime = loopStartMarker + positionInCycle;
                 double value = _signalCalculator.Calculate(inputTime, channelIndex);
                 return value;
             }
 
-            // AfterLoop
+            // AfterSustain
             return 0;
         }
 

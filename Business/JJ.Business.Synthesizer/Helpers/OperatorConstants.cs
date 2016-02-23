@@ -51,6 +51,13 @@
         public const int LESS_THAN_OR_EQUAL_B_INDEX = 1;
         public const int LESS_THAN_OR_EQUAL_RESULT_INDEX = 1;
         public const int LESS_THAN_RESULT_INDEX = 1;
+        public const int LOOP_SIGNAL_INDEX = 0;
+        public const int LOOP_SKIP_INDEX = 1;
+        public const int LOOP_LOOP_START_MARKER_INDEX = 2;
+        public const int LOOP_SUSTAIN_DURATION_INDEX = 3;
+        public const int LOOP_LOOP_END_MARKER_INDEX = 4;
+        public const int LOOP_RELEASE_END_MARKER_INDEX = 5;
+        public const int LOOP_RESULT_INDEX = 0;
         public const int LOW_PASS_FILTER_MAX_FREQUENCY_INDEX = 1;
         public const int LOW_PASS_FILTER_RESULT_INDEX = 0;
         public const int LOW_PASS_FILTER_SIGNAL_INDEX = 0;
