@@ -484,11 +484,11 @@ namespace JJ.Business.Synthesizer
             var wrapper = new Loop_OperatorWrapper(op)
             {
                 Signal = signal,
-                Attack = attack,
-                Start = start,
-                Sustain = sustain,
-                End = end,
-                Release = release
+                AttackDuration = attack,
+                LoopStartMarker = start,
+                SustainDuration = sustain,
+                LoopEndMarker = end,
+                ReleaseEndMarker = release
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);

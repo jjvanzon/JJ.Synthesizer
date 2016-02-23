@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -6,91 +8,148 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class Loop_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
-        private readonly OperatorCalculatorBase _attackCalculator;
-        private readonly OperatorCalculatorBase _startCalculator;
-        private readonly OperatorCalculatorBase _sustainCalculator;
-        private readonly OperatorCalculatorBase _endCalculator;
-        private readonly OperatorCalculatorBase _releaseCalculator;
+        private readonly OperatorCalculatorBase _attackDurationCalculator;
+        private readonly OperatorCalculatorBase _loopStartMarkerCalculator;
+        private readonly OperatorCalculatorBase _sustainDurationCalculator;
+        private readonly OperatorCalculatorBase _loopEndMarkerCalculator;
+        private readonly OperatorCalculatorBase _releaseEndMarkerCalculator;
 
         public Loop_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
-            OperatorCalculatorBase attackCalculator,
-            OperatorCalculatorBase startCalculator,
-            OperatorCalculatorBase sustainCalculator,
-            OperatorCalculatorBase endCalculator,
-            OperatorCalculatorBase releaseCalculator)
-            : base(new OperatorCalculatorBase[] 
+            OperatorCalculatorBase attackDurationCalculator,
+            OperatorCalculatorBase loopStartMarkerCalculator,
+            OperatorCalculatorBase sustainDurationCalculator,
+            OperatorCalculatorBase loopEndMarkerCalculator,
+            OperatorCalculatorBase releaseEndMarkerCalculator)
+            : base(new OperatorCalculatorBase[]
             {
                 signalCalculator,
-                attackCalculator,
-                startCalculator,
-                sustainCalculator,
-                endCalculator,
-                releaseCalculator
-            })
+                attackDurationCalculator,
+                loopStartMarkerCalculator,
+                sustainDurationCalculator,
+                loopEndMarkerCalculator,
+                releaseEndMarkerCalculator
+            }.Where(x => x != null).ToArray())
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (attackCalculator == null) throw new NullException(() => attackCalculator);
-            if (startCalculator == null) throw new NullException(() => startCalculator);
-            if (sustainCalculator == null) throw new NullException(() => sustainCalculator);
-            if (endCalculator == null) throw new NullException(() => endCalculator);
-            if (releaseCalculator == null) throw new NullException(() => releaseCalculator);
 
             _signalCalculator = signalCalculator;
-            _attackCalculator = attackCalculator;
-            _startCalculator = startCalculator;
-            _sustainCalculator = sustainCalculator;
-            _endCalculator = endCalculator;
-            _releaseCalculator = releaseCalculator;
+            _attackDurationCalculator = attackDurationCalculator;
+            _loopStartMarkerCalculator = loopStartMarkerCalculator;
+            _sustainDurationCalculator = sustainDurationCalculator;
+            _loopEndMarkerCalculator = loopEndMarkerCalculator;
+            _releaseEndMarkerCalculator = releaseEndMarkerCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(double outputTime, int channelIndex)
         {
-            double outputTime = time;
-            double inputAttack = _attackCalculator.Calculate(outputTime, channelIndex);
-            double inputTime = time + inputAttack;
-
-            bool isBeforeAttack = inputTime < inputAttack;
+            // BeforeAttack
+            double inputAttackDuration = GetAttackDuration(outputTime, channelIndex);
+            double inputTime = outputTime + inputAttackDuration;
+            bool isBeforeAttack = inputTime < inputAttackDuration;
             if (isBeforeAttack)
             {
                 return 0;
             }
 
-            double inputStart = _startCalculator.Calculate(outputTime, channelIndex);
-            bool isInAttack = inputTime < inputStart;
+            // InAttack
+            double inputLoopStartMarker = GetLoopStartMarker(outputTime, channelIndex);
+            bool isInAttack = inputTime < inputLoopStartMarker;
             if (isInAttack)
             {
                 double value = _signalCalculator.Calculate(inputTime, channelIndex);
                 return value;
             }
 
-            double inputEnd = _endCalculator.Calculate(outputTime, channelIndex);
-            double outputSustain = _sustainCalculator.Calculate(outputTime, channelIndex);
-            double outputEnd = inputStart - inputAttack + outputSustain;
-            bool isInLoop = outputTime < outputEnd;
+            // InLoop
+            double outputSustainDuration = GetSustainDuration(outputTime, channelIndex);
+            double inputLoopEndMarker = GetLoopEndMarker(outputTime, channelIndex);
+            double outputLoopEndTime = inputLoopStartMarker - inputAttackDuration + outputSustainDuration;
+            bool isInLoop = outputTime < outputLoopEndTime;
             if (isInLoop)
             {
-                double inputSustain = inputEnd - inputStart;
-                double positionInCycle = (inputTime - inputStart) % inputSustain;
-                inputTime = inputStart + positionInCycle;
+                double inputSustainDuration = inputLoopEndMarker - inputLoopStartMarker;
+                double positionInCycle = (inputTime - inputLoopStartMarker) % inputSustainDuration;
+                inputTime = inputLoopStartMarker + positionInCycle;
                 double value = _signalCalculator.Calculate(inputTime, channelIndex);
                 return value;
             }
 
-            double inputRelease = _releaseCalculator.Calculate(outputTime, channelIndex);
-            double releaseDuration = inputRelease - inputEnd;
-            double outputRelease = outputEnd + releaseDuration;
-            bool isInRelease = outputTime < outputRelease;
+            // InRelease
+            double inputReleaseEndMarker = GetReleaseEndMarker(outputTime, channelIndex);
+            double releaseDuration = inputReleaseEndMarker - inputLoopEndMarker;
+            double outputReleaseEndTime = outputLoopEndTime + releaseDuration;
+            bool isInRelease = outputTime < outputReleaseEndTime;
             if (isInRelease)
             {
-                double positionInRelease = outputTime - outputEnd;
-                inputTime = inputEnd + positionInRelease;
+                double positionInRelease = outputTime - outputLoopEndTime;
+                inputTime = inputLoopEndMarker + positionInRelease;
                 double value = _signalCalculator.Calculate(inputTime, channelIndex);
                 return value;
             }
 
-            // IsAfterRelease
+            // AfterRelease
             return 0;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private double GetAttackDuration(double outputTime, int channelIndex)
+        {
+            double inputAttackDuration = 0;
+            if (_attackDurationCalculator != null)
+            {
+                inputAttackDuration = _attackDurationCalculator.Calculate(outputTime, channelIndex);
+            }
+
+            return inputAttackDuration;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private double GetLoopStartMarker(double outputTime, int channelIndex)
+        {
+            double value = 0;
+            if (_loopStartMarkerCalculator != null)
+            {
+                value = _loopStartMarkerCalculator.Calculate(outputTime, channelIndex);
+            }
+
+            return value;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private double GetSustainDuration(double outputTime, int channelIndex)
+        {
+            double value = CalculationHelper.VERY_HIGH_VALUE;
+            if (_sustainDurationCalculator != null)
+            {
+                value = _sustainDurationCalculator.Calculate(outputTime, channelIndex);
+            }
+
+            return value;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private double GetLoopEndMarker(double outputTime, int channelIndex)
+        {
+            double value = 0;
+            if (_loopEndMarkerCalculator != null)
+            {
+                value = _loopEndMarkerCalculator.Calculate(outputTime, channelIndex);
+            }
+
+            return value;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private double GetReleaseEndMarker(double outputTime, int channelIndex)
+        {
+            double value = 0;
+            if (_releaseEndMarkerCalculator != null)
+            {
+                value = _releaseEndMarkerCalculator.Calculate(outputTime, channelIndex);
+            }
+
+            return value;
         }
     }
 }
