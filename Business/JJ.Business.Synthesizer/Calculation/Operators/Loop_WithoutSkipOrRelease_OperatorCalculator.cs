@@ -51,25 +51,21 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 return value;
             }
 
-            // InLoop
-            double noteDuration = GetNoteDuration(time, channelIndex);
-            double loopEndMarker = GetLoopEndMarker(time, channelIndex);
-            double cycleDuration = loopEndMarker - loopStartMarker;
-
-            // Round up end of loop to whole cycles.
-            double noteEndPhase = (noteDuration - loopStartMarker) / cycleDuration;
-            double outputLoopEnd = loopStartMarker + Math.Ceiling(noteEndPhase) * cycleDuration;
-
-            bool isInLoop = time < outputLoopEnd;
+            // InSustain
+            double outputNoteDuration = GetNoteDuration(time, channelIndex);
+            double outputLoopEndTime = outputNoteDuration;
+            bool isInLoop = time < outputLoopEndTime;
             if (isInLoop)
             {
-                double phase = (time - loopStartMarker) % cycleDuration;
-                double inputTime = loopStartMarker + phase;
+                double inputLoopEndMarker = GetLoopEndMarker(time, channelIndex);
+                double inputCycleDuration = inputLoopEndMarker - loopStartMarker;
+                double positionInCycle = (time - loopStartMarker) % inputCycleDuration;
+                double inputTime = loopStartMarker + positionInCycle;
                 double value = _signalCalculator.Calculate(inputTime, channelIndex);
                 return value;
             }
 
-            // AfterLoop
+            // AfterSustain
             return 0;
         } 
 
