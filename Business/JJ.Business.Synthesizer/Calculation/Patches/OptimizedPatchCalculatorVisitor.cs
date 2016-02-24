@@ -1146,14 +1146,57 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase loopEndMarkerCalculator = _stack.Pop();
             OperatorCalculatorBase releaseEndMarkerCalculator = _stack.Pop();
 
-            // TODO: Specialized OperatorCalculators for performance.
-            if (skipCalculator == null && releaseEndMarkerCalculator == null)
+            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
+            skipCalculator = skipCalculator ?? new Zero_OperatorCalculator();
+            loopStartMarkerCalculator = loopStartMarkerCalculator ?? new Zero_OperatorCalculator();
+            noteDurationCalculator = noteDurationCalculator ?? new Zero_OperatorCalculator();
+            loopEndMarkerCalculator = loopEndMarkerCalculator ?? new Zero_OperatorCalculator();
+            releaseEndMarkerCalculator = releaseEndMarkerCalculator ?? new Zero_OperatorCalculator();
+
+            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+            bool skipIsConst = skipCalculator is Number_OperatorCalculator;
+            bool loopStartMarkerIsConst = loopStartMarkerCalculator is Number_OperatorCalculator;
+            bool noteDurationIsConst = noteDurationCalculator is Number_OperatorCalculator;
+            bool loopEndMarkerIsConst = loopEndMarkerCalculator is Number_OperatorCalculator;
+            bool releaseEndMarkerIsConst = releaseEndMarkerCalculator is Number_OperatorCalculator;
+
+            double skip = skipCalculator.Calculate(0, 0);
+            double loopStartMarker = loopStartMarkerCalculator.Calculate(0, 0);
+            double loopEndMarker = loopEndMarkerCalculator.Calculate(0, 0);
+            double releaseEndMarker = releaseEndMarkerCalculator.Calculate(0, 0);
+
+            bool skipIsConstZero = skipIsConst && skip == 0.0;
+            bool releaseEndMarkerIsConstZero = releaseEndMarkerIsConst && releaseEndMarker == 0.0;
+
+            if (signalIsConst)
             {
-                calculator = new Loop_WithoutSkipOrRelease_OperatorCalculator(signalCalculator, loopStartMarkerCalculator, noteDurationCalculator, loopEndMarkerCalculator);
+                calculator = signalCalculator;
             }
             else
             {
-                calculator = new Loop_OperatorCalculator(signalCalculator, skipCalculator, loopStartMarkerCalculator, noteDurationCalculator, loopEndMarkerCalculator, releaseEndMarkerCalculator);
+                // TODO: Specialized OperatorCalculators for performance.
+                if (skipIsConstZero && releaseEndMarkerIsConstZero)
+                {
+                    if (loopStartMarkerIsConst && loopEndMarkerIsConst)
+                    {
+                        calculator = new Loop_OperatorCalculator_WithoutSkipOrRelease_ManyConstants(signalCalculator, loopStartMarker, noteDurationCalculator, loopEndMarker);
+                    }
+                    else
+                    {
+                        calculator = new Loop_OperatorCalculator_WithoutSkipOrRelease(signalCalculator, loopStartMarkerCalculator, noteDurationCalculator, loopEndMarkerCalculator);
+                    }
+                }
+                else
+                {
+                    if (skipIsConst && loopStartMarkerIsConst && loopEndMarkerIsConst && releaseEndMarkerIsConst)
+                    {
+                        calculator = new Loop_OperatorCalculator_ManyConstants(signalCalculator, skip, loopStartMarker, noteDurationCalculator, loopEndMarker, releaseEndMarker);
+                    }
+                    else
+                    {
+                        calculator = new Loop_OperatorCalculator(signalCalculator, skipCalculator, loopStartMarkerCalculator, noteDurationCalculator, loopEndMarkerCalculator, releaseEndMarkerCalculator);
+                    }
+                }
             }
 
             _stack.Push(calculator);

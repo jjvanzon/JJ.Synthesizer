@@ -5,14 +5,14 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Loop_WithoutSkipOrRelease_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Loop_OperatorCalculator_WithoutSkipOrRelease : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _loopStartMarkerCalculator;
         private readonly OperatorCalculatorBase _noteDurationCalculator;
         private readonly OperatorCalculatorBase _loopEndMarkerCalculator;
 
-        public Loop_WithoutSkipOrRelease_OperatorCalculator(
+        public Loop_OperatorCalculator_WithoutSkipOrRelease(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase loopStartMarkerCalculator,
             OperatorCalculatorBase noteDurationCalculator,
@@ -52,15 +52,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             }
 
             // InSustain
-            double outputNoteDuration = GetNoteDuration(time, channelIndex);
-            double outputLoopEndTime = outputNoteDuration;
-            bool isInLoop = time < outputLoopEndTime;
+            double noteDuration = GetNoteDuration(time, channelIndex);
+            bool isInLoop = time < noteDuration;
             if (isInLoop)
             {
-                double inputLoopEndMarker = GetLoopEndMarker(time, channelIndex);
-                double inputCycleDuration = inputLoopEndMarker - loopStartMarker;
-                double positionInCycle = (time - loopStartMarker) % inputCycleDuration;
-                double inputTime = loopStartMarker + positionInCycle;
+                double loopEndMarker = GetLoopEndMarker(time, channelIndex);
+                double cycleDuration = loopEndMarker - loopStartMarker;
+                double phase = (time - loopStartMarker) % cycleDuration;
+                double inputTime = loopStartMarker + phase;
                 double value = _signalCalculator.Calculate(inputTime, channelIndex);
                 return value;
             }

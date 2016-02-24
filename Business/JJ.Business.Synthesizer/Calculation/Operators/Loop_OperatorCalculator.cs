@@ -81,8 +81,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             }
 
             // InRelease
-            double inputReleaseEndMarker = GetReleaseEndMarker(outputTime, channelIndex);
-            double releaseDuration = inputReleaseEndMarker - loopEndMarker;
+            double releaseEndMarker = GetReleaseEndMarker(outputTime, channelIndex);
+            double releaseDuration = releaseEndMarker - loopEndMarker;
             double outputReleaseEndTime = outputLoopEnd + releaseDuration;
             bool isInRelease = outputTime < outputReleaseEndTime;
             if (isInRelease)
