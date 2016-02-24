@@ -44,17 +44,17 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate(double outputTime, int channelIndex)
         {
             // BeforeAttack
-            double inputSkip = GetSkip(outputTime, channelIndex);
-            double inputTime = outputTime + inputSkip;
-            bool isBeforeAttack = inputTime < inputSkip;
+            double skip = GetSkip(outputTime, channelIndex);
+            double inputTime = outputTime + skip;
+            bool isBeforeAttack = inputTime < skip;
             if (isBeforeAttack)
             {
                 return 0;
             }
 
             // InAttack
-            double inputLoopStartMarker = GetLoopStartMarker(outputTime, channelIndex);
-            bool isInAttack = inputTime < inputLoopStartMarker;
+            double loopStartMarker = GetLoopStartMarker(outputTime, channelIndex);
+            bool isInAttack = inputTime < loopStartMarker;
             if (isInAttack)
             {
                 double value = _signalCalculator.Calculate(inputTime, channelIndex);
@@ -62,28 +62,33 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             }
 
             // InLoop
-            double outputNoteDuration = GetNoteDuration(outputTime, channelIndex);
-            double inputLoopEndMarker = GetLoopEndMarker(outputTime, channelIndex);
-            double outputLoopEndTime = outputNoteDuration;
-            bool isInLoop = outputTime < outputLoopEndTime;
+            double noteDuration = GetNoteDuration(outputTime, channelIndex);
+            double loopEndMarker = GetLoopEndMarker(outputTime, channelIndex);
+            double cycleDuration = loopEndMarker - loopStartMarker;
+
+            // Round up end of loop to whole cycles.
+            double outputLoopStart = loopStartMarker - skip;
+            double noteEndPhase = (noteDuration - outputLoopStart) / cycleDuration;
+            double outputLoopEnd = outputLoopStart + Math.Ceiling(noteEndPhase) * cycleDuration;
+
+            bool isInLoop = outputTime < outputLoopEnd;
             if (isInLoop)
             {
-                double inputCycleDuration = inputLoopEndMarker - inputLoopStartMarker;
-                double positionInCycle = (inputTime - inputLoopStartMarker) % inputCycleDuration;
-                inputTime = inputLoopStartMarker + positionInCycle;
+                double phase = (inputTime - loopStartMarker) % cycleDuration;
+                inputTime = loopStartMarker + phase;
                 double value = _signalCalculator.Calculate(inputTime, channelIndex);
                 return value;
             }
 
             // InRelease
             double inputReleaseEndMarker = GetReleaseEndMarker(outputTime, channelIndex);
-            double releaseDuration = inputReleaseEndMarker - inputLoopEndMarker;
-            double outputReleaseEndTime = outputLoopEndTime + releaseDuration;
+            double releaseDuration = inputReleaseEndMarker - loopEndMarker;
+            double outputReleaseEndTime = outputLoopEnd + releaseDuration;
             bool isInRelease = outputTime < outputReleaseEndTime;
             if (isInRelease)
             {
-                double positionInRelease = outputTime - outputLoopEndTime;
-                inputTime = inputLoopEndMarker + positionInRelease;
+                double positionInRelease = outputTime - outputLoopEnd;
+                inputTime = loopEndMarker + positionInRelease;
                 double value = _signalCalculator.Calculate(inputTime, channelIndex);
                 return value;
             }
