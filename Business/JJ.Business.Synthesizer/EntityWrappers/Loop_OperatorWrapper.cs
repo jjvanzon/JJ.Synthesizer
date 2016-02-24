@@ -29,10 +29,10 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { OperatorHelper.GetInlet(_wrappedOperator, OperatorConstants.LOOP_LOOP_START_MARKER_INDEX).LinkTo(value); }
         }
 
-        public Outlet SustainDuration
+        public Outlet NoteDuration
         {
-            get { return OperatorHelper.GetInputOutlet(_wrappedOperator, OperatorConstants.LOOP_SUSTAIN_DURATION_INDEX); }
-            set { OperatorHelper.GetInlet(_wrappedOperator, OperatorConstants.LOOP_SUSTAIN_DURATION_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInputOutlet(_wrappedOperator, OperatorConstants.LOOP_NOTE_DURATION_INDEX); }
+            set { OperatorHelper.GetInlet(_wrappedOperator, OperatorConstants.LOOP_NOTE_DURATION_INDEX).LinkTo(value); }
         }
 
         public Outlet LoopEndMarker

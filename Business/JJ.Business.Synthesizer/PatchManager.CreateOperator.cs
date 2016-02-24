@@ -475,7 +475,7 @@ namespace JJ.Business.Synthesizer
             Outlet signal = null, 
             Outlet skip = null, 
             Outlet loopStartMarker = null, 
-            Outlet sustainDuration = null, 
+            Outlet noteDuration = null, 
             Outlet loopEndMarker = null, 
             Outlet releaseEndMarker = null)
         {
@@ -486,7 +486,7 @@ namespace JJ.Business.Synthesizer
                 Signal = signal,
                 Skip = skip,
                 LoopStartMarker = loopStartMarker,
-                SustainDuration = sustainDuration,
+                NoteDuration = noteDuration,
                 LoopEndMarker = loopEndMarker,
                 ReleaseEndMarker = releaseEndMarker
             };

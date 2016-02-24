@@ -9,19 +9,19 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _loopStartMarkerCalculator;
-        private readonly OperatorCalculatorBase _sustainDurationCalculator;
+        private readonly OperatorCalculatorBase _noteDurationCalculator;
         private readonly OperatorCalculatorBase _loopEndMarkerCalculator;
 
         public Loop_WithoutSkipOrRelease_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase loopStartMarkerCalculator,
-            OperatorCalculatorBase sustainDurationCalculator,
+            OperatorCalculatorBase noteDurationCalculator,
             OperatorCalculatorBase loopEndMarkerCalculator)
             : base(new OperatorCalculatorBase[]
             {
                 signalCalculator,
                 loopStartMarkerCalculator,
-                sustainDurationCalculator,
+                noteDurationCalculator,
                 loopEndMarkerCalculator,
             }.Where(x => x != null).ToArray())
         {
@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             _signalCalculator = signalCalculator;
             _loopStartMarkerCalculator = loopStartMarkerCalculator;
-            _sustainDurationCalculator = sustainDurationCalculator;
+            _noteDurationCalculator = noteDurationCalculator;
             _loopEndMarkerCalculator = loopEndMarkerCalculator;
         }
 
@@ -52,14 +52,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             }
 
             // InSustain
-            double outputSustainDuration = GetSustainDuration(time, channelIndex);
-            double outputLoopEndTime = loopStartMarker + outputSustainDuration;
+            double outputNoteDuration = GetNoteDuration(time, channelIndex);
+            double outputLoopEndTime = outputNoteDuration;
             bool isInLoop = time < outputLoopEndTime;
             if (isInLoop)
             {
                 double inputLoopEndMarker = GetLoopEndMarker(time, channelIndex);
-                double inputSustainDuration = inputLoopEndMarker - loopStartMarker;
-                double positionInCycle = (time - loopStartMarker) % inputSustainDuration;
+                double inputCycleDuration = inputLoopEndMarker - loopStartMarker;
+                double positionInCycle = (time - loopStartMarker) % inputCycleDuration;
                 double inputTime = loopStartMarker + positionInCycle;
                 double value = _signalCalculator.Calculate(inputTime, channelIndex);
                 return value;
@@ -67,7 +67,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             // AfterSustain
             return 0;
-        }
+        } 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private double GetLoopStartMarker(double outputTime, int channelIndex)
@@ -82,12 +82,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private double GetSustainDuration(double outputTime, int channelIndex)
+        private double GetNoteDuration(double outputTime, int channelIndex)
         {
             double value = CalculationHelper.VERY_HIGH_VALUE;
-            if (_sustainDurationCalculator != null)
+            if (_noteDurationCalculator != null)
             {
-                value = _sustainDurationCalculator.Calculate(outputTime, channelIndex);
+                value = _noteDurationCalculator.Calculate(outputTime, channelIndex);
             }
 
             return value;

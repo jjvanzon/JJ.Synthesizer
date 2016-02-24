@@ -1142,18 +1142,18 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase signalCalculator = _stack.Pop();
             OperatorCalculatorBase skipCalculator = _stack.Pop();
             OperatorCalculatorBase loopStartMarkerCalculator = _stack.Pop();
-            OperatorCalculatorBase sustainDurationCalculator = _stack.Pop();
+            OperatorCalculatorBase noteDurationCalculator = _stack.Pop();
             OperatorCalculatorBase loopEndMarkerCalculator = _stack.Pop();
             OperatorCalculatorBase releaseEndMarkerCalculator = _stack.Pop();
 
             // TODO: Specialized OperatorCalculators for performance.
             if (skipCalculator == null && releaseEndMarkerCalculator == null)
             {
-                calculator = new Loop_WithoutSkipOrRelease_OperatorCalculator(signalCalculator, loopStartMarkerCalculator, sustainDurationCalculator, loopEndMarkerCalculator);
+                calculator = new Loop_WithoutSkipOrRelease_OperatorCalculator(signalCalculator, loopStartMarkerCalculator, noteDurationCalculator, loopEndMarkerCalculator);
             }
             else
             {
-                calculator = new Loop_OperatorCalculator(signalCalculator, skipCalculator, loopStartMarkerCalculator, sustainDurationCalculator, loopEndMarkerCalculator, releaseEndMarkerCalculator);
+                calculator = new Loop_OperatorCalculator(signalCalculator, skipCalculator, loopStartMarkerCalculator, noteDurationCalculator, loopEndMarkerCalculator, releaseEndMarkerCalculator);
             }
 
             _stack.Push(calculator);

@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _skipCalculator;
         private readonly OperatorCalculatorBase _loopStartMarkerCalculator;
-        private readonly OperatorCalculatorBase _sustainDurationCalculator;
+        private readonly OperatorCalculatorBase _noteDurationCalculator;
         private readonly OperatorCalculatorBase _loopEndMarkerCalculator;
         private readonly OperatorCalculatorBase _releaseEndMarkerCalculator;
 
@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase skipCalculator,
             OperatorCalculatorBase loopStartMarkerCalculator,
-            OperatorCalculatorBase sustainDurationCalculator,
+            OperatorCalculatorBase noteDurationCalculator,
             OperatorCalculatorBase loopEndMarkerCalculator,
             OperatorCalculatorBase releaseEndMarkerCalculator)
             : base(new OperatorCalculatorBase[]
@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 signalCalculator,
                 skipCalculator,
                 loopStartMarkerCalculator,
-                sustainDurationCalculator,
+                noteDurationCalculator,
                 loopEndMarkerCalculator,
                 releaseEndMarkerCalculator
             }.Where(x => x != null).ToArray())
@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _signalCalculator = signalCalculator;
             _skipCalculator = skipCalculator;
             _loopStartMarkerCalculator = loopStartMarkerCalculator;
-            _sustainDurationCalculator = sustainDurationCalculator;
+            _noteDurationCalculator = noteDurationCalculator;
             _loopEndMarkerCalculator = loopEndMarkerCalculator;
             _releaseEndMarkerCalculator = releaseEndMarkerCalculator;
         }
@@ -62,14 +62,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             }
 
             // InLoop
-            double outputSustainDuration = GetSustainDuration(outputTime, channelIndex);
+            double outputNoteDuration = GetNoteDuration(outputTime, channelIndex);
             double inputLoopEndMarker = GetLoopEndMarker(outputTime, channelIndex);
-            double outputLoopEndTime = inputLoopStartMarker - inputSkip + outputSustainDuration;
+            double outputLoopEndTime = outputNoteDuration;
             bool isInLoop = outputTime < outputLoopEndTime;
             if (isInLoop)
             {
-                double inputSustainDuration = inputLoopEndMarker - inputLoopStartMarker;
-                double positionInCycle = (inputTime - inputLoopStartMarker) % inputSustainDuration;
+                double inputCycleDuration = inputLoopEndMarker - inputLoopStartMarker;
+                double positionInCycle = (inputTime - inputLoopStartMarker) % inputCycleDuration;
                 inputTime = inputLoopStartMarker + positionInCycle;
                 double value = _signalCalculator.Calculate(inputTime, channelIndex);
                 return value;
@@ -117,12 +117,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private double GetSustainDuration(double outputTime, int channelIndex)
+        private double GetNoteDuration(double outputTime, int channelIndex)
         {
             double value = CalculationHelper.VERY_HIGH_VALUE;
-            if (_sustainDurationCalculator != null)
+            if (_noteDurationCalculator != null)
             {
-                value = _sustainDurationCalculator.Calculate(outputTime, channelIndex);
+                value = _noteDurationCalculator.Calculate(outputTime, channelIndex);
             }
 
             return value;
