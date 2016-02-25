@@ -1142,23 +1142,23 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase signalCalculator = _stack.Pop();
             OperatorCalculatorBase skipCalculator = _stack.Pop();
             OperatorCalculatorBase loopStartMarkerCalculator = _stack.Pop();
-            OperatorCalculatorBase noteDurationCalculator = _stack.Pop();
             OperatorCalculatorBase loopEndMarkerCalculator = _stack.Pop();
             OperatorCalculatorBase releaseEndMarkerCalculator = _stack.Pop();
+            OperatorCalculatorBase noteDurationCalculator = _stack.Pop();
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
             skipCalculator = skipCalculator ?? new Zero_OperatorCalculator();
             loopStartMarkerCalculator = loopStartMarkerCalculator ?? new Zero_OperatorCalculator();
-            noteDurationCalculator = noteDurationCalculator ?? new Zero_OperatorCalculator();
             loopEndMarkerCalculator = loopEndMarkerCalculator ?? new Zero_OperatorCalculator();
             releaseEndMarkerCalculator = releaseEndMarkerCalculator ?? new Zero_OperatorCalculator();
+            noteDurationCalculator = noteDurationCalculator ?? new Zero_OperatorCalculator();
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool skipIsConst = skipCalculator is Number_OperatorCalculator;
             bool loopStartMarkerIsConst = loopStartMarkerCalculator is Number_OperatorCalculator;
-            bool noteDurationIsConst = noteDurationCalculator is Number_OperatorCalculator;
             bool loopEndMarkerIsConst = loopEndMarkerCalculator is Number_OperatorCalculator;
             bool releaseEndMarkerIsConst = releaseEndMarkerCalculator is Number_OperatorCalculator;
+            bool noteDurationIsConst = noteDurationCalculator is Number_OperatorCalculator;
 
             double skip = skipCalculator.Calculate(0, 0);
             double loopStartMarker = loopStartMarkerCalculator.Calculate(0, 0);
@@ -1179,22 +1179,22 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 {
                     if (loopStartMarkerIsConst && loopEndMarkerIsConst)
                     {
-                        calculator = new Loop_OperatorCalculator_WithoutSkipOrRelease_ManyConstants(signalCalculator, loopStartMarker, noteDurationCalculator, loopEndMarker);
+                        calculator = new Loop_OperatorCalculator_WithoutSkipOrRelease_ManyConstants(signalCalculator, loopStartMarker, loopEndMarker, noteDurationCalculator);
                     }
                     else
                     {
-                        calculator = new Loop_OperatorCalculator_WithoutSkipOrRelease(signalCalculator, loopStartMarkerCalculator, noteDurationCalculator, loopEndMarkerCalculator);
+                        calculator = new Loop_OperatorCalculator_WithoutSkipOrRelease(signalCalculator, loopStartMarkerCalculator, loopEndMarkerCalculator, noteDurationCalculator);
                     }
                 }
                 else
                 {
                     if (skipIsConst && loopStartMarkerIsConst && loopEndMarkerIsConst && releaseEndMarkerIsConst)
                     {
-                        calculator = new Loop_OperatorCalculator_ManyConstants(signalCalculator, skip, loopStartMarker, noteDurationCalculator, loopEndMarker, releaseEndMarker);
+                        calculator = new Loop_OperatorCalculator_ManyConstants(signalCalculator, skip, loopStartMarker, loopEndMarker, releaseEndMarker, noteDurationCalculator);
                     }
                     else
                     {
-                        calculator = new Loop_OperatorCalculator(signalCalculator, skipCalculator, loopStartMarkerCalculator, noteDurationCalculator, loopEndMarkerCalculator, releaseEndMarkerCalculator);
+                        calculator = new Loop_OperatorCalculator(signalCalculator, skipCalculator, loopStartMarkerCalculator, loopEndMarkerCalculator, releaseEndMarkerCalculator, noteDurationCalculator);
                     }
                 }
             }

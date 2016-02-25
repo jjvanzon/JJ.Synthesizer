@@ -56,6 +56,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Non-Persisted
             viewModel.Visible = userInput.Visible;
 
+            // Successful
+            viewModel.Successful = true;
+
             return viewModel;
         }
 

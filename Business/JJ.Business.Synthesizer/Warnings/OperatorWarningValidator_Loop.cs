@@ -13,8 +13,8 @@ namespace JJ.Business.Synthesizer.Warnings
         {
             OperatorConstants.LOOP_SIGNAL_INDEX,
             OperatorConstants.LOOP_LOOP_START_MARKER_INDEX,
-            OperatorConstants.LOOP_NOTE_DURATION_INDEX,
-            OperatorConstants.LOOP_LOOP_END_MARKER_INDEX
+            OperatorConstants.LOOP_LOOP_END_MARKER_INDEX,
+            OperatorConstants.LOOP_NOTE_DURATION_INDEX
         };
 
         public OperatorWarningValidator_Loop(Operator obj)

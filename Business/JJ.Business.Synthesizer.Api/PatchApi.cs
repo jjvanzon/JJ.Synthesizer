@@ -153,11 +153,11 @@ namespace JJ.Business.Synthesizer.Api
             Outlet signal = null,
             Outlet skip = null,
             Outlet loopStartMarker = null,
-            Outlet noteDuration = null,
             Outlet loopEndMarker = null,
-            Outlet releaseEndMarker = null)
+            Outlet releaseEndMarker = null,
+            Outlet noteDuration = null)
         {
-            return _patchManager.Loop(signal, skip, loopStartMarker, noteDuration, loopEndMarker, releaseEndMarker);
+            return _patchManager.Loop(signal, skip, loopStartMarker, loopEndMarker, releaseEndMarker, noteDuration);
         }
 
         public LowPassFilter_OperatorWrapper LowPassFilter(Outlet signal = null, Outlet maxFrequency = null)

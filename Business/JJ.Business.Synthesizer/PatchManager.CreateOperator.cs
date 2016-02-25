@@ -477,9 +477,9 @@ namespace JJ.Business.Synthesizer
             Outlet signal = null, 
             Outlet skip = null, 
             Outlet loopStartMarker = null, 
-            Outlet noteDuration = null, 
             Outlet loopEndMarker = null, 
-            Outlet releaseEndMarker = null)
+            Outlet releaseEndMarker = null,
+            Outlet noteDuration = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Loop, inletCount: 6, outletCount: 1);
 
@@ -488,9 +488,9 @@ namespace JJ.Business.Synthesizer
                 Signal = signal,
                 Skip = skip,
                 LoopStartMarker = loopStartMarker,
-                NoteDuration = noteDuration,
                 LoopEndMarker = loopEndMarker,
-                ReleaseEndMarker = releaseEndMarker
+                ReleaseEndMarker = releaseEndMarker,
+                NoteDuration = noteDuration
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);

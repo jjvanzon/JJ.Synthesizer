@@ -9,15 +9,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _loopStartMarker;
-        private readonly OperatorCalculatorBase _noteDurationCalculator;
         private readonly double _loopEndMarker;
+        private readonly OperatorCalculatorBase _noteDurationCalculator;
+
         private readonly double _cycleDuration;
 
         public Loop_OperatorCalculator_WithoutSkipOrRelease_ManyConstants(
             OperatorCalculatorBase signalCalculator,
             double loopStartMarker,
-            OperatorCalculatorBase noteDurationCalculator,
-            double loopEndMarker)
+            double loopEndMarker,
+            OperatorCalculatorBase noteDurationCalculator)
             : base(new OperatorCalculatorBase[]
             {
                 signalCalculator,
@@ -28,8 +29,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             _signalCalculator = signalCalculator;
             _loopStartMarker = loopStartMarker;
-            _noteDurationCalculator = noteDurationCalculator;
             _loopEndMarker = loopEndMarker;
+            _noteDurationCalculator = noteDurationCalculator;
+
             _cycleDuration = _loopEndMarker - _loopStartMarker;
         }
 

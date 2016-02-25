@@ -29,12 +29,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { OperatorHelper.GetInlet(_wrappedOperator, OperatorConstants.LOOP_LOOP_START_MARKER_INDEX).LinkTo(value); }
         }
 
-        public Outlet NoteDuration
-        {
-            get { return OperatorHelper.GetInputOutlet(_wrappedOperator, OperatorConstants.LOOP_NOTE_DURATION_INDEX); }
-            set { OperatorHelper.GetInlet(_wrappedOperator, OperatorConstants.LOOP_NOTE_DURATION_INDEX).LinkTo(value); }
-        }
-
         public Outlet LoopEndMarker
         {
             get { return OperatorHelper.GetInputOutlet(_wrappedOperator, OperatorConstants.LOOP_LOOP_END_MARKER_INDEX); }
@@ -45,6 +39,12 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         {
             get { return OperatorHelper.GetInputOutlet(_wrappedOperator, OperatorConstants.LOOP_RELEASE_END_MARKER_INDEX); }
             set { OperatorHelper.GetInlet(_wrappedOperator, OperatorConstants.LOOP_RELEASE_END_MARKER_INDEX).LinkTo(value); }
+        }
+
+        public Outlet NoteDuration
+        {
+            get { return OperatorHelper.GetInputOutlet(_wrappedOperator, OperatorConstants.LOOP_NOTE_DURATION_INDEX); }
+            set { OperatorHelper.GetInlet(_wrappedOperator, OperatorConstants.LOOP_NOTE_DURATION_INDEX).LinkTo(value); }
         }
 
         public Outlet Result

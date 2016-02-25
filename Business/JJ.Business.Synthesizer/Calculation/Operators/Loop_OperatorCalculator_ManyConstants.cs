@@ -10,9 +10,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _skip;
         private readonly double _loopStartMarker;
-        private readonly OperatorCalculatorBase _noteDurationCalculator;
         private readonly double _loopEndMarker;
         private readonly double _releaseEndMarker;
+        private readonly OperatorCalculatorBase _noteDurationCalculator;
+
         private readonly double _cycleDuration;
         private readonly double _outputLoopStart;
         private readonly double _releaseDuration;
@@ -21,9 +22,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             double skip,
             double loopStartMarker,
-            OperatorCalculatorBase noteDurationCalculator,
             double loopEndMarker,
-            double releaseEndMarker)
+            double releaseEndMarker,
+            OperatorCalculatorBase noteDurationCalculator)
             : base(new OperatorCalculatorBase[] 
             {
                 signalCalculator,
@@ -35,9 +36,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _signalCalculator = signalCalculator;
             _skip = skip;
             _loopStartMarker = loopStartMarker;
-            _noteDurationCalculator = noteDurationCalculator;
             _loopEndMarker = loopEndMarker;
             _releaseEndMarker = releaseEndMarker;
+            _noteDurationCalculator = noteDurationCalculator;
 
             _cycleDuration = _loopEndMarker - _loopStartMarker;
             _outputLoopStart = _loopStartMarker - _skip;

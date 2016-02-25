@@ -9,28 +9,28 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _loopStartMarkerCalculator;
-        private readonly OperatorCalculatorBase _noteDurationCalculator;
         private readonly OperatorCalculatorBase _loopEndMarkerCalculator;
+        private readonly OperatorCalculatorBase _noteDurationCalculator;
 
         public Loop_OperatorCalculator_WithoutSkipOrRelease(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase loopStartMarkerCalculator,
-            OperatorCalculatorBase noteDurationCalculator,
-            OperatorCalculatorBase loopEndMarkerCalculator)
+            OperatorCalculatorBase loopEndMarkerCalculator,
+            OperatorCalculatorBase noteDurationCalculator)
             : base(new OperatorCalculatorBase[]
             {
                 signalCalculator,
                 loopStartMarkerCalculator,
-                noteDurationCalculator,
                 loopEndMarkerCalculator,
+                noteDurationCalculator
             }.Where(x => x != null).ToArray())
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
 
             _signalCalculator = signalCalculator;
             _loopStartMarkerCalculator = loopStartMarkerCalculator;
-            _noteDurationCalculator = noteDurationCalculator;
             _loopEndMarkerCalculator = loopEndMarkerCalculator;
+            _noteDurationCalculator = noteDurationCalculator;
         }
 
         public override double Calculate(double time, int channelIndex)
@@ -81,18 +81,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private double GetNoteDuration(double outputTime, int channelIndex)
-        {
-            double value = CalculationHelper.VERY_HIGH_VALUE;
-            if (_noteDurationCalculator != null)
-            {
-                value = _noteDurationCalculator.Calculate(outputTime, channelIndex);
-            }
-
-            return value;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private double GetLoopEndMarker(double outputTime, int channelIndex)
         {
             double inputEndTime = 0;
@@ -102,6 +90,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             }
 
             return inputEndTime;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private double GetNoteDuration(double outputTime, int channelIndex)
+        {
+            double value = CalculationHelper.VERY_HIGH_VALUE;
+            if (_noteDurationCalculator != null)
+            {
+                value = _noteDurationCalculator.Calculate(outputTime, channelIndex);
+            }
+
+            return value;
         }
     }
 }
