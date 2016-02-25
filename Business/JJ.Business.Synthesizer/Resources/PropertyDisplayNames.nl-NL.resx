@@ -667,4 +667,16 @@
   <data name="Cubic" xml:space="preserve">
     <value>Kubiek</value>
   </data>
+  <data name="LoopEndMarker" xml:space="preserve">
+    <value>Lus einde markering</value>
+  </data>
+  <data name="LoopStartMarker" xml:space="preserve">
+    <value>Lus begin markering</value>
+  </data>
+  <data name="ReleaseEndMarker" xml:space="preserve">
+    <value>Loslaat einde markering</value>
+  </data>
+  <data name="Skip" xml:space="preserve">
+    <value>Sprong</value>
+  </data>
 </root>

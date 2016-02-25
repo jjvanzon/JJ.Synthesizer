@@ -808,6 +808,24 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Loop End Marker.
+        /// </summary>
+        public static string LoopEndMarker {
+            get {
+                return ResourceManager.GetString("LoopEndMarker", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loop Start Marker.
+        /// </summary>
+        public static string LoopStartMarker {
+            get {
+                return ResourceManager.GetString("LoopStartMarker", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Low.
         /// </summary>
         public static string Low {
@@ -1168,6 +1186,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Release End Marker.
+        /// </summary>
+        public static string ReleaseEndMarker {
+            get {
+                return ResourceManager.GetString("ReleaseEndMarker", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Resample.
         /// </summary>
         public static string Resample {
@@ -1371,6 +1398,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Single {
             get {
                 return ResourceManager.GetString("Single", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skip.
+        /// </summary>
+        public static string Skip {
+            get {
+                return ResourceManager.GetString("Skip", resourceCulture);
             }
         }
         
