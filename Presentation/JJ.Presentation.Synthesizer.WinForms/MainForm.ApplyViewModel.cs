@@ -16,7 +16,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             try
             {
-                Text = _presenter.MainViewModel.WindowTitle + _titleBarExtraText;
+                Text = _presenter.MainViewModel.TitleBar + _titleBarExtraText;
 
                 menuUserControl.Show(_presenter.MainViewModel.Menu);
 

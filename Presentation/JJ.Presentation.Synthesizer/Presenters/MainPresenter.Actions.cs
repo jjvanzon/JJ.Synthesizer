@@ -40,10 +40,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Partial Actions
             MenuViewModel menuViewModel = _menuPresenter.Show(documentIsOpen: false);
             DocumentGridViewModel documentGridViewModel = _documentGridPresenter.Show(MainViewModel.DocumentGrid);
+            string titleBar = _titleBarPresenter.Show();
 
-            MainViewModel.WindowTitle = Titles.ApplicationName;
-
-            // Dispatch ViewModel
+            // DispatchViewModel
+            MainViewModel.TitleBar = titleBar;
             DispatchViewModel(menuViewModel);
             DispatchViewModel(documentGridViewModel);
         }
@@ -529,17 +529,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 patchDocumentViewModel.SamplePropertiesList.Select(x => x.Successful = true);
             }
 
+            string titleBar = _titleBarPresenter.Show(document);
+            MenuViewModel menuViewModel = _menuPresenter.Show(documentIsOpen: true);
+
             // DispatchViewModel
             MainViewModel.Document = viewModel;
+            MainViewModel.TitleBar = titleBar;
+            MainViewModel.Menu = menuViewModel;
 
-            // The rest of this method is not entirely in accordance with the new patterns.
-            MainViewModel.WindowTitle = String.Format("{0} - {1}", document.Name, Titles.ApplicationName);
-
-            MainViewModel.Menu = _menuPresenter.Show(documentIsOpen: true);
+            // Non-Persisted
+            MainViewModel.DocumentGrid.Visible = false;
 
             CurrentPatchesShow();
-
-            MainViewModel.DocumentGrid.Visible = false;
         }
 
         public void DocumentSave()
@@ -566,9 +567,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (MainViewModel.Document.IsOpen)
             {
-                MainViewModel.Document = ViewModelHelper.CreateEmptyDocumentViewModel();
-                MainViewModel.WindowTitle = Titles.ApplicationName;
-                MainViewModel.Menu = _menuPresenter.Show(documentIsOpen: false);
+                // Partial Actions
+                string titleBar = _titleBarPresenter.Show();
+                MenuViewModel menuViewModel = _menuPresenter.Show(documentIsOpen: false);
+                DocumentViewModel documentViewModel = ViewModelHelper.CreateEmptyDocumentViewModel();
+
+                // DispatchViewModel
+                MainViewModel.TitleBar = titleBar;
+                MainViewModel.Menu = menuViewModel;
+                MainViewModel.Document = documentViewModel;
             }
         }
 
@@ -580,25 +587,24 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void DocumentPropertiesClose()
         {
-            // Template Method
-            TemplateActionMethod(MainViewModel.Document.DocumentProperties, _documentPropertiesPresenter.Close);
-
-            // Refresh
-            if (MainViewModel.Document.DocumentProperties.Successful)
-            {
-                DocumentGridRefresh();
-                DocumentTreeRefresh();
-            }
+            DocumentPropertiesCloseOrLoseFocus(_documentPropertiesPresenter.Close);
         }
 
         public void DocumentPropertiesLoseFocus()
         {
+            DocumentPropertiesCloseOrLoseFocus(_documentPropertiesPresenter.LoseFocus);
+        }
+
+        private void DocumentPropertiesCloseOrLoseFocus(
+            Func<DocumentPropertiesViewModel, DocumentPropertiesViewModel> partialAction)
+        {
             // Template Method
-            TemplateActionMethod(MainViewModel.Document.DocumentProperties, _documentPropertiesPresenter.LoseFocus);
+            TemplateActionMethod(MainViewModel.Document.DocumentProperties, partialAction);
 
             // Refresh
             if (MainViewModel.Document.DocumentProperties.Successful)
             {
+                TitleBarRefresh();
                 DocumentGridRefresh();
                 DocumentTreeRefresh();
             }

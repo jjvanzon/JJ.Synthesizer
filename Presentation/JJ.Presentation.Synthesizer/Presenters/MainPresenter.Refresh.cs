@@ -1094,6 +1094,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(viewModel);
         }
 
+        private void TitleBarRefresh()
+        {
+            int documentID = MainViewModel.Document.ID;
+            Document document = _repositories.DocumentRepository.TryGetComplete(documentID);
+            string windowTitle = _titleBarPresenter.Show(document);
+            MainViewModel.TitleBar = windowTitle;
+        }
+
         private void ToneGridEditListRefresh()
         {
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);

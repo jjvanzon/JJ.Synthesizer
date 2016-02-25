@@ -9,7 +9,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
     {
         // General
 
-        public string WindowTitle { get; set; }
+        public string TitleBar { get; set; }
         public MenuViewModel Menu { get; set; }
         public IList<Message> ValidationMessages { get; set; }
         public IList<Message> WarningMessages { get; set; }
