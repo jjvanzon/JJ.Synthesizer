@@ -5,9 +5,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.Configuration
     internal class ConfigurationSection
     {
         [XmlAttribute]
-        public string TitleBarExtraText { get; set; }
-
-        [XmlAttribute]
         public bool AlwaysRecreateDiagram { get; set; }
 
         [XmlAttribute]

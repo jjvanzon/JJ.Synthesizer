@@ -25,9 +25,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             var businessConfig = CustomConfigurationManager.GetSection<JJ.Business.Synthesizer.Configuration.ConfigurationSection>();
             ConfigurationHelper.SetSection(businessConfig);
 
-            var presenterConfig = CustomConfigurationManager.GetSection<JJ.Presentation.Synthesizer.Helpers.ConfigurationSection>();
-            ConfigurationHelper.SetSection(presenterConfig);
-
             var vectorGraphicsConfig = CustomConfigurationManager.GetSection<JJ.Presentation.Synthesizer.VectorGraphics.Configuration.ConfigurationSection>();
             ConfigurationHelper.SetSection(vectorGraphicsConfig);
 

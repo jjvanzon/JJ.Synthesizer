@@ -27,7 +27,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private DocumentCannotDeleteForm _documentCannotDeleteForm = new DocumentCannotDeleteForm();
         private PatchDetailsForm _autoPatchDetailsForm = new PatchDetailsForm();
-        private readonly static string _titleBarExtraText;
         private readonly static int _maxConcurrentNotes;
 
         static MainForm()
@@ -35,7 +34,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             if (LicenseManager.UsageMode == LicenseUsageMode.Runtime)
             {
                 var config = CustomConfigurationManager.GetSection<ConfigurationSection>();
-                _titleBarExtraText = config.TitleBarExtraText;
                 _maxConcurrentNotes = config.MaxConcurrentNotes;
             }
         }

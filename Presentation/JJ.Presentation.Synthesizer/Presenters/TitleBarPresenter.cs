@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using JJ.Data.Synthesizer;
 using JJ.Presentation.Synthesizer.Resources;
+using JJ.Framework.Configuration;
+using JJ.Presentation.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class TitleBarPresenter
     {
+        private static string _titleBarExtraText = GetTitleBarExtraText();
+
         public string Show(Document openDocument = null)
         {
             var sb = new StringBuilder();
@@ -21,7 +24,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             sb.Append(Titles.ApplicationName);
 
+            sb.Append(_titleBarExtraText);
+
             return sb.ToString();
+        }
+
+        private static string GetTitleBarExtraText()
+        {
+            return CustomConfigurationManager.GetSection<ConfigurationSection>().TitleBarExtraText;
         }
     }
 }

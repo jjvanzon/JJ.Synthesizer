@@ -17,6 +17,7 @@ using JJ.Business.Synthesizer.Calculation.Patches;
 using System;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Framework.Configuration;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -379,12 +380,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private static double GetPatchPlayDuration()
         {
-            return ConfigurationHelper.GetSection<ConfigurationSection>().PatchPlayDurationInSeconds;
+            return CustomConfigurationManager.GetSection<ConfigurationSection>().PatchPlayDurationInSeconds;
         }
 
         private static string GetPatchPlayOutputFilePath()
         {
-            return ConfigurationHelper.GetSection<ConfigurationSection>().PatchPlayHackedAudioFileOutputFilePath;
+            return CustomConfigurationManager.GetSection<ConfigurationSection>().PatchPlayHackedAudioFileOutputFilePath;
         }
 
         private PatchDetailsViewModel CreateViewModel(Patch patch)

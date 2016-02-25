@@ -11,6 +11,7 @@ using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Calculation;
+using JJ.Framework.Configuration;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -208,7 +209,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private static string GetPlayOutputFilePath()
         {
-            return ConfigurationHelper.GetSection<ConfigurationSection>().PatchPlayHackedAudioFileOutputFilePath;
+            return CustomConfigurationManager.GetSection<ConfigurationSection>().PatchPlayHackedAudioFileOutputFilePath;
         }
 
         private IPatchCalculator CreatePatchCalculator(PatchRepositories repositories, Outlet outlet)
