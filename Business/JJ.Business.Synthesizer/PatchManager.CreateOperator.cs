@@ -175,7 +175,8 @@ namespace JJ.Business.Synthesizer
             double startTime = 0.0, 
             double endTime = 1.0, 
             int samplingRate = 44100, 
-            InterpolationTypeEnum interpolationTypeEnum = InterpolationTypeEnum.Line)
+            InterpolationTypeEnum interpolationTypeEnum = InterpolationTypeEnum.Line,
+            SpeakerSetupEnum speakerSetupEnum = SpeakerSetupEnum.Mono)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Cache, inletCount: 1, outletCount: 1);
 
@@ -185,7 +186,8 @@ namespace JJ.Business.Synthesizer
                 StartTime = startTime,
                 EndTime = endTime,
                 SamplingRate = samplingRate,
-                InterpolationTypeEnum = interpolationTypeEnum
+                InterpolationTypeEnum = interpolationTypeEnum,
+                SpeakerSetupEnum = speakerSetupEnum
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
