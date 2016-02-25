@@ -245,7 +245,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void DocumentGridRefresh()
         {
-            TemplateActionMethod(MainViewModel.DocumentGrid, _documentGridPresenter.Refresh);
+            // GetViewModel
+            DocumentGridViewModel userInput = MainViewModel.DocumentGrid;
+
+            // TemplateMethod
+            TemplateActionMethod(userInput, () => _documentGridPresenter.Refresh(userInput));
         }
 
         private void DocumentPropertiesRefresh()
