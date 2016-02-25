@@ -1325,34 +1325,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             PatchDetailsViewModel userInput = DocumentViewModelHelper.GetVisiblePatchDetailsViewModel(MainViewModel.Document);
 
-            // Set !Successful
-            userInput.Successful = false;
+            // TemplateMethod
+            PatchDetailsViewModel viewModel = TemplateActionMethod(userInput, x => _patchDetailsPresenter.CreateOperator(x, operatorTypeID));
 
-            // ToEntity
-            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
-            Patch patch = _repositories.PatchRepository.Get(userInput.Entity.PatchID);
-
-            // Business
-            var patchManager = new PatchManager(patch, _patchRepositories);
-            Operator op = patchManager.CreateOperator((OperatorTypeEnum)operatorTypeID);
-
-            // Business
-            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
-            if (!validationResult.Successful)
+            // Refresh
+            if (viewModel.Successful)
             {
-                // Non-Persisted
-                userInput.ValidationMessages.AddRange(validationResult.Messages);
-
-                // DispatchViewModel
-                DispatchViewModel(userInput);
-                return;
+                DocumentViewModelRefresh();
             }
-
-            // Successful
-            userInput.Successful = true;
-
-            // ToViewModel
-            DocumentViewModelRefresh();
         }
 
         /// <summary> Deletes the operator selected in PatchDetails. </summary>
@@ -1361,125 +1341,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             PatchDetailsViewModel userInput = DocumentViewModelHelper.GetVisiblePatchDetailsViewModel(MainViewModel.Document);
 
-            // Set !Successful
-            userInput.Successful = false;
+            // Template Method
+            PatchDetailsViewModel viewModel = TemplateActionMethod(userInput, _patchDetailsPresenter.DeleteOperator);
 
-            // ToEntity
-            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
-
-            // GetEntities
-            Patch patch = _repositories.PatchRepository.Get(userInput.Entity.PatchID);
-            Operator op = null;
-            OperatorTypeEnum operatorTypeEnum = OperatorTypeEnum.Undefined;
-            if (userInput.SelectedOperator != null)
-            {
-                op = _repositories.OperatorRepository.Get(userInput.SelectedOperator.ID);
-                operatorTypeEnum = op.GetOperatorTypeEnum();
-            }
-
-            // Partial Action
-            PatchDetailsViewModel viewModel = _patchDetailsPresenter.DeleteOperator(userInput);
-            if (!viewModel.Successful)
-            {
-                // DispatchViewModel
-                DispatchViewModel(viewModel);
-                return;
-            }
-
-            // Set !Successful
-            viewModel.Successful = false;
-
-            // Business
-            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
-            if (!validationResult.Successful)
-            {
-                // Non-Persisted
-                viewModel.ValidationMessages.AddRange(validationResult.Messages);
-
-                // DispatchViewModel
-                DispatchViewModel(viewModel);
-                return;
-            }
-
-            // Successful
-            viewModel.Successful = true;
-
-            // DispatchViewModel
-            DispatchViewModel(viewModel);
-
-            // Refresh / ToViewModel
+            // Refresh
             if (viewModel.Successful)
             {
-                // Do a lot of if'ing and switching to be a little faster in removing the item a specific place in the view model.
-                PatchDocumentViewModel patchDocumentViewModel = DocumentViewModelHelper.GetPatchDocumentViewModel(MainViewModel.Document, patch.Document.ID);
-
-                switch (operatorTypeEnum)
-                {
-                    case OperatorTypeEnum.Average:
-                    case OperatorTypeEnum.Minimum:
-                    case OperatorTypeEnum.Maximum:
-                        patchDocumentViewModel.OperatorPropertiesList_ForAggregates.RemoveFirst(x => x.ID == op.ID);
-                        break;
-
-                    case OperatorTypeEnum.Bundle:
-                        patchDocumentViewModel.OperatorPropertiesList_ForBundles.RemoveFirst(x => x.ID == op.ID);
-                        break;
-
-                    case OperatorTypeEnum.Cache:
-                        patchDocumentViewModel.OperatorPropertiesList_ForCaches.RemoveFirst(x => x.ID == op.ID);
-                        break;
-
-                    case OperatorTypeEnum.Curve:
-                        patchDocumentViewModel.OperatorPropertiesList_ForCurves.RemoveFirst(x => x.ID == op.ID);
-                        break;
-
-                    case OperatorTypeEnum.CustomOperator:
-                        patchDocumentViewModel.OperatorPropertiesList_ForCustomOperators.RemoveFirst(x => x.ID == op.ID);
-                        break;
-
-                    case OperatorTypeEnum.Number:
-                        patchDocumentViewModel.OperatorPropertiesList_ForNumbers.RemoveFirst(x => x.ID == op.ID);
-                        break;
-
-                    case OperatorTypeEnum.PatchInlet:
-                        patchDocumentViewModel.OperatorPropertiesList_ForPatchInlets.RemoveFirst(x => x.ID == op.ID);
-                        break;
-
-                    case OperatorTypeEnum.PatchOutlet:
-                        patchDocumentViewModel.OperatorPropertiesList_ForPatchOutlets.RemoveFirst(x => x.ID == op.ID);
-                        break;
-
-                    case OperatorTypeEnum.Random:
-                        patchDocumentViewModel.OperatorPropertiesList_ForRandoms.RemoveFirst(x => x.ID == op.ID);
-                        break;
-
-                    case OperatorTypeEnum.Resample:
-                        patchDocumentViewModel.OperatorPropertiesList_ForResamples.RemoveFirst(x => x.ID == op.ID);
-                        break;
-
-                    case OperatorTypeEnum.Sample:
-                        patchDocumentViewModel.OperatorPropertiesList_ForSamples.RemoveFirst(x => x.ID == op.ID);
-                        break;
-
-                    case OperatorTypeEnum.Spectrum:
-                        patchDocumentViewModel.OperatorPropertiesList_ForSpectrums.RemoveFirst(x => x.ID == op.ID);
-                        break;
-
-                    case OperatorTypeEnum.Unbundle:
-                        patchDocumentViewModel.OperatorPropertiesList_ForUnbundles.RemoveFirst(x => x.ID == op.ID);
-                        break;
-
-                    case OperatorTypeEnum.Undefined:
-                        throw new ValueNotSupportedException(operatorTypeEnum);
-
-                    default:
-                        patchDocumentViewModel.OperatorPropertiesList.RemoveFirst(x => x.ID == op.ID);
-                        break;
-                }
+                DocumentViewModelRefresh();
             }
-
-            // Refresh Dependent Things
-            OperatorViewModels_OfType_Refresh(OperatorTypeEnum.CustomOperator);
         }
 
         public void OperatorMove(int operatorID, float centerX, float centerY)
@@ -1556,6 +1425,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 return x;
             });
 
+            // Non-Persisted
             // Move messages to popup messages, because the default
             // dispatching for PatchDetailsViewModel moves it to the ValidationMessages.
             MainViewModel.PopupMessages.AddRange(userInput.ValidationMessages);
@@ -1594,12 +1464,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Refresh
             if (viewModel.Successful)
             {
-                DocumentTreeRefresh();
-                CurrentPatchesRefresh();
-                PatchGridsRefresh(); // Refresh all patch grids, because a Patch's group can change.
-                UnderylingPatchLookupRefresh();
-                OperatorViewModels_OfType_Refresh(OperatorTypeEnum.CustomOperator);
-                OperatorProperties_ForCustomOperatorViewModels_Refresh(underlyingPatchID: userInput.ChildDocumentID);
+                DocumentViewModelRefresh();
             }
         }
 
@@ -1631,28 +1496,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Document childDocument = _documentManager.CreateChildDocument(rootDocument, mustGenerateName: true);
             childDocument.GroupName = group;
 
+            // Business
             IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
-                MainViewModel.Successful &= validationResult.Successful;
+                // Non-Persisted
                 MainViewModel.PopupMessages.AddRange(validationResult.Messages);
                 return;
             }
 
-            // ToViewModel
-            ChildDocumentIDAndNameViewModel listItemViewModel = childDocument.ToChildDocumentIDAndNameViewModel();
-            PatchGridViewModel gridViewModel = DocumentViewModelHelper.GetPatchGridViewModel_ByGroup(MainViewModel.Document, group);
-            gridViewModel.List.Add(listItemViewModel);
-            gridViewModel.List = gridViewModel.List.OrderBy(x => x.Name).ToList();
-
-            PatchDocumentViewModel documentViewModel = childDocument.ToPatchDocumentViewModel(_repositories, _entityPositionManager);
-            MainViewModel.Document.PatchDocumentList.Add(documentViewModel);
-
-            ChildDocumentIDAndNameViewModel lookupItemViewModel = childDocument.ToChildDocumentIDAndNameViewModel();
-            MainViewModel.Document.UnderlyingPatchLookup.Add(lookupItemViewModel);
-            MainViewModel.Document.UnderlyingPatchLookup = MainViewModel.Document.UnderlyingPatchLookup.OrderBy(x => x.Name).ToList();
-
-            DocumentTreeRefresh();
+            // Refresh
+            DocumentViewModelRefresh();
         }
 
         public void PatchDelete(int childDocumentID)
@@ -1665,32 +1519,22 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IResult result = _documentManager.DeleteWithRelatedEntities(childDocument);
             if (!result.Successful)
             {
-                // ToViewModel
+                // Non-Persisted
                 MainViewModel.PopupMessages.AddRange(result.Messages);
                 return;
             }
 
+            // Bsuiness
             IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
-                MainViewModel.Successful &= validationResult.Successful;
+                // Non-Persisted
                 MainViewModel.PopupMessages.AddRange(validationResult.Messages);
                 return;
             }
 
-            // ToViewModel
-            MainViewModel.Document.PatchDocumentList.RemoveFirst(x => x.ChildDocumentID == childDocumentID);
-            MainViewModel.Document.CurrentPatches.List.TryRemoveFirst(x => x.ChildDocumentID == childDocumentID);
-            MainViewModel.Document.UnderlyingPatchLookup.RemoveFirst(x => x.ChildDocumentID == childDocumentID);
-            MainViewModel.Document.DocumentTree.PatchesNode.PatchNodes.TryRemoveFirst(x => x.ChildDocumentID == childDocumentID);
-            foreach (PatchGroupTreeNodeViewModel nodeViewModel in MainViewModel.Document.DocumentTree.PatchesNode.PatchGroupNodes)
-            {
-                nodeViewModel.Patches.TryRemoveFirst(x => x.ChildDocumentID == childDocumentID);
-            }
-            foreach (PatchGridViewModel gridViewModel in MainViewModel.Document.PatchGridList)
-            {
-                gridViewModel.List.TryRemoveFirst(x => x.ChildDocumentID == childDocumentID);
-            }
+            // Refresh
+            DocumentViewModelRefresh();
         }
 
         // Sample
@@ -1722,46 +1566,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Business
             Sample sample = _sampleManager.CreateSample(document, mustGenerateName: true);
 
+            // Business
             IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
-                MainViewModel.Successful &= validationResult.Successful;
+                // Non-Persisted
                 MainViewModel.PopupMessages.AddRange(validationResult.Messages);
                 return;
             }
 
             // ToViewModel
-            SampleGridViewModel gridViewModel = DocumentViewModelHelper.GetSampleGridViewModel_ByDocumentID(MainViewModel.Document, document.ID);
-            SampleListItemViewModel listItemViewModel = sample.ToListItemViewModel();
-            gridViewModel.List.Add(listItemViewModel);
-            gridViewModel.List = gridViewModel.List.OrderBy(x => x.Name).ToList();
-
-            IList<SamplePropertiesViewModel> propertiesViewModels = DocumentViewModelHelper.GetSamplePropertiesViewModelList_ByDocumentID(MainViewModel.Document, document.ID);
-            SamplePropertiesViewModel propertiesViewModel = sample.ToPropertiesViewModel(_sampleRepositories);
-            propertiesViewModels.Add(propertiesViewModel);
-
-            // NOTE: Samples in a child document are only added to the sample lookup of that child document,
-            // while sample in the root document are added to all child documents.
-            bool isRootDocument = document.ParentDocument == null;
-            if (isRootDocument)
-            {
-                IDAndName idAndName = sample.ToIDAndName();
-                foreach (PatchDocumentViewModel patchDocumentViewModel in MainViewModel.Document.PatchDocumentList)
-                {
-                    patchDocumentViewModel.SampleLookup.Add(idAndName);
-                    patchDocumentViewModel.SampleLookup = patchDocumentViewModel.SampleLookup.OrderBy(x => x.Name).ToList();
-                }
-            }
-            else
-            {
-                PatchDocumentViewModel patchDocumentViewModel = DocumentViewModelHelper.GetPatchDocumentViewModel(MainViewModel.Document, documentID);
-                IDAndName idAndName = sample.ToIDAndName();
-                patchDocumentViewModel.SampleLookup.Add(idAndName);
-                patchDocumentViewModel.SampleLookup = patchDocumentViewModel.SampleLookup.OrderBy(x => x.Name).ToList();
-            }
+            DocumentViewModelRefresh();
         }
-
-        // 2016-01-26 WAS HERE REFACTORING, AND SampleDelete IS NOT FINISHED YET.
 
         public void SampleDelete(int sampleID)
         {
@@ -1774,37 +1590,30 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // ToEntity
             Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
             Sample sample = _repositories.SampleRepository.Get(sampleID);
-            int documentID = sample.Document.ID;
-            bool isRootDocument = sample.Document.ParentDocument == null;
 
             // Business
             IResult result = _sampleManager.Delete(sample);
             if (!result.Successful)
             {
-                // ToViewModel
+                // Non-Persisted
                 MainViewModel.PopupMessages = result.Messages;
                 return;
             }
 
+            // Business
             IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
-                MainViewModel.Successful = validationResult.Successful;
+                // Non-Persisted
                 MainViewModel.PopupMessages = validationResult.Messages;
                 return;
             }
 
-            // Set Successful
+            // Successful
             userInput.Successful = true;
 
-            // ToViewModel
-            IList<SamplePropertiesViewModel> propertiesViewModels = DocumentViewModelHelper.GetSamplePropertiesViewModelList_ByDocumentID(MainViewModel.Document, documentID);
-            propertiesViewModels.RemoveFirst(x => x.Entity.ID == sampleID);
-
-            SampleGridViewModel gridViewModel = DocumentViewModelHelper.GetSampleGridViewModel_ByDocumentID(MainViewModel.Document, documentID);
-            gridViewModel.List.RemoveFirst(x => x.ID == sampleID);
-
-            MainViewModel.Document.PatchDocumentList.ForEach(x => x.SampleLookup.TryRemoveFirst(y => y.ID == sampleID));
+            // Refresh
+            DocumentViewModelRefresh();
         }
 
         public void SamplePropertiesShow(int sampleID)
@@ -1869,38 +1678,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             ScaleGridViewModel userInput = MainViewModel.Document.ScaleGrid;
 
-            // Set !Successful
-            userInput.Successful = false;
-
-            // ToEntity
-            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
-
-            // Business
-            Scale scale = _scaleManager.Create(rootDocument, mustSetDefaults: true, mustGenerateName: true);
-
-            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
-            if (!validationResult.Successful)
+            // Template Method
+            ScaleGridViewModel viewModel = TemplateActionMethod(userInput, x =>
             {
-                userInput.ValidationMessages = validationResult.Messages;
-                DispatchViewModel(userInput);
-                return;
-            }
+                Document rootDocument = _repositories.DocumentRepository.Get(x.DocumentID);
+                Scale scale = _scaleManager.Create(rootDocument, mustSetDefaults: true, mustGenerateName: true);
+                x.Successful = true;
+                return x;
+            });
 
             // ToViewModel
-            IDAndName listItemViewModel = scale.ToIDAndName();
-            MainViewModel.Document.ScaleGrid.List.Add(listItemViewModel);
-            MainViewModel.Document.ScaleGrid.List = MainViewModel.Document.ScaleGrid.List.OrderBy(x => x.Name).ToList();
-
-            ToneGridEditViewModel toneGridEditViewModel = scale.ToToneGridEditViewModel();
-            MainViewModel.Document.ToneGridEditList.Add(toneGridEditViewModel);
-            
-            ScalePropertiesViewModel scalePropertiesViewModel = scale.ToPropertiesViewModel(_repositories.ScaleTypeRepository);
-            MainViewModel.Document.ScalePropertiesList.Add(scalePropertiesViewModel);
-
-            // Set Successful
-            userInput.Successful = true;
-            scalePropertiesViewModel.Successful = true;
-            toneGridEditViewModel.Successful = true;
+            if (viewModel.Successful)
+            {
+                DocumentViewModelRefresh();
+            }
         }
 
         public void ScaleDelete(int id)
@@ -1908,31 +1699,25 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             ScaleGridViewModel userInput = MainViewModel.Document.ScaleGrid;
 
-            // Set !Successful
-            userInput.Successful = false;
-
-            // ToEntity
-            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
-            Scale scale = _repositories.ScaleRepository.Get(id);
-
-            // Business
-            _scaleManager.DeleteWithRelatedEntities(id);
-
-            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
-            if (!validationResult.Successful)
+            // Template Method
+            ScaleGridViewModel viewModel = TemplateActionMethod(userInput, x =>
             {
-                userInput.ValidationMessages.AddRange(validationResult.Messages);
-                DispatchViewModel(userInput);
-                return;
+                Scale scale = _repositories.ScaleRepository.Get(id);
+                _scaleManager.DeleteWithRelatedEntities(id);
+                x.Successful = true;
+                return x;
+            });
+
+            if (viewModel.Successful)
+            {
+                // ToViewModel
+                MainViewModel.Document.ScaleGrid.List.RemoveFirst(x => x.ID == id);
+                MainViewModel.Document.ToneGridEditList.RemoveFirst(x => x.ScaleID == id);
+                MainViewModel.Document.ScalePropertiesList.RemoveFirst(x => x.Entity.ID == id);
+
+                // Successful
+                userInput.Successful = true;
             }
-
-            // ToViewModel
-            MainViewModel.Document.ScaleGrid.List.RemoveFirst(x => x.ID == id);
-            MainViewModel.Document.ToneGridEditList.RemoveFirst(x => x.ScaleID == id);
-            MainViewModel.Document.ScalePropertiesList.RemoveFirst(x => x.Entity.ID == id);
-
-            // Successful
-            userInput.Successful = true;
         }
 
         public void ScaleShow(int id)
@@ -2036,6 +1821,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Business
             Tone tone = _scaleManager.CreateTone(scale);
 
+            // Business
             IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
@@ -2081,6 +1867,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Business
             _scaleManager.DeleteTone(tone);
 
+            // Bsuiness
             IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
@@ -2104,13 +1891,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void ToneGridEditClose()
         {
+            // GetViewModel
             ToneGridEditViewModel userInput = DocumentViewModelHelper.GetVisibleToneGridEditViewModel(MainViewModel.Document);
+
+            // Template Method
             TemplateActionMethod(userInput, _toneGridEditPresenter.Close);
         }
 
         public void ToneGridEditLoseFocus()
         {
+            // GetViewModel
             ToneGridEditViewModel userInput = DocumentViewModelHelper.GetVisibleToneGridEditViewModel(MainViewModel.Document);
+
+            // Template Method
             TemplateActionMethod(userInput, _toneGridEditPresenter.LoseFocus);
         }
 

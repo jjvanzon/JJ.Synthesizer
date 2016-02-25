@@ -16,6 +16,7 @@ using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using System;
 using JJ.Business.Synthesizer.Calculation;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -255,6 +256,32 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
+        public PatchDetailsViewModel CreateOperator(PatchDetailsViewModel userInput, int operatorTypeID)
+        {
+            if (userInput == null) throw new NullException(() => userInput);
+
+            // Set !Successful
+            userInput.Successful = false;
+
+            // GetEntity
+            Patch entity = _repositories.PatchRepository.Get(userInput.Entity.PatchID);
+
+            // Business
+            var patchManager = new PatchManager(entity, _repositories);
+            Operator op = patchManager.CreateOperator((OperatorTypeEnum)operatorTypeID);
+
+            // ToViewModel
+            PatchDetailsViewModel viewModel = CreateViewModel(entity);
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+
+            // Successful
+            viewModel.Successful = true;
+
+            return viewModel;
+        }
+
         /// <summary>
         /// Writes the output of the currently selected operator to an audio file with a configurable duration.
         /// Returns the output file path if ViewModel.Successful.
@@ -314,6 +341,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             return _patchPlayOutputFilePath;
         }
+
 
         // Helpers
 
