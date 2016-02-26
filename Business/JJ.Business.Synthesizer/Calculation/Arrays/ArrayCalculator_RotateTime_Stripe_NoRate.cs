@@ -17,8 +17,15 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double CalculateValue(double time)
         {
-            time = time % _duration;
-            return base.CalculateValue(time);
+            double transformedTime = time % _duration;
+
+            // Account for negative times.
+            if (transformedTime < 0.0)
+            {
+                transformedTime += _duration;
+            }
+
+            return base.CalculateValue(transformedTime);
         }
     }
 }

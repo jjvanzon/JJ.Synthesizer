@@ -15,14 +15,15 @@ namespace JJ.Business.Synthesizer.Validation
         {
             base.Execute();
 
-            string interpolationType = OperatorDataParser.GetString(Object, PropertyNames.InterpolationTypeEnum);
+            string interpolationType = OperatorDataParser.GetString(Object, PropertyNames.InterpolationType);
 
             // TODO: Enable IsNullOrEmpty validation when there is a property box for it.
+
             // TODO: Validate enum again, when FluentValidator can handle it.
-            //For(() => interpolationType, PropertyDisplayNames.InterpolationType)
-                //.NotNullOrEmpty();
-                //.IsEnum<InterpolationTypeEnum>()
-                //.IsNot(InterpolationTypeEnum.Undefined);
+            For(() => interpolationType, PropertyDisplayNames.InterpolationType)
+                .NotNullOrEmpty()
+                .IsEnum<ResampleInterpolationTypeEnum>()
+                .IsNot(ResampleInterpolationTypeEnum.Undefined);
         }
     }
 }

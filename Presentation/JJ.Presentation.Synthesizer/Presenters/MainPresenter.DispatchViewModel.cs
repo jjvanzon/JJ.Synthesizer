@@ -1,13 +1,12 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using JJ.Framework.Common;
 using JJ.Framework.Presentation;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
