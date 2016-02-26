@@ -36,6 +36,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             curveDetailsUserControl.SelectNodeRequested += curveDetailsUserControl_SelectNodeRequested;
             curveDetailsUserControl.ShowCurvePropertiesRequested += curveDetailsUserControl_ShowCurvePropertiesRequested;
             curveDetailsUserControl.ShowNodePropertiesRequested += curveDetailsUserControl_ShowNodePropertiesRequested;
+            curveDetailsUserControl.ShowSelectedNodePropertiesRequested += curveDetailsUserControl_ShowSelectedNodePropertiesRequested;
             curveGridUserControl.CloseRequested += curveGridUserControl_CloseRequested;
             curveGridUserControl.CreateRequested += curveGridUserControl_CreateRequested;
             curveGridUserControl.DeleteRequested += curveGridUserControl_DeleteRequested;
@@ -433,6 +434,19 @@ namespace JJ.Presentation.Synthesizer.WinForms
             try
             {
                 _presenter.NodePropertiesShow(e.Value);
+                ApplyViewModel();
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
+        }
+
+        private void curveDetailsUserControl_ShowSelectedNodePropertiesRequested(object sender, EventArgs e)
+        {
+            try
+            {
+                _presenter.SelectedNodePropertiesShow();
                 ApplyViewModel();
             }
             finally

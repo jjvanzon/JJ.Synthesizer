@@ -26,6 +26,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler ShowCurvePropertiesRequested;
         public event EventHandler ChangeNodeTypeRequested;
         public event EventHandler<Int32EventArgs> ShowNodePropertiesRequested;
+        public event EventHandler ShowSelectedNodePropertiesRequested;
 
         private CurveDetailsViewModel _viewModel;
         private CurveDetailsViewModelToDiagramConverter _converter;
@@ -121,6 +122,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
                 case KeyCodeEnum.Delete:
                     DeleteNode();
+                    break;
+
+                case KeyCodeEnum.Enter:
+                    if (ShowSelectedNodePropertiesRequested != null)
+                    {
+                        ShowSelectedNodePropertiesRequested(this, EventArgs.Empty);
+                    }
                     break;
             }
         }
