@@ -43,7 +43,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             IList<Rectangle> destInletRectangles = new List<Rectangle>(sourceOperatorViewModel.Inlets.Count);
 
             float rowHeight = destOperatorRectangle.Height / 4;
-            float heightOverflow = PositionHelper.INLET_OUTLET_RECTANGLE_HEIGHT_OVERFLOW_IN_PIXELS;
+            float heightOverflow = StyleHelper.INLET_OUTLET_RECTANGLE_HEIGHT_OVERFLOW_IN_PIXELS;
             float inletWidth = destOperatorRectangle.Width / sourceOperatorViewModel.Inlets.Count;
             float x = 0;
 

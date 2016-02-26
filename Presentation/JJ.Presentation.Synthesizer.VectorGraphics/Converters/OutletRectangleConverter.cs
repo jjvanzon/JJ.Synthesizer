@@ -44,7 +44,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
             float outletWidth = destOperatorRectangle.Width / sourceOperatorViewModel.Outlets.Count;
             float rowHeight = destOperatorRectangle.Height / 4;
-            float heightOverflow = PositionHelper.INLET_OUTLET_RECTANGLE_HEIGHT_OVERFLOW_IN_PIXELS;
+            float heightOverflow = StyleHelper.INLET_OUTLET_RECTANGLE_HEIGHT_OVERFLOW_IN_PIXELS;
             float x = 0;
             float y = rowHeight * 3;
 

@@ -3,6 +3,7 @@ using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using System.Linq;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 {
@@ -24,9 +25,22 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             destLabel.Text = sourceOperatorViewModel.Caption;
             destLabel.Width = destOperatorRectangle.Width;
             destLabel.Height = destOperatorRectangle.Height;
-            destLabel.TextStyle = StyleHelper.TextStyle;
+
+            if (IsNumberOperator(sourceOperatorViewModel))
+            {
+                destLabel.TextStyle = StyleHelper.NumberOperatorTextStyle;
+            }
+            else
+            {
+                destLabel.TextStyle = StyleHelper.TextStyle;
+            }
 
             return destLabel;
+        }
+
+        private static bool IsNumberOperator(OperatorViewModel sourceOperatorViewModel)
+        {
+            return sourceOperatorViewModel.OperatorType.ID == (int)OperatorTypeEnum.Number;
         }
     }
 }

@@ -6,35 +6,46 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 {
     internal static class StyleHelper
     {
-        public const float DEFAULT_WIDTH = 85; // 125;
-        public const float DEFAULT_HEIGHT = 40; // 60;
+        public const float DEFAULT_TOOL_TIP_WIDTH = 85; // 125;
+        public const float DEFAULT_RECTANGLE_HEIGHT = 40; // 60;
         public const float MINIMUM_OPERATOR_WIDTH = 40;
+        public const float NUMBER_OPERATOR_SIZE_FACTOR = 1f / 1.3f;
 
         public const int DRAG_DROP_LINE_ZINDEX = 100;
 
-        public static Font DefaultFont { get; set; }
-        public static TextStyle TextStyle { get; set; }
-        public static BackStyle BackStyle { get; set; }
-        public static BackStyle BackStyleSelected { get; set; }
-        public static BackStyle BackStyleInvisible { get; set; }
-        public static LineStyle BorderStyle { get; set; }
-        public static LineStyle BorderStyleSelected { get; set; }
-        public static LineStyle BorderStyleInvisible { get; set; }
-        public static LineStyle LineStyleDashed { get; set; }
-        public static LineStyle LineStyle { get; set; }
-        public static LineStyle LineStyleTransparent { get; set; }
-        public static LineStyle LineStyleThick { get; set; }
-        public static PointStyle PointStyle { get; set; }
-        public static PointStyle PointStyleThick { get; set; }
-        public static PointStyle PointStyleThickSelected { get; internal set; }
-        public static PointStyle PointStyleInvisible { get; set; }
+        /// <summary>
+        /// Tells us how much an inlet or outlet's clickable rectangle
+        /// should overflow the operator rectangle's boundaries.
+        /// </summary>
+        public const float INLET_OUTLET_RECTANGLE_HEIGHT_OVERFLOW_IN_PIXELS = 10;
 
-        public static BackStyle ToolTipBackStyle { get; set; }
-        public static LineStyle ToolTipLineStyle { get; set; }
-        public static TextStyle ToolTipTextStyle { get; set; }
+        public const float MINIMUM_INLET_OR_OUTLET_WIDTH_IN_PIXELS = 12;
 
-        public static float Spacing { get; set; }
-        public static float SpacingTimes2 { get; set; }
+        public static Font DefaultFont { get; private set; }
+        public static Font NumberOperatorFont { get; private set; }
+        public static TextStyle TextStyle { get; private set; }
+        public static TextStyle NumberOperatorTextStyle { get; private set; }
+        public static BackStyle BackStyle { get; private set; }
+        public static BackStyle BackStyleSelected { get; private set; }
+        public static BackStyle BackStyleInvisible { get; private set; }
+        public static LineStyle BorderStyle { get; private set; }
+        public static LineStyle BorderStyleSelected { get; private set; }
+        public static LineStyle BorderStyleInvisible { get; private set; }
+        public static LineStyle LineStyleDashed { get; private set; }
+        public static LineStyle LineStyle { get; private set; }
+        public static LineStyle LineStyleTransparent { get; private set; }
+        public static LineStyle LineStyleThick { get; private set; }
+        public static PointStyle PointStyle { get; private set; }
+        public static PointStyle PointStyleThick { get; private set; }
+        public static PointStyle PointStyleThickSelected { get; private set; }
+        public static PointStyle PointStyleInvisible { get; private set; }
+
+        public static BackStyle ToolTipBackStyle { get; private set; }
+        public static LineStyle ToolTipLineStyle { get; private set; }
+        public static TextStyle ToolTipTextStyle { get; private set; }
+
+        public static float Spacing { get; private set; }
+        public static float SpacingTimes2 { get; private set; }
 
         static StyleHelper()
         {
@@ -121,11 +132,25 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
                 Size = 10.5f,
             };
 
+            NumberOperatorFont = new Font
+            {
+                Name = "Verdana",
+                Size = 10.5f * NUMBER_OPERATOR_SIZE_FACTOR,
+            };
+
             TextStyle = new TextStyle
             {
                 HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center,
                 VerticalAlignmentEnum = VerticalAlignmentEnum.Center,
                 Font = DefaultFont,
+                Color = almostBlack
+            };
+
+            NumberOperatorTextStyle = new TextStyle
+            {
+                HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center,
+                VerticalAlignmentEnum = VerticalAlignmentEnum.Center,
+                Font = NumberOperatorFont,
                 Color = almostBlack
             };
 
@@ -180,6 +205,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
                     Size = DefaultFont.Size / 1.2f
                 }
             };
+
             return textStyle;
         }
 

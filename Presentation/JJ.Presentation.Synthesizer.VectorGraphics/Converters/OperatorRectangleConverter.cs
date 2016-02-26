@@ -56,11 +56,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
                 _destOperatorRectangleDictionary.Add(sourceOperatorViewModel.ID, destOperatorRectangle);
             }
 
-            float width = GetOperatorWidth(sourceOperatorViewModel);
-            destOperatorRectangle.Width = width;
-            destOperatorRectangle.Height = StyleHelper.DEFAULT_HEIGHT;
-            destOperatorRectangle.X = sourceOperatorViewModel.CenterX - width / 2f;
-            destOperatorRectangle.Y = sourceOperatorViewModel.CenterY - StyleHelper.DEFAULT_HEIGHT / 2f;
+            destOperatorRectangle.Width = GetOperatorWidth(sourceOperatorViewModel);
+            destOperatorRectangle.Height = GetOperatorHeight(sourceOperatorViewModel);
+            destOperatorRectangle.X = sourceOperatorViewModel.CenterX - destOperatorRectangle.Width / 2f;
+            destOperatorRectangle.Y = sourceOperatorViewModel.CenterY - destOperatorRectangle.Height / 2f;
 
             if (sourceOperatorViewModel.IsSelected)
             {
@@ -81,13 +80,26 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             return destOperatorRectangle;
         }
 
+        private float GetOperatorHeight(OperatorViewModel sourceOperatorViewModel)
+        {
+            float height = StyleHelper.DEFAULT_RECTANGLE_HEIGHT;
+
+            if (IsNumberOperator(sourceOperatorViewModel))
+            {
+                height *= StyleHelper.NUMBER_OPERATOR_SIZE_FACTOR;
+            }
+
+            return height;
+        }
+
         private static float GetOperatorWidth(OperatorViewModel sourceOperatorViewModel)
         {
             float width = TextHelper.ApproximateTextWidth(sourceOperatorViewModel.Caption, StyleHelper.DefaultFont) + StyleHelper.SpacingTimes2;
 
+            bool isNumberOperator = IsNumberOperator(sourceOperatorViewModel);
+
             // Compensate for the fact that numbers are averagely wider than letters.
-            bool isValueOperator = sourceOperatorViewModel.OperatorType.ID == (int)OperatorTypeEnum.Number;
-            if (isValueOperator)
+            if (isNumberOperator)
             {
                 width += StyleHelper.SpacingTimes2;
             }
@@ -96,11 +108,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             float minimumWidth;
             if (sourceOperatorViewModel.Outlets.Count > sourceOperatorViewModel.Inlets.Count)
             {
-                minimumWidth = sourceOperatorViewModel.Outlets.Count * PositionHelper.MINIMUM_INLET_OR_OUTLET_WIDTH_IN_PIXELS;
+                minimumWidth = sourceOperatorViewModel.Outlets.Count * StyleHelper.MINIMUM_INLET_OR_OUTLET_WIDTH_IN_PIXELS;
             }
             else
             {
-                minimumWidth = sourceOperatorViewModel.Inlets.Count * PositionHelper.MINIMUM_INLET_OR_OUTLET_WIDTH_IN_PIXELS;
+                minimumWidth = sourceOperatorViewModel.Inlets.Count * StyleHelper.MINIMUM_INLET_OR_OUTLET_WIDTH_IN_PIXELS;
             }
 
             // Apply minimum operator width
@@ -112,6 +124,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             if (width < minimumWidth)
             {
                 width = minimumWidth;
+            }
+
+            if (isNumberOperator)
+            {
+                width *= StyleHelper.NUMBER_OPERATOR_SIZE_FACTOR;
             }
 
             return width;
@@ -135,6 +152,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             }
 
             return destRectangle;
+        }
+
+        private static bool IsNumberOperator(OperatorViewModel sourceOperatorViewModel)
+        {
+            return sourceOperatorViewModel.OperatorType.ID == (int)OperatorTypeEnum.Number;
         }
     }
 }
