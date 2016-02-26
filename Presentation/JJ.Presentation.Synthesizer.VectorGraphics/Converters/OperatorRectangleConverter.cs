@@ -14,12 +14,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 {
     internal class OperatorRectangleConverter
     {
-        private Dictionary<int, Rectangle> _destOperatorRectangleDictionary = new Dictionary<int, Rectangle>();
+        private readonly Dictionary<int, Rectangle> _destOperatorRectangleDictionary = new Dictionary<int, Rectangle>();
 
-        private Diagram _diagram;
-        private MoveGesture _moveGesture;
-        private SelectOperatorGesture _selectOperatorGesture;
-        private DoubleClickGesture _doubleClickOperatorGesture;
+        private readonly Diagram _diagram;
+        private readonly MoveGesture _moveGesture;
+        private readonly SelectOperatorGesture _selectOperatorGesture;
+        private readonly DoubleClickGesture _doubleClickOperatorGesture;
 
         public OperatorRectangleConverter(
             Diagram diagram,

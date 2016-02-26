@@ -50,12 +50,13 @@
     <Compile Include="Converters\OutletControlPointConverter.cs" />
     <Compile Include="Converters\OutletPointConverter.cs" />
     <Compile Include="Converters\OutletRectangleConverter.cs" />
-    <Compile Include="EventArg\NodeIDEventArgs.cs" />
+    <Compile Include="EventArg\IDEventArgs.cs" />
     <Compile Include="Gestures\ChangeNodeTypeGesture.cs" />
     <Compile Include="Gestures\SelectNodeGesture.cs" />
     <Compile Include="CurveDetailsViewModelToDiagramConverter.cs" />
     <Compile Include="Gestures\DropLineGesture.cs" />
     <Compile Include="Gestures\DragLineGesture.cs" />
+    <Compile Include="Gestures\OperatorEnterKeyGesture.cs" />
     <Compile Include="Gestures\ShowSelectedNodePropertiesGesture.cs" />
     <Compile Include="Gestures\ShowNodePropertiesGesture.cs" />
     <Compile Include="Gestures\ShowCurvePropertiesGesture.cs" />

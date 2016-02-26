@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Framework.Presentation.VectorGraphics.Enums;
 using JJ.Framework.Presentation.VectorGraphics.EventArg;
 using JJ.Framework.Presentation.VectorGraphics.Gestures;
 using JJ.Presentation.Synthesizer.VectorGraphics.EventArg;
@@ -10,7 +9,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 {
     public class ShowNodePropertiesGesture : GestureBase
     {
-        public event EventHandler<NodeIDEventArgs> ShowNodePropertiesRequested;
+        public event EventHandler<IDEventArgs> ShowNodePropertiesRequested;
 
         private DoubleClickGesture _doubleClickGesture;
 
@@ -48,7 +47,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
             if (ShowNodePropertiesRequested != null)
             {
                 int nodeID = (int)e.Element.Tag;
-                ShowNodePropertiesRequested(this, new NodeIDEventArgs(nodeID));
+                ShowNodePropertiesRequested(this, new IDEventArgs(nodeID));
             }
         }
     }

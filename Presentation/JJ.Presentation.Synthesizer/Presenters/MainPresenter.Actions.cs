@@ -998,6 +998,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
             throw new Exception(String.Format("Properties ViewModel not found for Operator with ID '{0}'.", id));
         }
 
+        public void SelectedOperatorPropertiesShow()
+        {
+            // GetViewModel
+            PatchDetailsViewModel userInput = DocumentViewModelHelper.GetVisiblePatchDetailsViewModel(MainViewModel.Document);
+
+            if (userInput.SelectedOperator != null &&
+                userInput.SelectedOperator.ID != 0)
+            {
+                OperatorPropertiesShow(userInput.SelectedOperator.ID);
+            }
+        }
+
         public void OperatorPropertiesClose()
         {
             OperatorPropertiesCloseOrLoseFocus(_operatorPropertiesPresenter.Close);

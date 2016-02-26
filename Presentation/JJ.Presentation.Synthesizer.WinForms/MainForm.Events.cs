@@ -105,6 +105,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             patchDetailsUserControl.OperatorPropertiesRequested += patchDetailsUserControl_OperatorPropertiesRequested;
             patchDetailsUserControl.PlayRequested += patchDetailsUserControl_PlayRequested;
             patchDetailsUserControl.SelectOperatorRequested += patchDetailsUserControl_SelectOperatorRequested;
+            patchDetailsUserControl.SelectedOperatorPropertiesRequested += patchDetailsUserControl_SelectedOperatorPropertiesRequested;
             patchGridUserControl.CloseRequested += patchGridUserControl_CloseRequested;
             patchGridUserControl.CreateRequested += patchGridUserControl_CreateRequested;
             patchGridUserControl.DeleteRequested += patchGridUserControl_DeleteRequested;
@@ -1386,6 +1387,19 @@ namespace JJ.Presentation.Synthesizer.WinForms
             try
             {
                 _presenter.PatchPropertiesClose();
+                ApplyViewModel();
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
+        }
+
+        private void patchDetailsUserControl_SelectedOperatorPropertiesRequested(object sender, EventArgs e)
+        {
+            try
+            {
+                _presenter.SelectedOperatorPropertiesShow();
                 ApplyViewModel();
             }
             finally

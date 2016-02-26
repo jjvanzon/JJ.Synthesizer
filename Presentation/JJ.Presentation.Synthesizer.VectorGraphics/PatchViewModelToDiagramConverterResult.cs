@@ -20,6 +20,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             OperatorToolTipGesture = new ToolTipGesture(Diagram, StyleHelper.ToolTipBackStyle, StyleHelper.ToolTipLineStyle, StyleHelper.ToolTipTextStyle, zIndex: 2);
             InletToolTipGesture = new ToolTipGesture(Diagram, StyleHelper.ToolTipBackStyle, StyleHelper.ToolTipLineStyle, StyleHelper.ToolTipTextStyle, zIndex: 2);
             OutletToolTipGesture = new ToolTipGesture(Diagram, StyleHelper.ToolTipBackStyle, StyleHelper.ToolTipLineStyle, StyleHelper.ToolTipTextStyle, zIndex: 2);
+            OperatorEnterKeyGesture = new OperatorEnterKeyGesture();
         }
 
         public Diagram Diagram { get; private set; }
@@ -32,5 +33,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         public ToolTipGesture OperatorToolTipGesture { get; private set; }
         public ToolTipGesture InletToolTipGesture { get; private set; }
         public ToolTipGesture OutletToolTipGesture { get; private set; }
+        public OperatorEnterKeyGesture OperatorEnterKeyGesture { get; private set; }
     }
 }

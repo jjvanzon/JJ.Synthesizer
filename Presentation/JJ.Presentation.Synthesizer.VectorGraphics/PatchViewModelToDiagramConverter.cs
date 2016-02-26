@@ -71,7 +71,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
                 _result = new PatchViewModelToDiagramConverterResult(_doubleClickSpeedInMilliseconds, _doubleClickDeltaInPixels);
 
-                _operatorToRectangleConverter = new OperatorRectangleConverter(_result.Diagram, _result.MoveGesture, _result.SelectOperatorGesture, _result.DoubleClickOperatorGesture);
+                _operatorToRectangleConverter = new OperatorRectangleConverter(
+                    _result.Diagram, 
+                    _result.MoveGesture, 
+                    _result.SelectOperatorGesture, 
+                    _result.DoubleClickOperatorGesture);
                 _operatorToLabelConverter = new OperatorLabelConverter();
                 _inletRectangleConverter = new InletRectangleConverter(_result.DropLineGesture, _result.InletToolTipGesture);
                 _inletPointConverter = new InletPointConverter();
@@ -90,6 +94,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             if (!_result.Diagram.Background.Gestures.Contains(_result.DeleteOperatorGesture))
             {
                 _result.Diagram.Background.Gestures.Add(_result.DeleteOperatorGesture);
+                _result.Diagram.Background.Gestures.Add(_result.OperatorEnterKeyGesture);
             }
 
             foreach (OperatorViewModel sourceOperatorViewModel in sourcePatchViewModel.Operators)

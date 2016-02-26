@@ -31,6 +31,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<Int32EventArgs> SelectOperatorRequested;
         public event EventHandler PlayRequested;
         public event EventHandler<Int32EventArgs> OperatorPropertiesRequested;
+        public event EventHandler SelectedOperatorPropertiesRequested;
 
         private PatchDetailsViewModel _viewModel;
         private PatchViewModelToDiagramConverter _converter;
@@ -105,6 +106,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             _vectorGraphics.DropLineGesture.Dropped += DropLineGesture_Dropped;
             _vectorGraphics.DeleteOperatorGesture.DeleteRequested += DeleteOperatorGesture_DeleteRequested;
             _vectorGraphics.DoubleClickOperatorGesture.DoubleClick += DoubleClickOperatorGesture_DoubleClick;
+            _vectorGraphics.OperatorEnterKeyGesture.EnterKeyPressed += OperatorEnterKeyGesture_EnterKeyPressed;
 
             if (_vectorGraphics.OperatorToolTipGesture != null)
             {
@@ -125,10 +127,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (_vectorGraphics != null)
             {
                 _vectorGraphics.SelectOperatorGesture.OperatorSelected -= SelectOperatorGesture_OperatorSelected;
+                _vectorGraphics.MoveGesture.Moving -= MoveGesture_Moving;
                 _vectorGraphics.MoveGesture.Moved -= MoveGesture_Moved;
                 _vectorGraphics.DropLineGesture.Dropped -= DropLineGesture_Dropped;
                 _vectorGraphics.DeleteOperatorGesture.DeleteRequested -= DeleteOperatorGesture_DeleteRequested;
                 _vectorGraphics.DoubleClickOperatorGesture.DoubleClick -= DoubleClickOperatorGesture_DoubleClick;
+                _vectorGraphics.OperatorEnterKeyGesture.EnterKeyPressed -= OperatorEnterKeyGesture_EnterKeyPressed;
 
                 if (_vectorGraphics.OperatorToolTipGesture != null)
                 {
@@ -179,75 +183,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
-        private void LoseFocus()
-        {
-            if (LoseFocusRequested != null)
-            {
-                LoseFocusRequested(this, EventArgs.Empty);
-            }
-        }
-
-        private void CreateOperator(int operatorTypeID)
-        {
-            if (CreateOperatorRequested != null)
-            {
-                var e = new CreateOperatorEventArgs(operatorTypeID);
-                CreateOperatorRequested(this, e);
-            }
-        }
-
-        private void MoveOperator(int operatorID, float centerX, float centerY)
-        {
-            if (MoveOperatorRequested != null)
-            {
-                var e = new MoveEntityEventArgs(operatorID, centerX, centerY);
-                MoveOperatorRequested(this, e);
-            }
-        }
-
-        private void ChangeInputOutlet(int inletID, int inputOutletID)
-        {
-            if (ChangeInputOutletRequested != null)
-            {
-                var e = new ChangeInputOutletEventArgs(inletID, inputOutletID);
-                ChangeInputOutletRequested(this, e);
-            }
-        }
-
-        private void SelectOperator(int operatorID)
-        {
-            if (SelectOperatorRequested != null)
-            {
-                var e = new Int32EventArgs(operatorID);
-                SelectOperatorRequested(this, e);
-            }
-        }
-
-        private void DeleteOperator()
-        {
-            if (DeleteOperatorRequested != null)
-            {
-                DeleteOperatorRequested(this, EventArgs.Empty);
-            }
-        }
-
-        private void Play()
-        {
-            if (PlayRequested != null)
-            {
-                PlayRequested(this, EventArgs.Empty);
-            }
-        }
-
-        private void ShowOperatorProperties(int operatorID)
-        {
-            if (OperatorPropertiesRequested != null)
-            {
-                var e = new Int32EventArgs(operatorID);
-                OperatorPropertiesRequested(this, e);
-            }
-        }
-
         // Events
 
         private void titleBarUserControl_CloseClicked(object sender, EventArgs e)
@@ -263,14 +198,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             int inletID =  VectorGraphicsTagHelper.GetInletID(e.DroppedOnElement.Tag);
             int outletID = VectorGraphicsTagHelper.GetOutletID(e.DraggedElement.Tag);
 
-            ChangeInputOutlet(inletID, outletID);
+            if (ChangeInputOutletRequested != null)
+            {
+                var e2 = new ChangeInputOutletEventArgs(inletID, outletID);
+                ChangeInputOutletRequested(this, e2);
+            }
         }
 
         private void MoveGesture_Moving(object sender, ElementEventArgs e)
         {
             //int operatorIndexNumber = VectorGraphicsTagHelper.GetOperatorID(e.Element.Tag);
-
-
 
             //float centerX = e.Element.AbsoluteX + e.Element.Width / 2f;
             //float centerY = e.Element.AbsoluteY + e.Element.Height / 2f;
@@ -290,34 +227,71 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             MoveOperator(operatorIndexNumber, centerX, centerY);
         }
 
+        private void MoveOperator(int operatorID, float centerX, float centerY)
+        {
+            if (MoveOperatorRequested != null)
+            {
+                var e = new MoveEntityEventArgs(operatorID, centerX, centerY);
+                MoveOperatorRequested(this, e);
+            }
+        }
+
         private void toolStripLabel_Click(object sender, EventArgs e)
         {
             ToolStripItem control = (ToolStripItem)sender;
             int operatorTypeID = (int)control.Tag;
 
-            CreateOperator(operatorTypeID);
+            if (CreateOperatorRequested != null)
+            {
+                var e2 = new CreateOperatorEventArgs(operatorTypeID);
+                CreateOperatorRequested(this, e2);
+            }
         }
 
         private void SelectOperatorGesture_OperatorSelected(object sender, ElementEventArgs e)
         {
             int operatorID = VectorGraphicsTagHelper.GetOperatorID(e.Element.Tag);
-            SelectOperator(operatorID);
+
+            if (SelectOperatorRequested != null)
+            {
+                var e2 = new Int32EventArgs(operatorID);
+                SelectOperatorRequested(this, e2);
+            }
         }
 
         private void DeleteOperatorGesture_DeleteRequested(object sender, EventArgs e)
         {
-            DeleteOperator();
+            if (DeleteOperatorRequested != null)
+            {
+                DeleteOperatorRequested(this, EventArgs.Empty);
+            }
         }
 
         private void DoubleClickOperatorGesture_DoubleClick(object sender, ElementEventArgs e)
         {
             int operatorID = VectorGraphicsTagHelper.GetOperatorID(e.Element.Tag);
-            ShowOperatorProperties(operatorID);
+
+            if (OperatorPropertiesRequested != null)
+            {
+                var e2 = new Int32EventArgs(operatorID);
+                OperatorPropertiesRequested(this, e2);
+            }
+        }
+
+        private void OperatorEnterKeyGesture_EnterKeyPressed(object sender, EventArgs e)
+        {
+            if (SelectedOperatorPropertiesRequested != null)
+            {
+                SelectedOperatorPropertiesRequested(this, EventArgs.Empty);
+            }
         }
 
         private void buttonPlay_Click(object sender, EventArgs e)
         {
-            Play();
+            if (PlayRequested != null)
+            {
+                PlayRequested(this, EventArgs.Empty);
+            }
         }
 
         // TODO: Lower priority: You might want to use the presenter for the the following 3 things.
@@ -363,7 +337,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // which makes it say that now clear fields are required.
             if (Visible)
             {
-                LoseFocus();
+                if (LoseFocusRequested != null)
+                {
+                    LoseFocusRequested(this, EventArgs.Empty);
+                }
             }
         }
 

@@ -4,13 +4,13 @@ using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.EventArg
 {
-    public class NodeIDEventArgs : EventArgs
+    public class IDEventArgs : EventArgs
     {
-        public int NodeID { get; private set; }
+        public int ID { get; private set; }
 
-        public NodeIDEventArgs(int nodeID)
+        public IDEventArgs(int id)
         {
-            NodeID = nodeID;
+            ID = id;
         }
     }
 }

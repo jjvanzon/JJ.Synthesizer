@@ -167,11 +167,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
-        private void ShowNodePropertiesGesture_ShowNodePropertiesRequested(object sender, NodeIDEventArgs e)
+        private void ShowNodePropertiesGesture_ShowNodePropertiesRequested(object sender, IDEventArgs e)
         {
             if (ShowNodePropertiesRequested != null)
             {
-                ShowNodePropertiesRequested(this, new Int32EventArgs(e.NodeID));
+                ShowNodePropertiesRequested(this, new Int32EventArgs(e.ID));
             }
         }
 
