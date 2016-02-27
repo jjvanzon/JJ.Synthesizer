@@ -106,8 +106,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
         private static float GetOtherOperatorWidth(OperatorViewModel sourceOperatorViewModel)
         {
-            float width = TextHelper.ApproximateTextWidth(sourceOperatorViewModel.Caption, StyleHelper.DefaultFont) + StyleHelper.SpacingTimes2;
+            float textWidth = TextHelper.ApproximateTextWidth(sourceOperatorViewModel.Caption, StyleHelper.DefaultFont);
             float minimumWidth = GetOtherOperatorMinimumWidth(sourceOperatorViewModel);
+
+            float width = textWidth + StyleHelper.SpacingTimes2;
 
             if (width < minimumWidth)
             {
@@ -122,14 +124,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             float minimumWidth;
 
             // Apply a minimum inlet and outlet height.
-            if (sourceOperatorViewModel.Outlets.Count > sourceOperatorViewModel.Inlets.Count)
-            {
-                minimumWidth = sourceOperatorViewModel.Outlets.Count * StyleHelper.MINIMUM_INLET_OR_OUTLET_WIDTH_IN_PIXELS;
-            }
-            else
-            {
-                minimumWidth = sourceOperatorViewModel.Inlets.Count * StyleHelper.MINIMUM_INLET_OR_OUTLET_WIDTH_IN_PIXELS;
-            }
+            int inletOrOutletCount = Math.Max(sourceOperatorViewModel.Outlets.Count, sourceOperatorViewModel.Inlets.Count);
+            minimumWidth = inletOrOutletCount * StyleHelper.MINIMUM_INLET_OR_OUTLET_WIDTH_IN_PIXELS;
 
             // Apply minimum operator width
             if (minimumWidth < StyleHelper.OPERATOR_MINIMUM_WIDTH)
@@ -142,10 +138,14 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
         private static float GetNumberOperatorWidth(OperatorViewModel sourceOperatorViewModel)
         {
-            float width = TextHelper.ApproximateTextWidth(sourceOperatorViewModel.Caption, StyleHelper.NumberOperatorFont) + StyleHelper.SpacingTimes2;
+            float spacing = StyleHelper.Spacing;
+            spacing *= 0.8f; // Use a smaller spacing for numbers.
+
+            float textWidth = TextHelper.ApproximateTextWidth(sourceOperatorViewModel.Caption, StyleHelper.NumberOperatorFont);
+            float width = textWidth + spacing + spacing;
 
             // Compensate for the fact that numbers are averagely wider than letters.
-            width += StyleHelper.SpacingTimes2;
+            width = width + spacing + spacing;
 
             // Apply minimum operator width
             if (width < StyleHelper.NUMBER_OPERATOR_MINIMUM_WIDTH)
