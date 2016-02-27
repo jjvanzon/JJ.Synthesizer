@@ -7,9 +7,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
     internal static class StyleHelper
     {
         public const float DEFAULT_TOOL_TIP_WIDTH = 85; // 125;
-        public const float DEFAULT_RECTANGLE_HEIGHT = 40; // 60;
-        public const float MINIMUM_OPERATOR_WIDTH = 40;
-        public const float NUMBER_OPERATOR_SIZE_FACTOR = 1f / 1.3f;
+        public const float OPERATOR_HEIGHT = 40; // 60;
+        public const float OPERATOR_FONT_SIZE = 10.5f;
+        public const float OPERATOR_MINIMUM_WIDTH = 40;
+        public const float NUMBER_OPERATOR_HEIGHT = 30;
+        public const float NUMBER_OPERATOR_FONT_SIZE = 9f;
+        public const float NUMBER_OPERATOR_MINIMUM_WIDTH = 30;
 
         public const int DRAG_DROP_LINE_ZINDEX = 100;
 
@@ -129,13 +132,13 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
             DefaultFont = new Font
             {
                 Name = "Verdana",
-                Size = 10.5f,
+                Size = OPERATOR_FONT_SIZE,
             };
 
             NumberOperatorFont = new Font
             {
                 Name = "Verdana",
-                Size = 10.5f * NUMBER_OPERATOR_SIZE_FACTOR,
+                Size = NUMBER_OPERATOR_FONT_SIZE,
             };
 
             TextStyle = new TextStyle

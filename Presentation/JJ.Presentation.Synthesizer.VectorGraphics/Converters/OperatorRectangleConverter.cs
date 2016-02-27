@@ -82,30 +82,46 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
         private float GetOperatorHeight(OperatorViewModel sourceOperatorViewModel)
         {
-            float height = StyleHelper.DEFAULT_RECTANGLE_HEIGHT;
-
             if (IsNumberOperator(sourceOperatorViewModel))
             {
-                height *= StyleHelper.NUMBER_OPERATOR_SIZE_FACTOR;
+                return StyleHelper.NUMBER_OPERATOR_HEIGHT;
             }
-
-            return height;
+            else
+            {
+                return StyleHelper.OPERATOR_HEIGHT;
+            }
         }
 
         private static float GetOperatorWidth(OperatorViewModel sourceOperatorViewModel)
         {
-            float width = TextHelper.ApproximateTextWidth(sourceOperatorViewModel.Caption, StyleHelper.DefaultFont) + StyleHelper.SpacingTimes2;
-
-            bool isNumberOperator = IsNumberOperator(sourceOperatorViewModel);
-
-            // Compensate for the fact that numbers are averagely wider than letters.
-            if (isNumberOperator)
+            if (IsNumberOperator(sourceOperatorViewModel))
             {
-                width += StyleHelper.SpacingTimes2;
+                return GetNumberOperatorWidth(sourceOperatorViewModel);
+            }
+            else
+            {
+                return GetOtherOperatorWidth(sourceOperatorViewModel);
+            }
+        }
+
+        private static float GetOtherOperatorWidth(OperatorViewModel sourceOperatorViewModel)
+        {
+            float width = TextHelper.ApproximateTextWidth(sourceOperatorViewModel.Caption, StyleHelper.DefaultFont) + StyleHelper.SpacingTimes2;
+            float minimumWidth = GetOtherOperatorMinimumWidth(sourceOperatorViewModel);
+
+            if (width < minimumWidth)
+            {
+                width = minimumWidth;
             }
 
-            // Apply a minimum inlet and outlet height.
+            return width;
+        }
+
+        private static float GetOtherOperatorMinimumWidth(OperatorViewModel sourceOperatorViewModel)
+        {
             float minimumWidth;
+
+            // Apply a minimum inlet and outlet height.
             if (sourceOperatorViewModel.Outlets.Count > sourceOperatorViewModel.Inlets.Count)
             {
                 minimumWidth = sourceOperatorViewModel.Outlets.Count * StyleHelper.MINIMUM_INLET_OR_OUTLET_WIDTH_IN_PIXELS;
@@ -116,19 +132,25 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             }
 
             // Apply minimum operator width
-            if (minimumWidth < StyleHelper.MINIMUM_OPERATOR_WIDTH)
+            if (minimumWidth < StyleHelper.OPERATOR_MINIMUM_WIDTH)
             {
-                minimumWidth = StyleHelper.MINIMUM_OPERATOR_WIDTH;
+                minimumWidth = StyleHelper.OPERATOR_MINIMUM_WIDTH;
             }
 
-            if (width < minimumWidth)
-            {
-                width = minimumWidth;
-            }
+            return minimumWidth;
+        }
 
-            if (isNumberOperator)
+        private static float GetNumberOperatorWidth(OperatorViewModel sourceOperatorViewModel)
+        {
+            float width = TextHelper.ApproximateTextWidth(sourceOperatorViewModel.Caption, StyleHelper.NumberOperatorFont) + StyleHelper.SpacingTimes2;
+
+            // Compensate for the fact that numbers are averagely wider than letters.
+            width += StyleHelper.SpacingTimes2;
+
+            // Apply minimum operator width
+            if (width < StyleHelper.NUMBER_OPERATOR_MINIMUM_WIDTH)
             {
-                width *= StyleHelper.NUMBER_OPERATOR_SIZE_FACTOR;
+                width = StyleHelper.NUMBER_OPERATOR_MINIMUM_WIDTH;
             }
 
             return width;
