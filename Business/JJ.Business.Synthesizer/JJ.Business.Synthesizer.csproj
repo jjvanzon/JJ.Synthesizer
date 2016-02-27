@@ -79,9 +79,11 @@
     <Compile Include="Calculation\Curves\CurveCalculator_MinTimeZero.cs" />
     <Compile Include="Calculation\Curves\CurveCalculator_MinTime.cs" />
     <Compile Include="Calculation\Operators\Cache OperatorCalculator Classes.cs" />
+    <Compile Include="Calculation\Operators\Loop_OperatorCalculator_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration.cs" />
+    <Compile Include="Calculation\Operators\Loop_OperatorCalculator_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration.cs" />
     <Compile Include="Calculation\Operators\Loop_OperatorCalculator_ManyConstants.cs" />
-    <Compile Include="Calculation\Operators\Loop_OperatorCalculator_WithoutSkipOrRelease_ManyConstants.cs" />
-    <Compile Include="Calculation\Operators\Loop_OperatorCalculator_WithoutSkipOrRelease.cs" />
+    <Compile Include="Calculation\Operators\Loop_OperatorCalculator_NoSkipOrRelease_ManyConstants.cs" />
+    <Compile Include="Calculation\Operators\Loop_OperatorCalculator_NoSkipOrRelease.cs" />
     <Compile Include="Calculation\Operators\Minimum_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\MaximumOrMinimum_OperatorCalculatorBase.cs" />
     <Compile Include="Calculation\Operators\If OperatorCalculator Classes.cs" />

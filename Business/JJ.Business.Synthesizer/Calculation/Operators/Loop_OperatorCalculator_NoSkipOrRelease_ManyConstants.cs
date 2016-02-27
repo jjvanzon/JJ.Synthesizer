@@ -5,7 +5,7 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Loop_OperatorCalculator_WithoutSkipOrRelease_ManyConstants : OperatorCalculatorBase_WithChildCalculators
+    internal class Loop_OperatorCalculator_NoSkipOrRelease_ManyConstants : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _loopStartMarker;
@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private readonly double _cycleDuration;
 
-        public Loop_OperatorCalculator_WithoutSkipOrRelease_ManyConstants(
+        public Loop_OperatorCalculator_NoSkipOrRelease_ManyConstants(
             OperatorCalculatorBase signalCalculator,
             double loopStartMarker,
             double loopEndMarker,
@@ -52,7 +52,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 return value;
             }
 
-            // InSustain
+            // InLoop
             double noteDuration = GetNoteDuration(time, channelIndex);
             bool isInLoop = time < noteDuration;
             if (isInLoop)
@@ -63,7 +63,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 return value;
             }
 
-            // AfterSustain
+            // AfterLoop
             return 0;
         } 
 

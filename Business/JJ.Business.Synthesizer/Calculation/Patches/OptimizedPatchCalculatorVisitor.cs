@@ -1150,8 +1150,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             skipCalculator = skipCalculator ?? new Zero_OperatorCalculator();
             loopStartMarkerCalculator = loopStartMarkerCalculator ?? new Zero_OperatorCalculator();
             loopEndMarkerCalculator = loopEndMarkerCalculator ?? new Zero_OperatorCalculator();
-            releaseEndMarkerCalculator = releaseEndMarkerCalculator ?? new Zero_OperatorCalculator();
-            noteDurationCalculator = noteDurationCalculator ?? new Zero_OperatorCalculator();
+            releaseEndMarkerCalculator = releaseEndMarkerCalculator ?? new Number_OperatorCalculator(CalculationHelper.VERY_HIGH_VALUE);
+            noteDurationCalculator = noteDurationCalculator ?? new Number_OperatorCalculator(CalculationHelper.VERY_HIGH_VALUE);
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool skipIsConst = skipCalculator is Number_OperatorCalculator;
@@ -1160,13 +1160,19 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool releaseEndMarkerIsConst = releaseEndMarkerCalculator is Number_OperatorCalculator;
             bool noteDurationIsConst = noteDurationCalculator is Number_OperatorCalculator;
 
+            double signal = signalCalculator.Calculate(0, 0);
             double skip = skipCalculator.Calculate(0, 0);
             double loopStartMarker = loopStartMarkerCalculator.Calculate(0, 0);
             double loopEndMarker = loopEndMarkerCalculator.Calculate(0, 0);
             double releaseEndMarker = releaseEndMarkerCalculator.Calculate(0, 0);
+            double noteDuration = noteDurationCalculator.Calculate(0, 0);
 
+            bool signalConstZero = signalIsConst && signal == 0.0;
             bool skipIsConstZero = skipIsConst && skip == 0.0;
-            bool releaseEndMarkerIsConstZero = releaseEndMarkerIsConst && releaseEndMarker == 0.0;
+            bool loopStartMarkerIsConstZero = loopStartMarkerIsConst && loopStartMarker == 0.0;
+            bool loopEndMarkerIsConstZero = loopEndMarkerIsConst && loopEndMarker == 0.0;
+            bool noteDurationIsConstVeryHighValue = noteDurationIsConst && noteDuration == CalculationHelper.VERY_HIGH_VALUE;
+            bool releaseEndMarkerIsConstVeryHighValue = releaseEndMarkerIsConst && releaseEndMarker == CalculationHelper.VERY_HIGH_VALUE;
 
             if (signalIsConst)
             {
@@ -1174,16 +1180,31 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                // TODO: Specialized OperatorCalculators for performance.
-                if (skipIsConstZero && releaseEndMarkerIsConstZero)
+                if (skipIsConst && 
+                    loopStartMarkerIsConst && 
+                    skip == loopStartMarker && 
+                    noteDurationIsConstVeryHighValue)
                 {
-                    if (loopStartMarkerIsConst && loopEndMarkerIsConst)
+                    if (loopEndMarkerIsConst)
                     {
-                        calculator = new Loop_OperatorCalculator_WithoutSkipOrRelease_ManyConstants(signalCalculator, loopStartMarker, loopEndMarker, noteDurationCalculator);
+                        calculator = new Loop_OperatorCalculator_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration(
+                            signalCalculator, loopStartMarker, loopEndMarker);
                     }
                     else
                     {
-                        calculator = new Loop_OperatorCalculator_WithoutSkipOrRelease(signalCalculator, loopStartMarkerCalculator, loopEndMarkerCalculator, noteDurationCalculator);
+                        calculator = new Loop_OperatorCalculator_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration(
+                            signalCalculator, loopStartMarker, loopEndMarkerCalculator);
+                    }
+                }
+                else if (skipIsConstZero && releaseEndMarkerIsConstVeryHighValue)
+                {
+                    if (loopStartMarkerIsConst && loopEndMarkerIsConst)
+                    {
+                        calculator = new Loop_OperatorCalculator_NoSkipOrRelease_ManyConstants(signalCalculator, loopStartMarker, loopEndMarker, noteDurationCalculator);
+                    }
+                    else
+                    {
+                        calculator = new Loop_OperatorCalculator_NoSkipOrRelease(signalCalculator, loopStartMarkerCalculator, loopEndMarkerCalculator, noteDurationCalculator);
                     }
                 }
                 else

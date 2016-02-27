@@ -5,14 +5,14 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Loop_OperatorCalculator_WithoutSkipOrRelease : OperatorCalculatorBase_WithChildCalculators
+    internal class Loop_OperatorCalculator_NoSkipOrRelease : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _loopStartMarkerCalculator;
         private readonly OperatorCalculatorBase _loopEndMarkerCalculator;
         private readonly OperatorCalculatorBase _noteDurationCalculator;
 
-        public Loop_OperatorCalculator_WithoutSkipOrRelease(
+        public Loop_OperatorCalculator_NoSkipOrRelease(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase loopStartMarkerCalculator,
             OperatorCalculatorBase loopEndMarkerCalculator,
@@ -51,7 +51,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 return value;
             }
 
-            // InSustain
+            // InLoop
             double noteDuration = GetNoteDuration(time, channelIndex);
             bool isInLoop = time < noteDuration;
             if (isInLoop)
@@ -64,7 +64,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 return value;
             }
 
-            // AfterSustain
+            // AfterLoop
             return 0;
         } 
 
