@@ -1176,7 +1176,17 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             if (signalIsConst)
             {
-                calculator = signalCalculator;
+                // Note that the signalCalculator is not used here,
+                // because behavior consistent with the other loop
+                // calculators would mean that before and after the
+                // attack, loop and release, the signal is 0,
+                // while during attack, loop and release it would be
+                // the value of constant value.
+                // To make this behavior consistent would require another calculator,
+                // that is just not worth is, because it makes no sense to apply a loop to a constant.
+                // So to not return e.g. the number 2 before and after the loop
+                // just return 0. Nobody wants to loop throught a constant.
+                calculator = new Zero_OperatorCalculator();
             }
             else
             {
