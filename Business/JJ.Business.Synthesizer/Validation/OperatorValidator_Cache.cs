@@ -58,7 +58,7 @@ namespace JJ.Business.Synthesizer.Validation
                 {
                     if (endTime < startTime)
                     {
-                        ValidationMessageFormatter.NotAbove(PropertyDisplayNames.EndTime, PropertyDisplayNames.StartTime);
+                        ValidationMessages.AddLessThanMessage(PropertyDisplayNames.EndTime, PropertyDisplayNames.StartTime);
                     }
                 }
             }
