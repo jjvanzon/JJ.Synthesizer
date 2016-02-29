@@ -12,6 +12,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _loopEndMarkerCalculator;
         private readonly OperatorCalculatorBase _noteDurationCalculator;
 
+        private double _outputCycleEnd;
+        private double _loopEndMarker;
+        private double _cycleDuration;
+
         public Loop_OperatorCalculator_NoSkipOrRelease(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase loopStartMarkerCalculator,
@@ -31,6 +35,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _loopStartMarkerCalculator = loopStartMarkerCalculator;
             _loopEndMarkerCalculator = loopEndMarkerCalculator;
             _noteDurationCalculator = noteDurationCalculator;
+
+            ResetStateNonRecursive();
         }
 
         public override double Calculate(double time, int channelIndex)
@@ -56,9 +62,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             bool isInLoop = time < noteDuration;
             if (isInLoop)
             {
-                double loopEndMarker = GetLoopEndMarker(time, channelIndex);
-                double cycleDuration = loopEndMarker - loopStartMarker;
-                double phase = (time - loopStartMarker) % cycleDuration;
+                if (time > _outputCycleEnd)
+                {
+                    _loopEndMarker = GetLoopEndMarker(time, channelIndex);
+                    _cycleDuration = _loopEndMarker - loopStartMarker;
+                    _outputCycleEnd += _cycleDuration;
+                }
+
+                double phase = (time - loopStartMarker) % _cycleDuration;
                 double inputTime = loopStartMarker + phase;
                 double value = _signalCalculator.Calculate(inputTime, channelIndex);
                 return value;
@@ -66,7 +77,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             // AfterLoop
             return 0;
-        } 
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private double GetLoopStartMarker(double outputTime, int channelIndex)
@@ -102,6 +113,20 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             }
 
             return value;
+        }
+
+        public override void ResetState()
+        {
+            ResetStateNonRecursive();
+
+            base.ResetState();
+        }
+
+        private void ResetStateNonRecursive()
+        {
+            _outputCycleEnd = 0;
+            _loopEndMarker = 0;
+            _cycleDuration = 0;
         }
     }
 }

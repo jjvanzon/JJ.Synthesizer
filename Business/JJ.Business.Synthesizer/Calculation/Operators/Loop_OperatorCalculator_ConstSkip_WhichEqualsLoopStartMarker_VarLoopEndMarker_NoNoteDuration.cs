@@ -11,6 +11,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _loopStartMarker;
         private readonly OperatorCalculatorBase _loopEndMarkerCalculator;
 
+        private double _outputCycleEnd;
+        private double _loopEndMarker;
+        private double _cycleDuration;
+
         public Loop_OperatorCalculator_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration(
             OperatorCalculatorBase signalCalculator,
             double loopStartMarker,
@@ -22,6 +26,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _signalCalculator = signalCalculator;
             _loopStartMarker = loopStartMarker;
             _loopEndMarkerCalculator = loopEndMarkerCalculator;
+
+            ResetStateNonRecursive();
         }
 
         public override double Calculate(double outputTime, int channelIndex)
@@ -35,11 +41,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             }
 
             // InLoop
-            double loopEndMarker = GetLoopEndMarker(outputTime, channelIndex);
+            if (outputTime > _outputCycleEnd)
+            {
+                _loopEndMarker = GetLoopEndMarker(outputTime, channelIndex);
+                _cycleDuration = _loopEndMarker - _loopStartMarker;
+                _outputCycleEnd += _cycleDuration;
+            }
 
-            double cycleDuration = loopEndMarker - _loopStartMarker;
-
-            double phase = (inputTime - _loopStartMarker) % cycleDuration;
+            double phase = (inputTime - _loopStartMarker) % _cycleDuration;
             inputTime = _loopStartMarker + phase;
             double value = _signalCalculator.Calculate(inputTime, channelIndex);
             return value;
@@ -55,6 +64,19 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             }
 
             return value;
+        }
+        public override void ResetState()
+        {
+            ResetStateNonRecursive();
+
+            base.ResetState();
+        }
+
+        private void ResetStateNonRecursive()
+        {
+            _outputCycleEnd = 0;
+            _loopEndMarker = 0;
+            _cycleDuration = 0;
         }
     }
 }
