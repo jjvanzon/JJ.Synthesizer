@@ -13,6 +13,7 @@ using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Canonical;
 using JJ.Business.Canonical;
+using JJ.Framework.Common.Exceptions;
 
 namespace JJ.Business.Synthesizer
 {

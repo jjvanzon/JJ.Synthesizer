@@ -18,6 +18,7 @@ using JJ.Business.Synthesizer.Calculation.Samples;
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Canonical;
+using JJ.Framework.Common.Exceptions;
 
 namespace JJ.Business.Synthesizer
 {

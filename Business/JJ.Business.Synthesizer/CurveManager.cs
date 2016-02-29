@@ -18,6 +18,7 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Curves;
 using JJ.Business.Canonical;
+using JJ.Framework.Common.Exceptions;
 
 namespace JJ.Business.Synthesizer
 {

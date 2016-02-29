@@ -18,6 +18,7 @@ using System.Reflection;
 using JJ.Business.Synthesizer.Calculation.Random;
 using JJ.Framework.Mathematics;
 using JJ.Business.Synthesizer.Calculation.Arrays;
+using JJ.Framework.Common.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {

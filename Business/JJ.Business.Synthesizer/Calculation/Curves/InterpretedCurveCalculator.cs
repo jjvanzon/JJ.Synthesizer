@@ -9,6 +9,7 @@ using System.Linq;
 using System;
 using JJ.Framework.Mathematics;
 using System.Collections.Generic;
+using JJ.Framework.Common.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Curves
 {

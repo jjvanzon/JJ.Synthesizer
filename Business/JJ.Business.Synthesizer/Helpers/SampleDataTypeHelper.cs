@@ -2,6 +2,7 @@
 using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
+using JJ.Framework.Common.Exceptions;
 
 namespace JJ.Business.Synthesizer.Helpers
 {

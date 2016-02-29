@@ -24,6 +24,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Calculation.Patches;
+using JJ.Framework.Common.Exceptions;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {

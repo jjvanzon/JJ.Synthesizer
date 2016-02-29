@@ -5,6 +5,7 @@ using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Business.Synthesizer.Calculation.Patches;
+using JJ.Framework.Common.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 {

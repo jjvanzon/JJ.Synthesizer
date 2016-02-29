@@ -16,6 +16,7 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer;
 using JJ.Presentation.Synthesizer.VectorGraphics.Configuration;
 using JJ.Business.Synthesizer.Calculation.Curves;
+using JJ.Framework.Common.Exceptions;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics
 {

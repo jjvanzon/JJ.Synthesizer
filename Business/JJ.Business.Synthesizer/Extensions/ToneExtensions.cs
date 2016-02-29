@@ -4,6 +4,7 @@ using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Common;
+using JJ.Framework.Common.Exceptions;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Extensions

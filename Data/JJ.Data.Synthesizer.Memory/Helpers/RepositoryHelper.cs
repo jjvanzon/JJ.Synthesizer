@@ -4,6 +4,7 @@ using JJ.Data.Synthesizer.Memory.Repositories;
 using System.Reflection;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Common.Exceptions;
 
 namespace JJ.Data.Synthesizer.Memory.Helpers
 {
