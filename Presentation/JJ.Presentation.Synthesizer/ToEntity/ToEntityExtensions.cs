@@ -968,10 +968,13 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.Name = viewModel.Name;
             entity.SetOperatorTypeEnum(OperatorTypeEnum.Number, operatorTypeRepository);
 
+            // TODO: ViewModel validator to detect, that it is not a valid integer number.
             var wrapper = new Number_OperatorWrapper(entity);
             double number;
-            Double.TryParse(viewModel.Number, out number);
-            wrapper.Number = number;
+            if (Double.TryParse(viewModel.Number, out number))
+            {
+                wrapper.Number = number;
+            }
 
             return entity;
         }
