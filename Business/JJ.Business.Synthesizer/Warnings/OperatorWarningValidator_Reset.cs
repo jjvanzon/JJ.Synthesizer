@@ -9,7 +9,6 @@ namespace JJ.Business.Synthesizer.Warnings
             : base(obj)
         { }
 
-
         protected override void Execute()
         {
             base.Execute();

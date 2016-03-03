@@ -64,11 +64,6 @@ namespace JJ.Business.Synthesizer.Resources
             return String.Format(Messages.MustBePowerOf2, frequencyCount);
         }
 
-        public static string ObjectAmplifier0(string objectTypeName, string objectName)
-        {
-            return String.Format(Messages.ObjectAmplifier0, objectTypeName, objectName);
-        }
-
         public static string CannotChangeInletsBecauseOneIsStillFilledIn(int oneBasedInletNumber)
         {
             return String.Format(Messages.CannotChangeInletCountBecauseOneIsStillFilledIn, oneBasedInletNumber);

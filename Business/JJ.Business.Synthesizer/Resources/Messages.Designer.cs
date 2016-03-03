@@ -250,15 +250,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Amplifier of &apos;{0}&apos; named &apos;{1}&apos; is 0..
-        /// </summary>
-        internal static string ObjectAmplifier0 {
-            get {
-                return ResourceManager.GetString("ObjectAmplifier0", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Operator &apos;{0}&apos; has no inlet filled in..
         /// </summary>
         internal static string OperatorHasNoInletFilledIn_WithOperatorName {

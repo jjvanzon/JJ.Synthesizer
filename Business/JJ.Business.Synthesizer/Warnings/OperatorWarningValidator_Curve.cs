@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Warnings
         protected override void Execute()
         {
             For(() => Object.Data, PropertyDisplayNames.Curve)
-                .NotNull();
+                .NotNullOrEmpty();
         }
     }
 }

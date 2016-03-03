@@ -21,8 +21,7 @@ namespace JJ.Business.Synthesizer.Validation
 
             Operator op = Object;
 
-            For(() => op.Data, PropertyDisplayNames.Data)
-                .IsInteger();
+            For(() => op.Data, PropertyDisplayNames.Data).IsInteger();
 
             int curveID;
             if (Int32.TryParse(op.Data, out curveID))

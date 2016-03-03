@@ -157,9 +157,6 @@
     <value>{0} genaamd '{1}' niet gevonden.</value>
     <comment>{0} = type of object, e.g. 'Recipe', {1} = name of object, e.g. 'eggs and bacon'</comment>
   </data>
-  <data name="ObjectAmplifier0" xml:space="preserve">
-    <value>Versterking van '{0}' genaamd '{1}' is 0.</value>
-  </data>
   <data name="OperatorIsCircularWithName" xml:space="preserve">
     <value>Operator genaamd '{0}' heeft een cirkelverwijzing.</value>
   </data>

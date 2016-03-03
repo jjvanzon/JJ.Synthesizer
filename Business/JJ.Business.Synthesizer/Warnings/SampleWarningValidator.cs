@@ -31,10 +31,7 @@ namespace JJ.Business.Synthesizer.Warnings
             }
             _alreadyDone.Add(Object);
 
-            if (Object.Amplifier == 0)
-            {
-                ValidationMessages.Add(() => Object.Amplifier, MessageFormatter.ObjectAmplifier0(PropertyDisplayNames.Sample, Object.Name));
-            }
+            For(() => Object.Amplifier, PropertyDisplayNames.Amplifier).IsNot(0.0);
 
             if (!Object.IsActive)
             {

@@ -13,8 +13,7 @@ namespace JJ.Business.Synthesizer.Warnings
         {
             base.Execute();
 
-            For(() => Object.Data, PropertyDisplayNames.Sample)
-                .NotNull();
+            For(() => Object.Data, PropertyDisplayNames.Sample).NotNull();
         }
     }
 }

@@ -2,6 +2,7 @@
 using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
 using System;
+using JJ.Business.Synthesizer.Validation;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
@@ -15,16 +16,13 @@ namespace JJ.Business.Synthesizer.Warnings
         {
             AudioFileOutput audioFileOutput = Object;
 
-            if (audioFileOutput.Amplifier == 0)
-            {
-                ValidationMessages.Add(() => audioFileOutput.Amplifier, MessageFormatter.ObjectAmplifier0(PropertyDisplayNames.AudioFileOutput, audioFileOutput.Name));
-            }
+            For(() => audioFileOutput.Amplifier, PropertyDisplayNames.Amplifier).IsNot(0.0);
 
             int i = 1;
             foreach (AudioFileOutputChannel audioFileOutputChannel in audioFileOutput.AudioFileOutputChannels)
             {
-                string messageHeader = String.Format("{0} {1}: ", PropertyDisplayNames.Channel, i);
-                Execute(new AudioFileOutputChannelWarningValidator(audioFileOutputChannel), messageHeader);
+                string messagePrefix = ValidationHelper.GetMessagePrefix(audioFileOutputChannel, i);
+                Execute(new AudioFileOutputChannelWarningValidator(audioFileOutputChannel), messagePrefix);
 
                 i++;
             }

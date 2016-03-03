@@ -228,5 +228,14 @@ namespace JJ.Business.Synthesizer.Validation
             }
             return messagePrefix;
         }
+
+        /// <param name="number">1-based</param>
+        public static string GetMessagePrefix(AudioFileOutputChannel entity, int number)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            string messagePrefix = String.Format("{0} {1}: ", PropertyDisplayNames.Channel, number);
+            return messagePrefix;
+        }
     }
 }
