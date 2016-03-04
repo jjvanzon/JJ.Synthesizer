@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class DocumentGridPresenter
+    internal class DocumentGridPresenter : PresenterBase<DocumentGridViewModel>
     {
         private IDocumentRepository _documentRepository;
 
@@ -22,6 +22,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
+            // Set !Successful
+            userInput.Successful = false;
+
             // GetEntities
             IList<Document> documents = _documentRepository.GetRootDocumentsOrderedByName();
 
@@ -29,7 +32,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DocumentGridViewModel viewModel = documents.ToGridViewModel();
 
             // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
             viewModel.Visible = true;
+
+            // Successful
+            viewModel.Successful = true;
 
             return viewModel;
         }
@@ -38,6 +45,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
+            // Set !Successful
+            userInput.Successful = false;
+
             // GetEntities
             IList<Document> documents = _documentRepository.GetRootDocumentsOrderedByName();
 
@@ -45,11 +55,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DocumentGridViewModel viewModel = documents.ToGridViewModel();
 
             // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
             viewModel.Visible = userInput.Visible;
 
             // Known bug, not easily solvable and also not a large problem: 
             // A renamed, uncommitted document will not end up in a new place in the list,
             // because the sorting done by the data store, which is not ware of the new name.
+
+            // Successful
+            viewModel.Successful = true;
 
             return viewModel;
         }
@@ -57,6 +71,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public DocumentGridViewModel Close(DocumentGridViewModel userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
+
+            // Set !Successful
+            userInput.Successful = false;
 
             // GetEntities
             IList<Document> documents = _documentRepository.GetRootDocumentsOrderedByName();
@@ -70,6 +87,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Known bug, not easily solvable and also not a large problem: 
             // A renamed, uncommitted document will not end up in a new place in the list,
             // because the sorting done by the data store, which is not ware of the new name.
+
+            // Successful
+            viewModel.Successful = true;
 
             return viewModel;
         }

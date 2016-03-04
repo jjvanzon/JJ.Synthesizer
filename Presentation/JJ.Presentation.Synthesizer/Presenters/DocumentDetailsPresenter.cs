@@ -6,10 +6,11 @@ using JJ.Presentation.Synthesizer.ToEntity;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Canonical;
+using JJ.Framework.Common;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class DocumentDetailsPresenter
+    internal class DocumentDetailsPresenter : PresenterBase<DocumentDetailsViewModel>
     {
         private RepositoryWrapper _repositories;
         private DocumentManager _documentManager;
@@ -25,9 +26,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public DocumentDetailsViewModel Create()
         {
             // Business
-            var document = new Document();
-            document.ID = _repositories.IDRepository.GetID();
-            _repositories.DocumentRepository.Insert(document);
+            Document document = _documentManager.Create();
 
             // ToViewModel
             DocumentDetailsViewModel viewModel = document.ToDetailsViewModel();
@@ -37,12 +36,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
             viewModel.CanDelete = false;
             viewModel.Visible = true;
 
+            // Successful
+            viewModel.Successful = true;
+
             return viewModel;
         }
 
         public DocumentDetailsViewModel Save(DocumentDetailsViewModel userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
+
+            // Set !Successful
+            userInput.Successful = false;
 
             // ToEntity
             Document document = userInput.ToEntity(_repositories.DocumentRepository);
@@ -55,7 +60,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 DocumentDetailsViewModel viewModel = document.ToDetailsViewModel();
 
                 // Non-Persisted
-                viewModel.ValidationMessages = result.Messages;
+                CopyNonPersistedProperties(userInput, viewModel);
+                viewModel.ValidationMessages.AddRange(result.Messages);
 
                 return viewModel;
             }
@@ -68,7 +74,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 DocumentDetailsViewModel viewModel = ViewModelHelper.CreateEmptyDocumentDetailsViewModel();
 
                 // Non-Persisted
+                CopyNonPersistedProperties(userInput, viewModel);
                 viewModel.Visible = false;
+
+                // Successful
+                viewModel.Successful = true;
 
                 return viewModel;
             }
@@ -78,6 +88,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
+            // Set !Successful
+            userInput.Successful = false;
+
             // ToEntity
             Document document = userInput.ToEntity(_repositories.DocumentRepository);
 
@@ -85,7 +98,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DocumentDetailsViewModel viewModel = document.ToDetailsViewModel();
 
             // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
             viewModel.Visible = false;
+
+            // Successful
+            viewModel.Successful = true;
 
             return viewModel;
         }

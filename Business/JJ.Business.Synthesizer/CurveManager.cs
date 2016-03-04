@@ -13,9 +13,6 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Enums;
 using System.Linq;
 using System.Collections.Generic;
-using JJ.Framework.Validation.Resources;
-using JJ.Business.Synthesizer.Resources;
-using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Curves;
 using JJ.Business.Canonical;
 using JJ.Framework.Common.Exceptions;
@@ -246,16 +243,17 @@ namespace JJ.Business.Synthesizer
             return result;
         }
 
-        public VoidResult ValidateNodeWithoutParent(Node entity)
-        {
-            IValidator validator1 = new NodeValidator_WithoutParent(entity);
+        // TODO: Remove outcommented code.
+        //public VoidResult ValidateNodeWithoutParent(Node entity)
+        //{
+        //    IValidator validator1 = new NodeValidator_WithoutParent(entity);
 
-            return new VoidResult
-            {
-                Successful = validator1.IsValid,
-                Messages = validator1.ValidationMessages.ToCanonical()
-            };
-        }
+        //    return new VoidResult
+        //    {
+        //        Successful = validator1.IsValid,
+        //        Messages = validator1.ValidationMessages.ToCanonical()
+        //    };
+        //}
 
         public VoidResult ValidateNode(Node entity)
         {
@@ -315,11 +313,14 @@ namespace JJ.Business.Synthesizer
             DeleteNode(node);
         }
 
-        public void DeleteNode(Node node)
+        public VoidResult DeleteNode(Node node)
         {
             if (node == null) throw new NullException(() => node);
+
             node.UnlinkRelatedEntities();
             _repositories.NodeRepository.Delete(node);
+
+            return Validate(node.Curve);
         }
 
         // Misc
@@ -381,6 +382,37 @@ namespace JJ.Business.Synthesizer
                 default:
                     throw new ValueNotSupportedException(nodeTypeEnum);
             }
+        }
+
+        public void RotateNodeType(Node node)
+        {
+            if (node == null) throw new NullException(() => node);
+
+            NodeTypeEnum nodeTypeEnum = node.GetNodeTypeEnum();
+
+            switch (nodeTypeEnum)
+            {
+                case NodeTypeEnum.Off:
+                    nodeTypeEnum = NodeTypeEnum.Block;
+                    break;
+
+                case NodeTypeEnum.Block:
+                    nodeTypeEnum = NodeTypeEnum.Line;
+                    break;
+
+                case NodeTypeEnum.Line:
+                    nodeTypeEnum = NodeTypeEnum.Curve;
+                    break;
+
+                case NodeTypeEnum.Curve:
+                    nodeTypeEnum = NodeTypeEnum.Off;
+                    break;
+
+                default:
+                    throw new InvalidValueException(nodeTypeEnum);
+            }
+
+            node.SetNodeTypeEnum(nodeTypeEnum, _repositories.NodeTypeRepository);
         }
     }
 }

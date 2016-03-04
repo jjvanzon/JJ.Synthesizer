@@ -10,7 +10,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class CurrentPatchesPresenter
+    internal class CurrentPatchesPresenter : PresenterBase<CurrentPatchesViewModel>
     {
         private IDocumentRepository _documentRepository;
 
@@ -173,16 +173,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             viewModel.Successful = true;
 
             return viewModel;
-        }
-
-        private void CopyNonPersistedProperties(CurrentPatchesViewModel sourceViewModel, CurrentPatchesViewModel destViewModel)
-        {
-            if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
-            if (destViewModel == null) throw new NullException(() => destViewModel);
-
-            destViewModel.ValidationMessages = sourceViewModel.ValidationMessages;
-            destViewModel.Visible = sourceViewModel.Visible;
-            destViewModel.Successful = sourceViewModel.Successful;
         }
     }
 }

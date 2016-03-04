@@ -1,21 +1,43 @@
-﻿using JJ.Presentation.Synthesizer.ToViewModel;
+﻿using System;
+using JJ.Framework.Reflection.Exceptions;
+using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class DocumentDeletedPresenter
+    internal class DocumentDeletedPresenter : PresenterBase<DocumentDeletedViewModel>
     {
         public DocumentDeletedViewModel Show()
         {
+            // ToViewModel
             DocumentDeletedViewModel viewModel = ViewModelHelper.CreateDocumentDeletedViewModel();
+
+            // Non-Persisted
             viewModel.Visible = true;
+
+            // Successful
+            viewModel.Successful = true;
+
             return viewModel;
         }
 
-        public DocumentDeletedViewModel OK()
+        public DocumentDeletedViewModel OK(DocumentDeletedViewModel userInput)
         {
+            if (userInput == null) throw new NullException(() => userInput);
+
+            // Set !Successful
+            userInput.Successful = false;
+
+            // ToViewModel
             DocumentDeletedViewModel viewModel = ViewModelHelper.CreateDocumentDeletedViewModel();
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
             viewModel.Visible = false;
+
+            // Successful
+            viewModel.Successful = true;
+
             return viewModel;
         }
     }

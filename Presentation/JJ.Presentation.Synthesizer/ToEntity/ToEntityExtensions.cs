@@ -194,6 +194,28 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
         }
 
+        // CurrentPatches
+
+        public static IList<Patch> ToEntities(this CurrentPatchesViewModel viewModel, IDocumentRepository documentRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (documentRepository == null) throw new NullException(() => documentRepository);
+
+            var underlyingPatches = new List<Patch>(viewModel.List.Count);
+            foreach (CurrentPatchItemViewModel itemViewModel in viewModel.List)
+            {
+                Document document = documentRepository.Get(itemViewModel.ChildDocumentID);
+                if (document.Patches.Count != 1)
+                {
+                    throw new NotEqualException(() => document.Patches.Count, 1);
+                }
+
+                underlyingPatches.Add(document.Patches[0]);
+            }
+
+            return underlyingPatches;
+        }
+
         // Curve
 
         public static void ToEntitiesWithRelatedEntities(this IList<CurveDetailsViewModel> viewModelList, Document destDocument, CurveRepositories repositories)

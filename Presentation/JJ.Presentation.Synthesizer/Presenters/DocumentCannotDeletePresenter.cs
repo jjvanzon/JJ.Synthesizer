@@ -8,7 +8,7 @@ using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class DocumentCannotDeletePresenter
+    internal class DocumentCannotDeletePresenter : PresenterBase<DocumentCannotDeleteViewModel>
     {
         private IDocumentRepository _documentRepository;
 
@@ -30,12 +30,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Non-Persisted
             viewModel.Visible = true;
 
+            // Successful
+            viewModel.Successful = true;
+
             return viewModel;
         }
 
-        public object OK(DocumentCannotDeleteViewModel userInput)
+        public DocumentCannotDeleteViewModel OK(DocumentCannotDeleteViewModel userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
+
+            // Set !Successful
+            userInput.Successful = false;
 
             // GetEntity
             Document document = _documentRepository.Get(userInput.Document.ID);
@@ -44,7 +50,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DocumentCannotDeleteViewModel viewModel = document.ToCannotDeleteViewModel(userInput.ValidationMessages);
 
             // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
             viewModel.Visible = false;
+
+            // Successful
+            viewModel.Successful = true;
 
             return viewModel;
         }

@@ -1163,7 +1163,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void TitleBarRefresh()
         {
             int documentID = MainViewModel.Document.ID;
-            Document document = _repositories.DocumentRepository.TryGetComplete(documentID);
+            Document document = _repositories.DocumentRepository.TryGet(documentID);
             string windowTitle = _titleBarPresenter.Show(document);
             MainViewModel.TitleBar = windowTitle;
         }

@@ -301,6 +301,7 @@
     <Compile Include="Validation\CurveValidator_InDocument.cs" />
     <Compile Include="Validation\CurveValidator_Nodes.cs" />
     <Compile Include="Validation\DocumentValidator_RootDocument.cs" />
+    <Compile Include="Validation\2016-03-03 Backup of NodeValidator_Delete.cs" />
     <Compile Include="Validation\OperatorValidator_Absolute.cs" />
     <Compile Include="Validation\OperatorValidator_OneOverX.cs" />
     <Compile Include="Validation\OperatorValidator_Negative.cs" />

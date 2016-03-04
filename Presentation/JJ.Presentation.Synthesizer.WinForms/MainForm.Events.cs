@@ -263,6 +263,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
             try
             {
                 _presenter.CurrentPatchesPreviewAutoPatch();
+
+                // For debugging, use this code line instead to preview the polyponic auto-patch.
+                //_presenter.CurrentPatchesPreviewAutoPatchPolyphonic();
+
                 ApplyViewModel();
             }
             finally

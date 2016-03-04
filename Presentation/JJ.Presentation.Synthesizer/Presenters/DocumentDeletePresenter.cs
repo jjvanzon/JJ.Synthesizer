@@ -9,7 +9,7 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class DocumentDeletePresenter
+    internal class DocumentDeletePresenter : PresenterBase<DocumentDeleteViewModel>
     {
         private IDocumentRepository _documentRepository;
         private DocumentManager _documentManager;
@@ -35,7 +35,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 // Redirect
                 var presenter2 = new DocumentCannotDeletePresenter(_documentRepository);
-                object viewModel2 = presenter2.Show(id, result.Messages);
+                DocumentCannotDeleteViewModel viewModel2 = presenter2.Show(id, result.Messages);
                 return viewModel2;
             }
             else
@@ -46,38 +46,55 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // Non-Persisted
                 viewModel.Visible = true;
 
+                // Successful
+                viewModel.Successful = true;
+
                 return viewModel;
             }
         }
 
         /// <summary> Can return DocumentDeletedViewModel or DocumentCannotDeletePresenter. </summary>
-        public object Confirm(int id)
+        public object Confirm(DocumentDeleteViewModel userInput)
         {
+            if (userInput == null) throw new NullException(() => userInput);
+
+            // Set !Successful
+            userInput.Successful = false;
+
             // GetEntity
-            Document document = _documentRepository.Get(id);
+            Document document = _documentRepository.Get(userInput.Document.ID);
 
             // Business
             VoidResult result = _documentManager.DeleteWithRelatedEntities(document);
 
             if (!result.Successful)
             {
+                // Successful (strangely, because we redirect and cannot leave a view model in unsuccessful state)
+                userInput.Successful = true;
+
                 // Redirect
                 var presenter2 = new DocumentCannotDeletePresenter(_documentRepository);
-                object viewModel = presenter2.Show(id, result.Messages);
+                DocumentCannotDeleteViewModel viewModel = presenter2.Show(userInput.Document.ID, result.Messages);
                 return viewModel;
             }
             else
             {
+                // Successful
+                userInput.Successful = true;
+
                 // Redirect
                 var presenter2 = new DocumentDeletedPresenter();
-                object viewModel = presenter2.Show();
+                DocumentDeletedViewModel viewModel = presenter2.Show();
                 return viewModel;
             }
         }
 
-        public object Cancel(DocumentDeleteViewModel userInput)
+        public DocumentDeleteViewModel Cancel(DocumentDeleteViewModel userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
+
+            // Set !Successful
+            userInput.Successful = false;
 
             // GetEntity
             Document document = _documentRepository.Get(userInput.Document.ID);
@@ -86,7 +103,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DocumentDeleteViewModel viewModel = document.ToDeleteViewModel();
 
             // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
             viewModel.Visible = false;
+
+            // Successful
+            viewModel.Successful = true;
 
             return viewModel;
         }

@@ -12,6 +12,7 @@ using JJ.Business.Synthesizer.SideEffects;
 using JJ.Framework.Business;
 using System.Collections.Generic;
 using JJ.Business.Canonical;
+using JJ.Business.Synthesizer.Warnings;
 
 namespace JJ.Business.Synthesizer
 {
@@ -153,6 +154,23 @@ namespace JJ.Business.Synthesizer
             {
                 return new VoidResult { Successful = true };
             }
+        }
+
+        // Other
+
+        public VoidResult GetWarningsRecursive(Document entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            IValidator warningsValidator = new DocumentWarningValidator_Recursive(entity, _repositories.SampleRepository, new HashSet<object>());
+
+            var result = new VoidResult
+            {
+                Successful = true,
+                Messages = warningsValidator.ValidationMessages.ToCanonical()
+            };
+
+            return result;
         }
     }
 }
