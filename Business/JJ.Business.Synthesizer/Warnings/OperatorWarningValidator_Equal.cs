@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.Warnings
 {
-    public class OperatorWarningValidator_Equal : OperatorWarningValidator_Base_AllInletsFilled
+    internal class OperatorWarningValidator_Equal : OperatorWarningValidator_Base_AllInletsFilled
     {
         public OperatorWarningValidator_Equal(Operator obj)
             : base(obj)

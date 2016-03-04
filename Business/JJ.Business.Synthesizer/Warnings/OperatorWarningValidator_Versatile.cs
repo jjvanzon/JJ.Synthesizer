@@ -8,7 +8,7 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
-    public class OperatorWarningValidator_Versatile : ValidatorBase<Operator>
+    internal class OperatorWarningValidator_Versatile : ValidatorBase<Operator>
     {
         private IDictionary<OperatorTypeEnum, Type> _validatorTypeDictionary = new Dictionary<OperatorTypeEnum, Type>
         {

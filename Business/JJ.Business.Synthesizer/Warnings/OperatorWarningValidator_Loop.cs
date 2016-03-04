@@ -7,7 +7,7 @@ using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
-    public class OperatorWarningValidator_Loop : OperatorWarningValidator_Base
+    internal class OperatorWarningValidator_Loop : OperatorWarningValidator_Base
     {
         private static int[] indexesToCheck = new int[]
         {

@@ -3,7 +3,7 @@ using JJ.Framework.Presentation.Resources;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
-    public class OperatorWarningValidator_Reset : OperatorWarningValidator_Base_AllInletsFilled
+    internal class OperatorWarningValidator_Reset : OperatorWarningValidator_Base_AllInletsFilled
     {
         public OperatorWarningValidator_Reset(Operator obj)
             : base(obj)

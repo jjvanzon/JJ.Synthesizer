@@ -4,7 +4,7 @@ using System;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
-    public class OperatorWarningValidator_CustomOperator : OperatorWarningValidator_Base
+    internal class OperatorWarningValidator_CustomOperator : OperatorWarningValidator_Base
     {
         public OperatorWarningValidator_CustomOperator(Operator op)
             : base(op)

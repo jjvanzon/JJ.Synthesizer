@@ -6,7 +6,7 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
-    public class SampleWarningValidator : FluentValidator<Sample>
+    internal class SampleWarningValidator : FluentValidator<Sample>
     {
         private byte[] _bytes;
         private HashSet<object> _alreadyDone;

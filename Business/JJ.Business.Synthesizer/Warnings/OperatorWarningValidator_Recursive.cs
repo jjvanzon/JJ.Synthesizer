@@ -9,7 +9,7 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
-    public class OperatorWarningValidator_Recursive : ValidatorBase<Operator>
+    internal class OperatorWarningValidator_Recursive : ValidatorBase<Operator>
     {
         private ISampleRepository _sampleRepository;
         private HashSet<object> _alreadyDone;

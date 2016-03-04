@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.Warnings
 {
-    public class OperatorWarningValidator_Cache : OperatorWarningValidator_Base_AllInletsFilled
+    internal class OperatorWarningValidator_Cache : OperatorWarningValidator_Base_AllInletsFilled
     {
         public OperatorWarningValidator_Cache(Operator obj)
             : base(obj)

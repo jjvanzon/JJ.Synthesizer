@@ -3,7 +3,7 @@ using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
-    public class OperatorWarningValidator_Curve : OperatorWarningValidator_Base
+    internal class OperatorWarningValidator_Curve : OperatorWarningValidator_Base
     {
         public OperatorWarningValidator_Curve(Operator op)
             : base(op)

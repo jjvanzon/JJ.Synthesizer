@@ -4,7 +4,7 @@ using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
-    public class AudioFileOutputChannelWarningValidator : FluentValidator<AudioFileOutputChannel>
+    internal class AudioFileOutputChannelWarningValidator : FluentValidator<AudioFileOutputChannel>
     {
         public AudioFileOutputChannelWarningValidator(AudioFileOutputChannel obj)
             :base(obj)

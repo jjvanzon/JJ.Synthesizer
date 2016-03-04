@@ -95,23 +95,6 @@ namespace JJ.Business.Synthesizer.Tests
             Assert.Inconclusive("Test method was outcommented");
         }
 
-        // Test engine crashes
-        [TestMethod]
-        public void Test_Synthesizer_WarningValidators()
-        {
-            using (IContext context = PersistenceHelper.CreateMemoryContext())
-            {
-                var repositories = PersistenceHelper.CreateRepositories(context);
-                PatchManager patchManager = new PatchManager(new PatchRepositories(repositories));
-
-                IValidator validator1 = new OperatorWarningValidator_Add(patchManager.Add().WrappedOperator);
-                IValidator validator2 = new OperatorWarningValidator_Number(patchManager.Number().WrappedOperator);
-
-                bool isValid = validator1.IsValid &&
-                               validator2.IsValid;
-            }
-        }
-
         [TestMethod]
         public void Test_Synthesizer_InterpretedPatchCalculator_Adder()
         {

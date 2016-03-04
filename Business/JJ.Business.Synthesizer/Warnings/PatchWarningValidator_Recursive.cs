@@ -7,7 +7,7 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
-    public class PatchWarningValidator_Recursive : FluentValidator<Patch>
+    internal class PatchWarningValidator_Recursive : FluentValidator<Patch>
     {
         private ISampleRepository _sampleRepository;
 
