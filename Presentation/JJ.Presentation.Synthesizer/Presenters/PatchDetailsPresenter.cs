@@ -21,7 +21,7 @@ using JJ.Framework.Configuration;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class PatchDetailsPresenter
+    internal class PatchDetailsPresenter : PresenterBase<PatchDetailsViewModel>
     {
         private static double _patchPlayDuration = GetPatchPlayDuration();
         private static string _patchPlayOutputFilePath = GetPatchPlayOutputFilePath();
@@ -398,10 +398,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _entityPositionManager);
         }
 
-        private void CopyNonPersistedProperties(PatchDetailsViewModel sourceViewModel, PatchDetailsViewModel destViewModel)
+        protected override void CopyNonPersistedProperties(PatchDetailsViewModel sourceViewModel, PatchDetailsViewModel destViewModel)
         {
-            destViewModel.Visible = sourceViewModel.Visible;
-            destViewModel.ValidationMessages.AddRange(sourceViewModel.ValidationMessages);
+            base.CopyNonPersistedProperties(sourceViewModel, destViewModel);
 
             if (sourceViewModel.SelectedOperator != null)
             {

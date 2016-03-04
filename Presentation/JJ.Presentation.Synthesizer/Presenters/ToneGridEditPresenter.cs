@@ -14,7 +14,7 @@ using JJ.Business.Canonical;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class ToneGridEditPresenter
+    internal class ToneGridEditPresenter : PresenterBase<ToneGridEditViewModel>
     {
         private ScaleRepositories _repositories;
         private ScaleManager _scaleManager;

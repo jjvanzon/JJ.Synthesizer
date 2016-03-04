@@ -6,7 +6,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class PatchGridPresenter
+    internal class PatchGridPresenter : PresenterBase<PatchGridViewModel>
     {
         private IDocumentRepository _documentRepository;
 

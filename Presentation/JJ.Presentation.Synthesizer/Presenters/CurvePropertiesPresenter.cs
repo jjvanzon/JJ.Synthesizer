@@ -11,7 +11,7 @@ using JJ.Framework.Common;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class CurvePropertiesPresenter
+    internal class CurvePropertiesPresenter : PresenterBase<CurvePropertiesViewModel>
     {
         private CurveRepositories _repositories;
         private CurveManager _curveManager;
@@ -101,18 +101,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Successful?
             viewModel.Successful = result.Successful;
             return viewModel;
-        }
-
-        // Helpers
-
-        private void CopyNonPersistedProperties(CurvePropertiesViewModel sourceViewModel, CurvePropertiesViewModel destViewModel)
-        {
-            if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
-            if (destViewModel == null) throw new NullException(() => destViewModel);
-
-            destViewModel.ValidationMessages = sourceViewModel.ValidationMessages;
-            destViewModel.Visible = sourceViewModel.Visible;
-            destViewModel.Successful = sourceViewModel.Successful;
         }
     }
 }

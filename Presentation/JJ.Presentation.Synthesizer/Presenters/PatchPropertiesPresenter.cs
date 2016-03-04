@@ -10,7 +10,7 @@ using JJ.Framework.Common;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class PatchPropertiesPresenter
+    internal class PatchPropertiesPresenter : PresenterBase<PatchPropertiesViewModel>
     {
         private RepositoryWrapper _repositories;
 

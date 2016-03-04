@@ -7,7 +7,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class SampleGridPresenter
+    internal class SampleGridPresenter : PresenterBase<SampleGridViewModel>
     {
         private IDocumentRepository _documentRepository;
         private ISampleRepository _sampleRepository;

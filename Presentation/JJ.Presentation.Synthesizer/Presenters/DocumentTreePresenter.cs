@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class DocumentTreePresenter
+    internal class DocumentTreePresenter : PresenterBase<DocumentTreeViewModel>
     {
         private IDocumentRepository _documentRepository;
 
@@ -136,12 +136,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// It matches source and dest nodes by the ChildDocumentID,
         /// so it is important to keep those unique and (relatively) constant.
         /// </summary>
-        private void CopyNonPersistedProperties(DocumentTreeViewModel sourceViewModel, DocumentTreeViewModel destViewModel)
+        protected override void CopyNonPersistedProperties(DocumentTreeViewModel sourceViewModel, DocumentTreeViewModel destViewModel)
         {
-            if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
-            if (destViewModel == null) throw new NullException(() => destViewModel);
-
-            destViewModel.Visible = sourceViewModel.Visible;
+            base.CopyNonPersistedProperties(sourceViewModel, destViewModel);
 
             var join = from sourceInstrumentViewModel in EnumeratePatchTreeNodeViewModels(sourceViewModel)
                        join destInstrumentViewModel in EnumeratePatchTreeNodeViewModels(destViewModel)

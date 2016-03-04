@@ -2,7 +2,6 @@
 using JJ.Data.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ToEntity;
 using JJ.Data.Canonical;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ToViewModel;
@@ -11,7 +10,7 @@ using JJ.Framework.Common;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class AudioFileOutputPropertiesPresenter
+    internal class AudioFileOutputPropertiesPresenter : PresenterBase<AudioFileOutputPropertiesViewModel>
     {
         private AudioFileOutputRepositories _repositories;
         private AudioFileOutputManager _audioFileOutputManager;
@@ -122,16 +121,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             viewModel.Successful = result.Successful;
 
             return viewModel;
-        }
-
-        private void CopyNonPersistedProperties(AudioFileOutputPropertiesViewModel sourceViewModel, AudioFileOutputPropertiesViewModel destViewModel)
-        {
-            if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
-            if (destViewModel == null) throw new NullException(() => destViewModel);
-
-            destViewModel.ValidationMessages = sourceViewModel.ValidationMessages;
-            destViewModel.Visible = sourceViewModel.Visible;
-            destViewModel.Successful = sourceViewModel.Successful;
         }
     }
 }

@@ -7,7 +7,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class ScaleGridPresenter
+    internal class ScaleGridPresenter : PresenterBase<ScaleGridViewModel>
     {
         private IDocumentRepository _documentRepository;
 

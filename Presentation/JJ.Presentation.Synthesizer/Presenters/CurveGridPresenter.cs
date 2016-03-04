@@ -1,15 +1,13 @@
-﻿using JJ.Framework.Common;
+﻿using System.Linq;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
-using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToViewModel;
-using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class CurveGridPresenter
+    internal class CurveGridPresenter : PresenterBase<CurveGridViewModel>
     {
         private IDocumentRepository _documentRepository;
 
@@ -86,18 +84,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             viewModel.Successful = true;
 
             return viewModel;
-        }
-
-        // Helpers
-
-        private void CopyNonPersistedProperties(CurveGridViewModel sourceViewModel, CurveGridViewModel destViewModel)
-        {
-            if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
-            if (destViewModel == null) throw new NullException(() => destViewModel);
-
-            destViewModel.ValidationMessages = sourceViewModel.ValidationMessages;
-            destViewModel.Visible = sourceViewModel.Visible;
-            destViewModel.Successful = sourceViewModel.Successful;
         }
     }
 }

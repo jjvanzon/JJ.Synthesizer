@@ -9,7 +9,7 @@ using JJ.Data.Canonical;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class SamplePropertiesPresenter
+    internal class SamplePropertiesPresenter : PresenterBase<SamplePropertiesViewModel>
     {
         private SampleRepositories _repositories;
         private SampleManager _sampleManager;

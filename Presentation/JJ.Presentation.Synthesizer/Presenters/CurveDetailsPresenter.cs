@@ -12,7 +12,7 @@ using JJ.Framework.Common;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class CurveDetailsPresenter
+    internal class CurveDetailsPresenter : PresenterBase<CurveDetailsViewModel>
     {
         private CurveRepositories _repositories;
         private CurveManager _curveManager;
@@ -141,14 +141,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Helpers
 
-        private void CopyNonPersistedProperties(CurveDetailsViewModel sourceViewModel, CurveDetailsViewModel destViewModel)
+        protected override void CopyNonPersistedProperties(CurveDetailsViewModel sourceViewModel, CurveDetailsViewModel destViewModel)
         {
-            if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
-            if (destViewModel == null) throw new NullException(() => destViewModel);
-
-            destViewModel.ValidationMessages = sourceViewModel.ValidationMessages;
-            destViewModel.Visible = sourceViewModel.Visible;
-            destViewModel.Successful = sourceViewModel.Successful;
+            base.CopyNonPersistedProperties(sourceViewModel, destViewModel);
 
             destViewModel.SelectedNodeID = sourceViewModel.SelectedNodeID;
         }

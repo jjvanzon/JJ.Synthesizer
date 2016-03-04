@@ -12,7 +12,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     /// <summary> Contains all code shared by operator properties presenters. </summary>
-    public abstract class OperatorPropertiesPresenterBase<TViewModel>
+    internal abstract class OperatorPropertiesPresenterBase<TViewModel> : PresenterBase<TViewModel>
         where TViewModel : OperatorPropertiesViewModelBase
     {
         protected PatchRepositories _repositories;
@@ -111,16 +111,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             viewModel.Successful = result.Successful;
 
             return viewModel;
-        }
-
-        protected virtual void CopyNonPersistedProperties(TViewModel sourceViewModel, TViewModel destViewModel)
-        {
-            if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
-            if (destViewModel == null) throw new NullException(() => destViewModel);
-
-            destViewModel.ValidationMessages = sourceViewModel.ValidationMessages;
-            destViewModel.Visible = sourceViewModel.Visible;
-            destViewModel.Successful = sourceViewModel.Successful;
         }
     }
 }

@@ -1,8 +1,7 @@
-﻿using JJ.Data.Synthesizer;
+﻿using System.Collections.Generic;
+using JJ.Data.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ToEntity;
-using System.Collections.Generic;
 using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Business.Synthesizer.Helpers;
@@ -11,7 +10,7 @@ using JJ.Framework.Common;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class DocumentPropertiesPresenter
+    internal class DocumentPropertiesPresenter : PresenterBase<DocumentPropertiesViewModel>
     {
         private RepositoryWrapper _repositories;
         private DocumentManager _documentManager;
@@ -105,16 +104,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             viewModel.Successful = result.Successful;
 
             return viewModel;
-        }
-
-        private void CopyNonPersistedProperties(DocumentPropertiesViewModel sourceViewModel, DocumentPropertiesViewModel destViewModel)
-        {
-            if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
-            if (destViewModel == null) throw new NullException(() => destViewModel);
-
-            destViewModel.ValidationMessages = sourceViewModel.ValidationMessages;
-            destViewModel.Visible = sourceViewModel.Visible;
-            destViewModel.Successful = sourceViewModel.Successful;
         }
     }
 }

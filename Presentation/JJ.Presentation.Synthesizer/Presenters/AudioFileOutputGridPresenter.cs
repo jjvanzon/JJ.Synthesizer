@@ -6,7 +6,7 @@ using JJ.Presentation.Synthesizer.ToViewModel;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class AudioFileOutputGridPresenter
+    internal class AudioFileOutputGridPresenter : PresenterBase<AudioFileOutputGridViewModel>
     {
         private IDocumentRepository _documentRepository;
 
@@ -83,16 +83,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             viewModel.Successful = true;
 
             return viewModel;
-        }
-
-        private void CopyNonPersistedProperties(AudioFileOutputGridViewModel sourceViewModel, AudioFileOutputGridViewModel destViewModel)
-        {
-            if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
-            if (destViewModel == null) throw new NullException(() => destViewModel);
-
-            destViewModel.ValidationMessages = sourceViewModel.ValidationMessages;
-            destViewModel.Visible = sourceViewModel.Visible;
-            destViewModel.Successful = sourceViewModel.Successful;
         }
     }
 }
