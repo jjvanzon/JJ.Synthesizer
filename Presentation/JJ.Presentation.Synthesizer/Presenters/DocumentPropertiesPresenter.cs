@@ -27,6 +27,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
+            // Set !Successful
+            userInput.Successful = false;
+
             // GetEntity
             Document entity = _repositories.DocumentRepository.Get(userInput.Entity.ID);
 
@@ -37,12 +40,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
             CopyNonPersistedProperties(userInput, viewModel);
             viewModel.Visible = true;
 
+            // Successful
+            viewModel.Successful = true;
+
             return viewModel;
         }
 
         public DocumentPropertiesViewModel Refresh(DocumentPropertiesViewModel userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
+
+            // Set !Successful
+            userInput.Successful = false;
 
             // GetEntity
             Document entity = _repositories.DocumentRepository.Get(userInput.Entity.ID);
@@ -53,6 +62,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
             viewModel.Visible = userInput.Visible;
+
+            // Successful
+            viewModel.Successful = true;
 
             return viewModel;
         }

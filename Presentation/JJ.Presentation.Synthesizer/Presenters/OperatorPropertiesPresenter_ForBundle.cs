@@ -47,7 +47,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // Non-Persisted
                 CopyNonPersistedProperties(userInput, viewModel);
                 viewModel.ValidationMessages.AddRange(result1.Messages);
-                viewModel.Successful = false;
 
                 return viewModel;
             }

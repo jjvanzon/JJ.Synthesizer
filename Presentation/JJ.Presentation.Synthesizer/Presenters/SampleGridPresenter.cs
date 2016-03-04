@@ -25,6 +25,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
+            // Set !Successful
+            userInput.Successful = false;
+
             // GetEntity
             Document document = _documentRepository.Get(userInput.DocumentID);
 
@@ -34,12 +37,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Non-Persisted
             viewModel.Visible = true;
 
+            // Successful
+            viewModel.Successful = true;
+
             return viewModel;
         }
 
         public SampleGridViewModel Refresh(SampleGridViewModel userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
+
+            // Set !Successful
+            userInput.Successful = false;
 
             // GetEntity
             Document document = _documentRepository.Get(userInput.DocumentID);
@@ -50,12 +59,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Non-Persisted
             viewModel.Visible = userInput.Visible;
 
+            // Successful
+            viewModel.Successful = true;
+
             return viewModel;
         }
 
         public SampleGridViewModel Close(SampleGridViewModel userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
+
+            // Set !Successful
+            userInput.Successful = false;
 
             // GetEntity
             Document document = _documentRepository.Get(userInput.DocumentID);
@@ -65,6 +80,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Non-Persisted
             viewModel.Visible = false;
+
+            // Successful
+            viewModel.Successful = true;
 
             return viewModel;
         }

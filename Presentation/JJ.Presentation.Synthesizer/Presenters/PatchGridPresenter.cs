@@ -21,6 +21,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
+            // Set !Successful
+            userInput.Successful = false;
+
             // GetEntity
             Document rootDocument = _documentRepository.Get(userInput.RootDocumentID);
 
@@ -30,12 +33,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Non-Persisted
             viewModel.Visible = true;
 
+            // Successful
+            viewModel.Successful = true;
+
             return viewModel;
         }
 
         public PatchGridViewModel Refresh(PatchGridViewModel userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
+
+            // Set !Successful
+            userInput.Successful = false;
 
             // GetEntity
             Document rootDocument = _documentRepository.Get(userInput.RootDocumentID);
@@ -46,12 +55,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Non-Persisted
             viewModel.Visible = userInput.Visible;
 
+            // Successful
+            viewModel.Successful = true;
+
             return viewModel;
         }
 
         public PatchGridViewModel Close(PatchGridViewModel userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
+
+            // Set !Successful
+            userInput.Successful = false;
 
             // GetEntity
             Document rootDocument = _documentRepository.Get(userInput.RootDocumentID);
@@ -61,6 +76,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Non-Persisted
             viewModel.Visible = false;
+
+            // Successful
+            viewModel.Successful = true;
 
             return viewModel;
         }

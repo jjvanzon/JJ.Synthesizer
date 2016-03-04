@@ -31,6 +31,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
+            // Set !Successful
+            userInput.Successful = false;
+
             // GetEntity
             Document childDocument = _repositories.DocumentRepository.Get(userInput.ChildDocumentID);
 
@@ -40,12 +43,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Non-Persisted
             viewModel.Visible = true;
 
+            // Successful
+            viewModel.Successful = true;
+
             return viewModel;
         }
 
         public PatchPropertiesViewModel Refresh(PatchPropertiesViewModel userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
+
+            // Set !Successful
+            userInput.Successful = false;
 
             // GetEntity
             Document childDocument = _repositories.DocumentRepository.Get(userInput.ChildDocumentID);
@@ -89,6 +98,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
+            // Set !Successful
+            userInput.Successful = false;
+
             // GetEntity
             Document childDocument =_repositories.DocumentRepository.Get(userInput.ChildDocumentID);
 
@@ -113,6 +125,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Non-Persisted
             viewModel.ValidationMessages.AddRange(result2.Messages);
+
+            // Successful
             viewModel.Successful = result2.Successful;
 
             return viewModel;

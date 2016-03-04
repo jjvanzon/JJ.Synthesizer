@@ -40,7 +40,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (!validator.IsValid)
             {
                 userInput.Successful = validator.IsValid;
-                userInput.ValidationMessages = validator.ValidationMessages.ToCanonical();
+                userInput.ValidationMessages.AddRange(validator.ValidationMessages.ToCanonical());
                 return userInput;
             }
 

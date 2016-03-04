@@ -28,6 +28,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
+            // Set !Successful
+            userInput.Successful = false;
+
             // GetEntity
             Curve entity = _repositories.CurveRepository.Get(userInput.ID);
 
@@ -38,12 +41,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
             CopyNonPersistedProperties(userInput, viewModel);
             viewModel.Visible = true;
 
+            // Successful
+            viewModel.Successful = true;
+
             return viewModel;
         }
 
         public CurvePropertiesViewModel Refresh(CurvePropertiesViewModel userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
+
+            // Set !Successful
+            userInput.Successful = false;
 
             // GetEntity
             Curve entity = _repositories.CurveRepository.Get(userInput.ID);
@@ -53,6 +62,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
+
+            // Successful
+            viewModel.Successful = true;
 
             return viewModel;
         }
@@ -100,6 +112,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Successful?
             viewModel.Successful = result.Successful;
+
             return viewModel;
         }
     }

@@ -25,6 +25,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
+            // Set !Successful
+            userInput.Successful = false;
+
             // GetEntity
             Document document = _documentRepository.Get(userInput.ID);
 
@@ -35,12 +38,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
             CopyNonPersistedProperties(userInput, viewModel);
             viewModel.Visible = true;
 
+            // Successful
+            viewModel.Successful = true;
+
             return viewModel;
         }
 
         public DocumentTreeViewModel Refresh(DocumentTreeViewModel userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
+
+            // Set !Successful
+            userInput.Successful = false;
 
             // GetEntity
             Document document = _documentRepository.Get(userInput.ID);
@@ -51,12 +60,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
 
+            // Successful
+            viewModel.Successful = true;
+
             return viewModel;
         }
 
         public DocumentTreeViewModel ExpandNode(DocumentTreeViewModel userInput, int childDocumentID)
         {
             if (userInput == null) throw new NullException(() => userInput);
+
+            // Set !Successful
+            userInput.Successful = false;
 
             // GetEntity
             Document document = _documentRepository.Get(userInput.ID);
@@ -80,12 +95,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             nodeViewModel.IsExpanded = true;
 
+            // Successful
+            viewModel.Successful = true;
+
             return viewModel;
         }
 
         public DocumentTreeViewModel CollapseNode(DocumentTreeViewModel userInput, int childDocumentID)
         {
             if (userInput == null) throw new NullException(() => userInput);
+
+            // Set !Successful
+            userInput.Successful = false;
 
             // GetEntity
             Document document = _documentRepository.Get(userInput.ID);
@@ -109,12 +130,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             nodeViewModel.IsExpanded = false;
 
+            // Successful
+            viewModel.Successful = true;
+
             return viewModel;
         }
 
         public DocumentTreeViewModel Close(DocumentTreeViewModel userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
+
+            // Set !Successful
+            userInput.Successful = false;
 
             // GetEntity
             Document document = _documentRepository.Get(userInput.ID);
@@ -125,6 +152,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
             viewModel.Visible = false;
+
+            // Successful
+            viewModel.Successful = true;
 
             return viewModel;
         }

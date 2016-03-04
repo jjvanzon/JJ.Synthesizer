@@ -4,7 +4,6 @@ using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
-using JJ.Presentation.Synthesizer.ToEntity;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Framework.Common;
@@ -233,8 +232,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     Text = PresentationMessages.SelectAnOperatorFirst
                 });
 
-                userInput.Successful = false;
-
                 return userInput;
             }
             else
@@ -335,6 +332,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             audioFileOutput.Duration = _patchPlayDuration;
             audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
 
+            // Infrastructure
             audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
 
             // Successful
@@ -342,7 +340,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             return _patchPlayOutputFilePath;
         }
-
 
         // Helpers
 
