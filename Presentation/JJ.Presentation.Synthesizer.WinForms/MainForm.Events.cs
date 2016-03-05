@@ -4,13 +4,6 @@ using System.Linq;
 using System.Media;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
-using JJ.Presentation.Synthesizer.NAudio;
-using JJ.Data.Synthesizer;
-using JJ.Business.Synthesizer.Api;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Framework.Configuration;
-using JJ.Business.Synthesizer;
-using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
