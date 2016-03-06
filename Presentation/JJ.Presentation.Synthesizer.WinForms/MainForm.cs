@@ -14,8 +14,7 @@ using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using System.Collections.Generic;
 using JJ.Data.Canonical;
-using JJ.Presentation.Synthesizer.NAudio;
-using System.Threading;
+using JJ.Presentation.Synthesizer.WinForms.UserControls;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
@@ -41,6 +40,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
         public MainForm()
         {
             InitializeComponent();
+
+            _userControlTuples = CreateUserControlTuples();
 
             _context = PersistenceHelper.CreateContext();
             _repositories = PersistenceHelper.CreateRepositoryWrapper(_context);
@@ -150,6 +151,60 @@ namespace JJ.Presentation.Synthesizer.WinForms
             }
 
             return x.Patch;
+        }
+
+        private UserControlTuple[] _userControlTuples;
+
+        private class UserControlTuple
+        {
+            public UserControlTuple(UserControlBase userControl, bool isPropertiesView = false)
+            {
+                UserControl = userControl;
+                IsPropertiesView = isPropertiesView;
+            }
+
+            public UserControlBase UserControl { get; private set; }
+            public bool IsPropertiesView { get; private set; }
+        }
+
+        // TODO: Refactor out these tuples, after making a PropertiesViewModel base class.
+        private UserControlTuple[] CreateUserControlTuples()
+        {
+            return new UserControlTuple[]
+            {
+                new UserControlTuple(audioFileOutputGridUserControl),
+                new UserControlTuple(audioFileOutputPropertiesUserControl, isPropertiesView: true),
+                new UserControlTuple(curveDetailsUserControl),
+                new UserControlTuple(curveGridUserControl),
+                new UserControlTuple(curvePropertiesUserControl, isPropertiesView: true),
+                new UserControlTuple(documentDetailsUserControl),
+                new UserControlTuple(documentGridUserControl),
+                new UserControlTuple(documentPropertiesUserControl, isPropertiesView: true),
+                new UserControlTuple(documentTreeUserControl),
+                new UserControlTuple(nodePropertiesUserControl, isPropertiesView: true),
+                new UserControlTuple(operatorPropertiesUserControl, isPropertiesView: true),
+                new UserControlTuple(operatorPropertiesUserControl_ForAggregate, isPropertiesView: true),
+                new UserControlTuple(operatorPropertiesUserControl_ForBundle, isPropertiesView: true),
+                new UserControlTuple(operatorPropertiesUserControl_ForCache, isPropertiesView: true),
+                new UserControlTuple(operatorPropertiesUserControl_ForCurve, isPropertiesView: true),
+                new UserControlTuple(operatorPropertiesUserControl_ForCustomOperator, isPropertiesView: true),
+                new UserControlTuple(operatorPropertiesUserControl_ForNumber, isPropertiesView: true),
+                new UserControlTuple(operatorPropertiesUserControl_ForPatchInlet, isPropertiesView: true),
+                new UserControlTuple(operatorPropertiesUserControl_ForPatchOutlet, isPropertiesView: true),
+                new UserControlTuple(operatorPropertiesUserControl_ForRandom, isPropertiesView: true),
+                new UserControlTuple(operatorPropertiesUserControl_ForResample, isPropertiesView: true),
+                new UserControlTuple(operatorPropertiesUserControl_ForSample, isPropertiesView: true),
+                new UserControlTuple(operatorPropertiesUserControl_ForSpectrum, isPropertiesView: true),
+                new UserControlTuple(operatorPropertiesUserControl_ForUnbundle, isPropertiesView: true),
+                new UserControlTuple(patchGridUserControl),
+                new UserControlTuple(patchDetailsUserControl),
+                new UserControlTuple(patchPropertiesUserControl, isPropertiesView: true),
+                new UserControlTuple(sampleGridUserControl),
+                new UserControlTuple(samplePropertiesUserControl, isPropertiesView: true),
+                new UserControlTuple(scaleGridUserControl),
+                new UserControlTuple(toneGridEditUserControl),
+                new UserControlTuple(scalePropertiesUserControl, isPropertiesView: true)
+            };
         }
     }
 }

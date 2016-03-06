@@ -349,6 +349,9 @@
     <Compile Include="UserControls\UserControlBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="UserControls\UserControlBaseOfT.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <EmbeddedResource Include="Forms\DocumentCannotDeleteForm.resx">
       <DependentUpon>DocumentCannotDeleteForm.cs</DependentUpon>
     </EmbeddedResource>

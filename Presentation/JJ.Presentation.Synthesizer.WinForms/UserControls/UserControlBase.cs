@@ -7,16 +7,15 @@ using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal abstract class UserControlBase<TViewModel> : UserControl
-        where TViewModel : ViewModelBase
+    internal abstract class UserControlBase : UserControl
     {
-        private TViewModel _viewModel;
+        private ViewModelBase _viewModel;
         private int _refreshCounter = -1;
-
         /// <summary> nullable </summary>
+
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public TViewModel ViewModel
+        public ViewModelBase ViewModel
         {
             get { return _viewModel; }
             set

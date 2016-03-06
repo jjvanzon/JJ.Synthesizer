@@ -11,22 +11,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 {
     internal partial class MainForm
     {
-        private class UserControlTuple
-        {
-            public UserControlTuple(UserControl userControl, ViewModelBase viewModel, bool isPropertiesView = false)
-            {
-                UserControl = userControl;
-                ViewModel = viewModel;
-                IsPropertiesView = isPropertiesView;
-            }
-
-            public UserControl UserControl { get; private set; }
-            public ViewModelBase ViewModel { get; private set; }
-            public bool IsPropertiesView { get; private set; }
-
-            public bool ViewMustBecomeVisible { get; set; }
-        }
-
         private void ApplyViewModel()
         {
             // NOTE: Actually making controls visible is postponed till last, to do it in a way that does not flash as much.
@@ -64,9 +48,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             else
             {
                 curveGridUserControl.ViewModel = _presenter.MainViewModel.Document.PatchDocumentList
-                                                                              .Select(x => x.CurveGrid)
-                                                                              .Where(x => x.Visible)
-                                                                              .FirstOrDefault();
+                                                                                  .Select(x => x.CurveGrid)
+                                                                                  .Where(x => x.Visible)
+                                                                                  .FirstOrDefault();
             }
 
             // CurveProperties
@@ -239,37 +223,29 @@ namespace JJ.Presentation.Synthesizer.WinForms
             scalePropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.ScalePropertiesList
                                                                                     .Where(x => x.Visible)
                                                                                     .FirstOrDefault();
-            UserControlTuple[] tuples = CreateUserControlTuples();
-
-            // Determine Visible Values
-            foreach (UserControlTuple tuple in tuples)
-            {
-                tuple.ViewMustBecomeVisible = tuple.ViewModel != null &&
-                                              tuple.ViewModel.Visible;
-            }
 
             // Applying Visible = true first and then Visible = false prevents flickering.
-            foreach (UserControlTuple tuple in tuples)
+            foreach (UserControlTuple tuple in _userControlTuples)
             {
-                if (tuple.ViewMustBecomeVisible)
+                if (MustBecomeVisible(tuple.UserControl))
                 {
                     tuple.UserControl.Visible = true;
                 }
             }
 
-            foreach (UserControlTuple tuple in tuples)
+            foreach (UserControlTuple tuple in _userControlTuples)
             {
-                if (!tuple.ViewMustBecomeVisible)
+                if (!MustBecomeVisible(tuple.UserControl))
                 {
                     tuple.UserControl.Visible = false;
                 }
             }
 
             // Panel Visibility
-            bool treePanelMustBeVisible = tuples.Where(x => x.UserControl is DocumentTreeUserControl).Single().ViewMustBecomeVisible;
+            bool treePanelMustBeVisible = MustBecomeVisible(documentTreeUserControl);
             SetTreePanelVisible(treePanelMustBeVisible);
 
-            bool propertiesPanelMustBeVisible = tuples.Where(x => x.ViewMustBecomeVisible && x.IsPropertiesView).Any();
+            bool propertiesPanelMustBeVisible = _userControlTuples.Where(x => MustBecomeVisible(x.UserControl) && x.IsPropertiesView).Any();
             SetPropertiesPanelVisible(propertiesPanelMustBeVisible);
 
             if (_presenter.MainViewModel.DocumentDelete.Visible)
@@ -302,9 +278,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
             }
 
             // Focus control if not valid.
-            foreach (UserControlTuple tuple in tuples)
+            foreach (UserControlTuple tuple in _userControlTuples)
             {
-                bool mustFocus = tuple.ViewMustBecomeVisible && !tuple.ViewModel.Successful;
+                bool mustFocus = MustBecomeVisible(tuple.UserControl) &&
+                                 !tuple.UserControl.ViewModel.Successful; // TODO: ViewModel is not null coincidentally.
 
                 if (mustFocus)
                 {
@@ -314,130 +291,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
             }
         }
 
-        // TODO: It is a shame I have to recreate this array every time I do ApplyViewModel.
-        // You could prevent this by making a UserControl base class and working with that polymorphically.
-        private UserControlTuple[] CreateUserControlTuples()
+        private bool MustBecomeVisible(UserControlBase userControl)
         {
-            return new UserControlTuple[]
-            {
-                new UserControlTuple(
-                    audioFileOutputGridUserControl,
-                    audioFileOutputGridUserControl.ViewModel),
-                new UserControlTuple(
-                    audioFileOutputPropertiesUserControl,
-                    audioFileOutputPropertiesUserControl.ViewModel,
-                    isPropertiesView: true),
-                new UserControlTuple(
-                    curveDetailsUserControl,
-                    curveDetailsUserControl.ViewModel),
-                new UserControlTuple(
-                    curveGridUserControl,
-                    curveGridUserControl.ViewModel),
-                new UserControlTuple(
-                    curvePropertiesUserControl,
-                    curvePropertiesUserControl.ViewModel,
-                    isPropertiesView: true),
-                new UserControlTuple(
-                    documentDetailsUserControl,
-                    documentDetailsUserControl.ViewModel),
-                new UserControlTuple(
-                    documentGridUserControl,
-                    documentGridUserControl.ViewModel),
-                new UserControlTuple(
-                    documentPropertiesUserControl,
-                    documentPropertiesUserControl.ViewModel,
-                    isPropertiesView: true),
-                new UserControlTuple(
-                    documentTreeUserControl,
-                    documentTreeUserControl.ViewModel),
-                new UserControlTuple(
-                    nodePropertiesUserControl,
-                    nodePropertiesUserControl.ViewModel,
-                    isPropertiesView: true),
-                new UserControlTuple(
-                    operatorPropertiesUserControl,
-                    operatorPropertiesUserControl.ViewModel,
-                    isPropertiesView: true),
-                new UserControlTuple(
-                    operatorPropertiesUserControl_ForAggregate,
-                    operatorPropertiesUserControl_ForAggregate.ViewModel,
-                    isPropertiesView: true),
-                new UserControlTuple(
-                    operatorPropertiesUserControl_ForBundle,
-                    operatorPropertiesUserControl_ForBundle.ViewModel,
-                    isPropertiesView: true),
-                new UserControlTuple(
-                    operatorPropertiesUserControl_ForCache,
-                    operatorPropertiesUserControl_ForCache.ViewModel,
-                    isPropertiesView: true),
-                new UserControlTuple(
-                    operatorPropertiesUserControl_ForCurve,
-                    operatorPropertiesUserControl_ForCurve.ViewModel,
-                    isPropertiesView: true),
-                new UserControlTuple(
-                    operatorPropertiesUserControl_ForCustomOperator,
-                    operatorPropertiesUserControl_ForCustomOperator.ViewModel,
-                    isPropertiesView: true),
-                new UserControlTuple(
-                    operatorPropertiesUserControl_ForNumber,
-                    operatorPropertiesUserControl_ForNumber.ViewModel,
-                    isPropertiesView: true),
-                new UserControlTuple(
-                    operatorPropertiesUserControl_ForPatchInlet,
-                    operatorPropertiesUserControl_ForPatchInlet.ViewModel,
-                    isPropertiesView: true),
-                new UserControlTuple(
-                    operatorPropertiesUserControl_ForPatchOutlet,
-                    operatorPropertiesUserControl_ForPatchOutlet.ViewModel,
-                    isPropertiesView: true),
-                new UserControlTuple(
-                    operatorPropertiesUserControl_ForRandom,
-                    operatorPropertiesUserControl_ForRandom.ViewModel,
-                    isPropertiesView: true),
-                new UserControlTuple(
-                    operatorPropertiesUserControl_ForResample,
-                    operatorPropertiesUserControl_ForResample.ViewModel,
-                    isPropertiesView: true),
-                new UserControlTuple(
-                    operatorPropertiesUserControl_ForSample,
-                    operatorPropertiesUserControl_ForSample.ViewModel,
-                    isPropertiesView: true),
-                new UserControlTuple(
-                    operatorPropertiesUserControl_ForSpectrum,
-                    operatorPropertiesUserControl_ForSpectrum.ViewModel,
-                    isPropertiesView: true),
-                new UserControlTuple(
-                    operatorPropertiesUserControl_ForUnbundle,
-                    operatorPropertiesUserControl_ForUnbundle.ViewModel,
-                    isPropertiesView: true),
-                new UserControlTuple(
-                    patchGridUserControl,
-                    patchGridUserControl.ViewModel),
-                new UserControlTuple(
-                    patchDetailsUserControl,
-                    patchDetailsUserControl.ViewModel),
-                new UserControlTuple(
-                    patchPropertiesUserControl,
-                    patchPropertiesUserControl.ViewModel,
-                    isPropertiesView: true),
-                new UserControlTuple(
-                    sampleGridUserControl,
-                    sampleGridUserControl.ViewModel),
-                new UserControlTuple(
-                    samplePropertiesUserControl,
-                    samplePropertiesUserControl.ViewModel,
-                    isPropertiesView: true),
-                new UserControlTuple(
-                    scaleGridUserControl,
-                    scaleGridUserControl.ViewModel),
-                new UserControlTuple(
-                    toneGridEditUserControl,
-                    toneGridEditUserControl.ViewModel),
-                new UserControlTuple(
-                    scalePropertiesUserControl,
-                    scalePropertiesUserControl.ViewModel,
-                    isPropertiesView: true)
-            };
+            return userControl.ViewModel != null &&
+                   userControl.ViewModel.Visible;
         }
     }
 }
