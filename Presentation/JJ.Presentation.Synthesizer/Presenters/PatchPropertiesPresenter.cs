@@ -31,6 +31,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
+            // RefreshCounter
+            userInput.RefreshCounter++;
+
             // Set !Successful
             userInput.Successful = false;
 
@@ -52,6 +55,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public PatchPropertiesViewModel Refresh(PatchPropertiesViewModel userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
+
+            // RefreshCounter
+            userInput.RefreshCounter++;
 
             // Set !Successful
             userInput.Successful = false;
@@ -98,6 +104,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
+            // RefreshCounter
+            userInput.RefreshCounter++;
+
             // Set !Successful
             userInput.Successful = false;
 
@@ -111,7 +120,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             PatchPropertiesViewModel viewModel = childDocument.ToPatchPropertiesViewModel();
 
             // Non-Persisted
-            viewModel.Visible = userInput.Visible;
+            CopyNonPersistedProperties(userInput, viewModel);
             viewModel.ValidationMessages = result.Messages;
             viewModel.Successful = result.Successful;
             if (!result.Successful)

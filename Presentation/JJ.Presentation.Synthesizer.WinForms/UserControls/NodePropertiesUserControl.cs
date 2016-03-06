@@ -13,12 +13,10 @@ using JJ.Presentation.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class NodePropertiesUserControl : UserControl
+    internal partial class NodePropertiesUserControl : UserControlBase<NodePropertiesViewModel>
     {
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
-
-        private NodePropertiesViewModel _viewModel;
 
         public NodePropertiesUserControl()
         {
@@ -32,18 +30,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void NodePropertiesUserControl_Load(object sender, EventArgs e)
         {
             ApplyStyling();
-        }
-
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public NodePropertiesViewModel ViewModel
-        {
-            get { return _viewModel; }
-            set
-            {
-                _viewModel = value;
-                ApplyViewModelToControls();
-            }
         }
 
         // Gui
@@ -63,7 +49,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Binding
 
-        private void ApplyViewModelToControls()
+        protected override void ApplyViewModelToControls()
         {
             if (_viewModel == null) return;
 

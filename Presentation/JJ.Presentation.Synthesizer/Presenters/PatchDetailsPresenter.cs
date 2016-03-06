@@ -41,6 +41,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
+            // RefreshCounter
+            userInput.RefreshCounter++;
+
             // Set !Successful
             userInput.Successful = false;
 
@@ -63,6 +66,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public PatchDetailsViewModel Refresh(PatchDetailsViewModel userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
+
+            // RefreshCounter
+            userInput.RefreshCounter++;
 
             // Set !Successful
             userInput.Successful = false;
@@ -109,6 +115,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
+            // RefreshCounter
+            userInput.RefreshCounter++;
+
             // Set !Successful
             userInput.Successful = false;
 
@@ -136,6 +145,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
+            // RefreshCounter
+            userInput.RefreshCounter++;
+
             // Set !Successful
             userInput.Successful = false;
 
@@ -161,6 +173,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public PatchDetailsViewModel ChangeInputOutlet(PatchDetailsViewModel userInput, int inletID, int inputOutletID)
         {
             if (userInput == null) throw new NullException(() => userInput);
+
+            // RefreshCounter
+            userInput.RefreshCounter++;
 
             // Set !Successful
             userInput.Successful = false;
@@ -189,6 +204,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
+            // RefreshCounter
+            userInput.RefreshCounter++;
+
+            // RefreshCounter
+            userInput.RefreshCounter++;
+
             // Set !Successful
             userInput.Successful = false;
 
@@ -215,6 +236,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public PatchDetailsViewModel DeleteOperator(PatchDetailsViewModel userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
+
+            // RefreshCounter
+            userInput.RefreshCounter++;
 
             // Set !Successful
             userInput.Successful = false;
@@ -258,6 +282,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
+            // RefreshCounter
+            userInput.RefreshCounter++;
+
             // Set !Successful
             userInput.Successful = false;
 
@@ -290,6 +317,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
             if (repositories == null) throw new NullException(() => repositories);
+
+            // RefreshCounter
+            userInput.RefreshCounter++;
 
             // Set !Successful
             userInput.Successful = false;

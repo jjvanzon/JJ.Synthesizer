@@ -10,11 +10,9 @@ using JJ.Business.Canonical;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class DocumentCannotDeleteUserControl : UserControl
+    internal partial class DocumentCannotDeleteUserControl : UserControlBase<DocumentCannotDeleteViewModel>
     {
         public event EventHandler CloseRequested;
-
-        private DocumentCannotDeleteViewModel _viewModel;
 
         public DocumentCannotDeleteUserControl()
         {
@@ -32,7 +30,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (viewModel == null) throw new NullException(() => viewModel);
 
             _viewModel = viewModel;
-            ApplyViewModel();
+            ApplyViewModelToControls();
 
             base.Show();
         }
@@ -45,7 +43,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             buttonOK.Text = CommonTitles.OK;
         }
 
-        private void ApplyViewModel()
+        protected override void ApplyViewModelToControls()
         {
             if (_viewModel == null)
             {

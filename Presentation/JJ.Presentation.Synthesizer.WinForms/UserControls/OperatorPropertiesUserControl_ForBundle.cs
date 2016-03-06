@@ -10,12 +10,10 @@ using JJ.Presentation.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class OperatorPropertiesUserControl_ForBundle : UserControl
+    internal partial class OperatorPropertiesUserControl_ForBundle : UserControlBase<OperatorPropertiesViewModel_ForBundle>
     {
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
-
-        private OperatorPropertiesViewModel_ForBundle _viewModel;
 
         public OperatorPropertiesUserControl_ForBundle()
         {
@@ -29,18 +27,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void OperatorPropertiesUserControl_ForBundle_Load(object sender, EventArgs e)
         {
             ApplyStyling();
-        }
-
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public OperatorPropertiesViewModel_ForBundle ViewModel
-        {
-            get { return _viewModel; }
-            set
-            {
-                _viewModel = value;
-                ApplyViewModelToControls();
-            }
         }
 
         // Gui
@@ -61,7 +47,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             StyleHelper.SetPropertyLabelColumnSize(tableLayoutPanelProperties);
         }
 
-        private void ApplyViewModelToControls()
+        protected override void ApplyViewModelToControls()
         {
             if (_viewModel == null) return;
 

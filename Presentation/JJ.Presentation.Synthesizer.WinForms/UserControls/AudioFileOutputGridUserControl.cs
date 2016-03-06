@@ -6,10 +6,11 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Presentation.Resources;
+using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class AudioFileOutputGridUserControl : UserControl
+    internal partial class AudioFileOutputGridUserControl : UserControlBase<AudioFileOutputGridViewModel>
     {
         private const string ID_COLUMN_NAME = "IDColumn";
 
@@ -18,24 +19,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler CloseRequested;
         public event EventHandler<Int32EventArgs> ShowPropertiesRequested;
 
-        private AudioFileOutputGridViewModel _viewModel;
-
         public AudioFileOutputGridUserControl()
         {
             InitializeComponent();
             SetTitles();
-        }
-
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public AudioFileOutputGridViewModel ViewModel
-        {
-            get { return _viewModel; }
-            set
-            {
-                _viewModel = value;
-                ApplyViewModel();
-            }
         }
 
         // Gui
@@ -50,60 +37,19 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             SamplingRateColumn.HeaderText = PropertyDisplayNames.SamplingRate;
         }
 
-        private void ApplyViewModel()
+        protected override void ApplyViewModelToControls()
         {
-            if (_viewModel == null) return;
-
             specializedDataGridView.DataSource = _viewModel.List;
-        }
-
-        // Actions
-
-        private void Create()
-        {
-            if (CreateRequested != null)
-            {
-                CreateRequested(this, EventArgs.Empty);
-            }
-        }
-
-        private void Delete()
-        {
-            if (DeleteRequested != null)
-            {
-                int? id = TryGetSelectedID();
-                if (id.HasValue)
-                {
-                    DeleteRequested(this, new Int32EventArgs(id.Value));
-                }
-            }
-        }
-
-        private void Close()
-        {
-            if (CloseRequested != null)
-            {
-                CloseRequested(this, EventArgs.Empty);
-            }
-        }
-
-        private void ShowProperties()
-        {
-            if (ShowPropertiesRequested != null)
-            {
-                int? id = TryGetSelectedID();
-                if (id.HasValue)
-                {
-                    ShowPropertiesRequested(this, new Int32EventArgs(id.Value));
-                }
-            }
         }
 
         // Events
 
         private void titleBarUserControl_AddClicked(object sender, EventArgs e)
         {
-            Create();
+            if (CreateRequested != null)
+            {
+                CreateRequested(this, EventArgs.Empty);
+            }
         }
 
         private void titleBarUserControl_RemoveClicked(object sender, EventArgs e)
@@ -113,7 +59,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void titleBarUserControl_CloseClicked(object sender, EventArgs e)
         {
-            Close();
+            if (CloseRequested != null)
+            {
+                CloseRequested(this, EventArgs.Empty);
+            }
         }
 
         private void specializedDataGridView_KeyDown(object sender, KeyEventArgs e)
@@ -133,6 +82,32 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void specializedDataGridView_DoubleClick(object sender, EventArgs e)
         {
             ShowProperties();
+        }
+
+        // Actions
+
+        private void Delete()
+        {
+            if (DeleteRequested != null)
+            {
+                int? id = TryGetSelectedID();
+                if (id.HasValue)
+                {
+                    DeleteRequested(this, new Int32EventArgs(id.Value));
+                }
+            }
+        }
+
+        private void ShowProperties()
+        {
+            if (ShowPropertiesRequested != null)
+            {
+                int? id = TryGetSelectedID();
+                if (id.HasValue)
+                {
+                    ShowPropertiesRequested(this, new Int32EventArgs(id.Value));
+                }
+            }
         }
 
         // Helpers

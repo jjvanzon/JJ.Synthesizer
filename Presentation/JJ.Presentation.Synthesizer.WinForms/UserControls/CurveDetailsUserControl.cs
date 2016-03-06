@@ -15,7 +15,7 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class CurveDetailsUserControl : UserControl
+    internal partial class CurveDetailsUserControl : UserControlBase<CurveDetailsViewModel>
     {
         public event EventHandler CreateNodeRequested;
         public event EventHandler DeleteNodeRequested;
@@ -28,7 +28,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<Int32EventArgs> ShowNodePropertiesRequested;
         public event EventHandler ShowSelectedNodePropertiesRequested;
 
-        private CurveDetailsViewModel _viewModel;
         private CurveDetailsViewModelToDiagramConverter _converter;
 
         public CurveDetailsUserControl()
@@ -54,18 +53,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             diagramControl.Diagram = _converter.Result.Diagram;
         }
 
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public CurveDetailsViewModel ViewModel
-        {
-            get { return _viewModel; }
-            set
-            {
-                _viewModel = value;
-                ApplyViewModel();
-            }
-        }
-
         // Gui
 
         private void SetTitles()
@@ -73,7 +60,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             titleBarUserControl.Text = PropertyDisplayNames.Curve;
         }
 
-        private void ApplyViewModel()
+        protected override void ApplyViewModelToControls()
         {
             if (_viewModel == null) return;
 
@@ -86,12 +73,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void CurveDetailsUserControl_Resize(object sender, EventArgs e)
         {
-            ApplyViewModel();
+            ApplyViewModelToControls();
         }
 
         private void CurveDetailsUserControl_Paint(object sender, PaintEventArgs e)
         {
-            ApplyViewModel();
+            ApplyViewModelToControls();
         }
 
         private void titleBarUserControl_AddClicked(object sender, EventArgs e)
@@ -155,7 +142,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
                 MoveNodeRequested(this, new MoveEntityEventArgs(nodeID, x, y));
 
-                ApplyViewModel();
+                ApplyViewModelToControls();
             }
         }
 

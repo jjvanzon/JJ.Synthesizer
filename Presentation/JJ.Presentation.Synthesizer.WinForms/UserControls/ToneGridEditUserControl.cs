@@ -9,7 +9,7 @@ using JJ.Presentation.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class ToneGridEditUserControl : UserControl
+    internal partial class ToneGridEditUserControl : UserControlBase<ToneGridEditViewModel>
     {
         private const string ID_COLUMN_NAME = "IDColumn";
         private const int PLAY_COLUMN_INDEX = 3;
@@ -20,24 +20,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
 
-        private ToneGridEditViewModel _viewModel;
-
         public ToneGridEditUserControl()
         {
             InitializeComponent();
             SetTitles();
-        }
-
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public ToneGridEditViewModel ViewModel
-        {
-            get { return _viewModel; }
-            set
-            {
-                _viewModel = value;
-                ApplyViewModelToControls();
-            }
         }
 
         // Gui
@@ -51,7 +37,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             PlayColumn.UseColumnTextForButtonValue = true;
         }
 
-        private void ApplyViewModelToControls()
+        protected override void ApplyViewModelToControls()
         {
             if (_viewModel == null) return;
 

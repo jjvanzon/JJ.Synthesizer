@@ -8,7 +8,7 @@ using JJ.Framework.Presentation.WinForms.EventArg;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class DocumentGridUserControl : UserControl
+    internal partial class DocumentGridUserControl : UserControlBase<DocumentGridViewModel>
     {
         private const string ID_COLUMN_NAME = "IDColumn";
 
@@ -17,24 +17,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<Int32EventArgs> DeleteRequested;
         public event EventHandler CloseRequested;
 
-        private DocumentGridViewModel _viewModel;
-
         public DocumentGridUserControl()
         {
             InitializeComponent();
             SetTitles();
-        }
-
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public DocumentGridViewModel ViewModel
-        {
-            get { return _viewModel; }
-            set
-            {
-                _viewModel = value;
-                ApplyViewModel();
-            }
         }
 
         // Gui
@@ -44,7 +30,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             titleBarUserControl.Text = PropertyDisplayNames.Documents;
         }
 
-        private void ApplyViewModel()
+        protected override void ApplyViewModelToControls()
         {
             if (_viewModel == null) return;
 

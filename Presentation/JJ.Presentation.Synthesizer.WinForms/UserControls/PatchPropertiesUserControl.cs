@@ -11,13 +11,11 @@ using JJ.Presentation.Synthesizer.WinForms.EventArg;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class PatchPropertiesUserControl : UserControl
+    internal partial class PatchPropertiesUserControl : UserControlBase<PatchPropertiesViewModel>
     {
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
         public event EventHandler<Int32EventArgs> AddCurrentPatchRequested;
-
-        private PatchPropertiesViewModel _viewModel;
 
         public PatchPropertiesUserControl()
         {
@@ -31,18 +29,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void PatchPropertiesUserControl_Load(object sender, EventArgs e)
         {
             ApplyStyling();
-        }
-
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public PatchPropertiesViewModel ViewModel
-        {
-            get { return _viewModel; }
-            set
-            {
-                _viewModel = value;
-                ApplyViewModelToControls();
-            }
         }
 
         // Gui
@@ -62,7 +48,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Binding
 
-        private void ApplyViewModelToControls()
+        protected override void ApplyViewModelToControls()
         {
             if (_viewModel == null) return;
 

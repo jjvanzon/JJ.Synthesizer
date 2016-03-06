@@ -9,12 +9,10 @@ using JJ.Framework.Presentation.WinForms.Extensions;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class CurvePropertiesUserControl : UserControl
+    internal partial class CurvePropertiesUserControl : UserControlBase<CurvePropertiesViewModel>
     {
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
-
-        private CurvePropertiesViewModel _viewModel;
 
         public CurvePropertiesUserControl()
         {
@@ -30,18 +28,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ApplyStyling();
         }
 
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public CurvePropertiesViewModel ViewModel
-        {
-            get { return _viewModel; }
-            set
-            {
-                _viewModel = value;
-                ApplyViewModelToControls();
-            }
-        }
-
         // Gui
 
         private void SetTitles()
@@ -55,7 +41,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             StyleHelper.SetPropertyLabelColumnSize(tableLayoutPanelProperties);
         }
 
-        private void ApplyViewModelToControls()
+        protected override void ApplyViewModelToControls()
         {
             if (_viewModel == null) return;
 

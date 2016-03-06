@@ -10,12 +10,11 @@ using JJ.Presentation.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class OperatorPropertiesUserControl_ForUnbundle : UserControl
+    internal partial class OperatorPropertiesUserControl_ForUnbundle 
+        : UserControlBase<OperatorPropertiesViewModel_ForUnbundle>
     {
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
-
-        private OperatorPropertiesViewModel_ForUnbundle _viewModel;
 
         public OperatorPropertiesUserControl_ForUnbundle()
         {
@@ -29,18 +28,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void OperatorPropertiesUserControl_ForUnbundle_Load(object sender, EventArgs e)
         {
             ApplyStyling();
-        }
-
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public OperatorPropertiesViewModel_ForUnbundle ViewModel
-        {
-            get { return _viewModel; }
-            set
-            {
-                _viewModel = value;
-                ApplyViewModelToControls();
-            }
         }
 
         // Gui
@@ -61,7 +48,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             StyleHelper.SetPropertyLabelColumnSize(tableLayoutPanelProperties);
         }
 
-        private void ApplyViewModelToControls()
+        protected override void ApplyViewModelToControls()
         {
             if (_viewModel == null) return;
 

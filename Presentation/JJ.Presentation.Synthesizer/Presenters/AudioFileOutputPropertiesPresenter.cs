@@ -27,6 +27,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
+            // RefreshCounter
+            userInput.RefreshCounter++;
+
             // Set !Successful
             userInput.Successful = false;
 
@@ -51,6 +54,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public AudioFileOutputPropertiesViewModel Refresh(AudioFileOutputPropertiesViewModel userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
+
+            // RefreshCounter
+            userInput.RefreshCounter++;
 
             // Set !Successful
             userInput.Successful = false;
@@ -98,6 +104,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private AudioFileOutputPropertiesViewModel Update(AudioFileOutputPropertiesViewModel userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
+
+            // RefreshCounter
+            userInput.RefreshCounter++;
 
             // Set !Successful
             userInput.Successful = false;

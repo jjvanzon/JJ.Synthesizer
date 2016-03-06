@@ -13,12 +13,10 @@ using JJ.Presentation.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class ScalePropertiesUserControl : UserControl
+    internal partial class ScalePropertiesUserControl : UserControlBase<ScalePropertiesViewModel>
     {
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
-
-        private ScalePropertiesViewModel _viewModel;
 
         public ScalePropertiesUserControl()
         {
@@ -32,18 +30,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void ScalePropertiesUserControl_Load(object sender, EventArgs e)
         {
             ApplyStyling();
-        }
-
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public ScalePropertiesViewModel ViewModel
-        {
-            get { return _viewModel; }
-            set
-            {
-                _viewModel = value;
-                ApplyViewModelToControls();
-            }
         }
 
         // Gui
@@ -64,7 +50,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Binding
 
-        private void ApplyViewModelToControls()
+        protected override void ApplyViewModelToControls()
         {
             if (_viewModel == null) return;
 

@@ -10,12 +10,10 @@ using JJ.Presentation.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class OperatorPropertiesUserControl_ForAggregate : UserControl
+    internal partial class OperatorPropertiesUserControl_ForAggregate : UserControlBase<OperatorPropertiesViewModel_ForAggregate>
     {
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
-
-        private OperatorPropertiesViewModel_ForAggregate _viewModel;
 
         public OperatorPropertiesUserControl_ForAggregate()
         {
@@ -29,18 +27,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void OperatorPropertiesUserControl_ForAggregate_Load(object sender, EventArgs e)
         {
             ApplyStyling();
-        }
-
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public OperatorPropertiesViewModel_ForAggregate ViewModel
-        {
-            get { return _viewModel; }
-            set
-            {
-                _viewModel = value;
-                ApplyViewModelToControls();
-            }
         }
 
         // Gui
@@ -60,10 +46,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             StyleHelper.SetPropertyLabelColumnSize(tableLayoutPanelProperties);
         }
 
-        private void ApplyViewModelToControls()
+        protected override void ApplyViewModelToControls()
         {
-            if (_viewModel == null) return;
-
             labelOperatorTypeValue.Text = _viewModel.OperatorType.DisplayName;
             textBoxName.Text = _viewModel.Name;
             numericUpDownTimeSliceDuration.Value = (decimal)_viewModel.TimeSliceDuration;

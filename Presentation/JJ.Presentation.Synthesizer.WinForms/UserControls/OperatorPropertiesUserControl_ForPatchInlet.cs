@@ -12,12 +12,11 @@ using JJ.Data.Canonical;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class OperatorPropertiesUserControl_ForPatchInlet : UserControl
+    internal partial class OperatorPropertiesUserControl_ForPatchInlet 
+        : UserControlBase<OperatorPropertiesViewModel_ForPatchInlet>
     {
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
-
-        private OperatorPropertiesViewModel_ForPatchInlet _viewModel;
 
         public OperatorPropertiesUserControl_ForPatchInlet()
         {
@@ -31,18 +30,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void OperatorPropertiesUserControl_ForPatchInlet_Load(object sender, EventArgs e)
         {
             ApplyStyling();
-        }
-
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public OperatorPropertiesViewModel_ForPatchInlet ViewModel
-        {
-            get { return _viewModel; }
-            set
-            {
-                _viewModel = value;
-                ApplyViewModelToControls();
-            }
         }
 
         // Gui
@@ -66,7 +53,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Binding
 
-        private void ApplyViewModelToControls()
+        protected override void ApplyViewModelToControls()
         {
             if (_viewModel == null) return;
 

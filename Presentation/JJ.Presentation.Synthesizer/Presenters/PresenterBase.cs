@@ -17,6 +17,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             destViewModel.ValidationMessages = sourceViewModel.ValidationMessages;
             destViewModel.Visible = sourceViewModel.Visible;
             destViewModel.Successful = sourceViewModel.Successful;
+            destViewModel.RefreshCounter = sourceViewModel.RefreshCounter;
         }
     }
 }

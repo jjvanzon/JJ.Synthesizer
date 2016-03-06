@@ -26,6 +26,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
+            // RefreshCounter
+            userInput.RefreshCounter++;
+
             // Set !Successful
             userInput.Successful = false;
 
@@ -47,6 +50,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public ScalePropertiesViewModel Refresh(ScalePropertiesViewModel userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
+
+            // RefreshCounter
+            userInput.RefreshCounter++;
 
             // !Successful
             userInput.Successful = false;
@@ -87,6 +93,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private ScalePropertiesViewModel Update(ScalePropertiesViewModel userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
+
+            // RefreshCounter
+            userInput.RefreshCounter++;
 
             // Set !Successful
             userInput.Successful = false;

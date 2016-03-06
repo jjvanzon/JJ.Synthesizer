@@ -13,32 +13,18 @@ using JJ.Presentation.Synthesizer.WinForms.EventArg;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class CurrentPatchesUserControl : UserControl
+    internal partial class CurrentPatchesUserControl : UserControlBase<CurrentPatchesViewModel>
     {
         public event EventHandler<Int32EventArgs> RemoveRequested;
         public event EventHandler CloseRequested;
         public event EventHandler PreviewAutoPatchRequested;
-
-        private CurrentPatchesViewModel _viewModel;
 
         public CurrentPatchesUserControl()
         {
             InitializeComponent();
         }
 
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public CurrentPatchesViewModel ViewModel
-        {
-            get { return _viewModel; }
-            set
-            {
-                _viewModel = value;
-                ApplyViewModel();
-            }
-        }
-
-        private void ApplyViewModel()
+        protected override void ApplyViewModelToControls()
         {
             IList<CurrentPatchItemUserControl> itemUserControls = flowLayoutPanel.Controls.OfType<CurrentPatchItemUserControl>().ToArray();
 

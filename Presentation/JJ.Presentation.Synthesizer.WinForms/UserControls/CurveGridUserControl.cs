@@ -8,7 +8,7 @@ using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class CurveGridUserControl : UserControl
+    internal partial class CurveGridUserControl : UserControlBase<CurveGridViewModel>
     {
         private const string ID_COLUMN_NAME = "IDColumn";
 
@@ -17,24 +17,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler CloseRequested;
         public event EventHandler<Int32EventArgs> ShowDetailsRequested;
 
-        private CurveGridViewModel _viewModel;
-
         public CurveGridUserControl()
         {
             InitializeComponent();
             SetTitles();
-        }
-
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public CurveGridViewModel ViewModel
-        {
-            get { return _viewModel; }
-            set
-            {
-                _viewModel = value;
-                ApplyViewModel();
-            }
         }
 
         // Gui
@@ -44,7 +30,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             titleBarUserControl.Text = PropertyDisplayNames.Curves;
         }
 
-        private void ApplyViewModel()
+        protected override void ApplyViewModelToControls()
         {
             if (_viewModel == null) return;
 

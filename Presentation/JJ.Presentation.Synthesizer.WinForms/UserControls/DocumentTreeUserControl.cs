@@ -11,7 +11,7 @@ using JJ.Presentation.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class DocumentTreeUserControl : UserControl
+    internal partial class DocumentTreeUserControl : UserControlBase<DocumentTreeViewModel>
     {
         public event EventHandler CloseRequested;
 
@@ -25,8 +25,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<StringEventArgs> ShowPatchGridRequested;
         public event EventHandler<Int32EventArgs> ShowSamplesRequested;
         public event EventHandler ShowScalesRequested;
-
-        private DocumentTreeViewModel _viewModel;
 
         private TreeNode _documentTreeNode;
         private HashSet<TreeNode> _samplesTreeNodes;
@@ -42,18 +40,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             SetTitles();
         }
 
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public DocumentTreeViewModel ViewModel
-        {
-            get { return _viewModel; }
-            set
-            {
-                _viewModel = value;
-                ApplyViewModel();
-            }
-        }
-
         // Gui
 
         private void SetTitles()
@@ -63,7 +49,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private bool _applyViewModelIsBusy = false;
 
-        private void ApplyViewModel()
+        protected override void ApplyViewModelToControls()
         {
             try
             {

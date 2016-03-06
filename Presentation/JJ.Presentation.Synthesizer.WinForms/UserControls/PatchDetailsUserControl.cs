@@ -20,7 +20,7 @@ using JJ.Presentation.Synthesizer.WinForms.Configuration;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class PatchDetailsUserControl : UserControl
+    internal partial class PatchDetailsUserControl : UserControlBase<PatchDetailsViewModel>
     {
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
@@ -33,7 +33,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<Int32EventArgs> OperatorPropertiesRequested;
         public event EventHandler SelectedOperatorPropertiesRequested;
 
-        private PatchDetailsViewModel _viewModel;
         private PatchViewModelToDiagramConverter _converter;
         private PatchViewModelToDiagramConverterResult _vectorGraphics;
         private static bool _alwaysRecreateDiagram = GetAlwaysRecreateDiagram();
@@ -49,18 +48,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.AutomaticallyAssignTabIndexes();
         }
 
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public PatchDetailsViewModel ViewModel
-        {
-            get { return _viewModel; }
-            set
-            {
-                _viewModel = value;
-                ApplyViewModel();
-            }
-        }
-
         // Gui
 
         private void SetTitles()
@@ -69,7 +56,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             buttonPlay.Text = Titles.Play;
         }
 
-        private void ApplyViewModel()
+        protected override void ApplyViewModelToControls()
         {
             if (_viewModel == null)
             {

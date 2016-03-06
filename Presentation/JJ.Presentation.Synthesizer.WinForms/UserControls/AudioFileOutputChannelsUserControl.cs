@@ -19,16 +19,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.AutomaticallyAssignTabIndexes();
         }
 
-        private IList<AudioFileOutputChannelViewModel> _viewModels;
+        private IList<AudioFileOutputChannelViewModel> _viewModel;
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IList<AudioFileOutputChannelViewModel> ViewModels
+        public IList<AudioFileOutputChannelViewModel> ViewModel
         {
-            get { return _viewModels; }
+            get { return _viewModel; }
             set
             {
-                _viewModels = value;
+                _viewModel = value;
                 ApplyViewModelsToControls();
             }
         }
@@ -59,7 +59,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ApplyViewModelsToControls()
         {
-            if (_viewModels == null) return;
+            if (_viewModel == null) return;
 
             // Not finished / not tested / not debugged.
 
@@ -67,12 +67,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             _audioFileOutputChannelUserControls.Clear();
 
-            tableLayoutPanel.RowCount = _viewModels.Count + 1;
+            tableLayoutPanel.RowCount = _viewModel.Count + 1;
 
             int i;
-            for (i = 0; i < _viewModels.Count; i++)
+            for (i = 0; i < _viewModel.Count; i++)
             {
-                AudioFileOutputChannelViewModel viewModel = _viewModels[i];
+                AudioFileOutputChannelViewModel viewModel = _viewModel[i];
 
                 tableLayoutPanel.RowStyles[i] = new RowStyle { Height = 24, SizeType = SizeType.Absolute };
 

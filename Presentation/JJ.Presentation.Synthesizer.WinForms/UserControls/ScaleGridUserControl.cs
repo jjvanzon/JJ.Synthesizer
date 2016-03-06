@@ -8,7 +8,7 @@ using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class ScaleGridUserControl : UserControl
+    internal partial class ScaleGridUserControl : UserControlBase<ScaleGridViewModel>
     {
         private const string ID_COLUMN_NAME = "IDColumn";
 
@@ -17,24 +17,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler CloseRequested;
         public event EventHandler<Int32EventArgs> ShowDetailsRequested;
 
-        private ScaleGridViewModel _viewModel;
-
         public ScaleGridUserControl()
         {
             InitializeComponent();
             SetTitles();
-        }
-
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public ScaleGridViewModel ViewModel
-        {
-            get { return _viewModel; }
-            set
-            {
-                _viewModel = value;
-                ApplyViewModel();
-            }
         }
 
         // Gui
@@ -43,8 +29,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             titleBarUserControl.Text = PropertyDisplayNames.Scales;
         }
-        
-        private void ApplyViewModel()
+
+        protected override void ApplyViewModelToControls()
         {
             if (_viewModel == null)
             {

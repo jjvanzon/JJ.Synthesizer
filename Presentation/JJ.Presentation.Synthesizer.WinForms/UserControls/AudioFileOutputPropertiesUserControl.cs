@@ -10,12 +10,10 @@ using JJ.Framework.Presentation.WinForms.Extensions;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class AudioFileOutputPropertiesUserControl : UserControl
+    internal partial class AudioFileOutputPropertiesUserControl : UserControlBase<AudioFileOutputPropertiesViewModel>
     {
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
-
-        private AudioFileOutputPropertiesViewModel _viewModel;
 
         public AudioFileOutputPropertiesUserControl()
         {
@@ -29,18 +27,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void AudioFileOutputPropertiesUserControl_Load(object sender, EventArgs e)
         {
             ApplyStyling();
-        }
-
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public AudioFileOutputPropertiesViewModel ViewModel
-        {
-            get { return _viewModel; }
-            set
-            {
-                _viewModel = value;
-                ApplyViewModelToControls();
-            }
         }
 
         // Gui
@@ -66,10 +52,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             StyleHelper.SetPropertyLabelColumnSize(tableLayoutPanelFilePath);
         }
 
-        private void ApplyViewModelToControls()
+        protected override void ApplyViewModelToControls()
         {
-            if (_viewModel == null) return;
-
             textBoxName.Text = _viewModel.Entity.Name;
             numericUpDownSamplingRate.Value = _viewModel.Entity.SamplingRate;
 
@@ -104,7 +88,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             textBoxFilePath.Text = _viewModel.Entity.FilePath;
 
-            audioFileOutputChannelsUserControl.ViewModels = _viewModel.Entity.Channels;
+            audioFileOutputChannelsUserControl.ViewModel = _viewModel.Entity.Channels;
         }
 
         private void ApplyControlsToViewModel()

@@ -9,13 +9,11 @@ using JJ.Framework.Presentation.WinForms.Extensions;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class DocumentDetailsUserControl : UserControl
+    internal partial class DocumentDetailsUserControl : UserControlBase<DocumentDetailsViewModel>
     {
         public event EventHandler SaveRequested;
         public event EventHandler<Int32EventArgs> DeleteRequested;
         public event EventHandler CloseRequested;
-
-        private DocumentDetailsViewModel _viewModel;
 
         public DocumentDetailsUserControl()
         {
@@ -24,18 +22,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             SetTitles();
 
             this.AutomaticallyAssignTabIndexes();
-        }
-
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public DocumentDetailsViewModel ViewModel
-        {
-            get { return _viewModel; }
-            set 
-            {
-                _viewModel = value;
-                ApplyViewModelToControls();
-            }
         }
 
         // Gui
@@ -49,7 +35,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             buttonDelete.Text = CommonTitles.Delete;
         }
 
-        private void ApplyViewModelToControls()
+        protected override void ApplyViewModelToControls()
         {
             if (_viewModel == null) return;
 

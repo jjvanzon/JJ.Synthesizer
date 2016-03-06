@@ -8,7 +8,7 @@ using JJ.Presentation.Synthesizer.WinForms.EventArg;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class PatchGridUserControl : UserControl
+    internal partial class PatchGridUserControl : UserControlBase<PatchGridViewModel>
     {
         private const string CHILD_DOCUMENT_ID_COLUMN_NAME = "ChildDocumentIDColumn";
 
@@ -17,8 +17,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler CloseRequested;
         public event EventHandler<Int32EventArgs> ShowDetailsRequested;
 
-        private PatchGridViewModel _viewModel;
-
         public PatchGridUserControl()
         {
             InitializeComponent();
@@ -26,17 +24,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             SetTitles();
         }
 
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public PatchGridViewModel ViewModel
-        {
-            get { return _viewModel; }
-            set
-            {
-                _viewModel = value;
-                ApplyViewModel();
-            }
-        }
         // Gui
 
         private void SetTitles()
@@ -44,7 +31,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             titleBarUserControl.Text = PropertyDisplayNames.Patches;
         }
 
-        private void ApplyViewModel()
+        protected override void ApplyViewModelToControls()
         {
             if (_viewModel == null) return;
 

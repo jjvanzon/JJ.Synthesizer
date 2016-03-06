@@ -9,12 +9,10 @@ using JJ.Framework.Presentation.WinForms.Extensions;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class DocumentPropertiesUserControl : UserControl
+    internal partial class DocumentPropertiesUserControl : UserControlBase<DocumentPropertiesViewModel>
     {
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
-
-        private DocumentPropertiesViewModel _viewModel;
 
         public DocumentPropertiesUserControl()
         {
@@ -28,18 +26,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void DocumentPropertiesUserControl_Load(object sender, EventArgs e)
         {
             ApplyStyling();
-        }
-
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public DocumentPropertiesViewModel ViewModel
-        {
-            get { return _viewModel; }
-            set
-            {
-                _viewModel = value;
-                ApplyViewModelToControls();
-            }
         }
 
         // Gui
@@ -57,8 +43,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         }
 
         // Binding
-
-        private void ApplyViewModelToControls()
+        
+        protected override void ApplyViewModelToControls()
         {
             if (_viewModel == null) return;
 

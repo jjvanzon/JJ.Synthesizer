@@ -9,7 +9,6 @@ using JJ.Data.Canonical;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer;
-using JJ.Business.Synthesizer.Warnings;
 using JJ.Business.Synthesizer.Api;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.Resources;
@@ -77,6 +76,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             AudioFileOutput audioFileOutput = null;
             AudioFileOutputGridViewModel gridViewModel = TemplateActionMethod(userInput, () =>
             {
+                // RefreshCounter
+                userInput.RefreshCounter++;
+
                 // Set !Successful
                 userInput.Successful = false;
 
@@ -113,6 +115,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Template Method
             AudioFileOutputGridViewModel viewModel = TemplateActionMethod(userInput, () =>
             {
+                // RefreshCounter
+                userInput.RefreshCounter++;
+
                 // Set !Successful
                 userInput.Successful = false;
 
@@ -223,6 +228,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             CurrentPatchesViewModel currentPatchesViewModel = MainViewModel.Document.CurrentPatches;
 
+            // RefreshCounter
+            currentPatchesViewModel.RefreshCounter++;
+
             // Set !Successful
             currentPatchesViewModel.Successful = false;
 
@@ -274,6 +282,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // GetViewModel
             CurrentPatchesViewModel currentPatchesViewModel = MainViewModel.Document.CurrentPatches;
+
+            // RefreshCounter
+            currentPatchesViewModel.RefreshCounter++;
 
             // Set !Successful
             currentPatchesViewModel.Successful = false;
@@ -348,6 +359,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Template Method
             CurveGridViewModel viewModel = TemplateActionMethod(userInput, () =>
             {
+                // RefreshCounter
+                userInput.RefreshCounter++;
+
                 // Set !Successful
                 userInput.Successful = false;
 
@@ -378,6 +392,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Template Method
             CurveGridViewModel viewModel = TemplateActionMethod(userInput, () =>
             {
+                // RefreshCounter
+                userInput.RefreshCounter++;
+
                 // Set !Successful
                 userInput.Successful = false;
 
@@ -495,6 +512,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             DocumentGridViewModel gridViewModel = MainViewModel.DocumentGrid;
 
+            // RefreshCounter
+            gridViewModel.RefreshCounter++;
+
             // Set !Successful
             gridViewModel.Successful = false;
 
@@ -543,6 +563,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             DocumentGridViewModel gridViewModel = MainViewModel.DocumentGrid;
 
+            // RefreshCounter
+            gridViewModel.RefreshCounter++;
+
             // Set !Successful
             gridViewModel.Successful = false;
 
@@ -575,6 +598,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Partial Action
             object viewModel2 = _documentDeletePresenter.Confirm(viewModel);
+
+            // RefreshCounter
+            viewModel.RefreshCounter++;
 
             // Set !Successful
             viewModel.Successful = false;
@@ -858,6 +884,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Template Method
             CurveDetailsViewModel viewModel = TemplateActionMethod(userInput, () =>
             {
+                // RefreshCounter
+                userInput.RefreshCounter++;
+
                 // Set !Successful
                 userInput.Successful = false;
 
@@ -898,6 +927,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             CurveDetailsViewModel userInput = DocumentViewModelHelper.GetVisibleCurveDetailsViewModel(MainViewModel.Document);
 
+            // RefreshCounter
+            userInput.RefreshCounter++;
+
             // Set !Successful
             userInput.Successful = false;
 
@@ -915,6 +947,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Template Method
             CurveDetailsViewModel viewModel = TemplateActionMethod(userInput, () =>
             {
+                // RefreshCounter
+                userInput.RefreshCounter++;
+
                 // Set !Successful
                 userInput.Successful = false;
 
@@ -949,6 +984,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // TemplateMethod
             CurveDetailsViewModel viewModel = TemplateActionMethod(userInput, () =>
             {
+                // RefreshCounter
+                userInput.RefreshCounter++;
+
                 // Set !Successful
                 userInput.Successful = false;
 
@@ -982,6 +1020,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             CurveDetailsViewModel userInput = DocumentViewModelHelper.GetVisibleCurveDetailsViewModel(MainViewModel.Document);
 
+            // RefreshCounter
+            userInput.RefreshCounter++;
+
             // Set !Successful
             userInput.Successful = false;
 
@@ -995,6 +1036,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Template Method
             CurveDetailsViewModel viewModel = TemplateActionMethod(userInput, () =>
             {
+                // RefreshCounter
+                userInput.RefreshCounter++;
+
                 // Set !Successful
                 userInput.Successful = false;
 
@@ -1679,6 +1723,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Template Method
             PatchGridViewModel viewModel = TemplateActionMethod(userInput, () =>
             {
+                // RefreshCounter
+                userInput.RefreshCounter++;
+
                 // Set !Successful
                 userInput.Successful = false;
 
@@ -1710,6 +1757,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Template Method
             PatchGridViewModel viewModel = TemplateActionMethod(userInput, () =>
             {
+                // RefreshCounter
+                userInput.RefreshCounter++;
+
                 // Set !Successful
                 userInput.Successful = false;
 
@@ -1763,6 +1813,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Template Method
             SampleGridViewModel viewModel = TemplateActionMethod(userInput, () =>
             {
+                // RefreshCounter
+                userInput.RefreshCounter++;
+
                 // Set !Successful
                 userInput.Successful = false;
 
@@ -1880,6 +1933,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Template Method
             ScaleGridViewModel viewModel = TemplateActionMethod(userInput, () =>
             {
+                // RefreshCounter
+                userInput.RefreshCounter++;
+
                 // Set !Successful
                 userInput.Successful = false;
 
@@ -1910,6 +1966,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Template Method
             ScaleGridViewModel viewModel = TemplateActionMethod(userInput, () =>
             {
+                // RefreshCounter
+                userInput.RefreshCounter++;
+
                 // Set !Successful
                 userInput.Successful = false;
 
@@ -1939,6 +1998,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             ScalePropertiesViewModel userInput1 = DocumentViewModelHelper.GetScalePropertiesViewModel(MainViewModel.Document, id);
             ToneGridEditViewModel userInput2 = DocumentViewModelHelper.GetToneGridEditViewModel(MainViewModel.Document, scaleID: id);
+
+            // RefreshCounter
+            userInput1.RefreshCounter++;
+            userInput2.RefreshCounter++;
 
             // Set !Successful
             userInput1.Successful = false;
@@ -2016,6 +2079,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             ToneGridEditViewModel userInput = DocumentViewModelHelper.GetVisibleToneGridEditViewModel(MainViewModel.Document);
 
+            // RefreshCounter
+            userInput.RefreshCounter++;
+
             // Set !Successful
             userInput.Successful = false;
 
@@ -2032,6 +2098,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Tone tone = null;
             ToneGridEditViewModel viewModel = TemplateActionMethod(userInput, () =>
             {
+                // RefreshCounter
+                userInput.RefreshCounter++;
+
                 // Set !Successful
                 userInput.Successful = false;
 
@@ -2061,6 +2130,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             ToneGridEditViewModel userInput = DocumentViewModelHelper.GetVisibleToneGridEditViewModel(MainViewModel.Document);
 
+            // RefreshCounter
+            userInput.RefreshCounter++;
+
             // Set !Successful
             userInput.Successful = false;
 
@@ -2076,6 +2148,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Template Method
             TemplateActionMethod(userInput, () =>
             {
+                // RefreshCounter
+                userInput.RefreshCounter++;
+
                 // Set !Successful
                 userInput.Successful = false;
 
@@ -2131,6 +2206,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // GetEntity
             ToneGridEditViewModel userInput = DocumentViewModelHelper.GetVisibleToneGridEditViewModel(MainViewModel.Document);
+
+            // RefreshCounter
+            userInput.RefreshCounter++;
 
             // Set !Successful
             userInput.Successful = false;
