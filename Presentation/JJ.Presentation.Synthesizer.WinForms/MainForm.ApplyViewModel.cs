@@ -316,8 +316,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // TODO: It is a shame I have to recreate this array every time I do ApplyViewModel.
         // You could prevent this by making a UserControl base class and working with that polymorphically.
-        
-
         private UserControlTuple[] CreateUserControlTuples()
         {
             return new UserControlTuple[]

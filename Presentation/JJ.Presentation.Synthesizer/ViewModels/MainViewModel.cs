@@ -30,8 +30,5 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         // The Open Document
 
         public DocumentViewModel Document { get; set; }
-
-        [Obsolete("Probably obsolete. Not much is done with this flag.")]
-        public bool Successful  { get; set; }
     }
 }

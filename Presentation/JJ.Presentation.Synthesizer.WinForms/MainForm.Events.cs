@@ -137,1477 +137,610 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void audioFileOutputGridUserControl_CreateRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.AudioFileOutputCreate();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.AudioFileOutputCreate);
         }
 
         private void audioFileOutputGridUserControl_DeleteRequested(object sender, Int32EventArgs e)
         {
-            try
-            {
-                _presenter.AudioFileOutputDelete(e.Value);
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(() => _presenter.AudioFileOutputDelete(e.Value));
         }
 
         private void audioFileOutputGridUserControl_CloseRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.AudioFileOutputGridClose();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.AudioFileOutputGridClose);
         }
 
         private void audioFileOutputGridUserControl_ShowPropertiesRequested(object sender, Int32EventArgs e)
         {
-            try
-            {
-                _presenter.AudioFileOutputPropertiesShow(e.Value);
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(() => _presenter.AudioFileOutputPropertiesShow(e.Value));
         }
 
         private void audioFileOutputPropertiesUserControl_CloseRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.AudioFileOutputPropertiesClose();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.AudioFileOutputPropertiesClose);
         }
 
         private void audioFileOutputPropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.AudioFileOutputPropertiesLoseFocus();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.AudioFileOutputPropertiesLoseFocus);
         }
 
         // CurrentPatches
 
         private void patchPropertiesUserControl_AddCurrentPatchRequested(object sender, Int32EventArgs e)
         {
-            try
+            TemplateEventHandler(() =>
             {
                 _presenter.CurrentPatchAdd(e.Value);
-                ApplyViewModel();
-
                 RecreatePatchCalculator();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            });
         }
 
         private void currentPatchesUserControl_CloseRequested(object sender, EventArgs e)
         {
-            _presenter.CurrentPatchesClose();
-            ApplyViewModel();
+            TemplateEventHandler(_presenter.CurrentPatchesClose);
         }
 
         private void currentPatchesUserControl_RemoveRequested(object sender, Int32EventArgs e)
         {
-            try
+            TemplateEventHandler(() =>
             {
                 _presenter.CurrentPatchRemove(e.Value);
-                ApplyViewModel();
-
                 RecreatePatchCalculator();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            });
         }
 
         private void currentPatchesUserControl_PreviewAutoPatchRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.CurrentPatchesPreviewAutoPatch();
+            TemplateEventHandler(_presenter.CurrentPatchesPreviewAutoPatch);
 
-                // For debugging, use this code line instead to preview the polyponic auto-patch.
-                //_presenter.CurrentPatchesPreviewAutoPatchPolyphonic();
-
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            // For debugging, use this code line instead to preview the polyponic auto-patch.
+            //TemplateEventHandler(_presenter.CurrentPatchesPreviewAutoPatchPolyphonic);
         }
 
         // Curve
 
         private void curveGridUserControl_CreateRequested(object sender, Int32EventArgs e)
         {
-            try
-            {
-                _presenter.CurveCreate(e.Value);
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(() => _presenter.CurveCreate(e.Value));
         }
 
         private void curveGridUserControl_DeleteRequested(object sender, Int32EventArgs e)
         {
-            try
-            {
-                _presenter.CurveDelete(e.Value);
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(() => _presenter.CurveDelete(e.Value));
         }
 
         private void curveGridUserControl_CloseRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.CurveGridClose();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.CurveGridClose);
         }
 
         private void curveGridUserControl_ShowDetailsRequested(object sender, Int32EventArgs e)
         {
-            try
-            {
-                _presenter.CurveDetailsShow(e.Value);
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(() => _presenter.CurveDetailsShow(e.Value));
         }
 
         private void curveDetailsUserControl_SelectNodeRequested(object sender, Int32EventArgs e)
         {
-            try
-            {
-                _presenter.NodeSelect(e.Value);
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(() => _presenter.NodeSelect(e.Value));
         }
 
         private void curveDetailsUserControl_CreateNodeRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.NodeCreate();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.NodeCreate);
         }
 
         private void curveDetailsUserControl_DeleteNodeRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.NodeDelete();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.NodeDelete);
         }
 
         private void curveDetailsUserControl_CloseRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.CurveDetailsClose();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.CurveDetailsClose);
         }
 
         private void curveDetailsUserControl_MoveNodeRequested(object sender, MoveEntityEventArgs e)
         {
-            try
-            {
-                _presenter.NodeMove(e.EntityID, e.X, e.Y);
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(() => _presenter.NodeMove(e.EntityID, e.X, e.Y));
         }
 
         private void curveDetailsUserControl_ChangeNodeTypeRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.NodeChangeNodeType();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.NodeChangeNodeType);
         }
 
         private void curveDetailsUserControl_LoseFocusRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.CurveDetailsLoseFocus();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.CurveDetailsLoseFocus);
         }
 
         private void curveDetailsUserControl_ShowCurvePropertiesRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.CurvePropertiesShow(curveDetailsUserControl.ViewModel.ID);
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(() => _presenter.CurvePropertiesShow(curveDetailsUserControl.ViewModel.ID));
         }
 
         private void curveDetailsUserControl_ShowNodePropertiesRequested(object sender, Int32EventArgs e)
         {
-            try
-            {
-                _presenter.NodePropertiesShow(e.Value);
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(() => _presenter.NodePropertiesShow(e.Value));
         }
 
         private void curveDetailsUserControl_ShowSelectedNodePropertiesRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.SelectedNodePropertiesShow();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.SelectedNodePropertiesShow);
         }
 
         private void curvePropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.CurvePropertiesLoseFocus();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.CurvePropertiesLoseFocus);
         }
 
         private void curvePropertiesUserControl_CloseRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.CurvePropertiesClose();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.CurvePropertiesClose);
         }
 
         // Document Grid
 
         private void documentGridUserControl_CreateRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.DocumentDetailsCreate();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.DocumentDetailsCreate);
         }
 
         private void documentGridUserControl_OpenRequested(object sender, Int32EventArgs e)
         {
-            try
+            TemplateEventHandler(() =>
             {
                 ForceLoseFocus();
-
                 _presenter.DocumentOpen(e.Value);
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            });
         }
 
         private void documentGridUserControl_DeleteRequested(object sender, Int32EventArgs e)
         {
-            try
-            {
-                _presenter.DocumentDelete(e.Value);
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(() => _presenter.DocumentDelete(e.Value));
         }
 
         private void documentGridUserControl_CloseRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.DocumentGridClose();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.DocumentGridClose);
         }
 
         // Document Details
 
         private void documentDetailsUserControl_SaveRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.DocumentDetailsSave();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
-
+            TemplateEventHandler(_presenter.DocumentDetailsSave);
         }
 
         private void documentDetailsUserControl_DeleteRequested(object sender, Int32EventArgs e)
         {
-            try
-            {
-                _presenter.DocumentDelete(e.Value);
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(() => _presenter.DocumentDelete(e.Value));
         }
 
         private void documentDetailsUserControl_CloseRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.DocumentDetailsClose();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.DocumentDetailsClose);
         }
 
         // Document Tree
 
         private void documentTreeUserControl_CloseRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.DocumentTreeClose();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.DocumentTreeClose);
         }
 
         private void documentTreeUserControl_CollapseNodeRequested(object sender, Int32EventArgs e)
         {
-            try
-            {
-                _presenter.DocumentTreeCollapseNode(e.Value);
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(() => _presenter.DocumentTreeCollapseNode(e.Value));
         }
 
         private void documentTreeUserControl_ExpandNodeRequested(object sender, Int32EventArgs e)
         {
-            try
-            {
-                _presenter.DocumentTreeExpandNode(e.Value);
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(() => _presenter.DocumentTreeExpandNode(e.Value));
         }
 
         private void documentTreeUserControl_ShowAudioFileOutputsRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.AudioFileOutputGridShow();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.AudioFileOutputGridShow);
         }
 
         private void documentTreeUserControl_ShowCurvesRequested(object sender, Int32EventArgs e)
         {
-            try
-            {
-                _presenter.CurveGridShow(e.Value);
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(() => _presenter.CurveGridShow(e.Value));
         }
 
         private void documentTreeUserControl_ShowDocumentPropertiesRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.DocumentPropertiesShow();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.DocumentPropertiesShow);
         }
 
         private void documentTreeUserControl_ShowPatchGridRequested(object sender, StringEventArgs e)
         {
-            try
-            {
-                _presenter.PatchGridShow(e.Value);
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(() => _presenter.PatchGridShow(e.Value));
         }
 
         private void documentTreeUserControl_ShowPatchDetailsRequested(object sender, Int32EventArgs e)
         {
-            try
-            {
-                _presenter.PatchDetailsShow(e.Value);
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(() => _presenter.PatchDetailsShow(e.Value));
         }
 
         private void documentTreeUserControl_ShowSamplesRequested(object sender, Int32EventArgs e)
         {
-            try
-            {
-                _presenter.SampleGridShow(e.Value);
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(() => _presenter.SampleGridShow(e.Value));
         }
 
         private void documentTreeUserControl_ShowScalesRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.ScaleGridShow();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.ScaleGridShow);
         }
 
         // Document Properties
 
         private void documentPropertiesUserControl_CloseRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.DocumentPropertiesClose();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.DocumentPropertiesClose);
         }
 
         private void documentPropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.DocumentPropertiesLoseFocus();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.DocumentPropertiesLoseFocus);
         }
 
         // Menu
 
         private void menuUserControl_ShowDocumentGridRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.DocumentGridShow();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.DocumentGridShow);
         }
 
         private void menuUserControl_ShowDocumentTreeRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.DocumentTreeShow();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.DocumentTreeShow);
         }
 
         private void menuUserControl_DocumentCloseRequested(object sender, EventArgs e)
         {
-            try
+            TemplateEventHandler(() =>
             {
                 ForceLoseFocus();
-
                 _presenter.DocumentClose();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            });
         }
 
         private void menuUserControl_DocumentSaveRequested(object sender, EventArgs e)
         {
-            try
+            TemplateEventHandler(() =>
             {
                 ForceLoseFocus();
-
                 _presenter.DocumentSave();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            });
         }
 
         private void menuUserControl_ShowCurrentPatchesRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.CurrentPatchesShow();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.CurrentPatchesShow);
         }
 
         // Node
 
         private void nodePropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.NodePropertiesLoseFocus();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.NodePropertiesLoseFocus);
         }
 
         private void nodePropertiesUserControl_CloseRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.NodePropertiesClose();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.NodePropertiesClose);
         }
 
         // Operator
 
         private void operatorPropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.OperatorPropertiesLoseFocus();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.OperatorPropertiesLoseFocus);
         }
 
         private void operatorPropertiesUserControl_CloseRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.OperatorPropertiesClose();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.OperatorPropertiesClose);
         }
 
         private void operatorPropertiesUserControl_ForAggregate_LoseFocusRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.OperatorPropertiesLoseFocus_ForAggregate();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.OperatorPropertiesLoseFocus_ForAggregate);
         }
 
         private void operatorPropertiesUserControl_ForAggregate_CloseRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.OperatorPropertiesClose_ForAggregate();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.OperatorPropertiesClose_ForAggregate);
         }
 
         private void operatorPropertiesUserControl_ForBundle_LoseFocusRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.OperatorPropertiesLoseFocus_ForBundle();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.OperatorPropertiesLoseFocus_ForBundle);
         }
 
         private void operatorPropertiesUserControl_ForBundle_CloseRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.OperatorPropertiesClose_ForBundle();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.OperatorPropertiesClose_ForBundle);
         }
 
         private void operatorPropertiesUserControl_ForCache_LoseFocusRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.OperatorPropertiesLoseFocus_ForCache();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.OperatorPropertiesLoseFocus_ForCache);
         }
 
         private void operatorPropertiesUserControl_ForCache_CloseRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.OperatorPropertiesClose_ForCache();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.OperatorPropertiesClose_ForCache);
         }
 
         private void operatorPropertiesUserControl_ForCurve_LoseFocusRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.OperatorPropertiesLoseFocus_ForCurve();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.OperatorPropertiesLoseFocus_ForCurve);
         }
 
         private void operatorPropertiesUserControl_ForCurve_CloseRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.OperatorPropertiesClose_ForCurve();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.OperatorPropertiesClose_ForCurve);
         }
 
         private void operatorPropertiesUserControl_ForCustomOperator_LoseFocusRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.OperatorPropertiesLoseFocus_ForCustomOperator();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.OperatorPropertiesLoseFocus_ForCustomOperator);
         }
 
         private void operatorPropertiesUserControl_ForCustomOperator_CloseRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.OperatorPropertiesClose_ForCustomOperator();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.OperatorPropertiesClose_ForCustomOperator);
         }
 
         private void operatorPropertiesUserControl_ForNumber_LoseFocusRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.OperatorPropertiesLoseFocus_ForNumber();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.OperatorPropertiesLoseFocus_ForNumber);
         }
 
         private void operatorPropertiesUserControl_ForNumber_CloseRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.OperatorPropertiesClose_ForNumber();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.OperatorPropertiesClose_ForNumber);
         }
 
         private void operatorPropertiesUserControl_ForPatchInlet_LoseFocusRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.OperatorPropertiesLoseFocus_ForPatchInlet();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.OperatorPropertiesLoseFocus_ForPatchInlet);
         }
 
         private void operatorPropertiesUserControl_ForPatchInlet_CloseRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.OperatorPropertiesClose_ForPatchInlet();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.OperatorPropertiesClose_ForPatchInlet);
         }
 
         private void operatorPropertiesUserControl_ForPatchOutlet_LoseFocusRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.OperatorPropertiesLoseFocus_ForPatchOutlet();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.OperatorPropertiesLoseFocus_ForPatchOutlet);
         }
 
         private void operatorPropertiesUserControl_ForPatchOutlet_CloseRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.OperatorPropertiesClose_ForPatchOutlet();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.OperatorPropertiesClose_ForPatchOutlet);
         }
 
         private void operatorPropertiesUserControl_ForRandom_LoseFocusRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.OperatorPropertiesLoseFocus_ForRandom();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.OperatorPropertiesLoseFocus_ForRandom);
         }
 
         private void operatorPropertiesUserControl_ForRandom_CloseRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.OperatorPropertiesClose_ForRandom();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.OperatorPropertiesClose_ForRandom);
         }
 
         private void operatorPropertiesUserControl_ForResample_LoseFocusRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.OperatorPropertiesLoseFocus_ForResample();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.OperatorPropertiesLoseFocus_ForResample);
         }
 
         private void operatorPropertiesUserControl_ForResample_CloseRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.OperatorPropertiesClose_ForResample();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.OperatorPropertiesClose_ForResample);
         }
 
         private void operatorPropertiesUserControl_ForSample_LoseFocusRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.OperatorPropertiesLoseFocus_ForSample();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.OperatorPropertiesLoseFocus_ForSample);
         }
 
         private void operatorPropertiesUserControl_ForSample_CloseRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.OperatorPropertiesClose_ForSample();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.OperatorPropertiesClose_ForSample);
         }
 
         private void operatorPropertiesUserControl_ForSpectrum_LoseFocusRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.OperatorPropertiesLoseFocus_ForSpectrum();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.OperatorPropertiesLoseFocus_ForSpectrum);
         }
 
         private void operatorPropertiesUserControl_ForSpectrum_CloseRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.OperatorPropertiesClose_ForSpectrum();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.OperatorPropertiesClose_ForSpectrum);
         }
 
         private void operatorPropertiesUserControl_ForUnbundle_LoseFocusRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.OperatorPropertiesLoseFocus_ForUnbundle();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.OperatorPropertiesLoseFocus_ForUnbundle);
         }
 
         private void operatorPropertiesUserControl_ForUnbundle_CloseRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.OperatorPropertiesClose_ForUnbundle();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.OperatorPropertiesClose_ForUnbundle);
         }
 
         // Patch
 
         private void patchGridUserControl_CreateRequested(object sender, StringEventArgs e)
         {
-            try
-            {
-                _presenter.PatchCreate(e.Value);
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(() => _presenter.PatchCreate(e.Value));
         }
 
         private void patchGridUserControl_DeleteRequested(object sender, Int32EventArgs e)
         {
-            try
-            {
-                _presenter.PatchDelete(e.Value);
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(() => _presenter.PatchDelete(e.Value));
         }
 
         private void patchGridUserControl_CloseRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.PatchGridClose();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.PatchGridClose);
         }
 
         private void patchGridUserControl_ShowDetailsRequested(object sender, Int32EventArgs e)
         {
-            try
-            {
-                _presenter.PatchDetailsShow(e.Value);
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(() => _presenter.PatchDetailsShow(e.Value));
         }
 
         private void patchDetailsUserControl_PlayRequested(object sender, EventArgs e)
         {
-            try
+            TemplateEventHandler(() =>
             {
                 string outputFilePath = _presenter.PatchPlay();
 
-                ApplyViewModel();
-
-                // HACK: Outcommented, because it did not work.
-                //if (_presenter.MainViewModel.Successful)
-                {
-                    SoundPlayer soundPlayer = new SoundPlayer(outputFilePath);
-                    soundPlayer.Play();
-                }
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+                SoundPlayer soundPlayer = new SoundPlayer(outputFilePath);
+                soundPlayer.Play();
+            });
         }
 
         private void patchDetailsUserControl_SelectOperatorRequested(object sender, Int32EventArgs e)
         {
-            try
-            {
-                _presenter.OperatorSelect(e.Value);
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(() => _presenter.OperatorSelect(e.Value));
         }
 
         private void patchDetailsUserControl_OperatorPropertiesRequested(object sender, Int32EventArgs e)
         {
-            try
-            {
-                _presenter.OperatorPropertiesShow(e.Value);
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(() => _presenter.OperatorPropertiesShow(e.Value));
         }
 
         private void patchDetailsUserControl_ChangeInputOutletRequested(object sender, ChangeInputOutletEventArgs e)
         {
-            try
-            {
-                _presenter.OperatorChangeInputOutlet(e.InletID, e.InputOutletID);
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(() => _presenter.OperatorChangeInputOutlet(e.InletID, e.InputOutletID));
         }
 
         private void patchDetailsUserControl_MoveOperatorRequested(object sender, MoveEntityEventArgs e)
         {
-            try
-            {
-                _presenter.OperatorMove(e.EntityID, e.X, e.Y);
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(() => _presenter.OperatorMove(e.EntityID, e.X, e.Y));
         }
 
         private void patchDetailsUserControl_CreateOperatorRequested(object sender, CreateOperatorEventArgs e)
         {
-            try
-            {
-                _presenter.OperatorCreate(e.OperatorTypeID);
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(() => _presenter.OperatorCreate(e.OperatorTypeID));
         }
 
         private void patchDetailsUserControl_DeleteOperatorRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.OperatorDelete();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.OperatorDelete);
         }
 
         private void patchDetailsUserControl_LoseFocusRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.PatchDetailsLoseFocus();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.PatchDetailsLoseFocus);
         }
 
         private void patchDetailsUserControl_CloseRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.PatchDetailsClose();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.PatchDetailsClose);
         }
 
         private void patchPropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.PatchPropertiesLoseFocus();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.PatchPropertiesLoseFocus);
         }
 
         private void patchPropertiesUserControl_CloseRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.PatchPropertiesClose();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.PatchPropertiesClose);
         }
 
         private void patchDetailsUserControl_SelectedOperatorPropertiesRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.SelectedOperatorPropertiesShow();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.SelectedOperatorPropertiesShow);
         }
 
         // Sample
 
         private void sampleGridUserControl_CreateRequested(object sender, Int32EventArgs e)
         {
-            try
-            {
-                _presenter.SampleCreate(e.Value);
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(() => _presenter.SampleCreate(e.Value));
         }
 
         private void sampleGridUserControl_DeleteRequested(object sender, Int32EventArgs e)
         {
-            try
-            {
-                _presenter.SampleDelete(e.Value);
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(() => _presenter.SampleDelete(e.Value));
         }
 
         private void sampleGridUserControl_CloseRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.SampleGridClose();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.SampleGridClose);
         }
 
         private void sampleGridUserControl_ShowPropertiesRequested(object sender, Int32EventArgs e)
         {
-            try
-            {
-                _presenter.SamplePropertiesShow(e.Value);
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(() => _presenter.SamplePropertiesShow(e.Value));
         }
 
         private void samplePropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.SamplePropertiesLoseFocus();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.SamplePropertiesLoseFocus);
         }
 
         private void samplePropertiesUserControl_CloseRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.SamplePropertiesClose();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.SamplePropertiesClose);
         }
 
         // Scale
 
         private void scaleGridUserControl_CreateRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.ScaleCreate();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.ScaleCreate);
         }
 
         private void scaleGridUserControl_DeleteRequested(object sender, Int32EventArgs e)
         {
-            try
-            {
-                _presenter.ScaleDelete(e.Value);
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(() => _presenter.ScaleDelete(e.Value));
         }
 
         private void scaleGridUserControl_CloseRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.ScaleGridClose();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.ScaleGridClose);
         }
 
         private void scaleGridUserControl_ShowDetailsRequested(object sender, Int32EventArgs e)
         {
-            try
-            {
-                _presenter.ScaleShow(e.Value);
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(() => _presenter.ScaleShow(e.Value));
         }
 
         private void toneGridEditUserControl_CloseRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.ToneGridEditClose();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.ToneGridEditClose);
         }
 
         private void toneGridEditUserControl_LoseFocusRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.ToneGridEditLoseFocus();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.ToneGridEditLoseFocus);
         }
 
         private void toneGridEditUserControl_CreateToneRequested(object sender, Int32EventArgs e)
         {
-            try
-            {
-                _presenter.ToneCreate(e.Value);
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(() => _presenter.ToneCreate(e.Value));
         }
 
         private void toneGridEditUserControl_DeleteToneRequested(object sender, Int32EventArgs e)
         {
-            try
-            {
-                _presenter.ToneDelete(e.Value);
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(() => _presenter.ToneDelete(e.Value));
         }
 
         private void toneGridEditUserControl_PlayToneRequested(object sender, Int32EventArgs e)
         {
-            try
+            TemplateEventHandler(() =>
             {
                 string outputFilePath = _presenter.TonePlay(e.Value);
 
@@ -1616,107 +749,61 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     SoundPlayer soundPlayer = new SoundPlayer(outputFilePath);
                     soundPlayer.Play();
                 }
-
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            });
         }
 
         private void scalePropertiesUserControl_CloseRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.ScalePropertiesClose();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.ScalePropertiesClose);
         }
 
         private void scalePropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.ScalePropertiesLoseFocus();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.ScalePropertiesLoseFocus);
         }
 
         // Message Boxes
 
         private void MessageBoxHelper_DocumentDeleteCanceled(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.DocumentCancelDelete();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.DocumentCancelDelete);
         }
 
         private void MessageBoxHelper_DocumentDeleteConfirmed(object sender, Int32EventArgs e)
         {
-            try
-            {
-                _presenter.DocumentConfirmDelete(e.Value);
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(() => _presenter.DocumentConfirmDelete(e.Value));
         }
 
         private void MessageBoxHelper_DocumentDeletedOK(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.DocumentDeletedOK();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.DocumentDeletedOK);
         }
 
         private void MessageBoxHelper_PopupMessagesOK(object sender, EventArgs e)
         {
-            try
-            {
-                _presenter.PopupMessagesOK();
-                ApplyViewModel();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            TemplateEventHandler(_presenter.PopupMessagesOK);
         }
 
         // DocumentCannotDeleteForm
 
         private void _documentCannotDeleteForm_OKClicked(object sender, EventArgs e)
         {
+            TemplateEventHandler(_presenter.DocumentCannotDeleteOK);
+        }
+
+        // Template Method
+
+        /// <summary> Surrounds a call to a presenter action with rollback and ApplyViewModel. </summary>
+        private void TemplateEventHandler(Action action)
+        {
             try
             {
-                _presenter.DocumentCannotDeleteOK();
-                ApplyViewModel();
+                action();
             }
             finally
             {
                 _repositories.Rollback();
+                ApplyViewModel();
             }
         }
     }
