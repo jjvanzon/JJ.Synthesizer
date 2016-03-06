@@ -54,7 +54,7 @@
             this.numericUpDownStartTime = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownSamplingRate = new System.Windows.Forms.NumericUpDown();
             this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
-            this.audioFileOutputChannelsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.AudioFileOutputChannelsUserControl();
+            this.audioFileOutputChannelsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.AudioFileOutputChannelsUserControl();
             this.groupBoxFilePath.SuspendLayout();
             this.tableLayoutPanelFilePath.SuspendLayout();
             this.tableLayoutPanelMain.SuspendLayout();
@@ -520,6 +520,6 @@
         private System.Windows.Forms.NumericUpDown numericUpDownSamplingRate;
         private Partials.TitleBarUserControl titleBarUserControl;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelFilePath;
-        private AudioFileOutputChannelsUserControl audioFileOutputChannelsUserControl;
+        private Partials.AudioFileOutputChannelsUserControl audioFileOutputChannelsUserControl;
     }
 }

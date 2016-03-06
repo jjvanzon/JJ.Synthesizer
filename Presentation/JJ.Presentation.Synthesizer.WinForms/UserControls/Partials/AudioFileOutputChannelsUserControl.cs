@@ -6,7 +6,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Data.Canonical;
 using JJ.Framework.Presentation.WinForms.Extensions;
 
-namespace JJ.Presentation.Synthesizer.WinForms.UserControls
+namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 {
     internal partial class AudioFileOutputChannelsUserControl : UserControl
     {

@@ -29,7 +29,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView = new JJ.Presentation.Synthesizer.WinForms.UserControls.SpecializedDataGridView();
+            this.dataGridView = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.SpecializedDataGridView();
             this.IDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();

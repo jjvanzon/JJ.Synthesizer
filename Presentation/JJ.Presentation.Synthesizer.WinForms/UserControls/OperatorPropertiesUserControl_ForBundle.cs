@@ -10,7 +10,8 @@ using JJ.Presentation.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class OperatorPropertiesUserControl_ForBundle : UserControlBase<OperatorPropertiesViewModel_ForBundle>
+    internal partial class OperatorPropertiesUserControl_ForBundle 
+        : UserControlBase<OperatorPropertiesViewModel_ForBundle>
     {
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
@@ -49,18 +50,18 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            if (_viewModel == null) return;
+            if (ViewModel == null) return;
 
-            textBoxName.Text = _viewModel.Name;
-            numericUpDownInletCount.Value = _viewModel.InletCount;
+            textBoxName.Text = ViewModel.Name;
+            numericUpDownInletCount.Value = ViewModel.InletCount;
         }
 
         private void ApplyControlsToViewModel()
         {
-            if (_viewModel == null) return;
+            if (ViewModel == null) return;
 
-            _viewModel.Name = textBoxName.Text;
-            _viewModel.InletCount = (int)numericUpDownInletCount.Value;
+            ViewModel.Name = textBoxName.Text;
+            ViewModel.InletCount = (int)numericUpDownInletCount.Value;
         }
 
         // Actions

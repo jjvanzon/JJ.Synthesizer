@@ -11,7 +11,7 @@ using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 
-namespace JJ.Presentation.Synthesizer.WinForms.UserControls
+namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 {
     internal partial class CurrentPatchesUserControl : UserControlBase<CurrentPatchesViewModel>
     {

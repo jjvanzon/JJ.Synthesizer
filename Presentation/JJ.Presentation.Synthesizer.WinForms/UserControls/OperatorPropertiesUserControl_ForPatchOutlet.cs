@@ -52,21 +52,21 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            if (_viewModel == null) return;
+            if (ViewModel == null) return;
 
-            textBoxName.Text = _viewModel.Name;
-            numericUpDownNumber.Value = _viewModel.Number;
+            textBoxName.Text = ViewModel.Name;
+            numericUpDownNumber.Value = ViewModel.Number;
 
             if (comboBoxOutletType.DataSource == null)
             {
                 comboBoxOutletType.ValueMember = PropertyNames.ID;
                 comboBoxOutletType.DisplayMember = PropertyNames.Name;
-                comboBoxOutletType.DataSource = _viewModel.OutletTypeLookup;
+                comboBoxOutletType.DataSource = ViewModel.OutletTypeLookup;
             }
 
-            if (_viewModel.OutletType != null)
+            if (ViewModel.OutletType != null)
             {
-                comboBoxOutletType.SelectedValue = _viewModel.OutletType.ID;
+                comboBoxOutletType.SelectedValue = ViewModel.OutletType.ID;
             }
             else
             {
@@ -76,11 +76,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ApplyControlsToViewModel()
         {
-            if (_viewModel == null) return;
+            if (ViewModel == null) return;
 
-            _viewModel.Name = textBoxName.Text;
-            _viewModel.Number = (int)numericUpDownNumber.Value;
-            _viewModel.OutletType = (IDAndName)comboBoxOutletType.SelectedItem;
+            ViewModel.Name = textBoxName.Text;
+            ViewModel.Number = (int)numericUpDownNumber.Value;
+            ViewModel.OutletType = (IDAndName)comboBoxOutletType.SelectedItem;
         }
 
         // Actions

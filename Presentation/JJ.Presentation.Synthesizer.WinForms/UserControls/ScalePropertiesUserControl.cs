@@ -52,21 +52,21 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            if (_viewModel == null) return;
+            if (ViewModel == null) return;
 
-            textBoxName.Text = _viewModel.Entity.Name;
-            if (_viewModel.Entity.BaseFrequency.HasValue)
+            textBoxName.Text = ViewModel.Entity.Name;
+            if (ViewModel.Entity.BaseFrequency.HasValue)
             {
-                numericUpDownBaseFrequency.Value = (decimal)_viewModel.Entity.BaseFrequency.Value;
+                numericUpDownBaseFrequency.Value = (decimal)ViewModel.Entity.BaseFrequency.Value;
             }
 
             if (comboBoxScaleType.DataSource == null)
             {
                 comboBoxScaleType.ValueMember = PropertyNames.ID;
                 comboBoxScaleType.DisplayMember = PropertyNames.Name;
-                comboBoxScaleType.DataSource = _viewModel.ScaleTypeLookup;
+                comboBoxScaleType.DataSource = ViewModel.ScaleTypeLookup;
             }
-            comboBoxScaleType.SelectedValue = _viewModel.Entity.ScaleType.ID;
+            comboBoxScaleType.SelectedValue = ViewModel.Entity.ScaleType.ID;
         }
 
         private int? TryGetSelectedSampleID()
@@ -79,11 +79,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ApplyControlsToViewModel()
         {
-            if (_viewModel == null) return;
+            if (ViewModel == null) return;
 
-            _viewModel.Entity.Name = textBoxName.Text;
-            _viewModel.Entity.BaseFrequency = (double)numericUpDownBaseFrequency.Value;
-            _viewModel.Entity.ScaleType = (IDAndName)comboBoxScaleType.SelectedItem;
+            ViewModel.Entity.Name = textBoxName.Text;
+            ViewModel.Entity.BaseFrequency = (double)numericUpDownBaseFrequency.Value;
+            ViewModel.Entity.ScaleType = (IDAndName)comboBoxScaleType.SelectedItem;
         }
 
         // Actions

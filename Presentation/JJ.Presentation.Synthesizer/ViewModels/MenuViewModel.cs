@@ -2,7 +2,7 @@
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
-    public sealed class MenuViewModel
+    public sealed class MenuViewModel : ViewModelBase
     {
         public MenuItemViewModel DocumentTreeMenuItem { get; set; }
         public MenuItemViewModel CurrentPatches { get; set; }

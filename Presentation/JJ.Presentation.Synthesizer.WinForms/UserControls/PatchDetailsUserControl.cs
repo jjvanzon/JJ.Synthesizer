@@ -58,7 +58,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            if (_viewModel == null)
+            if (ViewModel == null)
             {
                 return;
             }
@@ -71,18 +71,18 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                     SystemInformation.DoubleClickTime,
                     SystemInformation.DoubleClickSize.Width);
 
-                _vectorGraphics = _converter.Execute(_viewModel.Entity);
+                _vectorGraphics = _converter.Execute(ViewModel.Entity);
             }
             else
             {
-                _vectorGraphics = _converter.Execute(_viewModel.Entity, _vectorGraphics);
+                _vectorGraphics = _converter.Execute(ViewModel.Entity, _vectorGraphics);
             }
 
             BindVectorGraphicsEvents();
 
             diagramControl1.Diagram = _vectorGraphics.Diagram;
 
-            ApplyOperatorToolboxItemsViewModel(_viewModel.OperatorToolboxItems);
+            ApplyOperatorToolboxItemsViewModel(ViewModel.OperatorToolboxItems);
         }
 
         private void BindVectorGraphicsEvents()
@@ -285,20 +285,20 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void OperatorToolTipGesture_ShowToolTipRequested(object sender, ToolTipTextEventArgs e)
         {
-            if (_viewModel == null) return;
+            if (ViewModel == null) return;
 
             int operatorID = VectorGraphicsTagHelper.GetOperatorID(e.Element.Tag);
 
-            e.ToolTipText = _viewModel.Entity.Operators.Where(x => x.ID == operatorID).Single().Caption;
+            e.ToolTipText = ViewModel.Entity.Operators.Where(x => x.ID == operatorID).Single().Caption;
         }
 
         private void InletToolTipGesture_ToolTipTextRequested(object sender, ToolTipTextEventArgs e)
         {
-            if (_viewModel == null) return;
+            if (ViewModel == null) return;
 
             int inletID = VectorGraphicsTagHelper.GetInletID(e.Element.Tag);
 
-            InletViewModel inketViewModel = _viewModel.Entity.Operators.SelectMany(x => x.Inlets)
+            InletViewModel inketViewModel = ViewModel.Entity.Operators.SelectMany(x => x.Inlets)
                                                                        .Where(x => x.ID == inletID)
                                                                        .Single();
             e.ToolTipText = inketViewModel.Name;
@@ -306,11 +306,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void OutletToolTipGesture_ToolTipTextRequested(object sender, ToolTipTextEventArgs e)
         {
-            if (_viewModel == null) return;
+            if (ViewModel == null) return;
 
             int id = VectorGraphicsTagHelper.GetOutletID(e.Element.Tag);
 
-            OutletViewModel outletViewModel = _viewModel.Entity.Operators.SelectMany(x => x.Outlets)
+            OutletViewModel outletViewModel = ViewModel.Entity.Operators.SelectMany(x => x.Outlets)
                                                                          .Where(x => x.ID == id)
                                                                          .Single();
             e.ToolTipText = outletViewModel.Name;

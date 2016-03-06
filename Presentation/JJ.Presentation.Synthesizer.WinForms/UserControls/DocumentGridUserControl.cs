@@ -32,9 +32,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            if (_viewModel == null) return;
+            if (ViewModel == null) return;
 
-            dataGridView.DataSource = _viewModel.List;
+            dataGridView.DataSource = ViewModel.List;
         }
 
         // Actions

@@ -54,13 +54,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            if (_viewModel == null) return;
+            if (ViewModel == null) return;
 
-            textBoxName.Text = _viewModel.Name;
+            textBoxName.Text = ViewModel.Name;
 
-            if (_viewModel.Curve != null)
+            if (ViewModel.Curve != null)
             {
-                comboBoxCurve.SelectedValue = _viewModel.Curve.ID;
+                comboBoxCurve.SelectedValue = ViewModel.Curve.ID;
             }
             else
             {
@@ -92,10 +92,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ApplyControlsToViewModel()
         {
-            if (_viewModel == null) return;
+            if (ViewModel == null) return;
 
-            _viewModel.Name = textBoxName.Text;
-            _viewModel.Curve = (IDAndName)comboBoxCurve.SelectedItem;
+            ViewModel.Name = textBoxName.Text;
+            ViewModel.Curve = (IDAndName)comboBoxCurve.SelectedItem;
         }
 
         // Actions

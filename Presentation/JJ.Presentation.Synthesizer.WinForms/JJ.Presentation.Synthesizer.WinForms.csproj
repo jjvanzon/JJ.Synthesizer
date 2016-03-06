@@ -117,10 +117,14 @@
     <Compile Include="UserControls\CurrentPatchesUserControl.Designer.cs">
       <DependentUpon>CurrentPatchesUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\CurrentPatchItemUserControl.cs">
+    <Compile Include="UserControls\2016-03-06 Backup of MenuUserControl.cs" />
+    <Compile Include="UserControls\2016-03-06 Backup of MenuUserControl.Designer.cs">
+      <DependentUpon>2016-03-06 Backup of MenuUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Partials\CurrentPatchItemUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\CurrentPatchItemUserControl.Designer.cs">
+    <Compile Include="UserControls\Partials\CurrentPatchItemUserControl.Designer.cs">
       <DependentUpon>CurrentPatchItemUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\CurveDetailsUserControl.cs">
@@ -207,16 +211,16 @@
     <Compile Include="UserControls\AudioFileOutputPropertiesUserControl.Designer.cs">
       <DependentUpon>AudioFileOutputPropertiesUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\AudioFileOutputChannelUserControl.cs">
+    <Compile Include="UserControls\Partials\AudioFileOutputChannelUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\AudioFileOutputChannelUserControl.Designer.cs">
+    <Compile Include="UserControls\Partials\AudioFileOutputChannelUserControl.Designer.cs">
       <DependentUpon>AudioFileOutputChannelUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\AudioFileOutputChannelsUserControl.cs">
+    <Compile Include="UserControls\Partials\AudioFileOutputChannelsUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\AudioFileOutputChannelsUserControl.Designer.cs">
+    <Compile Include="UserControls\Partials\AudioFileOutputChannelsUserControl.Designer.cs">
       <DependentUpon>AudioFileOutputChannelsUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_ForSample.cs">
@@ -303,19 +307,19 @@
     <Compile Include="UserControls\DocumentDetailsUserControl.Designer.cs">
       <DependentUpon>DocumentDetailsUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\SpecializedDataGridView.cs">
+    <Compile Include="UserControls\Partials\SpecializedDataGridView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UserControls\TitleBarUserControl.cs">
+    <Compile Include="UserControls\Partials\TitleBarUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\TitleBarUserControl.Designer.cs">
+    <Compile Include="UserControls\Partials\TitleBarUserControl.Designer.cs">
       <DependentUpon>TitleBarUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\MenuUserControl.cs">
+    <Compile Include="UserControls\Partials\MenuUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\MenuUserControl.Designer.cs">
+    <Compile Include="UserControls\Partials\MenuUserControl.Designer.cs">
       <DependentUpon>MenuUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\SampleGridUserControl.cs">
@@ -364,7 +368,10 @@
     <EmbeddedResource Include="UserControls\CurrentPatchesUserControl.resx">
       <DependentUpon>CurrentPatchesUserControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\CurrentPatchItemUserControl.resx">
+    <EmbeddedResource Include="UserControls\2016-03-06 Backup of MenuUserControl.resx">
+      <DependentUpon>2016-03-06 Backup of MenuUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\Partials\CurrentPatchItemUserControl.resx">
       <DependentUpon>CurrentPatchItemUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\CurveDetailsUserControl.resx">
@@ -409,10 +416,10 @@
     <EmbeddedResource Include="UserControls\AudioFileOutputPropertiesUserControl.resx">
       <DependentUpon>AudioFileOutputPropertiesUserControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\AudioFileOutputChannelUserControl.resx">
+    <EmbeddedResource Include="UserControls\Partials\AudioFileOutputChannelUserControl.resx">
       <DependentUpon>AudioFileOutputChannelUserControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\AudioFileOutputChannelsUserControl.resx">
+    <EmbeddedResource Include="UserControls\Partials\AudioFileOutputChannelsUserControl.resx">
       <DependentUpon>AudioFileOutputChannelsUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForSample.resx">
@@ -457,10 +464,10 @@
     <EmbeddedResource Include="UserControls\DocumentDetailsUserControl.resx">
       <DependentUpon>DocumentDetailsUserControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\TitleBarUserControl.resx">
+    <EmbeddedResource Include="UserControls\Partials\TitleBarUserControl.resx">
       <DependentUpon>TitleBarUserControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\MenuUserControl.resx">
+    <EmbeddedResource Include="UserControls\Partials\MenuUserControl.resx">
       <DependentUpon>MenuUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\SampleGridUserControl.resx">

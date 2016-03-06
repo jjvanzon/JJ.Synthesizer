@@ -39,11 +39,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            if (_viewModel == null) return;
+            if (ViewModel == null) return;
 
-            NumberColumn.HeaderText = _viewModel.NumberTitle;
+            NumberColumn.HeaderText = ViewModel.NumberTitle;
 
-            specializedDataGridView.DataSource = _viewModel.Tones;
+            specializedDataGridView.DataSource = ViewModel.Tones;
         }
 
         // Actions

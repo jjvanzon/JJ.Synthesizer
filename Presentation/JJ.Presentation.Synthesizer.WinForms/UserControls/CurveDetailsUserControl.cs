@@ -62,9 +62,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            if (_viewModel == null) return;
+            if (ViewModel == null) return;
 
-            _converter.Execute(_viewModel);
+            _converter.Execute(ViewModel);
 
             diagramControl.Refresh();
         }

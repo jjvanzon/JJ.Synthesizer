@@ -52,22 +52,22 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            if (_viewModel == null) return;
+            if (ViewModel == null) return;
 
-            textBoxName.Text = _viewModel.Name;
-            numericUpDownStartTime.Value = (decimal)_viewModel.StartTime;
-            numericUpDownEndTime.Value = (decimal)_viewModel.EndTime;
-            numericUpDownFrequencyCount.Value = _viewModel.FrequencyCount;
+            textBoxName.Text = ViewModel.Name;
+            numericUpDownStartTime.Value = (decimal)ViewModel.StartTime;
+            numericUpDownEndTime.Value = (decimal)ViewModel.EndTime;
+            numericUpDownFrequencyCount.Value = ViewModel.FrequencyCount;
         }
 
         private void ApplyControlsToViewModel()
         {
-            if (_viewModel == null) return;
+            if (ViewModel == null) return;
 
-            _viewModel.Name = textBoxName.Text;
-            _viewModel.StartTime = (double)numericUpDownStartTime.Value;
-            _viewModel.EndTime = (double)numericUpDownEndTime.Value;
-            _viewModel.FrequencyCount = (int)numericUpDownFrequencyCount.Value;
+            ViewModel.Name = textBoxName.Text;
+            ViewModel.StartTime = (double)numericUpDownStartTime.Value;
+            ViewModel.EndTime = (double)numericUpDownEndTime.Value;
+            ViewModel.FrequencyCount = (int)numericUpDownFrequencyCount.Value;
         }
 
         // Actions

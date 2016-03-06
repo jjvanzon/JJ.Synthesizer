@@ -55,22 +55,22 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            if (_viewModel == null) return;
+            if (ViewModel == null) return;
 
-            textBoxName.Text = _viewModel.Name;
-            numericUpDownNumber.Value = _viewModel.Number;
-            textBoxDefaultValue.Text = _viewModel.DefaultValue;
+            textBoxName.Text = ViewModel.Name;
+            numericUpDownNumber.Value = ViewModel.Number;
+            textBoxDefaultValue.Text = ViewModel.DefaultValue;
 
             if (comboBoxInletType.DataSource == null)
             {
                 comboBoxInletType.ValueMember = PropertyNames.ID;
                 comboBoxInletType.DisplayMember = PropertyNames.Name;
-                comboBoxInletType.DataSource = _viewModel.InletTypeLookup;
+                comboBoxInletType.DataSource = ViewModel.InletTypeLookup;
             }
 
-            if (_viewModel.InletType != null)
+            if (ViewModel.InletType != null)
             {
-                comboBoxInletType.SelectedValue = _viewModel.InletType.ID;
+                comboBoxInletType.SelectedValue = ViewModel.InletType.ID;
             }
             else
             {
@@ -80,12 +80,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ApplyControlsToViewModel()
         {
-            if (_viewModel == null) return;
+            if (ViewModel == null) return;
 
-            _viewModel.Name = textBoxName.Text;
-            _viewModel.Number = (int)numericUpDownNumber.Value;
-            _viewModel.DefaultValue = textBoxDefaultValue.Text;
-            _viewModel.InletType = (IDAndName)comboBoxInletType.SelectedItem;
+            ViewModel.Name = textBoxName.Text;
+            ViewModel.Number = (int)numericUpDownNumber.Value;
+            ViewModel.DefaultValue = textBoxDefaultValue.Text;
+            ViewModel.InletType = (IDAndName)comboBoxInletType.SelectedItem;
         }
 
         // Actions

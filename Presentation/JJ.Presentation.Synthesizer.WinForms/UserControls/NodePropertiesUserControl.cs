@@ -51,21 +51,21 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            if (_viewModel == null) return;
+            if (ViewModel == null) return;
 
-            numericUpDownValue.Value = (decimal)_viewModel.Entity.Value;
-            numericUpDownTime.Value = (decimal)_viewModel.Entity.Time;
+            numericUpDownValue.Value = (decimal)ViewModel.Entity.Value;
+            numericUpDownTime.Value = (decimal)ViewModel.Entity.Time;
 
             if (comboBoxNodeType.DataSource == null)
             {
                 comboBoxNodeType.ValueMember = PropertyNames.ID;
                 comboBoxNodeType.DisplayMember = PropertyNames.Name;
-                comboBoxNodeType.DataSource = _viewModel.NodeTypeLookup;
+                comboBoxNodeType.DataSource = ViewModel.NodeTypeLookup;
             }
 
-            if (_viewModel.Entity.NodeType != null)
+            if (ViewModel.Entity.NodeType != null)
             {
-                comboBoxNodeType.SelectedValue = _viewModel.Entity.NodeType.ID;
+                comboBoxNodeType.SelectedValue = ViewModel.Entity.NodeType.ID;
             }
             else
             {
@@ -75,11 +75,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ApplyControlsToViewModel()
         {
-            if (_viewModel == null) return;
+            if (ViewModel == null) return;
 
-            _viewModel.Entity.Time = (double)numericUpDownTime.Value;
-            _viewModel.Entity.Value = (double)numericUpDownValue.Value;
-            _viewModel.Entity.NodeType = (IDAndName)comboBoxNodeType.SelectedItem;
+            ViewModel.Entity.Time = (double)numericUpDownTime.Value;
+            ViewModel.Entity.Value = (double)numericUpDownValue.Value;
+            ViewModel.Entity.NodeType = (IDAndName)comboBoxNodeType.SelectedItem;
         }
 
         // Actions

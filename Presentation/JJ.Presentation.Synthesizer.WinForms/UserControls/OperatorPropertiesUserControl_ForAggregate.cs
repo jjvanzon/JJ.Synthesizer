@@ -10,7 +10,8 @@ using JJ.Presentation.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class OperatorPropertiesUserControl_ForAggregate : UserControlBase<OperatorPropertiesViewModel_ForAggregate>
+    internal partial class OperatorPropertiesUserControl_ForAggregate
+        : UserControlBase<OperatorPropertiesViewModel_ForAggregate>
     {
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
@@ -48,19 +49,19 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            labelOperatorTypeValue.Text = _viewModel.OperatorType.DisplayName;
-            textBoxName.Text = _viewModel.Name;
-            numericUpDownTimeSliceDuration.Value = (decimal)_viewModel.TimeSliceDuration;
-            numericUpDownSampleCount.Value = _viewModel.SampleCount;
+            labelOperatorTypeValue.Text = ViewModel.OperatorType.DisplayName;
+            textBoxName.Text = ViewModel.Name;
+            numericUpDownTimeSliceDuration.Value = (decimal)ViewModel.TimeSliceDuration;
+            numericUpDownSampleCount.Value = ViewModel.SampleCount;
         }
 
         private void ApplyControlsToViewModel()
         {
-            if (_viewModel == null) return;
+            if (ViewModel == null) return;
 
-            _viewModel.Name = textBoxName.Text;
-            _viewModel.TimeSliceDuration = (double)numericUpDownTimeSliceDuration.Value;
-            _viewModel.SampleCount = (int)numericUpDownSampleCount.Value;
+            ViewModel.Name = textBoxName.Text;
+            ViewModel.TimeSliceDuration = (double)numericUpDownTimeSliceDuration.Value;
+            ViewModel.SampleCount = (int)numericUpDownSampleCount.Value;
         }
 
         // Actions

@@ -29,7 +29,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            _viewModel = viewModel;
+            ViewModel = viewModel;
             ApplyViewModelToControls();
 
             base.Show();
@@ -45,16 +45,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            if (_viewModel == null)
+            if (ViewModel == null)
             {
                 labelCannotDeleteObject.Text = null;
                 labelMessageList.Text = null;
                 return;
             }
 
-            labelCannotDeleteObject.Text = CommonMessageFormatter.CannotDeleteObjectWithName(PropertyDisplayNames.Document, _viewModel.Document.Name);
+            labelCannotDeleteObject.Text = CommonMessageFormatter.CannotDeleteObjectWithName(PropertyDisplayNames.Document, ViewModel.Document.Name);
 
-            string formattedMessages = MessageHelper.FormatMessages(_viewModel.ValidationMessages);
+            string formattedMessages = MessageHelper.FormatMessages(ViewModel.ValidationMessages);
             labelMessageList.Text = formattedMessages;
         }
 

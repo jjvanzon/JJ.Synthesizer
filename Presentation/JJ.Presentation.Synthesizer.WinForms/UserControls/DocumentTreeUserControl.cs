@@ -64,16 +64,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
                 treeView.Nodes.Clear();
 
-                if (_viewModel == null)
+                if (ViewModel == null)
                 {
                     treeView.ResumeLayout();
                     return;
                 }
 
-                _documentTreeNode = new TreeNode(_viewModel.Name);
+                _documentTreeNode = new TreeNode(ViewModel.Name);
                 treeView.Nodes.Add(_documentTreeNode);
 
-                AddDocumentDescendantNodes(_documentTreeNode, _viewModel);
+                AddDocumentDescendantNodes(_documentTreeNode, ViewModel);
 
                 // TODO: Uncomment when the referenced documents functionality is programmed.
                 //var referencedDocumentsTreeNode = new TreeNode(PropertyDisplayNames.ReferencedDocuments);

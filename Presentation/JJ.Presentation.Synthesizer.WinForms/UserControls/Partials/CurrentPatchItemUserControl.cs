@@ -8,7 +8,7 @@ using System.Windows.Forms;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 
-namespace JJ.Presentation.Synthesizer.WinForms.UserControls
+namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 {
     internal partial class CurrentPatchItemUserControl : UserControl
     {

@@ -32,7 +32,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tableLayoutPanelMain = new System.Windows.Forms.TableLayoutPanel();
             this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
-            this.specializedDataGridView = new JJ.Presentation.Synthesizer.WinForms.UserControls.SpecializedDataGridView();
+            this.specializedDataGridView = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.SpecializedDataGridView();
             this.IDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.OctaveColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NumberColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -151,7 +151,7 @@
         #endregion
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelMain;
         private Partials.TitleBarUserControl titleBarUserControl;
-        private SpecializedDataGridView specializedDataGridView;
+        private Partials.SpecializedDataGridView specializedDataGridView;
         private System.Windows.Forms.DataGridViewTextBoxColumn IDColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn OctaveColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn NumberColumn;

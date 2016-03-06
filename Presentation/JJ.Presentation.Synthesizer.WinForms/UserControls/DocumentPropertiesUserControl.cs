@@ -46,17 +46,17 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         
         protected override void ApplyViewModelToControls()
         {
-            if (_viewModel == null) return;
+            if (ViewModel == null) return;
 
-            labelIDValue.Text = _viewModel.Entity.ID.ToString();
-            textBoxName.Text = _viewModel.Entity.Name;
+            labelIDValue.Text = ViewModel.Entity.ID.ToString();
+            textBoxName.Text = ViewModel.Entity.Name;
         }
 
         private void ApplyControlsToViewModel()
         {
-            if (_viewModel == null) return;
+            if (ViewModel == null) return;
 
-            _viewModel.Entity.Name = textBoxName.Text;
+            ViewModel.Entity.Name = textBoxName.Text;
         }
 
         // Actions

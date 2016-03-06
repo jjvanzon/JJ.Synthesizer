@@ -53,20 +53,20 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            if (_viewModel == null) return;
+            if (ViewModel == null) return;
 
-            textBoxName.Text = _viewModel.Name;
+            textBoxName.Text = ViewModel.Name;
 
             if (comboBoxInterpolation.DataSource == null)
             {
                 comboBoxInterpolation.ValueMember = PropertyNames.ID;
                 comboBoxInterpolation.DisplayMember = PropertyNames.Name;
-                comboBoxInterpolation.DataSource = _viewModel.InterpolationLookup;
+                comboBoxInterpolation.DataSource = ViewModel.InterpolationLookup;
             }
 
-            if (_viewModel.Interpolation != null)
+            if (ViewModel.Interpolation != null)
             {
-                comboBoxInterpolation.SelectedValue = _viewModel.Interpolation.ID;
+                comboBoxInterpolation.SelectedValue = ViewModel.Interpolation.ID;
             }
             else
             {
@@ -76,10 +76,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ApplyControlsToViewModel()
         {
-            if (_viewModel == null) return;
+            if (ViewModel == null) return;
 
-            _viewModel.Name = textBoxName.Text;
-            _viewModel.Interpolation = (IDAndName)comboBoxInterpolation.SelectedItem;
+            ViewModel.Name = textBoxName.Text;
+            ViewModel.Interpolation = (IDAndName)comboBoxInterpolation.SelectedItem;
         }
 
         // Actions

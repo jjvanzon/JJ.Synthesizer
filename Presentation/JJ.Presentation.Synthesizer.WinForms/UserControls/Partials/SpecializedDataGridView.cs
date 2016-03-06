@@ -3,7 +3,7 @@ using System.Collections;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace JJ.Presentation.Synthesizer.WinForms.UserControls
+namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 {
     internal class SpecializedDataGridView : DataGridView
     {

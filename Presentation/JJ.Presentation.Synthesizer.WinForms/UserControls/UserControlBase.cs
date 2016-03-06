@@ -10,12 +10,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     internal abstract class UserControlBase<TViewModel> : UserControl
         where TViewModel : ViewModelBase
     {
-        // TODO: Make private, but first refactor all the derived classes,
-        // then rename this to ViewModel with reference replacement,
-        // then rename it back to _viewModel and only use it in the ViewModel property again.
-        protected TViewModel _viewModel;
+        private TViewModel _viewModel;
         private int _refreshCounter = -1;
 
+        /// <summary> nullable </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public TViewModel ViewModel
@@ -42,7 +40,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
-        // TODO: Rename to ApplyViewModelToControls, to make it clearer in controls that also ahve a ApplyControlsToViewModel?
         protected abstract void ApplyViewModelToControls();
     }
 }

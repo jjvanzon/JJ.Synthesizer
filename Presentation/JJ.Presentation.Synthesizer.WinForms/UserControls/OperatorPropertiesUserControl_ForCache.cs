@@ -55,24 +55,24 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            if (_viewModel == null) return;
+            if (ViewModel == null) return;
 
-            textBoxName.Text = _viewModel.Name;
-            numericUpDownStartTime.Value = (decimal)_viewModel.StartTime;
-            numericUpDownEndTime.Value = (decimal)_viewModel.EndTime;
-            numericUpDownSamplingRate.Value = _viewModel.SamplingRate;
+            textBoxName.Text = ViewModel.Name;
+            numericUpDownStartTime.Value = (decimal)ViewModel.StartTime;
+            numericUpDownEndTime.Value = (decimal)ViewModel.EndTime;
+            numericUpDownSamplingRate.Value = ViewModel.SamplingRate;
 
             // Interpolation
             if (comboBoxInterpolation.DataSource == null)
             {
                 comboBoxInterpolation.ValueMember = PropertyNames.ID;
                 comboBoxInterpolation.DisplayMember = PropertyNames.Name;
-                comboBoxInterpolation.DataSource = _viewModel.InterpolationLookup;
+                comboBoxInterpolation.DataSource = ViewModel.InterpolationLookup;
             }
 
-            if (_viewModel.Interpolation != null)
+            if (ViewModel.Interpolation != null)
             {
-                comboBoxInterpolation.SelectedValue = _viewModel.Interpolation.ID;
+                comboBoxInterpolation.SelectedValue = ViewModel.Interpolation.ID;
             }
             else
             {
@@ -84,12 +84,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 comboBoxSpeakerSetup.ValueMember = PropertyNames.ID;
                 comboBoxSpeakerSetup.DisplayMember = PropertyNames.Name;
-                comboBoxSpeakerSetup.DataSource = _viewModel.SpeakerSetupLookup;
+                comboBoxSpeakerSetup.DataSource = ViewModel.SpeakerSetupLookup;
             }
 
-            if (_viewModel.SpeakerSetup != null)
+            if (ViewModel.SpeakerSetup != null)
             {
-                comboBoxSpeakerSetup.SelectedValue = _viewModel.SpeakerSetup.ID;
+                comboBoxSpeakerSetup.SelectedValue = ViewModel.SpeakerSetup.ID;
             }
             else
             {
@@ -99,14 +99,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ApplyControlsToViewModel()
         {
-            if (_viewModel == null) return;
+            if (ViewModel == null) return;
 
-            _viewModel.Name = textBoxName.Text;
-            _viewModel.StartTime = (double)numericUpDownStartTime.Value;
-            _viewModel.EndTime = (double)numericUpDownEndTime.Value;
-            _viewModel.SamplingRate = (int)numericUpDownSamplingRate.Value;
-            _viewModel.Interpolation = (IDAndName)comboBoxInterpolation.SelectedItem;
-            _viewModel.SpeakerSetup = (IDAndName)comboBoxSpeakerSetup.SelectedItem;
+            ViewModel.Name = textBoxName.Text;
+            ViewModel.StartTime = (double)numericUpDownStartTime.Value;
+            ViewModel.EndTime = (double)numericUpDownEndTime.Value;
+            ViewModel.SamplingRate = (int)numericUpDownSamplingRate.Value;
+            ViewModel.Interpolation = (IDAndName)comboBoxInterpolation.SelectedItem;
+            ViewModel.SpeakerSetup = (IDAndName)comboBoxSpeakerSetup.SelectedItem;
         }
 
         // Actions

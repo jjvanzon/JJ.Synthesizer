@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.specializedDataGridView = new JJ.Presentation.Synthesizer.WinForms.UserControls.SpecializedDataGridView();
+            this.specializedDataGridView = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.SpecializedDataGridView();
             this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.IDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -162,7 +162,7 @@
 
         #endregion
 
-        private SpecializedDataGridView specializedDataGridView;
+        private Partials.SpecializedDataGridView specializedDataGridView;
         private Partials.TitleBarUserControl titleBarUserControl;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
         private System.Windows.Forms.DataGridViewTextBoxColumn IDColumn;

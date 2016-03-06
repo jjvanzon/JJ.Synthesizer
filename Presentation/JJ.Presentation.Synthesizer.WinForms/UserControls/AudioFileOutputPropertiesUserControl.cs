@@ -54,61 +54,61 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            textBoxName.Text = _viewModel.Entity.Name;
-            numericUpDownSamplingRate.Value = _viewModel.Entity.SamplingRate;
+            textBoxName.Text = ViewModel.Entity.Name;
+            numericUpDownSamplingRate.Value = ViewModel.Entity.SamplingRate;
 
             if (comboBoxAudioFileFormat.DataSource == null)
             {
                 comboBoxAudioFileFormat.ValueMember = PropertyNames.ID;
                 comboBoxAudioFileFormat.DisplayMember = PropertyNames.Name;
-                comboBoxAudioFileFormat.DataSource = _viewModel.AudioFileFormatLookup;
+                comboBoxAudioFileFormat.DataSource = ViewModel.AudioFileFormatLookup;
             }
-            comboBoxAudioFileFormat.SelectedValue = _viewModel.Entity.AudioFileFormat.ID;
+            comboBoxAudioFileFormat.SelectedValue = ViewModel.Entity.AudioFileFormat.ID;
 
             if (comboBoxSampleDataType.DataSource == null)
             {
                 comboBoxSampleDataType.ValueMember = PropertyNames.ID;
                 comboBoxSampleDataType.DisplayMember = PropertyNames.Name;
-                comboBoxSampleDataType.DataSource = _viewModel.SampleDataTypeLookup;
+                comboBoxSampleDataType.DataSource = ViewModel.SampleDataTypeLookup;
             }
-            comboBoxSampleDataType.SelectedValue = _viewModel.Entity.SampleDataType.ID;
+            comboBoxSampleDataType.SelectedValue = ViewModel.Entity.SampleDataType.ID;
 
             if (comboBoxSpeakerSetup.DataSource == null)
             {
                 comboBoxSpeakerSetup.ValueMember = PropertyNames.ID;
                 comboBoxSpeakerSetup.DisplayMember = PropertyNames.Name;
-                comboBoxSpeakerSetup.DataSource = _viewModel.SpeakerSetupLookup;
+                comboBoxSpeakerSetup.DataSource = ViewModel.SpeakerSetupLookup;
             }
-            comboBoxSpeakerSetup.SelectedValue = _viewModel.Entity.SpeakerSetup.ID;
+            comboBoxSpeakerSetup.SelectedValue = ViewModel.Entity.SpeakerSetup.ID;
 
-            numericUpDownStartTime.Value = (decimal)_viewModel.Entity.StartTime;
-            numericUpDownDuration.Value = (decimal)_viewModel.Entity.Duration;
-            numericUpDownAmplifier.Value = (decimal)_viewModel.Entity.Amplifier;
-            numericUpDownTimeMultiplier.Value = (decimal)_viewModel.Entity.TimeMultiplier;
+            numericUpDownStartTime.Value = (decimal)ViewModel.Entity.StartTime;
+            numericUpDownDuration.Value = (decimal)ViewModel.Entity.Duration;
+            numericUpDownAmplifier.Value = (decimal)ViewModel.Entity.Amplifier;
+            numericUpDownTimeMultiplier.Value = (decimal)ViewModel.Entity.TimeMultiplier;
 
-            textBoxFilePath.Text = _viewModel.Entity.FilePath;
+            textBoxFilePath.Text = ViewModel.Entity.FilePath;
 
-            audioFileOutputChannelsUserControl.ViewModel = _viewModel.Entity.Channels;
+            audioFileOutputChannelsUserControl.ViewModel = ViewModel.Entity.Channels;
         }
 
         private void ApplyControlsToViewModel()
         {
-            if (_viewModel == null) return;
+            if (ViewModel == null) return;
 
-            _viewModel.Entity.Name = textBoxName.Text;
-            _viewModel.Entity.SamplingRate = (int)numericUpDownSamplingRate.Value;
+            ViewModel.Entity.Name = textBoxName.Text;
+            ViewModel.Entity.SamplingRate = (int)numericUpDownSamplingRate.Value;
 
-            _viewModel.Entity.AudioFileFormat.ID = (int)comboBoxAudioFileFormat.SelectedValue;
-            _viewModel.Entity.SampleDataType.ID = (int)comboBoxSampleDataType.SelectedValue;
+            ViewModel.Entity.AudioFileFormat.ID = (int)comboBoxAudioFileFormat.SelectedValue;
+            ViewModel.Entity.SampleDataType.ID = (int)comboBoxSampleDataType.SelectedValue;
 
-            _viewModel.Entity.SpeakerSetup.ID = (int)comboBoxSpeakerSetup.SelectedValue;
+            ViewModel.Entity.SpeakerSetup.ID = (int)comboBoxSpeakerSetup.SelectedValue;
 
-            _viewModel.Entity.StartTime = (double)numericUpDownStartTime.Value;
-            _viewModel.Entity.Duration = (double)numericUpDownDuration.Value;
-            _viewModel.Entity.Amplifier = (double)numericUpDownAmplifier.Value;
-            _viewModel.Entity.TimeMultiplier = (double)numericUpDownTimeMultiplier.Value;
+            ViewModel.Entity.StartTime = (double)numericUpDownStartTime.Value;
+            ViewModel.Entity.Duration = (double)numericUpDownDuration.Value;
+            ViewModel.Entity.Amplifier = (double)numericUpDownAmplifier.Value;
+            ViewModel.Entity.TimeMultiplier = (double)numericUpDownTimeMultiplier.Value;
 
-            _viewModel.Entity.FilePath = textBoxFilePath.Text;
+            ViewModel.Entity.FilePath = textBoxFilePath.Text;
 
             audioFileOutputChannelsUserControl.ApplyControlsToViewModels();
         }

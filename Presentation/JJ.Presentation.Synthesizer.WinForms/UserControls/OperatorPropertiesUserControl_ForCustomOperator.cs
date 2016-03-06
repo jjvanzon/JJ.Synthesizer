@@ -56,13 +56,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            if (_viewModel == null) return;
+            if (ViewModel == null) return;
 
-            textBoxName.Text = _viewModel.Name;
+            textBoxName.Text = ViewModel.Name;
 
-            if (_viewModel.UnderlyingPatch != null)
+            if (ViewModel.UnderlyingPatch != null)
             {
-                comboBoxUnderlyingPatch.SelectedValue = _viewModel.UnderlyingPatch.ChildDocumentID;
+                comboBoxUnderlyingPatch.SelectedValue = ViewModel.UnderlyingPatch.ChildDocumentID;
             }
             else
             {
@@ -95,10 +95,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ApplyControlsToViewModel()
         {
-            if (_viewModel == null) return;
+            if (ViewModel == null) return;
 
-            _viewModel.Name = textBoxName.Text;
-            _viewModel.UnderlyingPatch = (ChildDocumentIDAndNameViewModel)comboBoxUnderlyingPatch.SelectedItem;
+            ViewModel.Name = textBoxName.Text;
+            ViewModel.UnderlyingPatch = (ChildDocumentIDAndNameViewModel)comboBoxUnderlyingPatch.SelectedItem;
         }
 
         // Actions

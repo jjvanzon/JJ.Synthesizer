@@ -39,7 +39,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            specializedDataGridView.DataSource = _viewModel.List;
+            specializedDataGridView.DataSource = ViewModel.List;
         }
 
         // Events

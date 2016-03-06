@@ -37,22 +37,22 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            if (_viewModel == null) return;
+            if (ViewModel == null) return;
 
-            labelIDValue.Text = _viewModel.Document.ID.ToString();
-            textBoxName.Text = _viewModel.Document.Name;
+            labelIDValue.Text = ViewModel.Document.ID.ToString();
+            textBoxName.Text = ViewModel.Document.Name;
 
-            labelIDTitle.Visible = _viewModel.IDVisible;
-            labelIDValue.Visible = _viewModel.IDVisible;
+            labelIDTitle.Visible = ViewModel.IDVisible;
+            labelIDValue.Visible = ViewModel.IDVisible;
 
-            buttonDelete.Visible = _viewModel.CanDelete;
+            buttonDelete.Visible = ViewModel.CanDelete;
         }
 
         private void ApplyControlsToViewModel()
         {
-            if (_viewModel == null) return;
+            if (ViewModel == null) return;
 
-            _viewModel.Document.Name = textBoxName.Text;
+            ViewModel.Document.Name = textBoxName.Text;
         }
 
         // Actions
@@ -78,9 +78,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (DeleteRequested != null)
             {
-                if (_viewModel == null) return;
+                if (ViewModel == null) return;
 
-                var e = new Int32EventArgs(_viewModel.Document.ID);
+                var e = new Int32EventArgs(ViewModel.Document.ID);
                 DeleteRequested(this, e);
             }
         }

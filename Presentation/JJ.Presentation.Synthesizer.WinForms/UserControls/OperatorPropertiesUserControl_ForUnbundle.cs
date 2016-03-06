@@ -50,18 +50,18 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            if (_viewModel == null) return;
+            if (ViewModel == null) return;
 
-            textBoxName.Text = _viewModel.Name;
-            numericUpDownOutletCount.Value = _viewModel.OutletCount;
+            textBoxName.Text = ViewModel.Name;
+            numericUpDownOutletCount.Value = ViewModel.OutletCount;
         }
 
         private void ApplyControlsToViewModel()
         {
-            if (_viewModel == null) return;
+            if (ViewModel == null) return;
 
-            _viewModel.Name = textBoxName.Text;
-            _viewModel.OutletCount = (int)numericUpDownOutletCount.Value;
+            ViewModel.Name = textBoxName.Text;
+            ViewModel.OutletCount = (int)numericUpDownOutletCount.Value;
         }
 
         // Actions

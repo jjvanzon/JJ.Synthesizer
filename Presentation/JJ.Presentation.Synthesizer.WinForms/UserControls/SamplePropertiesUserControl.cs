@@ -67,77 +67,77 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            if (_viewModel == null)
+            if (ViewModel == null)
             {
                 return;
             }
 
-            textBoxName.Text = _viewModel.Entity.Name;
-            numericUpDownSamplingRate.Value = _viewModel.Entity.SamplingRate;
+            textBoxName.Text = ViewModel.Entity.Name;
+            numericUpDownSamplingRate.Value = ViewModel.Entity.SamplingRate;
 
             if (comboBoxAudioFileFormat.DataSource == null)
             {
                 comboBoxAudioFileFormat.ValueMember = PropertyNames.ID;
                 comboBoxAudioFileFormat.DisplayMember = PropertyNames.Name;
-                comboBoxAudioFileFormat.DataSource = _viewModel.AudioFileFormatLookup;
+                comboBoxAudioFileFormat.DataSource = ViewModel.AudioFileFormatLookup;
             }
-            comboBoxAudioFileFormat.SelectedValue = _viewModel.Entity.AudioFileFormat.ID;
+            comboBoxAudioFileFormat.SelectedValue = ViewModel.Entity.AudioFileFormat.ID;
 
             if (comboBoxSampleDataType.DataSource == null)
             {
                 comboBoxSampleDataType.ValueMember = PropertyNames.ID;
                 comboBoxSampleDataType.DisplayMember = PropertyNames.Name;
-                comboBoxSampleDataType.DataSource = _viewModel.SampleDataTypeLookup;
+                comboBoxSampleDataType.DataSource = ViewModel.SampleDataTypeLookup;
             }
-            comboBoxSampleDataType.SelectedValue = _viewModel.Entity.SampleDataType.ID;
+            comboBoxSampleDataType.SelectedValue = ViewModel.Entity.SampleDataType.ID;
 
             if (comboBoxSpeakerSetup.DataSource == null)
             {
                 comboBoxSpeakerSetup.ValueMember = PropertyNames.ID;
                 comboBoxSpeakerSetup.DisplayMember = PropertyNames.Name;
-                comboBoxSpeakerSetup.DataSource = _viewModel.SpeakerSetupLookup;
+                comboBoxSpeakerSetup.DataSource = ViewModel.SpeakerSetupLookup;
             }
-            comboBoxSpeakerSetup.SelectedValue = _viewModel.Entity.SpeakerSetup.ID;
+            comboBoxSpeakerSetup.SelectedValue = ViewModel.Entity.SpeakerSetup.ID;
 
-            numericUpDownAmplifier.Value = (decimal)_viewModel.Entity.Amplifier;
-            numericUpDownTimeMultiplier.Value = (decimal)_viewModel.Entity.TimeMultiplier;
-            checkBoxIsActive.Checked = _viewModel.Entity.IsActive;
-            numericUpDownBytesToSkip.Value = _viewModel.Entity.BytesToSkip;
+            numericUpDownAmplifier.Value = (decimal)ViewModel.Entity.Amplifier;
+            numericUpDownTimeMultiplier.Value = (decimal)ViewModel.Entity.TimeMultiplier;
+            checkBoxIsActive.Checked = ViewModel.Entity.IsActive;
+            numericUpDownBytesToSkip.Value = ViewModel.Entity.BytesToSkip;
 
             if (comboBoxInterpolationType.DataSource == null)
             {
                 comboBoxInterpolationType.ValueMember = PropertyNames.ID;
                 comboBoxInterpolationType.DisplayMember = PropertyNames.Name;
-                comboBoxInterpolationType.DataSource = _viewModel.InterpolationTypeLookup;
+                comboBoxInterpolationType.DataSource = ViewModel.InterpolationTypeLookup;
             }
-            comboBoxInterpolationType.SelectedValue = _viewModel.Entity.InterpolationType.ID;
+            comboBoxInterpolationType.SelectedValue = ViewModel.Entity.InterpolationType.ID;
 
-            filePathControlOriginalLocation.Text = _viewModel.Entity.OriginalLocation;
+            filePathControlOriginalLocation.Text = ViewModel.Entity.OriginalLocation;
             labelDurationValue.Text = ViewModel.Entity.Duration.ToString("0.###");
         }
 
         private void ApplyControlsToViewModel()
         {
-            if (_viewModel == null)
+            if (ViewModel == null)
             {
                 return;
             }
 
-            _viewModel.Entity.Name = textBoxName.Text;
-            _viewModel.Entity.SamplingRate = (int)numericUpDownSamplingRate.Value;
+            ViewModel.Entity.Name = textBoxName.Text;
+            ViewModel.Entity.SamplingRate = (int)numericUpDownSamplingRate.Value;
 
-            _viewModel.Entity.AudioFileFormat.ID = (int)comboBoxAudioFileFormat.SelectedValue;
-            _viewModel.Entity.SampleDataType.ID = (int)comboBoxSampleDataType.SelectedValue;
-            _viewModel.Entity.SpeakerSetup.ID = (int)comboBoxSpeakerSetup.SelectedValue;
+            ViewModel.Entity.AudioFileFormat.ID = (int)comboBoxAudioFileFormat.SelectedValue;
+            ViewModel.Entity.SampleDataType.ID = (int)comboBoxSampleDataType.SelectedValue;
+            ViewModel.Entity.SpeakerSetup.ID = (int)comboBoxSpeakerSetup.SelectedValue;
 
-            _viewModel.Entity.Amplifier = (double)numericUpDownAmplifier.Value;
-            _viewModel.Entity.TimeMultiplier = (double)numericUpDownTimeMultiplier.Value;
-            _viewModel.Entity.IsActive = checkBoxIsActive.Checked;
-            _viewModel.Entity.BytesToSkip = (int)numericUpDownBytesToSkip.Value;
+            ViewModel.Entity.Amplifier = (double)numericUpDownAmplifier.Value;
+            ViewModel.Entity.TimeMultiplier = (double)numericUpDownTimeMultiplier.Value;
+            ViewModel.Entity.IsActive = checkBoxIsActive.Checked;
+            ViewModel.Entity.BytesToSkip = (int)numericUpDownBytesToSkip.Value;
 
-            _viewModel.Entity.InterpolationType.ID = (int)comboBoxInterpolationType.SelectedValue;
+            ViewModel.Entity.InterpolationType.ID = (int)comboBoxInterpolationType.SelectedValue;
 
-            _viewModel.Entity.OriginalLocation = filePathControlOriginalLocation.Text;
+            ViewModel.Entity.OriginalLocation = filePathControlOriginalLocation.Text;
         }
 
         // Actions
@@ -169,11 +169,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void filePathControlOriginalLocation_Browsed(object sender, FilePathEventArgs e)
         {
-            if (_viewModel == null) throw new NullException(() => _viewModel);
+            if (ViewModel == null) throw new NullException(() => ViewModel);
 
             using (Stream stream = new FileStream(e.FilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                _viewModel.Entity.Bytes = StreamHelper.StreamToBytes(stream);
+                ViewModel.Entity.Bytes = StreamHelper.StreamToBytes(stream);
             }
         }
 

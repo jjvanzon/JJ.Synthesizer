@@ -50,7 +50,7 @@
             this.operatorPropertiesUserControl_ForNumber = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForNumber();
             this.operatorPropertiesUserControl_ForPatchOutlet = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForPatchOutlet();
             this.menuUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.MenuUserControl();
-            this.currentPatchesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurrentPatchesUserControl();
+            this.currentPatchesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.CurrentPatchesUserControl();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerTree)).BeginInit();
             this.splitContainerTree.Panel1.SuspendLayout();
             this.splitContainerTree.Panel2.SuspendLayout();
@@ -581,7 +581,7 @@
         private UserControls.NodePropertiesUserControl nodePropertiesUserControl;
         private UserControls.OperatorPropertiesUserControl_ForBundle operatorPropertiesUserControl_ForBundle;
         private UserControls.OperatorPropertiesUserControl_ForUnbundle operatorPropertiesUserControl_ForUnbundle;
-        private UserControls.CurrentPatchesUserControl currentPatchesUserControl;
+        private UserControls.Partials.CurrentPatchesUserControl currentPatchesUserControl;
         private UserControls.OperatorPropertiesUserControl_ForSpectrum operatorPropertiesUserControl_ForSpectrum;
         private UserControls.OperatorPropertiesUserControl_ForAggregate operatorPropertiesUserControl_ForAggregate;
         private UserControls.OperatorPropertiesUserControl_ForResample operatorPropertiesUserControl_ForResample;

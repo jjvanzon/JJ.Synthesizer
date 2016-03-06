@@ -33,9 +33,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            if (_viewModel == null) return;
+            if (ViewModel == null) return;
 
-            specializedDataGridView.DataSource = _viewModel.List;
+            specializedDataGridView.DataSource = ViewModel.List;
         }
 
         // Actions
@@ -44,7 +44,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (CreateRequested != null)
             {
-                var e = new StringEventArgs(_viewModel.Group);
+                var e = new StringEventArgs(ViewModel.Group);
                 CreateRequested(this, e);
             }
         }

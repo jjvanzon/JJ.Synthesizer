@@ -50,20 +50,20 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            if (_viewModel == null) return;
+            if (ViewModel == null) return;
 
-            textBoxName.Text = _viewModel.Name;
-            textBoxGroup.Text = _viewModel.Group;
+            textBoxName.Text = ViewModel.Name;
+            textBoxGroup.Text = ViewModel.Group;
 
-            buttonAddToCurentPatches.Enabled = _viewModel.CanAddToCurrentPatches;
+            buttonAddToCurentPatches.Enabled = ViewModel.CanAddToCurrentPatches;
         }
 
         private void ApplyControlsToViewModel()
         {
-            if (_viewModel == null) return;
+            if (ViewModel == null) return;
 
-            _viewModel.Name = textBoxName.Text;
-            _viewModel.Group = textBoxGroup.Text;
+            ViewModel.Name = textBoxName.Text;
+            ViewModel.Group = textBoxGroup.Text;
         }
 
         // Actions
@@ -97,7 +97,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (AddCurrentPatchRequested != null)
             {
-                var e2 = new Int32EventArgs(_viewModel.ChildDocumentID);
+                var e2 = new Int32EventArgs(ViewModel.ChildDocumentID);
                 AddCurrentPatchRequested(this, e2);
             }
         }
