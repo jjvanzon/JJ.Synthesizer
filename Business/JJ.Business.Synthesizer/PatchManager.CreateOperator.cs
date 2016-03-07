@@ -8,8 +8,6 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Framework.Business;
 using JJ.Business.Synthesizer.SideEffects;
 using JJ.Business.Synthesizer.Extensions;
-using System.Reflection;
-using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Canonical;
 using JJ.Business.Canonical;
@@ -358,6 +356,32 @@ namespace JJ.Business.Synthesizer
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
+        public Filter_OperatorWrapper Filter(
+            FilterTypeEnum filterTypeEnum = FilterTypeEnum.LowPassFilter,
+            Outlet signal = null,
+            Outlet frequency = null,
+            Outlet bandWidth = null,
+            Outlet dbGain = null,
+            Outlet shelfSlope = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Filter, inletCount: 5, outletCount: 1);
+
+            var wrapper = new Filter_OperatorWrapper(op)
+            {
+                FilterTypeEnum = filterTypeEnum,
+                Signal = signal, 
+                Frequency = frequency,
+                BandWidth = bandWidth,
+                DBGain = dbGain,
+                ShelfSlope = shelfSlope
+            };
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1307,6 +1331,7 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.Earlier: return Earlier();
                 case OperatorTypeEnum.Equal: return Equal();
                 case OperatorTypeEnum.Exponent: return Exponent();
+                case OperatorTypeEnum.Filter: return Filter();
                 case OperatorTypeEnum.GreaterThan: return GreaterThan();
                 case OperatorTypeEnum.GreaterThanOrEqual: return GreaterThanOrEqual();
                 case OperatorTypeEnum.HighPassFilter: return HighPassFilter();

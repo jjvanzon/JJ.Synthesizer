@@ -112,5 +112,6 @@ namespace JJ.Business.Synthesizer.Helpers
         public const string SampleCount = "SampleCount";
         public const string InterpolationType = "InterpolationType";
         public const string SpeakerSetup = "SpeakerSetup";
+        public const string FilterType = "FilterType";
     }
 }

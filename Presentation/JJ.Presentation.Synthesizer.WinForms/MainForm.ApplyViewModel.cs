@@ -121,6 +121,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 .FirstOrDefault();
             operatorPropertiesUserControl_ForCustomOperator.SetUnderlyingPatchLookup(_presenter.MainViewModel.Document.UnderlyingPatchLookup);
 
+            // OperatorProperties_ForFilter
+            operatorPropertiesUserControl_ForFilter.ViewModel =
+                _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForFilters)
+                .Where(x => x.Visible)
+                .FirstOrDefault();
+
             // OperatorProperties_ForNumber
             operatorPropertiesUserControl_ForNumber.ViewModel =
                 _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForNumbers)
@@ -191,9 +197,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             // PatchProperties
             patchPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.PatchDocumentList
-                                                                                .Select(x => x.PatchProperties)
-                                                                                .Where(x => x.Visible)
-                                                                                .FirstOrDefault();
+                                                                                    .Select(x => x.PatchProperties)
+                                                                                    .Where(x => x.Visible)
+                                                                                    .FirstOrDefault();
             // SampleGrid
             if (_presenter.MainViewModel.Document.SampleGrid.Visible)
             {
@@ -202,9 +208,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             else
             {
                 sampleGridUserControl.ViewModel = _presenter.MainViewModel.Document.PatchDocumentList
-                                                                               .Select(x => x.SampleGrid)
-                                                                               .Where(x => x.Visible)
-                                                                               .FirstOrDefault();
+                                                                                   .Select(x => x.SampleGrid)
+                                                                                   .Where(x => x.Visible)
+                                                                                   .FirstOrDefault();
             }
 
             // SampleProperties

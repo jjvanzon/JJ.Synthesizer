@@ -121,6 +121,12 @@
     <Compile Include="UserControls\2016-03-06 Backup of MenuUserControl.Designer.cs">
       <DependentUpon>2016-03-06 Backup of MenuUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\OperatorPropertiesUserControl_ForFilter.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\OperatorPropertiesUserControl_ForFilter.Designer.cs">
+      <DependentUpon>OperatorPropertiesUserControl_ForFilter.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Partials\CurrentPatchItemUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -373,6 +379,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\2016-03-06 Backup of MenuUserControl.resx">
       <DependentUpon>2016-03-06 Backup of MenuUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForFilter.resx">
+      <DependentUpon>OperatorPropertiesUserControl_ForFilter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\Partials\CurrentPatchItemUserControl.resx">
       <DependentUpon>CurrentPatchItemUserControl.cs</DependentUpon>

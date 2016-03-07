@@ -26,6 +26,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.Cache,
             OperatorTypeEnum.Curve,
             OperatorTypeEnum.CustomOperator,
+            OperatorTypeEnum.Filter,
             OperatorTypeEnum.Maximum,
             OperatorTypeEnum.Minimum,
             OperatorTypeEnum.Number,

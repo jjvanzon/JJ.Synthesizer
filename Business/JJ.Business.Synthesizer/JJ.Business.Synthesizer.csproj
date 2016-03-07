@@ -79,6 +79,7 @@
     <Compile Include="Calculation\Curves\CurveCalculator_MinTimeZero.cs" />
     <Compile Include="Calculation\Curves\CurveCalculator_MinTime.cs" />
     <Compile Include="Calculation\Operators\Cache OperatorCalculator Classes.cs" />
+    <Compile Include="Calculation\Operators\Filter_ManyConstants_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Loop_OperatorCalculator_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration.cs" />
     <Compile Include="Calculation\Operators\Loop_OperatorCalculator_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration.cs" />
     <Compile Include="Calculation\Operators\Loop_OperatorCalculator_ManyConstants.cs" />
@@ -189,6 +190,7 @@
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="Converters\PatchToOperatorConverter.cs" />
     <Compile Include="EntityWrappers\Cache_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\Filter_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\OneOverX_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Negative_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Round_OperatorWrapper.cs" />
@@ -229,6 +231,7 @@
     <Compile Include="EntityWrappers\Triangle_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Square_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\SawUp_OperatorWrapper.cs" />
+    <Compile Include="Enums\FilterTypeEnum.cs" />
     <Compile Include="Enums\InletTypeEnum.cs" />
     <Compile Include="Enums\OutletTypeEnum.cs" />
     <Compile Include="Enums\ResampleInterpolationTypeEnum.cs" />
@@ -305,6 +308,7 @@
     <Compile Include="Validation\OperatorValidator_Absolute.cs" />
     <Compile Include="Validation\OperatorValidator_OneOverX.cs" />
     <Compile Include="Validation\OperatorValidator_Negative.cs" />
+    <Compile Include="Validation\OperatorValidator_Filter.cs" />
     <Compile Include="Validation\OperatorValidator_Round.cs" />
     <Compile Include="Validation\OperatorValidator_SawDown.cs" />
     <Compile Include="Validation\OperatorValidator_Scaler.cs" />
@@ -348,6 +352,7 @@
     <Compile Include="Warnings\OperatorWarningValidator_OneOverX.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Negative.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Round.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_Filter.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_SawDown.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Scaler.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Maximum.cs" />
@@ -608,7 +613,9 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="NAudio Copies\README.TXT" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

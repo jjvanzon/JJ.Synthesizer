@@ -74,6 +74,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             operatorPropertiesUserControl_ForCurve.LoseFocusRequested += operatorPropertiesUserControl_ForCurve_LoseFocusRequested;
             operatorPropertiesUserControl_ForCustomOperator.CloseRequested += operatorPropertiesUserControl_ForCustomOperator_CloseRequested;
             operatorPropertiesUserControl_ForCustomOperator.LoseFocusRequested += operatorPropertiesUserControl_ForCustomOperator_LoseFocusRequested;
+            operatorPropertiesUserControl_ForFilter.CloseRequested += operatorPropertiesUserControl_ForFilter_CloseRequested;
+            operatorPropertiesUserControl_ForFilter.LoseFocusRequested += operatorPropertiesUserControl_ForFilter_LoseFocusRequested;
             operatorPropertiesUserControl_ForNumber.CloseRequested += operatorPropertiesUserControl_ForNumber_CloseRequested;
             operatorPropertiesUserControl_ForNumber.LoseFocusRequested += operatorPropertiesUserControl_ForNumber_LoseFocusRequested;
             operatorPropertiesUserControl_ForPatchInlet.CloseRequested += operatorPropertiesUserControl_ForPatchInlet_CloseRequested;
@@ -494,6 +496,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void operatorPropertiesUserControl_ForCustomOperator_CloseRequested(object sender, EventArgs e)
         {
             TemplateEventHandler(_presenter.OperatorPropertiesClose_ForCustomOperator);
+        }
+
+        private void operatorPropertiesUserControl_ForFilter_LoseFocusRequested(object sender, EventArgs e)
+        {
+            TemplateEventHandler(_presenter.OperatorPropertiesLoseFocus_ForFilter);
+        }
+
+        private void operatorPropertiesUserControl_ForFilter_CloseRequested(object sender, EventArgs e)
+        {
+            TemplateEventHandler(_presenter.OperatorPropertiesClose_ForFilter);
         }
 
         private void operatorPropertiesUserControl_ForNumber_LoseFocusRequested(object sender, EventArgs e)

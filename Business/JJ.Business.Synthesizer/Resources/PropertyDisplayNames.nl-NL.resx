@@ -679,4 +679,19 @@
   <data name="Skip" xml:space="preserve">
     <value>Sprong</value>
   </data>
+  <data name="BandWidth" xml:space="preserve">
+    <value>Bandbreedte</value>
+  </data>
+  <data name="DbGain" xml:space="preserve">
+    <value>dB verhoging</value>
+  </data>
+  <data name="FilterType" xml:space="preserve">
+    <value>Filtersoort</value>
+  </data>
+  <data name="ShelfSlope" xml:space="preserve">
+    <value>Plank helling</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
 </root>

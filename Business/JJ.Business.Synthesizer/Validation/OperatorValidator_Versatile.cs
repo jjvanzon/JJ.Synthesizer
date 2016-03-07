@@ -28,6 +28,7 @@ namespace JJ.Business.Synthesizer.Validation
             { OperatorTypeEnum.Earlier, typeof(OperatorValidator_Earlier) },
             { OperatorTypeEnum.Equal, typeof(OperatorValidator_Equal) },
             { OperatorTypeEnum.Exponent, typeof(OperatorValidator_Exponent) },
+            { OperatorTypeEnum.Filter, typeof(OperatorValidator_Filter) },
             { OperatorTypeEnum.GreaterThan, typeof(OperatorValidator_GreaterThan) },
             { OperatorTypeEnum.GreaterThanOrEqual, typeof(OperatorValidator_GreaterThanOrEqual) },
             { OperatorTypeEnum.HighPassFilter, typeof(OperatorValidator_HighPassFilter) },

@@ -119,6 +119,17 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Exponent(low, high, ratio);
         }
 
+        public Filter_OperatorWrapper Filter(
+            FilterTypeEnum filterTypeEnum = FilterTypeEnum.LowPassFilter,
+            Outlet signal = null,
+            Outlet frequency = null,
+            Outlet bandWidth = null,
+            Outlet dbGain = null,
+            Outlet shelfSlope = null)
+        {
+            return _patchManager.Filter(filterTypeEnum, signal, frequency, bandWidth, dbGain, shelfSlope);
+        }
+
         public GreaterThan_OperatorWrapper GreaterThan(Outlet a = null, Outlet b = null)
         {
             return _patchManager.GreaterThan(a, b);

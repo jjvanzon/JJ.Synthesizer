@@ -200,7 +200,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return idAndNames;
         }
 
-
         public static IList<ChildDocumentIDAndNameViewModel> CreateUnderlyingPatchLookupViewModel(IList<Patch> underlyingPatches)
         {
             if (underlyingPatches == null) throw new NullException(() => underlyingPatches);
@@ -210,6 +209,28 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             list.AddRange(underlyingPatches.OrderBy(x => x.Name).Select(x => x.Document.ToChildDocumentIDAndNameViewModel()));
 
             return list;
+        }
+
+        public static IList<IDAndName> CreateFilterTypeLookupViewModel()
+        {
+            FilterTypeEnum[] enumValues = (FilterTypeEnum[])Enum.GetValues(typeof(FilterTypeEnum));
+
+            var idAndNames = new List<IDAndName>(enumValues.Length);
+            idAndNames.Add(new IDAndName { ID = 0, Name = null });
+
+            foreach (FilterTypeEnum enumValue in enumValues)
+            {
+                if (enumValue == FilterTypeEnum.Undefined)
+                {
+                    continue;
+                }
+
+                var idAndName = enumValue.ToIDAndDisplayName();
+
+                idAndNames.Add(idAndName);
+            }
+
+            return idAndNames;
         }
     }
 }

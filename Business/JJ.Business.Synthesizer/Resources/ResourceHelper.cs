@@ -20,6 +20,12 @@ namespace JJ.Business.Synthesizer.Resources
         public static string GetPropertyDisplayName(string resourceName)
         {
             string str = PropertyDisplayNames.ResourceManager.GetString(resourceName);
+
+            if (String.IsNullOrEmpty(str))
+            {
+                str = resourceName;
+            }
+
             return str;
         }
 
@@ -36,14 +42,7 @@ namespace JJ.Business.Synthesizer.Resources
 
         public static string GetDisplayName(InletTypeEnum enumValue)
         {
-            string displayName = PropertyDisplayNames.ResourceManager.GetString(enumValue.ToString());
-
-            if (String.IsNullOrEmpty(displayName))
-            {
-                displayName = enumValue.ToString();
-            }
-
-            return displayName;
+            return GetPropertyDisplayName(enumValue.ToString());
         }
 
         // InterpolationType
@@ -59,14 +58,7 @@ namespace JJ.Business.Synthesizer.Resources
 
         public static string GetDisplayName(InterpolationTypeEnum enumValue)
         {
-            string displayName = PropertyDisplayNames.ResourceManager.GetString(enumValue.ToString());
-
-            if (String.IsNullOrEmpty(displayName))
-            {
-                displayName = enumValue.ToString();
-            }
-
-            return displayName;
+            return GetPropertyDisplayName(enumValue.ToString());
         }
 
         // OperatorType
@@ -88,14 +80,7 @@ namespace JJ.Business.Synthesizer.Resources
 
         public static string GetDisplayName(OperatorTypeEnum enumValue)
         {
-            string displayName = PropertyDisplayNames.ResourceManager.GetString(enumValue.ToString());
-
-            if (String.IsNullOrEmpty(displayName))
-            {
-                displayName = enumValue.ToString();
-            }
-
-            return displayName;
+            return GetPropertyDisplayName(enumValue.ToString());
         }
 
         // OutletType
@@ -111,14 +96,7 @@ namespace JJ.Business.Synthesizer.Resources
 
         public static string GetDisplayName(OutletTypeEnum enumValue)
         {
-            string displayName = PropertyDisplayNames.ResourceManager.GetString(enumValue.ToString());
-
-            if (String.IsNullOrEmpty(displayName))
-            {
-                displayName = enumValue.ToString();
-            }
-
-            return displayName;
+            return GetPropertyDisplayName(enumValue.ToString());
         }
 
         // SpeakerSetup
@@ -134,28 +112,14 @@ namespace JJ.Business.Synthesizer.Resources
 
         public static string GetDisplayName(SpeakerSetupEnum enumValue)
         {
-            string displayName = PropertyDisplayNames.ResourceManager.GetString(enumValue.ToString());
-
-            if (String.IsNullOrEmpty(displayName))
-            {
-                displayName = enumValue.ToString();
-            }
-
-            return displayName;
+            return GetPropertyDisplayName(enumValue.ToString());
         }
 
         // ResampleInterpolationType
 
         public static string GetDisplayName(ResampleInterpolationTypeEnum enumValue)
         {
-            string displayName = PropertyDisplayNames.ResourceManager.GetString(enumValue.ToString());
-
-            if (String.IsNullOrEmpty(displayName))
-            {
-                displayName = enumValue.ToString();
-            }
-
-            return displayName;
+            return GetPropertyDisplayName(enumValue.ToString());
         }
 
         // ScaleType Singular
@@ -180,14 +144,7 @@ namespace JJ.Business.Synthesizer.Resources
 
         public static string GetDisplayNameSingular(ScaleTypeEnum enumValue)
         {
-            string displayName = PropertyDisplayNames.ResourceManager.GetString(enumValue.ToString());
-
-            if (String.IsNullOrEmpty(displayName))
-            {
-                displayName = enumValue.ToString();
-            }
-
-            return displayName;
+            return GetPropertyDisplayName(enumValue.ToString());
         }
 
         // TODO: Perhaps remove this overload.
@@ -249,6 +206,13 @@ namespace JJ.Business.Synthesizer.Resources
         {
             ScaleTypeEnum scaleTypeEnum = EnumHelper.Parse<ScaleTypeEnum>(scaleTypeName);
             return GetDisplayNamePlural(scaleTypeEnum);
+        }
+
+        // FilterType
+
+        public static string GetDisplayName(FilterTypeEnum filterTypeEnum)
+        {
+            return GetPropertyDisplayName(filterTypeEnum.ToString());
         }
     }
 }

@@ -102,6 +102,13 @@
         Round = 55,
         Negative = 56,
         OneOverX = 57,
-        Cache = 58
+        Cache = 58,
+
+        /// <summary>
+        /// Allows all the types of filters that NAudio BiQuadFilter provides. 
+        /// Perhaps later this will replace the HighPassFilter and LowPassFilter operators.
+        /// Perhaps instead useful filters will be selected and turned into a separate operator.
+        /// </summary>
+        Filter = 59
     }
 }

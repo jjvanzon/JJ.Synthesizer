@@ -51,6 +51,7 @@
             this.operatorPropertiesUserControl_ForPatchOutlet = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForPatchOutlet();
             this.menuUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.MenuUserControl();
             this.currentPatchesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.CurrentPatchesUserControl();
+            this.operatorPropertiesUserControl_ForFilter = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForFilter();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerTree)).BeginInit();
             this.splitContainerTree.Panel1.SuspendLayout();
             this.splitContainerTree.Panel2.SuspendLayout();
@@ -114,6 +115,7 @@
             // 
             // splitContainerProperties.Panel2
             // 
+            this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForFilter);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForCache);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForRandom);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForResample);
@@ -524,6 +526,18 @@
             this.currentPatchesUserControl.Size = new System.Drawing.Size(1188, 30);
             this.currentPatchesUserControl.TabIndex = 14;
             // 
+            // operatorPropertiesUserControl_ForFilter
+            // 
+            this.operatorPropertiesUserControl_ForFilter.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.operatorPropertiesUserControl_ForFilter.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.operatorPropertiesUserControl_ForFilter.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.operatorPropertiesUserControl_ForFilter.Font = new System.Drawing.Font("Verdana", 10F);
+            this.operatorPropertiesUserControl_ForFilter.Location = new System.Drawing.Point(0, 0);
+            this.operatorPropertiesUserControl_ForFilter.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.operatorPropertiesUserControl_ForFilter.Name = "operatorPropertiesUserControl_ForFilter";
+            this.operatorPropertiesUserControl_ForFilter.Size = new System.Drawing.Size(280, 814);
+            this.operatorPropertiesUserControl_ForFilter.TabIndex = 1;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -587,5 +601,6 @@
         private UserControls.OperatorPropertiesUserControl_ForResample operatorPropertiesUserControl_ForResample;
         private UserControls.OperatorPropertiesUserControl_ForRandom operatorPropertiesUserControl_ForRandom;
         private UserControls.OperatorPropertiesUserControl_ForCache operatorPropertiesUserControl_ForCache;
+        private UserControls.OperatorPropertiesUserControl_ForFilter operatorPropertiesUserControl_ForFilter;
     }
 }

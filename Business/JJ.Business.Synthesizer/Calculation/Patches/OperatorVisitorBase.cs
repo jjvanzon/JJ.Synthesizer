@@ -30,6 +30,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.Earlier, VisitEarlier },
                 { OperatorTypeEnum.Equal, VisitEqual },
                 { OperatorTypeEnum.Exponent, VisitExponent },
+                { OperatorTypeEnum.Filter, VisitFilter },
                 { OperatorTypeEnum.GreaterThan, VisitGreaterThan },
                 { OperatorTypeEnum.GreaterThanOrEqual, VisitGreaterThanOrEqual },
                 { OperatorTypeEnum.HighPassFilter, VisitHighPassFilter },
@@ -156,6 +157,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         /// <summary> does nothing </summary>
         protected virtual void VisitExponent(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitFilter(Operator op) { }
 
         /// <summary> does nothing </summary>
         protected virtual void VisitGreaterThan(Operator op) { }

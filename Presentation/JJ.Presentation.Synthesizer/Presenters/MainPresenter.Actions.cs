@@ -1116,6 +1116,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
             {
+                OperatorPropertiesViewModel_ForFilter userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForFilter(MainViewModel.Document, id);
+                if (userInput != null)
+                {
+                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForFilter.Show(userInput));
+                    return;
+                }
+            }
+            {
                 OperatorPropertiesViewModel_ForNumber userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForNumber(MainViewModel.Document, id);
                 if (userInput != null)
                 {
@@ -1226,6 +1234,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesCloseOrLoseFocus_ForCustomOperator(_operatorPropertiesPresenter_ForCustomOperator.Close);
         }
 
+        public void OperatorPropertiesClose_ForFilter()
+        {
+            OperatorPropertiesCloseOrLoseFocus_ForFilter(_operatorPropertiesPresenter_ForFilter.Close);
+        }
+
         public void OperatorPropertiesClose_ForNumber()
         {
             OperatorPropertiesCloseOrLoseFocus_ForNumber(_operatorPropertiesPresenter_ForNumber.Close);
@@ -1299,6 +1312,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void OperatorPropertiesLoseFocus_ForNumber()
         {
             OperatorPropertiesCloseOrLoseFocus_ForNumber(_operatorPropertiesPresenter_ForNumber.LoseFocus);
+        }
+
+        public void OperatorPropertiesLoseFocus_ForFilter()
+        {
+            OperatorPropertiesCloseOrLoseFocus_ForFilter(_operatorPropertiesPresenter_ForFilter.LoseFocus);
         }
 
         public void OperatorPropertiesLoseFocus_ForPatchInlet()
@@ -1418,6 +1436,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // TemplateMethod
             OperatorPropertiesViewModel_ForCustomOperator viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
+
+            // Refresh
+            if (viewModel.Successful)
+            {
+                PatchDetails_RefreshOperator(userInput.ID);
+            }
+        }
+
+        private void OperatorPropertiesCloseOrLoseFocus_ForFilter(Func<OperatorPropertiesViewModel_ForFilter, OperatorPropertiesViewModel_ForFilter> partialAction)
+        {
+            // GetViewModel
+            OperatorPropertiesViewModel_ForFilter userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForFilter(MainViewModel.Document);
+
+            // TemplateMethod
+            OperatorPropertiesViewModel_ForFilter viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
 
             // Refresh
             if (viewModel.Successful)

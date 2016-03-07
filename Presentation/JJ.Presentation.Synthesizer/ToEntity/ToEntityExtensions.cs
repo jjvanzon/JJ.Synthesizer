@@ -834,7 +834,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         public static Operator ToEntity(
             this OperatorPropertiesViewModel_ForBundle viewModel,
-            IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository)
+            IOperatorRepository operatorRepository,
+            IOperatorTypeRepository operatorTypeRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
@@ -855,7 +856,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         public static Operator ToEntity(
             this OperatorPropertiesViewModel_ForCache viewModel,
-            IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository)
+            IOperatorRepository operatorRepository,
+            IOperatorTypeRepository operatorTypeRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
@@ -903,7 +905,9 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         public static Operator ToEntity(
             this OperatorPropertiesViewModel_ForCurve viewModel,
-            IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository, ICurveRepository curveRepository)
+            IOperatorRepository operatorRepository, 
+            IOperatorTypeRepository operatorTypeRepository, 
+            ICurveRepository curveRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
@@ -973,8 +977,42 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         }
 
         public static Operator ToEntity(
+            this OperatorPropertiesViewModel_ForFilter viewModel,
+            IOperatorRepository operatorRepository,
+            IOperatorTypeRepository operatorTypeRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (operatorRepository == null) throw new NullException(() => operatorRepository);
+
+            Operator entity = operatorRepository.TryGet(viewModel.ID);
+            if (entity == null)
+            {
+                entity = new Operator();
+                entity.ID = viewModel.ID;
+                operatorRepository.Insert(entity);
+            }
+
+            entity.Name = viewModel.Name;
+            entity.SetOperatorTypeEnum(OperatorTypeEnum.Filter, operatorTypeRepository);
+
+            var wrapper = new Filter_OperatorWrapper(entity);
+            bool interpolationTypeIsFilledIn = viewModel.FilterType != null && viewModel.FilterType.ID != 0;
+            if (interpolationTypeIsFilledIn)
+            {
+                wrapper.FilterTypeEnum = (FilterTypeEnum)viewModel.FilterType.ID;
+            }
+            else
+            {
+                wrapper.FilterTypeEnum = FilterTypeEnum.Undefined;
+            }
+
+            return entity;
+        }
+
+        public static Operator ToEntity(
             this OperatorPropertiesViewModel_ForNumber viewModel,
-            IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository)
+            IOperatorRepository operatorRepository, 
+            IOperatorTypeRepository operatorTypeRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
@@ -1001,7 +1039,9 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return entity;
         }
 
-        public static Operator ToOperatorWithInlet(this OperatorPropertiesViewModel_ForPatchInlet viewModel, PatchRepositories repositories)
+        public static Operator ToOperatorWithInlet(
+            this OperatorPropertiesViewModel_ForPatchInlet viewModel,
+            PatchRepositories repositories)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (repositories == null) throw new NullException(() => repositories);
@@ -1063,7 +1103,9 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return op;
         }
 
-        public static Operator ToOperatorWithOutlet(this OperatorPropertiesViewModel_ForPatchOutlet viewModel, PatchRepositories repositories)
+        public static Operator ToOperatorWithOutlet(
+            this OperatorPropertiesViewModel_ForPatchOutlet viewModel, 
+            PatchRepositories repositories)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (repositories == null) throw new NullException(() => repositories);
@@ -1113,7 +1155,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         public static Operator ToEntity(
             this OperatorPropertiesViewModel_ForRandom viewModel,
-            IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository)
+            IOperatorRepository operatorRepository,
+            IOperatorTypeRepository operatorTypeRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
@@ -1145,7 +1188,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         public static Operator ToEntity(
             this OperatorPropertiesViewModel_ForResample viewModel,
-            IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository)
+            IOperatorRepository operatorRepository,
+            IOperatorTypeRepository operatorTypeRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
@@ -1177,7 +1221,9 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         public static Operator ToEntity(
             this OperatorPropertiesViewModel_ForSample viewModel,
-            IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository, ISampleRepository sampleRepository)
+            IOperatorRepository operatorRepository, 
+            IOperatorTypeRepository operatorTypeRepository,
+            ISampleRepository sampleRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
@@ -1210,7 +1256,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         public static Operator ToEntity(
             this OperatorPropertiesViewModel_ForSpectrum viewModel,
-            IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository)
+            IOperatorRepository operatorRepository, 
+            IOperatorTypeRepository operatorTypeRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
@@ -1236,7 +1283,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         public static Operator ToEntity(
             this OperatorPropertiesViewModel_ForUnbundle viewModel,
-            IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository)
+            IOperatorRepository operatorRepository, 
+            IOperatorTypeRepository operatorTypeRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
@@ -1394,6 +1442,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             foreach (OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel in userInput.OperatorPropertiesList_ForCustomOperators)
             {
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.PatchRepository, repositories.DocumentRepository);
+            }
+
+            foreach (OperatorPropertiesViewModel_ForFilter operatorPropertiesViewModel_ForFilter in userInput.OperatorPropertiesList_ForFilters)
+            {
+                operatorPropertiesViewModel_ForFilter.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
             }
 
             foreach (OperatorPropertiesViewModel_ForNumber operatorPropertiesViewModel_ForNumber in userInput.OperatorPropertiesList_ForNumbers)

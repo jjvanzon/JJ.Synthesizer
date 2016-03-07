@@ -347,6 +347,15 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                         .ToList();
         }
 
+        public static IList<OperatorPropertiesViewModel_ForFilter> ToPropertiesViewModelList_ForFilters(this Patch patch)
+        {
+            if (patch == null) throw new NullException(() => patch);
+
+            return patch.GetOperatorsOfType(OperatorTypeEnum.Filter)
+                        .Select(x => x.ToPropertiesViewModel_ForFilter())
+                        .ToList();
+        }
+
         public static IList<OperatorPropertiesViewModel_ForNumber> ToPropertiesViewModelList_ForNumbers(this Patch patch)
         {
             if (patch == null) throw new NullException(() => patch);
@@ -569,6 +578,25 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 viewModel.UnderlyingPatch = underlyingPatch.Document.ToChildDocumentIDAndNameViewModel();
             }
+
+            return viewModel;
+        }
+
+        public static OperatorPropertiesViewModel_ForFilter ToPropertiesViewModel_ForFilter(this Operator entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            var wrapper = new Filter_OperatorWrapper(entity);
+
+            var viewModel = new OperatorPropertiesViewModel_ForFilter
+            {
+                ID = entity.ID,
+                PatchID = entity.Patch.ID,
+                Name = entity.Name,
+                FilterType = wrapper.FilterTypeEnum.ToIDAndDisplayName(),
+                FilterTypeLookup = ViewModelHelper.CreateFilterTypeLookupViewModel(),
+                ValidationMessages = new List<Message>()
+            };
 
             return viewModel;
         }

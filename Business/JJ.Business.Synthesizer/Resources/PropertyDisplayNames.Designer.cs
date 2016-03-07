@@ -169,6 +169,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Band Width.
+        /// </summary>
+        public static string BandWidth {
+            get {
+                return ResourceManager.GetString("BandWidth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Base Frequency.
         /// </summary>
         public static string BaseFrequency {
@@ -394,6 +403,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to dB Gain.
+        /// </summary>
+        public static string DbGain {
+            get {
+                return ResourceManager.GetString("DbGain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Decay Duration.
         /// </summary>
         public static string DecayDuration {
@@ -534,6 +552,24 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string FilePath {
             get {
                 return ResourceManager.GetString("FilePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filter.
+        /// </summary>
+        public static string Filter {
+            get {
+                return ResourceManager.GetString("Filter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filter Type.
+        /// </summary>
+        public static string FilterType {
+            get {
+                return ResourceManager.GetString("FilterType", resourceCulture);
             }
         }
         
@@ -1362,6 +1398,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string SemiTones {
             get {
                 return ResourceManager.GetString("SemiTones", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shelf Slope.
+        /// </summary>
+        public static string ShelfSlope {
+            get {
+                return ResourceManager.GetString("ShelfSlope", resourceCulture);
             }
         }
         
