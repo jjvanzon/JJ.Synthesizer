@@ -805,17 +805,37 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Template Method
 
+        /// <summary>
+        /// ApplyViewModel makes controls invisible.
+        /// This can sometimes trigger a LoseFocus event,
+        /// in case of which the LoseFocus Presenter action 
+        /// tries to get a visible panel, which was just made invisible,
+        /// so then an exception goes off.
+        /// By not executing a second action while the first one is still running, we prevent this problem.
+        /// (Another alternative would have been to pass an entity ID to the Presenter's LoseFocus action,
+        /// instead of its trying to find a visible panel.)
+        /// </summary>
+        private bool _actionIsBusy;
+
         /// <summary> Surrounds a call to a presenter action with rollback and ApplyViewModel. </summary>
         private void TemplateEventHandler(Action action)
         {
             try
             {
+                if (_actionIsBusy)
+                {
+                    return;
+                }
+                _actionIsBusy = true;
+
                 action();
             }
             finally
             {
                 _repositories.Rollback();
                 ApplyViewModel();
+
+                _actionIsBusy = false;
             }
         }
     }

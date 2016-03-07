@@ -13,6 +13,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
     {
         private void ApplyViewModel()
         {
+
             // NOTE: Actually making controls visible is postponed till last, to do it in a way that does not flash as much.
 
             Text = _presenter.MainViewModel.TitleBar;
