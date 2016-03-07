@@ -10,7 +10,8 @@ using JJ.Framework.Presentation.WinForms.Extensions;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class AudioFileOutputPropertiesUserControl : UserControlBase<AudioFileOutputPropertiesViewModel>
+    internal partial class AudioFileOutputPropertiesUserControl 
+        : AudioFileOutputPropertiesUserControl_NotDesignable
     {
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
@@ -150,6 +151,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 LoseFocus();
             }
+        }
+    }
+
+    /// <summary> The WinForms designer does not work when deriving directly from a generic class. </summary>
+    internal class AudioFileOutputPropertiesUserControl_NotDesignable
+        : UserControlBase<AudioFileOutputPropertiesViewModel>
+    {
+        protected override void ApplyViewModelToControls()
+        {
+            throw new NotImplementedException();
         }
     }
 }

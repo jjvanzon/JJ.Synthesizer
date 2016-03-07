@@ -10,7 +10,7 @@ using JJ.Presentation.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class OperatorPropertiesUserControl : UserControlBase<OperatorPropertiesViewModel>
+    internal partial class OperatorPropertiesUserControl : OperatorPropertiesUserControl_NotDesignable
     {
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
@@ -96,6 +96,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 LoseFocus();
             }
+        }
+    }
+
+    /// <summary> The WinForms designer does not work when deriving directly from a generic class. </summary>
+    internal class OperatorPropertiesUserControl_NotDesignable : UserControlBase<OperatorPropertiesViewModel>
+    {
+        protected override void ApplyViewModelToControls()
+        {
+            throw new NotImplementedException();
         }
     }
 }

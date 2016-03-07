@@ -9,7 +9,7 @@ using JJ.Framework.Presentation.WinForms.Extensions;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class CurvePropertiesUserControl : UserControlBase<CurvePropertiesViewModel>
+    internal partial class CurvePropertiesUserControl : CurvePropertiesUserControl_NotDesignable
     {
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
@@ -92,6 +92,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 LoseFocus();
             }
+        }
+    }
+
+    /// <summary> The WinForms designer does not work when deriving directly from a generic class. </summary>
+    internal class CurvePropertiesUserControl_NotDesignable : UserControlBase<CurvePropertiesViewModel>
+    {
+        protected override void ApplyViewModelToControls()
+        {
+            throw new NotImplementedException();
         }
     }
 }

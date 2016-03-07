@@ -12,8 +12,8 @@ using JJ.Presentation.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class OperatorPropertiesUserControl_ForFilter 
-        : UserControlBase<OperatorPropertiesViewModel_ForFilter>
+    internal partial class OperatorPropertiesUserControl_ForFilter
+        : NotDesignable_OperatorPropertiesUserControl_ForFilter
     {
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
@@ -115,10 +115,20 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // This Visible check is there because the leave event (lose focus) goes off after I closed, 
             // making it want to save again, even though view model is empty
             // which makes it say that now clear fields are required.
-            if (Visible) 
+            if (Visible)
             {
                 LoseFocus();
             }
+        }
+    }
+
+    /// <summary> The WinForms designer does not work when deriving directly from a generic class. </summary>
+    internal class NotDesignable_OperatorPropertiesUserControl_ForFilter
+        : UserControlBase<OperatorPropertiesViewModel_ForFilter>
+    {
+        protected override void ApplyViewModelToControls()
+        {
+            throw new NotImplementedException();
         }
     }
 }

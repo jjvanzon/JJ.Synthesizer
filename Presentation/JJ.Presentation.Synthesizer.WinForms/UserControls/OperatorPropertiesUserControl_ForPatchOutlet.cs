@@ -13,7 +13,7 @@ using JJ.Data.Canonical;
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class OperatorPropertiesUserControl_ForPatchOutlet 
-        : UserControlBase<OperatorPropertiesViewModel_ForPatchOutlet>
+        : OperatorPropertiesUserControl_ForPatchOutlet_NotDesignable
     {
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
@@ -120,6 +120,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 LoseFocus();
             }
+        }
+    }
+
+    /// <summary> The WinForms designer does not work when deriving directly from a generic class. </summary>
+    internal class OperatorPropertiesUserControl_ForPatchOutlet_NotDesignable
+        : UserControlBase<OperatorPropertiesViewModel_ForPatchOutlet>
+    {
+        protected override void ApplyViewModelToControls()
+        {
+            throw new NotImplementedException();
         }
     }
 }

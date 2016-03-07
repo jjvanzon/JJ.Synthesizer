@@ -8,7 +8,7 @@ using JJ.Presentation.Synthesizer.WinForms.EventArg;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class PatchGridUserControl : UserControlBase<PatchGridViewModel>
+    internal partial class PatchGridUserControl : PatchGridUserControl_NotDesignable
     {
         private const string CHILD_DOCUMENT_ID_COLUMN_NAME = "ChildDocumentIDColumn";
 
@@ -130,6 +130,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
 
             return null;
+        }
+    }
+
+    /// <summary> The WinForms designer does not work when deriving directly from a generic class. </summary>
+    internal class PatchGridUserControl_NotDesignable : UserControlBase<PatchGridViewModel>
+    {
+        protected override void ApplyViewModelToControls()
+        {
+            throw new NotImplementedException();
         }
     }
 }

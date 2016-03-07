@@ -13,7 +13,7 @@ using JJ.Presentation.Synthesizer.WinForms.EventArg;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 {
-    internal partial class CurrentPatchesUserControl : UserControlBase<CurrentPatchesViewModel>
+    internal partial class CurrentPatchesUserControl : CurrentPatchesUserControl_NotDesignable
     {
         public event EventHandler<Int32EventArgs> RemoveRequested;
         public event EventHandler CloseRequested;
@@ -121,6 +121,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             {
                 PreviewAutoPatchRequested(sender, EventArgs.Empty);
             }
+        }
+    }
+
+    /// <summary> The WinForms designer does not work when deriving directly from a generic class. </summary>
+    internal class CurrentPatchesUserControl_NotDesignable
+        : UserControlBase<CurrentPatchesViewModel>
+    {
+        protected override void ApplyViewModelToControls()
+        {
+            throw new NotImplementedException();
         }
     }
 }

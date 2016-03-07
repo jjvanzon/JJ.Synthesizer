@@ -9,7 +9,7 @@ using JJ.Presentation.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class ToneGridEditUserControl : UserControlBase<ToneGridEditViewModel>
+    internal partial class ToneGridEditUserControl : ToneGridEditUserControl_NotDesignable
     {
         private const string ID_COLUMN_NAME = "IDColumn";
         private const int PLAY_COLUMN_INDEX = 3;
@@ -163,6 +163,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
 
             return null;
+        }
+    }
+
+    /// <summary> The WinForms designer does not work when deriving directly from a generic class. </summary>
+    internal class ToneGridEditUserControl_NotDesignable : UserControlBase<ToneGridEditViewModel>
+    {
+        protected override void ApplyViewModelToControls()
+        {
+            throw new NotImplementedException();
         }
     }
 }

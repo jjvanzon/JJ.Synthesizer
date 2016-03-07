@@ -9,7 +9,7 @@ using JJ.Framework.Presentation.WinForms.Extensions;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class DocumentDetailsUserControl : UserControlBase<DocumentDetailsViewModel>
+    internal partial class DocumentDetailsUserControl : DocumentDetailsUserControl_NotDesignable
     {
         public event EventHandler SaveRequested;
         public event EventHandler<Int32EventArgs> DeleteRequested;
@@ -120,6 +120,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
 
             return base.ProcessCmdKey(ref msg, keyData);
+        }
+    }
+
+    /// <summary> The WinForms designer does not work when deriving directly from a generic class. </summary>
+    internal class DocumentDetailsUserControl_NotDesignable : UserControlBase<DocumentDetailsViewModel>
+    {
+        protected override void ApplyViewModelToControls()
+        {
+            throw new NotImplementedException();
         }
     }
 }

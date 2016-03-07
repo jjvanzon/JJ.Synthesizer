@@ -20,7 +20,7 @@ using JJ.Presentation.Synthesizer.WinForms.Configuration;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class PatchDetailsUserControl : UserControlBase<PatchDetailsViewModel>
+    internal partial class PatchDetailsUserControl : PatchDetailsUserControl_NotDesignable
     {
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
@@ -340,6 +340,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 return CustomConfigurationManager.GetSection<ConfigurationSection>().AlwaysRecreateDiagram;
             }
             return DEFAULT_ALWAYS_RECREATE_DIAGRAM;
+        }
+    }
+
+    /// <summary> The WinForms designer does not work when deriving directly from a generic class. </summary>
+    internal class PatchDetailsUserControl_NotDesignable : UserControlBase<PatchDetailsViewModel>
+    {
+        protected override void ApplyViewModelToControls()
+        {
+            throw new NotImplementedException();
         }
     }
 }

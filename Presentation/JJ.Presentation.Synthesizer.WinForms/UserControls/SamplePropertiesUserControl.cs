@@ -14,7 +14,7 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class SamplePropertiesUserControl : UserControlBase<SamplePropertiesViewModel>
+    internal partial class SamplePropertiesUserControl : SamplePropertiesUserControl_NotDesignable
     {
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
@@ -187,6 +187,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 LoseFocus();
             }
+        }
+    }
+
+    /// <summary> The WinForms designer does not work when deriving directly from a generic class. </summary>
+    internal class SamplePropertiesUserControl_NotDesignable : UserControlBase<SamplePropertiesViewModel>
+    {
+        protected override void ApplyViewModelToControls()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -11,7 +11,7 @@ using JJ.Presentation.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class DocumentTreeUserControl : UserControlBase<DocumentTreeViewModel>
+    internal partial class DocumentTreeUserControl : DocumentTreeUserControl_NotDesignable
     {
         public event EventHandler CloseRequested;
 
@@ -342,6 +342,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             int? childDocumentID = TagHelper.TryGetChildDocumentID(childDocumentTag);
             int documentID = childDocumentID ?? ViewModel.ID;
             return new Int32EventArgs(documentID);
+        }
+    }
+
+    /// <summary> The WinForms designer does not work when deriving directly from a generic class. </summary>
+    internal class DocumentTreeUserControl_NotDesignable : UserControlBase<DocumentTreeViewModel>
+    {
+        protected override void ApplyViewModelToControls()
+        {
+            throw new NotImplementedException();
         }
     }
 }

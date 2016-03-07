@@ -11,7 +11,7 @@ using JJ.Presentation.Synthesizer.WinForms.EventArg;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class PatchPropertiesUserControl : UserControlBase<PatchPropertiesViewModel>
+    internal partial class PatchPropertiesUserControl : PatchPropertiesUserControl_NotDesignable
     {
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
@@ -112,6 +112,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 LoseFocus();
             }
+        }
+    }
+
+    /// <summary> The WinForms designer does not work when deriving directly from a generic class. </summary>
+    internal class PatchPropertiesUserControl_NotDesignable : UserControlBase<PatchPropertiesViewModel>
+    {
+        protected override void ApplyViewModelToControls()
+        {
+            throw new NotImplementedException();
         }
     }
 }

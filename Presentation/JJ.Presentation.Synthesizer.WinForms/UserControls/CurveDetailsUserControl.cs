@@ -15,7 +15,7 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class CurveDetailsUserControl : UserControlBase<CurveDetailsViewModel>
+    internal partial class CurveDetailsUserControl : CurveDetailsUserControl_NotDesignable
     {
         public event EventHandler CreateNodeRequested;
         public event EventHandler DeleteNodeRequested;
@@ -220,6 +220,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 LoseFocusRequested(this, EventArgs.Empty);
             }
+        }
+    }
+
+    /// <summary> The WinForms designer does not work when deriving directly from a generic class. </summary>
+    internal class CurveDetailsUserControl_NotDesignable
+        : UserControlBase<CurveDetailsViewModel>
+    {
+        protected override void ApplyViewModelToControls()
+        {
+            throw new NotImplementedException();
         }
     }
 }

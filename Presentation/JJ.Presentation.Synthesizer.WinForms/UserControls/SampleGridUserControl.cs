@@ -9,7 +9,7 @@ using JJ.Framework.Presentation.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class SampleGridUserControl : UserControlBase<SampleGridViewModel>
+    internal partial class SampleGridUserControl : SampleGridUserControl_NotDesignable
     {
         private const string ID_COLUMN_NAME = "IDColumn";
 
@@ -144,6 +144,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
 
             return null;
+        }
+    }
+
+    /// <summary> The WinForms designer does not work when deriving directly from a generic class. </summary>
+    internal class SampleGridUserControl_NotDesignable : UserControlBase<SampleGridViewModel>
+    {
+        protected override void ApplyViewModelToControls()
+        {
+            throw new NotImplementedException();
         }
     }
 }
