@@ -19,9 +19,13 @@ namespace JJ.Business.Synthesizer.Validation
         {
             base.Execute();
 
-            var patchInletWrapper = new PatchInlet_OperatorWrapper(Object);
+            string listIndexString = OperatorDataParser.GetString(Object, PropertyNames.ListIndex);
+            For(() => listIndexString, PropertyDisplayNames.ListIndex)
+                .NotNullOrEmpty()
+                .IsInteger()
+                .GreaterThanOrEqual(0);
 
-            For(() => patchInletWrapper.ListIndex, PropertyDisplayNames.ListIndex).NotNull().GreaterThanOrEqual(0);
+            var patchInletWrapper = new PatchInlet_OperatorWrapper(Object);
             For(() => patchInletWrapper.Inlet.GetInletTypeEnum(), PropertyDisplayNames.InletType).IsEnum<InletTypeEnum>();
 
             // PatchInlet.Inlet.InletType is optional.

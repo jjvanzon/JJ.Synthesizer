@@ -18,10 +18,16 @@ namespace JJ.Business.Synthesizer.Validation
         {
             base.Execute();
 
+            string listIndexString = OperatorDataParser.GetString(Object, PropertyNames.ListIndex);
+            For(() => listIndexString, PropertyDisplayNames.ListIndex)
+                .NotNullOrEmpty()
+                .IsInteger()
+                .GreaterThanOrEqual(0);
+
             var patchOutletWrapper = new PatchOutlet_OperatorWrapper(Object);
 
-            For(() => patchOutletWrapper.ListIndex, PropertyDisplayNames.ListIndex).NotNull().GreaterThanOrEqual(0);
-            For(() => patchOutletWrapper.Result.GetOutletTypeEnum(), PropertyDisplayNames.OutletType).IsEnum<OutletTypeEnum>();
+            For(() => patchOutletWrapper.Result.GetOutletTypeEnum(), PropertyDisplayNames.OutletType)
+                .IsEnum<OutletTypeEnum>();
 
             // PatchOutlet.Result.OutletType is optional.
             // patchOutlet.Name is optional.

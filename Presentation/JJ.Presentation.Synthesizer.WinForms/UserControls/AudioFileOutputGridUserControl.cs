@@ -6,7 +6,6 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Presentation.Resources;
-using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {

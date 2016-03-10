@@ -446,6 +446,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 viewModel.OperatorType = entity.OperatorType.ToViewModel();
             }
+            else
+            {
+                viewModel.OperatorType = ViewModelHelper.CreateEmptyOperatorTypeViewModel();
+            }
 
             return viewModel;
         }
@@ -554,6 +558,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 viewModel.Curve = curve.ToIDAndName();
             }
+            else
+            {
+                viewModel.Curve = ViewModelHelper.CreateEmptyIDAndName();
+            }
 
             return viewModel;
         }
@@ -577,6 +585,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (underlyingPatch != null)
             {
                 viewModel.UnderlyingPatch = underlyingPatch.Document.ToChildDocumentIDAndNameViewModel();
+            }
+            else
+            {
+                viewModel.UnderlyingPatch = ViewModelHelper.CreateEmptyChildDocumentIDAndNameViewModel();
             }
 
             return viewModel;
@@ -746,6 +758,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (sample != null)
             {
                 viewModel.Sample = sample.ToIDAndName();
+            }
+            else
+            {
+                viewModel.Sample = ViewModelHelper.CreateEmptyIDAndName();
             }
 
             return viewModel;

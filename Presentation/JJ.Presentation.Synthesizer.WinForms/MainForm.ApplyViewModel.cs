@@ -6,6 +6,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.UserControls;
+using Message = JJ.Data.Canonical.Message;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
@@ -281,7 +282,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             if (_presenter.MainViewModel.PopupMessages.Count != 0)
             {
-                MessageBoxHelper.ShowPopupMessages(_presenter.MainViewModel.PopupMessages);
+                // TODO: I get an infinite loop either because of LoseFocus events going off,
+                // or otherwise ActionIsBusy boolean making PopupMessageOK not handled...
+                // I just cannot hack it right now.
+                IList<Message> popupMessages = _presenter.MainViewModel.PopupMessages;
+                _presenter.MainViewModel.PopupMessages = new List<Message>();
+
+
+                MessageBoxHelper.ShowPopupMessages(popupMessages);
             }
 
             // Focus control if not valid.
@@ -289,7 +297,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             {
                 bool mustFocus = MustBecomeVisible(tuple.UserControl) &&
                                  !tuple.UserControl.ViewModel.Successful; // TODO: ViewModel is not null coincidentally.
-
                 if (mustFocus)
                 {
                     tuple.UserControl.Focus();

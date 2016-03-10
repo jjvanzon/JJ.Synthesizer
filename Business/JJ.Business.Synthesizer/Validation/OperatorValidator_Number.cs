@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Validation
         {
             base.Execute();
 
-            For(() => Object.Data, PropertyDisplayNames.Number)
+            For(() => Object.Data, PropertyDisplayNames.Number, OperatorDataParser.FormattingCulture)
                 .NotNullOrEmpty()
                 .IsDouble()
                 .NotInfinity()

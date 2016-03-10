@@ -235,5 +235,23 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             return viewModel;
         }
+
+        public static OperatorTypeViewModel CreateEmptyOperatorTypeViewModel()
+        {
+            var viewModel = new OperatorTypeViewModel();
+            return viewModel;
+        }
+
+        public static IDAndName CreateEmptyIDAndName()
+        {
+            var idAndName = new IDAndName();
+            return idAndName;
+        }
+
+        public static ChildDocumentIDAndNameViewModel CreateEmptyChildDocumentIDAndNameViewModel()
+        {
+            var viewModel = new ChildDocumentIDAndNameViewModel();
+            return viewModel;
+        }
     }
 }

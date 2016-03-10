@@ -39,15 +39,27 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 viewModel.AudioFileFormat = entity.AudioFileFormat.ToIDAndDisplayName();
             }
+            else
+            {
+                viewModel.AudioFileFormat = ViewModelHelper.CreateEmptyIDAndName();
+            }
 
             if (entity.SampleDataType != null)
             {
                 viewModel.SampleDataType = entity.SampleDataType.ToIDAndDisplayName();
             }
+            else
+            {
+                viewModel.SampleDataType = ViewModelHelper.CreateEmptyIDAndName();
+            }
 
             if (entity.SpeakerSetup != null)
             {
                 viewModel.SpeakerSetup = entity.SpeakerSetup.ToIDAndDisplayName();
+            }
+            else
+            {
+                viewModel.SpeakerSetup = ViewModelHelper.CreateEmptyIDAndName();
             }
 
             viewModel.Channels = entity.AudioFileOutputChannels.Select(x => x.ToViewModelWithRelatedEntities())
@@ -69,6 +81,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (entity.Outlet != null)
             {
                 viewModel.Outlet = entity.Outlet.ToIDAndName();
+            }
+            else
+            {
+                viewModel.Outlet = ViewModelHelper.CreateEmptyIDAndName();
             }
 
             // TODO: Adding a (display) name to the view model requires cross referencing with SpeakerSetup, 
@@ -217,7 +233,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
             else
             {
-                viewModel.InletType = null;
+                viewModel.InletType = ViewModelHelper.CreateEmptyIDAndName();
             }
         }
 
@@ -258,7 +274,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
             else
             {
-                viewModel.OutletType = null;
+                viewModel.OutletType = ViewModelHelper.CreateEmptyIDAndName();
             }
         }
 
@@ -328,20 +344,36 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 viewModel.AudioFileFormat = entity.AudioFileFormat.ToIDAndDisplayName();
             }
+            else
+            {
+                viewModel.AudioFileFormat = ViewModelHelper.CreateEmptyIDAndName();
+            }
 
             if (entity.SampleDataType != null)
             {
                 viewModel.SampleDataType = entity.SampleDataType.ToIDAndDisplayName();
+            }
+            else
+            {
+                viewModel.SampleDataType = ViewModelHelper.CreateEmptyIDAndName();
             }
 
             if (entity.SpeakerSetup != null)
             {
                 viewModel.SpeakerSetup = entity.SpeakerSetup.ToIDAndDisplayName();
             }
+            else
+            {
+                viewModel.SpeakerSetup = ViewModelHelper.CreateEmptyIDAndName();
+            }
 
             if (entity.InterpolationType != null)
             {
                 viewModel.InterpolationType = entity.InterpolationType.ToIDAndDisplayName();
+            }
+            else
+            {
+                viewModel.InterpolationType = ViewModelHelper.CreateEmptyIDAndName();
             }
 
             return viewModel;
@@ -364,6 +396,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (entity.ScaleType != null)
             {
                 viewModel.ScaleType = entity.ScaleType.ToIDAndDisplayNamePlural();
+            }
+            else
+            {
+                viewModel.ScaleType = ViewModelHelper.CreateEmptyIDAndName();
             }
 
             return viewModel;

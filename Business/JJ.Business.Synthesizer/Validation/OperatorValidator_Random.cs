@@ -17,9 +17,6 @@ namespace JJ.Business.Synthesizer.Validation
 
             string interpolationType = OperatorDataParser.GetString(Object, PropertyNames.InterpolationType);
 
-            // TODO: Enable IsNullOrEmpty validation when there is a property box for it.
-
-            // TODO: Validate enum again, when FluentValidator can handle it.
             For(() => interpolationType, PropertyDisplayNames.InterpolationType)
                 .NotNullOrEmpty()
                 .IsEnum<ResampleInterpolationTypeEnum>()

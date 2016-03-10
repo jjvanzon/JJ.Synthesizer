@@ -2,6 +2,8 @@
 using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
 using System;
+using JJ.Framework.Common;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
@@ -14,9 +16,9 @@ namespace JJ.Business.Synthesizer.Warnings
         protected override void Execute()
         {
             double number;
-            if (Double.TryParse(Object.Data, out number))
+            if (Doubles.TryParse(Object.Data, OperatorDataParser.FormattingCulture, out number))
             {
-                if (number == 0)
+                if (number == 0.0)
                 {
                     ValidationMessages.Add(() => Object.Data, MessageFormatter.NumberIs0WithName(Object.Name));
                 }

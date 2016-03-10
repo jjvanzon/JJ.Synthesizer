@@ -1,5 +1,6 @@
 ﻿using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
+using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Business.Synthesizer.Validation
 {
@@ -11,7 +12,7 @@ namespace JJ.Business.Synthesizer.Validation
 
         protected override void Execute()
         {
-            Execute(new SampleValidator(Object));
+            For(() => Object.Document, PropertyDisplayNames.Document).NotNull();
 
             Execute(new NameValidator(Object.Name));
             

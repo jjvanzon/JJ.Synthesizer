@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using JJ.Data.Synthesizer;
+using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Helpers
 {
     public class OperatorDataParser
     {
-        private static CultureInfo _formattingCulture = new CultureInfo("en-US");
-
         private class ParsedKeyValuePair
         {
             public ParsedKeyValuePair(string key, string value)
@@ -21,6 +20,13 @@ namespace JJ.Business.Synthesizer.Helpers
 
             public string Key { get; private set; }
             public string Value { get; private set; }
+        }
+
+        private static CultureInfo _formattingCulture = new CultureInfo("en-US");
+
+        public static CultureInfo FormattingCulture
+        {
+            get { return _formattingCulture; }
         }
 
         public static double GetDouble(Operator op, string key)
@@ -42,7 +48,7 @@ namespace JJ.Business.Synthesizer.Helpers
             }
 
             double value;
-            if (!Double.TryParse(str, NumberStyles.Any, _formattingCulture, out value))
+            if (!Doubles.TryParse(str, _formattingCulture, out value))
             {
                 throw new Exception(String.Format("Value with key '{0}' in data '{1}' of operator with ID '{2}' could not be parsed to Double.", key, op.Data, op.ID));
             }

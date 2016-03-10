@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Enums;
+using System.Globalization;
 
 namespace JJ.Business.Synthesizer.Validation
 {

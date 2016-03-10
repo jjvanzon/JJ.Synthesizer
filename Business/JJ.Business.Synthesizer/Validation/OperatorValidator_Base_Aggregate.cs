@@ -3,6 +3,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using System;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer.Validation
 {
@@ -23,7 +24,7 @@ namespace JJ.Business.Synthesizer.Validation
                 .NotNullOrEmpty()
                 .IsInteger();
 
-            For(() => timeSliceDurationString, PropertyDisplayNames.TimeSliceDuration)
+            For(() => timeSliceDurationString, PropertyDisplayNames.TimeSliceDuration, OperatorDataParser.FormattingCulture)
                 .NotNullOrEmpty()
                 .IsDouble()
                 .NotInfinity()
@@ -37,7 +38,7 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             double timeSliceDuration;
-            if (Double.TryParse(timeSliceDurationString, out timeSliceDuration))
+            if (Doubles.TryParse(timeSliceDurationString, OperatorDataParser.FormattingCulture, out timeSliceDuration))
             {
                 For(() => timeSliceDuration, PropertyDisplayNames.TimeSliceDuration)
                     .GreaterThan(0.0);

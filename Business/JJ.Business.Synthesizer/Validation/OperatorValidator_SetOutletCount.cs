@@ -37,7 +37,6 @@ namespace JJ.Business.Synthesizer.Validation
             For(_newOutletCount, PropertyNames.OutletCount, CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Outlets))
                 .GreaterThan(1);
 
-
             IList<Outlet> sortedOutlets = op.Outlets.OrderBy(x => x.ListIndex).ToArray();
             for (int i = _newOutletCount; i < sortedOutlets.Count; i++)
             {

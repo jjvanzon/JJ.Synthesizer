@@ -2,9 +2,9 @@
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using System;
-using JJ.Framework.Validation.Resources;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Mathematics;
+using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer.Validation
 {
@@ -22,13 +22,13 @@ namespace JJ.Business.Synthesizer.Validation
             string endTimeString = OperatorDataParser.GetString(Object, PropertyNames.EndTime);
             string frequencyCountString = OperatorDataParser.GetString(Object, PropertyNames.FrequencyCount);
 
-            For(() => startTimeString, PropertyDisplayNames.StartTime)
+            For(() => startTimeString, PropertyDisplayNames.StartTime, OperatorDataParser.FormattingCulture)
                 .NotNullOrEmpty()
                 .IsDouble()
                 .NotInfinity()
                 .NotNaN();
 
-            For(() => endTimeString, PropertyDisplayNames.EndTime)
+            For(() => endTimeString, PropertyDisplayNames.EndTime, OperatorDataParser.FormattingCulture)
                 .NotNullOrEmpty()
                 .IsDouble()
                 .NotInfinity()
@@ -36,15 +36,13 @@ namespace JJ.Business.Synthesizer.Validation
 
             For(() => frequencyCountString, PropertyDisplayNames.FrequencyCount)
                 .NotNullOrEmpty()
-                .IsInteger()
-                .NotInfinity()
-                .NotNaN();
+                .IsInteger();
 
             double startTime;
-            if (Double.TryParse(startTimeString, out startTime))
+            if (Doubles.TryParse(startTimeString, OperatorDataParser.FormattingCulture, out startTime))
             {
                 double endTime;
-                if (Double.TryParse(endTimeString, out endTime))
+                if (Doubles.TryParse(endTimeString, OperatorDataParser.FormattingCulture, out endTime))
                 {
                     if (endTime < startTime)
                     {

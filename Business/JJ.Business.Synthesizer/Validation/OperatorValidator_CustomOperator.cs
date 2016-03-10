@@ -50,7 +50,8 @@ namespace JJ.Business.Synthesizer.Validation
             ValidateInletNamesUnique();
             ValidateOutletNamesUnique();
 
-            For(() => op.Data, PropertyDisplayNames.Data).IsInteger();
+            For(() => op.Data, PropertyDisplayNames.Data)
+                .IsInteger();
 
             int underlyingPatchID;
             if (Int32.TryParse(op.Data, out underlyingPatchID))
@@ -144,13 +145,15 @@ namespace JJ.Business.Synthesizer.Validation
                 {
                     var underlyingPatchInletWrapper = new PatchInlet_OperatorWrapper(underlyingPatchInletOperator);
 
-                    if (customOperatorInlet.ListIndex != underlyingPatchInletWrapper.ListIndex)
+                    int? underlyingPatchInlet_ListIndex = TryGetListIndex(underlyingPatchInletOperator);
+
+                    if (customOperatorInlet.ListIndex != underlyingPatchInlet_ListIndex)
                     {
                         string message = GetInletPropertyDoesNotMatchMessage(customOperatorInlet, PropertyDisplayNames.ListIndex);
                         ValidationMessages.Add(PropertyNames.Inlet, message);
                     }
 
-                    if (!String.Equals(customOperatorInlet.Name, underlyingPatchInletWrapper.Name))
+                    if (!String.Equals(customOperatorInlet.Name, underlyingPatchInletOperator.Name))
                     {
                         string message = GetInletPropertyDoesNotMatchMessage(customOperatorInlet, CommonTitles.Name);
                         ValidationMessages.Add(PropertyNames.Inlet, message);
@@ -169,6 +172,22 @@ namespace JJ.Business.Synthesizer.Validation
                     }
                 }
             }
+        }
+
+        private static int? TryGetListIndex(Operator patchInletOrPatchOutletOperator)
+        {
+            string listIndex_String = OperatorDataParser.GetString(patchInletOrPatchOutletOperator, PropertyNames.ListIndex);
+
+            if (!String.IsNullOrEmpty(listIndex_String))
+            {
+                int listIndex;
+                if (Int32.TryParse(listIndex_String, out listIndex))
+                {
+                    return listIndex;
+                }
+            }
+
+            return null;
         }
 
         private void ValidateOutletsAgainstUnderlyingPatch(Patch underlyingPatch)
@@ -192,13 +211,16 @@ namespace JJ.Business.Synthesizer.Validation
                 else
                 {
                     var underlyingPatchOutletWrapper = new PatchOutlet_OperatorWrapper(underlyingPatchOutlet);
-                    if (customOperatorOutlet.ListIndex != underlyingPatchOutletWrapper.ListIndex)
+
+                    int? underlyingPatchOutlet_ListIndex = TryGetListIndex(underlyingPatchOutlet);
+
+                    if (customOperatorOutlet.ListIndex != underlyingPatchOutlet_ListIndex)
                     {
                         string message = GetOutletPropertyDoesNotMatchMessage(underlyingPatchOutletWrapper, PropertyDisplayNames.ListIndex);
                         ValidationMessages.Add(PropertyNames.Outlet, message);
                     }
 
-                    if (!String.Equals(customOperatorOutlet.Name, underlyingPatchOutletWrapper.Name))
+                    if (!String.Equals(customOperatorOutlet.Name, underlyingPatchOutlet.Name))
                     {
                         string message = GetOutletPropertyDoesNotMatchMessage(underlyingPatchOutletWrapper, CommonTitles.Name);
                         ValidationMessages.Add(PropertyNames.Outlet, message);

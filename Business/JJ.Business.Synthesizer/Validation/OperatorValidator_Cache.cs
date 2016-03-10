@@ -5,6 +5,8 @@ using System;
 using JJ.Framework.Validation.Resources;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Mathematics;
+using System.Globalization;
+using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer.Validation
 {
@@ -24,19 +26,19 @@ namespace JJ.Business.Synthesizer.Validation
             string speakerSetupString = OperatorDataParser.GetString(Object, PropertyNames.SpeakerSetup);
             string interpolationTypeString = OperatorDataParser.GetString(Object, PropertyNames.InterpolationType);
 
-            For(() => startTimeString, PropertyDisplayNames.StartTime)
+            For(() => startTimeString, PropertyDisplayNames.StartTime, OperatorDataParser.FormattingCulture)
                 .NotNullOrEmpty()
                 .IsDouble()
                 .NotInfinity()
                 .NotNaN();
 
-            For(() => endTimeString, PropertyDisplayNames.EndTime)
+            For(() => endTimeString, PropertyDisplayNames.EndTime, OperatorDataParser.FormattingCulture)
                 .NotNullOrEmpty()
                 .IsDouble()
                 .NotInfinity()
                 .NotNaN();
 
-            For(() => samplingRateString, PropertyDisplayNames.SamplingRate)
+            For(() => samplingRateString, PropertyDisplayNames.SamplingRate, OperatorDataParser.FormattingCulture)
                 .NotNullOrEmpty()
                 .IsInteger();
 
@@ -51,10 +53,10 @@ namespace JJ.Business.Synthesizer.Validation
                 .IsNot(SpeakerSetupEnum.Undefined);
 
             double startTime;
-            if (Double.TryParse(startTimeString, out startTime))
+            if (Doubles.TryParse(startTimeString, OperatorDataParser.FormattingCulture, out startTime))
             {
                 double endTime;
-                if (Double.TryParse(endTimeString, out endTime))
+                if (Doubles.TryParse(endTimeString, OperatorDataParser.FormattingCulture, out endTime))
                 {
                     if (endTime < startTime)
                     {
