@@ -23,7 +23,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             public IList<Point> OutletControlPoints { get; set; }
         }
 
-        private static bool _tooltipFeatureEnabled = GetTooltipFeatureEnabled();
+        private static bool _tooltipFeatureEnabled = GetToolTipFeatureEnabled();
         private static int _lineSegmentCount = GetLineSegmentCount();
         private static bool _mustShowInvisibleElements = GetMustShowInvisibleElements();
 
@@ -111,7 +111,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 // TODO: This is pretty dirty.
                 string tagString = Convert.ToString(elementToDelete.Tag) ?? "";
 
-                bool isGestureGeneratedElement = tagString.Contains("Tooltip") ||
+                bool isGestureGeneratedElement = tagString.Contains("ToolTip") ||
                                                  tagString.Contains("LineGesture");
                 if (isGestureGeneratedElement)
                 {
@@ -277,7 +277,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         private const bool DEFAULT_TOOL_TIP_FEATURE_ENABLED = false;
 
-        private static bool GetTooltipFeatureEnabled()
+        private static bool GetToolTipFeatureEnabled()
         {
             var config = ConfigurationHelper.TryGetSection<ConfigurationSection>();
             if (config == null) return DEFAULT_TOOL_TIP_FEATURE_ENABLED;

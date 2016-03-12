@@ -14,7 +14,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 {
     internal class OutletRectangleConverter
     {
-        private static bool _toolTipFeatureEnabled = GetTooltipFeatureEnabled();
+        private static bool _toolTipFeatureEnabled = GetToolTipFeatureEnabled();
 
         private Dictionary<int, Rectangle> _destOutletRectangleDictionary = new Dictionary<int, Rectangle>();
 
@@ -119,7 +119,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
         private const bool DEFAULT_TOOL_TIP_FEATURE_ENABLED = false;
 
-        private static bool GetTooltipFeatureEnabled()
+        private static bool GetToolTipFeatureEnabled()
         {
             var config = ConfigurationHelper.TryGetSection<ConfigurationSection>();
             if (config == null) return DEFAULT_TOOL_TIP_FEATURE_ENABLED;

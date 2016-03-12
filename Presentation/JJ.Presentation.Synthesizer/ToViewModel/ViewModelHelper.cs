@@ -164,7 +164,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         /// Is used to be able to update an existing operator view model in-place
         /// without having to re-establish the intricate relations with other operators.
         /// </summary>
-        public static void RefreshInletViewModels(IList<Inlet> sourceInlets, OperatorViewModel destOperatorViewModel)
+        public static void RefreshInletViewModels(
+            IList<Inlet> sourceInlets, 
+            OperatorViewModel destOperatorViewModel,
+            ICurveRepository curveRepository,
+            ISampleRepository sampleRepository,
+            IPatchRepository patchRepository)
         {
             if (sourceInlets == null) throw new NullException(() => sourceInlets);
             if (destOperatorViewModel == null) throw new NullException(() => destOperatorViewModel);
@@ -184,7 +189,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                     destOperatorViewModel.Inlets.Add(inletViewModel);
                 }
 
-                inlet.ToViewModel(inletViewModel);
+                inlet.ToViewModel(inletViewModel, curveRepository, sampleRepository, patchRepository);
 
                 inletViewModelsToKeep.Add(inletViewModel);
             }
@@ -204,7 +209,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         /// Is used to be able to update an existing operator view model in-place
         /// without having to re-establish the intricate relations with other operators.
         /// </summary>
-        public static void RefreshOutletViewModels(IList<Outlet> sourceOutlets, OperatorViewModel destOperatorViewModel)
+        public static void RefreshOutletViewModels(
+            IList<Outlet> sourceOutlets, 
+            OperatorViewModel destOperatorViewModel,
+            ICurveRepository curveRepository,
+            ISampleRepository sampleRepository,
+            IPatchRepository patchRepository)
         {
             if (sourceOutlets == null) throw new NullException(() => sourceOutlets);
             if (destOperatorViewModel == null) throw new NullException(() => destOperatorViewModel);
@@ -227,7 +237,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                     outletViewModel.Operator = destOperatorViewModel;
                 }
 
-                outlet.ToViewModel(outletViewModel);
+                outlet.ToViewModel(outletViewModel, curveRepository, sampleRepository, patchRepository);
 
                 outletViewModelsToKeep.Add(outletViewModel);
             }
@@ -254,8 +264,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             ISampleRepository sampleRepository, ICurveRepository curveRepository, IPatchRepository patchRepository)
         {
             RefreshViewModel_WithoutEntityPosition(entity, operatorViewModel, sampleRepository, curveRepository, patchRepository);
-            RefreshInletViewModels(entity.Inlets, operatorViewModel);
-            RefreshOutletViewModels(entity.Outlets, operatorViewModel);
+            RefreshInletViewModels(entity.Inlets, operatorViewModel, curveRepository, sampleRepository, patchRepository);
+            RefreshOutletViewModels(entity.Outlets, operatorViewModel, curveRepository, sampleRepository, patchRepository);
         }
 
         /// <summary>

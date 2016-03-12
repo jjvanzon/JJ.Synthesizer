@@ -4,11 +4,15 @@ using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using System;
 using JJ.Business.Synthesizer.LinkTo;
+using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public class Sample_OperatorWrapper : OperatorWrapperBase
     {
+        private const int FREQUENCY_INDEX = 0;
+        private const int RESULT_INDEX = 0;
+
         private ISampleRepository _sampleRepository;
 
         public Sample_OperatorWrapper(Operator op, ISampleRepository sampleRepository)
@@ -21,14 +25,14 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Frequency
         {
-            get { return OperatorHelper.GetInputOutlet(_wrappedOperator, OperatorConstants.SAMPLE_FREQUENCY_INDEX); }
-            set { OperatorHelper.GetInlet(_wrappedOperator, OperatorConstants.SAMPLE_FREQUENCY_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInputOutlet(WrappedOperator, FREQUENCY_INDEX); }
+            set { OperatorHelper.GetInlet(WrappedOperator, FREQUENCY_INDEX).LinkTo(value); }
         }
 
         public int? SampleID
         {
-            get { return ConversionHelper.ParseNullableInt32(_wrappedOperator.Data); }
-            set { _wrappedOperator.Data = Convert.ToString(value); }
+            get { return ConversionHelper.ParseNullableInt32(WrappedOperator.Data); }
+            set { WrappedOperator.Data = Convert.ToString(value); }
         }
 
         /// <summary> nullable </summary>
@@ -86,7 +90,23 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Result
         {
-            get { return OperatorHelper.GetOutlet(_wrappedOperator, OperatorConstants.SAMPLE_OPERATOR_RESULT_INDEX); }
+            get { return OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX); }
+        }
+
+        public override string GetInletDisplayName(int listIndex)
+        {
+            if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
+
+            string name = ResourceHelper.GetPropertyDisplayName(() => Frequency);
+            return name;
+        }
+
+        public override string GetOutletDisplayName(int listIndex)
+        {
+            if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
+
+            string name = ResourceHelper.GetPropertyDisplayName(() => Result);
+            return name;
         }
 
         public static implicit operator Outlet(Sample_OperatorWrapper wrapper)

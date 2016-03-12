@@ -14,7 +14,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 {
     internal class InletRectangleConverter
     {
-        private static bool _toolTipFeatureEnabled = GetTooltipFeatureEnabled();
+        private static bool _toolTipFeatureEnabled = GetToolTipFeatureEnabled();
 
         private Dictionary<int, Rectangle> _destInletRectangleDictionary = new Dictionary<int, Rectangle>();
 
@@ -89,7 +89,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             if (_toolTipFeatureEnabled)
             {
                 destInletRectangle.Gestures.Add(_inletToolTipGesture);
-                //destInletRectangle.MustBubble = false; // The is only done to make the tooltip work, so if the tooltip uses another region, it is not necessary anymore.
+                destInletRectangle.MustBubble = false; // The is only done to make the tooltip work, so if the tooltip uses another region, it is not necessary anymore.
             }
 
             return destInletRectangle;
@@ -118,7 +118,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
         private const bool DEFAULT_TOOL_TIP_FEATURE_ENABLED = false;
 
-        private static bool GetTooltipFeatureEnabled()
+        private static bool GetToolTipFeatureEnabled()
         {
             var config = ConfigurationHelper.TryGetSection<ConfigurationSection>();
             if (config == null) return DEFAULT_TOOL_TIP_FEATURE_ENABLED;

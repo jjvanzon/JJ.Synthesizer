@@ -3,11 +3,14 @@ using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using System;
+using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public class Curve_OperatorWrapper : OperatorWrapperBase
     {
+        private const int RESULT_INDEX = 0;
+
         private ICurveRepository _curveRepository;
 
         public Curve_OperatorWrapper(Operator op, ICurveRepository curveRepository)
@@ -19,8 +22,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public int? CurveID
         {
-            get { return ConversionHelper.ParseNullableInt32(_wrappedOperator.Data); }
-            set { _wrappedOperator.Data = Convert.ToString(value); }
+            get { return ConversionHelper.ParseNullableInt32(WrappedOperator.Data); }
+            set { WrappedOperator.Data = Convert.ToString(value); }
         }
 
         /// <summary> nullable </summary>
@@ -50,7 +53,15 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Result
         {
-            get { return OperatorHelper.GetOutlet(_wrappedOperator, OperatorConstants.CURVE_OPERATOR_RESULT_INDEX); }
+            get { return OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX); }
+        }
+
+        public override string GetOutletDisplayName(int listIndex)
+        {
+            if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
+
+            string name = ResourceHelper.GetPropertyDisplayName(() => Result);
+            return name;
         }
 
         public static implicit operator Outlet(Curve_OperatorWrapper wrapper)

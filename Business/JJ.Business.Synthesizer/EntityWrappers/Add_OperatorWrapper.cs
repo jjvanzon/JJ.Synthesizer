@@ -1,30 +1,65 @@
 ﻿using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Framework.Reflection.Exceptions;
+using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public class Add_OperatorWrapper : OperatorWrapperBase
     {
+        private const int A_INDEX = 0;
+        private const int B_INDEX = 1;
+        private const int RESULT_INDEX = 0;
+
         public Add_OperatorWrapper(Operator op)
             : base(op)
         { }
 
         public Outlet OperandA
         {
-            get { return OperatorHelper.GetInputOutlet(_wrappedOperator, OperatorConstants.ADD_OPERAND_A_INDEX); }
-            set { OperatorHelper.GetInlet(_wrappedOperator, OperatorConstants.ADD_OPERAND_A_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInputOutlet(WrappedOperator, A_INDEX); }
+            set { OperatorHelper.GetInlet(WrappedOperator, A_INDEX).LinkTo(value); }
         }
 
         public Outlet OperandB
         {
-            get { return OperatorHelper.GetInputOutlet(_wrappedOperator, OperatorConstants.ADD_OPERAND_B_INDEX); }
-            set { OperatorHelper.GetInlet(_wrappedOperator, OperatorConstants.ADD_OPERAND_B_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInputOutlet(WrappedOperator, B_INDEX); }
+            set { OperatorHelper.GetInlet(WrappedOperator, B_INDEX).LinkTo(value); }
         }
 
         public Outlet Result
         {
-            get { return OperatorHelper.GetOutlet(_wrappedOperator, OperatorConstants.ADD_RESULT_INDEX); }
+            get { return OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX); }
+        }
+
+        public override string GetInletDisplayName(int listIndex)
+        {
+            switch (listIndex)
+            {
+                case A_INDEX:
+                    {
+                        string name = ResourceHelper.GetPropertyDisplayName(() => OperandA);
+                        return name;
+                    }
+
+                case B_INDEX:
+                    {
+                        string name = ResourceHelper.GetPropertyDisplayName(() => OperandB);
+                        return name;
+                    }
+
+                default:
+                    throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Inlets.Count);
+            }
+        }
+
+        public override string GetOutletDisplayName(int listIndex)
+        {
+            if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
+
+            string name = ResourceHelper.GetPropertyDisplayName(() => Result);
+            return name;
         }
 
         public static implicit operator Outlet(Add_OperatorWrapper wrapper)

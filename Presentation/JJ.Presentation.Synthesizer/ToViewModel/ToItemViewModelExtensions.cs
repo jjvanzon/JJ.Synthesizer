@@ -11,6 +11,7 @@ using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
+using JJ.Business.Synthesizer.EntityWrappers;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -194,29 +195,42 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static IList<InletViewModel> ToViewModels(this IList<Inlet> entities)
+        public static IList<InletViewModel> ToViewModels(
+            this IList<Inlet> entities,
+            ICurveRepository curveRepository, 
+            ISampleRepository sampleRepository, 
+            IPatchRepository patchRepository)
         {
             if (entities == null) throw new NullException(() => entities);
 
             IList<InletViewModel> viewModels = entities.Where(x => ViewModelHelper.MustConvertToInletViewModel(x))
-                                                       .Select(x => x.ToViewModel())
+                                                       .Select(x => x.ToViewModel(curveRepository, sampleRepository, patchRepository))
                                                        .OrderBy(x => x.ListIndex)
                                                        .ToList();
             return viewModels;
         }
 
-        public static InletViewModel ToViewModel(this Inlet entity)
+        public static InletViewModel ToViewModel(
+            this Inlet entity,
+            ICurveRepository curveRepository,
+            ISampleRepository sampleRepository,
+            IPatchRepository patchRepository)
         {
             if (entity == null) throw new NullException(() => entity);
 
             var viewModel = new InletViewModel();
-            entity.ToViewModel(viewModel);
+            entity.ToViewModel(viewModel, curveRepository, sampleRepository, patchRepository);
 
             return viewModel;
         }
 
         /// <summary> Overload for in-place refreshing of a view model </summary>
-        public static void ToViewModel(this Inlet entity, InletViewModel viewModel)
+        public static void ToViewModel(
+            this Inlet entity, 
+            InletViewModel viewModel,
+            ICurveRepository curveRepository,
+            ISampleRepository sampleRepository,
+            IPatchRepository patchRepository)
         {
             if (entity == null) throw new NullException(() => entity);
             if (viewModel == null) throw new NullException(() => viewModel);
@@ -235,30 +249,47 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 viewModel.InletType = ViewModelHelper.CreateEmptyIDAndName();
             }
+
+            // TODO: Not a great plan to use a wrapper, since it is strict and ToViewModel might have to be lenient?
+            var wrapper = OperatorWrapperFactory.CreateOperatorWrapper(entity.Operator, curveRepository, sampleRepository, patchRepository);
+            viewModel.Caption = wrapper.GetInletDisplayName(entity.ListIndex);
         }
 
-        public static IList<OutletViewModel> ToViewModels(this IList<Outlet> entities)
+        public static IList<OutletViewModel> ToViewModels(
+            this IList<Outlet> entities,
+            ICurveRepository curveRepository,
+            ISampleRepository sampleRepository,
+            IPatchRepository patchRepository)
         {
             if (entities == null) throw new NullException(() => entities);
 
             IList<OutletViewModel> viewModels = entities.Where(x => ViewModelHelper.MustConvertToOutletViewModel(x))
-                                                        .Select(x => x.ToViewModel())
+                                                        .Select(x => x.ToViewModel(curveRepository, sampleRepository, patchRepository))
                                                         .OrderBy(x => x.ListIndex)
                                                         .ToList();
             return viewModels;
         }
 
-        public static OutletViewModel ToViewModel(this Outlet entity)
+        public static OutletViewModel ToViewModel(
+            this Outlet entity,
+            ICurveRepository curveRepository,
+            ISampleRepository sampleRepository,
+            IPatchRepository patchRepository)
         {
             if (entity == null) throw new NullException(() => entity);
 
             var viewModel = new OutletViewModel();
-            entity.ToViewModel(viewModel);
+            entity.ToViewModel(viewModel, curveRepository, sampleRepository, patchRepository);
             return viewModel;
         }
 
         /// <summary> Overload for in-place refreshing of a view model. </summary>
-        public static void ToViewModel(this Outlet entity, OutletViewModel viewModel)
+        public static void ToViewModel(
+            this Outlet entity, 
+            OutletViewModel viewModel,
+            ICurveRepository curveRepository,
+            ISampleRepository sampleRepository,
+            IPatchRepository patchRepository)
         {
             if (entity == null) throw new NullException(() => entity);
             if (viewModel == null) throw new NullException(() => viewModel);
@@ -276,6 +307,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 viewModel.OutletType = ViewModelHelper.CreateEmptyIDAndName();
             }
+
+            // TODO: Not a great plan to use a wrapper, since it is strict and ToViewModel might have to be lenient?
+            var wrapper = OperatorWrapperFactory.CreateOperatorWrapper(entity.Operator, curveRepository, sampleRepository, patchRepository);
+            viewModel.Caption = wrapper.GetOutletDisplayName(entity.ListIndex);
         }
 
         public static OperatorTypeViewModel ToViewModel(this OperatorType operatorType)
@@ -307,8 +342,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (patchRepository == null) throw new NullException(() => patchRepository);
 
             OperatorViewModel operatorViewModel = op.ToViewModel(sampleRepository, curveRepository, patchRepository, entityPositionManager);
-            operatorViewModel.Inlets = op.Inlets.ToViewModels();
-            operatorViewModel.Outlets = op.Outlets.ToViewModels();
+            operatorViewModel.Inlets = op.Inlets.ToViewModels(curveRepository, sampleRepository, patchRepository);
+            operatorViewModel.Outlets = op.Outlets.ToViewModels(curveRepository, sampleRepository, patchRepository);
 
             // This is the inverse property in the view model!
             foreach (OutletViewModel outletViewModel in operatorViewModel.Outlets)

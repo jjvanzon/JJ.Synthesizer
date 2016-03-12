@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Linq.Expressions;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Common;
 using JJ.Framework.Common.Exceptions;
+using JJ.Framework.Reflection;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Resources
@@ -26,6 +28,15 @@ namespace JJ.Business.Synthesizer.Resources
                 str = resourceName;
             }
 
+            return str;
+        }
+
+        public static string GetPropertyDisplayName(Expression<Func<object>> resourceNameExpression)
+        {
+            if (resourceNameExpression == null) throw new NullException(() => resourceNameExpression);
+
+            string resourceName = ExpressionHelper.GetName(resourceNameExpression);
+            string str = GetPropertyDisplayName(resourceName);
             return str;
         }
 

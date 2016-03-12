@@ -3,11 +3,16 @@ using JJ.Business.Synthesizer.LinkTo;
 using System;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Framework.Reflection.Exceptions;
+using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public class PatchInlet_OperatorWrapper : OperatorWrapperBase
     {
+        private const int INPUT_INDEX = 0;
+        private const int RESULT_INDEX = 0;
+
         public PatchInlet_OperatorWrapper(Operator op)
             :base(op)
         { }
@@ -20,18 +25,34 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Inlet Inlet
         {
-            get { return OperatorHelper.GetInlet(_wrappedOperator, OperatorConstants.PATCH_INLET_INPUT_INDEX); }
+            get { return OperatorHelper.GetInlet(WrappedOperator, INPUT_INDEX); }
         }
 
         public Outlet Result
         {
-            get { return OperatorHelper.GetOutlet(_wrappedOperator, OperatorConstants.PATCH_INLET_RESULT_INDEX); }
+            get { return OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX); }
         }
 
         public int? ListIndex
         {
-            get { return OperatorDataParser.TryGetInt32(_wrappedOperator, PropertyNames.ListIndex); }
-            set { OperatorDataParser.SetValue(_wrappedOperator, PropertyNames.ListIndex, value); }
+            get { return OperatorDataParser.TryGetInt32(WrappedOperator, PropertyNames.ListIndex); }
+            set { OperatorDataParser.SetValue(WrappedOperator, PropertyNames.ListIndex, value); }
+        }
+
+        public override string GetInletDisplayName(int listIndex)
+        {
+            if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
+
+            string name = ResourceHelper.GetPropertyDisplayName(() => Input);
+            return name;
+        }
+
+        public override string GetOutletDisplayName(int listIndex)
+        {
+            if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
+
+            string name = ResourceHelper.GetPropertyDisplayName(() => Result);
+            return name;
         }
 
         public static implicit operator Outlet(PatchInlet_OperatorWrapper wrapper)

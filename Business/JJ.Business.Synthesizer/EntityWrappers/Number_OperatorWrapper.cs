@@ -3,12 +3,13 @@ using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
 using System;
 using System.Globalization;
+using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public class Number_OperatorWrapper : OperatorWrapperBase
     {
-        private static CultureInfo _formattingCulture = new CultureInfo("en-US");
+        private const int RESULT_INDEX = 0;
 
         public Number_OperatorWrapper(Operator op)
             : base(op)
@@ -16,13 +17,13 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Result
         {
-            get { return OperatorHelper.GetOutlet(_wrappedOperator, OperatorConstants.NUMBER_OPERATOR_RESULT_INDEX); }
+            get { return OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX); }
         }
 
         public double Number
         {
-            get { return Double.Parse(WrappedOperator.Data, _formattingCulture); }
-            set { WrappedOperator.Data = value.ToString(_formattingCulture); }
+            get { return Double.Parse(WrappedOperator.Data, OperatorDataParser.FormattingCulture); }
+            set { WrappedOperator.Data = value.ToString(OperatorDataParser.FormattingCulture); }
         }
 
         public static implicit operator Outlet(Number_OperatorWrapper wrapper)
@@ -30,6 +31,19 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             if (wrapper == null) return null;
 
             return wrapper.Result;
+        }
+
+        public override string GetInletDisplayName(int listIndex)
+        {
+            throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Inlets.Count);
+        }
+
+        public override string GetOutletDisplayName(int listIndex)
+        {
+            if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
+
+            string name = ResourceHelper.GetPropertyDisplayName(() => Result);
+            return name;
         }
 
         public static implicit operator double(Number_OperatorWrapper wrapper)

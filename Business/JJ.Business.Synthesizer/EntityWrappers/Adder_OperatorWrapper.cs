@@ -1,11 +1,16 @@
 ﻿using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer;
 using System.Collections.Generic;
+using JJ.Framework.Reflection.Exceptions;
+using JJ.Business.Synthesizer.Resources;
+using System;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public class Adder_OperatorWrapper : OperatorWrapperBase
     {
+        private const int ADDER_RESULT_INDEX = 0;
+
         public Adder_OperatorWrapper(Operator op)
             : base(op)
         { }
@@ -15,10 +20,10 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         {
             get
             {
-                IList<Outlet> operands = new Outlet[_wrappedOperator.Inlets.Count];
-                for (int i = 0; i < _wrappedOperator.Inlets.Count; i++)
+                IList<Outlet> operands = new Outlet[WrappedOperator.Inlets.Count];
+                for (int i = 0; i < WrappedOperator.Inlets.Count; i++)
                 {
-                    operands[i] = _wrappedOperator.Inlets[i].InputOutlet;
+                    operands[i] = WrappedOperator.Inlets[i].InputOutlet;
                 }
                 return operands;
             }
@@ -26,7 +31,24 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Result
         {
-            get { return OperatorHelper.GetOutlet(_wrappedOperator, OperatorConstants.ADDER_RESULT_INDEX); }
+            get { return OperatorHelper.GetOutlet(WrappedOperator, ADDER_RESULT_INDEX); }
+        }
+
+        public override string GetInletDisplayName(int listIndex)
+        {
+            if (listIndex < 0) throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Inlets.Count);
+            if (listIndex > WrappedOperator.Inlets.Count) throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Inlets.Count);
+
+            string name = String.Format("{0} {1}", PropertyDisplayNames.Inlet, listIndex + 1);
+            return name;
+        }
+
+        public override string GetOutletDisplayName(int listIndex)
+        {
+            if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
+
+            string name = ResourceHelper.GetPropertyDisplayName(() => Result);
+            return name;
         }
 
         public static implicit operator Outlet(Adder_OperatorWrapper wrapper)

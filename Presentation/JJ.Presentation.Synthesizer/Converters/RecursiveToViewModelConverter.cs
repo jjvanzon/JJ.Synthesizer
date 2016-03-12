@@ -114,7 +114,7 @@ namespace JJ.Presentation.Synthesizer.Converters
 
         private InletViewModel ConvertToViewModelRecursive(Inlet inlet)
         {
-            InletViewModel viewModel = inlet.ToViewModel();
+            InletViewModel viewModel = inlet.ToViewModel(_curveRepository, _sampleRepository, _patchRepository);
 
             if (inlet.InputOutlet != null)
             {
@@ -135,7 +135,7 @@ namespace JJ.Presentation.Synthesizer.Converters
 
         private OutletViewModel ConvertToViewModelRecursive(Outlet outlet)
         {
-            OutletViewModel viewModel = outlet.ToViewModel();
+            OutletViewModel viewModel = outlet.ToViewModel(_curveRepository, _sampleRepository, _patchRepository);
 
             _entityPositionManager.GetOrCreateOperatorPosition(outlet.Operator);
 

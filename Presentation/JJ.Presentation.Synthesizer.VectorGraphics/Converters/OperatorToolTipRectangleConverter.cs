@@ -40,7 +40,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             }
 
             destOperatorToolTipRectangle.X = 0;
-            destOperatorToolTipRectangle.Width = StyleHelper.DEFAULT_TOOL_TIP_WIDTH;
+            destOperatorToolTipRectangle.Width = destOperatorRectangle.Width;
+            
             // TODO: This might not quite work for number operators, since they have a different height.
             destOperatorToolTipRectangle.Y = PositionHelper.CalculateY(StyleHelper.OPERATOR_HEIGHT, rowCount: 4, rowIndexFrom: 1);
             destOperatorToolTipRectangle.Height = PositionHelper.CalculateHeight(StyleHelper.OPERATOR_HEIGHT, rowCount: 4, rowIndexFrom: 1, rowIndexTill: 2);

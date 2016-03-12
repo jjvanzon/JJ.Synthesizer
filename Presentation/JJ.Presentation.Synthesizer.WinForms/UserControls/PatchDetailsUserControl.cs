@@ -297,11 +297,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (ViewModel == null) return;
 
             int inletID = VectorGraphicsTagHelper.GetInletID(e.Element.Tag);
-
-            InletViewModel inketViewModel = ViewModel.Entity.Operators.SelectMany(x => x.Inlets)
+            
+            InletViewModel inletViewModel = ViewModel.Entity.Operators.SelectMany(x => x.Inlets)
                                                                        .Where(x => x.ID == inletID)
                                                                        .Single();
-            e.ToolTipText = inketViewModel.Name;
+            e.ToolTipText = inletViewModel.Caption;
         }
 
         private void OutletToolTipGesture_ToolTipTextRequested(object sender, ToolTipTextEventArgs e)
@@ -313,7 +313,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             OutletViewModel outletViewModel = ViewModel.Entity.Operators.SelectMany(x => x.Outlets)
                                                                          .Where(x => x.ID == id)
                                                                          .Single();
-            e.ToolTipText = outletViewModel.Name;
+            e.ToolTipText = outletViewModel.Caption;
         }
 
         // This event does not go off, if not clicked on a control that according to WinForms can get focus.

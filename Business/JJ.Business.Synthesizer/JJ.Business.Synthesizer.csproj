@@ -193,6 +193,7 @@
     <Compile Include="EntityWrappers\Filter_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\OneOverX_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Negative_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\OperatorWrapperFactory.cs" />
     <Compile Include="EntityWrappers\Round_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\If_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Average_OperatorWrapper.cs" />
