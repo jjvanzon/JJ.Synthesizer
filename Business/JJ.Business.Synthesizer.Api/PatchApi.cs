@@ -31,9 +31,9 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Absolute(x);
         }
 
-        public Add_OperatorWrapper Add(Outlet operandA = null, Outlet operandB = null)
+        public Add_OperatorWrapper Add(Outlet a = null, Outlet b = null)
         {
-            return _patchManager.Add(operandA, operandB);
+            return _patchManager.Add(a, b);
         }
 
         public Adder_OperatorWrapper Adder(params Outlet[] operands)
@@ -186,9 +186,9 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Minimum(signal, timeSliceDuration, sampleCount);
         }
 
-        public Multiply_OperatorWrapper Multiply(Outlet operandA = null, Outlet operandB = null, Outlet origin = null)
+        public Multiply_OperatorWrapper Multiply(Outlet a = null, Outlet b = null, Outlet origin = null)
         {
-            return _patchManager.Multiply(operandA, operandB, origin);
+            return _patchManager.Multiply(a, b, origin);
         }
 
         public Narrower_OperatorWrapper Narrower(Outlet signal = null, Outlet factor = null, Outlet origin = null)
@@ -378,9 +378,9 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Stretch(signal, factor, origin);
         }
 
-        public Subtract_OperatorWrapper Subtract(Outlet operandA = null, Outlet operandB = null)
+        public Subtract_OperatorWrapper Subtract(Outlet a = null, Outlet b = null)
         {
-            return _patchManager.Subtract(operandA, operandB);
+            return _patchManager.Subtract(a, b);
         }
 
         public TimePower_OperatorWrapper TimePower(Outlet signal = null, Outlet exponent = null, Outlet origin = null)

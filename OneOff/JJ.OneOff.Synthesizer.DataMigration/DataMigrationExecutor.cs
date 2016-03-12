@@ -57,8 +57,8 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                             inlet.LinkTo(multiply.Result);
                         }
 
-                        //multiply.OperandA = sine.Volume;
-                        multiply.OperandB = sine.Result;
+                        //multiply.A = sine.Volume;
+                        multiply.B = sine.Result;
 
                         //sine.Volume = null;
 

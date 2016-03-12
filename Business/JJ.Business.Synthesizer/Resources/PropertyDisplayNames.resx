@@ -575,7 +575,7 @@
     <value>Or</value>
   </data>
   <data name="X" xml:space="preserve">
-    <value>X</value>
+    <value>x</value>
   </data>
   <data name="Condition" xml:space="preserve">
     <value>Condition</value>
@@ -683,7 +683,7 @@
   <data name="BandWidth" xml:space="preserve">
     <value>Band Width</value>
   </data>
-  <data name="DbGain" xml:space="preserve">
+  <data name="DBGain" xml:space="preserve">
     <value>dB Gain</value>
   </data>
   <data name="FilterType" xml:space="preserve">
@@ -694,5 +694,53 @@
   </data>
   <data name="Filter" xml:space="preserve">
     <value>Filter</value>
+  </data>
+  <data name="Result" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="PhaseShift" xml:space="preserve">
+    <value>Phase Shift</value>
+  </data>
+  <data name="Base" xml:space="preserve">
+    <value>Base</value>
+  </data>
+  <data name="Denominator" xml:space="preserve">
+    <value>Denominator</value>
+  </data>
+  <data name="Difference" xml:space="preserve">
+    <value>Difference</value>
+  </data>
+  <data name="Input" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="MaxFrequency" xml:space="preserve">
+    <value>Maximum Frequency</value>
+  </data>
+  <data name="MinFrequency" xml:space="preserve">
+    <value>Minimum Frequency</value>
+  </data>
+  <data name="Numerator" xml:space="preserve">
+    <value>Numerator</value>
+  </data>
+  <data name="Offset" xml:space="preserve">
+    <value>Offset</value>
+  </data>
+  <data name="Operand" xml:space="preserve">
+    <value>Operand</value>
+  </data>
+  <data name="Origin" xml:space="preserve">
+    <value>Origin</value>
+  </data>
+  <data name="Rate" xml:space="preserve">
+    <value>Rate</value>
+  </data>
+  <data name="Speed" xml:space="preserve">
+    <value>Speed</value>
+  </data>
+  <data name="Step" xml:space="preserve">
+    <value>Step</value>
+  </data>
+  <data name="TimeDifference" xml:space="preserve">
+    <value>Time Difference</value>
   </data>
 </root>

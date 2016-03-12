@@ -5,25 +5,25 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Add_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly OperatorCalculatorBase _operandACalculator;
-        private readonly OperatorCalculatorBase _operandBCalculator;
+        private readonly OperatorCalculatorBase _aCalculator;
+        private readonly OperatorCalculatorBase _bCalculator;
 
-        public Add_OperatorCalculator(OperatorCalculatorBase operandACalculator, OperatorCalculatorBase operandBCalculator)
-            : base(new OperatorCalculatorBase[] { operandACalculator, operandBCalculator })
+        public Add_OperatorCalculator(OperatorCalculatorBase aCalculator, OperatorCalculatorBase bCalculator)
+            : base(new OperatorCalculatorBase[] { aCalculator, bCalculator })
         {
-            if (operandACalculator == null) throw new NullException(() => operandACalculator);
-            if (operandBCalculator == null) throw new NullException(() => operandBCalculator);
-            if (operandACalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandACalculator);
-            if (operandBCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandBCalculator);
+            if (aCalculator == null) throw new NullException(() => aCalculator);
+            if (bCalculator == null) throw new NullException(() => bCalculator);
+            if (aCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => aCalculator);
+            if (bCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => bCalculator);
 
-            _operandACalculator = operandACalculator;
-            _operandBCalculator = operandBCalculator;
+            _aCalculator = aCalculator;
+            _bCalculator = bCalculator;
         }
 
         public override double Calculate(double time, int channelIndex)
         {
-            double a = _operandACalculator.Calculate(time, channelIndex);
-            double b = _operandBCalculator.Calculate(time, channelIndex);
+            double a = _aCalculator.Calculate(time, channelIndex);
+            double b = _bCalculator.Calculate(time, channelIndex);
 
             // Strategically prevent NaN in case of addition, or one sound will destroy the others too.
             if (Double.IsNaN(a)) a = 0.0;
@@ -33,67 +33,67 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Add_WithConstOperandA_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Add_ConstA_VarB_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly double _operandAValue;
-        private readonly OperatorCalculatorBase _operandBCalculator;
+        private readonly double _a;
+        private readonly OperatorCalculatorBase _bCalculator;
 
-        public Add_WithConstOperandA_OperatorCalculator(double operandAValue, OperatorCalculatorBase operandBCalculator)
-            : base(new OperatorCalculatorBase[] { operandBCalculator })
+        public Add_ConstA_VarB_OperatorCalculator(double a, OperatorCalculatorBase bCalculator)
+            : base(new OperatorCalculatorBase[] { bCalculator })
         {
-            if (operandBCalculator == null) throw new NullException(() => operandBCalculator);
-            if (operandBCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandBCalculator);
+            if (bCalculator == null) throw new NullException(() => bCalculator);
+            if (bCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => bCalculator);
 
-            _operandAValue = operandAValue;
+            _a = a;
 
             // Strategically prevent NaN in case of addition, or one sound will destroy the others too.
-            if (Double.IsNaN(_operandAValue)) _operandAValue = 0.0;
+            if (Double.IsNaN(_a)) _a = 0.0;
 
-            _operandBCalculator = operandBCalculator;
+            _bCalculator = bCalculator;
         }
 
         public override double Calculate(double time, int channelIndex)
         {
-            double b = _operandBCalculator.Calculate(time, channelIndex);
+            double b = _bCalculator.Calculate(time, channelIndex);
 
             // Strategically prevent NaN in case of addition, or one sound will destroy the others too.
             if (Double.IsNaN(b))
             {
-                return _operandAValue;
+                return _a;
             }
 
-            return _operandAValue + b;
+            return _a + b;
         }
     }
 
-    internal class Add_WithConstOperandB_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Add_VarA_ConstB_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly OperatorCalculatorBase _operandACalculator;
-        private readonly double _operandBValue;
+        private readonly OperatorCalculatorBase _aCalculator;
+        private readonly double _b;
 
-        public Add_WithConstOperandB_OperatorCalculator(OperatorCalculatorBase operandACalculator, double operandBValue)
-            : base(new OperatorCalculatorBase[] { operandACalculator })
+        public Add_VarA_ConstB_OperatorCalculator(OperatorCalculatorBase aCalculator, double b)
+            : base(new OperatorCalculatorBase[] { aCalculator })
         {
-            if (operandACalculator == null) throw new NullException(() => operandACalculator);
-            if (operandACalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandACalculator);
+            if (aCalculator == null) throw new NullException(() => aCalculator);
+            if (aCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => aCalculator);
 
-            _operandACalculator = operandACalculator;
-            _operandBValue = operandBValue;
+            _aCalculator = aCalculator;
+            _b = b;
 
-            if (Double.IsNaN(_operandBValue)) _operandBValue = 0.0;
+            if (Double.IsNaN(_b)) _b = 0.0;
         }
 
         public override double Calculate(double time, int channelIndex)
         {
-            double a = _operandACalculator.Calculate(time, channelIndex);
+            double a = _aCalculator.Calculate(time, channelIndex);
 
             // Strategically prevent NaN in case of addition, or one sound will destroy the others too.
             if (Double.IsNaN(a))
             {
-                return _operandBValue;
+                return _b;
             }
 
-            return a + _operandBValue;
+            return a + _b;
         }
     }
 }

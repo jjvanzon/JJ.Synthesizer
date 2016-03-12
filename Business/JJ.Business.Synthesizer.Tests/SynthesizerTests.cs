@@ -56,8 +56,8 @@ namespace JJ.Business.Synthesizer.Tests
                 // Test recursive validator
                 CultureHelper.SetThreadCultureName("nl-NL");
 
-                add.OperandA = null;
-                var valueOperatorWrapper = new Number_OperatorWrapper(subtract.OperandB.Operator);
+                add.A = null;
+                var valueOperatorWrapper = new Number_OperatorWrapper(subtract.B.Operator);
                 valueOperatorWrapper.Number = 0;
                 subtract.WrappedOperator.Inlets[0].Name = "134";
 

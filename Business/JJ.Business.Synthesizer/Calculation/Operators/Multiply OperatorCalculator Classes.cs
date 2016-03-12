@@ -3,279 +3,287 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Multiply_ConstOperandA_VarOperandB_ConstOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Multiply_ConstA_VarB_ConstOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly double _operandAValue;
-        private readonly OperatorCalculatorBase _operandBCalculator;
-        private readonly double _originValue;
+        private readonly double _a;
+        private readonly OperatorCalculatorBase _bCalculator;
+        private readonly double _origin;
 
-        public Multiply_ConstOperandA_VarOperandB_ConstOrigin_OperatorCalculator(
-            double operandAValue,
-            OperatorCalculatorBase operandBCalculator,
-            double originValue)
-            : base(new OperatorCalculatorBase[] { operandBCalculator })
+        public Multiply_ConstA_VarB_ConstOrigin_OperatorCalculator(
+            double a,
+            OperatorCalculatorBase bCalculator,
+            double origin)
+            : base(new OperatorCalculatorBase[] { bCalculator })
         {
-            if (operandBCalculator == null) throw new NullException(() => operandBCalculator);
-            if (operandBCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandBCalculator);
+            if (bCalculator == null) throw new NullException(() => bCalculator);
+            if (bCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => bCalculator);
 
-            _operandAValue = operandAValue;
-            _operandBCalculator = operandBCalculator;
-            _originValue = originValue;
+            _a = a;
+            _bCalculator = bCalculator;
+            _origin = origin;
         }
 
         public override double Calculate(double time, int channelIndex)
         {
-            double b = _operandBCalculator.Calculate(time, channelIndex);
-            return (_operandAValue - _originValue) * b + _originValue;
+            double b = _bCalculator.Calculate(time, channelIndex);
+            return (_a - _origin) * b + _origin;
         }
     }
 
-    internal class Multiply_VarOperandA_ConstOperandB_ConstOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Multiply_VarA_ConstB_ConstOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly OperatorCalculatorBase _operandACalculator;
-        private readonly double _operandBValue;
-        private readonly double _originValue;
+        private readonly OperatorCalculatorBase _aCalculator;
+        private readonly double _b;
+        private readonly double _origin;
 
-        public Multiply_VarOperandA_ConstOperandB_ConstOrigin_OperatorCalculator(
-            OperatorCalculatorBase operandACalculator,
-            double operandBValue,
-            double originValue)
-            : base(new OperatorCalculatorBase[] { operandACalculator })
+        public Multiply_VarA_ConstB_ConstOrigin_OperatorCalculator(
+            OperatorCalculatorBase aCalculator,
+            double b,
+            double origin)
+            : base(new OperatorCalculatorBase[] { aCalculator })
         {
-            if (operandACalculator == null) throw new NullException(() => operandACalculator);
+            if (aCalculator == null) throw new NullException(() => aCalculator);
             // TODO: Enable this code line again after debugging the hacsk in Random_OperatorCalculator_OtherInterpolations's
             // constructor that creates an instance of Divide_WithoutOrigin_WithConstNumerator_OperatorCalculator.
             // It that no longer happens in that constructor, you can enable this code line again.
-            //if (operandACalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandACalculator);
+            //if (aCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => aCalculator);
 
-            _operandACalculator = operandACalculator;
-            _operandBValue = operandBValue;
-            _originValue = originValue;
+            _aCalculator = aCalculator;
+            _b = b;
+            _origin = origin;
         }
 
         public override double Calculate(double time, int channelIndex)
         {
-            double a = _operandACalculator.Calculate(time, channelIndex);
-            return (a - _originValue) * _operandBValue + _originValue;
+            double a = _aCalculator.Calculate(time, channelIndex);
+            return (a - _origin) * _b + _origin;
         }
     }
 
-    internal class Multiply_VarOperandA_VarOperandB_ConstOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Multiply_VarA_VarB_ConstOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly OperatorCalculatorBase _operandACalculator;
-        private readonly OperatorCalculatorBase _operandBCalculator;
-        private readonly double _originValue;
+        private readonly OperatorCalculatorBase _aCalculator;
+        private readonly OperatorCalculatorBase _bCalculator;
+        private readonly double _origin;
 
-        public Multiply_VarOperandA_VarOperandB_ConstOrigin_OperatorCalculator(
-            OperatorCalculatorBase operandACalculator,
-            OperatorCalculatorBase operandBCalculator,
-            double originValue)
-            : base(new OperatorCalculatorBase[] { operandACalculator, operandBCalculator })
+        public Multiply_VarA_VarB_ConstOrigin_OperatorCalculator(
+            OperatorCalculatorBase aCalculator,
+            OperatorCalculatorBase bCalculator,
+            double origin)
+            : base(new OperatorCalculatorBase[] { aCalculator, bCalculator })
         {
-            if (operandACalculator == null) throw new NullException(() => operandACalculator);
-            if (operandACalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandACalculator);
-            if (operandBCalculator == null) throw new NullException(() => operandBCalculator);
-            if (operandBCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandBCalculator);
+            if (aCalculator == null) throw new NullException(() => aCalculator);
+            if (aCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => aCalculator);
+            if (bCalculator == null) throw new NullException(() => bCalculator);
+            if (bCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => bCalculator);
 
-            _operandACalculator = operandACalculator;
-            _operandBCalculator = operandBCalculator;
-            _originValue = originValue;
+            _aCalculator = aCalculator;
+            _bCalculator = bCalculator;
+            _origin = origin;
         }
 
         public override double Calculate(double time, int channelIndex)
         {
-            double a = _operandACalculator.Calculate(time, channelIndex);
-            double b = _operandBCalculator.Calculate(time, channelIndex);
-            return (a - _originValue) * b + _originValue;
+            double a = _aCalculator.Calculate(time, channelIndex);
+            double b = _bCalculator.Calculate(time, channelIndex);
+            return (a - _origin) * b + _origin;
         }
     }
 
-    internal class Multiply_ConstOperandA_ConstOperandB_VarOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Multiply_ConstA_ConstB_VarOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly double _operandAValue;
-        private readonly double _operandBValue;
+        private readonly double _a;
+        private readonly double _b;
         private readonly OperatorCalculatorBase _originCalculator;
 
-        public Multiply_ConstOperandA_ConstOperandB_VarOrigin_OperatorCalculator(
-            double operandAValue,
-            double operandBValue,
+        public Multiply_ConstA_ConstB_VarOrigin_OperatorCalculator(
+            double a,
+            double b,
             OperatorCalculatorBase originCalculator)
             : base(new OperatorCalculatorBase[] { originCalculator })
         {
             if (originCalculator == null) throw new NullException(() => originCalculator);
             if (originCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => originCalculator);
 
-            _operandAValue = operandAValue;
-            _operandBValue = operandBValue;
+            _a = a;
+            _b = b;
             _originCalculator = originCalculator;
         }
 
         public override double Calculate(double time, int channelIndex)
         {
             double origin = _originCalculator.Calculate(time, channelIndex);
-            return (_operandAValue - origin) * _operandBValue + origin;
+            return (_a - origin) * _b + origin;
         }
     }
 
-    internal class Multiply_ConstOperandA_VarOperandB_VarOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Multiply_ConstA_VarB_VarOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly double _operandAValue;
-        private readonly OperatorCalculatorBase _operandBCalculator;
+        private readonly double _a;
+        private readonly OperatorCalculatorBase _bCalculator;
         private readonly OperatorCalculatorBase _originCalculator;
 
-        public Multiply_ConstOperandA_VarOperandB_VarOrigin_OperatorCalculator(
-            double operandAValue,
-            OperatorCalculatorBase operandBCalculator,
+        public Multiply_ConstA_VarB_VarOrigin_OperatorCalculator(
+            double a,
+            OperatorCalculatorBase bCalculator,
             OperatorCalculatorBase originCalculator)
-            : base(new OperatorCalculatorBase[] { operandBCalculator, originCalculator })
+            : base(new OperatorCalculatorBase[] { bCalculator, originCalculator })
         {
-            if (operandBCalculator == null) throw new NullException(() => operandBCalculator);
-            if (operandBCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandBCalculator);
+            if (bCalculator == null) throw new NullException(() => bCalculator);
+            if (bCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => bCalculator);
             if (originCalculator == null) throw new NullException(() => originCalculator);
             if (originCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => originCalculator);
 
-            _operandAValue = operandAValue;
-            _operandBCalculator = operandBCalculator;
+            _a = a;
+            _bCalculator = bCalculator;
             _originCalculator = originCalculator;
         }
 
         public override double Calculate(double time, int channelIndex)
         {
             double origin = _originCalculator.Calculate(time, channelIndex);
-            double b = _operandBCalculator.Calculate(time, channelIndex);
-            return (_operandAValue - origin) * b + origin;
+            double b = _bCalculator.Calculate(time, channelIndex);
+            return (_a - origin) * b + origin;
         }
     }
 
-    internal class Multiply_VarOperandA_ConstOperandB_VarOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Multiply_VarA_ConstB_VarOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly OperatorCalculatorBase _operandACalculator;
-        private readonly double _operandBValue;
+        private readonly OperatorCalculatorBase _aCalculator;
+        private readonly double _b;
         private readonly OperatorCalculatorBase _originCalculator;
 
-        public Multiply_VarOperandA_ConstOperandB_VarOrigin_OperatorCalculator(
-            OperatorCalculatorBase operandACalculator,
-            double operandBValue,
+        public Multiply_VarA_ConstB_VarOrigin_OperatorCalculator(
+            OperatorCalculatorBase aCalculator,
+            double b,
             OperatorCalculatorBase originCalculator)
-            : base(new OperatorCalculatorBase[] { operandACalculator, originCalculator })
+            : base(new OperatorCalculatorBase[] { aCalculator, originCalculator })
         {
-            if (operandACalculator == null) throw new NullException(() => operandACalculator);
-            if (operandACalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandACalculator);
+            if (aCalculator == null) throw new NullException(() => aCalculator);
+            if (aCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => aCalculator);
             if (originCalculator == null) throw new NullException(() => originCalculator);
             if (originCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => originCalculator);
 
-            _operandACalculator = operandACalculator;
-            _operandBValue = operandBValue;
+            _aCalculator = aCalculator;
+            _b = b;
             _originCalculator = originCalculator;
         }
 
         public override double Calculate(double time, int channelIndex)
         {
             double origin = _originCalculator.Calculate(time, channelIndex);
-            double a = _operandACalculator.Calculate(time, channelIndex);
-            return (a - origin) * _operandBValue + origin;
+            double a = _aCalculator.Calculate(time, channelIndex);
+            return (a - origin) * _b + origin;
         }
     }
 
-    internal class Multiply_VarOperandA_VarOperandB_VarOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Multiply_VarA_VarB_VarOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly OperatorCalculatorBase _operandACalculator;
-        private readonly OperatorCalculatorBase _operandBCalculator;
+        private readonly OperatorCalculatorBase _aCalculator;
+        private readonly OperatorCalculatorBase _bCalculator;
         private readonly OperatorCalculatorBase _originCalculator;
-
-        public Multiply_VarOperandA_VarOperandB_VarOrigin_OperatorCalculator(
-            OperatorCalculatorBase operandACalculator,
-            OperatorCalculatorBase operandBCalculator,
+        
+        public Multiply_VarA_VarB_VarOrigin_OperatorCalculator(
+            OperatorCalculatorBase aCalculator,
+            OperatorCalculatorBase bCalculator,
             OperatorCalculatorBase originCalculator)
-            : base(new OperatorCalculatorBase[] { operandACalculator, operandBCalculator, originCalculator })
+            : base(new OperatorCalculatorBase[] { aCalculator, bCalculator, originCalculator })
         {
-            if (operandACalculator == null) throw new NullException(() => operandACalculator);
-            if (operandACalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandACalculator);
-            if (operandBCalculator == null) throw new NullException(() => operandBCalculator);
-            if (operandBCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandBCalculator);
+            if (aCalculator == null) throw new NullException(() => aCalculator);
+            if (aCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => aCalculator);
+            if (bCalculator == null) throw new NullException(() => bCalculator);
+            if (bCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => bCalculator);
             if (originCalculator == null) throw new NullException(() => originCalculator);
             if (originCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => originCalculator);
 
-            _operandACalculator = operandACalculator;
-            _operandBCalculator = operandBCalculator;
+            _aCalculator = aCalculator;
+            _bCalculator = bCalculator;
             _originCalculator = originCalculator;
+        }
+
+        internal OperatorCalculatorBase BCalculator
+        {
+            get
+            {
+                return _bCalculator;
+            }
         }
 
         public override double Calculate(double time, int channelIndex)
         {
             double origin = _originCalculator.Calculate(time, channelIndex);
-            double a = _operandACalculator.Calculate(time, channelIndex);
-            double b = _operandBCalculator.Calculate(time, channelIndex);
+            double a = _aCalculator.Calculate(time, channelIndex);
+            double b = _bCalculator.Calculate(time, channelIndex);
             return (a - origin) * b + origin;
         }
     }
 
-    internal class Multiply_VarOperandA_VarOperandB_NoOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Multiply_VarA_VarB_NoOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly OperatorCalculatorBase _operandACalculator;
-        private readonly OperatorCalculatorBase _operandBCalculator;
+        private readonly OperatorCalculatorBase _aCalculator;
+        private readonly OperatorCalculatorBase _bCalculator;
 
-        public Multiply_VarOperandA_VarOperandB_NoOrigin_OperatorCalculator(OperatorCalculatorBase operandACalculator, OperatorCalculatorBase operandBCalculator)
-            : base(new OperatorCalculatorBase[] { operandACalculator, operandBCalculator })
+        public Multiply_VarA_VarB_NoOrigin_OperatorCalculator(OperatorCalculatorBase aCalculator, OperatorCalculatorBase bCalculator)
+            : base(new OperatorCalculatorBase[] { aCalculator, bCalculator })
         {
-            if (operandACalculator == null) throw new NullException(() => operandACalculator);
-            if (operandACalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandACalculator);
-            if (operandBCalculator == null) throw new NullException(() => operandBCalculator);
-            if (operandBCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandBCalculator);
+            if (aCalculator == null) throw new NullException(() => aCalculator);
+            if (aCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => aCalculator);
+            if (bCalculator == null) throw new NullException(() => bCalculator);
+            if (bCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => bCalculator);
 
-            _operandACalculator = operandACalculator;
-            _operandBCalculator = operandBCalculator;
+            _aCalculator = aCalculator;
+            _bCalculator = bCalculator;
         }
 
         public override double Calculate(double time, int channelIndex)
         {
-            double a = _operandACalculator.Calculate(time, channelIndex);
-            double b = _operandBCalculator.Calculate(time, channelIndex);
+            double a = _aCalculator.Calculate(time, channelIndex);
+            double b = _bCalculator.Calculate(time, channelIndex);
             return a * b;
         }
     }
 
-    internal class Multiply_ConstOperandA_VarOperandB_NoOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Multiply_ConstA_VarB_NoOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private double _operandAValue;
-        private OperatorCalculatorBase _operandBCalculator;
+        private double _a;
+        private OperatorCalculatorBase _bCalculator;
 
-        public Multiply_ConstOperandA_VarOperandB_NoOrigin_OperatorCalculator(double operandValue, OperatorCalculatorBase operandBCalculator)
-            : base(new OperatorCalculatorBase[] { operandBCalculator })
+        public Multiply_ConstA_VarB_NoOrigin_OperatorCalculator(double a, OperatorCalculatorBase bCalculator)
+            : base(new OperatorCalculatorBase[] { bCalculator })
         {
-            if (operandBCalculator == null) throw new NullException(() => operandBCalculator);
-            if (operandBCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandBCalculator);
+            if (bCalculator == null) throw new NullException(() => bCalculator);
+            if (bCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => bCalculator);
 
-            _operandAValue = operandValue;
-            _operandBCalculator = operandBCalculator;
+            _a = a;
+            _bCalculator = bCalculator;
         }
 
         public override double Calculate(double time, int channelIndex)
         {
-            double b = _operandBCalculator.Calculate(time, channelIndex);
-            return _operandAValue * b;
+            double b = _bCalculator.Calculate(time, channelIndex);
+            return _a * b;
         }
     }
 
-    internal class Multiply_VarOperandA_ConstOperandB_NoOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Multiply_VarA_ConstB_NoOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly OperatorCalculatorBase _operandACalculator;
-        private readonly double _operandBValue;
+        private readonly OperatorCalculatorBase _aCalculator;
+        private readonly double _b;
 
-        public Multiply_VarOperandA_ConstOperandB_NoOrigin_OperatorCalculator(OperatorCalculatorBase operandACalculator, double operandBValue)
-            : base(new OperatorCalculatorBase[] { operandACalculator })
+        public Multiply_VarA_ConstB_NoOrigin_OperatorCalculator(OperatorCalculatorBase aCalculator, double b)
+            : base(new OperatorCalculatorBase[] { aCalculator })
         {
-            if (operandACalculator == null) throw new NullException(() => operandACalculator);
-            if (operandACalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandACalculator);
+            if (aCalculator == null) throw new NullException(() => aCalculator);
+            if (aCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => aCalculator);
 
-            _operandACalculator = operandACalculator;
-            _operandBValue = operandBValue;
+            _aCalculator = aCalculator;
+            _b = b;
         }
 
         public override double Calculate(double time, int channelIndex)
         {
-            double a = _operandACalculator.Calculate(time, channelIndex);
-            return a * _operandBValue;
+            double a = _aCalculator.Calculate(time, channelIndex);
+            return a * _b;
         }
     }
 }

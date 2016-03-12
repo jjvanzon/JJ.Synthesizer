@@ -34,14 +34,14 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Add_OperatorWrapper Add(Outlet operandA = null, Outlet operandB = null)
+        public Add_OperatorWrapper Add(Outlet a = null, Outlet b = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Add, inletCount: 2, outletCount: 1);
 
             var wrapper = new Add_OperatorWrapper(op)
             {
-                OperandA = operandA,
-                OperandB = operandB
+                A = a,
+                B = b
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
@@ -582,14 +582,14 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Multiply_OperatorWrapper Multiply(Outlet operandA = null, Outlet operandB = null, Outlet origin = null)
+        public Multiply_OperatorWrapper Multiply(Outlet a = null, Outlet b = null, Outlet origin = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Multiply, inletCount: 3, outletCount: 1);
 
             var wrapper = new Multiply_OperatorWrapper(op)
             {
-                OperandA = operandA,
-                OperandB = operandB,
+                A = a,
+                B = b,
                 Origin = origin
             };
 
@@ -1209,14 +1209,14 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Subtract_OperatorWrapper Subtract(Outlet operandA = null, Outlet operandB = null)
+        public Subtract_OperatorWrapper Subtract(Outlet a = null, Outlet b = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Subtract, inletCount: 2, outletCount: 1);
 
             var wrapper = new Subtract_OperatorWrapper(op)
             {
-                OperandA = operandA,
-                OperandB = operandB
+                A = a,
+                B = b
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);

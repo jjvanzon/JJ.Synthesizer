@@ -30,12 +30,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Delay_WithConstTimeDifference_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Delay_VarSignal_ConstTimeDifference_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _timeDifferenceValue;
 
-        public Delay_WithConstTimeDifference_OperatorCalculator(
+        public Delay_VarSignal_ConstTimeDifference_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
             double timeDifferenceValue)
             : base(new OperatorCalculatorBase[] { signalCalculator })

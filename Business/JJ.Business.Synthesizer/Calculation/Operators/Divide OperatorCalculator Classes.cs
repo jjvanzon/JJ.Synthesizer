@@ -5,13 +5,13 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Divide_WithConstOrigin_AndDenominator_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Divide_VarNumerator_ConstDenominator_ConstOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _numeratorCalculator;
         private readonly double _denominatorValue;
         private readonly double _originValue;
 
-        public Divide_WithConstOrigin_AndDenominator_OperatorCalculator(
+        public Divide_VarNumerator_ConstDenominator_ConstOrigin_OperatorCalculator(
             OperatorCalculatorBase numeratorCalculator,
             double denominatorValue,
             double originValue)
@@ -33,13 +33,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Divide_WithConstOrigin_AndNumerator_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Divide_ConstNumerator_VarDenominator_ConstOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly double _numeratorValue;
         private readonly OperatorCalculatorBase _denominatorCalculator;
         private readonly double _originValue;
 
-        public Divide_WithConstOrigin_AndNumerator_OperatorCalculator(
+        public Divide_ConstNumerator_VarDenominator_ConstOrigin_OperatorCalculator(
             double numeratorValue,
             OperatorCalculatorBase denominatorCalculator,
             double originValue)
@@ -66,13 +66,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Divide_WithConstOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Divide_VarNumerator_VarDenominator_ConstOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _numeratorCalculator;
         private readonly OperatorCalculatorBase _denominatorCalculator;
         private readonly double _originValue;
 
-        public Divide_WithConstOrigin_OperatorCalculator(
+        public Divide_VarNumerator_VarDenominator_ConstOrigin_OperatorCalculator(
             OperatorCalculatorBase numeratorCalculator,
             OperatorCalculatorBase denominatorCalculator,
             double originValue)
@@ -269,12 +269,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Divide_WithoutOrigin_WithConstDenominator_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Divide_VarNumerator_ConstDenominator_ZeroOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _numeratorCalculator;
         private readonly double _denominatorValue;
 
-        public Divide_WithoutOrigin_WithConstDenominator_OperatorCalculator(OperatorCalculatorBase numeratorCalculator, double denominatorValue)
+        public Divide_VarNumerator_ConstDenominator_ZeroOrigin_OperatorCalculator(OperatorCalculatorBase numeratorCalculator, double denominatorValue)
             : base(new OperatorCalculatorBase[] { numeratorCalculator })
         {
             if (numeratorCalculator == null) throw new NullException(() => numeratorCalculator);
@@ -292,12 +292,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Divide_WithoutOrigin_WithConstNumerator_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Divide_ConstNumerator_VarDenominator_ZeroOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly double _numeratorValue;
         private readonly OperatorCalculatorBase _denominatorCalculator;
 
-        public Divide_WithoutOrigin_WithConstNumerator_OperatorCalculator(double numeratorValue, OperatorCalculatorBase denominatorCalculator)
+        public Divide_ConstNumerator_VarDenominator_ZeroOrigin_OperatorCalculator(double numeratorValue, OperatorCalculatorBase denominatorCalculator)
             : base(new OperatorCalculatorBase[] { denominatorCalculator })
         {
             if (denominatorCalculator == null) throw new NullException(() => denominatorCalculator);

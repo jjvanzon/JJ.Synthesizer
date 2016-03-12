@@ -17,13 +17,13 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             :base(op)
         { }
 
-        public Outlet OperandA
+        public Outlet A
         {
             get { return OperatorHelper.GetInputOutlet(WrappedOperator, A_INDEX); }
             set { OperatorHelper.GetInlet(WrappedOperator, A_INDEX).LinkTo(value); }
         }
 
-        public Outlet OperandB
+        public Outlet B
         {
             get { return OperatorHelper.GetInputOutlet(WrappedOperator, B_INDEX); }
             set { OperatorHelper.GetInlet(WrappedOperator, B_INDEX).LinkTo(value); }
@@ -46,13 +46,13 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             {
                 case A_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => OperandA);
+                        string name = ResourceHelper.GetPropertyDisplayName(() => A);
                         return name;
                     }
 
                 case B_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => OperandB);
+                        string name = ResourceHelper.GetPropertyDisplayName(() => B);
                         return name;
                     }
 

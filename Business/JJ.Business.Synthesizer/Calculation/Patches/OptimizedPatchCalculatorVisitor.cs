@@ -207,46 +207,46 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             OperatorCalculatorBase calculator;
 
-            OperatorCalculatorBase operandACalculator = _stack.Pop();
-            OperatorCalculatorBase operandBCalculator = _stack.Pop();
+            OperatorCalculatorBase aCalculator = _stack.Pop();
+            OperatorCalculatorBase bCalculator = _stack.Pop();
 
-            operandACalculator = operandACalculator ?? new Zero_OperatorCalculator();
-            operandBCalculator = operandBCalculator ?? new Zero_OperatorCalculator();
+            aCalculator = aCalculator ?? new Zero_OperatorCalculator();
+            bCalculator = bCalculator ?? new Zero_OperatorCalculator();
 
-            double a = operandACalculator.Calculate(0, 0);
-            double b = operandBCalculator.Calculate(0, 0);
-            bool operandAIsConst = operandACalculator is Number_OperatorCalculator;
-            bool operandBIsConst = operandBCalculator is Number_OperatorCalculator;
-            bool operandAIsConstZero = operandAIsConst && a == 0;
-            bool operandBIsConstZero = operandBIsConst && b == 0;
+            double a = aCalculator.Calculate(0, 0);
+            double b = bCalculator.Calculate(0, 0);
+            bool aIsConst = aCalculator is Number_OperatorCalculator;
+            bool bIsConst = bCalculator is Number_OperatorCalculator;
+            bool aIsConstZero = aIsConst && a == 0;
+            bool bIsConstZero = bIsConst && b == 0;
 
-            if (operandAIsConstZero && operandBIsConstZero)
+            if (aIsConstZero && bIsConstZero)
             {
                 calculator = new Zero_OperatorCalculator();
             }
-            else if (operandAIsConstZero)
+            else if (aIsConstZero)
             {
-                calculator = operandBCalculator;
+                calculator = bCalculator;
             }
-            else if (operandBIsConstZero)
+            else if (bIsConstZero)
             {
-                calculator = operandACalculator;
+                calculator = aCalculator;
             }
-            else if (operandAIsConst && operandBIsConst)
+            else if (aIsConst && bIsConst)
             {
                 calculator = new Number_OperatorCalculator(a + b);
             }
-            else if (operandAIsConst)
+            else if (aIsConst)
             {
-                calculator = new Add_WithConstOperandA_OperatorCalculator(a, operandBCalculator);
+                calculator = new Add_ConstA_VarB_OperatorCalculator(a, bCalculator);
             }
-            else if (operandBIsConst)
+            else if (bIsConst)
             {
-                calculator = new Add_WithConstOperandB_OperatorCalculator(operandACalculator, b);
+                calculator = new Add_VarA_ConstB_OperatorCalculator(aCalculator, b);
             }
             else
             {
-                calculator = new Add_OperatorCalculator(operandACalculator, operandBCalculator);
+                calculator = new Add_OperatorCalculator(aCalculator, bCalculator);
             }
 
             _stack.Push(calculator);
@@ -596,7 +596,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (timeDifferenceIsConst)
             {
-                calculator = new Delay_WithConstTimeDifference_OperatorCalculator(signalCalculator, timeDifference);
+                calculator = new Delay_VarSignal_ConstTimeDifference_OperatorCalculator(signalCalculator, timeDifference);
             }
             else
             {
@@ -660,11 +660,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (originIsConstZero && numeratorIsConst && !denominatorIsConst)
             {
-                calculator = new Divide_WithoutOrigin_WithConstNumerator_OperatorCalculator(numerator, denominatorCalculator);
+                calculator = new Divide_ConstNumerator_VarDenominator_ZeroOrigin_OperatorCalculator(numerator, denominatorCalculator);
             }
             else if (originIsConstZero && !numeratorIsConst && denominatorIsConst)
             {
-                calculator = new Divide_WithoutOrigin_WithConstDenominator_OperatorCalculator(numeratorCalculator, denominator);
+                calculator = new Divide_VarNumerator_ConstDenominator_ZeroOrigin_OperatorCalculator(numeratorCalculator, denominator);
             }
             else if (originIsConstZero && !numeratorIsConst && !denominatorIsConst)
             {
@@ -672,15 +672,15 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (originIsConst && numeratorIsConst && !denominatorIsConst)
             {
-                calculator = new Divide_WithConstOrigin_AndNumerator_OperatorCalculator(numerator, denominatorCalculator, origin);
+                calculator = new Divide_ConstNumerator_VarDenominator_ConstOrigin_OperatorCalculator(numerator, denominatorCalculator, origin);
             }
             else if (originIsConst && !numeratorIsConst && denominatorIsConst)
             {
-                calculator = new Divide_WithConstOrigin_AndDenominator_OperatorCalculator(numeratorCalculator, denominator, origin);
+                calculator = new Divide_VarNumerator_ConstDenominator_ConstOrigin_OperatorCalculator(numeratorCalculator, denominator, origin);
             }
             else if (originIsConst && !numeratorIsConst && !denominatorIsConst)
             {
-                calculator = new Divide_WithConstOrigin_OperatorCalculator(numeratorCalculator, denominatorCalculator, origin);
+                calculator = new Divide_VarNumerator_VarDenominator_ConstOrigin_OperatorCalculator(numeratorCalculator, denominatorCalculator, origin);
             }
             else if (!originIsConst && numeratorIsConst && denominatorIsConst)
             {
@@ -1369,86 +1369,86 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             OperatorCalculatorBase calculator;
 
-            OperatorCalculatorBase operandACalculator = _stack.Pop();
-            OperatorCalculatorBase operandBCalculator = _stack.Pop();
+            OperatorCalculatorBase aCalculator = _stack.Pop();
+            OperatorCalculatorBase bCalculator = _stack.Pop();
             OperatorCalculatorBase originCalculator = _stack.Pop();
 
-            operandACalculator = operandACalculator ?? new One_OperatorCalculator();
-            operandBCalculator = operandBCalculator ?? new One_OperatorCalculator();
+            aCalculator = aCalculator ?? new One_OperatorCalculator();
+            bCalculator = bCalculator ?? new One_OperatorCalculator();
             originCalculator = originCalculator ?? new Zero_OperatorCalculator();
 
-            double a = operandACalculator.Calculate(0, 0);
-            double b = operandBCalculator.Calculate(0, 0);
+            double a = aCalculator.Calculate(0, 0);
+            double b = bCalculator.Calculate(0, 0);
             double origin = originCalculator.Calculate(0, 0);
-            bool operandAIsConst = operandACalculator is Number_OperatorCalculator;
-            bool operandBIsConst = operandBCalculator is Number_OperatorCalculator;
+            bool aIsConst = aCalculator is Number_OperatorCalculator;
+            bool bIsConst = bCalculator is Number_OperatorCalculator;
             bool originIsConst = originCalculator is Number_OperatorCalculator;
-            bool operandAIsConstZero = operandAIsConst && a == 0;
-            bool operandBIsConstZero = operandBIsConst && b == 0;
+            bool aIsConstZero = aIsConst && a == 0;
+            bool bIsConstZero = bIsConst && b == 0;
             bool originIsConstZero = originIsConst && origin == 0;
-            bool operandAIsConstOne = operandAIsConst && a == 1;
-            bool operandBIsConstOne = operandBIsConst && b == 1;
+            bool aIsConstOne = aIsConst && a == 1;
+            bool bIsConstOne = bIsConst && b == 1;
 
-            if (operandAIsConstZero || operandBIsConstZero)
+            if (aIsConstZero || bIsConstZero)
             {
                 calculator = new Zero_OperatorCalculator();
             }
-            else if (operandAIsConstOne)
+            else if (aIsConstOne)
             {
-                calculator = operandBCalculator;
+                calculator = bCalculator;
             }
-            else if (operandBIsConstOne)
+            else if (bIsConstOne)
             {
-                calculator = operandACalculator;
+                calculator = aCalculator;
             }
-            else if (originIsConstZero && operandAIsConst && operandBIsConst)
+            else if (originIsConstZero && aIsConst && bIsConst)
             {
                 calculator = new Number_OperatorCalculator(a * b);
             }
-            else if (operandAIsConst && operandBIsConst && originIsConst)
+            else if (aIsConst && bIsConst && originIsConst)
             {
                 double value = (a - origin) * b + origin;
                 calculator = new Number_OperatorCalculator(value);
             }
-            else if (operandAIsConst && !operandBIsConst && originIsConstZero)
+            else if (aIsConst && !bIsConst && originIsConstZero)
             {
-                calculator = new Multiply_ConstOperandA_VarOperandB_NoOrigin_OperatorCalculator(a, operandBCalculator);
+                calculator = new Multiply_ConstA_VarB_NoOrigin_OperatorCalculator(a, bCalculator);
             }
-            else if (!operandAIsConst && operandBIsConst && originIsConstZero)
+            else if (!aIsConst && bIsConst && originIsConstZero)
             {
-                calculator = new Multiply_VarOperandA_ConstOperandB_NoOrigin_OperatorCalculator(operandACalculator, b);
+                calculator = new Multiply_VarA_ConstB_NoOrigin_OperatorCalculator(aCalculator, b);
             }
-            else if (!operandAIsConst && !operandBIsConst && originIsConstZero)
+            else if (!aIsConst && !bIsConst && originIsConstZero)
             {
-                calculator = new Multiply_VarOperandA_VarOperandB_NoOrigin_OperatorCalculator(operandACalculator, operandBCalculator);
+                calculator = new Multiply_VarA_VarB_NoOrigin_OperatorCalculator(aCalculator, bCalculator);
             }
-            else if (operandAIsConst && !operandBIsConst && originIsConst)
+            else if (aIsConst && !bIsConst && originIsConst)
             {
-                calculator = new Multiply_ConstOperandA_VarOperandB_ConstOrigin_OperatorCalculator(a, operandBCalculator, origin);
+                calculator = new Multiply_ConstA_VarB_ConstOrigin_OperatorCalculator(a, bCalculator, origin);
             }
-            else if (!operandAIsConst && operandBIsConst && originIsConst)
+            else if (!aIsConst && bIsConst && originIsConst)
             {
-                calculator = new Multiply_VarOperandA_ConstOperandB_ConstOrigin_OperatorCalculator(operandACalculator, b, origin);
+                calculator = new Multiply_VarA_ConstB_ConstOrigin_OperatorCalculator(aCalculator, b, origin);
             }
-            else if (!operandAIsConst && !operandBIsConst && originIsConst)
+            else if (!aIsConst && !bIsConst && originIsConst)
             {
-                calculator = new Multiply_VarOperandA_VarOperandB_ConstOrigin_OperatorCalculator(operandACalculator, operandBCalculator, origin);
+                calculator = new Multiply_VarA_VarB_ConstOrigin_OperatorCalculator(aCalculator, bCalculator, origin);
             }
-            else if (operandAIsConst && operandBIsConst && !originIsConst)
+            else if (aIsConst && bIsConst && !originIsConst)
             {
-                calculator = new Multiply_ConstOperandA_ConstOperandB_VarOrigin_OperatorCalculator(a, b, originCalculator);
+                calculator = new Multiply_ConstA_ConstB_VarOrigin_OperatorCalculator(a, b, originCalculator);
             }
-            else if (operandAIsConst && !operandBIsConst && !originIsConst)
+            else if (aIsConst && !bIsConst && !originIsConst)
             {
-                calculator = new Multiply_ConstOperandA_VarOperandB_VarOrigin_OperatorCalculator(a, operandBCalculator, originCalculator);
+                calculator = new Multiply_ConstA_VarB_VarOrigin_OperatorCalculator(a, bCalculator, originCalculator);
             }
-            else if (!operandAIsConst && operandBIsConst && !originIsConst)
+            else if (!aIsConst && bIsConst && !originIsConst)
             {
-                calculator = new Multiply_VarOperandA_ConstOperandB_VarOrigin_OperatorCalculator(operandACalculator, b, originCalculator);
+                calculator = new Multiply_VarA_ConstB_VarOrigin_OperatorCalculator(aCalculator, b, originCalculator);
             }
             else
             {
-                calculator = new Multiply_VarOperandA_VarOperandB_VarOrigin_OperatorCalculator(operandACalculator, operandBCalculator, originCalculator);
+                calculator = new Multiply_VarA_VarB_VarOrigin_OperatorCalculator(aCalculator, bCalculator, originCalculator);
             }
 
             _stack.Push(calculator);
@@ -2811,42 +2811,42 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             OperatorCalculatorBase calculator;
 
-            OperatorCalculatorBase operandACalculator = _stack.Pop();
-            OperatorCalculatorBase operandBCalculator = _stack.Pop();
+            OperatorCalculatorBase aCalculator = _stack.Pop();
+            OperatorCalculatorBase bCalculator = _stack.Pop();
 
-            operandACalculator = operandACalculator ?? new Zero_OperatorCalculator();
-            operandBCalculator = operandBCalculator ?? new Zero_OperatorCalculator();
+            aCalculator = aCalculator ?? new Zero_OperatorCalculator();
+            bCalculator = bCalculator ?? new Zero_OperatorCalculator();
 
-            double a = operandACalculator.Calculate(0, 0);
-            double b = operandBCalculator.Calculate(0, 0);
-            bool operandAIsConst = operandACalculator is Number_OperatorCalculator;
-            bool operandBIsConst = operandBCalculator is Number_OperatorCalculator;
-            bool operandAIsConstZero = operandAIsConst && a == 0;
-            bool operandBIsConstZero = operandBIsConst && b == 0;
+            double a = aCalculator.Calculate(0, 0);
+            double b = bCalculator.Calculate(0, 0);
+            bool aIsConst = aCalculator is Number_OperatorCalculator;
+            bool bIsConst = bCalculator is Number_OperatorCalculator;
+            bool aIsConstZero = aIsConst && a == 0;
+            bool bIsConstZero = bIsConst && b == 0;
 
-            if (operandAIsConstZero && operandBIsConstZero)
+            if (aIsConstZero && bIsConstZero)
             {
                 calculator = new Zero_OperatorCalculator();
             }
-            else if (operandBIsConstZero)
+            else if (bIsConstZero)
             {
-                calculator = operandACalculator;
+                calculator = aCalculator;
             }
-            else if (operandAIsConst && operandBIsConst)
+            else if (aIsConst && bIsConst)
             {
                 calculator = new Number_OperatorCalculator(a - b);
             }
-            else if (operandAIsConst)
+            else if (aIsConst)
             {
-                calculator = new Subtract_WithConstOperandA_OperatorCalculator(a, operandBCalculator);
+                calculator = new Subtract_ConstA_VarB_OperatorCalculator(a, bCalculator);
             }
-            else if (operandBIsConst)
+            else if (bIsConst)
             {
-                calculator = new Subtract_WithConstOperandB_OperatorCalculator(operandACalculator, b);
+                calculator = new Subtract_VarA_ConstB_OperatorCalculator(aCalculator, b);
             }
             else
             {
-                calculator = new Subtract_OperatorCalculator(operandACalculator, operandBCalculator);
+                calculator = new Subtract_VarA_VarB_OperatorCalculator(aCalculator, bCalculator);
             }
 
             _stack.Push(calculator);

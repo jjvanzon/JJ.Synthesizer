@@ -27,8 +27,8 @@ namespace JJ.Business.Synthesizer.Helpers
 
         // Do not delete outcommented code: I might need it later again.
 
-        //public const string OperandA = "OperandA";
-        //public const string OperandB = "OperandB";
+        //public const string A = "A";
+        //public const string B = "B";
         //public const string Origin = "Origin";
         //public const string Numerator = "Numerator";
         //public const string Denominator = "Denominator";
