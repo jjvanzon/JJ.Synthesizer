@@ -33,6 +33,11 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return OperatorHelper.GetOutlet(_operator, outletTypeEnum); }
         }
 
+        public int Count
+        {
+            get { return _operator.Outlets.Count; }
+        }
+
         public IEnumerator<Outlet> GetEnumerator()
         {
             foreach (Outlet outlet in OperatorHelper.GetSortedOutlets(_operator))

@@ -33,6 +33,11 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return OperatorHelper.GetInlet(_operator, inletTypeEnum); }
         }
 
+        public int Count
+        {
+            get { return _operator.Inlets.Count; }
+        }
+
         public IEnumerator<Inlet> GetEnumerator()
         {
             foreach (Inlet inlet in OperatorHelper.GetSortedInlets(_operator))

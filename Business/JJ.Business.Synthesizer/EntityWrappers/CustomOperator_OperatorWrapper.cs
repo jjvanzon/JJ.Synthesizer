@@ -3,6 +3,9 @@ using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Reflection.Exceptions;
 using System;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
@@ -57,6 +60,50 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
                 UnderlyingPatchID = value.ID;
             }
+        }
+
+        public override string GetInletDisplayName(int listIndex)
+        {
+            if (listIndex < 0) throw new InvalidIndexException(() => listIndex, () => Inlets.Count);
+            if (listIndex >= Inlets.Count) throw new InvalidIndexException(() => listIndex, () => Inlets.Count);
+
+            Inlet inlet = Inlets[listIndex];
+
+            if (!String.IsNullOrEmpty(inlet.Name))
+            {
+                return inlet.Name;
+            }
+
+            InletTypeEnum inletTypeEnum = inlet.GetInletTypeEnum();
+            if (inletTypeEnum != InletTypeEnum.Undefined)
+            {
+                return ResourceHelper.GetDisplayName(inletTypeEnum);
+            }
+
+            string displayName = String.Format("{0} {1}", PropertyDisplayNames.Inlet, listIndex + 1);
+            return displayName;
+        }
+
+        public override string GetOutletDisplayName(int listIndex)
+        {
+            if (listIndex < 0) throw new InvalidIndexException(() => listIndex, () => Outlets.Count);
+            if (listIndex >= Outlets.Count) throw new InvalidIndexException(() => listIndex, () => Outlets.Count);
+
+            Outlet outlet = Outlets[listIndex];
+
+            if (!String.IsNullOrEmpty(outlet.Name))
+            {
+                return outlet.Name;
+            }
+
+            OutletTypeEnum outletTypeEnum = outlet.GetOutletTypeEnum();
+            if (outletTypeEnum != OutletTypeEnum.Undefined)
+            {
+                return ResourceHelper.GetDisplayName(outletTypeEnum);
+            }
+
+            string displayName = String.Format("{0} {1}", PropertyDisplayNames.Outlet, listIndex + 1);
+            return displayName;
         }
 
         //// TODO: These operations must enfore rules and should be integrated in the members above.
