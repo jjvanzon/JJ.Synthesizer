@@ -20,6 +20,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
         private Label _label;
         private MouseLeaveGesture _mouseLeaveGesture;
 
+        private Element _previousElement;
+
         public ToolTipGesture(Diagram diagram, BackStyle backStyle, LineStyle lineStyle, TextStyle textStyle, int zIndex = Int32.MaxValue / 2)
         {
             if (diagram == null) throw new NullException(() => diagram);
@@ -74,6 +76,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
                 return;
             }
 
+            if (e.Element == _previousElement)
+            {
+                return;
+            }
+
             var e2 = new ToolTipTextEventArgs(e.Element);
 
             ToolTipTextRequested(sender, e2);
@@ -91,9 +98,15 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 
                 _rectangle.Diagram = _diagram;
                 _rectangle.Parent = e.Element;
+
+                // TODO: Remove outcommented code.
                 // TODO: You might not need to use ICalculatedValues if you use the public conversion methods of the main interfaces of Element or Diagram.
-                _rectangle.X = e.XInPixels - calculatedValues.CalculatedXInPixels - margin; // The relative coordinate, move some distance to the left.
-                _rectangle.Y = e.YInPixels - calculatedValues.CalculatedYInPixels - _rectangle.Height - margin; // The relative coordinate, transposed to above the mouse arrow, plus some distance upward.
+                //_rectangle.X = e.XInPixels - calculatedValues.CalculatedXInPixels - margin; // The relative coordinate, move some distance to the left.
+                //_rectangle.Y = e.YInPixels - calculatedValues.CalculatedYInPixels - _rectangle.Height - margin; // The relative coordinate, transposed to above the mouse arrow, plus some distance upward.
+
+                _rectangle.X = e.Element.Width / 2f;
+                _rectangle.Y = -_rectangle.Height;
+
                 _label.Text = e2.ToolTipText;
                 _rectangle.Visible = true;
 
@@ -102,6 +115,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
                     e.Element.Gestures.Add(_mouseLeaveGesture);
                 }
             }
+
+            _previousElement = e.Element;
         }
 
         private void _mouseLeaveGesture_MouseLeave(object sender, MouseEventArgs e)
@@ -109,6 +124,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
             _rectangle.Visible = false;
             
             e.Element.Gestures.Remove(_mouseLeaveGesture);
+
+            _previousElement = null;
         }
     }
 }
