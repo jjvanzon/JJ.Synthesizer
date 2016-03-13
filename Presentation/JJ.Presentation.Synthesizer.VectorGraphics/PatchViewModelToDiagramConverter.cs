@@ -23,7 +23,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             public IList<Point> OutletControlPoints { get; set; }
         }
 
-        private static bool _tooltipFeatureEnabled = GetToolTipFeatureEnabled();
         private static int _lineSegmentCount = GetLineSegmentCount();
         private static bool _mustShowInvisibleElements = GetMustShowInvisibleElements();
 
@@ -43,7 +42,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         private OutletRectangleConverter _outletRectangleConverter;
         private OutletPointConverter _outletPointConverter;
         private OutletControlPointConverter _outletControlPointConverter;
-        private OperatorToolTipRectangleConverter _operatorToolTipRectangleConverter;
 
         private int _currentPatchID;
 
@@ -83,7 +81,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 _outletRectangleConverter = new OutletRectangleConverter(_result.DragLineGesture, _result.OutletToolTipGesture);
                 _outletPointConverter = new OutletPointConverter();
                 _outletControlPointConverter = new OutletControlPointConverter();
-                _operatorToolTipRectangleConverter = new OperatorToolTipRectangleConverter(_result.OperatorToolTipGesture);
             }
 
             _convertedElements = new HashSet<Element>();
@@ -255,14 +252,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             _convertedElements.AddRange(destOutletPoints);
             _convertedElements.AddRange(destOutletControlPoints);
 
-            Rectangle destOperatorToolTipRectangle = null;
-            if (_tooltipFeatureEnabled)
-            {
-                destOperatorToolTipRectangle = _operatorToolTipRectangleConverter.ConvertToOperatorToolTipRectangle(sourceOperatorViewModel, destOperatorRectangle);
-
-                _convertedElements.Add(destOperatorToolTipRectangle);
-            }
-
             return new OperatorElements
             {
                 OperatorRectangle = destOperatorRectangle,
@@ -274,15 +263,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         }
 
         // Helpers
-
-        private const bool DEFAULT_TOOL_TIP_FEATURE_ENABLED = false;
-
-        private static bool GetToolTipFeatureEnabled()
-        {
-            var config = ConfigurationHelper.TryGetSection<ConfigurationSection>();
-            if (config == null) return DEFAULT_TOOL_TIP_FEATURE_ENABLED;
-            return config.ToolTipFeatureEnabled;
-        }
 
         private const int DEFAULT_LINE_SEGMENT_COUNT = 15;
 

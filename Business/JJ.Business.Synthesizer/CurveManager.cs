@@ -243,18 +243,6 @@ namespace JJ.Business.Synthesizer
             return result;
         }
 
-        // TODO: Remove outcommented code.
-        //public VoidResult ValidateNodeWithoutParent(Node entity)
-        //{
-        //    IValidator validator1 = new NodeValidator_WithoutParent(entity);
-
-        //    return new VoidResult
-        //    {
-        //        Successful = validator1.IsValid,
-        //        Messages = validator1.ValidationMessages.ToCanonical()
-        //    };
-        //}
-
         public VoidResult ValidateNode(Node entity)
         {
             var validators = new IValidator[]

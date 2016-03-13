@@ -316,24 +316,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return curve;
         }
 
-        // TODO: Remove outcommented code.
-        //public static Curve ToCurve(this IDAndName idAndName, ICurveRepository curveRepository)
-        //{
-        //    if (idAndName == null) throw new NullException(() => idAndName);
-        //    if (curveRepository == null) throw new NullException(() => curveRepository);
-
-        //    Curve entity = curveRepository.TryGet(idAndName.ID);
-        //    if (entity == null)
-        //    {
-        //        entity = new Curve();
-        //        entity.ID = idAndName.ID;
-        //        curveRepository.Insert(entity);
-        //    }
-        //    entity.Name = idAndName.Name;
-
-        //    return entity;
-        //}
-
         // Document
 
         public static Document ToEntityWithRelatedEntities(this MainViewModel userInput, RepositoryWrapper repositories)

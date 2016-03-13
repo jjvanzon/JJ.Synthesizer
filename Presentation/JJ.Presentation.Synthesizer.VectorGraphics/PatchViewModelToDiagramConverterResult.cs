@@ -17,7 +17,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             SelectOperatorGesture = new SelectOperatorGesture();
             DeleteOperatorGesture = new DeleteOperatorGesture();
             DoubleClickOperatorGesture = new DoubleClickGesture(doubleClickSpeedInMilliseconds, doubleClickDeltaInPixels);
-            OperatorToolTipGesture = new ToolTipGesture(Diagram, StyleHelper.ToolTipBackStyle, StyleHelper.ToolTipLineStyle, StyleHelper.ToolTipTextStyle, zIndex: 2);
             InletToolTipGesture = new ToolTipGesture(Diagram, StyleHelper.ToolTipBackStyle, StyleHelper.ToolTipLineStyle, StyleHelper.ToolTipTextStyle, zIndex: 2);
             OutletToolTipGesture = new ToolTipGesture(Diagram, StyleHelper.ToolTipBackStyle, StyleHelper.ToolTipLineStyle, StyleHelper.ToolTipTextStyle, zIndex: 2);
             OperatorEnterKeyGesture = new OperatorEnterKeyGesture();
@@ -30,7 +29,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         public SelectOperatorGesture SelectOperatorGesture { get; private set; }
         public DeleteOperatorGesture DeleteOperatorGesture { get; private set; }
         public DoubleClickGesture DoubleClickOperatorGesture { get; private set; }
-        public ToolTipGesture OperatorToolTipGesture { get; private set; }
         public ToolTipGesture InletToolTipGesture { get; private set; }
         public ToolTipGesture OutletToolTipGesture { get; private set; }
         public OperatorEnterKeyGesture OperatorEnterKeyGesture { get; private set; }

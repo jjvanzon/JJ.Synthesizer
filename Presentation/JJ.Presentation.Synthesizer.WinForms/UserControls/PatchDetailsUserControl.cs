@@ -95,10 +95,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             _vectorGraphics.DoubleClickOperatorGesture.DoubleClick += DoubleClickOperatorGesture_DoubleClick;
             _vectorGraphics.OperatorEnterKeyGesture.EnterKeyPressed += OperatorEnterKeyGesture_EnterKeyPressed;
 
-            if (_vectorGraphics.OperatorToolTipGesture != null)
-            {
-                _vectorGraphics.OperatorToolTipGesture.ToolTipTextRequested += OperatorToolTipGesture_ShowToolTipRequested;
-            }
             if (_vectorGraphics.InletToolTipGesture != null)
             {
                 _vectorGraphics.InletToolTipGesture.ToolTipTextRequested += InletToolTipGesture_ToolTipTextRequested;
@@ -120,11 +116,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 _vectorGraphics.DeleteOperatorGesture.DeleteRequested -= DeleteOperatorGesture_DeleteRequested;
                 _vectorGraphics.DoubleClickOperatorGesture.DoubleClick -= DoubleClickOperatorGesture_DoubleClick;
                 _vectorGraphics.OperatorEnterKeyGesture.EnterKeyPressed -= OperatorEnterKeyGesture_EnterKeyPressed;
-
-                if (_vectorGraphics.OperatorToolTipGesture != null)
-                {
-                    _vectorGraphics.OperatorToolTipGesture.ToolTipTextRequested -= OperatorToolTipGesture_ShowToolTipRequested;
-                }
+                
                 if (_vectorGraphics.InletToolTipGesture != null)
                 {
                     _vectorGraphics.InletToolTipGesture.ToolTipTextRequested -= InletToolTipGesture_ToolTipTextRequested;
@@ -282,15 +274,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         }
 
         // TODO: Lower priority: You might want to use the presenter for the the following 3 things.
-
-        private void OperatorToolTipGesture_ShowToolTipRequested(object sender, ToolTipTextEventArgs e)
-        {
-            if (ViewModel == null) return;
-
-            int operatorID = VectorGraphicsTagHelper.GetOperatorID(e.Element.Tag);
-
-            e.ToolTipText = ViewModel.Entity.Operators.Where(x => x.ID == operatorID).Single().Caption;
-        }
 
         private void InletToolTipGesture_ToolTipTextRequested(object sender, ToolTipTextEventArgs e)
         {
