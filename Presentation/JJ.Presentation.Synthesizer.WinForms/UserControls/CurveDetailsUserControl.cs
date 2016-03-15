@@ -12,6 +12,8 @@ using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.EventArg;
 using JJ.Framework.Reflection.Exceptions;
+using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -43,6 +45,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             _converter.Result.ChangeNodeTypeGesture.ChangeNodeTypeRequested += ChangeNodeTypeGesture_ChangeNodeTypeRequested;
             _converter.Result.ShowNodePropertiesGesture.ShowNodePropertiesRequested += ShowNodePropertiesGesture_ShowNodePropertiesRequested;
             _converter.Result.ShowSelectedNodePropertiesGesture.ShowSelectedNodePropertiesRequested += ShowSelectedNodePropertiesGesture_ShowSelectedNodePropertiesRequested;
+            _converter.Result.NodeToolTipGesture.ToolTipTextRequested += NodeToolTipGesture_ToolTipTextRequested;
 
             InitializeComponent();
             SetTitles();
@@ -182,6 +185,20 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                     ShowNodePropertiesRequested(this, new Int32EventArgs(nodeID));
                 }
             }
+        }
+
+        // TODO: This logic should be in the presenter.
+        private void NodeToolTipGesture_ToolTipTextRequested(object sender, ToolTipTextEventArgs e)
+        {
+            if (ViewModel == null) return;
+
+            int nodeID = VectorGraphicsTagHelper.GetNodeID(e.Element.Tag);
+
+            NodeViewModel nodeViewModel = ViewModel.Nodes
+                                                   .Where(x => x.ID == nodeID)
+                                                   .Single();
+
+            e.ToolTipText = String.Format("{0:0.####}, {1:0.####}", nodeViewModel.Value, nodeViewModel.Time);
         }
 
         // This event does not go off, if not clicked on a control that according to WinForms can get focus.

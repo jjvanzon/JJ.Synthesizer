@@ -115,6 +115,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
             return GetInt32(tag, OUTLET_TAG_PREFIX);
         }
 
+        public static int GetNodeID(object tag)
+        {
+            return Convert.ToInt32(tag);
+        }
+
         private static int GetInt32(object tag, string tagPrefix)
         {
             if (tag == null)

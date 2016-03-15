@@ -34,6 +34,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             public Node MockNode { get; set; }
         }
 
+        private static bool _toolTipFeatureEnabled = GetToolTipFeatureEnabled();
+
         private static int _lineSegmentCount = GetLineSegmentCount();
         private static int _lineSegmentPointCount = GetLineSegmentCount() + 1;
         private static float _nodeClickableRegionSizeInPixels = GetNodeClickableRegionSizeInPixels();
@@ -96,9 +98,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             IList<Element> elementsToDelete = Result.Diagram.Elements
                                                             .Where(x => String.Equals(Convert.ToString(x.Tag), HELPER_ELEMENT_TAG))
                                                             .ToArray();
-                                                            
+
             foreach (Element elementToDelete in elementsToDelete)
             {
+                elementToDelete.Children.Clear();
                 elementToDelete.Parent = null;
                 elementToDelete.Diagram = null;
             }
@@ -169,8 +172,15 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                         BackStyle = StyleHelper.BackStyleInvisible,
                         Tag = nodeViewModel.ID
                     };
-                    rectangle.Gestures.Add(Result.MoveNodeGesture, Result.SelectNodeGesture, Result.ShowNodePropertiesGesture);
-                    rectangle.MustBubble = false;
+                    rectangle.Gestures.Add(
+                        Result.MoveNodeGesture, 
+                        Result.SelectNodeGesture, 
+                        Result.ShowNodePropertiesGesture);
+
+                    if (_toolTipFeatureEnabled)
+                    {
+                        rectangle.Gestures.Add(Result.NodeToolTipGesture);
+                    }
 
                     _rectangleDictionary.Add(nodeViewModel.ID, rectangle);
                 }
@@ -236,6 +246,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 Point pointToDelete;
                 if (_pointDictionary.TryGetValue(idToDelete, out pointToDelete))
                 {
+                    pointToDelete.Children.Clear();
                     pointToDelete.Parent = null;
                     pointToDelete.Diagram = null;
                     _pointDictionary.Remove(idToDelete);
@@ -245,6 +256,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 Rectangle rectangleToDelete;
                 if (_rectangleDictionary.TryGetValue(idToDelete, out rectangleToDelete))
                 {
+                    rectangleToDelete.Children.Clear();
                     rectangleToDelete.Parent = null;
                     rectangleToDelete.Diagram = null;
                     _rectangleDictionary.Remove(idToDelete);
@@ -655,6 +667,15 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             var config = ConfigurationHelper.TryGetSection<ConfigurationSection>();
             if (config == null) return DEFAULT_MUST_SHOW_INVISIBLE_ELEMENTS;
             return config.MustShowInvisibleElements;
+        }
+
+        private const bool DEFAULT_TOOL_TIP_FEATURE_ENABLED = false;
+
+        private static bool GetToolTipFeatureEnabled()
+        {
+            var config = ConfigurationHelper.TryGetSection<ConfigurationSection>();
+            if (config == null) return DEFAULT_TOOL_TIP_FEATURE_ENABLED;
+            return config.ToolTipFeatureEnabled;
         }
     }
 }

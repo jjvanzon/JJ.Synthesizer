@@ -256,6 +256,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new DocumentGridViewModel
             {
                 List = entities.Select(x => x.ToIDAndName()).ToList(),
+                ValidationMessages = new List<Message>(),
             };
 
             return viewModel;

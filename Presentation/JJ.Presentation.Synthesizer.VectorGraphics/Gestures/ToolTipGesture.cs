@@ -11,7 +11,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 {
     public class ToolTipGesture : GestureBase
     {
-        private const int RECTANGLE_HEIGHT = 20;
+        private const float RECTANGLE_HEIGHT_IN_PIXELS = 20f;
+        private const float MARGIN_IN_PIXELS = 3f;
 
         public event EventHandler<ToolTipTextEventArgs> ToolTipTextRequested;
 
@@ -37,7 +38,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
                 Visible = false,
                 Enabled = false,
                 ZIndex = zIndex,
-                Height = RECTANGLE_HEIGHT,
                 Tag = "ToolTip Rectangle"
             };
 
@@ -47,7 +47,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
                 Parent = _rectangle,
                 TextStyle = textStyle,
                 ZIndex = zIndex + 1,
-                Height = RECTANGLE_HEIGHT,
                 Tag = "ToolTip Label"
             };
 
@@ -87,22 +86,20 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 
             if (!String.IsNullOrEmpty(e2.ToolTipText))
             {
-                ICalculatedValues calculatedValues = e.Element;
-
-                // Set text width
-                float margin = 3f;
-                float textWidth = TextHelper.ApproximateTextWidth(e2.ToolTipText, _label.TextStyle.Font);
-                float width = margin * 2f + textWidth;
-                _rectangle.Width = width;
-                _label.Width = width; 
-
                 _rectangle.Diagram = _diagram;
                 _rectangle.Parent = e.Element;
 
-                // TODO: Remove outcommented code.
-                // TODO: You might not need to use ICalculatedValues if you use the public conversion methods of the main interfaces of Element or Diagram.
-                //_rectangle.X = e.XInPixels - calculatedValues.CalculatedXInPixels - margin; // The relative coordinate, move some distance to the left.
-                //_rectangle.Y = e.YInPixels - calculatedValues.CalculatedYInPixels - _rectangle.Height - margin; // The relative coordinate, transposed to above the mouse arrow, plus some distance upward.
+                // Set text width
+                float textWidthInPixels = TextHelper.ApproximateTextWidth(e2.ToolTipText, _label.TextStyle.Font);
+                float widthInPixels = MARGIN_IN_PIXELS * 2f + textWidthInPixels;
+                float scaledWidth = ScaleHelper.PixelsToWidth(_diagram, widthInPixels);
+                _rectangle.Width = scaledWidth;
+                _label.Width = scaledWidth;
+
+                // Set height (can change with scaling)
+                float scaledHeight = ScaleHelper.PixelsToHeight(_diagram, RECTANGLE_HEIGHT_IN_PIXELS);
+                _rectangle.Height = scaledHeight;
+                _label.Height = scaledHeight;
 
                 _rectangle.X = e.Element.Width / 2f;
                 _rectangle.Y = -_rectangle.Height;

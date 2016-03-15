@@ -5,6 +5,7 @@ using JJ.Framework.Presentation.VectorGraphics.Gestures;
 using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.VectorGraphics.Gestures;
+using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics
 {
@@ -18,6 +19,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         public ChangeNodeTypeGesture ChangeNodeTypeGesture { get; private set; }
         public ShowNodePropertiesGesture ShowNodePropertiesGesture { get; private set; }
         public ShowSelectedNodePropertiesGesture ShowSelectedNodePropertiesGesture { get; private set; }
+        public ToolTipGesture NodeToolTipGesture { get; private set; }
 
         public CurveDetailsViewModelToDiagramConverterResult(int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
         {
@@ -25,10 +27,24 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             KeyDownGesture = new KeyDownGesture();
             SelectNodeGesture = new SelectNodeGesture();
             MoveNodeGesture = new MoveGesture();
-            ShowCurvePropertiesGesture = new ShowCurvePropertiesGesture(doubleClickSpeedInMilliseconds, doubleClickDeltaInPixels);
+
+            ShowCurvePropertiesGesture = new ShowCurvePropertiesGesture(
+                doubleClickSpeedInMilliseconds, 
+                doubleClickDeltaInPixels);
+
             ChangeNodeTypeGesture = new ChangeNodeTypeGesture();
-            ShowNodePropertiesGesture = new ShowNodePropertiesGesture(doubleClickSpeedInMilliseconds, doubleClickDeltaInPixels);
+
+            ShowNodePropertiesGesture = new ShowNodePropertiesGesture(
+                doubleClickSpeedInMilliseconds, 
+                doubleClickDeltaInPixels);
+
             ShowSelectedNodePropertiesGesture = new ShowSelectedNodePropertiesGesture();
+
+            NodeToolTipGesture = new ToolTipGesture(
+                Diagram, 
+                StyleHelper.ToolTipBackStyle, 
+                StyleHelper.ToolTipLineStyle, 
+                StyleHelper.ToolTipTextStyle);
 
             Diagram.Gestures.Add(KeyDownGesture);
             Diagram.Background.Gestures.Add(ShowCurvePropertiesGesture);

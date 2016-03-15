@@ -305,10 +305,12 @@ namespace JJ.Business.Synthesizer
         {
             if (node == null) throw new NullException(() => node);
 
+            Curve curve = node.Curve;
+
             node.UnlinkRelatedEntities();
             _repositories.NodeRepository.Delete(node);
 
-            return Validate(node.Curve);
+            return Validate(curve);
         }
 
         // Misc

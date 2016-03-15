@@ -112,7 +112,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new DocumentGridViewModel
             {
-                List = new List<IDAndName>()
+                List = new List<IDAndName>(),
+                ValidationMessages = new List<Message>()
             };
 
             return viewModel;
