@@ -15,7 +15,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new AudioFileOutputGridViewModel
             {
-                List = new List<AudioFileOutputListItemViewModel>()
+                List = new List<AudioFileOutputListItemViewModel>(),
+                ValidationMessages = new List<Message>()
             };
 
             return viewModel;
@@ -36,7 +37,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new CurveGridViewModel
             {
-                List = new List<IDAndName>()
+                List = new List<IDAndName>(),
+                ValidationMessages = new List<Message>()
             };
 
             return viewModel;
@@ -84,7 +86,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new DocumentDeleteViewModel
             {
-                Document = new IDAndName()
+                Document = new IDAndName(),
+                ValidationMessages = new List<Message>()
             };
 
             return viewModel;
@@ -92,7 +95,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static DocumentDeletedViewModel CreateEmptyDocumentDeletedViewModel()
         {
-            var viewModel = new DocumentDeletedViewModel();
+            var viewModel = new DocumentDeletedViewModel
+            {
+                ValidationMessages = new List<Message>()
+            };
 
             return viewModel;
         }
@@ -146,6 +152,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 {
                     List = new List<ReferencedDocumentViewModel>()
                 },
+                ValidationMessages = new List<Message>()
             };
 
             return viewModel;
@@ -199,7 +206,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new SampleGridViewModel
             {
-                List = new List<SampleListItemViewModel>()
+                List = new List<SampleListItemViewModel>(),
+                ValidationMessages = new List<Message>()
             };
 
             return viewModel;
@@ -209,7 +217,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new ScaleGridViewModel
             {
-                List = new List<IDAndName>()
+                List = new List<IDAndName>(),
+                ValidationMessages = new List<Message>()
             };
 
             return viewModel;

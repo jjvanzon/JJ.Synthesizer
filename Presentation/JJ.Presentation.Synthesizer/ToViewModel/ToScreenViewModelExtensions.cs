@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Framework.Common;
-using JJ.Framework.Presentation;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
@@ -13,7 +11,6 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Presentation.Synthesizer.Converters;
-using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
@@ -64,7 +61,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new AudioFileOutputGridViewModel
             {
                 List = sortedEntities.ToListItemViewModels(),
-                DocumentID = document.ID
+                DocumentID = document.ID,
+                ValidationMessages = new List<Message>()
             };
 
             return viewModel;
@@ -97,7 +95,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 DocumentID = documentID,
                 List = entities.OrderBy(x => x.Name)
                                .Select(x => x.ToIDAndName())
-                               .ToList()
+                               .ToList(),
+                ValidationMessages = new List<Message>()
             };
 
             return viewModel;
@@ -163,6 +162,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = new DocumentDeleteViewModel
             {
+                ValidationMessages = new List<Message>(),
                 Document = new IDAndName
                 {
                     ID = entity.ID,
@@ -204,7 +204,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ReferencedDocumentsNode = new ReferencedDocumentsTreeNodeViewModel
                 {
                     List = new List<ReferencedDocumentViewModel>()
-                }
+                },
+                ValidationMessages = new List<Message>()
             };
 
             viewModel.ReferencedDocumentsNode.List = document.DependentOnDocuments.Select(x => x.DependentOnDocument)
@@ -234,6 +235,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
+        [Obsolete("Not obsolete, but move this to ToItemViewModelExtensions.")]
         public static PatchTreeNodeViewModel ToPatchTreeNodeViewModel(this Document document)
         {
             if (document == null) throw new NullException(() => document);
@@ -256,7 +258,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new DocumentGridViewModel
             {
                 List = entities.Select(x => x.ToIDAndName()).ToList(),
-                ValidationMessages = new List<Message>(),
+                ValidationMessages = new List<Message>()
             };
 
             return viewModel;
@@ -933,7 +935,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new SampleGridViewModel
             {
                 DocumentID = documentID,
-                List = entities.ToListItemViewModels()
+                List = entities.ToListItemViewModels(),
+                ValidationMessages = new List<Message>()
             };
 
             return viewModel;
@@ -950,7 +953,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 Entity = entity.ToViewModel(),
                 ScaleTypeLookup = ViewModelHelper.CreateScaleTypeLookupViewModel(scaleTypeRepository),
-                ValidationMessages = new List<Message>(),
+                ValidationMessages = new List<Message>()
             };
 
             return viewModel;

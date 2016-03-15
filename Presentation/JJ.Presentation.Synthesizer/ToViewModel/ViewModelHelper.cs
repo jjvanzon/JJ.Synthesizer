@@ -59,7 +59,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static DocumentDeletedViewModel CreateDocumentDeletedViewModel()
         {
-            var viewModel = new DocumentDeletedViewModel();
+            var viewModel = new DocumentDeletedViewModel
+            {
+                ValidationMessages = new List<Message>()
+            };
 
             return viewModel;
         }
@@ -72,7 +75,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 DocumentTreeMenuItem = new MenuItemViewModel { Visible = documentIsOpen },
                 DocumentCloseMenuItem = new MenuItemViewModel { Visible = documentIsOpen },
                 DocumentSaveMenuItem = new MenuItemViewModel { Visible = documentIsOpen },
-                CurrentPatches = new MenuItemViewModel { Visible = documentIsOpen }
+                CurrentPatches = new MenuItemViewModel { Visible = documentIsOpen },
+                ValidationMessages = new List<Message>()
             };
 
             return viewModel;
