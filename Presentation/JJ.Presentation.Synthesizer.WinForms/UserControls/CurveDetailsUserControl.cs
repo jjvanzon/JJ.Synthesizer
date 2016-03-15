@@ -198,7 +198,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                                                    .Where(x => x.ID == nodeID)
                                                    .Single();
 
-            e.ToolTipText = String.Format("{0:0.####}, {1:0.####}", nodeViewModel.Value, nodeViewModel.Time);
+            e.ToolTipText = nodeViewModel.Caption;
         }
 
         // This event does not go off, if not clicked on a control that according to WinForms can get focus.

@@ -8,5 +8,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public double Time { get; set; }
         public double Value { get; set; }
         public IDAndName NodeType { get; set; }
+        public string Caption { get; set; }
     }
 }

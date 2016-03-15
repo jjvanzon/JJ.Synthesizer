@@ -117,6 +117,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 NodeType = entity.NodeType.ToIDAndDisplayName(),
                 ID = entity.ID
             };
+            
+            viewModel.Caption = String.Format("{0:0.####}, {1:0.####}", entity.Value, entity.Time);
 
             return viewModel;
         }
