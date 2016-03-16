@@ -300,7 +300,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void documentGridUserControl_DeleteRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(() => _presenter.DocumentDelete(e.Value));
+            TemplateEventHandler(() => _presenter.DocumentDeleteShow(e.Value));
         }
 
         private void documentGridUserControl_CloseRequested(object sender, EventArgs e)
@@ -317,7 +317,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void documentDetailsUserControl_DeleteRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(() => _presenter.DocumentDelete(e.Value));
+            TemplateEventHandler(() => _presenter.DocumentDeleteShow(e.Value));
         }
 
         private void documentDetailsUserControl_CloseRequested(object sender, EventArgs e)
@@ -778,12 +778,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void MessageBoxHelper_DocumentDeleteCanceled(object sender, EventArgs e)
         {
-            TemplateEventHandler(_presenter.DocumentCancelDelete);
+            TemplateEventHandler(_presenter.DocumentDeleteCancel);
         }
 
         private void MessageBoxHelper_DocumentDeleteConfirmed(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(() => _presenter.DocumentConfirmDelete(e.Value));
+            TemplateEventHandler(() => _presenter.DocumentDeleteConfirm(e.Value));
         }
 
         private void MessageBoxHelper_DocumentDeletedOK(object sender, EventArgs e)

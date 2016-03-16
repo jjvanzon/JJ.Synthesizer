@@ -558,7 +558,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void DocumentDelete(int id)
+        public void DocumentDeleteShow(int id)
         {
             // GetViewModel
             DocumentGridViewModel gridViewModel = MainViewModel.DocumentGrid;
@@ -591,7 +591,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(viewModel);
         }
 
-        public void DocumentConfirmDelete(int id)
+        public void DocumentDeleteConfirm(int id)
         {
             // GetViewModel
             DocumentDeleteViewModel viewModel = MainViewModel.DocumentDelete;
@@ -617,7 +617,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(viewModel2);
         }
 
-        public void DocumentCancelDelete()
+        public void DocumentDeleteCancel()
         {
             // GetViewModel
             DocumentDeleteViewModel userInput = MainViewModel.DocumentDelete;
@@ -978,37 +978,36 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void NodeMove(int nodeID, double time, double value)
         {
+            // Opted to not use the TemplateActionMethod,
+            // because this is faster but less robust.
+            // Because it is not nice when moving nodes is slow.
+            // When you work in-memory backed with zipped XML,
+            // you might use the more robust method again.
+            // The overhead is mainly in the database queries.
+
             // GetViewModel
             CurveDetailsViewModel userInput = DocumentViewModelHelper.GetVisibleCurveDetailsViewModel(MainViewModel.Document);
 
-            // TemplateMethod
-            CurveDetailsViewModel viewModel = TemplateActionMethod(userInput, () =>
-            {
-                // RefreshCounter
-                userInput.RefreshCounter++;
+            // RefreshCounter
+            userInput.RefreshCounter++;
 
-                // Set !Successful
-                userInput.Successful = false;
+            // Set !Successful
+            userInput.Successful = false;
 
-                // GetEntity
-                Node node = _repositories.NodeRepository.Get(nodeID);
+            // ToEntity
+            userInput.ToEntityWithRelatedEntities(_curveRepositories);
+            Node node = _repositories.NodeRepository.Get(nodeID);
 
-                // Business
-                node.Time = time;
-                node.Value = value;
+            // Business
+            node.Time = time;
+            node.Value = value;
 
-                // Successful
-                userInput.Successful = true;
-
-                return userInput;
-            });
+            // Successful
+            userInput.Successful = true;
 
             // Refresh
-            if (viewModel.Successful)
-            {
-                CurveDetailsNodeRefresh(nodeID);
-                NodePropertiesRefresh(nodeID);
-            }
+            CurveDetailsNodeRefresh(nodeID);
+            NodePropertiesRefresh(nodeID);
         }
 
         /// <summary>
