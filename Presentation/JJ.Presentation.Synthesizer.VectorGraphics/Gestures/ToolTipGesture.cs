@@ -17,8 +17,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
         public event EventHandler<ToolTipTextEventArgs> ToolTipTextRequested;
 
         private Diagram _diagram;
-        private Rectangle _rectangle;
-        private Label _label;
+        private Rectangle _toolTipRectangle;
+        private Label _toolTipLabel;
         private MouseLeaveGesture _mouseLeaveGesture;
 
         private Element _previousElement;
@@ -29,7 +29,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 
             _diagram = diagram;
 
-            _rectangle = new Rectangle
+            _toolTipRectangle = new Rectangle
             {
                 Diagram = diagram,
                 Parent = diagram.Background,
@@ -41,11 +41,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
                 Tag = "ToolTip Rectangle"
             };
 
-            _label = new Label
+            _toolTipLabel = new Label
             {
                 Diagram = diagram,
-                Parent = _rectangle,
+                Parent = _toolTipRectangle,
                 TextStyle = textStyle,
+                // TODO: In theory you do not need this zIndex.
                 ZIndex = zIndex + 1,
                 Tag = "ToolTip Label"
             };
@@ -81,36 +82,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
             }
 
             var e2 = new ToolTipTextEventArgs(e.Element);
-
             ToolTipTextRequested(sender, e2);
 
             if (!String.IsNullOrEmpty(e2.ToolTipText))
             {
-                _rectangle.Diagram = _diagram;
-                _rectangle.Parent = e.Element;
-
-                // Set text width
-                float textWidthInPixels = TextHelper.ApproximateTextWidth(e2.ToolTipText, _label.TextStyle.Font);
-                float widthInPixels = MARGIN_IN_PIXELS * 2f + textWidthInPixels;
-                float scaledWidth = ScaleHelper.PixelsToWidth(_diagram, widthInPixels);
-                _rectangle.Width = scaledWidth;
-                _label.Width = scaledWidth;
-
-                // Set height (can change with scaling)
-                float scaledHeight = ScaleHelper.PixelsToHeight(_diagram, RECTANGLE_HEIGHT_IN_PIXELS);
-                _rectangle.Height = scaledHeight;
-                _label.Height = scaledHeight;
-
-                _rectangle.X = e.Element.Width / 2f;
-                _rectangle.Y = -_rectangle.Height;
-
-                _label.Text = e2.ToolTipText;
-                _rectangle.Visible = true;
-
-                if (!e.Element.Gestures.Contains(_mouseLeaveGesture))
-                {
-                    e.Element.Gestures.Add(_mouseLeaveGesture);
-                }
+                SetToolTipText(e2.Element, e2.ToolTipText);
             }
 
             _previousElement = e.Element;
@@ -118,9 +94,62 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 
         private void _mouseLeaveGesture_MouseLeave(object sender, MouseEventArgs e)
         {
-            _rectangle.Visible = false;
-            
-            e.Element.Gestures.Remove(_mouseLeaveGesture);
+            Hide(e.Element);
+        }
+
+        public void SetToolTipText(string text)
+        {
+            if (_previousElement == null)
+            {
+                return;
+            }
+
+            SetToolTipText(_previousElement, text);
+        }
+
+        private void SetToolTipText(Element element, string text)
+        {
+            if (element == null) throw new NullException(() => element);
+
+            if (String.IsNullOrEmpty(text))
+            {
+                Hide(element);
+            }
+            _toolTipRectangle.Diagram = _diagram;
+            _toolTipRectangle.Parent = element;
+
+            // Set text width
+            float textWidthInPixels = TextHelper.ApproximateTextWidth(text, _toolTipLabel.TextStyle.Font);
+            float widthInPixels = MARGIN_IN_PIXELS * 2f + textWidthInPixels;
+            float scaledWidth = ScaleHelper.PixelsToWidth(_diagram, widthInPixels);
+            _toolTipRectangle.Width = scaledWidth;
+            _toolTipLabel.Width = scaledWidth;
+
+            // Set height (can change with scaling)
+            float scaledHeight = ScaleHelper.PixelsToHeight(_diagram, RECTANGLE_HEIGHT_IN_PIXELS);
+            _toolTipRectangle.Height = scaledHeight;
+            _toolTipLabel.Height = scaledHeight;
+
+            _toolTipRectangle.X = element.Width / 2f;
+            _toolTipRectangle.Y = -_toolTipRectangle.Height;
+
+            _toolTipLabel.Text = text;
+            _toolTipRectangle.Visible = true;
+
+            if (!element.Gestures.Contains(_mouseLeaveGesture))
+            {
+                element.Gestures.Add(_mouseLeaveGesture);
+            }
+        }
+
+        private void Hide(Element element)
+        {
+            if (element == null) throw new NullException(() => element);
+
+            _toolTipRectangle.Visible = false;
+
+            // TODO: Use PreviousElement instead?
+            element.Gestures.Remove(_mouseLeaveGesture);
 
             _previousElement = null;
         }

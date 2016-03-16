@@ -146,6 +146,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 MoveNodeRequested(this, new MoveEntityEventArgs(nodeID, x, y));
 
                 ApplyViewModelToControls();
+
+                // TODO: This kind of seems to belong in the ApplyViewModelToControls().
+                // Refresh ToolTip Text
+                NodeViewModel nodeViewModel = ViewModel.Nodes.Where(v => v.ID == nodeID).Single();
+                _converter.Result.NodeToolTipGesture.SetToolTipText(nodeViewModel.Caption);
             }
         }
 

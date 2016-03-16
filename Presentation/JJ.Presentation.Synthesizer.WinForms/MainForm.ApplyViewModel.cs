@@ -258,12 +258,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             if (_presenter.MainViewModel.DocumentDelete.Visible)
             {
-                MessageBoxHelper.ShowDocumentConfirmDelete(_presenter.MainViewModel.DocumentDelete);
+                MessageBoxHelper.ShowDocumentConfirmDelete(this, _presenter.MainViewModel.DocumentDelete);
             }
 
             if (_presenter.MainViewModel.DocumentDeleted.Visible)
             {
-                MessageBoxHelper.ShowDocumentIsDeleted();
+                MessageBoxHelper.ShowDocumentIsDeleted(this);
             }
 
             if (_presenter.MainViewModel.DocumentCannotDelete.Visible)
@@ -274,7 +274,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             if (_presenter.MainViewModel.ValidationMessages.Count != 0)
             {
                 // TODO: Lower priorty: This is a temporary dispatching of the validation messages. Later it will be shown in a separate Panel.
-                MessageBox.Show(String.Join(Environment.NewLine, _presenter.MainViewModel.ValidationMessages.Select(x => x.Text)));
+                MessageBoxHelper.ShowMessageBox(this, String.Join(Environment.NewLine, _presenter.MainViewModel.ValidationMessages.Select(x => x.Text)));
 
                 // Clear them so the next time the message box is not shown (message box is a temporary solution).
                 _presenter.MainViewModel.ValidationMessages.Clear();
@@ -288,8 +288,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 IList<Message> popupMessages = _presenter.MainViewModel.PopupMessages;
                 _presenter.MainViewModel.PopupMessages = new List<Message>();
 
-
-                MessageBoxHelper.ShowPopupMessages(popupMessages);
+                MessageBoxHelper.ShowPopupMessages(this, popupMessages);
             }
 
             // Focus control if not valid.

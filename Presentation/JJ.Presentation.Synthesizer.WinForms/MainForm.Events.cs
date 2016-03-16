@@ -783,7 +783,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void MessageBoxHelper_DocumentDeleteConfirmed(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.DocumentDeletedOK);
+            TemplateEventHandler(() => _presenter.DocumentConfirmDelete(e.Value));
         }
 
         private void MessageBoxHelper_DocumentDeletedOK(object sender, EventArgs e)
@@ -833,7 +833,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
             finally
             {
                 _repositories.Rollback();
+
+                // This is done in the finally block,
+                // so that upon an exception, focus is set to the original control again.
                 ApplyViewModel();
+
                 _actionIsBusy = false;
             }
         }
