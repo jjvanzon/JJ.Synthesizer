@@ -11,15 +11,22 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 {
     public class ToolTipGesture : GestureBase
     {
-        private const float RECTANGLE_HEIGHT_IN_PIXELS = 20f;
-        private const float MARGIN_IN_PIXELS = 3f;
+        private const float TOOL_TIP_RECTANGLE_HEIGHT_IN_PIXELS = 20f;
+        private const float TEXT_MARGIN_IN_PIXELS = 3f;
+
+        // The benefit of making these static, 
+        // is that it decreases the chance of showing several tool tips at the same time.
+        private static readonly Rectangle _toolTipRectangle = CreateToolTipRectangle();
+        private static readonly Label _toolTipLabel = CreateToolTipLabel();
 
         public event EventHandler<ToolTipTextEventArgs> ToolTipTextRequested;
 
-        private Diagram _diagram;
-        private Rectangle _toolTipRectangle;
-        private Label _toolTipLabel;
-        private MouseLeaveGesture _mouseLeaveGesture;
+        private readonly Diagram _diagram;
+        private readonly BackStyle _backStyle;
+        private readonly LineStyle _lineStyle;
+        private readonly TextStyle _textStyle;
+        private readonly int _zIndex;
+        private readonly MouseLeaveGesture _mouseLeaveGesture;
 
         private Element _previousElement;
 
@@ -28,28 +35,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
             if (diagram == null) throw new NullException(() => diagram);
 
             _diagram = diagram;
-
-            _toolTipRectangle = new Rectangle
-            {
-                Diagram = diagram,
-                Parent = diagram.Background,
-                BackStyle = backStyle,
-                LineStyle = lineStyle,
-                Visible = false,
-                Enabled = false,
-                ZIndex = zIndex,
-                Tag = "ToolTip Rectangle"
-            };
-
-            _toolTipLabel = new Label
-            {
-                Diagram = diagram,
-                Parent = _toolTipRectangle,
-                TextStyle = textStyle,
-                // TODO: In theory you do not need this zIndex.
-                ZIndex = zIndex + 1,
-                Tag = "ToolTip Label"
-            };
+            _backStyle = backStyle;
+            _lineStyle = lineStyle;
+            _textStyle = textStyle;
+            _zIndex = zIndex;
 
             _mouseLeaveGesture = new MouseLeaveGesture();
             _mouseLeaveGesture.MouseLeave += _mouseLeaveGesture_MouseLeave;
@@ -61,6 +50,28 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
             {
                 _mouseLeaveGesture.MouseLeave -= _mouseLeaveGesture_MouseLeave;
             }
+        }
+
+        private static Rectangle CreateToolTipRectangle()
+        {
+            var rectangle = new Rectangle
+            {
+                //Visible = false,
+                Enabled = false,
+                Tag = "ToolTip Rectangle"
+            };
+
+            return rectangle;
+        }
+
+        private static Label CreateToolTipLabel()
+        {
+            var label = new Label
+            {
+                Tag = "ToolTip Label"
+            };
+
+            return label;
         }
 
         protected override void HandleMouseMove(object sender, MouseEventArgs e)
@@ -94,7 +105,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 
         private void _mouseLeaveGesture_MouseLeave(object sender, MouseEventArgs e)
         {
-            Hide(e.Element);
+            HideToolTip(e.Element);
         }
 
         public void SetToolTipText(string text)
@@ -113,20 +124,30 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 
             if (String.IsNullOrEmpty(text))
             {
-                Hide(element);
+                HideToolTip(element);
+                return;
             }
+
             _toolTipRectangle.Diagram = _diagram;
             _toolTipRectangle.Parent = element;
+            _toolTipRectangle.BackStyle = _backStyle;
+            _toolTipRectangle.LineStyle = _lineStyle;
+            _toolTipRectangle.ZIndex = _zIndex;
+            _toolTipLabel.Diagram = _diagram;
+            _toolTipLabel.Parent = _toolTipRectangle;
+            _toolTipLabel.TextStyle = _textStyle;
+            // TODO: In theory you do not need this zIndex.
+            _toolTipLabel.ZIndex = _zIndex + 1;
 
             // Set text width
             float textWidthInPixels = TextHelper.ApproximateTextWidth(text, _toolTipLabel.TextStyle.Font);
-            float widthInPixels = MARGIN_IN_PIXELS * 2f + textWidthInPixels;
+            float widthInPixels = TEXT_MARGIN_IN_PIXELS * 2f + textWidthInPixels;
             float scaledWidth = _diagram.Scaling.PixelsToWidth(widthInPixels);
             _toolTipRectangle.Width = scaledWidth;
             _toolTipLabel.Width = scaledWidth;
 
             // Set height (can change with scaling)
-            float scaledHeight = _diagram.Scaling.PixelsToHeight(RECTANGLE_HEIGHT_IN_PIXELS);
+            float scaledHeight = _diagram.Scaling.PixelsToHeight(TOOL_TIP_RECTANGLE_HEIGHT_IN_PIXELS);
             _toolTipRectangle.Height = scaledHeight;
             _toolTipLabel.Height = scaledHeight;
 
@@ -134,7 +155,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
             _toolTipRectangle.Y = -_toolTipRectangle.Height;
 
             _toolTipLabel.Text = text;
-            _toolTipRectangle.Visible = true;
+            //_toolTipRectangle.Visible = true;
 
             if (!element.Gestures.Contains(_mouseLeaveGesture))
             {
@@ -142,11 +163,18 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
             }
         }
 
-        private void Hide(Element element)
+        private void HideToolTip(Element element)
         {
             if (element == null) throw new NullException(() => element);
 
-            _toolTipRectangle.Visible = false;
+            _toolTipLabel.Parent = null;
+            _toolTipRectangle.Parent = null;
+
+            _toolTipLabel.Children.Clear();;
+            _toolTipRectangle.Children.Clear();
+
+            _toolTipLabel.Diagram = null;
+            _toolTipRectangle.Diagram = null;
 
             // TODO: Use PreviousElement instead?
             element.Gestures.Remove(_mouseLeaveGesture);
