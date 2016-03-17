@@ -121,12 +121,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
             // Set text width
             float textWidthInPixels = TextHelper.ApproximateTextWidth(text, _toolTipLabel.TextStyle.Font);
             float widthInPixels = MARGIN_IN_PIXELS * 2f + textWidthInPixels;
-            float scaledWidth = ScaleHelper.PixelsToWidth(_diagram, widthInPixels);
+            float scaledWidth = _diagram.Scaling.PixelsToWidth(widthInPixels);
             _toolTipRectangle.Width = scaledWidth;
             _toolTipLabel.Width = scaledWidth;
 
             // Set height (can change with scaling)
-            float scaledHeight = ScaleHelper.PixelsToHeight(_diagram, RECTANGLE_HEIGHT_IN_PIXELS);
+            float scaledHeight = _diagram.Scaling.PixelsToHeight(RECTANGLE_HEIGHT_IN_PIXELS);
             _toolTipRectangle.Height = scaledHeight;
             _toolTipLabel.Height = scaledHeight;
 

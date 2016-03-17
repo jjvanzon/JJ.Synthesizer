@@ -140,8 +140,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
                 Rectangle rectangle = (Rectangle)e.Element;
 
-                float x = rectangle.AbsoluteX + rectangle.Width / 2;
-                float y = rectangle.AbsoluteY + rectangle.Height / 2;
+                float x = rectangle.Scaling.AbsoluteX + rectangle.Width / 2;
+                float y = rectangle.Scaling.AbsoluteY + rectangle.Height / 2;
 
                 MoveNodeRequested(this, new MoveEntityEventArgs(nodeID, x, y));
 

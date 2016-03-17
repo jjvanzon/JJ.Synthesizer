@@ -113,24 +113,24 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             float maxValue = (float)sortedNodeViewModels.Select(x => x.Value).Max();
 
             // Set Scaling
-            Result.Diagram.ScaleModeEnum = ScaleModeEnum.ViewPort;
-            Result.Diagram.ScaledX = minTime;
-            Result.Diagram.ScaledWidth = maxTime - minTime;
+            Result.Diagram.Scaling.ScaleModeEnum = ScaleModeEnum.ViewPort;
+            Result.Diagram.Scaling.ScaledX = minTime;
+            Result.Diagram.Scaling.ScaledWidth = maxTime - minTime;
             // NOTE: The direction of the y-axis is inverted.
-            Result.Diagram.ScaledY = maxValue;
-            Result.Diagram.ScaledHeight = minValue - maxValue;
+            Result.Diagram.Scaling.ScaledY = maxValue;
+            Result.Diagram.Scaling.ScaledHeight = minValue - maxValue;
 
             // Set Margin
             // (This is not full-proof, since margin is calculated based on the point's pixel width and scaling without margin,
             //  But then the scaling is changed based on the margin, making the point's scaled width a little off.
             //  The difference will probably be marginal, but it can get noticable when you make the diagram very small.)
             float marginInPixels = StyleHelper.PointStyleThick.Width / 2;
-            float marginX = ScaleHelper.PixelsToWidth(Result.Diagram, marginInPixels);
-            float marginY = ScaleHelper.PixelsToHeight(Result.Diagram, marginInPixels);
-            Result.Diagram.ScaledX -= marginX;
-            Result.Diagram.ScaledWidth += marginX * 2;
-            Result.Diagram.ScaledY -= marginY;
-            Result.Diagram.ScaledHeight += marginY * 2;
+            float marginX = Result.Diagram.Scaling.PixelsToWidth(marginInPixels);
+            float marginY = Result.Diagram.Scaling.PixelsToHeight(marginInPixels);
+            Result.Diagram.Scaling.ScaledX -= marginX;
+            Result.Diagram.Scaling.ScaledWidth += marginX * 2;
+            Result.Diagram.Scaling.ScaledY -= marginY;
+            Result.Diagram.Scaling.ScaledHeight += marginY * 2;
 
             // NOTE: We need to calculate so that the background element's
             // coordinates are set, on which coordinates 
@@ -146,8 +146,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             UpdateBottomBoundLabel(minValue);
 
             // Points, Lines and Clickable Regions
-            float scaledNodeRectangleWidth = ScaleHelper.PixelsToWidth(Result.Diagram, _nodeClickableRegionSizeInPixels);
-            float scaledNodeRectangleHeight = ScaleHelper.PixelsToHeight(Result.Diagram, _nodeClickableRegionSizeInPixels);
+            float scaledNodeRectangleWidth = Result.Diagram.Scaling.PixelsToWidth(_nodeClickableRegionSizeInPixels);
+            float scaledNodeRectangleHeight = Result.Diagram.Scaling.PixelsToHeight(_nodeClickableRegionSizeInPixels);
             float scaledNodeRectangleWidthOver2 = scaledNodeRectangleWidth / 2;
             float scaledNodeRectangleHeightOver2 = scaledNodeRectangleHeight / 2;
 
@@ -157,8 +157,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             foreach (NodeViewModel nodeViewModel in sortedNodeViewModels)
             {
                 // Coordinates are always relative. (Lowest time translates to x = 0, relative to the background.)
-                float x = ScaleHelper.AbsoluteToRelativeX(Result.Diagram.Background, (float)nodeViewModel.Time);
-                float y = ScaleHelper.AbsoluteToRelativeY(Result.Diagram.Background, (float)nodeViewModel.Value);
+                float x = Result.Diagram.Background.Scaling.AbsoluteToRelativeX((float)nodeViewModel.Time);
+                float y = Result.Diagram.Background.Scaling.AbsoluteToRelativeY((float)nodeViewModel.Value);
 
                 // Convert Rectangle
                 Rectangle rectangle;
@@ -295,9 +295,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         private void UpdateXAxis()
         {
-            _xAxis.PointA.Y = ScaleHelper.AbsoluteToRelativeY(Result.Diagram.Background, 0);
+            _xAxis.PointA.Y = Result.Diagram.Background.Scaling.AbsoluteToRelativeY(0);
             _xAxis.PointB.X = Result.Diagram.Background.Width;
-            _xAxis.PointB.Y = ScaleHelper.AbsoluteToRelativeY(Result.Diagram.Background, 0);
+            _xAxis.PointB.Y = Result.Diagram.Background.Scaling.AbsoluteToRelativeY(0);
         }
 
         private Line CreateYAxis(Diagram diagram)
@@ -331,8 +331,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         private void UpdateYAxis()
         {
-            _yAxis.PointA.X = ScaleHelper.AbsoluteToRelativeX(Result.Diagram.Background, 0);
-            _yAxis.PointB.X = ScaleHelper.AbsoluteToRelativeX(Result.Diagram.Background, 0);
+            _yAxis.PointA.X = Result.Diagram.Background.Scaling.AbsoluteToRelativeX(0);
+            _yAxis.PointB.X = Result.Diagram.Background.Scaling.AbsoluteToRelativeX(0);
             _yAxis.PointB.Y = Result.Diagram.Background.Height;
         }
 
@@ -473,7 +473,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 Diagram = diagram,
                 Parent = previousPoint,
                 X = 0,
-                Y = ScaleHelper.AbsoluteToRelativeY(previousPoint, 0),
+                Y = previousPoint.Scaling.AbsoluteToRelativeY(0),
                 PointStyle = StyleHelper.PointStyleInvisible,
                 Tag = HELPER_ELEMENT_TAG
             };
@@ -492,7 +492,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 Diagram = diagram,
                 Parent = nextPoint,
                 X = 0,
-                Y = ScaleHelper.AbsoluteToRelativeY(nextPoint, 0),
+                Y = nextPoint.Scaling.AbsoluteToRelativeY(0),
                 PointStyle = StyleHelper.PointStyleInvisible,
                 Tag = HELPER_ELEMENT_TAG
             };
@@ -525,7 +525,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 Diagram = diagram,
                 Parent = nextPoint,
                 X = 0,
-                Y = ScaleHelper.AbsoluteToRelativeY(nextPoint, previousPoint.AbsoluteY),
+                Y = nextPoint.Scaling.AbsoluteToRelativeY(previousPoint.Scaling.AbsoluteY),
                 PointStyle = StyleHelper.PointStyleInvisible,
                 Tag = HELPER_ELEMENT_TAG
             };
@@ -585,8 +585,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     Tag = HELPER_ELEMENT_TAG
                 };
 
-                destPoint.X = ScaleHelper.AbsoluteToRelativeX(destPoint.Parent, (float)time);
-                destPoint.Y = ScaleHelper.AbsoluteToRelativeY(destPoint.Parent, (float)value);
+                destPoint.X = destPoint.Parent.Scaling.AbsoluteToRelativeX((float)time);
+                destPoint.Y = destPoint.Parent.Scaling.AbsoluteToRelativeY((float)value);
 
                 destPoints.Add(destPoint);
 

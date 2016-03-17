@@ -1079,7 +1079,6 @@ Global
 		{F44D03E8-FEEC-40D4-B866-A87799185B4C} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{CEB85F8E-D429-4510-95A5-47CC3069D412} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{1ED07700-D0FE-4397-A6A2-5FAAB025A0D9} = {72857B67-3003-486C-9BB3-34AF5748BE95}
-		{AE5758E9-37E7-41FE-844D-A91471DB8FA5} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{CEEB755D-DE12-4E70-816E-546C429B44B7} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{5909BFE7-93CF-4E5F-BE22-6293368AF01D} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{529145D5-6CC3-4016-89B5-826563024AF1} = {72857B67-3003-486C-9BB3-34AF5748BE95}
@@ -1128,7 +1127,6 @@ Global
 		SccProjectName8 = Framework/JJ.Framework.IO
 		SccLocalPath8 = Framework\\JJ.Framework.IO
 		SccProjectUniqueName9 = Framework\\JJ.Framework.Presentation.WinForms\\JJ.Framework.Presentation.WinForms.csproj
-		SccProjectTopLevelParentUniqueName9 = Synthesizer.sln
 		SccProjectName9 = Framework/JJ.Framework.Presentation.WinForms
 		SccLocalPath9 = Framework\\JJ.Framework.Presentation.WinForms
 		SccProjectUniqueName10 = Framework\\JJ.Framework.Validation\\JJ.Framework.Validation.csproj
@@ -1200,11 +1198,9 @@ Global
 		SccProjectName28 = Presentation/JJ.Presentation.Synthesizer
 		SccLocalPath28 = Presentation\\JJ.Presentation.Synthesizer
 		SccProjectUniqueName29 = Framework\\JJ.Framework.Presentation.VectorGraphics\\JJ.Framework.Presentation.VectorGraphics.csproj
-		SccProjectTopLevelParentUniqueName29 = Synthesizer.sln
 		SccProjectName29 = Framework/JJ.Framework.Presentation.VectorGraphics
 		SccLocalPath29 = Framework\\JJ.Framework.Presentation.VectorGraphics
 		SccProjectUniqueName30 = Framework\\JJ.Framework.Presentation.Drawing\\JJ.Framework.Presentation.Drawing.csproj
-		SccProjectTopLevelParentUniqueName30 = Synthesizer.sln
 		SccProjectName30 = Framework/JJ.Framework.Presentation.Drawing
 		SccLocalPath30 = Framework\\JJ.Framework.Presentation.Drawing
 		SccProjectUniqueName31 = Framework\\JJ.Framework.Presentation.WinForms.TestForms\\JJ.Framework.Presentation.WinForms.TestForms.csproj
