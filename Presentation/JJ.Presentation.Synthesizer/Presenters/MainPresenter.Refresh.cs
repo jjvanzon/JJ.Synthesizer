@@ -139,6 +139,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Node node = _repositories.NodeRepository.Get(nodeID);
             NodeViewModel nodeViewModel = node.ToViewModel();
             detailsViewModel.Nodes.Add(nodeViewModel);
+
+            detailsViewModel.RefreshCounter++;
         }
 
         private void CurveDetailsRefresh(CurveDetailsViewModel userInput)
