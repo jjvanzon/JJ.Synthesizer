@@ -121,10 +121,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
         {
             if (element == null) throw new NullException(() => element);
 
-            HideToolTip(element); // Also removes it from the previous diagram.
+            HideToolTip(element); // Also removes it from the previous diagram, if needed.
 
             if (String.IsNullOrEmpty(text))
             {
+                // Keep it hidden, in case of no text.
                 return;
             }
 
@@ -138,6 +139,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
             _toolTipLabel.TextStyle = _textStyle;
             _toolTipLabel.ZIndex = _zIndex;
 
+            _toolTipLabel.Text = text;
+
             // Set text width
             float textWidthInPixels = TextHelper.ApproximateTextWidth(text, _toolTipLabel.TextStyle.Font);
             float widthInPixels = TEXT_MARGIN_IN_PIXELS * 2f + textWidthInPixels;
@@ -145,7 +148,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
             _toolTipRectangle.Width = scaledWidth;
             _toolTipLabel.Width = scaledWidth;
 
-            // Set height (can change with scaling)
+            // Set height (can change with coordinate scaling)
             float scaledHeight = _diagram.Scaling.PixelsToHeight(TOOL_TIP_RECTANGLE_HEIGHT_IN_PIXELS);
             _toolTipRectangle.Height = scaledHeight;
             _toolTipLabel.Height = scaledHeight;
@@ -153,8 +156,38 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
             _toolTipRectangle.X = element.Width / 2f;
             _toolTipRectangle.Y = -_toolTipRectangle.Height;
 
-            _toolTipLabel.Text = text;
+            // Correct position if out of diagram bounds.
+            bool rightBoundIsExceeded;
+            if (!_diagram.Scaling.XAxisIsFlipped)
+            {
+                rightBoundIsExceeded = _toolTipRectangle.Scaling.AbsoluteRight > _diagram.Scaling.ScaledRight;
+            }
+            else
+            {
+                rightBoundIsExceeded = _toolTipRectangle.Scaling.AbsoluteRight < _diagram.Scaling.ScaledRight;
+            }
 
+            if (rightBoundIsExceeded)
+            {
+                _toolTipRectangle.X -= _toolTipRectangle.Width;
+            }
+
+            bool topBoundIsExceeded;
+            if (!_diagram.Scaling.YAxisIsFlipped)
+            {
+                topBoundIsExceeded = _toolTipRectangle.Scaling.AbsoluteY < _diagram.Scaling.ScaledY;
+            }
+            else
+            {
+                topBoundIsExceeded = _toolTipRectangle.Scaling.AbsoluteY > _diagram.Scaling.ScaledY;
+            }
+
+            if (topBoundIsExceeded)
+            {
+                _toolTipRectangle.Y = element.Height + _toolTipRectangle.Height; // Note it is an assumption that the tool tip height will be similar to the mouse arrow height.
+            }
+
+            // Add _mouseLeaveGesture.
             if (!element.Gestures.Contains(_mouseLeaveGesture))
             {
                 element.Gestures.Add(_mouseLeaveGesture);
