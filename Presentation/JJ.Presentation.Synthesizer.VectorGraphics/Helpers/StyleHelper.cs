@@ -6,14 +6,14 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 {
     internal static class StyleHelper
     {
-        public const float DEFAULT_TOOL_TIP_WIDTH = 85; // 125;
-        public const float OPERATOR_HEIGHT = 40; // 60;
-        public const float OPERATOR_FONT_SIZE = 10.5f;
-        public const float OPERATOR_MINIMUM_WIDTH = 40;
-        public const float NUMBER_OPERATOR_HEIGHT = 30;
-        public const float NUMBER_OPERATOR_FONT_SIZE = 9f;
-        public const float NUMBER_OPERATOR_MINIMUM_WIDTH = 30;
+        private const float TOOL_TIP_FONT_SIZE = 8f;
+        private const float OPERATOR_FONT_SIZE = 10.5f;
+        private const float NUMBER_OPERATOR_FONT_SIZE = 9f;
 
+        public const float OPERATOR_HEIGHT = 40f;
+        public const float OPERATOR_MINIMUM_WIDTH = 40f;
+        public const float NUMBER_OPERATOR_HEIGHT = 30f;
+        public const float NUMBER_OPERATOR_MINIMUM_WIDTH = 30f;
         public const int DRAG_DROP_LINE_ZINDEX = 100;
 
         /// <summary>
@@ -21,7 +21,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
         /// should overflow the operator rectangle's boundaries.
         /// </summary>
         public const float INLET_OUTLET_RECTANGLE_HEIGHT_OVERFLOW_IN_PIXELS = 10;
-
         public const float MINIMUM_INLET_OR_OUTLET_WIDTH_IN_PIXELS = 12;
 
         public static Font DefaultFont { get; private set; }
@@ -184,8 +183,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
                 Color = ColorHelper.GetColor(0xFF575757),
                 Font = new Font
                 {
-                    Name = "Microsoft Sans Serif",
-                    Size = 9,
+                    Name = "Verdana", //"Microsoft Sans Serif",
+                    Size = TOOL_TIP_FONT_SIZE,
                 },
                 HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center,
                 VerticalAlignmentEnum = VerticalAlignmentEnum.Center

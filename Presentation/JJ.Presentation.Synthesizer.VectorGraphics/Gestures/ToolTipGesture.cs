@@ -56,7 +56,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
         {
             var rectangle = new Rectangle
             {
-                //Visible = false,
                 Enabled = false,
                 Tag = "ToolTip Rectangle"
             };
@@ -122,9 +121,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
         {
             if (element == null) throw new NullException(() => element);
 
+            HideToolTip(element); // Also removes it from the previous diagram.
+
             if (String.IsNullOrEmpty(text))
             {
-                HideToolTip(element);
                 return;
             }
 
@@ -136,8 +136,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
             _toolTipLabel.Diagram = _diagram;
             _toolTipLabel.Parent = _toolTipRectangle;
             _toolTipLabel.TextStyle = _textStyle;
-            // TODO: In theory you do not need this zIndex.
-            _toolTipLabel.ZIndex = _zIndex + 1;
+            _toolTipLabel.ZIndex = _zIndex;
 
             // Set text width
             float textWidthInPixels = TextHelper.ApproximateTextWidth(text, _toolTipLabel.TextStyle.Font);
@@ -155,7 +154,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
             _toolTipRectangle.Y = -_toolTipRectangle.Height;
 
             _toolTipLabel.Text = text;
-            //_toolTipRectangle.Visible = true;
 
             if (!element.Gestures.Contains(_mouseLeaveGesture))
             {
@@ -176,9 +174,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
             _toolTipLabel.Diagram = null;
             _toolTipRectangle.Diagram = null;
 
-            // TODO: Use PreviousElement instead?
             element.Gestures.Remove(_mouseLeaveGesture);
 
+            if (_previousElement != null)
+            {
+                _previousElement.Gestures.Remove(_mouseLeaveGesture);
+            }
             _previousElement = null;
         }
     }
