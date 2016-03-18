@@ -343,8 +343,9 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             userInput.PatchDocumentList.ToChildDocumentsWithRelatedEntities(destDocument, repositories);
             userInput.AudioFileOutputPropertiesList.ToAudioFileOutputsWithRelatedEntities(destDocument, new AudioFileOutputRepositories(repositories));
             userInput.CurvePropertiesList.ToEntities(destDocument, curveRepositories);
+            // Order-Dependence: NodeProperties are leading over the CurveDetails Nodes.
             userInput.CurveDetailsList.ToEntitiesWithRelatedEntities(destDocument, curveRepositories);
-            // TODO: Low priority: It is not 'netjes' to not have a plural variation that also does the delete operations,
+            // TODO: Low priority: It is not tidy to not have a plural variation that also does the delete operations,
             // even though the CurveDetailsList ToEntity already covers deletion.
             userInput.NodePropertiesList.ForEach(x => x.ToEntity(repositories.NodeRepository, repositories.NodeTypeRepository));
             userInput.SamplePropertiesList.ToSamples(destDocument, new SampleRepositories(repositories));
@@ -1387,7 +1388,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             var curveRepositories = new CurveRepositories(repositories);
             userInput.CurvePropertiesList.ToEntities(childDocument, curveRepositories);
+            // Order-Dependence: NodeProperties are leading over the CurveDetails Nodes.
             userInput.CurveDetailsList.ToEntitiesWithRelatedEntities(childDocument, curveRepositories);
+            // TODO: Low priority: It is not tidy to not have a plural variation that also does the delete operations,
+            // even though the CurveDetailsList ToEntity already covers deletion.
+            userInput.NodePropertiesList.ForEach(x => x.ToEntity(repositories.NodeRepository, repositories.NodeTypeRepository));
             userInput.SamplePropertiesList.ToSamples(childDocument, new SampleRepositories(repositories));
 
             Patch patch = userInput.PatchDetails.ToPatchWithRelatedEntities(patchRepositories);
