@@ -75,10 +75,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
                 throw new IsNotTypeException<Rectangle>(() => element);
             }
 
-            ICalculatedValues calculatedValues = rectangle;
-
             Geometry.GetCenter_ByWidthAndHeight(
-                calculatedValues.CalculatedXInPixels, calculatedValues.CalculatedYInPixels,
+                rectangle.CalculatedValues.XInPixels, rectangle.CalculatedValues.YInPixels,
                 // TODO: Should these not be the calculated Width and Height?
                 rectangle.Position.Width, rectangle.Position.Height,
                 out x, out y);

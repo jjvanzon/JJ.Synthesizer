@@ -168,10 +168,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     {
                         Diagram = Result.Diagram,
                         Parent = Result.Diagram.Background,
-                        LineStyle = StyleHelper.BorderStyleInvisible,
-                        BackStyle = StyleHelper.BackStyleInvisible,
                         Tag = nodeViewModel.ID
                     };
+                    rectangle.Style.LineStyle = StyleHelper.BorderStyleInvisible;
+                    rectangle.Style.BackStyle = StyleHelper.BackStyleInvisible;
+
                     rectangle.Gestures.Add(
                         Result.MoveNodeGesture, 
                         Result.SelectNodeGesture, 

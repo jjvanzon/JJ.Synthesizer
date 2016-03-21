@@ -80,8 +80,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
                 _destInletRectangleDictionary.Add(id, destInletRectangle);
             }
 
-            destInletRectangle.BackStyle = StyleHelper.BackStyleInvisible;
-            destInletRectangle.LineStyle = StyleHelper.BorderStyleInvisible;
+            destInletRectangle.Style.BackStyle = StyleHelper.BackStyleInvisible;
+            destInletRectangle.Style.LineStyle = StyleHelper.BorderStyleInvisible;
 
             destInletRectangle.Gestures.Clear();
             destInletRectangle.Gestures.Add(_dropLineGesture);

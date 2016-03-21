@@ -131,8 +131,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 
             _toolTipRectangle.Diagram = _diagram;
             _toolTipRectangle.Parent = element;
-            _toolTipRectangle.BackStyle = _backStyle;
-            _toolTipRectangle.LineStyle = _lineStyle;
+            _toolTipRectangle.Style.BackStyle = _backStyle;
+            _toolTipRectangle.Style.LineStyle = _lineStyle;
             _toolTipRectangle.ZIndex = _zIndex;
             _toolTipLabel.Diagram = _diagram;
             _toolTipLabel.Parent = _toolTipRectangle;

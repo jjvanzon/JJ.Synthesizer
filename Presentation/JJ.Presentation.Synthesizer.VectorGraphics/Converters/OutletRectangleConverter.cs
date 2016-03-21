@@ -81,8 +81,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
                 _destOutletRectangleDictionary.Add(id, destOutletRectangle);
             }
 
-            destOutletRectangle.BackStyle = StyleHelper.BackStyleInvisible;
-            destOutletRectangle.LineStyle = StyleHelper.BorderStyleInvisible;
+            destOutletRectangle.Style.BackStyle = StyleHelper.BackStyleInvisible;
+            destOutletRectangle.Style.LineStyle = StyleHelper.BorderStyleInvisible;
 
             destOutletRectangle.Gestures.Clear();
             destOutletRectangle.Gestures.Add(_dragLineGesture);

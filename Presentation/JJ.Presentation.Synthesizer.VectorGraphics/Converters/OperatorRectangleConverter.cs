@@ -63,13 +63,13 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
             if (sourceOperatorViewModel.IsSelected)
             {
-                destOperatorRectangle.BackStyle = StyleHelper.BackStyleSelected;
-                destOperatorRectangle.LineStyle = StyleHelper.BorderStyleSelected;
+                destOperatorRectangle.Style.BackStyle = StyleHelper.BackStyleSelected;
+                destOperatorRectangle.Style.LineStyle = StyleHelper.BorderStyleSelected;
             }
             else
             {
-                destOperatorRectangle.BackStyle = StyleHelper.BackStyle;
-                destOperatorRectangle.LineStyle = StyleHelper.BorderStyle;
+                destOperatorRectangle.Style.BackStyle = StyleHelper.BackStyle;
+                destOperatorRectangle.Style.LineStyle = StyleHelper.BorderStyle;
             }
 
             destOperatorRectangle.Gestures.Clear();
