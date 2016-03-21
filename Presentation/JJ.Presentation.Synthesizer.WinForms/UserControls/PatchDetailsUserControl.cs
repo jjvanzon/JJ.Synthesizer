@@ -200,8 +200,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             int operatorIndexNumber = VectorGraphicsTagHelper.GetOperatorID(e.Element.Tag);
 
-            float centerX = e.Element.Scaling.AbsoluteX + e.Element.Width / 2f;
-            float centerY = e.Element.Scaling.AbsoluteY + e.Element.Height / 2f;
+            float centerX = e.Element.Position.AbsoluteX + e.Element.Position.Width / 2f;
+            float centerY = e.Element.Position.AbsoluteY + e.Element.Position.Height / 2f;
 
             MoveOperator(operatorIndexNumber, centerX, centerY);
         }

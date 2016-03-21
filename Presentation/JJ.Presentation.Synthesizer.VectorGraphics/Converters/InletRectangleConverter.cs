@@ -42,19 +42,19 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
             IList<Rectangle> destInletRectangles = new List<Rectangle>(sourceOperatorViewModel.Inlets.Count);
 
-            float rowHeight = destOperatorRectangle.Height / 4;
+            float rowHeight = destOperatorRectangle.Position.Height / 4;
             float heightOverflow = StyleHelper.INLET_OUTLET_RECTANGLE_HEIGHT_OVERFLOW_IN_PIXELS;
-            float inletWidth = destOperatorRectangle.Width / sourceOperatorViewModel.Inlets.Count;
+            float inletWidth = destOperatorRectangle.Position.Width / sourceOperatorViewModel.Inlets.Count;
             float x = 0;
 
             foreach (InletViewModel sourceInletViewModel in sourceOperatorViewModel.Inlets)
             {
                 Rectangle destInletRectangle = ConvertToInletRectangle(sourceInletViewModel, destOperatorRectangle);
 
-                destInletRectangle.X = x;
-                destInletRectangle.Y = -heightOverflow;
-                destInletRectangle.Width = inletWidth;
-                destInletRectangle.Height = rowHeight + heightOverflow;
+                destInletRectangle.Position.X = x;
+                destInletRectangle.Position.Y = -heightOverflow;
+                destInletRectangle.Position.Width = inletWidth;
+                destInletRectangle.Position.Height = rowHeight + heightOverflow;
 
                 destInletRectangles.Add(destInletRectangle);
 

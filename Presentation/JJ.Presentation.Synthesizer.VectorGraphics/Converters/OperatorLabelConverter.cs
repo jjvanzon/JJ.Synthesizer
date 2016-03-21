@@ -23,8 +23,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             }
 
             destLabel.Text = sourceOperatorViewModel.Caption;
-            destLabel.Width = destOperatorRectangle.Width;
-            destLabel.Height = destOperatorRectangle.Height;
+            destLabel.Position.Width = destOperatorRectangle.Position.Width;
+            destLabel.Position.Height = destOperatorRectangle.Position.Height;
 
             if (IsNumberOperator(sourceOperatorViewModel))
             {

@@ -24,15 +24,15 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
             IList<Point> destOutletPoints = new List<Point>(sourceOperatorViewModel.Outlets.Count);
 
-            float outletWidth = destOperatorRectangle.Width / sourceOperatorViewModel.Outlets.Count;
+            float outletWidth = destOperatorRectangle.Position.Width / sourceOperatorViewModel.Outlets.Count;
             float x = 0;
 
             foreach (OutletViewModel sourceOutletViewModel in sourceOperatorViewModel.Outlets)
             {
                 Point destOutletPoint = ConvertToOutletPoint(sourceOutletViewModel, destOperatorRectangle);
 
-                destOutletPoint.X = x + outletWidth / 2f;
-                destOutletPoint.Y = destOperatorRectangle.Height;
+                destOutletPoint.Position.X = x + outletWidth / 2f;
+                destOutletPoint.Position.Y = destOperatorRectangle.Position.Height;
 
                 destOutletPoints.Add(destOutletPoint);
 

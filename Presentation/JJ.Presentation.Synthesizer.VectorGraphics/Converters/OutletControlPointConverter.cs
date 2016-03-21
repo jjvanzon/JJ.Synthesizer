@@ -25,10 +25,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             {
                 Diagram = sourceOutletPoint.Diagram,
                 Parent = sourceOutletPoint.Parent,
-                X = sourceOutletPoint.X,
-                Y = sourceOutletPoint.Y + CONTROL_POINT_DISTANCE,
                 PointStyle = StyleHelper.PointStyleInvisible
             };
+
+            destOutletControlPoint.Position.X = sourceOutletPoint.Position.X;
+            destOutletControlPoint.Position.Y = sourceOutletPoint.Position.Y + CONTROL_POINT_DISTANCE;
 
             return destOutletControlPoint;
         }

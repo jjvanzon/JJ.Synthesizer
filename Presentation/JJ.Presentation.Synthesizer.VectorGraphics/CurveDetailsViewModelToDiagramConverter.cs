@@ -113,24 +113,24 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             float maxValue = (float)sortedNodeViewModels.Select(x => x.Value).Max();
 
             // Set Scaling
-            Result.Diagram.Scaling.ScaleModeEnum = ScaleModeEnum.ViewPort;
-            Result.Diagram.Scaling.ScaledX = minTime;
-            Result.Diagram.Scaling.ScaledWidth = maxTime - minTime;
+            Result.Diagram.Position.ScaleModeEnum = ScaleModeEnum.ViewPort;
+            Result.Diagram.Position.ScaledX = minTime;
+            Result.Diagram.Position.ScaledWidth = maxTime - minTime;
             // NOTE: The direction of the y-axis is inverted.
-            Result.Diagram.Scaling.ScaledY = maxValue;
-            Result.Diagram.Scaling.ScaledHeight = minValue - maxValue;
+            Result.Diagram.Position.ScaledY = maxValue;
+            Result.Diagram.Position.ScaledHeight = minValue - maxValue;
 
             // Set Margin
             // (This is not full-proof, since margin is calculated based on the point's pixel width and scaling without margin,
             //  But then the scaling is changed based on the margin, making the point's scaled width a little off.
             //  The difference will probably be marginal, but it can get noticable when you make the diagram very small.)
             float marginInPixels = StyleHelper.PointStyleThick.Width / 2;
-            float marginX = Result.Diagram.Scaling.PixelsToWidth(marginInPixels);
-            float marginY = Result.Diagram.Scaling.PixelsToHeight(marginInPixels);
-            Result.Diagram.Scaling.ScaledX -= marginX;
-            Result.Diagram.Scaling.ScaledWidth += marginX * 2;
-            Result.Diagram.Scaling.ScaledY -= marginY;
-            Result.Diagram.Scaling.ScaledHeight += marginY * 2;
+            float marginX = Result.Diagram.Position.PixelsToWidth(marginInPixels);
+            float marginY = Result.Diagram.Position.PixelsToHeight(marginInPixels);
+            Result.Diagram.Position.ScaledX -= marginX;
+            Result.Diagram.Position.ScaledWidth += marginX * 2;
+            Result.Diagram.Position.ScaledY -= marginY;
+            Result.Diagram.Position.ScaledHeight += marginY * 2;
 
             // NOTE: We need to calculate so that the background element's
             // coordinates are set, on which coordinates 
@@ -146,8 +146,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             UpdateBottomBoundLabel(minValue);
 
             // Points, Lines and Clickable Regions
-            float scaledNodeRectangleWidth = Result.Diagram.Scaling.PixelsToWidth(_nodeClickableRegionSizeInPixels);
-            float scaledNodeRectangleHeight = Result.Diagram.Scaling.PixelsToHeight(_nodeClickableRegionSizeInPixels);
+            float scaledNodeRectangleWidth = Result.Diagram.Position.PixelsToWidth(_nodeClickableRegionSizeInPixels);
+            float scaledNodeRectangleHeight = Result.Diagram.Position.PixelsToHeight(_nodeClickableRegionSizeInPixels);
             float scaledNodeRectangleWidthOver2 = scaledNodeRectangleWidth / 2;
             float scaledNodeRectangleHeightOver2 = scaledNodeRectangleHeight / 2;
 
@@ -157,8 +157,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             foreach (NodeViewModel nodeViewModel in sortedNodeViewModels)
             {
                 // Coordinates are always relative. (Lowest time translates to x = 0, relative to the background.)
-                float x = Result.Diagram.Background.Scaling.AbsoluteToRelativeX((float)nodeViewModel.Time);
-                float y = Result.Diagram.Background.Scaling.AbsoluteToRelativeY((float)nodeViewModel.Value);
+                float x = Result.Diagram.Background.Position.AbsoluteToRelativeX((float)nodeViewModel.Time);
+                float y = Result.Diagram.Background.Position.AbsoluteToRelativeY((float)nodeViewModel.Value);
 
                 // Convert Rectangle
                 Rectangle rectangle;
@@ -184,10 +184,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
                     _rectangleDictionary.Add(nodeViewModel.ID, rectangle);
                 }
-                rectangle.X = x - scaledNodeRectangleWidthOver2;
-                rectangle.Y = y - scaledNodeRectangleHeightOver2;
-                rectangle.Width = scaledNodeRectangleWidth;
-                rectangle.Height = scaledNodeRectangleHeight;
+                rectangle.Position.X = x - scaledNodeRectangleWidthOver2;
+                rectangle.Position.Y = y - scaledNodeRectangleHeightOver2;
+                rectangle.Position.Width = scaledNodeRectangleWidth;
+                rectangle.Position.Height = scaledNodeRectangleHeight;
 
                 // Convert Point
                 Point point;
@@ -204,8 +204,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
                     _pointDictionary.Add(nodeViewModel.ID, point);
                 }
-                point.X = scaledNodeRectangleWidthOver2;
-                point.Y = scaledNodeRectangleHeightOver2;
+                point.Position.X = scaledNodeRectangleWidthOver2;
+                point.Position.Y = scaledNodeRectangleHeightOver2;
 
                 // TODO: Low priority: If NodeViewModel had a property IsSelected,
                 // you would not have had to pass the CurveDetailsViewModel to this converter,
@@ -275,7 +275,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 {
                     Diagram = diagram,
                     Parent = diagram.Background,
-                    X = 0,
                     PointStyle = StyleHelper.PointStyleInvisible
                 },
                 PointB = new Point
@@ -285,6 +284,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     PointStyle = StyleHelper.PointStyleInvisible
                 }
             };
+
+            line.PointA.Position.X = 0;
+
 #if DEBUG
             line.Tag = "X-Axis";
             line.PointA.Tag = "X-Axis";
@@ -295,9 +297,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         private void UpdateXAxis()
         {
-            _xAxis.PointA.Y = Result.Diagram.Background.Scaling.AbsoluteToRelativeY(0);
-            _xAxis.PointB.X = Result.Diagram.Background.Width;
-            _xAxis.PointB.Y = Result.Diagram.Background.Scaling.AbsoluteToRelativeY(0);
+            _xAxis.PointA.Position.Y = Result.Diagram.Background.Position.AbsoluteToRelativeY(0);
+            _xAxis.PointB.Position.X = Result.Diagram.Background.Position.Width;
+            _xAxis.PointB.Position.Y = Result.Diagram.Background.Position.AbsoluteToRelativeY(0);
         }
 
         private Line CreateYAxis(Diagram diagram)
@@ -311,7 +313,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 {
                     Diagram = diagram,
                     Parent = diagram.Background,
-                    Y = 0,
                     PointStyle = StyleHelper.PointStyleInvisible
                 },
                 PointB = new Point
@@ -321,6 +322,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     PointStyle = StyleHelper.PointStyleInvisible
                 }
             };
+
+            line.PointA.Position.Y = 0;
+
 #if DEBUG
             line.Tag = "Y-Axis";
             line.PointA.Tag = "Y-Axis";
@@ -331,9 +335,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         private void UpdateYAxis()
         {
-            _yAxis.PointA.X = Result.Diagram.Background.Scaling.AbsoluteToRelativeX(0);
-            _yAxis.PointB.X = Result.Diagram.Background.Scaling.AbsoluteToRelativeX(0);
-            _yAxis.PointB.Y = Result.Diagram.Background.Height;
+            _yAxis.PointA.Position.X = Result.Diagram.Background.Position.AbsoluteToRelativeX(0);
+            _yAxis.PointB.Position.X = Result.Diagram.Background.Position.AbsoluteToRelativeX(0);
+            _yAxis.PointB.Position.Y = Result.Diagram.Background.Position.Height;
         }
 
         private Label CreateLeftBoundLabel(Diagram diagram)
@@ -342,9 +346,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             {
                 Diagram = diagram,
                 Parent = diagram.Background,
-                X = 0
             };
-
+            label.Position.X = 0;
             label.TextStyle = StyleHelper.CreateTextStyleSmallerTransparent();
             label.TextStyle.VerticalAlignmentEnum = VerticalAlignmentEnum.Center;
             label.TextStyle.HorizontalAlignmentEnum = HorizontalAlignmentEnum.Left;
@@ -356,7 +359,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         private void UpdateLeftBoundLabel(float minTime)
         {
-            _leftBoundLabel.Y = Result.Diagram.Background.Height / 2;
+            _leftBoundLabel.Position.Y = Result.Diagram.Background.Position.Height / 2;
             _leftBoundLabel.Text = minTime.ToString("0.###");
         }
 
@@ -379,8 +382,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         private void UpdateRightBoundLabel(float maxTime)
         {
-            _rightBoundLabel.X = Result.Diagram.Background.Width;
-            _rightBoundLabel.Y = Result.Diagram.Background.Height / 2;
+            _rightBoundLabel.Position.X = Result.Diagram.Background.Position.Width;
+            _rightBoundLabel.Position.Y = Result.Diagram.Background.Position.Height / 2;
             _rightBoundLabel.Text = maxTime.ToString("0.###");
         }
 
@@ -390,9 +393,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             {
                 Diagram = diagram,
                 Parent = diagram.Background,
-                Y = 0
             };
-
+            label.Position.Y = 0;
             label.TextStyle = StyleHelper.CreateTextStyleSmallerTransparent();
             label.TextStyle.VerticalAlignmentEnum = VerticalAlignmentEnum.Top;
             label.TextStyle.HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center;
@@ -404,7 +406,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         private void UpdateTopBoundLabel(float maxValue)
         {
-            _topBoundLabel.X = Result.Diagram.Background.Width / 2;
+            _topBoundLabel.Position.X = Result.Diagram.Background.Position.Width / 2;
             _topBoundLabel.Text = maxValue.ToString("0.###");
         }
 
@@ -427,8 +429,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         private void UpdateBottomBoundLabel(float minValue)
         {
-            _bottomBoundLabel.X = Result.Diagram.Background.Width / 2;
-            _bottomBoundLabel.Y = Result.Diagram.Background.Height;
+            _bottomBoundLabel.Position.X = Result.Diagram.Background.Position.Width / 2;
+            _bottomBoundLabel.Position.Y = Result.Diagram.Background.Position.Height;
             _bottomBoundLabel.Text = minValue.ToString("0.###");
         }
 
@@ -472,11 +474,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             {
                 Diagram = diagram,
                 Parent = previousPoint,
-                X = 0,
-                Y = previousPoint.Scaling.AbsoluteToRelativeY(0),
                 PointStyle = StyleHelper.PointStyleInvisible,
                 Tag = HELPER_ELEMENT_TAG
             };
+            verticalLineTo0.PointB.Position.X = 0;
+            verticalLineTo0.PointB.Position.Y = previousPoint.Position.AbsoluteToRelativeY(0);
 
             var horizontalLine = new Line
             {
@@ -491,11 +493,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             {
                 Diagram = diagram,
                 Parent = nextPoint,
-                X = 0,
-                Y = nextPoint.Scaling.AbsoluteToRelativeY(0),
                 PointStyle = StyleHelper.PointStyleInvisible,
                 Tag = HELPER_ELEMENT_TAG
             };
+            horizontalLine.PointB.Position.X = 0;
+            horizontalLine.PointB.Position.Y = nextPoint.Position.AbsoluteToRelativeY(0);
+
 
             var verticalLineToNextPoint = new Line
             {
@@ -524,11 +527,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             {
                 Diagram = diagram,
                 Parent = nextPoint,
-                X = 0,
-                Y = nextPoint.Scaling.AbsoluteToRelativeY(previousPoint.Scaling.AbsoluteY),
                 PointStyle = StyleHelper.PointStyleInvisible,
                 Tag = HELPER_ELEMENT_TAG
             };
+            line.PointB.Position.X = 0;
+            line.PointB.Position.Y = nextPoint.Position.AbsoluteToRelativeY(previousPoint.Position.AbsoluteY);
 
             // Create vertical line down.
             var line2 = new Line
@@ -585,8 +588,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     Tag = HELPER_ELEMENT_TAG
                 };
 
-                destPoint.X = destPoint.Parent.Scaling.AbsoluteToRelativeX((float)time);
-                destPoint.Y = destPoint.Parent.Scaling.AbsoluteToRelativeY((float)value);
+                destPoint.Position.X = destPoint.Parent.Position.AbsoluteToRelativeX((float)time);
+                destPoint.Position.Y = destPoint.Parent.Position.AbsoluteToRelativeY((float)value);
 
                 destPoints.Add(destPoint);
 

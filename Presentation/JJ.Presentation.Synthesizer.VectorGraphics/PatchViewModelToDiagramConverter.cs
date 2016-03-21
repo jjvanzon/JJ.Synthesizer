@@ -159,7 +159,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     {
                         destCurve = new Curve
                         {
-                            LineCount = _lineSegmentCount,
+                            SegmentCount = _lineSegmentCount,
                             LineStyle = StyleHelper.LineStyle,
                             ZIndex = -1,
                             Tag = VectorGraphicsTagHelper.GetInletTag(inletID),

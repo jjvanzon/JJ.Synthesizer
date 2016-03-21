@@ -56,10 +56,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
                 _destOperatorRectangleDictionary.Add(sourceOperatorViewModel.ID, destOperatorRectangle);
             }
 
-            destOperatorRectangle.Width = GetOperatorWidth(sourceOperatorViewModel);
-            destOperatorRectangle.Height = GetOperatorHeight(sourceOperatorViewModel);
-            destOperatorRectangle.X = sourceOperatorViewModel.CenterX - destOperatorRectangle.Width / 2f;
-            destOperatorRectangle.Y = sourceOperatorViewModel.CenterY - destOperatorRectangle.Height / 2f;
+            destOperatorRectangle.Position.Width = GetOperatorWidth(sourceOperatorViewModel);
+            destOperatorRectangle.Position.Height = GetOperatorHeight(sourceOperatorViewModel);
+            destOperatorRectangle.Position.X = sourceOperatorViewModel.CenterX - destOperatorRectangle.Position.Width / 2f;
+            destOperatorRectangle.Position.Y = sourceOperatorViewModel.CenterY - destOperatorRectangle.Position.Height / 2f;
 
             if (sourceOperatorViewModel.IsSelected)
             {

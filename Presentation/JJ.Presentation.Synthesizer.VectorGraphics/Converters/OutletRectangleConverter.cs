@@ -42,8 +42,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
             IList<Rectangle> destOutletRectangles = new List<Rectangle>(sourceOperatorViewModel.Inlets.Count);
 
-            float outletWidth = destOperatorRectangle.Width / sourceOperatorViewModel.Outlets.Count;
-            float rowHeight = destOperatorRectangle.Height / 4;
+            float outletWidth = destOperatorRectangle.Position.Width / sourceOperatorViewModel.Outlets.Count;
+            float rowHeight = destOperatorRectangle.Position.Height / 4;
             float heightOverflow = StyleHelper.INLET_OUTLET_RECTANGLE_HEIGHT_OVERFLOW_IN_PIXELS;
             float x = 0;
             float y = rowHeight * 3;
@@ -52,10 +52,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             {
                 Rectangle destOutletRectangle = ConvertToOutletRectangle(sourceOutletViewModel, destOperatorRectangle);
 
-                destOutletRectangle.X = x;
-                destOutletRectangle.Y = y;
-                destOutletRectangle.Width = outletWidth;
-                destOutletRectangle.Height = rowHeight + heightOverflow;
+                destOutletRectangle.Position.X = x;
+                destOutletRectangle.Position.Y = y;
+                destOutletRectangle.Position.Width = outletWidth;
+                destOutletRectangle.Position.Height = rowHeight + heightOverflow;
 
                 destOutletRectangles.Add(destOutletRectangle);
 

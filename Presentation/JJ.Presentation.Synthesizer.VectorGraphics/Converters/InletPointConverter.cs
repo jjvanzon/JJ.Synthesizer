@@ -24,14 +24,14 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
             IList<Point> destInletPoints = new List<Point>(sourceOperatorViewModel.Inlets.Count);
 
-            float inletWidth = destOperatorRectangle.Width / sourceOperatorViewModel.Inlets.Count;
+            float inletWidth = destOperatorRectangle.Position.Width / sourceOperatorViewModel.Inlets.Count;
             float x = 0;
             foreach (InletViewModel sourceInletViewModel in sourceOperatorViewModel.Inlets)
             {
                 Point destInletPoint = ConvertToInletPoint(sourceInletViewModel, destOperatorRectangle);
 
-                destInletPoint.X = x + inletWidth / 2f;
-                destInletPoint.Y = 0;
+                destInletPoint.Position.X = x + inletWidth / 2f;
+                destInletPoint.Position.Y = 0;
 
                 destInletPoints.Add(destInletPoint);
 

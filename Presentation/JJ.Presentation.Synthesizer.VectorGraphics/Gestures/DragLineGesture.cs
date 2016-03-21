@@ -51,11 +51,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 
         private void this_Dragging(object sender, DraggingEventArgs e)
         {
-            _line.PointA.X = _sourceX;
-            _line.PointA.Y = _sourceY;
+            _line.PointA.Position.X = _sourceX;
+            _line.PointA.Position.Y = _sourceY;
 
-            _line.PointB.X = e.X;
-            _line.PointB.Y = e.Y;
+            _line.PointB.Position.X = e.X;
+            _line.PointB.Position.Y = e.Y;
 
             _line.Visible = true;
         }
@@ -80,7 +80,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
             Geometry.GetCenter_ByWidthAndHeight(
                 calculatedValues.CalculatedXInPixels, calculatedValues.CalculatedYInPixels,
                 // TODO: Should these not be the calculated Width and Height?
-                rectangle.Width, rectangle.Height,
+                rectangle.Position.Width, rectangle.Position.Height,
                 out x, out y);
         }
     }
