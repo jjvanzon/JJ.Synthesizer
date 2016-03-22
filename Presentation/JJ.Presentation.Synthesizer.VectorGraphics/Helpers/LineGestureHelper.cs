@@ -29,7 +29,19 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
                     Parent = diagram.Background,
                     ZIndex = lineZIndex,
                     Visible = false,
-                    Tag = "LineGesture Line"
+                    Tag = "LineGesture Line",
+                    PointA = new Point
+                    {
+                        Diagram = diagram,
+                        Parent = diagram.Background,
+                        Tag = "LineGesture Point"
+                    },
+                    PointB = new Point
+                    {
+                        Diagram = diagram,
+                        Parent = diagram.Background,
+                        Tag = "LineGesture Point"
+                    }
                 };
 
                 if (lineStyle != null)
