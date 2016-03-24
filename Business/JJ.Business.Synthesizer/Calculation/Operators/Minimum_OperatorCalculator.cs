@@ -9,8 +9,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Minimum_OperatorCalculator : MaximumOrMinimum_OperatorCalculatorBase
     {
-        public Minimum_OperatorCalculator(OperatorCalculatorBase signalCalculator, double timeSliceDuration, int sampleCount)
-            : base(signalCalculator, timeSliceDuration, sampleCount)
+        public Minimum_OperatorCalculator(
+            OperatorCalculatorBase signalCalculator,
+            OperatorCalculatorBase timeSliceDurationCalculator,
+            OperatorCalculatorBase sampleCountCalculator)
+            : base(signalCalculator, timeSliceDurationCalculator, sampleCountCalculator)
         { }
 
         protected override double GetMaximumOrMinimum(RedBlackTree<double, double> redBlackTree)

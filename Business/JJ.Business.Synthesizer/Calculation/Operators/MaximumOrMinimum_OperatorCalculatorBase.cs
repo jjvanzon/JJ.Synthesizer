@@ -11,9 +11,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     /// </summary>
     internal abstract class MaximumOrMinimum_OperatorCalculatorBase : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly double _sampleDuration;
+        // TODO: Use channelIndex variable in ResetState.
+        private const int DEFAULT_CHANNEL_INDEX = 0;
+
         private readonly OperatorCalculatorBase _signalCalculator;
-        private readonly double _sampleCountDouble;
+        private readonly OperatorCalculatorBase _timeSliceDurationCalculator;
+        private readonly OperatorCalculatorBase _sampleCountCalculator;
+
+        private double _sampleDuration;
+        private double _sampleCountDouble;
 
         private Queue<double> _queue;
 
@@ -26,23 +32,26 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _maximumOrMinimum;
         private double _previousTime;
         private double _nextSampleTime;
-        private readonly double _timeSliceDuration;
+        private double _timeSliceDuration;
 
         public MaximumOrMinimum_OperatorCalculatorBase(
             OperatorCalculatorBase signalCalculator,
-            double timeSliceDuration,
-            int sampleCount)
-            : base(new OperatorCalculatorBase[] { signalCalculator })
+            OperatorCalculatorBase timeSliceDurationCalculator,
+            OperatorCalculatorBase sampleCountCalculator)
+            : base(new OperatorCalculatorBase[] 
+            {
+                signalCalculator,
+                timeSliceDurationCalculator,
+                sampleCountCalculator
+            })
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
-            if (timeSliceDuration <= 0.0) throw new LessThanException(() => timeSliceDuration, 0.0);
-            if (sampleCount <= 0) throw new LessThanOrEqualException(() => sampleCount, 0);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase_OnlyUsedUponResetState(timeSliceDurationCalculator, () => timeSliceDurationCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase_OnlyUsedUponResetState(sampleCountCalculator, () => sampleCountCalculator);
 
             _signalCalculator = signalCalculator;
-            _sampleCountDouble = sampleCount;
-
-            _timeSliceDuration = timeSliceDuration;
-            _sampleDuration = timeSliceDuration / _sampleCountDouble;
+            _timeSliceDurationCalculator = timeSliceDurationCalculator;
+            _sampleCountCalculator = sampleCountCalculator;
 
             ResetState();
         }
@@ -134,17 +143,36 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void ResetState()
         {
-            _redBlackTree = new RedBlackTree<double, double>();
-            _queue = CreateQueue();
             _maximumOrMinimum = 0.0;
             _nextSampleTime = 0.0;
+
+            _timeSliceDuration = _timeSliceDurationCalculator.Calculate(_previousTime, DEFAULT_CHANNEL_INDEX);
+            _sampleCountDouble = _sampleCountCalculator.Calculate(_previousTime, DEFAULT_CHANNEL_INDEX);
+
+            if (CalculationHelper.CanCastToNonNegativeInt32(_sampleCountDouble))
+            {
+                _sampleCountDouble = (int)_sampleCountDouble;
+            }
+            else
+            {
+                _sampleCountDouble = 0.0;
+            }
+
+            _sampleDuration = _timeSliceDuration / _sampleCountDouble;
+
+            _redBlackTree = new RedBlackTree<double, double>();
+            _queue = CreateQueue();
 
             base.ResetState();
         }
 
         private Queue<double> CreateQueue()
         {
-            int sampleCountInt = (int)(_sampleCountDouble);
+            int sampleCountInt = 0;
+            if (CalculationHelper.CanCastToNonNegativeInt32(_sampleCountDouble))
+            {
+                sampleCountInt = (int)(_sampleCountDouble);
+            }
 
             var queue = new Queue<double>(sampleCountInt);
             for (int i = 0; i < sampleCountInt; i++)

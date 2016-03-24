@@ -984,18 +984,19 @@ namespace JJ.Business.Synthesizer.Tests
             }
         }
 
-        [TestMethod]
-        public void Test_CreateOperator_Average_ThrowsInCaseOfWrongParameters()
-        {
-            CultureHelper.SetThreadCultureName("en-US");
-
-            AssertHelper.ThrowsException(() =>
-            {
-                var x = new PatchApi();
-                x.Average(null, 0, 0);
-            }, 
-            "Sample Count is not above 0.\r\nTime Slice Duration is not above 0.");
-        }
+        // TODO: Remove outcommented code.
+        //[TestMethod]
+        //public void Test_CreateOperator_Average_ThrowsInCaseOfWrongParameters()
+        //{
+        //    CultureHelper.SetThreadCultureName("en-US");
+        //
+        //    AssertHelper.ThrowsException(() =>
+        //    {
+        //        var x = new PatchApi();
+        //        x.Average(null, 0, 0);
+        //    }, 
+        //    "Sample Count is not above 0.\r\nTime Slice Duration is not above 0.");
+        //}
 
     }
 }

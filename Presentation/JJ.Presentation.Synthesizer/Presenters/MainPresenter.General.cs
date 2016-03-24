@@ -56,7 +56,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly MenuPresenter _menuPresenter;
         private readonly NodePropertiesPresenter _nodePropertiesPresenter;
         private readonly OperatorPropertiesPresenter _operatorPropertiesPresenter;
-        private readonly OperatorPropertiesPresenter_ForAggregate _operatorPropertiesPresenter_ForAggregate;
         private readonly OperatorPropertiesPresenter_ForBundle _operatorPropertiesPresenter_ForBundle;
         private readonly OperatorPropertiesPresenter_ForCache _operatorPropertiesPresenter_ForCache;
         private readonly OperatorPropertiesPresenter_ForCurve _operatorPropertiesPresenter_ForCurve;
@@ -126,7 +125,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _menuPresenter = new MenuPresenter();
             _nodePropertiesPresenter = new NodePropertiesPresenter(_curveRepositories);
             _operatorPropertiesPresenter = new OperatorPropertiesPresenter(_patchRepositories);
-            _operatorPropertiesPresenter_ForAggregate = new OperatorPropertiesPresenter_ForAggregate(_patchRepositories);
             _operatorPropertiesPresenter_ForBundle = new OperatorPropertiesPresenter_ForBundle(_patchRepositories);
             _operatorPropertiesPresenter_ForCache = new OperatorPropertiesPresenter_ForCache(_patchRepositories);
             _operatorPropertiesPresenter_ForCurve = new OperatorPropertiesPresenter_ForCurve(_patchRepositories);
@@ -192,7 +190,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MainViewModel.Document.PatchDocumentList.SelectMany(x => x.CurvePropertiesList).ForEach(x => x.Visible = false);
             MainViewModel.Document.PatchDocumentList.SelectMany(x => x.NodePropertiesList).ForEach(x => x.Visible = false);
             MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList).ForEach(x => x.Visible = false);
-            MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForAggregates).ForEach(x => x.Visible = false);
             MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForBundles).ForEach(x => x.Visible = false);
             MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForCaches).ForEach(x => x.Visible = false);
             MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForCurves).ForEach(x => x.Visible = false);

@@ -18,7 +18,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public IList<CurvePropertiesViewModel> CurvePropertiesList { get; set; }
         public IList<NodePropertiesViewModel> NodePropertiesList { get; set; }
         public IList<OperatorPropertiesViewModel> OperatorPropertiesList { get; set; }
-        public IList<OperatorPropertiesViewModel_ForAggregate> OperatorPropertiesList_ForAggregates { get; set; }
         public IList<OperatorPropertiesViewModel_ForBundle> OperatorPropertiesList_ForBundles { get; set; }
         public IList<OperatorPropertiesViewModel_ForCache> OperatorPropertiesList_ForCaches { get; set; }
         public IList<OperatorPropertiesViewModel_ForCurve> OperatorPropertiesList_ForCurves { get; set; }

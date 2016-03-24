@@ -287,32 +287,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModels;
         }
 
-        public static IList<OperatorPropertiesViewModel_ForAggregate> ToPropertiesViewModelList_ForAggregates(this Patch patch)
-        {
-            if (patch == null) throw new NullException(() => patch);
-
-            var viewModelList = new List<OperatorPropertiesViewModel_ForAggregate>();
-
-            foreach (Operator op in patch.Operators)
-            {
-                OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
-
-                switch (operatorTypeEnum)
-                {
-                    case OperatorTypeEnum.Average:
-                    case OperatorTypeEnum.Minimum:
-                    case OperatorTypeEnum.Maximum:
-                        {
-                            OperatorPropertiesViewModel_ForAggregate viewModel = op.ToPropertiesViewModel_ForAggregate();
-                            viewModelList.Add(viewModel);
-                            break;
-                        }
-                }
-            }
-
-            return viewModelList;
-        }
-
         public static IList<OperatorPropertiesViewModel_ForBundle> ToPropertiesViewModelList_ForBundles(this Patch patch)
         {
             if (patch == null) throw new NullException(() => patch);
@@ -452,49 +426,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             else
             {
                 viewModel.OperatorType = ViewModelHelper.CreateEmptyOperatorTypeViewModel();
-            }
-
-            return viewModel;
-        }
-
-        public static OperatorPropertiesViewModel_ForAggregate ToPropertiesViewModel_ForAggregate(this Operator entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            var viewModel = new OperatorPropertiesViewModel_ForAggregate
-            {
-                ID = entity.ID,
-                PatchID = entity.Patch.ID,
-                Name = entity.Name,
-                OperatorType = entity.OperatorType.ToViewModel(),
-                ValidationMessages = new List<Message>()
-            };
-
-            switch (entity.GetOperatorTypeEnum())
-            {
-                case OperatorTypeEnum.Average:
-                    {
-                        var wrapper = new Average_OperatorWrapper(entity);
-                        viewModel.SampleCount = wrapper.SampleCount;
-                        viewModel.TimeSliceDuration = wrapper.TimeSliceDuration;
-                        break;
-                    }
-
-                case OperatorTypeEnum.Minimum:
-                    {
-                        var wrapper = new Minimum_OperatorWrapper(entity);
-                        viewModel.SampleCount = wrapper.SampleCount;
-                        viewModel.TimeSliceDuration = wrapper.TimeSliceDuration;
-                        break;
-                    }
-
-                case OperatorTypeEnum.Maximum:
-                    {
-                        var wrapper = new Maximum_OperatorWrapper(entity);
-                        viewModel.SampleCount = wrapper.SampleCount;
-                        viewModel.TimeSliceDuration = wrapper.TimeSliceDuration;
-                        break;
-                    }
             }
 
             return viewModel;

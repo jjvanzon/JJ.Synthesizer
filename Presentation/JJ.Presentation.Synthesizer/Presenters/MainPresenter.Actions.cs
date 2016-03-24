@@ -678,7 +678,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 patchDocumentViewModel.CurvePropertiesList.ForEach(x => x.Successful = true);
                 patchDocumentViewModel.NodePropertiesList.ForEach(x => x.Successful = true);
                 patchDocumentViewModel.OperatorPropertiesList.ForEach(x => x.Successful = true);
-                patchDocumentViewModel.OperatorPropertiesList_ForAggregates.ForEach(x => x.Successful = true);
                 patchDocumentViewModel.OperatorPropertiesList_ForBundles.ForEach(x => x.Successful = true);
                 patchDocumentViewModel.OperatorPropertiesList_ForCurves.ForEach(x => x.Successful = true);
                 patchDocumentViewModel.OperatorPropertiesList_ForCustomOperators.ForEach(x => x.Successful = true);
@@ -1075,14 +1074,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
             {
-                OperatorPropertiesViewModel_ForAggregate userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForAggregate(MainViewModel.Document, id);
-                if (userInput != null)
-                {
-                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForAggregate.Show(userInput));
-                    return;
-                }
-            }
-            {
                 OperatorPropertiesViewModel_ForBundle userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForBundle(MainViewModel.Document, id);
                 if (userInput != null)
                 {
@@ -1208,11 +1199,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesCloseOrLoseFocus(_operatorPropertiesPresenter.Close);
         }
 
-        public void OperatorPropertiesClose_ForAggregate()
-        {
-            OperatorPropertiesCloseOrLoseFocus_ForAggregate(_operatorPropertiesPresenter_ForAggregate.Close);
-        }
-
         public void OperatorPropertiesClose_ForBundle()
         {
             OperatorPropertiesCloseOrLoseFocus_ForBundle(_operatorPropertiesPresenter_ForBundle.Close);
@@ -1281,11 +1267,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void OperatorPropertiesLoseFocus()
         {
             OperatorPropertiesCloseOrLoseFocus(_operatorPropertiesPresenter.LoseFocus);
-        }
-
-        public void OperatorPropertiesLoseFocus_ForAggregate()
-        {
-            OperatorPropertiesCloseOrLoseFocus_ForAggregate(_operatorPropertiesPresenter_ForAggregate.LoseFocus);
         }
 
         public void OperatorPropertiesLoseFocus_ForBundle()
@@ -1360,21 +1341,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // TemplateMethod
             OperatorPropertiesViewModel viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
-
-            // Refresh
-            if (viewModel.Successful)
-            {
-                PatchDetails_RefreshOperator(userInput.ID);
-            }
-        }
-
-        private void OperatorPropertiesCloseOrLoseFocus_ForAggregate(Func<OperatorPropertiesViewModel_ForAggregate, OperatorPropertiesViewModel_ForAggregate> partialAction)
-        {
-            // GetViewModel
-            OperatorPropertiesViewModel_ForAggregate userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForAggregate(MainViewModel.Document);
-
-            // TemplateMethod
-            OperatorPropertiesViewModel_ForAggregate viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
 
             // Refresh
             if (viewModel.Successful)

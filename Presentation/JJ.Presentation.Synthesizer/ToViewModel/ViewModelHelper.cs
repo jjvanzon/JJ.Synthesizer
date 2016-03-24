@@ -21,14 +21,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
     {
         private static HashSet<OperatorTypeEnum> _operatorTypeEnums_WithTheirOwnPropertyViews = new HashSet<OperatorTypeEnum>
         {
-            OperatorTypeEnum.Average,
             OperatorTypeEnum.Bundle,
             OperatorTypeEnum.Cache,
             OperatorTypeEnum.Curve,
             OperatorTypeEnum.CustomOperator,
             OperatorTypeEnum.Filter,
-            OperatorTypeEnum.Maximum,
-            OperatorTypeEnum.Minimum,
             OperatorTypeEnum.Number,
             OperatorTypeEnum.PatchInlet,
             OperatorTypeEnum.PatchOutlet,

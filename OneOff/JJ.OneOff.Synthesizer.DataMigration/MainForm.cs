@@ -3,72 +3,98 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
+using JJ.Framework.Presentation.WinForms.Extensions;
 using JJ.Framework.Presentation.WinForms.Forms;
+using JJ.Framework.Presentation.WinForms.Helpers;
+using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.OneOff.Synthesizer.DataMigration
 {
     public partial class MainForm : SimpleFileProcessForm
     {
+        private class MethodTuple
+        {
+            public MethodInfo Method { get; set; }
+            public RadioButton RadioButton { get; set; }
+        }
+
+        private const int TOP_RADIO_BUTTON_Y = 123;
+        private const int SPACING = 4;
+
+        private IList<MethodTuple> _methodTuples;
+
         public MainForm()
         {
             InitializeComponent();
+
+            IList<MethodInfo> methods = typeof(DataMigrationExecutor).GetMethods(BindingFlags.Public | BindingFlags.Static);
+
+            IList<MethodTuple> methodTuples = new List<MethodTuple>(methods.Count);
+
+            int y = TOP_RADIO_BUTTON_Y;
+            foreach (MethodInfo method in methods)
+            {
+                RadioButton radioButton = CreateRadioButton(method.Name);
+                radioButton.Location = new Point(radioButton.Location.X, y);
+
+                Controls.Add(radioButton);
+                Controls.SetChildIndex(radioButton, 0);
+
+                y += radioButton.Height;
+                y += SPACING;
+
+                methodTuples.Add(new MethodTuple
+                {
+                    Method = method,
+                    RadioButton = radioButton
+                });
+            }
+
+            if (methodTuples.Count == 0)
+            {
+                throw new ZeroException(() => methodTuples.Count);
+            }
+
+            methodTuples.Last().RadioButton.Checked = true;
+
+            this.AutomaticallyAssignTabIndexes();
+
+            _methodTuples = methodTuples;
+        }
+
+        private RadioButton CreateRadioButton(string methodName)
+        {
+            var radioButton = new RadioButton
+            {
+                AutoSize = true,
+                Enabled = true,
+                Font = new Font("Microsoft Sans Serif", 10F),
+                Location = new Point(263, 123),
+                Margin = new Padding(4),
+                Name = "radioButton" + methodName,
+                Size = new Size(191, 24),
+                Text = methodName,
+                UseVisualStyleBackColor = true,
+            };
+
+            return radioButton;
         }
 
         private void MainForm_OnRunProcess(object sender, EventArgs e)
         {
-            if (radioButtonMigrateSineVolumes.Checked)
+            MethodTuple methodTuple = _methodTuples.Where(x => x.RadioButton.Checked).SingleOrDefault();
+
+            if (methodTuple != null)
             {
-                DataMigrationExecutor.MigrateSineVolumes(x => ShowProgress(x));
+                // DIRTY: Assumption that all public methods of DataMigrationExecutor take a delegate of this kind.
+                Action<string> showProgressDelegate = x => ShowProgress(x);
+                methodTuple.Method.Invoke(null, new object[] { showProgressDelegate });
+                return;
             }
-            else if (radioButtonAddSampleOperatorFrequencyInlets.Checked)
-            {
-                DataMigrationExecutor.AddSampleOperatorFrequencyInlets(x => ShowProgress(x));
-            }
-            else if (radioButtonMakePatchNamesUnique.Checked)
-            {
-                DataMigrationExecutor.MakePatchNamesUnique(x => ShowProgress(x));
-            }
-            else if (radioButtonMakeCurveNamesAndSampleNamesUnique.Checked)
-            {
-                DataMigrationExecutor.MakeCurveNamesAndSampleNamesUnique(x => ShowProgress(x));
-            }
-            else if (radioButtonPutEachPatchInAChildDocument.Checked)
-            {
-                DataMigrationExecutor.PutEachPatchInAChildDocument(x => ShowProgress(x));
-            }
-            else if (radioButtonConvertUnderlyingDocumentIDsToUnderlyingPatchIDs.Checked)
-            {
-                DataMigrationExecutor.ConvertUnderlyingDocumentIDsToUnderlyingPatchIDs(x => ShowProgress(x));
-            }
-            else if (radioButtonGivePatchesSameNameAsTheirDocuments.Checked)
-            {
-                DataMigrationExecutor.GivePatchesSameNameAsTheirDocuments(x => ShowProgress(x));
-            }
-            else if (radioButtonResaveCustomOperatorsToSet_InletDefaultValue_InletInletType_And_OutletOutletType.Checked)
-            {
-                DataMigrationExecutor.ResaveCustomOperatorsToSet_InletDefaultValue_InletInletType_And_OutletOutletType(x => ShowProgress(x));
-            }
-            else if (radioButtonResavePatchInletOperatorsToSet_InletDefaultValue_AndInletInletType.Checked)
-            {
-                DataMigrationExecutor.ResavePatchInletOperatorsToSet_InletDefaultValue_AndInletInletType(x => ShowProgress(x));
-            }
-            else if (radioButtonRemove_PatchInletOperator_DataKeys_DefaultValue_AndInletTypeEnum.Checked)
-            {
-                DataMigrationExecutor.Remove_PatchInletOperator_DataKeys_DefaultValue_AndInletTypeEnum(x => ShowProgress(x));
-            }
-            else if (radioButtonMigrate_PatchOutlet_OutletType_FromDataProperty_ToPatchOutletOutlet.Checked)
-            {
-                DataMigrationExecutor.Migrate_PatchOutlet_OutletType_FromDataProperty_ToPatchOutletOutlet(x => ShowProgress(x));
-            }
-            else if (radioButtonMigrateResampleOperators_SetToDefaultInterpolationTypeInDataProperty.Checked)
-            {
-                DataMigrationExecutor.MigrateResampleOperators_SetToDefaultInterpolationTypeInDataProperty(x => ShowProgress(x));
-            }
-            else
-            {
-                MessageBox.Show("Please select a radio button.");
-            }
+
+            MessageBox.Show("Please select a radio button.");
         }
     }
 }

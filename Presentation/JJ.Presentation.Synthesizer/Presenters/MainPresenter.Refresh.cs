@@ -311,7 +311,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     patchDocumentViewModel.CurvePropertiesList.ForEach(x => x.Successful = true);
                     patchDocumentViewModel.NodePropertiesList.ForEach(x => x.Successful = true);
                     patchDocumentViewModel.OperatorPropertiesList.ForEach(x => x.Successful = true);
-                    patchDocumentViewModel.OperatorPropertiesList_ForAggregates.ForEach(x => x.Successful = true);
                     patchDocumentViewModel.OperatorPropertiesList_ForBundles.ForEach(x => x.Successful = true);
                     patchDocumentViewModel.OperatorPropertiesList_ForCaches.ForEach(x => x.Successful = true);
                     patchDocumentViewModel.OperatorPropertiesList_ForCurves.ForEach(x => x.Successful = true);
@@ -409,12 +408,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(viewModel);
         }
 
-        private void OperatorProperties_ForAggregate_Refresh(OperatorPropertiesViewModel_ForAggregate userInput)
-        {
-            OperatorPropertiesViewModel_ForAggregate viewModel = _operatorPropertiesPresenter_ForAggregate.Refresh(userInput);
-            DispatchViewModel(viewModel);
-        }
-
         private void OperatorProperties_ForBundle_Refresh(OperatorPropertiesViewModel_ForBundle userInput)
         {
             OperatorPropertiesViewModel_ForBundle viewModel = _operatorPropertiesPresenter_ForBundle.Refresh(userInput);
@@ -509,35 +502,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             OperatorPropertiesViewModel_ForUnbundle viewModel = _operatorPropertiesPresenter_ForUnbundle.Refresh(userInput);
             DispatchViewModel(viewModel);
-        }
-
-        private void OperatorPropertiesList_ForAggregates_Refresh(PatchDocumentViewModel patchDocumentViewModel)
-        {
-            Document childDocument = _repositories.DocumentRepository.Get(patchDocumentViewModel.ChildDocumentID);
-            IList<Operator> operators = childDocument.Patches[0].Operators
-                                                                .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.Average ||
-                                                                            x.GetOperatorTypeEnum() == OperatorTypeEnum.Minimum ||
-                                                                            x.GetOperatorTypeEnum() == OperatorTypeEnum.Maximum)
-                                                                .ToArray();
-            foreach (Operator op in operators)
-            {
-                OperatorPropertiesViewModel_ForAggregate viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForAggregate(MainViewModel.Document, op.ID);
-                if (viewModel == null)
-                {
-                    viewModel = op.ToPropertiesViewModel_ForAggregate();
-                    viewModel.Successful = true;
-                    patchDocumentViewModel.OperatorPropertiesList_ForAggregates.Add(viewModel);
-                }
-                else
-                {
-                    OperatorProperties_ForAggregate_Refresh(viewModel);
-                }
-            }
-
-            HashSet<int> idsToKeep = operators.Select(x => x.ID).ToHashSet();
-            patchDocumentViewModel.OperatorPropertiesList_ForAggregates = patchDocumentViewModel.OperatorPropertiesList_ForAggregates
-                                                                                                .Where(x => idsToKeep.Contains(x.ID))
-                                                                                                .ToList();
         }
 
         private void OperatorPropertiesList_ForBundles_Refresh(PatchDocumentViewModel patchDocumentViewModel)
@@ -1031,7 +995,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             NodePropertiesListRefresh(patchDocumentViewModel);
 
             OperatorPropertiesListRefresh(patchDocumentViewModel);
-            OperatorPropertiesList_ForAggregates_Refresh(patchDocumentViewModel);
             OperatorPropertiesList_ForBundles_Refresh(patchDocumentViewModel);
             OperatorPropertiesList_ForCaches_Refresh(patchDocumentViewModel);
             OperatorPropertiesList_ForCurves_Refresh(patchDocumentViewModel);

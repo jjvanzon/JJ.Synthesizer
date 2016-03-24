@@ -83,12 +83,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 .Where(x => x.Visible)
                 .FirstOrDefault();
 
-            // OperatorProperties_ForAggregate
-            operatorPropertiesUserControl_ForAggregate.ViewModel =
-                _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForAggregates)
-                .Where(x => x.Visible)
-                .FirstOrDefault();
-
             // OperatorProperties_ForBundle
             operatorPropertiesUserControl_ForBundle.ViewModel =
                 _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForBundles)

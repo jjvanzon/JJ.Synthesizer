@@ -65,7 +65,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 CurvePropertiesList = childDocument.Curves.Select(x => x.ToPropertiesViewModel()).ToList(),
                 NodePropertiesList = childDocument.Curves.SelectMany(x => x.Nodes).Select(x => x.ToPropertiesViewModel(repositories.NodeTypeRepository)).ToList(),
                 OperatorPropertiesList = childDocument.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList()).ToList(),
-                OperatorPropertiesList_ForAggregates = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForAggregates()).ToList(),
                 OperatorPropertiesList_ForBundles = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForBundles()).ToList(),
                 OperatorPropertiesList_ForCaches = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForCaches(repositories.InterpolationTypeRepository)).ToList(),
                 OperatorPropertiesList_ForCurves = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForCurves(repositories.CurveRepository)).ToList(),

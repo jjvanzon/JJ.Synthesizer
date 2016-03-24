@@ -314,7 +314,7 @@
     <Compile Include="Validation\OperatorValidator_SawDown.cs" />
     <Compile Include="Validation\OperatorValidator_Scaler.cs" />
     <Compile Include="Validation\OperatorValidator_If.cs" />
-    <Compile Include="Validation\OperatorValidator_Base_Aggregate.cs" />
+    <Compile Include="Validation\2016-03-24 Backup of OperatorValidator_Base_Aggregate.cs" />
     <Compile Include="Validation\OperatorValidator_Average.cs" />
     <Compile Include="Validation\OperatorValidator_Maximum.cs" />
     <Compile Include="Validation\OperatorValidator_Not.cs" />

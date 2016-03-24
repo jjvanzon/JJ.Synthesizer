@@ -590,6 +590,155 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
         }
 
+        public static void Migrate_AggregateOperators_ParametersToInlets(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                var patchManager = new PatchManager(new PatchRepositories(repositories));
+
+                IList<Operator> averageOperators = repositories.OperatorRepository
+                                                               .GetAll()
+                                                               .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.Average)
+                                                               .ToArray();
+                for (int i = 0; i < averageOperators.Count; i++)
+                {
+                    Operator op = averageOperators[i];
+
+                    bool mustMigrate = op.Inlets.Count == 1;
+                    if (!mustMigrate)
+                    {
+                        throw new Exception("Operator already migrated!");
+                    }
+
+                    patchManager.Patch = op.Patch;
+
+                    // Create extra inlets.
+                    int newInletCount = 3;
+                    for (int inletIndex = 1; inletIndex < newInletCount; inletIndex++)
+                    {
+                        Inlet inlet = patchManager.CreateInlet(op);
+                        inlet.ListIndex = inletIndex;
+                    }
+
+                    // Convert parameter to inlets.
+                    var averageWrapper = new Average_OperatorWrapper(op);
+
+                    double timeSliceDurationValue = OperatorDataParser.GetDouble(op, PropertyNames.TimeSliceDuration);
+                    var timeSliceDurationNumberWrapper = patchManager.Number(timeSliceDurationValue);
+                    averageWrapper.TimeSliceDuration = timeSliceDurationNumberWrapper;
+
+                    int sampleCountValue = OperatorDataParser.GetInt32(op, PropertyNames.SampleCount);
+                    var sampleCountNumberWrapper = patchManager.Number(sampleCountValue);
+                    averageWrapper.SampleCount = sampleCountNumberWrapper;
+
+                    VoidResult result = patchManager.SaveOperator(op);
+
+                    ResultHelper.Assert(result);
+
+                    string progressMessage = String.Format("Step 1/4: Migrated Average {0}/{1}.", i + 1, averageOperators.Count);
+                    progressCallback(progressMessage);
+                }
+
+                IList<Operator> minimumOperators = repositories.OperatorRepository
+                                                               .GetAll()
+                                                               .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.Minimum)
+                                                               .ToArray();
+                for (int i = 0; i < minimumOperators.Count; i++)
+                {
+                    Operator op = minimumOperators[i];
+
+                    bool mustMigrate = op.Inlets.Count == 1;
+                    if (!mustMigrate)
+                    {
+                        throw new Exception("Operator already migrated!");
+                    }
+
+                    patchManager.Patch = op.Patch;
+
+                    // Create extra inlets.
+                    int newInletCount = 3;
+                    for (int inletIndex = 1; inletIndex < newInletCount; inletIndex++)
+                    {
+                        Inlet inlet = patchManager.CreateInlet(op);
+                        inlet.ListIndex = inletIndex;
+                    }
+
+                    // Convert parameter to inlets.
+                    var minimumWrapper = new Minimum_OperatorWrapper(op);
+
+                    double timeSliceDurationValue = OperatorDataParser.GetDouble(op, PropertyNames.TimeSliceDuration);
+                    var timeSliceDurationNumberWrapper = patchManager.Number(timeSliceDurationValue);
+                    minimumWrapper.TimeSliceDuration = timeSliceDurationNumberWrapper;
+
+                    int sampleCountValue = OperatorDataParser.GetInt32(op, PropertyNames.SampleCount);
+                    var sampleCountNumberWrapper = patchManager.Number(sampleCountValue);
+                    minimumWrapper.SampleCount = sampleCountNumberWrapper;
+
+                    VoidResult result = patchManager.SaveOperator(op);
+
+                    ResultHelper.Assert(result);
+
+                    string progressMessage = String.Format("Step 2/4: Migrated Minimum Operator {0}/{1}.", i + 1, minimumOperators.Count);
+                    progressCallback(progressMessage);
+                }
+
+                IList<Operator> maximumOperators = repositories.OperatorRepository
+                                                               .GetAll()
+                                                               .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.Maximum)
+                                                               .ToArray();
+                for (int i = 0; i < maximumOperators.Count; i++)
+                {
+                    Operator op = maximumOperators[i];
+
+                    bool mustMigrate = op.Inlets.Count == 1;
+                    if (!mustMigrate)
+                    {
+                        throw new Exception("Operator already migrated!");
+                    }
+
+                    patchManager.Patch = op.Patch;
+
+                    // Create extra inlets.
+                    int newInletCount = 3;
+                    for (int inletIndex = 1; inletIndex < newInletCount; inletIndex++)
+                    {
+                        Inlet inlet = patchManager.CreateInlet(op);
+                        inlet.ListIndex = inletIndex;
+                    }
+
+                    // Convert parameter to inlets.
+                    var maximumWrapper = new Maximum_OperatorWrapper(op);
+
+                    double timeSliceDurationValue = OperatorDataParser.GetDouble(op, PropertyNames.TimeSliceDuration);
+                    var timeSliceDurationNumberWrapper = patchManager.Number(timeSliceDurationValue);
+                    maximumWrapper.TimeSliceDuration = timeSliceDurationNumberWrapper;
+
+                    int sampleCountValue = OperatorDataParser.GetInt32(op, PropertyNames.SampleCount);
+                    var sampleCountNumberWrapper = patchManager.Number(sampleCountValue);
+                    maximumWrapper.SampleCount = sampleCountNumberWrapper;
+
+                    VoidResult result = patchManager.SaveOperator(op);
+
+                    ResultHelper.Assert(result);
+
+                    string progressMessage = String.Format("Step 3/4: Migrated Maximum Operator {0}/{1}.", i + 1, maximumOperators.Count);
+                    progressCallback(progressMessage);
+                }
+
+                AssertDocuments(repositories, progressCallback);
+
+                context.Commit();
+            }
+
+            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        }
+
         private static void AssertDocuments(RepositoryWrapper repositories, Action<string> progressCallback)
         {
             var documentManager = new DocumentManager(repositories);

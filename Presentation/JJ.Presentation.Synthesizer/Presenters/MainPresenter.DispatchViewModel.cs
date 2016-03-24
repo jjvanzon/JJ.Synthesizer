@@ -34,7 +34,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(MenuViewModel), DispatchMenuViewModel },
                 { typeof(NodePropertiesViewModel), DispatchNodePropertiesViewModel },
                 { typeof(OperatorPropertiesViewModel), DispatchOperatorPropertiesViewModel },
-                { typeof(OperatorPropertiesViewModel_ForAggregate), DispatchOperatorPropertiesViewModel_ForAggregate },
                 { typeof(OperatorPropertiesViewModel_ForBundle), DispatchOperatorPropertiesViewModel_ForBundle },
                 { typeof(OperatorPropertiesViewModel_ForCache), DispatchOperatorPropertiesViewModel_ForCache },
                 { typeof(OperatorPropertiesViewModel_ForCurve), DispatchOperatorPropertiesViewModel_ForCurve },
@@ -321,31 +320,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             var castedViewModel = (OperatorPropertiesViewModel)viewModel2;
 
             var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
-            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
-            if (listIndex.HasValue)
-            {
-                list[listIndex.Value] = castedViewModel;
-            }
-            else
-            {
-                list.Add(castedViewModel);
-            }
-
-            if (castedViewModel.Visible)
-            {
-                HideAllPropertiesViewModels();
-                castedViewModel.Visible = true;
-            }
-
-            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
-            castedViewModel.ValidationMessages.Clear();
-        }
-
-        private void DispatchOperatorPropertiesViewModel_ForAggregate(object viewModel2)
-        {
-            var castedViewModel = (OperatorPropertiesViewModel_ForAggregate)viewModel2;
-
-            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForAggregates_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
             int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
             if (listIndex.HasValue)
             {

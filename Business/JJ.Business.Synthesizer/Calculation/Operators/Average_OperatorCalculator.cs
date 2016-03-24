@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Average_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly double _sampleDuration;
+        // TODO: Use channelIndex variable in ResetState.
+        private const int DEFAULT_CHANNEL_INDEX = 0;
+
         private readonly OperatorCalculatorBase _signalCalculator;
-        private readonly double _sampleCountDouble;
+        private readonly OperatorCalculatorBase _timeSliceDurationCalculator;
+        private readonly OperatorCalculatorBase _sampleCountCalculator;
+
+        private double _sampleDuration;
+        private double _sampleCountDouble;
 
         private Queue<double> _queue;
 
@@ -18,18 +23,26 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _previousTime;
         private double _passedSampleTime;
 
-        public Average_OperatorCalculator(OperatorCalculatorBase signalCalculator, double timeSliceDuration, int sampleCount)
-            : base(new OperatorCalculatorBase[] { signalCalculator })
+        public Average_OperatorCalculator(
+            OperatorCalculatorBase signalCalculator,
+            OperatorCalculatorBase timeSliceDurationCalculator,
+            OperatorCalculatorBase sampleCountCalculator)
+            : base(new OperatorCalculatorBase[]
+            {
+                signalCalculator,
+                timeSliceDurationCalculator,
+                sampleCountCalculator
+            })
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
-            if (timeSliceDuration <= 0.0) throw new LessThanException(() => timeSliceDuration, 0.0);
-            if (sampleCount <= 0) throw new LessThanOrEqualException(() => sampleCount, 0);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase_OnlyUsedUponResetState(timeSliceDurationCalculator, () => timeSliceDurationCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase_OnlyUsedUponResetState(sampleCountCalculator, () => sampleCountCalculator);
 
             _signalCalculator = signalCalculator;
-            _sampleCountDouble = sampleCount;
-            _sampleDuration = timeSliceDuration / _sampleCountDouble;
+            _timeSliceDurationCalculator = timeSliceDurationCalculator;
+            _sampleCountCalculator = sampleCountCalculator;
 
-            _queue = CreateQueue();
+            ResetState();
         }
 
         public override double Calculate(double time, int channelIndex)
@@ -73,18 +86,37 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void ResetState()
         {
-            _queue = CreateQueue();
             _sum = 0.0;
             _average = 0.0;
             _previousTime = 0.0;
             _passedSampleTime = 0.0;
 
+            double timeSliceDuration = _timeSliceDurationCalculator.Calculate(_previousTime, DEFAULT_CHANNEL_INDEX);
+            _sampleCountDouble = _sampleCountCalculator.Calculate(_previousTime, DEFAULT_CHANNEL_INDEX);
+
+            if (CalculationHelper.CanCastToNonNegativeInt32(_sampleCountDouble))
+            {
+                _sampleCountDouble = (int)_sampleCountDouble;
+            }
+            else
+            {
+                _sampleCountDouble = 0.0;
+            }
+
+            _sampleDuration = timeSliceDuration / _sampleCountDouble;
+
+            _queue = CreateQueue(_sampleCountDouble);
+
             base.ResetState();
         }
 
-        private Queue<double> CreateQueue()
+        private Queue<double> CreateQueue(double sampleCountDouble)
         {
-            int sampleCountInt = (int)(_sampleCountDouble);
+            int sampleCountInt = 0;
+            if (CalculationHelper.CanCastToNonNegativeInt32(sampleCountDouble))
+            {
+                sampleCountInt = (int)(_sampleCountDouble);
+            }
 
             Queue<double> queue = new Queue<double>(sampleCountInt);
 
@@ -95,5 +127,5 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             return queue;
         }
-    }
+   }
 }

@@ -10,6 +10,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
     public class Maximum_OperatorWrapper : OperatorWrapperBase
     {
         private const int RESULT_INDEX = 0;
+        private const int TIME_SLICE_DURATION_INDEX = 1;
+        private const int SAMPLE_COUNT_INDEX = 2;
         private const int SIGNAL_INDEX = 0;
 
         public Maximum_OperatorWrapper(Operator op)
@@ -22,29 +24,48 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX).LinkTo(value); }
         }
 
+        public Outlet TimeSliceDuration
+        {
+            get { return OperatorHelper.GetInputOutlet(WrappedOperator, TIME_SLICE_DURATION_INDEX); }
+            set { OperatorHelper.GetInlet(WrappedOperator, TIME_SLICE_DURATION_INDEX).LinkTo(value); }
+        }
+
+        public Outlet SampleCount
+        {
+            get { return OperatorHelper.GetInputOutlet(WrappedOperator, SAMPLE_COUNT_INDEX); }
+            set { OperatorHelper.GetInlet(WrappedOperator, SAMPLE_COUNT_INDEX).LinkTo(value); }
+        }
+
         public Outlet Result
         {
             get { return OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX); }
         }
 
-        public double TimeSliceDuration
-        {
-            get { return OperatorDataParser.GetDouble(WrappedOperator, PropertyNames.TimeSliceDuration); }
-            set { OperatorDataParser.SetValue(WrappedOperator, PropertyNames.TimeSliceDuration, value); }
-        }
-
-        public int SampleCount
-        {
-            get { return OperatorDataParser.GetInt32(WrappedOperator, PropertyNames.SampleCount); }
-            set { OperatorDataParser.SetValue(WrappedOperator, PropertyNames.SampleCount, value); }
-        }
-
         public override string GetInletDisplayName(int listIndex)
         {
-            if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
+            switch (listIndex)
+            {
+                case SIGNAL_INDEX:
+                    {
+                        string name = ResourceHelper.GetPropertyDisplayName(() => Signal);
+                        return name;
+                    }
 
-            string name = ResourceHelper.GetPropertyDisplayName(() => Signal);
-            return name;
+                case TIME_SLICE_DURATION_INDEX:
+                    {
+                        string name = ResourceHelper.GetPropertyDisplayName(() => TimeSliceDuration);
+                        return name;
+                    }
+
+                case SAMPLE_COUNT_INDEX:
+                    {
+                        string name = ResourceHelper.GetPropertyDisplayName(() => SampleCount);
+                        return name;
+                    }
+
+                default:
+                    throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Inlets.Count);
+            }
         }
 
         public override string GetOutletDisplayName(int listIndex)

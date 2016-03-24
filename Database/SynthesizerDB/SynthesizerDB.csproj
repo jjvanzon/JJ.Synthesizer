@@ -94,6 +94,7 @@
     <Content Include="2015-10-29 010 SynthesizerDB Operator Type 26 - Select.sql" />
     <Content Include="2015-10-26 010 SynthesizerDB Operator Type 25 - Loop.sql" />
     <Content Include="2015-11-07 030 SynthesizerDB rename OperatorType TimeSubtract to Earlier - Copy.sql" />
+    <Content Include="2016-03-24 010 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2016-03-06 010 SynthesizerDB OperatorType 59 - Filter.sql" />
     <Content Include="2016-02-18 010 SynthesizerDB OperatorType 58 - Cache.sql" />
     <Content Include="2016-02-19 040 SynthesizerDB InterpolationType rename Curve to Cubic.sql" />
@@ -196,6 +197,7 @@
     <Content Include="2016-01-07 020 SynthesizerDB InletType 11 - AttackDuration.sql" />
     <Content Include="2016-01-07 010 SynthesizerDB rename InletType Duration to NoteDuration.sql" />
     <Content Include="2016-01-10 010 SynthesizerDB Delete Origin Inlet for OperatorTypes SpeedUp and SlowDown RUN SEPARATELY.sql" />
+    <Content Include="2016-03-24 020 SynthesizerDB Clear Operator.Data for Average, Minimum and Maximum Operators.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

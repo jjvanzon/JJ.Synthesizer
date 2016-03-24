@@ -110,9 +110,12 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Average_OperatorWrapper Average(Outlet signal = null, double timeSliceDuration = 0.02, int sampleCount = 100)
+        public Average_OperatorWrapper Average(
+            Outlet signal = null, 
+            Outlet timeSliceDuration = null, 
+            Outlet sampleCount = null)
         {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.Average, inletCount: 1, outletCount: 1);
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Average, inletCount: 3, outletCount: 1);
 
             var wrapper = new Average_OperatorWrapper(op)
             {
@@ -544,9 +547,13 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Maximum_OperatorWrapper Maximum(Outlet signal = null, double timeSliceDuration = 0.02, int sampleCount = 100)
+
+        public Maximum_OperatorWrapper Maximum(
+            Outlet signal = null,
+            Outlet timeSliceDuration = null,
+            Outlet sampleCount = null)
         {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.Maximum, inletCount: 1, outletCount: 1);
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Maximum, inletCount: 3, outletCount: 1);
 
             var wrapper = new Maximum_OperatorWrapper(op)
             {
@@ -563,9 +570,12 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Minimum_OperatorWrapper Minimum(Outlet signal = null, double timeSliceDuration = 0.02, int sampleCount = 100)
+        public Minimum_OperatorWrapper Minimum(
+            Outlet signal = null,
+            Outlet timeSliceDuration = null,
+            Outlet sampleCount = null)
         {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.Minimum, inletCount: 1, outletCount: 1);
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Minimum, inletCount: 3, outletCount: 1);
 
             var wrapper = new Minimum_OperatorWrapper(op)
             {
@@ -1395,20 +1405,14 @@ namespace JJ.Business.Synthesizer
 
             for (int i = 0; i < inletCount; i++)
             {
-                var inlet = new Inlet();
-                inlet.ID = _repositories.IDRepository.GetID();
+                Inlet inlet = CreateInlet(op);
                 inlet.ListIndex = i;
-                inlet.LinkTo(op);
-                _repositories.InletRepository.Insert(inlet);
             }
 
             for (int i = 0; i < outletCount; i++)
             {
-                var outlet = new Outlet();
-                outlet.ID = _repositories.IDRepository.GetID();
+                Outlet outlet = CreateOutlet(op);
                 outlet.ListIndex = i;
-                outlet.LinkTo(op);
-                _repositories.OutletRepository.Insert(outlet);
             }
 
             return op;

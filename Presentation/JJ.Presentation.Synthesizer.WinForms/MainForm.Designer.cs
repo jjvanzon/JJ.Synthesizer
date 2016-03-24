@@ -31,7 +31,6 @@
             this.operatorPropertiesUserControl_ForCache = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForCache();
             this.operatorPropertiesUserControl_ForRandom = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForRandom();
             this.operatorPropertiesUserControl_ForResample = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForResample();
-            this.operatorPropertiesUserControl_ForAggregate = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForAggregate();
             this.operatorPropertiesUserControl_ForSpectrum = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForSpectrum();
             this.operatorPropertiesUserControl_ForUnbundle = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForUnbundle();
             this.operatorPropertiesUserControl_ForBundle = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForBundle();
@@ -119,7 +118,6 @@
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForCache);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForRandom);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForResample);
-            this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForAggregate);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForSpectrum);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForUnbundle);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForBundle);
@@ -289,18 +287,6 @@
             this.operatorPropertiesUserControl_ForResample.Name = "operatorPropertiesUserControl_ForResample";
             this.operatorPropertiesUserControl_ForResample.Size = new System.Drawing.Size(280, 814);
             this.operatorPropertiesUserControl_ForResample.TabIndex = 1;
-            // 
-            // operatorPropertiesUserControl_ForAggregate
-            // 
-            this.operatorPropertiesUserControl_ForAggregate.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.operatorPropertiesUserControl_ForAggregate.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.operatorPropertiesUserControl_ForAggregate.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.operatorPropertiesUserControl_ForAggregate.Font = new System.Drawing.Font("Verdana", 10F);
-            this.operatorPropertiesUserControl_ForAggregate.Location = new System.Drawing.Point(0, 0);
-            this.operatorPropertiesUserControl_ForAggregate.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.operatorPropertiesUserControl_ForAggregate.Name = "operatorPropertiesUserControl_ForAggregate";
-            this.operatorPropertiesUserControl_ForAggregate.Size = new System.Drawing.Size(280, 814);
-            this.operatorPropertiesUserControl_ForAggregate.TabIndex = 1;
             // 
             // operatorPropertiesUserControl_ForSpectrum
             // 
@@ -597,7 +583,6 @@
         private UserControls.OperatorPropertiesUserControl_ForUnbundle operatorPropertiesUserControl_ForUnbundle;
         private UserControls.Partials.CurrentPatchesUserControl currentPatchesUserControl;
         private UserControls.OperatorPropertiesUserControl_ForSpectrum operatorPropertiesUserControl_ForSpectrum;
-        private UserControls.OperatorPropertiesUserControl_ForAggregate operatorPropertiesUserControl_ForAggregate;
         private UserControls.OperatorPropertiesUserControl_ForResample operatorPropertiesUserControl_ForResample;
         private UserControls.OperatorPropertiesUserControl_ForRandom operatorPropertiesUserControl_ForRandom;
         private UserControls.OperatorPropertiesUserControl_ForCache operatorPropertiesUserControl_ForCache;

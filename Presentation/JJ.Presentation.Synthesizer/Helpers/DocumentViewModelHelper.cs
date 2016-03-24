@@ -470,15 +470,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return viewModel;
         }
 
-        public static OperatorPropertiesViewModel_ForAggregate TryGetOperatorPropertiesViewModel_ForAggregate(DocumentViewModel rootDocumentViewModel, int operatorID)
-        {
-            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-            OperatorPropertiesViewModel_ForAggregate viewModel = DocumentViewModelHelper.EnumerateOperatorPropertiesViewModels_ForAggregates(rootDocumentViewModel)
-                                                                                        .FirstOrDefault(x => x.ID == operatorID); // First for performance.
-            return viewModel;
-        }
-
         public static OperatorPropertiesViewModel_ForBundle TryGetOperatorPropertiesViewModel_ForBundle(DocumentViewModel rootDocumentViewModel, int operatorID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
@@ -603,13 +594,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return rootDocumentViewModel.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList);
         }
 
-        private static IEnumerable<OperatorPropertiesViewModel_ForAggregate> EnumerateOperatorPropertiesViewModels_ForAggregates(DocumentViewModel rootDocumentViewModel)
-        {
-            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-            return rootDocumentViewModel.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForAggregates);
-        }
-
         private static IEnumerable<OperatorPropertiesViewModel_ForBundle> EnumerateOperatorPropertiesViewModels_ForBundles(DocumentViewModel rootDocumentViewModel)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
@@ -714,21 +698,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
 
             throw new Exception(String.Format("IList<OperatorPropertiesViewModel> for Patch ID '{0}' not found in any of the PatchDocumentViewModels.", patchID));
-        }
-
-        public static IList<OperatorPropertiesViewModel_ForAggregate> GetOperatorPropertiesViewModelList_ForAggregates_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
-        {
-            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-            foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentList)
-            {
-                if (patchDocumentViewModel.PatchDetails.Entity.PatchID == patchID)
-                {
-                    return patchDocumentViewModel.OperatorPropertiesList_ForAggregates;
-                }
-            }
-
-            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForAggregate> for Patch ID '{0}' not found in any of the PatchDocumentViewModels.", patchID));
         }
 
         public static IList<OperatorPropertiesViewModel_ForBundle> GetOperatorPropertiesViewModelList_ForBundles_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
@@ -940,22 +909,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
             throw new Exception(String.Format("IList<OperatorPropertiesViewModel> for operatorID '{0}' not found in any of the PatchDocumentViewModels.", operatorID));
         }
-
-        public static IList<OperatorPropertiesViewModel_ForAggregate> GetOperatorPropertiesViewModelList_ForAggregates_ByOperatorID(DocumentViewModel rootDocumentViewModel, int operatorID)
-        {
-            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-            foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentList)
-            {
-                if (patchDocumentViewModel.OperatorPropertiesList_ForAggregates.Any(x => x.ID == operatorID))
-                {
-                    return patchDocumentViewModel.OperatorPropertiesList_ForAggregates;
-                }
-            }
-
-            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForAggregate> for operatorID '{0}' not found in any of the PatchDocumentViewModels.", operatorID));
-        }
-
+        
         public static IList<OperatorPropertiesViewModel_ForBundle> GetOperatorPropertiesViewModelList_ForBundles_ByOperatorID(DocumentViewModel rootDocumentViewModel, int operatorID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
@@ -1180,22 +1134,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
             if (viewModel == null)
             {
                 throw new Exception("No visible OperatorPropertiesViewModel found in rootDocumentViewModel.PatchDocumentList.");
-            }
-
-            return viewModel;
-        }
-
-        public static OperatorPropertiesViewModel_ForAggregate GetVisibleOperatorPropertiesViewModel_ForAggregate(DocumentViewModel rootDocumentViewModel)
-        {
-            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-            OperatorPropertiesViewModel_ForAggregate viewModel = rootDocumentViewModel.PatchDocumentList
-                                                                                      .SelectMany(x => x.OperatorPropertiesList_ForAggregates)
-                                                                                      .Where(x => x.Visible)
-                                                                                      .FirstOrDefault();
-            if (viewModel == null)
-            {
-                throw new Exception("No visible OperatorPropertiesViewModel_ForAggregate found in rootDocumentViewModel.PatchDocumentList.");
             }
 
             return viewModel;

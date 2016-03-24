@@ -151,11 +151,9 @@
     <Compile Include="UserControls\NodePropertiesUserControl.Designer.cs">
       <DependentUpon>NodePropertiesUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\OperatorPropertiesUserControl_ForAggregate.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\OperatorPropertiesUserControl_ForAggregate.Designer.cs">
-      <DependentUpon>OperatorPropertiesUserControl_ForAggregate.cs</DependentUpon>
+    <Compile Include="UserControls\2016-03-24 Backup of OperatorPropertiesUserControl_ForAggregate.cs" />
+    <Compile Include="UserControls\2016-03-24 Backup of OperatorPropertiesUserControl_ForAggregate.Designer.cs">
+      <DependentUpon>2016-03-24 Backup of OperatorPropertiesUserControl_ForAggregate.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_ForRandom.cs">
       <SubType>UserControl</SubType>
@@ -395,8 +393,8 @@
     <EmbeddedResource Include="UserControls\NodePropertiesUserControl.resx">
       <DependentUpon>NodePropertiesUserControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForAggregate.resx">
-      <DependentUpon>OperatorPropertiesUserControl_ForAggregate.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\2016-03-24 Backup of OperatorPropertiesUserControl_ForAggregate.resx">
+      <DependentUpon>2016-03-24 Backup of OperatorPropertiesUserControl_ForAggregate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForRandom.resx">
       <DependentUpon>OperatorPropertiesUserControl_ForRandom.cs</DependentUpon>

@@ -183,7 +183,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 new UserControlTuple(documentTreeUserControl),
                 new UserControlTuple(nodePropertiesUserControl, isPropertiesView: true),
                 new UserControlTuple(operatorPropertiesUserControl, isPropertiesView: true),
-                new UserControlTuple(operatorPropertiesUserControl_ForAggregate, isPropertiesView: true),
                 new UserControlTuple(operatorPropertiesUserControl_ForBundle, isPropertiesView: true),
                 new UserControlTuple(operatorPropertiesUserControl_ForCache, isPropertiesView: true),
                 new UserControlTuple(operatorPropertiesUserControl_ForCurve, isPropertiesView: true),

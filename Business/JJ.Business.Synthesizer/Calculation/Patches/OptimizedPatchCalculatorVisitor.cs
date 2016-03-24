@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
@@ -16,7 +15,6 @@ using JJ.Business.Synthesizer.Calculation.Curves;
 using JJ.Business.Synthesizer.Calculation.Samples;
 using System.Reflection;
 using JJ.Business.Synthesizer.Calculation.Random;
-using JJ.Framework.Mathematics;
 using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Framework.Common.Exceptions;
 
@@ -305,9 +303,16 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase timeSliceDurationCalculator = _stack.Pop();
+            OperatorCalculatorBase sampleCountCalculator = _stack.Pop();
+
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
             double signal = signalCalculator.Calculate(0, 0);
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+
+            // TODO: Do not use these magic defaults, but give standard operators default inlet value functionality.
+            timeSliceDurationCalculator = timeSliceDurationCalculator ?? new Number_OperatorCalculator(0.02f);
+            sampleCountCalculator = sampleCountCalculator ?? new Number_OperatorCalculator(100f);
 
             if (signalIsConst)
             {
@@ -316,7 +321,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             else
             {
                 var wrapper = new Average_OperatorWrapper(op);
-                calculator = new Average_OperatorCalculator(signalCalculator, wrapper.TimeSliceDuration, wrapper.SampleCount);
+                calculator = new Average_OperatorCalculator(signalCalculator, timeSliceDurationCalculator, sampleCountCalculator);
             }
 
             _stack.Push(calculator);
@@ -1326,9 +1331,16 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase timeSliceDurationCalculator = _stack.Pop();
+            OperatorCalculatorBase sampleCountCalculator = _stack.Pop();
+
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
             double signal = signalCalculator.Calculate(0, 0);
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+
+            // TODO: Do not use these magic defaults, but give standard operators default inlet value functionality.
+            timeSliceDurationCalculator = timeSliceDurationCalculator ?? new Number_OperatorCalculator(0.02f);
+            sampleCountCalculator = sampleCountCalculator ?? new Number_OperatorCalculator(100f);
 
             if (signalIsConst)
             {
@@ -1337,7 +1349,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             else
             {
                 var wrapper = new Maximum_OperatorWrapper(op);
-                calculator = new Maximum_OperatorCalculator(signalCalculator, wrapper.TimeSliceDuration, wrapper.SampleCount);
+                calculator = new Maximum_OperatorCalculator(signalCalculator, timeSliceDurationCalculator, sampleCountCalculator);
             }
 
             _stack.Push(calculator);
@@ -1348,9 +1360,16 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase timeSliceDurationCalculator = _stack.Pop();
+            OperatorCalculatorBase sampleCountCalculator = _stack.Pop();
+
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
             double signal = signalCalculator.Calculate(0, 0);
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+
+            // TODO: Do not use these magic defaults, but give standard operators default inlet value functionality.
+            timeSliceDurationCalculator = timeSliceDurationCalculator ?? new Number_OperatorCalculator(0.02f);
+            sampleCountCalculator = sampleCountCalculator ?? new Number_OperatorCalculator(100f);
 
             if (signalIsConst)
             {
@@ -1359,7 +1378,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             else
             {
                 var wrapper = new Minimum_OperatorWrapper(op);
-                calculator = new Minimum_OperatorCalculator(signalCalculator, wrapper.TimeSliceDuration, wrapper.SampleCount);
+                calculator = new Minimum_OperatorCalculator(signalCalculator, timeSliceDurationCalculator, sampleCountCalculator);
             }
 
             _stack.Push(calculator);
