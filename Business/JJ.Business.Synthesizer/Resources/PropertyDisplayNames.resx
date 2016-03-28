@@ -743,4 +743,10 @@
   <data name="TimeDifference" xml:space="preserve">
     <value>Time Difference</value>
   </data>
+  <data name="DataKey" xml:space="preserve">
+    <value>Data Key</value>
+  </data>
+  <data name="DataKeys" xml:space="preserve">
+    <value>Data Keys</value>
+  </data>
 </root>

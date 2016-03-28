@@ -35,8 +35,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public int? ListIndex
         {
-            get { return OperatorDataParser.TryGetInt32(WrappedOperator, PropertyNames.ListIndex); }
-            set { OperatorDataParser.SetValue(WrappedOperator, PropertyNames.ListIndex, value); }
+            get { return DataPropertyParser.TryGetInt32(WrappedOperator, PropertyNames.ListIndex); }
+            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.ListIndex, value); }
         }
 
         public override string GetInletDisplayName(int listIndex)

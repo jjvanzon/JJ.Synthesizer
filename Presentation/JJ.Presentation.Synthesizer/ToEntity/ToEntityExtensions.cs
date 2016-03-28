@@ -799,9 +799,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.SetOperatorTypeEnum(OperatorTypeEnum.Cache, operatorTypeRepository);
 
             var wrapper = new Cache_OperatorWrapper(entity);
-            wrapper.StartTime = viewModel.StartTime;
-            wrapper.EndTime = viewModel.EndTime;
-            wrapper.SamplingRate = viewModel.SamplingRate;
 
             // Interpolation
             bool interpolationIsFilledIn = viewModel.Interpolation != null && viewModel.Interpolation.ID != 0;

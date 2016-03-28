@@ -87,6 +87,9 @@ namespace JJ.Business.Synthesizer.Calculation
         internal IList<ArrayCalculatorBase> GetCacheArrayCalculators(
             Operator op, 
             OperatorCalculatorBase signalCalculator,
+            double startTime,
+            double endTime,
+            int samplingRate,
             ISpeakerSetupRepository speakerSetupRepository)
         {
             if (op == null) throw new NullException(() => op);
@@ -106,9 +109,9 @@ namespace JJ.Business.Synthesizer.Calculation
                     arrayCalculators = CreateCacheArrayCalculators(
                         signalCalculator,
                         channelCount,
-                        wrapper.StartTime,
-                        wrapper.EndTime,
-                        wrapper.SamplingRate,
+                        startTime,
+                        endTime,
+                        samplingRate,
                         wrapper.InterpolationTypeEnum);
 
                     _cacheOperatorID_To_ArrayCalculators_Dictionary.Add(op.ID, arrayCalculators);

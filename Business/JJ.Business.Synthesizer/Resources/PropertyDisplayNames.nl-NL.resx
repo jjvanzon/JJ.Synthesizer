@@ -742,4 +742,10 @@
   <data name="TimeDifference" xml:space="preserve">
     <value>Tijdsverschil</value>
   </data>
+  <data name="DataKey" xml:space="preserve">
+    <value>Data sleutel</value>
+  </data>
+  <data name="DataKeys" xml:space="preserve">
+    <value>Data sleutels</value>
+  </data>
 </root>

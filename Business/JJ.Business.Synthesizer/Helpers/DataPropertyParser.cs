@@ -8,7 +8,7 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Helpers
 {
-    public class OperatorDataParser
+    public class DataPropertyParser
     {
         private class ParsedKeyValuePair
         {
@@ -139,6 +139,13 @@ namespace JJ.Business.Synthesizer.Helpers
             string data = Format(results);
 
             op.Data = data;
+        }
+
+        public static IList<string> GetKeys(Operator op)
+        {
+            IList<ParsedKeyValuePair> results = Parse(op.Data);
+            IList<string> keys = results.Select(x => x.Key).ToArray();
+            return keys;
         }
 
         private static IList<ParsedKeyValuePair> Parse(string data)

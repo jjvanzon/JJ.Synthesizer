@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer
                 X = x,
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -44,7 +44,7 @@ namespace JJ.Business.Synthesizer
                 B = b
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -83,12 +83,12 @@ namespace JJ.Business.Synthesizer
             outlet.LinkTo(op);
             _repositories.OutletRepository.Insert(outlet);
 
-            var wrapper = new Adder_OperatorWrapper(op);
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
+            var wrapper = new Adder_OperatorWrapper(op);
             return wrapper;
         }
 
@@ -102,7 +102,7 @@ namespace JJ.Business.Synthesizer
                 B = b
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -124,7 +124,7 @@ namespace JJ.Business.Synthesizer
                 SampleCount = sampleCount
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -163,24 +163,24 @@ namespace JJ.Business.Synthesizer
             outlet.LinkTo(op);
             _repositories.OutletRepository.Insert(outlet);
 
-            var wrapper = new Bundle_OperatorWrapper(op);
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
+            var wrapper = new Bundle_OperatorWrapper(op);
             return wrapper;
         }
 
         public Cache_OperatorWrapper Cache(
-            Outlet signal = null, 
-            double startTime = 0.0, 
-            double endTime = 1.0, 
-            int samplingRate = 44100, 
+            Outlet signal = null,
+            Outlet startTime = null,
+            Outlet endTime = null,
+            Outlet samplingRate = null, 
             InterpolationTypeEnum interpolationTypeEnum = InterpolationTypeEnum.Line,
             SpeakerSetupEnum speakerSetupEnum = SpeakerSetupEnum.Mono)
         {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.Cache, inletCount: 1, outletCount: 1);
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Cache, inletCount: 4, outletCount: 1);
 
             var wrapper = new Cache_OperatorWrapper(op)
             {
@@ -192,7 +192,7 @@ namespace JJ.Business.Synthesizer
                 SpeakerSetupEnum = speakerSetupEnum
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -211,7 +211,7 @@ namespace JJ.Business.Synthesizer
                 wrapper.CurveID = curve.ID;
             }
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -228,7 +228,7 @@ namespace JJ.Business.Synthesizer
 
             var wrapper = new CustomOperator_OperatorWrapper(op, _repositories.PatchRepository);
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -284,7 +284,7 @@ namespace JJ.Business.Synthesizer
                 TimeDifference = timeDifference
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -303,7 +303,7 @@ namespace JJ.Business.Synthesizer
                 Origin = origin
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -321,7 +321,7 @@ namespace JJ.Business.Synthesizer
                 TimeDifference = timeDifference
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -339,7 +339,7 @@ namespace JJ.Business.Synthesizer
                 B = b
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -358,7 +358,7 @@ namespace JJ.Business.Synthesizer
                 Ratio = ratio
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -402,7 +402,7 @@ namespace JJ.Business.Synthesizer
                 B = b
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -420,7 +420,7 @@ namespace JJ.Business.Synthesizer
                 B = b
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -438,7 +438,7 @@ namespace JJ.Business.Synthesizer
                 MinFrequency = minFrequency
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -457,7 +457,7 @@ namespace JJ.Business.Synthesizer
                 Else = @else
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -475,7 +475,7 @@ namespace JJ.Business.Synthesizer
                 B = b
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -493,7 +493,7 @@ namespace JJ.Business.Synthesizer
                 B = b
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -521,7 +521,7 @@ namespace JJ.Business.Synthesizer
                 NoteDuration = noteDuration
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -539,7 +539,7 @@ namespace JJ.Business.Synthesizer
                 MaxFrequency = maxFrequency
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -562,7 +562,7 @@ namespace JJ.Business.Synthesizer
                 SampleCount = sampleCount
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -584,7 +584,7 @@ namespace JJ.Business.Synthesizer
                 SampleCount = sampleCount
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -603,7 +603,7 @@ namespace JJ.Business.Synthesizer
                 Origin = origin
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -622,7 +622,7 @@ namespace JJ.Business.Synthesizer
                 Origin = origin
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -639,7 +639,7 @@ namespace JJ.Business.Synthesizer
                 X = x,
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -653,7 +653,7 @@ namespace JJ.Business.Synthesizer
 
             var wrapper = new Noise_OperatorWrapper(op);
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -670,7 +670,7 @@ namespace JJ.Business.Synthesizer
                 X = x,
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -688,7 +688,7 @@ namespace JJ.Business.Synthesizer
                 B = b
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -705,7 +705,7 @@ namespace JJ.Business.Synthesizer
                 Number = number
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -722,7 +722,7 @@ namespace JJ.Business.Synthesizer
                 X = x,
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -740,7 +740,7 @@ namespace JJ.Business.Synthesizer
                 B = b
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -758,7 +758,7 @@ namespace JJ.Business.Synthesizer
                 ListIndex = 0,
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             ExecuteSideEffectsForCreatingPatchInletOrPatchOutlet(wrapper.WrappedOperator);
 
@@ -826,7 +826,7 @@ namespace JJ.Business.Synthesizer
                 ListIndex = 0,
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             ExecuteSideEffectsForCreatingPatchInletOrPatchOutlet(wrapper.WrappedOperator);
 
@@ -868,7 +868,7 @@ namespace JJ.Business.Synthesizer
                 Exponent = exponent
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -887,7 +887,7 @@ namespace JJ.Business.Synthesizer
                 PhaseShift = phaseShift
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -906,7 +906,7 @@ namespace JJ.Business.Synthesizer
                 ResampleInterpolationTypeEnum = ResampleInterpolationTypeEnum.Block
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -928,7 +928,7 @@ namespace JJ.Business.Synthesizer
                 ResampleInterpolationTypeEnum = interpolationType
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -946,7 +946,7 @@ namespace JJ.Business.Synthesizer
                 Speed = speed,
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -963,7 +963,7 @@ namespace JJ.Business.Synthesizer
                 Operand = operand
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -982,7 +982,7 @@ namespace JJ.Business.Synthesizer
                 Offset = offset
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1000,7 +1000,7 @@ namespace JJ.Business.Synthesizer
                 wrapper.SampleID = sample.ID;
             }
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1018,7 +1018,7 @@ namespace JJ.Business.Synthesizer
                 PhaseShift = phaseShift
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1036,7 +1036,7 @@ namespace JJ.Business.Synthesizer
                 PhaseShift = phaseShift
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1062,7 +1062,7 @@ namespace JJ.Business.Synthesizer
                 TargetValueB = targetValueB,
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1080,7 +1080,7 @@ namespace JJ.Business.Synthesizer
                 Time = time
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1098,7 +1098,7 @@ namespace JJ.Business.Synthesizer
                 Difference = difference
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1116,7 +1116,7 @@ namespace JJ.Business.Synthesizer
                 PhaseShift = phaseShift
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1134,7 +1134,7 @@ namespace JJ.Business.Synthesizer
                 Factor = factor,
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1156,7 +1156,7 @@ namespace JJ.Business.Synthesizer
                 FrequencyCount = frequencyCount
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1174,7 +1174,7 @@ namespace JJ.Business.Synthesizer
                 Factor = factor,
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1192,7 +1192,7 @@ namespace JJ.Business.Synthesizer
                 PhaseShift = phaseShift
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1211,7 +1211,7 @@ namespace JJ.Business.Synthesizer
                 Origin = origin
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1229,7 +1229,7 @@ namespace JJ.Business.Synthesizer
                 B = b
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1248,7 +1248,7 @@ namespace JJ.Business.Synthesizer
                 Origin = origin
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1266,7 +1266,7 @@ namespace JJ.Business.Synthesizer
                 PhaseShift = phaseShift
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1285,7 +1285,7 @@ namespace JJ.Business.Synthesizer
                 Operand = operand
             };
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);

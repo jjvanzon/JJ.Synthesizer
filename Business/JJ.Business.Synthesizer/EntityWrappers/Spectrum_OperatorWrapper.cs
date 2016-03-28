@@ -29,20 +29,20 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public double StartTime
         {
-            get { return OperatorDataParser.GetDouble(WrappedOperator, PropertyNames.StartTime); }
-            set { OperatorDataParser.SetValue(WrappedOperator, PropertyNames.StartTime, value); }
+            get { return DataPropertyParser.GetDouble(WrappedOperator, PropertyNames.StartTime); }
+            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.StartTime, value); }
         }
 
         public double EndTime
         {
-            get { return OperatorDataParser.GetDouble(WrappedOperator, PropertyNames.EndTime); }
-            set { OperatorDataParser.SetValue(WrappedOperator, PropertyNames.EndTime, value); }
+            get { return DataPropertyParser.GetDouble(WrappedOperator, PropertyNames.EndTime); }
+            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.EndTime, value); }
         }
 
         public int FrequencyCount
         {
-            get { return OperatorDataParser.GetInt32(WrappedOperator, PropertyNames.FrequencyCount); }
-            set { OperatorDataParser.SetValue(WrappedOperator, PropertyNames.FrequencyCount, value); }
+            get { return DataPropertyParser.GetInt32(WrappedOperator, PropertyNames.FrequencyCount); }
+            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.FrequencyCount, value); }
         }
 
         public override string GetInletDisplayName(int listIndex)

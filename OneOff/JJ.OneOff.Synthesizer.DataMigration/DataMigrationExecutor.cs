@@ -482,8 +482,8 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                 {
                     Operator patchInlet = patchInlets[i];
 
-                    OperatorDataParser.RemoveKey(patchInlet, "DefaultValue");
-                    OperatorDataParser.RemoveKey(patchInlet, "InletTypeEnum");
+                    DataPropertyParser.RemoveKey(patchInlet, "DefaultValue");
+                    DataPropertyParser.RemoveKey(patchInlet, "InletTypeEnum");
 
                     string progressMessage = String.Format("Migrated PatchInlet Operator {0}/{1}.", i + 1, patchInlets.Count);
                     progressCallback(progressMessage);
@@ -522,7 +522,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
                     var wrapper = new PatchOutlet_OperatorWrapper(patchOutlet);
 
-                    OutletTypeEnum outletTypeEnum = OperatorDataParser.GetEnum<OutletTypeEnum>(patchOutlet, "OutletTypeEnum");
+                    OutletTypeEnum outletTypeEnum = DataPropertyParser.GetEnum<OutletTypeEnum>(patchOutlet, "OutletTypeEnum");
 
                     wrapper.Result.SetOutletTypeEnum(outletTypeEnum, repositories.OutletTypeRepository);
 
@@ -538,7 +538,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                         progressCallback("Exception!");
                     }
 
-                    OperatorDataParser.RemoveKey(patchOutlet, "OutletTypeEnum");
+                    DataPropertyParser.RemoveKey(patchOutlet, "OutletTypeEnum");
                 }
 
                 AssertDocuments(repositories, progressCallback);
@@ -629,11 +629,11 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                     // Convert parameter to inlets.
                     var averageWrapper = new Average_OperatorWrapper(op);
 
-                    double timeSliceDurationValue = OperatorDataParser.GetDouble(op, PropertyNames.TimeSliceDuration);
+                    double timeSliceDurationValue = DataPropertyParser.GetDouble(op, PropertyNames.TimeSliceDuration);
                     var timeSliceDurationNumberWrapper = patchManager.Number(timeSliceDurationValue);
                     averageWrapper.TimeSliceDuration = timeSliceDurationNumberWrapper;
 
-                    int sampleCountValue = OperatorDataParser.GetInt32(op, PropertyNames.SampleCount);
+                    int sampleCountValue = DataPropertyParser.GetInt32(op, PropertyNames.SampleCount);
                     var sampleCountNumberWrapper = patchManager.Number(sampleCountValue);
                     averageWrapper.SampleCount = sampleCountNumberWrapper;
 
@@ -672,11 +672,11 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                     // Convert parameter to inlets.
                     var minimumWrapper = new Minimum_OperatorWrapper(op);
 
-                    double timeSliceDurationValue = OperatorDataParser.GetDouble(op, PropertyNames.TimeSliceDuration);
+                    double timeSliceDurationValue = DataPropertyParser.GetDouble(op, PropertyNames.TimeSliceDuration);
                     var timeSliceDurationNumberWrapper = patchManager.Number(timeSliceDurationValue);
                     minimumWrapper.TimeSliceDuration = timeSliceDurationNumberWrapper;
 
-                    int sampleCountValue = OperatorDataParser.GetInt32(op, PropertyNames.SampleCount);
+                    int sampleCountValue = DataPropertyParser.GetInt32(op, PropertyNames.SampleCount);
                     var sampleCountNumberWrapper = patchManager.Number(sampleCountValue);
                     minimumWrapper.SampleCount = sampleCountNumberWrapper;
 
@@ -715,11 +715,11 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                     // Convert parameter to inlets.
                     var maximumWrapper = new Maximum_OperatorWrapper(op);
 
-                    double timeSliceDurationValue = OperatorDataParser.GetDouble(op, PropertyNames.TimeSliceDuration);
+                    double timeSliceDurationValue = DataPropertyParser.GetDouble(op, PropertyNames.TimeSliceDuration);
                     var timeSliceDurationNumberWrapper = patchManager.Number(timeSliceDurationValue);
                     maximumWrapper.TimeSliceDuration = timeSliceDurationNumberWrapper;
 
-                    int sampleCountValue = OperatorDataParser.GetInt32(op, PropertyNames.SampleCount);
+                    int sampleCountValue = DataPropertyParser.GetInt32(op, PropertyNames.SampleCount);
                     var sampleCountNumberWrapper = patchManager.Number(sampleCountValue);
                     maximumWrapper.SampleCount = sampleCountNumberWrapper;
 
@@ -728,6 +728,76 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                     ResultHelper.Assert(result);
 
                     string progressMessage = String.Format("Step 3/4: Migrated Maximum Operator {0}/{1}.", i + 1, maximumOperators.Count);
+                    progressCallback(progressMessage);
+                }
+
+                AssertDocuments(repositories, progressCallback);
+
+                context.Commit();
+            }
+
+            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        }
+
+        public static void Migrate_CacheOperators_ParametersToInlets(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                var patchManager = new PatchManager(new PatchRepositories(repositories));
+
+                IList<Operator> operators = repositories.OperatorRepository
+                                                               .GetAll()
+                                                               .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.Cache)
+                                                               .ToArray();
+                for (int i = 0; i < operators.Count; i++)
+                {
+                    Operator op = operators[i];
+
+                    bool mustMigrate = op.Inlets.Count == 1;
+                    if (!mustMigrate)
+                    {
+                        throw new Exception("Operator already migrated!");
+                    }
+
+                    patchManager.Patch = op.Patch;
+
+                    // Create extra inlets.
+                    int newInletCount = 4;
+                    for (int inletIndex = 1; inletIndex < newInletCount; inletIndex++)
+                    {
+                        Inlet inlet = patchManager.CreateInlet(op);
+                        inlet.ListIndex = inletIndex;
+                    }
+
+                    // Convert parameter to inlets.
+                    var wrapper = new Cache_OperatorWrapper(op);
+
+                    double startTimeValue = DataPropertyParser.GetDouble(op, PropertyNames.StartTime);
+                    var startTimeNumberWrapper = patchManager.Number(startTimeValue);
+                    wrapper.StartTime = startTimeNumberWrapper;
+
+                    double endTimeValue = DataPropertyParser.GetDouble(op, PropertyNames.EndTime);
+                    var endTimeNumberWrapper = patchManager.Number(endTimeValue);
+                    wrapper.EndTime = endTimeNumberWrapper;
+
+                    double samplingRateValue = DataPropertyParser.GetDouble(op, PropertyNames.SamplingRate);
+                    var samplingRateNumberWrapper = patchManager.Number(samplingRateValue);
+                    wrapper.SamplingRate = samplingRateNumberWrapper;
+
+                    DataPropertyParser.RemoveKey(op, PropertyNames.StartTime);
+                    DataPropertyParser.RemoveKey(op, PropertyNames.EndTime);
+                    DataPropertyParser.RemoveKey(op, PropertyNames.SamplingRate);
+
+                    VoidResult result = patchManager.SaveOperator(op);
+                    ResultHelper.Assert(result);
+
+                    string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
                     progressCallback(progressMessage);
                 }
 

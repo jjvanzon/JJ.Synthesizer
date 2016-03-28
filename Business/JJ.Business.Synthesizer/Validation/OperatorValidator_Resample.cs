@@ -8,14 +8,19 @@ namespace JJ.Business.Synthesizer.Validation
     internal class OperatorValidator_Resample : OperatorValidator_Base
     {
         public OperatorValidator_Resample(Operator obj)
-            : base(obj, OperatorTypeEnum.Resample, expectedInletCount: 2, expectedOutletCount: 1)
+            : base(
+                  obj, 
+                  OperatorTypeEnum.Resample, 
+                  expectedInletCount: 2, 
+                  expectedOutletCount: 1,
+                  expectedDataKeys: new string[] { PropertyNames.InterpolationType })
         { }
 
         protected override void Execute()
         {
             base.Execute();
 
-            string interpolationTypeString = OperatorDataParser.GetString(Object, PropertyNames.InterpolationType);
+            string interpolationTypeString = DataPropertyParser.GetString(Object, PropertyNames.InterpolationType);
 
             For(() => interpolationTypeString, PropertyDisplayNames.InterpolationType)
                 .NotNullOrEmpty()

@@ -13,7 +13,12 @@ namespace JJ.Business.Synthesizer.Validation
     internal class OperatorValidator_Curve : OperatorValidator_Base
     {
         public OperatorValidator_Curve(Operator op)
-            : base(op, OperatorTypeEnum.Curve, expectedInletCount: 0, expectedOutletCount: 1)
+            : base(
+                  op, 
+                  OperatorTypeEnum.Curve, 
+                  expectedInletCount: 0, 
+                  expectedOutletCount: 1,
+                  expectedDataKeys: new string[0])
         { }
 
         protected override void Execute()

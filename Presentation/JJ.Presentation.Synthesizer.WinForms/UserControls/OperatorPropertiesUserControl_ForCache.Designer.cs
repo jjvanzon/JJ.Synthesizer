@@ -35,12 +35,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.textBoxName = new System.Windows.Forms.TextBox();
             this.labelOperatorTypeTitle = new System.Windows.Forms.Label();
             this.labelOperatorTypeValue = new System.Windows.Forms.Label();
-            this.labelStartTime = new System.Windows.Forms.Label();
-            this.labelEndTime = new System.Windows.Forms.Label();
-            this.labelSamplingRate = new System.Windows.Forms.Label();
-            this.numericUpDownStartTime = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDownEndTime = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDownSamplingRate = new System.Windows.Forms.NumericUpDown();
             this.labelInterpolation = new System.Windows.Forms.Label();
             this.comboBoxInterpolation = new System.Windows.Forms.ComboBox();
             this.labelSpeakerSetup = new System.Windows.Forms.Label();
@@ -48,9 +42,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanelProperties.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownStartTime)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownEndTime)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSamplingRate)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel2
@@ -78,29 +69,23 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.tableLayoutPanelProperties.Controls.Add(this.textBoxName, 1, 1);
             this.tableLayoutPanelProperties.Controls.Add(this.labelOperatorTypeTitle, 0, 0);
             this.tableLayoutPanelProperties.Controls.Add(this.labelOperatorTypeValue, 1, 0);
-            this.tableLayoutPanelProperties.Controls.Add(this.labelStartTime, 0, 2);
-            this.tableLayoutPanelProperties.Controls.Add(this.labelEndTime, 0, 3);
-            this.tableLayoutPanelProperties.Controls.Add(this.labelSamplingRate, 0, 4);
-            this.tableLayoutPanelProperties.Controls.Add(this.numericUpDownStartTime, 1, 2);
-            this.tableLayoutPanelProperties.Controls.Add(this.numericUpDownEndTime, 1, 3);
-            this.tableLayoutPanelProperties.Controls.Add(this.numericUpDownSamplingRate, 1, 4);
-            this.tableLayoutPanelProperties.Controls.Add(this.labelInterpolation, 0, 5);
-            this.tableLayoutPanelProperties.Controls.Add(this.comboBoxInterpolation, 1, 5);
-            this.tableLayoutPanelProperties.Controls.Add(this.labelSpeakerSetup, 0, 6);
-            this.tableLayoutPanelProperties.Controls.Add(this.comboBoxSpeakerSetup, 1, 6);
+            this.tableLayoutPanelProperties.Controls.Add(this.labelInterpolation, 0, 2);
+            this.tableLayoutPanelProperties.Controls.Add(this.comboBoxInterpolation, 1, 2);
+            this.tableLayoutPanelProperties.Controls.Add(this.labelSpeakerSetup, 0, 3);
+            this.tableLayoutPanelProperties.Controls.Add(this.comboBoxSpeakerSetup, 1, 3);
             this.tableLayoutPanelProperties.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelProperties.Location = new System.Drawing.Point(4, 30);
             this.tableLayoutPanelProperties.Margin = new System.Windows.Forms.Padding(4);
             this.tableLayoutPanelProperties.Name = "tableLayoutPanelProperties";
-            this.tableLayoutPanelProperties.RowCount = 8;
-            this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanelProperties.RowCount = 5;
             this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanelProperties.Size = new System.Drawing.Size(10, 10);
             this.tableLayoutPanelProperties.TabIndex = 8;
             // 
@@ -146,122 +131,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelOperatorTypeValue.Text = "labelOperatorTypeValue";
             this.labelOperatorTypeValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // labelStartTime
-            // 
-            this.labelStartTime.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelStartTime.Location = new System.Drawing.Point(0, 60);
-            this.labelStartTime.Margin = new System.Windows.Forms.Padding(0);
-            this.labelStartTime.Name = "labelStartTime";
-            this.labelStartTime.Size = new System.Drawing.Size(147, 30);
-            this.labelStartTime.TabIndex = 14;
-            this.labelStartTime.Text = "labelStartTime";
-            this.labelStartTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // labelEndTime
-            // 
-            this.labelEndTime.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelEndTime.Location = new System.Drawing.Point(0, 90);
-            this.labelEndTime.Margin = new System.Windows.Forms.Padding(0);
-            this.labelEndTime.Name = "labelEndTime";
-            this.labelEndTime.Size = new System.Drawing.Size(147, 30);
-            this.labelEndTime.TabIndex = 15;
-            this.labelEndTime.Text = "labelEndTime";
-            this.labelEndTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // labelSamplingRate
-            // 
-            this.labelSamplingRate.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelSamplingRate.Location = new System.Drawing.Point(0, 120);
-            this.labelSamplingRate.Margin = new System.Windows.Forms.Padding(0);
-            this.labelSamplingRate.Name = "labelSamplingRate";
-            this.labelSamplingRate.Size = new System.Drawing.Size(147, 30);
-            this.labelSamplingRate.TabIndex = 16;
-            this.labelSamplingRate.Text = "labelSamplingRate";
-            this.labelSamplingRate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // numericUpDownStartTime
-            // 
-            this.numericUpDownStartTime.DecimalPlaces = 6;
-            this.numericUpDownStartTime.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.numericUpDownStartTime.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.numericUpDownStartTime.Location = new System.Drawing.Point(147, 60);
-            this.numericUpDownStartTime.Margin = new System.Windows.Forms.Padding(0);
-            this.numericUpDownStartTime.Maximum = new decimal(new int[] {
-            25000,
-            0,
-            0,
-            0});
-            this.numericUpDownStartTime.Minimum = new decimal(new int[] {
-            25000,
-            0,
-            0,
-            -2147483648});
-            this.numericUpDownStartTime.Name = "numericUpDownStartTime";
-            this.numericUpDownStartTime.Size = new System.Drawing.Size(10, 22);
-            this.numericUpDownStartTime.TabIndex = 21;
-            this.numericUpDownStartTime.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // numericUpDownEndTime
-            // 
-            this.numericUpDownEndTime.DecimalPlaces = 6;
-            this.numericUpDownEndTime.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.numericUpDownEndTime.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.numericUpDownEndTime.Location = new System.Drawing.Point(147, 90);
-            this.numericUpDownEndTime.Margin = new System.Windows.Forms.Padding(0);
-            this.numericUpDownEndTime.Maximum = new decimal(new int[] {
-            25000,
-            0,
-            0,
-            0});
-            this.numericUpDownEndTime.Minimum = new decimal(new int[] {
-            25000,
-            0,
-            0,
-            -2147483648});
-            this.numericUpDownEndTime.Name = "numericUpDownEndTime";
-            this.numericUpDownEndTime.Size = new System.Drawing.Size(10, 22);
-            this.numericUpDownEndTime.TabIndex = 22;
-            this.numericUpDownEndTime.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // numericUpDownSamplingRate
-            // 
-            this.numericUpDownSamplingRate.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.numericUpDownSamplingRate.Increment = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-            this.numericUpDownSamplingRate.Location = new System.Drawing.Point(147, 120);
-            this.numericUpDownSamplingRate.Margin = new System.Windows.Forms.Padding(0);
-            this.numericUpDownSamplingRate.Maximum = new decimal(new int[] {
-            1000000000,
-            0,
-            0,
-            0});
-            this.numericUpDownSamplingRate.Name = "numericUpDownSamplingRate";
-            this.numericUpDownSamplingRate.Size = new System.Drawing.Size(10, 22);
-            this.numericUpDownSamplingRate.TabIndex = 23;
-            // 
             // labelInterpolation
             // 
             this.labelInterpolation.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelInterpolation.Location = new System.Drawing.Point(0, 150);
+            this.labelInterpolation.Location = new System.Drawing.Point(0, 60);
             this.labelInterpolation.Margin = new System.Windows.Forms.Padding(0);
             this.labelInterpolation.Name = "labelInterpolation";
             this.labelInterpolation.Size = new System.Drawing.Size(147, 30);
@@ -274,7 +147,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.comboBoxInterpolation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.comboBoxInterpolation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxInterpolation.FormattingEnabled = true;
-            this.comboBoxInterpolation.Location = new System.Drawing.Point(147, 150);
+            this.comboBoxInterpolation.Location = new System.Drawing.Point(147, 60);
             this.comboBoxInterpolation.Margin = new System.Windows.Forms.Padding(0);
             this.comboBoxInterpolation.Name = "comboBoxInterpolation";
             this.comboBoxInterpolation.Size = new System.Drawing.Size(10, 24);
@@ -284,7 +157,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             this.labelSpeakerSetup.Cursor = System.Windows.Forms.Cursors.Default;
             this.labelSpeakerSetup.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelSpeakerSetup.Location = new System.Drawing.Point(0, 180);
+            this.labelSpeakerSetup.Location = new System.Drawing.Point(0, 90);
             this.labelSpeakerSetup.Margin = new System.Windows.Forms.Padding(0);
             this.labelSpeakerSetup.Name = "labelSpeakerSetup";
             this.labelSpeakerSetup.Size = new System.Drawing.Size(147, 30);
@@ -297,7 +170,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.comboBoxSpeakerSetup.Dock = System.Windows.Forms.DockStyle.Fill;
             this.comboBoxSpeakerSetup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxSpeakerSetup.FormattingEnabled = true;
-            this.comboBoxSpeakerSetup.Location = new System.Drawing.Point(147, 180);
+            this.comboBoxSpeakerSetup.Location = new System.Drawing.Point(147, 90);
             this.comboBoxSpeakerSetup.Margin = new System.Windows.Forms.Padding(0);
             this.comboBoxSpeakerSetup.Name = "comboBoxSpeakerSetup";
             this.comboBoxSpeakerSetup.Size = new System.Drawing.Size(10, 24);
@@ -332,9 +205,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanelProperties.ResumeLayout(false);
             this.tableLayoutPanelProperties.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownStartTime)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownEndTime)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSamplingRate)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -348,12 +218,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private System.Windows.Forms.TextBox textBoxName;
         private System.Windows.Forms.Label labelOperatorTypeTitle;
         private System.Windows.Forms.Label labelOperatorTypeValue;
-        private System.Windows.Forms.Label labelStartTime;
-        private System.Windows.Forms.Label labelEndTime;
-        private System.Windows.Forms.Label labelSamplingRate;
-        private System.Windows.Forms.NumericUpDown numericUpDownStartTime;
-        private System.Windows.Forms.NumericUpDown numericUpDownEndTime;
-        private System.Windows.Forms.NumericUpDown numericUpDownSamplingRate;
         private System.Windows.Forms.Label labelInterpolation;
         private System.Windows.Forms.ComboBox comboBoxInterpolation;
         private System.Windows.Forms.Label labelSpeakerSetup;

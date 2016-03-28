@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Warnings
         protected override void Execute()
         {
             double number;
-            if (Doubles.TryParse(Object.Data, OperatorDataParser.FormattingCulture, out number))
+            if (Doubles.TryParse(Object.Data, DataPropertyParser.FormattingCulture, out number))
             {
                 if (number == 0.0)
                 {

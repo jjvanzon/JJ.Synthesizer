@@ -412,6 +412,24 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Data Key.
+        /// </summary>
+        public static string DataKey {
+            get {
+                return ResourceManager.GetString("DataKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Data Keys.
+        /// </summary>
+        public static string DataKeys {
+            get {
+                return ResourceManager.GetString("DataKeys", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to dB Gain.
         /// </summary>
         public static string DBGain {

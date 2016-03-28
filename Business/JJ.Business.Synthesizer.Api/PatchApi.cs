@@ -58,9 +58,9 @@ namespace JJ.Business.Synthesizer.Api
 
         public Cache_OperatorWrapper Cache(
             Outlet signal = null,
-            double startTime = 0.0,
-            double endTime = 1.0,
-            int samplingRate = 44100,
+            Outlet startTime = null,
+            Outlet endTime = null,
+            Outlet samplingRate = null,
             InterpolationTypeEnum interpolationTypeEnum = InterpolationTypeEnum.Line,
             SpeakerSetupEnum speakerSetupEnum = SpeakerSetupEnum.Mono)
         {

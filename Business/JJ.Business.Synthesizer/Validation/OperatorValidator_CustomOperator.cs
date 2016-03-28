@@ -176,7 +176,7 @@ namespace JJ.Business.Synthesizer.Validation
 
         private static int? TryGetListIndex(Operator patchInletOrPatchOutletOperator)
         {
-            string listIndex_String = OperatorDataParser.GetString(patchInletOrPatchOutletOperator, PropertyNames.ListIndex);
+            string listIndex_String = DataPropertyParser.GetString(patchInletOrPatchOutletOperator, PropertyNames.ListIndex);
 
             if (!String.IsNullOrEmpty(listIndex_String))
             {

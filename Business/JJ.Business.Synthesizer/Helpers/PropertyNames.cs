@@ -41,6 +41,8 @@ namespace JJ.Business.Synthesizer.Helpers
         public const string ListIndex = "ListIndex";
         public const string LiteralFrequencies = "LiteralFrequencies";
         public const string Name = "Name";
+        public const string DataKeys = "DataKeys";
+        public const string DataKey = "DataKey";
         public const string Outlet = "Outlet";
         public const string OutletCount = "OutletCount";
         public const string Outlets = "Outlets";

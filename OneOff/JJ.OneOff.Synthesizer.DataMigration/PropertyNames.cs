@@ -10,5 +10,8 @@ namespace JJ.OneOff.Synthesizer.DataMigration
     {
         public const string TimeSliceDuration = "TimeSliceDuration";
         public const string SampleCount = "SampleCount";
+        public const string StartTime = "StartTime";
+        public const string EndTime = "EndTime";
+        public const string SamplingRate = "SamplingRate";
     }
 }

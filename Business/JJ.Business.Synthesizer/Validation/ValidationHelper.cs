@@ -23,5 +23,11 @@ namespace JJ.Business.Synthesizer.Validation
 
             return op.ID.ToString();
         }
+
+        public static string GetDataKeyIdentifier(string dataKey)
+        {
+            // TODO: The order of the placeholders might not work in every language.
+            return String.Format("{0} '{1}'", PropertyDisplayNames.DataKey, dataKey);
+        }
     }
 }

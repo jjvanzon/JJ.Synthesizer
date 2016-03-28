@@ -22,8 +22,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public double Number
         {
-            get { return Double.Parse(WrappedOperator.Data, OperatorDataParser.FormattingCulture); }
-            set { WrappedOperator.Data = value.ToString(OperatorDataParser.FormattingCulture); }
+            get { return Double.Parse(WrappedOperator.Data, DataPropertyParser.FormattingCulture); }
+            set { WrappedOperator.Data = value.ToString(DataPropertyParser.FormattingCulture); }
         }
 
         public static implicit operator Outlet(Number_OperatorWrapper wrapper)

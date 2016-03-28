@@ -11,24 +11,34 @@ namespace JJ.Business.Synthesizer.Validation
     internal class OperatorValidator_Spectrum : OperatorValidator_Base
     {
         public OperatorValidator_Spectrum(Operator obj)
-            : base(obj, OperatorTypeEnum.Spectrum, expectedInletCount: 1, expectedOutletCount: 1)
+            : base(
+                  obj, 
+                  OperatorTypeEnum.Spectrum, 
+                  expectedInletCount: 1, 
+                  expectedOutletCount: 1,
+                  expectedDataKeys: new string[] 
+                  {
+                      PropertyNames.StartTime,
+                      PropertyNames.EndTime,
+                      PropertyNames.FrequencyCount
+                  })
         { }
 
         protected override void Execute()
         {
             base.Execute();
 
-            string startTimeString = OperatorDataParser.GetString(Object, PropertyNames.StartTime);
-            string endTimeString = OperatorDataParser.GetString(Object, PropertyNames.EndTime);
-            string frequencyCountString = OperatorDataParser.GetString(Object, PropertyNames.FrequencyCount);
+            string startTimeString = DataPropertyParser.GetString(Object, PropertyNames.StartTime);
+            string endTimeString = DataPropertyParser.GetString(Object, PropertyNames.EndTime);
+            string frequencyCountString = DataPropertyParser.GetString(Object, PropertyNames.FrequencyCount);
 
-            For(() => startTimeString, PropertyDisplayNames.StartTime, OperatorDataParser.FormattingCulture)
+            For(() => startTimeString, PropertyDisplayNames.StartTime, DataPropertyParser.FormattingCulture)
                 .NotNullOrEmpty()
                 .IsDouble()
                 .NotInfinity()
                 .NotNaN();
 
-            For(() => endTimeString, PropertyDisplayNames.EndTime, OperatorDataParser.FormattingCulture)
+            For(() => endTimeString, PropertyDisplayNames.EndTime, DataPropertyParser.FormattingCulture)
                 .NotNullOrEmpty()
                 .IsDouble()
                 .NotInfinity()
@@ -39,10 +49,10 @@ namespace JJ.Business.Synthesizer.Validation
                 .IsInteger();
 
             double startTime;
-            if (Doubles.TryParse(startTimeString, OperatorDataParser.FormattingCulture, out startTime))
+            if (Doubles.TryParse(startTimeString, DataPropertyParser.FormattingCulture, out startTime))
             {
                 double endTime;
-                if (Doubles.TryParse(endTimeString, OperatorDataParser.FormattingCulture, out endTime))
+                if (Doubles.TryParse(endTimeString, DataPropertyParser.FormattingCulture, out endTime))
                 {
                     if (endTime < startTime)
                     {

@@ -8,14 +8,19 @@ namespace JJ.Business.Synthesizer.Validation
     internal class OperatorValidator_Filter : OperatorValidator_Base
     {
         public OperatorValidator_Filter(Operator obj)
-            : base(obj, OperatorTypeEnum.Filter, expectedInletCount: 5, expectedOutletCount: 1)
+            : base(
+                  obj, 
+                  OperatorTypeEnum.Filter, 
+                  expectedInletCount: 5, 
+                  expectedOutletCount: 1,
+                  expectedDataKeys: new string[] { PropertyNames.FilterType })
         { }
 
         protected override void Execute()
         {
             base.Execute();
 
-            string filterTypeString = OperatorDataParser.GetString(Object, PropertyNames.FilterType);
+            string filterTypeString = DataPropertyParser.GetString(Object, PropertyNames.FilterType);
 
             For(() => filterTypeString, PropertyDisplayNames.FilterType)
                 .NotNullOrEmpty()

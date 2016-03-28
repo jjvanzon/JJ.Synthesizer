@@ -7,9 +7,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
     {
         public int PatchID { get; internal set; }
         public string Name { get; set; }
-        public double StartTime { get; set; }
-        public double EndTime { get; set; }
-        public int SamplingRate { get; set; }
         public IDAndName Interpolation { get; set; }
         public IList<IDAndName> InterpolationLookup { get; set; }
         public IDAndName SpeakerSetup { get; set; }

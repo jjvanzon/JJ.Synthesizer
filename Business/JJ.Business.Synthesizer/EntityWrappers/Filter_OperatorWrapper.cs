@@ -52,8 +52,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public FilterTypeEnum FilterTypeEnum
         {
-            get { return OperatorDataParser.GetEnum<FilterTypeEnum>(WrappedOperator, PropertyNames.FilterType); }
-            set { OperatorDataParser.SetValue(WrappedOperator, PropertyNames.FilterType, value); }
+            get { return DataPropertyParser.GetEnum<FilterTypeEnum>(WrappedOperator, PropertyNames.FilterType); }
+            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.FilterType, value); }
         }
 
         public Outlet Result

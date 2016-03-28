@@ -40,9 +40,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             labelName.Text = CommonTitles.Name;
             labelOperatorTypeTitle.Text = Titles.Type + ":";
-            labelStartTime.Text = PropertyDisplayNames.StartTime;
-            labelEndTime.Text = PropertyDisplayNames.EndTime;
-            labelSamplingRate.Text = PropertyDisplayNames.SamplingRate;
             labelInterpolation.Text = PropertyDisplayNames.Interpolation;
             labelSpeakerSetup.Text = PropertyDisplayNames.SpeakerSetup;
 
@@ -59,9 +56,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (ViewModel == null) return;
 
             textBoxName.Text = ViewModel.Name;
-            numericUpDownStartTime.Value = (decimal)ViewModel.StartTime;
-            numericUpDownEndTime.Value = (decimal)ViewModel.EndTime;
-            numericUpDownSamplingRate.Value = ViewModel.SamplingRate;
 
             // Interpolation
             if (comboBoxInterpolation.DataSource == null)
@@ -103,9 +97,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (ViewModel == null) return;
 
             ViewModel.Name = textBoxName.Text;
-            ViewModel.StartTime = (double)numericUpDownStartTime.Value;
-            ViewModel.EndTime = (double)numericUpDownEndTime.Value;
-            ViewModel.SamplingRate = (int)numericUpDownSamplingRate.Value;
             ViewModel.Interpolation = (IDAndName)comboBoxInterpolation.SelectedItem;
             ViewModel.SpeakerSetup = (IDAndName)comboBoxSpeakerSetup.SelectedItem;
         }
