@@ -10,43 +10,37 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public class Cache_OperatorWrapper : OperatorWrapperBase
     {
-        private const int SIGNAL_INDEX = 0;
-        private const int START_TIME_INDEX = 1;
-        private const int END_TIME_INDEX = 2;
-        private const int SAMPLING_RATE_INDEX = 3;
-        private const int RESULT_INDEX = 0;
-
         public Cache_OperatorWrapper(Operator op)
             : base(op)
         { }
 
         public Outlet Signal
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, SIGNAL_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OperatorConstants.CACHE_SIGNAL_INDEX); }
+            set { OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CACHE_SIGNAL_INDEX).LinkTo(value); }
         }
 
         public Outlet StartTime
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, START_TIME_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, START_TIME_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OperatorConstants.CACHE_START_TIME_INDEX); }
+            set { OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CACHE_START_TIME_INDEX).LinkTo(value); }
         }
 
         public Outlet EndTime
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, END_TIME_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, END_TIME_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OperatorConstants.CACHE_END_TIME_INDEX); }
+            set { OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CACHE_END_TIME_INDEX).LinkTo(value); }
         }
 
         public Outlet SamplingRate
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, SAMPLING_RATE_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, SAMPLING_RATE_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OperatorConstants.CACHE_SAMPLING_RATE_INDEX); }
+            set { OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CACHE_SAMPLING_RATE_INDEX).LinkTo(value); }
         }
 
         public Outlet Result
         {
-            get { return OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX); }
+            get { return OperatorHelper.GetOutlet(WrappedOperator, OperatorConstants.CACHE_RESULT_INDEX); }
         }
 
         public InterpolationTypeEnum InterpolationTypeEnum
@@ -65,25 +59,25 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         {
             switch (listIndex)
             {
-                case SIGNAL_INDEX:
+                case OperatorConstants.CACHE_SIGNAL_INDEX:
                     {
                         string name = ResourceHelper.GetPropertyDisplayName(() => Signal);
                         return name;
                     }
 
-                case START_TIME_INDEX:
+                case OperatorConstants.CACHE_START_TIME_INDEX:
                     {
                         string name = ResourceHelper.GetPropertyDisplayName(() => StartTime);
                         return name;
                     }
 
-                case END_TIME_INDEX:
+                case OperatorConstants.CACHE_END_TIME_INDEX:
                     {
                         string name = ResourceHelper.GetPropertyDisplayName(() => EndTime);
                         return name;
                     }
 
-                case SAMPLING_RATE_INDEX:
+                case OperatorConstants.CACHE_SAMPLING_RATE_INDEX:
                     {
                         string name = ResourceHelper.GetPropertyDisplayName(() => SamplingRate);
                         return name;

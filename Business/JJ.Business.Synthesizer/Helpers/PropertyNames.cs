@@ -55,6 +55,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public const string Samples = "Samples";
         public const string Scales = "Scales";
         public const string SemiTones = "SemiTones";
+        public const string Signal = "Signal";
         public const string SpeakerSetup = "SpeakerSetup";
         public const string StartTime = "StartTime";
         public const string TimeSliceDuration = "TimeSliceDuration";

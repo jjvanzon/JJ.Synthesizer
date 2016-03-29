@@ -350,6 +350,7 @@
     <Compile Include="SampleManager.cs" />
     <Compile Include="ScaleManager.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Absolute.cs" />
+    <Compile Include="Warnings\2016-03-30 Backup of OperatorWarningValidator_Cache.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_OneOverX.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Negative.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Round.cs" />

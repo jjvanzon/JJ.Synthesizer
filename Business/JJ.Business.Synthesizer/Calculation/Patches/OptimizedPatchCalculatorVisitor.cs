@@ -345,18 +345,35 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double signal = signalCalculator.Calculate(0, 0);
             double startTime = startDateCalculator.Calculate(0, 0);
             double endTime = endDateCalculator.Calculate(0, 0);
-            int samplingRate = (int)samplingRateCalculator.Calculate(0, 0); // TODO: This is a little harsh, for a user input error.
+            double samplingRate = samplingRateCalculator.Calculate(0, 0);
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
 
-            if (signalIsConst)
+            // We need a lot of lenience in this code, because validity is dependent on user input,
+            // and this validity cannot be checked on the entity level, only when starting the calculation.
+            // In theory I could generate additional messages in the calculation optimization process,
+            // but we should keep it possible to reoptimize in runtime, and we cannot obtrusively interrupt
+            // the user with validation messages, because he is busy making music and the show must go on.
+            bool startTimeIsValid = !Double.IsNaN(startTime) && !Double.IsInfinity(startTime);
+            bool endTimeIsValid = !Double.IsNaN(endTime) && !Double.IsInfinity(endTime);
+            bool samplingRateIsValid = CalculationHelper.CanCastToInt32(samplingRate) && (int)samplingRate > 0;
+            bool startTimeComparedToEndTimeIsValid = endTime > startTime;
+            bool valuesAreValid = startTimeIsValid &&
+                                  endTimeIsValid &&
+                                  samplingRateIsValid &&
+                                  startTimeComparedToEndTimeIsValid;
+            if (!valuesAreValid)
+            {
+                calculator = new Number_OperatorCalculator(Double.NaN);
+            }
+            else if (signalIsConst)
             {
                 calculator = signalCalculator;
             }
             else
             {
                 IList<ArrayCalculatorBase> arrayCalculators = _calculatorCache.GetCacheArrayCalculators(
-                    op, signalCalculator, startTime, endTime, samplingRate, _speakerSetupRepository);
+                    op, signalCalculator, startTime, endTime, (int)samplingRate, _speakerSetupRepository);
 
                 var wrapper = new Cache_OperatorWrapper(op);
                 bool hasMinTime = startTime != 0.0;
@@ -494,7 +511,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     else
                     {
                         // arrayCalculators.Count != 1
-
 
                         switch (interpolationTypeEnum)
                         {

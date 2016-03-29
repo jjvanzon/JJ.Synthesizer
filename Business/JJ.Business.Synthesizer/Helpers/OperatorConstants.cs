@@ -2,6 +2,11 @@
 {
     internal static class OperatorConstants
     {
+        public const int CACHE_SIGNAL_INDEX = 0;
+        public const int CACHE_START_TIME_INDEX = 1;
+        public const int CACHE_END_TIME_INDEX = 2;
+        public const int CACHE_SAMPLING_RATE_INDEX = 3;
+        public const int CACHE_RESULT_INDEX = 0;
         public const int LOOP_SIGNAL_INDEX = 0;
         public const int LOOP_SKIP_INDEX = 1;
         public const int LOOP_LOOP_START_MARKER_INDEX = 2;

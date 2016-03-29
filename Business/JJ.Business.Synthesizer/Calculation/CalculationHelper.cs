@@ -27,5 +27,13 @@ namespace JJ.Business.Synthesizer.Calculation
                    !Double.IsNaN(value) &&
                    !Double.IsInfinity(value);
         }
+
+        public static bool CanCastToInt32(double value)
+        {
+            return value >= Int32.MinValue &&
+                   value <= Int32.MaxValue &&
+                   !Double.IsNaN(value) &&
+                   !Double.IsInfinity(value);
+        }
     }
 }

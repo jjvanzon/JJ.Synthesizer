@@ -84,6 +84,7 @@ namespace JJ.Business.Synthesizer.Calculation
         /// so if you have to something with the concrete type,
         /// you only have to check one of them.
         /// </summary>
+        /// <param name="samplingRate">greater than 0</param>
         internal IList<ArrayCalculatorBase> GetCacheArrayCalculators(
             Operator op, 
             OperatorCalculatorBase signalCalculator,
@@ -121,6 +122,8 @@ namespace JJ.Business.Synthesizer.Calculation
             }
         }
 
+        // TODO: Low priorty: why is rate an int in GetCacheArrayCalculators, but a double in CreateCacheArrayCalculators?
+
         private IList<ArrayCalculatorBase> CreateCacheArrayCalculators(
             OperatorCalculatorBase signalCalculator,
             int channelCount, double startTime, double endTime, double rate,
@@ -134,7 +137,7 @@ namespace JJ.Business.Synthesizer.Calculation
             if (Double.IsInfinity(startTime)) throw new InfinityException(() => startTime);
             if (Double.IsNaN(rate)) throw new NaNException(() => rate);
             if (Double.IsInfinity(rate)) throw new InfinityException(() => rate);
-            if (rate == 0.0) throw new ZeroException(() => rate);
+            if (rate <= 0.0) throw new LessThanOrEqualException(() => rate, 0.0);
             if (endTime <= startTime) throw new LessThanOrEqualException(() => endTime, () => startTime);
 
             double duration = endTime - startTime;
