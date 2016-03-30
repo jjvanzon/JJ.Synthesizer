@@ -227,6 +227,8 @@ namespace JJ.Business.Synthesizer
             _repositories.OperatorRepository.Insert(op);
 
             var wrapper = new CustomOperator_OperatorWrapper(op, _repositories.PatchRepository);
+            // Necessary to set Operator.Data to 'UnderlyingPatchID='.
+            wrapper.UnderlyingPatch = null;
 
             op.LinkTo(Patch);
 

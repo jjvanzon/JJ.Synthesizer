@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
@@ -22,26 +24,38 @@ namespace JJ.Business.Synthesizer.Helpers
             public string Value { get; private set; }
         }
 
+        /// <summary>
+        /// Whatever I try, I just cannot make the last semi-colon optional.
+        /// Not sure what I am doing wrong, so I am going to work around it.
+        /// </summary>
+        private static Regex _regex_WithExcessiveSemiColonAtTheEnd = CreateRegex_WithExcessiveSemiColonAtTheEnd();
+
+        private static Regex CreateRegex_WithExcessiveSemiColonAtTheEnd()
+        {
+            var regex = new Regex("^([^;=]+=[^;=]*;)*$", RegexOptions.Compiled);
+            return regex;
+        }
+
         public static bool DataIsWellFormed(Operator op)
         {
             if (op == null) throw new NullException(() => op);
+
             bool dataIsWellFormed = DataIsWellFormed(op.Data);
+
             return dataIsWellFormed;
         }
 
         public static bool DataIsWellFormed(string data)
         {
-            // TODO: Do this with a better performing solution, not dependent on exception handling, e.g. with a Regex.
-            try
+            if (String.IsNullOrEmpty(data))
             {
-                Parse(data);
-            }
-            catch
-            {
-                return false;
+                return true;
             }
 
-            return true;
+            string dataWithExtraSemiColon = data + ";";
+
+            bool isMatch = _regex_WithExcessiveSemiColonAtTheEnd.IsMatch(dataWithExtraSemiColon);
+            return isMatch;
         }
 
         private static CultureInfo _formattingCulture = new CultureInfo("en-US");
@@ -147,6 +161,13 @@ namespace JJ.Business.Synthesizer.Helpers
             return result.Value;
         }
 
+        public static IList<string> GetKeys(Operator op)
+        {
+            IList<ParsedKeyValuePair> results = Parse(op.Data);
+            IList<string> keys = results.Select(x => x.Key).ToArray();
+            return keys;
+        }
+
         public static void SetValue(Operator op, string key, object value)
         {
             IList<ParsedKeyValuePair> results = Parse(op.Data);
@@ -172,13 +193,6 @@ namespace JJ.Business.Synthesizer.Helpers
             string data = Format(results);
 
             op.Data = data;
-        }
-
-        public static IList<string> GetKeys(Operator op)
-        {
-            IList<ParsedKeyValuePair> results = Parse(op.Data);
-            IList<string> keys = results.Select(x => x.Key).ToArray();
-            return keys;
         }
 
         private static IList<ParsedKeyValuePair> Parse(string data)
@@ -209,7 +223,7 @@ namespace JJ.Business.Synthesizer.Helpers
 
             if (keyAndValueSplit.Length != 2)
             {
-                throw new Exception(String.Format("keyValueString in data must have an '=' in it. keyValueString = '{0} ', data = '{1}'.", keyValueString, data));
+                throw new Exception(String.Format("keyValueString in data must have an '=' character in it. keyValueString = '{0} ', data = '{1}'.", keyValueString, data));
             }
 
             string key = keyAndValueSplit[0];
@@ -218,10 +232,32 @@ namespace JJ.Business.Synthesizer.Helpers
             return new ParsedKeyValuePair(key, value);
         }
 
-        private static string Format(IList<ParsedKeyValuePair> results)
+        private static string Format(IList<ParsedKeyValuePair> parsedKeyValuePairs)
         {
-            string str = String.Join(";", results.Select(x => String.Format(_formattingCulture, "{0}={1}", x.Key, x.Value)));
+            var sb = new StringBuilder();
+
+            for (int i = 0; i < parsedKeyValuePairs.Count; i++)
+            {
+                ParsedKeyValuePair parsedKeyValuePair = parsedKeyValuePairs[i];
+                AssertParsedKeyValuePair(parsedKeyValuePair);
+            }
+
+            string str = String.Join(";", parsedKeyValuePairs.Select(x => String.Format(_formattingCulture, "{0}={1}", x.Key, x.Value)));
             return str;
+        }
+
+        private static void AssertParsedKeyValuePair(ParsedKeyValuePair parsedKeyValuePair)
+        {
+            if (parsedKeyValuePair == null) throw new NullException(() => parsedKeyValuePair);
+
+            AssertKeyOrValue(parsedKeyValuePair.Key);
+            AssertKeyOrValue(parsedKeyValuePair.Value);
+        }
+
+        private static void AssertKeyOrValue(string keyOrValue)
+        {
+            if (keyOrValue.Contains(';')) throw new Exception("keyOrValue cannot contain ';' character");
+            if (keyOrValue.Contains('=')) throw new Exception("keyOrValue cannot contain '=' character");
         }
     }
 }

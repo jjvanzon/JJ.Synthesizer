@@ -17,7 +17,9 @@ namespace JJ.Business.Synthesizer.Validation
     /// <summary> Does not derive from OperatorValidator_Base, because CustomOperator has very specific requirements. </summary>
     internal class OperatorValidator_CustomOperator : FluentValidator<Operator>
     {
-        private IPatchRepository _patchRepository;
+        private static readonly string[] _expectedDataKeys = new string[] { PropertyNames.UnderlyingPatchID };
+    
+        private readonly IPatchRepository _patchRepository;
 
         public OperatorValidator_CustomOperator(Operator op, IPatchRepository patchRepository)
             : base(op, postponeExecute: true)
@@ -50,14 +52,9 @@ namespace JJ.Business.Synthesizer.Validation
             ValidateInletNamesUnique();
             ValidateOutletNamesUnique();
 
-            // TODO: I need a separate validator for the data keys, 
-            // the validation of which is now embedded into OperatorValidator_Base,
-            // which we do not inherit from here.
-            if (!DataPropertyParser.DataIsWellFormed(op))
-            {
-                ValidationMessages.AddIsInvalidMessage(() => op.Data, PropertyDisplayNames.Data);
-            }
-            else
+            Execute(new OperatorValidator_Data(op, _expectedDataKeys));
+
+            if (DataPropertyParser.DataIsWellFormed(op))
             {
                 string underlyingPatchIDString = DataPropertyParser.TryGetString(op, PropertyNames.UnderlyingPatchID);
 

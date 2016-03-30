@@ -17,29 +17,11 @@ namespace JJ.Business.Synthesizer.Validation
     /// <summary> Validates the inlet and outlet ListIndexes and that the inlet names are NOT filled in. </summary>
     public abstract class OperatorValidator_Base : FluentValidator<Operator>
     {
-        private readonly static int? _dataMaxLength = GetDataMaxLength();
-
         private OperatorTypeEnum _expectedOperatorTypeEnum;
         private int _expectedInletCount;
         private int _expectedOutletCount;
 
-        /// <summary> HashSet for unicity and value comparisons. </summary>
-        private HashSet<string> _expectedDataKeysHashSet;
-
-        // This overload for syntactic sugar only promotes errors.
-        //public OperatorValidator_Base(
-        //    Operator obj,
-        //    OperatorTypeEnum expectedOperatorTypeEnum,
-        //    int expectedInletCount,
-        //    int expectedOutletCount,
-        //    params string[] expectedDataKeys)
-        //    : this(
-        //          obj,
-        //          expectedOperatorTypeEnum,
-        //          expectedInletCount,
-        //          expectedOutletCount,
-        //          (IList<string>)expectedDataKeys)
-        //{ }
+        private IList<string> _expectedDataKeys;
 
         public OperatorValidator_Base(
             Operator obj,
@@ -62,7 +44,7 @@ namespace JJ.Business.Synthesizer.Validation
             _expectedOperatorTypeEnum = expectedOperatorTypeEnum;
             _expectedInletCount = expectedInletCount;
             _expectedOutletCount = expectedOutletCount;
-            _expectedDataKeysHashSet = expectedDataKeys.ToHashSet();
+            _expectedDataKeys = expectedDataKeys;
 
             Execute();
         }
@@ -103,54 +85,7 @@ namespace JJ.Business.Synthesizer.Validation
                 }
             }
 
-            // Operator Data
-            if (_dataMaxLength.HasValue)
-            {
-                For(() => op.Data, PropertyDisplayNames.Data).MaxLength(_dataMaxLength.Value);
-            }
-
-            // Check well-formedness
-            if (!DataPropertyParser.DataIsWellFormed(Object))
-            {
-                ValidationMessages.AddIsInvalidMessage(() => op.Data, PropertyDisplayNames.Data);
-            }
-            else
-            {
-                IList<string> actualDataKeysList = DataPropertyParser.GetKeys(op); // List, not HashSet, so we can do a unicity check.
-
-                // Check unicity
-                int uniqueActualDataKeyCount = actualDataKeysList.Distinct().Count();
-                if (uniqueActualDataKeyCount != actualDataKeysList.Count)
-                {
-                    ValidationMessages.AddNotUniqueMessage(PropertyNames.DataKeys, PropertyDisplayNames.DataKeys);
-                }
-                else
-                {
-                    HashSet<string> actualDataKeysHashSet = actualDataKeysList.ToHashSet(); // HashSet, not List, so we can do value comparisons.
-
-                    foreach (string expectedDataKey in _expectedDataKeysHashSet)
-                    {
-                        // Check existence
-                        bool dataKeyExists = actualDataKeysHashSet.Contains(expectedDataKey);
-                        if (!dataKeyExists)
-                        {
-                            string dataKeyIdentifier = ValidationHelper.GetDataKeyIdentifier(expectedDataKey);
-                            ValidationMessages.AddNotExistsMessage(PropertyNames.DataKey, dataKeyIdentifier);
-                        }
-                    }
-
-                    foreach (string actualDataKey in actualDataKeysHashSet)
-                    {
-                        // Check non-existence
-                        bool dataKeyIsAllowed = _expectedDataKeysHashSet.Contains(actualDataKey);
-                        if (!dataKeyIsAllowed)
-                        {
-                            string dataKeyIdentifier = ValidationHelper.GetDataKeyIdentifier(actualDataKey);
-                            ValidationMessages.AddNotInListMessage(PropertyNames.DataKey, dataKeyIdentifier);
-                        }
-                    }
-                }
-            }
+            Execute(new OperatorValidator_Data(op, _expectedDataKeys));
         }
 
         private string GetPropertyDisplayName_ForInletCount()
@@ -161,11 +96,6 @@ namespace JJ.Business.Synthesizer.Validation
         private string GetPropertyDisplayName_ForOutletCount()
         {
             return CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Outlets);
-        }
-
-        private static int? GetDataMaxLength()
-        {
-            return ConfigurationHelper.GetSection<ConfigurationSection>().OperatorDataMaxLength;
         }
     }
 }
