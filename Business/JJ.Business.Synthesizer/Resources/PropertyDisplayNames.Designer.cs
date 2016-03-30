@@ -385,6 +385,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Curve ID.
+        /// </summary>
+        public static string CurveID {
+            get {
+                return ResourceManager.GetString("CurveID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Curves.
         /// </summary>
         public static string Curves {
@@ -1438,6 +1447,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sample ID.
+        /// </summary>
+        public static string SampleID {
+            get {
+                return ResourceManager.GetString("SampleID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Samples.
         /// </summary>
         public static string Samples {
@@ -1866,6 +1884,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string UnderlyingPatch {
             get {
                 return ResourceManager.GetString("UnderlyingPatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Underlying Patch ID.
+        /// </summary>
+        public static string UnderlyingPatchID {
+            get {
+                return ResourceManager.GetString("UnderlyingPatchID", resourceCulture);
             }
         }
         

@@ -18,15 +18,12 @@ namespace JJ.Business.Synthesizer.Warnings
             if (DataPropertyParser.DataIsWellFormed(Object.Data))
             {
                 string numberString = DataPropertyParser.TryGetString(Object, PropertyNames.Number);
-                if (!String.IsNullOrEmpty(numberString))
+                double number;
+                if (Doubles.TryParse(numberString, DataPropertyParser.FormattingCulture, out number))
                 {
-                    double number;
-                    if (Doubles.TryParse(numberString, DataPropertyParser.FormattingCulture, out number))
+                    if (number == 0.0)
                     {
-                        if (number == 0.0)
-                        {
-                            ValidationMessages.Add(() => Object.Data, MessageFormatter.NumberIs0WithName(Object.Name));
-                        }
+                        ValidationMessages.Add(() => Object.Data, MessageFormatter.NumberIs0WithName(Object.Name));
                     }
                 }
             }

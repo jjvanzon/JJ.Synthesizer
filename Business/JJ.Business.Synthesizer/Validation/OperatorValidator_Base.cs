@@ -109,12 +109,16 @@ namespace JJ.Business.Synthesizer.Validation
                 For(() => op.Data, PropertyDisplayNames.Data).MaxLength(_dataMaxLength.Value);
             }
 
-            // HACK: Temporary (2016-03-28) to make it work for operators that just dump a number in the Data property, instead of encoded key-value pairs.
-            bool mustValidateDataKeys = _expectedDataKeysHashSet.Count != 0;
-            if (mustValidateDataKeys)
+            // Check well-formedness
+            if (!DataPropertyParser.DataIsWellFormed(Object))
+            {
+                ValidationMessages.AddIsInvalidMessage(() => op.Data, PropertyDisplayNames.Data);
+            }
+            else
             {
                 IList<string> actualDataKeysList = DataPropertyParser.GetKeys(op); // List, not HashSet, so we can do a unicity check.
 
+                // Check unicity
                 int uniqueActualDataKeyCount = actualDataKeysList.Distinct().Count();
                 if (uniqueActualDataKeyCount != actualDataKeysList.Count)
                 {
@@ -126,6 +130,7 @@ namespace JJ.Business.Synthesizer.Validation
 
                     foreach (string expectedDataKey in _expectedDataKeysHashSet)
                     {
+                        // Check existence
                         bool dataKeyExists = actualDataKeysHashSet.Contains(expectedDataKey);
                         if (!dataKeyExists)
                         {
@@ -136,6 +141,7 @@ namespace JJ.Business.Synthesizer.Validation
 
                     foreach (string actualDataKey in actualDataKeysHashSet)
                     {
+                        // Check non-existence
                         bool dataKeyIsAllowed = _expectedDataKeysHashSet.Contains(actualDataKey);
                         if (!dataKeyIsAllowed)
                         {

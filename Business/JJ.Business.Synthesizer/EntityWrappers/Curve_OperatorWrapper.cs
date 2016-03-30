@@ -22,8 +22,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public int? CurveID
         {
-            get { return ConversionHelper.ParseNullableInt32(WrappedOperator.Data); }
-            set { WrappedOperator.Data = Convert.ToString(value); }
+            get { return DataPropertyParser.TryGetInt32(WrappedOperator, PropertyNames.CurveID); }
+            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.CurveID, value); }
         }
 
         /// <summary> nullable </summary>

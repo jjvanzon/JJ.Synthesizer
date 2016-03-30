@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Resources;
+﻿using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Warnings
@@ -13,7 +14,13 @@ namespace JJ.Business.Synthesizer.Warnings
         {
             base.Execute();
 
-            For(() => Object.Data, PropertyDisplayNames.Sample).NotNull();
+            if (DataPropertyParser.DataIsWellFormed(Object.Data))
+            {
+                string sampleIDString = DataPropertyParser.TryGetString(Object, PropertyNames.SampleID);
+
+                For(() => sampleIDString, PropertyDisplayNames.Sample)
+                    .NotNullOrEmpty();
+            }
         }
     }
 }

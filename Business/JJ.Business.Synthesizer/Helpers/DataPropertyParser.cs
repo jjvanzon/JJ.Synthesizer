@@ -209,7 +209,7 @@ namespace JJ.Business.Synthesizer.Helpers
 
             if (keyAndValueSplit.Length != 2)
             {
-                throw new Exception(String.Format("propertyString in data must have an '=' in it. propertyString = '{0} ', data = '{1}'.", keyValueString, data));
+                throw new Exception(String.Format("keyValueString in data must have an '=' in it. keyValueString = '{0} ', data = '{1}'.", keyValueString, data));
             }
 
             string key = keyAndValueSplit[0];

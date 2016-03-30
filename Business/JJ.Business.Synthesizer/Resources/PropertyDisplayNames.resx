@@ -749,4 +749,13 @@
   <data name="DataKeys" xml:space="preserve">
     <value>Data Keys</value>
   </data>
+  <data name="CurveID" xml:space="preserve">
+    <value>Curve ID</value>
+  </data>
+  <data name="SampleID" xml:space="preserve">
+    <value>Sample ID</value>
+  </data>
+  <data name="UnderlyingPatchID" xml:space="preserve">
+    <value>Underlying Patch ID</value>
+  </data>
 </root>

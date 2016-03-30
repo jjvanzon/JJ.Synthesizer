@@ -1,5 +1,7 @@
-﻿using JJ.Business.Synthesizer.Resources;
+﻿using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer;
+using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
@@ -11,8 +13,13 @@ namespace JJ.Business.Synthesizer.Warnings
 
         protected override void Execute()
         {
-            For(() => Object.Data, PropertyDisplayNames.Curve)
-                .NotNullOrEmpty();
+            if (DataPropertyParser.DataIsWellFormed(Object.Data))
+            {
+                string curveIDString = DataPropertyParser.TryGetString(Object, PropertyNames.CurveID);
+
+                For(() => curveIDString, PropertyDisplayNames.Curve)
+                    .NotNullOrEmpty();
+            }
         }
     }
 }

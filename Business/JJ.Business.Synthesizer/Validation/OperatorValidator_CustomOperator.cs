@@ -50,22 +50,33 @@ namespace JJ.Business.Synthesizer.Validation
             ValidateInletNamesUnique();
             ValidateOutletNamesUnique();
 
-            For(() => op.Data, PropertyDisplayNames.Data)
-                .IsInteger();
-
-            int underlyingPatchID;
-            if (Int32.TryParse(op.Data, out underlyingPatchID))
+            // TODO: I need a separate validator for the data keys, 
+            // the validation of which is now embedded into OperatorValidator_Base,
+            // which we do not inherit from here.
+            if (!DataPropertyParser.DataIsWellFormed(op))
             {
-                Patch underlyingPatch = _patchRepository.TryGet(underlyingPatchID);
-                if (underlyingPatch == null)
+                ValidationMessages.AddIsInvalidMessage(() => op.Data, PropertyDisplayNames.Data);
+            }
+            else
+            {
+                string underlyingPatchIDString = DataPropertyParser.TryGetString(op, PropertyNames.UnderlyingPatchID);
+
+                For(() => underlyingPatchIDString, PropertyDisplayNames.UnderlyingPatchID).IsInteger();
+
+                int underlyingPatchID;
+                if (Int32.TryParse(underlyingPatchIDString, out underlyingPatchID))
                 {
-                    ValidationMessages.Add(() => underlyingPatch, CommonMessageFormatter.ObjectNotFoundWithID(PropertyDisplayNames.UnderlyingPatch, underlyingPatchID));
-                }
-                else
-                {
-                    ValidateUnderlyingPatchReferenceConstraint(underlyingPatch);
-                    ValidateInletsAgainstUnderlyingPatch(underlyingPatch);
-                    ValidateOutletsAgainstUnderlyingPatch(underlyingPatch);
+                    Patch underlyingPatch = _patchRepository.TryGet(underlyingPatchID);
+                    if (underlyingPatch == null)
+                    {
+                        ValidationMessages.Add(() => underlyingPatch, CommonMessageFormatter.ObjectNotFoundWithID(PropertyDisplayNames.UnderlyingPatch, underlyingPatchID));
+                    }
+                    else
+                    {
+                        ValidateUnderlyingPatchReferenceConstraint(underlyingPatch);
+                        ValidateInletsAgainstUnderlyingPatch(underlyingPatch);
+                        ValidateOutletsAgainstUnderlyingPatch(underlyingPatch);
+                    }
                 }
             }
         }

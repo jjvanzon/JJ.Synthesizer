@@ -33,8 +33,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public int? UnderlyingPatchID
         {
-            get { return ConversionHelper.ParseNullableInt32(WrappedOperator.Data); }
-            set { WrappedOperator.Data = Convert.ToString(value); }
+            get { return DataPropertyParser.TryGetInt32(WrappedOperator, PropertyNames.UnderlyingPatchID); }
+            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.UnderlyingPatchID, value); }
         }
 
         /// <summary> nullable </summary>

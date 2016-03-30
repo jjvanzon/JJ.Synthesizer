@@ -31,8 +31,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public int? SampleID
         {
-            get { return ConversionHelper.ParseNullableInt32(WrappedOperator.Data); }
-            set { WrappedOperator.Data = Convert.ToString(value); }
+            get { return DataPropertyParser.TryGetInt32(WrappedOperator, PropertyNames.SampleID); }
+            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.SampleID, value); }
         }
 
         /// <summary> nullable </summary>

@@ -14,11 +14,11 @@ namespace JJ.Business.Synthesizer.Validation
     {
         public OperatorValidator_Curve(Operator op)
             : base(
-                  op, 
-                  OperatorTypeEnum.Curve, 
-                  expectedInletCount: 0, 
+                  op,
+                  OperatorTypeEnum.Curve,
+                  expectedInletCount: 0,
                   expectedOutletCount: 1,
-                  expectedDataKeys: new string[0])
+                  expectedDataKeys: new string[] { PropertyNames.CurveID })
         { }
 
         protected override void Execute()
@@ -27,36 +27,40 @@ namespace JJ.Business.Synthesizer.Validation
 
             Operator op = Object;
 
-            For(() => op.Data, PropertyDisplayNames.Data)
-                .IsInteger();
-
-            int curveID;
-            if (Int32.TryParse(op.Data, out curveID))
+            if (DataPropertyParser.DataIsWellFormed(op))
             {
-                // Check reference constraint of the Curve.
-                // (We are quite tollerant here: we omit the check if it is not in a patch or document.)
-                bool mustCheckReference = op.Patch != null && op.Patch.Document != null;
-                if (mustCheckReference)
+                string curveIDString = DataPropertyParser.TryGetString(op, PropertyNames.CurveID);
+
+                For(() => curveIDString, PropertyDisplayNames.CurveID).IsInteger();
+
+                int curveID;
+                if (Int32.TryParse(curveIDString, out curveID))
                 {
-                    bool isRootDocument = op.Patch.Document.ParentDocument == null;
-
-                    // If we're in a child document, we can reference the curves in both child document and root document,
-                    // if we are in the root document, the possible curves are only the ones in the root document.
-                    IEnumerable<Curve> curves;
-                    if (isRootDocument)
+                    // Check reference constraint of the Curve.
+                    // (We are quite tollerant here: we omit the check if it is not in a patch or document.)
+                    bool mustCheckReference = op.Patch != null && op.Patch.Document != null;
+                    if (mustCheckReference)
                     {
-                        curves = op.Patch.Document.Curves;
-                    }
-                    else
-                    {
-                        curves = op.Patch.Document.Curves.Union(op.Patch.Document.ParentDocument.Curves);
-                    }
+                        bool isRootDocument = op.Patch.Document.ParentDocument == null;
 
-                    bool isInList = curves.Any(x => x.ID == curveID);
+                        // If we're in a child document, we can reference the curves in both child document and root document,
+                        // if we are in the root document, the possible curves are only the ones in the root document.
+                        IEnumerable<Curve> curves;
+                        if (isRootDocument)
+                        {
+                            curves = op.Patch.Document.Curves;
+                        }
+                        else
+                        {
+                            curves = op.Patch.Document.Curves.Union(op.Patch.Document.ParentDocument.Curves);
+                        }
 
-                    if (!isInList)
-                    {
-                        ValidationMessages.Add(PropertyNames.Curve, MessageFormatter.NotFoundInList_WithItemName_AndID(PropertyDisplayNames.Curve, curveID));
+                        bool isInList = curves.Any(x => x.ID == curveID);
+
+                        if (!isInList)
+                        {
+                            ValidationMessages.Add(PropertyNames.Curve, MessageFormatter.NotFoundInList_WithItemName_AndID(PropertyDisplayNames.Curve, curveID));
+                        }
                     }
                 }
             }

@@ -1,6 +1,7 @@
 ﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer;
 using System;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
@@ -12,8 +13,13 @@ namespace JJ.Business.Synthesizer.Warnings
 
         protected override void Execute()
         {
-            For(() => Object.Data, PropertyDisplayNames.UnderlyingPatch)
-                .NotNull();
+            if (DataPropertyParser.DataIsWellFormed(Object.Data))
+            {
+                string underlyingPatchIDString = DataPropertyParser.TryGetString(Object, PropertyNames.UnderlyingPatchID);
+
+                For(() => underlyingPatchIDString, PropertyDisplayNames.UnderlyingPatch)
+                    .NotNullOrEmpty();
+            }
         }
     }
 }

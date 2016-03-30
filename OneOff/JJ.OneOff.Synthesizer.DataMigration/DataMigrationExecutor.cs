@@ -857,6 +857,113 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
         }
 
+        public static void Migrate_ReferenceOperators_FormatDataProperty(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                var patchManager = new PatchManager(new PatchRepositories(repositories));
+
+                {
+                    IList<Operator> curveOperators = repositories.OperatorRepository
+                                                                 .GetAll()
+                                                                 .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.Curve)
+                                                                 .ToArray();
+                    for (int i = 0; i < curveOperators.Count; i++)
+                    {
+                        Operator op = curveOperators[i];
+
+                        int? curveID = null;
+                        if (!String.IsNullOrEmpty(op.Data))
+                        {
+                            curveID = Int32.Parse(op.Data);
+                        }
+
+                        op.Data = null;
+
+                        var wrapper = new Curve_OperatorWrapper(op, repositories.CurveRepository);
+                        wrapper.CurveID = curveID;
+
+                        patchManager.Patch = op.Patch;
+                        VoidResult result = patchManager.SaveOperator(op);
+                        ResultHelper.Assert(result);
+
+                        string progressMessage = String.Format("Step 1: Migrated Curve Operator {0}/{1}.", i + 1, curveOperators.Count);
+                        progressCallback(progressMessage);
+                    }
+                }
+
+                {
+                    IList<Operator> sampleOperators = repositories.OperatorRepository
+                                                                  .GetAll()
+                                                                  .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.Sample)
+                                                                  .ToArray();
+                    for (int i = 0; i < sampleOperators.Count; i++)
+                    {
+                        Operator op = sampleOperators[i];
+
+                        int? sampleID = null;
+                        if (!String.IsNullOrEmpty(op.Data))
+                        {
+                            sampleID = Int32.Parse(op.Data);
+                        }
+                        
+                        op.Data = null;
+
+                        var wrapper = new Sample_OperatorWrapper(op, repositories.SampleRepository);
+                        wrapper.SampleID = sampleID;
+
+                        patchManager.Patch = op.Patch;
+                        VoidResult result = patchManager.SaveOperator(op);
+                        ResultHelper.Assert(result);
+
+                        string progressMessage = String.Format("Step 2: Migrated Sample Operator {0}/{1}.", i + 1, sampleOperators.Count);
+                        progressCallback(progressMessage);
+                    }
+                }
+
+                {
+                    IList<Operator> customOperators = repositories.OperatorRepository
+                                                                   .GetAll()
+                                                                   .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator)
+                                                                   .ToArray();
+                    for (int i = 0; i < customOperators.Count; i++)
+                    {
+                        Operator op = customOperators[i];
+
+                        int? underlyingPatchID = null;
+                        if (!String.IsNullOrEmpty(op.Data))
+                        {
+                            underlyingPatchID = Int32.Parse(op.Data);
+                        }
+
+                        op.Data = null;
+
+                        var wrapper = new CustomOperator_OperatorWrapper(op, repositories.PatchRepository);
+                        wrapper.UnderlyingPatchID = underlyingPatchID;
+
+                        patchManager.Patch = op.Patch;
+                        VoidResult result = patchManager.SaveOperator(op);
+                        ResultHelper.Assert(result);
+
+                        string progressMessage = String.Format("Step 3: Migrated Custom Operator {0}/{1}.", i + 1, customOperators.Count);
+                        progressCallback(progressMessage);
+                    }
+                }
+
+                AssertDocuments(repositories, progressCallback);
+
+                context.Commit();
+            }
+
+            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        }
+
         private static void AssertDocuments(RepositoryWrapper repositories, Action<string> progressCallback)
         {
             var documentManager = new DocumentManager(repositories);

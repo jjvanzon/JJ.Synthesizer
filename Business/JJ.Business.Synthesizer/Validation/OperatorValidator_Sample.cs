@@ -14,11 +14,11 @@ namespace JJ.Business.Synthesizer.Validation
     {
         public OperatorValidator_Sample(Operator op)
             : base(
-                  op, 
-                  OperatorTypeEnum.Sample, 
-                  expectedInletCount: 1, 
+                  op,
+                  OperatorTypeEnum.Sample,
+                  expectedInletCount: 1,
                   expectedOutletCount: 1,
-                  expectedDataKeys: new string[0])
+                  expectedDataKeys: new string[] { PropertyNames.SampleID })
         { }
 
         protected override void Execute()
@@ -27,36 +27,40 @@ namespace JJ.Business.Synthesizer.Validation
 
             Operator op = Object;
 
-            For(() => op.Data, PropertyDisplayNames.Data)
-                .IsInteger();
-
-            int sampleID;
-            if (Int32.TryParse(op.Data, out sampleID))
+            if (DataPropertyParser.DataIsWellFormed(op))
             {
-                // Check reference constraint of the Sample.
-                // (We are quite tollerant here: we omit the check if it is not in a patch or document.)
-                bool mustCheckReference = op.Patch != null && op.Patch.Document != null;
-                if (mustCheckReference)
+                string sampleIDString = DataPropertyParser.TryGetString(op, PropertyNames.SampleID);
+
+                For(() => sampleIDString, PropertyDisplayNames.SampleID).IsInteger();
+
+                int sampleID;
+                if (Int32.TryParse(sampleIDString, out sampleID))
                 {
-                    bool isRootDocument = op.Patch.Document.ParentDocument == null;
-
-                    // If we're in a child document, we can reference the samples in both child document and root document,
-                    // if we are in the root document, the possible samples are only the ones in the root document.
-                    IEnumerable<Sample> samples;
-                    if (isRootDocument)
+                    // Check reference constraint of the Sample.
+                    // (We are quite tollerant here: we omit the check if it is not in a patch or document.)
+                    bool mustCheckReference = op.Patch != null && op.Patch.Document != null;
+                    if (mustCheckReference)
                     {
-                        samples = op.Patch.Document.Samples;
-                    }
-                    else
-                    {
-                        samples = op.Patch.Document.Samples.Union(op.Patch.Document.ParentDocument.Samples);
-                    }
+                        bool isRootDocument = op.Patch.Document.ParentDocument == null;
 
-                    bool isInList = samples.Any(x => x.ID == sampleID);
+                        // If we're in a child document, we can reference the samples in both child document and root document,
+                        // if we are in the root document, the possible samples are only the ones in the root document.
+                        IEnumerable<Sample> samples;
+                        if (isRootDocument)
+                        {
+                            samples = op.Patch.Document.Samples;
+                        }
+                        else
+                        {
+                            samples = op.Patch.Document.Samples.Union(op.Patch.Document.ParentDocument.Samples);
+                        }
 
-                    if (!isInList)
-                    {
-                        ValidationMessages.Add(PropertyNames.Sample, MessageFormatter.NotFoundInList_WithItemName_AndID(PropertyDisplayNames.Sample, sampleID));
+                        bool isInList = samples.Any(x => x.ID == sampleID);
+
+                        if (!isInList)
+                        {
+                            ValidationMessages.Add(PropertyNames.Sample, MessageFormatter.NotFoundInList_WithItemName_AndID(PropertyDisplayNames.Sample, sampleID));
+                        }
                     }
                 }
             }

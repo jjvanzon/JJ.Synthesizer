@@ -24,6 +24,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public const string Cents = "Cents";
         public const string ChildDocumentID = "ChildDocumentID";
         public const string Curve = "Curve";
+        public const string CurveID = "CurveID";
         public const string Curves = "Curves";
         public const string Document = "Document";
         public const string DocumentReference = "DocumentReference";
@@ -52,6 +53,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public const string PatchInlet = "PatchInlet";
         public const string PatchOutlet = "PatchOutlet";
         public const string Sample = "Sample";
+        public const string SampleID = "SampleID";
         public const string SampleCount = "SampleCount";
         public const string Samples = "Samples";
         public const string Scales = "Scales";
@@ -61,5 +63,6 @@ namespace JJ.Business.Synthesizer.Helpers
         public const string StartTime = "StartTime";
         public const string TimeSliceDuration = "TimeSliceDuration";
         public const string UnderlyingPatch = "UnderlyingPatch";
+        public const string UnderlyingPatchID = "UnderlyingPatchID";
     }
 }
