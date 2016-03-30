@@ -21,30 +21,30 @@ namespace JJ.Business.Synthesizer.Validation
         private int _expectedInletCount;
         private int _expectedOutletCount;
 
-        private IList<string> _expectedDataKeys;
+        private IList<string> _allowedDataKeys;
 
         public OperatorValidator_Base(
             Operator obj,
             OperatorTypeEnum expectedOperatorTypeEnum,
             int expectedInletCount,
             int expectedOutletCount,
-            IList<string> expectedDataKeys)
+            IList<string> allowedDataKeys)
             : base(obj, postponeExecute: true)
         {
             if (expectedInletCount < 0) throw new LessThanException(() => expectedInletCount, 0);
             if (expectedOutletCount < 0) throw new LessThanException(() => expectedOutletCount, 0);
-            if (expectedDataKeys == null) throw new NullException(() => expectedDataKeys);
+            if (allowedDataKeys == null) throw new NullException(() => allowedDataKeys);
 
-            int uniqueExpectedDataPropertyKeyCount = expectedDataKeys.Distinct().Count();
-            if (uniqueExpectedDataPropertyKeyCount != expectedDataKeys.Count)
+            int uniqueExpectedDataPropertyKeyCount = allowedDataKeys.Distinct().Count();
+            if (uniqueExpectedDataPropertyKeyCount != allowedDataKeys.Count)
             {
-                throw new NotUniqueException(() => expectedDataKeys);
+                throw new NotUniqueException(() => allowedDataKeys);
             }
 
             _expectedOperatorTypeEnum = expectedOperatorTypeEnum;
             _expectedInletCount = expectedInletCount;
             _expectedOutletCount = expectedOutletCount;
-            _expectedDataKeys = expectedDataKeys;
+            _allowedDataKeys = allowedDataKeys;
 
             Execute();
         }
@@ -85,7 +85,7 @@ namespace JJ.Business.Synthesizer.Validation
                 }
             }
 
-            Execute(new OperatorValidator_Data(op, _expectedDataKeys));
+            Execute(new OperatorValidator_Data(op, _allowedDataKeys));
         }
 
         private string GetPropertyDisplayName_ForInletCount()

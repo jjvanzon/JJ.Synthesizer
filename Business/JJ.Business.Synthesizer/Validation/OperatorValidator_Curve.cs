@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Validation
                   OperatorTypeEnum.Curve,
                   expectedInletCount: 0,
                   expectedOutletCount: 1,
-                  expectedDataKeys: new string[] { PropertyNames.CurveID })
+                  allowedDataKeys: new string[] { PropertyNames.CurveID })
         { }
 
         protected override void Execute()

@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Validation
                   OperatorTypeEnum.Random, 
                   expectedInletCount: 2, 
                   expectedOutletCount: 1,
-                  expectedDataKeys: new string[] { PropertyNames.InterpolationType })
+                  allowedDataKeys: new string[] { PropertyNames.InterpolationType })
         { }
 
         protected override void Execute()

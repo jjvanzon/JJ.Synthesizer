@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Validation
                   OperatorTypeEnum.Cache, 
                   expectedInletCount: 4,
                   expectedOutletCount: 1,
-                  expectedDataKeys: new string[] { PropertyNames.SpeakerSetup, PropertyNames.InterpolationType })
+                  allowedDataKeys: new string[] { PropertyNames.SpeakerSetup, PropertyNames.InterpolationType })
         { }
 
         protected override void Execute()

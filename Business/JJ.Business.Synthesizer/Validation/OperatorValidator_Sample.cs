@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Validation
                   OperatorTypeEnum.Sample,
                   expectedInletCount: 1,
                   expectedOutletCount: 1,
-                  expectedDataKeys: new string[] { PropertyNames.SampleID })
+                  allowedDataKeys: new string[] { PropertyNames.SampleID })
         { }
 
         protected override void Execute()

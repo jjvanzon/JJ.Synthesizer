@@ -18,22 +18,22 @@ namespace JJ.Business.Synthesizer.Validation
         private readonly static int? _dataMaxLength = GetDataMaxLength();
 
         /// <summary> HashSet for unicity and value comparisons. </summary>
-        private HashSet<string> _expectedDataKeysHashSet;
+        private HashSet<string> _allowedDataKeysHashSet;
 
         public OperatorValidator_Data(
             Operator obj,
-            IList<string> expectedDataKeys)
+            IList<string> allowedDataKeys)
             : base(obj, postponeExecute: true)
         {
-            if (expectedDataKeys == null) throw new NullException(() => expectedDataKeys);
+            if (allowedDataKeys == null) throw new NullException(() => allowedDataKeys);
 
-            int uniqueExpectedDataPropertyKeyCount = expectedDataKeys.Distinct().Count();
-            if (uniqueExpectedDataPropertyKeyCount != expectedDataKeys.Count)
+            int uniqueExpectedDataPropertyKeyCount = allowedDataKeys.Distinct().Count();
+            if (uniqueExpectedDataPropertyKeyCount != allowedDataKeys.Count)
             {
-                throw new NotUniqueException(() => expectedDataKeys);
+                throw new NotUniqueException(() => allowedDataKeys);
             }
 
-            _expectedDataKeysHashSet = expectedDataKeys.ToHashSet();
+            _allowedDataKeysHashSet = allowedDataKeys.ToHashSet();
 
             Execute();
         }
@@ -67,21 +67,10 @@ namespace JJ.Business.Synthesizer.Validation
                 {
                     HashSet<string> actualDataKeysHashSet = actualDataKeysList.ToHashSet(); // HashSet, not List, so we can do value comparisons.
 
-                    foreach (string expectedDataKey in _expectedDataKeysHashSet)
-                    {
-                        // Check existence
-                        bool dataKeyExists = actualDataKeysHashSet.Contains(expectedDataKey);
-                        if (!dataKeyExists)
-                        {
-                            string dataKeyIdentifier = ValidationHelper.GetDataKeyIdentifier(expectedDataKey);
-                            ValidationMessages.AddNotExistsMessage(PropertyNames.DataKey, dataKeyIdentifier);
-                        }
-                    }
-
                     foreach (string actualDataKey in actualDataKeysHashSet)
                     {
                         // Check non-existence
-                        bool dataKeyIsAllowed = _expectedDataKeysHashSet.Contains(actualDataKey);
+                        bool dataKeyIsAllowed = _allowedDataKeysHashSet.Contains(actualDataKey);
                         if (!dataKeyIsAllowed)
                         {
                             string dataKeyIdentifier = ValidationHelper.GetDataKeyIdentifier(actualDataKey);

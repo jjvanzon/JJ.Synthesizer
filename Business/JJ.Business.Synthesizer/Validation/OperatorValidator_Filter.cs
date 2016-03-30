@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Validation
                   OperatorTypeEnum.Filter, 
                   expectedInletCount: 5, 
                   expectedOutletCount: 1,
-                  expectedDataKeys: new string[] { PropertyNames.FilterType })
+                  allowedDataKeys: new string[] { PropertyNames.FilterType })
         { }
 
         protected override void Execute()

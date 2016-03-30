@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Validation
                   OperatorTypeEnum.Spectrum, 
                   expectedInletCount: 1, 
                   expectedOutletCount: 1,
-                  expectedDataKeys: new string[] 
+                  allowedDataKeys: new string[] 
                   {
                       PropertyNames.StartTime,
                       PropertyNames.EndTime,

@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Validation
                   OperatorTypeEnum.PatchOutlet, 
                   expectedInletCount: 1, 
                   expectedOutletCount: 1,
-                  expectedDataKeys: new string[] { PropertyNames.ListIndex })
+                  allowedDataKeys: new string[] { PropertyNames.ListIndex })
         { }
 
         protected override void Execute()
