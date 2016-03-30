@@ -22,6 +22,28 @@ namespace JJ.Business.Synthesizer.Helpers
             public string Value { get; private set; }
         }
 
+        public static bool DataIsWellFormed(Operator op)
+        {
+            if (op == null) throw new NullException(() => op);
+            bool dataIsWellFormed = DataIsWellFormed(op.Data);
+            return dataIsWellFormed;
+        }
+
+        public static bool DataIsWellFormed(string data)
+        {
+            // TODO: Do this with a better performing solution, not dependent on exception handling, e.g. with a Regex.
+            try
+            {
+                Parse(data);
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         private static CultureInfo _formattingCulture = new CultureInfo("en-US");
 
         public static CultureInfo FormattingCulture
@@ -39,9 +61,13 @@ namespace JJ.Business.Synthesizer.Helpers
             return value.Value;
         }
 
+        /// <summary>
+        /// Returns null if the key is not present or value not filled in.
+        /// Will throw an exception if said value cannot be parsed.
+        /// </summary>
         public static double? TryGetDouble(Operator op, string key)
         {
-            string str = GetString(op, key);
+            string str = TryGetString(op, key);
             if (String.IsNullOrEmpty(str))
             {
                 return null;
@@ -65,9 +91,13 @@ namespace JJ.Business.Synthesizer.Helpers
             return value.Value;
         }
 
+        /// <summary>
+        /// Returns null if the key is not present or value not filled in.
+        /// Will throw an exception if said value cannot be parsed.
+        /// </summary>
         public static int? TryGetInt32(Operator op, string key)
         {
-            string str = GetString(op, key);
+            string str = TryGetString(op, key);
             if (String.IsNullOrEmpty(str))
             {
                 return null;
@@ -85,7 +115,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public static TEnum GetEnum<TEnum>(Operator op, string key)
             where TEnum : struct
         {
-            string str = GetString(op, key);
+            string str = TryGetString(op, key);
             if (String.IsNullOrEmpty(str))
             {
                 return default(TEnum);
@@ -99,7 +129,10 @@ namespace JJ.Business.Synthesizer.Helpers
             return value;
         }
 
-        public static string GetString(Operator op, string key)
+        /// <summary>
+        /// Returns null if key does not exist.
+        /// </summary>
+        public static string TryGetString(Operator op, string key)
         {
             if (op == null) throw new NullException(() => op);
 
@@ -155,13 +188,13 @@ namespace JJ.Business.Synthesizer.Helpers
                 return new ParsedKeyValuePair[0];
             }
 
-            string[] propertiesSplit = data.Split(';');
-            IList<ParsedKeyValuePair> results = new List<ParsedKeyValuePair>(propertiesSplit.Length);
-            for (int i = 0; i < propertiesSplit.Length; i++)
+            string[] keyValueStrings = data.Split(';');
+            IList<ParsedKeyValuePair> results = new List<ParsedKeyValuePair>(keyValueStrings.Length);
+            for (int i = 0; i < keyValueStrings.Length; i++)
             {
-                string propertyString = propertiesSplit[i];
+                string keyValueString = keyValueStrings[i];
 
-                ParsedKeyValuePair result = ParseProperty(propertyString, data);
+                ParsedKeyValuePair result = ParseProperty(keyValueString, data);
 
                 results.Add(result);
             }
@@ -170,13 +203,13 @@ namespace JJ.Business.Synthesizer.Helpers
         }
 
         /// <param name="data">For showing in an exception.</param>
-        private static ParsedKeyValuePair ParseProperty(string propertyString, string data)
+        private static ParsedKeyValuePair ParseProperty(string keyValueString, string data)
         {
-            string[] keyAndValueSplit = propertyString.Split('=');
+            string[] keyAndValueSplit = keyValueString.Split('=');
 
             if (keyAndValueSplit.Length != 2)
             {
-                throw new Exception(String.Format("propertyString in data must have an '=' in it. propertyString = '{0} ', data = '{1}'.", propertyString, data));
+                throw new Exception(String.Format("propertyString in data must have an '=' in it. propertyString = '{0} ', data = '{1}'.", keyValueString, data));
             }
 
             string key = keyAndValueSplit[0];

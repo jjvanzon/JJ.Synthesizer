@@ -20,7 +20,9 @@ namespace JJ.Business.Synthesizer.Validation
         {
             base.Execute();
 
-            For(() => Object.Data, PropertyDisplayNames.Number, DataPropertyParser.FormattingCulture)
+            string numberString = DataPropertyParser.TryGetString(Object, PropertyNames.Number);
+
+            For(() => numberString, PropertyDisplayNames.Number, DataPropertyParser.FormattingCulture)
                 .NotNullOrEmpty()
                 .IsDouble()
                 .NotInfinity()

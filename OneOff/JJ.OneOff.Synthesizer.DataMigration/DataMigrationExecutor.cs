@@ -15,6 +15,7 @@ using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Common;
 using JJ.Business.Canonical;
+using System.Globalization;
 
 namespace JJ.OneOff.Synthesizer.DataMigration
 {
@@ -794,6 +795,53 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                     DataPropertyParser.RemoveKey(op, PropertyNames.EndTime);
                     DataPropertyParser.RemoveKey(op, PropertyNames.SamplingRate);
 
+                    VoidResult result = patchManager.SaveOperator(op);
+                    ResultHelper.Assert(result);
+
+                    string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
+                    progressCallback(progressMessage);
+                }
+
+                AssertDocuments(repositories, progressCallback);
+
+                context.Commit();
+            }
+
+            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        }
+
+        public static void Migrate_NumberOperators_FormatDataProperty(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                var patchManager = new PatchManager(new PatchRepositories(repositories));
+
+                IList<Operator> operators = repositories.OperatorRepository
+                                                        .GetAll()
+                                                        .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.Number)
+                                                        .ToArray();
+                for (int i = 0; i < operators.Count; i++)
+                {
+                    Operator op = operators[i];
+
+                    double number;
+                    if (!Doubles.TryParse(op.Data, DataPropertyParser.FormattingCulture, out number))
+                    {
+                        throw new Exception("op.Data cannot be parsed to Double. Operator already migrated?");
+                    }
+
+                    op.Data = null;
+
+                    var wrapper = new Number_OperatorWrapper(op);
+                    wrapper.Number = number;
+
+                    patchManager.Patch = op.Patch;
                     VoidResult result = patchManager.SaveOperator(op);
                     ResultHelper.Assert(result);
 

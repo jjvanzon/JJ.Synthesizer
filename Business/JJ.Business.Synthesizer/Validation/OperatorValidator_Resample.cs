@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Validation
         {
             base.Execute();
 
-            string interpolationTypeString = DataPropertyParser.GetString(Object, PropertyNames.InterpolationType);
+            string interpolationTypeString = DataPropertyParser.TryGetString(Object, PropertyNames.InterpolationType);
 
             For(() => interpolationTypeString, PropertyDisplayNames.InterpolationType)
                 .NotNullOrEmpty()

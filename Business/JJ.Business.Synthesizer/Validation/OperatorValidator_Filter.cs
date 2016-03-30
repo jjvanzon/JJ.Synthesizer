@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Validation
         {
             base.Execute();
 
-            string filterTypeString = DataPropertyParser.GetString(Object, PropertyNames.FilterType);
+            string filterTypeString = DataPropertyParser.TryGetString(Object, PropertyNames.FilterType);
 
             For(() => filterTypeString, PropertyDisplayNames.FilterType)
                 .NotNullOrEmpty()

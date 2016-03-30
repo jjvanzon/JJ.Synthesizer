@@ -119,7 +119,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             }
 
             Queue<double> queue = new Queue<double>(sampleCountInt);
-
             for (int i = 0; i < sampleCountInt; i++)
             {
                 queue.Enqueue(0.0);

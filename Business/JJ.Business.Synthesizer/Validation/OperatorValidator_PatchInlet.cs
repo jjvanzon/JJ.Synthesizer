@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Validation
         {
             base.Execute();
 
-            string listIndexString = DataPropertyParser.GetString(Object, PropertyNames.ListIndex);
+            string listIndexString = DataPropertyParser.TryGetString(Object, PropertyNames.ListIndex);
             For(() => listIndexString, PropertyDisplayNames.ListIndex)
                 .NotNullOrEmpty()
                 .IsInteger()

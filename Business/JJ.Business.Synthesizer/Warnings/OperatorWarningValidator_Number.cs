@@ -15,12 +15,19 @@ namespace JJ.Business.Synthesizer.Warnings
 
         protected override void Execute()
         {
-            double number;
-            if (Doubles.TryParse(Object.Data, DataPropertyParser.FormattingCulture, out number))
+            if (DataPropertyParser.DataIsWellFormed(Object.Data))
             {
-                if (number == 0.0)
+                string numberString = DataPropertyParser.TryGetString(Object, PropertyNames.Number);
+                if (!String.IsNullOrEmpty(numberString))
                 {
-                    ValidationMessages.Add(() => Object.Data, MessageFormatter.NumberIs0WithName(Object.Name));
+                    double number;
+                    if (Doubles.TryParse(numberString, DataPropertyParser.FormattingCulture, out number))
+                    {
+                        if (number == 0.0)
+                        {
+                            ValidationMessages.Add(() => Object.Data, MessageFormatter.NumberIs0WithName(Object.Name));
+                        }
+                    }
                 }
             }
         }

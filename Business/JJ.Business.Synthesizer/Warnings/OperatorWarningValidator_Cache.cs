@@ -92,8 +92,14 @@ namespace JJ.Business.Synthesizer.Warnings
                 return null;
             }
 
+            if (!DataPropertyParser.DataIsWellFormed(inlet.InputOutlet.Operator.Data))
+            {
+                return null;
+            }
+
+            string numberString = DataPropertyParser.TryGetString(inlet.InputOutlet.Operator, PropertyNames.Number);
             double number;
-            if (!Double.TryParse(inlet.InputOutlet.Operator.Data, out number)) // TODO: Refactor this (and use DataPropertyParser) when the number is encoded into the data property as a key-value pair.
+            if (!Double.TryParse(numberString, out number))
             {
                 return null;
             }

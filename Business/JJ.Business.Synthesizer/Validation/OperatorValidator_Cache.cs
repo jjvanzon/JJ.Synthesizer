@@ -25,8 +25,8 @@ namespace JJ.Business.Synthesizer.Validation
         {
             base.Execute();
 
-            string speakerSetupString = DataPropertyParser.GetString(Object, PropertyNames.SpeakerSetup);
-            string interpolationTypeString = DataPropertyParser.GetString(Object, PropertyNames.InterpolationType);
+            string speakerSetupString = DataPropertyParser.TryGetString(Object, PropertyNames.SpeakerSetup);
+            string interpolationTypeString = DataPropertyParser.TryGetString(Object, PropertyNames.InterpolationType);
 
             For(() => interpolationTypeString, PropertyDisplayNames.InterpolationType)
                 .NotNullOrEmpty()

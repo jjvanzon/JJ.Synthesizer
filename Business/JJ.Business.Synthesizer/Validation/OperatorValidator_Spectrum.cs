@@ -28,9 +28,9 @@ namespace JJ.Business.Synthesizer.Validation
         {
             base.Execute();
 
-            string startTimeString = DataPropertyParser.GetString(Object, PropertyNames.StartTime);
-            string endTimeString = DataPropertyParser.GetString(Object, PropertyNames.EndTime);
-            string frequencyCountString = DataPropertyParser.GetString(Object, PropertyNames.FrequencyCount);
+            string startTimeString = DataPropertyParser.TryGetString(Object, PropertyNames.StartTime);
+            string endTimeString = DataPropertyParser.TryGetString(Object, PropertyNames.EndTime);
+            string frequencyCountString = DataPropertyParser.TryGetString(Object, PropertyNames.FrequencyCount);
 
             For(() => startTimeString, PropertyDisplayNames.StartTime, DataPropertyParser.FormattingCulture)
                 .NotNullOrEmpty()
