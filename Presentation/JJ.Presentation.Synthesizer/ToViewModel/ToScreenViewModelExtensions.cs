@@ -389,15 +389,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                         .ToList();
         }
 
-        public static IList<OperatorPropertiesViewModel_ForSpectrum> ToPropertiesViewModelList_ForSpectrums(this Patch patch)
-        {
-            if (patch == null) throw new NullException(() => patch);
-
-            return patch.GetOperatorsOfType(OperatorTypeEnum.Spectrum)
-                        .Select(x => x.ToPropertiesViewModel_ForSpectrum())
-                        .ToList();
-        }
-
         public static IList<OperatorPropertiesViewModel_ForUnbundle> ToPropertiesViewModelList_ForUnbundles(this Patch patch)
         {
             if (patch == null) throw new NullException(() => patch);
@@ -694,26 +685,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 viewModel.Sample = ViewModelHelper.CreateEmptyIDAndName();
             }
-
-            return viewModel;
-        }
-
-        public static OperatorPropertiesViewModel_ForSpectrum ToPropertiesViewModel_ForSpectrum(this Operator entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            var wrapper = new Spectrum_OperatorWrapper(entity);
-
-            var viewModel = new OperatorPropertiesViewModel_ForSpectrum
-            {
-                ID = entity.ID,
-                PatchID = entity.Patch.ID,
-                Name = entity.Name,
-                EndTime = wrapper.EndTime,
-                StartTime = wrapper.StartTime,
-                FrequencyCount = wrapper.FrequencyCount,
-                ValidationMessages = new List<Message>()
-            };
 
             return viewModel;
         }

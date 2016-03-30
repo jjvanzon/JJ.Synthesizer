@@ -356,9 +356,9 @@ namespace JJ.Business.Synthesizer.Api
 
         public Spectrum_OperatorWrapper Spectrum(
             Outlet signal = null,
-            double startTime = 0.0,
-            double endTime = 1.0,
-            int samplingRate = 44100)
+            Outlet startTime = null,
+            Outlet endTime = null,
+            Outlet samplingRate = null)
         {
             return _patchManager.Spectrum(signal, startTime, endTime, samplingRate);
         }

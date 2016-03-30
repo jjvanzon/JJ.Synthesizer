@@ -569,15 +569,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return viewModel;
         }
 
-        public static OperatorPropertiesViewModel_ForSpectrum TryGetOperatorPropertiesViewModel_ForSpectrum(DocumentViewModel rootDocumentViewModel, int operatorID)
-        {
-            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-            OperatorPropertiesViewModel_ForSpectrum viewModel = DocumentViewModelHelper.EnumerateOperatorPropertiesViewModels_ForSpectrums(rootDocumentViewModel)
-                                                                                       .FirstOrDefault(x => x.ID == operatorID); // First for performance.
-            return viewModel;
-        }
-
         public static OperatorPropertiesViewModel_ForUnbundle TryGetOperatorPropertiesViewModel_ForUnbundle(DocumentViewModel rootDocumentViewModel, int operatorID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
@@ -669,13 +660,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
             return rootDocumentViewModel.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForSamples);
-        }
-
-        private static IEnumerable<OperatorPropertiesViewModel_ForSpectrum> EnumerateOperatorPropertiesViewModels_ForSpectrums(DocumentViewModel rootDocumentViewModel)
-        {
-            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-            return rootDocumentViewModel.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForSpectrums);
         }
 
         private static IEnumerable<OperatorPropertiesViewModel_ForUnbundle> EnumerateOperatorPropertiesViewModels_ForUnbundles(DocumentViewModel rootDocumentViewModel)
@@ -863,21 +847,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
 
             throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForSample> with Patch ID '{0}' not found in any of the PatchDocumentViewModels.", patchID));
-        }
-
-        public static IList<OperatorPropertiesViewModel_ForSpectrum> GetOperatorPropertiesViewModelList_ForSpectrums_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
-        {
-            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-            foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentList)
-            {
-                if (patchDocumentViewModel.PatchDetails.Entity.PatchID == patchID)
-                {
-                    return patchDocumentViewModel.OperatorPropertiesList_ForSpectrums;
-                }
-            }
-
-            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForSpectrum> with Patch ID '{0}' not found in any of the PatchDocumentViewModels.", patchID));
         }
 
         public static IList<OperatorPropertiesViewModel_ForUnbundle> GetOperatorPropertiesViewModelList_ForUnbundles_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
@@ -1086,24 +1055,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
             throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForSample> for Operator ID '{0}' not found in any of the PatchDocumentViewModels.", operatorID));
         }
 
-        public static IList<OperatorPropertiesViewModel_ForSpectrum> GetOperatorPropertiesViewModelList_ForSpectrums_ByOperatorID(DocumentViewModel rootDocumentViewModel, int operatorID)
-        {
-            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-            foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentList)
-            {
-                foreach (OperatorPropertiesViewModel_ForSpectrum operatorPropertiesViewModel in patchDocumentViewModel.OperatorPropertiesList_ForSpectrums)
-                {
-                    if (operatorPropertiesViewModel.ID == operatorID)
-                    {
-                        return patchDocumentViewModel.OperatorPropertiesList_ForSpectrums;
-                    }
-                }
-            }
-
-            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForSpectrum> for Operator ID '{0}' not found in any of the PatchDocumentViewModels.", operatorID));
-        }
-
         public static IList<OperatorPropertiesViewModel_ForUnbundle> GetOperatorPropertiesViewModelList_ForUnbundles_ByOperatorID(DocumentViewModel rootDocumentViewModel, int operatorID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
@@ -1310,22 +1261,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
             if (viewModel == null)
             {
                 throw new Exception("No visible OperatorPropertiesViewModel_ForSample found in rootDocumentViewModel.PatchDocumentList.");
-            }
-
-            return viewModel;
-        }
-
-        public static OperatorPropertiesViewModel_ForSpectrum GetVisibleOperatorPropertiesViewModel_ForSpectrum(DocumentViewModel rootDocumentViewModel)
-        {
-            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-            OperatorPropertiesViewModel_ForSpectrum viewModel = rootDocumentViewModel.PatchDocumentList
-                                                                                     .SelectMany(x => x.OperatorPropertiesList_ForSpectrums)
-                                                                                     .Where(x => x.Visible)
-                                                                                     .FirstOrDefault();
-            if (viewModel == null)
-            {
-                throw new Exception("No visible OperatorPropertiesViewModel_ForSpectrum found in rootDocumentViewModel.PatchDocumentList.");
             }
 
             return viewModel;

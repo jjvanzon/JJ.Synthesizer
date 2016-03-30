@@ -9,36 +9,45 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Spectrum_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
+        // TODO: Use channelIndex variable in ResetState.
+        private const int DEFAULT_CHANNEL_INDEX = 0;
+
         private readonly OperatorCalculatorBase _signalCalculator;
-        private readonly double _startTime;
-        private readonly double _endTime;
-        private readonly int _frequencyCount;
+        private readonly OperatorCalculatorBase _startTimeCalculator;
+        private readonly OperatorCalculatorBase _endTimeCalculator;
+        private readonly OperatorCalculatorBase _frequencyCountCalculator;
+
         private readonly LomontFFT _lomontFFT;
 
         private double[] _harmonicVolumes;
 
         private int _channelIndex;
-        private int _frequencyCountTimesTwo;
+        private double _previousTime;
 
         public Spectrum_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
-            double startTime,
-            double endTime,
-            int frequencyCount)
-            : base(new OperatorCalculatorBase[] { signalCalculator })
+            OperatorCalculatorBase startTimeCalculator,
+            OperatorCalculatorBase endTimeCalculator,
+            OperatorCalculatorBase frequencyCountCalculator)
+            : base(new OperatorCalculatorBase[] 
+            {
+                signalCalculator,
+                startTimeCalculator,
+                endTimeCalculator,
+                frequencyCountCalculator
+            })
         {
-            if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (frequencyCount < 2) throw new LessThanException(() => frequencyCount, 2);
-            if (!Maths.IsPowerOf2(frequencyCount)) throw new Exception("frequencyCount must be a power of 2.");
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase_OnlyUsedUponResetState(startTimeCalculator, () => startTimeCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase_OnlyUsedUponResetState(endTimeCalculator, () => endTimeCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase_OnlyUsedUponResetState(frequencyCountCalculator, () => frequencyCountCalculator);
 
             _signalCalculator = signalCalculator;
-            _startTime = startTime;
-            _endTime = endTime;
-            _frequencyCount = frequencyCount;
+            _startTimeCalculator = startTimeCalculator;
+            _endTimeCalculator = endTimeCalculator;
+            _frequencyCountCalculator = frequencyCountCalculator;
 
-            _frequencyCountTimesTwo = _frequencyCount * 2;
             _lomontFFT = new LomontFFT();
-            _harmonicVolumes = new double[_frequencyCount];
 
             ResetState();
         }
@@ -54,17 +63,48 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             double frequency = _harmonicVolumes[i];
 
+            _previousTime = time;
+
             return frequency;
         }
 
         public override void ResetState()
         {
-            // FFT requires an array size twice as large as the number of frequencies I want.
-            double[] data = new double[_frequencyCountTimesTwo];
-            double dt = (_endTime - _startTime) / _frequencyCountTimesTwo;
+            _harmonicVolumes = CreateHarmonicVolumes();
+        }
 
-            double t = _startTime;
-            for (int i = 0; i < _frequencyCountTimesTwo; i++)
+        private double[] CreateHarmonicVolumes()
+        {
+            double startTime = _startTimeCalculator.Calculate(_previousTime, DEFAULT_CHANNEL_INDEX);
+            double endTime = _endTimeCalculator.Calculate(_previousTime, DEFAULT_CHANNEL_INDEX);
+            double frequencyCountDouble = _frequencyCountCalculator.Calculate(_previousTime, DEFAULT_CHANNEL_INDEX);
+
+            // We need a lot of lenience in this code, because validity is dependent on user input,
+            // and we cannot obtrusively interrupt the user with validation messages, 
+            // because he is busy making music and the show must go on.
+            bool startTimeIsValid = StartTimeIsValid(startTime);
+            bool endTimeIsValid = EndTimeIsValid(endTime);
+            bool frequencyCountIsValid = FrequencyCountIsValid(frequencyCountDouble);
+            bool startTimeComparedToEndTimeIsValid = endTime > startTime;
+            bool allValuesAreValid = startTimeIsValid &&
+                                     endTimeIsValid &&
+                                     frequencyCountIsValid &&
+                                     startTimeComparedToEndTimeIsValid;
+            if (!allValuesAreValid)
+            {
+                return CreateNaNHarmonicVolumes();
+            }
+
+            int frequencyCount = (int)frequencyCountDouble;
+            int frequencyCountTimesTwo = frequencyCount * 2;
+            double[] harmonicVolumes = new double[frequencyCount];
+
+            // FFT requires an array size twice as large as the number of frequencies I want.
+            double[] data = new double[frequencyCountTimesTwo];
+            double dt = (endTime - startTime) / frequencyCountTimesTwo;
+
+            double t = startTime;
+            for (int i = 0; i < frequencyCountTimesTwo; i++)
             {
                 double value = _signalCalculator.Calculate(t, _channelIndex);
                 data[i] = value;
@@ -76,14 +116,51 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _lomontFFT.RealFFT(data, forward: true);
 
             int j = 0;
-            for (int i = 3; i < _frequencyCountTimesTwo; i += 2)
+            for (int i = 3; i < frequencyCountTimesTwo; i += 2)
             {
-                _harmonicVolumes[j] = data[i];
+                harmonicVolumes[j] = data[i];
                 j++;
             }
 
             // TODO: The FFT algorithm I borrowed does not give me the last frequency.
-            _harmonicVolumes[_frequencyCount - 1] = 0;
+            harmonicVolumes[frequencyCount - 1] = 0;
+
+            return harmonicVolumes;
+        }
+
+        private static bool StartTimeIsValid(double startTime)
+        {
+            return !Double.IsNaN(startTime) && !Double.IsInfinity(startTime);
+        }
+
+        private static bool EndTimeIsValid(double endTime)
+        {
+            return !Double.IsNaN(endTime) && !Double.IsInfinity(endTime);
+        }
+
+        private static bool FrequencyCountIsValid(double frequencyCount)
+        {
+            if (!CalculationHelper.CanCastToInt32(frequencyCount))
+            {
+                return false;
+            }
+
+            if (frequencyCount < 2.0)
+            {
+                return false;
+            }
+
+            if (!Maths.IsPowerOf2((int)frequencyCount))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private double[] CreateNaNHarmonicVolumes()
+        {
+            return new double[] { Double.NaN };
         }
     }
 }

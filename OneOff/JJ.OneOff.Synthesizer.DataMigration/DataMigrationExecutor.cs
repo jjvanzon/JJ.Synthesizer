@@ -964,6 +964,78 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
         }
 
+        public static void Migrate_SpectrumOperators_ParametersToInlets(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                var patchManager = new PatchManager(new PatchRepositories(repositories));
+
+                IList<Operator> operators = repositories.OperatorRepository
+                                                        .GetAll()
+                                                        .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.Spectrum)
+                                                        .ToArray();
+                for (int i = 0; i < operators.Count; i++)
+                {
+                    Operator op = operators[i];
+
+                    int newInletCount = 4;
+
+                    bool mustMigrate = op.Inlets.Count != newInletCount;
+                    if (!mustMigrate)
+                    {
+                        throw new Exception("op.Inlets.Count == 4. Operator already migrated?");
+                    }
+
+                    patchManager.Patch = op.Patch;
+
+                    // Create extra inlets.
+                    for (int inletIndex = 1; inletIndex < newInletCount; inletIndex++)
+                    {
+                        Inlet inlet = patchManager.CreateInlet(op);
+                        inlet.ListIndex = inletIndex;
+                    }
+
+                    // Convert parameter to inlets.
+                    var wrapper = new Spectrum_OperatorWrapper(op);
+
+                    double startTimeValue = DataPropertyParser.GetDouble(op, PropertyNames.StartTime);
+                    var startTimeNumberWrapper = patchManager.Number(startTimeValue);
+                    wrapper.StartTime = startTimeNumberWrapper;
+
+                    double endTimeValue = DataPropertyParser.GetDouble(op, PropertyNames.EndTime);
+                    var endTimeNumberWrapper = patchManager.Number(endTimeValue);
+                    wrapper.EndTime = endTimeNumberWrapper;
+
+                    double frequencyCountValue = DataPropertyParser.GetDouble(op, PropertyNames.FrequencyCount);
+                    var frequencyCountNumberWrapper = patchManager.Number(frequencyCountValue);
+                    wrapper.FrequencyCount = frequencyCountNumberWrapper;
+
+                    DataPropertyParser.RemoveKey(op, PropertyNames.StartTime);
+                    DataPropertyParser.RemoveKey(op, PropertyNames.EndTime);
+                    DataPropertyParser.RemoveKey(op, PropertyNames.FrequencyCount);
+
+                    VoidResult result = patchManager.SaveOperator(op);
+                    ResultHelper.Assert(result);
+
+                    string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
+                    progressCallback(progressMessage);
+                }
+
+                AssertDocuments(repositories, progressCallback);
+
+                //throw new Exception("Not committing yet, for debugging purposes.");
+                context.Commit();
+            }
+
+            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        }
+
         private static void AssertDocuments(RepositoryWrapper repositories, Action<string> progressCallback)
         {
             var documentManager = new DocumentManager(repositories);

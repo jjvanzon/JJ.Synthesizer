@@ -76,7 +76,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorPropertiesList_ForRandoms = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForRandoms()).ToList(),
                 OperatorPropertiesList_ForResamples = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForResamples()).ToList(),
                 OperatorPropertiesList_ForSamples = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForSamples(repositories.SampleRepository)).ToList(),
-                OperatorPropertiesList_ForSpectrums = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForSpectrums()).ToList(),
                 OperatorPropertiesList_ForUnbundles = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForUnbundles()).ToList(),
                 PatchDetails = childDocument.Patches[0].ToDetailsViewModel(repositories.OperatorTypeRepository, repositories.SampleRepository, repositories.CurveRepository, repositories.PatchRepository, entityPositionManager),
                 PatchProperties = childDocument.ToPatchPropertiesViewModel(),

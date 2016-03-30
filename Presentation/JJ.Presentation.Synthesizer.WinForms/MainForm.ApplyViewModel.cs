@@ -168,12 +168,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 }
             }
 
-            // OperatorProperties_ForSpectrum
-            operatorPropertiesUserControl_ForSpectrum.ViewModel =
-                _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForSpectrums)
-                .Where(x => x.Visible)
-                .FirstOrDefault();
-
             // OperatorProperties_ForUnbundle
             operatorPropertiesUserControl_ForUnbundle.ViewModel =
                 _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForUnbundles)

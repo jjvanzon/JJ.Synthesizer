@@ -29,7 +29,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public IList<OperatorPropertiesViewModel_ForRandom> OperatorPropertiesList_ForRandoms { get; set; }
         public IList<OperatorPropertiesViewModel_ForResample> OperatorPropertiesList_ForResamples { get; set; }
         public IList<OperatorPropertiesViewModel_ForSample> OperatorPropertiesList_ForSamples { get; set; }
-        public IList<OperatorPropertiesViewModel_ForSpectrum> OperatorPropertiesList_ForSpectrums { get; set; }
         public IList<OperatorPropertiesViewModel_ForUnbundle> OperatorPropertiesList_ForUnbundles { get; set; }
         public PatchPropertiesViewModel PatchProperties { get; set; }
         public PatchDetailsViewModel PatchDetails { get; set; }

@@ -1142,11 +1142,9 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Spectrum_OperatorWrapper Spectrum(Outlet signal = null, double startTime = 0.0, double endTime = 1.0, int frequencyCount = 16)
+        public Spectrum_OperatorWrapper Spectrum(Outlet signal = null, Outlet startTime = null, Outlet endTime = null, Outlet frequencyCount = null)
         {
-            if (frequencyCount <= 0) throw new LessThanOrEqualException(() => frequencyCount, 0);
-
-            Operator op = CreateOperatorBase(OperatorTypeEnum.Spectrum, inletCount: 1, outletCount: 1);
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Spectrum, inletCount: 4, outletCount: 1);
 
             var wrapper = new Spectrum_OperatorWrapper(op)
             {

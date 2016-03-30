@@ -2624,10 +2624,21 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase startTimeCalculator = _stack.Pop();
+            OperatorCalculatorBase endTimeCalculator = _stack.Pop();
+            OperatorCalculatorBase frequencyCountCalculator = _stack.Pop();
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
+            // TODO: Do not use these magic defaults, but give standard operators default inlet value functionality.
+            startTimeCalculator = startTimeCalculator ?? new Number_OperatorCalculator(0.0);
+            endTimeCalculator = endTimeCalculator ?? new Number_OperatorCalculator(1.0);
+            frequencyCountCalculator = frequencyCountCalculator ?? new Number_OperatorCalculator(16);
 
             double signal = signalCalculator.Calculate(0, 0);
+            double startTime = startTimeCalculator.Calculate(0, 0);
+            double endTime = endTimeCalculator.Calculate(0, 0);
+            double frequencyCount = frequencyCountCalculator.Calculate(0, 0);
+
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool signalIsConstZero = signalIsConst && signal == 0;
             bool signalIsConstSpecialNumber = signalIsConst && (Double.IsNaN(signal) || Double.IsInfinity(signal));
@@ -2647,13 +2658,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                var wrapper = new Spectrum_OperatorWrapper(op);
-
                 calculator = new Spectrum_OperatorCalculator(
                     signalCalculator,
-                    wrapper.StartTime,
-                    wrapper.EndTime,
-                    wrapper.FrequencyCount);
+                    startTimeCalculator,
+                    endTimeCalculator,
+                    frequencyCountCalculator);
             }
 
             _stack.Push(calculator);

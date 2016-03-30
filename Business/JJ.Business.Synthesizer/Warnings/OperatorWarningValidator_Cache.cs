@@ -3,6 +3,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
 
@@ -25,24 +26,24 @@ namespace JJ.Business.Synthesizer.Warnings
 
             foreach (Inlet inlet in Object.Inlets)
             {
-                double? number = TryGetConstantNumber(inlet);
+                double? number = ValidationHelper.TryGetConstantNumberFromInlet(inlet);
 
                 switch (inlet.ListIndex)
                 {
                     case OperatorConstants.CACHE_SIGNAL_INDEX:
-                        signal = TryGetConstantNumber(inlet);
+                        signal = ValidationHelper.TryGetConstantNumberFromInlet(inlet);
                         break;
 
                     case OperatorConstants.CACHE_START_TIME_INDEX:
-                        startTime = TryGetConstantNumber(inlet);
+                        startTime = ValidationHelper.TryGetConstantNumberFromInlet(inlet);
                         break;
 
                     case OperatorConstants.CACHE_END_TIME_INDEX:
-                        endTime = TryGetConstantNumber(inlet);
+                        endTime = ValidationHelper.TryGetConstantNumberFromInlet(inlet);
                         break;
 
                     case OperatorConstants.CACHE_SAMPLING_RATE_INDEX:
-                        samplingRate = TryGetConstantNumber(inlet);
+                        samplingRate = ValidationHelper.TryGetConstantNumberFromInlet(inlet);
                         break;
                 }
             }
@@ -70,41 +71,6 @@ namespace JJ.Business.Synthesizer.Warnings
                     ValidationMessages.AddLessThanMessage(PropertyNames.EndTime, PropertyDisplayNames.EndTime, PropertyDisplayNames.StartTime);
                 }
             }
-        }
-
-        private double? TryGetConstantNumber(Inlet inlet)
-        {
-            if (inlet == null) throw new NullException(() => inlet);
-
-            // Be tolerant in warning validations.
-            if (inlet.InputOutlet == null)
-            {
-                return null;
-            }
-
-            if (inlet.InputOutlet.Operator == null)
-            {
-                return null;
-            }
-
-            if (inlet.InputOutlet.Operator.GetOperatorTypeEnum() != OperatorTypeEnum.Number)
-            {
-                return null;
-            }
-
-            if (!DataPropertyParser.DataIsWellFormed(inlet.InputOutlet.Operator.Data))
-            {
-                return null;
-            }
-
-            string numberString = DataPropertyParser.TryGetString(inlet.InputOutlet.Operator, PropertyNames.Number);
-            double number;
-            if (!Double.TryParse(numberString, out number))
-            {
-                return null;
-            }
-
-            return number;
         }
     }
 }

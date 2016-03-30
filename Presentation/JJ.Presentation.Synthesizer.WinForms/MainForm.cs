@@ -194,7 +194,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 new UserControlTuple(operatorPropertiesUserControl_ForRandom, isPropertiesView: true),
                 new UserControlTuple(operatorPropertiesUserControl_ForResample, isPropertiesView: true),
                 new UserControlTuple(operatorPropertiesUserControl_ForSample, isPropertiesView: true),
-                new UserControlTuple(operatorPropertiesUserControl_ForSpectrum, isPropertiesView: true),
                 new UserControlTuple(operatorPropertiesUserControl_ForUnbundle, isPropertiesView: true),
                 new UserControlTuple(patchGridUserControl),
                 new UserControlTuple(patchDetailsUserControl),

@@ -322,7 +322,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     patchDocumentViewModel.OperatorPropertiesList_ForRandoms.ForEach(x => x.Successful = true);
                     patchDocumentViewModel.OperatorPropertiesList_ForResamples.ForEach(x => x.Successful = true);
                     patchDocumentViewModel.OperatorPropertiesList_ForSamples.ForEach(x => x.Successful = true);
-                    patchDocumentViewModel.OperatorPropertiesList_ForSpectrums.ForEach(x => x.Successful = true);
                     patchDocumentViewModel.OperatorPropertiesList_ForUnbundles.ForEach(x => x.Successful = true);
                     patchDocumentViewModel.PatchDetails.Successful = true;
                     patchDocumentViewModel.PatchProperties.Successful = true;
@@ -489,12 +488,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void OperatorProperties_ForSample_Refresh(OperatorPropertiesViewModel_ForSample userInput)
         {
             OperatorPropertiesViewModel_ForSample viewModel = _operatorPropertiesPresenter_ForSample.Refresh(userInput);
-            DispatchViewModel(viewModel);
-        }
-
-        private void OperatorProperties_ForSpectrum_Refresh(OperatorPropertiesViewModel_ForSpectrum userInput)
-        {
-            OperatorPropertiesViewModel_ForSpectrum viewModel = _operatorPropertiesPresenter_ForSpectrum.Refresh(userInput);
             DispatchViewModel(viewModel);
         }
 
@@ -790,32 +783,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                                                                                              .ToList();
         }
 
-        private void OperatorPropertiesList_ForSpectrums_Refresh(PatchDocumentViewModel patchDocumentViewModel)
-        {
-            Document childDocument = _repositories.DocumentRepository.Get(patchDocumentViewModel.ChildDocumentID);
-            IList<Operator> operators = childDocument.Patches[0].GetOperatorsOfType(OperatorTypeEnum.Spectrum);
-
-            foreach (Operator op in operators)
-            {
-                OperatorPropertiesViewModel_ForSpectrum viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForSpectrum(MainViewModel.Document, op.ID);
-                if (viewModel == null)
-                {
-                    viewModel = op.ToPropertiesViewModel_ForSpectrum();
-                    viewModel.Successful = true;
-                    patchDocumentViewModel.OperatorPropertiesList_ForSpectrums.Add(viewModel);
-                }
-                else
-                {
-                    OperatorProperties_ForSpectrum_Refresh(viewModel);
-                }
-            }
-
-            HashSet<int> idsToKeep = operators.Select(x => x.ID).ToHashSet();
-            patchDocumentViewModel.OperatorPropertiesList_ForSpectrums = patchDocumentViewModel.OperatorPropertiesList_ForSpectrums
-                                                                                               .Where(x => idsToKeep.Contains(x.ID))
-                                                                                               .ToList();
-        }
-
         private void OperatorPropertiesList_ForUnbundles_Refresh(PatchDocumentViewModel patchDocumentViewModel)
         {
             Document childDocument = _repositories.DocumentRepository.Get(patchDocumentViewModel.ChildDocumentID);
@@ -1006,7 +973,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesList_ForRandoms_Refresh(patchDocumentViewModel);
             OperatorPropertiesList_ForResamples_Refresh(patchDocumentViewModel);
             OperatorPropertiesList_ForSamples_Refresh(patchDocumentViewModel);
-            OperatorPropertiesList_ForSpectrums_Refresh(patchDocumentViewModel);
             OperatorPropertiesList_ForUnbundles_Refresh(patchDocumentViewModel);
 
             SamplePropertiesListRefresh(patchDocumentViewModel);

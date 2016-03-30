@@ -13,5 +13,6 @@ namespace JJ.OneOff.Synthesizer.DataMigration
         public const string StartTime = "StartTime";
         public const string EndTime = "EndTime";
         public const string SamplingRate = "SamplingRate";
+        public const string FrequencyCount = "FrequencyCount";
     }
 }

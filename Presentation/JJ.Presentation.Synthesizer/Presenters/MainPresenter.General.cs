@@ -67,7 +67,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly OperatorPropertiesPresenter_ForRandom _operatorPropertiesPresenter_ForRandom;
         private readonly OperatorPropertiesPresenter_ForResample _operatorPropertiesPresenter_ForResample;
         private readonly OperatorPropertiesPresenter_ForSample _operatorPropertiesPresenter_ForSample;
-        private readonly OperatorPropertiesPresenter_ForSpectrum _operatorPropertiesPresenter_ForSpectrum;
         private readonly OperatorPropertiesPresenter_ForUnbundle _operatorPropertiesPresenter_ForUnbundle;
         private readonly PatchDetailsPresenter _patchDetailsPresenter;
         private readonly PatchGridPresenter _patchGridPresenter;
@@ -136,7 +135,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _operatorPropertiesPresenter_ForRandom = new OperatorPropertiesPresenter_ForRandom(_patchRepositories);
             _operatorPropertiesPresenter_ForResample = new OperatorPropertiesPresenter_ForResample(_patchRepositories);
             _operatorPropertiesPresenter_ForSample = new OperatorPropertiesPresenter_ForSample(_patchRepositories);
-            _operatorPropertiesPresenter_ForSpectrum = new OperatorPropertiesPresenter_ForSpectrum(_patchRepositories);
             _operatorPropertiesPresenter_ForUnbundle = new OperatorPropertiesPresenter_ForUnbundle(_patchRepositories);
             _patchDetailsPresenter = new PatchDetailsPresenter(_patchRepositories, _entityPositionManager);
             _patchGridPresenter = new PatchGridPresenter(_repositories.DocumentRepository);
@@ -201,7 +199,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForRandoms).ForEach(x => x.Visible = false);
             MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForResamples).ForEach(x => x.Visible = false);
             MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForSamples).ForEach(x => x.Visible = false);
-            MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForSpectrums).ForEach(x => x.Visible = false);
             MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForUnbundles).ForEach(x => x.Visible = false);
             MainViewModel.Document.PatchDocumentList.SelectMany(x => x.SamplePropertiesList).ForEach(x => x.Visible = false);
             MainViewModel.Document.PatchDocumentList.ForEach(x => x.PatchProperties.Visible = false);

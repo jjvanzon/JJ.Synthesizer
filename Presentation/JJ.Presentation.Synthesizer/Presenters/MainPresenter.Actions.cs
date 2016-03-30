@@ -1162,14 +1162,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
             {
-                OperatorPropertiesViewModel_ForSpectrum userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForSpectrum(MainViewModel.Document, id);
-                if (userInput != null)
-                {
-                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForSpectrum.Show(userInput));
-                    return;
-                }
-            }
-            {
                 OperatorPropertiesViewModel_ForUnbundle userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForUnbundle(MainViewModel.Document, id);
                 if (userInput != null)
                 {
@@ -1254,11 +1246,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesCloseOrLoseFocus_ForSample(_operatorPropertiesPresenter_ForSample.Close);
         }
 
-        public void OperatorPropertiesClose_ForSpectrum()
-        {
-            OperatorPropertiesCloseOrLoseFocus_ForSpectrum(_operatorPropertiesPresenter_ForSpectrum.Close);
-        }
-
         public void OperatorPropertiesClose_ForUnbundle()
         {
             OperatorPropertiesCloseOrLoseFocus_ForUnbundle(_operatorPropertiesPresenter_ForUnbundle.Close);
@@ -1322,11 +1309,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void OperatorPropertiesLoseFocus_ForSample()
         {
             OperatorPropertiesCloseOrLoseFocus_ForSample(_operatorPropertiesPresenter_ForSample.LoseFocus);
-        }
-
-        public void OperatorPropertiesLoseFocus_ForSpectrum()
-        {
-            OperatorPropertiesCloseOrLoseFocus_ForSpectrum(_operatorPropertiesPresenter_ForSpectrum.LoseFocus);
         }
 
         public void OperatorPropertiesLoseFocus_ForUnbundle()
@@ -1508,21 +1490,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // TemplateMethod
             OperatorPropertiesViewModel_ForSample viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
-
-            // Refresh
-            if (viewModel.Successful)
-            {
-                PatchDetails_RefreshOperator(userInput.ID);
-            }
-        }
-
-        private void OperatorPropertiesCloseOrLoseFocus_ForSpectrum(Func<OperatorPropertiesViewModel_ForSpectrum, OperatorPropertiesViewModel_ForSpectrum> partialAction)
-        {
-            // GetViewModel
-            OperatorPropertiesViewModel_ForSpectrum userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForSpectrum(MainViewModel.Document);
-
-            // TemplateMethod
-            OperatorPropertiesViewModel_ForSpectrum viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
 
             // Refresh
             if (viewModel.Successful)

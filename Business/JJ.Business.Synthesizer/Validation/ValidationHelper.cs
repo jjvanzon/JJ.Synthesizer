@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer;
+using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Validation
 {
@@ -22,6 +26,41 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             return op.ID.ToString();
+        }
+
+        public static double? TryGetConstantNumberFromInlet(Inlet inlet)
+        {
+            if (inlet == null) throw new NullException(() => inlet);
+
+            // Be tolerant in warning validations.
+            if (inlet.InputOutlet == null)
+            {
+                return null;
+            }
+
+            if (inlet.InputOutlet.Operator == null)
+            {
+                return null;
+            }
+
+            if (inlet.InputOutlet.Operator.GetOperatorTypeEnum() != OperatorTypeEnum.Number)
+            {
+                return null;
+            }
+
+            if (!DataPropertyParser.DataIsWellFormed(inlet.InputOutlet.Operator.Data))
+            {
+                return null;
+            }
+
+            string numberString = DataPropertyParser.TryGetString(inlet.InputOutlet.Operator, PropertyNames.Number);
+            double number;
+            if (!Double.TryParse(numberString, out number))
+            {
+                return null;
+            }
+
+            return number;
         }
     }
 }

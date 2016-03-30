@@ -32,7 +32,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.Random,
             OperatorTypeEnum.Resample,
             OperatorTypeEnum.Sample,
-            OperatorTypeEnum.Spectrum,
             OperatorTypeEnum.Unbundle
         };
 

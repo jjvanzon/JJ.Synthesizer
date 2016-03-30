@@ -86,8 +86,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             operatorPropertiesUserControl_ForResample.LoseFocusRequested += operatorPropertiesUserControl_ForResample_LoseFocusRequested;
             operatorPropertiesUserControl_ForSample.CloseRequested += operatorPropertiesUserControl_ForSample_CloseRequested;
             operatorPropertiesUserControl_ForSample.LoseFocusRequested += operatorPropertiesUserControl_ForSample_LoseFocusRequested;
-            operatorPropertiesUserControl_ForSpectrum.CloseRequested += operatorPropertiesUserControl_ForSpectrum_CloseRequested;
-            operatorPropertiesUserControl_ForSpectrum.LoseFocusRequested += operatorPropertiesUserControl_ForSpectrum_LoseFocusRequested;
             operatorPropertiesUserControl_ForUnbundle.CloseRequested += operatorPropertiesUserControl_ForUnbundle_CloseRequested;
             operatorPropertiesUserControl_ForUnbundle.LoseFocusRequested += operatorPropertiesUserControl_ForUnbundle_LoseFocusRequested;
             patchDetailsUserControl.ChangeInputOutletRequested += patchDetailsUserControl_ChangeInputOutletRequested;
@@ -554,16 +552,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void operatorPropertiesUserControl_ForSample_CloseRequested(object sender, EventArgs e)
         {
             TemplateEventHandler(_presenter.OperatorPropertiesClose_ForSample);
-        }
-
-        private void operatorPropertiesUserControl_ForSpectrum_LoseFocusRequested(object sender, EventArgs e)
-        {
-            TemplateEventHandler(_presenter.OperatorPropertiesLoseFocus_ForSpectrum);
-        }
-
-        private void operatorPropertiesUserControl_ForSpectrum_CloseRequested(object sender, EventArgs e)
-        {
-            TemplateEventHandler(_presenter.OperatorPropertiesClose_ForSpectrum);
         }
 
         private void operatorPropertiesUserControl_ForUnbundle_LoseFocusRequested(object sender, EventArgs e)

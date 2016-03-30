@@ -173,11 +173,9 @@
     <Compile Include="UserControls\OperatorPropertiesUserControl_ForCache.Designer.cs">
       <DependentUpon>OperatorPropertiesUserControl_ForCache.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\OperatorPropertiesUserControl_ForSpectrum.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\OperatorPropertiesUserControl_ForSpectrum.Designer.cs">
-      <DependentUpon>OperatorPropertiesUserControl_ForSpectrum.cs</DependentUpon>
+    <Compile Include="UserControls\2016-03-30 Backup of OperatorPropertiesUserControl_ForSpectrum.cs" />
+    <Compile Include="UserControls\2016-03-30 Backup of OperatorPropertiesUserControl_ForSpectrum.Designer.cs">
+      <DependentUpon>2016-03-30 Backup of OperatorPropertiesUserControl_ForSpectrum.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_ForUnbundle.cs">
       <SubType>UserControl</SubType>
@@ -405,8 +403,8 @@
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForCache.resx">
       <DependentUpon>OperatorPropertiesUserControl_ForCache.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForSpectrum.resx">
-      <DependentUpon>OperatorPropertiesUserControl_ForSpectrum.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\2016-03-30 Backup of OperatorPropertiesUserControl_ForSpectrum.resx">
+      <DependentUpon>2016-03-30 Backup of OperatorPropertiesUserControl_ForSpectrum.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForUnbundle.resx">
       <DependentUpon>OperatorPropertiesUserControl_ForUnbundle.cs</DependentUpon>
