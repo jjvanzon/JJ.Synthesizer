@@ -61,7 +61,7 @@ namespace JJ.Business.Synthesizer.Validation
                 int uniqueActualDataKeyCount = actualDataKeysList.Distinct().Count();
                 if (uniqueActualDataKeyCount != actualDataKeysList.Count)
                 {
-                    ValidationMessages.AddNotUniqueMessage(PropertyNames.DataKeys, PropertyDisplayNames.DataKeys);
+                    ValidationMessages.AddNotUniqueMessagePlural(PropertyNames.DataKeys, PropertyDisplayNames.DataKeys);
                 }
                 else
                 {
@@ -73,8 +73,7 @@ namespace JJ.Business.Synthesizer.Validation
                         bool dataKeyIsAllowed = _allowedDataKeysHashSet.Contains(actualDataKey);
                         if (!dataKeyIsAllowed)
                         {
-                            string dataKeyIdentifier = ValidationHelper.GetDataKeyIdentifier(actualDataKey);
-                            ValidationMessages.AddNotInListMessage(PropertyNames.DataKey, dataKeyIdentifier);
+                            ValidationMessages.AddNotInListMessage(PropertyNames.DataKey, PropertyDisplayNames.DataKey, actualDataKey);
                         }
                     }
                 }
