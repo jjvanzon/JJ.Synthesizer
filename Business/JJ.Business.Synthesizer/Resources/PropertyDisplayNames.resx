@@ -758,4 +758,16 @@
   <data name="UnderlyingPatchID" xml:space="preserve">
     <value>Underlying Patch ID</value>
   </data>
+  <data name="ChangeTrigger" xml:space="preserve">
+    <value>Change Trigger</value>
+  </data>
+  <data name="ToggleTrigger" xml:space="preserve">
+    <value>Toggle Trigger</value>
+  </data>
+  <data name="Trigger" xml:space="preserve">
+    <value>Trigger</value>
+  </data>
+  <data name="Calculation" xml:space="preserve">
+    <value>Calculation</value>
+  </data>
 </root>

@@ -268,6 +268,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Calculation.
+        /// </summary>
+        public static string Calculation {
+            get {
+                return ResourceManager.GetString("Calculation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cent.
         /// </summary>
         public static string Cent {
@@ -282,6 +291,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Cents {
             get {
                 return ResourceManager.GetString("Cents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change Trigger.
+        /// </summary>
+        public static string ChangeTrigger {
+            get {
+                return ResourceManager.GetString("ChangeTrigger", resourceCulture);
             }
         }
         
@@ -1816,6 +1834,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Toggle Trigger.
+        /// </summary>
+        public static string ToggleTrigger {
+            get {
+                return ResourceManager.GetString("ToggleTrigger", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tone.
         /// </summary>
         public static string Tone {
@@ -1866,6 +1893,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Triangle {
             get {
                 return ResourceManager.GetString("Triangle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trigger.
+        /// </summary>
+        public static string Trigger {
+            get {
+                return ResourceManager.GetString("Trigger", resourceCulture);
             }
         }
         

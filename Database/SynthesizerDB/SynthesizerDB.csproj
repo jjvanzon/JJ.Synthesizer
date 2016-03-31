@@ -94,6 +94,9 @@
     <Content Include="2015-10-29 010 SynthesizerDB Operator Type 26 - Select.sql" />
     <Content Include="2015-10-26 010 SynthesizerDB Operator Type 25 - Loop.sql" />
     <Content Include="2015-11-07 030 SynthesizerDB rename OperatorType TimeSubtract to Earlier - Copy.sql" />
+    <Content Include="2016-04-01 030 SynthesizerDB OperatorType 62 - ToggleTrigger.sql" />
+    <Content Include="2016-04-01 020 SynthesizerDB OperatorType 61 - ChangeTrigger.sql" />
+    <Content Include="2016-04-01 010 SynthesizerDB OperatorType 60 - Trigger.sql" />
     <Content Include="2016-03-27 010 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2016-03-30 030 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2016-03-30 020 SynthesizerDB RUN UTILITY.sql" />

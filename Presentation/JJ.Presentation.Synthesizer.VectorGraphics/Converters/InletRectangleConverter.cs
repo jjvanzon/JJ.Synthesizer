@@ -89,7 +89,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             if (_toolTipFeatureEnabled)
             {
                 destInletRectangle.Gestures.Add(_inletToolTipGesture);
-                destInletRectangle.MustBubble = false; // The is only done to make the tooltip work, so if the tooltip uses another region, it is not necessary anymore.
             }
 
             return destInletRectangle;

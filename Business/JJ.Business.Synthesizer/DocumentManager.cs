@@ -13,6 +13,7 @@ using JJ.Framework.Business;
 using System.Collections.Generic;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Warnings;
+using JJ.Business.Synthesizer.Validation.Documents;
 
 namespace JJ.Business.Synthesizer
 {
@@ -68,7 +69,7 @@ namespace JJ.Business.Synthesizer
 
         public VoidResult SaveChildDocument(Document entity)
         {
-            IValidator validator = new DocumentValidator_ChildDocument(entity);
+            IValidator validator = new ChildDocument_DocumentValidator(entity);
             if (!validator.IsValid)
             {
                 return new VoidResult
@@ -83,7 +84,7 @@ namespace JJ.Business.Synthesizer
 
         public VoidResult ValidateRecursive(Document entity)
         {
-            IValidator validator = new DocumentValidator_Recursive(
+            IValidator validator = new Recursive_DocumentValidator(
                 entity, 
                 _repositories.CurveRepository, _repositories. SampleRepository, _repositories.PatchRepository, 
                 new HashSet<object>());
@@ -99,7 +100,7 @@ namespace JJ.Business.Synthesizer
 
         public VoidResult ValidateNonRecursive(Document entity)
         {
-            IValidator validator = new DocumentValidator_Basic(entity);
+            IValidator validator = new Basic_DocumentValidator(entity);
 
             var result = new VoidResult
             {

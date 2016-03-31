@@ -10,6 +10,7 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Validation.Operators;
 
 namespace JJ.Business.Synthesizer.Validation
 {
@@ -53,7 +54,7 @@ namespace JJ.Business.Synthesizer.Validation
                 string messagePrefix = ValidationHelper.GetMessagePrefix(op, _sampleRepository, _curveRepository, _patchRepository);
                 
                 Execute(new OperatorValidator_IsCircular(op, _patchRepository), messagePrefix);
-                Execute(new OperatorValidator_Recursive(op, _curveRepository, _sampleRepository, _patchRepository, _alreadyDone), messagePrefix);
+                Execute(new Recursive_OperatorValidator(op, _curveRepository, _sampleRepository, _patchRepository, _alreadyDone), messagePrefix);
             }
         }
 

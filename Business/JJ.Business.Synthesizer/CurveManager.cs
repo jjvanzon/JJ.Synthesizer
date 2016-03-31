@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using JJ.Business.Synthesizer.Calculation.Curves;
 using JJ.Business.Canonical;
 using JJ.Framework.Common.Exceptions;
+using JJ.Business.Synthesizer.Validation.Curves;
 
 namespace JJ.Business.Synthesizer
 {

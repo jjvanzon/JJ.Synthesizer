@@ -757,4 +757,16 @@
   <data name="UnderlyingPatchID" xml:space="preserve">
     <value>Onderliggende schakeling ID</value>
   </data>
+  <data name="ChangeTrigger" xml:space="preserve">
+    <value>Afgaan bij verandering</value>
+  </data>
+  <data name="ToggleTrigger" xml:space="preserve">
+    <value>Afgaan bij schakelen</value>
+  </data>
+  <data name="Trigger" xml:space="preserve">
+    <value>Afgaan</value>
+  </data>
+  <data name="Calculation" xml:space="preserve">
+    <value>Berekening</value>
+  </data>
 </root>

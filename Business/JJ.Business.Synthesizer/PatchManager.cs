@@ -16,6 +16,7 @@ using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Validation.Operators;
 
 namespace JJ.Business.Synthesizer
 {
@@ -364,7 +365,7 @@ namespace JJ.Business.Synthesizer
 
         private VoidResult ValidateOperatorNonRecursive(Operator op)
         {
-            IValidator validator = new OperatorValidator_Versatile(op, _repositories.PatchRepository);
+            IValidator validator = new Versatile_OperatorValidator(op, _repositories.PatchRepository);
 
             return new VoidResult
             {

@@ -17,6 +17,7 @@ using System.Reflection;
 using JJ.Business.Synthesizer.Calculation.Random;
 using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Framework.Common.Exceptions;
+using JJ.Business.Synthesizer.Validation.Operators;
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {
@@ -114,7 +115,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     continue;
                 }
 
-                IValidator validator = new OperatorValidator_Recursive(
+                IValidator validator = new Recursive_OperatorValidator(
                     channelOutlet.Operator,
                     _curveRepository, _sampleRepository, _patchRepository,
                     alreadyDone: new HashSet<object>());

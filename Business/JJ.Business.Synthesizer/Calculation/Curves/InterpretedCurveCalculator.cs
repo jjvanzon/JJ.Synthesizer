@@ -10,6 +10,7 @@ using System;
 using JJ.Framework.Mathematics;
 using System.Collections.Generic;
 using JJ.Framework.Common.Exceptions;
+using JJ.Business.Synthesizer.Validation.Curves;
 
 namespace JJ.Business.Synthesizer.Calculation.Curves
 {

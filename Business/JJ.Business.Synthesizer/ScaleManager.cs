@@ -14,6 +14,7 @@ using JJ.Framework.Business;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
+using JJ.Business.Synthesizer.Validation.Scales;
 
 namespace JJ.Business.Synthesizer
 {
@@ -81,7 +82,7 @@ namespace JJ.Business.Synthesizer
 
             var validators = new List<IValidator>
             {
-                new ScaleValidator_Versatile_WithoutTones(scale),
+                new Versatile_ScaleValidator_WithoutTones(scale),
                 new ScaleValidator_UniqueName(scale)
             };
 
