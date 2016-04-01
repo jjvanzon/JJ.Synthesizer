@@ -172,6 +172,24 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        public ChangeTrigger_OperatorWrapper ChangeTrigger(Outlet calculation = null, Outlet reset = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.ChangeTrigger, inletCount: 2, outletCount: 1);
+
+            var wrapper = new ChangeTrigger_OperatorWrapper(op)
+            {
+                Calculation = calculation,
+                Reset = reset
+            };
+
+            op.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
         public Cache_OperatorWrapper Cache(
             Outlet signal = null,
             Outlet startTime = null,
@@ -1254,6 +1272,24 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        public ToggleTrigger_OperatorWrapper ToggleTrigger(Outlet calculation = null, Outlet reset = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.ToggleTrigger, inletCount: 2, outletCount: 1);
+
+            var wrapper = new ToggleTrigger_OperatorWrapper(op)
+            {
+                Calculation = calculation,
+                Reset = reset
+            };
+
+            op.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
         public Triangle_OperatorWrapper Triangle(Outlet frequency = null, Outlet phaseShift = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Triangle, inletCount: 2, outletCount: 1);
@@ -1262,6 +1298,24 @@ namespace JJ.Business.Synthesizer
             {
                 Frequency = frequency,
                 PhaseShift = phaseShift
+            };
+
+            op.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
+        public PulseTrigger_OperatorWrapper PulseTrigger(Outlet calculation = null, Outlet reset = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.PulseTrigger, inletCount: 2, outletCount: 1);
+
+            var wrapper = new PulseTrigger_OperatorWrapper(op)
+            {
+                Calculation = calculation,
+                Reset = reset
             };
 
             op.LinkTo(Patch);
@@ -1331,6 +1385,7 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.And: return And();
                 case OperatorTypeEnum.Average: return Average();
                 case OperatorTypeEnum.Bundle: return Bundle(new Outlet[inletCount]);
+                case OperatorTypeEnum.ChangeTrigger: return ChangeTrigger();
                 case OperatorTypeEnum.Cache: return Cache();
                 case OperatorTypeEnum.Curve: return Curve();
                 case OperatorTypeEnum.CustomOperator: return CustomOperator();
@@ -1363,6 +1418,7 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.PatchOutlet: return PatchOutlet();
                 case OperatorTypeEnum.Power: return Power();
                 case OperatorTypeEnum.Pulse: return Pulse();
+                case OperatorTypeEnum.PulseTrigger: return PulseTrigger();
                 case OperatorTypeEnum.Random: return Random();
                 case OperatorTypeEnum.Resample: return Resample();
                 case OperatorTypeEnum.Reset: return Reset();
@@ -1382,6 +1438,7 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.Stretch: return Stretch();
                 case OperatorTypeEnum.Subtract: return Subtract();
                 case OperatorTypeEnum.TimePower: return TimePower();
+                case OperatorTypeEnum.ToggleTrigger: return ToggleTrigger();
                 case OperatorTypeEnum.Triangle: return Triangle();
                 case OperatorTypeEnum.Unbundle: return Unbundle();
 

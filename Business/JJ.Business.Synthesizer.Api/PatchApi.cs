@@ -56,6 +56,11 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Average(signal, timeSliceDuration, sampleCount);
         }
 
+        public ChangeTrigger_OperatorWrapper ChangeTrigger(Outlet calculation, Outlet reset)
+        {
+            return _patchManager.ChangeTrigger(calculation, reset);
+        }
+
         public Cache_OperatorWrapper Cache(
             Outlet signal = null,
             Outlet startTime = null,
@@ -281,6 +286,11 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Pulse(frequency, width, phaseShift);
         }
 
+        public PulseTrigger_OperatorWrapper PulseTrigger(Outlet calculation, Outlet reset)
+        {
+            return _patchManager.PulseTrigger(calculation, reset);
+        }
+
         public Random_OperatorWrapper Random(Outlet rate = null, Outlet phaseShift = null)
         {
             return _patchManager.Random(rate, phaseShift);
@@ -386,6 +396,11 @@ namespace JJ.Business.Synthesizer.Api
         public TimePower_OperatorWrapper TimePower(Outlet signal = null, Outlet exponent = null, Outlet origin = null)
         {
             return _patchManager.TimePower(signal, exponent, origin);
+        }
+
+        public ToggleTrigger_OperatorWrapper ToggleTrigger(Outlet calculation, Outlet reset)
+        {
+            return _patchManager.ToggleTrigger(calculation, reset);
         }
 
         public Triangle_OperatorWrapper Triangle(Outlet frequency = null, Outlet phaseShift = null)

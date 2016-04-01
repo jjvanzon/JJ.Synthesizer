@@ -110,7 +110,7 @@
         /// Perhaps instead useful filters will be selected and turned into a separate operator.
         /// </summary>
         Filter = 59,
-        Trigger = 60,
+        PulseTrigger = 60,
         ChangeTrigger = 61,
         ToggleTrigger = 62
     }

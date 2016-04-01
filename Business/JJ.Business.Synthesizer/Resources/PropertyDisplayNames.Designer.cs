@@ -1321,6 +1321,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pulse Trigger.
+        /// </summary>
+        public static string PulseTrigger {
+            get {
+                return ResourceManager.GetString("PulseTrigger", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Random.
         /// </summary>
         public static string Random {
@@ -1893,15 +1902,6 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Triangle {
             get {
                 return ResourceManager.GetString("Triangle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Trigger.
-        /// </summary>
-        public static string Trigger {
-            get {
-                return ResourceManager.GetString("Trigger", resourceCulture);
             }
         }
         

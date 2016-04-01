@@ -23,6 +23,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.Average, VisitAverage },
                 { OperatorTypeEnum.Bundle, VisitBundle },
                 { OperatorTypeEnum.Cache, VisitCache },
+                { OperatorTypeEnum.ChangeTrigger, VisitChangeTrigger },
                 { OperatorTypeEnum.Curve, VisitCurveOperator },
                 { OperatorTypeEnum.CustomOperator, VisitCustomOperator },
                 { OperatorTypeEnum.Delay, VisitDelay },
@@ -54,6 +55,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.PatchOutlet, VisitPatchOutlet },
                 { OperatorTypeEnum.Power, VisitPower },
                 { OperatorTypeEnum.Pulse, VisitPulse },
+                { OperatorTypeEnum.PulseTrigger, VisitPulseTrigger },
                 { OperatorTypeEnum.Random, VisitRandom },
                 { OperatorTypeEnum.Resample, VisitResample },
                 { OperatorTypeEnum.Reset, VisitReset },
@@ -73,6 +75,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.Stretch, VisitStretch },
                 { OperatorTypeEnum.Subtract, VisitSubtract },
                 { OperatorTypeEnum.TimePower, VisitTimePower },
+                { OperatorTypeEnum.ToggleTrigger, VisitToggleTrigger },
                 { OperatorTypeEnum.Triangle, VisitTriangle },
                 { OperatorTypeEnum.Unbundle, VisitUnbundle },
             };
@@ -133,6 +136,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         /// <summary> does nothing </summary>
         protected virtual void VisitBundle(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitChangeTrigger(Operator op) { }
 
         /// <summary> does nothing </summary>
         protected virtual void VisitCache(Operator op) { }
@@ -231,6 +237,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected virtual void VisitPulse(Operator op) { }
 
         /// <summary> does nothing </summary>
+        protected virtual void VisitPulseTrigger(Operator op) { }
+
+        /// <summary> does nothing </summary>
         protected virtual void VisitRandom(Operator op) { }
 
         /// <summary> does nothing </summary>
@@ -289,6 +298,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         /// <summary> does nothing </summary>
         protected virtual void VisitTriangle(Operator op) { }
+        
+        /// <summary> does nothing </summary>
+        protected virtual void VisitToggleTrigger(Operator op) { }
 
         /// <summary> does nothing </summary>
         protected virtual void VisitUnbundle(Operator op) { }

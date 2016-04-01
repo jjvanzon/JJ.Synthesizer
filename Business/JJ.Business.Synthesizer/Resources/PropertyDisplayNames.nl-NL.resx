@@ -763,8 +763,8 @@
   <data name="ToggleTrigger" xml:space="preserve">
     <value>Afgaan bij schakelen</value>
   </data>
-  <data name="Trigger" xml:space="preserve">
-    <value>Afgaan</value>
+  <data name="PulseTrigger" xml:space="preserve">
+    <value>Afgaan op impuls</value>
   </data>
   <data name="Calculation" xml:space="preserve">
     <value>Berekening</value>

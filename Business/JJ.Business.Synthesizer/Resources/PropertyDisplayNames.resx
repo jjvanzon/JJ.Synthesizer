@@ -764,8 +764,8 @@
   <data name="ToggleTrigger" xml:space="preserve">
     <value>Toggle Trigger</value>
   </data>
-  <data name="Trigger" xml:space="preserve">
-    <value>Trigger</value>
+  <data name="PulseTrigger" xml:space="preserve">
+    <value>Pulse Trigger</value>
   </data>
   <data name="Calculation" xml:space="preserve">
     <value>Calculation</value>

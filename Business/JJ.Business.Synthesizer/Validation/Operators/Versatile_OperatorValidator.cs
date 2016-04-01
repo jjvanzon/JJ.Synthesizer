@@ -22,6 +22,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             { OperatorTypeEnum.Average, typeof(Average_OperatorValidator) },
             { OperatorTypeEnum.Bundle, typeof(Bundle_OperatorValidator) },
             { OperatorTypeEnum.Cache, typeof(Cache_OperatorValidator) },
+            { OperatorTypeEnum.ChangeTrigger, typeof(ChangeTrigger_OperatorValidator) },
             { OperatorTypeEnum.Curve, typeof(Curve_OperatorValidator) },
             { OperatorTypeEnum.Delay, typeof(Delay_OperatorValidator) },
             { OperatorTypeEnum.Divide, typeof(Divide_OperatorValidator) },
@@ -71,7 +72,9 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             { OperatorTypeEnum.Stretch, typeof(Stretch_OperatorValidator) },
             { OperatorTypeEnum.Subtract, typeof(Subtract_OperatorValidator) },
             { OperatorTypeEnum.TimePower, typeof(TimePower_OperatorValidator) },
+            { OperatorTypeEnum.ToggleTrigger, typeof(ToggleTrigger_OperatorValidator) },
             { OperatorTypeEnum.Triangle, typeof(Triangle_OperatorValidator) },
+            { OperatorTypeEnum.PulseTrigger, typeof(PulseTrigger_OperatorValidator) },
             { OperatorTypeEnum.Unbundle, typeof(Unbundle_OperatorValidator) }
         };
 

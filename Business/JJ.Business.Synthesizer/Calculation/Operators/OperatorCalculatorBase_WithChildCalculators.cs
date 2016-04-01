@@ -18,6 +18,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _childOperatorCalculators = childOperatorCalculators.ToArray();
         }
 
+        /// <summary> Base implementation resets the state of the ChildOperatorCalculators. </summary>
         public override void ResetState()
         {
             for (int i = 0; i < _childOperatorCalculators.Length; i++)

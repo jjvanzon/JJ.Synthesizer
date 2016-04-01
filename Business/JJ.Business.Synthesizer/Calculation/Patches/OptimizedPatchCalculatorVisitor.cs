@@ -328,6 +328,35 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
+        protected override void VisitChangeTrigger(Operator op)
+        {
+            OperatorCalculatorBase operatorCalculator;
+
+            OperatorCalculatorBase calculationCalculator = _stack.Pop();
+            OperatorCalculatorBase resetCalculator = _stack.Pop();
+
+            calculationCalculator = calculationCalculator ?? new Zero_OperatorCalculator();
+            resetCalculator = resetCalculator ?? new Zero_OperatorCalculator();
+
+            bool calculationIsConst = calculationCalculator is Number_OperatorCalculator;
+            bool resetIsConst = resetCalculator is Number_OperatorCalculator;
+
+            if (calculationIsConst)
+            {
+                operatorCalculator = calculationCalculator;
+            }
+            else if (resetIsConst)
+            {
+                operatorCalculator = calculationCalculator;
+            }
+            else
+            {
+                operatorCalculator = new ChangeTrigger_OperatorCalculator(calculationCalculator, resetCalculator);
+            }
+
+            _stack.Push(operatorCalculator);
+        }
+
         protected override void VisitCache(Operator op)
         {
             OperatorCalculatorBase calculator = null;
@@ -1918,6 +1947,35 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
+        protected override void VisitPulseTrigger(Operator op)
+        {
+            OperatorCalculatorBase operatorCalculator;
+
+            OperatorCalculatorBase calculationCalculator = _stack.Pop();
+            OperatorCalculatorBase resetCalculator = _stack.Pop();
+
+            calculationCalculator = calculationCalculator ?? new Zero_OperatorCalculator();
+            resetCalculator = resetCalculator ?? new Zero_OperatorCalculator();
+
+            bool calculationIsConst = calculationCalculator is Number_OperatorCalculator;
+            bool resetIsConst = resetCalculator is Number_OperatorCalculator;
+
+            if (calculationIsConst)
+            {
+                operatorCalculator = calculationCalculator;
+            }
+            else if (resetIsConst)
+            {
+                operatorCalculator = calculationCalculator;
+            }
+            else
+            {
+                operatorCalculator = new PulseTrigger_OperatorCalculator(calculationCalculator, resetCalculator);
+            }
+
+            _stack.Push(operatorCalculator);
+        }
+
         protected override void VisitRandom(Operator op)
         {
             int randomCalculatorOffset;
@@ -2962,6 +3020,35 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
 
             _stack.Push(calculator);
+        }
+
+        protected override void VisitToggleTrigger(Operator op)
+        {
+            OperatorCalculatorBase operatorCalculator;
+
+            OperatorCalculatorBase calculationCalculator = _stack.Pop();
+            OperatorCalculatorBase resetCalculator = _stack.Pop();
+
+            calculationCalculator = calculationCalculator ?? new Zero_OperatorCalculator();
+            resetCalculator = resetCalculator ?? new Zero_OperatorCalculator();
+
+            bool calculationIsConst = calculationCalculator is Number_OperatorCalculator;
+            bool resetIsConst = resetCalculator is Number_OperatorCalculator;
+
+            if (calculationIsConst)
+            {
+                operatorCalculator = calculationCalculator;
+            }
+            else if (resetIsConst)
+            {
+                operatorCalculator = calculationCalculator;
+            }
+            else
+            {
+                operatorCalculator = new ToggleTrigger_OperatorCalculator(calculationCalculator, resetCalculator);
+            }
+
+            _stack.Push(operatorCalculator);
         }
 
         protected override void VisitTriangle(Operator op)

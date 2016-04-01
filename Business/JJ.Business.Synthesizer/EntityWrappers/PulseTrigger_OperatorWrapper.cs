@@ -6,13 +6,13 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Trigger_OperatorWrapper : OperatorWrapperBase
+    public class PulseTrigger_OperatorWrapper : OperatorWrapperBase
     {
         private const int CALCULATION_INDEX = 0;
         private const int RESET_INDEX = 1;
         private const int RESULT_INDEX = 0;
 
-        public Trigger_OperatorWrapper(Operator op)
+        public PulseTrigger_OperatorWrapper(Operator op)
             : base(op)
         { }
 
@@ -62,7 +62,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             return name;
         }
 
-        public static implicit operator Outlet(Trigger_OperatorWrapper wrapper)
+        public static implicit operator Outlet(PulseTrigger_OperatorWrapper wrapper)
         {
             if (wrapper == null) return null;
 

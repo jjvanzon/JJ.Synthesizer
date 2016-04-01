@@ -1,0 +1,1 @@
+update OperatorType set Name = 'PulseTrigger' where ID = 60 /*Trigger*/

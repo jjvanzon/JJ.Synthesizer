@@ -19,6 +19,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             { OperatorTypeEnum.Average, typeof(Average_OperatorWarningValidator) },
             { OperatorTypeEnum.Bundle, typeof(Bundle_OperatorWarningValidator) },
             { OperatorTypeEnum.Cache, typeof(Cache_OperatorWarningValidator) },
+            { OperatorTypeEnum.ChangeTrigger, typeof(ChangeTrigger_OperatorWarningValidator) },
             { OperatorTypeEnum.Curve, typeof(Curve_OperatorWarningValidator) },
             { OperatorTypeEnum.CustomOperator, typeof(CustomOperator_OperatorWarningValidator) },
             { OperatorTypeEnum.Delay, typeof(Delay_OperatorWarningValidator) },
@@ -66,7 +67,9 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             { OperatorTypeEnum.Stretch, typeof(Stretch_OperatorWarningValidator) },
             { OperatorTypeEnum.Subtract, typeof(Subtract_OperatorWarningValidator) },
             { OperatorTypeEnum.TimePower, typeof(TimePower_OperatorWarningValidator) },
+            { OperatorTypeEnum.ToggleTrigger, typeof(ToggleTrigger_OperatorWarningValidator) },
             { OperatorTypeEnum.Triangle, typeof(Triangle_OperatorWarningValidator) },
+            { OperatorTypeEnum.PulseTrigger, typeof(PulseTrigger_OperatorWarningValidator) },
             { OperatorTypeEnum.Unbundle, typeof(Unbundle_OperatorWarningValidator) },
         };
 
