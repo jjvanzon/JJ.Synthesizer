@@ -10,7 +10,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _calculationCalculator;
         private readonly OperatorCalculatorBase _resetCalculator;
 
-        private double _previousTriggerValue;
+        /// <summary> Int32 because assigning 0 can be very fast in machine code. </summary>
+        private int _previousZero;
 
         public PulseTrigger_OperatorCalculator(
             OperatorCalculatorBase calculationCalculator,
@@ -24,85 +25,39 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _resetCalculator = resetCalculator;
         }
 
-        //public override double Calculate(double time, int channelIndex)
-        //{
-        //    if (_previousTriggerValue == 0)
-        //    {
-        //        double newTriggerValue = _resetCalculator.Calculate(time, channelIndex);
-
-        //        if (newTriggerValue != 0)
-        //        {
-        //            _calculationCalculator.ResetState();
-
-        //            _previousTriggerValue = 1;
-        //        }
-        //        else
-        //        {
-        //            _previousTriggerValue = 0;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        _previousTriggerValue = 0;
-        //    }
-
-        //    return _calculationCalculator.Calculate(time, channelIndex);
-        //}
-
-        //public override double Calculate(double time, int channelIndex)
-        //{
-        //    if (_previousTriggerValue == 0)
-        //    {
-        //        double newTriggerValue = _resetCalculator.Calculate(time, channelIndex);
-
-        //        if (newTriggerValue != 0)
-        //        {
-        //            _calculationCalculator.ResetState();
-
-        //            _previousTriggerValue = 1;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        _previousTriggerValue = 1;
-        //    }
-
-        //    return _calculationCalculator.Calculate(time, channelIndex);
-        //}
-
         public override double Calculate(double time, int channelIndex)
         {
             double newTriggerValue = _resetCalculator.Calculate(time, channelIndex);
 
-            if (_previousTriggerValue == 0.0 && newTriggerValue != 0.0)
+            if (_previousZero == 0 && newTriggerValue != 0)
             {
                 _calculationCalculator.ResetState();
-            }
 
-            _previousTriggerValue = newTriggerValue;
+                // _previousZero = something non-zero, by flipping all bits.
+                _previousZero = ~_previousZero;
+            }
+            else if (newTriggerValue == 0)
+            {
+                // _previousZero = 0, by XOR'ing it onto itself.
+                _previousZero ^= _previousZero;
+            }
 
             return _calculationCalculator.Calculate(time, channelIndex);
         }
 
+        // Non-Optimized version
         //public override double Calculate(double time, int channelIndex)
         //{
-        //    if (_previousResetValue == 0.0)
-        //    {
-        //        double newResetValue = _resetCalculator.Calculate(time, channelIndex);
+        //    double newTriggerValue = _resetCalculator.Calculate(time, channelIndex);
 
-        //        if (newResetValue != 0.0)
-        //        {
-        //            _calculationCalculator.ResetState();
-
-        //            _previousResetValue = newResetValue;
-        //        }
-        //    }
-        //    else
+        //    if (_previousTriggerValue == 0 && newTriggerValue != 0)
         //    {
-        //        _previousResetValue = 0.0;
+        //        _calculationCalculator.ResetState();
         //    }
 
-        //    throw new NotImplementedException();
+        //    _previousTriggerValue = newTriggerValue;
+
+        //    return _calculationCalculator.Calculate(time, channelIndex);
         //}
     }
 }

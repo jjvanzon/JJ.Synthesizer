@@ -10,7 +10,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _calculationCalculator;
         private readonly OperatorCalculatorBase _resetCalculator;
 
-        private double _previousTriggerValue;
+        /// <summary> Int32 because assigning 0 can be very fast in machine code. </summary>
+        private int _previousZero;
 
         public ToggleTrigger_OperatorCalculator(
             OperatorCalculatorBase calculationCalculator,
@@ -28,17 +29,21 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double newTriggerValue = _resetCalculator.Calculate(time, channelIndex);
 
-            if (_previousTriggerValue == 0 && newTriggerValue != 0)
+            bool newValueIsZero = newTriggerValue == 0;
+
+            if (_previousZero == 0 && !newValueIsZero)
             {
                 _calculationCalculator.ResetState();
 
-                _previousTriggerValue = 1;
+                // _previousZero = something non-zero, by flipping all bits.
+                _previousZero = ~_previousZero;
             }
-            else if (_previousTriggerValue != 0 && newTriggerValue == 0)
+            else if (_previousZero != 0 && newValueIsZero)
             {
                 _calculationCalculator.ResetState();
 
-                _previousTriggerValue = 0;
+                // _previousZero = 0, by XOR'ing it onto itself.
+                _previousZero ^= _previousZero;
             }
 
             return _calculationCalculator.Calculate(time, channelIndex);
