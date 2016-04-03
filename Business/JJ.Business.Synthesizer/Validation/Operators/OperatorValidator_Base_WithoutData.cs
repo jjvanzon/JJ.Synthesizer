@@ -20,9 +20,9 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         protected override void Execute()
         {
-            base.Execute();
-
             For(() => Object.Data, PropertyDisplayNames.Data).IsNull();
+
+            base.Execute();
         }
     }
 }

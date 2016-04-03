@@ -273,7 +273,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             detailsViewModel.Successful = true;
 
             // DispatchViewModel
-            DispatchViewModel(detailsViewModel);
+            DispatchAutoPatchDetailsViewModel(detailsViewModel);
         }
 
         public void CurrentPatchesPreviewAutoPatch()
@@ -328,7 +328,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             detailsViewModel.Successful = true;
 
             // DispatchViewModel
-            DispatchViewModel(detailsViewModel);
+            DispatchAutoPatchDetailsViewModel(detailsViewModel);
         }
 
         // Curve

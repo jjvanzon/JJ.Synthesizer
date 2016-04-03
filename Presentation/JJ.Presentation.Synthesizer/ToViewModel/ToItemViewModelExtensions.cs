@@ -165,6 +165,21 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // Patch
 
+        public static PatchTreeNodeViewModel ToPatchTreeNodeViewModel(this Document document)
+        {
+            if (document == null) throw new NullException(() => document);
+
+            var viewModel = new PatchTreeNodeViewModel
+            {
+                Name = document.Name,
+                CurvesNode = new DummyViewModel(),
+                SamplesNode = new DummyViewModel(),
+                ChildDocumentID = document.ID
+            };
+
+            return viewModel;
+        }
+
         public static PatchViewModel ToViewModel(this Patch entity)
         {
             if (entity == null) throw new NullException(() => entity);

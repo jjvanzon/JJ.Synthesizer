@@ -13,12 +13,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Data.Canonical;
+using JJ.Framework.Configuration;
+using JJ.Presentation.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
     /// <summary> Empty view models start out with Visible = false. </summary>
     internal static partial class ViewModelHelper
     {
+        private static readonly bool _previewAutoPatchPolyphonicEnabled = GetPreviewAutoPatchPolyphonicEnabled();
+
         private static HashSet<OperatorTypeEnum> _operatorTypeEnums_WithTheirOwnPropertyViews = new HashSet<OperatorTypeEnum>
         {
             OperatorTypeEnum.Bundle,
@@ -47,6 +51,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new CurrentPatchesViewModel
             {
                 List = childDocuments.Select(x => x.ToCurrentPatchViewModel()).ToList(),
+                CanPreviewAutoPatchPolyphonic = _previewAutoPatchPolyphonicEnabled,
                 ValidationMessages = new List<Message>()
             };
 
@@ -437,6 +442,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             // Use OperatorType DisplayName as fallback.
             string caption = ResourceHelper.GetDisplayName(op.GetOperatorTypeEnum());
             return caption;
+        }
+
+        private static bool GetPreviewAutoPatchPolyphonicEnabled()
+        {
+            return CustomConfigurationManager.GetSection<ConfigurationSection>().PreviewAutoPatchPolyphonicEnabled;
         }
     }
 }

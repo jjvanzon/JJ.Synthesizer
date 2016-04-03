@@ -190,7 +190,6 @@ Wait:
 
                     // Checking this here is not ideal, but the alternative, yet another thread, is too difficult to me.
                     patchCalculatorInfo.IsActive = !_noteRecycler.IsNoteReleased(patchCalculatorInfo.NoteListIndex, _t0);
-
                     if (!patchCalculatorInfo.IsActive)
                     {
                         continue;
@@ -451,12 +450,13 @@ Wait:
             return patchCalculatorInfo;
         }
 
-        private void SetDelay(int patchCalculatorIndex, double delay)
-        {
-            PatchCalculatorInfo patchCalculatorInfo = GetPatchCalculatorInfo(patchCalculatorIndex);
+        // TODO: Remove outcommented method.
+        //private void SetDelay(int patchCalculatorIndex, double delay)
+        //{
+        //    PatchCalculatorInfo patchCalculatorInfo = GetPatchCalculatorInfo(patchCalculatorIndex);
 
-            patchCalculatorInfo.NoteStart = delay;
-        }
+        //    patchCalculatorInfo.NoteStart = delay;
+        //}
 
         // Source: http://stackoverflow.com/questions/1400465/why-is-there-no-overload-of-interlocked-add-that-accepts-doubles-as-parameters
         //private static double InterlockedAddDouble(ref double location1, double value)

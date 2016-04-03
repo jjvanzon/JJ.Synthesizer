@@ -120,6 +120,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
             castedViewModel.ValidationMessages.Clear();
         }
 
+        /// <summary> Not called through DispatchViewModel. Can only be called explicitly. </summary>
+        private void DispatchAutoPatchDetailsViewModel(PatchDetailsViewModel detailsViewModel)
+        {
+            MainViewModel.Document.AutoPatchDetails = detailsViewModel;
+
+            MainViewModel.ValidationMessages.AddRange(detailsViewModel.ValidationMessages);
+            detailsViewModel.ValidationMessages.Clear();
+        }
+
         private void DispatchCurrentPatchesViewModel(object viewModel2)
         {
             var castedViewModel = (CurrentPatchesViewModel)viewModel2;

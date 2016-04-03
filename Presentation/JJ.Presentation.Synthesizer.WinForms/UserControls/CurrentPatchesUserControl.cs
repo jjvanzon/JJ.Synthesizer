@@ -15,9 +15,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 {
     internal partial class CurrentPatchesUserControl : CurrentPatchesUserControl_NotDesignable
     {
+        private const int BUTTON_COUNT = 3;
+
         public event EventHandler<Int32EventArgs> RemoveRequested;
         public event EventHandler CloseRequested;
         public event EventHandler PreviewAutoPatchRequested;
+        public event EventHandler PreviewAutoPatchPolyphonicRequested;
 
         public CurrentPatchesUserControl()
         {
@@ -26,6 +29,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
         protected override void ApplyViewModelToControls()
         {
+            buttonPreviewAutoPatchPolyphonic.Visible = ViewModel.CanPreviewAutoPatchPolyphonic;
+
             IList<CurrentPatchItemUserControl> itemUserControls = flowLayoutPanel.Controls.OfType<CurrentPatchItemUserControl>().ToArray();
 
             if (itemUserControls.Count != flowLayoutPanel.Controls.Count)
@@ -63,23 +68,34 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
                 flowLayoutPanel.Controls.RemoveAt(i);
             }
 
-            PositionControls();
+            PositionControls(ViewModel.CanPreviewAutoPatchPolyphonic);
         }
 
-        private void PositionControls()
+        private void PositionControls(bool buttonPreviewAutoPatchPolyphonicVisible)
         {
             flowLayoutPanel.Top = 0;
             flowLayoutPanel.Left = 0;
             flowLayoutPanel.Height = Height;
 
-            int x = Width - StyleHelper.DefaultMargin
-                          - StyleHelper.IconButtonSize - StyleHelper.DefaultSpacing 
-                          - StyleHelper.IconButtonSize - StyleHelper.DefaultSpacing;
+            int buttonCount;
+            if (buttonPreviewAutoPatchPolyphonicVisible)
+            {
+                buttonCount = 3;
+            }
+            else
+            {
+                buttonCount = 2;
+            }
 
-            if (x < 1) x = 1;
+            int x = Width - StyleHelper.DefaultMargin - (StyleHelper.IconButtonSize + StyleHelper.DefaultSpacing) * buttonCount;
+            if (x < 1)
+            {
+                x = 1;
+            }
             flowLayoutPanel.Width = x;
 
             x += StyleHelper.DefaultSpacing;
+
             buttonPreviewAutoPatch.Top = 0;
             buttonPreviewAutoPatch.Left = x;
             buttonPreviewAutoPatch.Width = StyleHelper.IconButtonSize;
@@ -87,6 +103,17 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
             x += StyleHelper.IconButtonSize;
             x += StyleHelper.DefaultSpacing;
+
+            if (buttonPreviewAutoPatchPolyphonicVisible)
+            {
+                buttonPreviewAutoPatchPolyphonic.Top = 0;
+                buttonPreviewAutoPatchPolyphonic.Left = x;
+                buttonPreviewAutoPatchPolyphonic.Width = StyleHelper.IconButtonSize;
+                buttonPreviewAutoPatchPolyphonic.Height = StyleHelper.IconButtonSize;
+
+                x += StyleHelper.IconButtonSize;
+                x += StyleHelper.DefaultSpacing;
+            }
 
             buttonClose.Top = 0;
             buttonClose.Left = x;
@@ -96,7 +123,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
         private void CurrentPatchesUserControl_SizeChanged(object sender, EventArgs e)
         {
-            PositionControls();
+            bool buttonPreviewAutoPatchPolyphonicVisible = false;
+            if (ViewModel != null)
+            {
+                buttonPreviewAutoPatchPolyphonicVisible = ViewModel.CanPreviewAutoPatchPolyphonic;
+            }
+
+            PositionControls(buttonPreviewAutoPatchPolyphonicVisible);
         }
 
         private void ItemUserControl_RemoveRequested(object sender, Int32EventArgs e)
@@ -120,6 +153,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             if (PreviewAutoPatchRequested != null)
             {
                 PreviewAutoPatchRequested(sender, EventArgs.Empty);
+            }
+        }
+
+        private void buttonPreviewAutoPatchPolyphonic_Click(object sender, EventArgs e)
+        {
+            if (PreviewAutoPatchPolyphonicRequested != null)
+            {
+                PreviewAutoPatchPolyphonicRequested(sender, EventArgs.Empty);
             }
         }
     }

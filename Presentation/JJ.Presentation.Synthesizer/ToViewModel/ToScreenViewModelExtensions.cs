@@ -235,22 +235,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        [Obsolete("Not obsolete, but move this to ToItemViewModelExtensions.")]
-        public static PatchTreeNodeViewModel ToPatchTreeNodeViewModel(this Document document)
-        {
-            if (document == null) throw new NullException(() => document);
-
-            var viewModel = new PatchTreeNodeViewModel
-            {
-                Name = document.Name,
-                CurvesNode = new DummyViewModel(),
-                SamplesNode = new DummyViewModel(),
-                ChildDocumentID = document.ID
-            };
-
-            return viewModel;
-        }
-
         public static DocumentGridViewModel ToGridViewModel(this IList<Document> entities)
         {
             if (entities == null) throw new NullException(() => entities);

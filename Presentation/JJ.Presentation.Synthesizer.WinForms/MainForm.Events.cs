@@ -20,6 +20,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             currentPatchesUserControl.CloseRequested += currentPatchesUserControl_CloseRequested;
             currentPatchesUserControl.RemoveRequested += currentPatchesUserControl_RemoveRequested;
             currentPatchesUserControl.PreviewAutoPatchRequested += currentPatchesUserControl_PreviewAutoPatchRequested;
+            currentPatchesUserControl.PreviewAutoPatchPolyphonicRequested += currentPatchesUserControl_PreviewAutoPatchPolyphonicRequested;
             curveDetailsUserControl.ChangeNodeTypeRequested += curveDetailsUserControl_ChangeNodeTypeRequested;
             curveDetailsUserControl.CloseRequested += curveDetailsUserControl_CloseRequested;
             curveDetailsUserControl.CreateNodeRequested += curveDetailsUserControl_CreateNodeRequested;
@@ -191,9 +192,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void currentPatchesUserControl_PreviewAutoPatchRequested(object sender, EventArgs e)
         {
             TemplateEventHandler(_presenter.CurrentPatchesPreviewAutoPatch);
+        }
 
-            // For debugging, use this code line instead to preview the polyponic auto-patch.
-            //TemplateEventHandler(_presenter.CurrentPatchesPreviewAutoPatchPolyphonic);
+        private void currentPatchesUserControl_PreviewAutoPatchPolyphonicRequested(object sender, EventArgs e)
+        {
+            TemplateEventHandler(_presenter.CurrentPatchesPreviewAutoPatchPolyphonic);
         }
 
         // Curve
