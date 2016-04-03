@@ -10,8 +10,6 @@ using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Canonical;
 using JJ.Business.Canonical;
 using JJ.Framework.Common;
-using JJ.Framework.Business;
-using JJ.Business.Synthesizer.SideEffects;
 
 namespace JJ.Business.Synthesizer
 {
@@ -34,7 +32,7 @@ namespace JJ.Business.Synthesizer
             Patch.Name = "Auto-Generated Polyphonic Patch";
             Patch polyphonicAutoPatch = Patch;
 
-            bool underlyingPatchesHaveNoteStart = false;
+            //bool underlyingPatchesHaveNoteStart = false;
 
             var monophonicOutlets = new List<Outlet>(maxConcurrentNotes);
 
@@ -51,30 +49,13 @@ namespace JJ.Business.Synthesizer
                         patchInletWrapper.Name = String.Format("{0} {1}", inletTypeEnum, i);
 
                         inlet.LinkTo((Outlet)patchInletWrapper);
-
-                        if (inletTypeEnum == InletTypeEnum.NoteStart)
-                        {
-                            underlyingPatchesHaveNoteStart = true;
-                        }
                     }
                 }
 
                 Outlet signalOutlet = customOperatorWrapper.Outlets.Where(x => x.GetOutletTypeEnum() == OutletTypeEnum.Signal).SingleOrDefault();
                 if (signalOutlet != null)
                 {
-                    // Underlying Patches can manage NoteStart themselves, or else we manage it here.
-                    if (underlyingPatchesHaveNoteStart)
-                    {
-                        monophonicOutlets.Add(signalOutlet);
-                    }
-                    else
-                    {
-                        PatchInlet_OperatorWrapper noteStartPatchInletWrapper = PatchInlet(InletTypeEnum.NoteStart);
-                        noteStartPatchInletWrapper.Name = String.Format("{0} {1}", InletTypeEnum.NoteStart, i);
-
-                        Delay_OperatorWrapper delayWrapper = Delay(signalOutlet, noteStartPatchInletWrapper);
-                        monophonicOutlets.Add(delayWrapper);
-                    }
+                    monophonicOutlets.Add(signalOutlet);
                 }
             }
 

@@ -96,7 +96,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override void ResetState()
         {
             _phase = 0.0;
-            _previousTime = 0.0;
+            //_previousTime = 0.0;
 
             base.ResetState();
         }
