@@ -24,7 +24,8 @@ namespace JJ.Presentation.Synthesizer.NAudio
             public IPatchCalculator PatchCalculator { get; private set; }
             public int NoteListIndex { get; private set; }
             public bool IsActive { get; set; }
-            public double NoteStart { get; set; }
+            // TODO: Remove outcommented code.
+            //public double NoteStart { get; set; }
         }
 
         private class ThreadInfo
@@ -196,9 +197,11 @@ Wait:
                     }
 
                     IPatchCalculator patchCalculator = patchCalculatorInfo.PatchCalculator;
-                    double noteStart = patchCalculatorInfo.NoteStart;
 
-                    double t = _t0 - noteStart;
+                    // TODO: Remove outcommented code.
+                    //double noteStart = patchCalculatorInfo.NoteStart;
+                    //double t = _t0 - noteStart;
+                    double t = _t0;
 
                     for (int j = 0; j < _buffer.Length; j++)
                     {
@@ -366,11 +369,12 @@ Wait:
         {
             PatchCalculatorInfo patchCalculatorInfo = GetPatchCalculatorInfo(noteListIndex);
 
-            if (inletTypeEnum == InletTypeEnum.NoteStart)
-            {
-                return patchCalculatorInfo.NoteStart;
-            }
-            else
+            // TODO: Remove outcommented code.
+            //if (inletTypeEnum == InletTypeEnum.NoteStart)
+            //{
+            //    return patchCalculatorInfo.NoteStart;
+            //}
+            //else
             {
                 double value = patchCalculatorInfo.PatchCalculator.GetValue(inletTypeEnum);
                 return value;
@@ -381,38 +385,40 @@ Wait:
         {
             PatchCalculatorInfo patchCalculatorInfo = GetPatchCalculatorInfo(noteListIndex);
 
-            if (inletTypeEnum == InletTypeEnum.NoteStart)
-            {
-                patchCalculatorInfo.NoteStart = value;
-            }
-            else
-            {
+            // TODO: Remove outcommented code.
+            //if (inletTypeEnum == InletTypeEnum.NoteStart)
+            //{
+            //    patchCalculatorInfo.NoteStart = value;
+            //}
+            //else
+            //{
                 patchCalculatorInfo.PatchCalculator.SetValue(inletTypeEnum, value);
-            }
+            //}
         }
 
-        public void ResetState(int noteListIndex)
+        public void Reset(double time, int channelIndex, int noteListIndex)
         {
             PatchCalculatorInfo patchCalculatorInfo = GetPatchCalculatorInfo(noteListIndex);
-            patchCalculatorInfo.PatchCalculator.ResetState();
+            patchCalculatorInfo.PatchCalculator.Reset(time, channelIndex);
         }
 
-        public void ResetState()
+        public void Reset(double time, int channelIndex)
         {
             for (int i = 0; i < _patchCalculatorInfos.Count; i++)
             {
                 PatchCalculatorInfo patchCalculatorInfo = _patchCalculatorInfos[i];
-                patchCalculatorInfo.NoteStart = 0.0;
-                patchCalculatorInfo.PatchCalculator.ResetState();
+                // TODO: Remove outcommented code.
+                //patchCalculatorInfo.NoteStart = 0.0;
+                patchCalculatorInfo.PatchCalculator.Reset(time, channelIndex);
             }
         }
 
-        public void ResetState(string name)
+        public void Reset(double time, int channelIndex, string name)
         {
             for (int i = 0; i < _patchCalculatorInfos.Count; i++)
             {
                 PatchCalculatorInfo patchCalculatorInfo = _patchCalculatorInfos[i];
-                patchCalculatorInfo.PatchCalculator.ResetState(name);
+                patchCalculatorInfo.PatchCalculator.Reset(time, channelIndex, name);
             }
         }
 
@@ -429,7 +435,8 @@ Wait:
                 PatchCalculatorInfo source = castedSourceCalculator._patchCalculatorInfos[i];
                 PatchCalculatorInfo dest = _patchCalculatorInfos[i];
 
-                dest.NoteStart = source.NoteStart;
+                // TODO: Remove outcommented code.
+                //dest.NoteStart = source.NoteStart;
                 dest.PatchCalculator.CloneValues(source.PatchCalculator);
             }
         }

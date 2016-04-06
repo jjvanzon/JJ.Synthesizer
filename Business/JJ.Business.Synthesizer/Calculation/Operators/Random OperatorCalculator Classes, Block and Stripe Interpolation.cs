@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Calculation.Random;
-using JJ.Framework.Mathematics;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Random_VarFrequency_VarPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    // Right now there aren't any other variations than VarFrequency and VarPhaseShift.
+    internal class Random_OperatorCalculator_BlockAndStripe_VarFrequency_VarPhaseShift : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly RandomCalculatorBase _randomCalculator;
         private readonly double _randomCalculatorOffset;
@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _phase;
         private double _previousTime;
 
-        public Random_VarFrequency_VarPhaseShift_OperatorCalculator(
+        public Random_OperatorCalculator_BlockAndStripe_VarFrequency_VarPhaseShift(
             RandomCalculatorBase randomCalculator,
             double randomCalculatorOffset,
             OperatorCalculatorBase rateCalculator,
@@ -62,12 +62,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return value;
         }
 
-        public override void ResetState()
+        public override void Reset(double time, int channelIndex)
         {
-            base.ResetState();
-
+            _previousTime = time;
             _phase = _randomCalculatorOffset;
-            _previousTime = 0;
+
+            base.Reset(time, channelIndex);
         }
     }
 }

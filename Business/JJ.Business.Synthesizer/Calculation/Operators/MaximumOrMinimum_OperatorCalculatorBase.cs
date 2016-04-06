@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     /// </summary>
     internal abstract class MaximumOrMinimum_OperatorCalculatorBase : OperatorCalculatorBase_WithChildCalculators
     {
-        // TODO: Use channelIndex variable in ResetState.
+        private const double DEFAULT_TIME = 0.0;
         private const int DEFAULT_CHANNEL_INDEX = 0;
 
         private readonly OperatorCalculatorBase _signalCalculator;
@@ -53,7 +53,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _timeSliceDurationCalculator = timeSliceDurationCalculator;
             _sampleCountCalculator = sampleCountCalculator;
 
-            ResetState();
+            Reset(DEFAULT_TIME, DEFAULT_CHANNEL_INDEX);
         }
 
         protected abstract double GetMaximumOrMinimum(RedBlackTree<double, double> redBlackTree);
@@ -141,13 +141,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _redBlackTree.Insert(newValue, newValue);
         }
 
-        public override void ResetState()
+        public override void Reset(double time, int channelIndex)
         {
+            _previousTime = time;
+
             _maximumOrMinimum = 0.0;
             _nextSampleTime = 0.0;
 
-            _timeSliceDuration = _timeSliceDurationCalculator.Calculate(_previousTime, DEFAULT_CHANNEL_INDEX);
-            _sampleCountDouble = _sampleCountCalculator.Calculate(_previousTime, DEFAULT_CHANNEL_INDEX);
+            _timeSliceDuration = _timeSliceDurationCalculator.Calculate(time, channelIndex);
+            _sampleCountDouble = _sampleCountCalculator.Calculate(time, channelIndex);
 
             if (CalculationHelper.CanCastToNonNegativeInt32(_sampleCountDouble))
             {
@@ -163,7 +165,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _redBlackTree = new RedBlackTree<double, double>();
             _queue = CreateQueue();
 
-            base.ResetState();
+            base.Reset(time, channelIndex);
         }
 
         private Queue<double> CreateQueue()

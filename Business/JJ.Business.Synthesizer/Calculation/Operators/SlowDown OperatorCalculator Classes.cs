@@ -1,5 +1,6 @@
 ﻿using JJ.Framework.Reflection.Exceptions;
 using System;
+using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -25,6 +26,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override double Calculate(double time, int channelIndex)
         {
+            _phase = TransformTime(time, channelIndex);
+
+            double result = _signalCalculator.Calculate(_phase, channelIndex);
+
+            _previousTime = time;
+
+            return result;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private double TransformTime(double time, int channelIndex)
+        {
             double factor = _factorCalculator.Calculate(time, channelIndex);
 
             // IMPORTANT: To multiply the time in the output, you have to divide the time of the input.
@@ -36,21 +49,17 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             {
                 return Double.NaN;
             }
-            _phase = phase;
 
-            double result = _signalCalculator.Calculate(_phase, channelIndex);
-
-            _previousTime = time;
-
-            return result;
+            return phase;
         }
 
-        public override void ResetState()
+        public override void Reset(double time, int channelIndex)
         {
+            _previousTime = time;
             _phase = 0.0;
-            _previousTime = 0.0;
 
-            base.ResetState();
+            double transformedTime = TransformTime(time, channelIndex);
+            base.Reset(transformedTime, channelIndex);
         }
     }
 
@@ -76,10 +85,23 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override double Calculate(double time, int channelIndex)
         {
-            // IMPORTANT: To multiply the time in the output, you have to divide the time of the input.
-            double transformedTime = time / _factorValue; 
+            double transformedTime = TransformTime(time, channelIndex);
             double result = _signalCalculator.Calculate(transformedTime, channelIndex);
             return result;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private double TransformTime(double time, int channelIndex)
+        {
+            // IMPORTANT: To multiply the time in the output, you have to divide the time of the input.
+            double transformedTime = time / _factorValue;
+            return transformedTime;
+        }
+
+        public override void Reset(double time, int channelIndex)
+        {
+            double transformedTime = TransformTime(time, channelIndex);
+            base.Reset(transformedTime, channelIndex);
         }
     }
 }

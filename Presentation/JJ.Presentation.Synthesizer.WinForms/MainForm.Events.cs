@@ -595,8 +595,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
             {
                 string outputFilePath = _presenter.PatchPlay();
 
-                SoundPlayer soundPlayer = new SoundPlayer(outputFilePath);
-                soundPlayer.Play();
+                if (outputFilePath != null)
+                {
+                    SoundPlayer soundPlayer = new SoundPlayer(outputFilePath);
+                    soundPlayer.Play();
+                }
             });
         }
 

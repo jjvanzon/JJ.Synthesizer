@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             if (_previousZero == 0 && newTriggerValue != 0)
             {
-                _calculationCalculator.ResetState();
+                _calculationCalculator.Reset(time, channelIndex);
 
                 // _previousZero = something non-zero, by flipping all bits.
                 _previousZero = ~_previousZero;

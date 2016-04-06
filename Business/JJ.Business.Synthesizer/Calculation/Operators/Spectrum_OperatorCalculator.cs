@@ -9,7 +9,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Spectrum_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        // TODO: Use channelIndex variable in ResetState.
+        private const double DEFAULT_TIME = 0.0;
         private const int DEFAULT_CHANNEL_INDEX = 0;
 
         private readonly OperatorCalculatorBase _signalCalculator;
@@ -49,7 +49,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             _lomontFFT = new LomontFFT();
 
-            ResetState();
+            Reset(DEFAULT_TIME, DEFAULT_CHANNEL_INDEX);
         }
 
         public override double Calculate(double time, int channelIndex)
@@ -68,16 +68,22 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return frequency;
         }
 
-        public override void ResetState()
+        public override void Reset(double time, int channelIndex)
         {
-            _harmonicVolumes = CreateHarmonicVolumes();
+            _previousTime = time;
+            _harmonicVolumes = CreateHarmonicVolumes(time, channelIndex);
+
+            // NOTE: Do not call base.
+            // The Spectrum Operator is an exception to the rule.
+            // Reset for spectrum means NOT resetting the signal,
+            // but just recalculating the spectrum.
         }
 
-        private double[] CreateHarmonicVolumes()
+        private double[] CreateHarmonicVolumes(double time, int channelIndex)
         {
-            double startTime = _startTimeCalculator.Calculate(_previousTime, DEFAULT_CHANNEL_INDEX);
-            double endTime = _endTimeCalculator.Calculate(_previousTime, DEFAULT_CHANNEL_INDEX);
-            double frequencyCountDouble = _frequencyCountCalculator.Calculate(_previousTime, DEFAULT_CHANNEL_INDEX);
+            double startTime = _startTimeCalculator.Calculate(time, channelIndex);
+            double endTime = _endTimeCalculator.Calculate(time, channelIndex);
+            double frequencyCountDouble = _frequencyCountCalculator.Calculate(time, channelIndex);
 
             // We need a lot of lenience in this code, because validity is dependent on user input,
             // and we cannot obtrusively interrupt the user with validation messages, 

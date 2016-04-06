@@ -22,6 +22,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             public double TempValue { get; set; }
         }
 
+        private const int DEFAULT_CHANNEL_INDEX = 0; // TODO: Make mult-channel.
         private const double LOWEST_FREQUENCY = 8.1757989156;
         private const double MAX_VELOCITY = 127.0;
         private const int MAX_NOTE_NUMBER = 127;
@@ -132,7 +133,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
                         controllerInfo.TempValue = controllerValue;
                     }
 
-                    calculator.ResetState(noteInfo.ListIndex);
+                    calculator.Reset(time, DEFAULT_CHANNEL_INDEX, noteInfo.ListIndex);
 
                     calculator.SetValue(InletTypeEnum.Frequency, noteInfo.ListIndex, frequency);
                     calculator.SetValue(InletTypeEnum.Volume, noteInfo.ListIndex, volume);

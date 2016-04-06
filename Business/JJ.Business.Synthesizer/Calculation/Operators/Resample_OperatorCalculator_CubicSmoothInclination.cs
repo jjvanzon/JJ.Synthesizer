@@ -6,6 +6,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Resample_OperatorCalculator_CubicSmoothInclination : OperatorCalculatorBase_WithChildCalculators
     {
+        private const double DEFAULT_TIME = 0.0;
+        private const int DEFAULT_CHANNEL_INDEX = 0;
         private const double MINIMUM_SAMPLING_RATE = 0.01666666666666667; // Once a minute
 
         private readonly OperatorCalculatorBase _signalCalculator;
@@ -35,7 +37,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _signalCalculator = signalCalculator;
             _samplingRateCalculator = samplingRateCalculator;
 
-            ResetValues();
+            ResetNonRecursive(DEFAULT_TIME, DEFAULT_CHANNEL_INDEX);
         }
 
         public override double Calculate(double time, int channelIndex)
@@ -85,19 +87,19 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return samplingRate;
         }
 
-        public override void ResetState()
+        public override void Reset(double time, int channelIndex)
         {
-            ResetValues();
+            ResetNonRecursive(time, channelIndex);
 
-            base.ResetState();
+            base.Reset(time, channelIndex);
         }
 
-        private void ResetValues()
+        private void ResetNonRecursive(double time, int channelIndex)
         {
             _xMinus1 = CalculationHelper.VERY_LOW_VALUE;
-            _x0 = -Double.Epsilon;
-            _x1 = 0;
-            _x2 = Double.Epsilon;
+            _x0 = time - Double.Epsilon;
+            _x1 = time;
+            _x2 = time + Double.Epsilon;
             _dx1 = Double.Epsilon;
 
             // Assume values begin at 0

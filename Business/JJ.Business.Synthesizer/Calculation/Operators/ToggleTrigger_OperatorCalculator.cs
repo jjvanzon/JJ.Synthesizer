@@ -33,14 +33,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             if (_previousZero == 0 && !newValueIsZero)
             {
-                _calculationCalculator.ResetState();
+                _calculationCalculator.Reset(time, channelIndex);
 
                 // _previousZero = something non-zero, by flipping all bits.
                 _previousZero = ~_previousZero;
             }
             else if (_previousZero != 0 && newValueIsZero)
             {
-                _calculationCalculator.ResetState();
+                _calculationCalculator.Reset(time, channelIndex);
 
                 // _previousZero = 0, by XOR'ing it onto itself.
                 _previousZero ^= _previousZero;

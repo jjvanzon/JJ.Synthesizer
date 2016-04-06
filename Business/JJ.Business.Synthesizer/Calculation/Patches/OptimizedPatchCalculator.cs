@@ -12,6 +12,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 {
     internal class OptimizedPatchCalculator : IPatchCalculator
     {
+
         /// <summary> Array for optimization in calculating values. </summary>
         private readonly OperatorCalculatorBase[] _outputOperatorCalculators;
         private readonly VariableInput_OperatorCalculator[] _inputOperatorCalculators;
@@ -342,12 +343,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
         }
 
-        public void ResetState()
+        public void Reset(double time, int channelIndex)
         {
             for (int i = 0; i < _outputOperatorCalculators.Length; i++)
             {
                 OperatorCalculatorBase outputOperatorCalculator = _outputOperatorCalculators[i];
-                outputOperatorCalculator.ResetState();
+                outputOperatorCalculator.Reset(time, channelIndex);
             }
 
             _valuesByListIndex.Clear();
@@ -357,7 +358,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _valuesByInletTypeEnumAndListIndex.Clear();
         }
 
-        public void ResetState(string name)
+        public void Reset(double time, int channelIndex, string name)
         {
             // Necessary for using null or empty string as the key of a dictionary.
             // The dictionary neither accepts null as a key,
@@ -369,19 +370,19 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 foreach (OperatorCalculatorBase calculator in calculators)
                 {
-                    calculator.ResetState();
+                    calculator.Reset(time, channelIndex);
                 }
             }
         }
 
-        public void ResetState(int listIndex)
+        public void Reset(double time, int channelIndex, int listIndex)
         {
             IList<OperatorCalculatorBase> calculators;
             if (_listIndex_To_ResettableOperatorCalculators_Dictionary.TryGetValue(listIndex, out calculators))
             {
                 foreach (OperatorCalculatorBase calculator in calculators)
                 {
-                    calculator.ResetState();
+                    calculator.Reset(time, channelIndex);
                 }
             }
         }

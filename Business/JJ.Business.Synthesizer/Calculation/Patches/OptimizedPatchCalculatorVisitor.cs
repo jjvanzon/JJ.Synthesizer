@@ -2028,7 +2028,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                         {
                             var randomCalculator = new RandomCalculator_BlockInterpolation();
 
-                            calculator = new Random_VarFrequency_VarPhaseShift_OperatorCalculator(
+                            calculator = new Random_OperatorCalculator_BlockAndStripe_VarFrequency_VarPhaseShift(
                                 randomCalculator,
                                 randomCalculatorOffset,
                                 rateCalculator,
@@ -2041,7 +2041,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                         {
                             var randomCalculator = new RandomCalculator_StripeInterpolation();
 
-                            calculator = new Random_VarFrequency_VarPhaseShift_OperatorCalculator(
+                            calculator = new Random_OperatorCalculator_BlockAndStripe_VarFrequency_VarPhaseShift(
                                 randomCalculator,
                                 randomCalculatorOffset,
                                 rateCalculator,

@@ -6,6 +6,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Resample_OperatorCalculator_Hermite : OperatorCalculatorBase_WithChildCalculators
     {
+        private const double DEFAULT_TIME = 0.0;
+        private const int DEFAULT_CHANNEL_INDEX = 0;
         private const double MINIMUM_SAMPLING_RATE = 0.01666666666666667; // Once a minute
 
         private readonly OperatorCalculatorBase _signalCalculator;
@@ -35,7 +37,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _signalCalculator = signalCalculator;
             _samplingRateCalculator = samplingRateCalculator;
 
-            ResetState();
+            Reset(DEFAULT_TIME, DEFAULT_CHANNEL_INDEX);
         }
 
         public override double Calculate(double time, int channelIndex)
@@ -81,27 +83,21 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return samplingRate;
         }
 
-        public override void ResetState()
+        public override void Reset(double time, int channelIndex)
         {
-            _xMinus1 = 0;
-            _x0 = 0;
-            _x1 = 0;
-            _x2 = 0;
+            _xMinus1 = CalculationHelper.VERY_LOW_VALUE;
+            _x0 = time - Double.Epsilon;
+            _x1 = time;
+            _x2 = time + Double.Epsilon;
             _dx = Double.Epsilon;
 
+            // Assume values begin at 0
             _yMinus1 = 0;
             _y0 = 0;
             _y1 = 0;
             _y2 = 0;
 
-            //// TODO: These are meaningless defaults.
-            //_x0 = 0.0;
-            //_x1 = 0.2;
-            //_dx = 0.2; 
-            //_yMinus1 = 0.0;
-            //_y0 = 0.0;
-            //_y1 = 12000.0;
-            //_y2 = -24000.0;
+            base.Reset(time, channelIndex);
         }
     }
 }

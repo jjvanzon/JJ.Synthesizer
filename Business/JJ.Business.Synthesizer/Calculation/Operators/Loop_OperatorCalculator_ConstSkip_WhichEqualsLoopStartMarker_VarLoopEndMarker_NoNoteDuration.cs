@@ -65,11 +65,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             return value;
         }
-        public override void ResetState()
+
+        public override void Reset(double time, int channelIndex)
         {
             ResetStateNonRecursive();
 
-            base.ResetState();
+            base.Reset(time, channelIndex);
         }
 
         private void ResetStateNonRecursive()

@@ -1,4 +1,6 @@
-﻿using System;
+﻿// MIND THE HACKS IN THIS FILE! IT MAY BE THE CAUSE OF YOUR PROBLEMS!
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Calculation.Random;
@@ -16,11 +18,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase phaseShiftCalculator)
             : base(new OperatorCalculatorBase[] { rateCalculator, phaseShiftCalculator })
         {
-            // Hack in a piece of patch, to reuse the Resample_OperatorCalculator's capability of
+            // HACK in a piece of patch, to reuse the Resample_OperatorCalculator's capability of
             // handling many types of interpolation.
 
             // Create a second Random operator calculator.
-            var randomCalculator2 = new Random_VarFrequency_VarPhaseShift_OperatorCalculator(
+            var randomCalculator2 = new Random_OperatorCalculator_BlockAndStripe_VarFrequency_VarPhaseShift(
                 randomCalculator, randomCalculatorOffset, rateCalculator, phaseShiftCalculator);
 
             // Lead their outputs to a Resample operator calculator
@@ -32,6 +34,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate(double time, int channelIndex)
         {
             return _resampleOperator.Calculate(time, channelIndex);
+        }
+
+        public override void Reset(double time, int channelIndex)
+        {
+            // HACK
+            _resampleOperator.Reset(time, channelIndex);
         }
     }
 
@@ -46,11 +54,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase phaseShiftCalculator)
             : base(new OperatorCalculatorBase[] { rateCalculator, phaseShiftCalculator })
         {
-            // Hack in a piece of patch, to reuse the Resample_OperatorCalculator's capability of
+            // HACK in a piece of patch, to reuse the Resample_OperatorCalculator's capability of
             // handling many types of interpolation.
 
             // Create a second Random operator calculator.
-            var randomCalculator2 = new Random_VarFrequency_VarPhaseShift_OperatorCalculator(
+            var randomCalculator2 = new Random_OperatorCalculator_BlockAndStripe_VarFrequency_VarPhaseShift(
                 randomCalculator, randomCalculatorOffset, rateCalculator, phaseShiftCalculator);
 
             // Lead their outputs to a Resample operator calculator
@@ -62,6 +70,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate(double time, int channelIndex)
         {
             return _resampleOperator.Calculate(time, channelIndex);
+        }
+
+        public override void Reset(double time, int channelIndex)
+        {
+            // HACK
+            _resampleOperator.Reset(time, channelIndex);
         }
     }
 
@@ -76,11 +90,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase phaseShiftCalculator)
             : base(new OperatorCalculatorBase[] { rateCalculator, phaseShiftCalculator })
         {
-            // Hack in a piece of patch, to reuse the Resample_OperatorCalculator's capability of
+            // HACK in a piece of patch, to reuse the Resample_OperatorCalculator's capability of
             // handling many types of interpolation.
 
             // Create a second Random operator calculator.
-            var randomCalculator2 = new Random_VarFrequency_VarPhaseShift_OperatorCalculator(
+            var randomCalculator2 = new Random_OperatorCalculator_BlockAndStripe_VarFrequency_VarPhaseShift(
                 randomCalculator, randomCalculatorOffset, rateCalculator, phaseShiftCalculator);
 
             // Lead their outputs to a Resample operator calculator
@@ -92,6 +106,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate(double time, int channelIndex)
         {
             return _resampleOperator.Calculate(time, channelIndex);
+        }
+
+        public override void Reset(double time, int channelIndex)
+        {
+            // HACK
+            _resampleOperator.Reset(time, channelIndex);
         }
     }
 
@@ -106,11 +126,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase phaseShiftCalculator)
             : base(new OperatorCalculatorBase[] { rateCalculator, phaseShiftCalculator })
         {
-            // Hack in a piece of patch, to reuse the Resample_OperatorCalculator's capability of
+            // HACK in a piece of patch, to reuse the Resample_OperatorCalculator's capability of
             // handling many types of interpolation.
 
             // Create a second Random operator calculator.
-            var randomCalculator2 = new Random_VarFrequency_VarPhaseShift_OperatorCalculator(
+            var randomCalculator2 = new Random_OperatorCalculator_BlockAndStripe_VarFrequency_VarPhaseShift(
                 randomCalculator, randomCalculatorOffset, rateCalculator, phaseShiftCalculator);
 
             // Lead their outputs to a Resample operator calculator
@@ -122,6 +142,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate(double time, int channelIndex)
         {
             return _resampleOperator.Calculate(time, channelIndex);
+        }
+
+        public override void Reset(double time, int channelIndex)
+        {
+            // HACK
+            _resampleOperator.Reset(time, channelIndex);
         }
     }
 
@@ -136,11 +162,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase phaseShiftCalculator)
             : base(new OperatorCalculatorBase[] { rateCalculator, phaseShiftCalculator })
         {
-            // Hack in a piece of patch, to reuse the Resample_OperatorCalculator's capability of
+            // HACK in a piece of patch, to reuse the Resample_OperatorCalculator's capability of
             // handling many types of interpolation.
 
             // Create a second Random operator calculator.
-            var randomCalculator2 = new Random_VarFrequency_VarPhaseShift_OperatorCalculator(
+            var randomCalculator2 = new Random_OperatorCalculator_BlockAndStripe_VarFrequency_VarPhaseShift(
                 randomCalculator, randomCalculatorOffset, rateCalculator, phaseShiftCalculator);
 
             // Lead their outputs to a Resample operator calculator
@@ -152,6 +178,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate(double time, int channelIndex)
         {
             return _resampleOperator.Calculate(time, channelIndex);
+        }
+
+        public override void Reset(double time, int channelIndex)
+        {
+            // HACK
+            _resampleOperator.Reset(time, channelIndex);
         }
     }
 
@@ -166,11 +198,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase phaseShiftCalculator)
             : base(new OperatorCalculatorBase[] { rateCalculator, phaseShiftCalculator })
         {
-            // Hack in a piece of patch, to reuse the Resample_OperatorCalculator's capability of
+            // HACK in a piece of patch, to reuse the Resample_OperatorCalculator's capability of
             // handling many types of interpolation.
 
             // Create a second Random operator calculator.
-            var randomCalculator2 = new Random_VarFrequency_VarPhaseShift_OperatorCalculator(
+            var randomCalculator2 = new Random_OperatorCalculator_BlockAndStripe_VarFrequency_VarPhaseShift(
                 randomCalculator, randomCalculatorOffset, rateCalculator, phaseShiftCalculator);
 
             // Lead their outputs to a Resample operator calculator
@@ -182,6 +214,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate(double time, int channelIndex)
         {
             return _resampleOperator.Calculate(time, channelIndex);
+        }
+
+        public override void Reset(double time, int channelIndex)
+        {
+            // HACK
+            _resampleOperator.Reset(time, channelIndex);
         }
     }
 }

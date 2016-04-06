@@ -24,9 +24,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         double[] Calculate(double t0, double sampleDuration, int sampleCount, int channelIndex);
 
-        void ResetState();
-        void ResetState(string name);
-        void ResetState(int listIndex);
+        void Reset(double time, int channelIndex);
+        void Reset(double time, int channelIndex, string name);
+        void Reset(double time, int channelIndex, int listIndex);
 
         void CloneValues(IPatchCalculator sourcePatchCalculator);
     }

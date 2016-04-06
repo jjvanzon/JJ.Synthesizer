@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq.Expressions;
-using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -208,12 +206,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return value;
         }
 
-        public override void ResetState()
+        public override void Reset(double time, int channelIndex)
         {
+            _previousTime = time;
             _phase = 0.0;
-            _previousTime = 0.0;
 
-            base.ResetState();
+            base.Reset(time, channelIndex);
         }
     }
 
@@ -270,12 +268,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return value;
         }
 
-        public override void ResetState()
+        public override void Reset(double time, int channelIndex)
         {
+            _previousTime = time;
             _phase = 0.0;
-            _previousTime = 0.0;
 
-            base.ResetState();
+            base.Reset(time, channelIndex);
         }
     }
 
@@ -335,12 +333,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return value;
         }
 
-        public override void ResetState()
+        public override void Reset(double time, int channelIndex)
         {
+            _previousTime = time;
             _phase = 0.0;
-            _previousTime = 0.0;
 
-            base.ResetState();
+            base.Reset(time, channelIndex);
         }
     }
 
@@ -402,12 +400,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return value;
         }
 
-        public override void ResetState()
+        public override void Reset(double time, int channelIndex)
         {
+            _previousTime = time;
             _phase = 0.0;
-            _previousTime = 0.0;
 
-            base.ResetState();
+            base.Reset(time, channelIndex);
         }
     }
 }

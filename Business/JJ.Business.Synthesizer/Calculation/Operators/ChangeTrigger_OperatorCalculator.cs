@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             if (_previousTriggerValue != newTriggerValue)
             {
-                _calculationCalculator.ResetState();
+                _calculationCalculator.Reset(time, channelIndex);
 
                 _previousTriggerValue = newTriggerValue;
             }

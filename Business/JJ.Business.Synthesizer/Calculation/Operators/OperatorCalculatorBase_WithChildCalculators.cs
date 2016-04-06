@@ -19,12 +19,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         /// <summary> Base implementation resets the state of the ChildOperatorCalculators. </summary>
-        public override void ResetState()
+        public override void Reset(double time, int channelIndex)
         {
             for (int i = 0; i < _childOperatorCalculators.Length; i++)
             {
                 OperatorCalculatorBase childOperatorCalculator = _childOperatorCalculators[i];
-                childOperatorCalculator.ResetState();
+                childOperatorCalculator.Reset(time, channelIndex);
             }
         }
     }

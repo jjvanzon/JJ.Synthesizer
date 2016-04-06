@@ -6,9 +6,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Average_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        // TODO: Use channelIndex variable in ResetState.
-        private const int DEFAULT_CHANNEL_INDEX = 0;
-
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _timeSliceDurationCalculator;
         private readonly OperatorCalculatorBase _sampleCountCalculator;
@@ -42,7 +39,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _timeSliceDurationCalculator = timeSliceDurationCalculator;
             _sampleCountCalculator = sampleCountCalculator;
 
-            ResetState();
+            Reset(time: 0, channelIndex: 0);
         }
 
         public override double Calculate(double time, int channelIndex)
@@ -84,15 +81,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return _average;
         }
 
-        public override void ResetState()
+        public override void Reset(double time, int channelIndex)
         {
+            _previousTime = time;
+
             _sum = 0.0;
             _average = 0.0;
-            _previousTime = 0.0;
             _passedSampleTime = 0.0;
 
-            double timeSliceDuration = _timeSliceDurationCalculator.Calculate(_previousTime, DEFAULT_CHANNEL_INDEX);
-            _sampleCountDouble = _sampleCountCalculator.Calculate(_previousTime, DEFAULT_CHANNEL_INDEX);
+            double timeSliceDuration = _timeSliceDurationCalculator.Calculate(time, channelIndex);
+            _sampleCountDouble = _sampleCountCalculator.Calculate(time, channelIndex);
 
             if (CalculationHelper.CanCastToNonNegativeInt32(_sampleCountDouble))
             {
@@ -107,7 +105,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             _queue = CreateQueue(_sampleCountDouble);
 
-            base.ResetState();
+            base.Reset(time, channelIndex);
         }
 
         private Queue<double> CreateQueue(double sampleCountDouble)

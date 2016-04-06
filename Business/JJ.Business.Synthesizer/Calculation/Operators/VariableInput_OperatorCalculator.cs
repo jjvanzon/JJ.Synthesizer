@@ -13,16 +13,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public InletTypeEnum InletTypeEnum { get; private set; }
         public string Name { get; private set; }
         public int ListIndex { get; private set; }
-        public double InitialValue { get; private set; }
 
         public VariableInput_OperatorCalculator(InletTypeEnum inletTypeEnum, string name, int listIndex, double defaultValue)
         {
             InletTypeEnum = inletTypeEnum;
             Name = name;
             ListIndex = listIndex;
-            InitialValue = defaultValue;
 
-            _value = InitialValue;
+            _value = defaultValue;
         }
 
         public override double Calculate(double time, int channelIndex)
@@ -30,11 +28,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return _value;
         }
 
-        public override void ResetState()
-        {
-            _value = InitialValue;
-
-            base.ResetState();
-        }
+        // NOTE: Do not override the Reset() method to reset it to the default value,
+        // because Resetting part of the calculation does not mean resetting the variables.
+        // It means resetting the calculation, but WITH the new variables.
     }
 }
