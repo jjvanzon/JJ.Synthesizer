@@ -5,9 +5,9 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Loop_OperatorCalculator_NoSkipOrRelease_ManyConstants : OperatorCalculatorBase_WithChildCalculators
+    internal class Loop_OperatorCalculator_NoSkipOrRelease_ManyConstants 
+        : Loop_OperatorCalculator_Base
     {
-        private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _loopStartMarker;
         private readonly double _loopEndMarker;
         private readonly OperatorCalculatorBase _noteDurationCalculator;
@@ -19,15 +19,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double loopStartMarker,
             double loopEndMarker,
             OperatorCalculatorBase noteDurationCalculator)
-            : base(new OperatorCalculatorBase[]
-            {
-                signalCalculator,
-                noteDurationCalculator,
-            }.Where(x => x != null).ToArray())
+            : base(
+                  signalCalculator,
+                  new OperatorCalculatorBase[]
+                  {
+                      signalCalculator,
+                      noteDurationCalculator,
+                  }.Where(x => x != null).ToArray())
         {
-            if (signalCalculator == null) throw new NullException(() => signalCalculator);
-
-            _signalCalculator = signalCalculator;
             _loopStartMarker = loopStartMarker;
             _loopEndMarker = loopEndMarker;
             _noteDurationCalculator = noteDurationCalculator;
@@ -35,8 +34,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _cycleDuration = _loopEndMarker - _loopStartMarker;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        protected override double? TransformTime(double time, int channelIndex)
         {
+            time -= _origin;
+
             // BeforeAttack
             bool isBeforeAttack = time < 0;
             if (isBeforeAttack)
@@ -48,8 +49,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             bool isInAttack = time < _loopStartMarker;
             if (isInAttack)
             {
-                double value = _signalCalculator.Calculate(time, channelIndex);
-                return value;
+                return time;
             }
 
             // InLoop
@@ -59,8 +59,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             {
                 double phase = (time - _loopStartMarker) % _cycleDuration;
                 double inputTime = _loopStartMarker + phase;
-                double value = _signalCalculator.Calculate(inputTime, channelIndex);
-                return value;
+                return inputTime;
             }
 
             // AfterLoop

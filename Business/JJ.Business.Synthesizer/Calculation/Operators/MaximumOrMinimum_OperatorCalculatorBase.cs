@@ -11,9 +11,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     /// </summary>
     internal abstract class MaximumOrMinimum_OperatorCalculatorBase : OperatorCalculatorBase_WithChildCalculators
     {
-        private const double DEFAULT_TIME = 0.0;
-        private const int DEFAULT_CHANNEL_INDEX = 0;
-
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _timeSliceDurationCalculator;
         private readonly OperatorCalculatorBase _sampleCountCalculator;
@@ -53,7 +50,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _timeSliceDurationCalculator = timeSliceDurationCalculator;
             _sampleCountCalculator = sampleCountCalculator;
 
-            Reset(DEFAULT_TIME, DEFAULT_CHANNEL_INDEX);
+            Reset(OperatorCalculatorHelper.DEFAULT_TIME, OperatorCalculatorHelper.DEFAULT_CHANNEL_INDEX);
         }
 
         protected abstract double GetMaximumOrMinimum(RedBlackTree<double, double> redBlackTree);

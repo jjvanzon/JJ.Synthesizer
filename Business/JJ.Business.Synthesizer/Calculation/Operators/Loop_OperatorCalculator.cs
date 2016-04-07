@@ -5,9 +5,8 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Loop_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Loop_OperatorCalculator : Loop_OperatorCalculator_Base
     {
-        private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _skipCalculator;
         private readonly OperatorCalculatorBase _loopStartMarkerCalculator;
         private readonly OperatorCalculatorBase _loopEndMarkerCalculator;
@@ -21,19 +20,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase loopEndMarkerCalculator,
             OperatorCalculatorBase releaseEndMarkerCalculator,
             OperatorCalculatorBase noteDurationCalculator)
-            : base(new OperatorCalculatorBase[]
-            {
-                signalCalculator,
-                skipCalculator,
-                loopStartMarkerCalculator,
-                loopEndMarkerCalculator,
-                releaseEndMarkerCalculator,
-                noteDurationCalculator
-            }.Where(x => x != null).ToArray())
+            : base(
+                  signalCalculator,
+                  new OperatorCalculatorBase[]
+                  {
+                      signalCalculator,
+                      skipCalculator,
+                      loopStartMarkerCalculator,
+                      loopEndMarkerCalculator,
+                      releaseEndMarkerCalculator,
+                      noteDurationCalculator
+                  }.Where(x => x != null).ToArray())
         {
-            if (signalCalculator == null) throw new NullException(() => signalCalculator);
-
-            _signalCalculator = signalCalculator;
             _skipCalculator = skipCalculator;
             _loopStartMarkerCalculator = loopStartMarkerCalculator;
             _loopEndMarkerCalculator = loopEndMarkerCalculator;
@@ -57,8 +55,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             bool isInAttack = inputTime < loopStartMarker;
             if (isInAttack)
             {
-                double value = _signalCalculator.Calculate(inputTime, channelIndex);
-                return value;
+                return inputTime;
             }
 
             // InLoop
@@ -76,8 +73,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             {
                 double phase = (inputTime - loopStartMarker) % cycleDuration;
                 inputTime = loopStartMarker + phase;
-                double value = _signalCalculator.Calculate(inputTime, channelIndex);
-                return value;
+                return inputTime;
             }
 
             // InRelease
@@ -89,12 +85,66 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             {
                 double positionInRelease = outputTime - outputLoopEnd;
                 inputTime = loopEndMarker + positionInRelease;
-                double value = _signalCalculator.Calculate(inputTime, channelIndex);
-                return value;
+                return inputTime;
             }
 
             // AfterRelease
             return 0;
+        }
+
+        /// <summary> Returns null if before attack or after release. </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected override double? TransformTime(double outputTime, int channelIndex)
+        {
+            // BeforeAttack
+            double skip = GetSkip(outputTime, channelIndex);
+            double inputTime = outputTime + skip;
+            bool isBeforeAttack = inputTime < skip;
+            if (isBeforeAttack)
+            {
+                return null;
+            }
+
+            // InAttack
+            double loopStartMarker = GetLoopStartMarker(outputTime, channelIndex);
+            bool isInAttack = inputTime < loopStartMarker;
+            if (isInAttack)
+            {
+                return inputTime;
+            }
+
+            // InLoop
+            double noteDuration = GetNoteDuration(outputTime, channelIndex);
+            double loopEndMarker = GetLoopEndMarker(outputTime, channelIndex);
+            double cycleDuration = loopEndMarker - loopStartMarker;
+
+            // Round up end of loop to whole cycles.
+            double outputLoopStart = loopStartMarker - skip;
+            double noteEndPhase = (noteDuration - outputLoopStart) / cycleDuration;
+            double outputLoopEnd = outputLoopStart + Math.Ceiling(noteEndPhase) * cycleDuration;
+
+            bool isInLoop = outputTime < outputLoopEnd;
+            if (isInLoop)
+            {
+                double phase = (inputTime - loopStartMarker) % cycleDuration;
+                inputTime = loopStartMarker + phase;
+                return inputTime;
+            }
+
+            // InRelease
+            double releaseEndMarker = GetReleaseEndMarker(outputTime, channelIndex);
+            double releaseDuration = releaseEndMarker - loopEndMarker;
+            double outputReleaseEndTime = outputLoopEnd + releaseDuration;
+            bool isInRelease = outputTime < outputReleaseEndTime;
+            if (isInRelease)
+            {
+                double positionInRelease = outputTime - outputLoopEnd;
+                inputTime = loopEndMarker + positionInRelease;
+                return inputTime;
+            }
+
+            // AfterRelease
+            return null;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

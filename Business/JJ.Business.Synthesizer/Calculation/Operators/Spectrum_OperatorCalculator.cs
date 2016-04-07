@@ -9,9 +9,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Spectrum_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private const double DEFAULT_TIME = 0.0;
-        private const int DEFAULT_CHANNEL_INDEX = 0;
-
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _startTimeCalculator;
         private readonly OperatorCalculatorBase _endTimeCalculator;
@@ -49,7 +46,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             _lomontFFT = new LomontFFT();
 
-            Reset(DEFAULT_TIME, DEFAULT_CHANNEL_INDEX);
+            Reset(OperatorCalculatorHelper.DEFAULT_TIME, OperatorCalculatorHelper.DEFAULT_CHANNEL_INDEX);
         }
 
         public override double Calculate(double time, int channelIndex)

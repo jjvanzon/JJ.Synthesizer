@@ -9,6 +9,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal static class OperatorCalculatorHelper
     {
+        public const double DEFAULT_TIME = 0.0;
+        public const int DEFAULT_CHANNEL_INDEX = 0;
+
         public static void AssertIsNotSpecialNumber(double value, Expression<Func<object>> expression)
         {
             if (Double.IsNaN(value)) throw new NaNException(expression);
@@ -51,6 +54,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (Double.IsInfinity(step)) throw new InfinityException(() => step);
         }
 
+        /// <summary> Asserts that the calculator is not null and a Number_OperatorCalculator.</summary>
         public static void AssertOperatorCalculatorBase(
             OperatorCalculatorBase operatorCalculatorBase,
             Expression<Func<object>> expression)

@@ -5,9 +5,8 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Loop_OperatorCalculator_NoSkipOrRelease : OperatorCalculatorBase_WithChildCalculators
+    internal class Loop_OperatorCalculator_NoSkipOrRelease : Loop_OperatorCalculator_Base
     {
-        private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _loopStartMarkerCalculator;
         private readonly OperatorCalculatorBase _loopEndMarkerCalculator;
         private readonly OperatorCalculatorBase _noteDurationCalculator;
@@ -21,31 +20,30 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase loopStartMarkerCalculator,
             OperatorCalculatorBase loopEndMarkerCalculator,
             OperatorCalculatorBase noteDurationCalculator)
-            : base(new OperatorCalculatorBase[]
-            {
-                signalCalculator,
-                loopStartMarkerCalculator,
-                loopEndMarkerCalculator,
-                noteDurationCalculator
-            }.Where(x => x != null).ToArray())
+            : base(
+                  signalCalculator, new OperatorCalculatorBase[]
+                  {
+                      signalCalculator,
+                      loopStartMarkerCalculator,
+                      loopEndMarkerCalculator,
+                      noteDurationCalculator
+                  }.Where(x => x != null).ToArray())
         {
-            if (signalCalculator == null) throw new NullException(() => signalCalculator);
-
-            _signalCalculator = signalCalculator;
             _loopStartMarkerCalculator = loopStartMarkerCalculator;
             _loopEndMarkerCalculator = loopEndMarkerCalculator;
             _noteDurationCalculator = noteDurationCalculator;
-
-            ResetStateNonRecursive();
         }
-
-        public override double Calculate(double time, int channelIndex)
+        
+        protected override double? TransformTime(double time, int channelIndex)
         {
+            // Apply origin
+            time -= _origin;
+            
             // BeforeAttack
             bool isBeforeAttack = time < 0;
             if (isBeforeAttack)
             {
-                return 0;
+                return null;
             }
 
             // BeforeLoop
@@ -53,8 +51,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             bool isInAttack = time < loopStartMarker;
             if (isInAttack)
             {
-                double value = _signalCalculator.Calculate(time, channelIndex);
-                return value;
+                return time;
             }
 
             // InLoop
@@ -71,12 +68,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
                 double phase = (time - loopStartMarker) % _cycleDuration;
                 double inputTime = loopStartMarker + phase;
-                double value = _signalCalculator.Calculate(inputTime, channelIndex);
-                return value;
+                return inputTime;
             }
 
             // AfterLoop
-            return 0;
+            return null;
+
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -113,20 +110,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             }
 
             return value;
-        }
-
-        public override void Reset(double time, int channelIndex)
-        {
-            ResetStateNonRecursive();
-
-            base.Reset(time, channelIndex);
-        }
-
-        private void ResetStateNonRecursive()
-        {
-            _outputCycleEnd = 0;
-            _loopEndMarker = 0;
-            _cycleDuration = 0;
         }
     }
 }

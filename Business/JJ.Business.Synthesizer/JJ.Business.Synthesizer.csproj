@@ -81,6 +81,7 @@
     <Compile Include="Calculation\Operators\Cache OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\2016-04-05 Backup of SpeedUp OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\2016-04-05 Backup of SlowDown OperatorCalculator Classes.cs" />
+    <Compile Include="Calculation\Operators\Loop_OperatorCalculator_Base.cs" />
     <Compile Include="Calculation\Operators\ToggleTrigger_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Filter_ManyConstants_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Loop_OperatorCalculator_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration.cs" />

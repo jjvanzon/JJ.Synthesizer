@@ -5,9 +5,9 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Loop_OperatorCalculator_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration : OperatorCalculatorBase_WithChildCalculators
+    internal class Loop_OperatorCalculator_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration 
+        : Loop_OperatorCalculator_Base
     {
-        private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _loopStartMarker;
         private readonly OperatorCalculatorBase _loopEndMarkerCalculator;
 
@@ -19,39 +19,37 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             double loopStartMarker,
             OperatorCalculatorBase loopEndMarkerCalculator)
-            : base(new OperatorCalculatorBase[] { signalCalculator, loopEndMarkerCalculator })
+            : base(
+                  signalCalculator, 
+                  new OperatorCalculatorBase[] { signalCalculator, loopEndMarkerCalculator })
         {
-            if (signalCalculator == null) throw new NullException(() => signalCalculator);
-
-            _signalCalculator = signalCalculator;
             _loopStartMarker = loopStartMarker;
             _loopEndMarkerCalculator = loopEndMarkerCalculator;
-
-            ResetStateNonRecursive();
         }
 
-        public override double Calculate(double outputTime, int channelIndex)
+        protected override double? TransformTime(double outputTime, int channelIndex)
         {
+            double tempTime = outputTime - _origin;
+
             // BeforeLoop
-            double inputTime = outputTime + _loopStartMarker;
+            double inputTime = tempTime + _loopStartMarker;
             bool isBeforeLoop = inputTime < _loopStartMarker;
             if (isBeforeLoop)
             {
-                return 0;
+                return null;
             }
 
             // InLoop
-            if (outputTime > _outputCycleEnd)
+            if (tempTime > _outputCycleEnd)
             {
-                _loopEndMarker = GetLoopEndMarker(outputTime, channelIndex);
+                _loopEndMarker = GetLoopEndMarker(tempTime, channelIndex);
                 _cycleDuration = _loopEndMarker - _loopStartMarker;
                 _outputCycleEnd += _cycleDuration;
             }
 
             double phase = (inputTime - _loopStartMarker) % _cycleDuration;
             inputTime = _loopStartMarker + phase;
-            double value = _signalCalculator.Calculate(inputTime, channelIndex);
-            return value;
+            return inputTime;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -64,20 +62,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             }
 
             return value;
-        }
-
-        public override void Reset(double time, int channelIndex)
-        {
-            ResetStateNonRecursive();
-
-            base.Reset(time, channelIndex);
-        }
-
-        private void ResetStateNonRecursive()
-        {
-            _outputCycleEnd = 0;
-            _loopEndMarker = 0;
-            _cycleDuration = 0;
         }
     }
 }

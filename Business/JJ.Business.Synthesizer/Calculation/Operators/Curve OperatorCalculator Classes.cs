@@ -24,8 +24,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset(double time, int channelIndex)
         {
-            // HACK: Temporary hack to have some sort of response to a NoteStart event's changing the origin.
-            // It does not behave well when time is abused as a different domain, e.g. Harmonic Number.
             _origin = time;
 
             base.Reset(time, channelIndex);
@@ -53,8 +51,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset(double time, int channelIndex)
         {
-            // HACK: Temporary hack to have some sort of response to a NoteStart event's changing the origin.
-            // It does not behave well when time is abused as a different domain, e.g. Harmonic Number.
             _origin = time;
 
             base.Reset(time, channelIndex);

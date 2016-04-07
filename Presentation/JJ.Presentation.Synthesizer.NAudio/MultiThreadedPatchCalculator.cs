@@ -24,8 +24,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
             public IPatchCalculator PatchCalculator { get; private set; }
             public int NoteListIndex { get; private set; }
             public bool IsActive { get; set; }
-            // TODO: Remove outcommented code.
-            //public double NoteStart { get; set; }
         }
 
         private class ThreadInfo
@@ -198,9 +196,6 @@ Wait:
 
                     IPatchCalculator patchCalculator = patchCalculatorInfo.PatchCalculator;
 
-                    // TODO: Remove outcommented code.
-                    //double noteStart = patchCalculatorInfo.NoteStart;
-                    //double t = _t0 - noteStart;
                     double t = _t0;
 
                     for (int j = 0; j < _buffer.Length; j++)
@@ -369,31 +364,15 @@ Wait:
         {
             PatchCalculatorInfo patchCalculatorInfo = GetPatchCalculatorInfo(noteListIndex);
 
-            // TODO: Remove outcommented code.
-            //if (inletTypeEnum == InletTypeEnum.NoteStart)
-            //{
-            //    return patchCalculatorInfo.NoteStart;
-            //}
-            //else
-            {
-                double value = patchCalculatorInfo.PatchCalculator.GetValue(inletTypeEnum);
-                return value;
-            }
+            double value = patchCalculatorInfo.PatchCalculator.GetValue(inletTypeEnum);
+            return value;
         }
 
         public void SetValue(InletTypeEnum inletTypeEnum, int noteListIndex, double value)
         {
             PatchCalculatorInfo patchCalculatorInfo = GetPatchCalculatorInfo(noteListIndex);
 
-            // TODO: Remove outcommented code.
-            //if (inletTypeEnum == InletTypeEnum.NoteStart)
-            //{
-            //    patchCalculatorInfo.NoteStart = value;
-            //}
-            //else
-            //{
-                patchCalculatorInfo.PatchCalculator.SetValue(inletTypeEnum, value);
-            //}
+            patchCalculatorInfo.PatchCalculator.SetValue(inletTypeEnum, value);
         }
 
         public void Reset(double time, int channelIndex, int noteListIndex)
@@ -407,8 +386,6 @@ Wait:
             for (int i = 0; i < _patchCalculatorInfos.Count; i++)
             {
                 PatchCalculatorInfo patchCalculatorInfo = _patchCalculatorInfos[i];
-                // TODO: Remove outcommented code.
-                //patchCalculatorInfo.NoteStart = 0.0;
                 patchCalculatorInfo.PatchCalculator.Reset(time, channelIndex);
             }
         }
@@ -435,8 +412,6 @@ Wait:
                 PatchCalculatorInfo source = castedSourceCalculator._patchCalculatorInfos[i];
                 PatchCalculatorInfo dest = _patchCalculatorInfos[i];
 
-                // TODO: Remove outcommented code.
-                //dest.NoteStart = source.NoteStart;
                 dest.PatchCalculator.CloneValues(source.PatchCalculator);
             }
         }
@@ -456,14 +431,6 @@ Wait:
             PatchCalculatorInfo patchCalculatorInfo = _patchCalculatorInfos[noteListIndex];
             return patchCalculatorInfo;
         }
-
-        // TODO: Remove outcommented method.
-        //private void SetDelay(int patchCalculatorIndex, double delay)
-        //{
-        //    PatchCalculatorInfo patchCalculatorInfo = GetPatchCalculatorInfo(patchCalculatorIndex);
-
-        //    patchCalculatorInfo.NoteStart = delay;
-        //}
 
         // Source: http://stackoverflow.com/questions/1400465/why-is-there-no-overload-of-interlocked-add-that-accepts-doubles-as-parameters
         //private static double InterlockedAddDouble(ref double location1, double value)
