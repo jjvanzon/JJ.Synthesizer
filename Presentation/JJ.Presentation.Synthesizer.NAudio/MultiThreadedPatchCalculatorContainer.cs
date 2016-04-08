@@ -73,12 +73,15 @@ namespace JJ.Presentation.Synthesizer.NAudio
                 patchManager.AutoPatch(patches);
                 Patch autoPatch = patchManager.Patch;
                 Outlet signalOutlet = autoPatch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
-                                               .Where(x => x.Input.GetOutletTypeEnum() == OutletTypeEnum.Signal)
+                                               .Where(x => x.Result.GetOutletTypeEnum() == OutletTypeEnum.Signal)
                                                .SingleOrDefault();
 
                 if (signalOutlet == null)
                 {
                     signalOutlet = patchManager.Number(0.0);
+#if DEBUG
+                    signalOutlet.Operator.Name = "Dummy operator, because Auto-Patch has no signal outlets.";
+#endif
                 }
 
                 IPatchCalculator patchCalculator = patchManager.CreateCalculator(calculatorCache, signalOutlet);

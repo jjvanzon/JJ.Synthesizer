@@ -32,8 +32,6 @@ namespace JJ.Business.Synthesizer
             Patch.Name = "Auto-Generated Polyphonic Patch";
             Patch polyphonicAutoPatch = Patch;
 
-            //bool underlyingPatchesHaveNoteStart = false;
-
             var monophonicOutlets = new List<Outlet>(maxConcurrentNotes);
 
             for (int i = 0; i < maxConcurrentNotes; i++)
