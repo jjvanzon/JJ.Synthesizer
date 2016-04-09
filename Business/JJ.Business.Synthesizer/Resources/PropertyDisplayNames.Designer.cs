@@ -709,6 +709,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Harmonic Number.
+        /// </summary>
+        public static string HarmonicNumber {
+            get {
+                return ResourceManager.GetString("HarmonicNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hermite.
         /// </summary>
         public static string Hermite {

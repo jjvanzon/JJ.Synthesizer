@@ -769,4 +769,7 @@
   <data name="Calculation" xml:space="preserve">
     <value>Berekening</value>
   </data>
+  <data name="HarmonicNumber" xml:space="preserve">
+    <value>Harmonische</value>
+  </data>
 </root>

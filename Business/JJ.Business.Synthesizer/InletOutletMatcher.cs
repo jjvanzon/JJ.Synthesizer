@@ -285,10 +285,10 @@ namespace JJ.Business.Synthesizer
                 DimensionEnum inletDimensionEnum = inlet.GetDimensionEnum();
                 if (inletDimensionEnum != DimensionEnum.Undefined)
                 {
-                    string dimensionString = dimensionEnum.ToString();
+                    string outletDimensionString = dimensionEnum.ToString();
                     string inletDimensionString = inletDimensionEnum.ToString();
 
-                    if (String.Equals(dimensionString, inletDimensionString))
+                    if (String.Equals(outletDimensionString, inletDimensionString))
                     {
                         return true;
                     }

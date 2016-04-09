@@ -1,0 +1,1 @@
+insert into Dimension (ID, Name) values (24, 'HarmonicNumber');

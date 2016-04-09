@@ -29,6 +29,9 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             RepositoryHelper.EnsureEnumEntity(this, 19, "IntensityModulationDepth");
             RepositoryHelper.EnsureEnumEntity(this, 20, "DecayDuration");
             RepositoryHelper.EnsureEnumEntity(this, 21, "SustainVolume");
+            RepositoryHelper.EnsureEnumEntity(this, 22, "Time");
+            RepositoryHelper.EnsureEnumEntity(this, 23, "Channel");
+            RepositoryHelper.EnsureEnumEntity(this, 24, "HarmonicNumber");
         }
     }
 }

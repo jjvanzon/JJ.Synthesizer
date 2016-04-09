@@ -770,4 +770,7 @@
   <data name="Calculation" xml:space="preserve">
     <value>Calculation</value>
   </data>
+  <data name="HarmonicNumber" xml:space="preserve">
+    <value>Harmonic Number</value>
+  </data>
 </root>
