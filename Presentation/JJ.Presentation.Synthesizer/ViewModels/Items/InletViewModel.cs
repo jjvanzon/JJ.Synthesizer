@@ -29,7 +29,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public double? DefaultValue { get; set; }
 
         /// <summary> Read-only, nullable, not necessarily displayed. </summary>
-        public IDAndName InletType { get; set; }
+        public IDAndName Dimension { get; set; }
 
         private string DebuggerDisplay
         {

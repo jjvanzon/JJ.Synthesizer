@@ -44,15 +44,15 @@
 
 //                foreach (Inlet inlet in customOperatorWrapper.Inlets)
 //                {
-//                    InletTypeEnum inletTypeEnum = inlet.GetInletTypeEnum();
-//                    if (inletTypeEnum != InletTypeEnum.Undefined)
+//                    DimensionEnum dimensionEnum = inlet.GetDimensionEnum();
+//                    if (dimensionEnum != DimensionEnum.Undefined)
 //                    {
 //                        PatchInlet_OperatorWrapper patchInletWrapper = ConvertToPatchInlet(inlet);
-//                        patchInletWrapper.Name = String.Format("{0} {1}", inletTypeEnum, i);
+//                        patchInletWrapper.Name = String.Format("{0} {1}", dimensionEnum, i);
 
 //                        inlet.LinkTo((Outlet)patchInletWrapper);
 
-//                        if (inletTypeEnum == InletTypeEnum.NoteStart)
+//                        if (dimensionEnum == DimensionEnum.NoteStart)
 //                        {
 //                            underlyingPatchesHaveNoteStart = true;
 //                        }
@@ -69,8 +69,8 @@
 //                    }
 //                    else
 //                    {
-//                        PatchInlet_OperatorWrapper noteStartPatchInletWrapper = PatchInlet(InletTypeEnum.NoteStart);
-//                        noteStartPatchInletWrapper.Name = String.Format("{0} {1}", InletTypeEnum.NoteStart, i);
+//                        PatchInlet_OperatorWrapper noteStartPatchInletWrapper = PatchInlet(DimensionEnum.NoteStart);
+//                        noteStartPatchInletWrapper.Name = String.Format("{0} {1}", DimensionEnum.NoteStart, i);
 
 //                        Delay_OperatorWrapper delayWrapper = Delay(signalOutlet, noteStartPatchInletWrapper);
 //                        monophonicOutlets.Add(delayWrapper);
@@ -115,7 +115,7 @@
 //            Number_OperatorWrapper frequencyNumberOperatorWrapper = Number(frequency);
 
 //            IEnumerable<Inlet> frequencyInlets = Patch.EnumerateOperatorWrappersOfType<PatchInlet_OperatorWrapper>()
-//                                                      .Where(x => x.Inlet.GetInletTypeEnum() == InletTypeEnum.Frequency)
+//                                                      .Where(x => x.Inlet.GetDimensionEnum() == DimensionEnum.Frequency)
 //                                                      .Select(x => x.Inlet);
 
 //            foreach (Inlet frequencyInlet in frequencyInlets)
@@ -194,7 +194,7 @@
 
 //            // If there is overlap in InletType, they will merge to a single PatchInlet.
 //            var unmatchedInlets_GroupedByInletType = unmatchedInlets.Where(x => x.InletType != null)
-//                                                                    .GroupBy(x => x.GetInletTypeEnum());
+//                                                                    .GroupBy(x => x.GetDimensionEnum());
 //            foreach (var unmatchedInletGroup in unmatchedInlets_GroupedByInletType)
 //            {
 //                PatchInlet_OperatorWrapper patchInletWrapper = ConvertToPatchInlet(unmatchedInletGroup.ToArray());

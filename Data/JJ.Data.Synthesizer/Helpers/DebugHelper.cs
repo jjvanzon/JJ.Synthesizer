@@ -33,9 +33,9 @@ namespace JJ.Data.Synthesizer.Helpers
 
                 Inlet inlet = op.Inlets[0];
 
-                if (inlet.InletType != null)
+                if (inlet.Dimension != null)
                 {
-                    sb.AppendFormat("InletType={0} ", inlet.InletType.Name);
+                    sb.AppendFormat("Dimension={0} ", inlet.Dimension.Name);
                 }
             }
 
@@ -64,9 +64,9 @@ namespace JJ.Data.Synthesizer.Helpers
                 sb.AppendFormat("'{0}' ", entity.Name);
             }
 
-            if (entity.InletType != null)
+            if (entity.Dimension != null)
             {
-                sb.AppendFormat("InletType={0} ", entity.InletType.Name);
+                sb.AppendFormat("Dimension={0} ", entity.Dimension.Name);
             }
 
             sb.AppendFormat("({0})", entity.ID);

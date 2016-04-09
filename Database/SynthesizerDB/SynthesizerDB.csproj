@@ -94,6 +94,11 @@
     <Content Include="2015-10-29 010 SynthesizerDB Operator Type 26 - Select.sql" />
     <Content Include="2015-10-26 010 SynthesizerDB Operator Type 25 - Loop.sql" />
     <Content Include="2015-11-07 030 SynthesizerDB rename OperatorType TimeSubtract to Earlier - Copy.sql" />
+    <Content Include="2016-04-09 050 SynthesizerDB IX_Inlet_InletTypeID rename to IX_Inlet_DimensionID.sql" />
+    <Content Include="2016-04-09 040 SynthesizerDB FK_Inlet_InletType rename to FK_Inlet_Dimension.sql" />
+    <Content Include="2016-04-09 030 SynthesizerDB Inlet.InletTypeID rename to DimensionID.sql" />
+    <Content Include="2016-04-09 020 SynthesizerDB PK_InletType rename PK_Dimension.sql" />
+    <Content Include="2016-04-09 010 SynthesizerDB InletType rename to Dimension.sql" />
     <Content Include="2016-04-01 040 SynthesizerDB OperatorType rename 60 - Trigger to PulseTrigger.sql" />
     <Content Include="2016-04-01 030 SynthesizerDB OperatorType 62 - ToggleTrigger.sql" />
     <Content Include="2016-04-01 020 SynthesizerDB OperatorType 61 - ChangeTrigger.sql" />

@@ -567,7 +567,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             foreach (InletViewModel inletViewModel in viewModel.Inlets)
             {
-                Inlet inlet = inletViewModel.ToEntity(patchRepositories.InletRepository, patchRepositories.InletTypeRepository);
+                Inlet inlet = inletViewModel.ToEntity(patchRepositories.InletRepository, patchRepositories.DimensionRepository);
                 inlet.LinkTo(op);
 
                 inletsToKeep.Add(inlet);
@@ -641,11 +641,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return entity;
         }
 
-        public static Inlet ToEntity(this InletViewModel viewModel, IInletRepository inletRepository, IInletTypeRepository inletTypeRepository)
+        public static Inlet ToEntity(this InletViewModel viewModel, IInletRepository inletRepository, IDimensionRepository dimensionRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (inletRepository == null) throw new NullException(() => inletRepository);
-            if (inletTypeRepository == null) throw new NullException(() => inletTypeRepository);
+            if (dimensionRepository == null) throw new NullException(() => dimensionRepository);
 
             Inlet entity = inletRepository.TryGet(viewModel.ID);
             if (entity == null)
@@ -658,15 +658,15 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.Name = viewModel.Name;
             entity.DefaultValue = viewModel.DefaultValue;
 
-            bool inletTypeIsFilledIn = viewModel.InletType != null && viewModel.InletType.ID != 0;
-            if (inletTypeIsFilledIn)
+            bool dimensionIsFilledIn = viewModel.Dimension != null && viewModel.Dimension.ID != 0;
+            if (dimensionIsFilledIn)
             {
-                InletType inletType = inletTypeRepository.Get(viewModel.InletType.ID);
-                entity.LinkTo(inletType);
+                Dimension dimension = dimensionRepository.Get(viewModel.Dimension.ID);
+                entity.LinkTo(dimension);
             }
             else
             {
-                entity.UnlinkInletType();
+                entity.UnlinkDimension();
             }
 
             return entity;
@@ -1003,15 +1003,15 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 inlet.DefaultValue = null;
             }
 
-            bool inletTypeIsFilledIn = viewModel.InletType != null && viewModel.InletType.ID != 0;
-            if (inletTypeIsFilledIn)
+            bool dimensionIsFilledIn = viewModel.Dimension != null && viewModel.Dimension.ID != 0;
+            if (dimensionIsFilledIn)
             {
-                InletTypeEnum inletTypeEnum = (InletTypeEnum)viewModel.InletType.ID;
-                inlet.SetInletTypeEnum(inletTypeEnum, repositories.InletTypeRepository);
+                DimensionEnum dimensionEnum = (DimensionEnum)viewModel.Dimension.ID;
+                inlet.SetDimensionEnum(dimensionEnum, repositories.DimensionRepository);
             }
             else
             {
-                inlet.InletType = null;
+                inlet.Dimension = null;
             }
 
             // Delete excessive inlets.

@@ -241,9 +241,9 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.PatchInlet();
         }
 
-        public PatchInlet_OperatorWrapper PatchInlet(InletTypeEnum inletTypeEnum)
+        public PatchInlet_OperatorWrapper PatchInlet(DimensionEnum dimensionEnum)
         {
-            return _patchManager.PatchInlet(inletTypeEnum);
+            return _patchManager.PatchInlet(dimensionEnum);
         }
 
         public PatchInlet_OperatorWrapper PatchInlet(string name)
@@ -256,9 +256,9 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.PatchInlet(name, defaultValue);
         }
 
-        public PatchInlet_OperatorWrapper PatchInlet(InletTypeEnum inletTypeEnum, double defaultValue)
+        public PatchInlet_OperatorWrapper PatchInlet(DimensionEnum dimensionEnum, double defaultValue)
         {
-            return _patchManager.PatchInlet(inletTypeEnum, defaultValue);
+            return _patchManager.PatchInlet(dimensionEnum, defaultValue);
         }
 
         public PatchOutlet_OperatorWrapper PatchOutlet(Outlet input = null)

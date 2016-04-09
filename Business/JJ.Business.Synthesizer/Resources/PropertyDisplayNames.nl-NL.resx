@@ -450,8 +450,8 @@
   <data name="Volumes" xml:space="preserve">
     <value>Volumes</value>
   </data>
-  <data name="InletType" xml:space="preserve">
-    <value>Soort ingang</value>
+  <data name="Dimension" xml:space="preserve">
+    <value>Dimensie</value>
   </data>
   <data name="OutletType" xml:space="preserve">
     <value>Soort uitgang</value>

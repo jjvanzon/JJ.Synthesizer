@@ -29,9 +29,9 @@ namespace JJ.Business.Synthesizer.Resources
             return String.Format(Messages.NumberIs0WithName, name);
         }
 
-        public static string NameOrInletTypeMustBeFilledIn()
+        public static string NameOrDimensionMustBeFilledIn()
         {
-            return Messages.NameOrInletTypeMustBeFilledIn;
+            return Messages.NameOrDimensionMustBeFilledIn;
         }
 
         public static string UnsupportedOperatorTypeEnumValue(OperatorTypeEnum operatorTypeEnum)
@@ -144,9 +144,9 @@ namespace JJ.Business.Synthesizer.Resources
             return String.Format(Messages.OperatorHasNoInletsFilledIn_WithOperatorName, name);
         }
 
-        public static string InletNotFoundInUnderlyingPatch(string inletName, string inletTypeDisplayName, int? inletListIndex)
+        public static string InletNotFoundInUnderlyingPatch(string inletName, string dimensionDisplayName, int? inletListIndex)
         {
-            return String.Format(Messages.InletNotFoundInUnderlyingPatch, inletName, inletTypeDisplayName, inletListIndex);
+            return String.Format(Messages.InletNotFoundInUnderlyingPatch, inletName, dimensionDisplayName, inletListIndex);
         }
 
         public static string OperatorHasNoInletFilledIn_WithOperatorName(string name)
@@ -163,14 +163,14 @@ namespace JJ.Business.Synthesizer.Resources
             return String.Format(Messages.NamesNotUnique_WithEntityTypeNameAndNames, entityTypeDisplayName, formattedDuplicateNames);
         }
 
-        public static string InletPropertyDoesNotMatchWithUnderlyingPatch(string propertyDisplayName, string inletName, string inletTypeDisplayName, int? inletListIndex)
+        public static string InletPropertyDoesNotMatchWithUnderlyingPatch(string propertyDisplayName, string inletName, string dimensionDisplayName, int? inletListIndex)
         {
-            return String.Format(Messages.InletPropertyDoesNotMatchWithUnderlyingPatch, propertyDisplayName, inletName, inletTypeDisplayName, inletListIndex);
+            return String.Format(Messages.InletPropertyDoesNotMatchWithUnderlyingPatch, propertyDisplayName, inletName, dimensionDisplayName, inletListIndex);
         }
 
-        public static string OutletPropertyDoesNotMatchWithUnderlyingPatch(string propertyDisplayName, string inletName, string inletTypeDisplayName, int? inletListIndex)
+        public static string OutletPropertyDoesNotMatchWithUnderlyingPatch(string propertyDisplayName, string inletName, string dimensionDisplayName, int? inletListIndex)
         {
-            return String.Format(Messages.OutletPropertyDoesNotMatchWithUnderlyingPatch, propertyDisplayName, inletName, inletTypeDisplayName, inletListIndex);
+            return String.Format(Messages.OutletPropertyDoesNotMatchWithUnderlyingPatch, propertyDisplayName, inletName, dimensionDisplayName, inletListIndex);
         }
 
         public static string OutletNotFoundInUnderlyingPatch(string outletName, string outletTypeDisplayName, int? outletListIndex)

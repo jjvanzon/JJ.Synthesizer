@@ -31,9 +31,9 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 .GreaterThanOrEqual(0);
 
             var patchInletWrapper = new PatchInlet_OperatorWrapper(Object);
-            For(() => patchInletWrapper.Inlet.GetInletTypeEnum(), PropertyDisplayNames.InletType).IsEnum<InletTypeEnum>();
+            For(() => patchInletWrapper.Inlet.GetDimensionEnum(), PropertyDisplayNames.Dimension).IsEnum<DimensionEnum>();
 
-            // PatchInlet.Inlet.InletType is optional.
+            // PatchInlet.Inlet.Dimension is optional.
             // patchInlet.Name is optional.
         }
     }

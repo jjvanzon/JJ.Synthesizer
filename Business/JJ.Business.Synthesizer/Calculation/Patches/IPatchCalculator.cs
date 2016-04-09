@@ -13,12 +13,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         double GetValue(string name, int listIndex);
         void SetValue(string name, int listIndex, double value);
+        
+        double GetValue(DimensionEnum dimensionEnum);
+        void SetValue(DimensionEnum dimensionEnum, double value);
 
-        double GetValue(InletTypeEnum inletTypeEnum);
-        void SetValue(InletTypeEnum inletTypeEnum, double value);
-
-        double GetValue(InletTypeEnum inletTypeEnum, int listIndex);
-        void SetValue(InletTypeEnum inletTypeEnum, int listIndex, double value);
+        double GetValue(DimensionEnum dimensionEnum, int listIndex);
+        void SetValue(DimensionEnum dimensionEnum, int listIndex, double value);
 
         double Calculate(double time, int channelIndex);
 

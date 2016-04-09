@@ -38,16 +38,16 @@ namespace JJ.Business.Synthesizer
             {
                 // TODO: I should really only match if it is unique.
 
-                bool inletTypeIsFilledIn = destCustomOperatorInlet.GetInletTypeEnum() != InletTypeEnum.Undefined;
-                if (!inletTypeIsFilledIn)
+                bool dimensionIsFilledIn = destCustomOperatorInlet.GetDimensionEnum() != DimensionEnum.Undefined;
+                if (!dimensionIsFilledIn)
                 {
                     continue;
                 }
 
                 var sourcePatchInletWrapper = new PatchInlet_OperatorWrapper(sourcePatchInlet);
 
-                bool inletTypesAreEqual = destCustomOperatorInlet.GetInletTypeEnum() == sourcePatchInletWrapper.Inlet.GetInletTypeEnum();
-                if (inletTypesAreEqual)
+                bool dimensionsAreEqual = destCustomOperatorInlet.GetDimensionEnum() == sourcePatchInletWrapper.Inlet.GetDimensionEnum();
+                if (dimensionsAreEqual)
                 {
                     return destCustomOperatorInlet;
                 }
@@ -129,9 +129,9 @@ namespace JJ.Business.Synthesizer
             if (dest_UnderlyingPatch_PatchInlet == null)
             {
                 throw new Exception(String.Format(
-                    "PatchInlet not found in UnderlyingPatch. CustomOperator Inlet: Name = '{0}', InletTypeEnum = '{1}', ListIndex = '{2}'.",
+                    "PatchInlet not found in UnderlyingPatch. CustomOperator Inlet: Name = '{0}', DimensionEnum = '{1}', ListIndex = '{2}'.",
                     source_CustomOperator_Inlet.Name,
-                    source_CustomOperator_Inlet.GetInletTypeEnum(),
+                    source_CustomOperator_Inlet.GetDimensionEnum(),
                     source_CustomOperator_Inlet.ListIndex));
             }
 
@@ -169,16 +169,16 @@ namespace JJ.Business.Synthesizer
             // Try match by type
             foreach (Operator dest_UnderlyingPatch_PatchInlet in dest_UnderlyingPatch_PatchInlets)
             {
-                bool inletTypeIsFilledIn = source_CustomOperator_Inlet.GetInletTypeEnum() != InletTypeEnum.Undefined;
-                if (!inletTypeIsFilledIn)
+                bool dimensionIsFilledIn = source_CustomOperator_Inlet.GetDimensionEnum() != DimensionEnum.Undefined;
+                if (!dimensionIsFilledIn)
                 {
                     continue;
                 }
 
                 var dest_UnderlyingPatch_PatchInlet_Wrapper = new PatchInlet_OperatorWrapper(dest_UnderlyingPatch_PatchInlet);
 
-                bool inletTypesAreEqual = dest_UnderlyingPatch_PatchInlet_Wrapper.Inlet.GetInletTypeEnum() == source_CustomOperator_Inlet.GetInletTypeEnum();
-                if (inletTypesAreEqual)
+                bool dimensionsAreEqual = dest_UnderlyingPatch_PatchInlet_Wrapper.Inlet.GetDimensionEnum() == source_CustomOperator_Inlet.GetDimensionEnum();
+                if (dimensionsAreEqual)
                 {
                     return dest_UnderlyingPatch_PatchInlet;
                 }
@@ -278,17 +278,17 @@ namespace JJ.Business.Synthesizer
             if (outlet == null) throw new NullException(() => outlet);
             if (inlet == null) throw new NullException(() => inlet);
 
-            // First match by OutletType / InletType.
+            // First match by OutletType / Inlet Dimension.
             OutletTypeEnum outletTypeEnum = outlet.GetOutletTypeEnum();
             if (outletTypeEnum != OutletTypeEnum.Undefined)
             {
-                InletTypeEnum inletTypeEnum = inlet.GetInletTypeEnum();
-                if (inletTypeEnum != InletTypeEnum.Undefined)
+                DimensionEnum inletDimensionEnum = inlet.GetDimensionEnum();
+                if (inletDimensionEnum != DimensionEnum.Undefined)
                 {
                     string outletTypeString = outletTypeEnum.ToString();
-                    string inletTypeString = inletTypeEnum.ToString();
+                    string inletDimensionString = inletDimensionEnum.ToString();
 
-                    if (String.Equals(outletTypeString, inletTypeString))
+                    if (String.Equals(outletTypeString, inletDimensionString))
                     {
                         return true;
                     }

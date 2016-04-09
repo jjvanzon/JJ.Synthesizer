@@ -40,11 +40,11 @@ namespace JJ.Business.Synthesizer
 
                 foreach (Inlet inlet in customOperatorWrapper.Inlets)
                 {
-                    InletTypeEnum inletTypeEnum = inlet.GetInletTypeEnum();
-                    if (inletTypeEnum != InletTypeEnum.Undefined)
+                    DimensionEnum inletDimensionEnum = inlet.GetDimensionEnum();
+                    if (inletDimensionEnum != DimensionEnum.Undefined)
                     {
                         PatchInlet_OperatorWrapper patchInletWrapper = ConvertToPatchInlet(inlet);
-                        patchInletWrapper.Name = String.Format("{0} {1}", inletTypeEnum, i);
+                        patchInletWrapper.Name = String.Format("{0} {1}", inletDimensionEnum, i);
 
                         inlet.LinkTo((Outlet)patchInletWrapper);
                     }
@@ -94,7 +94,7 @@ namespace JJ.Business.Synthesizer
             Number_OperatorWrapper frequencyNumberOperatorWrapper = Number(frequency);
 
             IEnumerable<Inlet> frequencyInlets = Patch.EnumerateOperatorWrappersOfType<PatchInlet_OperatorWrapper>()
-                                                      .Where(x => x.Inlet.GetInletTypeEnum() == InletTypeEnum.Frequency)
+                                                      .Where(x => x.Inlet.GetDimensionEnum() == DimensionEnum.Frequency)
                                                       .Select(x => x.Inlet);
 
             foreach (Inlet frequencyInlet in frequencyInlets)
@@ -116,7 +116,7 @@ namespace JJ.Business.Synthesizer
         /// Do a rollback after calling this method to prevent saving the new patch.
         /// Tries to produce a new patch by tying together existing patches,
         /// trying to match PatchInlet and PatchOutlet operators by:
-        /// 1) InletType.Name and OutletType.Name
+        /// 1) Inlet.Dimension.Name and OutletType.Name
         /// 2) PatchInlet Operator.Name and PatchOutlet Operator.Name.
         /// The non-matched inlets and outlets will become inlets and outlets of the new patch.
         /// If there is overlap in type or name, they will merge to a single inlet or outlet.
@@ -171,25 +171,25 @@ namespace JJ.Business.Synthesizer
                                                           .Except(matchedInlets)
                                                           .ToArray();
 
-            // If there is overlap in InletType, they will merge to a single PatchInlet.
-            var unmatchedInlets_GroupedByInletType = unmatchedInlets.Where(x => x.InletType != null)
-                                                                    .GroupBy(x => x.GetInletTypeEnum());
-            foreach (var unmatchedInletGroup in unmatchedInlets_GroupedByInletType)
+            // If there is overlap in Inlet Dimension, they will merge to a single PatchInlet.
+            var unmatchedInlets_GroupedByDimension = unmatchedInlets.Where(x => x.Dimension != null)
+                                                                    .GroupBy(x => x.GetDimensionEnum());
+            foreach (var unmatchedInletGroup in unmatchedInlets_GroupedByDimension)
             {
                 PatchInlet_OperatorWrapper patchInletWrapper = ConvertToPatchInlet(unmatchedInletGroup.ToArray());
             }
 
             // If there is overlap in name, they will merge to a single PatchInlet.
-            var unmatchedInlets_WithoutInletType_GroupedByName = unmatchedInlets.Where(x => x.InletType == null && !String.IsNullOrEmpty(x.Name))
+            var unmatchedInlets_WithoutDimension_GroupedByName = unmatchedInlets.Where(x => x.Dimension == null && !String.IsNullOrEmpty(x.Name))
                                                                                 .GroupBy(x => x.Name);
-            foreach (var unmatchedInletGroup in unmatchedInlets_WithoutInletType_GroupedByName)
+            foreach (var unmatchedInletGroup in unmatchedInlets_WithoutDimension_GroupedByName)
             {
                 PatchInlet_OperatorWrapper patchInletWrapper = ConvertToPatchInlet(unmatchedInletGroup.ToArray());
             }
 
-            // If there is no InletType or name, unmatched Inlets will convert to individual PatchInlets.
-            var unmatchedInlets_WithoutInletTypeOrName = unmatchedInlets.Where(x => x.InletType == null && String.IsNullOrEmpty(x.Name));
-            foreach (Inlet unmatchedInlet in unmatchedInlets_WithoutInletTypeOrName)
+            // If there is no Inlet Dimension or name, unmatched Inlets will convert to individual PatchInlets.
+            var unmatchedInlets_WithoutDimensionOrName = unmatchedInlets.Where(x => x.Dimension == null && String.IsNullOrEmpty(x.Name));
+            foreach (Inlet unmatchedInlet in unmatchedInlets_WithoutDimensionOrName)
             {
                 PatchInlet_OperatorWrapper patchInletWrapper = ConvertToPatchInlet(unmatchedInlet);
             }
@@ -255,7 +255,7 @@ namespace JJ.Business.Synthesizer
 
             // TODO: You might want to do this by calling shared business logic instead of reprogramming it here.
             Inlet destPatchInletInlet = destPatchInletWrapper.Inlet;
-            destPatchInletInlet.InletType = sourceInlet.InletType;
+            destPatchInletInlet.Dimension = sourceInlet.Dimension;
             destPatchInletInlet.DefaultValue = sourceInlet.DefaultValue;
 
             sourceInlet.LinkTo(destPatchInletWrapper.Result);

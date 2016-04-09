@@ -7,11 +7,11 @@ begin try
 		select 
 			ID, 
 			Data as Data_Current,
-			Data + ';InletTypeEnum=Undefined' as Data_New 
+			Data + ';DimensionEnum=Undefined' as Data_New 
 		from Operator 
 		where 
 			OperatorTypeID = 5 /*PatchInlet*/ and
-			CharIndex('InletTypeEnum', Data) = 0
+			CharIndex('DimensionEnum', Data) = 0
 	)
 	--select * from PatchInletOperatorsToUpdate;
 	update PatchInletOperatorsToUpdate set Data_Current = Data_New;

@@ -527,7 +527,7 @@ namespace JJ.Business.Synthesizer
             AssertPatch();
 
             IList<PatchInlet_OperatorWrapper> patchInletWrappers = Patch.EnumerateOperatorWrappersOfType<PatchInlet_OperatorWrapper>()
-                                                                        .Where(x => x.Inlet.GetInletTypeEnum() == InletTypeEnum.Signal &&
+                                                                        .Where(x => x.Inlet.GetDimensionEnum() == DimensionEnum.Signal &&
                                                                                     x.Inlet.InputOutlet == null &&
                                                                                     !x.Inlet.DefaultValue.HasValue)
                                                                         .ToArray();

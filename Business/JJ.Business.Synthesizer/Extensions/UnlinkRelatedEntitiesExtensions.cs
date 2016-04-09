@@ -76,7 +76,7 @@ namespace JJ.Business.Synthesizer.Extensions
         {
             if (inlet == null) throw new NullException(() => inlet);
 
-            inlet.UnlinkInletType();
+            inlet.UnlinkDimension();
             inlet.UnlinkOutlet();
             inlet.UnlinkOperator();
         }

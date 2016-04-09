@@ -511,6 +511,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dimension.
+        /// </summary>
+        public static string Dimension {
+            get {
+                return ResourceManager.GetString("Dimension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ÷.
         /// </summary>
         public static string Divide {
@@ -750,15 +759,6 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Inlets {
             get {
                 return ResourceManager.GetString("Inlets", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Inlet Type.
-        /// </summary>
-        public static string InletType {
-            get {
-                return ResourceManager.GetString("InletType", resourceCulture);
             }
         }
         

@@ -117,7 +117,7 @@ namespace JJ.Presentation.Synthesizer.Converters
 
         private Inlet ToEntityRecursive(InletViewModel inletViewModel)
         {
-            Inlet inlet = inletViewModel.ToEntity(_repositories.InletRepository, _repositories.InletTypeRepository);
+            Inlet inlet = inletViewModel.ToEntity(_repositories.InletRepository, _repositories.DimensionRepository);
 
             if (inletViewModel.InputOutlet == null)
             {

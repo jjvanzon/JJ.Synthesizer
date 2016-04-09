@@ -231,8 +231,8 @@
     <value>{0} of inlet does not match with underlying patch. Inlet name: '{1}', inlet type: '{2}', inlet number: '{3}'.</value>
     <comment>{0} = property name</comment>
   </data>
-  <data name="NameOrInletTypeMustBeFilledIn" xml:space="preserve">
-    <value>Either a name or an inlet type must be filled in.</value>
+  <data name="NameOrDimensionMustBeFilledIn" xml:space="preserve">
+    <value>Either a name or a dimension must be filled in.</value>
   </data>
   <data name="NotFound_WithTypeName_AndName" xml:space="preserve">
     <value>{0} named '{1}' not found.</value>

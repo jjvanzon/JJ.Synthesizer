@@ -84,26 +84,26 @@ namespace JJ.Business.Synthesizer.Extensions
 
         // Inlet
 
-        public static InletTypeEnum GetInletTypeEnum(this Inlet entity)
+        public static DimensionEnum GetDimensionEnum(this Inlet entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
-            if (entity.InletType == null) return InletTypeEnum.Undefined;
+            if (entity.Dimension == null) return DimensionEnum.Undefined;
 
-            return (InletTypeEnum)entity.InletType.ID;
+            return (DimensionEnum)entity.Dimension.ID;
         }
 
-        public static void SetInletTypeEnum(this Inlet entity, InletTypeEnum enumValue, IInletTypeRepository repository)
+        public static void SetDimensionEnum(this Inlet entity, DimensionEnum enumValue, IDimensionRepository repository)
         {
             if (repository == null) throw new NullException(() => repository);
 
-            if (enumValue == InletTypeEnum.Undefined)
+            if (enumValue == DimensionEnum.Undefined)
             {
-                entity.UnlinkInletType();
+                entity.UnlinkDimension();
             }
             else
             {
-                InletType enumEntity = repository.Get((int)enumValue);
+                Dimension enumEntity = repository.Get((int)enumValue);
                 entity.LinkTo(enumEntity);
             }
         }

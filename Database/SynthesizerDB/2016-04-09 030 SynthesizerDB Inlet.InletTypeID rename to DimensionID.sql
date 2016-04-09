@@ -1,0 +1,1 @@
+exec sp_rename 'Inlet.InletTypeID', 'DimensionID', 'COLUMN';

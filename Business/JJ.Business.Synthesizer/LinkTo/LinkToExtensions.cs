@@ -408,13 +408,13 @@ namespace JJ.Business.Synthesizer.LinkTo
             // No inverse property.
         }
 
-        public static void LinkTo(this Inlet inlet, InletType inletType)
+        public static void LinkTo(this Inlet inlet, Dimension dimension)
         {
             if (inlet == null) throw new NullException(() => inlet);
 
-            inlet.InletType = inletType;
+            inlet.Dimension = dimension;
 
-            // No inverse prinleterty.
+            // No inverse property.
         }
 
         public static void LinkTo(this Node node, NodeType nodeType)
@@ -441,7 +441,7 @@ namespace JJ.Business.Synthesizer.LinkTo
 
             outlet.OutletType = outletType;
 
-            // No inverse proutleterty.
+            // No inverse property.
         }
 
         public static void LinkTo(this Sample sample, SpeakerSetup speakerSetup)

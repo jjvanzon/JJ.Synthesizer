@@ -454,8 +454,8 @@
   <data name="Volumes" xml:space="preserve">
     <value>Volumes</value>
   </data>
-  <data name="InletType" xml:space="preserve">
-    <value>Inlet Type</value>
+  <data name="Dimension" xml:space="preserve">
+    <value>Dimension</value>
   </data>
   <data name="OutletType" xml:space="preserve">
     <value>Outlet Type</value>

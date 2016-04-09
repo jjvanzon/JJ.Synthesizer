@@ -22,7 +22,7 @@
         public const string ScaleTypeID = "ScaleTypeID";
         public const string SpeakerSetupID = "SpeakerSetupID";
         public const string ToneID = "ToneID";
-        public const string InletTypeID = "InletTypeID";
+        public const string DimensionID = "DimensionID";
         public const string OutletTypeID = "OutletTypeID";
     }
 }

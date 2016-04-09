@@ -339,40 +339,40 @@ Wait:
             patchCalculatorInfo.PatchCalculator.SetValue(name, value);
         }
 
-        public double GetValue(InletTypeEnum inletTypeEnum)
+        public double GetValue(DimensionEnum dimensionEnum)
         {
             PatchCalculatorInfo patchCalculatorInfo = _patchCalculatorInfos.FirstOrDefault();
 
             if (patchCalculatorInfo != null)
             {
-                return patchCalculatorInfo.PatchCalculator.GetValue(inletTypeEnum);
+                return patchCalculatorInfo.PatchCalculator.GetValue(dimensionEnum);
             }
 
             return 0.0;
         }
 
-        public void SetValue(InletTypeEnum inletTypeEnum, double value)
+        public void SetValue(DimensionEnum dimensionEnum, double value)
         {
             for (int i = 0; i < _patchCalculatorInfos.Count; i++)
             {
                 PatchCalculatorInfo patchCalculatorInfo = _patchCalculatorInfos[i];
-                patchCalculatorInfo.PatchCalculator.SetValue(inletTypeEnum, value);
+                patchCalculatorInfo.PatchCalculator.SetValue(dimensionEnum, value);
             }
         }
 
-        public double GetValue(InletTypeEnum inletTypeEnum, int noteListIndex)
+        public double GetValue(DimensionEnum dimensionEnum, int noteListIndex)
         {
             PatchCalculatorInfo patchCalculatorInfo = GetPatchCalculatorInfo(noteListIndex);
 
-            double value = patchCalculatorInfo.PatchCalculator.GetValue(inletTypeEnum);
+            double value = patchCalculatorInfo.PatchCalculator.GetValue(dimensionEnum);
             return value;
         }
 
-        public void SetValue(InletTypeEnum inletTypeEnum, int noteListIndex, double value)
+        public void SetValue(DimensionEnum dimensionEnum, int noteListIndex, double value)
         {
             PatchCalculatorInfo patchCalculatorInfo = GetPatchCalculatorInfo(noteListIndex);
 
-            patchCalculatorInfo.PatchCalculator.SetValue(inletTypeEnum, value);
+            patchCalculatorInfo.PatchCalculator.SetValue(dimensionEnum, value);
         }
 
         public void Reset(double time, int channelIndex, int noteListIndex)

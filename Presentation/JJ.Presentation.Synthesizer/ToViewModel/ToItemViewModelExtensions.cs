@@ -258,13 +258,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.ListIndex = entity.ListIndex;
             viewModel.DefaultValue = entity.DefaultValue;
 
-            if (entity.InletType != null)
+            if (entity.Dimension != null)
             {
-                viewModel.InletType = entity.InletType.ToIDAndDisplayName();
+                viewModel.Dimension = entity.Dimension.ToIDAndDisplayName();
             }
             else
             {
-                viewModel.InletType = ViewModelHelper.CreateEmptyIDAndName();
+                viewModel.Dimension = ViewModelHelper.CreateEmptyIDAndName();
             }
 
             // TODO: Not a great plan to use a wrapper, since it is strict and ToViewModel might have to be lenient?

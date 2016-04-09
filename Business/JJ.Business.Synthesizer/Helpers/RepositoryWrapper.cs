@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public ISampleDataTypeRepository SampleDataTypeRepository { get; private set; }
         public ISpeakerSetupRepository SpeakerSetupRepository { get; private set; }
         public IScaleTypeRepository ScaleTypeRepository { get; private set; }
-        public IInletTypeRepository InletTypeRepository { get; private set; }
+        public IDimensionRepository DimensionRepository { get; private set; }
         public IOutletTypeRepository OutletTypeRepository { get; private set; }
 
         public IIDRepository IDRepository { get; private set; }
@@ -56,7 +56,7 @@ namespace JJ.Business.Synthesizer.Helpers
             ISampleDataTypeRepository sampleDataTypeRepository,
             ISpeakerSetupRepository speakerSetupRepository,
             IScaleTypeRepository scaleTypeRepository,
-            IInletTypeRepository inletTypeRepository,
+            IDimensionRepository dimensionRepository,
             IOutletTypeRepository outletTypeRepository,
 
             IIDRepository idRepository)
@@ -84,7 +84,7 @@ namespace JJ.Business.Synthesizer.Helpers
             if (sampleDataTypeRepository == null) throw new NullException(() => sampleDataTypeRepository);
             if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
             if (scaleTypeRepository == null) throw new NullException(() => scaleTypeRepository);
-            if (inletTypeRepository == null) throw new NullException(() => inletTypeRepository);
+            if (dimensionRepository == null) throw new NullException(() => dimensionRepository);
             if (outletTypeRepository == null) throw new NullException(() => outletTypeRepository);
 
             if (idRepository == null) throw new NullException(() => idRepository);
@@ -111,7 +111,7 @@ namespace JJ.Business.Synthesizer.Helpers
             SampleDataTypeRepository = sampleDataTypeRepository;
             SpeakerSetupRepository = speakerSetupRepository;
             ScaleTypeRepository = scaleTypeRepository;
-            InletTypeRepository = inletTypeRepository;
+            DimensionRepository = dimensionRepository;
             OutletTypeRepository = outletTypeRepository;
 
             IDRepository = idRepository;

@@ -3,9 +3,9 @@ using JJ.Framework.Data.Memory;
 
 namespace JJ.Data.Synthesizer.Memory.Mappings
 {
-    public class OutletTypeMappings : MemoryMapping<OutletType>
+    public class OutletTypeMapping : MemoryMapping<OutletType>
     {
-        public OutletTypeMappings()
+        public OutletTypeMapping()
         {
             IdentityType = IdentityType.Assigned;
             IdentityPropertyName = PropertyNames.ID;

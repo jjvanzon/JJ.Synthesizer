@@ -30,10 +30,10 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { OperatorHelper.GetInlet(_operator, index).LinkTo(value); }
         }
 
-        public Outlet this[InletTypeEnum inletTypeEnum]
+        public Outlet this[DimensionEnum dimensionEnum]
         {
-            get { return OperatorHelper.GetInputOutlet(_operator, inletTypeEnum); }
-            set { OperatorHelper.GetInlet(_operator, inletTypeEnum).LinkTo(value); }
+            get { return OperatorHelper.GetInputOutlet(_operator, dimensionEnum); }
+            set { OperatorHelper.GetInlet(_operator, dimensionEnum).LinkTo(value); }
         }
 
         public IEnumerator<Outlet> GetEnumerator()

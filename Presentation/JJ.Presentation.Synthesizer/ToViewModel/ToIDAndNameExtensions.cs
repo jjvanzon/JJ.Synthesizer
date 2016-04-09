@@ -58,7 +58,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
         }
 
-        public static IDAndName ToIDAndDisplayName(this InletType entity)
+        public static IDAndName ToIDAndDisplayName(this Dimension entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -71,7 +71,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
         }
 
-        public static IDAndName ToIDAndDisplayName(this InletTypeEnum enumValue)
+        public static IDAndName ToIDAndDisplayName(this DimensionEnum enumValue)
         {
             string displayName = ResourceHelper.GetDisplayName(enumValue);
 

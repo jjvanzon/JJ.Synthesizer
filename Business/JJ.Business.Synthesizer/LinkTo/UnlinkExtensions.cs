@@ -133,11 +133,11 @@ namespace JJ.Business.Synthesizer.LinkTo
             sample.LinkTo((AudioFileFormat)null);
         }
 
-        public static void UnlinkInletType(this Inlet inlet)
+        public static void UnlinkDimension(this Inlet inlet)
         {
             if (inlet == null) throw new NullException(() => inlet);
 
-            inlet.LinkTo((InletType)null);
+            inlet.LinkTo((Dimension)null);
         }
 
         public static void UnlinkInterpolationType(this Sample sample)

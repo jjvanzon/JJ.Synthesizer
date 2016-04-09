@@ -74,10 +74,10 @@ namespace JJ.Business.Synthesizer.EntityWrappers
                 return inlet.Name;
             }
 
-            InletTypeEnum inletTypeEnum = inlet.GetInletTypeEnum();
-            if (inletTypeEnum != InletTypeEnum.Undefined)
+            DimensionEnum dimensionEnum = inlet.GetDimensionEnum();
+            if (dimensionEnum != DimensionEnum.Undefined)
             {
-                return ResourceHelper.GetDisplayName(inletTypeEnum);
+                return ResourceHelper.GetDisplayName(dimensionEnum);
             }
 
             string displayName = String.Format("{0} {1}", PropertyDisplayNames.Inlet, listIndex + 1);

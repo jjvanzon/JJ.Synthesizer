@@ -28,9 +28,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return OperatorHelper.GetInlet(_operator, index); }
         }
 
-        public Inlet this[InletTypeEnum inletTypeEnum]
+        public Inlet this[DimensionEnum dimensionEnum]
         {
-            get { return OperatorHelper.GetInlet(_operator, inletTypeEnum); }
+            get { return OperatorHelper.GetInlet(_operator, dimensionEnum); }
         }
 
         public int Count

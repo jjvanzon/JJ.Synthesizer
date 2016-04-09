@@ -242,7 +242,7 @@
     <Compile Include="EntityWrappers\Square_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\SawUp_OperatorWrapper.cs" />
     <Compile Include="Enums\FilterTypeEnum.cs" />
-    <Compile Include="Enums\InletTypeEnum.cs" />
+    <Compile Include="Enums\DimensionEnum.cs" />
     <Compile Include="Enums\OutletTypeEnum.cs" />
     <Compile Include="Enums\ResampleInterpolationTypeEnum.cs" />
     <Compile Include="Enums\ScaleTypeEnum.cs" />
@@ -308,7 +308,6 @@
     <Compile Include="NAudio Copies\BiQuadFilter.cs" />
     <Compile Include="NAudio Copies\Complex.cs" />
     <Compile Include="NAudio Copies\FastFourierTransform.cs" />
-    <Compile Include="2016-04-03 IMPORTANT Backup of PatchManager.AutoPatch %28before removing Delay and NoteStart from AutoPatchPolyphonic%29.cs" />
     <Compile Include="PatchManager.AutoPatch.cs" />
     <Compile Include="SideEffects\Document_SideEffect_CreatePatch.cs" />
     <Compile Include="Validation\Curves\CurveValidator_InDocument.cs" />

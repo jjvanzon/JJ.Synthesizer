@@ -15,7 +15,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
     {
         private class ControllerInfo
         {
-            public InletTypeEnum InletTypeEnum { get; set; }
+            public DimensionEnum DimensionEnum { get; set; }
             public int ControllerCode { get; set; }
             public double MinValue { get; set; } = CalculationHelper.VERY_LOW_VALUE;
             public double ConversionFactor { get; set; }
@@ -129,16 +129,16 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     // Remember controller values.
                     foreach (ControllerInfo controllerInfo in _controllerCode_To_ControllerInfo_Dictionary.Values)
                     {
-                        double controllerValue = calculator.GetValue(controllerInfo.InletTypeEnum);
+                        double controllerValue = calculator.GetValue(controllerInfo.DimensionEnum);
                         controllerInfo.TempValue = controllerValue;
                     }
 
                     calculator.Reset(time, DEFAULT_CHANNEL_INDEX, noteInfo.ListIndex);
 
-                    calculator.SetValue(InletTypeEnum.Frequency, noteInfo.ListIndex, frequency);
-                    calculator.SetValue(InletTypeEnum.Volume, noteInfo.ListIndex, volume);
-                    calculator.SetValue(InletTypeEnum.NoteStart, noteInfo.ListIndex, time);
-                    calculator.SetValue(InletTypeEnum.NoteDuration, noteInfo.ListIndex, CalculationHelper.VERY_HIGH_VALUE);
+                    calculator.SetValue(DimensionEnum.Frequency, noteInfo.ListIndex, frequency);
+                    calculator.SetValue(DimensionEnum.Volume, noteInfo.ListIndex, volume);
+                    calculator.SetValue(DimensionEnum.NoteStart, noteInfo.ListIndex, time);
+                    calculator.SetValue(DimensionEnum.NoteDuration, noteInfo.ListIndex, CalculationHelper.VERY_HIGH_VALUE);
 
                     // Apply controller values
                     foreach (ControllerInfo controllerInfo in _controllerCode_To_ControllerInfo_Dictionary.Values)
@@ -150,7 +150,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
                             controllerValue = controllerInfo.MinValue;
                         }
 
-                        calculator.SetValue(controllerInfo.InletTypeEnum, noteInfo.ListIndex, controllerValue);
+                        calculator.SetValue(controllerInfo.DimensionEnum, noteInfo.ListIndex, controllerValue);
                     }
                 }
             }
@@ -180,11 +180,11 @@ namespace JJ.Presentation.Synthesizer.NAudio
                         return;
                     }
 
-                    double noteStart = calculator.GetValue(InletTypeEnum.NoteStart, noteInfo.ListIndex);
+                    double noteStart = calculator.GetValue(DimensionEnum.NoteStart, noteInfo.ListIndex);
                     double noteDuration = time - noteStart;
-                    calculator.SetValue(InletTypeEnum.NoteDuration, noteInfo.ListIndex, noteDuration);
+                    calculator.SetValue(DimensionEnum.NoteDuration, noteInfo.ListIndex, noteDuration);
 
-                    double releaseDuration = calculator.GetValue(InletTypeEnum.ReleaseDuration, noteInfo.ListIndex);
+                    double releaseDuration = calculator.GetValue(DimensionEnum.ReleaseDuration, noteInfo.ListIndex);
                     double releaseTime = noteStart + noteDuration;
                     double endTime = releaseTime + releaseDuration;
                     _noteRecycler.ReleaseNoteInfo(noteInfo, releaseTime, endTime);
@@ -222,7 +222,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     IPatchCalculator calculator = _patchCalculatorContainer.Calculator;
                     if (calculator != null)
                     {
-                        double value = calculator.GetValue(controllerInfo.InletTypeEnum);
+                        double value = calculator.GetValue(controllerInfo.DimensionEnum);
 
                         value += delta;
 
@@ -231,9 +231,9 @@ namespace JJ.Presentation.Synthesizer.NAudio
                             value = controllerInfo.MinValue;
                         }
 
-                        calculator.SetValue(controllerInfo.InletTypeEnum, value);
+                        calculator.SetValue(controllerInfo.DimensionEnum, value);
 
-                        Debug.WriteLine(String.Format("{0} = {1}", controllerInfo.InletTypeEnum, value));
+                        Debug.WriteLine(String.Format("{0} = {1}", controllerInfo.DimensionEnum, value));
                     }
                 }
                 finally
@@ -276,105 +276,105 @@ namespace JJ.Presentation.Synthesizer.NAudio
             {
                 new ControllerInfo
                 {
-                    InletTypeEnum = InletTypeEnum.AttackDuration,
+                    DimensionEnum = DimensionEnum.AttackDuration,
                     ControllerCode = 73, // Recommended code
                     MinValue = 0.001,
                     ConversionFactor = controllerFactorForVolumeChangeRate
                 },
                 new ControllerInfo
                 {
-                    InletTypeEnum = InletTypeEnum.ReleaseDuration,
+                    DimensionEnum = DimensionEnum.ReleaseDuration,
                     ControllerCode = 72, // Recommended code
                     MinValue = 0.001,
                     ConversionFactor = controllerFactorForVolumeChangeRate
                 },
                 new ControllerInfo
                 {
-                    InletTypeEnum = InletTypeEnum.Brightness,
+                    DimensionEnum = DimensionEnum.Brightness,
                     ControllerCode = 74, // Recommended code
                     MinValue =  1.00001, // 1 shuts off the sound.
                     ConversionFactor = controllerFactorForFilters
                 },
                 new ControllerInfo
                 {
-                    InletTypeEnum = InletTypeEnum.VibratoSpeed,
+                    DimensionEnum = DimensionEnum.VibratoSpeed,
                     ControllerCode = 76, // Default on Arturia MiniLab
                     MinValue = 0,
                     ConversionFactor = controllerFactorForModulationSpeed
                 },
                 new ControllerInfo
                 {
-                    InletTypeEnum = InletTypeEnum.VibratoDepth,
+                    DimensionEnum = DimensionEnum.VibratoDepth,
                     ControllerCode = 77, // Default on Arturia MiniLab
                     MinValue = 0,
                     ConversionFactor = 0.0005 / MAX_CONTROLLER_VALUE
                 },
                 new ControllerInfo
                 {
-                    InletTypeEnum = InletTypeEnum.TremoloDepth,
+                    DimensionEnum = DimensionEnum.TremoloDepth,
                     ControllerCode = 92, // Recommended code. However, not mapped by default on my Arturia MiniLab.
                     MinValue = 0,
                     ConversionFactor = 4.0 / MAX_CONTROLLER_VALUE
                 },
                 new ControllerInfo
                 {
-                    InletTypeEnum = InletTypeEnum.TremoloSpeed,
+                    DimensionEnum = DimensionEnum.TremoloSpeed,
                     ControllerCode = 16, // Right below vibrato on Arturia MiniLab
                     MinValue = 0,
                     ConversionFactor = controllerFactorForModulationSpeed
                 },
                 new ControllerInfo
                 {
-                    InletTypeEnum = InletTypeEnum.TremoloDepth,
+                    DimensionEnum = DimensionEnum.TremoloDepth,
                     ControllerCode = 17, // Right below vibrato on Arturia MiniLab
                     MinValue = 0,
                     ConversionFactor = 1.0 / MAX_CONTROLLER_VALUE
                 },
                 new ControllerInfo
                 {
-                    InletTypeEnum = InletTypeEnum.Intensity,
+                    DimensionEnum = DimensionEnum.Intensity,
                     ControllerCode = 71, // Resonance on Arturia MiniLab. Recommended code for Timbre/Harmonic Content.
                     MinValue = 0,
                     ConversionFactor = controllerFactorForFilters
                 },
                 new ControllerInfo
                 {
-                    InletTypeEnum = InletTypeEnum.DecayDuration,
+                    DimensionEnum = DimensionEnum.DecayDuration,
                     ControllerCode = 75, // Decay on Arturia MiniLab. Recommended code for 'Sound Controller 6'
                     MinValue = 0.00001,
                     ConversionFactor = controllerFactorForVolumeChangeRate
                 },
                 new ControllerInfo
                 {
-                    InletTypeEnum = InletTypeEnum.SustainVolume,
+                    DimensionEnum = DimensionEnum.SustainVolume,
                     ControllerCode = 79, // Decay on Arturia MiniLab. Recommended code for 'Sound Controller 10'.
                     MinValue = 0,
                     ConversionFactor = 1.0 / MAX_CONTROLLER_VALUE
                 },
                 new ControllerInfo
                 {
-                    InletTypeEnum = InletTypeEnum.BrightnessModulationSpeed,
+                    DimensionEnum = DimensionEnum.BrightnessModulationSpeed,
                     ControllerCode = 18, // Completely arbitrarily mapped on left-over knobs on my Artirua MiniLab
                     MinValue = 0,
                     ConversionFactor = controllerFactorForModulationSpeed 
                 },
                 new ControllerInfo
                 {
-                    InletTypeEnum = InletTypeEnum.BrightnessModulationDepth,
+                    DimensionEnum = DimensionEnum.BrightnessModulationDepth,
                     ControllerCode = 19, // Completely arbitrarily mapped on left-over knobs on my Artirua MiniLab
                     MinValue = 0,
                     ConversionFactor = controllerFactorForFilters
                 },
                 new ControllerInfo
                 {
-                    InletTypeEnum = InletTypeEnum.IntensityModulationSpeed,
+                    DimensionEnum = DimensionEnum.IntensityModulationSpeed,
                     ControllerCode = 93, // Completely arbitrarily mapped on left-over knobs on my Artirua MiniLab
                     MinValue = 0,
                     ConversionFactor = controllerFactorForModulationSpeed
                 },
                 new ControllerInfo
                 {
-                    InletTypeEnum = InletTypeEnum.IntensityModulationDepth,
+                    DimensionEnum = DimensionEnum.IntensityModulationDepth,
                     ControllerCode = 91, // Completely arbitrarily mapped on left-over knobs on my Artirua MiniLab
                     MinValue = 0,
                     ConversionFactor = controllerFactorForFilters

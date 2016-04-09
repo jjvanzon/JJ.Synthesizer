@@ -1,6 +1,6 @@
 ﻿namespace JJ.Business.Synthesizer.Enums
 {
-    public enum InletTypeEnum
+    public enum DimensionEnum
     {
         Undefined = 0,
         Signal = 1,

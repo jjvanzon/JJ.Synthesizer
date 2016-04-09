@@ -10,13 +10,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         /// <summary> Public field for performance. </summary>
         public double _value;
 
-        public InletTypeEnum InletTypeEnum { get; private set; }
+        public DimensionEnum DimensionEnum { get; private set; }
         public string Name { get; private set; }
         public int ListIndex { get; private set; }
 
-        public VariableInput_OperatorCalculator(InletTypeEnum inletTypeEnum, string name, int listIndex, double defaultValue)
+        public VariableInput_OperatorCalculator(DimensionEnum dimensionEnum, string name, int listIndex, double defaultValue)
         {
-            InletTypeEnum = inletTypeEnum;
+            DimensionEnum = dimensionEnum;
             Name = name;
             ListIndex = listIndex;
 

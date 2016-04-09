@@ -43,11 +43,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return list;
         }
 
-        public static IList<IDAndName> CreateInletTypeLookupViewModel(IInletTypeRepository repository)
+        public static IList<IDAndName> CreateDimensionLookupViewModel(IDimensionRepository repository)
         {
             if (repository == null) throw new NullException(() => repository);
 
-            IList<InletType> entities = repository.GetAll().ToArray();
+            IList<Dimension> entities = repository.GetAll().ToArray();
 
             var idAndNames = new List<IDAndName>(entities.Count + 1);
             idAndNames.Add(new IDAndName { ID = 0, Name = null });

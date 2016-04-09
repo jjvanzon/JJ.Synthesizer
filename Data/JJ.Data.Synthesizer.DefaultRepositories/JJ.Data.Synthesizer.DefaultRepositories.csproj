@@ -47,10 +47,10 @@
     <Compile Include="Interfaces\IIDRepository.cs" />
     <Compile Include="Interfaces\IOutletTypeRepository.cs" />
     <Compile Include="Interfaces\IScaleRepository.cs" />
-    <Compile Include="Interfaces\IInletTypeRepository.cs" />
+    <Compile Include="Interfaces\IDimensionRepository.cs" />
     <Compile Include="Interfaces\IScaleTypeRepository.cs" />
     <Compile Include="Interfaces\IToneRepository.cs" />
-    <Compile Include="InletTypeRepository .cs" />
+    <Compile Include="DimensionRepository.cs" />
     <Compile Include="ScaleTypeRepository.cs" />
     <Compile Include="ScaleRepository.cs" />
     <Compile Include="ToneRepository.cs" />

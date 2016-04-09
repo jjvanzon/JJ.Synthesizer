@@ -786,10 +786,10 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public PatchInlet_OperatorWrapper PatchInlet(InletTypeEnum inletTypeEnum)
+        public PatchInlet_OperatorWrapper PatchInlet(DimensionEnum dimensionEnum)
         {
             PatchInlet_OperatorWrapper wrapper = PatchInlet();
-            wrapper.Inlet.SetInletTypeEnum(inletTypeEnum, _repositories.InletTypeRepository);
+            wrapper.Inlet.SetDimensionEnum(dimensionEnum, _repositories.DimensionRepository);
 
             VoidResult result = ValidateOperatorNonRecursive(wrapper.WrappedOperator);
             ResultHelper.Assert(result);
@@ -820,11 +820,11 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public PatchInlet_OperatorWrapper PatchInlet(InletTypeEnum inletTypeEnum, double defaultValue)
+        public PatchInlet_OperatorWrapper PatchInlet(DimensionEnum dimensionEnum, double defaultValue)
         {
             PatchInlet_OperatorWrapper wrapper = PatchInlet();
             Inlet patchInletInlet = wrapper.Inlet;
-            patchInletInlet.SetInletTypeEnum(inletTypeEnum, _repositories.InletTypeRepository);
+            patchInletInlet.SetDimensionEnum(dimensionEnum, _repositories.DimensionRepository);
             patchInletInlet.DefaultValue = defaultValue;
 
             VoidResult result = ValidateOperatorNonRecursive(wrapper.WrappedOperator);

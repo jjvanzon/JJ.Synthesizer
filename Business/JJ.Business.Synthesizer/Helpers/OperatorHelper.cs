@@ -77,21 +77,21 @@ namespace JJ.Business.Synthesizer.Helpers
             }
         }
 
-        public static Inlet GetInlet(Operator op, InletTypeEnum inletTypeEnum)
+        public static Inlet GetInlet(Operator op, DimensionEnum dimensionEnum)
         {
-            Inlet inlet = TryGetInlet(op, inletTypeEnum);
+            Inlet inlet = TryGetInlet(op, dimensionEnum);
             if (inlet == null)
             {
-                throw new Exception(String.Format("Inlet with InletTypeEnum '{0}' not found.", inletTypeEnum));
+                throw new Exception(String.Format("Inlet with DimensionEnum '{0}' not found.", dimensionEnum));
             }
             return inlet;
         }
 
-        public static Inlet TryGetInlet(Operator op, InletTypeEnum inletTypeEnum)
+        public static Inlet TryGetInlet(Operator op, DimensionEnum dimensionEnum)
         {
             if (op == null) throw new NullException(() => op);
 
-            IList<Inlet> inlets = GetInlets(op, inletTypeEnum);
+            IList<Inlet> inlets = GetInlets(op, dimensionEnum);
             switch (inlets.Count)
             {
                 case 0:
@@ -101,15 +101,15 @@ namespace JJ.Business.Synthesizer.Helpers
                     return inlets[0];
 
                 default:
-                    throw new Exception(String.Format("Inlet with InletTypeEnum '{0}' is not unique.", inletTypeEnum));
+                    throw new Exception(String.Format("Inlet with DimensionEnum '{0}' is not unique.", dimensionEnum));
             }
         }
 
-        public static IList<Inlet> GetInlets(Operator op, InletTypeEnum inletTypeEnum)
+        public static IList<Inlet> GetInlets(Operator op, DimensionEnum dimensionEnum)
         {
             if (op == null) throw new NullException(() => op);
 
-            IList<Inlet> inlets = op.Inlets.Where(x => x.GetInletTypeEnum() == inletTypeEnum).ToArray();
+            IList<Inlet> inlets = op.Inlets.Where(x => x.GetDimensionEnum() == dimensionEnum).ToArray();
             return inlets;
         }
 
@@ -204,9 +204,9 @@ namespace JJ.Business.Synthesizer.Helpers
             return inlet.InputOutlet;
         }
 
-        public static Outlet GetInputOutlet(Operator op, InletTypeEnum inletTypeEnum)
+        public static Outlet GetInputOutlet(Operator op, DimensionEnum dimensionEnum)
         {
-            Inlet inlet = GetInlet(op, inletTypeEnum);
+            Inlet inlet = GetInlet(op, dimensionEnum);
             return inlet.InputOutlet;
         }
 
@@ -237,9 +237,9 @@ namespace JJ.Business.Synthesizer.Helpers
         /// If it is null, and the inlet has a default value, a fake Number Operator is created and its outlet returned.
         /// If the inlet has no default value either, null is returned.
         /// </summary>
-        public static Outlet GetInputOutletOrDefault(Operator op, InletTypeEnum inletTypeEnum)
+        public static Outlet GetInputOutletOrDefault(Operator op, DimensionEnum dimensionEnum)
         {
-            Inlet inlet = GetInlet(op, inletTypeEnum);
+            Inlet inlet = GetInlet(op, dimensionEnum);
             return GetInputOutletOrDefault(inlet);
         }
 

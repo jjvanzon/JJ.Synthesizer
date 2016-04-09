@@ -144,7 +144,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 {
                     string message = MessageFormatter.InletNotFoundInUnderlyingPatch(
                         customOperatorInlet.Name,
-                        ResourceHelper.GetDisplayName(customOperatorInlet.GetInletTypeEnum()),
+                        ResourceHelper.GetDisplayName(customOperatorInlet.GetDimensionEnum()),
                         customOperatorInlet.ListIndex);
 
                     ValidationMessages.Add(PropertyNames.Inlet, message);
@@ -167,9 +167,9 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                         ValidationMessages.Add(PropertyNames.Inlet, message);
                     }
 
-                    if (customOperatorInlet.GetInletTypeEnum() != underlyingPatchInletWrapper.Inlet.GetInletTypeEnum())
+                    if (customOperatorInlet.GetDimensionEnum() != underlyingPatchInletWrapper.Inlet.GetDimensionEnum())
                     {
-                        string message = GetInletPropertyDoesNotMatchMessage(customOperatorInlet, PropertyDisplayNames.InletType);
+                        string message = GetInletPropertyDoesNotMatchMessage(customOperatorInlet, PropertyDisplayNames.Dimension);
                         ValidationMessages.Add(PropertyNames.Inlet, message);
                     }
 
@@ -248,7 +248,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             return MessageFormatter.InletPropertyDoesNotMatchWithUnderlyingPatch(
                 propertyDisplayName,
                 customOperatorInlet.Name,
-                ResourceHelper.GetDisplayName(customOperatorInlet.InletType),
+                ResourceHelper.GetDisplayName(customOperatorInlet.Dimension),
                 customOperatorInlet.ListIndex);
         }
 

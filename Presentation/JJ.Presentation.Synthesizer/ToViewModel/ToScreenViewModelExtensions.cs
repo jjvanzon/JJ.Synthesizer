@@ -327,12 +327,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         }
 
         public static IList<OperatorPropertiesViewModel_ForPatchInlet> ToPropertiesViewModelList_ForPatchInlets(
-            this Patch patch, IInletTypeRepository inletTypeRepository)
+            this Patch patch, IDimensionRepository dimensionRepository)
         {
             if (patch == null) throw new NullException(() => patch);
 
             return patch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
-                        .Select(x => x.ToPropertiesViewModel_ForPatchInlet(inletTypeRepository))
+                        .Select(x => x.ToPropertiesViewModel_ForPatchInlet(dimensionRepository))
                         .ToList();
         }
 
@@ -538,10 +538,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         }
 
         public static OperatorPropertiesViewModel_ForPatchInlet ToPropertiesViewModel_ForPatchInlet(
-            this Operator entity, IInletTypeRepository inletTypeRepository)
+            this Operator entity, IDimensionRepository dimensionRepository)
         {
             if (entity == null) throw new NullException(() => entity);
-            if (inletTypeRepository == null) throw new NullException(() => inletTypeRepository);
+            if (dimensionRepository == null) throw new NullException(() => dimensionRepository);
 
             var wrapper = new PatchInlet_OperatorWrapper(entity);
 
@@ -551,7 +551,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 PatchID = entity.Patch.ID,
                 Name = entity.Name,
                 DefaultValue = Convert.ToString(wrapper.Inlet.DefaultValue),
-                InletTypeLookup = ViewModelHelper.CreateInletTypeLookupViewModel(inletTypeRepository),
+                DimensionLookup = ViewModelHelper.CreateDimensionLookupViewModel(dimensionRepository),
                 ValidationMessages = new List<Message>()
             };
 
@@ -560,14 +560,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 viewModel.Number = wrapper.ListIndex.Value + 1;
             }
 
-            InletTypeEnum inletTypeEnum = wrapper.Inlet.GetInletTypeEnum();
-            if (inletTypeEnum != InletTypeEnum.Undefined)
+            DimensionEnum dimensionEnum = wrapper.Inlet.GetDimensionEnum();
+            if (dimensionEnum != DimensionEnum.Undefined)
             {
-                viewModel.InletType = inletTypeEnum.ToIDAndDisplayName();
+                viewModel.Dimension = dimensionEnum.ToIDAndDisplayName();
             }
             else
             {
-                viewModel.InletType = new IDAndName();
+                viewModel.Dimension = new IDAndName();
             }
 
             return viewModel;

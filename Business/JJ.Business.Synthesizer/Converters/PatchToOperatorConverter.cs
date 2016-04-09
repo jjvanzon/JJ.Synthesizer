@@ -87,7 +87,7 @@ namespace JJ.Business.Synthesizer.Converters
 
                 destCustomOperatorInlet.Name = sourcePatchInlet.Name;
                 destCustomOperatorInlet.DefaultValue = sourcePatchInletInlet.DefaultValue;
-                destCustomOperatorInlet.InletType = sourcePatchInletInlet.InletType;
+                destCustomOperatorInlet.Dimension = sourcePatchInletInlet.Dimension;
 
                 if (!sourcePatchInletWrapper.ListIndex.HasValue)
                 {

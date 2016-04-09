@@ -23,8 +23,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private Dictionary<int, double> _valuesByListIndex = new Dictionary<int, double>();
         private Dictionary<string, double> _valuesByName = new Dictionary<string, double>();
         private Dictionary<Tuple<string, int>, double> _valuesByNameAndListIndex = new Dictionary<Tuple<string, int>, double>();
-        private Dictionary<InletTypeEnum, double> _valuesByInletTypeEnum = new Dictionary<InletTypeEnum, double>();
-        private Dictionary<Tuple<InletTypeEnum, int>, double> _valuesByInletTypeEnumAndListIndex = new Dictionary<Tuple<InletTypeEnum, int>, double>();
+        private Dictionary<DimensionEnum, double> _dimensionEnum_To_Value_Dictionary = new Dictionary<DimensionEnum, double>();
+        private Dictionary<Tuple<DimensionEnum, int>, double> _dimensionEnumAndListIndex_To_Value_Dictionary = new Dictionary<Tuple<DimensionEnum, int>, double>();
 
         /// <summary> This overload has ChannelOutlets as an IList<T>. </summary>
         /// <param name="channelOutlets">Can contain nulls.</param>
@@ -204,38 +204,38 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return null;
         }
 
-        public double GetValue(InletTypeEnum inletTypeEnum)
+        public double GetValue(DimensionEnum dimensionEnum)
         {
-            InletTypeEnum key = inletTypeEnum;
+            DimensionEnum key = dimensionEnum;
 
             double value;
-            if (_valuesByInletTypeEnum.TryGetValue(key, out value))
+            if (_dimensionEnum_To_Value_Dictionary.TryGetValue(key, out value))
             {
                 return value;
             }
 
-            IList<int> inputCalculatorIndexes = GetInputCalculatorIndexes(inletTypeEnum);
+            IList<int> inputCalculatorIndexes = GetInputCalculatorIndexes(dimensionEnum);
             if (inputCalculatorIndexes.Count != 0)
             {
                 int inputCalculatorIndex = inputCalculatorIndexes[0];
                 value = _inputOperatorCalculators[inputCalculatorIndex]._value;
-                _valuesByInletTypeEnum[key] = value;
+                _dimensionEnum_To_Value_Dictionary[key] = value;
             }
 
             return value;
         }
 
-        public void SetValue(InletTypeEnum inletTypeEnum, double value)
+        public void SetValue(DimensionEnum dimensionEnum, double value)
         {
-            _valuesByInletTypeEnum[inletTypeEnum] = value;
+            _dimensionEnum_To_Value_Dictionary[dimensionEnum] = value;
 
-            foreach (int inputCalculatorIndex in GetInputCalculatorIndexes(inletTypeEnum))
+            foreach (int inputCalculatorIndex in GetInputCalculatorIndexes(dimensionEnum))
             {
                 _inputOperatorCalculators[inputCalculatorIndex]._value = value;
             }
         }
 
-        private IList<int> GetInputCalculatorIndexes(InletTypeEnum inletTypeEnum)
+        private IList<int> GetInputCalculatorIndexes(DimensionEnum dimensionEnum)
         {
             var list = new List<int>(_inputOperatorCalculators.Length);
 
@@ -243,7 +243,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 VariableInput_OperatorCalculator inputCalculator = _inputOperatorCalculators[i];
 
-                if (inputCalculator.InletTypeEnum == inletTypeEnum)
+                if (inputCalculator.DimensionEnum == dimensionEnum)
                 {
                     list.Add(i);
                 }
@@ -252,40 +252,40 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return list;
         }
 
-        public double GetValue(InletTypeEnum inletTypeEnum, int listIndex)
+        public double GetValue(DimensionEnum dimensionEnum, int listIndex)
         {
-            var key = new Tuple<InletTypeEnum, int>(inletTypeEnum, listIndex);
+            var key = new Tuple<DimensionEnum, int>(dimensionEnum, listIndex);
 
             double value;
-            if (_valuesByInletTypeEnumAndListIndex.TryGetValue(key, out value))
+            if (_dimensionEnumAndListIndex_To_Value_Dictionary.TryGetValue(key, out value))
             {
                 return value;
             }
 
-            int? inputCalculatorIndex = TryGetInputCalculatorIndex(inletTypeEnum, listIndex);
+            int? inputCalculatorIndex = TryGetInputCalculatorIndex(dimensionEnum, listIndex);
             if (inputCalculatorIndex.HasValue)
             {
                 value = _inputOperatorCalculators[inputCalculatorIndex.Value]._value;
-                _valuesByInletTypeEnumAndListIndex[key] = value;
+                _dimensionEnumAndListIndex_To_Value_Dictionary[key] = value;
             }
 
             return value;
         }
 
-        public void SetValue(InletTypeEnum inletTypeEnum, int listIndex, double value)
+        public void SetValue(DimensionEnum dimensionEnum, int listIndex, double value)
         {
-            var key = new Tuple<InletTypeEnum, int>(inletTypeEnum, listIndex);
+            var key = new Tuple<DimensionEnum, int>(dimensionEnum, listIndex);
 
-            _valuesByInletTypeEnumAndListIndex[key] = value;
+            _dimensionEnumAndListIndex_To_Value_Dictionary[key] = value;
 
-            int? inputCalculatorListIndex = TryGetInputCalculatorIndex(inletTypeEnum, listIndex);
+            int? inputCalculatorListIndex = TryGetInputCalculatorIndex(dimensionEnum, listIndex);
             if (inputCalculatorListIndex.HasValue)
             {
                 _inputOperatorCalculators[inputCalculatorListIndex.Value]._value = value;
             }
         }
 
-        private int? TryGetInputCalculatorIndex(InletTypeEnum inletTypeEnum, int listIndex)
+        private int? TryGetInputCalculatorIndex(DimensionEnum dimensionEnum, int listIndex)
         {
             int j = 0;
 
@@ -293,7 +293,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 VariableInput_OperatorCalculator inputCalculator = _inputOperatorCalculators[i];
 
-                if (inputCalculator.InletTypeEnum == inletTypeEnum)
+                if (inputCalculator.DimensionEnum == dimensionEnum)
                 {
                     if (j == listIndex)
                     {
@@ -332,12 +332,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 SetValue(entry.Key.Item1, entry.Key.Item2, entry.Value);
             }
 
-            foreach (var entry in source._valuesByInletTypeEnum)
+            foreach (var entry in source._dimensionEnum_To_Value_Dictionary)
             {
                 SetValue(entry.Key, entry.Value);
             }
 
-            foreach (var entry in source._valuesByInletTypeEnumAndListIndex)
+            foreach (var entry in source._dimensionEnumAndListIndex_To_Value_Dictionary)
             {
                 SetValue(entry.Key.Item1, entry.Key.Item2, entry.Value);
             }
@@ -354,8 +354,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _valuesByListIndex.Clear();
             _valuesByName.Clear();
             _valuesByNameAndListIndex.Clear();
-            _valuesByInletTypeEnum.Clear();
-            _valuesByInletTypeEnumAndListIndex.Clear();
+            _dimensionEnum_To_Value_Dictionary.Clear();
+            _dimensionEnumAndListIndex_To_Value_Dictionary.Clear();
         }
 
         public void Reset(double time, int channelIndex, string name)

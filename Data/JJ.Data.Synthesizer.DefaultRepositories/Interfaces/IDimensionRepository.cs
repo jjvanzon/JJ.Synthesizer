@@ -2,6 +2,6 @@
 
 namespace JJ.Data.Synthesizer.DefaultRepositories.Interfaces
 {
-    public interface IInletTypeRepository : IRepository<InletType, int>
+    public interface IDimensionRepository : IRepository<Dimension, int>
     { }
 }

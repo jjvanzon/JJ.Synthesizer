@@ -187,11 +187,11 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Either a name or an inlet type must be filled in..
+        ///   Looks up a localized string similar to Either a name or a dimension must be filled in..
         /// </summary>
-        internal static string NameOrInletTypeMustBeFilledIn {
+        internal static string NameOrDimensionMustBeFilledIn {
             get {
-                return ResourceManager.GetString("NameOrInletTypeMustBeFilledIn", resourceCulture);
+                return ResourceManager.GetString("NameOrDimensionMustBeFilledIn", resourceCulture);
             }
         }
         

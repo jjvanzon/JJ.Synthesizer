@@ -135,9 +135,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 (
                     x.Sine
                     (
-                        x.PatchInlet(InletTypeEnum.Frequency)
+                        x.PatchInlet(DimensionEnum.Frequency)
                     ),
-                    x.PatchInlet(InletTypeEnum.Volume)
+                    x.PatchInlet(DimensionEnum.Volume)
                 )
             );
 

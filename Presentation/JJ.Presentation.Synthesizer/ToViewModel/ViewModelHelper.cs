@@ -384,13 +384,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 return op.Name;
             }
 
-            // Use PatchInlet InletType as fallback
+            // Use PatchInlet Dimension as fallback
             var wrapper = new PatchInlet_OperatorWrapper(op);
-            InletTypeEnum inletTypeEnum = wrapper.Inlet.GetInletTypeEnum();
-            if (inletTypeEnum != InletTypeEnum.Undefined)
+            DimensionEnum dimensionEnum = wrapper.Inlet.GetDimensionEnum();
+            if (dimensionEnum != DimensionEnum.Undefined)
             {
-                string inletTypeDisplayName = ResourceHelper.GetDisplayName(inletTypeEnum);
-                return inletTypeDisplayName;
+                string dimensionDisplayName = ResourceHelper.GetDisplayName(dimensionEnum);
+                return dimensionDisplayName;
             }
 
             // Use OperatorType DisplayName as fallback.
@@ -408,11 +408,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             // Use PatchOutlet OutletType as fallback
             var wrapper = new PatchOutlet_OperatorWrapper(op);
-            OutletTypeEnum inletTypeEnum = wrapper.Result.GetOutletTypeEnum();
-            if (inletTypeEnum != OutletTypeEnum.Undefined)
+            OutletTypeEnum dimensionEnum = wrapper.Result.GetOutletTypeEnum();
+            if (dimensionEnum != OutletTypeEnum.Undefined)
             {
-                string inletTypeDisplayName = ResourceHelper.GetDisplayName(inletTypeEnum);
-                return inletTypeDisplayName;
+                string dimensionDisplayName = ResourceHelper.GetDisplayName(dimensionEnum);
+                return dimensionDisplayName;
             }
 
             // Use OperatorType DisplayName as fallback.

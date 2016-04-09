@@ -37,9 +37,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelOperatorTypeValue = new System.Windows.Forms.Label();
             this.numericUpDownNumber = new System.Windows.Forms.NumericUpDown();
             this.labelDefaultValue = new System.Windows.Forms.Label();
-            this.labelInletType = new System.Windows.Forms.Label();
+            this.labelDimension = new System.Windows.Forms.Label();
             this.labelNumber = new System.Windows.Forms.Label();
-            this.comboBoxInletType = new System.Windows.Forms.ComboBox();
+            this.comboBoxDimension = new System.Windows.Forms.ComboBox();
             this.textBoxDefaultValue = new System.Windows.Forms.TextBox();
             this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
             this.tableLayoutPanelMain.SuspendLayout();
@@ -73,9 +73,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.tableLayoutPanelProperties.Controls.Add(this.labelOperatorTypeValue, 1, 0);
             this.tableLayoutPanelProperties.Controls.Add(this.numericUpDownNumber, 1, 2);
             this.tableLayoutPanelProperties.Controls.Add(this.labelDefaultValue, 0, 4);
-            this.tableLayoutPanelProperties.Controls.Add(this.labelInletType, 0, 3);
+            this.tableLayoutPanelProperties.Controls.Add(this.labelDimension, 0, 3);
             this.tableLayoutPanelProperties.Controls.Add(this.labelNumber, 0, 2);
-            this.tableLayoutPanelProperties.Controls.Add(this.comboBoxInletType, 1, 3);
+            this.tableLayoutPanelProperties.Controls.Add(this.comboBoxDimension, 1, 3);
             this.tableLayoutPanelProperties.Controls.Add(this.textBoxDefaultValue, 1, 4);
             this.tableLayoutPanelProperties.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelProperties.Location = new System.Drawing.Point(3, 24);
@@ -167,16 +167,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelDefaultValue.Text = "labelDefaultValue";
             this.labelDefaultValue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // labelInletType
+            // labelDimension
             // 
-            this.labelInletType.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelInletType.Location = new System.Drawing.Point(0, 72);
-            this.labelInletType.Margin = new System.Windows.Forms.Padding(0);
-            this.labelInletType.Name = "labelInletType";
-            this.labelInletType.Size = new System.Drawing.Size(110, 24);
-            this.labelInletType.TabIndex = 20;
-            this.labelInletType.Text = "labelInletType";
-            this.labelInletType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelDimension.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelDimension.Location = new System.Drawing.Point(0, 72);
+            this.labelDimension.Margin = new System.Windows.Forms.Padding(0);
+            this.labelDimension.Name = "labelDimension";
+            this.labelDimension.Size = new System.Drawing.Size(110, 24);
+            this.labelDimension.TabIndex = 20;
+            this.labelDimension.Text = "labelDimension";
+            this.labelDimension.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // labelNumber
             // 
@@ -189,16 +189,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelNumber.Text = "labelNumber";
             this.labelNumber.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // comboBoxInletType
+            // comboBoxDimension
             // 
-            this.comboBoxInletType.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.comboBoxInletType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxInletType.FormattingEnabled = true;
-            this.comboBoxInletType.Location = new System.Drawing.Point(110, 72);
-            this.comboBoxInletType.Margin = new System.Windows.Forms.Padding(0);
-            this.comboBoxInletType.Name = "comboBoxInletType";
-            this.comboBoxInletType.Size = new System.Drawing.Size(10, 21);
-            this.comboBoxInletType.TabIndex = 21;
+            this.comboBoxDimension.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.comboBoxDimension.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxDimension.FormattingEnabled = true;
+            this.comboBoxDimension.Location = new System.Drawing.Point(110, 72);
+            this.comboBoxDimension.Margin = new System.Windows.Forms.Padding(0);
+            this.comboBoxDimension.Name = "comboBoxDimension";
+            this.comboBoxDimension.Size = new System.Drawing.Size(10, 21);
+            this.comboBoxDimension.TabIndex = 21;
             // 
             // textBoxDefaultValue
             // 
@@ -254,8 +254,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private System.Windows.Forms.Label labelNumber;
         private System.Windows.Forms.NumericUpDown numericUpDownNumber;
         private System.Windows.Forms.Label labelDefaultValue;
-        private System.Windows.Forms.Label labelInletType;
-        private System.Windows.Forms.ComboBox comboBoxInletType;
+        private System.Windows.Forms.Label labelDimension;
+        private System.Windows.Forms.ComboBox comboBoxDimension;
         private System.Windows.Forms.TextBox textBoxDefaultValue;
     }
 }

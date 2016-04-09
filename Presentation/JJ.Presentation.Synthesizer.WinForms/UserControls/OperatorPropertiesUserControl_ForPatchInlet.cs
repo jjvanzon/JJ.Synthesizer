@@ -42,7 +42,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelOperatorTypeTitle.Text = Titles.Type + ":";
             labelOperatorTypeValue.Text = PropertyDisplayNames.PatchInlet;
             labelNumber.Text = Titles.Number;
-            labelInletType.Text = PropertyDisplayNames.InletType;
+            labelDimension.Text = PropertyDisplayNames.Dimension;
             labelDefaultValue.Text = PropertyDisplayNames.DefaultValue;
         }
 
@@ -61,20 +61,20 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             numericUpDownNumber.Value = ViewModel.Number;
             textBoxDefaultValue.Text = ViewModel.DefaultValue;
 
-            if (comboBoxInletType.DataSource == null)
+            if (comboBoxDimension.DataSource == null)
             {
-                comboBoxInletType.ValueMember = PropertyNames.ID;
-                comboBoxInletType.DisplayMember = PropertyNames.Name;
-                comboBoxInletType.DataSource = ViewModel.InletTypeLookup;
+                comboBoxDimension.ValueMember = PropertyNames.ID;
+                comboBoxDimension.DisplayMember = PropertyNames.Name;
+                comboBoxDimension.DataSource = ViewModel.DimensionLookup;
             }
 
-            if (ViewModel.InletType != null)
+            if (ViewModel.Dimension != null)
             {
-                comboBoxInletType.SelectedValue = ViewModel.InletType.ID;
+                comboBoxDimension.SelectedValue = ViewModel.Dimension.ID;
             }
             else
             {
-                comboBoxInletType.SelectedValue = 0;
+                comboBoxDimension.SelectedValue = 0;
             }
         }
 
@@ -85,7 +85,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ViewModel.Name = textBoxName.Text;
             ViewModel.Number = (int)numericUpDownNumber.Value;
             ViewModel.DefaultValue = textBoxDefaultValue.Text;
-            ViewModel.InletType = (IDAndName)comboBoxInletType.SelectedItem;
+            ViewModel.Dimension = (IDAndName)comboBoxDimension.SelectedItem;
         }
 
         // Actions

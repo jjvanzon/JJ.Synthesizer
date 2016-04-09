@@ -1,0 +1,1 @@
+exec sp_rename 'Inlet.IX_Inlet_InletTypeID', 'IX_Inlet_DimensionID', 'INDEX';

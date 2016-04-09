@@ -389,7 +389,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
         }
 
-        public static void ResaveCustomOperatorsToSet_InletDefaultValue_InletInletType_And_OutletOutletType(Action<string> progressCallback)
+        public static void ResaveCustomOperatorsToSet_InletDefaultValue_InletDimension_And_OutletOutletType(Action<string> progressCallback)
         {
             if (progressCallback == null) throw new NullException(() => progressCallback);
 
@@ -426,7 +426,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
         }
 
-        public static void ResavePatchInletOperatorsToSet_InletDefaultValue_AndInletInletType(Action<string> progressCallback)
+        public static void ResavePatchInletOperatorsToSet_InletDefaultValue_AndInletDimension(Action<string> progressCallback)
         {
             if (progressCallback == null) throw new NullException(() => progressCallback);
 
@@ -463,7 +463,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
         }
 
-        public static void Remove_PatchInletOperator_DataKeys_DefaultValue_AndInletTypeEnum(Action<string> progressCallback)
+        public static void Remove_PatchInletOperator_DataKeys_DefaultValue_AndDimensionEnum(Action<string> progressCallback)
         {
             if (progressCallback == null) throw new NullException(() => progressCallback);
 
@@ -484,7 +484,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                     Operator patchInlet = patchInlets[i];
 
                     DataPropertyParser.RemoveKey(patchInlet, "DefaultValue");
-                    DataPropertyParser.RemoveKey(patchInlet, "InletTypeEnum");
+                    DataPropertyParser.RemoveKey(patchInlet, "DimensionEnum");
 
                     string progressMessage = String.Format("Migrated PatchInlet Operator {0}/{1}.", i + 1, patchInlets.Count);
                     progressCallback(progressMessage);

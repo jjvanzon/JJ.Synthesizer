@@ -1,0 +1,1 @@
+exec sp_rename 'FK_Inlet_InletType', 'FK_Inlet_Dimension';

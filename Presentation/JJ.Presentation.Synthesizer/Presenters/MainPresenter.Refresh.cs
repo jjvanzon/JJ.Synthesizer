@@ -663,7 +663,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForPatchInlet viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForPatchInlet(MainViewModel.Document, op.ID);
                 if (viewModel == null)
                 {
-                    viewModel = op.ToPropertiesViewModel_ForPatchInlet(_repositories.InletTypeRepository);
+                    viewModel = op.ToPropertiesViewModel_ForPatchInlet(_repositories.DimensionRepository);
                     viewModel.Successful = true;
                     patchDocumentViewModel.OperatorPropertiesList_ForPatchInlets.Add(viewModel);
                 }

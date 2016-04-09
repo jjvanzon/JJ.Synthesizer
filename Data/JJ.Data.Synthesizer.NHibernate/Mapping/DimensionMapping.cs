@@ -2,9 +2,9 @@
 
 namespace JJ.Data.Synthesizer.NHibernate.Mapping
 {
-    public class InletTypeMapping : ClassMap<InletType>
+    public class DimensionMapping : ClassMap<Dimension>
     {
-        public InletTypeMapping()
+        public DimensionMapping()
         {
             Id(x => x.ID).GeneratedBy.Assigned();
             Map(x => x.Name);

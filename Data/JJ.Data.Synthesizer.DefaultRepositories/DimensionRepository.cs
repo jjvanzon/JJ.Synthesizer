@@ -3,9 +3,9 @@ using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 
 namespace JJ.Data.Synthesizer.DefaultRepositories
 {
-    public class InletTypeRepository : RepositoryBase<InletType, int>, IInletTypeRepository
+    public class DimensionRepository : RepositoryBase<Dimension, int>, IDimensionRepository
     {
-        public InletTypeRepository(IContext context)
+        public DimensionRepository(IContext context)
             : base(context)
         { }
     }

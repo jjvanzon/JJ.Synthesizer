@@ -41,8 +41,8 @@
   <ItemGroup>
     <Compile Include="Helpers\RepositoryHelper.cs" />
     <Compile Include="Helpers\EntityIDs.cs" />
-    <Compile Include="Mappings\OutletTypeMappings.cs" />
-    <Compile Include="Mappings\InletTypeMappings.cs" />
+    <Compile Include="Mappings\OutletTypeMapping.cs" />
+    <Compile Include="Mappings\DimensionMapping.cs" />
     <Compile Include="Mappings\ScaleTypeMapping.cs" />
     <Compile Include="Mappings\ToneMapping.cs" />
     <Compile Include="Mappings\ScaleMapping.cs" />
@@ -62,11 +62,11 @@
     <Compile Include="Mappings\CurveMapping.cs" />
     <Compile Include="Mappings\InletMappings.cs" />
     <Compile Include="Mappings\NodeMappings.cs" />
-    <Compile Include="Mappings\NodeTypeMappings.cs" />
+    <Compile Include="Mappings\NodeTypeMapping.cs" />
     <Compile Include="Repositories\ChannelRepository.cs" />
     <Compile Include="Repositories\IDRepository.cs" />
     <Compile Include="Repositories\OutletTypeRepository.cs" />
-    <Compile Include="Repositories\InletTypeRepository.cs" />
+    <Compile Include="Repositories\DimensionRepository.cs" />
     <Compile Include="Repositories\ScaleTypeRepository.cs" />
     <Compile Include="Repositories\OperatorTypeRepository.cs" />
     <Compile Include="Repositories\EntityPositionRepository.cs" />
@@ -77,9 +77,9 @@
     <Compile Include="Repositories\SampleDataTypeRepository.cs" />
     <Compile Include="Repositories\InterpolationTypeRepository.cs" />
     <Compile Include="Repositories\NodeTypeRepository.cs" />
-    <Compile Include="Mappings\OperatorMappings.cs" />
-    <Compile Include="Mappings\OutletMappings.cs" />
-    <Compile Include="Mappings\PatchMappings.cs" />
+    <Compile Include="Mappings\OperatorMapping.cs" />
+    <Compile Include="Mappings\OutletMapping.cs" />
+    <Compile Include="Mappings\PatchMapping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\PropertyNames.cs" />
   </ItemGroup>

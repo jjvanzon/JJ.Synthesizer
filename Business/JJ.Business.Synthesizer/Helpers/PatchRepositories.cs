@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public ICurveRepository CurveRepository { get; private set; }
         public ISampleRepository SampleRepository { get; private set; }
         public IDocumentRepository DocumentRepository { get; private set; }
-        public IInletTypeRepository InletTypeRepository { get; private set; }
+        public IDimensionRepository DimensionRepository { get; private set; }
         public IOutletTypeRepository OutletTypeRepository { get; private set; }
         public ISpeakerSetupRepository SpeakerSetupRepository { get; private set; }
         public IInterpolationTypeRepository InterpolationTypeRepository { get; set; }
@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer.Helpers
             CurveRepository = repositoryWrapper.CurveRepository;
             SampleRepository = repositoryWrapper.SampleRepository;
             DocumentRepository = repositoryWrapper.DocumentRepository;
-            InletTypeRepository = repositoryWrapper.InletTypeRepository;
+            DimensionRepository = repositoryWrapper.DimensionRepository;
             OutletTypeRepository = repositoryWrapper.OutletTypeRepository;
             SpeakerSetupRepository = repositoryWrapper.SpeakerSetupRepository;
             InterpolationTypeRepository = repositoryWrapper.InterpolationTypeRepository;
@@ -50,7 +50,7 @@ namespace JJ.Business.Synthesizer.Helpers
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
             IDocumentRepository documentRepository,
-            IInletTypeRepository inletTypeRepository,
+            IDimensionRepository dimensionRepository,
             IOutletTypeRepository outletTypeRepository,
             ISpeakerSetupRepository speakerSetupRepository,
             IInterpolationTypeRepository interpolationTypeRepository,
@@ -65,7 +65,7 @@ namespace JJ.Business.Synthesizer.Helpers
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
             if (documentRepository == null) throw new NullException(() => documentRepository);
-            if (inletTypeRepository == null) throw new NullException(() => inletTypeRepository);
+            if (dimensionRepository == null) throw new NullException(() => dimensionRepository);
             if (outletTypeRepository == null) throw new NullException(() => outletTypeRepository);
             if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
             if (interpolationTypeRepository == null) throw new NullException(() => interpolationTypeRepository);
@@ -80,7 +80,7 @@ namespace JJ.Business.Synthesizer.Helpers
             CurveRepository = curveRepository;
             SampleRepository = sampleRepository;
             DocumentRepository = documentRepository;
-            InletTypeRepository = inletTypeRepository;
+            DimensionRepository = dimensionRepository;
             OutletTypeRepository = outletTypeRepository;
             SpeakerSetupRepository = speakerSetupRepository;
             InterpolationTypeRepository = interpolationTypeRepository;

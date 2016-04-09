@@ -40,18 +40,18 @@ namespace JJ.Business.Synthesizer.Resources
             return str;
         }
 
-        // InletType
+        // Dimension
 
-        public static string GetDisplayName(InletType entity)
+        public static string GetDisplayName(Dimension entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
-            InletTypeEnum inletTypeEnum = (InletTypeEnum)entity.ID;
+            DimensionEnum dimensionEnum = (DimensionEnum)entity.ID;
 
-            return GetDisplayName(inletTypeEnum);
+            return GetDisplayName(dimensionEnum);
         }
 
-        public static string GetDisplayName(InletTypeEnum enumValue)
+        public static string GetDisplayName(DimensionEnum enumValue)
         {
             return GetPropertyDisplayName(enumValue.ToString());
         }
@@ -62,9 +62,9 @@ namespace JJ.Business.Synthesizer.Resources
         {
             if (entity == null) throw new NullException(() => entity);
 
-            InterpolationTypeEnum inletTypeEnum = (InterpolationTypeEnum)entity.ID;
+            InterpolationTypeEnum dimensionEnum = (InterpolationTypeEnum)entity.ID;
 
-            return GetDisplayName(inletTypeEnum);
+            return GetDisplayName(dimensionEnum);
         }
 
         public static string GetDisplayName(InterpolationTypeEnum enumValue)
