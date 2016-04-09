@@ -28,7 +28,6 @@ namespace JJ.Business.Synthesizer.Helpers
         public ISpeakerSetupRepository SpeakerSetupRepository { get; private set; }
         public IScaleTypeRepository ScaleTypeRepository { get; private set; }
         public IDimensionRepository DimensionRepository { get; private set; }
-        public IOutletTypeRepository OutletTypeRepository { get; private set; }
 
         public IIDRepository IDRepository { get; private set; }
 
@@ -57,7 +56,6 @@ namespace JJ.Business.Synthesizer.Helpers
             ISpeakerSetupRepository speakerSetupRepository,
             IScaleTypeRepository scaleTypeRepository,
             IDimensionRepository dimensionRepository,
-            IOutletTypeRepository outletTypeRepository,
 
             IIDRepository idRepository)
         {
@@ -85,7 +83,6 @@ namespace JJ.Business.Synthesizer.Helpers
             if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
             if (scaleTypeRepository == null) throw new NullException(() => scaleTypeRepository);
             if (dimensionRepository == null) throw new NullException(() => dimensionRepository);
-            if (outletTypeRepository == null) throw new NullException(() => outletTypeRepository);
 
             if (idRepository == null) throw new NullException(() => idRepository);
 
@@ -112,7 +109,6 @@ namespace JJ.Business.Synthesizer.Helpers
             SpeakerSetupRepository = speakerSetupRepository;
             ScaleTypeRepository = scaleTypeRepository;
             DimensionRepository = dimensionRepository;
-            OutletTypeRepository = outletTypeRepository;
 
             IDRepository = idRepository;
         }

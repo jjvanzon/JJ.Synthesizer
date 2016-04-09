@@ -389,7 +389,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
         }
 
-        public static void ResaveCustomOperatorsToSet_InletDefaultValue_InletDimension_And_OutletOutletType(Action<string> progressCallback)
+        public static void ResaveCustomOperatorsToSet_InletDefaultValue_InletDimension_And_OutletDimension(Action<string> progressCallback)
         {
             if (progressCallback == null) throw new NullException(() => progressCallback);
 
@@ -498,7 +498,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
         }
 
-        public static void Migrate_PatchOutlet_OutletType_FromDataProperty_ToPatchOutletOutlet(Action<string> progressCallback)
+        public static void Migrate_PatchOutlet_Dimension_FromDataProperty_ToPatchOutletOutlet(Action<string> progressCallback)
         {
             if (progressCallback == null) throw new NullException(() => progressCallback);
 
@@ -523,9 +523,9 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
                     var wrapper = new PatchOutlet_OperatorWrapper(patchOutlet);
 
-                    OutletTypeEnum outletTypeEnum = DataPropertyParser.GetEnum<OutletTypeEnum>(patchOutlet, "OutletTypeEnum");
+                    DimensionEnum dimensionEnum = DataPropertyParser.GetEnum<DimensionEnum>(patchOutlet, "DimensionEnum");
 
-                    wrapper.Result.SetOutletTypeEnum(outletTypeEnum, repositories.OutletTypeRepository);
+                    wrapper.Result.SetDimensionEnum(dimensionEnum, repositories.DimensionRepository);
 
                     // Make side-effects go off.
                     patchManager.Patch = patchOutlet.Patch;
@@ -539,7 +539,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                         progressCallback("Exception!");
                     }
 
-                    DataPropertyParser.RemoveKey(patchOutlet, "OutletTypeEnum");
+                    DataPropertyParser.RemoveKey(patchOutlet, "DimensionEnum");
                 }
 
                 AssertDocuments(repositories, progressCallback);

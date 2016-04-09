@@ -1,0 +1,1 @@
+exec sp_rename 'Outlet.OutletTypeID', 'DimensionID', 'COLUMN';

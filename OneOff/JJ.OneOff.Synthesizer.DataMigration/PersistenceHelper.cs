@@ -47,7 +47,6 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                 CreateRepository<ISpeakerSetupRepository>(context),
                 CreateRepository<IScaleTypeRepository>(context),
                 CreateRepository<IDimensionRepository>(context),
-                CreateRepository<IOutletTypeRepository>(context),
 
                 CreateRepository<IIDRepository>(context)
             );

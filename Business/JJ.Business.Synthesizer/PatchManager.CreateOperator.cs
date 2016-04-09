@@ -854,10 +854,10 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public PatchOutlet_OperatorWrapper PatchOutlet(OutletTypeEnum outletTypeEnum, Outlet input = null)
+        public PatchOutlet_OperatorWrapper PatchOutlet(DimensionEnum dimensionEnum, Outlet input = null)
         {
             PatchOutlet_OperatorWrapper wrapper = PatchOutlet(input);
-            wrapper.Result.SetOutletTypeEnum(outletTypeEnum, _repositories.OutletTypeRepository);
+            wrapper.Result.SetDimensionEnum(dimensionEnum, _repositories.DimensionRepository);
 
             VoidResult result = ValidateOperatorNonRecursive(wrapper.WrappedOperator);
             ResultHelper.Assert(result);

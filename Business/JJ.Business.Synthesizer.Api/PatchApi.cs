@@ -266,9 +266,9 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.PatchOutlet(input);
         }
 
-        public PatchOutlet_OperatorWrapper PatchOutlet(OutletTypeEnum outletTypeEnum, Outlet input = null)
+        public PatchOutlet_OperatorWrapper PatchOutlet(DimensionEnum dimensionEnum, Outlet input = null)
         {
-            return _patchManager.PatchOutlet(outletTypeEnum, input);
+            return _patchManager.PatchOutlet(dimensionEnum, input);
         }
 
         public PatchOutlet_OperatorWrapper PatchOutlet(string name, Outlet input = null)

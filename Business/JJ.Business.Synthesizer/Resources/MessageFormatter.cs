@@ -173,9 +173,9 @@ namespace JJ.Business.Synthesizer.Resources
             return String.Format(Messages.OutletPropertyDoesNotMatchWithUnderlyingPatch, propertyDisplayName, inletName, dimensionDisplayName, inletListIndex);
         }
 
-        public static string OutletNotFoundInUnderlyingPatch(string outletName, string outletTypeDisplayName, int? outletListIndex)
+        public static string OutletNotFoundInUnderlyingPatch(string outletName, string dimensionDisplayName, int? outletListIndex)
         {
-            return String.Format(Messages.OutletNotFoundInUnderlyingPatch, outletName, outletTypeDisplayName, outletListIndex);
+            return String.Format(Messages.OutletNotFoundInUnderlyingPatch, outletName, dimensionDisplayName, outletListIndex);
         }
     }
 }

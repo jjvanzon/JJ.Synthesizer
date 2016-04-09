@@ -337,12 +337,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         }
 
         public static IList<OperatorPropertiesViewModel_ForPatchOutlet> ToPropertiesViewModelList_ForPatchOutlets(
-            this Patch patch, IOutletTypeRepository outletTypeRepository)
+            this Patch patch, IDimensionRepository dimensionRepository)
         {
             if (patch == null) throw new NullException(() => patch);
 
             return patch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
-                        .Select(x => x.ToPropertiesViewModel_ForPatchOutlet(outletTypeRepository))
+                        .Select(x => x.ToPropertiesViewModel_ForPatchOutlet(dimensionRepository))
                         .ToList();
         }
 
@@ -574,10 +574,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         }
 
         public static OperatorPropertiesViewModel_ForPatchOutlet ToPropertiesViewModel_ForPatchOutlet(
-            this Operator entity, IOutletTypeRepository outletTypeRepository)
+            this Operator entity, IDimensionRepository dimensionRepository)
         {
             if (entity == null) throw new NullException(() => entity);
-            if (outletTypeRepository == null) throw new NullException(() => outletTypeRepository);
+            if (dimensionRepository == null) throw new NullException(() => dimensionRepository);
 
             var wrapper = new PatchOutlet_OperatorWrapper(entity);
 
@@ -586,7 +586,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ID = entity.ID,
                 PatchID = entity.Patch.ID,
                 Name = entity.Name,
-                OutletTypeLookup = ViewModelHelper.CreateOutletTypeLookupViewModel(outletTypeRepository),
+                DimensionLookup = ViewModelHelper.CreateDimensionLookupViewModel(dimensionRepository),
                 ValidationMessages = new List<Message>()
             };
 
@@ -595,14 +595,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 viewModel.Number = wrapper.ListIndex.Value + 1;
             }
 
-            OutletTypeEnum outletTypeEnum = wrapper.Result.GetOutletTypeEnum();
-            if (outletTypeEnum != OutletTypeEnum.Undefined)
+            DimensionEnum dimensionEnum = wrapper.Result.GetDimensionEnum();
+            if (dimensionEnum != DimensionEnum.Undefined)
             {
-                viewModel.OutletType = outletTypeEnum.ToIDAndDisplayName();
+                viewModel.Dimension = dimensionEnum.ToIDAndDisplayName();
             }
             else
             {
-                viewModel.OutletType = new IDAndName();
+                viewModel.Dimension = new IDAndName();
             }
 
             return viewModel;

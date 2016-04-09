@@ -28,7 +28,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         // See InletViewModel for the comment that also applies here.
 
         /// <summary> Read-only, nullable, not necessarily displayed. </summary>
-        public IDAndName OutletType { get; set; }
+        public IDAndName Dimension { get; set; }
 
         private string DebuggerDisplay
         {

@@ -162,26 +162,26 @@ namespace JJ.Business.Synthesizer.Extensions
 
         // Outlet
 
-        public static OutletTypeEnum GetOutletTypeEnum(this Outlet entity)
+        public static DimensionEnum GetDimensionEnum(this Outlet entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
-            if (entity.OutletType == null) return OutletTypeEnum.Undefined;
+            if (entity.Dimension == null) return DimensionEnum.Undefined;
 
-            return (OutletTypeEnum)entity.OutletType.ID;
+            return (DimensionEnum)entity.Dimension.ID;
         }
 
-        public static void SetOutletTypeEnum(this Outlet entity, OutletTypeEnum enumValue, IOutletTypeRepository repository)
+        public static void SetDimensionEnum(this Outlet entity, DimensionEnum enumValue, IDimensionRepository repository)
         {
             if (repository == null) throw new NullException(() => repository);
 
-            if (enumValue == OutletTypeEnum.Undefined)
+            if (enumValue == DimensionEnum.Undefined)
             {
-                entity.UnlinkOutletType();
+                entity.UnlinkDimension();
             }
             else
             {
-                OutletType enumEntity = repository.Get((int)enumValue);
+                Dimension enumEntity = repository.Get((int)enumValue);
                 entity.LinkTo(enumEntity);
             }
         }

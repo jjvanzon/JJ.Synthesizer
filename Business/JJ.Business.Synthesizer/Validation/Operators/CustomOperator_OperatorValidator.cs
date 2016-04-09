@@ -211,7 +211,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 {
                     string message = MessageFormatter.OutletNotFoundInUnderlyingPatch(
                         customOperatorOutlet.Name,
-                        ResourceHelper.GetDisplayName(customOperatorOutlet.GetOutletTypeEnum()),
+                        ResourceHelper.GetDisplayName(customOperatorOutlet.GetDimensionEnum()),
                         customOperatorOutlet.ListIndex);
 
                     ValidationMessages.Add(PropertyNames.Outlet, message);
@@ -234,9 +234,9 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                         ValidationMessages.Add(PropertyNames.Outlet, message);
                     }
 
-                    if (customOperatorOutlet.GetOutletTypeEnum() != underlyingPatchOutletWrapper.Result.GetOutletTypeEnum())
+                    if (customOperatorOutlet.GetDimensionEnum() != underlyingPatchOutletWrapper.Result.GetDimensionEnum())
                     {
-                        string message = GetOutletPropertyDoesNotMatchMessage(underlyingPatchOutletWrapper, PropertyDisplayNames.OutletType);
+                        string message = GetOutletPropertyDoesNotMatchMessage(underlyingPatchOutletWrapper, PropertyDisplayNames.Dimension);
                         ValidationMessages.Add(PropertyNames.Outlet, message);
                     }
                 }
@@ -257,7 +257,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             return MessageFormatter.OutletPropertyDoesNotMatchWithUnderlyingPatch(
                 propertyDisplayName,
                 customOperatorOutlet.Name,
-                ResourceHelper.GetDisplayName(customOperatorOutlet.OutletType),
+                ResourceHelper.GetDisplayName(customOperatorOutlet.Dimension),
                 customOperatorOutlet.ListIndex);
         }
     }

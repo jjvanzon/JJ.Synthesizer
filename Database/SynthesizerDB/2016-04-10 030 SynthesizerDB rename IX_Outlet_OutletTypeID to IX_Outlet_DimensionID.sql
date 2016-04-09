@@ -1,0 +1,1 @@
+exec sp_rename 'Outlet.IX_Outlet_OutletTypeID', 'IX_Outlet_DimensionID';

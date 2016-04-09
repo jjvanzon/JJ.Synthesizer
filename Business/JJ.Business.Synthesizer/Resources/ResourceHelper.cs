@@ -94,31 +94,15 @@ namespace JJ.Business.Synthesizer.Resources
             return GetPropertyDisplayName(enumValue.ToString());
         }
 
-        // OutletType
-
-        public static string GetDisplayName(OutletType entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            OutletTypeEnum outletTypeEnum = (OutletTypeEnum)entity.ID;
-
-            return GetDisplayName(outletTypeEnum);
-        }
-
-        public static string GetDisplayName(OutletTypeEnum enumValue)
-        {
-            return GetPropertyDisplayName(enumValue.ToString());
-        }
-
         // SpeakerSetup
 
         public static string GetDisplayName(SpeakerSetup entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
-            SpeakerSetupEnum outletTypeEnum = (SpeakerSetupEnum)entity.ID;
+            SpeakerSetupEnum dimensionEnum = (SpeakerSetupEnum)entity.ID;
 
-            return GetDisplayName(outletTypeEnum);
+            return GetDisplayName(dimensionEnum);
         }
 
         public static string GetDisplayName(SpeakerSetupEnum enumValue)

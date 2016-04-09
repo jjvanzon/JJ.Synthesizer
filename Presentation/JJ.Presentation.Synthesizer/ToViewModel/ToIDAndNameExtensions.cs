@@ -36,28 +36,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
         }
 
-        public static IDAndName ToIDAndName(this Document entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            return new IDAndName
-            {
-                ID = entity.ID,
-                Name = entity.Name
-            };
-        }
-
-        public static IDAndName ToIDAndDisplayName(this FilterTypeEnum enumValue)
-        {
-            string displayName = ResourceHelper.GetDisplayName(enumValue);
-
-            return new IDAndName
-            {
-                ID = (int)enumValue,
-                Name = displayName
-            };
-        }
-
         public static IDAndName ToIDAndDisplayName(this Dimension entity)
         {
             if (entity == null) throw new NullException(() => entity);
@@ -72,6 +50,28 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         }
 
         public static IDAndName ToIDAndDisplayName(this DimensionEnum enumValue)
+        {
+            string displayName = ResourceHelper.GetDisplayName(enumValue);
+
+            return new IDAndName
+            {
+                ID = (int)enumValue,
+                Name = displayName
+            };
+        }
+
+        public static IDAndName ToIDAndName(this Document entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            return new IDAndName
+            {
+                ID = entity.ID,
+                Name = entity.Name
+            };
+        }
+
+        public static IDAndName ToIDAndDisplayName(this FilterTypeEnum enumValue)
         {
             string displayName = ResourceHelper.GetDisplayName(enumValue);
 
@@ -116,30 +116,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 ID = entity.ID,
                 Name = entity.Name
-            };
-        }
-
-        public static IDAndName ToIDAndDisplayName(this OutletType entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            string displayName = ResourceHelper.GetDisplayName(entity);
-
-            return new IDAndName
-            {
-                ID = entity.ID,
-                Name = displayName
-            };
-        }
-
-        public static IDAndName ToIDAndDisplayName(this OutletTypeEnum enumValue)
-        {
-            string displayName = ResourceHelper.GetDisplayName(enumValue);
-
-            return new IDAndName
-            {
-                ID = (int)enumValue,
-                Name = displayName
             };
         }
 

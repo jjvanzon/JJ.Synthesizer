@@ -154,7 +154,7 @@ namespace JJ.Presentation.Synthesizer.Converters
             // then it starts converting outlets, and this method,
             // which delegate in turn to convert operator,
             // which returns the operator without related entities and then I try to convert the outlet it here.
-            outlet = outletViewModel.ToEntity(_repositories.OutletRepository, _repositories.OutletTypeRepository);
+            outlet = outletViewModel.ToEntity(_repositories.OutletRepository, _repositories.DimensionRepository);
             outlet.LinkTo(op);
             // The 'if' here is like a chicken-or-egg detection, if you will.
             if (!_outletDictionary.ContainsKey(outletViewModel.ID))

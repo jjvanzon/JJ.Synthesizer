@@ -43,9 +43,9 @@
     <Compile Include="AudioFileOutputRepository.cs" />
     <Compile Include="AudioFileOutputChannelRepository.cs" />
     <Compile Include="IDRepository.cs" />
-    <Compile Include="OutletTypeRepository.cs" />
+    <Compile Include="2016-04-10 Backup of OutletTypeRepository.cs" />
     <Compile Include="Interfaces\IIDRepository.cs" />
-    <Compile Include="Interfaces\IOutletTypeRepository.cs" />
+    <Compile Include="Interfaces\2016-04-10 Backup of IOutletTypeRepository.cs" />
     <Compile Include="Interfaces\IScaleRepository.cs" />
     <Compile Include="Interfaces\IDimensionRepository.cs" />
     <Compile Include="Interfaces\IScaleTypeRepository.cs" />

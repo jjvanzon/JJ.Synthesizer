@@ -154,21 +154,21 @@ namespace JJ.Business.Synthesizer.Helpers
             }
         }
 
-        public static Outlet GetOutlet(Operator op, OutletTypeEnum outletTypeEnum)
+        public static Outlet GetOutlet(Operator op, DimensionEnum dimensionEnum)
         {
-            Outlet outlet = TryGetOutlet(op, outletTypeEnum);
+            Outlet outlet = TryGetOutlet(op, dimensionEnum);
             if (outlet == null)
             {
-                throw new Exception(String.Format("Outlet with OutletTypeEnum '{0}' not found.", outletTypeEnum));
+                throw new Exception(String.Format("Outlet with DimensionEnum '{0}' not found.", dimensionEnum));
             }
             return outlet;
         }
 
-        public static Outlet TryGetOutlet(Operator op, OutletTypeEnum outletTypeEnum)
+        public static Outlet TryGetOutlet(Operator op, DimensionEnum dimensionEnum)
         {
             if (op == null) throw new NullException(() => op);
 
-            IList<Outlet> outlets = GetOutlets(op, outletTypeEnum);
+            IList<Outlet> outlets = GetOutlets(op, dimensionEnum);
             switch (outlets.Count)
             {
                 case 0:
@@ -178,15 +178,15 @@ namespace JJ.Business.Synthesizer.Helpers
                     return outlets[0];
 
                 default:
-                    throw new Exception(String.Format("Outlet with OutletTypeEnum '{0}' is not unique.", outletTypeEnum));
+                    throw new Exception(String.Format("Outlet with DimensionEnum '{0}' is not unique.", dimensionEnum));
             }
         }
 
-        public static IList<Outlet> GetOutlets(Operator op, OutletTypeEnum outletTypeEnum)
+        public static IList<Outlet> GetOutlets(Operator op, DimensionEnum dimensionEnum)
         {
             if (op == null) throw new NullException(() => op);
 
-            IList<Outlet> outlets = op.Outlets.Where(x => x.GetOutletTypeEnum() == outletTypeEnum).ToArray();
+            IList<Outlet> outlets = op.Outlets.Where(x => x.GetDimensionEnum() == dimensionEnum).ToArray();
             return outlets;
         }
 

@@ -92,16 +92,16 @@ namespace JJ.Business.Synthesizer
             {
                 // TODO: I should really only match if it is unique.
 
-                bool outletTypeIsFilledIn = destOutlet.GetOutletTypeEnum() != OutletTypeEnum.Undefined;
-                if (!outletTypeIsFilledIn)
+                bool dimensionIsFilledIn = destOutlet.GetDimensionEnum() != DimensionEnum.Undefined;
+                if (!dimensionIsFilledIn)
                 {
                     continue;
                 }
 
                 var wrapper = new PatchOutlet_OperatorWrapper(sourcePatchOutlet);
 
-                bool outletTypesAreEqual = destOutlet.GetOutletTypeEnum() == wrapper.Result.GetOutletTypeEnum();
-                if (outletTypesAreEqual)
+                bool dimensionsAreEqual = destOutlet.GetDimensionEnum() == wrapper.Result.GetDimensionEnum();
+                if (dimensionsAreEqual)
                 {
                     return destOutlet;
                 }
@@ -206,9 +206,9 @@ namespace JJ.Business.Synthesizer
             if (dest_UnderlyingPatch_PatchOutlet == null)
             {
                 throw new Exception(String.Format(
-                    "PatchOutlet not found in UnderlyingPatch. CustomOperator Outlet: Name = '{0}', OutletTypeEnum = '{1}', ListIndex = '{2}'.",
+                    "PatchOutlet not found in UnderlyingPatch. CustomOperator Outlet: Name = '{0}', DimensionEnum = '{1}', ListIndex = '{2}'.",
                     source_CustomOperator_Outlet.Name,
-                    source_CustomOperator_Outlet.GetOutletTypeEnum(),
+                    source_CustomOperator_Outlet.GetDimensionEnum(),
                     source_CustomOperator_Outlet.ListIndex));
             }
 
@@ -245,16 +245,16 @@ namespace JJ.Business.Synthesizer
             // Try match by type
             foreach (Operator dest_UnderlyingPatch_PatchOutlet in dest_UnderlyingPatch_PatchOutlets)
             {
-                bool outletTypeIsFilledIn = source_CustomOperator_Outlet.GetOutletTypeEnum() != OutletTypeEnum.Undefined;
-                if (!outletTypeIsFilledIn)
+                bool dimensionIsFilledIn = source_CustomOperator_Outlet.GetDimensionEnum() != DimensionEnum.Undefined;
+                if (!dimensionIsFilledIn)
                 {
                     continue;
                 }
 
                 var dest_UnderlyingPatch_PatchOutlet_Wrapper = new PatchOutlet_OperatorWrapper(dest_UnderlyingPatch_PatchOutlet);
 
-                bool outletTypesAreEqual = dest_UnderlyingPatch_PatchOutlet_Wrapper.Result.GetOutletTypeEnum() == source_CustomOperator_Outlet.GetOutletTypeEnum();
-                if (outletTypesAreEqual)
+                bool dimensionsAreEqual = dest_UnderlyingPatch_PatchOutlet_Wrapper.Result.GetDimensionEnum() == source_CustomOperator_Outlet.GetDimensionEnum();
+                if (dimensionsAreEqual)
                 {
                     return dest_UnderlyingPatch_PatchOutlet;
                 }
@@ -278,17 +278,17 @@ namespace JJ.Business.Synthesizer
             if (outlet == null) throw new NullException(() => outlet);
             if (inlet == null) throw new NullException(() => inlet);
 
-            // First match by OutletType / Inlet Dimension.
-            OutletTypeEnum outletTypeEnum = outlet.GetOutletTypeEnum();
-            if (outletTypeEnum != OutletTypeEnum.Undefined)
+            // First match by Dimension / Inlet Dimension.
+            DimensionEnum dimensionEnum = outlet.GetDimensionEnum();
+            if (dimensionEnum != DimensionEnum.Undefined)
             {
                 DimensionEnum inletDimensionEnum = inlet.GetDimensionEnum();
                 if (inletDimensionEnum != DimensionEnum.Undefined)
                 {
-                    string outletTypeString = outletTypeEnum.ToString();
+                    string dimensionString = dimensionEnum.ToString();
                     string inletDimensionString = inletDimensionEnum.ToString();
 
-                    if (String.Equals(outletTypeString, inletDimensionString))
+                    if (String.Equals(dimensionString, inletDimensionString))
                     {
                         return true;
                     }

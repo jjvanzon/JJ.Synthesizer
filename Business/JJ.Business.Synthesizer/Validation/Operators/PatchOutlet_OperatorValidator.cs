@@ -31,10 +31,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             var patchOutletWrapper = new PatchOutlet_OperatorWrapper(Object);
 
-            For(() => patchOutletWrapper.Result.GetOutletTypeEnum(), PropertyDisplayNames.OutletType)
-                .IsEnum<OutletTypeEnum>();
+            For(() => patchOutletWrapper.Result.GetDimensionEnum(), PropertyDisplayNames.Dimension)
+                .IsEnum<DimensionEnum>();
 
-            // PatchOutlet.Result.OutletType is optional.
+            // PatchOutlet.Result.Dimension is optional.
             // patchOutlet.Name is optional.
         }
     }

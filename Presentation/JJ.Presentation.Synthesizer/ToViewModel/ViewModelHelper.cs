@@ -406,10 +406,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 return op.Name;
             }
 
-            // Use PatchOutlet OutletType as fallback
+            // Use PatchOutlet Dimension as fallback
             var wrapper = new PatchOutlet_OperatorWrapper(op);
-            OutletTypeEnum dimensionEnum = wrapper.Result.GetOutletTypeEnum();
-            if (dimensionEnum != OutletTypeEnum.Undefined)
+            DimensionEnum dimensionEnum = wrapper.Result.GetDimensionEnum();
+            if (dimensionEnum != DimensionEnum.Undefined)
             {
                 string dimensionDisplayName = ResourceHelper.GetDisplayName(dimensionEnum);
                 return dimensionDisplayName;

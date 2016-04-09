@@ -243,7 +243,7 @@
     <Compile Include="EntityWrappers\SawUp_OperatorWrapper.cs" />
     <Compile Include="Enums\FilterTypeEnum.cs" />
     <Compile Include="Enums\DimensionEnum.cs" />
-    <Compile Include="Enums\OutletTypeEnum.cs" />
+    <Compile Include="Enums\2016-04-10 Backup of OutletTypeEnum.cs" />
     <Compile Include="Enums\ResampleInterpolationTypeEnum.cs" />
     <Compile Include="Enums\ScaleTypeEnum.cs" />
     <Compile Include="Extensions\PatchExtensions.cs" />

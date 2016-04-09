@@ -50,7 +50,7 @@ namespace JJ.Business.Synthesizer
                     }
                 }
 
-                Outlet signalOutlet = customOperatorWrapper.Outlets.Where(x => x.GetOutletTypeEnum() == OutletTypeEnum.Signal).SingleOrDefault();
+                Outlet signalOutlet = customOperatorWrapper.Outlets.Where(x => x.GetDimensionEnum() == DimensionEnum.Signal).SingleOrDefault();
                 if (signalOutlet != null)
                 {
                     monophonicOutlets.Add(signalOutlet);
@@ -103,7 +103,7 @@ namespace JJ.Business.Synthesizer
             }
 
             IEnumerable<Outlet> signalOutlets = Patch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
-                                                     .Where(x => x.Result.GetOutletTypeEnum() == OutletTypeEnum.Signal)
+                                                     .Where(x => x.Result.GetDimensionEnum() == DimensionEnum.Signal)
                                                      .Select(x => x.Result);
 
             // TODO: Add up the signals instead of taking the first one.
@@ -116,7 +116,7 @@ namespace JJ.Business.Synthesizer
         /// Do a rollback after calling this method to prevent saving the new patch.
         /// Tries to produce a new patch by tying together existing patches,
         /// trying to match PatchInlet and PatchOutlet operators by:
-        /// 1) Inlet.Dimension.Name and OutletType.Name
+        /// 1) Inlet.Dimension.Name and Dimension.Name
         /// 2) PatchInlet Operator.Name and PatchOutlet Operator.Name.
         /// The non-matched inlets and outlets will become inlets and outlets of the new patch.
         /// If there is overlap in type or name, they will merge to a single inlet or outlet.
@@ -199,25 +199,25 @@ namespace JJ.Business.Synthesizer
                                                             .Except(matchedOutlets)
                                                             .ToArray();
 
-            // If there is overlap in OutletType, they will merge to a single PatchOutlet.
-            var unmatchedOutlets_GroupedByOutletType = unmatchedOutlets.Where(x => x.OutletType != null)
-                                                                       .GroupBy(x => x.GetOutletTypeEnum());
-            foreach (var unmatchedOutletGroup in unmatchedOutlets_GroupedByOutletType)
+            // If there is overlap in Dimension, they will merge to a single PatchOutlet.
+            var unmatchedOutlets_GroupedByDimension = unmatchedOutlets.Where(x => x.Dimension != null)
+                                                                       .GroupBy(x => x.GetDimensionEnum());
+            foreach (var unmatchedOutletGroup in unmatchedOutlets_GroupedByDimension)
             {
                 PatchOutlet_OperatorWrapper patchOutletWrapper = ConvertToPatchOutlet(unmatchedOutletGroup.ToArray());
             }
 
             // If there is overlap in name, they will merge to a single PatchOutlet.
-            var unmatchedOutlets_WithoutOutletType_GroupedByName = unmatchedOutlets.Where(x => x.OutletType == null && !String.IsNullOrEmpty(x.Name))
+            var unmatchedOutlets_WithoutDimension_GroupedByName = unmatchedOutlets.Where(x => x.Dimension == null && !String.IsNullOrEmpty(x.Name))
                                                                                    .GroupBy(x => x.Name);
-            foreach (var unmatchedOutletGroup in unmatchedOutlets_WithoutOutletType_GroupedByName)
+            foreach (var unmatchedOutletGroup in unmatchedOutlets_WithoutDimension_GroupedByName)
             {
                 PatchOutlet_OperatorWrapper patchOutletWrapper = ConvertToPatchOutlet(unmatchedOutletGroup.ToArray());
             }
 
-            // If there is no OutletType or name, unmatched Outlets will convert to individual PatchOutlets.
-            var unmatchedOutlets_WithoutOutletTypeOrName = unmatchedOutlets.Where(x => x.OutletType == null && String.IsNullOrEmpty(x.Name));
-            foreach (Outlet unmatchedOutlet in unmatchedOutlets_WithoutOutletTypeOrName)
+            // If there is no Dimension or name, unmatched Outlets will convert to individual PatchOutlets.
+            var unmatchedOutlets_WithoutDimensionOrName = unmatchedOutlets.Where(x => x.Dimension == null && String.IsNullOrEmpty(x.Name));
+            foreach (Outlet unmatchedOutlet in unmatchedOutlets_WithoutDimensionOrName)
             {
                 PatchOutlet_OperatorWrapper patchOutletWrapper = ConvertToPatchOutlet(unmatchedOutlet);
             }
@@ -299,7 +299,7 @@ namespace JJ.Business.Synthesizer
             PatchOutlet_OperatorWrapper destPatchOutletWrapper = PatchOutlet();
             destPatchOutletWrapper.Name = sourceOutlet.Name;
             destPatchOutletWrapper.ListIndex = sourceOutlet.ListIndex;
-            destPatchOutletWrapper.Result.OutletType = sourceOutlet.OutletType;
+            destPatchOutletWrapper.Result.Dimension = sourceOutlet.Dimension;
 
             destPatchOutletWrapper.Input = sourceOutlet;
 

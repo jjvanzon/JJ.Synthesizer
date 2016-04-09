@@ -42,7 +42,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelOperatorTypeTitle.Text = Titles.Type + ":";
             labelOperatorTypeValue.Text = PropertyDisplayNames.PatchOutlet;
             labelNumber.Text = Titles.Number;
-            labelOutletType.Text = PropertyDisplayNames.OutletType;
+            labelDimension.Text = PropertyDisplayNames.Dimension;
         }
 
         private void ApplyStyling()
@@ -57,20 +57,20 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             textBoxName.Text = ViewModel.Name;
             numericUpDownNumber.Value = ViewModel.Number;
 
-            if (comboBoxOutletType.DataSource == null)
+            if (comboBoxDimension.DataSource == null)
             {
-                comboBoxOutletType.ValueMember = PropertyNames.ID;
-                comboBoxOutletType.DisplayMember = PropertyNames.Name;
-                comboBoxOutletType.DataSource = ViewModel.OutletTypeLookup;
+                comboBoxDimension.ValueMember = PropertyNames.ID;
+                comboBoxDimension.DisplayMember = PropertyNames.Name;
+                comboBoxDimension.DataSource = ViewModel.DimensionLookup;
             }
 
-            if (ViewModel.OutletType != null)
+            if (ViewModel.Dimension != null)
             {
-                comboBoxOutletType.SelectedValue = ViewModel.OutletType.ID;
+                comboBoxDimension.SelectedValue = ViewModel.Dimension.ID;
             }
             else
             {
-                comboBoxOutletType.SelectedValue = 0;
+                comboBoxDimension.SelectedValue = 0;
             }
         }
 
@@ -80,7 +80,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             ViewModel.Name = textBoxName.Text;
             ViewModel.Number = (int)numericUpDownNumber.Value;
-            ViewModel.OutletType = (IDAndName)comboBoxOutletType.SelectedItem;
+            ViewModel.Dimension = (IDAndName)comboBoxDimension.SelectedItem;
         }
 
         // Actions

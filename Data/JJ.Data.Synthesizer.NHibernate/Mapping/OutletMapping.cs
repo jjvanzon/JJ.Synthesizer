@@ -11,7 +11,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
             Map(x => x.Name);
             Map(x => x.ListIndex);
             References(x => x.Operator, ColumnNames.OperatorID);
-            References(x => x.OutletType, ColumnNames.OutletTypeID);
+            References(x => x.Dimension, ColumnNames.DimensionID);
             HasMany(x => x.ConnectedInlets).KeyColumn(ColumnNames.InputOutletID).Inverse();
             HasMany(x => x.AsAudioFileOutputChannels).KeyColumn(ColumnNames.OutletID).Inverse();
         }

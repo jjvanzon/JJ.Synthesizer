@@ -132,7 +132,7 @@ namespace JJ.Business.Synthesizer.Converters
                 }
 
                 destCustomOperatorOutlet.Name = sourcePatchOutlet.Name;
-                destCustomOperatorOutlet.OutletType = sourcePatchOutletOutlet.OutletType;
+                destCustomOperatorOutlet.Dimension = sourcePatchOutletOutlet.Dimension;
 
                 if (!sourcePatchOutletWrapper.ListIndex.HasValue)
                 {

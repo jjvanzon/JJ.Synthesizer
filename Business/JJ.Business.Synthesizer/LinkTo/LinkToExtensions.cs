@@ -435,11 +435,11 @@ namespace JJ.Business.Synthesizer.LinkTo
             // No inverse property.
         }
 
-        public static void LinkTo(this Outlet outlet, OutletType outletType)
+        public static void LinkTo(this Outlet outlet, Dimension dimension)
         {
             if (outlet == null) throw new NullException(() => outlet);
 
-            outlet.OutletType = outletType;
+            outlet.Dimension = dimension;
 
             // No inverse property.
         }

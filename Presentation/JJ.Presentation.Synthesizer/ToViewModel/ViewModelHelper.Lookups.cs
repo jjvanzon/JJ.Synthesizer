@@ -90,19 +90,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return operatorTypeViewModels;
         }
 
-        public static IList<IDAndName> CreateOutletTypeLookupViewModel(IOutletTypeRepository repository)
-        {
-            if (repository == null) throw new NullException(() => repository);
-
-            IList<OutletType> entities = repository.GetAll().ToArray();
-
-            var idAndNames = new List<IDAndName>(entities.Count + 1);
-            idAndNames.Add(new IDAndName { ID = 0, Name = null });
-            idAndNames.AddRange(entities.Select(x => x.ToIDAndDisplayName()).OrderBy(x => x.Name));
-
-            return idAndNames;
-        }
-
         public static IList<IDAndName> CreateResampleInterpolationLookupViewModel()
         {
             ResampleInterpolationTypeEnum[] enumValues = (ResampleInterpolationTypeEnum[])Enum.GetValues(typeof(ResampleInterpolationTypeEnum));

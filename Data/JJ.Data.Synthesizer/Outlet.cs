@@ -19,7 +19,7 @@ namespace JJ.Data.Synthesizer
         public virtual string Name { get; set; }
 
         /// <summary> nullable </summary>
-        public virtual OutletType OutletType { get; set; }
+        public virtual Dimension Dimension { get; set; }
 
         /// <summary> This number is often used as a key to a specific outlet within an operator. 'Name' is another alternative key. </summary>
         public virtual int ListIndex { get; set; }

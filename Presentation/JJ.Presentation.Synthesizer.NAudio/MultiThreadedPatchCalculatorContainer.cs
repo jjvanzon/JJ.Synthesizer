@@ -73,7 +73,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
                 patchManager.AutoPatch(patches);
                 Patch autoPatch = patchManager.Patch;
                 Outlet signalOutlet = autoPatch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
-                                               .Where(x => x.Result.GetOutletTypeEnum() == OutletTypeEnum.Signal)
+                                               .Where(x => x.Result.GetDimensionEnum() == DimensionEnum.Signal)
                                                .SingleOrDefault();
 
                 if (signalOutlet == null)

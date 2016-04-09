@@ -316,13 +316,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.Name = entity.Name;
             viewModel.ListIndex = entity.ListIndex;
 
-            if (entity.OutletType != null)
+            if (entity.Dimension != null)
             {
-                viewModel.OutletType = entity.OutletType.ToIDAndDisplayName();
+                viewModel.Dimension = entity.Dimension.ToIDAndDisplayName();
             }
             else
             {
-                viewModel.OutletType = ViewModelHelper.CreateEmptyIDAndName();
+                viewModel.Dimension = ViewModelHelper.CreateEmptyIDAndName();
             }
 
             // TODO: Not a great plan to use a wrapper, since it is strict and ToViewModel might have to be lenient?

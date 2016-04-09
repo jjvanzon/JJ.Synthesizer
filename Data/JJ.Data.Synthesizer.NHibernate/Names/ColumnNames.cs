@@ -23,6 +23,5 @@
         public const string SpeakerSetupID = "SpeakerSetupID";
         public const string ToneID = "ToneID";
         public const string DimensionID = "DimensionID";
-        public const string OutletTypeID = "OutletTypeID";
     }
 }

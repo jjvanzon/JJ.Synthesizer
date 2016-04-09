@@ -590,7 +590,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             foreach (OutletViewModel outletViewModel in viewModel.Outlets)
             {
-                Outlet outlet = outletViewModel.ToEntity(patchRepositories.OutletRepository, patchRepositories.OutletTypeRepository);
+                Outlet outlet = outletViewModel.ToEntity(patchRepositories.OutletRepository, patchRepositories.DimensionRepository);
                 outlet.LinkTo(op);
 
                 outletsToKeep.Add(outlet);
@@ -672,11 +672,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return entity;
         }
 
-        public static Outlet ToEntity(this OutletViewModel viewModel, IOutletRepository outletRepository, IOutletTypeRepository outletTypeRepository)
+        public static Outlet ToEntity(this OutletViewModel viewModel, IOutletRepository outletRepository, IDimensionRepository dimensionRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (outletRepository == null) throw new NullException(() => outletRepository);
-            if (outletTypeRepository == null) throw new NullException(() => outletTypeRepository);
+            if (dimensionRepository == null) throw new NullException(() => dimensionRepository);
 
             Outlet entity = outletRepository.TryGet(viewModel.ID);
             if (entity == null)
@@ -688,15 +688,15 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.ListIndex = viewModel.ListIndex;
             entity.Name = viewModel.Name;
 
-            bool outletTypeIsFilledIn = viewModel.OutletType != null && viewModel.OutletType.ID != 0;
-            if (outletTypeIsFilledIn)
+            bool dimensionIsFilledIn = viewModel.Dimension != null && viewModel.Dimension.ID != 0;
+            if (dimensionIsFilledIn)
             {
-                OutletType outletType = outletTypeRepository.Get(viewModel.OutletType.ID);
-                entity.LinkTo(outletType);
+                Dimension dimension = dimensionRepository.Get(viewModel.Dimension.ID);
+                entity.LinkTo(dimension);
             }
             else
             {
-                entity.UnlinkOutletType();
+                entity.UnlinkDimension();
             }
 
             return entity;
@@ -1053,15 +1053,15 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 repositories.OutletRepository.Insert(outlet);
             }
 
-            bool outletTypeIsFilledIn = viewModel.OutletType != null && viewModel.OutletType.ID != 0;
-            if (outletTypeIsFilledIn)
+            bool dimensionIsFilledIn = viewModel.Dimension != null && viewModel.Dimension.ID != 0;
+            if (dimensionIsFilledIn)
             {
-                OutletTypeEnum outletTypeEnum = (OutletTypeEnum)viewModel.OutletType.ID;
-                outlet.SetOutletTypeEnum(outletTypeEnum, repositories.OutletTypeRepository);
+                DimensionEnum dimensionEnum = (DimensionEnum)viewModel.Dimension.ID;
+                outlet.SetDimensionEnum(dimensionEnum, repositories.DimensionRepository);
             }
             else
             {
-                outlet.OutletType = null;
+                outlet.Dimension = null;
             }
 
             // Delete excessive outlets.

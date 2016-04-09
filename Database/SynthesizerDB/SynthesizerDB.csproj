@@ -211,6 +211,13 @@
     <Content Include="2016-01-07 010 SynthesizerDB rename InletType Duration to NoteDuration.sql" />
     <Content Include="2016-01-10 010 SynthesizerDB Delete Origin Inlet for OperatorTypes SpeedUp and SlowDown RUN SEPARATELY.sql" />
     <Content Include="2016-03-24 020 SynthesizerDB Clear Operator.Data for Average, Minimum and Maximum Operators.sql" />
+    <Content Include="2016-04-10 010 SynthesizerDB drop FK_Outlet_OutletType.sql" />
+    <Content Include="2016-04-10 020 SynthesizerDB rename Outlet.OutletTypeID to DimensionID.sql" />
+    <Content Include="2016-04-10 030 SynthesizerDB rename IX_Outlet_OutletTypeID to IX_Outlet_DimensionID.sql" />
+    <Content Include="2016-04-10 040 SynthesizerDB convert Outlet.DimensionID named Frequencies from 2 to 4.sql" />
+    <Content Include="2016-04-10 050 SynthesizerDB convert Outlet.DimensionID named Volumes from 3 to 5.sql" />
+    <Content Include="2016-04-10 060 SynthesizerDB FK_Outlet_Dimension.sql" />
+    <Content Include="2016-04-10 070 SynthesizerDB drop table OutletType.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

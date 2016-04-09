@@ -90,7 +90,7 @@ namespace JJ.Business.Synthesizer.Extensions
                 connectedInlet.UnlinkOutlet();
             }
 
-            outlet.UnlinkOutletType();
+            outlet.UnlinkDimension();
             outlet.UnlinkOperator();
         }
 

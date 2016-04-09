@@ -161,11 +161,11 @@ namespace JJ.Business.Synthesizer.LinkTo
             op.LinkTo((OperatorType)null);
         }
 
-        public static void UnlinkOutletType(this Outlet outlet)
+        public static void UnlinkDimension(this Outlet outlet)
         {
             if (outlet == null) throw new NullException(() => outlet);
 
-            outlet.LinkTo((OutletType)null);
+            outlet.LinkTo((Dimension)null);
         }
 
         public static void UnlinkSampleDataType(this Sample sample)

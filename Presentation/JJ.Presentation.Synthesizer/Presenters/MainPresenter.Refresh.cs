@@ -689,7 +689,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForPatchOutlet viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForPatchOutlet(MainViewModel.Document, op.ID);
                 if (viewModel == null)
                 {
-                    viewModel = op.ToPropertiesViewModel_ForPatchOutlet(_repositories.OutletTypeRepository);
+                    viewModel = op.ToPropertiesViewModel_ForPatchOutlet(_repositories.DimensionRepository);
                     viewModel.Successful = true;
                     patchDocumentViewModel.OperatorPropertiesList_ForPatchOutlets.Add(viewModel);
                 }

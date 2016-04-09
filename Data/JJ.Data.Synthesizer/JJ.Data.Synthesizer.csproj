@@ -47,7 +47,7 @@
     <Compile Include="DocumentReference.cs" />
     <Compile Include="EntityPosition.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
-    <Compile Include="OutletType.cs" />
+    <Compile Include="2016-04-10 Backup of OutletType.cs" />
     <Compile Include="Dimension.cs" />
     <Compile Include="OperatorType.cs" />
     <Compile Include="Scale.cs" />

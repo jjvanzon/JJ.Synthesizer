@@ -47,7 +47,6 @@ namespace JJ.Business.Synthesizer.Api.Helpers
                 CreateRepository<ISpeakerSetupRepository>(ContextHelper.MemoryContext),
                 CreateRepository<IScaleTypeRepository>(ContextHelper.MemoryContext),
                 CreateRepository<IDimensionRepository>(ContextHelper.MemoryContext),
-                CreateRepository<IOutletTypeRepository>(ContextHelper.MemoryContext),
 
                 CreateRepository<IIDRepository>(ContextHelper.MemoryContext));
         }

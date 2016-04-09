@@ -96,10 +96,10 @@ namespace JJ.Business.Synthesizer.EntityWrappers
                 return outlet.Name;
             }
 
-            OutletTypeEnum outletTypeEnum = outlet.GetOutletTypeEnum();
-            if (outletTypeEnum != OutletTypeEnum.Undefined)
+            DimensionEnum dimensionEnum = outlet.GetDimensionEnum();
+            if (dimensionEnum != DimensionEnum.Undefined)
             {
-                return ResourceHelper.GetDisplayName(outletTypeEnum);
+                return ResourceHelper.GetDisplayName(dimensionEnum);
             }
 
             string displayName = String.Format("{0} {1}", PropertyDisplayNames.Outlet, listIndex + 1);
