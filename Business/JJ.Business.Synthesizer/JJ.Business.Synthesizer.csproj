@@ -224,6 +224,7 @@
     <Compile Include="EntityWrappers\Minimum_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\ChangeTrigger_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\GetDimension_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\Dimension_OperatorWrapperBase.cs" />
     <Compile Include="EntityWrappers\SetDimension_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\ToggleTrigger_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\PulseTrigger_OperatorWrapper.cs" />

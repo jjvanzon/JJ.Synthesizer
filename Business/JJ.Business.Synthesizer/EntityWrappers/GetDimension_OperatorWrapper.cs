@@ -7,23 +7,17 @@ using System;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class GetDimension_OperatorWrapper : OperatorWrapperBase
+    public class GetDimension_OperatorWrapper : Dimension_OperatorWrapperBase
     {
-        private const int OUTLET_INDEX = 0;
+        private const int VALUE_INDEX = 0;
 
         public GetDimension_OperatorWrapper(Operator op)
             : base(op)
         { }
 
-        public Outlet Outlet
+        public Outlet Value
         {
-            get { return OperatorHelper.GetOutlet(WrappedOperator, OUTLET_INDEX); }
-        }
-
-        public DimensionEnum Dimension
-        {
-            get { return DataPropertyParser.GetEnum<DimensionEnum>(WrappedOperator, PropertyNames.Dimension); }
-            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.Dimension, value); }
+            get { return OperatorHelper.GetOutlet(WrappedOperator, VALUE_INDEX); }
         }
 
         public override string GetInletDisplayName(int listIndex)
@@ -35,7 +29,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         {
             if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
 
-            string name = ResourceHelper.GetPropertyDisplayName(() => Outlet);
+            string name = ResourceHelper.GetPropertyDisplayName(() => Value);
             return name;
         }
 
@@ -43,7 +37,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         {
             if (wrapper == null) return null;
 
-            return wrapper.Outlet;
+            return wrapper.Value;
         }
     }
 }

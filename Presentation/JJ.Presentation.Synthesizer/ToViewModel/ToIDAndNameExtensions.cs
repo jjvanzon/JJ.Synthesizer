@@ -95,7 +95,31 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
         }
 
+        public static IDAndName ToIDAndDisplayName(this InterpolationTypeEnum enumValue)
+        {
+            string displayName = ResourceHelper.GetDisplayName(enumValue);
+
+            return new IDAndName
+            {
+                ID = (int)enumValue,
+                Name = displayName
+            };
+        }
+
         public static IDAndName ToIDAndDisplayName(this NodeType entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            string displayName = PropertyDisplayNames.ResourceManager.GetString(entity.Name);
+
+            return new IDAndName
+            {
+                ID = entity.ID,
+                Name = displayName
+            };
+        }
+
+        public static IDAndName ToIDAndDisplayName(this OperatorType entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -120,17 +144,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         }
 
         public static IDAndName ToIDAndDisplayName(this ResampleInterpolationTypeEnum enumValue)
-        {
-            string displayName = ResourceHelper.GetDisplayName(enumValue);
-
-            return new IDAndName
-            {
-                ID = (int)enumValue,
-                Name = displayName
-            };
-        }
-
-        public static IDAndName ToIDAndDisplayName(this InterpolationTypeEnum enumValue)
         {
             string displayName = ResourceHelper.GetDisplayName(enumValue);
 

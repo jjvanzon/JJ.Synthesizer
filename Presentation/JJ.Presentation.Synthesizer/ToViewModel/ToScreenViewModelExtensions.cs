@@ -308,6 +308,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                         .ToList();
         }
 
+        public static IList<OperatorPropertiesViewModel_ForDimension> ToPropertiesViewModelList_ForDimensions(this Patch patch)
+        {
+            if (patch == null) throw new NullException(() => patch);
+
+            return Enumerable.Union(patch.GetOperatorsOfType(OperatorTypeEnum.GetDimension),
+                                    patch.GetOperatorsOfType(OperatorTypeEnum.SetDimension))
+                        .Select(x => x.ToPropertiesViewModel_ForDimension())
+                        .ToList();
+        }
+
         public static IList<OperatorPropertiesViewModel_ForFilter> ToPropertiesViewModelList_ForFilters(this Patch patch)
         {
             if (patch == null) throw new NullException(() => patch);
@@ -326,23 +336,21 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                         .ToList();
         }
 
-        public static IList<OperatorPropertiesViewModel_ForPatchInlet> ToPropertiesViewModelList_ForPatchInlets(
-            this Patch patch, IDimensionRepository dimensionRepository)
+        public static IList<OperatorPropertiesViewModel_ForPatchInlet> ToPropertiesViewModelList_ForPatchInlets(this Patch patch)
         {
             if (patch == null) throw new NullException(() => patch);
 
             return patch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
-                        .Select(x => x.ToPropertiesViewModel_ForPatchInlet(dimensionRepository))
+                        .Select(x => x.ToPropertiesViewModel_ForPatchInlet())
                         .ToList();
         }
 
-        public static IList<OperatorPropertiesViewModel_ForPatchOutlet> ToPropertiesViewModelList_ForPatchOutlets(
-            this Patch patch, IDimensionRepository dimensionRepository)
+        public static IList<OperatorPropertiesViewModel_ForPatchOutlet> ToPropertiesViewModelList_ForPatchOutlets(this Patch patch)
         {
             if (patch == null) throw new NullException(() => patch);
 
             return patch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
-                        .Select(x => x.ToPropertiesViewModel_ForPatchOutlet(dimensionRepository))
+                        .Select(x => x.ToPropertiesViewModel_ForPatchOutlet())
                         .ToList();
         }
 
@@ -500,6 +508,26 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
+        public static OperatorPropertiesViewModel_ForDimension ToPropertiesViewModel_ForDimension(this Operator entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            var wrapper = new Dimension_OperatorWrapperBase(entity);
+
+            var viewModel = new OperatorPropertiesViewModel_ForDimension
+            {
+                ID = entity.ID,
+                PatchID = entity.Patch.ID,
+                Name = entity.Name,
+                OperatorType = entity.OperatorType.ToIDAndDisplayName(),
+                Dimension = wrapper.Dimension.ToIDAndDisplayName(),
+                DimensionLookup = ViewModelHelper.CreateDimensionLookupViewModel(),
+                ValidationMessages = new List<Message>()
+            };
+
+            return viewModel;
+        }
+
         public static OperatorPropertiesViewModel_ForFilter ToPropertiesViewModel_ForFilter(this Operator entity)
         {
             if (entity == null) throw new NullException(() => entity);
@@ -537,11 +565,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static OperatorPropertiesViewModel_ForPatchInlet ToPropertiesViewModel_ForPatchInlet(
-            this Operator entity, IDimensionRepository dimensionRepository)
+        public static OperatorPropertiesViewModel_ForPatchInlet ToPropertiesViewModel_ForPatchInlet(this Operator entity)
         {
             if (entity == null) throw new NullException(() => entity);
-            if (dimensionRepository == null) throw new NullException(() => dimensionRepository);
 
             var wrapper = new PatchInlet_OperatorWrapper(entity);
 
@@ -551,7 +577,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 PatchID = entity.Patch.ID,
                 Name = entity.Name,
                 DefaultValue = Convert.ToString(wrapper.Inlet.DefaultValue),
-                DimensionLookup = ViewModelHelper.CreateDimensionLookupViewModel(dimensionRepository),
+                DimensionLookup = ViewModelHelper.CreateDimensionLookupViewModel(),
                 ValidationMessages = new List<Message>()
             };
 
@@ -573,11 +599,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static OperatorPropertiesViewModel_ForPatchOutlet ToPropertiesViewModel_ForPatchOutlet(
-            this Operator entity, IDimensionRepository dimensionRepository)
+        public static OperatorPropertiesViewModel_ForPatchOutlet ToPropertiesViewModel_ForPatchOutlet(this Operator entity)
         {
             if (entity == null) throw new NullException(() => entity);
-            if (dimensionRepository == null) throw new NullException(() => dimensionRepository);
 
             var wrapper = new PatchOutlet_OperatorWrapper(entity);
 
@@ -586,7 +610,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ID = entity.ID,
                 PatchID = entity.Patch.ID,
                 Name = entity.Name,
-                DimensionLookup = ViewModelHelper.CreateDimensionLookupViewModel(dimensionRepository),
+                DimensionLookup = ViewModelHelper.CreateDimensionLookupViewModel(),
                 ValidationMessages = new List<Message>()
             };
 

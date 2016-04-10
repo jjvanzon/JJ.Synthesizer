@@ -22,6 +22,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public IList<OperatorPropertiesViewModel_ForCache> OperatorPropertiesList_ForCaches { get; set; }
         public IList<OperatorPropertiesViewModel_ForCurve> OperatorPropertiesList_ForCurves { get; set; }
         public IList<OperatorPropertiesViewModel_ForCustomOperator> OperatorPropertiesList_ForCustomOperators { get; set; }
+        public IList<OperatorPropertiesViewModel_ForDimension> OperatorPropertiesList_ForDimensions { get; set; }
         public IList<OperatorPropertiesViewModel_ForFilter> OperatorPropertiesList_ForFilters { get; set; }
         public IList<OperatorPropertiesViewModel_ForNumber> OperatorPropertiesList_ForNumbers { get; set; }
         public IList<OperatorPropertiesViewModel_ForPatchInlet> OperatorPropertiesList_ForPatchInlets { get; set; }

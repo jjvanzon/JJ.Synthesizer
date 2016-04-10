@@ -43,16 +43,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return list;
         }
 
-        public static IList<IDAndName> CreateDimensionLookupViewModel(IDimensionRepository repository)
+        public static IList<IDAndName> CreateDimensionLookupViewModel()
         {
-            if (repository == null) throw new NullException(() => repository);
-
-            IList<Dimension> entities = repository.GetAll().ToArray();
-
-            var idAndNames = new List<IDAndName>(entities.Count + 1);
-            idAndNames.Add(new IDAndName { ID = 0, Name = null });
-            idAndNames.AddRange(entities.Select(x => x.ToIDAndDisplayName()).OrderBy(x => x.Name));
-
+            IList<IDAndName> idAndNames = CreateEnumLookupViewModel<DimensionEnum>();
             return idAndNames;
         }
 
@@ -212,12 +205,47 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                     continue;
                 }
 
-                var idAndName = enumValue.ToIDAndDisplayName();
+                IDAndName idAndName = enumValue.ToIDAndDisplayName();
 
                 idAndNames.Add(idAndName);
             }
 
             return idAndNames;
         }
+
+
+        // TODO: Use this generalized method for all the enum lookup view models.
+        private static IList<IDAndName> CreateEnumLookupViewModel<TEnum>()
+            where TEnum : struct
+        {
+            TEnum[] enumValues = (TEnum[])Enum.GetValues(typeof(TEnum));
+
+            var idAndNames = new List<IDAndName>(enumValues.Length);
+            idAndNames.Add(new IDAndName { ID = 0, Name = null });
+
+            foreach (TEnum enumValue in enumValues)
+            {
+                int enumValueInt = (int)(object)enumValue;
+                bool isUndefined = enumValueInt == 0;
+                if (isUndefined)
+                {
+                    continue;
+                }
+
+                string displayName = ResourceHelper.GetPropertyDisplayName(enumValue.ToString());
+
+                var idAndName = new IDAndName
+                {
+                    ID = enumValueInt,
+                    Name = displayName
+                };
+
+
+                idAndNames.Add(idAndName);
+            }
+
+            return idAndNames;
+        }
+
     }
 }

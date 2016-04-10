@@ -25,7 +25,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         protected override OperatorPropertiesViewModel_ForPatchInlet ToViewModel(Operator op)
         {
-            return op.ToPropertiesViewModel_ForPatchInlet(_repositories.DimensionRepository);
+            return op.ToPropertiesViewModel_ForPatchInlet();
         }
 
         protected override OperatorPropertiesViewModel_ForPatchInlet Update(OperatorPropertiesViewModel_ForPatchInlet userInput)
@@ -55,7 +55,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             VoidResult result = patchManager.SaveOperator(entity);
 
             // ToViewModel
-            OperatorPropertiesViewModel_ForPatchInlet viewModel = entity.ToPropertiesViewModel_ForPatchInlet(_repositories.DimensionRepository);
+            OperatorPropertiesViewModel_ForPatchInlet viewModel = entity.ToPropertiesViewModel_ForPatchInlet();
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);

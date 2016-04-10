@@ -29,6 +29,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.Cache,
             OperatorTypeEnum.Curve,
             OperatorTypeEnum.CustomOperator,
+            OperatorTypeEnum.GetDimension,
             OperatorTypeEnum.Filter,
             OperatorTypeEnum.Number,
             OperatorTypeEnum.PatchInlet,
@@ -36,6 +37,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.Random,
             OperatorTypeEnum.Resample,
             OperatorTypeEnum.Sample,
+            OperatorTypeEnum.SetDimension,
             OperatorTypeEnum.Unbundle
         };
 

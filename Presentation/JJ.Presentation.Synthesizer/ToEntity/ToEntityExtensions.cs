@@ -899,6 +899,39 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         }
 
         public static Operator ToEntity(
+            this OperatorPropertiesViewModel_ForDimension viewModel,
+            IOperatorRepository operatorRepository,
+            IOperatorTypeRepository operatorTypeRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (operatorRepository == null) throw new NullException(() => operatorRepository);
+
+            Operator entity = operatorRepository.TryGet(viewModel.ID);
+            if (entity == null)
+            {
+                entity = new Operator();
+                entity.ID = viewModel.ID;
+                operatorRepository.Insert(entity);
+            }
+
+            entity.Name = viewModel.Name;
+            entity.OperatorType = operatorTypeRepository.Get(viewModel.OperatorType.ID);
+
+            var wrapper = new Dimension_OperatorWrapperBase(entity);
+            bool interpolationTypeIsFilledIn = viewModel.Dimension != null && viewModel.Dimension.ID != 0;
+            if (interpolationTypeIsFilledIn)
+            {
+                wrapper.Dimension = (DimensionEnum)viewModel.Dimension.ID;
+            }
+            else
+            {
+                wrapper.Dimension = DimensionEnum.Undefined;
+            }
+
+            return entity;
+        }
+
+        public static Operator ToEntity(
             this OperatorPropertiesViewModel_ForFilter viewModel,
             IOperatorRepository operatorRepository,
             IOperatorTypeRepository operatorTypeRepository)
@@ -1336,6 +1369,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             foreach (OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel in userInput.OperatorPropertiesList_ForCustomOperators)
             {
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.PatchRepository, repositories.DocumentRepository);
+            }
+
+            foreach (OperatorPropertiesViewModel_ForDimension operatorPropertiesViewModel_ForDimension in userInput.OperatorPropertiesList_ForDimensions)
+            {
+                operatorPropertiesViewModel_ForDimension.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
             }
 
             foreach (OperatorPropertiesViewModel_ForFilter operatorPropertiesViewModel_ForFilter in userInput.OperatorPropertiesList_ForFilters)
