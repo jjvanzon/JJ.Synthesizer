@@ -973,6 +973,15 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
+        protected override void VisitGetDimension(Operator op)
+        {
+            var wrapper = new GetDimension_OperatorWrapper(op);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
+
+            var calculator = new GetDimension_OperatorCalculator(dimensionEnum);
+            _stack.Push(calculator);
+        }
+
         protected override void VisitGreaterThan(Operator op)
         {
             OperatorCalculatorBase calculator;
@@ -2180,7 +2189,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 var wrapper = new Resample_OperatorWrapper(op);
 
-                ResampleInterpolationTypeEnum resampleInterpolationTypeEnum = wrapper.ResampleInterpolationTypeEnum;
+                ResampleInterpolationTypeEnum resampleInterpolationTypeEnum = wrapper.InterpolationType;
 
                 switch (resampleInterpolationTypeEnum)
                 {
@@ -2556,6 +2565,39 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
 
             _stack.Push(calculator);
+        }
+
+        protected override void VisitSetDimension(Operator op)
+        {
+            OperatorCalculatorBase operatorCalculator;
+
+            OperatorCalculatorBase calculationCalculator = _stack.Pop();
+            OperatorCalculatorBase valueCalculator = _stack.Pop();
+
+            calculationCalculator = calculationCalculator ?? new Zero_OperatorCalculator();
+            valueCalculator = valueCalculator ?? new Zero_OperatorCalculator();
+
+            bool calculationIsConst = calculationCalculator is Number_OperatorCalculator;
+            bool valueIsConst = valueCalculator is Number_OperatorCalculator;
+
+            double value = valueCalculator.Calculate(0, 0);
+
+            if (calculationIsConst)
+            {
+                operatorCalculator = calculationCalculator;
+            }
+            else if (valueIsConst)
+            {
+                var wrapper = new SetDimension_OperatorWrapper(op);
+                operatorCalculator = new SetDimension_OperatorCalculator_ConstValue(calculationCalculator, value, wrapper.Dimension);
+            }
+            else
+            {
+                var wrapper = new SetDimension_OperatorWrapper(op);
+                operatorCalculator = new SetDimension_OperatorCalculator_VarValue(calculationCalculator, valueCalculator, wrapper.Dimension);
+            }
+
+            _stack.Push(operatorCalculator);
         }
 
         protected override void VisitShift(Operator op)

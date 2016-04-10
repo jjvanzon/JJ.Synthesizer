@@ -682,6 +682,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Get Dimension.
+        /// </summary>
+        public static string GetDimension {
+            get {
+                return ResourceManager.GetString("GetDimension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &gt;.
         /// </summary>
         public static string GreaterThan {
@@ -1587,6 +1596,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string SemiTones {
             get {
                 return ResourceManager.GetString("SemiTones", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set Dimension.
+        /// </summary>
+        public static string SetDimension {
+            get {
+                return ResourceManager.GetString("SetDimension", resourceCulture);
             }
         }
         

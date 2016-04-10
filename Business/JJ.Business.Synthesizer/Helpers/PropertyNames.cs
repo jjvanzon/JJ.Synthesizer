@@ -26,6 +26,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public const string Curve = "Curve";
         public const string CurveID = "CurveID";
         public const string Curves = "Curves";
+        public const string Dimension = "Dimension";
         public const string Document = "Document";
         public const string DocumentReference = "DocumentReference";
         public const string Documents = "Documents";

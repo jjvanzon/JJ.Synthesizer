@@ -773,4 +773,10 @@
   <data name="HarmonicNumber" xml:space="preserve">
     <value>Harmonic Number</value>
   </data>
+  <data name="GetDimension" xml:space="preserve">
+    <value>Get Dimension</value>
+  </data>
+  <data name="SetDimension" xml:space="preserve">
+    <value>Set Dimension</value>
+  </data>
 </root>

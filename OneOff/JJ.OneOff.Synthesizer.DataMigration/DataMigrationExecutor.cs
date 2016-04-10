@@ -573,7 +573,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                     patchManager.Patch = op.Patch;
 
                     var wrapper = new Resample_OperatorWrapper(op);
-                    wrapper.ResampleInterpolationTypeEnum = ResampleInterpolationTypeEnum.CubicSmoothInclination;
+                    wrapper.InterpolationType = ResampleInterpolationTypeEnum.CubicSmoothInclination;
 
                     VoidResult result = patchManager.SaveOperator(op);
 

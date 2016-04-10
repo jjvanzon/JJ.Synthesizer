@@ -32,6 +32,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.Equal, VisitEqual },
                 { OperatorTypeEnum.Exponent, VisitExponent },
                 { OperatorTypeEnum.Filter, VisitFilter },
+                { OperatorTypeEnum.GetDimension, VisitGetDimension },
                 { OperatorTypeEnum.GreaterThan, VisitGreaterThan },
                 { OperatorTypeEnum.GreaterThanOrEqual, VisitGreaterThanOrEqual },
                 { OperatorTypeEnum.HighPassFilter, VisitHighPassFilter },
@@ -66,6 +67,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.SawUp, VisitSawUp },
                 { OperatorTypeEnum.Scaler, VisitScaler },
                 { OperatorTypeEnum.Select, VisitSelect },
+                { OperatorTypeEnum.SetDimension, VisitSetDimension },
                 { OperatorTypeEnum.Shift, VisitShift },
                 { OperatorTypeEnum.Sine, VisitSine },
                 { OperatorTypeEnum.SlowDown, VisitSlowDown },
@@ -168,6 +170,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected virtual void VisitFilter(Operator op) { }
 
         /// <summary> does nothing </summary>
+        protected virtual void VisitGetDimension(Operator op) { }
+
+        /// <summary> does nothing </summary>
         protected virtual void VisitGreaterThan(Operator op) { }
 
         /// <summary> does nothing </summary>
@@ -268,6 +273,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         /// <summary> does nothing </summary>
         protected virtual void VisitSelect(Operator obj) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitSetDimension(Operator op) { }
 
         /// <summary> does nothing </summary>
         protected virtual void VisitShift(Operator op) { }

@@ -66,6 +66,12 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             RepositoryHelper.EnsureEnumEntity(this, 56, "Negative");
             RepositoryHelper.EnsureEnumEntity(this, 57, "OneOverX");
             RepositoryHelper.EnsureEnumEntity(this, 58, "Cache");
+            RepositoryHelper.EnsureEnumEntity(this, 59, "Filter");
+            RepositoryHelper.EnsureEnumEntity(this, 60, "PulseTrigger");
+            RepositoryHelper.EnsureEnumEntity(this, 61, "ChangeTrigger");
+            RepositoryHelper.EnsureEnumEntity(this, 62, "ToggleTrigger");
+            RepositoryHelper.EnsureEnumEntity(this, 63, "GetDimension");
+            RepositoryHelper.EnsureEnumEntity(this, 64, "SetDimension");
         }
     }
 }

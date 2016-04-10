@@ -410,6 +410,23 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        public GetDimension_OperatorWrapper GetDimension(DimensionEnum dimension = DimensionEnum.Undefined)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.GetDimension, inletCount: 0, outletCount: 1);
+
+            var wrapper = new GetDimension_OperatorWrapper(op)
+            {
+                Dimension = dimension
+            };
+
+            op.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
         public GreaterThan_OperatorWrapper GreaterThan(Outlet a = null, Outlet b = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.GreaterThan, inletCount: 2, outletCount: 1);
@@ -564,7 +581,6 @@ namespace JJ.Business.Synthesizer
 
             return wrapper;
         }
-
 
         public Maximum_OperatorWrapper Maximum(
             Outlet signal = null,
@@ -943,7 +959,7 @@ namespace JJ.Business.Synthesizer
             {
                 Signal = signal,
                 SamplingRate = samplingRate,
-                ResampleInterpolationTypeEnum = interpolationType
+                InterpolationType = interpolationType
             };
 
             op.LinkTo(Patch);
@@ -1096,6 +1112,25 @@ namespace JJ.Business.Synthesizer
             {
                 Signal = signal,
                 Time = time
+            };
+
+            op.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
+        public SetDimension_OperatorWrapper SetDimension(Outlet calculation = null, DimensionEnum dimension = DimensionEnum.Undefined, Outlet value = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.SetDimension, inletCount: 2, outletCount: 1);
+
+            var wrapper = new SetDimension_OperatorWrapper(op)
+            {
+                Calculation = calculation,
+                Value = value,
+                Dimension = dimension
             };
 
             op.LinkTo(Patch);
@@ -1389,6 +1424,7 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.Cache: return Cache();
                 case OperatorTypeEnum.Curve: return Curve();
                 case OperatorTypeEnum.CustomOperator: return CustomOperator();
+                case OperatorTypeEnum.GetDimension: return GetDimension();
                 case OperatorTypeEnum.Delay: return Delay();
                 case OperatorTypeEnum.Divide: return Divide();
                 case OperatorTypeEnum.Earlier: return Earlier();
@@ -1429,6 +1465,7 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.SawUp: return SawUp();
                 case OperatorTypeEnum.Scaler: return Scaler();
                 case OperatorTypeEnum.Select: return Select();
+                case OperatorTypeEnum.SetDimension: return SetDimension();
                 case OperatorTypeEnum.Shift: return Shift();
                 case OperatorTypeEnum.Sine: return Sine();
                 case OperatorTypeEnum.SlowDown: return SlowDown();

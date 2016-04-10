@@ -112,6 +112,8 @@
         Filter = 59,
         PulseTrigger = 60,
         ChangeTrigger = 61,
-        ToggleTrigger = 62
+        ToggleTrigger = 62,
+        GetDimension = 63,
+        SetDimension = 64
     }
 }

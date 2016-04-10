@@ -81,7 +81,9 @@
     <Compile Include="Calculation\Operators\Cache OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\2016-04-05 Backup of SpeedUp OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\2016-04-05 Backup of SlowDown OperatorCalculator Classes.cs" />
+    <Compile Include="Calculation\Operators\SetDimension OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Loop_OperatorCalculator_Base.cs" />
+    <Compile Include="Calculation\Operators\GetDimension_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\ToggleTrigger_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Filter_ManyConstants_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Loop_OperatorCalculator_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration.cs" />
@@ -221,6 +223,8 @@
     <Compile Include="EntityWrappers\Random_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Minimum_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\ChangeTrigger_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\GetDimension_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\SetDimension_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\ToggleTrigger_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\PulseTrigger_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Spectrum_OperatorWrapper.cs" />
@@ -315,6 +319,8 @@
     <Compile Include="Validation\Documents\RootDocument_DocumentValidator.cs" />
     <Compile Include="Validation\2016-03-03 Backup of NodeValidator_Delete.cs" />
     <Compile Include="Validation\Operators\Absolute_OperatorValidator.cs" />
+    <Compile Include="Validation\Operators\SetDimension_OperatorValidator.cs" />
+    <Compile Include="Validation\Operators\GetDimension_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\ToggleTrigger_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_Data.cs" />
     <Compile Include="Validation\Operators\OneOverX_OperatorValidator.cs" />
@@ -363,6 +369,8 @@
     <Compile Include="ScaleManager.cs" />
     <Compile Include="Warnings\Operators\Absolute_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\2016-03-30 Backup of OperatorWarningValidator_Cache.cs" />
+    <Compile Include="Warnings\Operators\SetDimension_OperatorWarningValidator.cs" />
+    <Compile Include="Warnings\Operators\GetDimension_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\ToggleTrigger_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\OneOverX_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Negative_OperatorWarningValidator.cs" />

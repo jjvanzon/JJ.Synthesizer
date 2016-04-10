@@ -772,4 +772,10 @@
   <data name="HarmonicNumber" xml:space="preserve">
     <value>Harmonische</value>
   </data>
+  <data name="GetDimension" xml:space="preserve">
+    <value>Dimensie opvragen</value>
+  </data>
+  <data name="SetDimension" xml:space="preserve">
+    <value>Dimensie instellen</value>
+  </data>
 </root>

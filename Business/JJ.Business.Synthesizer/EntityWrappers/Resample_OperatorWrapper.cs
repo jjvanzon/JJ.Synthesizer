@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX); }
         }
 
-        public ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum
+        public ResampleInterpolationTypeEnum InterpolationType
         {
             get { return DataPropertyParser.GetEnum<ResampleInterpolationTypeEnum>(WrappedOperator, PropertyNames.InterpolationType); }
             set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.InterpolationType, value); }

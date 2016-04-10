@@ -135,6 +135,11 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Filter(filterTypeEnum, signal, frequency, bandWidth, dbGain, shelfSlope);
         }
 
+        public GetDimension_OperatorWrapper GetDimension(DimensionEnum dimension = DimensionEnum.Undefined)
+        {
+            return _patchManager.GetDimension(dimension);
+        }
+
         public GreaterThan_OperatorWrapper GreaterThan(Outlet a = null, Outlet b = null)
         {
             return _patchManager.GreaterThan(a, b);
@@ -347,6 +352,11 @@ namespace JJ.Business.Synthesizer.Api
         public Select_OperatorWrapper Select(Outlet signal = null, Outlet time = null)
         {
             return _patchManager.Select(signal, time);
+        }
+
+        public SetDimension_OperatorWrapper SetDimension(Outlet calculation = null, DimensionEnum dimension = DimensionEnum.Undefined, Outlet value = null)
+        {
+            return _patchManager.SetDimension(calculation, dimension, value);
         }
 
         public Shift_OperatorWrapper Shift(Outlet signal = null, Outlet difference = null)

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer;
@@ -30,6 +28,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             { OperatorTypeEnum.Equal, Create_Equal_OperatorWrapper },
             { OperatorTypeEnum.Exponent, Create_Exponent_OperatorWrapper },
             { OperatorTypeEnum.Filter, Create_Filter_OperatorWrapper },
+            { OperatorTypeEnum.GetDimension, Create_GetDimension_OperatorWrapper },
             { OperatorTypeEnum.GreaterThan, Create_GreaterThan_OperatorWrapper },
             { OperatorTypeEnum.GreaterThanOrEqual, Create_GreaterThanOrEqual_OperatorWrapper },
             { OperatorTypeEnum.HighPassFilter, Create_HighPassFilter_OperatorWrapper },
@@ -63,6 +62,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             { OperatorTypeEnum.SawUp, Create_SawUp_OperatorWrapper },
             { OperatorTypeEnum.Scaler, Create_Scaler_OperatorWrapper },
             { OperatorTypeEnum.Select, Create_Select_OperatorWrapper },
+            { OperatorTypeEnum.SetDimension, Create_SetDimension_OperatorWrapper },
             { OperatorTypeEnum.Shift, Create_Shift_OperatorWrapper },
             { OperatorTypeEnum.Sine , Create_Sine_OperatorWrapper },
             { OperatorTypeEnum.SlowDown , Create_SlowDown_OperatorWrapper },
@@ -125,6 +125,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         private static Equal_OperatorWrapper Create_Equal_OperatorWrapper(Operator op) { return new Equal_OperatorWrapper(op); }
         private static Exponent_OperatorWrapper Create_Exponent_OperatorWrapper(Operator op) { return new Exponent_OperatorWrapper(op); }
         private static Filter_OperatorWrapper Create_Filter_OperatorWrapper(Operator op) { return new Filter_OperatorWrapper(op); }
+        private static GetDimension_OperatorWrapper Create_GetDimension_OperatorWrapper(Operator op) { return new GetDimension_OperatorWrapper(op); }
         private static GreaterThan_OperatorWrapper Create_GreaterThan_OperatorWrapper(Operator op) { return new GreaterThan_OperatorWrapper(op); }
         private static GreaterThanOrEqual_OperatorWrapper Create_GreaterThanOrEqual_OperatorWrapper(Operator op) { return new GreaterThanOrEqual_OperatorWrapper(op); }
         private static HighPassFilter_OperatorWrapper Create_HighPassFilter_OperatorWrapper(Operator op) { return new HighPassFilter_OperatorWrapper(op); }
@@ -158,6 +159,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         private static SawUp_OperatorWrapper Create_SawUp_OperatorWrapper(Operator op) { return new SawUp_OperatorWrapper(op); }
         private static Scaler_OperatorWrapper Create_Scaler_OperatorWrapper(Operator op) { return new Scaler_OperatorWrapper(op); }
         private static Select_OperatorWrapper Create_Select_OperatorWrapper(Operator op) { return new Select_OperatorWrapper(op); }
+        private static SetDimension_OperatorWrapper Create_SetDimension_OperatorWrapper(Operator op) { return new SetDimension_OperatorWrapper(op); }
         private static Shift_OperatorWrapper Create_Shift_OperatorWrapper(Operator op) { return new Shift_OperatorWrapper(op); }
         private static Sine_OperatorWrapper Create_Sine_OperatorWrapper(Operator op) { return new Sine_OperatorWrapper(op); }
         private static SlowDown_OperatorWrapper Create_SlowDown_OperatorWrapper(Operator op) { return new SlowDown_OperatorWrapper(op); }

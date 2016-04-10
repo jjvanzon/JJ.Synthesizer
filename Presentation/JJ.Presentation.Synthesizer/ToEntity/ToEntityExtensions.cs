@@ -1131,11 +1131,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             bool interpolationTypeIsFilledIn = viewModel.Interpolation != null && viewModel.Interpolation.ID != 0;
             if (interpolationTypeIsFilledIn)
             {
-                wrapper.ResampleInterpolationTypeEnum = (ResampleInterpolationTypeEnum)viewModel.Interpolation.ID;
+                wrapper.InterpolationType = (ResampleInterpolationTypeEnum)viewModel.Interpolation.ID;
             }
             else
             {
-                wrapper.ResampleInterpolationTypeEnum = ResampleInterpolationTypeEnum.Undefined;
+                wrapper.InterpolationType = ResampleInterpolationTypeEnum.Undefined;
             }
 
             return entity;
