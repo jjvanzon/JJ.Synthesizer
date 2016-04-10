@@ -31,10 +31,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             switch (_dimensionEnum)
             {
                 case DimensionEnum.Time:
-                    return time = _value;
+                    time = _value;
+                    break;
 
                 case DimensionEnum.Channel:
-                    return channelIndex = (int)_value;
+                    channelIndex = (int)_value;
+                    break;
             }
 
             double outputValue = _calculationCalculator.Calculate(time, channelIndex);
@@ -72,10 +74,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             switch (_dimensionEnum)
             {
                 case DimensionEnum.Time:
-                    return time = dimensionValue;
+                    time = dimensionValue;
+                    break;
 
                 case DimensionEnum.Channel:
-                    return channelIndex = (int)dimensionValue;
+                    channelIndex = (int)dimensionValue;
+                    break;
             }
 
             double outputValue = _calculationCalculator.Calculate(time, channelIndex);
