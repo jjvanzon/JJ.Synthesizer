@@ -831,7 +831,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                     Operator op = operators[i];
 
                     double number;
-                    if (!Doubles.TryParse(op.Data, DataPropertyParser.FormattingCulture, out number))
+                    if (!DoubleHelper.TryParse(op.Data, DataPropertyParser.FormattingCulture, out number))
                     {
                         throw new Exception("op.Data cannot be parsed to Double. Operator already migrated?");
                     }

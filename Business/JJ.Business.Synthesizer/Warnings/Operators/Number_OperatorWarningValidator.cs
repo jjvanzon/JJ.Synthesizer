@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             {
                 string numberString = DataPropertyParser.TryGetString(Object, PropertyNames.Number);
                 double number;
-                if (Doubles.TryParse(numberString, DataPropertyParser.FormattingCulture, out number))
+                if (DoubleHelper.TryParse(numberString, DataPropertyParser.FormattingCulture, out number))
                 {
                     if (number == 0.0)
                     {

@@ -88,7 +88,7 @@ namespace JJ.Business.Synthesizer.Helpers
             }
 
             double value;
-            if (!Doubles.TryParse(str, _formattingCulture, out value))
+            if (!DoubleHelper.TryParse(str, _formattingCulture, out value))
             {
                 throw new Exception(String.Format("Value with key '{0}' in data '{1}' of operator with ID '{2}' could not be parsed to Double.", key, op.Data, op.ID));
             }
