@@ -35,10 +35,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _biQuadFilter = BiQuadFilter.LowPassFilter(ASSUMED_SAMPLE_RATE, DEFAULT_MAX_FREQUENCY, DEFAULT_BAND_WIDTH);
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double maxFrequency = _maxFrequencyCalculator.Calculate(time, channelIndex);
-            double signal = _signalCalculator.Calculate(time, channelIndex);
+            double maxFrequency = _maxFrequencyCalculator.Calculate(dimensionStack);
+            double signal = _signalCalculator.Calculate(dimensionStack);
 
             _biQuadFilter.SetLowPassFilter(ASSUMED_SAMPLE_RATE, (float)maxFrequency, DEFAULT_BAND_WIDTH);
 
@@ -70,9 +70,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _biQuadFilter = BiQuadFilter.LowPassFilter(ASSUMED_SAMPLE_RATE, (float)maxFrequency, DEFAULT_BAND_WIDTH);
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double signal = _signalCalculator.Calculate(time, channelIndex);
+            double signal = _signalCalculator.Calculate(dimensionStack);
 
             float value = _biQuadFilter.Transform((float)signal);
 

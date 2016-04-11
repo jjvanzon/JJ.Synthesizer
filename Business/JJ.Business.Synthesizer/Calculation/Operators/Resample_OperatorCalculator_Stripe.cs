@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -25,9 +26,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _samplingRateCalculator = samplingRateCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double samplingRate = _samplingRateCalculator.Calculate(time, channelIndex);
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
+            double samplingRate = _samplingRateCalculator.Calculate(dimensionStack);
             if (samplingRate == 0.0)
             {
                 // Weird number: Cannot divide by 0. Time stands still. Do not advance the signal.
@@ -42,7 +45,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             // IMPORTANT: To subtract time from the output, you have add time to the input.
             double transformedTime = time + earlierTimeShiftToGetFromBlockedToStriped;
 
-            return Calculate(transformedTime, channelIndex, samplingRate);
+            dimensionStack.Push(DimensionEnum.Time, transformedTime);
+            double value = Calculate(dimensionStack, samplingRate);
+            dimensionStack.Pop(DimensionEnum.Time);
+
+            return value;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -43,8 +44,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _releaseDuration = _releaseEndMarker - _loopEndMarker;
         }
 
-        protected override double? TransformTime(double outputTime, int channelIndex)
+        protected override double? TransformTime(DimensionStack dimensionStack)
         {
+            double outputTime = dimensionStack.Get(DimensionEnum.Time);
+
             outputTime -= _origin;
 
             // BeforeAttack
@@ -63,7 +66,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             }
 
             // InLoop
-            double noteDuration = GetNoteDuration(outputTime, channelIndex);
+            double noteDuration = GetNoteDuration(dimensionStack);
 
             // Round up end of loop to whole cycles.
             double noteEndPhase = (noteDuration - _outputLoopStart) / _cycleDuration;
@@ -94,12 +97,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         // Helpers
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private double GetNoteDuration(double outputTime, int channelIndex)
+        private double GetNoteDuration(DimensionStack dimensionStack)
         {
             double value = CalculationHelper.VERY_HIGH_VALUE;
             if (_noteDurationCalculator != null)
             {
-                value = _noteDurationCalculator.Calculate(outputTime, channelIndex);
+                value = _noteDurationCalculator.Calculate(dimensionStack);
             }
 
             return value;

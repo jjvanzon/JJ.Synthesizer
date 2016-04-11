@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -34,8 +35,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _noteDurationCalculator = noteDurationCalculator;
         }
         
-        protected override double? TransformTime(double time, int channelIndex)
+        protected override double? TransformTime(DimensionStack dimensionStack)
         {
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
             // Apply origin
             time -= _origin;
             
@@ -47,7 +50,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             }
 
             // BeforeLoop
-            double loopStartMarker = GetLoopStartMarker(time, channelIndex);
+            double loopStartMarker = GetLoopStartMarker(dimensionStack);
             bool isInAttack = time < loopStartMarker;
             if (isInAttack)
             {
@@ -55,13 +58,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             }
 
             // InLoop
-            double noteDuration = GetNoteDuration(time, channelIndex);
+            double noteDuration = GetNoteDuration(dimensionStack);
             bool isInLoop = time < noteDuration;
             if (isInLoop)
             {
                 if (time > _outputCycleEnd)
                 {
-                    _loopEndMarker = GetLoopEndMarker(time, channelIndex);
+                    _loopEndMarker = GetLoopEndMarker(dimensionStack);
                     _cycleDuration = _loopEndMarker - loopStartMarker;
                     _outputCycleEnd += _cycleDuration;
                 }
@@ -77,36 +80,36 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private double GetLoopStartMarker(double outputTime, int channelIndex)
+        private double GetLoopStartMarker(DimensionStack dimensionStack)
         {
             double value = 0;
             if (_loopStartMarkerCalculator != null)
             {
-                value = _loopStartMarkerCalculator.Calculate(outputTime, channelIndex);
+                value = _loopStartMarkerCalculator.Calculate(dimensionStack);
             }
 
             return value;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private double GetLoopEndMarker(double outputTime, int channelIndex)
+        private double GetLoopEndMarker(DimensionStack dimensionStack)
         {
             double inputEndTime = 0;
             if (_loopEndMarkerCalculator != null)
             {
-                inputEndTime = _loopEndMarkerCalculator.Calculate(outputTime, channelIndex);
+                inputEndTime = _loopEndMarkerCalculator.Calculate(dimensionStack);
             }
 
             return inputEndTime;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private double GetNoteDuration(double outputTime, int channelIndex)
+        private double GetNoteDuration(DimensionStack dimensionStack)
         {
             double value = CalculationHelper.VERY_HIGH_VALUE;
             if (_noteDurationCalculator != null)
             {
-                value = _noteDurationCalculator.Calculate(outputTime, channelIndex);
+                value = _noteDurationCalculator.Calculate(dimensionStack);
             }
 
             return value;

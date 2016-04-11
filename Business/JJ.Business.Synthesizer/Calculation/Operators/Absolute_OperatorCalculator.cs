@@ -16,9 +16,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _calculatorX = calculatorX;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double x = _calculatorX.Calculate(time, channelIndex);
+            double x = _calculatorX.Calculate(dimensionStack);
 
             if (x >= 0.0)
             {

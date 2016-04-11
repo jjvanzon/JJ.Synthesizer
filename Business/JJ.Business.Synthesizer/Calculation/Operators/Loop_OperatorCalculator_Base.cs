@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -20,32 +20,39 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _signalCalculator = signalCalculator;
         }
 
-        protected abstract double? TransformTime(double outputTime, int channelIndex);
+        protected abstract double? TransformTime(DimensionStack dimensionStack);
 
-        public override void Reset(double time, int channelIndex)
+        public override void Reset(DimensionStack dimensionStack)
         {
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
             _origin = time;
 
-            double? tranformedTime = TransformTime(time, channelIndex);
-            if (!tranformedTime.HasValue)
+            double? transformedTime = TransformTime(dimensionStack);
+            if (!transformedTime.HasValue)
             {
                 // TODO: There is no meaningful value to fall back to.
                 // What to do?
-                tranformedTime = time;
+                transformedTime = time;
             }
 
-            base.Reset(tranformedTime.Value, channelIndex);
+            dimensionStack.Push(DimensionEnum.Time, transformedTime.Value);
+            base.Reset(dimensionStack);
+            dimensionStack.Pop(DimensionEnum.Time);
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double? transformedTime = TransformTime(time, channelIndex);
+            double? transformedTime = TransformTime(dimensionStack);
             if (!transformedTime.HasValue)
             {
                 return 0;
             }
 
-            double value = _signalCalculator.Calculate(transformedTime.Value, channelIndex);
+            dimensionStack.Push(DimensionEnum.Time, transformedTime.Value);
+            double value = _signalCalculator.Calculate(dimensionStack);
+            dimensionStack.Pop(DimensionEnum.Time);
+
             return value;
         }
     }

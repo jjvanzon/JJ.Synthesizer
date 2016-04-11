@@ -75,9 +75,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             }
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double signal = _signalCalculator.Calculate(time, channelIndex);
+            double signal = _signalCalculator.Calculate(dimensionStack);
 
             float value = _biQuadFilter.Transform((float)signal);
 

@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _number = number;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
             return _number;
         }

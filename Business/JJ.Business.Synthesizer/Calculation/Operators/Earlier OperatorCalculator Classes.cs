@@ -1,5 +1,6 @@
 ﻿using JJ.Framework.Reflection.Exceptions;
 using System;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -20,12 +21,21 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _timeDifferenceCalculator = timeDifferenceCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double timeDifference = _timeDifferenceCalculator.Calculate(time, channelIndex);
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
+            double timeDifference = _timeDifferenceCalculator.Calculate(dimensionStack);
+
             // IMPORTANT: To subtract time from the output, you have add time to the input.
             double transformedTime = time + timeDifference;
-            double result = _signalCalculator.Calculate(transformedTime, channelIndex);
+
+            dimensionStack.Push(DimensionEnum.Time, transformedTime);
+
+            double result = _signalCalculator.Calculate(dimensionStack);
+
+            dimensionStack.Pop(DimensionEnum.Time);
+
             return result;
         }
     }
@@ -47,11 +57,19 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _timeDifferenceValue = timeDifferenceValue;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
             // IMPORTANT: To subtract time from the output, you have add time to the input.
             double transformedTime = time + _timeDifferenceValue;
-            double result = _signalCalculator.Calculate(transformedTime, channelIndex);
+
+            dimensionStack.Push(DimensionEnum.Time, transformedTime);
+
+            double result = _signalCalculator.Calculate(dimensionStack);
+
+            dimensionStack.Pop(DimensionEnum.Time);
+
             return result;
         }
     }

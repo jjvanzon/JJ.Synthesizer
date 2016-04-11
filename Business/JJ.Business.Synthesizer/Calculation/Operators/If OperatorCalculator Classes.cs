@@ -25,11 +25,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _elseCalculator = elseCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double condition = _conditionCalculator.Calculate(time, channelIndex);
-            double then = _thenCalculator.Calculate(time, channelIndex);
-            double @else = _elseCalculator.Calculate(time, channelIndex);
+            double condition = _conditionCalculator.Calculate(dimensionStack);
+            double then = _thenCalculator.Calculate(dimensionStack);
+            double @else = _elseCalculator.Calculate(dimensionStack);
 
             bool conditionIsTrue = condition != 0.0;
 
@@ -64,10 +64,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _elseCalculator = elseCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double condition = _conditionCalculator.Calculate(time, channelIndex);
-            double @else = _elseCalculator.Calculate(time, channelIndex);
+            double condition = _conditionCalculator.Calculate(dimensionStack);
+            double @else = _elseCalculator.Calculate(dimensionStack);
 
             bool conditionIsTrue = condition != 0.0;
 
@@ -102,10 +102,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _else = @else;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double condition = _conditionCalculator.Calculate(time, channelIndex);
-            double then = _thenCalculator.Calculate(time, channelIndex);
+            double condition = _conditionCalculator.Calculate(dimensionStack);
+            double then = _thenCalculator.Calculate(dimensionStack);
 
             bool conditionIsTrue = condition != 0.0;
 
@@ -139,9 +139,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _else = @else;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double condition = _conditionCalculator.Calculate(time, channelIndex);
+            double condition = _conditionCalculator.Calculate(dimensionStack);
 
             bool conditionIsTrue = condition != 0.0;
 

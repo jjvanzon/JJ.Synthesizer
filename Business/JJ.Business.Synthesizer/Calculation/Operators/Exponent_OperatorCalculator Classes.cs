@@ -24,11 +24,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _ratioCalculator = ratioCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double low = _lowCalculator.Calculate(time, channelIndex);
-            double high = _highCalculator.Calculate(time, channelIndex);
-            double ratio = _ratioCalculator.Calculate(time, channelIndex);
+            double low = _lowCalculator.Calculate(dimensionStack);
+            double high = _highCalculator.Calculate(dimensionStack);
+            double ratio = _ratioCalculator.Calculate(dimensionStack);
             
             double result = low * Math.Pow(high / low, ratio);
             return result;
@@ -54,10 +54,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _ratioCalculator = ratioCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double high = _highCalculator.Calculate(time, channelIndex);
-            double ratio = _ratioCalculator.Calculate(time, channelIndex);
+            double high = _highCalculator.Calculate(dimensionStack);
+            double ratio = _ratioCalculator.Calculate(dimensionStack);
 
             double result = _low * Math.Pow(high / _low, ratio);
             return result;
@@ -83,10 +83,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _ratioCalculator = ratioCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double low = _lowCalculator.Calculate(time, channelIndex);
-            double ratio = _ratioCalculator.Calculate(time, channelIndex);
+            double low = _lowCalculator.Calculate(dimensionStack);
+            double ratio = _ratioCalculator.Calculate(dimensionStack);
 
             // TODO: Low priority: Can you break up a fraction raised to a power
             // into two so that you can cache one power and prevent the division below?
@@ -119,9 +119,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _ratioCalculator = ratioCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double ratio = _ratioCalculator.Calculate(time, channelIndex);
+            double ratio = _ratioCalculator.Calculate(dimensionStack);
 
             double result = _low * Math.Pow(_highDividedByLow, ratio);
             return result;
@@ -147,10 +147,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _ratio = ratio;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double low = _lowCalculator.Calculate(time, channelIndex);
-            double high = _highCalculator.Calculate(time, channelIndex);
+            double low = _lowCalculator.Calculate(dimensionStack);
+            double high = _highCalculator.Calculate(dimensionStack);
 
             double result = low * Math.Pow(high / low, _ratio);
             return result;
@@ -174,9 +174,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _ratio = ratio;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double high = _highCalculator.Calculate(time, channelIndex);
+            double high = _highCalculator.Calculate(dimensionStack);
 
             double result = _low * Math.Pow(high / _low, _ratio);
             return result;
@@ -200,9 +200,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _ratio = ratio;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double low = _lowCalculator.Calculate(time, channelIndex);
+            double low = _lowCalculator.Calculate(dimensionStack);
 
             double result = low * Math.Pow(_high / low, _ratio);
             return result;

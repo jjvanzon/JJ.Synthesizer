@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Mathematics;
-using JJ.Framework.Reflection.Exceptions;
 using Lomont;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -18,7 +18,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private double[] _harmonicVolumes;
 
-        private int _channelIndex;
         private double _previousTime;
 
         public Spectrum_OperatorCalculator(
@@ -46,12 +45,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             _lomontFFT = new LomontFFT();
 
-            Reset(OperatorCalculatorHelper.DEFAULT_TIME, OperatorCalculatorHelper.DEFAULT_CHANNEL_INDEX);
+            Reset(new DimensionStack());
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            _channelIndex = channelIndex;
+            double time = dimensionStack.Get(DimensionEnum.Time);
 
             if (time < 0) time = 0;
             if (time > _harmonicVolumes.Length - 1) time = _harmonicVolumes.Length - 1;
@@ -65,10 +64,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return frequency;
         }
 
-        public override void Reset(double time, int channelIndex)
+        public override void Reset(DimensionStack dimensionStack)
         {
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
             _previousTime = time;
-            _harmonicVolumes = CreateHarmonicVolumes(time, channelIndex);
+            _harmonicVolumes = CreateHarmonicVolumes(dimensionStack);
 
             // NOTE: Do not call base.
             // The Spectrum Operator is an exception to the rule.
@@ -76,11 +77,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             // but just recalculating the spectrum.
         }
 
-        private double[] CreateHarmonicVolumes(double time, int channelIndex)
+        private double[] CreateHarmonicVolumes(DimensionStack dimensionStack)
         {
-            double startTime = _startTimeCalculator.Calculate(time, channelIndex);
-            double endTime = _endTimeCalculator.Calculate(time, channelIndex);
-            double frequencyCountDouble = _frequencyCountCalculator.Calculate(time, channelIndex);
+            double startTime = _startTimeCalculator.Calculate(dimensionStack);
+            double endTime = _endTimeCalculator.Calculate(dimensionStack);
+            double frequencyCountDouble = _frequencyCountCalculator.Calculate(dimensionStack);
 
             // We need a lot of lenience in this code, because validity is dependent on user input,
             // and we cannot obtrusively interrupt the user with validation messages, 
@@ -109,7 +110,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double t = startTime;
             for (int i = 0; i < frequencyCountTimesTwo; i++)
             {
-                double value = _signalCalculator.Calculate(t, _channelIndex);
+                dimensionStack.Push(DimensionEnum.Time, t);
+                double value = _signalCalculator.Calculate(dimensionStack);
+                dimensionStack.Pop(DimensionEnum.Time);
+
                 data[i] = value;
 
                 t += dt;

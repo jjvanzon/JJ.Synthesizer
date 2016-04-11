@@ -24,13 +24,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _resetCalculator = resetCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double newTriggerValue = _resetCalculator.Calculate(time, channelIndex);
+            double newTriggerValue = _resetCalculator.Calculate(dimensionStack);
 
             if (_previousZero == 0 && newTriggerValue != 0)
             {
-                _calculationCalculator.Reset(time, channelIndex);
+                _calculationCalculator.Reset(dimensionStack);
 
                 // _previousZero = something non-zero, by flipping all bits.
                 _previousZero = ~_previousZero;
@@ -41,13 +41,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 _previousZero ^= _previousZero;
             }
 
-            return _calculationCalculator.Calculate(time, channelIndex);
+            return _calculationCalculator.Calculate(dimensionStack);
         }
 
         // Non-Optimized version
-        //public override double Calculate(double time, int channelIndex)
+        //public override double Calculate(DimensionStack dimensionStack)
         //{
-        //    double newTriggerValue = _resetCalculator.Calculate(time, channelIndex);
+        //    double newTriggerValue = _resetCalculator.Calculate(dimensionStack);
 
         //    if (_previousTriggerValue == 0 && newTriggerValue != 0)
         //    {
@@ -56,7 +56,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         //    _previousTriggerValue = newTriggerValue;
 
-        //    return _calculationCalculator.Calculate(time, channelIndex);
+        //    return _calculationCalculator.Calculate(dimensionStack);
         //}
     }
 }

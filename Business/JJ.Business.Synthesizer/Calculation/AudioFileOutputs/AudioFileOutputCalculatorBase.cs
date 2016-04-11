@@ -101,15 +101,21 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
                     double adjustedAmplifier = GetAmplifierAdjustedToSampleDataType(audioFileOutput);
 
                     // Write Samples
+                    var dimensionStack = new DimensionStack();
                     for (double t = 0; t <= endTime; t += dt)
                     {
+                        dimensionStack.Push(DimensionEnum.Time, t);
                         for (int i = 0; i < channelCount; i++)
                         {
-                            double value = _patchCalculator.Calculate(t, i);
+                            dimensionStack.Push(DimensionEnum.Channel, i);
+                            double value = _patchCalculator.Calculate(dimensionStack);
+                            dimensionStack.Pop(DimensionEnum.Channel);
+
                             value *= adjustedAmplifier;
 
                             WriteValue(writer, value);
                         }
+                        dimensionStack.Pop(DimensionEnum.Time);
                     }
                 }
             }

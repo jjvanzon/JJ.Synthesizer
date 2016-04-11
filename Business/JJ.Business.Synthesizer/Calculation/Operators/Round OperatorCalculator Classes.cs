@@ -26,11 +26,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _offsetCalculator = offsetCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double signal = _signalCalculator.Calculate(time, channelIndex);
-            double step = _stepCalculator.Calculate(time, channelIndex);
-            double offset = _offsetCalculator.Calculate(time, channelIndex);
+            double signal = _signalCalculator.Calculate(dimensionStack);
+            double step = _stepCalculator.Calculate(dimensionStack);
+            double offset = _offsetCalculator.Calculate(dimensionStack);
 
             double result = Maths.RoundWithStep(signal, step, offset);
             return result;
@@ -58,10 +58,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _offset = offset;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double signal = _signalCalculator.Calculate(time, channelIndex);
-            double step = _stepCalculator.Calculate(time, channelIndex);
+            double signal = _signalCalculator.Calculate(dimensionStack);
+            double step = _stepCalculator.Calculate(dimensionStack);
 
             double result = Maths.RoundWithStep(signal, step, _offset);
             return result;
@@ -85,10 +85,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _stepCalculator = stepCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double signal = _signalCalculator.Calculate(time, channelIndex);
-            double step = _stepCalculator.Calculate(time, channelIndex);
+            double signal = _signalCalculator.Calculate(dimensionStack);
+            double step = _stepCalculator.Calculate(dimensionStack);
 
             double result = Maths.RoundWithStep(signal, step);
             return result;
@@ -116,10 +116,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _offsetCalculator = offsetCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double signal = _signalCalculator.Calculate(time, channelIndex);
-            double offset = _offsetCalculator.Calculate(time, channelIndex);
+            double signal = _signalCalculator.Calculate(dimensionStack);
+            double offset = _offsetCalculator.Calculate(dimensionStack);
 
             double result = Maths.RoundWithStep(signal, _step, offset);
             return result;
@@ -147,9 +147,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _offset = offset;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double signal = _signalCalculator.Calculate(time, channelIndex);
+            double signal = _signalCalculator.Calculate(dimensionStack);
 
             double result = Maths.RoundWithStep(signal, _step, _offset);
             return result;
@@ -173,9 +173,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _step = step;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double signal = _signalCalculator.Calculate(time, channelIndex);
+            double signal = _signalCalculator.Calculate(dimensionStack);
 
             double result = Maths.RoundWithStep(signal, _step);
             return result;
@@ -204,10 +204,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _offsetCalculator = offsetCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double step = _stepCalculator.Calculate(time, channelIndex);
-            double offset = _offsetCalculator.Calculate(time, channelIndex);
+            double step = _stepCalculator.Calculate(dimensionStack);
+            double offset = _offsetCalculator.Calculate(dimensionStack);
 
             double result = Maths.RoundWithStep(_signal, step, offset);
             return result;
@@ -226,9 +226,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _signalCalculator = signalCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double signal = _signalCalculator.Calculate(time, channelIndex);
+            double signal = _signalCalculator.Calculate(dimensionStack);
 
             double result = Math.Round(signal, MidpointRounding.AwayFromZero);
             return result;

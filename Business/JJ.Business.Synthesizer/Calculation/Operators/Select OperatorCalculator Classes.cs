@@ -1,5 +1,6 @@
 ﻿using JJ.Framework.Reflection.Exceptions;
 using System;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -20,10 +21,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _timeCalculator = timeCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double time2 = _timeCalculator.Calculate(time, channelIndex);
-            double result = _signalCalculator.Calculate(time2, channelIndex);
+            double time2 = _timeCalculator.Calculate(dimensionStack);
+
+            dimensionStack.Push(DimensionEnum.Time, time2);
+            double result = _signalCalculator.Calculate(dimensionStack);
+            dimensionStack.Pop(DimensionEnum.Time);
+
             return result;
         }
     }
@@ -43,9 +48,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _time2 = time2;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double result = _signalCalculator.Calculate(_time2, channelIndex);
+            dimensionStack.Push(DimensionEnum.Time, _time2);
+            double result = _signalCalculator.Calculate(dimensionStack);
+            dimensionStack.Pop(DimensionEnum.Time);
+
             return result;
         }
     }

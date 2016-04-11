@@ -1,4 +1,5 @@
 ﻿using System;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -22,8 +23,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _phaseShift = phaseShift;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
             double shiftedPhase = time * _frequency + _phaseShift;
             double relativePhase = shiftedPhase % 1.0;
             if (relativePhase < _width)
@@ -58,9 +61,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _phaseShift = phaseShift;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double width = _widthCalculator.Calculate(time, channelIndex);
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
+            double width = _widthCalculator.Calculate(dimensionStack);
 
             double shiftedPhase = time * _frequency + _phaseShift;
             double relativePhase = shiftedPhase % 1.0;
@@ -96,9 +101,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _phaseShiftCalculator = phaseShiftCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double phaseShift = _phaseShiftCalculator.Calculate(time, channelIndex);
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
+            double phaseShift = _phaseShiftCalculator.Calculate(dimensionStack);
 
             double shiftedPhase = time * _frequency + phaseShift;
 
@@ -135,10 +142,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _phaseShiftCalculator = phaseShiftCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double width = _widthCalculator.Calculate(time, channelIndex);
-            double phaseShift = _phaseShiftCalculator.Calculate(time, channelIndex);
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
+            double width = _widthCalculator.Calculate(dimensionStack);
+            double phaseShift = _phaseShiftCalculator.Calculate(dimensionStack);
 
             double shiftedPhase = time * _frequency + phaseShift;
 
@@ -176,9 +185,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _phase = phaseShift;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double frequency = _frequencyCalculator.Calculate(time, channelIndex);
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
+            double frequency = _frequencyCalculator.Calculate(dimensionStack);
 
             double dt = time - _previousTime;
             double phase = _phase + dt * frequency;
@@ -206,12 +217,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return value;
         }
 
-        public override void Reset(double time, int channelIndex)
+        public override void Reset(DimensionStack dimensionStack)
         {
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
             _previousTime = time;
             _phase = 0.0;
 
-            base.Reset(time, channelIndex);
+            base.Reset(dimensionStack);
         }
     }
 
@@ -237,10 +250,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _phase = phaseShift;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double width = _widthCalculator.Calculate(time, channelIndex);
-            double frequency = _frequencyCalculator.Calculate(time, channelIndex);
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
+            double width = _widthCalculator.Calculate(dimensionStack);
+            double frequency = _frequencyCalculator.Calculate(dimensionStack);
 
             double dt = time - _previousTime;
             double phase = _phase + dt * frequency;
@@ -268,12 +283,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return value;
         }
 
-        public override void Reset(double time, int channelIndex)
+        public override void Reset(DimensionStack dimensionStack)
         {
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
             _previousTime = time;
             _phase = 0.0;
 
-            base.Reset(time, channelIndex);
+            base.Reset(dimensionStack);
         }
     }
 
@@ -301,10 +318,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _phaseShiftCalculator = phaseShiftCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double frequency = _frequencyCalculator.Calculate(time, channelIndex);
-            double phaseShift = _phaseShiftCalculator.Calculate(time, channelIndex);
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
+            double frequency = _frequencyCalculator.Calculate(dimensionStack);
+            double phaseShift = _phaseShiftCalculator.Calculate(dimensionStack);
 
             double dt = time - _previousTime;
             double phase = _phase + dt * frequency;
@@ -333,12 +352,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return value;
         }
 
-        public override void Reset(double time, int channelIndex)
+        public override void Reset(DimensionStack dimensionStack)
         {
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
             _previousTime = time;
             _phase = 0.0;
 
-            base.Reset(time, channelIndex);
+            base.Reset(dimensionStack);
         }
     }
 
@@ -366,11 +387,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _widthCalculator = widthCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double frequency = _frequencyCalculator.Calculate(time, channelIndex);
-            double phaseShift = _phaseShiftCalculator.Calculate(time, channelIndex);
-            double width = _widthCalculator.Calculate(time, channelIndex);
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
+            double frequency = _frequencyCalculator.Calculate(dimensionStack);
+            double phaseShift = _phaseShiftCalculator.Calculate(dimensionStack);
+            double width = _widthCalculator.Calculate(dimensionStack);
 
             double dt = time - _previousTime;
             double phase = _phase + dt * frequency;
@@ -400,12 +423,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return value;
         }
 
-        public override void Reset(double time, int channelIndex)
+        public override void Reset(DimensionStack dimensionStack)
         {
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
             _previousTime = time;
             _phase = 0.0;
 
-            base.Reset(time, channelIndex);
+            base.Reset(dimensionStack);
         }
     }
 }

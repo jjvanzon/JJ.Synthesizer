@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -23,8 +24,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _cycleDuration = _loopEndMarker - _loopStartMarker;
         }
 
-        protected override double? TransformTime(double time, int channelIndex)
+        protected override double? TransformTime(DimensionStack dimensionStack)
         {
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
             time -= _origin;
 
             // BeforeLoop

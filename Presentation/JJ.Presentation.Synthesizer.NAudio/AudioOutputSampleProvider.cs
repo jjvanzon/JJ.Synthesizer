@@ -5,6 +5,7 @@ using NAudio.Wave;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using System.Threading;
 using JJ.Framework.Reflection.Exceptions;
+using JJ.Business.Synthesizer.Calculation;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
@@ -55,7 +56,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     return count;
                 }
 
-                double[] values = patchCalculator.Calculate(_time, SAMPLE_DURATION, count, DEFAULT_CHANNEL_INDEX);
+                double[] values = patchCalculator.Calculate(_time, SAMPLE_DURATION, count, new DimensionStack());
 
                 for (int i = offset; i < count; i++)
                 {

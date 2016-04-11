@@ -1,5 +1,6 @@
 ﻿using JJ.Framework.Reflection.Exceptions;
 using System;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -26,9 +27,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _samplingRateCalculator = samplingRateCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double samplingRate = _samplingRateCalculator.Calculate(time, channelIndex);
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
+            double samplingRate = _samplingRateCalculator.Calculate(dimensionStack);
 
             double samplePeriod = 1.0 / samplingRate;
 
@@ -38,8 +41,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double t1 = t0 + samplePeriod;
             double dt = t1 - t0;
 
-            double x0 = _signalCalculator.Calculate(t0, channelIndex);
-            double x1 = _signalCalculator.Calculate(t1, channelIndex);
+            dimensionStack.Push(DimensionEnum.Time, t0);
+            double x0 = _signalCalculator.Calculate(dimensionStack);
+            dimensionStack.Pop(DimensionEnum.Time);
+
+            dimensionStack.Push(DimensionEnum.Time, t1);
+            double x1 = _signalCalculator.Calculate(dimensionStack);
+            dimensionStack.Pop(DimensionEnum.Time);
+
             double dx = x1 - x0;
 
             double a = dx / dt;

@@ -1,5 +1,6 @@
 ﻿using JJ.Framework.Reflection.Exceptions;
 using System;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -42,8 +43,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _a0;
         private double _a1;
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
             double x = time;
             if (x > _x1)
             {
@@ -58,12 +61,17 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 _dx0 = _dx1;
                 _a0 = _a1;
 
-                double samplingRate1 = GetSamplingRate(_x1, channelIndex);
+                dimensionStack.Push(DimensionEnum.Time, _x1);
+                double samplingRate1 = GetSamplingRate(dimensionStack);
+                dimensionStack.Pop(DimensionEnum.Time);
                 // TODO: Handle SamplingRate 0.
 
                 _dx1 = 1.0 / samplingRate1;
                 _x2 += _dx1;
-                _y2 = _signalCalculator.Calculate(_x2, channelIndex);
+
+                dimensionStack.Push(DimensionEnum.Time, _x2);
+                _y2 = _signalCalculator.Calculate(dimensionStack);
+                dimensionStack.Pop(DimensionEnum.Time);
 
                 _a1 = (_y2 - _y0) / (_x2 - _x0);
 
@@ -99,9 +107,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         /// Gets the sampling rate, converts it to an absolute number
         /// and ensures a minimum value.
         /// </summary>
-        private double GetSamplingRate(double x, int channelIndex)
+        private double GetSamplingRate(DimensionStack dimensionStack)
         {
-            double samplingRate = _samplingRateCalculator.Calculate(x, channelIndex);
+            double samplingRate = _samplingRateCalculator.Calculate(dimensionStack);
 
             samplingRate = Math.Abs(samplingRate);
 

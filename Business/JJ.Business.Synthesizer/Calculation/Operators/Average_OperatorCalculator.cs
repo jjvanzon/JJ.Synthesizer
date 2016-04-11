@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -39,11 +40,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _timeSliceDurationCalculator = timeSliceDurationCalculator;
             _sampleCountCalculator = sampleCountCalculator;
 
-            Reset(time: 0, channelIndex: 0);
+            Reset(new DimensionStack());
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
             // Update _passedSampleTime
             double dt = time - _previousTime;
             if (dt >= 0)
@@ -62,7 +65,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 // Use a queueing trick to update the average without traversing a whole list.
                 // This also makes the average update more continually.
                 double oldValue = _queue.Dequeue();
-                double newValue = _signalCalculator.Calculate(time, channelIndex);
+                double newValue = _signalCalculator.Calculate(dimensionStack);
                 _queue.Enqueue(newValue);
 
                 _sum -= oldValue;
@@ -81,16 +84,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return _average;
         }
 
-        public override void Reset(double time, int channelIndex)
+        public override void Reset(DimensionStack dimensionStack)
         {
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
             _previousTime = time;
 
             _sum = 0.0;
             _average = 0.0;
             _passedSampleTime = 0.0;
 
-            double timeSliceDuration = _timeSliceDurationCalculator.Calculate(time, channelIndex);
-            _sampleCountDouble = _sampleCountCalculator.Calculate(time, channelIndex);
+            double timeSliceDuration = _timeSliceDurationCalculator.Calculate(dimensionStack);
+            _sampleCountDouble = _sampleCountCalculator.Calculate(dimensionStack);
 
             if (CalculationHelper.CanCastToNonNegativeInt32(_sampleCountDouble))
             {
@@ -105,7 +110,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             _queue = CreateQueue(_sampleCountDouble);
 
-            base.Reset(time, channelIndex);
+            base.Reset(dimensionStack);
         }
 
         private Queue<double> CreateQueue(double sampleCountDouble)

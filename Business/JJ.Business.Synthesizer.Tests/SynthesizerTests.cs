@@ -46,11 +46,11 @@ namespace JJ.Business.Synthesizer.Tests
                 var subtract = x.Subtract(add, x.Number(1));
 
                 IPatchCalculator calculator1 = x.CreateCalculator(new CalculatorCache(), add);
-                double value = calculator1.Calculate(0, 0);
+                double value = calculator1.Calculate(new DimensionStack());
                 Assert.AreEqual(5, value, 0.0001);
 
                 IPatchCalculator calculator2 = x.CreateCalculator(new CalculatorCache(), subtract);
-                value = calculator2.Calculate(0, 0);
+                value = calculator2.Calculate(new DimensionStack());
                 Assert.AreEqual(4, value, 0.0001);
 
                 // Test recursive validator
@@ -113,7 +113,7 @@ namespace JJ.Business.Synthesizer.Tests
                 //validator.Verify();
 
                 IPatchCalculator calculator = patchManager.CreateCalculator(new CalculatorCache(), adder);
-                double value = calculator.Calculate(0, 0);
+                double value = calculator.Calculate(new DimensionStack());
 
                 //adder.Operator.Inlets[0].Name = "qwer";
                 //IValidator validator2 = new OperatorValidator_Adder(adder.Operator);
@@ -176,30 +176,42 @@ namespace JJ.Business.Synthesizer.Tests
 
                 PatchManager patchManager = new PatchManager(new PatchRepositories(repositories));
 
+                var dimensionStack = new DimensionStack();
+
                 var calculator = patchManager.CreateCalculator(new CalculatorCache(), outlet);
-                var values = new double[]
+
+                var times = new double[]
                 {
-                    calculator.Calculate(0.00, 0),
-                    calculator.Calculate(0.05, 0),
-                    calculator.Calculate(0.10, 0),
-                    calculator.Calculate(0.15, 0),
-                    calculator.Calculate(0.20, 0),
-                    calculator.Calculate(0.25, 0),
-                    calculator.Calculate(0.30, 0),
-                    calculator.Calculate(0.35, 0),
-                    calculator.Calculate(0.40, 0),
-                    calculator.Calculate(0.45, 0),
-                    calculator.Calculate(0.50, 0),
-                    calculator.Calculate(0.55, 0),
-                    calculator.Calculate(0.60, 0),
-                    calculator.Calculate(0.65, 0),
-                    calculator.Calculate(0.70, 0),
-                    calculator.Calculate(0.75, 0),
-                    calculator.Calculate(0.80, 0),
-                    calculator.Calculate(0.85, 0),
-                    calculator.Calculate(0.90, 0),
-                    calculator.Calculate(0.95, 0),
-                    calculator.Calculate(1.00, 0)
+                    0.00,
+                    0.05,
+                    0.10,
+                    0.15,
+                    0.20,
+                    0.25,
+                    0.30,
+                    0.35,
+                    0.40,
+                    0.45,
+                    0.50,
+                    0.55,
+                    0.60,
+                    0.65,
+                    0.70,
+                    0.75,
+                    0.80,
+                    0.85,
+                    0.90,
+                    0.95,
+                    1.00
+                };
+
+                var values = new double[times.Length];
+
+                foreach (double time in times)
+                {
+                    dimensionStack.Push(DimensionEnum.Time, time);
+                    values[0] = calculator.Calculate(dimensionStack);
+                    dimensionStack.Pop(DimensionEnum.Time);
                 };
             }
         }
@@ -407,7 +419,7 @@ namespace JJ.Business.Synthesizer.Tests
 
                 Outlet outlet = x.Add(x.Number(1), x.Number(2));
                 var calculator =  x.CreateCalculator(new CalculatorCache(), outlet);
-                double result = calculator.Calculate(0, 0);
+                double result = calculator.Calculate(new DimensionStack());
                 Assert.AreEqual(3.0, result, 0.0001);
             }
         }
@@ -422,7 +434,7 @@ namespace JJ.Business.Synthesizer.Tests
                 PatchManager x = new PatchManager(new PatchRepositories(repositories));
                 Outlet outlet = x.Add(null, x.Number(2));
                 IPatchCalculator calculator = x.CreateCalculator(new CalculatorCache(), outlet);
-                double result = calculator.Calculate(0, 0);
+                double result = calculator.Calculate(new DimensionStack());
                 Assert.AreEqual(2.0, result, 0.000000001);
             }
         }
@@ -437,7 +449,7 @@ namespace JJ.Business.Synthesizer.Tests
                 PatchManager x = new PatchManager(new PatchRepositories(repositories));
                 Outlet outlet = x.Add(x.Number(1), x.Add(x.Number(2), null));
                 IPatchCalculator calculator = x.CreateCalculator(new CalculatorCache(), outlet);
-                double result = calculator.Calculate(0, 0);
+                double result = calculator.Calculate(new DimensionStack());
                 Assert.AreEqual(3.0, result, 0.000000001);
             }
         }
@@ -453,7 +465,7 @@ namespace JJ.Business.Synthesizer.Tests
 
                 Outlet outlet = x.Add(x.Add(x.Number(1), x.Number(2)), x.Number(4));
                 IPatchCalculator calculator = x.CreateCalculator(new CalculatorCache(), outlet);
-                double result = calculator.Calculate(0, 0);
+                double result = calculator.Calculate(new DimensionStack());
                 Assert.AreEqual(7.0, result, 0.000000001);
             }
         }
@@ -470,8 +482,17 @@ namespace JJ.Business.Synthesizer.Tests
                 Outlet outlet1 = x.Add(x.Add(x.Number(1), x.Number(2)), x.Number(4));
                 Outlet outlet2 = x.Add(x.Number(5), x.Number(6));
                 IPatchCalculator calculator = x.CreateCalculator(new CalculatorCache(), outlet1, outlet2);
-                double result1 = calculator.Calculate(0, 0);
-                double result2 = calculator.Calculate(0, 1);
+
+                var dimensionStack = new DimensionStack();
+
+                dimensionStack.Push(DimensionEnum.Channel, 0);
+                double result1 = calculator.Calculate(dimensionStack);
+                dimensionStack.Pop(DimensionEnum.Channel);
+
+                dimensionStack.Push(DimensionEnum.Channel, 1);
+                double result2 = calculator.Calculate(dimensionStack);
+                dimensionStack.Pop(DimensionEnum.Channel);
+
                 Assert.AreEqual(7.0, result1, 0.000000001);
                 Assert.AreEqual(11.0, result2, 0.000000001);
             }
@@ -489,8 +510,17 @@ namespace JJ.Business.Synthesizer.Tests
                 Outlet outlet1 = x.Add(sharedOutlet, x.Number(2));
                 Outlet outlet2 = x.Add(sharedOutlet, x.Number(3));
                 IPatchCalculator calculator = x.CreateCalculator(new CalculatorCache(), outlet1, outlet2);
-                double result1 = calculator.Calculate(0, 0);
-                double result2 = calculator.Calculate(0, 1);
+
+                var dimensionStack = new DimensionStack();
+
+                dimensionStack.Push(DimensionEnum.Channel, 0);
+                double result1 = calculator.Calculate(dimensionStack);
+                dimensionStack.Pop(DimensionEnum.Channel);
+
+                dimensionStack.Push(DimensionEnum.Channel, 1);
+                double result2 = calculator.Calculate(dimensionStack);
+                dimensionStack.Pop(DimensionEnum.Channel);
+
                 Assert.AreEqual(3.0, result1, 0.000000001);
                 Assert.AreEqual(4.0, result2, 0.000000001);
             }
@@ -528,10 +558,20 @@ namespace JJ.Business.Synthesizer.Tests
 
                 // Also test interpreted calculator
                 IPatchCalculator calculator = patchManager.CreateCalculator(new CalculatorCache(), outlet);
-                double value = calculator.Calculate(0.2, 0);
-                value = calculator.Calculate(0.2, 0);
-                value = calculator.Calculate(0.3, 0);
-                value = calculator.Calculate(0.3, 0);
+
+                var dimensionStack = new DimensionStack();
+
+                double value;
+
+                dimensionStack.Push(DimensionEnum.Time, 0.2);
+                value = calculator.Calculate(dimensionStack);
+                value = calculator.Calculate(dimensionStack);
+                dimensionStack.Pop(DimensionEnum.Time);
+
+                dimensionStack.Push(DimensionEnum.Time, 0.3);
+                value = calculator.Calculate(dimensionStack);
+                value = calculator.Calculate(dimensionStack);
+                dimensionStack.Pop(DimensionEnum.Time);
 
                 Assert.Inconclusive(message);
             }
@@ -886,7 +926,7 @@ namespace JJ.Business.Synthesizer.Tests
 
                 // Calculator
                 IPatchCalculator calculator = x.CreateCalculator(new CalculatorCache(), customOperator.WrappedOperator.Outlets[0]);
-                double result = calculator.Calculate(0, 0);
+                double result = calculator.Calculate(new DimensionStack());
             }
         }
 
@@ -898,15 +938,28 @@ namespace JJ.Business.Synthesizer.Tests
 
             IPatchCalculator patchCalculator = x.CreateCalculator(new CalculatorCache(), saw);
 
-            double value1 = patchCalculator.Calculate(0.00, 0);
-            double value2 = patchCalculator.Calculate(0.25, 0);
-            double value3 = patchCalculator.Calculate(0.50, 0);
-            double value4 = patchCalculator.Calculate(0.75, 0);
-            double value5 = patchCalculator.Calculate(1.00, 0);
-            double value6 = patchCalculator.Calculate(1.25, 0);
-            double value7 = patchCalculator.Calculate(1.50, 0);
-            double value8 = patchCalculator.Calculate(1.75, 0);
-            double value9 = patchCalculator.Calculate(2.00, 0);
+            var times = new double[]
+            {
+                0.00,
+                0.25,
+                0.50,
+                0.75,
+                1.00,
+                1.25,
+                1.50,
+                1.75,
+                2.00
+            };
+
+            var values = new List<double>(times.Length);
+
+            foreach (double time in times)
+            {
+                var dimensionStack = new DimensionStack();
+                dimensionStack.Push(DimensionEnum.Time, time);
+                double value = patchCalculator.Calculate(dimensionStack);
+                values.Add(value);
+            }
         }
 
         [TestMethod]
@@ -917,16 +970,29 @@ namespace JJ.Business.Synthesizer.Tests
             var saw = x.SawUp(x.Number(1), x.Number(0.25));
 
             IPatchCalculator patchCalculator = x.CreateCalculator(new CalculatorCache(), saw);
+            var dimensionStack = new DimensionStack();
 
-            double value1 = patchCalculator.Calculate(0.00, 0);
-            double value2 = patchCalculator.Calculate(0.25, 0);
-            double value3 = patchCalculator.Calculate(0.50, 0);
-            double value4 = patchCalculator.Calculate(0.75, 0);
-            double value5 = patchCalculator.Calculate(1.00, 0);
-            double value6 = patchCalculator.Calculate(1.25, 0);
-            double value7 = patchCalculator.Calculate(1.50, 0);
-            double value8 = patchCalculator.Calculate(1.75, 0);
-            double value9 = patchCalculator.Calculate(2.00, 0);
+            var times = new double[]
+            {
+                0.00,
+                0.25,
+                0.50,
+                0.75,
+                1.00,
+                1.25,
+                1.50,
+                1.75,
+                2.00
+            };
+
+            var values = new List<double>(times.Length);
+
+            foreach (double time in times)
+            {
+                dimensionStack.Push(DimensionEnum.Time, time);
+                double value = patchCalculator.Calculate(dimensionStack);
+                values.Add(value);
+            }
         }
 
         [TestMethod]
@@ -936,27 +1002,36 @@ namespace JJ.Business.Synthesizer.Tests
             var outlet = patcher.Triangle(patcher.Number(1));
 
             IPatchCalculator patchCalculator = patcher.CreateCalculator(new CalculatorCache(), outlet);
+            var dimensionStack = new DimensionStack();
 
-            double[] values =
+            double[] times =
             {
-                patchCalculator.Calculate(0.000, 0),
-                patchCalculator.Calculate(0.125, 0),
-                patchCalculator.Calculate(0.250, 0),
-                patchCalculator.Calculate(0.375, 0),
-                patchCalculator.Calculate(0.500, 0),
-                patchCalculator.Calculate(0.625, 0),
-                patchCalculator.Calculate(0.750, 0),
-                patchCalculator.Calculate(0.875, 0),
-                patchCalculator.Calculate(1.000, 0),
-                patchCalculator.Calculate(1.125, 0),
-                patchCalculator.Calculate(1.250, 0),
-                patchCalculator.Calculate(1.375, 0),
-                patchCalculator.Calculate(1.500, 0),
-                patchCalculator.Calculate(1.625, 0),
-                patchCalculator.Calculate(1.750, 0),
-                patchCalculator.Calculate(1.875, 0),
-                patchCalculator.Calculate(2.000, 0)
+                0.000,
+                0.125,
+                0.250,
+                0.375,
+                0.500,
+                0.625,
+                0.750,
+                0.875,
+                1.000,
+                1.125,
+                1.250,
+                1.375,
+                1.500,
+                1.625,
+                1.750,
+                1.875,
+                2.000
             };
+
+            var values = new List<double>(times.Length);
+            foreach (double time in times)
+            {
+                dimensionStack.Push(DimensionEnum.Time, time);
+                double value = patchCalculator.Calculate(dimensionStack);
+                values.Add(value);
+            }
         }
 
         [TestMethod]

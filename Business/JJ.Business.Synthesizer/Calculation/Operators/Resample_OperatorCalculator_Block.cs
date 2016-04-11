@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -30,16 +31,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _samplingRateCalculator = samplingRateCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double samplingRate = _samplingRateCalculator.Calculate(time, channelIndex);
+            double samplingRate = _samplingRateCalculator.Calculate(dimensionStack);
 
-            return Calculate(time, channelIndex, samplingRate);
+            return Calculate(dimensionStack, samplingRate);
         }
 
         /// <summary> This extra overload prevents additional invokations of the _samplingRateCalculator in derived classes </summary>
-        protected double Calculate(double time, int channelIndex, double samplingRate)
+        protected double Calculate(DimensionStack dimensionStack, double samplingRate)
         {
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
             double tOffset = time - _t0;
             double sampleCount = tOffset * samplingRate;
             sampleCount = Math.Truncate(sampleCount);
@@ -47,7 +50,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (sampleCount != 0.0)
             {
                 _t0 += sampleCount / samplingRate;
-                _x0 = _signalCalculator.Calculate(_t0, channelIndex);
+
+                dimensionStack.Push(DimensionEnum.Time, _t0);
+
+                _x0 = _signalCalculator.Calculate(dimensionStack);
+
+                dimensionStack.Pop(DimensionEnum.Time);
             }
 
             return _x0;

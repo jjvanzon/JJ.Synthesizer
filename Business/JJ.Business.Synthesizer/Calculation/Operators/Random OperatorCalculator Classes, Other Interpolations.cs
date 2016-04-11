@@ -31,15 +31,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 samplingRateCalculator: rateCalculator);
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            return _resampleOperator.Calculate(time, channelIndex);
+            return _resampleOperator.Calculate(dimensionStack);
         }
 
-        public override void Reset(double time, int channelIndex)
+        public override void Reset(DimensionStack dimensionStack)
         {
             // HACK
-            _resampleOperator.Reset(time, channelIndex);
+            _resampleOperator.Reset(dimensionStack);
         }
     }
 
@@ -67,15 +67,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 samplingRateCalculator: rateCalculator);
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            return _resampleOperator.Calculate(time, channelIndex);
+            return _resampleOperator.Calculate(dimensionStack);
         }
 
-        public override void Reset(double time, int channelIndex)
+        public override void Reset(DimensionStack dimensionStack)
         {
             // HACK
-            _resampleOperator.Reset(time, channelIndex);
+            _resampleOperator.Reset(dimensionStack);
         }
     }
 
@@ -103,15 +103,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 samplingRateCalculator: rateCalculator);
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            return _resampleOperator.Calculate(time, channelIndex);
+            return _resampleOperator.Calculate(dimensionStack);
         }
 
-        public override void Reset(double time, int channelIndex)
+        public override void Reset(DimensionStack dimensionStack)
         {
             // HACK
-            _resampleOperator.Reset(time, channelIndex);
+            _resampleOperator.Reset(dimensionStack);
         }
     }
 
@@ -139,15 +139,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 samplingRateCalculator: rateCalculator);
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            return _resampleOperator.Calculate(time, channelIndex);
+            return _resampleOperator.Calculate(dimensionStack);
         }
 
-        public override void Reset(double time, int channelIndex)
+        public override void Reset(DimensionStack dimensionStack)
         {
             // HACK
-            _resampleOperator.Reset(time, channelIndex);
+            _resampleOperator.Reset(dimensionStack);
         }
     }
 
@@ -175,15 +175,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 samplingRateCalculator: rateCalculator);
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            return _resampleOperator.Calculate(time, channelIndex);
+            return _resampleOperator.Calculate(dimensionStack);
         }
 
-        public override void Reset(double time, int channelIndex)
+        public override void Reset(DimensionStack dimensionStack)
         {
             // HACK
-            _resampleOperator.Reset(time, channelIndex);
+            _resampleOperator.Reset(dimensionStack);
         }
     }
 
@@ -211,15 +211,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 samplingRateCalculator: rateCalculator);
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            return _resampleOperator.Calculate(time, channelIndex);
+            return _resampleOperator.Calculate(dimensionStack);
         }
 
-        public override void Reset(double time, int channelIndex)
+        public override void Reset(DimensionStack dimensionStack)
         {
             // HACK
-            _resampleOperator.Reset(time, channelIndex);
+            _resampleOperator.Reset(dimensionStack);
         }
     }
 }

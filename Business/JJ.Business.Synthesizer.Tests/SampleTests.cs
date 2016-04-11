@@ -90,7 +90,7 @@ namespace JJ.Business.Synthesizer.Tests
 
                 // Trigger SampleCalculation
                 IPatchCalculator calculator = x.CreateCalculator(new CalculatorCache(), outlet);
-                double value = calculator.Calculate(0, 0);
+                double value = calculator.Calculate(new DimensionStack());
             }
         }
 

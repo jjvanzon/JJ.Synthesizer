@@ -1,5 +1,6 @@
 ﻿using JJ.Framework.Reflection.Exceptions;
 using JJ.Business.Synthesizer.Calculation.Curves;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -15,18 +16,22 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _curveCalculator = curveCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
             double transformedTime = time - _origin;
             double result = _curveCalculator.CalculateValue(transformedTime);
             return result;
         }
 
-        public override void Reset(double time, int channelIndex)
+        public override void Reset(DimensionStack dimensionStack)
         {
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
             _origin = time;
 
-            base.Reset(time, channelIndex);
+            base.Reset(dimensionStack);
         }
     }
 
@@ -42,18 +47,21 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _curveCalculator = curveCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
+            double time = dimensionStack.Get(DimensionEnum.Time);
             double transformedTime = time - _origin;
             double result = _curveCalculator.CalculateValue(transformedTime);
             return result;
         }
 
-        public override void Reset(double time, int channelIndex)
+        public override void Reset(DimensionStack dimensionStack)
         {
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
             _origin = time;
 
-            base.Reset(time, channelIndex);
+            base.Reset(dimensionStack);
         }
     }
 }

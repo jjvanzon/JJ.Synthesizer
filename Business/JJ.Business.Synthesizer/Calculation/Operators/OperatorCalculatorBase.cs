@@ -11,9 +11,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     /// </summary>
     internal abstract class OperatorCalculatorBase
     {
-        public abstract double Calculate(double time, int channelIndex);
+        public abstract double Calculate(DimensionStack dimensionStack);
 
         /// <summary> Does nothing </summary>
-        public virtual void Reset(double time, int channelIndex) { }
+        public virtual void Reset(DimensionStack dimensionStack) { }
     }
 }

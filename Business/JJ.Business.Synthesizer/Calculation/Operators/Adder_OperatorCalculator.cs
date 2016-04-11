@@ -15,13 +15,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _operandCalculators = operandCalculators;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
             double result = 0;
 
             for (int i = 0; i < _operandCalculators.Length; i++)
             {
-                double result2 = _operandCalculators[i].Calculate(time, channelIndex);
+                double result2 = _operandCalculators[i].Calculate(dimensionStack);
 
                 // Strategically prevent NaN in case of addition, or one sound will destroy the others too.
                 if (Double.IsNaN(result2)) continue;

@@ -1,4 +1,5 @@
-﻿using JJ.Framework.Reflection.Exceptions;
+﻿using JJ.Business.Synthesizer.Enums;
+using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -17,9 +18,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _offset = offset;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
             double x = _noiseCalculator.GetValue(time + _offset);
+
             return x;
         }
     }

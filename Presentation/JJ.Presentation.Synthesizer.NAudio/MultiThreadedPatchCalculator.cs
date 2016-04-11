@@ -6,6 +6,7 @@ using JJ.Framework.Common;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Calculation;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
@@ -140,7 +141,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
         /// This parameter is currently not used, but I want this abstraction to stay similar
         /// to PatchCalculator, or I would be refactoring my brains out.
         /// </param>
-        public double[] Calculate(double t0, double sampleDuration, int count, int channelIndex)
+        public double[] Calculate(double t0, double sampleDuration, int count, DimensionStack dimensionStack)
         {
             // TODO: Document that count and sampleDuration are not used.
 
@@ -161,7 +162,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             return _buffer;
         }
 
-        public double Calculate(double time, int channelIndex)
+        public double Calculate(DimensionStack dimensionStack)
         {
             throw new NotSupportedException();
         }
@@ -196,11 +197,15 @@ Wait:
 
                     IPatchCalculator patchCalculator = patchCalculatorInfo.PatchCalculator;
 
+                    var dimensionStack = new DimensionStack();
+
                     double t = _t0;
 
                     for (int j = 0; j < _buffer.Length; j++)
                     {
-                        double value = patchCalculator.Calculate(t, DEFAULT_CHANNEL_INDEX);
+                        dimensionStack.Push(DimensionEnum.Time, t);
+                        double value = patchCalculator.Calculate(dimensionStack);
+                        dimensionStack.Pop(DimensionEnum.Time);
 
                         // TODO: Low priority: Not sure how to do a quicker interlocked add for doubles.
                         lock (_bufferLocks[j])
@@ -375,27 +380,27 @@ Wait:
             patchCalculatorInfo.PatchCalculator.SetValue(dimensionEnum, value);
         }
 
-        public void Reset(double time, int channelIndex, int noteListIndex)
+        public void Reset(DimensionStack dimensionStack, int noteListIndex)
         {
             PatchCalculatorInfo patchCalculatorInfo = GetPatchCalculatorInfo(noteListIndex);
-            patchCalculatorInfo.PatchCalculator.Reset(time, channelIndex);
+            patchCalculatorInfo.PatchCalculator.Reset(dimensionStack);
         }
 
-        public void Reset(double time, int channelIndex)
+        public void Reset(DimensionStack dimensionStack)
         {
             for (int i = 0; i < _patchCalculatorInfos.Count; i++)
             {
                 PatchCalculatorInfo patchCalculatorInfo = _patchCalculatorInfos[i];
-                patchCalculatorInfo.PatchCalculator.Reset(time, channelIndex);
+                patchCalculatorInfo.PatchCalculator.Reset(dimensionStack);
             }
         }
 
-        public void Reset(double time, int channelIndex, string name)
+        public void Reset(DimensionStack dimensionStack, string name)
         {
             for (int i = 0; i < _patchCalculatorInfos.Count; i++)
             {
                 PatchCalculatorInfo patchCalculatorInfo = _patchCalculatorInfos[i];
-                patchCalculatorInfo.PatchCalculator.Reset(time, channelIndex, name);
+                patchCalculatorInfo.PatchCalculator.Reset(dimensionStack, name);
             }
         }
 

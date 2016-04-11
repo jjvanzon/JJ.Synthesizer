@@ -24,7 +24,6 @@
         IntensityModulationDepth = 19,
         DecayDuration = 20,
         SustainVolume = 21,
-        // New 2016-04-10
         Time = 22,
         Channel = 23,
         HarmonicNumber = 24

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -27,8 +28,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _loopEndMarkerCalculator = loopEndMarkerCalculator;
         }
 
-        protected override double? TransformTime(double outputTime, int channelIndex)
+        protected override double? TransformTime(DimensionStack dimensionStack)
         {
+            double outputTime = dimensionStack.Get(DimensionEnum.Time);
+
             double tempTime = outputTime - _origin;
 
             // BeforeLoop
@@ -42,7 +45,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             // InLoop
             if (tempTime > _outputCycleEnd)
             {
-                _loopEndMarker = GetLoopEndMarker(tempTime, channelIndex);
+                dimensionStack.Push(DimensionEnum.Time, tempTime);
+                _loopEndMarker = GetLoopEndMarker(dimensionStack);
+                dimensionStack.Pop(DimensionEnum.Time);
+
                 _cycleDuration = _loopEndMarker - _loopStartMarker;
                 _outputCycleEnd += _cycleDuration;
             }
@@ -53,12 +59,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private double GetLoopEndMarker(double outputTime, int channelIndex)
+        private double GetLoopEndMarker(DimensionStack dimensionStack)
         {
             double value = 0;
             if (_loopEndMarkerCalculator != null)
             {
-                value = _loopEndMarkerCalculator.Calculate(outputTime, channelIndex);
+                value = _loopEndMarkerCalculator.Calculate(dimensionStack);
             }
 
             return value;

@@ -25,34 +25,34 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _resetCalculator = resetCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double newTriggerValue = _resetCalculator.Calculate(time, channelIndex);
+            double newTriggerValue = _resetCalculator.Calculate(dimensionStack);
 
             bool newValueIsZero = newTriggerValue == 0;
 
             if (_previousZero == 0 && !newValueIsZero)
             {
-                _calculationCalculator.Reset(time, channelIndex);
+                _calculationCalculator.Reset(dimensionStack);
 
                 // _previousZero = something non-zero, by flipping all bits.
                 _previousZero = ~_previousZero;
             }
             else if (_previousZero != 0 && newValueIsZero)
             {
-                _calculationCalculator.Reset(time, channelIndex);
+                _calculationCalculator.Reset(dimensionStack);
 
                 // _previousZero = 0, by XOR'ing it onto itself.
                 _previousZero ^= _previousZero;
             }
 
-            return _calculationCalculator.Calculate(time, channelIndex);
+            return _calculationCalculator.Calculate(dimensionStack);
         }
 
         // Non-optimized version:
-        //public override double Calculate(double time, int channelIndex)
+        //public override double Calculate(DimensionStack dimensionStack)
         //{
-        //    double newTriggerValue = _resetCalculator.Calculate(time, channelIndex);
+        //    double newTriggerValue = _resetCalculator.Calculate(dimensionStack);
 
         //    if (_previousTriggerValue == 0 && newTriggerValue != 0)
         //    {
@@ -65,7 +65,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         //    _previousTriggerValue = newTriggerValue;
 
-        //    return _calculationCalculator.Calculate(time, channelIndex);
+        //    return _calculationCalculator.Calculate(dimensionStack);
         //}
     }
 }

@@ -20,10 +20,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _bCalculator = bCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double a = _aCalculator.Calculate(time, channelIndex);
-            double b = _bCalculator.Calculate(time, channelIndex);
+            double a = _aCalculator.Calculate(dimensionStack);
+            double b = _bCalculator.Calculate(dimensionStack);
 
             // Strategically prevent NaN in case of addition, or one sound will destroy the others too.
             if (Double.IsNaN(a)) a = 0.0;
@@ -52,9 +52,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _bCalculator = bCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double b = _bCalculator.Calculate(time, channelIndex);
+            double b = _bCalculator.Calculate(dimensionStack);
 
             // Strategically prevent NaN in case of addition, or one sound will destroy the others too.
             if (Double.IsNaN(b))
@@ -83,9 +83,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (Double.IsNaN(_b)) _b = 0.0;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double a = _aCalculator.Calculate(time, channelIndex);
+            double a = _aCalculator.Calculate(dimensionStack);
 
             // Strategically prevent NaN in case of addition, or one sound will destroy the others too.
             if (Double.IsNaN(a))

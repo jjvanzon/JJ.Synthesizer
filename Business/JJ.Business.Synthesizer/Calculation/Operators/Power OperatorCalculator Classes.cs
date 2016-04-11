@@ -20,10 +20,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _exponentCalculator = exponentCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double @base = _baseCalculator.Calculate(time, channelIndex);
-            double exponent = _exponentCalculator.Calculate(time, channelIndex);
+            double @base = _baseCalculator.Calculate(dimensionStack);
+            double exponent = _exponentCalculator.Calculate(dimensionStack);
             return Math.Pow(@base, exponent);
         }
     }
@@ -43,9 +43,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _exponentCalculator = exponentCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double exponent = _exponentCalculator.Calculate(time, channelIndex);
+            double exponent = _exponentCalculator.Calculate(dimensionStack);
             return Math.Pow(_baseValue, exponent);
         }
     }
@@ -65,9 +65,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _exponentValue = exponentValue;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double @base = _baseCalculator.Calculate(time, channelIndex);
+            double @base = _baseCalculator.Calculate(dimensionStack);
             return Math.Pow(@base, _exponentValue);
         }
     }

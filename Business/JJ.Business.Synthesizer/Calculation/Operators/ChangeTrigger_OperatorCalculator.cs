@@ -24,18 +24,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _resetCalculator = resetCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double newTriggerValue = _resetCalculator.Calculate(time, channelIndex);
+            double newTriggerValue = _resetCalculator.Calculate(dimensionStack);
 
             if (_previousTriggerValue != newTriggerValue)
             {
-                _calculationCalculator.Reset(time, channelIndex);
+                _calculationCalculator.Reset(dimensionStack);
 
                 _previousTriggerValue = newTriggerValue;
             }
 
-            return _calculationCalculator.Calculate(time, channelIndex);
+            return _calculationCalculator.Calculate(dimensionStack);
         }
     }
 }

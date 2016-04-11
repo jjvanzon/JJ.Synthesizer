@@ -12,7 +12,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 {
     internal class OptimizedPatchCalculator : IPatchCalculator
     {
-
         /// <summary> Array for optimization in calculating values. </summary>
         private readonly OperatorCalculatorBase[] _outputOperatorCalculators;
         private readonly VariableInput_OperatorCalculator[] _inputOperatorCalculators;
@@ -48,13 +47,16 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _listIndex_To_ResettableOperatorCalculators_Dictionary = result.ResettableOperatorTuples.Where(x => x.ListIndex.HasValue).ToNonUniqueDictionary(x => x.ListIndex.Value, x => x.OperatorCalculator);
         }
 
-        public double Calculate(double time, int channelIndex)
+        public double Calculate(DimensionStack dimensionStack)
         {
-            double value = _outputOperatorCalculators[channelIndex].Calculate(time, channelIndex);
+            // TODO: Cast to int can fail.
+            int channelIndex = (int)dimensionStack.Get(DimensionEnum.Channel);
+
+            double value = _outputOperatorCalculators[channelIndex].Calculate(dimensionStack);
             return value;
         }
 
-        public double[] Calculate(double t0, double sampleDuration, int count, int channelIndex)
+        public double[] Calculate(double t0, double sampleDuration, int count, DimensionStack dimensionStack)
         {
             double t = t0;
 
@@ -62,7 +64,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             for (int i = 0; i < count; i++)
             {
-                double value = Calculate(t, channelIndex);
+                dimensionStack.Push(DimensionEnum.Time, t);
+                double value = Calculate(dimensionStack);
+                dimensionStack.Pop(DimensionEnum.Time);
 
                 values[i] = value;
 
@@ -343,12 +347,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
         }
 
-        public void Reset(double time, int channelIndex)
+        public void Reset(DimensionStack dimensionStack)
         {
             for (int i = 0; i < _outputOperatorCalculators.Length; i++)
             {
                 OperatorCalculatorBase outputOperatorCalculator = _outputOperatorCalculators[i];
-                outputOperatorCalculator.Reset(time, channelIndex);
+                outputOperatorCalculator.Reset(dimensionStack);
             }
 
             _valuesByListIndex.Clear();
@@ -358,7 +362,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _dimensionEnumAndListIndex_To_Value_Dictionary.Clear();
         }
 
-        public void Reset(double time, int channelIndex, string name)
+        public void Reset(DimensionStack dimensionStack, string name)
         {
             // Necessary for using null or empty string as the key of a dictionary.
             // The dictionary neither accepts null as a key,
@@ -370,19 +374,19 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 foreach (OperatorCalculatorBase calculator in calculators)
                 {
-                    calculator.Reset(time, channelIndex);
+                    calculator.Reset(dimensionStack);
                 }
             }
         }
 
-        public void Reset(double time, int channelIndex, int listIndex)
+        public void Reset(DimensionStack dimensionStack, int listIndex)
         {
             IList<OperatorCalculatorBase> calculators;
             if (_listIndex_To_ResettableOperatorCalculators_Dictionary.TryGetValue(listIndex, out calculators))
             {
                 foreach (OperatorCalculatorBase calculator in calculators)
                 {
-                    calculator.Reset(time, channelIndex);
+                    calculator.Reset(dimensionStack);
                 }
             }
         }

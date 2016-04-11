@@ -1,6 +1,7 @@
 ﻿using JJ.Framework.Mathematics;
 using JJ.Framework.Reflection.Exceptions;
 using System;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -36,12 +37,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _y1 = 12000.0;
         private double _y2 = -24000.0;
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
             double x = time;
             if (x > _x1)
             {
-                double samplingRate = GetSamplingRate(_x1, channelIndex);
+
+                dimensionStack.Push(DimensionEnum.Time, _x1);
+                double samplingRate = GetSamplingRate(dimensionStack);
+                dimensionStack.Pop(DimensionEnum.Time);
+
                 _dx = 1.0 / samplingRate;
                 _x1 += _dx;
 
@@ -50,10 +57,21 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 double xMinus1 = _x0 - _dx;
                 double x2 = _x1 + _dx;
 
-                _yMinus1 = _signalCalculator.Calculate(xMinus1, channelIndex);
-                _y0 = _signalCalculator.Calculate(_x0, channelIndex);
-                _y1 = _signalCalculator.Calculate(_x1, channelIndex);
-                _y2 = _signalCalculator.Calculate(x2, channelIndex);
+                dimensionStack.Push(DimensionEnum.Time, xMinus1);
+                _yMinus1 = _signalCalculator.Calculate(dimensionStack);
+                dimensionStack.Pop(DimensionEnum.Time);
+
+                dimensionStack.Push(DimensionEnum.Time, _x0);
+                _y0 = _signalCalculator.Calculate(dimensionStack);
+                dimensionStack.Pop(DimensionEnum.Time);
+
+                dimensionStack.Push(DimensionEnum.Time, _x1);
+                _y1 = _signalCalculator.Calculate(dimensionStack);
+                dimensionStack.Pop(DimensionEnum.Time);
+
+                dimensionStack.Push(DimensionEnum.Time, x2);
+                _y2 = _signalCalculator.Calculate(dimensionStack);
+                dimensionStack.Pop(DimensionEnum.Time);
             }
 
             double t = (x - _x0) / _dx;
@@ -63,9 +81,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         /// <summary> Gets the sampling rate, converts it to an absolute number and ensures a minimum value. </summary>
-        private double GetSamplingRate(double x, int channelIndex)
+        private double GetSamplingRate(DimensionStack dimensionStack)
         {
-            double samplingRate = _samplingRateCalculator.Calculate(x, channelIndex);
+            double samplingRate = _samplingRateCalculator.Calculate(dimensionStack);
 
             samplingRate = Math.Abs(samplingRate);
 

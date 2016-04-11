@@ -26,9 +26,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _originValue = originValue;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double a = _numeratorCalculator.Calculate(time, channelIndex);
+            double a = _numeratorCalculator.Calculate(dimensionStack);
             return (a - _originValue) / _denominatorValue + _originValue;
         }
     }
@@ -53,9 +53,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _originValue = originValue;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double denominator = _denominatorCalculator.Calculate(time, channelIndex);
+            double denominator = _denominatorCalculator.Calculate(dimensionStack);
 
             if (denominator == 0)
             {
@@ -88,10 +88,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _originValue = originValue;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double numerator = _numeratorCalculator.Calculate(time, channelIndex);
-            double denominator = _denominatorCalculator.Calculate(time, channelIndex);
+            double numerator = _numeratorCalculator.Calculate(dimensionStack);
+            double denominator = _denominatorCalculator.Calculate(dimensionStack);
 
             if (denominator == 0)
             {
@@ -125,10 +125,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _originCalculator = originCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double origin = _originCalculator.Calculate(time, channelIndex);
-            double a = _numeratorCalculator.Calculate(time, channelIndex);
+            double origin = _originCalculator.Calculate(dimensionStack);
+            double a = _numeratorCalculator.Calculate(dimensionStack);
             return (a - origin) / _denominatorValue + origin;
         }
     }
@@ -154,9 +154,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _originCalculator = originCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double origin = _originCalculator.Calculate(time, channelIndex);
+            double origin = _originCalculator.Calculate(dimensionStack);
             return (_numeratorValue - origin) / _denominatorValue + origin;
         }
     }
@@ -183,16 +183,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _originCalculator = originCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double denominator = _denominatorCalculator.Calculate(time, channelIndex);
+            double denominator = _denominatorCalculator.Calculate(dimensionStack);
 
             if (denominator == 0)
             {
                 return _numeratorValue;
             }
 
-            double origin = _originCalculator.Calculate(time, channelIndex);
+            double origin = _originCalculator.Calculate(dimensionStack);
 
             return (_numeratorValue - origin) / denominator + origin;
         }
@@ -222,17 +222,17 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _originCalculator = originCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double numerator = _numeratorCalculator.Calculate(time, channelIndex);
-            double denominator = _denominatorCalculator.Calculate(time, channelIndex);
+            double numerator = _numeratorCalculator.Calculate(dimensionStack);
+            double denominator = _denominatorCalculator.Calculate(dimensionStack);
 
             if (denominator == 0)
             {
                 return numerator;
             }
 
-            double origin = _originCalculator.Calculate(time, channelIndex);
+            double origin = _originCalculator.Calculate(dimensionStack);
 
             return (numerator - origin) / denominator + origin;
         }
@@ -255,10 +255,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _denominatorCalculator = denominatorCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double numerator = _numeratorCalculator.Calculate(time, channelIndex);
-            double denominator = _denominatorCalculator.Calculate(time, channelIndex);
+            double numerator = _numeratorCalculator.Calculate(dimensionStack);
+            double denominator = _denominatorCalculator.Calculate(dimensionStack);
 
             if (denominator == 0)
             {
@@ -285,9 +285,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _denominatorValue = denominatorValue;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double numerator = _numeratorCalculator.Calculate(time, channelIndex);
+            double numerator = _numeratorCalculator.Calculate(dimensionStack);
             return numerator / _denominatorValue;
         }
     }
@@ -301,7 +301,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             : base(new OperatorCalculatorBase[] { denominatorCalculator })
         {
             if (denominatorCalculator == null) throw new NullException(() => denominatorCalculator);
-            // TODO: Enable this code line again after debugging the hacsk in Random_OperatorCalculator_OtherInterpolations's
+            // TODO: Enable this code line again after debugging the hack in Random_OperatorCalculator_OtherInterpolations's
             // constructor that creates an instance of Divide_WithoutOrigin_WithConstNumerator_OperatorCalculator.
             // It that no longer happens in that constructor, you can enable this code line again.
             //if (denominatorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => denominatorCalculator);
@@ -310,9 +310,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _denominatorCalculator = denominatorCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double denominator = _denominatorCalculator.Calculate(time, channelIndex);
+            double denominator = _denominatorCalculator.Calculate(dimensionStack);
 
             if (denominator == 0)
             {

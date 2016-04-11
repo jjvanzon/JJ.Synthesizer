@@ -21,10 +21,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _calculatorB = calculatorB;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double a = _calculatorA.Calculate(time, channelIndex);
-            double b = _calculatorB.Calculate(time, channelIndex);
+            double a = _calculatorA.Calculate(dimensionStack);
+            double b = _calculatorB.Calculate(dimensionStack);
 
             if (a >= b) return 1.0;
             else return 0.0;
@@ -45,9 +45,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _b = b;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double a = _calculatorA.Calculate(time, channelIndex);
+            double a = _calculatorA.Calculate(dimensionStack);
 
             if (a >= _b) return 1.0;
             else return 0.0;
@@ -68,9 +68,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _calculatorB = calculatorB;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double b = _calculatorB.Calculate(time, channelIndex);
+            double b = _calculatorB.Calculate(dimensionStack);
 
             if (_a >= b) return 1.0;
             else return 0.0;

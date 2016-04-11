@@ -25,9 +25,9 @@
 //            _factorCalculator = factorCalculator;
 //        }
 
-//        public override double Calculate(double time, int channelIndex)
+//        public override double Calculate(DimensionStack dimensionStack)
 //        {
-//            double factor = _factorCalculator.Calculate(time, channelIndex);
+//            double factor = _factorCalculator.Calculate(dimensionStack);
 
 //            double dt = time - _previousTime;
 //            double phase = _phase + dt * factor; // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
@@ -46,9 +46,9 @@
 //            return result;
 //        }
 
-//        public override void Reset(double time, int channelIndex)
+//        public override void Reset(DimensionStack dimensionStack)
 //        {
-//            double transformedTime = Calculate(time, channelIndex);
+//            double transformedTime = Calculate(dimensionStack);
 
 //            base.Reset(transformedTime, channelIndex);
 
@@ -56,9 +56,9 @@
 //            _phase = 0.0;
 //        }
 
-//        //public override void Reset(double time, int channelIndex)
+//        //public override void Reset(DimensionStack dimensionStack)
 //        //{
-//        //    double transformedTime = Calculate(time, channelIndex);
+//        //    double transformedTime = Calculate(dimensionStack);
 
 //        //    base.Reset(transformedTime, channelIndex);
 
@@ -88,7 +88,7 @@
 //            _factor = factor;
 //        }
 
-//        public override double Calculate(double time, int channelIndex)
+//        public override double Calculate(DimensionStack dimensionStack)
 //        {
 //            // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
 //            //double transformedTime = time * _factorValue;
@@ -101,12 +101,12 @@
 //            return result;
 //        }
 
-//        public override void Reset(double time, int channelIndex)
+//        public override void Reset(DimensionStack dimensionStack)
 //        {
 //            //_origin = time;
 //            //base.Reset(time, channelIndex);
 
-//            double transformedTime = Calculate(time, channelIndex);
+//            double transformedTime = Calculate(dimensionStack);
 //            base.Reset(transformedTime, channelIndex);
 //        }
 //    }

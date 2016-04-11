@@ -39,13 +39,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _targetValueBCalculator = targetValueBCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double signal = _signalCalculator.Calculate(time, channelIndex);
-            double sourceValueA = _sourceValueACalculator.Calculate(time, channelIndex);
-            double sourceValueB = _sourceValueBCalculator.Calculate(time, channelIndex);
-            double targetValueA = _targetValueACalculator.Calculate(time, channelIndex);
-            double targetValueB = _targetValueBCalculator.Calculate(time, channelIndex);
+            double signal = _signalCalculator.Calculate(dimensionStack);
+            double sourceValueA = _sourceValueACalculator.Calculate(dimensionStack);
+            double sourceValueB = _sourceValueBCalculator.Calculate(dimensionStack);
+            double targetValueA = _targetValueACalculator.Calculate(dimensionStack);
+            double targetValueB = _targetValueBCalculator.Calculate(dimensionStack);
 
             double sourceRange = sourceValueB - sourceValueA;
             double targetRange = targetValueB - targetValueA;

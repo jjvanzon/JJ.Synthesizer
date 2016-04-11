@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Collections;
 using JJ.Framework.Reflection.Exceptions;
 
@@ -50,13 +51,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _timeSliceDurationCalculator = timeSliceDurationCalculator;
             _sampleCountCalculator = sampleCountCalculator;
 
-            Reset(OperatorCalculatorHelper.DEFAULT_TIME, OperatorCalculatorHelper.DEFAULT_CHANNEL_INDEX);
+            Reset(new DimensionStack());
         }
 
         protected abstract double GetMaximumOrMinimum(RedBlackTree<double, double> redBlackTree);
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
             bool isForwardInTime = time >= _previousTime;
 
             if (isForwardInTime)
@@ -76,7 +79,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
                     do
                     {
-                        CalculateValueAndUpdateCollections(_nextSampleTime, channelIndex);
+                        dimensionStack.Push(DimensionEnum.Time, _nextSampleTime);
+                        CalculateValueAndUpdateCollections(dimensionStack);
+                        dimensionStack.Pop(DimensionEnum.Time);
 
                         _nextSampleTime += _sampleDuration;
                     }
@@ -103,7 +108,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
                     do
                     {
-                        CalculateValueAndUpdateCollections(_nextSampleTime, channelIndex);
+                        dimensionStack.Push(DimensionEnum.Time, _nextSampleTime);
+                        CalculateValueAndUpdateCollections(dimensionStack);
+                        dimensionStack.Pop(DimensionEnum.Time);
 
                         _nextSampleTime -= _sampleDuration;
                     }
@@ -127,9 +134,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return _maximumOrMinimum;
         }
 
-        private void CalculateValueAndUpdateCollections(double time, int channelIndex)
+        private void CalculateValueAndUpdateCollections(DimensionStack dimensionStack)
         {
-            double newValue = _signalCalculator.Calculate(time, channelIndex);
+            double newValue = _signalCalculator.Calculate(dimensionStack);
 
             double oldValue = _queue.Dequeue();
             _queue.Enqueue(newValue);
@@ -138,15 +145,17 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _redBlackTree.Insert(newValue, newValue);
         }
 
-        public override void Reset(double time, int channelIndex)
+        public override void Reset(DimensionStack dimensionStack)
         {
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
             _previousTime = time;
 
             _maximumOrMinimum = 0.0;
             _nextSampleTime = 0.0;
 
-            _timeSliceDuration = _timeSliceDurationCalculator.Calculate(time, channelIndex);
-            _sampleCountDouble = _sampleCountCalculator.Calculate(time, channelIndex);
+            _timeSliceDuration = _timeSliceDurationCalculator.Calculate(dimensionStack);
+            _sampleCountDouble = _sampleCountCalculator.Calculate(dimensionStack);
 
             if (CalculationHelper.CanCastToNonNegativeInt32(_sampleCountDouble))
             {
@@ -162,7 +171,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _redBlackTree = new RedBlackTree<double, double>();
             _queue = CreateQueue();
 
-            base.Reset(time, channelIndex);
+            base.Reset(dimensionStack);
         }
 
         private Queue<double> CreateQueue()

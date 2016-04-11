@@ -7,7 +7,7 @@
     /// </summary>
     internal class One_OperatorCalculator : Number_OperatorCalculator
     {
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
             return 1;
         }

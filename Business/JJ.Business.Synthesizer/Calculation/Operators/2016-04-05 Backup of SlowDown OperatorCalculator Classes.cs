@@ -23,9 +23,9 @@
 //            _factorCalculator = factorCalculator;
 //        }
 
-//        public override double Calculate(double time, int channelIndex)
+//        public override double Calculate(DimensionStack dimensionStack)
 //        {
-//            double factor = _factorCalculator.Calculate(time, channelIndex);
+//            double factor = _factorCalculator.Calculate(dimensionStack);
 
 //            // IMPORTANT: To multiply the time in the output, you have to divide the time of the input.
 //            double dt = time - _previousTime;
@@ -45,7 +45,7 @@
 //            return result;
 //        }
 
-//        public override void Reset(double time, int channelIndex)
+//        public override void Reset(DimensionStack dimensionStack)
 //        {
 //            _previousTime = time;
 //            _phase = 0.0;
@@ -74,7 +74,7 @@
 //            _factorValue = factorValue;
 //        }
 
-//        public override double Calculate(double time, int channelIndex)
+//        public override double Calculate(DimensionStack dimensionStack)
 //        {
 //            // IMPORTANT: To multiply the time in the output, you have to divide the time of the input.
 //            double transformedTime = time / _factorValue; 

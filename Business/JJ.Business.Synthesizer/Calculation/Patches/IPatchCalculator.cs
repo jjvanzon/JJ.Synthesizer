@@ -19,14 +19,14 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         double GetValue(DimensionEnum dimensionEnum, int listIndex);
         void SetValue(DimensionEnum dimensionEnum, int listIndex, double value);
+        
+        double Calculate(DimensionStack dimensionStack);
 
-        double Calculate(double time, int channelIndex);
+        double[] Calculate(double t0, double sampleDuration, int sampleCount, DimensionStack dimensionStack);
 
-        double[] Calculate(double t0, double sampleDuration, int sampleCount, int channelIndex);
-
-        void Reset(double time, int channelIndex);
-        void Reset(double time, int channelIndex, string name);
-        void Reset(double time, int channelIndex, int listIndex);
+        void Reset(DimensionStack dimensionStack);
+        void Reset(DimensionStack dimensionStack, string name);
+        void Reset(DimensionStack dimensionStack, int listIndex);
 
         void CloneValues(IPatchCalculator sourcePatchCalculator);
     }

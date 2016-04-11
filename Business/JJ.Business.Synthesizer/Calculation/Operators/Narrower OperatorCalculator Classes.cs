@@ -1,5 +1,6 @@
 ﻿using JJ.Framework.Reflection.Exceptions;
 using System;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -12,7 +13,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class Narrower_VarSignal_ConstFactor_ZeroOrigin_OperatorCalculator : OperatorCalculatorBase
     {
         private OperatorCalculatorBase _signalCalculator;
-        private double _factorValue;
+        private double _factor;
 
         public Narrower_VarSignal_ConstFactor_ZeroOrigin_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
@@ -23,15 +24,24 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (factorValue == 0) throw new ZeroException(() => factorValue);
 
             _signalCalculator = signalCalculator;
-            _factorValue = factorValue;
+            _factor = factorValue;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
             // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
-            double transformedTime = time * _factorValue;
-            double result = _signalCalculator.Calculate(transformedTime, channelIndex);
+            double transformedTime = time * _factor;
+
+            dimensionStack.Push(DimensionEnum.Time, transformedTime);
+
+            double result = _signalCalculator.Calculate(dimensionStack);
+
+            dimensionStack.Pop(DimensionEnum.Time);
+
             return result;
+
         }
     }
 
@@ -53,13 +63,21 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _factorCalculator = factorCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double factor = _factorCalculator.Calculate(time, channelIndex);
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
+            double factor = _factorCalculator.Calculate(dimensionStack);
 
             // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
             double transformedTime = time * factor;
-            double result = _signalCalculator.Calculate(transformedTime, channelIndex);
+
+            dimensionStack.Push(DimensionEnum.Time, transformedTime);
+
+            double result = _signalCalculator.Calculate(dimensionStack);
+
+            dimensionStack.Pop(DimensionEnum.Time);
+
             return result;
         }
     }
@@ -96,11 +114,19 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _originValue = originValue;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
             // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
             double transformedTime = (time - _originValue) * _factorValue + _originValue;
-            double result = _signalCalculator.Calculate(transformedTime, channelIndex);
+
+            dimensionStack.Push(DimensionEnum.Time, transformedTime);
+
+            double result = _signalCalculator.Calculate(dimensionStack);
+
+            dimensionStack.Pop(DimensionEnum.Time);
+
             return result;
         }
     }
@@ -129,12 +155,21 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _originCalculator = originCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
             // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
-            double origin = _originCalculator.Calculate(time, channelIndex);
+            double origin = _originCalculator.Calculate(dimensionStack);
+
             double transformedTime = (time - origin) * _factorValue + origin;
-            double result2 = _signalCalculator.Calculate(transformedTime, channelIndex);
+
+            dimensionStack.Push(DimensionEnum.Time, transformedTime);
+
+            double result2 = _signalCalculator.Calculate(dimensionStack);
+
+            dimensionStack.Pop(DimensionEnum.Time);
+
             return result2;
         }
     }
@@ -162,13 +197,21 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _originValue = originValue;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double factor = _factorCalculator.Calculate(time, channelIndex);
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
+            double factor = _factorCalculator.Calculate(dimensionStack);
 
             // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
             double transformedTime = (time - _originValue) * factor + _originValue;
-            double result = _signalCalculator.Calculate(transformedTime, channelIndex);
+
+            dimensionStack.Push(DimensionEnum.Time, transformedTime);
+
+            double result = _signalCalculator.Calculate(dimensionStack);
+
+            dimensionStack.Pop(DimensionEnum.Time);
+
             return result;
         }
     }
@@ -195,14 +238,23 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _originOutletCalculator = originOutletCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double factor = _factorCalculator.Calculate(time, channelIndex);
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
+            double factor = _factorCalculator.Calculate(dimensionStack);
 
             // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
-            double origin = _originOutletCalculator.Calculate(time, channelIndex);
+            double origin = _originOutletCalculator.Calculate(dimensionStack);
+
             double transformedTime = (time - origin) * factor + origin;
-            double result = _signalCalculator.Calculate(transformedTime, channelIndex);
+
+            dimensionStack.Push(DimensionEnum.Time, transformedTime);
+
+            double result = _signalCalculator.Calculate(dimensionStack);
+
+            dimensionStack.Pop(DimensionEnum.Time);
+
             return result;
         }
     }

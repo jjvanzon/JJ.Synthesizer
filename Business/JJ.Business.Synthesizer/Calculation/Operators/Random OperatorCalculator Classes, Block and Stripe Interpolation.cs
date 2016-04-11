@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Calculation.Random;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -38,10 +39,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _phase = _randomCalculatorOffset;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double rate = _rateCalculator.Calculate(time, channelIndex);
-            double phaseShift = _phaseShiftCalculator.Calculate(time, channelIndex);
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
+            double rate = _rateCalculator.Calculate(dimensionStack);
+            double phaseShift = _phaseShiftCalculator.Calculate(dimensionStack);
 
             double dt = time - _previousTime;
             double phase = _phase + dt * rate;
@@ -62,12 +65,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return value;
         }
 
-        public override void Reset(double time, int channelIndex)
+        public override void Reset(DimensionStack dimensionStack)
         {
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
             _previousTime = time;
             _phase = _randomCalculatorOffset;
 
-            base.Reset(time, channelIndex);
+            base.Reset(dimensionStack);
         }
     }
 }

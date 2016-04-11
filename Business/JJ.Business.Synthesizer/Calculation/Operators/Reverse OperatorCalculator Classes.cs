@@ -1,6 +1,7 @@
 ﻿using JJ.Framework.Reflection.Exceptions;
 using System;
 using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -24,11 +25,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _speedCalculator = speedCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            _phase = TransformTime(time, channelIndex);
+            double time = dimensionStack.Get(DimensionEnum.Time);
 
-            double result = _signalCalculator.Calculate(_phase, channelIndex);
+            _phase = TransformTime(dimensionStack);
+
+            dimensionStack.Push(DimensionEnum.Time, _phase);
+            double result = _signalCalculator.Calculate(dimensionStack);
+            dimensionStack.Pop(DimensionEnum.Time);
 
             _previousTime = time;
 
@@ -36,9 +41,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private double TransformTime(double time, int channelIndex)
+        private double TransformTime(DimensionStack dimensionStack)
         {
-            double speed = _speedCalculator.Calculate(time, channelIndex);
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
+            double speed = _speedCalculator.Calculate(dimensionStack);
 
             double dt = time - _previousTime;
             double phase = _phase - dt * speed; // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
@@ -52,13 +59,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return phase;
         }
 
-        public override void Reset(double time, int channelIndex)
+        public override void Reset(DimensionStack dimensionStack)
         {
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
             _previousTime = time;
             _phase = 0.0;
 
-            double transformedTime = TransformTime(time, channelIndex);
-            base.Reset(time, channelIndex);
+            double transformedTime = TransformTime(dimensionStack);
+
+            dimensionStack.Push(DimensionEnum.Time, transformedTime);
+            base.Reset(dimensionStack);
+            dimensionStack.Pop(DimensionEnum.Time);
         }
     }
 
@@ -80,25 +92,35 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _timeSpeed = -speedValue;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            double transformedTime = TransformTime(time, channelIndex);
-            double result = _signalCalculator.Calculate(transformedTime, channelIndex);
+            double transformedTime = TransformTime(dimensionStack);
+
+            dimensionStack.Push(DimensionEnum.Time, transformedTime);
+            double result = _signalCalculator.Calculate(dimensionStack);
+            dimensionStack.Pop(DimensionEnum.Time);
+
             return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private double TransformTime(double time, int channelIndex)
+        private double TransformTime(DimensionStack dimensionStack)
         {
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
             // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
             double transformedTime = time * _timeSpeed;
+
             return transformedTime;
         }
 
-        public override void Reset(double time, int channelIndex)
+        public override void Reset(DimensionStack dimensionStack)
         {
-            double tranformedTimed = TransformTime(time, channelIndex);
-            base.Reset(tranformedTimed, channelIndex);
+            double tranformedTimed = TransformTime(dimensionStack);
+
+            dimensionStack.Push(DimensionEnum.Time, tranformedTimed);
+            base.Reset(dimensionStack);
+            dimensionStack.Pop(DimensionEnum.Time);
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Calculation.Arrays;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -17,8 +18,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _arrayCalculator = arrayCalculator;
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
             return _arrayCalculator.CalculateValue(time);
         }
     }
@@ -34,9 +37,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _arrayCalculators = arrayCalculators.ToArray();
         }
 
-        public override double Calculate(double time, int channelIndex)
+        public override double Calculate(DimensionStack dimensionStack)
         {
-            return _arrayCalculators[channelIndex].CalculateValue(time);
+            double channel = dimensionStack.Get(DimensionEnum.Channel);
+            double time = dimensionStack.Get(DimensionEnum.Time);
+
+            // TODO: Cast to int can fail.
+            int channelInt = (int)channel;
+
+            return _arrayCalculators[channelInt].CalculateValue(time);
         }
     }
 }
