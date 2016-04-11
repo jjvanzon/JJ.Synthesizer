@@ -22,6 +22,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(calculationCalculator, () => calculationCalculator);
 
             _dimensionEnum = dimensionEnum;
+            _value = value;
             _calculationCalculator = calculationCalculator;
         }
 

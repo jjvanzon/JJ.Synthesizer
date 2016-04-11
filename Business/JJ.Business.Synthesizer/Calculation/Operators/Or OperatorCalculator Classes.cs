@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate(double time, int channelIndex)
         {
             double a = _calculatorA.Calculate(time, channelIndex);
-            double b = _calculatorA.Calculate(time, channelIndex);
+            double b = _calculatorB.Calculate(time, channelIndex);
 
             bool aIsTrue = a != 0.0;
             bool bIsTrue = b != 0.0;
