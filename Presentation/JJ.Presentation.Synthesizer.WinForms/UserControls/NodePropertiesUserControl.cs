@@ -37,8 +37,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void SetTitles()
         {
             titleBarUserControl.Text = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Node);
-            labelValue.Text = PropertyDisplayNames.Value;
-            labelTime.Text = PropertyDisplayNames.Time;
+            labelX.Text = PropertyDisplayNames.X;
+            labelY.Text = PropertyDisplayNames.Y;
             labelNodeType.Text = Titles.Type;
         }
 
@@ -53,8 +53,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (ViewModel == null) return;
 
-            numericUpDownValue.Value = (decimal)ViewModel.Entity.Value;
-            numericUpDownTime.Value = (decimal)ViewModel.Entity.Time;
+            numericUpDownX.Value = (decimal)ViewModel.Entity.X;
+            numericUpDownY.Value = (decimal)ViewModel.Entity.Y;
 
             if (comboBoxNodeType.DataSource == null)
             {
@@ -77,8 +77,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (ViewModel == null) return;
 
-            ViewModel.Entity.Time = (double)numericUpDownTime.Value;
-            ViewModel.Entity.Value = (double)numericUpDownValue.Value;
+            ViewModel.Entity.X = (double)numericUpDownX.Value;
+            ViewModel.Entity.Y = (double)numericUpDownY.Value;
             ViewModel.Entity.NodeType = (IDAndName)comboBoxNodeType.SelectedItem;
         }
 

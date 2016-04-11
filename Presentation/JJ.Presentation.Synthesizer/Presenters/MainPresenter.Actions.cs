@@ -902,7 +902,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 else
                 {
                     // Insert after last node if none selected.
-                    afterNode = curve.Nodes.OrderBy(x => x.Time).Last();
+                    afterNode = curve.Nodes.OrderBy(x => x.X).Last();
                 }
 
                 // Business
@@ -975,7 +975,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void NodeMove(int nodeID, double time, double value)
+        public void NodeMove(int nodeID, double x, double y)
         {
             // Opted to not use the TemplateActionMethod,
             // because this is faster but less robust.
@@ -998,8 +998,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Node node = _repositories.NodeRepository.Get(nodeID);
 
             // Business
-            node.Time = time;
-            node.Value = value;
+            node.X = x;
+            node.Y = y;
 
             // Successful
             userInput.Successful = true;

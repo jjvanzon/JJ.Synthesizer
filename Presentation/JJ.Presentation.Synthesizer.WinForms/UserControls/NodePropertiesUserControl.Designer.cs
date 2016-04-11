@@ -33,15 +33,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.tableLayoutPanelProperties = new System.Windows.Forms.TableLayoutPanel();
             this.labelNodeType = new System.Windows.Forms.Label();
             this.comboBoxNodeType = new System.Windows.Forms.ComboBox();
-            this.labelValue = new System.Windows.Forms.Label();
-            this.numericUpDownTime = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDownValue = new System.Windows.Forms.NumericUpDown();
+            this.labelY = new System.Windows.Forms.Label();
+            this.numericUpDownX = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownY = new System.Windows.Forms.NumericUpDown();
             this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
-            this.labelTime = new System.Windows.Forms.Label();
+            this.labelX = new System.Windows.Forms.Label();
             this.tableLayoutPanelMain.SuspendLayout();
             this.tableLayoutPanelProperties.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTime)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownValue)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownX)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownY)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanelMain
@@ -65,11 +65,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.tableLayoutPanelProperties.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
             this.tableLayoutPanelProperties.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelProperties.Controls.Add(this.comboBoxNodeType, 1, 2);
-            this.tableLayoutPanelProperties.Controls.Add(this.labelValue, 0, 1);
-            this.tableLayoutPanelProperties.Controls.Add(this.numericUpDownTime, 1, 0);
-            this.tableLayoutPanelProperties.Controls.Add(this.numericUpDownValue, 1, 1);
+            this.tableLayoutPanelProperties.Controls.Add(this.labelY, 0, 1);
+            this.tableLayoutPanelProperties.Controls.Add(this.numericUpDownX, 1, 0);
+            this.tableLayoutPanelProperties.Controls.Add(this.numericUpDownY, 1, 1);
             this.tableLayoutPanelProperties.Controls.Add(this.labelNodeType, 0, 2);
-            this.tableLayoutPanelProperties.Controls.Add(this.labelTime, 0, 0);
+            this.tableLayoutPanelProperties.Controls.Add(this.labelX, 0, 0);
             this.tableLayoutPanelProperties.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelProperties.Location = new System.Drawing.Point(3, 24);
             this.tableLayoutPanelProperties.Name = "tableLayoutPanelProperties";
@@ -103,66 +103,66 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.comboBoxNodeType.Size = new System.Drawing.Size(10, 21);
             this.comboBoxNodeType.TabIndex = 16;
             // 
-            // labelValue
+            // labelY
             // 
-            this.labelValue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelValue.Location = new System.Drawing.Point(0, 24);
-            this.labelValue.Margin = new System.Windows.Forms.Padding(0);
-            this.labelValue.Name = "labelValue";
-            this.labelValue.Size = new System.Drawing.Size(120, 24);
-            this.labelValue.TabIndex = 2;
-            this.labelValue.Text = "labelName";
-            this.labelValue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelY.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelY.Location = new System.Drawing.Point(0, 24);
+            this.labelY.Margin = new System.Windows.Forms.Padding(0);
+            this.labelY.Name = "labelY";
+            this.labelY.Size = new System.Drawing.Size(120, 24);
+            this.labelY.TabIndex = 2;
+            this.labelY.Text = "labelName";
+            this.labelY.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // numericUpDownTime
+            // numericUpDownX
             // 
-            this.numericUpDownTime.DecimalPlaces = 6;
-            this.numericUpDownTime.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.numericUpDownTime.Increment = new decimal(new int[] {
+            this.numericUpDownX.DecimalPlaces = 6;
+            this.numericUpDownX.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.numericUpDownX.Increment = new decimal(new int[] {
             1,
             0,
             0,
             65536});
-            this.numericUpDownTime.Location = new System.Drawing.Point(120, 0);
-            this.numericUpDownTime.Margin = new System.Windows.Forms.Padding(0);
-            this.numericUpDownTime.Maximum = new decimal(new int[] {
+            this.numericUpDownX.Location = new System.Drawing.Point(120, 0);
+            this.numericUpDownX.Margin = new System.Windows.Forms.Padding(0);
+            this.numericUpDownX.Maximum = new decimal(new int[] {
             1000000000,
             0,
             0,
             0});
-            this.numericUpDownTime.Minimum = new decimal(new int[] {
+            this.numericUpDownX.Minimum = new decimal(new int[] {
             1000000000,
             0,
             0,
             -2147483648});
-            this.numericUpDownTime.Name = "numericUpDownTime";
-            this.numericUpDownTime.Size = new System.Drawing.Size(10, 20);
-            this.numericUpDownTime.TabIndex = 21;
+            this.numericUpDownX.Name = "numericUpDownX";
+            this.numericUpDownX.Size = new System.Drawing.Size(10, 20);
+            this.numericUpDownX.TabIndex = 21;
             // 
-            // numericUpDownValue
+            // numericUpDownY
             // 
-            this.numericUpDownValue.DecimalPlaces = 6;
-            this.numericUpDownValue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.numericUpDownValue.Increment = new decimal(new int[] {
+            this.numericUpDownY.DecimalPlaces = 6;
+            this.numericUpDownY.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.numericUpDownY.Increment = new decimal(new int[] {
             1,
             0,
             0,
             65536});
-            this.numericUpDownValue.Location = new System.Drawing.Point(120, 24);
-            this.numericUpDownValue.Margin = new System.Windows.Forms.Padding(0);
-            this.numericUpDownValue.Maximum = new decimal(new int[] {
+            this.numericUpDownY.Location = new System.Drawing.Point(120, 24);
+            this.numericUpDownY.Margin = new System.Windows.Forms.Padding(0);
+            this.numericUpDownY.Maximum = new decimal(new int[] {
             1000000000,
             0,
             0,
             0});
-            this.numericUpDownValue.Minimum = new decimal(new int[] {
+            this.numericUpDownY.Minimum = new decimal(new int[] {
             1000000000,
             0,
             0,
             -2147483648});
-            this.numericUpDownValue.Name = "numericUpDownValue";
-            this.numericUpDownValue.Size = new System.Drawing.Size(10, 20);
-            this.numericUpDownValue.TabIndex = 22;
+            this.numericUpDownY.Name = "numericUpDownY";
+            this.numericUpDownY.Size = new System.Drawing.Size(10, 20);
+            this.numericUpDownY.TabIndex = 22;
             // 
             // titleBarUserControl
             // 
@@ -178,16 +178,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.titleBarUserControl.TabIndex = 7;
             this.titleBarUserControl.CloseClicked += new System.EventHandler(this.titleBarUserControl_CloseClicked);
             // 
-            // labelTime
+            // labelX
             // 
-            this.labelTime.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelTime.Location = new System.Drawing.Point(0, 0);
-            this.labelTime.Margin = new System.Windows.Forms.Padding(0);
-            this.labelTime.Name = "labelTime";
-            this.labelTime.Size = new System.Drawing.Size(120, 24);
-            this.labelTime.TabIndex = 23;
-            this.labelTime.Text = "labelTime";
-            this.labelTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelX.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelX.Location = new System.Drawing.Point(0, 0);
+            this.labelX.Margin = new System.Windows.Forms.Padding(0);
+            this.labelX.Name = "labelX";
+            this.labelX.Size = new System.Drawing.Size(120, 24);
+            this.labelX.TabIndex = 23;
+            this.labelX.Text = "labelX";
+            this.labelX.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // NodePropertiesUserControl
             // 
@@ -202,8 +202,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.Leave += new System.EventHandler(this.NodePropertiesUserControl_Leave);
             this.tableLayoutPanelMain.ResumeLayout(false);
             this.tableLayoutPanelProperties.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTime)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownValue)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownX)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownY)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -213,11 +213,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelMain;
         private TitleBarUserControl titleBarUserControl;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelProperties;
-        private System.Windows.Forms.Label labelValue;
+        private System.Windows.Forms.Label labelY;
         private System.Windows.Forms.Label labelNodeType;
         private System.Windows.Forms.ComboBox comboBoxNodeType;
-        private System.Windows.Forms.NumericUpDown numericUpDownTime;
-        private System.Windows.Forms.NumericUpDown numericUpDownValue;
-        private System.Windows.Forms.Label labelTime;
+        private System.Windows.Forms.NumericUpDown numericUpDownX;
+        private System.Windows.Forms.NumericUpDown numericUpDownY;
+        private System.Windows.Forms.Label labelX;
     }
 }

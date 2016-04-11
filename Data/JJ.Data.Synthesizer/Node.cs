@@ -7,8 +7,8 @@ namespace JJ.Data.Synthesizer
     public class Node
     {
         public virtual int ID { get; set; }
-        public virtual double Time { get; set; }
-        public virtual double Value { get; set; }
+        public virtual double X { get; set; }
+        public virtual double Y { get; set; }
 
         /// <summary> Currently not used. (2015-11-16) </summary>
         public virtual double Direction { get; set; }

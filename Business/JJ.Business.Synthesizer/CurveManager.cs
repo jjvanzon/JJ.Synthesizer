@@ -78,8 +78,8 @@ namespace JJ.Business.Synthesizer
             foreach (NodeInfo nodeInfo in nodeInfos)
             {
                 Node node = CreateNode(curve);
-                node.Time = nodeInfo.Time;
-                node.Value = nodeInfo.Value;
+                node.X = nodeInfo.X;
+                node.Y = nodeInfo.Y;
                 node.SetNodeTypeEnum(nodeInfo.NodeTypeEnum, _repositories.NodeTypeRepository);
             }
 
@@ -97,7 +97,7 @@ namespace JJ.Business.Synthesizer
             curve.ID = _repositories.IDRepository.GetID();
             _repositories.CurveRepository.Insert(curve);
 
-            double[] times = GetEquidistantPointsInTime(timeSpan, nodeInfos.Length);
+            double[] times = GetEquidistantPointsOverX(timeSpan, nodeInfos.Length);
 
             for (int i = 0; i < nodeInfos.Length; i++)
             {
@@ -107,8 +107,8 @@ namespace JJ.Business.Synthesizer
                 if (nodeInfo != null)
                 {
                     Node node = CreateNode(curve);
-                    node.Time = time;
-                    node.Value = nodeInfo.Value;
+                    node.X = time;
+                    node.Y = nodeInfo.Y;
                     node.SetNodeTypeEnum(nodeInfo.NodeTypeEnum, _repositories.NodeTypeRepository);
                 }
             }
@@ -125,29 +125,29 @@ namespace JJ.Business.Synthesizer
             return curve;
         }
 
-        /// <param name="values">When a value is null, a node will not be created at that point in time.</param>
-        public Curve Create(double timeSpan, params double?[] values)
+        /// <param name="yValues">When a value is null, a node will not be created at that point in time.</param>
+        public Curve Create(double xSpan, params double?[] yValues)
         {
-            if (timeSpan <= 0) throw new LessThanOrEqualException(() => timeSpan, 0);
-            if (values == null) throw new NullException(() => values);
-            if (values.Length < 2) throw new LessThanException(() => values.Length, 2);
+            if (xSpan <= 0) throw new LessThanOrEqualException(() => xSpan, 0);
+            if (yValues == null) throw new NullException(() => yValues);
+            if (yValues.Length < 2) throw new LessThanException(() => yValues.Length, 2);
 
             var curve = new Curve();
             curve.ID = _repositories.IDRepository.GetID();
             _repositories.CurveRepository.Insert(curve);
 
-            double[] times = GetEquidistantPointsInTime(timeSpan, values.Length);
+            double[] times = GetEquidistantPointsOverX(xSpan, yValues.Length);
 
-            for (int i = 0; i < values.Length; i++)
+            for (int i = 0; i < yValues.Length; i++)
             {
-                double? value = values[i];
-                double time = times[i];
+                double? y = yValues[i];
+                double x = times[i];
 
-                if (value.HasValue)
+                if (y.HasValue)
                 {
                     Node node = CreateNode(curve);
-                    node.Time = time;
-                    node.Value = value.Value;
+                    node.X = x;
+                    node.Y = y.Value;
                     node.SetNodeTypeEnum(NodeTypeEnum.Line, _repositories.NodeTypeRepository);
                 }
             }
@@ -173,7 +173,7 @@ namespace JJ.Business.Synthesizer
             if (curve.Nodes.Count < 2) throw new LessThanException(() => curve.Nodes.Count, 2);
             if (afterNode == null) throw new NullException(() => afterNode);
 
-            IList<Node> sortedNodes = curve.Nodes.OrderBy(x => x.Time).ToArray(); // TODO: Low priority: You could optimize this if there would be an isntance Curve.
+            IList<Node> sortedNodes = curve.Nodes.OrderBy(x => x.X).ToArray(); // TODO: Low priority: You could optimize this if there would be an isntance Curve.
             int afterNodeIndex = sortedNodes.IndexOf(afterNode);
 
             bool isLastNode = afterNodeIndex == sortedNodes.Count - 1;
@@ -184,11 +184,11 @@ namespace JJ.Business.Synthesizer
 
                 Node node = CreateNode(curve);
                 node.NodeType = afterNode.NodeType;
-                node.Value = afterNode.Value;
+                node.Y = afterNode.Y;
 
                 // Take the previous distance between nodes as the default for the next node.
-                double dt = afterNode.Time - previousNode.Time;
-                node.Time = afterNode.Time + dt;
+                double dt = afterNode.X - previousNode.X;
+                node.X = afterNode.X + dt;
 
                 return node;
             }
@@ -198,12 +198,12 @@ namespace JJ.Business.Synthesizer
                 Node beforeNode = sortedNodes[afterNodeIndex + 1];
 
                 // Make sure you do this before creating the new node.
-                double value = CalculateIntermediateValue(beforeNode, afterNode);
+                double y = CalculateIntermediateYValue(beforeNode, afterNode);
 
                 Node node = CreateNode(curve);
                 node.NodeType = afterNode.NodeType;
-                node.Time = afterNode.Time + (beforeNode.Time - afterNode.Time) / 2.0;
-                node.Value = value;
+                node.X = afterNode.X + (beforeNode.X - afterNode.X) / 2.0;
+                node.Y = y;
 
                 return node;
             }
@@ -330,44 +330,44 @@ namespace JJ.Business.Synthesizer
 
         // Helpers
 
-        private double[] GetEquidistantPointsInTime(double timeSpan, int pointCount)
+        private double[] GetEquidistantPointsOverX(double xSpan, int pointCount)
         {
-            if (timeSpan <= 0) throw new Exception("timespan must be greater than 0.");
+            if (xSpan <= 0) throw new Exception("xSpan must be greater than 0.");
             if (pointCount < 2) throw new Exception("pointCount must be at least 2.");
 
-            double[] times = new double[pointCount];
-            double t = 0;
-            double dt = timeSpan / (pointCount - 1);
+            double[] xValues = new double[pointCount];
+            double x = 0;
+            double dx = xSpan / (pointCount - 1);
             for (int i = 0; i < pointCount; i++)
             {
-                times[i] = t;
-                t += dt;
+                xValues[i] = x;
+                x += dx;
             }
 
-            return times;
+            return xValues;
         }
 
-        private double CalculateIntermediateValue(Node beforeNode, Node afterNode)
+        private double CalculateIntermediateYValue(Node beforeNode, Node afterNode)
         {
             NodeTypeEnum nodeTypeEnum = afterNode.GetNodeTypeEnum();
             switch (nodeTypeEnum)
             {
                 case NodeTypeEnum.Block:
                 case NodeTypeEnum.Off:
-                    return afterNode.Value;
+                    return afterNode.Y;
 
                 case NodeTypeEnum.Line:
                     {
-                        double value = (beforeNode.Value + afterNode.Value) / 2.0;
-                        return value;
+                        double y = (beforeNode.Y + afterNode.Y) / 2.0;
+                        return y;
                     }
 
                 case NodeTypeEnum.Curve:
                     {
                         ICurveCalculator calculator = CreateInterpretedCalculator(beforeNode.Curve);
-                        double time = (beforeNode.Time + afterNode.Time) / 2;
-                        double value = calculator.CalculateValue(time);
-                        return value;
+                        double x = (beforeNode.X + afterNode.X) / 2;
+                        double y = calculator.CalculateY(x);
+                        return y;
                     }
 
                 default:

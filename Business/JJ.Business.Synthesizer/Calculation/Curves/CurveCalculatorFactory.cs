@@ -14,13 +14,13 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
 
             var curveArrayInfo = CurveArrayHelper.ConvertToCurveArrayInfo(curve);
 
-            if (curveArrayInfo.MinTime == 0.0)
+            if (curveArrayInfo.MinX == 0.0)
             {
-                return new CurveCalculator_MinTimeZero(curveArrayInfo);
+                return new CurveCalculator_MinXZero(curveArrayInfo);
             }
             else
             {
-                return new CurveCalculator_MinTime(curveArrayInfo);
+                return new CurveCalculator_MinX(curveArrayInfo);
             }
         }
     }

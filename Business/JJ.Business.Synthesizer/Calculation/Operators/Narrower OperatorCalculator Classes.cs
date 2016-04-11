@@ -10,17 +10,20 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     // Var-Const-Zero
 
-    internal class Narrower_VarSignal_ConstFactor_ZeroOrigin_OperatorCalculator : OperatorCalculatorBase
+    internal class Narrower_VarSignal_ConstFactor_ZeroOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private OperatorCalculatorBase _signalCalculator;
-        private double _factor;
+        private readonly OperatorCalculatorBase _signalCalculator;
+        private readonly double _factor;
 
         public Narrower_VarSignal_ConstFactor_ZeroOrigin_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
             double factorValue)
+            : base(new OperatorCalculatorBase[]
+            {
+                signalCalculator
+            })
         {
-            if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => signalCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
             if (factorValue == 0) throw new ZeroException(() => factorValue);
 
             _signalCalculator = signalCalculator;
@@ -47,17 +50,22 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     // Var-Var-Zero
 
-    internal class Narrower_VarSignal_VarFactor_ZeroOrigin_OperatorCalculator : OperatorCalculatorBase
+    internal class Narrower_VarSignal_VarFactor_ZeroOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private OperatorCalculatorBase _signalCalculator;
-        private OperatorCalculatorBase _factorCalculator;
+        private readonly OperatorCalculatorBase _signalCalculator;
+        private readonly OperatorCalculatorBase _factorCalculator;
 
-        public Narrower_VarSignal_VarFactor_ZeroOrigin_OperatorCalculator(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase factorCalculator)
+        public Narrower_VarSignal_VarFactor_ZeroOrigin_OperatorCalculator(
+            OperatorCalculatorBase signalCalculator, 
+            OperatorCalculatorBase factorCalculator)
+            : base(new OperatorCalculatorBase[]
+            {
+                signalCalculator,
+                factorCalculator
+            })
         {
-            if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => signalCalculator);
-            if (factorCalculator == null) throw new NullException(() => factorCalculator);
-            if (factorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => factorCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(factorCalculator, () => factorCalculator);
 
             _signalCalculator = signalCalculator;
             _factorCalculator = factorCalculator;
@@ -92,20 +100,22 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     // Var-Const-Const
 
-    internal class Narrower_VarSignal_ConstFactor_ConstOrigin_OperatorCalculator : OperatorCalculatorBase
+    internal class Narrower_VarSignal_ConstFactor_ConstOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private OperatorCalculatorBase _signalCalculator;
-        private double _factorValue;
-        private double _originValue;
+        private readonly OperatorCalculatorBase _signalCalculator;
+        private readonly double _factorValue;
+        private readonly double _originValue;
 
         public Narrower_VarSignal_ConstFactor_ConstOrigin_OperatorCalculator(
             OperatorCalculatorBase signalCalculator, 
             double factorValue, 
             double originValue)
+            : base(new OperatorCalculatorBase[]
+            {
+                signalCalculator
+            })
         {
-            if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => signalCalculator);
-            if (factorValue == 0) throw new ZeroException(() => factorValue);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
             if (factorValue == 0) throw new ZeroException(() => factorValue);
             if (originValue == 0) throw new ZeroException(() => originValue);
 
@@ -133,22 +143,25 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     // Var-Const-Var
 
-    internal class Narrower_VarSignal_ConstFactor_VarOrigin_OperatorCalculator : OperatorCalculatorBase
+    internal class Narrower_VarSignal_ConstFactor_VarOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private OperatorCalculatorBase _signalCalculator;
-        private double _factorValue;
-        private OperatorCalculatorBase _originCalculator;
+        private readonly OperatorCalculatorBase _signalCalculator;
+        private readonly double _factorValue;
+        private readonly OperatorCalculatorBase _originCalculator;
 
         public Narrower_VarSignal_ConstFactor_VarOrigin_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
             double factorValue,
             OperatorCalculatorBase originCalculator)
+            : base(new OperatorCalculatorBase[]
+            {
+                signalCalculator,
+                originCalculator
+            })
         {
-            if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => signalCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
             if (factorValue == 0) throw new ZeroException(() => factorValue);
-            if (originCalculator == null) throw new NullException(() => originCalculator);
-            if (originCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => originCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(originCalculator, () => originCalculator);
 
             _signalCalculator = signalCalculator;
             _factorValue = factorValue;
@@ -176,21 +189,24 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     // Var-Var-Const
 
-    internal class Narrower_VarSignal_VarFactor_ConstOrigin_OperatorCalculator : OperatorCalculatorBase
+    internal class Narrower_VarSignal_VarFactor_ConstOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private OperatorCalculatorBase _signalCalculator;
-        private OperatorCalculatorBase _factorCalculator;
-        private double _originValue;
+        private readonly OperatorCalculatorBase _signalCalculator;
+        private readonly OperatorCalculatorBase _factorCalculator;
+        private readonly double _originValue;
 
         public Narrower_VarSignal_VarFactor_ConstOrigin_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase factorCalculator,
             double originValue)
+            : base(new OperatorCalculatorBase[]
+            {
+                signalCalculator,
+                factorCalculator
+            })
         {
-            if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => signalCalculator);
-            if (factorCalculator == null) throw new NullException(() => factorCalculator);
-            if (factorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => factorCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(factorCalculator, () => factorCalculator);
 
             _signalCalculator = signalCalculator;
             _factorCalculator = factorCalculator;
@@ -218,24 +234,30 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     // Var-Var-Var
 
-    internal class Narrower_VarSignal_VarFactor_VarOrigin_OperatorCalculator : OperatorCalculatorBase
+    internal class Narrower_VarSignal_VarFactor_VarOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private OperatorCalculatorBase _signalCalculator;
-        private OperatorCalculatorBase _factorCalculator;
-        private OperatorCalculatorBase _originOutletCalculator;
+        private readonly OperatorCalculatorBase _signalCalculator;
+        private readonly OperatorCalculatorBase _factorCalculator;
+        private readonly OperatorCalculatorBase _originCalculator;
 
-        public Narrower_VarSignal_VarFactor_VarOrigin_OperatorCalculator(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase factorCalculator, OperatorCalculatorBase originOutletCalculator)
+        public Narrower_VarSignal_VarFactor_VarOrigin_OperatorCalculator(
+            OperatorCalculatorBase signalCalculator, 
+            OperatorCalculatorBase factorCalculator, 
+            OperatorCalculatorBase originCalculator)
+            : base(new OperatorCalculatorBase[]
+            {
+                signalCalculator,
+                factorCalculator,
+                originCalculator
+            })
         {
-            if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => signalCalculator);
-            if (factorCalculator == null) throw new NullException(() => factorCalculator);
-            if (factorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => factorCalculator);
-            if (originOutletCalculator == null) throw new NullException(() => originOutletCalculator);
-            if (originOutletCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => originOutletCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(factorCalculator, () => factorCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(originCalculator, () => originCalculator);
 
             _signalCalculator = signalCalculator;
             _factorCalculator = factorCalculator;
-            _originOutletCalculator = originOutletCalculator;
+            _originCalculator = originCalculator;
         }
 
         public override double Calculate(DimensionStack dimensionStack)
@@ -245,7 +267,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double factor = _factorCalculator.Calculate(dimensionStack);
 
             // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
-            double origin = _originOutletCalculator.Calculate(dimensionStack);
+            double origin = _originCalculator.Calculate(dimensionStack);
 
             double transformedTime = (time - origin) * factor + origin;
 

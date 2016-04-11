@@ -8,8 +8,8 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
         public NodeMapping()
         {
             Id(x => x.ID).GeneratedBy.Assigned();
-            Map(x => x.Time);
-            Map(x => x.Value);
+            Map(x => x.X);
+            Map(x => x.Y);
             Map(x => x.Direction);
 
             References(x => x.Curve, ColumnNames.CurveID);

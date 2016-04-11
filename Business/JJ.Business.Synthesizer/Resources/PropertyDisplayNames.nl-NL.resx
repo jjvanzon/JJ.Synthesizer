@@ -541,10 +541,10 @@
     <value>Willekeurig</value>
   </data>
   <data name="A" xml:space="preserve">
-    <value>a</value>
+    <value>A</value>
   </data>
   <data name="B" xml:space="preserve">
-    <value>b</value>
+    <value>B</value>
   </data>
   <data name="Equal" xml:space="preserve">
     <value>=</value>
@@ -777,5 +777,8 @@
   </data>
   <data name="SetDimension" xml:space="preserve">
     <value>Dimensie instellen</value>
+  </data>
+  <data name="Y" xml:space="preserve">
+    <value>y</value>
   </data>
 </root>

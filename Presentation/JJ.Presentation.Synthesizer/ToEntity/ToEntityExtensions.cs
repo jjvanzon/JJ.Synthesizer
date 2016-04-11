@@ -524,8 +524,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 entity.ID = viewModel.ID;
                 nodeRepository.Insert(entity);
             }
-            entity.Time = viewModel.Time;
-            entity.Value = viewModel.Value;
+            entity.X = viewModel.X;
+            entity.Y = viewModel.Y;
 
             bool nodeTypeIsFilledIn = viewModel.NodeType != null && viewModel.NodeType.ID != 0;
             if (nodeTypeIsFilledIn)

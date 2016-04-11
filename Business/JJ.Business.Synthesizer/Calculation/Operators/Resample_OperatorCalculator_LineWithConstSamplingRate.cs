@@ -4,12 +4,18 @@ using JJ.Framework.Reflection.Exceptions;
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     /// <summary> Not used. </summary>
-    internal class Resample_OperatorCalculator_LineWithConstSamplingRate : OperatorCalculatorBase
+    internal class Resample_OperatorCalculator_LineWithConstSamplingRate : OperatorCalculatorBase_WithChildCalculators
     {
         private OperatorCalculatorBase _signalCalculator;
         private double _samplePeriod;
 
-        public Resample_OperatorCalculator_LineWithConstSamplingRate(OperatorCalculatorBase signalCalculator, double samplingRate)
+        public Resample_OperatorCalculator_LineWithConstSamplingRate(
+            OperatorCalculatorBase signalCalculator, 
+            double samplingRate)
+            : base(new OperatorCalculatorBase[]
+            {
+                signalCalculator
+            })
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (samplingRate <= 0) throw new LessThanOrEqualException(() => samplingRate, 0);

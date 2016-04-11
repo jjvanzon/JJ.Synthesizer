@@ -10,12 +10,19 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     /// does not work when the sampling rate gradually changes,
     /// because the alignment of sampling changes with the gradual change.
     /// </summary>
-    internal class Resample_OperatorCalculator_LineWithVaryingAlignment : OperatorCalculatorBase
+    internal class Resample_OperatorCalculator_LineWithVaryingAlignment : OperatorCalculatorBase_WithChildCalculators
     {
         private OperatorCalculatorBase _signalCalculator;
         private OperatorCalculatorBase _samplingRateCalculator;
 
-        public Resample_OperatorCalculator_LineWithVaryingAlignment(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase samplingRateCalculator)
+        public Resample_OperatorCalculator_LineWithVaryingAlignment(
+            OperatorCalculatorBase signalCalculator, 
+            OperatorCalculatorBase samplingRateCalculator)
+            : base(new OperatorCalculatorBase[]
+            {
+                signalCalculator,
+                samplingRateCalculator
+            })
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (signalCalculator is Number_OperatorCalculator) throw new IsNotTypeException<Number_OperatorCalculator>(() => signalCalculator);

@@ -61,7 +61,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to a.
+        ///   Looks up a localized string similar to A.
         /// </summary>
         public static string A {
             get {
@@ -160,7 +160,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to b.
+        ///   Looks up a localized string similar to B.
         /// </summary>
         public static string B {
             get {
@@ -2028,6 +2028,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string X {
             get {
                 return ResourceManager.GetString("X", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to y.
+        /// </summary>
+        public static string Y {
+            get {
+                return ResourceManager.GetString("Y", resourceCulture);
             }
         }
     }

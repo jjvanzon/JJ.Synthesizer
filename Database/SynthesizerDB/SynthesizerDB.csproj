@@ -223,6 +223,8 @@
     <Content Include="2016-04-10 050 SynthesizerDB convert Outlet.DimensionID named Volumes from 3 to 5.sql" />
     <Content Include="2016-04-10 060 SynthesizerDB FK_Outlet_Dimension.sql" />
     <Content Include="2016-04-10 070 SynthesizerDB drop table OutletType.sql" />
+    <Content Include="2016-04-12 010 SynthesizerDB rename Node.Time to X.sql" />
+    <Content Include="2016-04-12 020 SynthesizerDB rename Node.Value to Y.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -7,52 +7,66 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class Select_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
-        private readonly OperatorCalculatorBase _timeCalculator;
+        private readonly OperatorCalculatorBase _dimensionValueCalculator;
+        private readonly int _dimensionIndex;
 
-        public Select_OperatorCalculator(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase timeCalculator)
-            : base(new OperatorCalculatorBase[] { signalCalculator, timeCalculator })
+        public Select_OperatorCalculator(
+            OperatorCalculatorBase signalCalculator, 
+            OperatorCalculatorBase dimensionValueCalculator,
+            DimensionEnum dimensionEnum)
+            : base(new OperatorCalculatorBase[] 
+            {
+                signalCalculator,
+                dimensionValueCalculator
+            })
         {
-            if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => signalCalculator);
-            if (timeCalculator == null) throw new NullException(() => timeCalculator);
-            if (timeCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => timeCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(dimensionValueCalculator, () => dimensionValueCalculator);
 
             _signalCalculator = signalCalculator;
-            _timeCalculator = timeCalculator;
+            _dimensionValueCalculator = dimensionValueCalculator;
+            _dimensionIndex = (int)dimensionEnum;
         }
 
         public override double Calculate(DimensionStack dimensionStack)
         {
-            double time2 = _timeCalculator.Calculate(dimensionStack);
+            double dimensionValue = _dimensionValueCalculator.Calculate(dimensionStack);
 
-            dimensionStack.Push(DimensionEnum.Time, time2);
+            dimensionStack.Push(_dimensionIndex, dimensionValue);
             double result = _signalCalculator.Calculate(dimensionStack);
-            dimensionStack.Pop(DimensionEnum.Time);
+            dimensionStack.Pop(_dimensionIndex);
 
             return result;
         }
     }
 
-    internal class Select_WithConstTime_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Select_WithConstDimensionValue_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
-        private readonly double _time2;
+        private readonly double _dimensionValue;
+        private readonly int _dimensionIndex;
 
-        public Select_WithConstTime_OperatorCalculator(OperatorCalculatorBase signalCalculator, double time2)
-            : base(new OperatorCalculatorBase[] { signalCalculator })
+        public Select_WithConstDimensionValue_OperatorCalculator(
+            OperatorCalculatorBase signalCalculator, 
+            double dimensionValue,
+            DimensionEnum dimensionEnum)
+            : base(new OperatorCalculatorBase[] 
+            {
+                signalCalculator
+            })
         {
-            if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => signalCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
 
             _signalCalculator = signalCalculator;
-            _time2 = time2;
+            _dimensionValue = dimensionValue;
+            _dimensionIndex = (int)dimensionEnum;
         }
 
         public override double Calculate(DimensionStack dimensionStack)
         {
-            dimensionStack.Push(DimensionEnum.Time, _time2);
+            dimensionStack.Push(_dimensionIndex, _dimensionValue);
             double result = _signalCalculator.Calculate(dimensionStack);
-            dimensionStack.Pop(DimensionEnum.Time);
+            dimensionStack.Pop(_dimensionIndex);
 
             return result;
         }

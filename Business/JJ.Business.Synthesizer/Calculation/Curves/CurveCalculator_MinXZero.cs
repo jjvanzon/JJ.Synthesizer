@@ -7,23 +7,23 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Curves
 {
-    internal class CurveCalculator_MinTimeZero : ICurveCalculator
+    internal class CurveCalculator_MinXZero : ICurveCalculator
     {
         private ArrayCalculator_MinTimeZero_Line _arrayCalculator;
 
-        public CurveCalculator_MinTimeZero(CurveArrayInfo curveArrayInfo)
+        public CurveCalculator_MinXZero(CurveArrayInfo curveArrayInfo)
         {
             if (curveArrayInfo == null) throw new NullException(() => curveArrayInfo);
 
             _arrayCalculator = new ArrayCalculator_MinTimeZero_Line(
                 curveArrayInfo.Array,
                 curveArrayInfo.Rate,
-                curveArrayInfo.ValueBefore,
-                curveArrayInfo.ValueAfter);
+                curveArrayInfo.YBefore,
+                curveArrayInfo.YAfter);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public double CalculateValue(double time)
+        public double CalculateY(double time)
         {
             return _arrayCalculator.CalculateValue(time);
         }

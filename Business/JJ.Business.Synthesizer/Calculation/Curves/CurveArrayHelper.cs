@@ -15,13 +15,13 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
         {
             if (curve == null) throw new NullException(() => curve);
 
-            IList<Node> sortedNodes = curve.Nodes.OrderBy(x => x.Time).ToArray();
-
-            double valueBefore = sortedNodes.First().Value;
-            double valueAfter = sortedNodes.Last().Value;
-            double minTime = sortedNodes.First().Time;
-            double maxTime = sortedNodes.Last().Time;
-            double totalDuration = maxTime - minTime;
+            IList<Node> sortedNodes = curve.Nodes.OrderBy(x => x.X).ToArray();
+            
+            double yBefore = sortedNodes.First().Y;
+            double yAfter = sortedNodes.Last().Y;
+            double minX = sortedNodes.First().X;
+            double maxX = sortedNodes.Last().X;
+            double totalDuration = maxX - minX;
             double minNodeDuration = GetMinNodeLength(sortedNodes);
 
             // Try basing sample count on MINIMUM_SAMPLES_PER_NODE.
@@ -40,10 +40,10 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
             // Calculate the array.
             double[] samples = new double[sampleCount];
             ICurveCalculator interpretedCurveCalculator = new InterpretedCurveCalculator(curve);
-            double time = minTime;
+            double time = minX;
             for (int i = 0; i < sampleCount; i++)
             {
-                double sample = interpretedCurveCalculator.CalculateValue(time);
+                double sample = interpretedCurveCalculator.CalculateY(time);
                 samples[i] = sample;
                 time += step;
             }
@@ -52,9 +52,9 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
             {
                 Array = samples,
                 Rate = samplingRate,
-                MinTime = minTime,
-                ValueBefore = valueBefore,
-                ValueAfter = valueAfter
+                MinX = minX,
+                YBefore = yBefore,
+                YAfter = yAfter
             };
         }
 
@@ -67,7 +67,7 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
                 Node nodeA = sortedNodes[i];
                 Node nodeB = sortedNodes[i + 1];
 
-                double nodeLength = nodeB.Time - nodeA.Time;
+                double nodeLength = nodeB.X - nodeA.X;
 
                 if (minNodeLength > nodeLength)
                 {

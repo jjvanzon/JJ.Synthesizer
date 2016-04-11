@@ -100,7 +100,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entities == null) throw new NullException(() => entities);
 
-            IList<NodeViewModel> viewModels = entities.OrderBy(x => x.Time)
+            IList<NodeViewModel> viewModels = entities.OrderBy(x => x.X)
                                                       .Select(x => x.ToViewModel())
                                                       .ToList();
             return viewModels;
@@ -112,13 +112,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = new NodeViewModel
             {
-                Time = entity.Time,
-                Value = entity.Value,
+                X = entity.X,
+                Y = entity.Y,
                 NodeType = entity.NodeType.ToIDAndDisplayName(),
                 ID = entity.ID
             };
             
-            viewModel.Caption = String.Format("{0:0.####}, {1:0.####}", entity.Time, entity.Value);
+            viewModel.Caption = String.Format("{0:0.####}, {1:0.####}", entity.X, entity.Y);
 
             return viewModel;
         }

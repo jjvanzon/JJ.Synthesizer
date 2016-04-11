@@ -106,11 +106,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 elementToDelete.Diagram = null;
             }
 
-            IList<NodeViewModel> sortedNodeViewModels = curveDetailsViewModel.Nodes.OrderBy(x => x.Time).ToArray();
-            float minTime = (float)sortedNodeViewModels.First().Time;
-            float maxTime = (float)sortedNodeViewModels.Last().Time;
-            float minValue = (float)sortedNodeViewModels.Select(x => x.Value).Min();
-            float maxValue = (float)sortedNodeViewModels.Select(x => x.Value).Max();
+            IList<NodeViewModel> sortedNodeViewModels = curveDetailsViewModel.Nodes.OrderBy(x => x.X).ToArray();
+            float minTime = (float)sortedNodeViewModels.First().X;
+            float maxTime = (float)sortedNodeViewModels.Last().X;
+            float minValue = (float)sortedNodeViewModels.Select(x => x.Y).Min();
+            float maxValue = (float)sortedNodeViewModels.Select(x => x.Y).Max();
 
             // Set Scaling
             Result.Diagram.Position.ScaleModeEnum = ScaleModeEnum.ViewPort;
@@ -157,8 +157,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             foreach (NodeViewModel nodeViewModel in sortedNodeViewModels)
             {
                 // Coordinates are always relative. (Lowest time translates to x = 0, relative to the background.)
-                float x = Result.Diagram.Background.Position.AbsoluteToRelativeX((float)nodeViewModel.Time);
-                float y = Result.Diagram.Background.Position.AbsoluteToRelativeY((float)nodeViewModel.Value);
+                float x = Result.Diagram.Background.Position.AbsoluteToRelativeX((float)nodeViewModel.X);
+                float y = Result.Diagram.Background.Position.AbsoluteToRelativeY((float)nodeViewModel.Y);
 
                 // Convert Rectangle
                 Rectangle rectangle;
@@ -575,11 +575,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
             destPoints.Add(previousPoint);
 
-            double step = (mockNode1.Time - mockNode0.Time) / _lineSegmentCount;
-            double time = mockNode0.Time + step;
+            double step = (mockNode1.X - mockNode0.X) / _lineSegmentCount;
+            double time = mockNode0.X + step;
             for (int i = 0; i < _lineSegmentPointCount - 2; i++)
             {
-                double value = _currentCurveCalculator.CalculateValue(time);
+                double value = _currentCurveCalculator.CalculateY(time);
 
                 var destPoint = new Point
                 {
@@ -622,7 +622,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         private CurveInfo CreateCurveInfo(IList<NodeViewModel> nodeViewModels)
         {
-            IList<NodeInfo> nodeInfoList = nodeViewModels.Select(x => new NodeInfo(x.Time, x.Value, (NodeTypeEnum)x.NodeType.ID)).ToArray();
+            IList<NodeInfo> nodeInfoList = nodeViewModels.Select(x => new NodeInfo(x.X, x.Y, (NodeTypeEnum)x.NodeType.ID)).ToArray();
 
             JJ.Data.Synthesizer.Curve mockCurve = CurveApi.Create(nodeInfoList);
 

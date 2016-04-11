@@ -4,21 +4,21 @@ namespace JJ.Business.Synthesizer.Helpers
 {
     public class NodeInfo
     {
-        public NodeInfo(double time, double value, NodeTypeEnum nodeTypeEnum = NodeTypeEnum.Line)
+        public NodeInfo(double x, double y, NodeTypeEnum nodeTypeEnum = NodeTypeEnum.Line)
         {
-            Time = time;
-            Value = value;
+            X = x;
+            Y = y;
             NodeTypeEnum = nodeTypeEnum;
         }
 
         public NodeInfo(double value, NodeTypeEnum nodeTypeEnum = NodeTypeEnum.Line)
         {
-            Value = value;
+            Y = value;
             NodeTypeEnum = nodeTypeEnum;
         }
 
-        public double Time { get; set; }
-        public double Value { get; set; }
+        public double X { get; set; }
+        public double Y { get; set; }
         public NodeTypeEnum NodeTypeEnum { get; set; }
     }
 }

@@ -114,7 +114,7 @@ namespace JJ.Data.Synthesizer.Helpers
 
             sb.AppendFormat("{{{0}}} ", entity.GetType().Name);
 
-            sb.AppendFormat("time={0} value={1} ", entity.Time, entity.Value);
+            sb.AppendFormat("x={0} y={1} ", entity.X, entity.Y);
 
             if (entity.NodeType != null)
             {

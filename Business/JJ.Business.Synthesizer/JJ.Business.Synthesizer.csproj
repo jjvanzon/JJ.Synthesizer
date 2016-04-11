@@ -76,8 +76,8 @@
     <Compile Include="Calculation\Curves\CurveArrayHelper.cs" />
     <Compile Include="Calculation\Curves\CurveCalculatorFactory.cs" />
     <Compile Include="Calculation\Curves\ICurveCalculator.cs" />
-    <Compile Include="Calculation\Curves\CurveCalculator_MinTimeZero.cs" />
-    <Compile Include="Calculation\Curves\CurveCalculator_MinTime.cs" />
+    <Compile Include="Calculation\Curves\CurveCalculator_MinXZero.cs" />
+    <Compile Include="Calculation\Curves\CurveCalculator_MinX.cs" />
     <Compile Include="Calculation\DimensionStack.cs" />
     <Compile Include="Calculation\Operators\Cache OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\2016-04-05 Backup of SpeedUp OperatorCalculator Classes.cs" />

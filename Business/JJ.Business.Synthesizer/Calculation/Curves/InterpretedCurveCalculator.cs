@@ -40,38 +40,38 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
 
         private IList<Node> CreateSortedNodes(Curve curve)
         {
-            IList<Node> sortedNodes = _curve.Nodes.OrderBy(x => x.Time).ToArray();
+            IList<Node> sortedNodes = _curve.Nodes.OrderBy(x => x.X).ToArray();
 
             Node firstNode = sortedNodes[0];
             Node lastNode = sortedNodes.Last();
 
             var nodeMinus2 = new Node
             {
-                Time = CalculationHelper.VERY_LOW_VALUE,
-                Value = firstNode.Value,
+                X = CalculationHelper.VERY_LOW_VALUE,
+                Y = firstNode.Y,
                 NodeType = firstNode.NodeType
             };
 
-            double timeBeforeFirstNode = firstNode.Time - CalculationHelper.VERY_LOW_VALUE;
+            double timeBeforeFirstNode = firstNode.X - CalculationHelper.VERY_LOW_VALUE;
             var nodeMinus1 = new Node
             {
-                Time = CalculationHelper.VERY_LOW_VALUE + timeBeforeFirstNode / 2.0,
-                Value = firstNode.Value,
+                X = CalculationHelper.VERY_LOW_VALUE + timeBeforeFirstNode / 2.0,
+                Y = firstNode.Y,
                 NodeType = firstNode.NodeType
             };
 
-            double timeAfterLastNode = CalculationHelper.VERY_HIGH_VALUE - lastNode.Time;
+            double timeAfterLastNode = CalculationHelper.VERY_HIGH_VALUE - lastNode.X;
             var nodePlus1 = new Node
             {
-                Time = CalculationHelper.VERY_HIGH_VALUE - timeAfterLastNode / 2.0,
-                Value = lastNode.Value,
+                X = CalculationHelper.VERY_HIGH_VALUE - timeAfterLastNode / 2.0,
+                Y = lastNode.Y,
                 NodeType = lastNode.NodeType
             };
 
             var nodePlus2 = new Node
             {
-                Time = CalculationHelper.VERY_HIGH_VALUE,
-                Value = lastNode.Value,
+                X = CalculationHelper.VERY_HIGH_VALUE,
+                Y = lastNode.Y,
                 NodeType = lastNode.NodeType
             };
 
@@ -84,7 +84,7 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
             return sortedNodesIncludingFakeNodes;
         }
 
-        public double CalculateValue(double time)
+        public double CalculateY(double time)
         {
             // Find the node right after the time.
             Node node1 = null;
@@ -93,7 +93,7 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
             {
                 node1 = _sortedNodes[i];
 
-                if (node1.Time > time)
+                if (node1.X > time)
                 {
                     node1Index = i;
                     break;
@@ -110,13 +110,13 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
             {
                 case NodeTypeEnum.Curve:
                     {
-                        double value = CalculateValue_ForNodeTypeCurve(nodeMinus1, node0, node1, node2, time);
+                        double value = CalculateY_ForNodeTypeCurve(nodeMinus1, node0, node1, node2, time);
                         return value;
                     }
 
                 case NodeTypeEnum.Line:
                     {
-                        double value = CalculateValue_ForNodeTypeLine(node0, node1, time);
+                        double value = CalculateY_ForNodeTypeLine(node0, node1, time);
                         return value;
                     }
 
@@ -124,31 +124,31 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
                     return 0;
 
                 case NodeTypeEnum.Block:
-                    return node0.Value;
+                    return node0.Y;
 
                 default:
                     throw new ValueNotSupportedException(nodeTypeEnum);
             }
         }
 
-        private static double CalculateValue_ForNodeTypeCurve(Node nodeMinus1, Node node0, Node node1, Node node2, double time)
+        private static double CalculateY_ForNodeTypeCurve(Node nodeMinus1, Node node0, Node node1, Node node2, double time)
         {
-            double value = Interpolator.Interpolate_Cubic_SmoothInclination(
-                nodeMinus1.Time, node0.Time, node1.Time, node2.Time,
-                nodeMinus1.Value, node0.Value, node1.Value, node2.Value,
+            double y = Interpolator.Interpolate_Cubic_SmoothInclination(
+                nodeMinus1.X, node0.X, node1.X, node2.X,
+                nodeMinus1.Y, node0.Y, node1.Y, node2.Y,
                 time);
 
-            return value;
+            return y;
         }
 
-        private static double CalculateValue_ForNodeTypeLine(Node node0, Node node1, double time)
+        private static double CalculateY_ForNodeTypeLine(Node node0, Node node1, double x)
         {
-            double dt = node1.Time - node0.Time;
-            double dx = (node1.Value - node0.Value);
+            double dx = node1.X - node0.X;
+            double dy = (node1.Y - node0.Y);
 
-            double value = node0.Value + dx * (time - node0.Time) / dt;
+            double y = node0.Y + dy * (x - node0.X) / dx;
 
-            return value;
+            return y;
         }
     }
 }
