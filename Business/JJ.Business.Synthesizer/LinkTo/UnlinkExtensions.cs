@@ -140,6 +140,20 @@ namespace JJ.Business.Synthesizer.LinkTo
             inlet.LinkTo((Dimension)null);
         }
 
+        public static void UnlinkXDimension(this Curve curve)
+        {
+            if (curve == null) throw new NullException(() => curve);
+
+            curve.LinkToXDimension((Dimension)null);
+        }
+
+        public static void UnlinkYDimension(this Curve curve)
+        {
+            if (curve == null) throw new NullException(() => curve);
+
+            curve.LinkToYDimension((Dimension)null);
+        }
+
         public static void UnlinkInterpolationType(this Sample sample)
         {
             if (sample == null) throw new NullException(() => sample);

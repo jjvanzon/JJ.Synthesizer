@@ -11,6 +11,8 @@ namespace JJ.Data.Synthesizer
 
         public virtual int ID { get; set; }
         public virtual string Name { get; set; }
+        public virtual Dimension XDimension { get; set; }
+        public virtual Dimension YDimension { get; set; }
         public virtual IList<Node> Nodes { get; set; }
 
         /// <summary> nullable </summary>

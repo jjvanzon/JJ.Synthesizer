@@ -601,9 +601,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             var wrapper = new Curve_OperatorWrapper(op, _curveRepository);
             Curve curve = wrapper.Curve;
-            // TODO: I need more data in the entity classes.
-            DimensionEnum xDimensionEnum = DimensionEnum.Time;
-            //curve.GetXDimensionEnum();
+            DimensionEnum xDimensionEnum = curve.GetXDimensionEnum();
 
             if (curve == null)
             {

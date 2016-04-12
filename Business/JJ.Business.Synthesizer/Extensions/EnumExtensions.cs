@@ -81,6 +81,56 @@ namespace JJ.Business.Synthesizer.Extensions
                 entity.LinkTo(enumEntity);
             }
         }
+        
+        // Curve
+
+        public static DimensionEnum GetXDimensionEnum(this Curve entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            if (entity.XDimension == null) return DimensionEnum.Undefined;
+
+            return (DimensionEnum)entity.XDimension.ID;
+        }
+
+        public static void SetXDimensionEnum(this Curve curve, DimensionEnum enumValue, IDimensionRepository repository)
+        {
+            if (repository == null) throw new NullException(() => repository);
+
+            if (enumValue == DimensionEnum.Undefined)
+            {
+                curve.UnlinkXDimension();
+            }
+            else
+            {
+                Dimension enumEntity = repository.Get((int)enumValue);
+                curve.LinkToXDimension(enumEntity);
+            }
+        }
+
+        public static DimensionEnum GetYDimensionEnum(this Curve entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            if (entity.YDimension == null) return DimensionEnum.Undefined;
+
+            return (DimensionEnum)entity.YDimension.ID;
+        }
+
+        public static void SetYDimensionEnum(this Curve curve, DimensionEnum enumValue, IDimensionRepository repository)
+        {
+            if (repository == null) throw new NullException(() => repository);
+
+            if (enumValue == DimensionEnum.Undefined)
+            {
+                curve.UnlinkYDimension();
+            }
+            else
+            {
+                Dimension enumEntity = repository.Get((int)enumValue);
+                curve.LinkToYDimension(enumEntity);
+            }
+        }
 
         // Inlet
 

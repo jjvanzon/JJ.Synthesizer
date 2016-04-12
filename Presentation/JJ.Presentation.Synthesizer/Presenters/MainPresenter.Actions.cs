@@ -994,7 +994,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // ToEntity
-            userInput.ToEntityWithRelatedEntities(_curveRepositories);
+            userInput.ToEntityWithNodes(_curveRepositories);
             Node node = _repositories.NodeRepository.Get(nodeID);
 
             // Business

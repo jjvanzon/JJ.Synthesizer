@@ -12,15 +12,18 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
-    internal class Curve_SideEffect_SetDefaults : ISideEffect
+    internal class Curve_SideEffect_SetDefaults_Nodes : ISideEffect
     {
         private readonly Curve _curve;
         private readonly INodeRepository _nodeRepository;
         private readonly INodeTypeRepository _nodeTypeRepository;
         private readonly IIDRepository _idRepository;
 
-        public Curve_SideEffect_SetDefaults(
-            Curve curve, INodeRepository nodeRepository, INodeTypeRepository nodeTypeRepository, IIDRepository idRepository)
+        public Curve_SideEffect_SetDefaults_Nodes(
+            Curve curve, 
+            INodeRepository nodeRepository, 
+            INodeTypeRepository nodeTypeRepository, 
+            IIDRepository idRepository)
         {
             if (curve == null) throw new NullException(() => curve);
             if (nodeRepository == null) throw new NullException(() => nodeRepository);

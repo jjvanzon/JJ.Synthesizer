@@ -8,6 +8,7 @@
         public const string CurveID = "CurveID";
         public const string DependentDocumentID = "DependentDocumentID";
         public const string DependentOnDocumentID = "DependentOnDocumentID";
+        public const string DimensionID = "DimensionID";
         public const string DocumentID = "DocumentID";
         public const string InputOutletID = "InputOutletID";
         public const string InterpolationTypeID = "InterpolationTypeID";
@@ -22,6 +23,7 @@
         public const string ScaleTypeID = "ScaleTypeID";
         public const string SpeakerSetupID = "SpeakerSetupID";
         public const string ToneID = "ToneID";
-        public const string DimensionID = "DimensionID";
+        public const string XDimensionID = "XDimensionID";
+        public const string YDimensionID = "YDimensionID";
     }
 }

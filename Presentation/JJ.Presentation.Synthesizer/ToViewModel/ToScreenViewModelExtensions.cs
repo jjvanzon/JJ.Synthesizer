@@ -111,6 +111,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ID = entity.ID,
                 Name = entity.Name,
                 DocumentID = entity.Document.ID,
+                XDimension = entity.GetXDimensionEnum().ToIDAndDisplayName(),
+                YDimension = entity.GetYDimensionEnum().ToIDAndDisplayName(),
+                DimensionLookup = ViewModelHelper.CreateDimensionLookupViewModel(),
                 ValidationMessages = new List<Message>()
             };
 

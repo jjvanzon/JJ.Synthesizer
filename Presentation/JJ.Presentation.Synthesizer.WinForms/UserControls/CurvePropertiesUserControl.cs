@@ -6,6 +6,9 @@ using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Framework.Presentation.WinForms.Extensions;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Data.Canonical;
+using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -34,6 +37,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             titleBarUserControl.Text = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Curve);
             labelName.Text = CommonTitles.Name;
+            labelXDimension.Text = PropertyDisplayNames.XDimension;
+            labelYDimension.Text = PropertyDisplayNames.YDimension;
         }
 
         private void ApplyStyling()
@@ -46,6 +51,45 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (ViewModel == null) return;
 
             textBoxName.Text = ViewModel.Name;
+
+            // XDimension
+            if (comboBoxXDimension.DataSource == null)
+            {
+                comboBoxXDimension.ValueMember = PropertyNames.ID;
+                comboBoxXDimension.DisplayMember = PropertyNames.Name;
+                // ToArray: If you do not copy the data source, 
+                // the selected item of the two combo boxes using the same data source are kept equal.
+                comboBoxXDimension.DataSource = ViewModel.DimensionLookup.ToArray();
+            }
+
+            if (ViewModel.XDimension != null)
+            {
+                comboBoxXDimension.SelectedValue = ViewModel.XDimension.ID;
+            }
+            else
+            {
+                comboBoxXDimension.SelectedValue = 0;
+            }
+
+            // YDimension
+            if (comboBoxYDimension.DataSource == null)
+            {
+                comboBoxYDimension.ValueMember = PropertyNames.ID;
+                comboBoxYDimension.DisplayMember = PropertyNames.Name;
+                // ToArray: If you do not copy the data source, 
+                // the selected item of the two combo boxes using the same data source are kept equal.
+                comboBoxYDimension.DataSource = ViewModel.DimensionLookup.ToArray();
+            }
+
+            if (ViewModel.YDimension != null)
+            {
+                comboBoxYDimension.SelectedValue = ViewModel.YDimension.ID;
+            }
+            else
+            {
+                comboBoxYDimension.SelectedValue = 0;
+            }
+
         }
 
         private void ApplyControlsToViewModel()
@@ -53,6 +97,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (ViewModel == null) return;
 
             ViewModel.Name = textBoxName.Text;
+            ViewModel.XDimension = (IDAndName)comboBoxXDimension.SelectedItem;
+            ViewModel.YDimension = (IDAndName)comboBoxYDimension.SelectedItem;
         }
 
         // Actions

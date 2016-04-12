@@ -225,6 +225,12 @@
     <Content Include="2016-04-10 070 SynthesizerDB drop table OutletType.sql" />
     <Content Include="2016-04-12 010 SynthesizerDB rename Node.Time to X.sql" />
     <Content Include="2016-04-12 020 SynthesizerDB rename Node.Value to Y.sql" />
+    <Content Include="2016-04-12 030 SynthesizerDB Curve.XDimensionID.sql" />
+    <Content Include="2016-04-12 040 SynthesizerDB Curve.YDimensionID.sql" />
+    <Content Include="2016-04-12 050 SynthesizerDB FK_Curve_XDimension.sql" />
+    <Content Include="2016-04-12 060 SynthesizerDB FK_Curve_YDimension.sql" />
+    <Content Include="2016-04-12 070 SynthesizerDB IX_Curve_XDimensionID.sql" />
+    <Content Include="2016-04-12 080 SynthesizerDB IX_Curve_YDimensionID.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

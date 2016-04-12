@@ -781,4 +781,10 @@
   <data name="Y" xml:space="preserve">
     <value>y</value>
   </data>
+  <data name="XDimension" xml:space="preserve">
+    <value>X dimensie</value>
+  </data>
+  <data name="YDimension" xml:space="preserve">
+    <value>Y dimensie</value>
+  </data>
 </root>

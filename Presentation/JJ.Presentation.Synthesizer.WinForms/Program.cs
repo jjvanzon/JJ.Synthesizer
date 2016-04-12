@@ -103,7 +103,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             var ex = e.ExceptionObject as Exception;
             if (ex != null)
             {
-                message = ExceptionHelper.FormatException(ex, false);
+                message = ExceptionHelper.FormatException(ExceptionHelper.GetInnermostException(ex), false);
             }
             else
             {

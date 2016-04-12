@@ -15,37 +15,37 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
         {
             if (curve == null) throw new NullException(() => curve);
 
-            IList<Node> sortedNodes = curve.Nodes.OrderBy(x => x.X).ToArray();
+            IList<Node> sortedNodes = curve.Nodes.OrderBy(n => n.X).ToArray();
             
             double yBefore = sortedNodes.First().Y;
             double yAfter = sortedNodes.Last().Y;
             double minX = sortedNodes.First().X;
             double maxX = sortedNodes.Last().X;
-            double totalDuration = maxX - minX;
-            double minNodeDuration = GetMinNodeLength(sortedNodes);
+            double totalXSpan = maxX - minX;
+            double minNodeXSpan = GetMinNodeXSpan(sortedNodes);
 
             // Try basing sample count on MINIMUM_SAMPLES_PER_NODE.
-            double step = minNodeDuration / MINIMUM_SAMPLES_PER_NODE;
-            int sampleCount = (int)(totalDuration / step) + 1; // + 1 because 2 sample durations require 3 samples.
+            double step = minNodeXSpan / MINIMUM_SAMPLES_PER_NODE;
+            int sampleCount = (int)(totalXSpan / step) + 1; // + 1 because 2 sample durations require 3 samples.
 
             // If that gets to high, base it on MAXIMUM_SAMPLE_COUNT
             if (sampleCount > MAXIMUM_SAMPLE_COUNT)
             {
                 sampleCount = MAXIMUM_SAMPLE_COUNT;
-                step = totalDuration / (sampleCount - 1); // - 1 because 3 samples make 2 sample durations.
+                step = totalXSpan / (sampleCount - 1); // - 1 because 3 samples make 2 sample durations.
             }
 
-            double samplingRate = (sampleCount - 1) / totalDuration; // - 1 because 3 samples make 2 sample durations.
+            double samplingRate = (sampleCount - 1) / totalXSpan; // - 1 because 3 samples make 2 sample durations.
 
             // Calculate the array.
             double[] samples = new double[sampleCount];
             ICurveCalculator interpretedCurveCalculator = new InterpretedCurveCalculator(curve);
-            double time = minX;
+            double x = minX;
             for (int i = 0; i < sampleCount; i++)
             {
-                double sample = interpretedCurveCalculator.CalculateY(time);
+                double sample = interpretedCurveCalculator.CalculateY(x);
                 samples[i] = sample;
-                time += step;
+                x += step;
             }
 
             return new CurveArrayInfo
@@ -58,7 +58,7 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
             };
         }
 
-        private static double GetMinNodeLength(IList<Node> sortedNodes)
+        private static double GetMinNodeXSpan(IList<Node> sortedNodes)
         {
             double minNodeLength = CalculationHelper.VERY_HIGH_VALUE;
 
@@ -67,11 +67,11 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
                 Node nodeA = sortedNodes[i];
                 Node nodeB = sortedNodes[i + 1];
 
-                double nodeLength = nodeB.X - nodeA.X;
+                double nodeXSpan = nodeB.X - nodeA.X;
 
-                if (minNodeLength > nodeLength)
+                if (minNodeLength > nodeXSpan)
                 {
-                    minNodeLength = nodeLength;
+                    minNodeLength = nodeXSpan;
                 }
             }
 

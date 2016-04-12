@@ -8,5 +8,13 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public int DocumentID { get; set; }
         public int ID { get; set; }
         public string Name { get; set; }
+
+        /// <summary> nullable </summary>
+        public IDAndName XDimension { get; set; }
+
+        /// <summary> nullable </summary>
+        public IDAndName YDimension { get; set; }
+
+        public IList<IDAndName> DimensionLookup { get; set; }
     }
 }

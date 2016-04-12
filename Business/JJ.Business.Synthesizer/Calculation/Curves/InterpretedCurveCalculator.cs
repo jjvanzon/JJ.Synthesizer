@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
 
         private IList<Node> CreateSortedNodes(Curve curve)
         {
-            IList<Node> sortedNodes = _curve.Nodes.OrderBy(x => x.X).ToArray();
+            IList<Node> sortedNodes = _curve.Nodes.OrderBy(n => n.X).ToArray();
 
             Node firstNode = sortedNodes[0];
             Node lastNode = sortedNodes.Last();
@@ -52,18 +52,18 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
                 NodeType = firstNode.NodeType
             };
 
-            double timeBeforeFirstNode = firstNode.X - CalculationHelper.VERY_LOW_VALUE;
+            double xSpanBeforeFirstNode = firstNode.X - CalculationHelper.VERY_LOW_VALUE;
             var nodeMinus1 = new Node
             {
-                X = CalculationHelper.VERY_LOW_VALUE + timeBeforeFirstNode / 2.0,
+                X = CalculationHelper.VERY_LOW_VALUE + xSpanBeforeFirstNode / 2.0,
                 Y = firstNode.Y,
                 NodeType = firstNode.NodeType
             };
 
-            double timeAfterLastNode = CalculationHelper.VERY_HIGH_VALUE - lastNode.X;
+            double xSpanAfterLastNode = CalculationHelper.VERY_HIGH_VALUE - lastNode.X;
             var nodePlus1 = new Node
             {
-                X = CalculationHelper.VERY_HIGH_VALUE - timeAfterLastNode / 2.0,
+                X = CalculationHelper.VERY_HIGH_VALUE - xSpanAfterLastNode / 2.0,
                 Y = lastNode.Y,
                 NodeType = lastNode.NodeType
             };
@@ -84,7 +84,7 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
             return sortedNodesIncludingFakeNodes;
         }
 
-        public double CalculateY(double time)
+        public double CalculateY(double x)
         {
             // Find the node right after the time.
             Node node1 = null;
@@ -93,7 +93,7 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
             {
                 node1 = _sortedNodes[i];
 
-                if (node1.X > time)
+                if (node1.X > x)
                 {
                     node1Index = i;
                     break;
@@ -110,13 +110,13 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
             {
                 case NodeTypeEnum.Curve:
                     {
-                        double value = CalculateY_ForNodeTypeCurve(nodeMinus1, node0, node1, node2, time);
+                        double value = CalculateY_ForNodeTypeCurve(nodeMinus1, node0, node1, node2, x);
                         return value;
                     }
 
                 case NodeTypeEnum.Line:
                     {
-                        double value = CalculateY_ForNodeTypeLine(node0, node1, time);
+                        double value = CalculateY_ForNodeTypeLine(node0, node1, x);
                         return value;
                     }
 

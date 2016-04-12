@@ -218,7 +218,10 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         // Curve
 
-        public static void ToEntitiesWithRelatedEntities(this IList<CurveDetailsViewModel> viewModelList, Document destDocument, CurveRepositories repositories)
+        public static void ToEntitiesWithNodes(
+            this IList<CurveDetailsViewModel> viewModelList, 
+            Document destDocument, 
+            CurveRepositories repositories)
         {
             if (viewModelList == null) throw new NullException(() => viewModelList);
             if (destDocument == null) throw new NullException(() => destDocument);
@@ -228,7 +231,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             foreach (CurveDetailsViewModel viewModel in viewModelList)
             {
-                Curve entity = viewModel.ToEntityWithRelatedEntities(repositories);
+                Curve entity = viewModel.ToEntityWithNodes(repositories);
                 entity.LinkTo(destDocument);
 
                 if (!idsToKeep.Contains(entity.ID))
@@ -249,7 +252,10 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
         }
 
-        public static void ToEntities(this IList<CurvePropertiesViewModel> viewModelList, Document destDocument, CurveRepositories repositories)
+        public static void ToEntitiesWithDimensions(
+            this IList<CurvePropertiesViewModel> viewModelList, 
+            Document destDocument, 
+            CurveRepositories repositories)
         {
             if (viewModelList == null) throw new NullException(() => viewModelList);
             if (destDocument == null) throw new NullException(() => destDocument);
@@ -259,7 +265,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             foreach (CurvePropertiesViewModel viewModel in viewModelList)
             {
-                Curve entity = viewModel.ToEntity(repositories.CurveRepository);
+                Curve entity = viewModel.ToEntityWithDimensions(repositories.CurveRepository, repositories.DimensionRepository);
                 entity.LinkTo(destDocument);
 
                 if (!idsToKeep.Contains(entity.ID))
@@ -280,10 +286,14 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
         }
 
-        public static Curve ToEntity(this CurvePropertiesViewModel viewModel, ICurveRepository curveRepository)
+        public static Curve ToEntityWithDimensions(
+            this CurvePropertiesViewModel viewModel, 
+            ICurveRepository curveRepository,
+            IDimensionRepository dimensionRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (curveRepository == null) throw new NullException(() => curveRepository);
+            if (dimensionRepository == null) throw new NullException(() => dimensionRepository);
 
             Curve entity = curveRepository.TryGet(viewModel.ID);
             if (entity == null)
@@ -294,11 +304,32 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
             entity.Name = viewModel.Name;
 
-            return entity;
+            bool xDimensionIsFilledIn = viewModel.XDimension != null && viewModel.XDimension.ID != 0;
+            if (xDimensionIsFilledIn)
+            {
+                Dimension xDimension = dimensionRepository.Get(viewModel.XDimension.ID);
+                entity.LinkToXDimension(xDimension);
+            }
+            else
+            {
+                entity.UnlinkXDimension();
+            }
 
+            bool yDimensionIsFilledIn = viewModel.YDimension != null && viewModel.YDimension.ID != 0;
+            if (yDimensionIsFilledIn)
+            {
+                Dimension yDimension = dimensionRepository.Get(viewModel.YDimension.ID);
+                entity.LinkToYDimension(yDimension);
+            }
+            else
+            {
+                entity.UnlinkYDimension();
+            }
+
+            return entity;
         }
 
-        public static Curve ToEntityWithRelatedEntities(this CurveDetailsViewModel viewModel, CurveRepositories repositories)
+        public static Curve ToEntityWithNodes(this CurveDetailsViewModel viewModel, CurveRepositories repositories)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (repositories == null) throw new NullException(() => repositories);
@@ -342,9 +373,9 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             userInput.PatchDocumentList.ToChildDocumentsWithRelatedEntities(destDocument, repositories);
             userInput.AudioFileOutputPropertiesList.ToAudioFileOutputsWithRelatedEntities(destDocument, new AudioFileOutputRepositories(repositories));
-            userInput.CurvePropertiesList.ToEntities(destDocument, curveRepositories);
+            userInput.CurvePropertiesList.ToEntitiesWithDimensions(destDocument, curveRepositories);
             // Order-Dependence: NodeProperties are leading over the CurveDetails Nodes.
-            userInput.CurveDetailsList.ToEntitiesWithRelatedEntities(destDocument, curveRepositories);
+            userInput.CurveDetailsList.ToEntitiesWithNodes(destDocument, curveRepositories);
             // TODO: Low priority: It is not tidy to not have a plural variation that also does the delete operations,
             // even though the CurveDetailsList ToEntity already covers deletion.
             userInput.NodePropertiesList.ForEach(x => x.ToEntity(repositories.NodeRepository, repositories.NodeTypeRepository));
@@ -406,79 +437,80 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return entity;
         }
 
-        /// <summary>
-        /// Used for OperatorProperties view for Sample operators, to partially convert to entity,
-        /// just enoughto make a few entity validations work.
-        /// </summary> 
-        public static Document ToHollowDocumentWithHollowChildDocumentsWithHollowSamplesWithName(
-            this DocumentViewModel viewModel,
-            IDocumentRepository documentRepository,
-            ISampleRepository sampleRepository)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            if (documentRepository == null) throw new NullException(() => documentRepository);
-            if (sampleRepository == null) throw new NullException(() => sampleRepository);
+        // TODO: Remove outcommented code.
+        ///// <summary>
+        ///// Used for OperatorProperties view for Sample operators, to partially convert to entity,
+        ///// just enoughto make a few entity validations work.
+        ///// </summary> 
+        //public static Document ToHollowDocumentWithHollowChildDocumentsWithHollowSamplesWithName(
+        //    this DocumentViewModel viewModel,
+        //    IDocumentRepository documentRepository,
+        //    ISampleRepository sampleRepository)
+        //{
+        //    if (viewModel == null) throw new NullException(() => viewModel);
+        //    if (documentRepository == null) throw new NullException(() => documentRepository);
+        //    if (sampleRepository == null) throw new NullException(() => sampleRepository);
 
-            Document rootDocument = viewModel.ToEntity(documentRepository);
+        //    Document rootDocument = viewModel.ToEntity(documentRepository);
 
-            foreach (SamplePropertiesViewModel samplePropertiesViewModel in viewModel.SamplePropertiesList)
-            {
-                Sample sample = samplePropertiesViewModel.Entity.ToHollowEntity(sampleRepository);
-                sample.Name = samplePropertiesViewModel.Entity.Name;
-                sample.LinkTo(rootDocument);
-            }
+        //    foreach (SamplePropertiesViewModel samplePropertiesViewModel in viewModel.SamplePropertiesList)
+        //    {
+        //        Sample sample = samplePropertiesViewModel.Entity.ToHollowEntity(sampleRepository);
+        //        sample.Name = samplePropertiesViewModel.Entity.Name;
+        //        sample.LinkTo(rootDocument);
+        //    }
 
-            foreach (PatchDocumentViewModel patchDocumentViewModel in viewModel.PatchDocumentList)
-            {
-                Document childDocument = patchDocumentViewModel.ToChildDocument(documentRepository);
-                childDocument.LinkToParentDocument(rootDocument);
+        //    foreach (PatchDocumentViewModel patchDocumentViewModel in viewModel.PatchDocumentList)
+        //    {
+        //        Document childDocument = patchDocumentViewModel.ToChildDocument(documentRepository);
+        //        childDocument.LinkToParentDocument(rootDocument);
 
-                foreach (SamplePropertiesViewModel samplePropertiesViewModel in patchDocumentViewModel.SamplePropertiesList)
-                {
-                    Sample sample = samplePropertiesViewModel.Entity.ToHollowEntity(sampleRepository);
-                    sample.Name = samplePropertiesViewModel.Entity.Name;
-                    sample.LinkTo(childDocument);
-                }
-            }
+        //        foreach (SamplePropertiesViewModel samplePropertiesViewModel in patchDocumentViewModel.SamplePropertiesList)
+        //        {
+        //            Sample sample = samplePropertiesViewModel.Entity.ToHollowEntity(sampleRepository);
+        //            sample.Name = samplePropertiesViewModel.Entity.Name;
+        //            sample.LinkTo(childDocument);
+        //        }
+        //    }
 
-            return rootDocument;
-        }
+        //    return rootDocument;
+        //}
 
-        /// <summary>
-        /// Used for OperatorProperties view for Curve operators, to partially convert to entity,
-        /// just enoughto make a few entity validations work.
-        /// </summary> 
-        public static Document ToHollowDocumentWithHollowChildDocumentsWithCurvesWithName(
-            this DocumentViewModel viewModel,
-            IDocumentRepository documentRepository,
-            ICurveRepository curveRepository)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            if (documentRepository == null) throw new NullException(() => documentRepository);
-            if (curveRepository == null) throw new NullException(() => curveRepository);
+        ///// <summary>
+        ///// Used for OperatorProperties view for Curve operators, to partially convert to entity,
+        ///// just enoughto make a few entity validations work.
+        ///// </summary> 
+        //public static Document ToHollowDocumentWithHollowChildDocumentsWithCurvesWithName(
+        //    this DocumentViewModel viewModel,
+        //    IDocumentRepository documentRepository,
+        //    ICurveRepository curveRepository)
+        //{
+        //    if (viewModel == null) throw new NullException(() => viewModel);
+        //    if (documentRepository == null) throw new NullException(() => documentRepository);
+        //    if (curveRepository == null) throw new NullException(() => curveRepository);
 
-            Document rootDocument = viewModel.ToEntity(documentRepository);
+        //    Document rootDocument = viewModel.ToEntity(documentRepository);
 
-            foreach (CurvePropertiesViewModel curvePropertiesViewModel in viewModel.CurvePropertiesList)
-            {
-                Curve curve = curvePropertiesViewModel.ToEntity(curveRepository);
-                curve.LinkTo(rootDocument);
-            }
+        //    foreach (CurvePropertiesViewModel curvePropertiesViewModel in viewModel.CurvePropertiesList)
+        //    {
+        //        Curve curve = curvePropertiesViewModel.ToEntity(curveRepository);
+        //        curve.LinkTo(rootDocument);
+        //    }
 
-            foreach (PatchDocumentViewModel patchDocumentViewModel in viewModel.PatchDocumentList)
-            {
-                Document childDocument = patchDocumentViewModel.ToChildDocument(documentRepository);
-                childDocument.LinkToParentDocument(rootDocument);
+        //    foreach (PatchDocumentViewModel patchDocumentViewModel in viewModel.PatchDocumentList)
+        //    {
+        //        Document childDocument = patchDocumentViewModel.ToChildDocument(documentRepository);
+        //        childDocument.LinkToParentDocument(rootDocument);
 
-                foreach (CurvePropertiesViewModel curvePropertiesViewModel in patchDocumentViewModel.CurvePropertiesList)
-                {
-                    Curve curve = curvePropertiesViewModel.ToEntity(curveRepository);
-                    curve.LinkTo(childDocument);
-                }
-            }
+        //        foreach (CurvePropertiesViewModel curvePropertiesViewModel in patchDocumentViewModel.CurvePropertiesList)
+        //        {
+        //            Curve curve = curvePropertiesViewModel.ToEntity(curveRepository);
+        //            curve.LinkTo(childDocument);
+        //        }
+        //    }
 
-            return rootDocument;
-        }
+        //    return rootDocument;
+        //}
 
         // Nodes
 
@@ -1332,9 +1364,9 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             userInput.PatchProperties.ToChildDocument(repositories.DocumentRepository);
 
             var curveRepositories = new CurveRepositories(repositories);
-            userInput.CurvePropertiesList.ToEntities(childDocument, curveRepositories);
+            userInput.CurvePropertiesList.ToEntitiesWithDimensions(childDocument, curveRepositories);
             // Order-Dependence: NodeProperties are leading over the CurveDetails Nodes.
-            userInput.CurveDetailsList.ToEntitiesWithRelatedEntities(childDocument, curveRepositories);
+            userInput.CurveDetailsList.ToEntitiesWithNodes(childDocument, curveRepositories);
             // TODO: Low priority: It is not tidy to not have a plural variation that also does the delete operations,
             // even though the CurveDetailsList ToEntity already covers deletion.
             userInput.NodePropertiesList.ForEach(x => x.ToEntity(repositories.NodeRepository, repositories.NodeTypeRepository));

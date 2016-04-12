@@ -315,6 +315,7 @@
     <Compile Include="NAudio Copies\Complex.cs" />
     <Compile Include="NAudio Copies\FastFourierTransform.cs" />
     <Compile Include="PatchManager.AutoPatch.cs" />
+    <Compile Include="SideEffects\Curve_SideEffect_SetDefaults_Nodes.cs" />
     <Compile Include="SideEffects\Document_SideEffect_CreatePatch.cs" />
     <Compile Include="Validation\Curves\CurveValidator_InDocument.cs" />
     <Compile Include="Validation\Curves\CurveValidator_Nodes.cs" />
@@ -369,6 +370,7 @@
     <Compile Include="PatchManager.cs" />
     <Compile Include="SampleManager.cs" />
     <Compile Include="ScaleManager.cs" />
+    <Compile Include="Warnings\CurveWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Absolute_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\2016-03-30 Backup of OperatorWarningValidator_Cache.cs" />
     <Compile Include="Warnings\Operators\SetDimension_OperatorWarningValidator.cs" />
@@ -417,7 +419,7 @@
     <Compile Include="Resources\ResourceHelper.cs" />
     <Compile Include="SideEffects\AudioFileOutput_SideEffect_SetDefaults.cs" />
     <Compile Include="SideEffects\AudioFileOutput_SideEffect_GenerateName.cs" />
-    <Compile Include="SideEffects\Curve_SideEffect_SetDefaults.cs" />
+    <Compile Include="SideEffects\Curve_SideEffect_SetDefaults_Basic.cs" />
     <Compile Include="SideEffects\Scale_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Operator_SideEffect_GeneratePatchOutletListIndex.cs" />
     <Compile Include="SideEffects\Operator_SideEffect_GeneratePatchInletListIndex.cs" />

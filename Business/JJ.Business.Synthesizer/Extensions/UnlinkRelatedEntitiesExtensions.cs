@@ -31,6 +31,8 @@ namespace JJ.Business.Synthesizer.Extensions
             if (curve == null) throw new NullException(() => curve);
 
             curve.UnlinkDocument();
+            curve.UnlinkXDimension();
+            curve.UnlinkYDimension();
         }
 
         public static void UnlinkRelatedEntities(this Node node)

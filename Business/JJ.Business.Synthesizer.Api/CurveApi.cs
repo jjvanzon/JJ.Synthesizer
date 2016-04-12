@@ -36,6 +36,7 @@ namespace JJ.Business.Synthesizer.Api
         {
             return _curveManager.Create(nodeInfos);
         }
+
         public static Curve Create(IList<NodeInfo> nodeInfos)
         {
             return _curveManager.Create(nodeInfos);

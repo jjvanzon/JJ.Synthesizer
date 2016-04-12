@@ -35,13 +35,27 @@ namespace JJ.Business.Synthesizer
 
         public Curve Create()
         {
+            var curve = CreateWithoutNodes();
+
+            ISideEffect sideEffect = new Curve_SideEffect_SetDefaults_Nodes(
+                curve,
+                _repositories.NodeRepository,
+                _repositories.NodeTypeRepository,
+                _repositories.IDRepository);
+
+            sideEffect.Execute();
+
+            return curve;
+        }
+
+        private Curve CreateWithoutNodes()
+        {
             var curve = new Curve();
             curve.ID = _repositories.IDRepository.GetID();
             _repositories.CurveRepository.Insert(curve);
 
-            ISideEffect sideEffect1 = new Curve_SideEffect_SetDefaults(
-                curve, _repositories.NodeRepository, _repositories.NodeTypeRepository, _repositories.IDRepository);
-            sideEffect1.Execute();
+            ISideEffect sideEffect = new Curve_SideEffect_SetDefaults_Basic(curve, _repositories.DimensionRepository);
+            sideEffect.Execute();
 
             return curve;
         }
@@ -71,9 +85,7 @@ namespace JJ.Business.Synthesizer
         {
             if (nodeInfos == null) throw new NullException(() => nodeInfos);
 
-            var curve = new Curve();
-            curve.ID = _repositories.IDRepository.GetID();
-            _repositories.CurveRepository.Insert(curve);
+            Curve curve = CreateWithoutNodes();
 
             foreach (NodeInfo nodeInfo in nodeInfos)
             {
@@ -93,9 +105,7 @@ namespace JJ.Business.Synthesizer
 
             if (nodeInfos == null) throw new NullException(() => nodeInfos);
 
-            var curve = new Curve();
-            curve.ID = _repositories.IDRepository.GetID();
-            _repositories.CurveRepository.Insert(curve);
+            Curve curve = CreateWithoutNodes();
 
             double[] times = GetEquidistantPointsOverX(timeSpan, nodeInfos.Length);
 
@@ -132,9 +142,7 @@ namespace JJ.Business.Synthesizer
             if (yValues == null) throw new NullException(() => yValues);
             if (yValues.Length < 2) throw new LessThanException(() => yValues.Length, 2);
 
-            var curve = new Curve();
-            curve.ID = _repositories.IDRepository.GetID();
-            _repositories.CurveRepository.Insert(curve);
+            Curve curve = CreateWithoutNodes();
 
             double[] times = GetEquidistantPointsOverX(xSpan, yValues.Length);
 
@@ -213,21 +221,11 @@ namespace JJ.Business.Synthesizer
 
         public VoidResult Validate(Curve entity)
         {
-            VoidResult result = ValidateWithoutRelatedEntities(entity);
-
-            IValidator validator = new CurveValidator_Nodes(entity);
-            result.Successful &= validator.IsValid;
-            result.Messages.AddRange(validator.ValidationMessages.ToCanonical());
-
-            return result;
-        }
-
-        public VoidResult ValidateWithoutRelatedEntities(Curve entity)
-        {
             var validators = new List<IValidator>
             {
                 new CurveValidator_WithoutNodes(entity),
-                new CurveValidator_UniqueName(entity)
+                new CurveValidator_UniqueName(entity),
+                new CurveValidator_Nodes(entity)
             };
 
             if (entity.Document != null)
@@ -328,6 +326,37 @@ namespace JJ.Business.Synthesizer
             return CurveCalculatorFactory.CreateCurveCalculator(curve);
         }
 
+        public void RotateNodeType(Node node)
+        {
+            if (node == null) throw new NullException(() => node);
+
+            NodeTypeEnum nodeTypeEnum = node.GetNodeTypeEnum();
+
+            switch (nodeTypeEnum)
+            {
+                case NodeTypeEnum.Off:
+                    nodeTypeEnum = NodeTypeEnum.Block;
+                    break;
+
+                case NodeTypeEnum.Block:
+                    nodeTypeEnum = NodeTypeEnum.Line;
+                    break;
+
+                case NodeTypeEnum.Line:
+                    nodeTypeEnum = NodeTypeEnum.Curve;
+                    break;
+
+                case NodeTypeEnum.Curve:
+                    nodeTypeEnum = NodeTypeEnum.Off;
+                    break;
+
+                default:
+                    throw new InvalidValueException(nodeTypeEnum);
+            }
+
+            node.SetNodeTypeEnum(nodeTypeEnum, _repositories.NodeTypeRepository);
+        }
+
         // Helpers
 
         private double[] GetEquidistantPointsOverX(double xSpan, int pointCount)
@@ -373,37 +402,6 @@ namespace JJ.Business.Synthesizer
                 default:
                     throw new ValueNotSupportedException(nodeTypeEnum);
             }
-        }
-
-        public void RotateNodeType(Node node)
-        {
-            if (node == null) throw new NullException(() => node);
-
-            NodeTypeEnum nodeTypeEnum = node.GetNodeTypeEnum();
-
-            switch (nodeTypeEnum)
-            {
-                case NodeTypeEnum.Off:
-                    nodeTypeEnum = NodeTypeEnum.Block;
-                    break;
-
-                case NodeTypeEnum.Block:
-                    nodeTypeEnum = NodeTypeEnum.Line;
-                    break;
-
-                case NodeTypeEnum.Line:
-                    nodeTypeEnum = NodeTypeEnum.Curve;
-                    break;
-
-                case NodeTypeEnum.Curve:
-                    nodeTypeEnum = NodeTypeEnum.Off;
-                    break;
-
-                default:
-                    throw new InvalidValueException(nodeTypeEnum);
-            }
-
-            node.SetNodeTypeEnum(nodeTypeEnum, _repositories.NodeTypeRepository);
         }
     }
 }

@@ -35,6 +35,24 @@ namespace JJ.Business.Synthesizer.Warnings
             }
             _alreadyDone.Add(document);
 
+            foreach (AudioFileOutput audioFileOutput in document.AudioFileOutputs)
+            {
+                string messagePrefix = ValidationHelper.GetMessagePrefix(audioFileOutput);
+                Execute(new AudioFileOutputWarningValidator(audioFileOutput), messagePrefix);
+            }
+
+            foreach (Curve curve in document.Curves)
+            {
+                string messagePrefix = ValidationHelper.GetMessagePrefix(curve);
+                Execute(new CurveWarningValidator(curve), messagePrefix);
+            }
+
+            foreach (Document childDocument in document.ChildDocuments)
+            {
+                string messagePrefix = ValidationHelper.GetMessagePrefixForChildDocument(childDocument);
+                Execute(new DocumentWarningValidator_Recursive(childDocument, _sampleRepository, _alreadyDone));
+            }
+
             foreach (Patch patch in document.Patches)
             {
                 string messagePrefix = ValidationHelper.GetMessagePrefix(patch);
@@ -45,24 +63,13 @@ namespace JJ.Business.Synthesizer.Warnings
             {
                 byte[] bytes = _sampleRepository.TryGetBytes(sample.ID);
 
-                Execute(new SampleWarningValidator(sample, bytes, _alreadyDone), ValidationHelper.GetMessagePrefix(sample));
-            }
-
-            foreach (AudioFileOutput audioFileOutput in document.AudioFileOutputs)
-            {
-                Execute(new AudioFileOutputWarningValidator(audioFileOutput), ValidationHelper.GetMessagePrefix(audioFileOutput));
-            }
-
-            foreach (Document childDocument in document.ChildDocuments)
-            {
-                string messagePrefix = ValidationHelper.GetMessagePrefixForChildDocument(childDocument);
-                Execute(new DocumentWarningValidator_Recursive(childDocument, _sampleRepository, _alreadyDone));
+                string messagePrefix = ValidationHelper.GetMessagePrefix(sample);
+                Execute(new SampleWarningValidator(sample, bytes, _alreadyDone), messagePrefix);
             }
 
             // TODO:
 
             // DocumentWarningValidator_Basic?
-            // Curves?
             // ParentDocument
             // DependentOnDocuments
             // DependentDocuments

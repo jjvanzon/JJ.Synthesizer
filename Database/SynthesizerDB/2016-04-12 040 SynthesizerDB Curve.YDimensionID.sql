@@ -1,0 +1,1 @@
+alter table Curve add YDimensionID int null;
