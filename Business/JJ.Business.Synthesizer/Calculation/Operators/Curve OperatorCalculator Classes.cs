@@ -7,23 +7,23 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class Curve_MinX_OperatorCalculator : OperatorCalculatorBase
     {
         private readonly CurveCalculator_MinX _curveCalculator;
-        private readonly int _xDimensionIndex;
+        private readonly int _dimensionIndex;
 
         private double _origin;
 
         public Curve_MinX_OperatorCalculator(
             CurveCalculator_MinX curveCalculator,
-            DimensionEnum xDimensionEnum)
+            DimensionEnum dimensionEnum)
         {
             if (curveCalculator == null) throw new NullException(() => curveCalculator);
 
             _curveCalculator = curveCalculator;
-            _xDimensionIndex = (int)xDimensionEnum;
+            _dimensionIndex = (int)dimensionEnum;
         }
 
         public override double Calculate(DimensionStack dimensionStack)
         {
-            double x = dimensionStack.Get(_xDimensionIndex);
+            double x = dimensionStack.Get(_dimensionIndex);
 
             double transformedX = x - _origin;
             double result = _curveCalculator.CalculateY(transformedX);
@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset(DimensionStack dimensionStack)
         {
-            double x = dimensionStack.Get(_xDimensionIndex);
+            double x = dimensionStack.Get(_dimensionIndex);
 
             _origin = x;
 
@@ -43,23 +43,23 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class Curve_MinXZero_OperatorCalculator : OperatorCalculatorBase
     {
         private readonly CurveCalculator_MinXZero _curveCalculator;
-        private readonly int _xDimensionIndex;
+        private readonly int _dimensionIndex;
 
         private double _origin;
 
         public Curve_MinXZero_OperatorCalculator(
             CurveCalculator_MinXZero curveCalculator,
-            DimensionEnum xDimensionEnum)
+            DimensionEnum dimensionEnum)
         {
             if (curveCalculator == null) throw new NullException(() => curveCalculator);
 
             _curveCalculator = curveCalculator;
-            _xDimensionIndex = (int)xDimensionEnum;
+            _dimensionIndex = (int)dimensionEnum;
         }
 
         public override double Calculate(DimensionStack dimensionStack)
         {
-            double x = dimensionStack.Get(_xDimensionIndex);
+            double x = dimensionStack.Get(_dimensionIndex);
             double transformedX = x - _origin;
             double result = _curveCalculator.CalculateY(transformedX);
             return result;
@@ -67,7 +67,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset(DimensionStack dimensionStack)
         {
-            double x = dimensionStack.Get(_xDimensionIndex);
+            double x = dimensionStack.Get(_dimensionIndex);
 
             _origin = x;
 

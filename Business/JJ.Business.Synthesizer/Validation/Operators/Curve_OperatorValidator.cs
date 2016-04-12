@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                   OperatorTypeEnum.Curve,
                   expectedInletCount: 0,
                   expectedOutletCount: 1,
-                  allowedDataKeys: new string[] { PropertyNames.CurveID })
+                  allowedDataKeys: new string[] { PropertyNames.CurveID, PropertyNames.Dimension })
         { }
 
         protected override void Execute()
@@ -29,8 +29,13 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             if (DataPropertyParser.DataIsWellFormed(op))
             {
-                string curveIDString = DataPropertyParser.TryGetString(op, PropertyNames.CurveID);
+                string dimensionString = DataPropertyParser.TryGetString(op, PropertyNames.Dimension);
+                For(() => dimensionString, PropertyNames.Dimension)
+                    .NotNullOrEmpty()
+                    .IsEnum<DimensionEnum>()
+                    .IsNot(DimensionEnum.Undefined);
 
+                string curveIDString = DataPropertyParser.TryGetString(op, PropertyNames.CurveID);
                 For(() => curveIDString, PropertyDisplayNames.CurveID).IsInteger();
 
                 int curveID;

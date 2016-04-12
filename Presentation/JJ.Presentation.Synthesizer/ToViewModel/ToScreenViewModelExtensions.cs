@@ -469,6 +469,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
 
             var wrapper = new Curve_OperatorWrapper(entity, curveRepository);
+            viewModel.Dimension = wrapper.Dimension.ToIDAndDisplayName();
+            viewModel.DimensionLookup = ViewModelHelper.CreateDimensionLookupViewModel();
 
             Curve curve = wrapper.Curve;
             if (curve != null)

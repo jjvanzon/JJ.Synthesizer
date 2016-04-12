@@ -218,11 +218,12 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Curve_OperatorWrapper Curve(Curve curve = null)
+        public Curve_OperatorWrapper Curve(Curve curve = null, DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Curve, inletCount: 0, outletCount: 1);
 
             var wrapper = new Curve_OperatorWrapper(op, _repositories.CurveRepository);
+            wrapper.Dimension = dimension;
 
             if (curve != null)
             {
@@ -1251,7 +1252,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Stretch_OperatorWrapper Stretch(Outlet signal = null, Outlet factor = null, Outlet origin = null)
+        public Stretch_OperatorWrapper Stretch(Outlet signal = null, Outlet factor = null, Outlet origin = null, DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Stretch, inletCount: 3, outletCount: 1);
 
@@ -1259,7 +1260,8 @@ namespace JJ.Business.Synthesizer
             {
                 Signal = signal,
                 Factor = factor,
-                Origin = origin
+                Origin = origin,
+                Dimension = dimension
             };
 
             op.LinkTo(Patch);

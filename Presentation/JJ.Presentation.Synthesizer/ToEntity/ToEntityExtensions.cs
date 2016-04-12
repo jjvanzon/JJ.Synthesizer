@@ -877,8 +877,9 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.Name = viewModel.Name;
             entity.SetOperatorTypeEnum(OperatorTypeEnum.Curve, operatorTypeRepository);
 
-            // Curve
             var wrapper = new Curve_OperatorWrapper(entity, curveRepository);
+
+            // Curve
             bool curveIsFilledIn = viewModel.Curve != null && viewModel.Curve.ID != 0;
             if (curveIsFilledIn)
             {
@@ -887,6 +888,17 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             else
             {
                 wrapper.CurveID = null;
+            }
+
+            // Dimension
+            bool dimensionIsFilledIn = viewModel.Dimension != null && viewModel.Dimension.ID != 0;
+            if (dimensionIsFilledIn)
+            {
+                wrapper.Dimension = (DimensionEnum)viewModel.Dimension.ID;
+            }
+            else
+            {
+                wrapper.Dimension = DimensionEnum.Undefined;
             }
 
             return entity;

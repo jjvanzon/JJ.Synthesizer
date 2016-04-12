@@ -601,7 +601,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             var wrapper = new Curve_OperatorWrapper(op, _curveRepository);
             Curve curve = wrapper.Curve;
-            DimensionEnum xDimensionEnum = curve.GetXDimensionEnum();
+            DimensionEnum dimensionEnum = wrapper.Dimension;
 
             if (curve == null)
             {
@@ -614,13 +614,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 var curveCalculator_MinTime = curveCalculator as CurveCalculator_MinX;
                 if (curveCalculator_MinTime != null)
                 {
-                    calculator = new Curve_MinX_OperatorCalculator(curveCalculator_MinTime, xDimensionEnum);
+                    calculator = new Curve_MinX_OperatorCalculator(curveCalculator_MinTime, dimensionEnum);
                 }
 
                 var curveCalculator_MinTimeZero = curveCalculator as CurveCalculator_MinXZero;
                 if (curveCalculator_MinTimeZero != null)
                 {
-                    calculator = new Curve_MinXZero_OperatorCalculator(curveCalculator_MinTimeZero, xDimensionEnum);
+                    calculator = new Curve_MinXZero_OperatorCalculator(curveCalculator_MinTimeZero, dimensionEnum);
                 }
             }
 

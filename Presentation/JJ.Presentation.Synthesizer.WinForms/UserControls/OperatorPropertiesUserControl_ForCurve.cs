@@ -42,8 +42,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelName.Text = CommonTitles.Name;
             labelOperatorTypeTitle.Text = Titles.Type + ":";
             labelCurve.Text = PropertyDisplayNames.Curve;
-
             labelOperatorTypeValue.Text = PropertyDisplayNames.Curve;
+            labelDimension.Text = PropertyDisplayNames.Dimension;
         }
 
         private void ApplyStyling()
@@ -66,6 +66,23 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             else
             {
                 comboBoxCurve.SelectedValue = 0;
+            }
+
+            // Dimension
+            if (comboBoxDimension.DataSource == null)
+            {
+                comboBoxDimension.ValueMember = PropertyNames.ID;
+                comboBoxDimension.DisplayMember = PropertyNames.Name;
+                comboBoxDimension.DataSource = ViewModel.DimensionLookup;
+            }
+
+            if (ViewModel.Dimension != null)
+            {
+                comboBoxDimension.SelectedValue = ViewModel.Dimension.ID;
+            }
+            else
+            {
+                comboBoxDimension.SelectedValue = 0;
             }
         }
 
@@ -97,6 +114,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             ViewModel.Name = textBoxName.Text;
             ViewModel.Curve = (IDAndName)comboBoxCurve.SelectedItem;
+            ViewModel.Dimension = (IDAndName)comboBoxDimension.SelectedItem;
         }
 
         // Actions

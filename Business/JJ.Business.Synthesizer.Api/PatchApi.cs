@@ -72,9 +72,9 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Cache(signal, startTime, endTime, samplingRate, interpolationTypeEnum, speakerSetupEnum);
         }
 
-        public Curve_OperatorWrapper Curve(Curve curve = null)
+        public Curve_OperatorWrapper Curve(Curve curve = null, DimensionEnum dimension = DimensionEnum.Undefined)
         {
-            return _patchManager.Curve(curve);
+            return _patchManager.Curve(curve, dimension);
         }
 
         public CustomOperator_OperatorWrapper CustomOperator()
