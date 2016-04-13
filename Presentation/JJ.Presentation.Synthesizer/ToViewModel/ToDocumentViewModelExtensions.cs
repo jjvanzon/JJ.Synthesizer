@@ -69,7 +69,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorPropertiesList_ForCaches = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForCaches(repositories.InterpolationTypeRepository)).ToList(),
                 OperatorPropertiesList_ForCurves = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForCurves(repositories.CurveRepository)).ToList(),
                 OperatorPropertiesList_ForCustomOperators = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForCustomOperators(repositories.PatchRepository)).ToList(),
-                OperatorPropertiesList_ForDimensions = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForDimensions()).ToList(),
+                OperatorPropertiesList_WithDimensions = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithDimensions()).ToList(),
                 OperatorPropertiesList_ForFilters = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForFilters()).ToList(),
                 OperatorPropertiesList_ForNumbers = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForNumbers()).ToList(),
                 OperatorPropertiesList_ForPatchInlets = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForPatchInlets()).ToList(),

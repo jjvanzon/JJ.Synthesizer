@@ -349,14 +349,14 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Scaler(signal, sourceValueA, sourceValueB, targetValueA, targetValueB);
         }
 
-        public Select_OperatorWrapper Select(Outlet signal = null, Outlet time = null)
+        public Select_OperatorWrapper Select(Outlet signal = null, Outlet position = null, DimensionEnum dimension = DimensionEnum.Undefined)
         {
-            return _patchManager.Select(signal, time);
+            return _patchManager.Select(signal, position, dimension);
         }
 
-        public SetDimension_OperatorWrapper SetDimension(Outlet calculation = null, DimensionEnum dimension = DimensionEnum.Undefined, Outlet value = null)
+        public SetDimension_OperatorWrapper SetDimension(Outlet calculation = null, Outlet value = null, DimensionEnum dimension = DimensionEnum.Undefined)
         {
-            return _patchManager.SetDimension(calculation, dimension, value);
+            return _patchManager.SetDimension(calculation, value, dimension);
         }
 
         public Shift_OperatorWrapper Shift(Outlet signal = null, Outlet difference = null)
@@ -393,9 +393,9 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Square(frequency, phaseShift);
         }
 
-        public Stretch_OperatorWrapper Stretch(Outlet signal = null, Outlet factor = null, Outlet origin = null)
+        public Stretch_OperatorWrapper Stretch(Outlet signal = null, Outlet factor = null, Outlet origin = null, DimensionEnum dimension = DimensionEnum.Time)
         {
-            return _patchManager.Stretch(signal, factor, origin);
+            return _patchManager.Stretch(signal, factor, origin, dimension);
         }
 
         public Subtract_OperatorWrapper Subtract(Outlet a = null, Outlet b = null)

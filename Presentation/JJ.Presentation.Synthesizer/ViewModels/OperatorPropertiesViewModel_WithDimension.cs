@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
-    public sealed class OperatorPropertiesViewModel_ForDimension : OperatorPropertiesViewModelBase
+    public sealed class OperatorPropertiesViewModel_WithDimension : OperatorPropertiesViewModelBase
     {
         public int PatchID { get; set; }
         public string Name { get; set; }

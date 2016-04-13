@@ -506,12 +506,12 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return viewModel;
         }
 
-        public static OperatorPropertiesViewModel_ForDimension TryGetOperatorPropertiesViewModel_ForDimension(DocumentViewModel rootDocumentViewModel, int operatorID)
+        public static OperatorPropertiesViewModel_WithDimension TryGetOperatorPropertiesViewModel_WithDimension(DocumentViewModel rootDocumentViewModel, int operatorID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            OperatorPropertiesViewModel_ForDimension viewModel = DocumentViewModelHelper.EnumerateOperatorPropertiesViewModels_ForDimensions(rootDocumentViewModel)
-                                                                                        .FirstOrDefault(x => x.ID == operatorID); // First for performance.
+            OperatorPropertiesViewModel_WithDimension viewModel = DocumentViewModelHelper.EnumerateOperatorPropertiesViewModels_WithDimensions(rootDocumentViewModel)
+                                                                                         .FirstOrDefault(x => x.ID == operatorID); // First for performance.
             return viewModel;
         }
 
@@ -622,11 +622,11 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return rootDocumentViewModel.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForCustomOperators);
         }
 
-        private static IEnumerable<OperatorPropertiesViewModel_ForDimension> EnumerateOperatorPropertiesViewModels_ForDimensions(DocumentViewModel rootDocumentViewModel)
+        private static IEnumerable<OperatorPropertiesViewModel_WithDimension> EnumerateOperatorPropertiesViewModels_WithDimensions(DocumentViewModel rootDocumentViewModel)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            return rootDocumentViewModel.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForDimensions);
+            return rootDocumentViewModel.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_WithDimensions);
         }
 
         private static IEnumerable<OperatorPropertiesViewModel_ForFilter> EnumerateOperatorPropertiesViewModels_ForFilters(DocumentViewModel rootDocumentViewModel)
@@ -760,7 +760,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
             throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForCustomOperator> for Patch ID '{0}' not found in any of the PatchDocumentViewModels.", patchID));
         }
 
-        public static IList<OperatorPropertiesViewModel_ForDimension> GetOperatorPropertiesViewModelList_ForDimensions_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
+        public static IList<OperatorPropertiesViewModel_WithDimension> GetOperatorPropertiesViewModelList_WithDimensions_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
@@ -768,11 +768,11 @@ namespace JJ.Presentation.Synthesizer.Helpers
             {
                 if (patchDocumentViewModel.PatchDetails.Entity.PatchID == patchID)
                 {
-                    return patchDocumentViewModel.OperatorPropertiesList_ForDimensions;
+                    return patchDocumentViewModel.OperatorPropertiesList_WithDimensions;
                 }
             }
 
-            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForDimension> with Patch ID '{0}' not found in any of the PatchDocumentViewModels.", patchID));
+            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_WithDimension> with Patch ID '{0}' not found in any of the PatchDocumentViewModels.", patchID));
         }
 
         public static IList<OperatorPropertiesViewModel_ForFilter> GetOperatorPropertiesViewModelList_ForFilters_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
@@ -1185,17 +1185,17 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return viewModel;
         }
 
-        public static OperatorPropertiesViewModel_ForDimension GetVisibleOperatorPropertiesViewModel_ForDimension(DocumentViewModel rootDocumentViewModel)
+        public static OperatorPropertiesViewModel_WithDimension GetVisibleOperatorPropertiesViewModel_WithDimension(DocumentViewModel rootDocumentViewModel)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            OperatorPropertiesViewModel_ForDimension viewModel = rootDocumentViewModel.PatchDocumentList
-                                                                                   .SelectMany(x => x.OperatorPropertiesList_ForDimensions)
+            OperatorPropertiesViewModel_WithDimension viewModel = rootDocumentViewModel.PatchDocumentList
+                                                                                   .SelectMany(x => x.OperatorPropertiesList_WithDimensions)
                                                                                    .Where(x => x.Visible)
                                                                                    .FirstOrDefault();
             if (viewModel == null)
             {
-                throw new Exception("No visible OperatorPropertiesViewModel_ForDimension found in rootDocumentViewModel.PatchDocumentList.");
+                throw new Exception("No visible OperatorPropertiesViewModel_WithDimension found in rootDocumentViewModel.PatchDocumentList.");
             }
 
             return viewModel;

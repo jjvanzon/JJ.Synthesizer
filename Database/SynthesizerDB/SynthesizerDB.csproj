@@ -230,6 +230,9 @@
     <Content Include="2016-04-12 050 SynthesizerDB FK_Curve_XDimension.sql" />
     <Content Include="2016-04-12 060 SynthesizerDB FK_Curve_YDimension.sql" />
     <Content Include="2016-04-12 070 SynthesizerDB IX_Curve_XDimensionID.sql" />
+    <Content Include="2016-04-13 030 SynthesizerDB RUN UTILITY.sql" />
+    <Content Include="2016-04-13 020 SynthesizerDB RUN UTILITY.sql" />
+    <Content Include="2016-04-13 010 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2016-04-12 080 SynthesizerDB IX_Curve_YDimensionID.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

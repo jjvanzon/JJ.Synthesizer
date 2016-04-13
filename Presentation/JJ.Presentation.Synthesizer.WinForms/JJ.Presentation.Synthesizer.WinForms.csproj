@@ -121,11 +121,11 @@
     <Compile Include="UserControls\2016-03-06 Backup of MenuUserControl.Designer.cs">
       <DependentUpon>2016-03-06 Backup of MenuUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\OperatorPropertiesUserControl_ForDimension.cs">
+    <Compile Include="UserControls\OperatorPropertiesUserControl_WithDimension.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\OperatorPropertiesUserControl_ForDimension.Designer.cs">
-      <DependentUpon>OperatorPropertiesUserControl_ForDimension.cs</DependentUpon>
+    <Compile Include="UserControls\OperatorPropertiesUserControl_WithDimension.Designer.cs">
+      <DependentUpon>OperatorPropertiesUserControl_WithDimension.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_ForFilter.cs">
       <SubType>UserControl</SubType>
@@ -382,8 +382,8 @@
     <EmbeddedResource Include="UserControls\2016-03-06 Backup of MenuUserControl.resx">
       <DependentUpon>2016-03-06 Backup of MenuUserControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForDimension.resx">
-      <DependentUpon>OperatorPropertiesUserControl_ForDimension.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_WithDimension.resx">
+      <DependentUpon>OperatorPropertiesUserControl_WithDimension.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForFilter.resx">
       <DependentUpon>OperatorPropertiesUserControl_ForFilter.cs</DependentUpon>

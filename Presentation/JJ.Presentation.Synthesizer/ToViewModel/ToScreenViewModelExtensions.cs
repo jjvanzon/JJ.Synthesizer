@@ -311,13 +311,15 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                         .ToList();
         }
 
-        public static IList<OperatorPropertiesViewModel_ForDimension> ToPropertiesViewModelList_ForDimensions(this Patch patch)
+        public static IList<OperatorPropertiesViewModel_WithDimension> ToPropertiesViewModelList_WithDimensions(this Patch patch)
         {
             if (patch == null) throw new NullException(() => patch);
 
-            return Enumerable.Union(patch.GetOperatorsOfType(OperatorTypeEnum.GetDimension),
-                                    patch.GetOperatorsOfType(OperatorTypeEnum.SetDimension))
-                        .Select(x => x.ToPropertiesViewModel_ForDimension())
+            return patch.GetOperatorsOfType(OperatorTypeEnum.GetDimension)
+                        .Union(patch.GetOperatorsOfType(OperatorTypeEnum.SetDimension))
+                        .Union(patch.GetOperatorsOfType(OperatorTypeEnum.Stretch))
+                        .Union(patch.GetOperatorsOfType(OperatorTypeEnum.Select))
+                        .Select(x => x.ToPropertiesViewModel_WithDimension())
                         .ToList();
         }
 
@@ -513,13 +515,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static OperatorPropertiesViewModel_ForDimension ToPropertiesViewModel_ForDimension(this Operator entity)
+        public static OperatorPropertiesViewModel_WithDimension ToPropertiesViewModel_WithDimension(this Operator entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
             var wrapper = new Dimension_OperatorWrapperBase(entity);
 
-            var viewModel = new OperatorPropertiesViewModel_ForDimension
+            var viewModel = new OperatorPropertiesViewModel_WithDimension
             {
                 ID = entity.ID,
                 PatchID = entity.Patch.ID,

@@ -117,9 +117,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 .FirstOrDefault();
             operatorPropertiesUserControl_ForCustomOperator.SetUnderlyingPatchLookup(_presenter.MainViewModel.Document.UnderlyingPatchLookup);
 
-            // OperatorProperties_ForDimension
-            operatorPropertiesUserControl_ForDimension.ViewModel =
-                _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForDimensions)
+            // OperatorProperties_WithDimension
+            operatorPropertiesUserControl_WithDimension.ViewModel =
+                _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_WithDimensions)
                 .Where(x => x.Visible)
                 .FirstOrDefault();
 

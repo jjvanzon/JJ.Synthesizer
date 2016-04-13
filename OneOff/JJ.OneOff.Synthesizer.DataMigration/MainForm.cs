@@ -70,11 +70,11 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             {
                 AutoSize = true,
                 Enabled = true,
-                Font = new Font("Microsoft Sans Serif", 10F),
+                Font = new Font("Microsoft Sans Serif", 8F),
                 Location = new Point(263, 123),
                 Margin = new Padding(4),
                 Name = "radioButton" + methodName,
-                Size = new Size(191, 24),
+                Size = new Size(191, 18),
                 Text = methodName,
                 UseVisualStyleBackColor = true,
             };

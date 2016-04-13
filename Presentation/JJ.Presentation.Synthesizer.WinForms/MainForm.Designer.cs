@@ -50,7 +50,7 @@
             this.menuUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.MenuUserControl();
             this.currentPatchesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.CurrentPatchesUserControl();
             this.operatorPropertiesUserControl_ForFilter = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForFilter();
-            this.operatorPropertiesUserControl_ForDimension = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForDimension();
+            this.operatorPropertiesUserControl_WithDimension = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_WithDimension();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerTree)).BeginInit();
             this.splitContainerTree.Panel1.SuspendLayout();
             this.splitContainerTree.Panel2.SuspendLayout();
@@ -114,7 +114,7 @@
             // 
             // splitContainerProperties.Panel2
             // 
-            this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForDimension);
+            this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_WithDimension);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForFilter);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForCache);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForRandom);
@@ -500,17 +500,17 @@
             this.currentPatchesUserControl.Size = new System.Drawing.Size(1188, 30);
             this.currentPatchesUserControl.TabIndex = 14;
             // 
-            // operatorPropertiesUserControl_ForDimension
+            // operatorPropertiesUserControl_WithDimension
             // 
-            this.operatorPropertiesUserControl_ForDimension.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.operatorPropertiesUserControl_ForDimension.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.operatorPropertiesUserControl_ForDimension.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.operatorPropertiesUserControl_ForDimension.Font = new System.Drawing.Font("Verdana", 10F);
-            this.operatorPropertiesUserControl_ForDimension.Location = new System.Drawing.Point(0, 0);
-            this.operatorPropertiesUserControl_ForDimension.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.operatorPropertiesUserControl_ForDimension.Name = "operatorPropertiesUserControl_ForDimension";
-            this.operatorPropertiesUserControl_ForDimension.Size = new System.Drawing.Size(280, 814);
-            this.operatorPropertiesUserControl_ForDimension.TabIndex = 1;
+            this.operatorPropertiesUserControl_WithDimension.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.operatorPropertiesUserControl_WithDimension.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.operatorPropertiesUserControl_WithDimension.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.operatorPropertiesUserControl_WithDimension.Font = new System.Drawing.Font("Verdana", 10F);
+            this.operatorPropertiesUserControl_WithDimension.Location = new System.Drawing.Point(0, 0);
+            this.operatorPropertiesUserControl_WithDimension.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.operatorPropertiesUserControl_WithDimension.Name = "operatorPropertiesUserControl_WithDimension";
+            this.operatorPropertiesUserControl_WithDimension.Size = new System.Drawing.Size(280, 814);
+            this.operatorPropertiesUserControl_WithDimension.TabIndex = 1;
             // 
             // operatorPropertiesUserControl_ForFilter
             // 
@@ -586,6 +586,6 @@
         private UserControls.OperatorPropertiesUserControl_ForRandom operatorPropertiesUserControl_ForRandom;
         private UserControls.OperatorPropertiesUserControl_ForCache operatorPropertiesUserControl_ForCache;
         private UserControls.OperatorPropertiesUserControl_ForFilter operatorPropertiesUserControl_ForFilter;
-        private UserControls.OperatorPropertiesUserControl_ForDimension operatorPropertiesUserControl_ForDimension;
+        private UserControls.OperatorPropertiesUserControl_WithDimension operatorPropertiesUserControl_WithDimension;
     }
 }

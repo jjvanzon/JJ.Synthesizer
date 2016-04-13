@@ -787,4 +787,7 @@
   <data name="YDimension" xml:space="preserve">
     <value>Y dimensie</value>
   </data>
+  <data name="Position" xml:space="preserve">
+    <value>Positie</value>
+  </data>
 </root>

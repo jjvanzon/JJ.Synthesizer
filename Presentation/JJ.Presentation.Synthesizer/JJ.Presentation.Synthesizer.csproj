@@ -49,7 +49,7 @@
     <Compile Include="Presenters\CurrentPatchesPresenter.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenterBase.cs" />
     <Compile Include="Presenters\2016-03-24 Backup of OperatorPropertiesPresenter_ForAggregate.cs" />
-    <Compile Include="Presenters\OperatorPropertiesPresenter_ForDimension.cs" />
+    <Compile Include="Presenters\OperatorPropertiesPresenter_WithDimension.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForRandom.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForFilter.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForResample.cs" />
@@ -108,7 +108,7 @@
     <Compile Include="ViewModels\Items\PatchDocumentViewModel.cs" />
     <Compile Include="ViewModels\Items\CurrentPatchItemViewModel.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForFilter.cs" />
-    <Compile Include="ViewModels\OperatorPropertiesViewModel_ForDimension.cs" />
+    <Compile Include="ViewModels\OperatorPropertiesViewModel_WithDimension.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForRandom.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForResample.cs" />
     <Compile Include="ViewModels\2016-04-10 Backup of OperatorPropertiesViewModel_ForAggregate.cs" />

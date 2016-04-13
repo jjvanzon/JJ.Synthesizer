@@ -12,13 +12,13 @@ using JJ.Presentation.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class OperatorPropertiesUserControl_ForDimension
-        : NotDesignable_OperatorPropertiesUserControl_ForDimension
+    internal partial class OperatorPropertiesUserControl_WithDimension
+        : NotDesignable_OperatorPropertiesUserControl_WithDimension
     {
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
 
-        public OperatorPropertiesUserControl_ForDimension()
+        public OperatorPropertiesUserControl_WithDimension()
         {
             InitializeComponent();
 
@@ -27,7 +27,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.AutomaticallyAssignTabIndexes();
         }
 
-        private void OperatorPropertiesUserControl_ForDimension_Load(object sender, EventArgs e)
+        private void OperatorPropertiesUserControl_WithDimension_Load(object sender, EventArgs e)
         {
             ApplyStyling();
         }
@@ -110,7 +110,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         }
 
         // This event does not go off, if not clicked on a control that according to WinForms can get focus.
-        private void OperatorPropertiesUserControl_ForDimension_Leave(object sender, EventArgs e)
+        private void OperatorPropertiesUserControl_WithDimension_Leave(object sender, EventArgs e)
         {
             // This Visible check is there because the leave event (lose focus) goes off after I closed, 
             // making it want to save again, even though view model is empty
@@ -123,8 +123,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     }
 
     /// <summary> The WinForms designer does not work when deriving directly from a generic class. </summary>
-    internal class NotDesignable_OperatorPropertiesUserControl_ForDimension
-        : UserControlBase<OperatorPropertiesViewModel_ForDimension>
+    internal class NotDesignable_OperatorPropertiesUserControl_WithDimension
+        : UserControlBase<OperatorPropertiesViewModel_WithDimension>
     {
         protected override void ApplyViewModelToControls()
         {

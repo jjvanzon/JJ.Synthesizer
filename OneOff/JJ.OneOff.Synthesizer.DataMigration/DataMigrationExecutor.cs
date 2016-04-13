@@ -1036,7 +1036,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
         }
 
-        public static void Migrate_CacheOperators_SetDimensionParameter(Action<string> progressCallback)
+        public static void Migrate_CurveOperators_SetDimensionParameter(Action<string> progressCallback)
         {
             if (progressCallback == null) throw new NullException(() => progressCallback);
 
@@ -1073,6 +1073,94 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
                 AssertDocuments(repositories, progressCallback);
 
+                context.Commit();
+            }
+
+            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        }
+
+        public static void Migrate_StretchOperators_SetDimensionParameter(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                var patchManager = new PatchManager(new PatchRepositories(repositories));
+
+                IList<Operator> operators = repositories.OperatorRepository
+                                                        .GetAll()
+                                                        .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.Stretch)
+                                                        .ToArray();
+                for (int i = 0; i < operators.Count; i++)
+                {
+                    Operator op = operators[i];
+                    var wrapper = new Stretch_OperatorWrapper(op);
+
+                    if (wrapper.Dimension != DimensionEnum.Undefined)
+                    {
+                        throw new Exception("wrapper.Dimension == DimensionEnum.Undefined. Operator already migrated?");
+                    }
+                    wrapper.Dimension = DimensionEnum.Time;
+
+                    patchManager.Patch = op.Patch;
+                    VoidResult result = patchManager.SaveOperator(op);
+                    ResultHelper.Assert(result);
+
+                    string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
+                    progressCallback(progressMessage);
+                }
+
+                AssertDocuments(repositories, progressCallback);
+
+                //throw new Exception("Temporarily not committing, for debugging purposes.");
+                context.Commit();
+            }
+
+            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        }
+
+        public static void Migrate_SelectOperators_SetDimensionParameter(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                var patchManager = new PatchManager(new PatchRepositories(repositories));
+
+                IList<Operator> operators = repositories.OperatorRepository
+                                                        .GetAll()
+                                                        .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.Select)
+                                                        .ToArray();
+                for (int i = 0; i < operators.Count; i++)
+                {
+                    Operator op = operators[i];
+                    var wrapper = new Select_OperatorWrapper(op);
+
+                    if (wrapper.Dimension != DimensionEnum.Undefined)
+                    {
+                        throw new Exception("wrapper.Dimension == DimensionEnum.Undefined. Operator already migrated?");
+                    }
+                    wrapper.Dimension = DimensionEnum.Time;
+
+                    patchManager.Patch = op.Patch;
+                    VoidResult result = patchManager.SaveOperator(op);
+                    ResultHelper.Assert(result);
+
+                    string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
+                    progressCallback(progressMessage);
+                }
+
+                AssertDocuments(repositories, progressCallback);
+
+                //throw new Exception("Temporarily not committing, for debugging purposes.");
                 context.Commit();
             }
 

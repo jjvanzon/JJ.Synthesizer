@@ -73,8 +73,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             operatorPropertiesUserControl_ForCurve.LoseFocusRequested += operatorPropertiesUserControl_ForCurve_LoseFocusRequested;
             operatorPropertiesUserControl_ForCustomOperator.CloseRequested += operatorPropertiesUserControl_ForCustomOperator_CloseRequested;
             operatorPropertiesUserControl_ForCustomOperator.LoseFocusRequested += operatorPropertiesUserControl_ForCustomOperator_LoseFocusRequested;
-            operatorPropertiesUserControl_ForDimension.CloseRequested += operatorPropertiesUserControl_ForDimension_CloseRequested;
-            operatorPropertiesUserControl_ForDimension.LoseFocusRequested += operatorPropertiesUserControl_ForDimension_LoseFocusRequested;
+            operatorPropertiesUserControl_WithDimension.CloseRequested += operatorPropertiesUserControl_WithDimension_CloseRequested;
+            operatorPropertiesUserControl_WithDimension.LoseFocusRequested += operatorPropertiesUserControl_WithDimension_LoseFocusRequested;
             operatorPropertiesUserControl_ForFilter.CloseRequested += operatorPropertiesUserControl_ForFilter_CloseRequested;
             operatorPropertiesUserControl_ForFilter.LoseFocusRequested += operatorPropertiesUserControl_ForFilter_LoseFocusRequested;
             operatorPropertiesUserControl_ForNumber.CloseRequested += operatorPropertiesUserControl_ForNumber_CloseRequested;
@@ -489,14 +489,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(_presenter.OperatorPropertiesClose_ForCustomOperator);
         }
 
-        private void operatorPropertiesUserControl_ForDimension_LoseFocusRequested(object sender, EventArgs e)
+        private void operatorPropertiesUserControl_WithDimension_LoseFocusRequested(object sender, EventArgs e)
         {
-            TemplateEventHandler(_presenter.OperatorPropertiesLoseFocus_ForDimension);
+            TemplateEventHandler(_presenter.OperatorPropertiesLoseFocus_WithDimension);
         }
 
-        private void operatorPropertiesUserControl_ForDimension_CloseRequested(object sender, EventArgs e)
+        private void operatorPropertiesUserControl_WithDimension_CloseRequested(object sender, EventArgs e)
         {
-            TemplateEventHandler(_presenter.OperatorPropertiesClose_ForDimension);
+            TemplateEventHandler(_presenter.OperatorPropertiesClose_WithDimension);
         }
 
         private void operatorPropertiesUserControl_ForFilter_LoseFocusRequested(object sender, EventArgs e)

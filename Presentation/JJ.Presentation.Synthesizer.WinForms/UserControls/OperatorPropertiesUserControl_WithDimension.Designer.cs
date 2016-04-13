@@ -2,7 +2,7 @@
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Partials;
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    partial class OperatorPropertiesUserControl_ForDimension
+    partial class OperatorPropertiesUserControl_WithDimension
     {
         /// <summary> 
         /// Required designer variable.
@@ -162,7 +162,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.titleBarUserControl.TabIndex = 7;
             this.titleBarUserControl.CloseClicked += new System.EventHandler(this.titleBarUserControl_CloseClicked);
             // 
-            // OperatorPropertiesUserControl_ForDimension
+            // OperatorPropertiesUserControl_WithDimension
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -170,10 +170,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.Controls.Add(this.tableLayoutPanelMain);
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.Name = "OperatorPropertiesUserControl_ForDimension";
+            this.Name = "OperatorPropertiesUserControl_WithDimension";
             this.Size = new System.Drawing.Size(10, 10);
-            this.Load += new System.EventHandler(this.OperatorPropertiesUserControl_ForDimension_Load);
-            this.Leave += new System.EventHandler(this.OperatorPropertiesUserControl_ForDimension_Leave);
+            this.Load += new System.EventHandler(this.OperatorPropertiesUserControl_WithDimension_Load);
+            this.Leave += new System.EventHandler(this.OperatorPropertiesUserControl_WithDimension_Leave);
             this.tableLayoutPanelMain.ResumeLayout(false);
             this.tableLayoutPanelProperties.ResumeLayout(false);
             this.tableLayoutPanelProperties.PerformLayout();

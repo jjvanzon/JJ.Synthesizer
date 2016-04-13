@@ -23,7 +23,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
     {
         private static readonly bool _previewAutoPatchPolyphonicEnabled = GetPreviewAutoPatchPolyphonicEnabled();
 
-        private static HashSet<OperatorTypeEnum> _operatorTypeEnums_WithTheirOwnPropertyViews = new HashSet<OperatorTypeEnum>
+        private static HashSet<OperatorTypeEnum> _operatorTypeEnums_WithCustomPropertyViews = new HashSet<OperatorTypeEnum>
         {
             OperatorTypeEnum.Bundle,
             OperatorTypeEnum.Cache,
@@ -37,13 +37,15 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.Random,
             OperatorTypeEnum.Resample,
             OperatorTypeEnum.Sample,
+            OperatorTypeEnum.Select,
+            OperatorTypeEnum.Stretch,
             OperatorTypeEnum.SetDimension,
             OperatorTypeEnum.Unbundle
         };
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithTheirOwnPropertyViews
         {
-            get { return _operatorTypeEnums_WithTheirOwnPropertyViews; }
+            get { return _operatorTypeEnums_WithCustomPropertyViews; }
         }
 
         public static CurrentPatchesViewModel CreateCurrentPatchesViewModel(IList<Document> childDocuments)

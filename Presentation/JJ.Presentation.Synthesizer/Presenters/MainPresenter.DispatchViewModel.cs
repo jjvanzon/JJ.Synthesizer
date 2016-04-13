@@ -38,7 +38,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(OperatorPropertiesViewModel_ForCache), DispatchOperatorPropertiesViewModel_ForCache },
                 { typeof(OperatorPropertiesViewModel_ForCurve), DispatchOperatorPropertiesViewModel_ForCurve },
                 { typeof(OperatorPropertiesViewModel_ForCustomOperator), DispatchOperatorPropertiesViewModel_ForCustomOperator },
-                { typeof(OperatorPropertiesViewModel_ForDimension), DispatchOperatorPropertiesViewModel_ForDimension },
+                { typeof(OperatorPropertiesViewModel_WithDimension), DispatchOperatorPropertiesViewModel_WithDimension },
                 { typeof(OperatorPropertiesViewModel_ForFilter), DispatchOperatorPropertiesViewModel_ForFilter },
                 { typeof(OperatorPropertiesViewModel_ForNumber), DispatchOperatorPropertiesViewModel_ForNumber },
                 { typeof(OperatorPropertiesViewModel_ForPatchInlet), DispatchOperatorPropertiesViewModel_ForPatchInlet },
@@ -449,11 +449,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             castedViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchOperatorPropertiesViewModel_ForDimension(object viewModel2)
+        private void DispatchOperatorPropertiesViewModel_WithDimension(object viewModel2)
         {
-            var castedViewModel = (OperatorPropertiesViewModel_ForDimension)viewModel2;
+            var castedViewModel = (OperatorPropertiesViewModel_WithDimension)viewModel2;
 
-            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForDimensions_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_WithDimensions_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
             int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
             if (listIndex.HasValue)
             {

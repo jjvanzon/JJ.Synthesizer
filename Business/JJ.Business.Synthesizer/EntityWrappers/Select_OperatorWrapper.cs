@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX).LinkTo(value); }
         }
 
-        public Outlet Time
+        public Outlet Position
         {
             get { return OperatorHelper.GetInputOutlet(WrappedOperator, TIME_INDEX); }
             set { OperatorHelper.GetInlet(WrappedOperator, TIME_INDEX).LinkTo(value); }
@@ -52,7 +52,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
                 case TIME_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => Time);
+                        string name = ResourceHelper.GetPropertyDisplayName(() => Position);
                         return name;
                     }
 
