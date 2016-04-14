@@ -53,9 +53,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             dimensionStack.Push(_dimensionIndex, x0);
             double y0 = _signalCalculator.Calculate(dimensionStack);
-            dimensionStack.Pop(_dimensionIndex);
 
-            dimensionStack.Push(_dimensionIndex, x1);
+            dimensionStack.Set(_dimensionIndex, x1);
+
             double y1 = _signalCalculator.Calculate(dimensionStack);
             dimensionStack.Pop(_dimensionIndex);
 

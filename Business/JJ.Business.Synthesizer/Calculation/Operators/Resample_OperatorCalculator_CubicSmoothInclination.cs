@@ -64,14 +64,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
                 // Determine next sample
                 dimensionStack.Push(_dimensionIndex, _x1);
+
                 double samplingRate = GetSamplingRate(dimensionStack);
-                dimensionStack.Pop(_dimensionIndex);
 
                 _dx1 = 1.0 / samplingRate;
                 _x2 = _x1 + _dx1;
 
-                dimensionStack.Push(_dimensionIndex, _x2);
+                dimensionStack.Set(_dimensionIndex, _x2);
+
                 _y2 = _signalCalculator.Calculate(dimensionStack);
+
                 dimensionStack.Pop(_dimensionIndex);
             }
 

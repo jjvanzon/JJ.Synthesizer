@@ -66,9 +66,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             for (int i = 0; i < count; i++)
             {
-                dimensionStack.Push(TIME_DIMENSION_INDEX, t);
+                dimensionStack.Set(TIME_DIMENSION_INDEX, t);
+
                 double value = Calculate(dimensionStack);
-                dimensionStack.Pop(TIME_DIMENSION_INDEX);
 
                 values[i] = value;
 

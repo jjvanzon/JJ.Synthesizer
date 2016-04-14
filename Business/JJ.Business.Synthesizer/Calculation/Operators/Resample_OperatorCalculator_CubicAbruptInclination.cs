@@ -73,15 +73,17 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 _a0 = _a1;
 
                 dimensionStack.Push(_dimensionIndex, _x1);
+
                 double samplingRate1 = GetSamplingRate(dimensionStack);
-                dimensionStack.Pop(_dimensionIndex);
                 // TODO: Handle SamplingRate 0.
 
                 _dx1 = 1.0 / samplingRate1;
                 _x2 += _dx1;
 
-                dimensionStack.Push(_dimensionIndex, _x2);
+                dimensionStack.Set(_dimensionIndex, _x2);
+
                 _y2 = _signalCalculator.Calculate(dimensionStack);
+
                 dimensionStack.Pop(_dimensionIndex);
 
                 _a1 = (_y2 - _y0) / (_x2 - _x0);

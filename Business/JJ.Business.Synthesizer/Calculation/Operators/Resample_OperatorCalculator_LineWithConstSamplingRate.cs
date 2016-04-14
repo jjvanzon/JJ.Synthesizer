@@ -40,11 +40,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double dx = x1 - x0;
 
             dimensionStack.Push(_dimensionIndex, x0);
-            double y0 = _signalCalculator.Calculate(dimensionStack);
-            dimensionStack.Pop(_dimensionIndex);
 
-            dimensionStack.Push(_dimensionIndex, x1);
+            double y0 = _signalCalculator.Calculate(dimensionStack);
+
+            dimensionStack.Set(_dimensionIndex, x1);
+
             double y1 = _signalCalculator.Calculate(dimensionStack);
+
             dimensionStack.Pop(_dimensionIndex);
 
             double dy = y1 - y0;

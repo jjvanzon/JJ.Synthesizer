@@ -107,18 +107,16 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
                     var dimensionStack = new DimensionStack();
                     for (double t = 0; t <= endTime; t += dt)
                     {
-                        dimensionStack.Push(TIME_DIMENSION_INDEX, t);
+                        dimensionStack.Set(TIME_DIMENSION_INDEX, t);
                         for (int i = 0; i < channelCount; i++)
                         {
-                            dimensionStack.Push(CHANNEL_DIMENSION_INDEX, i);
+                            dimensionStack.Set(CHANNEL_DIMENSION_INDEX, i);
                             double value = _patchCalculator.Calculate(dimensionStack);
-                            dimensionStack.Pop(CHANNEL_DIMENSION_INDEX);
 
                             value *= adjustedAmplifier;
 
                             WriteValue(writer, value);
                         }
-                        dimensionStack.Pop(TIME_DIMENSION_INDEX);
                     }
                 }
             }

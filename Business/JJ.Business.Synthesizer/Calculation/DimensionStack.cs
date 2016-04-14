@@ -75,12 +75,22 @@ namespace JJ.Business.Synthesizer.Calculation
             return _stacks[dimensionEnumInt].Peek();
         }
 
+        /// <summary>
+        /// A slightly quicker alternative to a subsequent Pop and Push,
+        /// when you know there will not be any stack operators in between,
+        /// or when you know you are at the top level of the stack.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Set(DimensionEnum dimensionEnum, double value)
         {
             Set((int)dimensionEnum, value);
         }
 
+        /// <summary>
+        /// A slightly quicker alternative to a subsequent Pop and Push,
+        /// when you know there will not be any stack operators in between,
+        /// or when you know you are at the top level of the stack.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Set(int dimensionEnumInt, double value)
         {

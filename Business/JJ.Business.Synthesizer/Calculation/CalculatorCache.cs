@@ -152,30 +152,25 @@ namespace JJ.Business.Synthesizer.Calculation
             var dimensionStack = new DimensionStack();
             for (int channelIndex = 0; channelIndex < channelCount; channelIndex++)
             {
-                dimensionStack.Push(channelDimensionIndex, channelIndex);
+                dimensionStack.Set(channelDimensionIndex, channelIndex);
 
                 double[] samples = new double[tickCount];
 
                 double time = startTime;
-                dimensionStack.Push(timeDimensionIndex, time);
+                dimensionStack.Set(timeDimensionIndex, time);
 
                 for (int i = 0; i < tickCount; i++)
                 {
                     double sample = signalCalculator.Calculate(dimensionStack);
                     samples[i] = sample;
 
-                    dimensionStack.Pop(timeDimensionIndex);
                     time += tickDuration;
-                    dimensionStack.Push(timeDimensionIndex, time);
+                    dimensionStack.Set(timeDimensionIndex, time);
                 }
-
-                dimensionStack.Pop(timeDimensionIndex);
 
                 ArrayCalculatorBase arrayCalculator = ArrayCalculatorFactory.CreateArrayCalculator(
                     samples, rate, startTime, interpolationTypeEnum);
                 arrayCalculators[channelIndex] = arrayCalculator;
-
-                dimensionStack.Pop(channelDimensionIndex);
             }
 
             return arrayCalculators;

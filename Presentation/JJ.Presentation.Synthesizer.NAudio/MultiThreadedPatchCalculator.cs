@@ -204,11 +204,9 @@ Wait:
 
                     for (int j = 0; j < _buffer.Length; j++)
                     {
-                        dimensionStack.Push(TIME_DIMENSION_INDEX, t);
+                        dimensionStack.Set(TIME_DIMENSION_INDEX, t);
 
                         double value = patchCalculator.Calculate(dimensionStack);
-
-                        dimensionStack.Pop(TIME_DIMENSION_INDEX);
 
                         // TODO: Low priority: Not sure how to do a quicker interlocked add for doubles.
                         lock (_bufferLocks[j])

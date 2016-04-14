@@ -54,10 +54,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double x = position;
             if (x > _x1)
             {
-
                 dimensionStack.Push(_dimensionIndex, _x1);
+
                 double samplingRate = GetSamplingRate(dimensionStack);
-                dimensionStack.Pop(_dimensionIndex);
 
                 _dx = 1.0 / samplingRate;
                 _x1 += _dx;
@@ -67,20 +66,22 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 double xMinus1 = _x0 - _dx;
                 double x2 = _x1 + _dx;
 
-                dimensionStack.Push(_dimensionIndex, xMinus1);
+                dimensionStack.Set(_dimensionIndex, xMinus1);
+
                 _yMinus1 = _signalCalculator.Calculate(dimensionStack);
-                dimensionStack.Pop(_dimensionIndex);
 
-                dimensionStack.Push(_dimensionIndex, _x0);
+                dimensionStack.Set(_dimensionIndex, _x0);
+
                 _y0 = _signalCalculator.Calculate(dimensionStack);
-                dimensionStack.Pop(_dimensionIndex);
 
-                dimensionStack.Push(_dimensionIndex, _x1);
+                dimensionStack.Set(_dimensionIndex, _x1);
+
                 _y1 = _signalCalculator.Calculate(dimensionStack);
-                dimensionStack.Pop(_dimensionIndex);
 
-                dimensionStack.Push(_dimensionIndex, x2);
+                dimensionStack.Set(_dimensionIndex, x2);
+
                 _y2 = _signalCalculator.Calculate(dimensionStack);
+
                 dimensionStack.Pop(_dimensionIndex);
             }
 
