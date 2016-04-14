@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Calculation
         private static int _dimensionCount = GetDimensionCount();
 
         /// <summary> Array index is the dimension enum member. </summary>
-        private Stack<double>[] _stacks;
+        private CustomStack<double>[] _stacks;
 
         private static int GetDimensionCount()
         {
@@ -26,11 +26,11 @@ namespace JJ.Business.Synthesizer.Calculation
 
         public DimensionStack()
         {
-            _stacks = new Stack<double>[_dimensionCount];
+            _stacks = new CustomStack<double>[_dimensionCount];
 
             for (int i = 0; i < _dimensionCount; i++)
             {
-                var stack = new Stack<double>();
+                var stack = new CustomStack<double>();
 
                 // Initialize stack with one item in it, so Peek immediately works to return 0.0.
                 stack.Push(0.0);
@@ -73,6 +73,18 @@ namespace JJ.Business.Synthesizer.Calculation
         public double Get(int dimensionEnumInt)
         {
             return _stacks[dimensionEnumInt].Peek();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Set(DimensionEnum dimensionEnum, double value)
+        {
+            Set((int)dimensionEnum, value);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Set(int dimensionEnumInt, double value)
+        {
+            _stacks[dimensionEnumInt].Set(value);
         }
     }
 }

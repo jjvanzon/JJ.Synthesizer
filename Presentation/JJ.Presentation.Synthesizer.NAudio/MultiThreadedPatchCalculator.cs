@@ -43,6 +43,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             public AutoResetEvent Lock { get; private set; }
         }
 
+        private const int TIME_DIMENSION_INDEX = (int)DimensionEnum.Time;
         private const int MAX_EXPECTED_PATCH_CALCULATORS_PER_THREAD = 32;
         private const int DEFAULT_CHANNEL_INDEX = 0; // TODO: Make multi-channel.
 
@@ -203,9 +204,11 @@ Wait:
 
                     for (int j = 0; j < _buffer.Length; j++)
                     {
-                        dimensionStack.Push(DimensionEnum.Time, t);
+                        dimensionStack.Push(TIME_DIMENSION_INDEX, t);
+
                         double value = patchCalculator.Calculate(dimensionStack);
-                        dimensionStack.Pop(DimensionEnum.Time);
+
+                        dimensionStack.Pop(TIME_DIMENSION_INDEX);
 
                         // TODO: Low priority: Not sure how to do a quicker interlocked add for doubles.
                         lock (_bufferLocks[j])

@@ -20,6 +20,9 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 {
     internal abstract class AudioFileOutputCalculatorBase : IAudioFileOutputCalculator
     {
+        private const int TIME_DIMENSION_INDEX = (int)DimensionEnum.Time;
+        private const int CHANNEL_DIMENSION_INDEX = (int)DimensionEnum.Channel;
+
         private readonly ICurveRepository _curveRepository;
         private readonly ISampleRepository _sampleRepository;
         private readonly IPatchRepository _patchRepository;
@@ -104,18 +107,18 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
                     var dimensionStack = new DimensionStack();
                     for (double t = 0; t <= endTime; t += dt)
                     {
-                        dimensionStack.Push(DimensionEnum.Time, t);
+                        dimensionStack.Push(TIME_DIMENSION_INDEX, t);
                         for (int i = 0; i < channelCount; i++)
                         {
-                            dimensionStack.Push(DimensionEnum.Channel, i);
+                            dimensionStack.Push(CHANNEL_DIMENSION_INDEX, i);
                             double value = _patchCalculator.Calculate(dimensionStack);
-                            dimensionStack.Pop(DimensionEnum.Channel);
+                            dimensionStack.Pop(CHANNEL_DIMENSION_INDEX);
 
                             value *= adjustedAmplifier;
 
                             WriteValue(writer, value);
                         }
-                        dimensionStack.Pop(DimensionEnum.Time);
+                        dimensionStack.Pop(TIME_DIMENSION_INDEX);
                     }
                 }
             }

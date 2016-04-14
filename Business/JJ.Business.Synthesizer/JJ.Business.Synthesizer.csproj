@@ -196,6 +196,7 @@
     <Compile Include="Calculation\SineCalculator.cs" />
     <Compile Include="Calculation\Random\RandomCalculator_BlockInterpolation.cs" />
     <Compile Include="Calculation\NoiseCalculator.cs" />
+    <Compile Include="Calculation\CustomStack.cs" />
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="Converters\PatchToOperatorConverter.cs" />
     <Compile Include="EntityWrappers\Cache_OperatorWrapper.cs" />

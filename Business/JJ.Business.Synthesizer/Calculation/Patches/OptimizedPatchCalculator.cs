@@ -12,6 +12,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 {
     internal class OptimizedPatchCalculator : IPatchCalculator
     {
+        private const int TIME_DIMENSION_INDEX = (int)DimensionEnum.Time;
+
         /// <summary> Array for optimization in calculating values. </summary>
         private readonly OperatorCalculatorBase[] _outputOperatorCalculators;
         private readonly VariableInput_OperatorCalculator[] _inputOperatorCalculators;
@@ -64,9 +66,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             for (int i = 0; i < count; i++)
             {
-                dimensionStack.Push(DimensionEnum.Time, t);
+                dimensionStack.Push(TIME_DIMENSION_INDEX, t);
                 double value = Calculate(dimensionStack);
-                dimensionStack.Pop(DimensionEnum.Time);
+                dimensionStack.Pop(TIME_DIMENSION_INDEX);
 
                 values[i] = value;
 
