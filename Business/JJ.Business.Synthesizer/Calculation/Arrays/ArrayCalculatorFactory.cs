@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Framework.Common;
 using JJ.Framework.Common.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Arrays
 {
     internal static class ArrayCalculatorFactory
     {
-        public static ArrayCalculatorBase CreateArrayCalculator_RotateTime(
+        public static ArrayCalculatorBase CreateArrayCalculator_RotatePosition(
             double[] array,
             double rate,
             InterpolationTypeEnum interpolationTypeEnum)
@@ -19,37 +18,37 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
                 case InterpolationTypeEnum.Block:
                     if (rate == 1.0)
                     {
-                        return new ArrayCalculator_RotateTime_Block_NoRate(array);
+                        return new ArrayCalculator_RotatePosition_Block_NoRate(array);
                     }
                     else
                     {
-                        return new ArrayCalculator_RotateTime_Block(array, rate);
+                        return new ArrayCalculator_RotatePosition_Block(array, rate);
                     }
 
                 case InterpolationTypeEnum.Cubic:
-                    return new ArrayCalculator_RotateTime_Cubic(array, rate);
+                    return new ArrayCalculator_RotatePosition_Cubic(array, rate);
 
                 case InterpolationTypeEnum.Hermite:
-                    return new ArrayCalculator_RotateTime_Hermite(array, rate);
+                    return new ArrayCalculator_RotatePosition_Hermite(array, rate);
 
                 case InterpolationTypeEnum.Line:
                     if (rate == 1.0)
                     {
-                        return new ArrayCalculator_RotateTime_Line_NoRate(array);
+                        return new ArrayCalculator_RotatePosition_Line_NoRate(array);
                     }
                     else
                     {
-                        return new ArrayCalculator_RotateTime_Line(array, rate);
+                        return new ArrayCalculator_RotatePosition_Line(array, rate);
                     }
 
                 case InterpolationTypeEnum.Stripe:
                     if (rate == 1.0)
                     {
-                        return new ArrayCalculator_RotateTime_Stripe_NoRate(array);
+                        return new ArrayCalculator_RotatePosition_Stripe_NoRate(array);
                     }
                     else
                     {
-                        return new ArrayCalculator_RotateTime_Stripe(array, rate);
+                        return new ArrayCalculator_RotatePosition_Stripe(array, rate);
                     }
 
                 default:
@@ -60,27 +59,27 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
         public static ArrayCalculatorBase CreateArrayCalculator(
             double[] array,
             double rate,
-            double minTime,
+            double minPosition,
             InterpolationTypeEnum interpolationTypeEnum)
         {
-            if (minTime == 0.0)
+            if (minPosition == 0.0)
             {
                 switch (interpolationTypeEnum)
                 {
                     case InterpolationTypeEnum.Block:
-                        return new ArrayCalculator_MinTimeZero_Block(array, rate);
+                        return new ArrayCalculator_MinPositionZero_Block(array, rate);
 
                     case InterpolationTypeEnum.Cubic:
-                        return new ArrayCalculator_MinTimeZero_Cubic(array, rate);
+                        return new ArrayCalculator_MinPositionZero_Cubic(array, rate);
 
                     case InterpolationTypeEnum.Hermite:
-                        return new ArrayCalculator_MinTimeZero_Hermite(array, rate);
+                        return new ArrayCalculator_MinPositionZero_Hermite(array, rate);
 
                     case InterpolationTypeEnum.Line:
-                        return new ArrayCalculator_MinTimeZero_Line(array, rate);
+                        return new ArrayCalculator_MinPositionZero_Line(array, rate);
 
                     case InterpolationTypeEnum.Stripe:
-                        return new ArrayCalculator_MinTimeZero_Stripe(array, rate);
+                        return new ArrayCalculator_MinPositionZero_Stripe(array, rate);
 
                     default:
                         throw new ValueNotSupportedException(interpolationTypeEnum);
@@ -91,19 +90,19 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
                 switch (interpolationTypeEnum)
                 {
                     case InterpolationTypeEnum.Block:
-                        return new ArrayCalculator_MinTime_Block(array, rate, minTime);
+                        return new ArrayCalculator_MinPosition_Block(array, rate, minPosition);
 
                     case InterpolationTypeEnum.Cubic:
-                        return new ArrayCalculator_MinTime_Cubic(array, rate, minTime);
+                        return new ArrayCalculator_MinPosition_Cubic(array, rate, minPosition);
 
                     case InterpolationTypeEnum.Hermite:
-                        return new ArrayCalculator_MinTime_Hermite(array, rate, minTime);
+                        return new ArrayCalculator_MinPosition_Hermite(array, rate, minPosition);
 
                     case InterpolationTypeEnum.Line:
-                        return new ArrayCalculator_MinTime_Line(array, rate, minTime);
+                        return new ArrayCalculator_MinPosition_Line(array, rate, minPosition);
 
                     case InterpolationTypeEnum.Stripe:
-                        return new ArrayCalculator_MinTime_Stripe(array, rate, minTime);
+                        return new ArrayCalculator_MinPosition_Stripe(array, rate, minPosition);
 
                     default:
                         throw new ValueNotSupportedException(interpolationTypeEnum);
@@ -114,29 +113,29 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
         public static ArrayCalculatorBase CreateArrayCalculator(
             double[] array,
             double rate,
-            double minTime,
+            double minPosition,
             double valueBefore,
             double valueAfter,
             InterpolationTypeEnum interpolationTypeEnum)
         {
-            if (minTime == 0.0)
+            if (minPosition == 0.0)
             {
                 switch (interpolationTypeEnum)
                 {
                     case InterpolationTypeEnum.Block:
-                        return new ArrayCalculator_MinTimeZero_Block(array, rate, valueBefore, valueAfter);
+                        return new ArrayCalculator_MinPositionZero_Block(array, rate, valueBefore, valueAfter);
 
                     case InterpolationTypeEnum.Cubic:
-                        return new ArrayCalculator_MinTimeZero_Cubic(array, rate, valueBefore, valueAfter);
+                        return new ArrayCalculator_MinPositionZero_Cubic(array, rate, valueBefore, valueAfter);
 
                     case InterpolationTypeEnum.Hermite:
-                        return new ArrayCalculator_MinTimeZero_Hermite(array, rate, valueBefore, valueAfter);
+                        return new ArrayCalculator_MinPositionZero_Hermite(array, rate, valueBefore, valueAfter);
 
                     case InterpolationTypeEnum.Line:
-                        return new ArrayCalculator_MinTimeZero_Line(array, rate, valueBefore, valueAfter);
+                        return new ArrayCalculator_MinPositionZero_Line(array, rate, valueBefore, valueAfter);
 
                     case InterpolationTypeEnum.Stripe:
-                        return new ArrayCalculator_MinTimeZero_Stripe(array, rate, valueBefore, valueAfter);
+                        return new ArrayCalculator_MinPositionZero_Stripe(array, rate, valueBefore, valueAfter);
 
                     default:
                         throw new ValueNotSupportedException(interpolationTypeEnum);
@@ -147,19 +146,19 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
                 switch (interpolationTypeEnum)
                 {
                     case InterpolationTypeEnum.Block:
-                        return new ArrayCalculator_MinTime_Block(array, rate, minTime, valueBefore, valueAfter);
+                        return new ArrayCalculator_MinPosition_Block(array, rate, minPosition, valueBefore, valueAfter);
 
                     case InterpolationTypeEnum.Cubic:
-                        return new ArrayCalculator_MinTime_Cubic(array, rate, minTime, valueBefore, valueAfter);
+                        return new ArrayCalculator_MinPosition_Cubic(array, rate, minPosition, valueBefore, valueAfter);
 
                     case InterpolationTypeEnum.Hermite:
-                        return new ArrayCalculator_MinTime_Hermite(array, rate, minTime, valueBefore, valueAfter);
+                        return new ArrayCalculator_MinPosition_Hermite(array, rate, minPosition, valueBefore, valueAfter);
 
                     case InterpolationTypeEnum.Line:
-                        return new ArrayCalculator_MinTime_Line(array, rate, minTime, valueBefore, valueAfter);
+                        return new ArrayCalculator_MinPosition_Line(array, rate, minPosition, valueBefore, valueAfter);
 
                     case InterpolationTypeEnum.Stripe:
-                        return new ArrayCalculator_MinTime_Stripe(array, rate, minTime, valueBefore, valueAfter);
+                        return new ArrayCalculator_MinPosition_Stripe(array, rate, minPosition, valueBefore, valueAfter);
 
                     default:
                         throw new ValueNotSupportedException(interpolationTypeEnum);

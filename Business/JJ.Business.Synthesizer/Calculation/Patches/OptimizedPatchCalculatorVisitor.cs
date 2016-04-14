@@ -420,38 +420,38 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     {
                         ArrayCalculatorBase arrayCalculator = arrayCalculators[0];
                         {
-                            var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinTime_Block;
+                            var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinPosition_Block;
                             if (castedArrayCalculator != null)
                             {
-                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinTime_Block>(castedArrayCalculator, dimensionEnum);
+                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinPosition_Block>(castedArrayCalculator, dimensionEnum);
                             }
                         }
                         {
-                            var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinTime_Cubic;
+                            var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinPosition_Cubic;
                             if (castedArrayCalculator != null)
                             {
-                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinTime_Cubic>(castedArrayCalculator, dimensionEnum);
+                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinPosition_Cubic>(castedArrayCalculator, dimensionEnum);
                             }
                         }
                         {
-                            var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinTime_Hermite;
+                            var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinPosition_Hermite;
                             if (castedArrayCalculator != null)
                             {
-                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinTime_Hermite>(castedArrayCalculator, dimensionEnum);
+                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinPosition_Hermite>(castedArrayCalculator, dimensionEnum);
                             }
                         }
                         {
-                            var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinTime_Line;
+                            var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinPosition_Line;
                             if (castedArrayCalculator != null)
                             {
-                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinTime_Line>(castedArrayCalculator, dimensionEnum);
+                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinPosition_Line>(castedArrayCalculator, dimensionEnum);
                             }
                         }
                         {
-                            var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinTime_Stripe;
+                            var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinPosition_Stripe;
                             if (castedArrayCalculator != null)
                             {
-                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinTime_Stripe>(castedArrayCalculator, dimensionEnum);
+                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinPosition_Stripe>(castedArrayCalculator, dimensionEnum);
                             }
                         }
                     }
@@ -463,36 +463,36 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                         {
                             case InterpolationTypeEnum.Block:
                                 {
-                                    IList<ArrayCalculator_MinTime_Block> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTime_Block)x).ToArray();
-                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinTime_Block>(castedArrayCalculators, dimensionEnum);
+                                    IList<ArrayCalculator_MinPosition_Block> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinPosition_Block)x).ToArray();
+                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinPosition_Block>(castedArrayCalculators, dimensionEnum);
                                     break;
                                 }
 
                             case InterpolationTypeEnum.Cubic:
                                 {
-                                    IList<ArrayCalculator_MinTime_Cubic> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTime_Cubic)x).ToArray();
-                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinTime_Cubic>(castedArrayCalculators, dimensionEnum);
+                                    IList<ArrayCalculator_MinPosition_Cubic> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinPosition_Cubic)x).ToArray();
+                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinPosition_Cubic>(castedArrayCalculators, dimensionEnum);
                                     break;
                                 }
 
                             case InterpolationTypeEnum.Hermite:
                                 {
-                                    IList<ArrayCalculator_MinTime_Hermite> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTime_Hermite)x).ToArray();
-                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinTime_Hermite>(castedArrayCalculators, dimensionEnum);
+                                    IList<ArrayCalculator_MinPosition_Hermite> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinPosition_Hermite)x).ToArray();
+                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinPosition_Hermite>(castedArrayCalculators, dimensionEnum);
                                     break;
                                 }
 
                             case InterpolationTypeEnum.Line:
                                 {
-                                    IList<ArrayCalculator_MinTime_Line> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTime_Line)x).ToArray();
-                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinTime_Line>(castedArrayCalculators, dimensionEnum);
+                                    IList<ArrayCalculator_MinPosition_Line> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinPosition_Line)x).ToArray();
+                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinPosition_Line>(castedArrayCalculators, dimensionEnum);
                                     break;
                                 }
 
                             case InterpolationTypeEnum.Stripe:
                                 {
-                                    IList<ArrayCalculator_MinTime_Stripe> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTime_Stripe)x).ToArray();
-                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinTime_Stripe>(castedArrayCalculators, dimensionEnum);
+                                    IList<ArrayCalculator_MinPosition_Stripe> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinPosition_Stripe)x).ToArray();
+                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinPosition_Stripe>(castedArrayCalculators, dimensionEnum);
                                     break;
                                 }
 
@@ -508,38 +508,38 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     {
                         ArrayCalculatorBase arrayCalculator = arrayCalculators[0];
                         {
-                            var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinTimeZero_Block;
+                            var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinPositionZero_Block;
                             if (castedArrayCalculator != null)
                             {
-                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinTimeZero_Block>(castedArrayCalculator, dimensionEnum);
+                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinPositionZero_Block>(castedArrayCalculator, dimensionEnum);
                             }
                         }
                         {
-                            var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinTimeZero_Cubic;
+                            var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinPositionZero_Cubic;
                             if (castedArrayCalculator != null)
                             {
-                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinTimeZero_Cubic>(castedArrayCalculator, dimensionEnum);
+                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinPositionZero_Cubic>(castedArrayCalculator, dimensionEnum);
                             }
                         }
                         {
-                            var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinTimeZero_Hermite;
+                            var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinPositionZero_Hermite;
                             if (castedArrayCalculator != null)
                             {
-                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinTimeZero_Hermite>(castedArrayCalculator, dimensionEnum);
+                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinPositionZero_Hermite>(castedArrayCalculator, dimensionEnum);
                             }
                         }
                         {
-                            var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinTimeZero_Line;
+                            var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinPositionZero_Line;
                             if (castedArrayCalculator != null)
                             {
-                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinTimeZero_Line>(castedArrayCalculator, dimensionEnum);
+                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinPositionZero_Line>(castedArrayCalculator, dimensionEnum);
                             }
                         }
                         {
-                            var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinTimeZero_Stripe;
+                            var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinPositionZero_Stripe;
                             if (castedArrayCalculator != null)
                             {
-                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinTimeZero_Stripe>(castedArrayCalculator, dimensionEnum);
+                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinPositionZero_Stripe>(castedArrayCalculator, dimensionEnum);
                             }
                         }
                     }
@@ -551,36 +551,36 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                         {
                             case InterpolationTypeEnum.Block:
                                 {
-                                    IList<ArrayCalculator_MinTimeZero_Block> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTimeZero_Block)x).ToArray();
-                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinTimeZero_Block>(castedArrayCalculators, dimensionEnum);
+                                    IList<ArrayCalculator_MinPositionZero_Block> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinPositionZero_Block)x).ToArray();
+                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinPositionZero_Block>(castedArrayCalculators, dimensionEnum);
                                     break;
                                 }
 
                             case InterpolationTypeEnum.Cubic:
                                 {
-                                    IList<ArrayCalculator_MinTimeZero_Cubic> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTimeZero_Cubic)x).ToArray();
-                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinTimeZero_Cubic>(castedArrayCalculators, dimensionEnum);
+                                    IList<ArrayCalculator_MinPositionZero_Cubic> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinPositionZero_Cubic)x).ToArray();
+                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinPositionZero_Cubic>(castedArrayCalculators, dimensionEnum);
                                     break;
                                 }
 
                             case InterpolationTypeEnum.Hermite:
                                 {
-                                    IList<ArrayCalculator_MinTimeZero_Hermite> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTimeZero_Hermite)x).ToArray();
-                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinTimeZero_Hermite>(castedArrayCalculators, dimensionEnum);
+                                    IList<ArrayCalculator_MinPositionZero_Hermite> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinPositionZero_Hermite)x).ToArray();
+                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinPositionZero_Hermite>(castedArrayCalculators, dimensionEnum);
                                     break;
                                 }
 
                             case InterpolationTypeEnum.Line:
                                 {
-                                    IList<ArrayCalculator_MinTimeZero_Line> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTimeZero_Line)x).ToArray();
-                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinTimeZero_Line>(castedArrayCalculators, dimensionEnum);
+                                    IList<ArrayCalculator_MinPositionZero_Line> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinPositionZero_Line)x).ToArray();
+                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinPositionZero_Line>(castedArrayCalculators, dimensionEnum);
                                     break;
                                 }
 
                             case InterpolationTypeEnum.Stripe:
                                 {
-                                    IList<ArrayCalculator_MinTimeZero_Stripe> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTimeZero_Stripe)x).ToArray();
-                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinTimeZero_Stripe>(castedArrayCalculators, dimensionEnum);
+                                    IList<ArrayCalculator_MinPositionZero_Stripe> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinPositionZero_Stripe)x).ToArray();
+                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinPositionZero_Stripe>(castedArrayCalculators, dimensionEnum);
                                     break;
                                 }
 

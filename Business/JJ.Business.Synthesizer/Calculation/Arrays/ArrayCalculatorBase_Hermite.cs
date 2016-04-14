@@ -11,35 +11,35 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
         private const int EXTRA_TICKS_BEFORE = 1;
         private const int EXTRA_TICKS_AFTER = 2;
 
-        public ArrayCalculatorBase_Hermite(double[] array, double rate, double minTime)
-            : base(array, rate, minTime, EXTRA_TICKS_BEFORE, EXTRA_TICKS_AFTER)
+        public ArrayCalculatorBase_Hermite(double[] array, double rate, double minPosition)
+            : base(array, rate, minPosition, EXTRA_TICKS_BEFORE, EXTRA_TICKS_AFTER)
         { }
 
         public ArrayCalculatorBase_Hermite(
-            double[] array, double rate, double minTime, double valueBefore, double valueAfter)
-            : base(array, rate, minTime, EXTRA_TICKS_BEFORE, EXTRA_TICKS_AFTER, valueBefore, valueAfter)
+            double[] array, double rate, double minPosition, double valueBefore, double valueAfter)
+            : base(array, rate, minPosition, EXTRA_TICKS_BEFORE, EXTRA_TICKS_AFTER, valueBefore, valueAfter)
         { }
 
-        /// <summary> Base method does not check bounds of time or transform time from seconds to samples. </summary>
+        /// <summary> Base method does not check bounds or transform position from 'seconds to samples'. </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double CalculateValue(double t)
+        public override double CalculateValue(double x)
         {
-            t += EXTRA_TICKS_BEFORE;
+            x += EXTRA_TICKS_BEFORE;
 
-            int t0 = (int)t;
-            int tMinus1 = t0 - 1; 
-            int t1 = t0 + 1;
-            int t2 = t1 + 1;
+            int x0 = (int)x;
+            int xMinus1 = x0 - 1; 
+            int x1 = x0 + 1;
+            int x2 = x1 + 1;
 
-            double xMinus1 = _array[tMinus1];
-            double x0 = _array[t0];
-            double x1 = _array[t1];
-            double x2 = _array[t2];
+            double yMinus1 = _array[xMinus1];
+            double y0 = _array[x0];
+            double y1 = _array[x1];
+            double y2 = _array[x2];
 
-            double offset = t - t0;
+            double offset = x - x0;
 
-            double x = Interpolator.Interpolate_Hermite_4pt3oX(xMinus1, x0, x1, x2, offset);
-            return x;
+            double y = Interpolator.Interpolate_Hermite_4pt3oX(yMinus1, y0, y1, y2, offset);
+            return y;
         }
     }
 }

@@ -148,7 +148,7 @@ namespace JJ.Business.Synthesizer.Calculation
 
             int channelDimensionIndex = (int)DimensionEnum.Channel;
             int timeDimensionIndex = (int)DimensionEnum.Time;
-
+                
             var dimensionStack = new DimensionStack();
             for (int channelIndex = 0; channelIndex < channelCount; channelIndex++)
             {

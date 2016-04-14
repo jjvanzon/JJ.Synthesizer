@@ -6,11 +6,11 @@ namespace JJ.Business.Synthesizer.Calculation.Random
 {
     internal class RandomCalculator_BlockInterpolation : RandomCalculatorBase
     {
-        private ArrayCalculator_RotateTime_Block_NoRate _arrayCalculator;
+        private ArrayCalculator_RotatePosition_Block_NoRate _arrayCalculator;
 
         public RandomCalculator_BlockInterpolation()
         {
-            _arrayCalculator = new ArrayCalculator_RotateTime_Block_NoRate(_samples);
+            _arrayCalculator = new ArrayCalculator_RotatePosition_Block_NoRate(_samples);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

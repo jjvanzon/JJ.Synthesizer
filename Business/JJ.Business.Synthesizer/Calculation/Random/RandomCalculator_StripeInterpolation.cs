@@ -6,11 +6,11 @@ namespace JJ.Business.Synthesizer.Calculation.Random
 {
     internal class RandomCalculator_StripeInterpolation : RandomCalculatorBase
     {
-        private ArrayCalculator_RotateTime_Stripe_NoRate _arrayCalculator;
+        private ArrayCalculator_RotatePosition_Stripe_NoRate _arrayCalculator;
 
         public RandomCalculator_StripeInterpolation()
         {
-            _arrayCalculator = new ArrayCalculator_RotateTime_Stripe_NoRate(_samples);
+            _arrayCalculator = new ArrayCalculator_RotatePosition_Stripe_NoRate(_samples);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

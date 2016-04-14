@@ -127,8 +127,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             double frequency = _frequencyCalculator.Calculate(dimensionStack);
 
-            double dt = position - _previousPosition;
-            double phase = _phase + dt * frequency;
+            double positionChange = position - _previousPosition;
+            double phase = _phase + positionChange * frequency;
 
             // Prevent phase from becoming a special number, rendering it unusable forever.
             if (Double.IsNaN(phase) || Double.IsInfinity(phase))

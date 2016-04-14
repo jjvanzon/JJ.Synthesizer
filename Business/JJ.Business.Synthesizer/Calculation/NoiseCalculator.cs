@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Calculation
         /// because in practice the time speed should so 
         /// that each sample is a random number.
         /// </summary>
-        private ArrayCalculator_RotateTime_Block _arrayCalculator;
+        private ArrayCalculator_RotatePosition_Block _arrayCalculator;
 
         /// <summary>
         /// White noise is generated not on the fly, but by a cached 10 seconds of noise,
@@ -49,7 +49,7 @@ namespace JJ.Business.Synthesizer.Calculation
                 samples[i] = noiseSample;
             }
 
-            _arrayCalculator = new ArrayCalculator_RotateTime_Block(samples, samplingRate);
+            _arrayCalculator = new ArrayCalculator_RotatePosition_Block(samples, samplingRate);
         }
 
         /// <summary> 

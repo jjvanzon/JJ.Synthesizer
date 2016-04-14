@@ -212,8 +212,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             double frequency = _frequencyCalculator.Calculate(dimensionStack);
 
-            double dt = position - _previousPosition;
-            double phase = _phase + dt * frequency;
+            double positionChange = position - _previousPosition;
+            double phase = _phase + positionChange * frequency;
 
             // Prevent phase from becoming a special number, rendering it unusable forever.
             if (Double.IsNaN(phase) || Double.IsInfinity(phase))
@@ -253,7 +253,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly OperatorCalculatorBase _widthCalculator;
-        private readonly DimensionEnum _dimensionIndex;
+        private readonly int _dimensionIndex;
         private double _phase;
         private double _previousPosition;
 
@@ -272,7 +272,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _frequencyCalculator = frequencyCalculator;
             _widthCalculator = widthCalculator;
             _phase = phaseShift;
-            _dimensionIndex = dimensionEnum;
+            _dimensionIndex = (int)dimensionEnum;
         }
 
         public override double Calculate(DimensionStack dimensionStack)
@@ -282,8 +282,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double width = _widthCalculator.Calculate(dimensionStack);
             double frequency = _frequencyCalculator.Calculate(dimensionStack);
 
-            double dt = position - _previousPosition;
-            double phase = _phase + dt * frequency;
+            double positionChange = position - _previousPosition;
+            double phase = _phase + positionChange * frequency;
 
             // Prevent phase from becoming a special number, rendering it unusable forever.
             if (Double.IsNaN(phase) || Double.IsInfinity(phase))
@@ -354,8 +354,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double frequency = _frequencyCalculator.Calculate(dimensionStack);
             double phaseShift = _phaseShiftCalculator.Calculate(dimensionStack);
 
-            double dt = position - _previousPosition;
-            double phase = _phase + dt * frequency;
+            double positionChange = position - _previousPosition;
+            double phase = _phase + positionChange * frequency;
 
             // Prevent phase from becoming a special number, rendering it unusable forever.
             if (Double.IsNaN(phase) || Double.IsInfinity(phase))
@@ -428,8 +428,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double phaseShift = _phaseShiftCalculator.Calculate(dimensionStack);
             double width = _widthCalculator.Calculate(dimensionStack);
 
-            double dt = position - _previousPosition;
-            double phase = _phase + dt * frequency;
+            double positionChange = position - _previousPosition;
+            double phase = _phase + positionChange * frequency;
 
             // Prevent phase from becoming a special number, rendering it unusable forever.
             if (Double.IsNaN(phase) || Double.IsInfinity(phase))

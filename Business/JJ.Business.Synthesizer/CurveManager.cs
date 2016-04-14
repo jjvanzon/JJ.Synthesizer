@@ -195,8 +195,8 @@ namespace JJ.Business.Synthesizer
                 node.Y = afterNode.Y;
 
                 // Take the previous distance between nodes as the default for the next node.
-                double dt = afterNode.X - previousNode.X;
-                node.X = afterNode.X + dt;
+                double dx = afterNode.X - previousNode.X;
+                node.X = afterNode.X + dx;
 
                 return node;
             }

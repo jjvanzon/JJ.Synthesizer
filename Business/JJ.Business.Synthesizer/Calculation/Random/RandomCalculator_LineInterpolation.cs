@@ -7,11 +7,11 @@ namespace JJ.Business.Synthesizer.Calculation.Random
     // TODO: Currently unused. Perhaps remove class.
     internal class RandomCalculator_LineInterpolation : RandomCalculatorBase
     {
-        private ArrayCalculator_RotateTime_Line_NoRate _arrayCalculator;
+        private ArrayCalculator_RotatePosition_Line_NoRate _arrayCalculator;
 
         public RandomCalculator_LineInterpolation()
         {
-            _arrayCalculator = new ArrayCalculator_RotateTime_Line_NoRate(_samples);
+            _arrayCalculator = new ArrayCalculator_RotatePosition_Line_NoRate(_samples);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

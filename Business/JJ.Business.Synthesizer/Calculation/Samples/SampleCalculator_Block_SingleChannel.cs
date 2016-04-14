@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
 {
     internal class SampleCalculator_Block_SingleChannel : SampleCalculatorBase
     {
-        private ArrayCalculator_MinTimeZero_Block _arrayCalculator;
+        private ArrayCalculator_MinPositionZero_Block _arrayCalculator;
 
         public SampleCalculator_Block_SingleChannel(Sample sample, byte[] bytes)
             : base(sample, bytes)
@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
             double[][] samples = SampleCalculatorHelper.ReadSamples(sample, bytes);
             double[] samples2 = samples.Single();
 
-            _arrayCalculator = new ArrayCalculator_MinTimeZero_Block(samples2, _rate);
+            _arrayCalculator = new ArrayCalculator_MinPositionZero_Block(samples2, _rate);
         }
 
         public override double CalculateValue(double time, int channelIndex)

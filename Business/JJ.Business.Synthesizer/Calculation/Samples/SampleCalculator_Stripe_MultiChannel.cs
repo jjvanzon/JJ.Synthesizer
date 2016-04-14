@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
 {
     internal class SampleCalculator_Stripe_MultiChannel : SampleCalculatorBase
     {
-        private ArrayCalculator_MinTimeZero_Stripe[] _arrayCalculators;
+        private ArrayCalculator_MinPositionZero_Stripe[] _arrayCalculators;
 
         public SampleCalculator_Stripe_MultiChannel(Sample sample, byte[] bytes)
             : base(sample, bytes)
@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
 
             double[][] samples = SampleCalculatorHelper.ReadSamples(sample, bytes);
 
-            _arrayCalculators = samples.Select(x => new ArrayCalculator_MinTimeZero_Stripe(x, _rate)).ToArray();
+            _arrayCalculators = samples.Select(x => new ArrayCalculator_MinPositionZero_Stripe(x, _rate)).ToArray();
         }
 
         public override double CalculateValue(double time, int channelIndex)

@@ -10,27 +10,27 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
         private const int EXTRA_TICKS_BEFORE = 0;
         private const int EXTRA_TICKS_AFTER = 1;
 
-        public ArrayCalculatorBase_Line(double[] array, double rate, double minTime)
-            : base(array, rate, minTime, EXTRA_TICKS_BEFORE, EXTRA_TICKS_AFTER)
+        public ArrayCalculatorBase_Line(double[] array, double rate, double minPosition)
+            : base(array, rate, minPosition, EXTRA_TICKS_BEFORE, EXTRA_TICKS_AFTER)
         { }
 
         public ArrayCalculatorBase_Line(
-            double[] array, double rate, double minTime, double valueBefore, double valueAfter)
-            : base(array, rate, minTime, EXTRA_TICKS_BEFORE, EXTRA_TICKS_AFTER, valueBefore, valueAfter)
+            double[] array, double rate, double minPosition, double valueBefore, double valueAfter)
+            : base(array, rate, minPosition, EXTRA_TICKS_BEFORE, EXTRA_TICKS_AFTER, valueBefore, valueAfter)
         { }
 
-        /// <summary> Base method does not check bounds of time or transform time from seconds to samples. </summary>
+        /// <summary> Base method does not check bounds or transform position from 'seconds to samples'. </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double CalculateValue(double t)
+        public override double CalculateValue(double x)
         {
-            int t0 = (int)t;
-            int t1 = t0 + 1;
+            int x0 = (int)x;
+            int x1 = x0 + 1;
 
-            double x0 = _array[t0];
-            double x1 = _array[t1];
+            double y0 = _array[x0];
+            double y1 = _array[x1];
 
-            double x = x0 + (x1 - x0) * (t - t0);
-            return x;
+            double y = y0 + (y1 - y0) * (x - x0);
+            return y;
         }
     }
 }

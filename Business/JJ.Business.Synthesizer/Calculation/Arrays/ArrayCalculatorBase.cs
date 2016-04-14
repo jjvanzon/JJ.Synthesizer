@@ -12,15 +12,15 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
         protected double _valueBefore;
         protected double _valueAfter;
 
-        protected double _minTime;
-        protected double _maxTime;
-        protected double _duration;
+        protected double _minPosition;
+        protected double _maxPosition;
+        protected double _length;
         protected double _rate;
         protected double _tickCount;
 
         /// <param name="extraTicksBefore">You can let this base class add extra ticks _array for interpolation purposes.</param>
         public ArrayCalculatorBase(
-            double[] array, double rate, double minTime, int extraTicksBefore, int extraTicksAfter)
+            double[] array, double rate, double minPosition, int extraTicksBefore, int extraTicksAfter)
         {
             if (array == null) throw new NullException(() => array);
             if (extraTicksBefore < 0) throw new LessThanException(() => extraTicksBefore, 0);
@@ -31,11 +31,11 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
             int tickCountInt = _array.Length;
             _tickCount = tickCountInt;
 
-            _minTime = minTime;
+            _minPosition = minPosition;
             _rate = rate;
-            _maxTime = _minTime + (_tickCount - 1) / _rate; // 11 samples = 10 pieces of time.
+            _maxPosition = _minPosition + (_tickCount - 1) / _rate; // 11 positions = 10 pieces of length.
 
-            _duration = _maxTime - _minTime;
+            _length = _maxPosition - _minPosition;
 
             // The array copy actions here (to add extra ticks before and after),
             // are an unfortunate memory impact and initialization time sacrifice.
@@ -67,17 +67,17 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
         public ArrayCalculatorBase(
             double[] array,
             double rate,
-            double minTime,
+            double minPosition,
             int extraTicksBefore,
             int extraTicksAfter,
             double valueBefore,
             double valueAfter)
-            : this(array, rate, minTime, extraTicksBefore, extraTicksAfter)
+            : this(array, rate, minPosition, extraTicksBefore, extraTicksAfter)
         {
             _valueBefore = valueBefore;
             _valueAfter = valueAfter;
         }
 
-        public abstract double CalculateValue(double time);
+        public abstract double CalculateValue(double position);
     }
 }

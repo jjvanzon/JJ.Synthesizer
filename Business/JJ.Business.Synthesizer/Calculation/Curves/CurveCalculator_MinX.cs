@@ -9,13 +9,13 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
 {
     internal class CurveCalculator_MinX : ICurveCalculator
     {
-        private ArrayCalculator_MinTime_Line _arrayCalculator;
+        private ArrayCalculator_MinPosition_Line _arrayCalculator;
 
         public CurveCalculator_MinX(CurveArrayInfo curveArrayInfo)
         {
             if (curveArrayInfo == null) throw new NullException(() => curveArrayInfo);
 
-            _arrayCalculator = new ArrayCalculator_MinTime_Line(
+            _arrayCalculator = new ArrayCalculator_MinPosition_Line(
                 curveArrayInfo.Array,
                 curveArrayInfo.Rate,
                 curveArrayInfo.MinX,
