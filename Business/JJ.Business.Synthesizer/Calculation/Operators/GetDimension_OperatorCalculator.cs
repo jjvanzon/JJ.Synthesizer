@@ -11,6 +11,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public GetDimension_OperatorCalculator(DimensionEnum dimensionEnum)
         {
+            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
+
             _dimensionEnumInt = (int)dimensionEnum;
         }
 

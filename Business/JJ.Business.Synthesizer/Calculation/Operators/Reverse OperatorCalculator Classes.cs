@@ -26,6 +26,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(speedCalculator, () => speedCalculator);
+            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
 
             _signalCalculator = signalCalculator;
             _speedCalculator = speedCalculator;
@@ -99,6 +100,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (speed == 0) throw new ZeroException(() => speed);
             if (Double.IsNaN(speed)) throw new NaNException(() => speed);
             if (Double.IsInfinity(speed)) throw new InfinityException(() => speed);
+            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
 
             _signalCalculator = signalCalculator;
             _speed = -speed;

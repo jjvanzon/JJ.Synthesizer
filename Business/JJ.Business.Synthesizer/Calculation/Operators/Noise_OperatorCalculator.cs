@@ -16,6 +16,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionEnum dimensionEnum)
         {
             if (noiseCalculator == null) throw new NullException(() => noiseCalculator);
+            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
 
             _noiseCalculator = noiseCalculator;
             _offset = offset;

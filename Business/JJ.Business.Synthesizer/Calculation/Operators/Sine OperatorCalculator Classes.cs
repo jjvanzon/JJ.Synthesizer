@@ -19,6 +19,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             : base(new OperatorCalculatorBase[] { frequencyCalculator })
         {
             if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
+            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
 
             _frequencyCalculator = frequencyCalculator;
             _dimensionIndex = (int)dimensionEnum;
@@ -75,6 +76,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
             if (phaseShift % 1.0 == 0.0) throw new Exception("phaseShift cannot be a multiple of 1.");
+            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
 
             _frequencyCalculator = frequencyCalculator;
             _phaseShiftTimesTwoPi = phaseShift * Maths.TWO_PI;
@@ -131,10 +133,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             : base(new OperatorCalculatorBase[] 
             {
                 frequencyCalculator,
-                phaseShiftCalculator })
+                phaseShiftCalculator
+            })
         {
             if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
             if (phaseShiftCalculator == null) throw new NullException(() => phaseShiftCalculator);
+            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
 
             _frequencyCalculator = frequencyCalculator;
             _phaseShiftCalculator = phaseShiftCalculator;
@@ -186,6 +190,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionEnum dimensionEnum)
         {
             if (frequency == 0.0) throw new ZeroException(() => frequency);
+            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
+
             _frequencyTimesTwoPi = frequency * Maths.TWO_PI;
             _dimensionIndex = (int)dimensionEnum;
         }
@@ -212,6 +218,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             if (frequency == 0.0) throw new ZeroException(() => frequency);
             if (phaseShift % 1.0 == 0.0) throw new Exception("phaseShift cannot be a multiple of 1.");
+            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
 
             _frequencyTimesTwoPi = frequency * Maths.TWO_PI;
             _phaseShiftTimeTwoPi = phaseShift * Maths.TWO_PI;
@@ -241,6 +248,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             if (frequency == 0.0) throw new ZeroException(() => frequency);
             if (phaseShiftCalculator == null) throw new NullException(() => phaseShiftCalculator);
+            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
 
             _frequencyTimesTwoPi = frequency * Maths.TWO_PI;
             _phaseShiftCalculator = phaseShiftCalculator;

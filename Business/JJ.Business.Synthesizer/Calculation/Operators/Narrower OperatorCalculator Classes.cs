@@ -27,6 +27,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
             if (factor == 0) throw new ZeroException(() => factor);
+            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
 
             _signalCalculator = signalCalculator;
             _factor = factor;
@@ -71,6 +72,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(factorCalculator, () => factorCalculator);
+            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
 
             _signalCalculator = signalCalculator;
             _factorCalculator = factorCalculator;
@@ -126,6 +128,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
             if (factorValue == 0) throw new ZeroException(() => factorValue);
             if (originValue == 0) throw new ZeroException(() => originValue);
+            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
 
             _signalCalculator = signalCalculator;
             _factorValue = factorValue;
@@ -173,6 +176,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
             if (factorValue == 0) throw new ZeroException(() => factorValue);
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(originCalculator, () => originCalculator);
+            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
 
             _signalCalculator = signalCalculator;
             _factorValue = factorValue;
@@ -221,6 +225,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(factorCalculator, () => factorCalculator);
+            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
 
             _signalCalculator = signalCalculator;
             _factorCalculator = factorCalculator;
@@ -271,6 +276,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(factorCalculator, () => factorCalculator);
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(originCalculator, () => originCalculator);
+            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
 
             _signalCalculator = signalCalculator;
             _factorCalculator = factorCalculator;

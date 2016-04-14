@@ -9,15 +9,26 @@ namespace JJ.Business.Synthesizer.Calculation
 {
     public class DimensionStack
     {
-        /// <summary> Index is the dimension enum member. </summary>
+        private static int _dimensionCount = GetDimensionCount();
+
+        /// <summary> Array index is the dimension enum member. </summary>
         private Stack<double>[] _stacks;
+
+        private static int GetDimensionCount()
+        {
+            int dimensionEnumMaxValue = EnumHelper.GetValues<DimensionEnum>()
+                                                  .Select(x => (int)x)
+                                                  .Max();
+
+            int dimensionCount = dimensionEnumMaxValue + 1;
+            return dimensionCount;
+        }
 
         public DimensionStack()
         {
-            int dimensionCount = EnumHelper.GetValues<DimensionEnum>().Count;
-            _stacks = new Stack<double>[dimensionCount];
+            _stacks = new Stack<double>[_dimensionCount];
 
-            for (int i = 0; i < dimensionCount; i++)
+            for (int i = 0; i < _dimensionCount; i++)
             {
                 var stack = new Stack<double>();
 

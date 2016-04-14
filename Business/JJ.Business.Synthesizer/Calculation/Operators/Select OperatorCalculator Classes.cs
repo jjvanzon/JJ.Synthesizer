@@ -22,6 +22,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(dimensionValueCalculator, () => dimensionValueCalculator);
+            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
 
             _signalCalculator = signalCalculator;
             _dimensionValueCalculator = dimensionValueCalculator;
@@ -56,6 +57,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             })
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
+            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
 
             _signalCalculator = signalCalculator;
             _dimensionValue = dimensionValue;

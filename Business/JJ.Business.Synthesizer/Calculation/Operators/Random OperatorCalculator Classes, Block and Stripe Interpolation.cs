@@ -31,6 +31,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             // TODO: Make assertion strict again, once you have more calculator variations.
             //OperatorCalculatorHelper.AssertOperatorCalculatorBase(frequencyCalculator, () => frequencyCalculator);
             //OperatorCalculatorHelper.AssertOperatorCalculatorBase(phaseShiftCalculator, () => phaseShiftCalculator);
+            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
 
             _randomCalculator = randomCalculator;
             _randomCalculatorOffset = randomCalculatorOffset;

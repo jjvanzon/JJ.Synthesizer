@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Framework.Common;
+using JJ.Framework.Common.Exceptions;
 using JJ.Framework.Reflection;
 using JJ.Framework.Reflection.Exceptions;
 
@@ -38,6 +41,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (phaseShift >= 1.0) throw new GreaterThanOrEqualException(() => phaseShift, 1.0);
             if (Double.IsNaN(phaseShift)) throw new NaNException(() => phaseShift);
             if (Double.IsInfinity(phaseShift)) throw new InfinityException(() => phaseShift);
+        }
+
+        public static void AssertDimensionEnum(DimensionEnum dimensionEnum)
+        {
+            if (!EnumHelper.IsValidEnum(dimensionEnum)) throw new InvalidValueException(dimensionEnum);
+            if (dimensionEnum == DimensionEnum.Undefined) throw new ValueNotSupportedException(dimensionEnum);
         }
 
         public static void AssertRoundOffset(double offset)

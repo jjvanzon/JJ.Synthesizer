@@ -21,6 +21,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (samplingRate <= 0) throw new LessThanOrEqualException(() => samplingRate, 0);
+            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
 
             _signalCalculator = signalCalculator;
             _dimensionIndex = (int)dimensionEnum;

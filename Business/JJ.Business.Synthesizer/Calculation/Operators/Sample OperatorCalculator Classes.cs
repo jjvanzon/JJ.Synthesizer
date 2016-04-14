@@ -27,6 +27,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
             if (sampleCalculator == null) throw new NullException(() => sampleCalculator);
+            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
 
             _frequencyCalculator = frequencyCalculator;
             _sampleCalculator = sampleCalculator;
@@ -85,6 +86,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionEnum dimensionEnum)
         {
             if (sampleCalculator == null) throw new NullException(() => sampleCalculator);
+            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
 
             _sampleCalculator = sampleCalculator;
             _dimensionIndex = (int)dimensionEnum;
@@ -143,6 +145,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
             if (sampleCalculator == null) throw new NullException(() => sampleCalculator);
+            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
 
             _frequencyCalculator = frequencyCalculator;
             _sampleCalculator = sampleCalculator;
@@ -200,6 +203,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionEnum dimensionEnum)
         {
             if (sampleCalculator == null) throw new NullException(() => sampleCalculator);
+            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
 
             _sampleCalculator = sampleCalculator;
             _dimensionIndex = (int)dimensionEnum;
@@ -257,6 +261,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
             if (sampleCalculator == null) throw new NullException(() => sampleCalculator);
+            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
 
             _frequencyCalculator = frequencyCalculator;
             _sampleCalculator = sampleCalculator;
@@ -314,6 +319,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionEnum dimensionEnum)
         {
             if (sampleCalculator == null) throw new NullException(() => sampleCalculator);
+            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
 
             _sampleCalculator = sampleCalculator;
             _dimensionIndex = (int)dimensionEnum;

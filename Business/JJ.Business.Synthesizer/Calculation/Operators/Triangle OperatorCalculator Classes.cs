@@ -15,6 +15,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double phaseShift,
             DimensionEnum dimensionEnum)
         {
+            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
+
             _frequency = frequency;
             _phaseShift = phaseShift;
             _dimensionIndex = (int)dimensionEnum;
@@ -58,6 +60,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             : base(new OperatorCalculatorBase[] { phaseShiftCalculator })
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(phaseShiftCalculator, () => phaseShiftCalculator);
+            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
 
             _frequency = frequency;
             _phaseShiftCalculator = phaseShiftCalculator;
@@ -106,6 +109,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             : base(new OperatorCalculatorBase[] { frequencyCalculator })
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(frequencyCalculator, () => frequencyCalculator);
+            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
 
             _frequencyCalculator = frequencyCalculator;
             _dimensionIndex = (int)dimensionEnum;
@@ -180,6 +184,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(frequencyCalculator, () => frequencyCalculator);
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(phaseShiftCalculator, () => phaseShiftCalculator);
+            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
 
             _frequencyCalculator = frequencyCalculator;
             _phaseShiftCalculator = phaseShiftCalculator;

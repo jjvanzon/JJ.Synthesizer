@@ -21,6 +21,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (exponentCalculator == null) throw new NullException(() => exponentCalculator);
             if (originCalculator == null) throw new NullException(() => originCalculator);
+            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
 
             _signalCalculator = signalCalculator;
             _exponentCalculator = exponentCalculator;
@@ -78,6 +79,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (exponentCalculator == null) throw new NullException(() => exponentCalculator);
+            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
 
             _signalCalculator = signalCalculator;
             _exponentCalculator = exponentCalculator;

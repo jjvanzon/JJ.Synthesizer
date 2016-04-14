@@ -18,6 +18,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionEnum dimensionEnum)
         {
             if (arrayCalculator == null) throw new NullException(() => arrayCalculator);
+            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
 
             _arrayCalculator = arrayCalculator;
             _dimensionIndex = (int)dimensionEnum;
@@ -42,6 +43,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionEnum dimensionEnum)
         {
             if (arrayCalculators == null) throw new NullException(() => arrayCalculators);
+            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
 
             _arrayCalculators = arrayCalculators.ToArray();
             _dimensionIndex = (int)dimensionEnum;

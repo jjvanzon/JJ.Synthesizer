@@ -18,6 +18,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             : base(childOperatorCalculators)
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
+            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
 
             _signalCalculator = signalCalculator;
             _dimensionIndex = (int)dimensionEnum;

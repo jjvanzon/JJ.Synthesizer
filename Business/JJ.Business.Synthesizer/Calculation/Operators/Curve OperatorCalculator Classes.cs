@@ -16,6 +16,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionEnum dimensionEnum)
         {
             if (curveCalculator == null) throw new NullException(() => curveCalculator);
+            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
 
             _curveCalculator = curveCalculator;
             _dimensionIndex = (int)dimensionEnum;
@@ -52,6 +53,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionEnum dimensionEnum)
         {
             if (curveCalculator == null) throw new NullException(() => curveCalculator);
+            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
 
             _curveCalculator = curveCalculator;
             _dimensionIndex = (int)dimensionEnum;
