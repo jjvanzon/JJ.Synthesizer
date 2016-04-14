@@ -23,18 +23,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override double Calculate(DimensionStack dimensionStack)
         {
-            double x = dimensionStack.Get(_dimensionIndex);
+            double position = dimensionStack.Get(_dimensionIndex);
 
-            double transformedX = x - _origin;
-            double result = _curveCalculator.CalculateY(transformedX);
+            double transformedPosition = position - _origin;
+            double result = _curveCalculator.CalculateY(transformedPosition);
             return result;
         }
 
         public override void Reset(DimensionStack dimensionStack)
         {
-            double x = dimensionStack.Get(_dimensionIndex);
+            double position = dimensionStack.Get(_dimensionIndex);
 
-            _origin = x;
+            _origin = position;
 
             base.Reset(dimensionStack);
         }
@@ -59,17 +59,17 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override double Calculate(DimensionStack dimensionStack)
         {
-            double x = dimensionStack.Get(_dimensionIndex);
-            double transformedX = x - _origin;
-            double result = _curveCalculator.CalculateY(transformedX);
+            double position = dimensionStack.Get(_dimensionIndex);
+            double transformedPosition = position - _origin;
+            double result = _curveCalculator.CalculateY(transformedPosition);
             return result;
         }
 
         public override void Reset(DimensionStack dimensionStack)
         {
-            double x = dimensionStack.Get(_dimensionIndex);
+            double position = dimensionStack.Get(_dimensionIndex);
 
-            _origin = x;
+            _origin = position;
 
             base.Reset(dimensionStack);
         }

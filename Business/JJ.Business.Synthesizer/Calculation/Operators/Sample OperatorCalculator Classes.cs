@@ -14,11 +14,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly ISampleCalculator _sampleCalculator;
+        private readonly int _dimensionIndex;
 
         private double _phase;
-        private double _previousTime;
+        private double _previousPosition;
 
-        public Sample_WithVarFrequency_OperatorCalculator(OperatorCalculatorBase frequencyCalculator, ISampleCalculator sampleCalculator)
+        public Sample_WithVarFrequency_OperatorCalculator(
+            OperatorCalculatorBase frequencyCalculator,
+            ISampleCalculator sampleCalculator,
+            DimensionEnum dimensionEnum)
             : base(new OperatorCalculatorBase[] { frequencyCalculator })
         {
             if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
@@ -26,19 +30,20 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             _frequencyCalculator = frequencyCalculator;
             _sampleCalculator = sampleCalculator;
+            _dimensionIndex = (int)dimensionEnum;
         }
 
         public override double Calculate(DimensionStack dimensionStack)
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double position = dimensionStack.Get(_dimensionIndex);
             // TODO: Cast to int can fail.
             int channelIndex = (int)dimensionStack.Get(DimensionEnum.Channel);
 
             double frequency = _frequencyCalculator.Calculate(dimensionStack);
             double rate = frequency / Sample_OperatorCalculator_Helper.BASE_FREQUENCY;
             
-            double dt = time - _previousTime;
-            double phase = _phase + dt * rate;
+            double positionChange = position - _previousPosition;
+            double phase = _phase + positionChange * rate;
 
             // Prevent phase from becoming a special number, rendering it unusable forever.
             if (Double.IsNaN(phase) || Double.IsInfinity(phase))
@@ -49,16 +54,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             double value = _sampleCalculator.CalculateValue(_phase, channelIndex);
 
-            _previousTime = time;
+            _previousPosition = position;
 
             return value;
         }
 
         public override void Reset(DimensionStack dimensionStack)
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double position = dimensionStack.Get(_dimensionIndex);
 
-            _previousTime = time;
+            _previousPosition = position;
             _phase = 0.0;
 
             base.Reset(dimensionStack);
@@ -69,26 +74,32 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly ISampleCalculator _sampleCalculator;
         private readonly double _rate;
+        private readonly int _dimensionIndex;
 
         private double _phase;
-        private double _previousTime;
+        private double _previousPosition;
 
-        public Sample_WithConstFrequency_OperatorCalculator(double frequency, ISampleCalculator sampleCalculator)
+        public Sample_WithConstFrequency_OperatorCalculator(
+            double frequency,
+            ISampleCalculator sampleCalculator,
+            DimensionEnum dimensionEnum)
         {
             if (sampleCalculator == null) throw new NullException(() => sampleCalculator);
+
             _sampleCalculator = sampleCalculator;
+            _dimensionIndex = (int)dimensionEnum;
 
             _rate = frequency / Sample_OperatorCalculator_Helper.BASE_FREQUENCY;
         }
 
         public override double Calculate(DimensionStack dimensionStack)
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double position = dimensionStack.Get(_dimensionIndex);
             // TODO: Cast to int can fail.
             int channelIndex = (int)dimensionStack.Get(DimensionEnum.Channel);
 
-            double dt = time - _previousTime;
-            double phase = _phase + dt * _rate;
+            double positionChange = position - _previousPosition;
+            double phase = _phase + positionChange * _rate;
 
             // Prevent phase from becoming a special number, rendering it unusable forever.
             if (Double.IsNaN(phase) || Double.IsInfinity(phase))
@@ -99,16 +110,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             double value = _sampleCalculator.CalculateValue(_phase, channelIndex);
 
-            _previousTime = time;
+            _previousPosition = position;
 
             return value;
         }
 
         public override void Reset(DimensionStack dimensionStack)
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double position = dimensionStack.Get(_dimensionIndex);
 
-            _previousTime = time;
+            _previousPosition = position;
             _phase = 0.0;
 
             base.Reset(dimensionStack);
@@ -119,11 +130,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly ISampleCalculator _sampleCalculator;
+        private readonly int _dimensionIndex;
 
         private double _phase;
-        private double _previousTime;
+        private double _previousPosition;
 
-        public Sample_WithVarFrequency_MonoToStereo_OperatorCalculator(OperatorCalculatorBase frequencyCalculator, ISampleCalculator sampleCalculator)
+        public Sample_WithVarFrequency_MonoToStereo_OperatorCalculator(
+            OperatorCalculatorBase frequencyCalculator, 
+            ISampleCalculator sampleCalculator,
+            DimensionEnum dimensionEnum)
             : base(new OperatorCalculatorBase[] { frequencyCalculator })
         {
             if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
@@ -131,17 +146,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             _frequencyCalculator = frequencyCalculator;
             _sampleCalculator = sampleCalculator;
+            _dimensionIndex = (int)dimensionEnum;
         }
 
         public override double Calculate(DimensionStack dimensionStack)
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double position = dimensionStack.Get(_dimensionIndex);
 
             double frequency = _frequencyCalculator.Calculate(dimensionStack);
             double rate = frequency / Sample_OperatorCalculator_Helper.BASE_FREQUENCY;
 
-            double dt = time - _previousTime;
-            double phase = _phase + dt * rate;
+            double positionChange = position - _previousPosition;
+            double phase = _phase + positionChange * rate;
 
             // Prevent phase from becoming a special number, rendering it unusable forever.
             if (Double.IsNaN(phase) || Double.IsInfinity(phase))
@@ -153,16 +169,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             // Return the single channel for both channels.
             double value = _sampleCalculator.CalculateValue(_phase, 0);
 
-            _previousTime = time;
+            _previousPosition = position;
 
             return value;
         }
 
         public override void Reset(DimensionStack dimensionStack)
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double position = dimensionStack.Get(_dimensionIndex);
 
-            _previousTime = time;
+            _previousPosition = position;
             _phase = 0.0;
 
             base.Reset(dimensionStack);
@@ -172,25 +188,31 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class Sample_WithConstFrequency_MonoToStereo_OperatorCalculator : OperatorCalculatorBase
     {
         private readonly ISampleCalculator _sampleCalculator;
+        private readonly int _dimensionIndex;
         private readonly double _rate;
 
         private double _phase;
-        private double _previousTime;
+        private double _previousPosition;
 
-        public Sample_WithConstFrequency_MonoToStereo_OperatorCalculator(double frequency, ISampleCalculator sampleCalculator)
+        public Sample_WithConstFrequency_MonoToStereo_OperatorCalculator(
+            double frequency, 
+            ISampleCalculator sampleCalculator,
+            DimensionEnum dimensionEnum)
         {
             if (sampleCalculator == null) throw new NullException(() => sampleCalculator);
+
             _sampleCalculator = sampleCalculator;
+            _dimensionIndex = (int)dimensionEnum;
 
             _rate = frequency / Sample_OperatorCalculator_Helper.BASE_FREQUENCY;
         }
 
         public override double Calculate(DimensionStack dimensionStack)
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double position = dimensionStack.Get(_dimensionIndex);
 
-            double dt = time - _previousTime;
-            double phase = _phase + dt * _rate;
+            double positionChange = position - _previousPosition;
+            double phase = _phase + positionChange * _rate;
 
             // Prevent phase from becoming a special number, rendering it unusable forever.
             if (Double.IsNaN(phase) || Double.IsInfinity(phase))
@@ -202,16 +224,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             // Return the single channel for both channels.
             double value = _sampleCalculator.CalculateValue(_phase, 0);
 
-            _previousTime = time;
+            _previousPosition = position;
 
             return value;
         }
 
         public override void Reset(DimensionStack dimensionStack)
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double position = dimensionStack.Get(_dimensionIndex);
 
-            _previousTime = time;
+            _previousPosition = position;
             _phase = 0.0;
 
             base.Reset(dimensionStack);
@@ -222,11 +244,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly ISampleCalculator _sampleCalculator;
+        private readonly int _dimensionIndex;
 
         private double _phase;
-        private double _previousTime;
+        private double _previousPosition;
 
-        public Sample_WithVarFrequency_StereoToMono_OperatorCalculator(OperatorCalculatorBase frequencyCalculator, ISampleCalculator sampleCalculator)
+        public Sample_WithVarFrequency_StereoToMono_OperatorCalculator(
+            OperatorCalculatorBase frequencyCalculator,
+            ISampleCalculator sampleCalculator,
+            DimensionEnum dimensionEnum)
             : base(new OperatorCalculatorBase[] { frequencyCalculator })
         {
             if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
@@ -234,17 +260,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             _frequencyCalculator = frequencyCalculator;
             _sampleCalculator = sampleCalculator;
+            _dimensionIndex = (int)dimensionEnum;
         }
 
         public override double Calculate(DimensionStack dimensionStack)
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double position = dimensionStack.Get(_dimensionIndex);
 
             double frequency = _frequencyCalculator.Calculate(dimensionStack);
             double rate = frequency / Sample_OperatorCalculator_Helper.BASE_FREQUENCY;
 
-            double dt = time - _previousTime;
-            double phase = _phase + dt * rate;
+            double positionChange = position - _previousPosition;
+            double phase = _phase + positionChange * rate;
 
             // Prevent phase from becoming a special number, rendering it unusable forever.
             if (Double.IsNaN(phase) || Double.IsInfinity(phase))
@@ -256,16 +283,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double value0 = _sampleCalculator.CalculateValue(_phase, 0);
             double value1 = _sampleCalculator.CalculateValue(_phase, 1);
 
-            _previousTime = time;
+            _previousPosition = position;
 
             return value0 + value1;
         }
 
         public override void Reset(DimensionStack dimensionStack)
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double position = dimensionStack.Get(_dimensionIndex);
 
-            _previousTime = time;
+            _previousPosition = position;
             _phase = 0.0;
 
             base.Reset(dimensionStack);
@@ -275,25 +302,31 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class Sample_WithConstFrequency_StereoToMono_OperatorCalculator : OperatorCalculatorBase
     {
         private readonly ISampleCalculator _sampleCalculator;
+        private readonly int _dimensionIndex;
         private readonly double _rate;
 
         private double _phase;
-        private double _previousTime;
+        private double _previousPosition;
 
-        public Sample_WithConstFrequency_StereoToMono_OperatorCalculator(double frequency, ISampleCalculator sampleCalculator)
+        public Sample_WithConstFrequency_StereoToMono_OperatorCalculator(
+            double frequency, 
+            ISampleCalculator sampleCalculator,
+            DimensionEnum dimensionEnum)
         {
             if (sampleCalculator == null) throw new NullException(() => sampleCalculator);
+
             _sampleCalculator = sampleCalculator;
+            _dimensionIndex = (int)dimensionEnum;
 
             _rate = frequency / Sample_OperatorCalculator_Helper.BASE_FREQUENCY;
         }
 
         public override double Calculate(DimensionStack dimensionStack)
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double position = dimensionStack.Get(_dimensionIndex);
 
-            double dt = time - _previousTime;
-            double phase = _phase + dt * _rate;
+            double positionChange = position - _previousPosition;
+            double phase = _phase + positionChange * _rate;
 
             // Prevent phase from becoming a special number, rendering it unusable forever.
             if (Double.IsNaN(phase) || Double.IsInfinity(phase))
@@ -305,16 +338,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double value0 = _sampleCalculator.CalculateValue(_phase, 0);
             double value1 = _sampleCalculator.CalculateValue(_phase, 1);
 
-            _previousTime = time;
+            _previousPosition = position;
 
             return value0 + value1;
         }
 
         public override void Reset(DimensionStack dimensionStack)
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double position = dimensionStack.Get(_dimensionIndex);
 
-            _previousTime = time;
+            _previousPosition = position;
             _phase = 0.0;
 
             base.Reset(dimensionStack);

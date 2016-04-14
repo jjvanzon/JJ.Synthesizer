@@ -9,11 +9,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _exponentCalculator;
         private readonly OperatorCalculatorBase _originCalculator;
+        private readonly int _dimensionIndex;
 
         public TimePower_WithOrigin_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase exponentCalculator,
-            OperatorCalculatorBase originCalculator)
+            OperatorCalculatorBase originCalculator,
+            DimensionEnum dimensionEnum)
             : base(new OperatorCalculatorBase[] { signalCalculator, exponentCalculator, originCalculator })
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
@@ -23,11 +25,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _signalCalculator = signalCalculator;
             _exponentCalculator = exponentCalculator;
             _originCalculator = originCalculator;
+            _dimensionIndex = (int)dimensionEnum;
         }
 
         public override double Calculate(DimensionStack dimensionStack)
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double position = dimensionStack.Get(_dimensionIndex);
 
             // IMPORTANT: 
 
@@ -40,22 +43,22 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             double origin = _originCalculator.Calculate(dimensionStack);
 
-            double timeAbs = Math.Abs(time - origin);
+            double positionAbs = Math.Abs(position - origin);
 
             double exponent = _exponentCalculator.Calculate(dimensionStack);
 
-            double transformedTime = Math.Pow(timeAbs, 1 / exponent) + origin;
+            double transformedPosition = Math.Pow(positionAbs, 1 / exponent) + origin;
 
             // TODO: Not debugged yet.
-            int timeSign = Math.Sign(time - origin);
-            if (timeSign == -1)
+            int positionSign = Math.Sign(position - origin);
+            if (positionSign == -1)
             {
-                transformedTime = -transformedTime;
+                transformedPosition = -transformedPosition;
             }
 
-            dimensionStack.Push(DimensionEnum.Time, transformedTime);
+            dimensionStack.Push(_dimensionIndex, transformedPosition);
             double result = _signalCalculator.Calculate(dimensionStack);
-            dimensionStack.Pop(DimensionEnum.Time);
+            dimensionStack.Pop(_dimensionIndex);
 
             return result;
         }
@@ -65,8 +68,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _exponentCalculator;
+        private readonly int _dimensionIndex;
 
-        public TimePower_WithoutOrigin_OperatorCalculator(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase exponentCalculator)
+        public TimePower_WithoutOrigin_OperatorCalculator(
+            OperatorCalculatorBase signalCalculator, 
+            OperatorCalculatorBase exponentCalculator,
+            DimensionEnum dimensionEnum)
             : base(new OperatorCalculatorBase[] { signalCalculator, exponentCalculator })
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
@@ -74,11 +81,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             _signalCalculator = signalCalculator;
             _exponentCalculator = exponentCalculator;
+            _dimensionIndex = (int)dimensionEnum;
         }
 
         public override double Calculate(DimensionStack dimensionStack)
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double position = dimensionStack.Get(_dimensionIndex);
 
             // IMPORTANT: 
 
@@ -90,22 +98,22 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             // before taking the power and then added to it again after taking the power.
 
             // (time: -4, exponent: 2) => -1 * Pow(4, 1/2)
-            double timeAbs = Math.Abs(time);
+            double positionAbs = Math.Abs(position);
 
             double exponent = _exponentCalculator.Calculate(dimensionStack);
 
-            double transformedTime = Math.Pow(timeAbs, 1 / exponent);
+            double transformedPosition = Math.Pow(positionAbs, 1 / exponent);
 
             // TODO: Not debugged yet.
-            int timeSign = Math.Sign(time);
-            if (timeSign == -1)
+            int positionSign = Math.Sign(position);
+            if (positionSign == -1)
             {
-                transformedTime = -transformedTime;
+                transformedPosition = -transformedPosition;
             }
 
-            dimensionStack.Push(DimensionEnum.Time, transformedTime);
+            dimensionStack.Push(_dimensionIndex, transformedPosition);
             double result = _signalCalculator.Calculate(dimensionStack);
-            dimensionStack.Pop(DimensionEnum.Time);
+            dimensionStack.Pop(_dimensionIndex);
 
             return result;
         }

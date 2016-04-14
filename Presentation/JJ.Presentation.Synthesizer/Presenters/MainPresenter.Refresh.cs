@@ -638,13 +638,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             Document childDocument = _repositories.DocumentRepository.Get(patchDocumentViewModel.ChildDocumentID);
 
-            IList<Operator> operators = 
-                childDocument.Patches[0].GetOperatorsOfType(OperatorTypeEnum.GetDimension)
-                .Union(childDocument.Patches[0].GetOperatorsOfType(OperatorTypeEnum.SetDimension))
-                .Union(childDocument.Patches[0].GetOperatorsOfType(OperatorTypeEnum.Stretch))
-                .Union(childDocument.Patches[0].GetOperatorsOfType(OperatorTypeEnum.Select))
-                .ToArray();
-
+            IList<Operator> operators = childDocument.Patches[0].Operators
+                                                                .Where(x => ViewModelHelper.OperatorTypeEnums_WithDimensionPropertyViews.Contains(x.GetOperatorTypeEnum()))
+                                                                .ToArray();
             foreach (Operator op in operators)
             {
                 OperatorPropertiesViewModel_WithDimension viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_WithDimension(MainViewModel.Document, op.ID);
@@ -852,7 +848,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             Document childDocument = _repositories.DocumentRepository.Get(patchDocumentViewModel.ChildDocumentID);
             IList<Operator> operators = childDocument.Patches[0].Operators
-                                                                .Where(x => !ViewModelHelper.OperatorTypeEnums_WithTheirOwnPropertyViews.Contains(x.GetOperatorTypeEnum()))
+                                                                .Where(x => !ViewModelHelper.OperatorTypeEnums_WithTheirOwnPropertyViews.Contains(x.GetOperatorTypeEnum()) &&
+                                                                            !ViewModelHelper.OperatorTypeEnums_WithDimensionPropertyViews.Contains(x.GetOperatorTypeEnum()))
                                                                 .ToArray();
             foreach (Operator op in operators)
             {

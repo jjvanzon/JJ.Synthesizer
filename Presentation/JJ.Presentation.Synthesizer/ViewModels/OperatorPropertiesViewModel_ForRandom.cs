@@ -11,5 +11,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 
         public IDAndName Interpolation { get; set; }
         public IList<IDAndName> InterpolationLookup { get; set; }
+        public IDAndName Dimension { get; set; }
+        public IList<IDAndName> DimensionLookup { get; set; }
     }
 }

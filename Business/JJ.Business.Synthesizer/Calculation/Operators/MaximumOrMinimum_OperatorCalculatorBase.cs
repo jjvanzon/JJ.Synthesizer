@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Collections;
-using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -15,6 +14,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _timeSliceDurationCalculator;
         private readonly OperatorCalculatorBase _sampleCountCalculator;
+        private readonly int _dimensionIndex;
 
         private double _sampleDuration;
         private double _sampleCountDouble;
@@ -28,14 +28,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private RedBlackTree<double, double> _redBlackTree;
 
         private double _maximumOrMinimum;
-        private double _previousTime;
-        private double _nextSampleTime;
+        private double _previousPosition;
+        private double _nextSamplePosition;
         private double _timeSliceDuration;
 
         public MaximumOrMinimum_OperatorCalculatorBase(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase timeSliceDurationCalculator,
-            OperatorCalculatorBase sampleCountCalculator)
+            OperatorCalculatorBase sampleCountCalculator,
+            DimensionEnum dimensionEnum)
             : base(new OperatorCalculatorBase[] 
             {
                 signalCalculator,
@@ -50,6 +51,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _signalCalculator = signalCalculator;
             _timeSliceDurationCalculator = timeSliceDurationCalculator;
             _sampleCountCalculator = sampleCountCalculator;
+            _dimensionIndex = (int)dimensionEnum;
 
             Reset(new DimensionStack());
         }
@@ -58,63 +60,63 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override double Calculate(DimensionStack dimensionStack)
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double position = dimensionStack.Get(_dimensionIndex);
 
-            bool isForwardInTime = time >= _previousTime;
+            bool isForward = position >= _previousPosition;
 
-            if (isForwardInTime)
+            if (isForward)
             {
-                bool mustUpdate = time > _nextSampleTime;
+                bool mustUpdate = position > _nextSamplePosition;
                 if (mustUpdate)
                 {
-                    // Fake last sample time if time difference too much.
-                    // This prevents excessive sampling in case of a large jump in time.
-                    // (Also takes care of the assumption that time would start at 0.)
-                    double timeDifference = time - _nextSampleTime;
-                    double timeDifferenceTooMuch = timeDifference - _timeSliceDuration;
-                    if (timeDifferenceTooMuch > 0.0)
+                    // Fake last sample position if position difference too much.
+                    // This prevents excessive sampling in case of a large jump in position.
+                    // (Also takes care of the assumption that position would start at 0.)
+                    double positionDifference = position - _nextSamplePosition;
+                    double positionDifferenceTooMuch = positionDifference - _timeSliceDuration;
+                    if (positionDifferenceTooMuch > 0.0)
                     {
-                        _nextSampleTime += timeDifferenceTooMuch;
+                        _nextSamplePosition += positionDifferenceTooMuch;
                     }
 
                     do
                     {
-                        dimensionStack.Push(DimensionEnum.Time, _nextSampleTime);
+                        dimensionStack.Push(_dimensionIndex, _nextSamplePosition);
                         CalculateValueAndUpdateCollections(dimensionStack);
-                        dimensionStack.Pop(DimensionEnum.Time);
+                        dimensionStack.Pop(_dimensionIndex);
 
-                        _nextSampleTime += _sampleDuration;
+                        _nextSamplePosition += _sampleDuration;
                     }
-                    while (time > _nextSampleTime);
+                    while (position > _nextSamplePosition);
 
                     _maximumOrMinimum = GetMaximumOrMinimum(_redBlackTree);
                 }
             }
             else
             {
-                // Is backwards in time
-                bool mustUpdate = time < _nextSampleTime;
+                // Is backwards
+                bool mustUpdate = position < _nextSamplePosition;
                 if (mustUpdate)
                 {
-                    // Fake last sample time if time difference too much.
-                    // This prevents excessive sampling in case of a large jump in time.
-                    // (Also takes care of the assumption that time would start at 0.)
-                    double timeDifference = _nextSampleTime - time;
-                    double timeDifferenceTooMuch = timeDifference - _timeSliceDuration;
-                    if (timeDifferenceTooMuch > 0.0)
+                    // Fake last sample position if position difference too much.
+                    // This prevents excessive sampling in case of a large jump in position.
+                    // (Also takes care of the assumption that position would start at 0.)
+                    double positionDifference = _nextSamplePosition - position;
+                    double positionDifferenceTooMuch = positionDifference - _timeSliceDuration;
+                    if (positionDifferenceTooMuch > 0.0)
                     {
-                        _nextSampleTime -= timeDifferenceTooMuch;
+                        _nextSamplePosition -= positionDifferenceTooMuch;
                     }
 
                     do
                     {
-                        dimensionStack.Push(DimensionEnum.Time, _nextSampleTime);
+                        dimensionStack.Push(_dimensionIndex, _nextSamplePosition);
                         CalculateValueAndUpdateCollections(dimensionStack);
-                        dimensionStack.Pop(DimensionEnum.Time);
+                        dimensionStack.Pop(_dimensionIndex);
 
-                        _nextSampleTime -= _sampleDuration;
+                        _nextSamplePosition -= _sampleDuration;
                     }
-                    while (time < _nextSampleTime);
+                    while (position < _nextSamplePosition);
 
                     _maximumOrMinimum = GetMaximumOrMinimum(_redBlackTree);
                 }
@@ -129,7 +131,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             //    int i = 0;
             //}
 
-            _previousTime = time;
+            _previousPosition = position;
 
             return _maximumOrMinimum;
         }
@@ -147,12 +149,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset(DimensionStack dimensionStack)
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double position = dimensionStack.Get(_dimensionIndex);
 
-            _previousTime = time;
+            _previousPosition = position;
 
             _maximumOrMinimum = 0.0;
-            _nextSampleTime = 0.0;
+            _nextSamplePosition = 0.0;
 
             _timeSliceDuration = _timeSliceDurationCalculator.Calculate(dimensionStack);
             _sampleCountDouble = _sampleCountCalculator.Calculate(dimensionStack);

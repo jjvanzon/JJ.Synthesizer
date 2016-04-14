@@ -1,12 +1,8 @@
-﻿using JJ.Data.Synthesizer;
+﻿using System;
+using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
-using System;
-using JJ.Framework.Validation.Resources;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Mathematics;
-using System.Globalization;
-using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
@@ -14,29 +10,42 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     {
         public Cache_OperatorValidator(Operator obj)
             : base(
-                  obj, 
-                  OperatorTypeEnum.Cache, 
-                  expectedInletCount: 4,
-                  expectedOutletCount: 1,
-                  allowedDataKeys: new string[] { PropertyNames.SpeakerSetup, PropertyNames.InterpolationType })
+                obj,
+                OperatorTypeEnum.Cache,
+                expectedInletCount: 4,
+                expectedOutletCount: 1,
+                allowedDataKeys: new string[]
+                {
+                    PropertyNames.InterpolationType,
+                    PropertyNames.SpeakerSetup,
+                    PropertyNames.Dimension
+                })
         { }
 
         protected override void Execute()
         {
             base.Execute();
 
-            string speakerSetupString = DataPropertyParser.TryGetString(Object, PropertyNames.SpeakerSetup);
-            string interpolationTypeString = DataPropertyParser.TryGetString(Object, PropertyNames.InterpolationType);
+            if (DataPropertyParser.DataIsWellFormed(Object))
+            {
+                string interpolationTypeString = DataPropertyParser.TryGetString(Object, PropertyNames.InterpolationType);
+                For(() => interpolationTypeString, PropertyDisplayNames.InterpolationType)
+                    .NotNullOrEmpty()
+                    .IsEnum<InterpolationTypeEnum>()
+                    .IsNot(InterpolationTypeEnum.Undefined);
 
-            For(() => interpolationTypeString, PropertyDisplayNames.InterpolationType)
-                .NotNullOrEmpty()
-                .IsEnum<InterpolationTypeEnum>()
-                .IsNot(InterpolationTypeEnum.Undefined);
+                string speakerSetupString = DataPropertyParser.TryGetString(Object, PropertyNames.SpeakerSetup);
+                For(() => speakerSetupString, PropertyDisplayNames.SpeakerSetup)
+                    .NotNullOrEmpty()
+                    .IsEnum<SpeakerSetupEnum>()
+                    .IsNot(SpeakerSetupEnum.Undefined);
 
-            For(() => speakerSetupString, PropertyDisplayNames.SpeakerSetup)
-                .NotNullOrEmpty()
-                .IsEnum<SpeakerSetupEnum>()
-                .IsNot(SpeakerSetupEnum.Undefined);
+                string dimensionString = DataPropertyParser.TryGetString(Object, PropertyNames.Dimension);
+                For(() => dimensionString, PropertyNames.Dimension)
+                    .NotNullOrEmpty()
+                    .IsEnum<DimensionEnum>()
+                    .IsNot(DimensionEnum.Undefined);
+            }
         }
     }
 }

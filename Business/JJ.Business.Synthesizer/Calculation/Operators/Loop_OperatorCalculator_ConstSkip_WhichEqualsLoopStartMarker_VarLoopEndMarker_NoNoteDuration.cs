@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -14,48 +13,50 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private double _outputCycleEnd;
         private double _loopEndMarker;
-        private double _cycleDuration;
+        private double _cycleLength;
 
         public Loop_OperatorCalculator_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration(
             OperatorCalculatorBase signalCalculator,
             double loopStartMarker,
-            OperatorCalculatorBase loopEndMarkerCalculator)
+            OperatorCalculatorBase loopEndMarkerCalculator,
+            DimensionEnum dimensionEnum)
             : base(
-                  signalCalculator, 
+                  signalCalculator,
+                  dimensionEnum,
                   new OperatorCalculatorBase[] { signalCalculator, loopEndMarkerCalculator })
         {
             _loopStartMarker = loopStartMarker;
             _loopEndMarkerCalculator = loopEndMarkerCalculator;
         }
 
-        protected override double? TransformTime(DimensionStack dimensionStack)
+        protected override double? TransformPosition(DimensionStack dimensionStack)
         {
-            double outputTime = dimensionStack.Get(DimensionEnum.Time);
+            double outputPosition = dimensionStack.Get(_dimensionIndex);
 
-            double tempTime = outputTime - _origin;
+            double tempPosition = outputPosition - _origin;
 
             // BeforeLoop
-            double inputTime = tempTime + _loopStartMarker;
-            bool isBeforeLoop = inputTime < _loopStartMarker;
+            double inputPosition = tempPosition + _loopStartMarker;
+            bool isBeforeLoop = inputPosition < _loopStartMarker;
             if (isBeforeLoop)
             {
                 return null;
             }
 
             // InLoop
-            if (tempTime > _outputCycleEnd)
+            if (tempPosition > _outputCycleEnd)
             {
-                dimensionStack.Push(DimensionEnum.Time, tempTime);
+                dimensionStack.Push(_dimensionIndex, tempPosition);
                 _loopEndMarker = GetLoopEndMarker(dimensionStack);
-                dimensionStack.Pop(DimensionEnum.Time);
+                dimensionStack.Pop(_dimensionIndex);
 
-                _cycleDuration = _loopEndMarker - _loopStartMarker;
-                _outputCycleEnd += _cycleDuration;
+                _cycleLength = _loopEndMarker - _loopStartMarker;
+                _outputCycleEnd += _cycleLength;
             }
 
-            double phase = (inputTime - _loopStartMarker) % _cycleDuration;
-            inputTime = _loopStartMarker + phase;
-            return inputTime;
+            double phase = (inputPosition - _loopStartMarker) % _cycleLength;
+            inputPosition = _loopStartMarker + phase;
+            return inputPosition;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

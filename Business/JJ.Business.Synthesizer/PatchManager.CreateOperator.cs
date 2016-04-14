@@ -113,7 +113,8 @@ namespace JJ.Business.Synthesizer
         public Average_OperatorWrapper Average(
             Outlet signal = null, 
             Outlet timeSliceDuration = null, 
-            Outlet sampleCount = null)
+            Outlet sampleCount = null,
+            DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Average, inletCount: 3, outletCount: 1);
 
@@ -121,7 +122,8 @@ namespace JJ.Business.Synthesizer
             {
                 Signal = signal,
                 TimeSliceDuration = timeSliceDuration,
-                SampleCount = sampleCount
+                SampleCount = sampleCount,
+                Dimension = dimension
             };
 
             op.LinkTo(Patch);
@@ -196,7 +198,8 @@ namespace JJ.Business.Synthesizer
             Outlet endTime = null,
             Outlet samplingRate = null, 
             InterpolationTypeEnum interpolationTypeEnum = InterpolationTypeEnum.Line,
-            SpeakerSetupEnum speakerSetupEnum = SpeakerSetupEnum.Mono)
+            SpeakerSetupEnum speakerSetupEnum = SpeakerSetupEnum.Mono, 
+            DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Cache, inletCount: 4, outletCount: 1);
 
@@ -206,8 +209,9 @@ namespace JJ.Business.Synthesizer
                 StartTime = startTime,
                 EndTime = endTime,
                 SamplingRate = samplingRate,
-                InterpolationTypeEnum = interpolationTypeEnum,
-                SpeakerSetupEnum = speakerSetupEnum
+                InterpolationType = interpolationTypeEnum,
+                SpeakerSetup = speakerSetupEnum,
+                Dimension = dimension
             };
 
             op.LinkTo(Patch);
@@ -293,14 +297,15 @@ namespace JJ.Business.Synthesizer
             return CustomOperator(underlyingPatch, (IList<Outlet>)operands);
         }
 
-        public Delay_OperatorWrapper Delay(Outlet signal = null, Outlet timeDifference = null)
+        public Delay_OperatorWrapper Delay(Outlet signal = null, Outlet timeDifference = null, DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Delay, inletCount: 2, outletCount: 1);
 
             var wrapper = new Delay_OperatorWrapper(op)
             {
                 Signal = signal,
-                TimeDifference = timeDifference
+                TimeDifference = timeDifference,
+                Dimension = dimension
             };
 
             op.LinkTo(Patch);
@@ -330,14 +335,15 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Earlier_OperatorWrapper Earlier(Outlet signal = null, Outlet timeDifference = null)
+        public Earlier_OperatorWrapper Earlier(Outlet signal = null, Outlet timeDifference = null, DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Earlier, inletCount: 2, outletCount: 1);
 
             var wrapper = new Earlier_OperatorWrapper(op)
             {
                 Signal = signal,
-                TimeDifference = timeDifference
+                TimeDifference = timeDifference,
+                Dimension = dimension
             };
 
             op.LinkTo(Patch);
@@ -543,7 +549,8 @@ namespace JJ.Business.Synthesizer
             Outlet loopStartMarker = null, 
             Outlet loopEndMarker = null, 
             Outlet releaseEndMarker = null,
-            Outlet noteDuration = null)
+            Outlet noteDuration = null, 
+            DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Loop, inletCount: 6, outletCount: 1);
 
@@ -554,7 +561,8 @@ namespace JJ.Business.Synthesizer
                 LoopStartMarker = loopStartMarker,
                 LoopEndMarker = loopEndMarker,
                 ReleaseEndMarker = releaseEndMarker,
-                NoteDuration = noteDuration
+                NoteDuration = noteDuration,
+                Dimension = dimension
             };
 
             op.LinkTo(Patch);
@@ -586,7 +594,8 @@ namespace JJ.Business.Synthesizer
         public Maximum_OperatorWrapper Maximum(
             Outlet signal = null,
             Outlet timeSliceDuration = null,
-            Outlet sampleCount = null)
+            Outlet sampleCount = null,
+            DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Maximum, inletCount: 3, outletCount: 1);
 
@@ -594,7 +603,8 @@ namespace JJ.Business.Synthesizer
             {
                 Signal = signal,
                 TimeSliceDuration = timeSliceDuration,
-                SampleCount = sampleCount
+                SampleCount = sampleCount,
+                Dimension = dimension
             };
 
             op.LinkTo(Patch);
@@ -608,7 +618,8 @@ namespace JJ.Business.Synthesizer
         public Minimum_OperatorWrapper Minimum(
             Outlet signal = null,
             Outlet timeSliceDuration = null,
-            Outlet sampleCount = null)
+            Outlet sampleCount = null, 
+            DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Minimum, inletCount: 3, outletCount: 1);
 
@@ -616,7 +627,8 @@ namespace JJ.Business.Synthesizer
             {
                 Signal = signal,
                 TimeSliceDuration = timeSliceDuration,
-                SampleCount = sampleCount
+                SampleCount = sampleCount,
+                Dimension = dimension
             };
 
             op.LinkTo(Patch);
@@ -646,7 +658,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Narrower_OperatorWrapper Narrower(Outlet signal = null, Outlet factor = null, Outlet origin = null)
+        public Narrower_OperatorWrapper Narrower(Outlet signal = null, Outlet factor = null, Outlet origin = null, DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Narrower, inletCount: 3, outletCount: 1);
 
@@ -654,7 +666,8 @@ namespace JJ.Business.Synthesizer
             {
                 Signal = signal,
                 Factor = factor,
-                Origin = origin
+                Origin = origin,
+                Dimension = dimension
             };
 
             op.LinkTo(Patch);
@@ -682,11 +695,12 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Noise_OperatorWrapper Noise()
+        public Noise_OperatorWrapper Noise(DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Noise, inletCount: 0, outletCount: 1);
 
             var wrapper = new Noise_OperatorWrapper(op);
+            wrapper.Dimension = dimension;
 
             op.LinkTo(Patch);
 
@@ -803,10 +817,10 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public PatchInlet_OperatorWrapper PatchInlet(DimensionEnum dimensionEnum)
+        public PatchInlet_OperatorWrapper PatchInlet(DimensionEnum dimension)
         {
             PatchInlet_OperatorWrapper wrapper = PatchInlet();
-            wrapper.Inlet.SetDimensionEnum(dimensionEnum, _repositories.DimensionRepository);
+            wrapper.Inlet.SetDimensionEnum(dimension, _repositories.DimensionRepository);
 
             VoidResult result = ValidateOperatorNonRecursive(wrapper.WrappedOperator);
             ResultHelper.Assert(result);
@@ -837,11 +851,11 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public PatchInlet_OperatorWrapper PatchInlet(DimensionEnum dimensionEnum, double defaultValue)
+        public PatchInlet_OperatorWrapper PatchInlet(DimensionEnum dimension, double defaultValue)
         {
             PatchInlet_OperatorWrapper wrapper = PatchInlet();
             Inlet patchInletInlet = wrapper.Inlet;
-            patchInletInlet.SetDimensionEnum(dimensionEnum, _repositories.DimensionRepository);
+            patchInletInlet.SetDimensionEnum(dimension, _repositories.DimensionRepository);
             patchInletInlet.DefaultValue = defaultValue;
 
             VoidResult result = ValidateOperatorNonRecursive(wrapper.WrappedOperator);
@@ -911,7 +925,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Pulse_OperatorWrapper Pulse(Outlet frequency = null, Outlet width = null, Outlet phaseShift = null)
+        public Pulse_OperatorWrapper Pulse(Outlet frequency = null, Outlet width = null, Outlet phaseShift = null, DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Pulse, inletCount: 3, outletCount: 1);
 
@@ -919,7 +933,8 @@ namespace JJ.Business.Synthesizer
             {
                 Frequency = frequency,
                 Width = width,
-                PhaseShift = phaseShift
+                PhaseShift = phaseShift,
+                Dimension = dimension
             };
 
             op.LinkTo(Patch);
@@ -930,7 +945,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Random_OperatorWrapper Random(Outlet rate = null, Outlet phaseShift = null)
+        public Random_OperatorWrapper Random(Outlet rate = null, Outlet phaseShift = null, DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Random, inletCount: 2, outletCount: 1);
 
@@ -938,7 +953,8 @@ namespace JJ.Business.Synthesizer
             {
                 Rate = rate,
                 PhaseShift = phaseShift,
-                ResampleInterpolationTypeEnum = ResampleInterpolationTypeEnum.Block
+                ResampleInterpolationType = ResampleInterpolationTypeEnum.Block,
+                Dimension = dimension
             };
 
             op.LinkTo(Patch);
@@ -952,7 +968,8 @@ namespace JJ.Business.Synthesizer
         public Resample_OperatorWrapper Resample(
             Outlet signal = null, 
             Outlet samplingRate = null, 
-            ResampleInterpolationTypeEnum interpolationType = ResampleInterpolationTypeEnum.CubicSmoothInclination)
+            ResampleInterpolationTypeEnum interpolationType = ResampleInterpolationTypeEnum.CubicSmoothInclination,
+            DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Resample, inletCount: 2, outletCount: 1);
 
@@ -960,7 +977,8 @@ namespace JJ.Business.Synthesizer
             {
                 Signal = signal,
                 SamplingRate = samplingRate,
-                InterpolationType = interpolationType
+                InterpolationType = interpolationType,
+                Dimension = dimension
             };
 
             op.LinkTo(Patch);
@@ -971,7 +989,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Reverse_OperatorWrapper Reverse(Outlet signal = null, Outlet speed = null)
+        public Reverse_OperatorWrapper Reverse(Outlet signal = null, Outlet speed = null, DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Reverse, inletCount: 2, outletCount: 1);
 
@@ -979,6 +997,7 @@ namespace JJ.Business.Synthesizer
             {
                 Signal = signal,
                 Speed = speed,
+                Dimension = dimension
             };
 
             op.LinkTo(Patch);
@@ -1025,7 +1044,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Sample_OperatorWrapper Sample(Sample sample = null)
+        public Sample_OperatorWrapper Sample(Sample sample = null, DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Sample, inletCount: 1, outletCount: 1);
 
@@ -1033,6 +1052,7 @@ namespace JJ.Business.Synthesizer
             if (sample != null)
             {
                 wrapper.SampleID = sample.ID;
+                wrapper.Dimension = dimension;
             }
 
             op.LinkTo(Patch);
@@ -1043,14 +1063,15 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public SawDown_OperatorWrapper SawDown(Outlet frequency = null, Outlet phaseShift = null)
+        public SawDown_OperatorWrapper SawDown(Outlet frequency = null, Outlet phaseShift = null, DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.SawDown, inletCount: 2, outletCount: 1);
 
             var wrapper = new SawDown_OperatorWrapper(op)
             {
                 Frequency = frequency,
-                PhaseShift = phaseShift
+                PhaseShift = phaseShift,
+                Dimension = dimension
             };
 
             op.LinkTo(Patch);
@@ -1061,14 +1082,15 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public SawUp_OperatorWrapper SawUp(Outlet frequency = null, Outlet phaseShift = null)
+        public SawUp_OperatorWrapper SawUp(Outlet frequency = null, Outlet phaseShift = null, DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.SawUp, inletCount: 2, outletCount: 1);
 
             var wrapper = new SawUp_OperatorWrapper(op)
             {
                 Frequency = frequency,
-                PhaseShift = phaseShift
+                PhaseShift = phaseShift,
+                Dimension = dimension
             };
 
             op.LinkTo(Patch);
@@ -1105,7 +1127,10 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Select_OperatorWrapper Select(Outlet signal = null, Outlet position = null, DimensionEnum dimension = DimensionEnum.Time)
+        public Select_OperatorWrapper Select(
+            Outlet signal = null, 
+            Outlet position = null, 
+            DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Select, inletCount: 2, outletCount: 1);
 
@@ -1143,14 +1168,15 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Shift_OperatorWrapper Shift(Outlet signal = null, Outlet difference = null)
+        public Shift_OperatorWrapper Shift(Outlet signal = null, Outlet difference = null, DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Shift, inletCount: 2, outletCount: 1);
 
             var wrapper = new Shift_OperatorWrapper(op)
             {
                 Signal = signal,
-                Difference = difference
+                Difference = difference,
+                Dimension = dimension
             };
 
             op.LinkTo(Patch);
@@ -1161,14 +1187,15 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Sine_OperatorWrapper Sine(Outlet frequency = null, Outlet phaseShift = null)
+        public Sine_OperatorWrapper Sine(Outlet frequency = null, Outlet phaseShift = null, DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Sine, inletCount: 2, outletCount: 1);
 
             var wrapper = new Sine_OperatorWrapper(op)
             {
                 Frequency = frequency,
-                PhaseShift = phaseShift
+                PhaseShift = phaseShift,
+                Dimension = dimension
             };
 
             op.LinkTo(Patch);
@@ -1179,7 +1206,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public SlowDown_OperatorWrapper SlowDown(Outlet signal = null, Outlet factor = null)
+        public SlowDown_OperatorWrapper SlowDown(Outlet signal = null, Outlet factor = null, DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.SlowDown, inletCount: 2, outletCount: 1);
 
@@ -1187,6 +1214,7 @@ namespace JJ.Business.Synthesizer
             {
                 Signal = signal,
                 Factor = factor,
+                Dimension = dimension
             };
 
             op.LinkTo(Patch);
@@ -1217,7 +1245,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public SpeedUp_OperatorWrapper SpeedUp(Outlet signal = null, Outlet factor = null)
+        public SpeedUp_OperatorWrapper SpeedUp(Outlet signal = null, Outlet factor = null, DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.SpeedUp, inletCount: 2, outletCount: 1);
 
@@ -1225,6 +1253,7 @@ namespace JJ.Business.Synthesizer
             {
                 Signal = signal,
                 Factor = factor,
+                Dimension = dimension
             };
 
             op.LinkTo(Patch);
@@ -1235,14 +1264,15 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Square_OperatorWrapper Square(Outlet frequency = null, Outlet phaseShift = null)
+        public Square_OperatorWrapper Square(Outlet frequency = null, Outlet phaseShift = null, DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Square, inletCount: 2, outletCount: 1);
 
             var wrapper = new Square_OperatorWrapper(op)
             {
                 Frequency = frequency,
-                PhaseShift = phaseShift
+                PhaseShift = phaseShift,
+                Dimension = dimension
             };
 
             op.LinkTo(Patch);
@@ -1291,7 +1321,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public TimePower_OperatorWrapper TimePower(Outlet signal = null, Outlet exponent = null, Outlet origin = null)
+        public TimePower_OperatorWrapper TimePower(Outlet signal = null, Outlet exponent = null, Outlet origin = null, DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.TimePower, inletCount: 3, outletCount: 1);
 
@@ -1299,7 +1329,8 @@ namespace JJ.Business.Synthesizer
             {
                 Signal = signal,
                 Exponent = exponent,
-                Origin = origin
+                Origin = origin,
+                Dimension = dimension
             };
 
             op.LinkTo(Patch);
@@ -1328,14 +1359,15 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Triangle_OperatorWrapper Triangle(Outlet frequency = null, Outlet phaseShift = null)
+        public Triangle_OperatorWrapper Triangle(Outlet frequency = null, Outlet phaseShift = null, DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Triangle, inletCount: 2, outletCount: 1);
 
             var wrapper = new Triangle_OperatorWrapper(op)
             {
                 Frequency = frequency,
-                PhaseShift = phaseShift
+                PhaseShift = phaseShift,
+                Dimension = dimension
             };
 
             op.LinkTo(Patch);

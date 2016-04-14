@@ -12,12 +12,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private const double MINIMUM_SAMPLING_RATE = 0.01666666666666667; // Once a minute
 
-        private OperatorCalculatorBase _signalCalculator;
-        private OperatorCalculatorBase _samplingRateCalculator;
+        private readonly OperatorCalculatorBase _signalCalculator;
+        private readonly OperatorCalculatorBase _samplingRateCalculator;
+        private readonly int _dimensionIndex;
 
         public Resample_OperatorCalculator_CubicAbruptInclination(
             OperatorCalculatorBase signalCalculator, 
-            OperatorCalculatorBase samplingRateCalculator)
+            OperatorCalculatorBase samplingRateCalculator,
+            DimensionEnum dimensionEnum)
             : base(new OperatorCalculatorBase[]
             {
                 signalCalculator, 
@@ -32,6 +34,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             _signalCalculator = signalCalculator;
             _samplingRateCalculator = samplingRateCalculator;
+            _dimensionIndex = (int)dimensionEnum;
         }
 
         // HACK: These defaults are hacks that are meaningless in practice.
@@ -52,9 +55,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override double Calculate(DimensionStack dimensionStack)
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double position = dimensionStack.Get(_dimensionIndex);
 
-            double x = time;
+            double x = position;
             if (x > _x1)
             {
                 _xMinus1 = _x0;
@@ -68,17 +71,17 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 _dx0 = _dx1;
                 _a0 = _a1;
 
-                dimensionStack.Push(DimensionEnum.Time, _x1);
+                dimensionStack.Push(_dimensionIndex, _x1);
                 double samplingRate1 = GetSamplingRate(dimensionStack);
-                dimensionStack.Pop(DimensionEnum.Time);
+                dimensionStack.Pop(_dimensionIndex);
                 // TODO: Handle SamplingRate 0.
 
                 _dx1 = 1.0 / samplingRate1;
                 _x2 += _dx1;
 
-                dimensionStack.Push(DimensionEnum.Time, _x2);
+                dimensionStack.Push(_dimensionIndex, _x2);
                 _y2 = _signalCalculator.Calculate(dimensionStack);
-                dimensionStack.Pop(DimensionEnum.Time);
+                dimensionStack.Pop(_dimensionIndex);
 
                 _a1 = (_y2 - _y0) / (_x2 - _x0);
 

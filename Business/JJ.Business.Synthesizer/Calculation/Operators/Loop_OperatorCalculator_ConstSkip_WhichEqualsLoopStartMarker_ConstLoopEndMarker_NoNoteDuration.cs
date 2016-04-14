@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -10,36 +9,37 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly double _loopStartMarker;
         private readonly double _loopEndMarker;
-        private readonly double _cycleDuration;
+        private readonly double _cycleLength;
 
         public Loop_OperatorCalculator_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration(
             OperatorCalculatorBase signalCalculator,
             double loopStartMarker,
-            double loopEndMarker)
-            : base(signalCalculator, new OperatorCalculatorBase[] { signalCalculator })
+            double loopEndMarker,
+            DimensionEnum dimensionEnum)
+            : base(signalCalculator, dimensionEnum, new OperatorCalculatorBase[] { signalCalculator })
         {
             _loopStartMarker = loopStartMarker;
             _loopEndMarker = loopEndMarker;
             
-            _cycleDuration = _loopEndMarker - _loopStartMarker;
+            _cycleLength = _loopEndMarker - _loopStartMarker;
         }
 
-        protected override double? TransformTime(DimensionStack dimensionStack)
+        protected override double? TransformPosition(DimensionStack dimensionStack)
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double position = dimensionStack.Get(_dimensionIndex);
 
-            time -= _origin;
+            position -= _origin;
 
             // BeforeLoop
-            double inputTime = time + _loopStartMarker;
-            bool isBeforeLoop = inputTime < _loopStartMarker;
+            double inputPosition = position + _loopStartMarker;
+            bool isBeforeLoop = inputPosition < _loopStartMarker;
             if (isBeforeLoop)
             {
                 return 0;
             }
 
             // InLoop
-            double phase = (inputTime - _loopStartMarker) % _cycleDuration;
+            double phase = (inputPosition - _loopStartMarker) % _cycleLength;
             return phase;
         }
     }

@@ -836,22 +836,33 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             bool interpolationIsFilledIn = viewModel.Interpolation != null && viewModel.Interpolation.ID != 0;
             if (interpolationIsFilledIn)
             {
-                wrapper.InterpolationTypeEnum = (InterpolationTypeEnum)viewModel.Interpolation.ID;
+                wrapper.InterpolationType = (InterpolationTypeEnum)viewModel.Interpolation.ID;
             }
             else
             {
-                wrapper.InterpolationTypeEnum = InterpolationTypeEnum.Undefined;
+                wrapper.InterpolationType = InterpolationTypeEnum.Undefined;
             }
 
             // SpeakerSetup
             bool speakerSetupIsFilledIn = viewModel.SpeakerSetup != null && viewModel.SpeakerSetup.ID != 0;
             if (speakerSetupIsFilledIn)
             {
-                wrapper.SpeakerSetupEnum = (SpeakerSetupEnum)viewModel.SpeakerSetup.ID;
+                wrapper.SpeakerSetup = (SpeakerSetupEnum)viewModel.SpeakerSetup.ID;
             }
             else
             {
-                wrapper.SpeakerSetupEnum = SpeakerSetupEnum.Undefined;
+                wrapper.SpeakerSetup = SpeakerSetupEnum.Undefined;
+            }
+
+            // Dimension
+            bool dimensionIsFilledIn = viewModel.Dimension != null && viewModel.Dimension.ID != 0;
+            if (dimensionIsFilledIn)
+            {
+                wrapper.Dimension = (DimensionEnum)viewModel.Dimension.ID;
+            }
+            else
+            {
+                wrapper.Dimension = DimensionEnum.Undefined;
             }
 
             return entity;
@@ -1175,11 +1186,22 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             bool interpolationTypeIsFilledIn = viewModel.Interpolation != null && viewModel.Interpolation.ID != 0;
             if (interpolationTypeIsFilledIn)
             {
-                wrapper.ResampleInterpolationTypeEnum = (ResampleInterpolationTypeEnum)viewModel.Interpolation.ID;
+                wrapper.ResampleInterpolationType = (ResampleInterpolationTypeEnum)viewModel.Interpolation.ID;
             }
             else
             {
-                wrapper.ResampleInterpolationTypeEnum = ResampleInterpolationTypeEnum.Undefined;
+                wrapper.ResampleInterpolationType = ResampleInterpolationTypeEnum.Undefined;
+            }
+
+            // Dimension
+            bool dimensionIsFilledIn = viewModel.Dimension != null && viewModel.Dimension.ID != 0;
+            if (dimensionIsFilledIn)
+            {
+                wrapper.Dimension = (DimensionEnum)viewModel.Dimension.ID;
+            }
+            else
+            {
+                wrapper.Dimension = DimensionEnum.Undefined;
             }
 
             return entity;
@@ -1205,6 +1227,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.SetOperatorTypeEnum(OperatorTypeEnum.Resample, operatorTypeRepository);
 
             var wrapper = new Resample_OperatorWrapper(entity);
+
+            // InterpolationType
             bool interpolationTypeIsFilledIn = viewModel.Interpolation != null && viewModel.Interpolation.ID != 0;
             if (interpolationTypeIsFilledIn)
             {
@@ -1213,6 +1237,17 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             else
             {
                 wrapper.InterpolationType = ResampleInterpolationTypeEnum.Undefined;
+            }
+
+            // Dimension
+            bool dimensionIsFilledIn = viewModel.Dimension != null && viewModel.Dimension.ID != 0;
+            if (dimensionIsFilledIn)
+            {
+                wrapper.Dimension = (DimensionEnum)viewModel.Dimension.ID;
+            }
+            else
+            {
+                wrapper.Dimension = DimensionEnum.Undefined;
             }
 
             return entity;
@@ -1238,8 +1273,9 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.Name = viewModel.Name;
             entity.SetOperatorTypeEnum(OperatorTypeEnum.Sample, operatorTypeRepository);
 
-            // Sample
             var wrapper = new Sample_OperatorWrapper(entity, sampleRepository);
+
+            // Sample
             bool sampleIsFilledIn = viewModel.Sample != null && viewModel.Sample.ID != 0;
             if (sampleIsFilledIn)
             {
@@ -1248,6 +1284,17 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             else
             {
                 wrapper.SampleID = null;
+            }
+
+            // Dimension
+            bool dimensionIsFilledIn = viewModel.Dimension != null && viewModel.Dimension.ID != 0;
+            if (dimensionIsFilledIn)
+            {
+                wrapper.Dimension = (DimensionEnum)viewModel.Dimension.ID;
+            }
+            else
+            {
+                wrapper.Dimension = DimensionEnum.Undefined;
             }
 
             return entity;

@@ -11,16 +11,21 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         where TArrayCalculator : ArrayCalculatorBase
     {
         private readonly TArrayCalculator _arrayCalculator;
+        private readonly int _dimensionIndex;
 
-        public Cache_OperatorCalculator_SingleChannel(TArrayCalculator arrayCalculator)
+        public Cache_OperatorCalculator_SingleChannel(
+            TArrayCalculator arrayCalculator,
+            DimensionEnum dimensionEnum)
         {
             if (arrayCalculator == null) throw new NullException(() => arrayCalculator);
+
             _arrayCalculator = arrayCalculator;
+            _dimensionIndex = (int)dimensionEnum;
         }
 
         public override double Calculate(DimensionStack dimensionStack)
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double time = dimensionStack.Get(_dimensionIndex);
 
             return _arrayCalculator.CalculateValue(time);
         }
@@ -30,17 +35,22 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         where TArrayCalculator : ArrayCalculatorBase
     {
         private readonly TArrayCalculator[] _arrayCalculators;
+        private readonly int _dimensionIndex;
 
-        public Cache_OperatorCalculator_MultiChannel(IList<TArrayCalculator> arrayCalculators)
+        public Cache_OperatorCalculator_MultiChannel(
+            IList<TArrayCalculator> arrayCalculators,
+            DimensionEnum dimensionEnum)
         {
             if (arrayCalculators == null) throw new NullException(() => arrayCalculators);
+
             _arrayCalculators = arrayCalculators.ToArray();
+            _dimensionIndex = (int)dimensionEnum;
         }
 
         public override double Calculate(DimensionStack dimensionStack)
         {
             double channel = dimensionStack.Get(DimensionEnum.Channel);
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double time = dimensionStack.Get(_dimensionIndex);
 
             // TODO: Cast to int can fail.
             int channelInt = (int)channel;

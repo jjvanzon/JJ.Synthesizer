@@ -5,6 +5,7 @@ using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using System;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
@@ -33,6 +34,12 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         {
             get { return DataPropertyParser.TryGetInt32(WrappedOperator, PropertyNames.SampleID); }
             set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.SampleID, value); }
+        }
+
+        public DimensionEnum Dimension
+        {
+            get { return DataPropertyParser.GetEnum<DimensionEnum>(WrappedOperator, PropertyNames.Dimension); }
+            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.Dimension, value); }
         }
 
         /// <summary> nullable </summary>

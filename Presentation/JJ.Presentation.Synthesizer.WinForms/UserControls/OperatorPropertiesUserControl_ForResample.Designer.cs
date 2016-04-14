@@ -38,6 +38,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelInterpolation = new System.Windows.Forms.Label();
             this.comboBoxInterpolation = new System.Windows.Forms.ComboBox();
             this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
+            this.labelDimension = new System.Windows.Forms.Label();
+            this.comboBoxDimension = new System.Windows.Forms.ComboBox();
             this.tableLayoutPanelMain.SuspendLayout();
             this.tableLayoutPanelProperties.SuspendLayout();
             this.SuspendLayout();
@@ -69,17 +71,18 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.tableLayoutPanelProperties.Controls.Add(this.labelOperatorTypeValue, 1, 0);
             this.tableLayoutPanelProperties.Controls.Add(this.labelInterpolation, 0, 2);
             this.tableLayoutPanelProperties.Controls.Add(this.comboBoxInterpolation, 1, 2);
+            this.tableLayoutPanelProperties.Controls.Add(this.labelDimension, 0, 3);
+            this.tableLayoutPanelProperties.Controls.Add(this.comboBoxDimension, 1, 3);
             this.tableLayoutPanelProperties.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelProperties.Location = new System.Drawing.Point(4, 30);
             this.tableLayoutPanelProperties.Margin = new System.Windows.Forms.Padding(4);
             this.tableLayoutPanelProperties.Name = "tableLayoutPanelProperties";
-            this.tableLayoutPanelProperties.RowCount = 4;
+            this.tableLayoutPanelProperties.RowCount = 5;
+            this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanelProperties.Size = new System.Drawing.Size(10, 10);
             this.tableLayoutPanelProperties.TabIndex = 8;
             // 
@@ -161,6 +164,28 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.titleBarUserControl.TabIndex = 7;
             this.titleBarUserControl.CloseClicked += new System.EventHandler(this.titleBarUserControl_CloseClicked);
             // 
+            // labelDimension
+            // 
+            this.labelDimension.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelDimension.Location = new System.Drawing.Point(0, 90);
+            this.labelDimension.Margin = new System.Windows.Forms.Padding(0);
+            this.labelDimension.Name = "labelDimension";
+            this.labelDimension.Size = new System.Drawing.Size(147, 30);
+            this.labelDimension.TabIndex = 32;
+            this.labelDimension.Text = "labelDimension";
+            this.labelDimension.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // comboBoxDimension
+            // 
+            this.comboBoxDimension.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.comboBoxDimension.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxDimension.FormattingEnabled = true;
+            this.comboBoxDimension.Location = new System.Drawing.Point(147, 90);
+            this.comboBoxDimension.Margin = new System.Windows.Forms.Padding(0);
+            this.comboBoxDimension.Name = "comboBoxDimension";
+            this.comboBoxDimension.Size = new System.Drawing.Size(10, 24);
+            this.comboBoxDimension.TabIndex = 33;
+            // 
             // OperatorPropertiesUserControl_ForResample
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -191,5 +216,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private System.Windows.Forms.Label labelOperatorTypeValue;
         private System.Windows.Forms.Label labelInterpolation;
         private System.Windows.Forms.ComboBox comboBoxInterpolation;
+        private System.Windows.Forms.Label labelDimension;
+        private System.Windows.Forms.ComboBox comboBoxDimension;
     }
 }

@@ -9,46 +9,55 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _speedCalculator;
+        private readonly int _dimensionIndex;
 
         private double _phase;
-        private double _previousTime;
+        private double _previousPosition;
 
-        public Reverse_WithVarSpeed_OperatorCalculator(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase speedCalculator)
-            : base(new OperatorCalculatorBase[] { signalCalculator, speedCalculator })
+        public Reverse_WithVarSpeed_OperatorCalculator(
+            OperatorCalculatorBase signalCalculator, 
+            OperatorCalculatorBase speedCalculator,
+            DimensionEnum dimensionEnum)
+            : base(new OperatorCalculatorBase[] 
+            {
+                signalCalculator,
+                speedCalculator
+            })
         {
-            if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => signalCalculator);
-            if (speedCalculator == null) throw new NullException(() => speedCalculator);
-            if (speedCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => speedCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(speedCalculator, () => speedCalculator);
 
             _signalCalculator = signalCalculator;
             _speedCalculator = speedCalculator;
+            _dimensionIndex = (int)dimensionEnum;
         }
 
         public override double Calculate(DimensionStack dimensionStack)
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double position = dimensionStack.Get(_dimensionIndex);
 
-            _phase = TransformTime(dimensionStack);
+            _phase = TransformPosition(dimensionStack);
 
-            dimensionStack.Push(DimensionEnum.Time, _phase);
+            dimensionStack.Push(_dimensionIndex, _phase);
             double result = _signalCalculator.Calculate(dimensionStack);
-            dimensionStack.Pop(DimensionEnum.Time);
+            dimensionStack.Pop(_dimensionIndex);
 
-            _previousTime = time;
+            _previousPosition = position;
 
             return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private double TransformTime(DimensionStack dimensionStack)
+        private double TransformPosition(DimensionStack dimensionStack)
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double position = dimensionStack.Get(_dimensionIndex);
 
             double speed = _speedCalculator.Calculate(dimensionStack);
 
-            double dt = time - _previousTime;
-            double phase = _phase - dt * speed; // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
+            double positionChange = position - _previousPosition;
+
+            // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
+            double phase = _phase - positionChange * speed;
 
             // Prevent phase from becoming a special number, rendering it unusable forever.
             if (Double.IsNaN(phase) || Double.IsInfinity(phase))
@@ -61,66 +70,70 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset(DimensionStack dimensionStack)
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double position = dimensionStack.Get(_dimensionIndex);
 
-            _previousTime = time;
+            _previousPosition = position;
             _phase = 0.0;
 
-            double transformedTime = TransformTime(dimensionStack);
+            double transformedPosition = TransformPosition(dimensionStack);
 
-            dimensionStack.Push(DimensionEnum.Time, transformedTime);
+            dimensionStack.Push(_dimensionIndex, transformedPosition);
             base.Reset(dimensionStack);
-            dimensionStack.Pop(DimensionEnum.Time);
+            dimensionStack.Pop(_dimensionIndex);
         }
     }
 
     internal class Reverse_WithConstSpeed_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
-        private readonly double _timeSpeed;
+        private readonly double _speed;
+        private readonly int _dimensionIndex;
 
-        public Reverse_WithConstSpeed_OperatorCalculator(OperatorCalculatorBase signalCalculator, double speedValue)
+        public Reverse_WithConstSpeed_OperatorCalculator(
+            OperatorCalculatorBase signalCalculator, 
+            double speed,
+            DimensionEnum dimensionEnum)
             : base(new OperatorCalculatorBase[] { signalCalculator })
         {
-            if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => signalCalculator);
-            if (speedValue == 0) throw new ZeroException(() => speedValue);
-            if (Double.IsNaN(speedValue)) throw new NaNException(() => speedValue);
-            if (Double.IsInfinity(speedValue)) throw new InfinityException(() => speedValue);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
+            if (speed == 0) throw new ZeroException(() => speed);
+            if (Double.IsNaN(speed)) throw new NaNException(() => speed);
+            if (Double.IsInfinity(speed)) throw new InfinityException(() => speed);
 
             _signalCalculator = signalCalculator;
-            _timeSpeed = -speedValue;
+            _speed = -speed;
+            _dimensionIndex = (int)dimensionEnum;
         }
 
         public override double Calculate(DimensionStack dimensionStack)
         {
-            double transformedTime = TransformTime(dimensionStack);
+            double transformedPosition = TransformPosition(dimensionStack);
 
-            dimensionStack.Push(DimensionEnum.Time, transformedTime);
-            double result = _signalCalculator.Calculate(dimensionStack);
-            dimensionStack.Pop(DimensionEnum.Time);
+            dimensionStack.Push(_dimensionIndex, transformedPosition);
+            double value = _signalCalculator.Calculate(dimensionStack);
+            dimensionStack.Pop(_dimensionIndex);
 
-            return result;
+            return value;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private double TransformTime(DimensionStack dimensionStack)
+        private double TransformPosition(DimensionStack dimensionStack)
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double position = dimensionStack.Get(_dimensionIndex);
 
             // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
-            double transformedTime = time * _timeSpeed;
+            double transformedPosition = position * _speed;
 
-            return transformedTime;
+            return transformedPosition;
         }
 
         public override void Reset(DimensionStack dimensionStack)
         {
-            double tranformedTimed = TransformTime(dimensionStack);
+            double tranformedPosition = TransformPosition(dimensionStack);
 
-            dimensionStack.Push(DimensionEnum.Time, tranformedTimed);
+            dimensionStack.Push(_dimensionIndex, tranformedPosition);
             base.Reset(dimensionStack);
-            dimensionStack.Pop(DimensionEnum.Time);
+            dimensionStack.Pop(_dimensionIndex);
         }
     }
 }

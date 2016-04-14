@@ -6,12 +6,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     /// <summary> Not used. </summary>
     internal class Resample_OperatorCalculator_LineWithConstSamplingRate : OperatorCalculatorBase_WithChildCalculators
     {
-        private OperatorCalculatorBase _signalCalculator;
-        private double _samplePeriod;
+        private readonly OperatorCalculatorBase _signalCalculator;
+        private readonly double _sampleLength;
+        private readonly int _dimensionIndex;
 
         public Resample_OperatorCalculator_LineWithConstSamplingRate(
             OperatorCalculatorBase signalCalculator, 
-            double samplingRate)
+            double samplingRate,
+            DimensionEnum dimensionEnum)
             : base(new OperatorCalculatorBase[]
             {
                 signalCalculator
@@ -21,35 +23,36 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (samplingRate <= 0) throw new LessThanOrEqualException(() => samplingRate, 0);
 
             _signalCalculator = signalCalculator;
+            _dimensionIndex = (int)dimensionEnum;
 
-            _samplePeriod = 1.0 / samplingRate;
+            _sampleLength = 1.0 / samplingRate;
         }
 
         public override double Calculate(DimensionStack dimensionStack)
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double x = dimensionStack.Get(_dimensionIndex);
 
-            double remainder = time % _samplePeriod;
+            double remainder = x % _sampleLength;
 
-            double t0 = time - remainder;
-            double t1 = t0 + _samplePeriod;
-            double dt = t1 - t0;
-
-            dimensionStack.Push(DimensionEnum.Time, t0);
-            double x0 = _signalCalculator.Calculate(dimensionStack);
-            dimensionStack.Pop(DimensionEnum.Time);
-
-            dimensionStack.Push(DimensionEnum.Time, t1);
-            double x1 = _signalCalculator.Calculate(dimensionStack);
-            dimensionStack.Pop(DimensionEnum.Time);
-
+            double x0 = x - remainder;
+            double x1 = x0 + _sampleLength;
             double dx = x1 - x0;
 
-            double a = dx / dt;
+            dimensionStack.Push(_dimensionIndex, x0);
+            double y0 = _signalCalculator.Calculate(dimensionStack);
+            dimensionStack.Pop(_dimensionIndex);
 
-            double x = x0 + a * (time - t0);
+            dimensionStack.Push(_dimensionIndex, x1);
+            double y1 = _signalCalculator.Calculate(dimensionStack);
+            dimensionStack.Pop(_dimensionIndex);
 
-            return x;
+            double dy = y1 - y0;
+
+            double a = dy / dx;
+
+            double y = y0 + a * (x - x0);
+
+            return y;
         }
     }
 }

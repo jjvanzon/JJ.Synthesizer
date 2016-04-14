@@ -11,6 +11,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _samplingRateCalculator;
+        private readonly int _dimensionIndex;
 
         private double _xMinus1;
         private double _x0;
@@ -24,7 +25,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public Resample_OperatorCalculator_CubicSmoothInclination(
             OperatorCalculatorBase signalCalculator, 
-            OperatorCalculatorBase samplingRateCalculator)
+            OperatorCalculatorBase samplingRateCalculator,
+            DimensionEnum dimensionEnum)
             : base(new OperatorCalculatorBase[] { signalCalculator, samplingRateCalculator })
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
@@ -35,17 +37,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             _signalCalculator = signalCalculator;
             _samplingRateCalculator = samplingRateCalculator;
+            _dimensionIndex = (int)dimensionEnum;
 
             ResetNonRecursive(new DimensionStack());
         }
 
         public override double Calculate(DimensionStack dimensionStack)
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double position = dimensionStack.Get(_dimensionIndex);
 
-            // TODO: What if times goes in reverse?
+            // TODO: What if position goes in reverse?
             // TODO: What if _x0 or _x1 are way off? How will it correct itself?
-            double x = time;
+            double x = position;
 
             // When x goes past _x1 you must shift things.
             if (x >= _x1)
@@ -59,16 +62,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 _y1 = _y2;
 
                 // Determine next sample
-                dimensionStack.Push(DimensionEnum.Time, _x1);
+                dimensionStack.Push(_dimensionIndex, _x1);
                 double samplingRate = GetSamplingRate(dimensionStack);
-                dimensionStack.Pop(DimensionEnum.Time);
+                dimensionStack.Pop(_dimensionIndex);
 
                 _dx1 = 1.0 / samplingRate;
                 _x2 = _x1 + _dx1;
 
-                dimensionStack.Push(DimensionEnum.Time, _x2);
+                dimensionStack.Push(_dimensionIndex, _x2);
                 _y2 = _signalCalculator.Calculate(dimensionStack);
-                dimensionStack.Pop(DimensionEnum.Time);
+                dimensionStack.Pop(_dimensionIndex);
             }
 
             double y = Interpolator.Interpolate_Cubic_SmoothInclination(
@@ -103,12 +106,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private void ResetNonRecursive(DimensionStack dimensionStack)
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double position = dimensionStack.Get(_dimensionIndex);
 
             _xMinus1 = CalculationHelper.VERY_LOW_VALUE;
-            _x0 = time - Double.Epsilon;
-            _x1 = time;
-            _x2 = time + Double.Epsilon;
+            _x0 = position - Double.Epsilon;
+            _x1 = position;
+            _x2 = position + Double.Epsilon;
             _dx1 = Double.Epsilon;
 
             // Assume values begin at 0

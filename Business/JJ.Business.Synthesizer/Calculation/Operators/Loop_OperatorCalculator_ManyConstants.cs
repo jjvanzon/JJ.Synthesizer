@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -14,9 +13,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _releaseEndMarker;
         private readonly OperatorCalculatorBase _noteDurationCalculator;
 
-        private readonly double _cycleDuration;
+        private readonly double _cycleLength;
         private readonly double _outputLoopStart;
-        private readonly double _releaseDuration;
+        private readonly double _releaseLength;
 
         public Loop_OperatorCalculator_ManyConstants(
             OperatorCalculatorBase signalCalculator,
@@ -24,9 +23,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double loopStartMarker,
             double loopEndMarker,
             double releaseEndMarker,
-            OperatorCalculatorBase noteDurationCalculator)
+            OperatorCalculatorBase noteDurationCalculator,
+            DimensionEnum dimensionEnum)
             : base(
                   signalCalculator,
+                  dimensionEnum,
                   new OperatorCalculatorBase[] 
                   {
                       signalCalculator,
@@ -39,55 +40,55 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _releaseEndMarker = releaseEndMarker;
             _noteDurationCalculator = noteDurationCalculator;
 
-            _cycleDuration = _loopEndMarker - _loopStartMarker;
+            _cycleLength = _loopEndMarker - _loopStartMarker;
             _outputLoopStart = _loopStartMarker - _skip;
-            _releaseDuration = _releaseEndMarker - _loopEndMarker;
+            _releaseLength = _releaseEndMarker - _loopEndMarker;
         }
 
-        protected override double? TransformTime(DimensionStack dimensionStack)
+        protected override double? TransformPosition(DimensionStack dimensionStack)
         {
-            double outputTime = dimensionStack.Get(DimensionEnum.Time);
+            double outputPosition = dimensionStack.Get(_dimensionIndex);
 
-            outputTime -= _origin;
+            outputPosition -= _origin;
 
             // BeforeAttack
-            double inputTime = outputTime + _skip;
-            bool isBeforeAttack = inputTime < _skip;
+            double inputPosition = outputPosition + _skip;
+            bool isBeforeAttack = inputPosition < _skip;
             if (isBeforeAttack)
             {
                 return null;
             }
 
             // InAttack
-            bool isInAttack = inputTime < _loopStartMarker;
+            bool isInAttack = inputPosition < _loopStartMarker;
             if (isInAttack)
             {
-                return inputTime;
+                return inputPosition;
             }
 
             // InLoop
             double noteDuration = GetNoteDuration(dimensionStack);
 
             // Round up end of loop to whole cycles.
-            double noteEndPhase = (noteDuration - _outputLoopStart) / _cycleDuration;
-            double outputLoopEnd = _outputLoopStart + Math.Ceiling(noteEndPhase) * _cycleDuration;
+            double noteEndPhase = (noteDuration - _outputLoopStart) / _cycleLength;
+            double outputLoopEnd = _outputLoopStart + Math.Ceiling(noteEndPhase) * _cycleLength;
 
-            bool isInLoop = outputTime < outputLoopEnd;
+            bool isInLoop = outputPosition < outputLoopEnd;
             if (isInLoop)
             {
-                double phase = (inputTime - _loopStartMarker) % _cycleDuration;
-                inputTime = _loopStartMarker + phase;
-                return inputTime;
+                double phase = (inputPosition - _loopStartMarker) % _cycleLength;
+                inputPosition = _loopStartMarker + phase;
+                return inputPosition;
             }
 
             // InRelease
-            double outputReleaseEndTime = outputLoopEnd + _releaseDuration;
-            bool isInRelease = outputTime < outputReleaseEndTime;
+            double outputReleaseEndPosition = outputLoopEnd + _releaseLength;
+            bool isInRelease = outputPosition < outputReleaseEndPosition;
             if (isInRelease)
             {
-                double positionInRelease = outputTime - outputLoopEnd;
-                inputTime = _loopEndMarker + positionInRelease;
-                return inputTime;
+                double positionInRelease = outputPosition - outputLoopEnd;
+                inputPosition = _loopEndMarker + positionInRelease;
+                return inputPosition;
             }
 
             // AfterRelease

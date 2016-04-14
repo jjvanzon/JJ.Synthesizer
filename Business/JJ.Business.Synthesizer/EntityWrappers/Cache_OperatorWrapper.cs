@@ -43,16 +43,22 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return OperatorHelper.GetOutlet(WrappedOperator, OperatorConstants.CACHE_RESULT_INDEX); }
         }
 
-        public InterpolationTypeEnum InterpolationTypeEnum
+        public InterpolationTypeEnum InterpolationType
         {
             get { return DataPropertyParser.GetEnum<InterpolationTypeEnum>(WrappedOperator, PropertyNames.InterpolationType); }
             set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.InterpolationType, value); }
         }
 
-        public SpeakerSetupEnum SpeakerSetupEnum
+        public SpeakerSetupEnum SpeakerSetup
         {
             get { return DataPropertyParser.GetEnum<SpeakerSetupEnum>(WrappedOperator, PropertyNames.SpeakerSetup); }
             set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.SpeakerSetup, value); }
+        }
+
+        public DimensionEnum Dimension
+        {
+            get { return DataPropertyParser.GetEnum<DimensionEnum>(WrappedOperator, PropertyNames.Dimension); }
+            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.Dimension, value); }
         }
 
         public override string GetInletDisplayName(int listIndex)

@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -14,15 +13,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private double _outputCycleEnd;
         private double _loopEndMarker;
-        private double _cycleDuration;
+        private double _cycleLength;
 
         public Loop_OperatorCalculator_NoSkipOrRelease(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase loopStartMarkerCalculator,
             OperatorCalculatorBase loopEndMarkerCalculator,
-            OperatorCalculatorBase noteDurationCalculator)
+            OperatorCalculatorBase noteDurationCalculator,
+            DimensionEnum dimensionEnum)
             : base(
-                  signalCalculator, new OperatorCalculatorBase[]
+                  signalCalculator, 
+                  dimensionEnum, 
+                  new OperatorCalculatorBase[]
                   {
                       signalCalculator,
                       loopStartMarkerCalculator,
@@ -35,15 +37,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _noteDurationCalculator = noteDurationCalculator;
         }
         
-        protected override double? TransformTime(DimensionStack dimensionStack)
+        protected override double? TransformPosition(DimensionStack dimensionStack)
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double position = dimensionStack.Get(_dimensionIndex);
 
             // Apply origin
-            time -= _origin;
+            position -= _origin;
             
             // BeforeAttack
-            bool isBeforeAttack = time < 0;
+            bool isBeforeAttack = position < 0;
             if (isBeforeAttack)
             {
                 return null;
@@ -51,27 +53,27 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             // BeforeLoop
             double loopStartMarker = GetLoopStartMarker(dimensionStack);
-            bool isInAttack = time < loopStartMarker;
+            bool isInAttack = position < loopStartMarker;
             if (isInAttack)
             {
-                return time;
+                return position;
             }
 
             // InLoop
             double noteDuration = GetNoteDuration(dimensionStack);
-            bool isInLoop = time < noteDuration;
+            bool isInLoop = position < noteDuration;
             if (isInLoop)
             {
-                if (time > _outputCycleEnd)
+                if (position > _outputCycleEnd)
                 {
                     _loopEndMarker = GetLoopEndMarker(dimensionStack);
-                    _cycleDuration = _loopEndMarker - loopStartMarker;
-                    _outputCycleEnd += _cycleDuration;
+                    _cycleLength = _loopEndMarker - loopStartMarker;
+                    _outputCycleEnd += _cycleLength;
                 }
 
-                double phase = (time - loopStartMarker) % _cycleDuration;
-                double inputTime = loopStartMarker + phase;
-                return inputTime;
+                double phase = (position - loopStartMarker) % _cycleLength;
+                double inputPosition = loopStartMarker + phase;
+                return inputPosition;
             }
 
             // AfterLoop
@@ -94,13 +96,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private double GetLoopEndMarker(DimensionStack dimensionStack)
         {
-            double inputEndTime = 0;
+            double inputEndPosition = 0;
             if (_loopEndMarkerCalculator != null)
             {
-                inputEndTime = _loopEndMarkerCalculator.Calculate(dimensionStack);
+                inputEndPosition = _loopEndMarkerCalculator.Calculate(dimensionStack);
             }
 
-            return inputEndTime;
+            return inputEndPosition;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

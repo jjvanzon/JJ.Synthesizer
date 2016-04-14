@@ -15,16 +15,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private OperatorCalculatorBase _signalCalculator;
         private OperatorCalculatorBase _samplingRateCalculator;
+        private readonly int _dimensionIndex;
 
-        private double _t0 = CalculationHelper.VERY_HIGH_VALUE;
-        private double _t1 = CalculationHelper.VERY_LOW_VALUE;
-        private double _x0;
-        private double _x1;
+        private double _x0 = CalculationHelper.VERY_HIGH_VALUE;
+        private double _x1 = CalculationHelper.VERY_LOW_VALUE;
+        private double _y0;
+        private double _y1;
         private double _a;
 
         public Resample_OperatorCalculator_LineRememberT1(
             OperatorCalculatorBase signalCalculator, 
-            OperatorCalculatorBase samplingRateCalculator)
+            OperatorCalculatorBase samplingRateCalculator,
+            DimensionEnum dimensionEnum)
             : base(new OperatorCalculatorBase[]
             {
                 signalCalculator, 
@@ -39,20 +41,21 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             _signalCalculator = signalCalculator;
             _samplingRateCalculator = samplingRateCalculator;
+            _dimensionIndex = (int)dimensionEnum;
         }
 
         public override double Calculate(DimensionStack dimensionStack)
         {
-            double t = dimensionStack.Get(DimensionEnum.Time);
+            double x = dimensionStack.Get(_dimensionIndex);
 
-            if (t > _t1)
+            if (x > _x1)
             {
-                _t0 = _t1;
                 _x0 = _x1;
+                _y0 = _y1;
 
-                dimensionStack.Push(DimensionEnum.Time, _t1);
+                dimensionStack.Push(_dimensionIndex, _x1);
                 double samplingRate = GetSamplingRate(dimensionStack);
-                dimensionStack.Pop(DimensionEnum.Time);
+                dimensionStack.Pop(_dimensionIndex);
 
                 if (samplingRate == 0) // Minimum samplingRate value might become variable in the near future, so could be 0.
                 {
@@ -60,27 +63,27 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 }
                 else
                 {
-                    double dt = 1.0 / samplingRate;
+                    double dx = 1.0 / samplingRate;
 
-                    _t1 += dt;
+                    _x1 += dx;
 
-                    dimensionStack.Push(DimensionEnum.Time, _t1);
-                    _x1 = _signalCalculator.Calculate(dimensionStack);
-                    dimensionStack.Pop(DimensionEnum.Time);
+                    dimensionStack.Push(_dimensionIndex, _x1);
+                    _y1 = _signalCalculator.Calculate(dimensionStack);
+                    dimensionStack.Pop(_dimensionIndex);
 
-                    double dx = _x1 - _x0;
-                    _a = dx / dt;
+                    double dy = _y1 - _y0;
+                    _a = dy / dx;
                 }
             }
-            else if (t < _t0)
+            else if (x < _x0)
             {
-                // Time going in reverse, take sample reverse in time.
-                _t1 = _t0;
+                // Going in reverse, take sample in reverse position.
                 _x1 = _x0;
+                _y1 = _y0;
 
-                dimensionStack.Push(DimensionEnum.Time, _t0);
+                dimensionStack.Push(_dimensionIndex, _x0);
                 double samplingRate = GetSamplingRate(dimensionStack);
-                dimensionStack.Pop(DimensionEnum.Time);
+                dimensionStack.Pop(_dimensionIndex);
 
                 if (samplingRate == 0)
                 {
@@ -88,21 +91,21 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 }
                 else
                 {
-                    double dt = 1.0 / samplingRate;
+                    double dx = 1.0 / samplingRate;
 
-                    _t0 -= dt;
+                    _x0 -= dx;
 
-                    dimensionStack.Push(DimensionEnum.Time, _t0);
-                    _x0 = _signalCalculator.Calculate(dimensionStack);
-                    dimensionStack.Pop(DimensionEnum.Time);
+                    dimensionStack.Push(_dimensionIndex, _x0);
+                    _y0 = _signalCalculator.Calculate(dimensionStack);
+                    dimensionStack.Pop(_dimensionIndex);
 
-                    double dx = _x1 - _x0;
-                    _a = dx / dt;
+                    double dy = _y1 - _y0;
+                    _a = dy / dx;
                 }
             }
 
-            double x = _x0 + _a * (t - _t0);
-            return x;
+            double y = _y0 + _a * (x - _x0);
+            return y;
         }
 
         /// <summary>
@@ -111,7 +114,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         /// </summary>
         private double GetSamplingRate(DimensionStack dimensionStack)
         {
-            // _t1 was recently (2015-08-22) corrected to t which might make time going in reverse work better.
+            // _x1 was recently (2015-08-22) corrected to x which might make going in reverse work better.
             double samplingRate = _samplingRateCalculator.Calculate(dimensionStack);
 
             samplingRate = Math.Abs(samplingRate);

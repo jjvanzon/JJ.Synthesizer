@@ -42,6 +42,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelOperatorTypeTitle.Text = Titles.Type + ":";
             labelOperatorTypeValue.Text = PropertyDisplayNames.Random;
             labelInterpolation.Text = PropertyDisplayNames.Interpolation;
+            labelDimension.Text = PropertyDisplayNames.Dimension;
         }
 
         private void ApplyStyling()
@@ -56,14 +57,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (ViewModel == null) return;
 
             textBoxName.Text = ViewModel.Name;
-
+            
+            // Interpolation
             if (comboBoxInterpolation.DataSource == null)
             {
                 comboBoxInterpolation.ValueMember = PropertyNames.ID;
                 comboBoxInterpolation.DisplayMember = PropertyNames.Name;
                 comboBoxInterpolation.DataSource = ViewModel.InterpolationLookup;
             }
-
             if (ViewModel.Interpolation != null)
             {
                 comboBoxInterpolation.SelectedValue = ViewModel.Interpolation.ID;
@@ -71,6 +72,22 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             else
             {
                 comboBoxInterpolation.SelectedValue = 0;
+            }
+
+            // Dimension
+            if (comboBoxDimension.DataSource == null)
+            {
+                comboBoxDimension.ValueMember = PropertyNames.ID;
+                comboBoxDimension.DisplayMember = PropertyNames.Name;
+                comboBoxDimension.DataSource = ViewModel.DimensionLookup;
+            }
+            if (ViewModel.Dimension != null)
+            {
+                comboBoxDimension.SelectedValue = ViewModel.Dimension.ID;
+            }
+            else
+            {
+                comboBoxDimension.SelectedValue = 0;
             }
         }
 
@@ -80,6 +97,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             ViewModel.Name = textBoxName.Text;
             ViewModel.Interpolation = (IDAndName)comboBoxInterpolation.SelectedItem;
+            ViewModel.Dimension = (IDAndName)comboBoxDimension.SelectedItem;
         }
 
         // Actions

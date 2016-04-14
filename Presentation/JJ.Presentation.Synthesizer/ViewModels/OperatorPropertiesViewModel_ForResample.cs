@@ -12,10 +12,12 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public int PatchID { get; internal set; }
         public string Name { get; set; }
 
-        public IDAndName Interpolation { get; set; }
-        public IList<IDAndName> InterpolationLookup { get; set; }
-
         /// <summary> not editable </summary>
         public OperatorTypeViewModel OperatorType { get; set; }
+
+        public IDAndName Interpolation { get; set; }
+        public IList<IDAndName> InterpolationLookup { get; set; }
+        public IDAndName Dimension { get; set; }
+        public IList<IDAndName> DimensionLookup { get; set; }
     }
 }

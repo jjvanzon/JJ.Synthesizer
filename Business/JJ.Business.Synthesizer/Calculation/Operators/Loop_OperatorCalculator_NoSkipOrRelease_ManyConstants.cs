@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -13,15 +12,17 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _loopEndMarker;
         private readonly OperatorCalculatorBase _noteDurationCalculator;
 
-        private readonly double _cycleDuration;
+        private readonly double _cycleLength;
 
         public Loop_OperatorCalculator_NoSkipOrRelease_ManyConstants(
             OperatorCalculatorBase signalCalculator,
             double loopStartMarker,
             double loopEndMarker,
-            OperatorCalculatorBase noteDurationCalculator)
+            OperatorCalculatorBase noteDurationCalculator,
+            DimensionEnum dimensionEnum)
             : base(
                   signalCalculator,
+                  dimensionEnum,
                   new OperatorCalculatorBase[]
                   {
                       signalCalculator,
@@ -32,37 +33,37 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _loopEndMarker = loopEndMarker;
             _noteDurationCalculator = noteDurationCalculator;
 
-            _cycleDuration = _loopEndMarker - _loopStartMarker;
+            _cycleLength = _loopEndMarker - _loopStartMarker;
         }
 
-        protected override double? TransformTime(DimensionStack dimensionStack)
+        protected override double? TransformPosition(DimensionStack dimensionStack)
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double position = dimensionStack.Get(_dimensionIndex);
 
-            time -= _origin;
+            position -= _origin;
 
             // BeforeAttack
-            bool isBeforeAttack = time < 0;
+            bool isBeforeAttack = position < 0;
             if (isBeforeAttack)
             {
                 return 0;
             }
 
             // BeforeLoop
-            bool isInAttack = time < _loopStartMarker;
+            bool isInAttack = position < _loopStartMarker;
             if (isInAttack)
             {
-                return time;
+                return position;
             }
 
             // InLoop
             double noteDuration = GetNoteDuration(dimensionStack);
-            bool isInLoop = time < noteDuration;
+            bool isInLoop = position < noteDuration;
             if (isInLoop)
             {
-                double phase = (time - _loopStartMarker) % _cycleDuration;
-                double inputTime = _loopStartMarker + phase;
-                return inputTime;
+                double phase = (position - _loopStartMarker) % _cycleLength;
+                double inputPosition = _loopStartMarker + phase;
+                return inputPosition;
             }
 
             // AfterLoop

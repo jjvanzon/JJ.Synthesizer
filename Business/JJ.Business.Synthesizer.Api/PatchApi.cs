@@ -51,9 +51,13 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.And(a, b);
         }
 
-        public Average_OperatorWrapper Average(Outlet signal = null, Outlet timeSliceDuration = null, Outlet sampleCount = null)
+        public Average_OperatorWrapper Average(
+            Outlet signal = null, 
+            Outlet timeSliceDuration = null, 
+            Outlet sampleCount = null,
+            DimensionEnum dimension = DimensionEnum.Time)
         {
-            return _patchManager.Average(signal, timeSliceDuration, sampleCount);
+            return _patchManager.Average(signal, timeSliceDuration, sampleCount, dimension);
         }
 
         public ChangeTrigger_OperatorWrapper ChangeTrigger(Outlet calculation, Outlet reset)
@@ -66,13 +70,21 @@ namespace JJ.Business.Synthesizer.Api
             Outlet startTime = null,
             Outlet endTime = null,
             Outlet samplingRate = null,
-            InterpolationTypeEnum interpolationTypeEnum = InterpolationTypeEnum.Line,
-            SpeakerSetupEnum speakerSetupEnum = SpeakerSetupEnum.Mono)
+            InterpolationTypeEnum interpolationType = InterpolationTypeEnum.Line,
+            SpeakerSetupEnum speakerSetup = SpeakerSetupEnum.Mono,
+            DimensionEnum dimension = DimensionEnum.Time)
         {
-            return _patchManager.Cache(signal, startTime, endTime, samplingRate, interpolationTypeEnum, speakerSetupEnum);
+            return _patchManager.Cache(
+                signal, 
+                startTime, 
+                endTime, 
+                samplingRate, 
+                interpolationType, 
+                speakerSetup, 
+                dimension);
         }
 
-        public Curve_OperatorWrapper Curve(Curve curve = null, DimensionEnum dimension = DimensionEnum.Undefined)
+        public Curve_OperatorWrapper Curve(Curve curve = null, DimensionEnum dimension = DimensionEnum.Time)
         {
             return _patchManager.Curve(curve, dimension);
         }
@@ -99,9 +111,12 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.CustomOperator(underlyingPatch, operands);
         }
 
-        public Delay_OperatorWrapper Delay(Outlet signal = null, Outlet timeDifference = null)
+        public Delay_OperatorWrapper Delay(
+            Outlet signal = null,
+            Outlet timeDifference = null,
+            DimensionEnum dimension = DimensionEnum.Time)
         {
-            return _patchManager.Delay(signal, timeDifference);
+            return _patchManager.Delay(signal, timeDifference, dimension);
         }
 
         public Divide_OperatorWrapper Divide(Outlet numerator = null, Outlet denominator = null, Outlet origin = null)
@@ -109,9 +124,12 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Divide(numerator, denominator, origin);
         }
 
-        public Earlier_OperatorWrapper Earlier(Outlet signal = null, Outlet timeDifference = null)
+        public Earlier_OperatorWrapper Earlier(
+            Outlet signal = null, 
+            Outlet timeDifference = null,
+            DimensionEnum dimension = DimensionEnum.Time)
         {
-            return _patchManager.Earlier(signal, timeDifference);
+            return _patchManager.Earlier(signal, timeDifference, dimension);
         }
 
         public Equal_OperatorWrapper Equal(Outlet a = null, Outlet b = null)
@@ -176,9 +194,10 @@ namespace JJ.Business.Synthesizer.Api
             Outlet loopStartMarker = null,
             Outlet loopEndMarker = null,
             Outlet releaseEndMarker = null,
-            Outlet noteDuration = null)
+            Outlet noteDuration = null,
+            DimensionEnum dimension = DimensionEnum.Time)
         {
-            return _patchManager.Loop(signal, skip, loopStartMarker, loopEndMarker, releaseEndMarker, noteDuration);
+            return _patchManager.Loop(signal, skip, loopStartMarker, loopEndMarker, releaseEndMarker, noteDuration, dimension);
         }
 
         public LowPassFilter_OperatorWrapper LowPassFilter(Outlet signal = null, Outlet maxFrequency = null)
@@ -186,14 +205,22 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.LowPassFilter(signal, maxFrequency);
         }
 
-        public Maximum_OperatorWrapper Maximum(Outlet signal = null, Outlet timeSliceDuration = null, Outlet sampleCount = null)
+        public Maximum_OperatorWrapper Maximum(
+            Outlet signal = null, 
+            Outlet timeSliceDuration = null, 
+            Outlet sampleCount = null,
+            DimensionEnum dimension = DimensionEnum.Time)
         {
-            return _patchManager.Maximum(signal, timeSliceDuration, sampleCount);
+            return _patchManager.Maximum(signal, timeSliceDuration, sampleCount, dimension);
         }
 
-        public Minimum_OperatorWrapper Minimum(Outlet signal = null, Outlet timeSliceDuration = null, Outlet sampleCount = null)
+        public Minimum_OperatorWrapper Minimum(
+            Outlet signal = null, 
+            Outlet timeSliceDuration = null, 
+            Outlet sampleCount = null,
+            DimensionEnum dimension = DimensionEnum.Time)
         {
-            return _patchManager.Minimum(signal, timeSliceDuration, sampleCount);
+            return _patchManager.Minimum(signal, timeSliceDuration, sampleCount, dimension);
         }
 
         public Multiply_OperatorWrapper Multiply(Outlet a = null, Outlet b = null, Outlet origin = null)
@@ -201,9 +228,13 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Multiply(a, b, origin);
         }
 
-        public Narrower_OperatorWrapper Narrower(Outlet signal = null, Outlet factor = null, Outlet origin = null)
+        public Narrower_OperatorWrapper Narrower(
+            Outlet signal = null, 
+            Outlet factor = null, 
+            Outlet origin = null,
+            DimensionEnum dimension = DimensionEnum.Time)
         {
-            return _patchManager.Narrower(signal, factor, origin);
+            return _patchManager.Narrower(signal, factor, origin, dimension);
         }
 
         public Negative_OperatorWrapper Negative(Outlet x = null)
@@ -211,9 +242,9 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Negative(x);
         }
 
-        public Noise_OperatorWrapper Noise()
+        public Noise_OperatorWrapper Noise(DimensionEnum dimension = DimensionEnum.Time)
         {
-            return _patchManager.Noise();
+            return _patchManager.Noise(dimension);
         }
 
         public Not_OperatorWrapper Not(Outlet x = null)
@@ -246,9 +277,9 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.PatchInlet();
         }
 
-        public PatchInlet_OperatorWrapper PatchInlet(DimensionEnum dimensionEnum)
+        public PatchInlet_OperatorWrapper PatchInlet(DimensionEnum dimension)
         {
-            return _patchManager.PatchInlet(dimensionEnum);
+            return _patchManager.PatchInlet(dimension);
         }
 
         public PatchInlet_OperatorWrapper PatchInlet(string name)
@@ -261,9 +292,9 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.PatchInlet(name, defaultValue);
         }
 
-        public PatchInlet_OperatorWrapper PatchInlet(DimensionEnum dimensionEnum, double defaultValue)
+        public PatchInlet_OperatorWrapper PatchInlet(DimensionEnum dimension, double defaultValue)
         {
-            return _patchManager.PatchInlet(dimensionEnum, defaultValue);
+            return _patchManager.PatchInlet(dimension, defaultValue);
         }
 
         public PatchOutlet_OperatorWrapper PatchOutlet(Outlet input = null)
@@ -286,9 +317,13 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Power(@base, exponent);
         }
 
-        public Pulse_OperatorWrapper Pulse(Outlet frequency = null, Outlet width = null, Outlet phaseShift = null)
+        public Pulse_OperatorWrapper Pulse(
+            Outlet frequency = null, 
+            Outlet width = null, 
+            Outlet phaseShift = null,
+            DimensionEnum dimension = DimensionEnum.Time)
         {
-            return _patchManager.Pulse(frequency, width, phaseShift);
+            return _patchManager.Pulse(frequency, width, phaseShift, dimension);
         }
 
         public PulseTrigger_OperatorWrapper PulseTrigger(Outlet calculation, Outlet reset)
@@ -296,17 +331,21 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.PulseTrigger(calculation, reset);
         }
 
-        public Random_OperatorWrapper Random(Outlet rate = null, Outlet phaseShift = null)
+        public Random_OperatorWrapper Random(
+            Outlet rate = null, 
+            Outlet phaseShift = null,
+            DimensionEnum dimension = DimensionEnum.Time)
         {
-            return _patchManager.Random(rate, phaseShift);
+            return _patchManager.Random(rate, phaseShift, dimension);
         }
 
         public Resample_OperatorWrapper Resample(
             Outlet signal = null,
             Outlet samplingRate = null,
-            ResampleInterpolationTypeEnum interpolationType = ResampleInterpolationTypeEnum.CubicSmoothInclination)
+            ResampleInterpolationTypeEnum interpolationType = ResampleInterpolationTypeEnum.CubicSmoothInclination,
+            DimensionEnum dimension = DimensionEnum.Time)
         {
-            return _patchManager.Resample(signal, samplingRate, interpolationType);
+            return _patchManager.Resample(signal, samplingRate, interpolationType, dimension);
         }
 
         public Reset_OperatorWrapper Reset(Outlet operand = null)
@@ -314,9 +353,12 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Reset(operand);
         }
 
-        public Reverse_OperatorWrapper Reverse(Outlet signal = null, Outlet speed = null)
+        public Reverse_OperatorWrapper Reverse(
+            Outlet signal = null, 
+            Outlet speed = null,
+            DimensionEnum dimension = DimensionEnum.Time)
         {
-            return _patchManager.Reverse(signal, speed);
+            return _patchManager.Reverse(signal, speed, dimension);
         }
 
         public Round_OperatorWrapper Round(Outlet signal = null, Outlet step = null, Outlet offset = null)
@@ -324,19 +366,25 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Round(signal, step, offset);
         }
 
-        public Sample_OperatorWrapper Sample(Sample sample = null)
+        public Sample_OperatorWrapper Sample(Sample sample = null, DimensionEnum dimension = DimensionEnum.Time)
         {
-            return _patchManager.Sample(sample);
+            return _patchManager.Sample(sample, dimension);
         }
 
-        public SawDown_OperatorWrapper SawDown(Outlet frequency = null, Outlet phaseShift = null)
+        public SawDown_OperatorWrapper SawDown(
+            Outlet frequency = null, 
+            Outlet phaseShift = null,
+            DimensionEnum dimension = DimensionEnum.Time)
         {
-            return _patchManager.SawDown(frequency, phaseShift);
+            return _patchManager.SawDown(frequency, phaseShift, dimension);
         }
 
-        public SawUp_OperatorWrapper SawUp(Outlet frequency = null, Outlet phaseShift = null)
+        public SawUp_OperatorWrapper SawUp(
+            Outlet frequency = null, 
+            Outlet phaseShift = null, 
+            DimensionEnum dimension = DimensionEnum.Time)
         {
-            return _patchManager.SawUp(frequency, phaseShift);
+            return _patchManager.SawUp(frequency, phaseShift, dimension);
         }
 
         public Scaler_OperatorWrapper Scaler(
@@ -349,7 +397,10 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Scaler(signal, sourceValueA, sourceValueB, targetValueA, targetValueB);
         }
 
-        public Select_OperatorWrapper Select(Outlet signal = null, Outlet position = null, DimensionEnum dimension = DimensionEnum.Undefined)
+        public Select_OperatorWrapper Select(
+            Outlet signal = null, 
+            Outlet position = null, 
+            DimensionEnum dimension = DimensionEnum.Undefined)
         {
             return _patchManager.Select(signal, position, dimension);
         }
@@ -359,19 +410,28 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.SetDimension(calculation, value, dimension);
         }
 
-        public Shift_OperatorWrapper Shift(Outlet signal = null, Outlet difference = null)
+        public Shift_OperatorWrapper Shift(
+            Outlet signal = null, 
+            Outlet difference = null,
+            DimensionEnum dimension = DimensionEnum.Time)
         {
-            return _patchManager.Shift(signal, difference);
+            return _patchManager.Shift(signal, difference, dimension);
         }
 
-        public Sine_OperatorWrapper Sine(Outlet frequency = null, Outlet phaseShift = null)
+        public Sine_OperatorWrapper Sine(
+            Outlet frequency = null, 
+            Outlet phaseShift = null, 
+            DimensionEnum dimension = DimensionEnum.Time)
         {
-            return _patchManager.Sine(frequency, phaseShift);
+            return _patchManager.Sine(frequency, phaseShift, dimension);
         }
 
-        public SlowDown_OperatorWrapper SlowDown(Outlet signal = null, Outlet factor = null)
+        public SlowDown_OperatorWrapper SlowDown(
+            Outlet signal = null, 
+            Outlet factor = null,
+            DimensionEnum dimension = DimensionEnum.Time)
         {
-            return _patchManager.SlowDown(signal, factor);
+            return _patchManager.SlowDown(signal, factor, dimension);
         }
 
         public Spectrum_OperatorWrapper Spectrum(
@@ -383,17 +443,27 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Spectrum(signal, startTime, endTime, samplingRate);
         }
 
-        public SpeedUp_OperatorWrapper SpeedUp(Outlet signal = null, Outlet factor = null)
+        public SpeedUp_OperatorWrapper SpeedUp(
+            Outlet signal = null, 
+            Outlet factor = null,
+            DimensionEnum dimension = DimensionEnum.Time)
         {
-            return _patchManager.SpeedUp(signal, factor);
+            return _patchManager.SpeedUp(signal, factor, dimension);
         }
 
-        public Square_OperatorWrapper Square(Outlet frequency = null, Outlet phaseShift = null)
+        public Square_OperatorWrapper Square(
+            Outlet frequency = null, 
+            Outlet phaseShift = null,
+            DimensionEnum dimension = DimensionEnum.Time)
         {
-            return _patchManager.Square(frequency, phaseShift);
+            return _patchManager.Square(frequency, phaseShift, dimension);
         }
 
-        public Stretch_OperatorWrapper Stretch(Outlet signal = null, Outlet factor = null, Outlet origin = null, DimensionEnum dimension = DimensionEnum.Time)
+        public Stretch_OperatorWrapper Stretch(
+            Outlet signal = null, 
+            Outlet factor = null, 
+            Outlet origin = null, 
+            DimensionEnum dimension = DimensionEnum.Time)
         {
             return _patchManager.Stretch(signal, factor, origin, dimension);
         }
@@ -403,9 +473,13 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Subtract(a, b);
         }
 
-        public TimePower_OperatorWrapper TimePower(Outlet signal = null, Outlet exponent = null, Outlet origin = null)
+        public TimePower_OperatorWrapper TimePower(
+            Outlet signal = null, 
+            Outlet exponent = null, 
+            Outlet origin = null,
+            DimensionEnum dimension = DimensionEnum.Time)
         {
-            return _patchManager.TimePower(signal, exponent, origin);
+            return _patchManager.TimePower(signal, exponent, origin, dimension);
         }
 
         public ToggleTrigger_OperatorWrapper ToggleTrigger(Outlet calculation, Outlet reset)
@@ -413,9 +487,12 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.ToggleTrigger(calculation, reset);
         }
 
-        public Triangle_OperatorWrapper Triangle(Outlet frequency = null, Outlet phaseShift = null)
+        public Triangle_OperatorWrapper Triangle(
+            Outlet frequency = null, 
+            Outlet phaseShift = null,
+            DimensionEnum dimension = DimensionEnum.Time)
         {
-            return _patchManager.Triangle(frequency, phaseShift);
+            return _patchManager.Triangle(frequency, phaseShift, dimension);
         }
 
         public IPatchCalculator CreateCalculator(CalculatorCache calculatorCache, params Outlet[] channelOutlets)

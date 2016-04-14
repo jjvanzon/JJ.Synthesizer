@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Collections;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -12,8 +11,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Minimum_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase timeSliceDurationCalculator,
-            OperatorCalculatorBase sampleCountCalculator)
-            : base(signalCalculator, timeSliceDurationCalculator, sampleCountCalculator)
+            OperatorCalculatorBase sampleCountCalculator,
+            DimensionEnum dimensionEnum)
+            : base(signalCalculator, timeSliceDurationCalculator, sampleCountCalculator, dimensionEnum)
         { }
 
         protected override double GetMaximumOrMinimum(RedBlackTree<double, double> redBlackTree)

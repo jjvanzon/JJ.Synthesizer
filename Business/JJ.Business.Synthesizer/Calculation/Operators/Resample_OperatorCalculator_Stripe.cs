@@ -10,44 +10,46 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _samplingRateCalculator;
+        private readonly int _dimensionIndex;
 
         public Resample_OperatorCalculator_Stripe(
             OperatorCalculatorBase signalCalculator,
-            OperatorCalculatorBase samplingRateCalculator)
-            : base(signalCalculator, samplingRateCalculator)
+            OperatorCalculatorBase samplingRateCalculator,
+            DimensionEnum dimensionEnum)
+            : base(signalCalculator, samplingRateCalculator, dimensionEnum)
         {
-            if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Number_OperatorCalculator) throw new IsNotTypeException<Number_OperatorCalculator>(() => signalCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
             if (samplingRateCalculator == null) throw new NullException(() => samplingRateCalculator);
             // TODO: Resample with constant sampling rate does not have specialized calculators yet. Reactivate code line after those specialized calculators have been programmed.
             //if (samplingRateCalculator is Number_OperatorCalculator) throw new IsNotTypeException<Number_OperatorCalculator>(() => samplingRateCalculator);
 
             _signalCalculator = signalCalculator;
             _samplingRateCalculator = samplingRateCalculator;
+            _dimensionIndex = (int)dimensionEnum;
         }
 
         public override double Calculate(DimensionStack dimensionStack)
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double position = dimensionStack.Get(_dimensionIndex);
 
             double samplingRate = _samplingRateCalculator.Calculate(dimensionStack);
             if (samplingRate == 0.0)
             {
                 // Weird number: Cannot divide by 0. Time stands still. Do not advance the signal.
-                return _x0;
+                return _value0;
             }
 
             // Derived from the following:
-            // sampleDuration = 1.0 / samplingRate;
-            // timeShift = sampleDuration / 2.0;
-            double earlierTimeShiftToGetFromBlockedToStriped = 0.5 / samplingRate;
+            // sampleLength = 1.0 / samplingRate;
+            // shift = sampleLength / 2.0;
+            double earlierPositionShiftToGetFromBlockedToStriped = 0.5 / samplingRate;
 
             // IMPORTANT: To subtract time from the output, you have add time to the input.
-            double transformedTime = time + earlierTimeShiftToGetFromBlockedToStriped;
+            double transformedPosition = position + earlierPositionShiftToGetFromBlockedToStriped;
 
-            dimensionStack.Push(DimensionEnum.Time, transformedTime);
+            dimensionStack.Push(_dimensionIndex, transformedPosition);
             double value = Calculate(dimensionStack, samplingRate);
-            dimensionStack.Pop(DimensionEnum.Time);
+            dimensionStack.Pop(_dimensionIndex);
 
             return value;
         }

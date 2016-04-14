@@ -41,9 +41,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             labelName.Text = CommonTitles.Name;
             labelOperatorTypeTitle.Text = Titles.Type + ":";
-            labelSample.Text = PropertyDisplayNames.Sample;
-
             labelOperatorTypeValue.Text = PropertyDisplayNames.Sample;
+            labelSample.Text = PropertyDisplayNames.Sample;
+            labelDimension.Text = PropertyDisplayNames.Dimension;
         }
 
         private void ApplyStyling()
@@ -59,6 +59,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             textBoxName.Text = ViewModel.Name;
 
+            // Sample
             if (ViewModel.Sample != null)
             {
                 comboBoxSample.SelectedValue = ViewModel.Sample.ID;
@@ -66,6 +67,22 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             else
             {
                 comboBoxSample.SelectedValue = 0;
+            }
+
+            // Dimension
+            if (comboBoxDimension.DataSource == null)
+            {
+                comboBoxDimension.ValueMember = PropertyNames.ID;
+                comboBoxDimension.DisplayMember = PropertyNames.Name;
+                comboBoxDimension.DataSource = ViewModel.DimensionLookup;
+            }
+            if (ViewModel.Dimension != null)
+            {
+                comboBoxDimension.SelectedValue = ViewModel.Dimension.ID;
+            }
+            else
+            {
+                comboBoxDimension.SelectedValue = 0;
             }
         }
 
@@ -83,20 +100,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
-        private int? TryGetSelectedSampleID()
-        {
-            if (comboBoxSample.DataSource == null) return null;
-            IDAndName idAndName = (IDAndName)comboBoxSample.SelectedItem;
-            if (idAndName == null) return null;
-            return idAndName.ID;
-        }
-
         private void ApplyControlsToViewModel()
         {
             if (ViewModel == null) return;
 
             ViewModel.Name = textBoxName.Text;
             ViewModel.Sample = (IDAndName)comboBoxSample.SelectedItem;
+            ViewModel.Dimension = (IDAndName)comboBoxDimension.SelectedItem;
         }
 
         // Actions
@@ -136,6 +146,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 LoseFocus();
             }
+        }
+
+        // Helpers
+
+        private int? TryGetSelectedSampleID()
+        {
+            if (comboBoxSample.DataSource == null) return null;
+            IDAndName idAndName = (IDAndName)comboBoxSample.SelectedItem;
+            if (idAndName == null) return null;
+            return idAndName.ID;
         }
     }
 

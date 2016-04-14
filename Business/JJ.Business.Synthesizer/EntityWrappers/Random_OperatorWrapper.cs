@@ -35,10 +35,16 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX); }
         }
 
-        public ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum
+        public ResampleInterpolationTypeEnum ResampleInterpolationType
         {
             get { return DataPropertyParser.GetEnum<ResampleInterpolationTypeEnum>(WrappedOperator, PropertyNames.InterpolationType); }
             set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.InterpolationType, value); }
+        }
+
+        public DimensionEnum Dimension
+        {
+            get { return DataPropertyParser.GetEnum<DimensionEnum>(WrappedOperator, PropertyNames.Dimension); }
+            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.Dimension, value); }
         }
 
         public override string GetInletDisplayName(int listIndex)

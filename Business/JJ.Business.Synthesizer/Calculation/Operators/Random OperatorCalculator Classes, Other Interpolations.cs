@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Calculation.Random;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -15,7 +16,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             RandomCalculatorBase randomCalculator,
             double randomCalculatorOffset,
             OperatorCalculatorBase rateCalculator,
-            OperatorCalculatorBase phaseShiftCalculator)
+            OperatorCalculatorBase phaseShiftCalculator,
+            DimensionEnum dimensionEnum)
             : base(new OperatorCalculatorBase[] { rateCalculator, phaseShiftCalculator })
         {
             // HACK in a piece of patch, to reuse the Resample_OperatorCalculator's capability of
@@ -23,12 +25,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             // Create a second Random operator calculator.
             var randomCalculator2 = new Random_OperatorCalculator_BlockAndStripe_VarFrequency_VarPhaseShift(
-                randomCalculator, randomCalculatorOffset, rateCalculator, phaseShiftCalculator);
+                randomCalculator, randomCalculatorOffset, rateCalculator, phaseShiftCalculator, dimensionEnum);
 
             // Lead their outputs to a Resample operator calculator
             _resampleOperator = new Resample_OperatorCalculator_LineRememberT0(
                 signalCalculator: randomCalculator2,
-                samplingRateCalculator: rateCalculator);
+                samplingRateCalculator: rateCalculator,
+                dimensionEnum: dimensionEnum);
         }
 
         public override double Calculate(DimensionStack dimensionStack)
@@ -51,7 +54,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             RandomCalculatorBase randomCalculator,
             double randomCalculatorOffset,
             OperatorCalculatorBase rateCalculator,
-            OperatorCalculatorBase phaseShiftCalculator)
+            OperatorCalculatorBase phaseShiftCalculator,
+            DimensionEnum dimensionEnum)
             : base(new OperatorCalculatorBase[] { rateCalculator, phaseShiftCalculator })
         {
             // HACK in a piece of patch, to reuse the Resample_OperatorCalculator's capability of
@@ -59,12 +63,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             // Create a second Random operator calculator.
             var randomCalculator2 = new Random_OperatorCalculator_BlockAndStripe_VarFrequency_VarPhaseShift(
-                randomCalculator, randomCalculatorOffset, rateCalculator, phaseShiftCalculator);
+                randomCalculator, randomCalculatorOffset, rateCalculator, phaseShiftCalculator, dimensionEnum);
 
             // Lead their outputs to a Resample operator calculator
             _resampleOperator = new Resample_OperatorCalculator_LineRememberT1(
                 signalCalculator: randomCalculator2,
-                samplingRateCalculator: rateCalculator);
+                samplingRateCalculator: rateCalculator,
+                dimensionEnum: dimensionEnum);
         }
 
         public override double Calculate(DimensionStack dimensionStack)
@@ -87,7 +92,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             RandomCalculatorBase randomCalculator,
             double randomCalculatorOffset,
             OperatorCalculatorBase rateCalculator,
-            OperatorCalculatorBase phaseShiftCalculator)
+            OperatorCalculatorBase phaseShiftCalculator,
+            DimensionEnum dimensionEnum)
             : base(new OperatorCalculatorBase[] { rateCalculator, phaseShiftCalculator })
         {
             // HACK in a piece of patch, to reuse the Resample_OperatorCalculator's capability of
@@ -95,12 +101,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             // Create a second Random operator calculator.
             var randomCalculator2 = new Random_OperatorCalculator_BlockAndStripe_VarFrequency_VarPhaseShift(
-                randomCalculator, randomCalculatorOffset, rateCalculator, phaseShiftCalculator);
+                randomCalculator, randomCalculatorOffset, rateCalculator, phaseShiftCalculator, dimensionEnum);
 
             // Lead their outputs to a Resample operator calculator
             _resampleOperator = new Resample_OperatorCalculator_CubicEquidistant(
                 signalCalculator: randomCalculator2,
-                samplingRateCalculator: rateCalculator);
+                samplingRateCalculator: rateCalculator,
+                dimensionEnum: dimensionEnum);
         }
 
         public override double Calculate(DimensionStack dimensionStack)
@@ -123,7 +130,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             RandomCalculatorBase randomCalculator,
             double randomCalculatorOffset,
             OperatorCalculatorBase rateCalculator,
-            OperatorCalculatorBase phaseShiftCalculator)
+            OperatorCalculatorBase phaseShiftCalculator,
+            DimensionEnum dimensionEnum)
             : base(new OperatorCalculatorBase[] { rateCalculator, phaseShiftCalculator })
         {
             // HACK in a piece of patch, to reuse the Resample_OperatorCalculator's capability of
@@ -131,12 +139,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             // Create a second Random operator calculator.
             var randomCalculator2 = new Random_OperatorCalculator_BlockAndStripe_VarFrequency_VarPhaseShift(
-                randomCalculator, randomCalculatorOffset, rateCalculator, phaseShiftCalculator);
+                randomCalculator, randomCalculatorOffset, rateCalculator, phaseShiftCalculator, dimensionEnum);
 
             // Lead their outputs to a Resample operator calculator
             _resampleOperator = new Resample_OperatorCalculator_CubicAbruptInclination(
                 signalCalculator: randomCalculator2,
-                samplingRateCalculator: rateCalculator);
+                samplingRateCalculator: rateCalculator, 
+                dimensionEnum: dimensionEnum);
         }
 
         public override double Calculate(DimensionStack dimensionStack)
@@ -159,7 +168,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             RandomCalculatorBase randomCalculator,
             double randomCalculatorOffset,
             OperatorCalculatorBase rateCalculator,
-            OperatorCalculatorBase phaseShiftCalculator)
+            OperatorCalculatorBase phaseShiftCalculator,
+            DimensionEnum dimensionEnum)
             : base(new OperatorCalculatorBase[] { rateCalculator, phaseShiftCalculator })
         {
             // HACK in a piece of patch, to reuse the Resample_OperatorCalculator's capability of
@@ -167,12 +177,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             // Create a second Random operator calculator.
             var randomCalculator2 = new Random_OperatorCalculator_BlockAndStripe_VarFrequency_VarPhaseShift(
-                randomCalculator, randomCalculatorOffset, rateCalculator, phaseShiftCalculator);
+                randomCalculator, randomCalculatorOffset, rateCalculator, phaseShiftCalculator, dimensionEnum);
 
             // Lead their outputs to a Resample operator calculator
             _resampleOperator = new Resample_OperatorCalculator_CubicSmoothInclination(
                 signalCalculator: randomCalculator2,
-                samplingRateCalculator: rateCalculator);
+                samplingRateCalculator: rateCalculator,
+                dimensionEnum: dimensionEnum);
         }
 
         public override double Calculate(DimensionStack dimensionStack)
@@ -195,7 +206,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             RandomCalculatorBase randomCalculator,
             double randomCalculatorOffset,
             OperatorCalculatorBase rateCalculator,
-            OperatorCalculatorBase phaseShiftCalculator)
+            OperatorCalculatorBase phaseShiftCalculator,
+            DimensionEnum dimensionEnum)
             : base(new OperatorCalculatorBase[] { rateCalculator, phaseShiftCalculator })
         {
             // HACK in a piece of patch, to reuse the Resample_OperatorCalculator's capability of
@@ -203,12 +215,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             // Create a second Random operator calculator.
             var randomCalculator2 = new Random_OperatorCalculator_BlockAndStripe_VarFrequency_VarPhaseShift(
-                randomCalculator, randomCalculatorOffset, rateCalculator, phaseShiftCalculator);
+                randomCalculator, randomCalculatorOffset, rateCalculator, phaseShiftCalculator, dimensionEnum);
 
             // Lead their outputs to a Resample operator calculator
             _resampleOperator = new Resample_OperatorCalculator_Hermite(
                 signalCalculator: randomCalculator2,
-                samplingRateCalculator: rateCalculator);
+                samplingRateCalculator: rateCalculator,
+                dimensionEnum: dimensionEnum);
         }
 
         public override double Calculate(DimensionStack dimensionStack)

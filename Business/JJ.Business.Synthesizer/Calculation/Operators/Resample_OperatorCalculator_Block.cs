@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Reflection.Exceptions;
 
@@ -12,13 +10,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _samplingRateCalculator;
+        private readonly int _dimensionIndex;
 
-        private double _t0;
-        protected double _x0;
+        private double _position0;
+        protected double _value0;
 
         public Resample_OperatorCalculator_Block(
             OperatorCalculatorBase signalCalculator,
-            OperatorCalculatorBase samplingRateCalculator)
+            OperatorCalculatorBase samplingRateCalculator,
+            DimensionEnum dimensionEnum)
             : base(new OperatorCalculatorBase[] { signalCalculator, samplingRateCalculator })
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
@@ -29,6 +29,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             _signalCalculator = signalCalculator;
             _samplingRateCalculator = samplingRateCalculator;
+            _dimensionIndex = (int)dimensionEnum;
         }
 
         public override double Calculate(DimensionStack dimensionStack)
@@ -41,24 +42,24 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         /// <summary> This extra overload prevents additional invokations of the _samplingRateCalculator in derived classes </summary>
         protected double Calculate(DimensionStack dimensionStack, double samplingRate)
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double position = dimensionStack.Get(_dimensionIndex);
 
-            double tOffset = time - _t0;
-            double sampleCount = tOffset * samplingRate;
+            double offset = position - _position0;
+            double sampleCount = offset * samplingRate;
             sampleCount = Math.Truncate(sampleCount);
 
             if (sampleCount != 0.0)
             {
-                _t0 += sampleCount / samplingRate;
+                _position0 += sampleCount / samplingRate;
 
-                dimensionStack.Push(DimensionEnum.Time, _t0);
+                dimensionStack.Push(_dimensionIndex, _position0);
 
-                _x0 = _signalCalculator.Calculate(dimensionStack);
+                _value0 = _signalCalculator.Calculate(dimensionStack);
 
-                dimensionStack.Pop(DimensionEnum.Time);
+                dimensionStack.Pop(_dimensionIndex);
             }
 
-            return _x0;
+            return _value0;
         }
     }
 }

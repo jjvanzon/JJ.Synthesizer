@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                   OperatorTypeEnum.Sample,
                   expectedInletCount: 1,
                   expectedOutletCount: 1,
-                  allowedDataKeys: new string[] { PropertyNames.SampleID })
+                  allowedDataKeys: new string[] { PropertyNames.Dimension, PropertyNames.SampleID })
         { }
 
         protected override void Execute()
@@ -29,6 +29,12 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             if (DataPropertyParser.DataIsWellFormed(op))
             {
+                string dimensionString = DataPropertyParser.TryGetString(op, PropertyNames.Dimension);
+                For(() => dimensionString, PropertyNames.Dimension)
+                    .NotNullOrEmpty()
+                    .IsEnum<DimensionEnum>()
+                    .IsNot(DimensionEnum.Undefined);
+
                 string sampleIDString = DataPropertyParser.TryGetString(op, PropertyNames.SampleID);
 
                 For(() => sampleIDString, PropertyDisplayNames.SampleID).IsInteger();

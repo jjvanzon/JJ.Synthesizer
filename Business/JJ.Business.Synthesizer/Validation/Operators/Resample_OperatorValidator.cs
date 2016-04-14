@@ -9,23 +9,31 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     {
         public Resample_OperatorValidator(Operator obj)
             : base(
-                  obj, 
-                  OperatorTypeEnum.Resample, 
-                  expectedInletCount: 2, 
+                  obj,
+                  OperatorTypeEnum.Resample,
+                  expectedInletCount: 2,
                   expectedOutletCount: 1,
-                  allowedDataKeys: new string[] { PropertyNames.InterpolationType })
+                  allowedDataKeys: new string[] { PropertyNames.InterpolationType, PropertyNames.Dimension })
         { }
 
         protected override void Execute()
         {
             base.Execute();
 
-            string interpolationTypeString = DataPropertyParser.TryGetString(Object, PropertyNames.InterpolationType);
+            if (DataPropertyParser.DataIsWellFormed(Object))
+            {
+                string interpolationTypeString = DataPropertyParser.TryGetString(Object, PropertyNames.InterpolationType);
+                For(() => interpolationTypeString, PropertyDisplayNames.InterpolationType)
+                    .NotNullOrEmpty()
+                    .IsEnum<ResampleInterpolationTypeEnum>()
+                    .IsNot(ResampleInterpolationTypeEnum.Undefined);
 
-            For(() => interpolationTypeString, PropertyDisplayNames.InterpolationType)
-                .NotNullOrEmpty()
-                .IsEnum<ResampleInterpolationTypeEnum>()
-                .IsNot(ResampleInterpolationTypeEnum.Undefined);
+                string dimensionString = DataPropertyParser.TryGetString(Object, PropertyNames.Dimension);
+                For(() => dimensionString, PropertyNames.Dimension)
+                    .NotNullOrEmpty()
+                    .IsEnum<DimensionEnum>()
+                    .IsNot(DimensionEnum.Undefined);
+            }
         }
     }
 }

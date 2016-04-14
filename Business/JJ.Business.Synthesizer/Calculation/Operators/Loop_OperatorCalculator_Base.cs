@@ -8,50 +8,53 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal abstract class Loop_OperatorCalculator_Base : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
+        protected readonly int _dimensionIndex;
         protected double _origin;
 
         public Loop_OperatorCalculator_Base(
             OperatorCalculatorBase signalCalculator,
+            DimensionEnum dimensionEnum,
             IList<OperatorCalculatorBase> childOperatorCalculators)
             : base(childOperatorCalculators)
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
 
             _signalCalculator = signalCalculator;
+            _dimensionIndex = (int)dimensionEnum;
         }
 
-        protected abstract double? TransformTime(DimensionStack dimensionStack);
+        protected abstract double? TransformPosition(DimensionStack dimensionStack);
 
         public override void Reset(DimensionStack dimensionStack)
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double position = dimensionStack.Get(_dimensionIndex);
 
-            _origin = time;
+            _origin = position;
 
-            double? transformedTime = TransformTime(dimensionStack);
-            if (!transformedTime.HasValue)
+            double? transformedPosition = TransformPosition(dimensionStack);
+            if (!transformedPosition.HasValue)
             {
                 // TODO: There is no meaningful value to fall back to.
                 // What to do?
-                transformedTime = time;
+                transformedPosition = position;
             }
 
-            dimensionStack.Push(DimensionEnum.Time, transformedTime.Value);
+            dimensionStack.Push(_dimensionIndex, transformedPosition.Value);
             base.Reset(dimensionStack);
-            dimensionStack.Pop(DimensionEnum.Time);
+            dimensionStack.Pop(_dimensionIndex);
         }
 
         public override double Calculate(DimensionStack dimensionStack)
         {
-            double? transformedTime = TransformTime(dimensionStack);
-            if (!transformedTime.HasValue)
+            double? transformedPosition = TransformPosition(dimensionStack);
+            if (!transformedPosition.HasValue)
             {
                 return 0;
             }
 
-            dimensionStack.Push(DimensionEnum.Time, transformedTime.Value);
+            dimensionStack.Push(_dimensionIndex, transformedPosition.Value);
             double value = _signalCalculator.Calculate(dimensionStack);
-            dimensionStack.Pop(DimensionEnum.Time);
+            dimensionStack.Pop(_dimensionIndex);
 
             return value;
         }

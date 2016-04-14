@@ -324,6 +324,7 @@
     <Compile Include="Validation\Operators\Absolute_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\SetDimension_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\GetDimension_OperatorValidator.cs" />
+    <Compile Include="Validation\Operators\OperatorValidator_Base_WithDimension.cs" />
     <Compile Include="Validation\Operators\ToggleTrigger_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_Data.cs" />
     <Compile Include="Validation\Operators\OneOverX_OperatorValidator.cs" />

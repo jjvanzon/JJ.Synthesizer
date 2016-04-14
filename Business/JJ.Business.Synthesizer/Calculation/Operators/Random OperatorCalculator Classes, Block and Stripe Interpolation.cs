@@ -14,15 +14,17 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _randomCalculatorOffset;
         private readonly OperatorCalculatorBase _rateCalculator;
         private readonly OperatorCalculatorBase _phaseShiftCalculator;
+        private readonly int _dimensionIndex;
 
         private double _phase;
-        private double _previousTime;
+        private double _previousPosition;
 
         public Random_OperatorCalculator_BlockAndStripe_VarFrequency_VarPhaseShift(
             RandomCalculatorBase randomCalculator,
             double randomCalculatorOffset,
             OperatorCalculatorBase rateCalculator,
-            OperatorCalculatorBase phaseShiftCalculator)
+            OperatorCalculatorBase phaseShiftCalculator,
+            DimensionEnum dimensionEnum)
             : base(new OperatorCalculatorBase[] { rateCalculator, phaseShiftCalculator })
         {
             if (randomCalculator == null) throw new NullException(() => randomCalculator);
@@ -34,6 +36,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _randomCalculatorOffset = randomCalculatorOffset;
             _rateCalculator = rateCalculator;
             _phaseShiftCalculator = phaseShiftCalculator;
+            _dimensionIndex = (int)dimensionEnum;
 
             // TODO: Make sure you asser this strictly, so it does not become NaN.
             _phase = _randomCalculatorOffset;
@@ -41,13 +44,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override double Calculate(DimensionStack dimensionStack)
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double position = dimensionStack.Get(_dimensionIndex);
 
             double rate = _rateCalculator.Calculate(dimensionStack);
             double phaseShift = _phaseShiftCalculator.Calculate(dimensionStack);
 
-            double dt = time - _previousTime;
-            double phase = _phase + dt * rate;
+            double positionChange = position - _previousPosition;
+            double phase = _phase + positionChange * rate;
 
             // Prevent phase from becoming a special number, rendering it unusable forever.
             if (Double.IsNaN(phase) || Double.IsInfinity(phase))
@@ -60,16 +63,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             double value = _randomCalculator.GetValue(_phase);
 
-            _previousTime = time;
+            _previousPosition = position;
 
             return value;
         }
 
         public override void Reset(DimensionStack dimensionStack)
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double position = dimensionStack.Get(_dimensionIndex);
 
-            _previousTime = time;
+            _previousPosition = position;
             _phase = _randomCalculatorOffset;
 
             base.Reset(dimensionStack);

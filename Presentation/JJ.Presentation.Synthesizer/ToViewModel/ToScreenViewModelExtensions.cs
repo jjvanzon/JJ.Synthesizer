@@ -315,12 +315,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (patch == null) throw new NullException(() => patch);
 
-            return patch.GetOperatorsOfType(OperatorTypeEnum.GetDimension)
-                        .Union(patch.GetOperatorsOfType(OperatorTypeEnum.SetDimension))
-                        .Union(patch.GetOperatorsOfType(OperatorTypeEnum.Stretch))
-                        .Union(patch.GetOperatorsOfType(OperatorTypeEnum.Select))
-                        .Select(x => x.ToPropertiesViewModel_WithDimension())
-                        .ToList();
+            return patch.Operators.Where(x => ViewModelHelper.OperatorTypeEnums_WithDimensionPropertyViews.Contains(x.GetOperatorTypeEnum()))
+                                  .Select(x => x.ToPropertiesViewModel_WithDimension())
+                                  .ToList();
         }
 
         public static IList<OperatorPropertiesViewModel_ForFilter> ToPropertiesViewModelList_ForFilters(this Patch patch)
@@ -448,10 +445,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ID = entity.ID,
                 PatchID = entity.Patch.ID,
                 Name = entity.Name,
-                Interpolation = wrapper.InterpolationTypeEnum.ToIDAndDisplayName(),
+                Interpolation = wrapper.InterpolationType.ToIDAndDisplayName(),
                 InterpolationLookup = ViewModelHelper.CreateInterpolationTypeLookupViewModel(interpolationTypeRepository),
-                SpeakerSetup = wrapper.SpeakerSetupEnum.ToIDAndDisplayName(),
+                SpeakerSetup = wrapper.SpeakerSetup.ToIDAndDisplayName(),
                 SpeakerSetupLookup = ViewModelHelper.CreateSpeakerSetupLookupViewModel(),
+                Dimension = wrapper.Dimension.ToIDAndDisplayName(),
+                DimensionLookup = ViewModelHelper.CreateDimensionLookupViewModel(),
                 ValidationMessages = new List<Message>()
             };
 
@@ -650,8 +649,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ID = entity.ID,
                 PatchID = entity.Patch.ID,
                 Name = entity.Name,
-                Interpolation = wrapper.ResampleInterpolationTypeEnum.ToIDAndDisplayName(),
+                Interpolation = wrapper.ResampleInterpolationType.ToIDAndDisplayName(),
                 InterpolationLookup = ViewModelHelper.CreateResampleInterpolationLookupViewModel(),
+                Dimension = wrapper.Dimension.ToIDAndDisplayName(),
+                DimensionLookup = ViewModelHelper.CreateDimensionLookupViewModel(),
                 ValidationMessages = new List<Message>()
             };
 
@@ -671,6 +672,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Name = entity.Name,
                 Interpolation = wrapper.InterpolationType.ToIDAndDisplayName(),
                 InterpolationLookup = ViewModelHelper.CreateResampleInterpolationLookupViewModel(),
+                Dimension = wrapper.Dimension.ToIDAndDisplayName(),
+                DimensionLookup = ViewModelHelper.CreateDimensionLookupViewModel(),
                 ValidationMessages = new List<Message>()
             };
 
@@ -681,15 +684,17 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
 
+            var wrapper = new Sample_OperatorWrapper(entity, sampleRepository);
+
             var viewModel = new OperatorPropertiesViewModel_ForSample
             {
                 ID = entity.ID,
                 PatchID = entity.Patch.ID,
                 Name = entity.Name,
+                Dimension = wrapper.Dimension.ToIDAndDisplayName(),
+                DimensionLookup = ViewModelHelper.CreateDimensionLookupViewModel(),
                 ValidationMessages = new List<Message>()
             };
-
-            var wrapper = new Sample_OperatorWrapper(entity, sampleRepository);
 
             Sample sample = wrapper.Sample;
             if (sample != null)

@@ -10,8 +10,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _timeSliceDurationCalculator;
         private readonly OperatorCalculatorBase _sampleCountCalculator;
+        private readonly int _dimensionIndex;
 
-        private double _sampleDuration;
+        private double _sampleLength;
         private double _sampleCountDouble;
 
         private Queue<double> _queue;
@@ -19,12 +20,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _sum;
         private double _average;
         private double _previousTime;
-        private double _passedSampleTime;
+        private double _passedSamplingLength;
 
         public Average_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase timeSliceDurationCalculator,
-            OperatorCalculatorBase sampleCountCalculator)
+            OperatorCalculatorBase sampleCountCalculator,
+            DimensionEnum dimensionEnum)
             : base(new OperatorCalculatorBase[]
             {
                 signalCalculator,
@@ -40,27 +42,29 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _timeSliceDurationCalculator = timeSliceDurationCalculator;
             _sampleCountCalculator = sampleCountCalculator;
 
+            _dimensionIndex = (int)dimensionEnum;
+
             Reset(new DimensionStack());
         }
 
         public override double Calculate(DimensionStack dimensionStack)
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double position = dimensionStack.Get(_dimensionIndex);
 
             // Update _passedSampleTime
-            double dt = time - _previousTime;
-            if (dt >= 0)
+            double positionChange = position - _previousTime;
+            if (positionChange >= 0)
             {
-                _passedSampleTime += dt;
+                _passedSamplingLength += positionChange;
             }
             else
             {
                 // Substitute for Math.Abs().
-                // This makes it work for time that goes in reverse and even time that quickly goes back and forth.
-                _passedSampleTime -= dt;
+                // This makes it work for changes that go in reverse and even position changes that quickly goes back and forth.
+                _passedSamplingLength -= positionChange;
             }
 
-            if (_passedSampleTime >= _sampleDuration)
+            if (_passedSamplingLength >= _sampleLength)
             {
                 // Use a queueing trick to update the average without traversing a whole list.
                 // This also makes the average update more continually.
@@ -76,23 +80,23 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 // It may not be arithmetically perfect, that we ignore the fact that
                 // _passedSampleTime may be significantly greater than _sampleDuration,
                 // but in practice for this application it might not matter very much.
-                _passedSampleTime = 0.0;
+                _passedSamplingLength = 0.0;
             }
 
-            _previousTime = time;
+            _previousTime = position;
 
             return _average;
         }
 
         public override void Reset(DimensionStack dimensionStack)
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double position = dimensionStack.Get(_dimensionIndex);
 
-            _previousTime = time;
+            _previousTime = position;
 
             _sum = 0.0;
             _average = 0.0;
-            _passedSampleTime = 0.0;
+            _passedSamplingLength = 0.0;
 
             double timeSliceDuration = _timeSliceDurationCalculator.Calculate(dimensionStack);
             _sampleCountDouble = _sampleCountCalculator.Calculate(dimensionStack);
@@ -106,7 +110,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 _sampleCountDouble = 0.0;
             }
 
-            _sampleDuration = timeSliceDuration / _sampleCountDouble;
+            _sampleLength = timeSliceDuration / _sampleCountDouble;
 
             _queue = CreateQueue(_sampleCountDouble);
 

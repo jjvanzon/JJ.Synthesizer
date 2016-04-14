@@ -12,56 +12,58 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     /// </summary>
     internal class Resample_OperatorCalculator_LineWithVaryingAlignment : OperatorCalculatorBase_WithChildCalculators
     {
-        private OperatorCalculatorBase _signalCalculator;
-        private OperatorCalculatorBase _samplingRateCalculator;
+        private readonly OperatorCalculatorBase _signalCalculator;
+        private readonly OperatorCalculatorBase _samplingRateCalculator;
+        private readonly int _dimensionIndex;
 
         public Resample_OperatorCalculator_LineWithVaryingAlignment(
             OperatorCalculatorBase signalCalculator, 
-            OperatorCalculatorBase samplingRateCalculator)
+            OperatorCalculatorBase samplingRateCalculator,
+            DimensionEnum dimensionEnum)
             : base(new OperatorCalculatorBase[]
             {
                 signalCalculator,
                 samplingRateCalculator
             })
         {
-            if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Number_OperatorCalculator) throw new IsNotTypeException<Number_OperatorCalculator>(() => signalCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
             if (samplingRateCalculator == null) throw new NullException(() => samplingRateCalculator);
             // TODO: Resample with constant sampling rate does not have specialized calculators yet. Reactivate code line after those specialized calculators have been programmed.
             //if (samplingRateCalculator is Number_OperatorCalculator) throw new IsNotTypeException<Number_OperatorCalculator>(() => samplingRateCalculator);
 
             _signalCalculator = signalCalculator;
             _samplingRateCalculator = samplingRateCalculator;
+            _dimensionIndex = (int)dimensionEnum;
         }
 
         public override double Calculate(DimensionStack dimensionStack)
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double x = dimensionStack.Get(_dimensionIndex);
 
             double samplingRate = _samplingRateCalculator.Calculate(dimensionStack);
 
-            double samplePeriod = 1.0 / samplingRate;
+            double sampleLength = 1.0 / samplingRate;
 
-            double remainder = time % samplePeriod;
+            double remainder = x % sampleLength;
 
-            double t0 = time - remainder;
-            double t1 = t0 + samplePeriod;
-            double dt = t1 - t0;
-
-            dimensionStack.Push(DimensionEnum.Time, t0);
-            double x0 = _signalCalculator.Calculate(dimensionStack);
-            dimensionStack.Pop(DimensionEnum.Time);
-
-            dimensionStack.Push(DimensionEnum.Time, t1);
-            double x1 = _signalCalculator.Calculate(dimensionStack);
-            dimensionStack.Pop(DimensionEnum.Time);
-
+            double x0 = x - remainder;
+            double x1 = x0 + sampleLength;
             double dx = x1 - x0;
 
-            double a = dx / dt;
+            dimensionStack.Push(_dimensionIndex, x0);
+            double y0 = _signalCalculator.Calculate(dimensionStack);
+            dimensionStack.Pop(_dimensionIndex);
 
-            double x = x0 + a * (time - t0);
-            return x;
+            dimensionStack.Push(_dimensionIndex, x1);
+            double y1 = _signalCalculator.Calculate(dimensionStack);
+            dimensionStack.Pop(_dimensionIndex);
+
+            double dy = y1 - y0;
+
+            double a = dy / dx;
+
+            double y = y0 + a * (x - x0);
+            return y;
         }
     }
 }

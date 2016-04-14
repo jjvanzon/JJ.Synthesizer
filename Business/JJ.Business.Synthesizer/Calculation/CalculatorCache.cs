@@ -104,7 +104,7 @@ namespace JJ.Business.Synthesizer.Calculation
                 {
                     var wrapper = new Cache_OperatorWrapper(op);
 
-                    SpeakerSetup speakerSetup = speakerSetupRepository.Get((int)wrapper.SpeakerSetupEnum);
+                    SpeakerSetup speakerSetup = speakerSetupRepository.Get((int)wrapper.SpeakerSetup);
                     int channelCount = speakerSetup.SpeakerSetupChannels.Count;
 
                     arrayCalculators = CreateCacheArrayCalculators(
@@ -113,7 +113,7 @@ namespace JJ.Business.Synthesizer.Calculation
                         startTime,
                         endTime,
                         samplingRate,
-                        wrapper.InterpolationTypeEnum);
+                        wrapper.InterpolationType);
 
                     _cacheOperatorID_To_ArrayCalculators_Dictionary.Add(op.ID, arrayCalculators);
                 }

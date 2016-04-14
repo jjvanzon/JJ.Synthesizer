@@ -8,33 +8,40 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _timeDifferenceCalculator;
+        private readonly int _dimensionIndex;
 
-        public Delay_OperatorCalculator(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase timeDifferenceCalculator)
-            : base(new OperatorCalculatorBase[] { signalCalculator, timeDifferenceCalculator })
+        public Delay_OperatorCalculator(
+            OperatorCalculatorBase signalCalculator, 
+            OperatorCalculatorBase timeDifferenceCalculator,
+            DimensionEnum dimensionEnum)
+            : base(new OperatorCalculatorBase[] 
+            {
+                signalCalculator,
+                timeDifferenceCalculator
+            })
         {
-            if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => signalCalculator);
-            if (timeDifferenceCalculator == null) throw new NullException(() => timeDifferenceCalculator);
-            if (timeDifferenceCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => timeDifferenceCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(timeDifferenceCalculator, () => timeDifferenceCalculator);
 
             _signalCalculator = signalCalculator;
             _timeDifferenceCalculator = timeDifferenceCalculator;
+            _dimensionIndex = (int)dimensionEnum;
         }
 
         public override double Calculate(DimensionStack dimensionStack)
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double position = dimensionStack.Get(_dimensionIndex);
 
             double timeDifference = _timeDifferenceCalculator.Calculate(dimensionStack);
 
             // IMPORTANT: To add time to the output, you have subtract time from the input.
-            double transformedTime = time - timeDifference;
+            double transformedPosition = position - timeDifference;
 
-            dimensionStack.Push(DimensionEnum.Time, transformedTime);
+            dimensionStack.Push(_dimensionIndex, transformedPosition);
 
             double result = _signalCalculator.Calculate(dimensionStack);
 
-            dimensionStack.Pop(DimensionEnum.Time);
+            dimensionStack.Pop(_dimensionIndex);
 
             return result;
         }
@@ -44,31 +51,33 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _timeDifferenceValue;
+        private readonly int _dimensionIndex;
 
         public Delay_VarSignal_ConstTimeDifference_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
-            double timeDifferenceValue)
+            double timeDifferenceValue,
+            DimensionEnum dimensionEnum)
             : base(new OperatorCalculatorBase[] { signalCalculator })
         {
-            if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => signalCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
 
             _signalCalculator = signalCalculator;
             _timeDifferenceValue = timeDifferenceValue;
+            _dimensionIndex = (int)dimensionEnum;
         }
 
         public override double Calculate(DimensionStack dimensionStack)
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double position = dimensionStack.Get(_dimensionIndex);
 
             // IMPORTANT: To add time to the output, you have subtract time from the input.
-            double transformedTime = time - _timeDifferenceValue;
+            double transformedPosition = position - _timeDifferenceValue;
 
-            dimensionStack.Push(DimensionEnum.Time, transformedTime);
+            dimensionStack.Push(_dimensionIndex, transformedPosition);
 
             double result = _signalCalculator.Calculate(dimensionStack);
 
-            dimensionStack.Pop(DimensionEnum.Time);
+            dimensionStack.Pop(_dimensionIndex);
 
             return result;
         }

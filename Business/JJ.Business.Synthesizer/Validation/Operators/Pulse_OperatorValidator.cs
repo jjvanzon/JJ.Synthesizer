@@ -3,7 +3,7 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class Pulse_OperatorValidator : OperatorValidator_Base_WithoutData
+    internal class Pulse_OperatorValidator : OperatorValidator_Base_WithDimension
     {
         public Pulse_OperatorValidator(Operator obj)
             : base(obj, OperatorTypeEnum.Pulse, expectedInletCount: 3, expectedOutletCount: 1)

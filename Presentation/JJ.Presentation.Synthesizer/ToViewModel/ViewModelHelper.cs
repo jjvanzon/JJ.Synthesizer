@@ -23,13 +23,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
     {
         private static readonly bool _previewAutoPatchPolyphonicEnabled = GetPreviewAutoPatchPolyphonicEnabled();
 
-        private static HashSet<OperatorTypeEnum> _operatorTypeEnums_WithCustomPropertyViews = new HashSet<OperatorTypeEnum>
+        private static HashSet<OperatorTypeEnum> _operatorTypeEnums_WithTheirOwnPropertyViews = new HashSet<OperatorTypeEnum>
         {
             OperatorTypeEnum.Bundle,
             OperatorTypeEnum.Cache,
             OperatorTypeEnum.Curve,
             OperatorTypeEnum.CustomOperator,
-            OperatorTypeEnum.GetDimension,
             OperatorTypeEnum.Filter,
             OperatorTypeEnum.Number,
             OperatorTypeEnum.PatchInlet,
@@ -39,13 +38,44 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.Sample,
             OperatorTypeEnum.Select,
             OperatorTypeEnum.Stretch,
-            OperatorTypeEnum.SetDimension,
             OperatorTypeEnum.Unbundle
+        };
+
+        private static HashSet<OperatorTypeEnum> _operatorTypeEnums_WithDimensionPropertyViews = new HashSet<OperatorTypeEnum>
+        {
+            OperatorTypeEnum.Average,
+            OperatorTypeEnum.Delay,
+            OperatorTypeEnum.Earlier,
+            OperatorTypeEnum.GetDimension,
+            OperatorTypeEnum.Loop,
+            OperatorTypeEnum.Maximum,
+            OperatorTypeEnum.Minimum,
+            OperatorTypeEnum.Narrower,
+            OperatorTypeEnum.Noise,
+            OperatorTypeEnum.Pulse,
+            OperatorTypeEnum.Reverse,
+            OperatorTypeEnum.SawDown,
+            OperatorTypeEnum.SawUp,
+            OperatorTypeEnum.Select,
+            OperatorTypeEnum.SetDimension,
+            OperatorTypeEnum.Shift,
+            OperatorTypeEnum.Sine,
+            OperatorTypeEnum.SlowDown,
+            OperatorTypeEnum.SpeedUp,
+            OperatorTypeEnum.Square,
+            OperatorTypeEnum.Stretch,
+            OperatorTypeEnum.TimePower,
+            OperatorTypeEnum.Triangle
         };
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithTheirOwnPropertyViews
         {
-            get { return _operatorTypeEnums_WithCustomPropertyViews; }
+            get { return _operatorTypeEnums_WithTheirOwnPropertyViews; }
+        }
+
+        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithDimensionPropertyViews
+        {
+            get { return _operatorTypeEnums_WithDimensionPropertyViews; }
         }
 
         public static CurrentPatchesViewModel CreateCurrentPatchesViewModel(IList<Document> childDocuments)

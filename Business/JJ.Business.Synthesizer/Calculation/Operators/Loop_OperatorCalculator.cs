@@ -20,9 +20,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase loopStartMarkerCalculator,
             OperatorCalculatorBase loopEndMarkerCalculator,
             OperatorCalculatorBase releaseEndMarkerCalculator,
-            OperatorCalculatorBase noteDurationCalculator)
+            OperatorCalculatorBase noteDurationCalculator,
+            DimensionEnum dimensionEnum)
             : base(
                   signalCalculator,
+                  dimensionEnum,
                   new OperatorCalculatorBase[]
                   {
                       signalCalculator,
@@ -42,14 +44,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         /// <summary> Returns null if before attack or after release. </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected override double? TransformTime(DimensionStack dimensionStack)
+        protected override double? TransformPosition(DimensionStack dimensionStack)
         {
-            double outputTime = dimensionStack.Get(DimensionEnum.Time);
+            double outputPosition = dimensionStack.Get(_dimensionIndex);
 
             // BeforeAttack
             double skip = GetSkip(dimensionStack);
-            double inputTime = outputTime + skip;
-            bool isBeforeAttack = inputTime < skip;
+            double inputPosition = outputPosition + skip;
+            bool isBeforeAttack = inputPosition < skip;
             if (isBeforeAttack)
             {
                 return null;
@@ -57,40 +59,40 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             // InAttack
             double loopStartMarker = GetLoopStartMarker(dimensionStack);
-            bool isInAttack = inputTime < loopStartMarker;
+            bool isInAttack = inputPosition < loopStartMarker;
             if (isInAttack)
             {
-                return inputTime;
+                return inputPosition;
             }
 
             // InLoop
             double noteDuration = GetNoteDuration(dimensionStack);
             double loopEndMarker = GetLoopEndMarker(dimensionStack);
-            double cycleDuration = loopEndMarker - loopStartMarker;
+            double cycleLength = loopEndMarker - loopStartMarker;
 
             // Round up end of loop to whole cycles.
             double outputLoopStart = loopStartMarker - skip;
-            double noteEndPhase = (noteDuration - outputLoopStart) / cycleDuration;
-            double outputLoopEnd = outputLoopStart + Math.Ceiling(noteEndPhase) * cycleDuration;
+            double noteEndPhase = (noteDuration - outputLoopStart) / cycleLength;
+            double outputLoopEnd = outputLoopStart + Math.Ceiling(noteEndPhase) * cycleLength;
 
-            bool isInLoop = outputTime < outputLoopEnd;
+            bool isInLoop = outputPosition < outputLoopEnd;
             if (isInLoop)
             {
-                double phase = (inputTime - loopStartMarker) % cycleDuration;
-                inputTime = loopStartMarker + phase;
-                return inputTime;
+                double phase = (inputPosition - loopStartMarker) % cycleLength;
+                inputPosition = loopStartMarker + phase;
+                return inputPosition;
             }
 
             // InRelease
             double releaseEndMarker = GetReleaseEndMarker(dimensionStack);
-            double releaseDuration = releaseEndMarker - loopEndMarker;
-            double outputReleaseEndTime = outputLoopEnd + releaseDuration;
-            bool isInRelease = outputTime < outputReleaseEndTime;
+            double releaseLength = releaseEndMarker - loopEndMarker;
+            double outputReleaseEndPosition = outputLoopEnd + releaseLength;
+            bool isInRelease = outputPosition < outputReleaseEndPosition;
             if (isInRelease)
             {
-                double positionInRelease = outputTime - outputLoopEnd;
-                inputTime = loopEndMarker + positionInRelease;
-                return inputTime;
+                double positionInRelease = outputPosition - outputLoopEnd;
+                inputPosition = loopEndMarker + positionInRelease;
+                return inputPosition;
             }
 
             // AfterRelease

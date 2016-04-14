@@ -42,7 +42,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelOperatorTypeTitle.Text = Titles.Type + ":";
             labelInterpolation.Text = PropertyDisplayNames.Interpolation;
             labelSpeakerSetup.Text = PropertyDisplayNames.SpeakerSetup;
-
+            labelDimension.Text = PropertyDisplayNames.Dimension;
             labelOperatorTypeValue.Text = PropertyDisplayNames.Cache;
         }
 
@@ -64,7 +64,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 comboBoxInterpolation.DisplayMember = PropertyNames.Name;
                 comboBoxInterpolation.DataSource = ViewModel.InterpolationLookup;
             }
-
             if (ViewModel.Interpolation != null)
             {
                 comboBoxInterpolation.SelectedValue = ViewModel.Interpolation.ID;
@@ -81,7 +80,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 comboBoxSpeakerSetup.DisplayMember = PropertyNames.Name;
                 comboBoxSpeakerSetup.DataSource = ViewModel.SpeakerSetupLookup;
             }
-
             if (ViewModel.SpeakerSetup != null)
             {
                 comboBoxSpeakerSetup.SelectedValue = ViewModel.SpeakerSetup.ID;
@@ -89,6 +87,22 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             else
             {
                 comboBoxSpeakerSetup.SelectedValue = 0;
+            }
+
+            // Dimension
+            if (comboBoxDimension.DataSource == null)
+            {
+                comboBoxDimension.ValueMember = PropertyNames.ID;
+                comboBoxDimension.DisplayMember = PropertyNames.Name;
+                comboBoxDimension.DataSource = ViewModel.DimensionLookup;
+            }
+            if (ViewModel.Dimension != null)
+            {
+                comboBoxDimension.SelectedValue = ViewModel.Dimension.ID;
+            }
+            else
+            {
+                comboBoxDimension.SelectedValue = 0;
             }
         }
 
@@ -99,6 +113,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ViewModel.Name = textBoxName.Text;
             ViewModel.Interpolation = (IDAndName)comboBoxInterpolation.SelectedItem;
             ViewModel.SpeakerSetup = (IDAndName)comboBoxSpeakerSetup.SelectedItem;
+            ViewModel.Dimension = (IDAndName)comboBoxDimension.SelectedItem;
         }
 
         // Actions

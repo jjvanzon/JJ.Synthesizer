@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     /// Not used.
     /// 
     /// This backup class is the variation on Resample_OperatorCalculator_LineRememberT1
-    /// that does not take time going in reverse into consideration.
+    /// that does not take going in reverse into consideration.
     /// 
     /// It seems to work, except for the artifacts that linear interpolation gives us.
     /// A weakness though is, that the sampling rate is remembered until the next sample,
@@ -16,46 +16,48 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     /// </summary>
     internal class Resample_OperatorCalculator_LineRememberT1_Org : OperatorCalculatorBase_WithChildCalculators
     {
-        private OperatorCalculatorBase _signalCalculator;
-        private OperatorCalculatorBase _samplingRateCalculator;
+        private readonly OperatorCalculatorBase _signalCalculator;
+        private readonly OperatorCalculatorBase _samplingRateCalculator;
+        private readonly int _dimensionIndex;
 
         public Resample_OperatorCalculator_LineRememberT1_Org(
             OperatorCalculatorBase signalCalculator, 
-            OperatorCalculatorBase samplingRateCalculator)
+            OperatorCalculatorBase samplingRateCalculator,
+            DimensionEnum dimensionEnum)
             : base(new OperatorCalculatorBase[]
             {
                 signalCalculator,
                 samplingRateCalculator
             })
         {
-            if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Number_OperatorCalculator) throw new IsNotTypeException<Number_OperatorCalculator>(() => signalCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
             if (samplingRateCalculator == null) throw new NullException(() => samplingRateCalculator);
             // TODO: Resample with constant sampling rate does not have specialized calculators yet. Reactivate code line after those specialized calculators have been programmed.
             //if (samplingRateCalculator is Number_OperatorCalculator) throw new IsNotTypeException<Number_OperatorCalculator>(() => samplingRateCalculator);
 
             _signalCalculator = signalCalculator;
             _samplingRateCalculator = samplingRateCalculator;
+            _dimensionIndex = (int)dimensionEnum;
         }
 
-        private double _t0;
-        private double _t1;
         private double _x0;
         private double _x1;
+        private double _y0;
+        private double _y1;
         private double _a;
 
         public override double Calculate(DimensionStack dimensionStack)
         {
-            double t = dimensionStack.Get(DimensionEnum.Time);
+            double x = dimensionStack.Get(_dimensionIndex);
 
-            if (t >= _t1)
+            if (x >= _x1)
             {
-                _t0 = _t1;
                 _x0 = _x1;
+                _y0 = _y1;
 
-                dimensionStack.Push(DimensionEnum.Time, _t1);
+                dimensionStack.Push(_dimensionIndex, _x1);
                 double samplingRate = _samplingRateCalculator.Calculate(dimensionStack);
-                dimensionStack.Pop(DimensionEnum.Time);
+                dimensionStack.Pop(_dimensionIndex);
 
                 if (samplingRate == 0)
                 {
@@ -63,22 +65,22 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 }
                 else
                 {
-                    double dt = 1.0 / samplingRate;
+                    double dx = 1.0 / samplingRate;
 
-                    _t1 += dt;
+                    _x1 += dx;
 
-                    dimensionStack.Push(DimensionEnum.Time, _t1);
-                    _x1 = _signalCalculator.Calculate(dimensionStack);
-                    dimensionStack.Pop(DimensionEnum.Time);
+                    dimensionStack.Push(_dimensionIndex, _x1);
+                    _y1 = _signalCalculator.Calculate(dimensionStack);
+                    dimensionStack.Pop(_dimensionIndex);
 
-                    double dx = _x1 - _x0;
+                    double dy = _y1 - _y0;
 
-                    _a = dx / dt;
+                    _a = dy / dx;
                 }
             }
 
-            double x = _x0 + _a * (t - _t0);
-            return x;
+            double y = _y0 + _a * (x - _x0);
+            return y;
         }
     }
 }

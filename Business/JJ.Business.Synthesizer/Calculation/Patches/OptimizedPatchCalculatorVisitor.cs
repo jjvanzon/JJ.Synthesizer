@@ -316,14 +316,16 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             timeSliceDurationCalculator = timeSliceDurationCalculator ?? new Number_OperatorCalculator(0.02);
             sampleCountCalculator = sampleCountCalculator ?? new Number_OperatorCalculator(100.0);
 
+            var wrapper = new Average_OperatorWrapper(op);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
+
             if (signalIsConst)
             {
                 calculator = signalCalculator;
             }
             else
             {
-                var wrapper = new Average_OperatorWrapper(op);
-                calculator = new Average_OperatorCalculator(signalCalculator, timeSliceDurationCalculator, sampleCountCalculator);
+                calculator = new Average_OperatorCalculator(signalCalculator, timeSliceDurationCalculator, sampleCountCalculator, dimensionEnum);
             }
 
             _stack.Push(calculator);
@@ -380,6 +382,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
 
+            var wrapper = new Cache_OperatorWrapper(op);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
+
             // We need a lot of lenience in this code, because validity is dependent on user input,
             // and this validity cannot be checked on the entity level, only when starting the calculation.
             // In theory I could generate additional messages in the calculation optimization process,
@@ -406,9 +411,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 IList<ArrayCalculatorBase> arrayCalculators = _calculatorCache.GetCacheArrayCalculators(
                     op, signalCalculator, startTime, endTime, (int)samplingRate, _speakerSetupRepository);
 
-                var wrapper = new Cache_OperatorWrapper(op);
                 bool hasMinTime = startTime != 0.0;
-                InterpolationTypeEnum interpolationTypeEnum = wrapper.InterpolationTypeEnum;
+                InterpolationTypeEnum interpolationTypeEnum = wrapper.InterpolationType;
 
                 if (hasMinTime)
                 {
@@ -419,35 +423,35 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                             var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinTime_Block;
                             if (castedArrayCalculator != null)
                             {
-                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinTime_Block>(castedArrayCalculator);
+                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinTime_Block>(castedArrayCalculator, dimensionEnum);
                             }
                         }
                         {
                             var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinTime_Cubic;
                             if (castedArrayCalculator != null)
                             {
-                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinTime_Cubic>(castedArrayCalculator);
+                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinTime_Cubic>(castedArrayCalculator, dimensionEnum);
                             }
                         }
                         {
                             var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinTime_Hermite;
                             if (castedArrayCalculator != null)
                             {
-                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinTime_Hermite>(castedArrayCalculator);
+                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinTime_Hermite>(castedArrayCalculator, dimensionEnum);
                             }
                         }
                         {
                             var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinTime_Line;
                             if (castedArrayCalculator != null)
                             {
-                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinTime_Line>(castedArrayCalculator);
+                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinTime_Line>(castedArrayCalculator, dimensionEnum);
                             }
                         }
                         {
                             var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinTime_Stripe;
                             if (castedArrayCalculator != null)
                             {
-                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinTime_Stripe>(castedArrayCalculator);
+                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinTime_Stripe>(castedArrayCalculator, dimensionEnum);
                             }
                         }
                     }
@@ -460,35 +464,35 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                             case InterpolationTypeEnum.Block:
                                 {
                                     IList<ArrayCalculator_MinTime_Block> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTime_Block)x).ToArray();
-                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinTime_Block>(castedArrayCalculators);
+                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinTime_Block>(castedArrayCalculators, dimensionEnum);
                                     break;
                                 }
 
                             case InterpolationTypeEnum.Cubic:
                                 {
                                     IList<ArrayCalculator_MinTime_Cubic> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTime_Cubic)x).ToArray();
-                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinTime_Cubic>(castedArrayCalculators);
+                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinTime_Cubic>(castedArrayCalculators, dimensionEnum);
                                     break;
                                 }
 
                             case InterpolationTypeEnum.Hermite:
                                 {
                                     IList<ArrayCalculator_MinTime_Hermite> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTime_Hermite)x).ToArray();
-                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinTime_Hermite>(castedArrayCalculators);
+                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinTime_Hermite>(castedArrayCalculators, dimensionEnum);
                                     break;
                                 }
 
                             case InterpolationTypeEnum.Line:
                                 {
                                     IList<ArrayCalculator_MinTime_Line> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTime_Line)x).ToArray();
-                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinTime_Line>(castedArrayCalculators);
+                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinTime_Line>(castedArrayCalculators, dimensionEnum);
                                     break;
                                 }
 
                             case InterpolationTypeEnum.Stripe:
                                 {
                                     IList<ArrayCalculator_MinTime_Stripe> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTime_Stripe)x).ToArray();
-                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinTime_Stripe>(castedArrayCalculators);
+                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinTime_Stripe>(castedArrayCalculators, dimensionEnum);
                                     break;
                                 }
 
@@ -507,35 +511,35 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                             var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinTimeZero_Block;
                             if (castedArrayCalculator != null)
                             {
-                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinTimeZero_Block>(castedArrayCalculator);
+                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinTimeZero_Block>(castedArrayCalculator, dimensionEnum);
                             }
                         }
                         {
                             var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinTimeZero_Cubic;
                             if (castedArrayCalculator != null)
                             {
-                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinTimeZero_Cubic>(castedArrayCalculator);
+                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinTimeZero_Cubic>(castedArrayCalculator, dimensionEnum);
                             }
                         }
                         {
                             var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinTimeZero_Hermite;
                             if (castedArrayCalculator != null)
                             {
-                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinTimeZero_Hermite>(castedArrayCalculator);
+                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinTimeZero_Hermite>(castedArrayCalculator, dimensionEnum);
                             }
                         }
                         {
                             var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinTimeZero_Line;
                             if (castedArrayCalculator != null)
                             {
-                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinTimeZero_Line>(castedArrayCalculator);
+                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinTimeZero_Line>(castedArrayCalculator, dimensionEnum);
                             }
                         }
                         {
                             var castedArrayCalculator = arrayCalculator as ArrayCalculator_MinTimeZero_Stripe;
                             if (castedArrayCalculator != null)
                             {
-                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinTimeZero_Stripe>(castedArrayCalculator);
+                                calculator = new Cache_OperatorCalculator_SingleChannel<ArrayCalculator_MinTimeZero_Stripe>(castedArrayCalculator, dimensionEnum);
                             }
                         }
                     }
@@ -548,35 +552,35 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                             case InterpolationTypeEnum.Block:
                                 {
                                     IList<ArrayCalculator_MinTimeZero_Block> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTimeZero_Block)x).ToArray();
-                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinTimeZero_Block>(castedArrayCalculators);
+                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinTimeZero_Block>(castedArrayCalculators, dimensionEnum);
                                     break;
                                 }
 
                             case InterpolationTypeEnum.Cubic:
                                 {
                                     IList<ArrayCalculator_MinTimeZero_Cubic> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTimeZero_Cubic)x).ToArray();
-                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinTimeZero_Cubic>(castedArrayCalculators);
+                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinTimeZero_Cubic>(castedArrayCalculators, dimensionEnum);
                                     break;
                                 }
 
                             case InterpolationTypeEnum.Hermite:
                                 {
                                     IList<ArrayCalculator_MinTimeZero_Hermite> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTimeZero_Hermite)x).ToArray();
-                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinTimeZero_Hermite>(castedArrayCalculators);
+                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinTimeZero_Hermite>(castedArrayCalculators, dimensionEnum);
                                     break;
                                 }
 
                             case InterpolationTypeEnum.Line:
                                 {
                                     IList<ArrayCalculator_MinTimeZero_Line> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTimeZero_Line)x).ToArray();
-                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinTimeZero_Line>(castedArrayCalculators);
+                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinTimeZero_Line>(castedArrayCalculators, dimensionEnum);
                                     break;
                                 }
 
                             case InterpolationTypeEnum.Stripe:
                                 {
                                     IList<ArrayCalculator_MinTimeZero_Stripe> castedArrayCalculators = arrayCalculators.Select(x => (ArrayCalculator_MinTimeZero_Stripe)x).ToArray();
-                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinTimeZero_Stripe>(castedArrayCalculators);
+                                    calculator = new Cache_OperatorCalculator_MultiChannel<ArrayCalculator_MinTimeZero_Stripe>(castedArrayCalculators, dimensionEnum);
                                     break;
                                 }
 
@@ -648,6 +652,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool signalIsConstZero = signalIsConst && signal == 0;
             bool timeDifferenceIsConstZero = timeDifferenceIsConst && timeDifference == 0;
 
+            var wrapper = new Delay_OperatorWrapper(op);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
+
             if (signalIsConstZero)
             {
                 calculator = new Zero_OperatorCalculator();
@@ -662,11 +669,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (timeDifferenceIsConst)
             {
-                calculator = new Delay_VarSignal_ConstTimeDifference_OperatorCalculator(signalCalculator, timeDifference);
+                calculator = new Delay_VarSignal_ConstTimeDifference_OperatorCalculator(signalCalculator, timeDifference, dimensionEnum);
             }
             else
             {
-                calculator = new Delay_OperatorCalculator(signalCalculator, timeDifferenceCalculator);
+                calculator = new Delay_OperatorCalculator(signalCalculator, timeDifferenceCalculator, dimensionEnum);
             }
 
             _stack.Push(calculator);
@@ -784,6 +791,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool signalIsConstZero = signalIsConst && signal == 0;
             bool timeDifferenceIsConstZero = timeDifferenceIsConst && signal == 0;
 
+            var wrapper = new Earlier_OperatorWrapper(op);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
+
             if (signalIsConstZero)
             {
                 calculator = new Zero_OperatorCalculator();
@@ -798,11 +808,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (timeDifferenceIsConst)
             {
-                calculator = new Earlier_WithConstTimeDifference_OperatorCalculator(signalCalculator, timeDifference);
+                calculator = new Earlier_WithConstTimeDifference_OperatorCalculator(signalCalculator, timeDifference, dimensionEnum);
             }
             else
             {
-                calculator = new Earlier_OperatorCalculator(signalCalculator, timeDifferenceCalculator);
+                calculator = new Earlier_OperatorCalculator(signalCalculator, timeDifferenceCalculator, dimensionEnum);
             }
 
             _stack.Push(calculator);
@@ -1298,6 +1308,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool noteDurationIsConstVeryHighValue = noteDurationIsConst && noteDuration == CalculationHelper.VERY_HIGH_VALUE;
             bool releaseEndMarkerIsConstVeryHighValue = releaseEndMarkerIsConst && releaseEndMarker == CalculationHelper.VERY_HIGH_VALUE;
 
+            var wrapper = new Loop_OperatorWrapper(op);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
+
             if (signalIsConst)
             {
                 // Note that the signalCalculator is not used here,
@@ -1322,34 +1335,44 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     if (loopEndMarkerIsConst)
                     {
                         calculator = new Loop_OperatorCalculator_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration(
-                            signalCalculator, loopStartMarker, loopEndMarker);
+                            signalCalculator, loopStartMarker, loopEndMarker, dimensionEnum);
                     }
                     else
                     {
                         calculator = new Loop_OperatorCalculator_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration(
-                            signalCalculator, loopStartMarker, loopEndMarkerCalculator);
+                            signalCalculator, loopStartMarker, loopEndMarkerCalculator, dimensionEnum);
                     }
                 }
                 else if (skipIsConstZero && releaseEndMarkerIsConstVeryHighValue)
                 {
                     if (loopStartMarkerIsConst && loopEndMarkerIsConst)
                     {
-                        calculator = new Loop_OperatorCalculator_NoSkipOrRelease_ManyConstants(signalCalculator, loopStartMarker, loopEndMarker, noteDurationCalculator);
+                        calculator = new Loop_OperatorCalculator_NoSkipOrRelease_ManyConstants(
+                            signalCalculator, loopStartMarker, loopEndMarker, noteDurationCalculator, dimensionEnum);
                     }
                     else
                     {
-                        calculator = new Loop_OperatorCalculator_NoSkipOrRelease(signalCalculator, loopStartMarkerCalculator, loopEndMarkerCalculator, noteDurationCalculator);
+                        calculator = new Loop_OperatorCalculator_NoSkipOrRelease(
+                            signalCalculator, loopStartMarkerCalculator, loopEndMarkerCalculator, noteDurationCalculator, dimensionEnum);
                     }
                 }
                 else
                 {
                     if (skipIsConst && loopStartMarkerIsConst && loopEndMarkerIsConst && releaseEndMarkerIsConst)
                     {
-                        calculator = new Loop_OperatorCalculator_ManyConstants(signalCalculator, skip, loopStartMarker, loopEndMarker, releaseEndMarker, noteDurationCalculator);
+                        calculator = new Loop_OperatorCalculator_ManyConstants(
+                            signalCalculator, skip, loopStartMarker, loopEndMarker, releaseEndMarker, noteDurationCalculator, dimensionEnum);
                     }
                     else
                     {
-                        calculator = new Loop_OperatorCalculator(signalCalculator, skipCalculator, loopStartMarkerCalculator, loopEndMarkerCalculator, releaseEndMarkerCalculator, noteDurationCalculator);
+                        calculator = new Loop_OperatorCalculator(
+                            signalCalculator, 
+                            skipCalculator, 
+                            loopStartMarkerCalculator, 
+                            loopEndMarkerCalculator, 
+                            releaseEndMarkerCalculator, 
+                            noteDurationCalculator, 
+                            dimensionEnum);
                     }
                 }
             }
@@ -1412,14 +1435,16 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             timeSliceDurationCalculator = timeSliceDurationCalculator ?? new Number_OperatorCalculator(0.02f);
             sampleCountCalculator = sampleCountCalculator ?? new Number_OperatorCalculator(100f);
 
+            var wrapper = new Maximum_OperatorWrapper(op);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
+
             if (signalIsConst)
             {
                 calculator = signalCalculator;
             }
             else
             {
-                var wrapper = new Maximum_OperatorWrapper(op);
-                calculator = new Maximum_OperatorCalculator(signalCalculator, timeSliceDurationCalculator, sampleCountCalculator);
+                calculator = new Maximum_OperatorCalculator(signalCalculator, timeSliceDurationCalculator, sampleCountCalculator, dimensionEnum);
             }
 
             _stack.Push(calculator);
@@ -1441,14 +1466,16 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             timeSliceDurationCalculator = timeSliceDurationCalculator ?? new Number_OperatorCalculator(0.02f);
             sampleCountCalculator = sampleCountCalculator ?? new Number_OperatorCalculator(100f);
 
+            var wrapper = new Minimum_OperatorWrapper(op);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
+
             if (signalIsConst)
             {
                 calculator = signalCalculator;
             }
             else
             {
-                var wrapper = new Minimum_OperatorWrapper(op);
-                calculator = new Minimum_OperatorCalculator(signalCalculator, timeSliceDurationCalculator, sampleCountCalculator);
+                calculator = new Minimum_OperatorCalculator(signalCalculator, timeSliceDurationCalculator, sampleCountCalculator, dimensionEnum);
             }
 
             _stack.Push(calculator);
@@ -1573,6 +1600,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool factorIsConstSpecialNumber = factorIsConst && (Double.IsNaN(factor) || Double.IsInfinity(factor));
             bool originIsConstSpecialNumber = originIsConst && (Double.IsNaN(origin) || Double.IsInfinity(origin));
 
+            var wrapper = new Narrower_OperatorWrapper(op);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
+
             if (signalIsConstSpecialNumber || factorIsConstSpecialNumber || originIsConstSpecialNumber)
             {
                 // Wierd number
@@ -1600,27 +1630,27 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (!signalIsConst && factorIsConst && originIsConstZero)
             {
-                calculator = new Narrower_VarSignal_ConstFactor_ZeroOrigin_OperatorCalculator(signalCalculator, factor);
+                calculator = new Narrower_VarSignal_ConstFactor_ZeroOrigin_OperatorCalculator(signalCalculator, factor, dimensionEnum);
             }
             else if (!signalIsConst && !factorIsConst && originIsConstZero)
             {
-                calculator = new Narrower_VarSignal_VarFactor_ZeroOrigin_OperatorCalculator(signalCalculator, factorCalculator);
+                calculator = new Narrower_VarSignal_VarFactor_ZeroOrigin_OperatorCalculator(signalCalculator, factorCalculator, dimensionEnum);
             }
             else if (!signalIsConst && factorIsConst && originIsConst)
             {
-                calculator = new Narrower_VarSignal_ConstFactor_ConstOrigin_OperatorCalculator(signalCalculator, factor, origin);
+                calculator = new Narrower_VarSignal_ConstFactor_ConstOrigin_OperatorCalculator(signalCalculator, factor, origin, dimensionEnum);
             }
             else if (!signalIsConst && factorIsConst && !originIsConst)
             {
-                calculator = new Narrower_VarSignal_ConstFactor_VarOrigin_OperatorCalculator(signalCalculator, factor, originCalculator);
+                calculator = new Narrower_VarSignal_ConstFactor_VarOrigin_OperatorCalculator(signalCalculator, factor, originCalculator, dimensionEnum);
             }
             else if (!signalIsConst && !factorIsConst && originIsConst)
             {
-                calculator = new Narrower_VarSignal_VarFactor_ConstOrigin_OperatorCalculator(signalCalculator, factorCalculator, origin);
+                calculator = new Narrower_VarSignal_VarFactor_ConstOrigin_OperatorCalculator(signalCalculator, factorCalculator, origin, dimensionEnum);
             }
             else if (!signalIsConst && !factorIsConst && !originIsConst)
             {
-                calculator = new Narrower_VarSignal_VarFactor_VarOrigin_OperatorCalculator(signalCalculator, factorCalculator, originCalculator);
+                calculator = new Narrower_VarSignal_VarFactor_VarOrigin_OperatorCalculator(signalCalculator, factorCalculator, originCalculator, dimensionEnum);
             }
             else
             {
@@ -1661,7 +1691,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 _operator_NoiseOffsetInSeconds_Dictionary.Add(op, offset);
             }
 
-            var calculator = new Noise_OperatorCalculator(_calculatorCache.NoiseCalculator, offset);
+            var wrapper = new Noise_OperatorWrapper(op);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
+
+            var calculator = new Noise_OperatorCalculator(_calculatorCache.NoiseCalculator, offset, dimensionEnum);
             _stack.Push(calculator);
         }
 
@@ -1902,6 +1935,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool widthIsConstSpecialNumber = widthIsConst && (Double.IsNaN(width) || Double.IsInfinity(width));
             bool phaseShiftIsConstSpecialNumber = phaseShiftIsConst && (Double.IsNaN(phaseShift) || Double.IsInfinity(phaseShift));
 
+            var wrapper = new Pulse_OperatorWrapper(op);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
+
             if (frequencyIsConstSpecialNumber || widthIsConstSpecialNumber || phaseShiftIsConstSpecialNumber)
             {
                 // Weird Number
@@ -1920,35 +1956,35 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (frequencyIsConst && widthIsConst && phaseShiftIsConst)
             {
-                calculator = new Pulse_ConstFrequency_ConstWidth_ConstPhaseShift_OperatorCalculator(frequency, width, phaseShift);
+                calculator = new Pulse_ConstFrequency_ConstWidth_ConstPhaseShift_OperatorCalculator(frequency, width, phaseShift, dimensionEnum);
             }
             else if (frequencyIsConst && widthIsConst && !phaseShiftIsConst)
             {
-                calculator = new Pulse_ConstFrequency_ConstWidth_VarPhaseShift_OperatorCalculator(frequency, width, phaseShiftCalculator);
+                calculator = new Pulse_ConstFrequency_ConstWidth_VarPhaseShift_OperatorCalculator(frequency, width, phaseShiftCalculator, dimensionEnum);
             }
             else if (frequencyIsConst && !widthIsConst && phaseShiftIsConst)
             {
-                calculator = new Pulse_ConstFrequency_VarWidth_ConstPhaseShift_OperatorCalculator(frequency, widthCalculator, phaseShift);
+                calculator = new Pulse_ConstFrequency_VarWidth_ConstPhaseShift_OperatorCalculator(frequency, widthCalculator, phaseShift, dimensionEnum);
             }
             else if (frequencyIsConst && !widthIsConst && !phaseShiftIsConst)
             {
-                calculator = new Pulse_ConstFrequency_VarWidth_VarPhaseShift_OperatorCalculator(frequency, widthCalculator, phaseShiftCalculator);
+                calculator = new Pulse_ConstFrequency_VarWidth_VarPhaseShift_OperatorCalculator(frequency, widthCalculator, phaseShiftCalculator, dimensionEnum);
             }
             else if (!frequencyIsConst && widthIsConst && phaseShiftIsConst)
             {
-                calculator = new Pulse_VarFrequency_ConstWidth_ConstPhaseShift_OperatorCalculator(frequencyCalculator, width, phaseShift);
+                calculator = new Pulse_VarFrequency_ConstWidth_ConstPhaseShift_OperatorCalculator(frequencyCalculator, width, phaseShift, dimensionEnum);
             }
             else if (!frequencyIsConst && widthIsConst && !phaseShiftIsConst)
             {
-                calculator = new Pulse_VarFrequency_ConstWidth_VarPhaseShift_OperatorCalculator(frequencyCalculator, width, phaseShiftCalculator);
+                calculator = new Pulse_VarFrequency_ConstWidth_VarPhaseShift_OperatorCalculator(frequencyCalculator, width, phaseShiftCalculator, dimensionEnum);
             }
             else if (!frequencyIsConst && !widthIsConst && phaseShiftIsConst)
             {
-                calculator = new Pulse_VarFrequency_VarWidth_ConstPhaseShift_OperatorCalculator(frequencyCalculator, widthCalculator, phaseShift);
+                calculator = new Pulse_VarFrequency_VarWidth_ConstPhaseShift_OperatorCalculator(frequencyCalculator, widthCalculator, phaseShift, dimensionEnum);
             }
             else if (!frequencyIsConst && !widthIsConst && !phaseShiftIsConst)
             {
-                calculator = new Pulse_VarFrequency_VarWidth_VarPhaseShift_OperatorCalculator(frequencyCalculator, widthCalculator, phaseShiftCalculator);
+                calculator = new Pulse_VarFrequency_VarWidth_VarPhaseShift_OperatorCalculator(frequencyCalculator, widthCalculator, phaseShiftCalculator, dimensionEnum);
             }
             else
             {
@@ -2016,6 +2052,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool rateIsConstSpecialNumber = rateIsConst && (Double.IsNaN(rate) || Double.IsInfinity(rate));
             bool phaseShiftIsConstSpecialNumber = phaseShiftIsConst && (Double.IsNaN(phaseShift) || Double.IsInfinity(phaseShift));
 
+            var wrapper = new Random_OperatorWrapper(op);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
+
             if (rateIsConstSpecialNumber || phaseShiftIsConstSpecialNumber)
             {
                 // Weird number
@@ -2029,9 +2068,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             // TODO: Add more variations.
             else
             {
-                var wrapper = new Random_OperatorWrapper(op);
-
-                ResampleInterpolationTypeEnum resampleInterpolationTypeEnum = wrapper.ResampleInterpolationTypeEnum;
+                ResampleInterpolationTypeEnum resampleInterpolationTypeEnum = wrapper.ResampleInterpolationType;
 
                 switch (resampleInterpolationTypeEnum)
                 {
@@ -2043,7 +2080,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                                 randomCalculator,
                                 randomCalculatorOffset,
                                 rateCalculator,
-                                phaseShiftCalculator);
+                                phaseShiftCalculator,
+                                dimensionEnum);
 
                             break;
                         }
@@ -2056,7 +2094,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                                 randomCalculator,
                                 randomCalculatorOffset,
                                 rateCalculator,
-                                phaseShiftCalculator);
+                                phaseShiftCalculator,
+                                dimensionEnum);
 
                             break;
                         }
@@ -2069,7 +2108,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                                 randomCalculator,
                                 randomCalculatorOffset,
                                 rateCalculator,
-                                phaseShiftCalculator);
+                                phaseShiftCalculator,
+                                dimensionEnum);
 
                             break;
                         }
@@ -2083,7 +2123,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                                 randomCalculator,
                                 randomCalculatorOffset,
                                 rateCalculator,
-                                phaseShiftCalculator);
+                                phaseShiftCalculator,
+                                dimensionEnum);
 
                             break;
                         }
@@ -2096,7 +2137,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                                 randomCalculator,
                                 randomCalculatorOffset,
                                 rateCalculator,
-                                phaseShiftCalculator);
+                                phaseShiftCalculator,
+                                dimensionEnum);
 
                             break;
                         }
@@ -2109,7 +2151,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                                 randomCalculator,
                                 randomCalculatorOffset,
                                 rateCalculator,
-                                phaseShiftCalculator);
+                                phaseShiftCalculator,
+                                dimensionEnum);
 
                             break;
                         }
@@ -2122,7 +2165,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                                 randomCalculator,
                                 randomCalculatorOffset,
                                 rateCalculator,
-                                phaseShiftCalculator);
+                                phaseShiftCalculator,
+                                dimensionEnum);
 
                             break;
                         }
@@ -2135,7 +2179,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                                 randomCalculator,
                                 randomCalculatorOffset,
                                 rateCalculator,
-                                phaseShiftCalculator);
+                                phaseShiftCalculator,
+                                dimensionEnum);
 
                             break;
                         }
@@ -2170,6 +2215,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool signalIsConstSpecialNumber = signalIsConst && (Double.IsNaN(signal) || Double.IsInfinity(signal));
             bool samplingRateIsConstSpecialNumber = samplingRateIsConst && (Double.IsNaN(samplingRate) || Double.IsInfinity(samplingRate));
 
+            var wrapper = new Resample_OperatorWrapper(op);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
+
             if (signalIsConst)
             {
                 // Const signal Preceeds weird numbers.
@@ -2189,42 +2237,40 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                var wrapper = new Resample_OperatorWrapper(op);
-
                 ResampleInterpolationTypeEnum resampleInterpolationTypeEnum = wrapper.InterpolationType;
 
                 switch (resampleInterpolationTypeEnum)
                 {
                     case ResampleInterpolationTypeEnum.Block:
-                        calculator = new Resample_OperatorCalculator_Block(signalCalculator, samplingRateCalculator);
+                        calculator = new Resample_OperatorCalculator_Block(signalCalculator, samplingRateCalculator, dimensionEnum);
                         break;
 
                     case ResampleInterpolationTypeEnum.Stripe:
-                        calculator = new Resample_OperatorCalculator_Stripe(signalCalculator, samplingRateCalculator);
+                        calculator = new Resample_OperatorCalculator_Stripe(signalCalculator, samplingRateCalculator, dimensionEnum);
                         break;
 
                     case ResampleInterpolationTypeEnum.LineRememberT0:
-                        calculator = new Resample_OperatorCalculator_LineRememberT0(signalCalculator, samplingRateCalculator);
+                        calculator = new Resample_OperatorCalculator_LineRememberT0(signalCalculator, samplingRateCalculator, dimensionEnum);
                         break;
 
                     case ResampleInterpolationTypeEnum.LineRememberT1:
-                        calculator = new Resample_OperatorCalculator_LineRememberT1(signalCalculator, samplingRateCalculator);
+                        calculator = new Resample_OperatorCalculator_LineRememberT1(signalCalculator, samplingRateCalculator, dimensionEnum);
                         break;
 
                     case ResampleInterpolationTypeEnum.CubicEquidistant:
-                        calculator = new Resample_OperatorCalculator_CubicEquidistant(signalCalculator, samplingRateCalculator);
+                        calculator = new Resample_OperatorCalculator_CubicEquidistant(signalCalculator, samplingRateCalculator, dimensionEnum);
                         break;
 
                     case ResampleInterpolationTypeEnum.CubicAbruptInclination:
-                        calculator = new Resample_OperatorCalculator_CubicAbruptInclination(signalCalculator, samplingRateCalculator);
+                        calculator = new Resample_OperatorCalculator_CubicAbruptInclination(signalCalculator, samplingRateCalculator, dimensionEnum);
                         break;
 
                     case ResampleInterpolationTypeEnum.CubicSmoothInclination:
-                        calculator = new Resample_OperatorCalculator_CubicSmoothInclination(signalCalculator, samplingRateCalculator);
+                        calculator = new Resample_OperatorCalculator_CubicSmoothInclination(signalCalculator, samplingRateCalculator, dimensionEnum);
                         break;
 
                     case ResampleInterpolationTypeEnum.Hermite:
-                        calculator = new Resample_OperatorCalculator_Hermite(signalCalculator, samplingRateCalculator);
+                        calculator = new Resample_OperatorCalculator_Hermite(signalCalculator, samplingRateCalculator, dimensionEnum);
                         break;
 
                     default:
@@ -2255,6 +2301,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool signalIsConstSpecialNumber = signalIsConst && (Double.IsNaN(signal) || Double.IsInfinity(signal));
             bool speedIsConstSpecialNumber = speedIsConst && (Double.IsNaN(speed) || Double.IsInfinity(speed));
 
+            var wrapper = new Reverse_OperatorWrapper(op);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
+
             if (speedIsConstSpecialNumber)
             {
                 // Weird number
@@ -2277,11 +2326,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (speedIsConst)
             {
-                calculator = new Reverse_WithConstSpeed_OperatorCalculator(signalCalculator, speed);
+                calculator = new Reverse_WithConstSpeed_OperatorCalculator(signalCalculator, speed, dimensionEnum);
             }
             else
             {
-                calculator = new Reverse_WithVarSpeed_OperatorCalculator(signalCalculator, speedCalculator);
+                calculator = new Reverse_WithVarSpeed_OperatorCalculator(signalCalculator, speedCalculator, dimensionEnum);
             }
 
             _stack.Push(calculator);
@@ -2376,6 +2425,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool frequencyIsConstZero = frequencyIsConst && frequency == 0.0;
 
             var wrapper = new Sample_OperatorWrapper(op, _sampleRepository);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
 
             SampleInfo sampleInfo = wrapper.SampleInfo;
             if (sampleInfo.Sample == null)
@@ -2397,33 +2447,33 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 {
                     if (frequencyIsConst)
                     {
-                        calculator = new Sample_WithConstFrequency_OperatorCalculator(frequency, sampleCalculator);
+                        calculator = new Sample_WithConstFrequency_OperatorCalculator(frequency, sampleCalculator, dimensionEnum);
                     }
                     else
                     {
-                        calculator = new Sample_WithVarFrequency_OperatorCalculator(frequencyCalculator, sampleCalculator);
+                        calculator = new Sample_WithVarFrequency_OperatorCalculator(frequencyCalculator, sampleCalculator, dimensionEnum);
                     }
                 }
                 else if (sampleChannelCount == 1 && _channelCount == 2)
                 {
                     if (frequencyIsConst)
                     {
-                        calculator = new Sample_WithConstFrequency_MonoToStereo_OperatorCalculator(frequency, sampleCalculator);
+                        calculator = new Sample_WithConstFrequency_MonoToStereo_OperatorCalculator(frequency, sampleCalculator, dimensionEnum);
                     }
                     else
                     {
-                        calculator = new Sample_WithVarFrequency_MonoToStereo_OperatorCalculator(frequencyCalculator, sampleCalculator);
+                        calculator = new Sample_WithVarFrequency_MonoToStereo_OperatorCalculator(frequencyCalculator, sampleCalculator, dimensionEnum);
                     }
                 }
                 else if (sampleChannelCount == 2 && _channelCount == 1)
                 {
                     if (frequencyIsConst)
                     {
-                        calculator = new Sample_WithConstFrequency_StereoToMono_OperatorCalculator(frequency, sampleCalculator);
+                        calculator = new Sample_WithConstFrequency_StereoToMono_OperatorCalculator(frequency, sampleCalculator, dimensionEnum);
                     }
                     else
                     {
-                        calculator = new Sample_WithVarFrequency_StereoToMono_OperatorCalculator(frequencyCalculator, sampleCalculator);
+                        calculator = new Sample_WithVarFrequency_StereoToMono_OperatorCalculator(frequencyCalculator, sampleCalculator, dimensionEnum);
                     }
                 }
                 else
@@ -2451,6 +2501,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool frequencyIsConstZero = frequencyIsConst && frequency == 0;
             bool phaseShiftIsConstZero = phaseShiftIsConst && phaseShift % 1 == 0;
 
+            var wrapper = new SawDown_OperatorWrapper(op);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
+
             if (frequencyIsConstZero)
             {
                 // Weird number
@@ -2458,19 +2511,19 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (frequencyIsConst && phaseShiftIsConst)
             {
-                calculator = new SawDown_WithConstFrequency_WithConstPhaseShift_OperatorCalculator(frequency, phaseShift);
+                calculator = new SawDown_WithConstFrequency_WithConstPhaseShift_OperatorCalculator(frequency, phaseShift, dimensionEnum);
             }
             else if (!frequencyIsConst && phaseShiftIsConst)
             {
-                calculator = new SawDown_WithVarFrequency_WithConstPhaseShift_OperatorCalculator(frequencyCalculator, phaseShift);
+                calculator = new SawDown_WithVarFrequency_WithConstPhaseShift_OperatorCalculator(frequencyCalculator, phaseShift, dimensionEnum);
             }
             else if (frequencyIsConst && !phaseShiftIsConst)
             {
-                calculator = new SawDown_WithConstFrequency_WithVarPhaseShift_OperatorCalculator(frequency, phaseShiftCalculator);
+                calculator = new SawDown_WithConstFrequency_WithVarPhaseShift_OperatorCalculator(frequency, phaseShiftCalculator, dimensionEnum);
             }
             else
             {
-                calculator = new SawDown_WithVarFrequency_WithVarPhaseShift_OperatorCalculator(frequencyCalculator, phaseShiftCalculator);
+                calculator = new SawDown_WithVarFrequency_WithVarPhaseShift_OperatorCalculator(frequencyCalculator, phaseShiftCalculator, dimensionEnum);
             }
 
             _stack.Push(calculator);
@@ -2492,6 +2545,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool frequencyIsConstZero = frequencyIsConst && frequency == 0;
             bool phaseShiftIsConstZero = phaseShiftIsConst && phaseShift % 1 == 0;
 
+            var wrapper = new SawUp_OperatorWrapper(op);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
+
             if (frequencyIsConstZero)
             {
                 // Weird number
@@ -2499,19 +2555,19 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (frequencyIsConst && phaseShiftIsConst)
             {
-                calculator = new SawUp_WithConstFrequency_WithConstPhaseShift_OperatorCalculator(frequency, phaseShift);
+                calculator = new SawUp_WithConstFrequency_WithConstPhaseShift_OperatorCalculator(frequency, phaseShift, dimensionEnum);
             }
             else if (!frequencyIsConst && phaseShiftIsConst)
             {
-                calculator = new SawUp_WithVarFrequency_WithConstPhaseShift_OperatorCalculator(frequencyCalculator, phaseShift);
+                calculator = new SawUp_WithVarFrequency_WithConstPhaseShift_OperatorCalculator(frequencyCalculator, phaseShift, dimensionEnum);
             }
             else if (frequencyIsConst && !phaseShiftIsConst)
             {
-                calculator = new SawUp_WithConstFrequency_WithVarPhaseShift_OperatorCalculator(frequency, phaseShiftCalculator);
+                calculator = new SawUp_WithConstFrequency_WithVarPhaseShift_OperatorCalculator(frequency, phaseShiftCalculator, dimensionEnum);
             }
             else
             {
-                calculator = new SawUp_WithVarFrequency_WithVarPhaseShift_OperatorCalculator(frequencyCalculator, phaseShiftCalculator);
+                calculator = new SawUp_WithVarFrequency_WithVarPhaseShift_OperatorCalculator(frequencyCalculator, phaseShiftCalculator, dimensionEnum);
             }
 
             _stack.Push(calculator);
@@ -2587,18 +2643,18 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             double value = valueCalculator.Calculate(_defaultDimensionStack);
 
+            var wrapper = new SetDimension_OperatorWrapper(op);
+
             if (calculationIsConst)
             {
                 operatorCalculator = calculationCalculator;
             }
             else if (valueIsConst)
             {
-                var wrapper = new SetDimension_OperatorWrapper(op);
                 operatorCalculator = new SetDimension_OperatorCalculator_ConstValue(calculationCalculator, value, wrapper.Dimension);
             }
             else
             {
-                var wrapper = new SetDimension_OperatorWrapper(op);
                 operatorCalculator = new SetDimension_OperatorCalculator_VarValue(calculationCalculator, valueCalculator, wrapper.Dimension);
             }
 
@@ -2627,6 +2683,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool frequencyIsConstZero = frequencyIsConst && frequency == 0.0;
             bool phaseShiftIsConstZero = phaseShiftIsConst && phaseShift % 1.0 == 0.0;
 
+            var wrapper = new Sine_OperatorWrapper(op);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
+
             if (frequencyIsConstZero)
             {
                 // Weird number
@@ -2634,27 +2693,27 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (frequencyIsConst && phaseShiftIsConstZero)
             {
-                calculator = new Sine_WithConstFrequency_WithoutPhaseShift_OperatorCalculator(frequency);
+                calculator = new Sine_WithConstFrequency_WithoutPhaseShift_OperatorCalculator(frequency, dimensionEnum);
             }
             else if (frequencyIsConst && phaseShiftIsConst)
             {
-                calculator = new Sine_WithConstFrequency_WithConstPhaseShift_OperatorCalculator(frequency, phaseShift);
+                calculator = new Sine_WithConstFrequency_WithConstPhaseShift_OperatorCalculator(frequency, phaseShift, dimensionEnum);
             }
             else if (frequencyIsConst && !phaseShiftIsConst)
             {
-                calculator = new Sine_WithConstFrequency_WithVarPhaseShift_OperatorCalculator(frequency, phaseShiftCalculator);
+                calculator = new Sine_WithConstFrequency_WithVarPhaseShift_OperatorCalculator(frequency, phaseShiftCalculator, dimensionEnum);
             }
             else if (!frequencyIsConst && phaseShiftIsConstZero)
             {
-                calculator = new Sine_WithVarFrequency_WithoutPhaseShift_OperatorCalculator(frequencyCalculator);
+                calculator = new Sine_WithVarFrequency_WithoutPhaseShift_OperatorCalculator(frequencyCalculator, dimensionEnum);
             }
             else if (!frequencyIsConst && phaseShiftIsConst)
             {
-                calculator = new Sine_WithVarFrequency_WithConstPhaseShift_OperatorCalculator(frequencyCalculator, phaseShift);
+                calculator = new Sine_WithVarFrequency_WithConstPhaseShift_OperatorCalculator(frequencyCalculator, phaseShift, dimensionEnum);
             }
             else
             {
-                calculator = new Sine_WithVarFrequency_WithVarPhaseShift_OperatorCalculator(frequencyCalculator, phaseShiftCalculator);
+                calculator = new Sine_WithVarFrequency_WithVarPhaseShift_OperatorCalculator(frequencyCalculator, phaseShiftCalculator, dimensionEnum);
             }
 
             _stack.Push(calculator);
@@ -2683,6 +2742,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             bool signalIsConstSpecialNumber = signalIsConst && (Double.IsNaN(signal) || Double.IsInfinity(signal));
             bool factorIsConstSpecialNumber = factorIsConst && (Double.IsNaN(factor) || Double.IsInfinity(factor));
+
+            var wrapper = new SlowDown_OperatorWrapper(op);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
 
             if (factorIsConstSpecialNumber)
             {
@@ -2715,11 +2777,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (factorIsConst)
             {
-                calculator = new SlowDown_WithConstFactor_OperatorCalculator(signalCalculator, factor);
+                calculator = new SlowDown_WithConstFactor_OperatorCalculator(signalCalculator, factor, dimensionEnum);
             }
             else
             {
-                calculator = new SlowDown_WithVarFactor_OperatorCalculator(signalCalculator, factorCalculator);
+                calculator = new SlowDown_WithVarFactor_OperatorCalculator(signalCalculator, factorCalculator, dimensionEnum);
             }
 
             _stack.Push(calculator);
@@ -2798,6 +2860,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool signalIsConstSpecialNumber = signalIsConst && (Double.IsNaN(signal) || Double.IsInfinity(signal));
             bool factorIsConstSpecialNumber = factorIsConst && (Double.IsNaN(factor) || Double.IsInfinity(factor));
 
+            var wrapper = new SpeedUp_OperatorWrapper(op);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
+
             if (factorIsConstSpecialNumber)
             {
                 // Weird number
@@ -2828,11 +2893,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (factorIsConst)
             {
-                calculator = new SpeedUp_WithConstFactor_OperatorCalculator(signalCalculator, factor);
+                calculator = new SpeedUp_WithConstFactor_OperatorCalculator(signalCalculator, factor, dimensionEnum);
             }
             else
             {
-                calculator = new SpeedUp_WithVarFactor_OperatorCalculator(signalCalculator, factorCalculator);
+                calculator = new SpeedUp_WithVarFactor_OperatorCalculator(signalCalculator, factorCalculator, dimensionEnum);
             }
 
             _stack.Push(calculator);
@@ -2859,6 +2924,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool frequencyIsConstSpecialNumber = frequencyIsConst && (Double.IsNaN(frequency) || Double.IsInfinity(frequency));
             bool phaseShiftIsConstSpecialNumber = phaseShiftIsConst && (Double.IsNaN(phaseShift) || Double.IsInfinity(phaseShift));
 
+            var wrapper = new Square_OperatorWrapper(op);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
+
             if (frequencyIsConstSpecialNumber || phaseShiftIsConstSpecialNumber)
             {
                 // Weird number
@@ -2871,19 +2939,19 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (frequencyIsConst && phaseShiftIsConst)
             {
-                calculator = new Pulse_ConstFrequency_ConstWidth_ConstPhaseShift_OperatorCalculator(frequency, DEFAULT_PULSE_WIDTH, phaseShift);
+                calculator = new Pulse_ConstFrequency_ConstWidth_ConstPhaseShift_OperatorCalculator(frequency, DEFAULT_PULSE_WIDTH, phaseShift, dimensionEnum);
             }
             else if (!frequencyIsConst && phaseShiftIsConst)
             {
-                calculator = new Pulse_VarFrequency_ConstWidth_ConstPhaseShift_OperatorCalculator(frequencyCalculator, DEFAULT_PULSE_WIDTH, phaseShift);
+                calculator = new Pulse_VarFrequency_ConstWidth_ConstPhaseShift_OperatorCalculator(frequencyCalculator, DEFAULT_PULSE_WIDTH, phaseShift, dimensionEnum);
             }
             else if (frequencyIsConst && !phaseShiftIsConst)
             {
-                calculator = new Pulse_ConstFrequency_ConstWidth_VarPhaseShift_OperatorCalculator(frequency, DEFAULT_PULSE_WIDTH, phaseShiftCalculator);
+                calculator = new Pulse_ConstFrequency_ConstWidth_VarPhaseShift_OperatorCalculator(frequency, DEFAULT_PULSE_WIDTH, phaseShiftCalculator, dimensionEnum);
             }
             else if (!frequencyIsConst && !phaseShiftIsConst)
             {
-                calculator = new Pulse_VarFrequency_ConstWidth_VarPhaseShift_OperatorCalculator(frequencyCalculator, DEFAULT_PULSE_WIDTH, phaseShiftCalculator);
+                calculator = new Pulse_VarFrequency_ConstWidth_VarPhaseShift_OperatorCalculator(frequencyCalculator, DEFAULT_PULSE_WIDTH, phaseShiftCalculator, dimensionEnum);
             }
             else
             {
@@ -3048,6 +3116,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool originIsConstZero = originIsConst && origin == 0;
             bool exponentIsConstOne = exponentIsConst && exponent == 1;
 
+            var wrapper = new TimePower_OperatorWrapper(op);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
+
             if (signalIsConstZero)
             {
                 calculator = new Zero_OperatorCalculator();
@@ -3062,11 +3133,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (originIsConstZero)
             {
-                calculator = new TimePower_WithoutOrigin_OperatorCalculator(signalCalculator, exponentCalculator);
+                calculator = new TimePower_WithoutOrigin_OperatorCalculator(signalCalculator, exponentCalculator, dimensionEnum);
             }
             else
             {
-                calculator = new TimePower_WithOrigin_OperatorCalculator(signalCalculator, exponentCalculator, originCalculator);
+                calculator = new TimePower_WithOrigin_OperatorCalculator(signalCalculator, exponentCalculator, originCalculator, dimensionEnum);
             }
 
             _stack.Push(calculator);
@@ -3116,6 +3187,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool phaseShiftIsConst = phaseShiftCalculator is Number_OperatorCalculator;
             bool frequencyIsConstZero = frequencyIsConst && frequency == 0;
 
+            var wrapper = new Triangle_OperatorWrapper(op);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
+
             if (frequencyIsConstZero)
             {
                 // Weird number
@@ -3123,19 +3197,19 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (frequencyIsConst && phaseShiftIsConst)
             {
-                calculator = new Triangle_WithConstFrequency_WithConstPhaseShift_OperatorCalculator(frequency, phaseShift);
+                calculator = new Triangle_WithConstFrequency_WithConstPhaseShift_OperatorCalculator(frequency, phaseShift, dimensionEnum);
             }
             else if (!frequencyIsConst && phaseShiftIsConst)
             {
-                calculator = new Triangle_WithVarFrequency_WithConstPhaseShift_OperatorCalculator(frequencyCalculator, phaseShift);
+                calculator = new Triangle_WithVarFrequency_WithConstPhaseShift_OperatorCalculator(frequencyCalculator, phaseShift, dimensionEnum);
             }
             else if (frequencyIsConst && !phaseShiftIsConst)
             {
-                calculator = new Triangle_WithConstFrequency_WithVarPhaseShift_OperatorCalculator(frequency, phaseShiftCalculator);
+                calculator = new Triangle_WithConstFrequency_WithVarPhaseShift_OperatorCalculator(frequency, phaseShiftCalculator, dimensionEnum);
             }
             else
             {
-                calculator = new Triangle_WithVarFrequency_WithVarPhaseShift_OperatorCalculator(frequencyCalculator, phaseShiftCalculator);
+                calculator = new Triangle_WithVarFrequency_WithVarPhaseShift_OperatorCalculator(frequencyCalculator, phaseShiftCalculator, dimensionEnum);
             }
 
             _stack.Push(calculator);
