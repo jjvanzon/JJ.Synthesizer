@@ -265,7 +265,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             foreach (CurvePropertiesViewModel viewModel in viewModelList)
             {
-                Curve entity = viewModel.ToEntityWithDimensions(repositories.CurveRepository, repositories.DimensionRepository);
+                Curve entity = viewModel.ToEntityWithDimensions(repositories.CurveRepository);
                 entity.LinkTo(destDocument);
 
                 if (!idsToKeep.Contains(entity.ID))
@@ -288,12 +288,10 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         public static Curve ToEntityWithDimensions(
             this CurvePropertiesViewModel viewModel, 
-            ICurveRepository curveRepository,
-            IDimensionRepository dimensionRepository)
+            ICurveRepository curveRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (curveRepository == null) throw new NullException(() => curveRepository);
-            if (dimensionRepository == null) throw new NullException(() => dimensionRepository);
 
             Curve entity = curveRepository.TryGet(viewModel.ID);
             if (entity == null)
@@ -303,28 +301,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 curveRepository.Insert(entity);
             }
             entity.Name = viewModel.Name;
-
-            bool xDimensionIsFilledIn = viewModel.XDimension != null && viewModel.XDimension.ID != 0;
-            if (xDimensionIsFilledIn)
-            {
-                Dimension xDimension = dimensionRepository.Get(viewModel.XDimension.ID);
-                entity.LinkToXDimension(xDimension);
-            }
-            else
-            {
-                entity.UnlinkXDimension();
-            }
-
-            bool yDimensionIsFilledIn = viewModel.YDimension != null && viewModel.YDimension.ID != 0;
-            if (yDimensionIsFilledIn)
-            {
-                Dimension yDimension = dimensionRepository.Get(viewModel.YDimension.ID);
-                entity.LinkToYDimension(yDimension);
-            }
-            else
-            {
-                entity.UnlinkYDimension();
-            }
 
             return entity;
         }

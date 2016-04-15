@@ -9,8 +9,6 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
         {
             Id(x => x.ID).GeneratedBy.Assigned();
             Map(x => x.Name);
-            HasMany(x => x.AsXDimensionInCurves).KeyColumn(ColumnNames.XDimensionID).Inverse();
-            HasMany(x => x.AsYDimensionInCurves).KeyColumn(ColumnNames.YDimensionID).Inverse();
         }
     }
 }

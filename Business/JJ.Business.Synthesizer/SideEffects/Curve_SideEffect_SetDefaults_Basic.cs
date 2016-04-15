@@ -26,8 +26,8 @@ namespace JJ.Business.Synthesizer.SideEffects
 
         public void Execute()
         {
-            _curve.SetXDimensionEnum(DimensionEnum.Time, _dimensionRepository);
-            _curve.SetYDimensionEnum(DimensionEnum.Volume, _dimensionRepository);
+            // Used to set defaults for now obsolete properties.
+            // TODO: Refactor this class away?
         }
     }
 }

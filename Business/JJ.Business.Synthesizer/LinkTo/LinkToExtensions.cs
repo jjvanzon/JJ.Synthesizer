@@ -408,54 +408,6 @@ namespace JJ.Business.Synthesizer.LinkTo
             // No inverse property.
         }
 
-        public static void LinkToXDimension(this Curve curve, Dimension dimension)
-        {
-            // This is an exceptional case, where the enum-like entity has an inverse property.
-            if (curve == null) throw new NullException(() => curve);
-
-            if (curve.XDimension != null)
-            {
-                if (curve.XDimension.AsXDimensionInCurves.Contains(curve))
-                {
-                    curve.XDimension.AsXDimensionInCurves.Remove(curve);
-                }
-            }
-
-            curve.XDimension = dimension;
-
-            if (curve.XDimension != null)
-            {
-                if (!curve.XDimension.AsXDimensionInCurves.Contains(curve))
-                {
-                    curve.XDimension.AsXDimensionInCurves.Add(curve);
-                }
-            }
-        }
-
-        public static void LinkToYDimension(this Curve curve, Dimension dimension)
-        {
-            // This is an exceptional case, where the enum-like entity has an inverse property.
-            if (curve == null) throw new NullException(() => curve);
-
-            if (curve.YDimension != null)
-            {
-                if (curve.YDimension.AsYDimensionInCurves.Contains(curve))
-                {
-                    curve.YDimension.AsYDimensionInCurves.Remove(curve);
-                }
-            }
-
-            curve.YDimension = dimension;
-
-            if (curve.YDimension != null)
-            {
-                if (!curve.YDimension.AsYDimensionInCurves.Contains(curve))
-                {
-                    curve.YDimension.AsYDimensionInCurves.Add(curve);
-                }
-            }
-        }
-
         public static void LinkTo(this Inlet inlet, Dimension dimension)
         {
             if (inlet == null) throw new NullException(() => inlet);

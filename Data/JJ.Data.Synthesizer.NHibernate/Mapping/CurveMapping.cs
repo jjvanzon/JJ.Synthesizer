@@ -12,8 +12,6 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
             Map(x => x.Name);
             HasMany(x => x.Nodes).KeyColumn(ColumnNames.CurveID).Inverse();
             References(x => x.Document, ColumnNames.DocumentID);
-            References(x => x.XDimension, ColumnNames.XDimensionID);
-            References(x => x.YDimension, ColumnNames.YDimensionID);
         }
     }
 }

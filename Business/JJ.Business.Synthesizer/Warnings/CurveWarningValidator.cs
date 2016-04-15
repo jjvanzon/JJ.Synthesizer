@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Warnings
 
         protected override void Execute()
         {
-            For(() => Object.XDimension, PropertyDisplayNames.XDimension).NotNull();
+            // Placeholder. No validations yet.
         }
     }
 }
