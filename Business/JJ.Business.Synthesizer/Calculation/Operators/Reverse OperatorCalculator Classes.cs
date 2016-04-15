@@ -61,10 +61,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double phase = _phase - positionChange * speed;
 
             // Prevent phase from becoming a special number, rendering it unusable forever.
-            if (Double.IsNaN(phase) || Double.IsInfinity(phase))
-            {
-                return Double.NaN;
-            }
+            //if (Double.IsNaN(phase) || Double.IsInfinity(phase))
+            //{
+            //    return Double.NaN;
+            //}
 
             return phase;
         }

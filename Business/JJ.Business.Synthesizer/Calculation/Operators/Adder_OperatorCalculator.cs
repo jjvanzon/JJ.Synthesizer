@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 double result2 = _operandCalculators[i].Calculate(dimensionStack);
 
                 // Strategically prevent NaN in case of addition, or one sound will destroy the others too.
-                if (Double.IsNaN(result2)) continue;
+                //if (Double.IsNaN(result2)) continue;
 
                 result += result2;
             }

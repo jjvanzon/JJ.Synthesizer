@@ -7,11 +7,12 @@ namespace JJ.Business.Synthesizer.Calculation
 {
     /// <summary>
     /// +/- 20% faster than Math.Sin.
+    /// It also prevents multiplication by 2 PI
+    /// by having a cycle be from 0 to 1.
     /// </summary>
     internal static class SineCalculator
     {
         private const int SAMPLES_PER_CYCLE = 44100 / 8; // 100% precision at 8Hz.
-        private const double SAMPLES_PER_RADIAN = SAMPLES_PER_CYCLE / Maths.TWO_PI;
         private static readonly double[] _samples = CreateSamples();
 
         private static double[] CreateSamples()
@@ -20,6 +21,7 @@ namespace JJ.Business.Synthesizer.Calculation
 
             double t = 0;
             double step = Maths.TWO_PI / SAMPLES_PER_CYCLE;
+
             for (int i = 0; i < SAMPLES_PER_CYCLE; i++)
             {
                 double sample = Math.Sin(t);
@@ -31,9 +33,10 @@ namespace JJ.Business.Synthesizer.Calculation
             return samples;
         }
 
-        public static double Sin(double angleInRadians)
+        /// <param name="positionInCycle">From 0 to 1 is one cycle.</param>
+        public static double Sin(double positionInCycle)
         {
-            int i = (int)(angleInRadians * SAMPLES_PER_RADIAN);
+            int i = (int)(positionInCycle * SAMPLES_PER_CYCLE);
 
             i = i % SAMPLES_PER_CYCLE;
 
@@ -42,8 +45,8 @@ namespace JJ.Business.Synthesizer.Calculation
                 i = i + SAMPLES_PER_CYCLE;
             }
 
-            double x = _samples[i];
-            return x;
+            double value = _samples[i];
+            return value;
         }
     }
 }

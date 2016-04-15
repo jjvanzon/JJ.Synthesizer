@@ -26,8 +26,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double b = _bCalculator.Calculate(dimensionStack);
 
             // Strategically prevent NaN in case of addition, or one sound will destroy the others too.
-            if (Double.IsNaN(a)) a = 0.0;
-            if (Double.IsNaN(b)) b = 0.0;
+            //if (Double.IsNaN(a)) a = 0.0;
+            //if (Double.IsNaN(b)) b = 0.0;
 
             return a + b;
         }
@@ -47,7 +47,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _a = a;
 
             // Strategically prevent NaN in case of addition, or one sound will destroy the others too.
-            if (Double.IsNaN(_a)) _a = 0.0;
+            //if (Double.IsNaN(_a)) _a = 0.0;
 
             _bCalculator = bCalculator;
         }
@@ -57,10 +57,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double b = _bCalculator.Calculate(dimensionStack);
 
             // Strategically prevent NaN in case of addition, or one sound will destroy the others too.
-            if (Double.IsNaN(b))
-            {
-                return _a;
-            }
+            //if (Double.IsNaN(b))
+            //{
+            //    return _a;
+            //}
 
             return _a + b;
         }
@@ -88,10 +88,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double a = _aCalculator.Calculate(dimensionStack);
 
             // Strategically prevent NaN in case of addition, or one sound will destroy the others too.
-            if (Double.IsNaN(a))
-            {
-                return _b;
-            }
+            //if (Double.IsNaN(a))
+            //{
+            //    return _b;
+            //}
 
             return a + _b;
         }

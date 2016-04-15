@@ -32,13 +32,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double frequency = _frequencyCalculator.Calculate(dimensionStack);
 
             double positionChange = position - _previousPosition;
-            double phase = _phase + Maths.TWO_PI * positionChange * frequency;
+            double phase = _phase + positionChange * frequency;
 
             // Prevent phase from becoming a special number, rendering it unusable forever.
-            if (Double.IsNaN(phase) || Double.IsInfinity(phase))
-            {
-                return Double.NaN;
-            }
+            //if (Double.IsNaN(phase) || Double.IsInfinity(phase))
+            //{
+            //    return Double.NaN;
+            //}
             _phase = phase;
 
             double value = SineCalculator.Sin(_phase);
@@ -62,7 +62,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class Sine_WithVarFrequency_WithConstPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
-        private readonly double _phaseShiftTimesTwoPi;
+        private readonly double _phaseShift;
         private readonly int _dimensionIndex;
 
         private double _phase;
@@ -79,7 +79,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
 
             _frequencyCalculator = frequencyCalculator;
-            _phaseShiftTimesTwoPi = phaseShift * Maths.TWO_PI;
+            _phaseShift = phaseShift;
             _dimensionIndex = (int)dimensionEnum;
         }
 
@@ -90,16 +90,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double frequency = _frequencyCalculator.Calculate(dimensionStack);
 
             double positionChange = position - _previousPosition;
-            double phase = _phase + Maths.TWO_PI * positionChange * frequency;
+            double phase = _phase + positionChange * frequency;
 
             // Prevent phase from becoming a special number, rendering it unusable forever.
-            if (Double.IsNaN(phase) || Double.IsInfinity(phase))
-            {
-                return Double.NaN;
-            }
+            //if (Double.IsNaN(phase) || Double.IsInfinity(phase))
+            //{
+            //    return Double.NaN;
+            //}
             _phase = phase;
 
-            double result = SineCalculator.Sin(_phase + _phaseShiftTimesTwoPi);
+            double result = SineCalculator.Sin(_phase + _phaseShift);
 
             _previousPosition = position;
 
@@ -153,16 +153,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double phaseShift = _phaseShiftCalculator.Calculate(dimensionStack);
 
             double positionChange = position - _previousPosition;
-            double phase = _phase + Maths.TWO_PI * positionChange * frequency;
+            double phase = _phase + positionChange * frequency;
 
             // Prevent phase from becoming a special number, rendering it unusable forever.
-            if (Double.IsNaN(phase) || Double.IsInfinity(phase))
-            {
-                return Double.NaN;
-            }
+            //if (Double.IsNaN(phase) || Double.IsInfinity(phase))
+            //{
+            //    return Double.NaN;
+            //}
             _phase = phase;
 
-            double result = SineCalculator.Sin(_phase + Maths.TWO_PI * phaseShift);
+            double result = SineCalculator.Sin(_phase + phaseShift);
 
             _previousPosition = position;
 
@@ -182,7 +182,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     internal class Sine_WithConstFrequency_WithoutPhaseShift_OperatorCalculator : OperatorCalculatorBase
     {
-        private readonly double _frequencyTimesTwoPi;
+        private readonly double _frequency;
         private readonly int _dimensionIndex;
 
         public Sine_WithConstFrequency_WithoutPhaseShift_OperatorCalculator(
@@ -192,7 +192,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (frequency == 0.0) throw new ZeroException(() => frequency);
             OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
 
-            _frequencyTimesTwoPi = frequency * Maths.TWO_PI;
+            _frequency = frequency;
             _dimensionIndex = (int)dimensionEnum;
         }
 
@@ -200,15 +200,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double position = dimensionStack.Get(_dimensionIndex);
 
-            double value = SineCalculator.Sin(position * _frequencyTimesTwoPi);
+            double value = SineCalculator.Sin(position * _frequency);
             return value;
         }
     }
 
     internal class Sine_WithConstFrequency_WithConstPhaseShift_OperatorCalculator : OperatorCalculatorBase
     {
-        private readonly double _frequencyTimesTwoPi;
-        private readonly double _phaseShiftTimeTwoPi;
+        private readonly double _frequency;
+        private readonly double _phaseShift;
         private readonly int _dimensionIndex;
 
         public Sine_WithConstFrequency_WithConstPhaseShift_OperatorCalculator(
@@ -220,8 +220,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (phaseShift % 1.0 == 0.0) throw new Exception("phaseShift cannot be a multiple of 1.");
             OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
 
-            _frequencyTimesTwoPi = frequency * Maths.TWO_PI;
-            _phaseShiftTimeTwoPi = phaseShift * Maths.TWO_PI;
+            _frequency = frequency;
+            _phaseShift = phaseShift;
             _dimensionIndex = (int)dimensionEnum;
         }
 
@@ -229,14 +229,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double position = dimensionStack.Get(_dimensionIndex);
 
-            double result = SineCalculator.Sin(position * _frequencyTimesTwoPi + _phaseShiftTimeTwoPi);
+            double result = SineCalculator.Sin(position * _frequency + _phaseShift);
             return result;
         }
     }
 
     internal class Sine_WithConstFrequency_WithVarPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly double _frequencyTimesTwoPi;
+        private readonly double _frequency;
         private readonly OperatorCalculatorBase _phaseShiftCalculator;
         private readonly int _dimensionIndex;
 
@@ -250,7 +250,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (phaseShiftCalculator == null) throw new NullException(() => phaseShiftCalculator);
             OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
 
-            _frequencyTimesTwoPi = frequency * Maths.TWO_PI;
+            _frequency = frequency;
             _phaseShiftCalculator = phaseShiftCalculator;
             _dimensionIndex = (int)dimensionEnum;
         }
@@ -261,7 +261,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             // TODO: Not tested.
             double phaseShift = _phaseShiftCalculator.Calculate(dimensionStack);
-            double result = SineCalculator.Sin(position * _frequencyTimesTwoPi + Maths.TWO_PI * phaseShift);
+            double result = SineCalculator.Sin(position * _frequency + phaseShift);
             return result;
         }
     }

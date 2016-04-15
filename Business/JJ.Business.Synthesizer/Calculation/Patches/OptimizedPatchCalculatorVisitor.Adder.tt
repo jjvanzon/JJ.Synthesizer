@@ -5,7 +5,7 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".cs" #>
 
-<# int maxAdderOperands = 0; #>
+<# int maxAdderOperands = 32; #>
 
 using JJ.Data.Synthesizer;
 using System;

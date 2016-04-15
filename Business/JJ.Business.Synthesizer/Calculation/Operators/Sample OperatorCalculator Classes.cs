@@ -47,10 +47,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double phase = _phase + positionChange * rate;
 
             // Prevent phase from becoming a special number, rendering it unusable forever.
-            if (Double.IsNaN(phase) || Double.IsInfinity(phase))
-            {
-                return Double.NaN;
-            }
+            //if (Double.IsNaN(phase) || Double.IsInfinity(phase))
+            //{
+            //    return Double.NaN;
+            //}
             _phase = phase;
 
             double value = _sampleCalculator.CalculateValue(_phase, channelIndex);
@@ -104,10 +104,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double phase = _phase + positionChange * _rate;
 
             // Prevent phase from becoming a special number, rendering it unusable forever.
-            if (Double.IsNaN(phase) || Double.IsInfinity(phase))
-            {
-                return Double.NaN;
-            }
+            //if (Double.IsNaN(phase) || Double.IsInfinity(phase))
+            //{
+            //    return Double.NaN;
+            //}
             _phase = phase;
 
             double value = _sampleCalculator.CalculateValue(_phase, channelIndex);
@@ -163,10 +163,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double phase = _phase + positionChange * rate;
 
             // Prevent phase from becoming a special number, rendering it unusable forever.
-            if (Double.IsNaN(phase) || Double.IsInfinity(phase))
-            {
-                return Double.NaN;
-            }
+            //if (Double.IsNaN(phase) || Double.IsInfinity(phase))
+            //{
+            //    return Double.NaN;
+            //}
             _phase = phase;
 
             // Return the single channel for both channels.
@@ -219,10 +219,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double phase = _phase + positionChange * _rate;
 
             // Prevent phase from becoming a special number, rendering it unusable forever.
-            if (Double.IsNaN(phase) || Double.IsInfinity(phase))
-            {
-                return Double.NaN;
-            }
+            //if (Double.IsNaN(phase) || Double.IsInfinity(phase))
+            //{
+            //    return Double.NaN;
+            //}
             _phase = phase;
 
             // Return the single channel for both channels.
@@ -279,10 +279,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double phase = _phase + positionChange * rate;
 
             // Prevent phase from becoming a special number, rendering it unusable forever.
-            if (Double.IsNaN(phase) || Double.IsInfinity(phase))
-            {
-                return Double.NaN;
-            }
+            //if (Double.IsNaN(phase) || Double.IsInfinity(phase))
+            //{
+            //    return Double.NaN;
+            //}
             _phase = phase;
 
             double value0 = _sampleCalculator.CalculateValue(_phase, 0);
@@ -335,10 +335,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double phase = _phase + positionChange * _rate;
 
             // Prevent phase from becoming a special number, rendering it unusable forever.
-            if (Double.IsNaN(phase) || Double.IsInfinity(phase))
-            {
-                return Double.NaN;
-            }
+            //if (Double.IsNaN(phase) || Double.IsInfinity(phase))
+            //{
+            //    return Double.NaN;
+            //}
             _phase = phase;
 
             double value0 = _sampleCalculator.CalculateValue(_phase, 0);
