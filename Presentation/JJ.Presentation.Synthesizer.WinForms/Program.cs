@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Windows.Forms;
+using JJ.Data.Synthesizer;
 using JJ.Framework.Common;
 using JJ.Framework.Configuration;
 using JJ.Framework.Logging;
@@ -49,7 +51,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 PatchCalculatorContainer = new SingleThreadedPatchCalculatorContainer();
             }
 
-            if (winFormsConfig.AudioOutputEnabled) _audioOutputProcessor = new AudioOutputProcessor(PatchCalculatorContainer);
+            AudioOutput mockAudioOutput = CreateMockAudioOutput();
+
+            if (winFormsConfig.AudioOutputEnabled) _audioOutputProcessor = new AudioOutputProcessor(PatchCalculatorContainer, mockAudioOutput);
             if (winFormsConfig.MidiInputEnabled) _midiInputProcessor = new MidiInputProcessor(PatchCalculatorContainer, _audioOutputProcessor, noteRecycler);
 
             if (winFormsConfig.AudioOutputEnabled) _audioOutputThread = StartAudioOutputThread(_audioOutputProcessor);
@@ -70,6 +74,35 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             // TODO: Clean-up threads all over the place.
             //_patchCalculatorContainer.Dispose();
+        }
+
+        /// <summary>
+        /// This mock AudioOutput entity is needed to keep the code runnable,
+        /// until I create the audio output infrastructure objects elsewhere in the code.
+        /// </summary>
+        private static AudioOutput CreateMockAudioOutput()
+        {
+            var speakerSetup = new SpeakerSetup
+            {
+                SpeakerSetupChannels = new List<SpeakerSetupChannel>()
+            };
+
+            var speakerSetupChannel =new SpeakerSetupChannel
+            {
+                IndexNumber = 1,
+                SpeakerSetup = speakerSetup
+            };
+            speakerSetup.SpeakerSetupChannels.Add(speakerSetupChannel);
+
+            var audioOutput = new AudioOutput
+            {
+                SamplingRate = 44100,
+                SpeakerSetup = speakerSetup,
+                SpeedFactor = 1,
+                VolumeFactor = 1
+            };
+
+            return audioOutput;
         }
 
         private static Thread StartMidiInputThread(MidiInputProcessor midiInputProcessor)

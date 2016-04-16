@@ -6,33 +6,38 @@ using JJ.Business.Synthesizer.Calculation.Patches;
 using System.Threading;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Business.Synthesizer.Calculation;
+using JJ.Data.Synthesizer;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
     internal class AudioOutputSampleProvider : ISampleProvider
     {
-        private const int DEFAULT_SAMPLE_RATE = 44100;
-        private const int DEFAULT_CHANNEL_COUNT = 1;
-        private const int DEFAULT_CHANNEL_INDEX = 0; // TODO: Make multi-channel later.
-        private const double SAMPLE_DURATION = 1.0 / DEFAULT_SAMPLE_RATE;
-
-        private static WaveFormat _waveFormat = CreateWaveFormat();
-
+        private readonly WaveFormat _waveFormat;
         private readonly IPatchCalculatorContainer _patchCalculatorContainer;
+        private readonly double _sampleDuration;
 
+        /// <summary> Public field for performance. </summary>
         public double _time;
         public volatile bool _isRunning;
 
-        public AudioOutputSampleProvider(IPatchCalculatorContainer patchCalculatorContainer)
+        public AudioOutputSampleProvider(IPatchCalculatorContainer patchCalculatorContainer, AudioOutput audioOutput)
         {
             if (patchCalculatorContainer == null) throw new NullException(() => patchCalculatorContainer);
+            if (audioOutput == null) throw new NullException(() => audioOutput);
+            if (audioOutput.SamplingRate == 0) throw new ZeroException(() => audioOutput.SamplingRate);
 
             _patchCalculatorContainer = patchCalculatorContainer;
+            _sampleDuration = 1.0 / (double)audioOutput.SamplingRate;
+
+            _waveFormat = CreateWaveFormat(audioOutput);
         }
 
-        private static WaveFormat CreateWaveFormat()
+        private WaveFormat CreateWaveFormat(AudioOutput audioOutput)
         {
-            WaveFormat waveFormat = WaveFormat.CreateIeeeFloatWaveFormat(DEFAULT_SAMPLE_RATE, DEFAULT_CHANNEL_COUNT);
+            WaveFormat waveFormat = WaveFormat.CreateIeeeFloatWaveFormat(
+                audioOutput.SamplingRate, 
+                audioOutput.SpeakerSetup.SpeakerSetupChannels.Count);
+
             return waveFormat;
         }
 
@@ -56,7 +61,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     return count;
                 }
 
-                double[] values = patchCalculator.Calculate(_time, SAMPLE_DURATION, count, new DimensionStack());
+                double[] values = patchCalculator.Calculate(_time, _sampleDuration, count, new DimensionStack());
 
                 for (int i = offset; i < count; i++)
                 {
@@ -69,10 +74,9 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     }
 
                     buffer[i] = (float)value;
-
                 }
 
-                _time += SAMPLE_DURATION * count;
+                _time += _sampleDuration * count;
 
                 return count;
             }

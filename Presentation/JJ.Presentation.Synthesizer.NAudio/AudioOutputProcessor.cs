@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Data.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
 using NAudio.Wave;
 
@@ -14,9 +15,9 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         private WaveOut _waveOut;
 
-        public AudioOutputProcessor(IPatchCalculatorContainer patchCalculatorContainer)
+        public AudioOutputProcessor(IPatchCalculatorContainer patchCalculatorContainer, AudioOutput audioOutput)
         {
-            _sampleProvider = new AudioOutputSampleProvider(patchCalculatorContainer);
+            _sampleProvider = new AudioOutputSampleProvider(patchCalculatorContainer, audioOutput);
         }
 
         public double Time { get { return _sampleProvider._time; } }

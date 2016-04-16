@@ -45,7 +45,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         private const int TIME_DIMENSION_INDEX = (int)DimensionEnum.Time;
         private const int MAX_EXPECTED_PATCH_CALCULATORS_PER_THREAD = 32;
-        private const int DEFAULT_CHANNEL_INDEX = 0; // TODO: Make multi-channel.
 
         private readonly NoteRecycler _noteRecycler;
         private readonly IList<PatchCalculatorInfo> _patchCalculatorInfos;
@@ -82,6 +81,10 @@ namespace JJ.Presentation.Synthesizer.NAudio
             {
                 Thread thread = new Thread(CalculateSingleThread);
                 thread.Priority = ThreadPriority.AboveNormal;
+                // TODO: This property makes sure the application shut-down does not hang on these threads.
+                // This means that former code taht tried to manage disposing and cleaning up threads
+                // can be removed from this class.
+                thread.IsBackground = true;
 
                 var threadInfo = new ThreadInfo(thread);
                 _threadInfos[i] = threadInfo;
