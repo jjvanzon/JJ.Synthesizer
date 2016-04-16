@@ -42,6 +42,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private readonly AudioFileOutputGridPresenter _audioFileOutputGridPresenter;
         private readonly AudioFileOutputPropertiesPresenter _audioFileOutputPropertiesPresenter;
+        private readonly AudioOutputPropertiesPresenter _audioOutputPropertiesPresenter;
         private readonly CurrentPatchesPresenter _currentPatchesPresenter;
         private readonly CurveDetailsPresenter _curveDetailsPresenter;
         private readonly CurveGridPresenter _curveGridPresenter;
@@ -87,13 +88,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly ScaleManager _scaleManager;
 
         public MainViewModel MainViewModel { get; private set; }
-
-        public MainPresenter(RepositoryWrapper repositoryWrapper)
+        
+        public MainPresenter(RepositoryWrapper repositories)
         {
-            if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
+            if (repositories == null) throw new NullException(() => repositories);
 
             // Create Repositories
-            _repositories = repositoryWrapper;
+            _repositories = repositories;
             _curveRepositories = new CurveRepositories(_repositories);
             _patchRepositories = new PatchRepositories(_repositories);
             _sampleRepositories = new SampleRepositories(_repositories);
@@ -104,13 +105,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _audioFileOutputManager = new AudioFileOutputManager(audioFileOutputRepositories);
             _curveManager = new CurveManager(_curveRepositories);
             _documentManager = new DocumentManager(_repositories);
-            _entityPositionManager = new EntityPositionManager(_repositories.EntityPositionRepository, _repositories.IDRepository);
+            _entityPositionManager = new EntityPositionManager(
+                _repositories.EntityPositionRepository, 
+                _repositories.IDRepository);
             _sampleManager = new SampleManager(_sampleRepositories);
             _scaleManager = new ScaleManager(scaleRepositories);
 
             // Create Presenters
             _audioFileOutputGridPresenter = new AudioFileOutputGridPresenter(_repositories.DocumentRepository);
             _audioFileOutputPropertiesPresenter = new AudioFileOutputPropertiesPresenter(audioFileOutputRepositories);
+            _audioOutputPropertiesPresenter = new AudioOutputPropertiesPresenter(
+                _repositories.AudioOutputRepository,
+                _repositories.SpeakerSetupRepository, 
+                _repositories.IDRepository);
             _currentPatchesPresenter = new CurrentPatchesPresenter(_repositories.DocumentRepository);
             _curveDetailsPresenter = new CurveDetailsPresenter(_curveRepositories);
             _curveGridPresenter = new CurveGridPresenter(_repositories.DocumentRepository);
@@ -179,6 +186,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void HideAllPropertiesViewModels()
         {
             MainViewModel.DocumentDetails.Visible = false;
+            MainViewModel.Document.AudioOutputProperties.Visible = false;
             MainViewModel.Document.AudioFileOutputPropertiesList.ForEach(x => x.Visible = false);
             MainViewModel.Document.CurvePropertiesList.ForEach(x => x.Visible = false);
             MainViewModel.Document.DocumentProperties.Visible = false;

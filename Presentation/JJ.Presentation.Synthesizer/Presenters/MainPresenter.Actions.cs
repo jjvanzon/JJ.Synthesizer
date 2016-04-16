@@ -174,6 +174,36 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
+        // AudioOutput
+
+        public void AudioOutputPropertiesShow()
+        {
+            // GetViewModel
+            AudioOutputPropertiesViewModel userInput = MainViewModel.Document.AudioOutputProperties;
+
+            // TemplateMethod
+            TemplateActionMethod(userInput, () => _audioOutputPropertiesPresenter.Show(userInput));
+        }
+
+        public void AudioOutputPropertiesClose()
+        {
+            AudioOutputPropertiesCloseOrLoseFocus(_audioOutputPropertiesPresenter.Close);
+        }
+
+        public void AudioOutputPropertiesLoseFocus()
+        {
+            AudioOutputPropertiesCloseOrLoseFocus(_audioOutputPropertiesPresenter.LoseFocus);
+        }
+
+        private void AudioOutputPropertiesCloseOrLoseFocus(Func<AudioOutputPropertiesViewModel, AudioOutputPropertiesViewModel> partialAction)
+        {
+            // GetViewModel
+            AudioOutputPropertiesViewModel userInput = MainViewModel.Document.AudioOutputProperties;
+
+            // TemplateMethod
+            AudioOutputPropertiesViewModel viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
+        }
+
         // CurrentPatches
 
         public void CurrentPatchesShow()

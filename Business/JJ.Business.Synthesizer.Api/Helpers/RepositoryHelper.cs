@@ -28,6 +28,7 @@ namespace JJ.Business.Synthesizer.Api.Helpers
                 CreateRepository<IPatchRepository>(ContextHelper.MemoryContext),
                 CreateRepository<ISampleRepository>(ContextHelper.MemoryContext),
                 CreateRepository<IAudioFileOutputRepository>(ContextHelper.MemoryContext),
+                CreateRepository<IAudioOutputRepository>(ContextHelper.MemoryContext),
                 CreateRepository<IDocumentReferenceRepository>(ContextHelper.MemoryContext),
                 CreateRepository<INodeRepository>(ContextHelper.MemoryContext),
                 CreateRepository<IAudioFileOutputChannelRepository>(ContextHelper.MemoryContext),

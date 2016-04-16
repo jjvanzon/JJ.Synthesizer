@@ -1243,6 +1243,42 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
         }
 
+        public static void Migrate_Document_CreateAudioOutput(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+                var audioOutputManager = new AudioOutputManager(
+                    repositories.AudioOutputRepository,
+                    repositories.SpeakerSetupRepository,
+                    repositories.IDRepository);
+
+                IList<Document> rootDocuments = repositories.DocumentRepository.GetAll().Where(x => x.ParentDocument == null).ToArray();
+                for (int i = 0; i < rootDocuments.Count; i++)
+                {
+                    Document rootDocument = rootDocuments[i];
+
+                    AudioOutput audioOutput = audioOutputManager.Create(rootDocument);
+
+                    string progressMessage = String.Format("Migrated Document {0}/{1}.", i + 1, rootDocuments.Count);
+                    progressCallback(progressMessage);
+                }
+
+                AssertDocuments(repositories, progressCallback);
+
+                //throw new Exception("Temporarily not committing, for debugging purposes.");
+                context.Commit();
+            }
+
+            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        }
+
+        // Helpers
+
         private static void AssertDocuments(RepositoryWrapper repositories, Action<string> progressCallback)
         {
             var documentManager = new DocumentManager(repositories);

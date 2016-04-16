@@ -1,0 +1,1 @@
+alter table AudioOutput alter column SpeedFactor float not null;

@@ -42,6 +42,7 @@
     <Compile Include="Helpers\RepositoryHelper.cs" />
     <Compile Include="Helpers\EntityIDs.cs" />
     <Compile Include="Mappings\2016-04-10 Backup of OutletTypeMapping.cs" />
+    <Compile Include="Mappings\AudioOutputMapping.cs" />
     <Compile Include="Mappings\DimensionMapping.cs" />
     <Compile Include="Mappings\ScaleTypeMapping.cs" />
     <Compile Include="Mappings\ToneMapping.cs" />

@@ -35,6 +35,14 @@ namespace JJ.Business.Synthesizer
             var document = new Document();
             document.ID = _repositories.IDRepository.GetID();
             _repositories.DocumentRepository.Insert(document);
+
+            ISideEffect sideEffect = new Document_SideEffect_AutoCreateAudioOutput(
+                document,
+                _repositories.AudioOutputRepository,
+                _repositories.SpeakerSetupRepository,
+                _repositories.IDRepository);
+            sideEffect.Execute();
+
             return document;
         }
 

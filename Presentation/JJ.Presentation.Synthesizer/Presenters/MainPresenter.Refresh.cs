@@ -63,6 +63,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(viewModel);
         }
 
+        private void AudioOutputPropertiesRefresh()
+        {
+            // GetViewModel
+            AudioOutputPropertiesViewModel userInput = MainViewModel.Document.AudioOutputProperties;
+
+            // Partial Action
+            AudioOutputPropertiesViewModel viewModel = _audioOutputPropertiesPresenter.Refresh(userInput);
+
+            // DispatchViewModel
+            DispatchViewModel(viewModel);
+        }
+
         private void CurrentPatchesRefresh()
         {
             // GetViewModel
@@ -285,7 +297,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             SampleGridRefresh(MainViewModel.Document.SampleGrid);
             ScaleGridRefresh();
 
+            AudioOutputPropertiesRefresh();
             AudioFileOutputPropertiesRefresh();
+            AudioOutputPropertiesRefresh();
             CurveDetailsListRefresh(MainViewModel.Document);
             CurvePropertiesListRefresh(MainViewModel.Document);
             NodePropertiesListRefresh(MainViewModel.Document);

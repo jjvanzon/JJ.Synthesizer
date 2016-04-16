@@ -20,6 +20,13 @@ namespace JJ.Business.Synthesizer.Validation
             return GetMessagePrefix(PropertyDisplayNames.AudioFileOutput, entity.Name);
         }
 
+        public static string GetMessagePrefix(AudioOutput audioOutput)
+        {
+            if (audioOutput == null) throw new NullException(() => audioOutput);
+
+            return PropertyDisplayNames.AudioOutput;
+        }
+
         public static string GetMessagePrefix(Curve entity)
         {
             if (entity == null) throw new NullException(() => entity);

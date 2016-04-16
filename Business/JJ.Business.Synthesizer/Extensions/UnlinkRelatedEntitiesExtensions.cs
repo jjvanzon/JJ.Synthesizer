@@ -26,6 +26,13 @@ namespace JJ.Business.Synthesizer.Extensions
             audioFileOutputChannel.UnlinkOutlet();
         }
 
+        public static void UnlinkRelatedEntities(this AudioOutput audioOutput)
+        {
+            if (audioOutput == null) throw new NullException(() => audioOutput);
+
+            audioOutput.UnlinkSpeakerSetup();
+        }
+
         public static void UnlinkRelatedEntities(this Curve curve)
         {
             if (curve == null) throw new NullException(() => curve);
@@ -33,12 +40,13 @@ namespace JJ.Business.Synthesizer.Extensions
             curve.UnlinkDocument();
         }
 
-        public static void UnlinkRelatedEntities(this Node node)
+        public static void UnlinkRelatedEntities(this Inlet inlet)
         {
-            if (node == null) throw new NullException(() => node);
+            if (inlet == null) throw new NullException(() => inlet);
 
-            node.UnlinkNodeType();
-            node.UnlinkCurve();
+            inlet.UnlinkDimension();
+            inlet.UnlinkOutlet();
+            inlet.UnlinkOperator();
         }
 
         public static void UnlinkRelatedEntities(this Document document)
@@ -57,11 +65,12 @@ namespace JJ.Business.Synthesizer.Extensions
             // NOTE: Do not unlink DependentDocument: those should either be deleted first, or things should crash on reference constraint violations.
         }
 
-        public static void UnlinkRelatedEntities(this Patch patch)
+        public static void UnlinkRelatedEntities(this Node node)
         {
-            if (patch == null) throw new NullException(() => patch);
+            if (node == null) throw new NullException(() => node);
 
-            patch.UnlinkDocument();
+            node.UnlinkNodeType();
+            node.UnlinkCurve();
         }
 
         public static void UnlinkRelatedEntities(this Operator op)
@@ -72,13 +81,11 @@ namespace JJ.Business.Synthesizer.Extensions
             op.UnlinkOperatorType();
         }
 
-        public static void UnlinkRelatedEntities(this Inlet inlet)
+        public static void UnlinkRelatedEntities(this Patch patch)
         {
-            if (inlet == null) throw new NullException(() => inlet);
+            if (patch == null) throw new NullException(() => patch);
 
-            inlet.UnlinkDimension();
-            inlet.UnlinkOutlet();
-            inlet.UnlinkOperator();
+            patch.UnlinkDocument();
         }
 
         public static void UnlinkRelatedEntities(this Outlet outlet)
@@ -94,14 +101,6 @@ namespace JJ.Business.Synthesizer.Extensions
             outlet.UnlinkOperator();
         }
 
-        public static void UnlinkRelatedEntities(this Scale scale)
-        {
-            if (scale == null) throw new NullException(() => scale);
-
-            scale.UnlinkDocument();
-            scale.UnlinkScaleType();
-        }
-
         public static void UnlinkRelatedEntities(this Sample sample)
         {
             if (sample == null) throw new NullException(() => sample);
@@ -111,6 +110,14 @@ namespace JJ.Business.Synthesizer.Extensions
             sample.UnlinkSampleDataType();
             sample.UnlinkSpeakerSetup();
             sample.UnlinkDocument();
+        }
+
+        public static void UnlinkRelatedEntities(this Scale scale)
+        {
+            if (scale == null) throw new NullException(() => scale);
+
+            scale.UnlinkDocument();
+            scale.UnlinkScaleType();
         }
     }
 }

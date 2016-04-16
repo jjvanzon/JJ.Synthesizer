@@ -151,6 +151,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Audio Output.
+        /// </summary>
+        public static string AudioOutput {
+            get {
+                return ResourceManager.GetString("AudioOutput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Average.
         /// </summary>
         public static string Average {
@@ -1726,6 +1735,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Speed Factor.
+        /// </summary>
+        public static string SpeedFactor {
+            get {
+                return ResourceManager.GetString("SpeedFactor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Speed Up.
         /// </summary>
         public static string SpeedUp {
@@ -2001,6 +2019,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Volume {
             get {
                 return ResourceManager.GetString("Volume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Volume Factor.
+        /// </summary>
+        public static string VolumeFactor {
+            get {
+                return ResourceManager.GetString("VolumeFactor", resourceCulture);
             }
         }
         

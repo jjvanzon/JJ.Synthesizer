@@ -195,6 +195,16 @@ namespace JJ.Business.Synthesizer.LinkTo
             }
         }
 
+        public static void LinkTo(this Document document, AudioOutput audioOutput)
+        {
+            if (document == null) throw new NullException(() => document);
+            if (audioOutput == null) throw new NullException(() => audioOutput);
+
+            document.AudioOutput = audioOutput;
+
+            // No inverse property.
+        }
+
         public static void LinkTo(this Patch patch, Document document)
         {
             if (patch == null) throw new NullException(() => patch);
@@ -404,6 +414,15 @@ namespace JJ.Business.Synthesizer.LinkTo
             if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
 
             audioFileOutput.AudioFileFormat = audioFileFormat;
+
+            // No inverse property.
+        }
+
+        public static void LinkTo(this AudioOutput audioOutput, SpeakerSetup speakerSetup)
+        {
+            if (audioOutput == null) throw new NullException(() => audioOutput);
+
+            audioOutput.SpeakerSetup = speakerSetup;
 
             // No inverse property.
         }

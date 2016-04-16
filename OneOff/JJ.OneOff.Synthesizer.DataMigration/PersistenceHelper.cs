@@ -28,6 +28,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                 CreateRepository<IPatchRepository>(context),
                 CreateRepository<ISampleRepository>(context),
                 CreateRepository<IAudioFileOutputRepository>(context),
+                CreateRepository<IAudioOutputRepository>(context),
                 CreateRepository<IDocumentReferenceRepository>(context),
                 CreateRepository<INodeRepository>(context),
                 CreateRepository<IAudioFileOutputChannelRepository>(context),

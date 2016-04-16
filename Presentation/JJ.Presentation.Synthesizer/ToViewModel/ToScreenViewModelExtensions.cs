@@ -68,6 +68,20 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
+        // AudioOutput
+
+        public static AudioOutputPropertiesViewModel ToPropertiesViewModel(this AudioOutput entity)
+        {
+            var viewModel = new AudioOutputPropertiesViewModel
+            {
+                Entity = entity.ToViewModel(),
+                SpeakerSetupLookup = ViewModelHelper.CreateSpeakerSetupLookupViewModel(),
+                ValidationMessages = new List<Message>()
+            };
+
+            return viewModel;
+        }
+
         // Curve
 
         public static CurveDetailsViewModel ToDetailsViewModel(this Curve entity, INodeTypeRepository nodeTypeRepository)
@@ -194,9 +208,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 ID = document.ID,
                 Name = document.Name,
-                CurvesNode = new DummyViewModel(),
-                SamplesNode = new DummyViewModel(),
-                AudioFileOutputsNode = new DummyViewModel(),
                 PatchesNode = new PatchesTreeNodeViewModel
                 {
                     PatchGroupNodes = new List<PatchGroupTreeNodeViewModel>()
@@ -205,6 +216,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 {
                     List = new List<ReferencedDocumentViewModel>()
                 },
+                CurvesNode = new DummyViewModel(),
+                SamplesNode = new DummyViewModel(),
+                AudioOutputNode = new DummyViewModel(),
+                AudioFileOutputsNode = new DummyViewModel(),
                 ValidationMessages = new List<Message>()
             };
 

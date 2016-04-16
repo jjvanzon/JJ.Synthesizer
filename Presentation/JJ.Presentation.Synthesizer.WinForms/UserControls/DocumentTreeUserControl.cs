@@ -19,19 +19,21 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<Int32EventArgs> CollapseNodeRequested;
 
         public event EventHandler ShowDocumentPropertiesRequested;
-        public event EventHandler ShowAudioFileOutputsRequested;
-        public event EventHandler<Int32EventArgs> ShowCurvesRequested;
-        public event EventHandler<Int32EventArgs> ShowPatchDetailsRequested;
         public event EventHandler<StringEventArgs> ShowPatchGridRequested;
+        public event EventHandler<Int32EventArgs> ShowPatchDetailsRequested;
+        public event EventHandler<Int32EventArgs> ShowCurvesRequested;
         public event EventHandler<Int32EventArgs> ShowSamplesRequested;
+        public event EventHandler ShowAudioOutputRequested;
+        public event EventHandler ShowAudioFileOutputsRequested;
         public event EventHandler ShowScalesRequested;
 
         private TreeNode _documentTreeNode;
+        private HashSet<TreeNode> _patchesTreeNodes;
+        private HashSet<TreeNode> _patchTreeNodes;
         private HashSet<TreeNode> _samplesTreeNodes;
         private HashSet<TreeNode> _curvesTreeNodes;
-        private HashSet<TreeNode> _patchTreeNodes;
-        private HashSet<TreeNode> _patchesTreeNodes;
         private TreeNode _scalesTreeNode;
+        private TreeNode _audioOutputNode;
         private TreeNode _audioFileOutputsTreeNode;
 
         public DocumentTreeUserControl()
@@ -57,10 +59,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 treeView.SuspendLayout();
                 treeView.BeginUpdate();
 
+                _patchesTreeNodes = new HashSet<TreeNode>();
+                _patchTreeNodes = new HashSet<TreeNode>();
                 _samplesTreeNodes = new HashSet<TreeNode>();
                 _curvesTreeNodes = new HashSet<TreeNode>();
-                _patchTreeNodes = new HashSet<TreeNode>();
-                _patchesTreeNodes = new HashSet<TreeNode>();
 
                 treeView.Nodes.Clear();
 
@@ -158,6 +160,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             _scalesTreeNode = new TreeNode(PropertyDisplayNames.Scales);
             documentNode.Nodes.Add(_scalesTreeNode);
+
+            _audioOutputNode = new TreeNode(PropertyDisplayNames.AudioOutput);
+            documentNode.Nodes.Add(_audioOutputNode);
 
             _audioFileOutputsTreeNode = new TreeNode(PropertyDisplayNames.AudioFileOutputs);
             documentNode.Nodes.Add(_audioFileOutputsTreeNode);
@@ -288,6 +293,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 if (ShowAudioFileOutputsRequested != null)
                 {
                     ShowAudioFileOutputsRequested(this, EventArgs.Empty);
+                }
+            }
+
+            if (node == _audioOutputNode)
+            {
+                if (ShowAudioOutputRequested != null)
+                {
+                    ShowAudioOutputRequested(this, EventArgs.Empty);
                 }
             }
 

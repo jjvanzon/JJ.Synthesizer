@@ -10,6 +10,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public int ID { get; set; }
         public AudioFileOutputGridViewModel AudioFileOutputGrid { get; set; }
         public IList<AudioFileOutputPropertiesViewModel> AudioFileOutputPropertiesList { get; set; }
+        public AudioOutputPropertiesViewModel AudioOutputProperties { get; set; }
         public CurrentPatchesViewModel CurrentPatches { get; set; }
         public IList<CurveDetailsViewModel> CurveDetailsList { get; set; }
         public CurveGridViewModel CurveGrid { get; set; }

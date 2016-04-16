@@ -20,6 +20,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 { typeof(AudioFileOutputGridViewModel), DispatchAudioFileOutputGridViewModel },
                 { typeof(AudioFileOutputPropertiesViewModel), DispatchAudioFileOutputPropertiesViewModel },
+                { typeof(AudioOutputPropertiesViewModel), DispatchAudioOutputPropertiesViewModel },
                 { typeof(CurrentPatchesViewModel), DispatchCurrentPatchesViewModel },
                 { typeof(CurveDetailsViewModel), DispatchCurveDetailsViewModel },
                 { typeof(CurveGridViewModel), DispatchCurveGridViewModel },
@@ -110,6 +111,22 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 list.Add(castedViewModel);
             }
+
+            if (castedViewModel.Visible)
+            {
+                HideAllPropertiesViewModels();
+                castedViewModel.Visible = true;
+            }
+
+            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            castedViewModel.ValidationMessages.Clear();
+        }
+
+        private void DispatchAudioOutputPropertiesViewModel(object viewModel2)
+        {
+            var castedViewModel = (AudioOutputPropertiesViewModel)viewModel2;
+
+            var list = MainViewModel.Document.AudioOutputProperties = castedViewModel; ;
 
             if (castedViewModel.Visible)
             {

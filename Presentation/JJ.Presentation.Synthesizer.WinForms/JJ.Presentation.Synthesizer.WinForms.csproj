@@ -207,6 +207,12 @@
     <Compile Include="UserControls\OperatorPropertiesUserControl_ForBundle.Designer.cs">
       <DependentUpon>OperatorPropertiesUserControl_ForBundle.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\AudioOutputPropertiesUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\AudioOutputPropertiesUserControl.Designer.cs">
+      <DependentUpon>AudioOutputPropertiesUserControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\ToneGridEditUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -426,6 +432,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForBundle.resx">
       <DependentUpon>OperatorPropertiesUserControl_ForBundle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\AudioOutputPropertiesUserControl.resx">
+      <DependentUpon>AudioOutputPropertiesUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\ToneGridEditUserControl.resx">
       <DependentUpon>ToneGridEditUserControl.cs</DependentUpon>

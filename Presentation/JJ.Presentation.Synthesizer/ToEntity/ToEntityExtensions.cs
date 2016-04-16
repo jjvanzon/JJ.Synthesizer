@@ -194,6 +194,58 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
         }
 
+        // AudioOutput
+
+        public static AudioOutput ToEntity(
+            this AudioOutputPropertiesViewModel viewModel,
+            IAudioOutputRepository audioOutputRepository,
+            ISpeakerSetupRepository speakerSetupRepository,
+            IIDRepository idRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            AudioOutput entity = viewModel.Entity.ToEntity(audioOutputRepository, speakerSetupRepository, idRepository);
+
+            return entity;
+        }
+
+        public static AudioOutput ToEntity(
+            this AudioOutputViewModel viewModel, 
+            IAudioOutputRepository audioOutputRepository,
+            ISpeakerSetupRepository speakerSetupRepository,
+            IIDRepository idRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (audioOutputRepository == null) throw new NullException(() => audioOutputRepository);
+            if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
+            if (idRepository == null) throw new NullException(() => idRepository);
+
+            AudioOutput entity = audioOutputRepository.TryGet(viewModel.ID);
+            if (entity == null)
+            {
+                entity = new AudioOutput();
+                entity.ID = idRepository.GetID();
+                audioOutputRepository.Insert(entity);
+            }
+
+            entity.SamplingRate = viewModel.SamplingRate;
+            entity.VolumeFactor = viewModel.VolumeFactor;
+            entity.SpeedFactor = viewModel.SpeedFactor;
+
+            bool speakerSetupIsFilledIn = viewModel.SpeakerSetup != null && viewModel.SpeakerSetup.ID != 0;
+            if (speakerSetupIsFilledIn)
+            {
+                SpeakerSetup speakerSetup = speakerSetupRepository.Get(viewModel.SpeakerSetup.ID);
+                entity.LinkTo(speakerSetup);
+            }
+            else
+            {
+                entity.UnlinkSpeakerSetup();
+            }
+
+            return entity;
+        }
+
         // CurrentPatches
 
         public static IList<Patch> ToEntities(this CurrentPatchesViewModel viewModel, IDocumentRepository documentRepository)
@@ -349,6 +401,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             userInput.PatchDocumentList.ToChildDocumentsWithRelatedEntities(destDocument, repositories);
             userInput.AudioFileOutputPropertiesList.ToAudioFileOutputsWithRelatedEntities(destDocument, new AudioFileOutputRepositories(repositories));
+            userInput.AudioOutputProperties.ToEntity(repositories.AudioOutputRepository, repositories.SpeakerSetupRepository, repositories.IDRepository);
             userInput.CurvePropertiesList.ToEntitiesWithDimensions(destDocument, curveRepositories);
             // Order-Dependence: NodeProperties are leading over the CurveDetails Nodes.
             userInput.CurveDetailsList.ToEntitiesWithNodes(destDocument, curveRepositories);

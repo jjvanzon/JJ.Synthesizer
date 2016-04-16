@@ -94,6 +94,32 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
+        // AudioOutput
+
+        public static AudioOutputViewModel ToViewModel(this AudioOutput entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            var viewModel = new AudioOutputViewModel
+            {
+                ID = entity.ID,
+                SamplingRate = entity.SamplingRate,
+                SpeedFactor = entity.SpeedFactor,
+                VolumeFactor = entity.VolumeFactor
+            };
+
+            if (entity.SpeakerSetup != null)
+            {
+                viewModel.SpeakerSetup = entity.SpeakerSetup.ToIDAndDisplayName();
+            }
+            else
+            {
+                viewModel.SpeakerSetup = ViewModelHelper.CreateEmptyIDAndName();
+            }
+
+            return viewModel;
+        }
+
         // Curve
 
         public static IList<NodeViewModel> ToViewModels(this IList<Node> entities)

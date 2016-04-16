@@ -54,6 +54,9 @@ namespace JJ.Business.Synthesizer.Extensions
                 repositories.PatchRepository.Delete(patch);
             }
 
+            document.AudioOutput.UnlinkRelatedEntities();
+            repositories.AudioOutputRepository.Delete(document.AudioOutput);
+
             foreach (AudioFileOutput audioFileOutput in document.AudioFileOutputs.ToArray())
             {
                 audioFileOutput.DeleteRelatedEntities(repositories.AudioFileOutputChannelRepository);

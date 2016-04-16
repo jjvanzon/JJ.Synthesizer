@@ -1,0 +1,1 @@
+alter table AudioOutput alter column VolumeFactor float not null;

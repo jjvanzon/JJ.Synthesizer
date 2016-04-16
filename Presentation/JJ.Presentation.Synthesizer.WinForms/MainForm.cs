@@ -174,6 +174,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             {
                 new UserControlTuple(audioFileOutputGridUserControl),
                 new UserControlTuple(audioFileOutputPropertiesUserControl, isPropertiesView: true),
+                new UserControlTuple(audioOutputPropertiesUserControl, isPropertiesView: true),
                 new UserControlTuple(curveDetailsUserControl),
                 new UserControlTuple(curveGridUserControl),
                 new UserControlTuple(curvePropertiesUserControl, isPropertiesView: true),

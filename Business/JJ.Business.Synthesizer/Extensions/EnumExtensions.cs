@@ -82,6 +82,32 @@ namespace JJ.Business.Synthesizer.Extensions
             }
         }
         
+        // AudioOutput
+
+        public static SpeakerSetupEnum GetSpeakerSetupEnum(this AudioOutput audioOutput)
+        {
+            if (audioOutput == null) throw new NullException(() => audioOutput);
+
+            if (audioOutput.SpeakerSetup == null) return SpeakerSetupEnum.Undefined;
+
+            return (SpeakerSetupEnum)audioOutput.SpeakerSetup.ID;
+        }
+
+        public static void SetSpeakerSetupEnum(this AudioOutput entity, SpeakerSetupEnum enumValue, ISpeakerSetupRepository repository)
+        {
+            if (repository == null) throw new NullException(() => repository);
+
+            if (enumValue == SpeakerSetupEnum.Undefined)
+            {
+                entity.UnlinkSpeakerSetup();
+            }
+            else
+            {
+                SpeakerSetup speakerSetup = repository.GetWithRelatedEntities((int)enumValue);
+                entity.LinkTo(speakerSetup);
+            }
+        }
+
         // Inlet
 
         public static DimensionEnum GetDimensionEnum(this Inlet entity)

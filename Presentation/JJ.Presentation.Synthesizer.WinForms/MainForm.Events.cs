@@ -17,6 +17,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             audioFileOutputGridUserControl.ShowPropertiesRequested += audioFileOutputGridUserControl_ShowPropertiesRequested;
             audioFileOutputPropertiesUserControl.CloseRequested += audioFileOutputPropertiesUserControl_CloseRequested;
             audioFileOutputPropertiesUserControl.LoseFocusRequested += audioFileOutputPropertiesUserControl_LoseFocusRequested;
+            audioOutputPropertiesUserControl.CloseRequested += audioOutputPropertiesUserControl_CloseRequested;
+            audioOutputPropertiesUserControl.LoseFocusRequested += audioOutputPropertiesUserControl_LoseFocusRequested;
             currentPatchesUserControl.CloseRequested += currentPatchesUserControl_CloseRequested;
             currentPatchesUserControl.RemoveRequested += currentPatchesUserControl_RemoveRequested;
             currentPatchesUserControl.PreviewAutoPatchRequested += currentPatchesUserControl_PreviewAutoPatchRequested;
@@ -49,6 +51,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.CloseRequested += documentTreeUserControl_CloseRequested;
             documentTreeUserControl.CollapseNodeRequested += documentTreeUserControl_CollapseNodeRequested;
             documentTreeUserControl.ExpandNodeRequested += documentTreeUserControl_ExpandNodeRequested;
+            documentTreeUserControl.ShowAudioOutputRequested += documentTreeUserControl_ShowAudioOutputRequested;
             documentTreeUserControl.ShowAudioFileOutputsRequested += documentTreeUserControl_ShowAudioFileOutputsRequested;
             documentTreeUserControl.ShowCurvesRequested += documentTreeUserControl_ShowCurvesRequested;
             documentTreeUserControl.ShowDocumentPropertiesRequested += documentTreeUserControl_ShowDocumentPropertiesRequested;
@@ -164,6 +167,18 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void audioFileOutputPropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
         {
             TemplateEventHandler(_presenter.AudioFileOutputPropertiesLoseFocus);
+        }
+
+        // AudioOutput
+
+        private void audioOutputPropertiesUserControl_CloseRequested(object sender, EventArgs e)
+        {
+            TemplateEventHandler(_presenter.AudioOutputPropertiesClose);
+        }
+
+        private void audioOutputPropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
+        {
+            TemplateEventHandler(_presenter.AudioOutputPropertiesLoseFocus);
         }
 
         // CurrentPatches
@@ -346,6 +361,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void documentTreeUserControl_ShowAudioFileOutputsRequested(object sender, EventArgs e)
         {
             TemplateEventHandler(_presenter.AudioFileOutputGridShow);
+        }
+
+        private void documentTreeUserControl_ShowAudioOutputRequested(object sender, EventArgs e)
+        {
+            TemplateEventHandler(_presenter.AudioOutputPropertiesShow);
         }
 
         private void documentTreeUserControl_ShowCurvesRequested(object sender, Int32EventArgs e)

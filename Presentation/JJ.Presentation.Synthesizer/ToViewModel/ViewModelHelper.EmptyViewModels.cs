@@ -22,6 +22,28 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
+        public static AudioOutputPropertiesViewModel CreateEmptyAudioOutputPropertiesViewModel()
+        {
+            var viewModel = new AudioOutputPropertiesViewModel
+            {
+                Entity = CreateEmptyAudioOutputViewModel(),
+                ValidationMessages = new List<Message>(),
+                SpeakerSetupLookup = new List<IDAndName>()
+            };
+
+            return viewModel;
+        }
+
+        public static AudioOutputViewModel CreateEmptyAudioOutputViewModel()
+        {
+            var viewModel = new AudioOutputViewModel
+            {
+                SpeakerSetup = CreateEmptyIDAndName()
+            };
+
+            return viewModel;
+        }
+
         public static CurrentPatchesViewModel CreateEmptyCurrentPatchesViewModel()
         {
             var viewModel = new CurrentPatchesViewModel

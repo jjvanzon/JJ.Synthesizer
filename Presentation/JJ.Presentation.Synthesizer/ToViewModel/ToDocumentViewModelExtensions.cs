@@ -11,7 +11,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 {
     internal static class ToDocumentViewModelExtensions
     {
-        public static DocumentViewModel ToViewModel(this Document document, RepositoryWrapper repositories, EntityPositionManager entityPositionManager)
+        public static DocumentViewModel ToViewModel(
+            this Document document, 
+            RepositoryWrapper repositories, 
+            EntityPositionManager entityPositionManager)
         {
             if (document == null) throw new NullException(() => document);
             if (repositories == null) throw new NullException(() => repositories);
@@ -39,6 +42,15 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ToneGridEditList = document.Scales.Select(x => x.ToToneGridEditViewModel()).ToList(),
                 AutoPatchDetails = ViewModelHelper.CreateEmptyPatchDetailsViewModel()
             };
+
+            if (document.AudioOutput != null)
+            {
+                viewModel.AudioOutputProperties = document.AudioOutput.ToPropertiesViewModel();
+            }
+            else
+            {
+                viewModel.AudioOutputProperties = ViewModelHelper.CreateEmptyAudioOutputPropertiesViewModel();
+            }
 
             IList<Patch> patches = document.ChildDocuments.SelectMany(x => x.Patches).ToArray();
             viewModel.UnderlyingPatchLookup = ViewModelHelper.CreateUnderlyingPatchLookupViewModel(patches);

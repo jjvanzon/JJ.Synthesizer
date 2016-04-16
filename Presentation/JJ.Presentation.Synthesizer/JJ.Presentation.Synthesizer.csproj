@@ -46,6 +46,7 @@
     <Compile Include="Helpers\MustNotConvertToOutletViewModelException.cs" />
     <Compile Include="Helpers\MustNotConvertToInletViewModelException.cs" />
     <Compile Include="Helpers\PresentationPropertyNames.cs" />
+    <Compile Include="Presenters\AudioOutputPropertiesPresenter.cs" />
     <Compile Include="Presenters\CurrentPatchesPresenter.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenterBase.cs" />
     <Compile Include="Presenters\2016-03-24 Backup of OperatorPropertiesPresenter_ForAggregate.cs" />
@@ -101,7 +102,9 @@
     <Compile Include="Validators\ToneGridEditViewModelValidator.cs" />
     <Compile Include="Validators\ToneViewModelValidator.cs" />
     <Compile Include="Validators\ValidationHelper.cs" />
+    <Compile Include="ViewModels\AudioOutputPropertiesViewModel.cs" />
     <Compile Include="ViewModels\CurrentPatchesViewModel.cs" />
+    <Compile Include="ViewModels\Items\AudioOutputViewModel.cs" />
     <Compile Include="ViewModels\Items\ChildDocumentIDAndNameViewModel.cs" />
     <Compile Include="ViewModels\Items\ScaleViewModel.cs" />
     <Compile Include="ViewModels\Items\ToneViewModel.cs" />

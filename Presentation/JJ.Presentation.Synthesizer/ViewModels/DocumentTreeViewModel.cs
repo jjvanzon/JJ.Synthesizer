@@ -13,6 +13,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public DummyViewModel CurvesNode { get; set; }
         public DummyViewModel SamplesNode { get; set; }
         public DummyViewModel ScalesNode { get; set; }
+        public DummyViewModel AudioOutputNode { get; set; }
         public DummyViewModel AudioFileOutputsNode { get; set; }
 
         public ReferencedDocumentsTreeNodeViewModel ReferencedDocumentsNode { get; set; }

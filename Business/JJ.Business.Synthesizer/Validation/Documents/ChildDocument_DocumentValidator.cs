@@ -20,6 +20,9 @@ namespace JJ.Business.Synthesizer.Validation.Documents
 
             Execute(new NameValidator(Object.GroupName, required: false));
 
+            // AudioOutput must be null for child documents.
+            For(() => document.AudioOutput, PropertyDisplayNames.AudioOutput).IsNull();
+
             // Child Document should have exactly one patch.
             For(() => document.Patches.Count, CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Patches)).Is(1);
 

@@ -21,6 +21,9 @@ namespace JJ.Data.Synthesizer
         public virtual string Name { get; set; }
 
         public virtual IList<AudioFileOutput> AudioFileOutputs { get; set; }
+
+        /// <summary> Null for child documents, not null for root documents. </summary>
+        public virtual AudioOutput AudioOutput { get; set; }
         public virtual IList<Curve> Curves { get; set; }
 
         /// <summary> Currently contains exactly 1 patch for ChildDocuments, and 0 patches for root Documents. </summary>

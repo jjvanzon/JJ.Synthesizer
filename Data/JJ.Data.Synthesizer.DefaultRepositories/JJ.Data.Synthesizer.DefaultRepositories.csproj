@@ -39,11 +39,13 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AudioOutputRepository.cs" />
     <Compile Include="ChannelRepository.cs" />
     <Compile Include="AudioFileOutputRepository.cs" />
     <Compile Include="AudioFileOutputChannelRepository.cs" />
     <Compile Include="IDRepository.cs" />
     <Compile Include="2016-04-10 Backup of OutletTypeRepository.cs" />
+    <Compile Include="Interfaces\IAudioOutputRepository.cs" />
     <Compile Include="Interfaces\IIDRepository.cs" />
     <Compile Include="Interfaces\2016-04-10 Backup of IOutletTypeRepository.cs" />
     <Compile Include="Interfaces\IScaleRepository.cs" />

@@ -4,6 +4,7 @@
     {
         public const string AudioFileFormatID = "AudioFileFormatID";
         public const string AudioFileOutputID = "AudioFileOutputID";
+        public const string AudioOutputID = "AudioOutputID";
         public const string ChannelID = "ChannelID";
         public const string CurveID = "CurveID";
         public const string DependentDocumentID = "DependentDocumentID";

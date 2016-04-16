@@ -230,11 +230,21 @@
     <Content Include="2016-04-12 050 SynthesizerDB FK_Curve_XDimension.sql" />
     <Content Include="2016-04-12 060 SynthesizerDB FK_Curve_YDimension.sql" />
     <Content Include="2016-04-12 070 SynthesizerDB IX_Curve_XDimensionID.sql" />
+    <Content Include="2016-04-16 080 SynthesizerDB AudioOutput.SpeedFactor float instead of real.sql" />
+    <Content Include="2016-04-16 090 SynthesizerDB AudioOutput.VolumeFactor float instead of real.sql" />
+    <Content Include="2016-04-16 100 SynthesizerDB AudioOutput.SamplingRate.sql" />
+    <Content Include="2016-04-16 110 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2016-04-13 030 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2016-04-13 020 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2016-04-13 010 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2016-04-12 080 SynthesizerDB IX_Curve_YDimensionID.sql" />
     <Content Include="2016-04-16 010 SynthesizerDB Curve drop columns XDimensionID, YDimensionID and related objects.sql" />
+    <Content Include="2016-04-16 020 SynthesizerDB AudioOutput create table + FKs.sql" />
+    <Content Include="2016-04-16 030 SynthesizerDB IX_AudioFileOutput_SpeakerSetupID.sql" />
+    <Content Include="2016-04-16 040 SynthesizerDB IX_AudioOutput_DocumentID.sql" />
+    <Content Include="2016-04-16 050 SynthesizerDB Document.AudioOutputID.sql" />
+    <Content Include="2016-04-16 060 SynthesizerDB FK_Document_AudioOutput.sql" />
+    <Content Include="2016-04-16 070 SynthesizerDB AudioOutput.DocumentID drop column + related objects.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

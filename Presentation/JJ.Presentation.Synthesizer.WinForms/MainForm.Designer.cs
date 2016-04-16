@@ -28,6 +28,8 @@
             this.documentGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentGridUserControl();
             this.patchDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.PatchDetailsUserControl();
             this.sampleGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.SampleGridUserControl();
+            this.operatorPropertiesUserControl_WithDimension = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_WithDimension();
+            this.operatorPropertiesUserControl_ForFilter = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForFilter();
             this.operatorPropertiesUserControl_ForCache = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForCache();
             this.operatorPropertiesUserControl_ForRandom = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForRandom();
             this.operatorPropertiesUserControl_ForResample = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForResample();
@@ -49,8 +51,7 @@
             this.operatorPropertiesUserControl_ForPatchOutlet = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForPatchOutlet();
             this.menuUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.MenuUserControl();
             this.currentPatchesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.CurrentPatchesUserControl();
-            this.operatorPropertiesUserControl_ForFilter = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForFilter();
-            this.operatorPropertiesUserControl_WithDimension = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_WithDimension();
+            this.audioOutputPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.AudioOutputPropertiesUserControl();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerTree)).BeginInit();
             this.splitContainerTree.Panel1.SuspendLayout();
             this.splitContainerTree.Panel2.SuspendLayout();
@@ -114,6 +115,7 @@
             // 
             // splitContainerProperties.Panel2
             // 
+            this.splitContainerProperties.Panel2.Controls.Add(this.audioOutputPropertiesUserControl);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_WithDimension);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForFilter);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForCache);
@@ -251,6 +253,30 @@
             this.sampleGridUserControl.Size = new System.Drawing.Size(904, 814);
             this.sampleGridUserControl.TabIndex = 9;
             this.sampleGridUserControl.Visible = false;
+            // 
+            // operatorPropertiesUserControl_WithDimension
+            // 
+            this.operatorPropertiesUserControl_WithDimension.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.operatorPropertiesUserControl_WithDimension.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.operatorPropertiesUserControl_WithDimension.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.operatorPropertiesUserControl_WithDimension.Font = new System.Drawing.Font("Verdana", 10F);
+            this.operatorPropertiesUserControl_WithDimension.Location = new System.Drawing.Point(0, 0);
+            this.operatorPropertiesUserControl_WithDimension.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.operatorPropertiesUserControl_WithDimension.Name = "operatorPropertiesUserControl_WithDimension";
+            this.operatorPropertiesUserControl_WithDimension.Size = new System.Drawing.Size(280, 814);
+            this.operatorPropertiesUserControl_WithDimension.TabIndex = 1;
+            // 
+            // operatorPropertiesUserControl_ForFilter
+            // 
+            this.operatorPropertiesUserControl_ForFilter.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.operatorPropertiesUserControl_ForFilter.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.operatorPropertiesUserControl_ForFilter.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.operatorPropertiesUserControl_ForFilter.Font = new System.Drawing.Font("Verdana", 10F);
+            this.operatorPropertiesUserControl_ForFilter.Location = new System.Drawing.Point(0, 0);
+            this.operatorPropertiesUserControl_ForFilter.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.operatorPropertiesUserControl_ForFilter.Name = "operatorPropertiesUserControl_ForFilter";
+            this.operatorPropertiesUserControl_ForFilter.Size = new System.Drawing.Size(280, 814);
+            this.operatorPropertiesUserControl_ForFilter.TabIndex = 1;
             // 
             // operatorPropertiesUserControl_ForCache
             // 
@@ -500,29 +526,16 @@
             this.currentPatchesUserControl.Size = new System.Drawing.Size(1188, 30);
             this.currentPatchesUserControl.TabIndex = 14;
             // 
-            // operatorPropertiesUserControl_WithDimension
+            // audioOutputPropertiesUserControl
             // 
-            this.operatorPropertiesUserControl_WithDimension.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.operatorPropertiesUserControl_WithDimension.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.operatorPropertiesUserControl_WithDimension.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.operatorPropertiesUserControl_WithDimension.Font = new System.Drawing.Font("Verdana", 10F);
-            this.operatorPropertiesUserControl_WithDimension.Location = new System.Drawing.Point(0, 0);
-            this.operatorPropertiesUserControl_WithDimension.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.operatorPropertiesUserControl_WithDimension.Name = "operatorPropertiesUserControl_WithDimension";
-            this.operatorPropertiesUserControl_WithDimension.Size = new System.Drawing.Size(280, 814);
-            this.operatorPropertiesUserControl_WithDimension.TabIndex = 1;
-            // 
-            // operatorPropertiesUserControl_ForFilter
-            // 
-            this.operatorPropertiesUserControl_ForFilter.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.operatorPropertiesUserControl_ForFilter.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.operatorPropertiesUserControl_ForFilter.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.operatorPropertiesUserControl_ForFilter.Font = new System.Drawing.Font("Verdana", 10F);
-            this.operatorPropertiesUserControl_ForFilter.Location = new System.Drawing.Point(0, 0);
-            this.operatorPropertiesUserControl_ForFilter.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.operatorPropertiesUserControl_ForFilter.Name = "operatorPropertiesUserControl_ForFilter";
-            this.operatorPropertiesUserControl_ForFilter.Size = new System.Drawing.Size(280, 814);
-            this.operatorPropertiesUserControl_ForFilter.TabIndex = 1;
+            this.audioOutputPropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.audioOutputPropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.audioOutputPropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
+            this.audioOutputPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
+            this.audioOutputPropertiesUserControl.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.audioOutputPropertiesUserControl.Name = "audioOutputPropertiesUserControl";
+            this.audioOutputPropertiesUserControl.Size = new System.Drawing.Size(280, 814);
+            this.audioOutputPropertiesUserControl.TabIndex = 1;
             // 
             // MainForm
             // 
@@ -587,5 +600,6 @@
         private UserControls.OperatorPropertiesUserControl_ForCache operatorPropertiesUserControl_ForCache;
         private UserControls.OperatorPropertiesUserControl_ForFilter operatorPropertiesUserControl_ForFilter;
         private UserControls.OperatorPropertiesUserControl_WithDimension operatorPropertiesUserControl_WithDimension;
+        private UserControls.AudioOutputPropertiesUserControl audioOutputPropertiesUserControl;
     }
 }

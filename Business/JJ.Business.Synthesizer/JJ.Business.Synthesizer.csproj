@@ -40,6 +40,7 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AudioOutputManager.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculatorBase.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculatorBase_Hermite.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculatorBase_Cubic.cs" />
@@ -316,8 +317,12 @@
     <Compile Include="NAudio Copies\Complex.cs" />
     <Compile Include="NAudio Copies\FastFourierTransform.cs" />
     <Compile Include="PatchManager.AutoPatch.cs" />
+    <Compile Include="SideEffects\AudioOutput_SideEffect_SetDefaults.cs" />
     <Compile Include="SideEffects\Curve_SideEffect_SetDefaults_Nodes.cs" />
+    <Compile Include="SideEffects\Document_SideEffect_AutoCreateAudioOutput.cs" />
     <Compile Include="SideEffects\Document_SideEffect_CreatePatch.cs" />
+    <Compile Include="Validation\AudioOutputValidator.cs" />
+    <Compile Include="Validation\2016-04-16 Backup of AudioOutputValidator_InDocument.cs" />
     <Compile Include="Validation\Curves\CurveValidator_InDocument.cs" />
     <Compile Include="Validation\Curves\CurveValidator_Nodes.cs" />
     <Compile Include="Validation\Documents\RootDocument_DocumentValidator.cs" />

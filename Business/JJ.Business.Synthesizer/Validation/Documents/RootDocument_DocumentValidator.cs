@@ -19,6 +19,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             // Root Document should have no patches.
             For(() => Object.Patches.Count, CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Patches)).Is(0);
 
+            For(() => Object.AudioOutput, PropertyDisplayNames.AudioOutput).NotNull();
             For(() => Object.GroupName, PropertyDisplayNames.GroupName).IsNullOrEmpty();
         }
     }

@@ -790,4 +790,13 @@
   <data name="Position" xml:space="preserve">
     <value>Positie</value>
   </data>
+  <data name="AudioOutput" xml:space="preserve">
+    <value>Geluidsuitvoer</value>
+  </data>
+  <data name="SpeedFactor" xml:space="preserve">
+    <value>Snelheid factor</value>
+  </data>
+  <data name="VolumeFactor" xml:space="preserve">
+    <value>Volume factor</value>
+  </data>
 </root>

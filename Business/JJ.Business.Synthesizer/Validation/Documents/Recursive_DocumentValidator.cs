@@ -65,6 +65,11 @@ namespace JJ.Business.Synthesizer.Validation.Documents
                 Execute(new AudioFileOutputValidator(audioFileOutput), ValidationHelper.GetMessagePrefix(audioFileOutput));
             }
 
+            if (document.AudioOutput != null)
+            {
+                Execute(new AudioOutputValidator(document.AudioOutput), ValidationHelper.GetMessagePrefix(document.AudioOutput));
+            }
+
             foreach (Curve curve in document.Curves)
             {
                 if (_alreadyDone.Contains(curve))

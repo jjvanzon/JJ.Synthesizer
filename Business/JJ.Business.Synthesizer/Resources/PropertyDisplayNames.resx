@@ -791,4 +791,13 @@
   <data name="Position" xml:space="preserve">
     <value>Position</value>
   </data>
+  <data name="AudioOutput" xml:space="preserve">
+    <value>Audio Output</value>
+  </data>
+  <data name="SpeedFactor" xml:space="preserve">
+    <value>Speed Factor</value>
+  </data>
+  <data name="VolumeFactor" xml:space="preserve">
+    <value>Volume Factor</value>
+  </data>
 </root>

@@ -10,6 +10,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public IPatchRepository PatchRepository { get; private set; }
         public ISampleRepository SampleRepository { get; private set; }
         public IAudioFileOutputRepository AudioFileOutputRepository { get; private set; }
+        public IAudioOutputRepository AudioOutputRepository { get; private set; }
         public IDocumentReferenceRepository DocumentReferenceRepository { get; private set; }
         public INodeRepository NodeRepository { get; private set; }
         public IAudioFileOutputChannelRepository AudioFileOutputChannelRepository { get; private set; }
@@ -37,6 +38,7 @@ namespace JJ.Business.Synthesizer.Helpers
             IPatchRepository patchRepository,
             ISampleRepository sampleRepository,
             IAudioFileOutputRepository audioFileOutputRepository,
+            IAudioOutputRepository audioOutputRepository,
             IDocumentReferenceRepository documentReferenceRepository,
             INodeRepository nodeRepository,
             IAudioFileOutputChannelRepository audioFileOutputChannelRepository,
@@ -64,6 +66,7 @@ namespace JJ.Business.Synthesizer.Helpers
             if (patchRepository == null) throw new NullException(() => patchRepository);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
             if (audioFileOutputRepository == null) throw new NullException(() => audioFileOutputRepository);
+            if (audioOutputRepository == null) throw new NullException(() => audioOutputRepository);
             if (documentReferenceRepository == null) throw new NullException(() => documentReferenceRepository);
             if (nodeRepository == null) throw new NullException(() => nodeRepository);
             if (audioFileOutputChannelRepository == null) throw new NullException(() => audioFileOutputChannelRepository);
@@ -91,6 +94,7 @@ namespace JJ.Business.Synthesizer.Helpers
             PatchRepository = patchRepository;
             SampleRepository = sampleRepository;
             AudioFileOutputRepository = audioFileOutputRepository;
+            AudioOutputRepository = audioOutputRepository;
             DocumentReferenceRepository = documentReferenceRepository;
             NodeRepository = nodeRepository;
             AudioFileOutputChannelRepository = audioFileOutputChannelRepository;

@@ -40,6 +40,13 @@ namespace JJ.Business.Synthesizer.LinkTo
             childDocument.LinkToParentDocument((Document)null);
         }
 
+        public static void UnlinkAudioOutput(this Document document)
+        {
+            if (document == null) throw new NullException(() => document);
+
+            document.LinkTo((AudioOutput)null);
+        }
+
         public static void UnlinkDependentDocument(this DocumentReference documentReference)
         {
             if (documentReference == null) throw new NullException(() => documentReference);
@@ -119,6 +126,13 @@ namespace JJ.Business.Synthesizer.LinkTo
 
         // Enum-Like Entities
 
+        public static void UnlinkSpeakerSetup(this AudioFileOutput audioFileOutput)
+        {
+            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
+
+            audioFileOutput.LinkTo((SpeakerSetup)null);
+        }
+
         public static void UnlinkAudioFileFormat(this AudioFileOutput audioFileOutput)
         {
             if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
@@ -126,11 +140,18 @@ namespace JJ.Business.Synthesizer.LinkTo
             audioFileOutput.LinkTo((AudioFileFormat)null);
         }
 
-        public static void UnlinkAudioFileFormat(this Sample sample)
+        public static void UnlinkSampleDataType(this AudioFileOutput audioFileOutput)
         {
-            if (sample == null) throw new NullException(() => sample);
+            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
 
-            sample.LinkTo((AudioFileFormat)null);
+            audioFileOutput.LinkTo((SampleDataType)null);
+        }
+
+        public static void UnlinkSpeakerSetup(this AudioOutput audioOutput)
+        {
+            if (audioOutput == null) throw new NullException(() => audioOutput);
+
+            audioOutput.LinkTo((SpeakerSetup)null);
         }
 
         public static void UnlinkDimension(this Inlet inlet)
@@ -138,13 +159,6 @@ namespace JJ.Business.Synthesizer.LinkTo
             if (inlet == null) throw new NullException(() => inlet);
 
             inlet.LinkTo((Dimension)null);
-        }
-
-        public static void UnlinkInterpolationType(this Sample sample)
-        {
-            if (sample == null) throw new NullException(() => sample);
-
-            sample.LinkTo((InterpolationType)null);
         }
 
         public static void UnlinkNodeType(this Node node)
@@ -168,25 +182,25 @@ namespace JJ.Business.Synthesizer.LinkTo
             outlet.LinkTo((Dimension)null);
         }
 
+        public static void UnlinkAudioFileFormat(this Sample sample)
+        {
+            if (sample == null) throw new NullException(() => sample);
+
+            sample.LinkTo((AudioFileFormat)null);
+        }
+
+        public static void UnlinkInterpolationType(this Sample sample)
+        {
+            if (sample == null) throw new NullException(() => sample);
+
+            sample.LinkTo((InterpolationType)null);
+        }
+
         public static void UnlinkSampleDataType(this Sample sample)
         {
             if (sample == null) throw new NullException(() => sample);
 
             sample.LinkTo((SampleDataType)null);
-        }
-
-        public static void UnlinkSampleDataType(this AudioFileOutput audioFileOutput)
-        {
-            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
-
-            audioFileOutput.LinkTo((SampleDataType)null);
-        }
-
-        public static void UnlinkScaleType(this Scale scale)
-        {
-            if (scale == null) throw new NullException(() => scale);
-
-            scale.LinkTo((ScaleType)null);
         }
 
         public static void UnlinkSpeakerSetup(this Sample sample)
@@ -196,11 +210,11 @@ namespace JJ.Business.Synthesizer.LinkTo
             sample.LinkTo((SpeakerSetup)null);
         }
 
-        public static void UnlinkSpeakerSetup(this AudioFileOutput audioFileOutput)
+        public static void UnlinkScaleType(this Scale scale)
         {
-            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
+            if (scale == null) throw new NullException(() => scale);
 
-            audioFileOutput.LinkTo((SpeakerSetup)null);
+            scale.LinkTo((ScaleType)null);
         }
     }
 }

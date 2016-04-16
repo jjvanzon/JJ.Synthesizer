@@ -21,10 +21,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             menuUserControl.Show(_presenter.MainViewModel.Menu);
 
+            // AudioFileOutput
             audioFileOutputGridUserControl.ViewModel = _presenter.MainViewModel.Document.AudioFileOutputGrid;
             audioFileOutputPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.AudioFileOutputPropertiesList
                                                                                               .Where(x => x.Visible)
                                                                                               .FirstOrDefault();
+
+            // AudioOutput
+            audioOutputPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.AudioOutputProperties;
 
             // AutoPatch
             _autoPatchDetailsForm.ViewModel = _presenter.MainViewModel.Document.AutoPatchDetails;
