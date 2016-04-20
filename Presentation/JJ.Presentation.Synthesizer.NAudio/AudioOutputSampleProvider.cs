@@ -7,6 +7,7 @@ using System.Threading;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Data.Synthesizer;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
@@ -15,6 +16,8 @@ namespace JJ.Presentation.Synthesizer.NAudio
         private readonly WaveFormat _waveFormat;
         private readonly IPatchCalculatorContainer _patchCalculatorContainer;
         private readonly double _sampleDuration;
+        private readonly DimensionStack _dimensionStack;
+        private readonly int _channelCount;
 
         /// <summary> Public field for performance. </summary>
         public double _time;
@@ -30,6 +33,9 @@ namespace JJ.Presentation.Synthesizer.NAudio
             _sampleDuration = 1.0 / (double)audioOutput.SamplingRate;
 
             _waveFormat = CreateWaveFormat(audioOutput);
+            _dimensionStack = new DimensionStack();
+
+            _channelCount = audioOutput.SpeakerSetup.SpeakerSetupChannels.Count;
         }
 
         private WaveFormat CreateWaveFormat(AudioOutput audioOutput)
@@ -61,19 +67,38 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     return count;
                 }
 
-                double[] values = patchCalculator.Calculate(_time, _sampleDuration, count, new DimensionStack());
+                int frameOffset = offset / _channelCount;
+                int frameCount = count / _channelCount;
 
-                for (int i = offset; i < count; i++)
+                // First index is channel, second index is frame.
+                double[][] values = new double[_channelCount][];
+                for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
                 {
-                    double value = values[i];
+                    _dimensionStack.Set(DimensionEnum.Channel, channelIndex);
 
-                    // winmm will trip over NaN.
-                    if (Double.IsNaN(value))
+                    values[channelIndex] = patchCalculator.Calculate(_time, _sampleDuration, frameCount, _dimensionStack);
+                }
+
+                int i = 0;
+                for (int frameIndex = frameOffset; frameIndex < frameCount; frameIndex++)
+                {
+                    for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
                     {
-                        value = 0;
-                    }
+                        double value;
 
-                    buffer[i] = (float)value;
+                        value = values[channelIndex][frameIndex];
+                            
+                        // winmm will trip over NaN.
+                        if (Double.IsNaN(value))
+                        {
+                            value = 0;
+                        }
+
+                        // TODO: This seems unsafe. What happens if the cast is invalid?
+                        buffer[i] = (float)value;
+
+                        i++;
+                    }
                 }
 
                 _time += _sampleDuration * count;

@@ -40,18 +40,21 @@ namespace JJ.Presentation.Synthesizer.WinForms
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            AudioOutput mockAudioOutput = CreateMockAudioOutput_Mono();
+
             var noteRecycler = new NoteRecycler(winFormsConfig.MaxConcurrentNotes);
 
             if (winFormsConfig.MultiThreaded)
             {
-                PatchCalculatorContainer = new MultiThreadedPatchCalculatorContainer(noteRecycler, winFormsConfig.MaxThreads);
+                PatchCalculatorContainer = new MultiThreadedPatchCalculatorContainer(
+                    noteRecycler, 
+                    winFormsConfig.MaxThreads, 
+                    mockAudioOutput);
             }
             else
             {
                 PatchCalculatorContainer = new SingleThreadedPatchCalculatorContainer();
             }
-
-            AudioOutput mockAudioOutput = CreateMockAudioOutput();
 
             if (winFormsConfig.AudioOutputEnabled) _audioOutputProcessor = new AudioOutputProcessor(PatchCalculatorContainer, mockAudioOutput);
             if (winFormsConfig.MidiInputEnabled) _midiInputProcessor = new MidiInputProcessor(PatchCalculatorContainer, _audioOutputProcessor, noteRecycler);
@@ -80,19 +83,55 @@ namespace JJ.Presentation.Synthesizer.WinForms
         /// This mock AudioOutput entity is needed to keep the code runnable,
         /// until I create the audio output infrastructure objects elsewhere in the code.
         /// </summary>
-        private static AudioOutput CreateMockAudioOutput()
+        private static AudioOutput CreateMockAudioOutput_Mono()
         {
             var speakerSetup = new SpeakerSetup
             {
                 SpeakerSetupChannels = new List<SpeakerSetupChannel>()
             };
 
-            var speakerSetupChannel =new SpeakerSetupChannel
+            var speakerSetupChannel = new SpeakerSetupChannel
+            {
+                IndexNumber = 0,
+                SpeakerSetup = speakerSetup
+            };
+            speakerSetup.SpeakerSetupChannels.Add(speakerSetupChannel);
+
+            var audioOutput = new AudioOutput
+            {
+                SamplingRate = 44100,
+                SpeakerSetup = speakerSetup,
+                SpeedFactor = 1,
+                VolumeFactor = 1
+            };
+
+            return audioOutput;
+        }
+
+        /// <summary>
+        /// This mock AudioOutput entity is needed to keep the code runnable,
+        /// until I create the audio output infrastructure objects elsewhere in the code.
+        /// </summary>
+        private static AudioOutput CreateMockAudioOutput_Stereo()
+        {
+            var speakerSetup = new SpeakerSetup
+            {
+                SpeakerSetupChannels = new List<SpeakerSetupChannel>()
+            };
+
+            var speakerSetupChannel1 = new SpeakerSetupChannel
+            {
+                IndexNumber = 0,
+                SpeakerSetup = speakerSetup
+            };
+            speakerSetup.SpeakerSetupChannels.Add(speakerSetupChannel1);
+
+            var speakerSetupChannel2 = new SpeakerSetupChannel
             {
                 IndexNumber = 1,
                 SpeakerSetup = speakerSetup
             };
-            speakerSetup.SpeakerSetupChannels.Add(speakerSetupChannel);
+            speakerSetup.SpeakerSetupChannels.Add(speakerSetupChannel2);
 
             var audioOutput = new AudioOutput
             {

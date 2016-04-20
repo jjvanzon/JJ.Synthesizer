@@ -18,17 +18,23 @@ namespace JJ.Presentation.Synthesizer.NAudio
     {
         private readonly NoteRecycler _noteRecycler;
         private readonly int _threadCount;
+        private readonly double _sampleDuration;
+        private readonly int _bufferSize;
 
         public ReaderWriterLockSlim Lock { get; } = new ReaderWriterLockSlim();
 
         /// <summary> null if RecreateCalculator is not yet called. </summary>
         public IPatchCalculator Calculator { get; private set; }
 
-        public MultiThreadedPatchCalculatorContainer(NoteRecycler noteRecycler, int maxThreadCount)
+        public MultiThreadedPatchCalculatorContainer(NoteRecycler noteRecycler, int maxThreadCount, AudioOutput audioOutput)
         {
             if (noteRecycler == null) throw new NullException(() => noteRecycler);
+            if (audioOutput == null) throw new NullException(() => audioOutput);
 
             _noteRecycler = noteRecycler;
+            _sampleDuration = audioOutput.GetSampleDuration();
+
+            _bufferSize = 2205; // TODO: Manage that it is the same as what SampleProvider needs. Try doing it in an orderly fashion.
 
             int numberOfHardwareThreads = Environment.ProcessorCount;
             int threadCount = numberOfHardwareThreads;
@@ -42,11 +48,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         private MultiThreadedPatchCalculator CreateCalculator()
         {
-
-            int bufferSize = 2205; // TODO: Manage that it is the same as what SampleProvider needs. Try doing it in an orderly fashion.
-            double sampleDuration = 1.0 / 44100; // TODO: Manage that it is the same as what SampleProvider needs. Try doing it in an orderly fashion.
-
-            var polyphonyCalculator = new MultiThreadedPatchCalculator(_threadCount, bufferSize, sampleDuration, _noteRecycler);
+            var polyphonyCalculator = new MultiThreadedPatchCalculator(_threadCount, _bufferSize, _sampleDuration, _noteRecycler);
 
             return polyphonyCalculator;
         }

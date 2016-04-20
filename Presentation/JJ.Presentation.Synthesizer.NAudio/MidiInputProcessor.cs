@@ -22,7 +22,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
             public double TempValue { get; set; }
         }
 
-        private const int DEFAULT_CHANNEL_INDEX = 0; // TODO: Make mult-channel.
         private const double LOWEST_FREQUENCY = 8.1757989156;
         private const double MAX_VELOCITY = 127.0;
         private const int MAX_NOTE_NUMBER = 127;
