@@ -16,7 +16,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
     {
         private static AudioOutputProcessor _audioOutputProcessor;
         private static MidiInputProcessor _midiInputProcessor;
+
         public static IPatchCalculatorContainer PatchCalculatorContainer { get; private set; }
+        public static AudioOutput MockAudioOutput { get; private set; }
 
         private static Thread _audioOutputThread;
         private static Thread _midiInputThread;
@@ -40,23 +42,24 @@ namespace JJ.Presentation.Synthesizer.WinForms
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            AudioOutput mockAudioOutput = CreateMockAudioOutput_Mono();
+            MockAudioOutput = CreateMockAudioOutput_Mono();
 
             var noteRecycler = new NoteRecycler(winFormsConfig.MaxConcurrentNotes);
 
             if (winFormsConfig.MultiThreaded)
             {
-                PatchCalculatorContainer = new MultiThreadedPatchCalculatorContainer(
-                    noteRecycler, 
-                    winFormsConfig.MaxThreads, 
-                    mockAudioOutput);
+                //PatchCalculatorContainer = new MultiThreadedPatchCalculatorContainer_WithThreads(
+                //    noteRecycler,
+                //    winFormsConfig.MaxThreads,
+                //    MockAudioOutput);
+                PatchCalculatorContainer = new MultiThreadedPatchCalculatorContainer_WithTasks(noteRecycler);
             }
             else
             {
                 PatchCalculatorContainer = new SingleThreadedPatchCalculatorContainer();
             }
 
-            if (winFormsConfig.AudioOutputEnabled) _audioOutputProcessor = new AudioOutputProcessor(PatchCalculatorContainer, mockAudioOutput);
+            if (winFormsConfig.AudioOutputEnabled) _audioOutputProcessor = new AudioOutputProcessor(PatchCalculatorContainer, MockAudioOutput);
             if (winFormsConfig.MidiInputEnabled) _midiInputProcessor = new MidiInputProcessor(PatchCalculatorContainer, _audioOutputProcessor, noteRecycler);
 
             if (winFormsConfig.AudioOutputEnabled) _audioOutputThread = StartAudioOutputThread(_audioOutputProcessor);
@@ -150,7 +153,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             return thread;
         }
 
-        public static Thread StartAudioOutputThread(AudioOutputProcessor audioOutputProcessor)
+        private static Thread StartAudioOutputThread(AudioOutputProcessor audioOutputProcessor)
         {
             if (audioOutputProcessor == null) throw new NullException(() => audioOutputProcessor);
 
@@ -165,7 +168,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             return thread;
         }
 
-        static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             string message;
             var ex = e.ExceptionObject as Exception;
@@ -181,7 +184,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             MessageBox.Show(message, GetMessageBoxCaption());
         }
 
-        static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
+        private static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
         {
             Exception ex = ExceptionHelper.GetInnermostException(e.Exception);
             MessageBox.Show(ExceptionHelper.FormatException(ex, false), GetMessageBoxCaption());

@@ -10,7 +10,7 @@ using JJ.Business.Synthesizer.Calculation;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
-    public class MultiThreadedPatchCalculator : IPatchCalculator, IDisposable
+    public class MultiThreadedPatchCalculator_WithThreads : IPatchCalculator, IDisposable
     {
         private class PatchCalculatorInfo
         {
@@ -57,7 +57,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
         private double _t0;
         private bool _disposing;
 
-        public MultiThreadedPatchCalculator(
+        public MultiThreadedPatchCalculator_WithThreads(
             int threadCount, int bufferSize, double sampleDuration,
             NoteRecycler noteRecycler)
         {
@@ -96,7 +96,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             _countdownEvent = new CountdownEvent(threadCount);
         }
 
-        ~MultiThreadedPatchCalculator()
+        ~MultiThreadedPatchCalculator_WithThreads()
         {
             Dispose();
         }
@@ -105,8 +105,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
         {
             _disposing = true;
 
-            // TODO: This seems a lot of hassle to let the threads stop properly, but I do not know how else to do it.
-            // It still does not work, though.
             if (_threadInfos != null)
             {
                 if (_countdownEvent != null)
@@ -159,8 +157,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
         /// </param>
         public double[] Calculate(double t0, double sampleDuration, int count, DimensionStack dimensionStack)
         {
-            // TODO: Document that count and sampleDuration are not used.
-
             _t0 = t0;
 
             Array.Clear(_buffer, 0, _buffer.Length);
@@ -243,19 +239,19 @@ Wait:
 
         // Adding and removing calculators.
 
-        public int AddPatchCalculator(IPatchCalculator patchCalculator)
-        {
-            if (patchCalculator == null) throw new NullException(() => patchCalculator);
+        //public int AddPatchCalculator(IPatchCalculator patchCalculator)
+        //{
+        //    if (patchCalculator == null) throw new NullException(() => patchCalculator);
 
-            var patchCalculatorInfo = new PatchCalculatorInfo(patchCalculator, _patchCalculatorInfos.Count);
-            patchCalculatorInfo.IsActive = true;
+        //    var patchCalculatorInfo = new PatchCalculatorInfo(patchCalculator, _patchCalculatorInfos.Count);
+        //    patchCalculatorInfo.IsActive = true;
 
-            _patchCalculatorInfos.Add(patchCalculatorInfo);
+        //    _patchCalculatorInfos.Add(patchCalculatorInfo);
 
-            ApplyToThreadInfos();
+        //    ApplyToThreadInfos();
 
-            return patchCalculatorInfo.NoteListIndex;
-        }
+        //    return patchCalculatorInfo.NoteListIndex;
+        //}
 
         public void AddPatchCalculators(IList<IPatchCalculator> patchCalculators)
         {
@@ -272,23 +268,23 @@ Wait:
             ApplyToThreadInfos();
         }
 
-        public void RemovePatchCalculator(int index)
-        {
-            AssertPatchCalculatorInfosListIndex(index);
+        //public void RemovePatchCalculator(int index)
+        //{
+        //    AssertPatchCalculatorInfosListIndex(index);
 
-            _patchCalculatorInfos.RemoveAt(index);
+        //    _patchCalculatorInfos.RemoveAt(index);
 
-            ApplyToThreadInfos();
-        }
+        //    ApplyToThreadInfos();
+        //}
 
-        public void RemovePatchCalculator(IPatchCalculator patchCalculator)
-        {
-            if (patchCalculator == null) throw new NullException(() => patchCalculator);
+        //public void RemovePatchCalculator(IPatchCalculator patchCalculator)
+        //{
+        //    if (patchCalculator == null) throw new NullException(() => patchCalculator);
 
-            _patchCalculatorInfos.RemoveFirst(x => x.PatchCalculator == patchCalculator);
+        //    _patchCalculatorInfos.RemoveFirst(x => x.PatchCalculator == patchCalculator);
 
-            ApplyToThreadInfos();
-        }
+        //    ApplyToThreadInfos();
+        //}
 
         private void ApplyToThreadInfos()
         {
@@ -422,10 +418,10 @@ Wait:
 
         public void CloneValues(IPatchCalculator sourceCalculator)
         {
-            var castedSourceCalculator = sourceCalculator as MultiThreadedPatchCalculator;
+            var castedSourceCalculator = sourceCalculator as MultiThreadedPatchCalculator_WithThreads;
             if (castedSourceCalculator == null)
             {
-                throw new IsNotTypeException<MultiThreadedPatchCalculator>(() => castedSourceCalculator);
+                throw new IsNotTypeException<MultiThreadedPatchCalculator_WithThreads>(() => castedSourceCalculator);
             }
 
             for (int i = 0; i < _patchCalculatorInfos.Count; i++)

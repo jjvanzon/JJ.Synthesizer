@@ -112,15 +112,19 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void RecreatePatchCalculator()
         {
             IList<Patch> patches = _presenter.MainViewModel.Document.CurrentPatches.List
-                                                                .Select(x => _repositories.DocumentRepository.Get(x.ChildDocumentID))
-                                                                .Select(x => x.Patches.Single())
-                                                                .ToArray();
+                                             .Select(x => _repositories.DocumentRepository.Get(x.ChildDocumentID))
+                                             .Select(x => x.Patches.Single())
+                                             .ToArray();
             if (patches.Count == 0)
             {
                 patches = new Patch[] { CreateDefaultSinePatch() };
             }
 
-            Program.PatchCalculatorContainer.RecreateCalculator(patches, _maxConcurrentNotes, new PatchRepositories(_repositories));
+            Program.PatchCalculatorContainer.RecreateCalculator(
+                patches, 
+                _maxConcurrentNotes,
+                new PatchRepositories(_repositories),
+                Program.MockAudioOutput);
         }
 
         private Patch CreateDefaultSinePatch()

@@ -12,6 +12,12 @@ namespace JJ.Presentation.Synthesizer.NAudio
     {
         ReaderWriterLockSlim Lock { get; }
         IPatchCalculator Calculator { get; }
-        void RecreateCalculator(IList<Patch> patches, int maxConcurrentNotes, PatchRepositories repositories);
+
+        // TODO: Needs to be refactored.
+        void RecreateCalculator(
+            IList<Patch> patches, 
+            int maxConcurrentNotes, 
+            PatchRepositories repositories,
+            AudioOutput audioOutput);
     }
 }

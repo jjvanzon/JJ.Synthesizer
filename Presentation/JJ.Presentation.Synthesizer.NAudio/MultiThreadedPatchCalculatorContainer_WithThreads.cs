@@ -14,7 +14,7 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
-    public class MultiThreadedPatchCalculatorContainer : IPatchCalculatorContainer
+    public class MultiThreadedPatchCalculatorContainer_WithThreads : IPatchCalculatorContainer
     {
         private readonly NoteRecycler _noteRecycler;
         private readonly int _threadCount;
@@ -26,7 +26,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
         /// <summary> null if RecreateCalculator is not yet called. </summary>
         public IPatchCalculator Calculator { get; private set; }
 
-        public MultiThreadedPatchCalculatorContainer(NoteRecycler noteRecycler, int maxThreadCount, AudioOutput audioOutput)
+        public MultiThreadedPatchCalculatorContainer_WithThreads(NoteRecycler noteRecycler, int maxThreadCount, AudioOutput audioOutput)
         {
             if (noteRecycler == null) throw new NullException(() => noteRecycler);
             if (audioOutput == null) throw new NullException(() => audioOutput);
@@ -46,13 +46,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
             _threadCount = maxThreadCount;
         }
 
-        private MultiThreadedPatchCalculator CreateCalculator()
-        {
-            var polyphonyCalculator = new MultiThreadedPatchCalculator(_threadCount, _bufferSize, _sampleDuration, _noteRecycler);
-
-            return polyphonyCalculator;
-        }
-
         /// <summary> 
         /// You must call this on the thread that keeps the IContext open. 
         /// Will automatically use a WriteLock.
@@ -60,35 +53,40 @@ namespace JJ.Presentation.Synthesizer.NAudio
         public void RecreateCalculator(
             IList<Patch> patches,
             int maxConcurrentNotes,
-            PatchRepositories repositories)
+            PatchRepositories repositories,
+            AudioOutput audioOutput)
         {
             var patchManager = new PatchManager(repositories);
 
-            var calculatorCache = new CalculatorCache();
+            // Auto-Patch
+            patchManager.AutoPatch(patches);
+            Patch autoPatch = patchManager.Patch;
+            Outlet signalOutlet = autoPatch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
+                                           .Where(x => x.Result.GetDimensionEnum() == DimensionEnum.Signal)
+                                           .SingleOrDefault();
+            if (signalOutlet == null)
+            {
+                signalOutlet = patchManager.Number(0.0);
+#if DEBUG
+                signalOutlet.Operator.Name = "Dummy operator, because Auto-Patch has no signal outlets.";
+#endif
+            }
 
-            MultiThreadedPatchCalculator newPolyphonyCalculator = CreateCalculator();
+            var newPolyphonyCalculator = new MultiThreadedPatchCalculator_WithThreads(
+                _threadCount, 
+                _bufferSize, 
+                _sampleDuration, 
+                _noteRecycler);
+
+            var calculatorCache = new CalculatorCache();
 
             var patchCalculators = new List<IPatchCalculator>(maxConcurrentNotes);
 
             for (int i = 0; i < maxConcurrentNotes; i++)
             {
-                patchManager.AutoPatch(patches);
-                Patch autoPatch = patchManager.Patch;
-                Outlet signalOutlet = autoPatch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
-                                               .Where(x => x.Result.GetDimensionEnum() == DimensionEnum.Signal)
-                                               .SingleOrDefault();
-                if (signalOutlet == null)
-                {
-                    signalOutlet = patchManager.Number(0.0);
-#if DEBUG
-                    signalOutlet.Operator.Name = "Dummy operator, because Auto-Patch has no signal outlets.";
-#endif
-                }
-
                 IPatchCalculator patchCalculator = patchManager.CreateCalculator(calculatorCache, signalOutlet);
                 patchCalculators.Add(patchCalculator);
             }
-
             newPolyphonyCalculator.AddPatchCalculators(patchCalculators);
 
             Lock.EnterWriteLock();

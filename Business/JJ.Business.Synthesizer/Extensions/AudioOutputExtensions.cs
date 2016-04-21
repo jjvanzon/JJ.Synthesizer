@@ -8,6 +8,12 @@ namespace JJ.Business.Synthesizer.Extensions
 {
     public static class AudioOutputExtensions
     {
+        public static int GetChannelCount(this AudioOutput audioOutput)
+        {
+            if (audioOutput == null) throw new NullException(() => audioOutput);
+            return audioOutput.SpeakerSetup.SpeakerSetupChannels.Count;
+        }
+
         public static double GetSampleDuration(this AudioOutput audioOutput)
         {
             if (audioOutput == null) throw new NullException(() => audioOutput);

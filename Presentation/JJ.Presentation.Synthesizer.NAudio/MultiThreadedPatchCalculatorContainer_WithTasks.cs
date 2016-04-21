@@ -5,17 +5,30 @@ using System.Threading;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Patches;
+using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer;
+using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
-    public class SingleThreadedPatchCalculatorContainer : IPatchCalculatorContainer
+    public class MultiThreadedPatchCalculatorContainer_WithTasks : IPatchCalculatorContainer
     {
+        private readonly NoteRecycler _noteRecycler;
+
         public ReaderWriterLockSlim Lock { get; } = new ReaderWriterLockSlim();
 
         /// <summary> null if RecreateCalculator is not yet called. </summary>
         public IPatchCalculator Calculator { get; private set; }
+
+        public MultiThreadedPatchCalculatorContainer_WithTasks(NoteRecycler noteRecycler)
+        {
+            if (noteRecycler == null) throw new NullException(() => noteRecycler);
+
+            _noteRecycler = noteRecycler;
+        }
 
         /// <summary> 
         /// You must call this on the thread that keeps the IContext open. 
@@ -28,18 +41,26 @@ namespace JJ.Presentation.Synthesizer.NAudio
             AudioOutput audioOutput)
         {
             var patchManager = new PatchManager(repositories);
-            Outlet autoPatchOutlet = patchManager.AutoPatchPolyphonic(patches, maxConcurrentNotes);
-            IPatchCalculator patchCalculator = patchManager.CreateCalculator(new CalculatorCache(), autoPatchOutlet);
+
+            // Auto-Patch
+            patchManager.AutoPatch(patches);
+            Patch autoPatch = patchManager.Patch;
+
+            var newPolyphonyCalculator = new MultiThreadedPatchCalculator_WithTasks(
+                autoPatch,
+                audioOutput, 
+                _noteRecycler, 
+                repositories);
 
             Lock.EnterWriteLock();
             try
             {
                 if (Calculator != null)
                 {
-                    patchCalculator.CloneValues(Calculator);
+                    newPolyphonyCalculator.CloneValues(Calculator);
                 }
 
-                Calculator = patchCalculator;
+                Calculator = newPolyphonyCalculator;
             }
             finally
             {
