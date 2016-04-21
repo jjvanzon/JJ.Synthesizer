@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Data.Synthesizer;
-using JJ.Framework.Reflection.Exceptions;
 using NAudio.Wave;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
+    /// <summary>
+    /// Most of the work is done by the AudioOutputSampleProvider.
+    /// </summary>
     public class AudioOutputProcessor
     {
         private const int DEFAULT_BUFFER_LENGTH_IN_MILLISECONDS = 100; // TODO: Make this 10 in the future?

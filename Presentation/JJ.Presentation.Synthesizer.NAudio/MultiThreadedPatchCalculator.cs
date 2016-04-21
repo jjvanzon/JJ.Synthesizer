@@ -141,7 +141,18 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         // Calculate
 
-        /// <param name="channelIndex">
+        /// <param name="sampleDuration">
+        /// Not used. Alternative value is determined internally.
+        /// This parameter is currently not used, but I want this abstraction to stay similar
+        /// to PatchCalculator, or I would be refactoring my brains out.
+        /// </param>
+        /// <param name="count">
+        /// Not used. Alternative value is determined internally.
+        /// This parameter is currently not used, but I want this abstraction to stay similar
+        /// to PatchCalculator, or I would be refactoring my brains out.
+        /// </param>
+        /// <param name="dimensionStack">
+        /// Not used. Alternative value is determined internally.
         /// This parameter is currently not used, but I want this abstraction to stay similar
         /// to PatchCalculator, or I would be refactoring my brains out.
         /// </param>

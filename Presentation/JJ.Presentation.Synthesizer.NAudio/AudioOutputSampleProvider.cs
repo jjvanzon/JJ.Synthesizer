@@ -8,6 +8,7 @@ using JJ.Framework.Reflection.Exceptions;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
@@ -30,12 +31,13 @@ namespace JJ.Presentation.Synthesizer.NAudio
             if (audioOutput.SamplingRate == 0) throw new ZeroException(() => audioOutput.SamplingRate);
 
             _patchCalculatorContainer = patchCalculatorContainer;
-            _sampleDuration = 1.0 / (double)audioOutput.SamplingRate;
+
+            _sampleDuration = audioOutput.GetSampleDuration();
+            _channelCount = audioOutput.SpeakerSetup.SpeakerSetupChannels.Count;
 
             _waveFormat = CreateWaveFormat(audioOutput);
-            _dimensionStack = new DimensionStack();
 
-            _channelCount = audioOutput.SpeakerSetup.SpeakerSetupChannels.Count;
+            _dimensionStack = new DimensionStack();
         }
 
         private WaveFormat CreateWaveFormat(AudioOutput audioOutput)

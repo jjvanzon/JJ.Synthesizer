@@ -31,11 +31,14 @@ namespace JJ.Presentation.Synthesizer.NAudio
         private static readonly double[] _noteNumber_To_Frequency_Array = Create_NoteNumber_To_Frequency_Array();
 
         private readonly IPatchCalculatorContainer _patchCalculatorContainer;
+
+        /// <summary> Only used to get the time. </summary>
         private readonly AudioOutputProcessor _audioOutputProcessor;
 
         private MidiIn _midiIn;
         private NoteRecycler _noteRecycler;
 
+        /// <param name="audioOutputProcessor">Only used to get the time.</param>
         public MidiInputProcessor(
             IPatchCalculatorContainer patchCalculatorContainer, 
             AudioOutputProcessor audioOutputProcessor,
@@ -143,7 +146,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     calculator.SetValue(DimensionEnum.NoteStart, noteInfo.ListIndex, time);
                     calculator.SetValue(DimensionEnum.NoteDuration, noteInfo.ListIndex, CalculationHelper.VERY_HIGH_VALUE);
 
-                    // Apply controller values
+                    // Re-apply controller values
                     foreach (ControllerInfo controllerInfo in _controllerCode_To_ControllerInfo_Dictionary.Values)
                     {
                         double controllerValue = controllerInfo.TempValue;

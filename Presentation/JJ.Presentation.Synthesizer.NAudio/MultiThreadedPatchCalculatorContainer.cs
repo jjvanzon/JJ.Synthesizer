@@ -77,7 +77,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
                 Outlet signalOutlet = autoPatch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
                                                .Where(x => x.Result.GetDimensionEnum() == DimensionEnum.Signal)
                                                .SingleOrDefault();
-
                 if (signalOutlet == null)
                 {
                     signalOutlet = patchManager.Number(0.0);
@@ -98,6 +97,12 @@ namespace JJ.Presentation.Synthesizer.NAudio
                 if (Calculator != null)
                 {
                     newPolyphonyCalculator.CloneValues(Calculator);
+
+                    //var disposable = Calculator as IDisposable;
+                    //if (disposable != null)
+                    //{
+                    //    disposable.Dispose();
+                    //}
                 }
 
                 Calculator = newPolyphonyCalculator;
