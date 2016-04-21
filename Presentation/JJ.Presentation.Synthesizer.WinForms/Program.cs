@@ -68,15 +68,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
             if (winFormsConfig.AudioOutputEnabled) _audioOutputProcessor.Stop();
             if (winFormsConfig.MidiInputEnabled) _midiInputProcessor.Stop();
 
-            // TODO: Low priority: nothing really tells you that a could be disposable.
             IDisposable disposablePatchCalculator = PatchCalculatorContainer.Calculator as IDisposable;
             if (disposablePatchCalculator != null)
             {
                 disposablePatchCalculator.Dispose();
             }
-
-            // TODO: Clean-up threads all over the place.
-            //_patchCalculatorContainer.Dispose();
         }
 
         /// <summary>

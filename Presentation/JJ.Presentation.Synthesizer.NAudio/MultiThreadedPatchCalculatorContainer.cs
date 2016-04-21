@@ -98,11 +98,11 @@ namespace JJ.Presentation.Synthesizer.NAudio
                 {
                     newPolyphonyCalculator.CloneValues(Calculator);
 
-                    //var disposable = Calculator as IDisposable;
-                    //if (disposable != null)
-                    //{
-                    //    disposable.Dispose();
-                    //}
+                    var disposable = Calculator as IDisposable;
+                    if (disposable != null)
+                    {
+                        disposable.Dispose();
+                    }
                 }
 
                 Calculator = newPolyphonyCalculator;

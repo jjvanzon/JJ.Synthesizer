@@ -81,10 +81,11 @@ namespace JJ.Presentation.Synthesizer.NAudio
             {
                 Thread thread = new Thread(CalculateSingleThread);
                 thread.Priority = ThreadPriority.AboveNormal;
-                // TODO: This property makes sure the application shut-down does not hang on these threads.
-                // This means that former code taht tried to manage disposing and cleaning up threads
-                // can be removed from this class.
-                thread.IsBackground = true;
+
+                // This property makes threads be aborted at application shutdown, even when they in a waiting state.
+                // But when I call Dispose on this object, whenever I create a new instance,
+                // application shutdown did not seem to hang on these threads at all anymore.
+                //thread.IsBackground = true;
 
                 var threadInfo = new ThreadInfo(thread);
                 _threadInfos[i] = threadInfo;
