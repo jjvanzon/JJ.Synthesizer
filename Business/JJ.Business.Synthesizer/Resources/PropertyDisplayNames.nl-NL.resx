@@ -799,4 +799,10 @@
   <data name="VolumeFactor" xml:space="preserve">
     <value>Volume factor</value>
   </data>
+  <data name="BufferDuration" xml:space="preserve">
+    <value>Buffer grootte (sec.)</value>
+  </data>
+  <data name="MaxConcurrentNotes" xml:space="preserve">
+    <value>Aantal gelijktijdige noten</value>
+  </data>
 </root>

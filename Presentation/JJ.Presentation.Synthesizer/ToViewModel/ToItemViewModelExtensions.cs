@@ -105,7 +105,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ID = entity.ID,
                 SamplingRate = entity.SamplingRate,
                 SpeedFactor = entity.SpeedFactor,
-                VolumeFactor = entity.VolumeFactor
+                VolumeFactor = entity.VolumeFactor,
+                MaxConcurrentNotes = entity.MaxConcurrentNotes,
+                BufferDuration = entity.BufferDuration
             };
 
             if (entity.SpeakerSetup != null)

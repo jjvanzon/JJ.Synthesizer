@@ -232,6 +232,10 @@
     <Content Include="2016-04-12 070 SynthesizerDB IX_Curve_XDimensionID.sql" />
     <Content Include="2016-04-16 080 SynthesizerDB AudioOutput.SpeedFactor float instead of real.sql" />
     <Content Include="2016-04-16 090 SynthesizerDB AudioOutput.VolumeFactor float instead of real.sql" />
+    <Content Include="2016-04-22 040 SynthesizerDB AudioOutput.BufferDuration not null.sql" />
+    <Content Include="2016-04-22 030 SynthesizerDB AudioOutput.BufferDuration.sql" />
+    <Content Include="2016-04-22 020 SynthesizerDB AudioOutput.MaxConcurrentNotes not null.sql" />
+    <Content Include="2016-04-22 010 SynthesizerDB AudioOutput.MaxConcurrentNotes.sql" />
     <Content Include="2016-04-16 100 SynthesizerDB AudioOutput.SamplingRate.sql" />
     <Content Include="2016-04-16 110 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2016-04-13 030 SynthesizerDB RUN UTILITY.sql" />

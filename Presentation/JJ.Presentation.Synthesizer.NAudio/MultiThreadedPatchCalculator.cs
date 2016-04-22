@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using JJ.Framework.Common;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Business.Synthesizer.Enums;
@@ -16,8 +14,9 @@ using JJ.Business.Synthesizer.EntityWrappers;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
-    public class MultiThreadedPatchCalculator_WithTasks : IPatchCalculator
+    public class MultiThreadedPatchCalculator : IPatchCalculator
     {
+        // TODO: Not even sure I need this Info class anymore.
         private class PatchCalculatorInfo
         {
             public PatchCalculatorInfo(int noteIndex, int channelIndex, IPatchCalculator patchCalculator)
@@ -54,7 +53,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
         private readonly int _maxConcurrentNotes;
         private double _t0;
 
-        public MultiThreadedPatchCalculator_WithTasks(
+        public MultiThreadedPatchCalculator(
             Patch patch,
             AudioOutput audioOutput,
             NoteRecycler noteRecycler,
@@ -337,10 +336,10 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         public void CloneValues(IPatchCalculator sourceCalculator)
         {
-            var castedSourceCalculator = sourceCalculator as MultiThreadedPatchCalculator_WithTasks;
+            var castedSourceCalculator = sourceCalculator as MultiThreadedPatchCalculator;
             if (castedSourceCalculator == null)
             {
-                throw new IsNotTypeException<MultiThreadedPatchCalculator_WithTasks>(() => castedSourceCalculator);
+                throw new IsNotTypeException<MultiThreadedPatchCalculator>(() => castedSourceCalculator);
             }
 
             for (int i = 0; i < _maxConcurrentNotes; i++)

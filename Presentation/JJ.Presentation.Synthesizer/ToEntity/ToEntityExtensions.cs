@@ -231,6 +231,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.SamplingRate = viewModel.SamplingRate;
             entity.VolumeFactor = viewModel.VolumeFactor;
             entity.SpeedFactor = viewModel.SpeedFactor;
+            entity.MaxConcurrentNotes = viewModel.MaxConcurrentNotes;
+            entity.BufferDuration = viewModel.BufferDuration;
 
             bool speakerSetupIsFilledIn = viewModel.SpeakerSetup != null && viewModel.SpeakerSetup.ID != 0;
             if (speakerSetupIsFilledIn)

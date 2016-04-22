@@ -14,7 +14,7 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
-    public class MultiThreadedPatchCalculatorContainer_WithTasks : IPatchCalculatorContainer
+    public class MultiThreadedPatchCalculatorContainer : IPatchCalculatorContainer
     {
         private readonly NoteRecycler _noteRecycler;
 
@@ -23,7 +23,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
         /// <summary> null if RecreateCalculator is not yet called. </summary>
         public IPatchCalculator Calculator { get; private set; }
 
-        public MultiThreadedPatchCalculatorContainer_WithTasks(NoteRecycler noteRecycler)
+        public MultiThreadedPatchCalculatorContainer(NoteRecycler noteRecycler)
         {
             if (noteRecycler == null) throw new NullException(() => noteRecycler);
 
@@ -46,7 +46,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             patchManager.AutoPatch(patches);
             Patch autoPatch = patchManager.Patch;
 
-            var newPolyphonyCalculator = new MultiThreadedPatchCalculator_WithTasks(
+            var newPolyphonyCalculator = new MultiThreadedPatchCalculator(
                 autoPatch,
                 audioOutput, 
                 _noteRecycler, 

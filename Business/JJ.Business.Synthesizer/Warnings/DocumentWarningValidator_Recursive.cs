@@ -41,6 +41,11 @@ namespace JJ.Business.Synthesizer.Warnings
                 Execute(new AudioFileOutputWarningValidator(audioFileOutput), messagePrefix);
             }
 
+            if (document.AudioOutput != null)
+            {
+                Execute(new AudioOutputWarningValidator(document.AudioOutput), ValidationHelper.GetMessagePrefix(document.AudioOutput));
+            }
+
             foreach (Curve curve in document.Curves)
             {
                 string messagePrefix = ValidationHelper.GetMessagePrefix(curve);

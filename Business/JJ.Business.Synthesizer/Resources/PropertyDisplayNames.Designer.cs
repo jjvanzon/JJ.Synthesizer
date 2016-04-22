@@ -241,6 +241,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Buffer Size (sec.).
+        /// </summary>
+        public static string BufferDuration {
+            get {
+                return ResourceManager.GetString("BufferDuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bundle.
         /// </summary>
         public static string Bundle {
@@ -984,6 +993,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string LowPassFilter {
             get {
                 return ResourceManager.GetString("LowPassFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Concurrent Notes.
+        /// </summary>
+        public static string MaxConcurrentNotes {
+            get {
+                return ResourceManager.GetString("MaxConcurrentNotes", resourceCulture);
             }
         }
         

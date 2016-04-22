@@ -52,7 +52,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 //    noteRecycler,
                 //    winFormsConfig.MaxThreads,
                 //    MockAudioOutput);
-                PatchCalculatorContainer = new MultiThreadedPatchCalculatorContainer_WithTasks(noteRecycler);
+                PatchCalculatorContainer = new MultiThreadedPatchCalculatorContainer(noteRecycler);
             }
             else
             {

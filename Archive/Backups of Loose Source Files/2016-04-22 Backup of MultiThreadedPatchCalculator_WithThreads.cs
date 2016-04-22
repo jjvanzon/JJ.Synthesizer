@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using JJ.Framework.Common;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Business.Synthesizer.Enums;
@@ -239,20 +238,6 @@ Wait:
 
         // Adding and removing calculators.
 
-        //public int AddPatchCalculator(IPatchCalculator patchCalculator)
-        //{
-        //    if (patchCalculator == null) throw new NullException(() => patchCalculator);
-
-        //    var patchCalculatorInfo = new PatchCalculatorInfo(patchCalculator, _patchCalculatorInfos.Count);
-        //    patchCalculatorInfo.IsActive = true;
-
-        //    _patchCalculatorInfos.Add(patchCalculatorInfo);
-
-        //    ApplyToThreadInfos();
-
-        //    return patchCalculatorInfo.NoteListIndex;
-        //}
-
         public void AddPatchCalculators(IList<IPatchCalculator> patchCalculators)
         {
             for (int i = 0; i < patchCalculators.Count; i++)
@@ -267,24 +252,6 @@ Wait:
 
             ApplyToThreadInfos();
         }
-
-        //public void RemovePatchCalculator(int index)
-        //{
-        //    AssertPatchCalculatorInfosListIndex(index);
-
-        //    _patchCalculatorInfos.RemoveAt(index);
-
-        //    ApplyToThreadInfos();
-        //}
-
-        //public void RemovePatchCalculator(IPatchCalculator patchCalculator)
-        //{
-        //    if (patchCalculator == null) throw new NullException(() => patchCalculator);
-
-        //    _patchCalculatorInfos.RemoveFirst(x => x.PatchCalculator == patchCalculator);
-
-        //    ApplyToThreadInfos();
-        //}
 
         private void ApplyToThreadInfos()
         {

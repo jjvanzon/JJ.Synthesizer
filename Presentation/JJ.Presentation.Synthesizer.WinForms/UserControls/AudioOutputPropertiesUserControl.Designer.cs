@@ -39,11 +39,17 @@
             this.labelSpeedFactor = new System.Windows.Forms.Label();
             this.numericUpDownSpeedFactor = new System.Windows.Forms.NumericUpDown();
             this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
+            this.labelMaxConcurrentNotes = new System.Windows.Forms.Label();
+            this.numericUpDownMaxConcurrentNotes = new System.Windows.Forms.NumericUpDown();
+            this.labelBufferDuration = new System.Windows.Forms.Label();
+            this.numericUpDownBufferDuration = new System.Windows.Forms.NumericUpDown();
             this.tableLayoutPanelMain.SuspendLayout();
             this.tableLayoutPanelContent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSamplingRate)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownVolumeFactor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSpeedFactor)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxConcurrentNotes)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownBufferDuration)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanelMain
@@ -75,17 +81,22 @@
             this.tableLayoutPanelContent.Controls.Add(this.numericUpDownVolumeFactor, 1, 2);
             this.tableLayoutPanelContent.Controls.Add(this.labelSpeedFactor, 0, 3);
             this.tableLayoutPanelContent.Controls.Add(this.numericUpDownSpeedFactor, 1, 3);
+            this.tableLayoutPanelContent.Controls.Add(this.labelMaxConcurrentNotes, 0, 4);
+            this.tableLayoutPanelContent.Controls.Add(this.numericUpDownMaxConcurrentNotes, 1, 4);
+            this.tableLayoutPanelContent.Controls.Add(this.labelBufferDuration, 0, 5);
+            this.tableLayoutPanelContent.Controls.Add(this.numericUpDownBufferDuration, 1, 5);
             this.tableLayoutPanelContent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelContent.Location = new System.Drawing.Point(4, 30);
             this.tableLayoutPanelContent.Margin = new System.Windows.Forms.Padding(4);
             this.tableLayoutPanelContent.Name = "tableLayoutPanelContent";
-            this.tableLayoutPanelContent.RowCount = 5;
+            this.tableLayoutPanelContent.RowCount = 7;
+            this.tableLayoutPanelContent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanelContent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanelContent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanelContent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanelContent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanelContent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanelContent.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelContent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanelContent.Size = new System.Drawing.Size(10, 10);
             this.tableLayoutPanelContent.TabIndex = 9;
             // 
@@ -226,6 +237,69 @@
             this.titleBarUserControl.TabIndex = 8;
             this.titleBarUserControl.CloseClicked += new System.EventHandler(this.titleBarUserControl_CloseClicked);
             // 
+            // labelMaxConcurrentNotes
+            // 
+            this.labelMaxConcurrentNotes.Cursor = System.Windows.Forms.Cursors.Default;
+            this.labelMaxConcurrentNotes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelMaxConcurrentNotes.Location = new System.Drawing.Point(0, 120);
+            this.labelMaxConcurrentNotes.Margin = new System.Windows.Forms.Padding(0);
+            this.labelMaxConcurrentNotes.Name = "labelMaxConcurrentNotes";
+            this.labelMaxConcurrentNotes.Size = new System.Drawing.Size(133, 30);
+            this.labelMaxConcurrentNotes.TabIndex = 21;
+            this.labelMaxConcurrentNotes.Text = "labelMaxConcurrentNotes";
+            this.labelMaxConcurrentNotes.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // numericUpDownMaxConcurrentNotes
+            // 
+            this.numericUpDownMaxConcurrentNotes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.numericUpDownMaxConcurrentNotes.Location = new System.Drawing.Point(133, 120);
+            this.numericUpDownMaxConcurrentNotes.Margin = new System.Windows.Forms.Padding(0);
+            this.numericUpDownMaxConcurrentNotes.Maximum = new decimal(new int[] {
+            1000000000,
+            0,
+            0,
+            0});
+            this.numericUpDownMaxConcurrentNotes.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownMaxConcurrentNotes.Name = "numericUpDownMaxConcurrentNotes";
+            this.numericUpDownMaxConcurrentNotes.Size = new System.Drawing.Size(10, 22);
+            this.numericUpDownMaxConcurrentNotes.TabIndex = 22;
+            this.numericUpDownMaxConcurrentNotes.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // labelBufferDuration
+            // 
+            this.labelBufferDuration.Cursor = System.Windows.Forms.Cursors.Default;
+            this.labelBufferDuration.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelBufferDuration.Location = new System.Drawing.Point(0, 150);
+            this.labelBufferDuration.Margin = new System.Windows.Forms.Padding(0);
+            this.labelBufferDuration.Name = "labelBufferDuration";
+            this.labelBufferDuration.Size = new System.Drawing.Size(133, 30);
+            this.labelBufferDuration.TabIndex = 23;
+            this.labelBufferDuration.Text = "labelBufferDuration";
+            this.labelBufferDuration.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // numericUpDownBufferDuration
+            // 
+            this.numericUpDownBufferDuration.DecimalPlaces = 6;
+            this.numericUpDownBufferDuration.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.numericUpDownBufferDuration.Increment = new decimal(new int[] {
+            250,
+            0,
+            0,
+            327680});
+            this.numericUpDownBufferDuration.Location = new System.Drawing.Point(133, 150);
+            this.numericUpDownBufferDuration.Margin = new System.Windows.Forms.Padding(0);
+            this.numericUpDownBufferDuration.Name = "numericUpDownBufferDuration";
+            this.numericUpDownBufferDuration.Size = new System.Drawing.Size(10, 22);
+            this.numericUpDownBufferDuration.TabIndex = 24;
+            // 
             // AudioOutputPropertiesUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -242,6 +316,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSamplingRate)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownVolumeFactor)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSpeedFactor)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxConcurrentNotes)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownBufferDuration)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -259,5 +335,9 @@
         private System.Windows.Forms.NumericUpDown numericUpDownVolumeFactor;
         private System.Windows.Forms.Label labelSpeedFactor;
         private System.Windows.Forms.NumericUpDown numericUpDownSpeedFactor;
+        private System.Windows.Forms.Label labelMaxConcurrentNotes;
+        private System.Windows.Forms.NumericUpDown numericUpDownMaxConcurrentNotes;
+        private System.Windows.Forms.Label labelBufferDuration;
+        private System.Windows.Forms.NumericUpDown numericUpDownBufferDuration;
     }
 }

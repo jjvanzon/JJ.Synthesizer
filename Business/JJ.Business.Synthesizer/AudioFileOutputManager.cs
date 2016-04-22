@@ -37,8 +37,8 @@ namespace JJ.Business.Synthesizer
         {
             var audioFileOutput = new AudioFileOutput();
             audioFileOutput.ID = _repositories.IDRepository.GetID();
-            _repositories.AudioFileOutputRepository.Insert(audioFileOutput);
             audioFileOutput.LinkTo(document);
+            _repositories.AudioFileOutputRepository.Insert(audioFileOutput);
 
             ISideEffect sideEffect1 = new AudioFileOutput_SideEffect_SetDefaults(
                 audioFileOutput, 

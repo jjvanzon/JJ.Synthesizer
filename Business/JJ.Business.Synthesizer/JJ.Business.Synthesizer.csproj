@@ -378,6 +378,7 @@
     <Compile Include="PatchManager.cs" />
     <Compile Include="SampleManager.cs" />
     <Compile Include="ScaleManager.cs" />
+    <Compile Include="Warnings\AudioOutputWarningValidator.cs" />
     <Compile Include="Warnings\CurveWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Absolute_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\2016-03-30 Backup of OperatorWarningValidator_Cache.cs" />

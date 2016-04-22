@@ -40,20 +40,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AudioOutputProcessor.cs" />
-    <Compile Include="2016-04-19 Backup of AudioOutputSampleProvider %28with outcommented checks%29.cs" />
     <Compile Include="AudioOutputSampleProvider.cs" />
     <Compile Include="IPatchCalculatorContainer.cs" />
     <Compile Include="MidiInputProcessor.cs" />
-    <Compile Include="2016-04-21 Backup of MultiThreadedPatchCalculator_WithTasks.cs" />
-    <Compile Include="MultiThreadedPatchCalculatorContainer_WithTasks.cs" />
-    <Compile Include="MultiThreadedPatchCalculator_WithTasks.cs" />
+    <Compile Include="MultiThreadedPatchCalculatorContainer.cs" />
+    <Compile Include="MultiThreadedPatchCalculator.cs" />
     <Compile Include="NoteInfo.cs" />
     <Compile Include="NoteRecycler.cs" />
-    <Compile Include="MultiThreadedPatchCalculatorContainer_WithThreads.cs" />
     <Compile Include="SingleThreadedPatchCalculatorContainer.cs" />
-    <Compile Include="MultiThreadedPatchCalculator_WithThreads.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="2016-04-19 Backup of TempNAudioCodeExample.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Business\JJ.Business.Canonical\JJ.Business.Canonical.csproj">
