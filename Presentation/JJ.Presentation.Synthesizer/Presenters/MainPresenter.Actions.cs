@@ -686,6 +686,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Set everything to successful.
             viewModel.AudioFileOutputGrid.Successful = true;
             viewModel.AudioFileOutputPropertiesList.ForEach(x => x.Successful = true);
+            viewModel.AudioOutputProperties.Successful = true;
+            viewModel.AutoPatchDetails.Successful = true;
             viewModel.CurrentPatches.Successful = true;
             viewModel.CurveDetailsList.ForEach(x => x.Successful = true);
             viewModel.CurveGrid.Successful = true;
@@ -699,7 +701,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             viewModel.ScaleGrid.Successful = true;
             viewModel.ScalePropertiesList.ForEach(x => x.Successful = true);
             viewModel.ToneGridEditList.ForEach(x => x.Successful = true);
-            viewModel.AutoPatchDetails.Successful = true;
 
             foreach (PatchDocumentViewModel patchDocumentViewModel in viewModel.PatchDocumentList)
             {

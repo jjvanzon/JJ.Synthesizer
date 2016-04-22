@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Media;
+using JJ.Data.Synthesizer;
+using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 
@@ -173,12 +175,20 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void audioOutputPropertiesUserControl_CloseRequested(object sender, EventArgs e)
         {
-            TemplateEventHandler(_presenter.AudioOutputPropertiesClose);
+            TemplateEventHandler(() =>
+            {
+                _presenter.AudioOutputPropertiesClose();
+                SetAudioOutputIfNeeded();
+            });
         }
 
         private void audioOutputPropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
         {
-            TemplateEventHandler(_presenter.AudioOutputPropertiesLoseFocus);
+            TemplateEventHandler(() =>
+            {
+                _presenter.AudioOutputPropertiesLoseFocus();
+                SetAudioOutputIfNeeded();
+            });
         }
 
         // CurrentPatches
@@ -310,7 +320,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(() =>
             {
                 ForceLoseFocus();
+
                 _presenter.DocumentOpen(e.Value);
+
+                SetAudioOutputIfNeeded();
             });
         }
 

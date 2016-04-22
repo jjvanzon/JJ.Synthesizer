@@ -15,6 +15,7 @@ using JJ.Business.Synthesizer.Enums;
 using System.Collections.Generic;
 using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.WinForms.UserControls;
+using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
@@ -99,6 +100,23 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Audio
 
+        private void SetAudioOutputIfNeeded()
+        {
+            AudioOutputPropertiesViewModel viewModel = _presenter.MainViewModel.Document.AudioOutputProperties;
+
+            if (viewModel.Successful)
+            {
+                AudioOutput audioOutput = _repositories.AudioOutputRepository.Get(viewModel.Entity.ID);
+                Program.SetAudioOutput(audioOutput);
+
+                // Right the patch calculator must be recreated too,
+                // because the PatchCalculatorContainer has a reference to a NoteRecycler,
+                // that has to be replaced. Therefore the Program.SetAudioOutput() replaced the
+                // PatchCalculatorContainer and now the patch calculator in it is lost.
+                RecreatePatchCalculator();
+            }
+        }
+
         private void RecreatePatchCalculator()
         {
             IList<Patch> patches = _presenter.MainViewModel.Document.CurrentPatches.List
@@ -110,7 +128,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 patches = new Patch[] { CreateDefaultSinePatch() };
             }
 
-            Program.PatchCalculatorContainer.RecreateCalculator(patches, Program.MockAudioOutput, _repositories);
+            Program.PatchCalculatorContainer.RecreateCalculator(patches, Program.AudioOutput, _repositories);
         }
 
         private Patch CreateDefaultSinePatch()

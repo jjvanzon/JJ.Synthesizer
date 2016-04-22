@@ -2,27 +2,33 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Data.Synthesizer;
+using JJ.Framework.Reflection.Exceptions;
 using NAudio.Wave;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
-    /// <summary>
-    /// Most of the work is done by the AudioOutputSampleProvider.
-    /// </summary>
+    /// <summary> Most of the work is done by the AudioOutputSampleProvider. </summary>
     public class AudioOutputProcessor
     {
-        private const int DEFAULT_BUFFER_LENGTH_IN_MILLISECONDS = 100; // TODO: Make this 10 in the future?
+        private int _desiredLatencyInMilliseconds;
 
         private readonly AudioOutputSampleProvider _sampleProvider;
-
         private WaveOut _waveOut;
 
         public AudioOutputProcessor(IPatchCalculatorContainer patchCalculatorContainer, AudioOutput audioOutput)
         {
+            if (audioOutput == null) throw new NullException(() => audioOutput);
+
+            _desiredLatencyInMilliseconds = (int)(audioOutput.BufferDuration * 1000.0);
+
+            // HACK: Not sure, but NAudio seems to reserve a different buffer size than it should.
+            // TODO: Solve the hack.
+            //_desiredLatencyInMilliseconds *= 2;
+
             _sampleProvider = new AudioOutputSampleProvider(patchCalculatorContainer, audioOutput);
         }
 
-        public double Time { get { return _sampleProvider._time; } }
+        public double Time => _sampleProvider._time;
 
         /// <summary>
         /// Initializes and then immediately pauses, to prevent calculations at startup,
@@ -36,7 +42,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         public void Start()
         {
-            _waveOut = CreateWaveOut(_sampleProvider);
+            _waveOut = CreateWaveOut();
 
             _sampleProvider._time = 0;
             _sampleProvider._isRunning = true;
@@ -44,16 +50,12 @@ namespace JJ.Presentation.Synthesizer.NAudio
             _waveOut.Play();
         }
 
-        public void Continue()
-        {
-            _sampleProvider._isRunning = true;
-        }
+        public void Continue() => _sampleProvider._isRunning = true;
 
-        public void Pause()
-        {
-            // TODO: It is unintuitive that Pause does not work as an alternative way to start the calculations.
-            _sampleProvider._isRunning = false;
-        }
+        public bool IsRunning => _sampleProvider._isRunning;
+
+        // TODO: It is unintuitive that Pause does not work as an alternative way to start the calculations.
+        public void Pause() => _sampleProvider._isRunning = false;
 
         public void Stop()
         {
@@ -69,11 +71,11 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         // Helpers
 
-        private static WaveOut CreateWaveOut(ISampleProvider sampleProvider)
+        private WaveOut CreateWaveOut()
         {
             var waveOut = new WaveOut();
-            waveOut.DesiredLatency = DEFAULT_BUFFER_LENGTH_IN_MILLISECONDS;
-            waveOut.Init(sampleProvider);
+            waveOut.DesiredLatency = _desiredLatencyInMilliseconds;
+            waveOut.Init(_sampleProvider);
             return waveOut;
         }
     }

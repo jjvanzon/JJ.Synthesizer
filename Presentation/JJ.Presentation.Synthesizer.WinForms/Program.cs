@@ -19,7 +19,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private static MidiInputProcessor _midiInputProcessor;
 
         public static IPatchCalculatorContainer PatchCalculatorContainer { get; private set; }
-        public static AudioOutput MockAudioOutput { get; private set; }
+        public static AudioOutput AudioOutput { get; private set; }
 
         private static Thread _audioOutputThread;
         private static Thread _midiInputThread;
@@ -43,9 +43,30 @@ namespace JJ.Presentation.Synthesizer.WinForms
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            MockAudioOutput = CreateMockAudioOutput_Mono();
+            AudioOutput audioOutput = CreateMockAudioOutput_Mono();
 
-            var noteRecycler = new NoteRecycler(winFormsConfig.MaxConcurrentNotes);
+            SetAudioOutput(audioOutput);
+
+            var form = new MainForm();
+            Application.Run(form);
+
+            DisposeAudioOutput();
+        }
+        
+        public static void SetAudioOutput(AudioOutput audioOutput)
+        {
+            if (audioOutput == null) throw new NullException(() => audioOutput);
+
+            if (AudioOutput != null)
+            {
+                DisposeAudioOutput();
+            }
+
+            AudioOutput = audioOutput;
+
+            var noteRecycler = new NoteRecycler(audioOutput.MaxConcurrentNotes);
+
+            var winFormsConfig = CustomConfigurationManager.GetSection<Configuration.ConfigurationSection>();
 
             if (winFormsConfig.MultiThreaded)
             {
@@ -56,14 +77,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 PatchCalculatorContainer = new SingleThreadedPatchCalculatorContainer();
             }
 
-            if (winFormsConfig.AudioOutputEnabled) _audioOutputProcessor = new AudioOutputProcessor(PatchCalculatorContainer, MockAudioOutput);
+            if (winFormsConfig.AudioOutputEnabled) _audioOutputProcessor = new AudioOutputProcessor(PatchCalculatorContainer, audioOutput);
             if (winFormsConfig.MidiInputEnabled) _midiInputProcessor = new MidiInputProcessor(PatchCalculatorContainer, _audioOutputProcessor, noteRecycler);
 
             if (winFormsConfig.AudioOutputEnabled) _audioOutputThread = StartAudioOutputThread(_audioOutputProcessor);
             if (winFormsConfig.MidiInputEnabled) _midiInputThread = StartMidiInputThread(_midiInputProcessor);
+        }
 
-            var form = new MainForm();
-            Application.Run(form);
+        private static void DisposeAudioOutput()
+        {
+            var winFormsConfig = CustomConfigurationManager.GetSection<Configuration.ConfigurationSection>();
 
             if (winFormsConfig.AudioOutputEnabled) _audioOutputProcessor.Stop();
             if (winFormsConfig.MidiInputEnabled) _midiInputProcessor.Stop();

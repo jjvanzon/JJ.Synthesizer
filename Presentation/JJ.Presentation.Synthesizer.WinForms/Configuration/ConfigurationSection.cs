@@ -14,12 +14,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.Configuration
         public bool MultiThreaded { get; set; }
 
         [XmlAttribute]
-        public int MaxThreads { get; set; }
-
-        [XmlAttribute]
-        public int MaxConcurrentNotes { get; set; }
-
-        [XmlAttribute]
         public bool AudioOutputEnabled { get; set; }
 
         [XmlAttribute]

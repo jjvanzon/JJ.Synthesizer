@@ -28,7 +28,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
         {
             if (patchCalculatorContainer == null) throw new NullException(() => patchCalculatorContainer);
             if (audioOutput == null) throw new NullException(() => audioOutput);
-            if (audioOutput.SamplingRate == 0) throw new ZeroException(() => audioOutput.SamplingRate);
 
             _patchCalculatorContainer = patchCalculatorContainer;
 
