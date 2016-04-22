@@ -26,16 +26,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private DocumentCannotDeleteForm _documentCannotDeleteForm = new DocumentCannotDeleteForm();
         private PatchDetailsForm _autoPatchDetailsForm = new PatchDetailsForm();
-        private readonly static int _maxConcurrentNotes;
-
-        static MainForm()
-        {
-            if (LicenseManager.UsageMode == LicenseUsageMode.Runtime)
-            {
-                var config = CustomConfigurationManager.GetSection<ConfigurationSection>();
-                _maxConcurrentNotes = config.MaxConcurrentNotes;
-            }
-        }
 
         public MainForm()
         {
@@ -120,11 +110,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 patches = new Patch[] { CreateDefaultSinePatch() };
             }
 
-            Program.PatchCalculatorContainer.RecreateCalculator(
-                patches, 
-                _maxConcurrentNotes,
-                _repositories,
-                Program.MockAudioOutput);
+            Program.PatchCalculatorContainer.RecreateCalculator(patches, Program.MockAudioOutput, _repositories);
         }
 
         private Patch CreateDefaultSinePatch()

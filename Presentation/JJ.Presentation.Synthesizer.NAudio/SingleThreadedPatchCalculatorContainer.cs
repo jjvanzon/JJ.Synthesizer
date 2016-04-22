@@ -7,6 +7,7 @@ using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer;
+using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
@@ -21,14 +22,12 @@ namespace JJ.Presentation.Synthesizer.NAudio
         /// You must call this on the thread that keeps the IContext open. 
         /// Will automatically use a WriteLock.
         /// </summary>
-        public void RecreateCalculator(
-            IList<Patch> patches, 
-            int maxConcurrentNotes, 
-            RepositoryWrapper repositories,
-            AudioOutput audioOutput)
+        public void RecreateCalculator(IList<Patch> patches, AudioOutput audioOutput, RepositoryWrapper repositories)
         {
+            if (audioOutput == null) throw new NullException(() => audioOutput);
+
             var patchManager = new PatchManager(new PatchRepositories(repositories));
-            Outlet autoPatchOutlet = patchManager.AutoPatchPolyphonic(patches, maxConcurrentNotes);
+            Outlet autoPatchOutlet = patchManager.AutoPatchPolyphonic(patches, audioOutput.MaxConcurrentNotes);
             IPatchCalculator patchCalculator = patchManager.CreateCalculator(autoPatchOutlet, new CalculatorCache());
 
             Lock.EnterWriteLock();

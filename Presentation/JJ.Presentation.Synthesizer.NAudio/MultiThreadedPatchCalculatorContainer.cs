@@ -30,11 +30,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
         /// You must call this on the thread that keeps the IContext open. 
         /// Will automatically use a WriteLock.
         /// </summary>
-        public void RecreateCalculator(
-            IList<Patch> patches, 
-            int maxConcurrentNotes, 
-            RepositoryWrapper repositories,
-            AudioOutput audioOutput)
+        public void RecreateCalculator(IList<Patch> patches, AudioOutput audioOutput, RepositoryWrapper repositories)
         {
             var patchManager = new PatchManager(new PatchRepositories(repositories));
 
