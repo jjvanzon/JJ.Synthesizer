@@ -120,7 +120,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
                 for (int channelIndex = 0; channelIndex < channelCount; channelIndex++)
                 {
-                    IPatchCalculator patchCalculator = patchManager.CreateCalculator(calculatorCache, signalOutlet);
+                    IPatchCalculator patchCalculator = patchManager.CreateCalculator(signalOutlet, calculatorCache);
                     patchCalculatorInfos[noteIndex][channelIndex] = new PatchCalculatorInfo(noteIndex, channelIndex, patchCalculator);
                 }
             }
@@ -186,6 +186,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         private void CalculateSingleThread(PatchCalculatorInfo patchCalculatorInfo)
         {
+            // TODO: You could check this outside the thread.
             bool isActive = !_noteRecycler.IsNoteReleased(patchCalculatorInfo.NoteIndex, _t0);
             if (!isActive)
             {

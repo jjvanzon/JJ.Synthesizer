@@ -32,16 +32,16 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         public class Result
         {
             public Result(
-                IList<OperatorCalculatorBase> output_OperatorCalculators,
+                OperatorCalculatorBase output_OperatorCalculator,
                 IList<VariableInput_OperatorCalculator> input_OperatorCalculators,
                 IList<ResettableOperatorTuple> resettableOperatorTuples)
             {
-                Output_OperatorCalculators = output_OperatorCalculators;
+                Output_OperatorCalculator = output_OperatorCalculator;
                 Input_OperatorCalculators = input_OperatorCalculators;
                 ResettableOperatorTuples = resettableOperatorTuples;
             }
 
-            public IList<OperatorCalculatorBase> Output_OperatorCalculators { get; private set; }
+            public OperatorCalculatorBase Output_OperatorCalculator { get; private set; }
             public IList<VariableInput_OperatorCalculator> Input_OperatorCalculators { get; private set; }
             public IList<ResettableOperatorTuple> ResettableOperatorTuples { get; private set; }
         }
@@ -78,7 +78,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         private Dictionary<Operator, double> _operator_NoiseOffsetInSeconds_Dictionary;
         private Dictionary<Operator, int> _operator_RandomOffsetInSeconds_Dictionary;
-        private Outlet _currentChannelOutlet;
+        private Outlet _outlet;
         private Dictionary<Operator, VariableInput_OperatorCalculator> _patchInlet_Calculator_Dictionary;
         private IList<ResettableOperatorTuple> _resettableOperatorTuples;
 
@@ -102,25 +102,16 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _calculatorCache = calculatorCache;
         }
 
-        /// <summary> Returns an OperatorCalculator for each channel. Null-channels will get an OperatorCalculator too. </summary>
-        /// <param name="channelOutlets">Can contain nulls.</param>
-        public Result Execute(IList<Outlet> channelOutlets)
+        /// <param name="channelCount">Used for e.g. mixing channels of samples into one channel.</param>
+        public Result Execute(Outlet outlet, int channelCount = 2)
         {
-            if (channelOutlets == null) throw new NullException(() => channelOutlets);
+            if (outlet == null) throw new NullException(() => outlet);
 
-            foreach (Outlet channelOutlet in channelOutlets)
-            {
-                if (channelOutlet == null)
-                {
-                    continue;
-                }
-
-                IValidator validator = new Recursive_OperatorValidator(
-                    channelOutlet.Operator,
-                    _curveRepository, _sampleRepository, _patchRepository,
-                    alreadyDone: new HashSet<object>());
-                validator.Assert();
-            }
+            IValidator validator = new Recursive_OperatorValidator(
+                outlet.Operator,
+                _curveRepository, _sampleRepository, _patchRepository,
+                alreadyDone: new HashSet<object>());
+            validator.Assert();
 
             _stack = new Stack<OperatorCalculatorBase>();
             _bundleIndexStack = new Stack<int>();
@@ -130,36 +121,20 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _resettableOperatorTuples = new List<ResettableOperatorTuple>();
             _defaultDimensionStack = new DimensionStack();
 
-            _channelCount = channelOutlets.Count;
+            _outlet = outlet;
+            _channelCount = channelCount;
 
-            var outputOperatorCalculators = new List<OperatorCalculatorBase>(_channelCount);
+            VisitOutlet(outlet);
 
-            foreach (Outlet channelOutlet in channelOutlets)
+            OperatorCalculatorBase outputOperatorCalculator = _stack.Pop();
+
+            if (_stack.Count != 0)
             {
-                if (channelOutlet == null)
-                {
-                    outputOperatorCalculators.Add(new Zero_OperatorCalculator());
-                    continue;
-                }
-
-                _currentChannelOutlet = channelOutlet;
-
-                VisitOutlet(channelOutlet);
-
-                OperatorCalculatorBase operatorCalculator = _stack.Pop();
-
-                if (_stack.Count != 0)
-                {
-                    throw new Exception("_stack.Count should have been 0.");
-                }
-
-                operatorCalculator = operatorCalculator ?? new Zero_OperatorCalculator();
-
-                outputOperatorCalculators.Add(operatorCalculator);
+                throw new Exception("_stack.Count should have been 0.");
             }
 
             return new Result(
-                outputOperatorCalculators,
+                outputOperatorCalculator,
                 _patchInlet_Calculator_Dictionary.Values.ToArray(),
                 _resettableOperatorTuples);
         }
@@ -3287,7 +3262,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 return false;
             }
 
-            return op.Patch.ID == _currentChannelOutlet.Operator.Patch.ID;
+            return op.Patch.ID == _outlet.Operator.Patch.ID;
         }
 
         protected override void VisitOutlet(Outlet outlet)

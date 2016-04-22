@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private const int TIME_DIMENSION_INDEX = (int)DimensionEnum.Time;
 
         /// <summary> Array for optimization in calculating values. </summary>
-        private readonly OperatorCalculatorBase[] _outputOperatorCalculators;
+        private readonly OperatorCalculatorBase _outputOperatorCalculator;
         private readonly VariableInput_OperatorCalculator[] _inputOperatorCalculators;
 
         private readonly Dictionary<string, IList<OperatorCalculatorBase>> _name_To_ResettableOperatorCalculators_Dictionary;
@@ -27,23 +27,21 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private Dictionary<DimensionEnum, double> _dimensionEnum_To_Value_Dictionary = new Dictionary<DimensionEnum, double>();
         private Dictionary<Tuple<DimensionEnum, int>, double> _dimensionEnumAndListIndex_To_Value_Dictionary = new Dictionary<Tuple<DimensionEnum, int>, double>();
 
-        /// <summary> This overload has ChannelOutlets as an IList<T>. </summary>
-        /// <param name="channelOutlets">Can contain nulls.</param>
         public OptimizedPatchCalculator(
-            IList<Outlet> channelOutlets,
+            Outlet outlet,
             CalculatorCache calculatorCache,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
             IPatchRepository patchRepository,
             ISpeakerSetupRepository speakerSetupRepository)
         {
-            if (channelOutlets == null) throw new NullException(() => channelOutlets);
+            if (outlet == null) throw new NullException(() => outlet);
 
             var visitor = new OptimizedPatchCalculatorVisitor(curveRepository, sampleRepository, patchRepository, speakerSetupRepository, calculatorCache);
 
-            OptimizedPatchCalculatorVisitor.Result result = visitor.Execute(channelOutlets);
+            OptimizedPatchCalculatorVisitor.Result result = visitor.Execute(outlet);
 
-            _outputOperatorCalculators = result.Output_OperatorCalculators.ToArray(); // TODO: Low priority: One would think that the outlet operators should be sorted by a list index too. But it does not have a ListIndex property.
+            _outputOperatorCalculator = result.Output_OperatorCalculator;
             _inputOperatorCalculators = result.Input_OperatorCalculators.OrderBy(x => x.ListIndex).ToArray();
             _name_To_ResettableOperatorCalculators_Dictionary = result.ResettableOperatorTuples.ToNonUniqueDictionary(x => x.Name ?? "", x => x.OperatorCalculator);
             _listIndex_To_ResettableOperatorCalculators_Dictionary = result.ResettableOperatorTuples.Where(x => x.ListIndex.HasValue).ToNonUniqueDictionary(x => x.ListIndex.Value, x => x.OperatorCalculator);
@@ -51,10 +49,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         public double Calculate(DimensionStack dimensionStack)
         {
-            // TODO: Cast to int can fail.
-            int channelIndex = (int)dimensionStack.Get(DimensionEnum.Channel);
-
-            double value = _outputOperatorCalculators[channelIndex].Calculate(dimensionStack);
+            double value = _outputOperatorCalculator.Calculate(dimensionStack);
             return value;
         }
 
@@ -351,11 +346,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         public void Reset(DimensionStack dimensionStack)
         {
-            for (int i = 0; i < _outputOperatorCalculators.Length; i++)
-            {
-                OperatorCalculatorBase outputOperatorCalculator = _outputOperatorCalculators[i];
-                outputOperatorCalculator.Reset(dimensionStack);
-            }
+            _outputOperatorCalculator.Reset(dimensionStack);
 
             _valuesByListIndex.Clear();
             _valuesByName.Clear();

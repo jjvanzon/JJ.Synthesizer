@@ -402,7 +402,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private IPatchCalculator CreatePatchCalculator(PatchRepositories repositories, Outlet outlet)
         {
             var patchManager = new PatchManager(outlet.Operator.Patch, repositories);
-            return patchManager.CreateCalculator(new CalculatorCache(), outlet);
+            return patchManager.CreateCalculator(outlet, new CalculatorCache());
         }
 
         private static double GetPatchPlayDuration()

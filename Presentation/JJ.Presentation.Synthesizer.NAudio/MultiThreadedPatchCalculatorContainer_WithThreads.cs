@@ -84,7 +84,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
             for (int i = 0; i < maxConcurrentNotes; i++)
             {
-                IPatchCalculator patchCalculator = patchManager.CreateCalculator(calculatorCache, signalOutlet);
+                IPatchCalculator patchCalculator = patchManager.CreateCalculator(signalOutlet, calculatorCache);
                 patchCalculators.Add(patchCalculator);
             }
             newPolyphonyCalculator.AddPatchCalculators(patchCalculators);

@@ -487,22 +487,7 @@ namespace JJ.Business.Synthesizer
         }
 
         public IPatchCalculator CreateCalculator(
-            CalculatorCache calculatorCache,
-            params Outlet[] channelOutlets)
-        {
-            return CreateCalculator(channelOutlets, calculatorCache);
-        }
-
-        public IPatchCalculator CreateCalculator(
-            CalculatorCache calculatorCache,
-            bool mustSubstituteSineForUnfilledInSignalPatchInlets,
-            params Outlet[] channelOutlets)
-        {
-            return CreateCalculator(channelOutlets, calculatorCache, mustSubstituteSineForUnfilledInSignalPatchInlets);
-        }
-
-        public IPatchCalculator CreateCalculator(
-            IList<Outlet> channelOutlets,
+            Outlet outlet,
             CalculatorCache calculatorCache,
             bool mustSubstituteSineForUnfilledInSignalPatchInlets = true)
         {
@@ -512,7 +497,7 @@ namespace JJ.Business.Synthesizer
             }
 
             IPatchCalculator calculator = new OptimizedPatchCalculator(
-                channelOutlets,
+                outlet,
                 calculatorCache,
                 _repositories.CurveRepository,
                 _repositories.SampleRepository,

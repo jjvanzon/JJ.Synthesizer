@@ -495,9 +495,12 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Triangle(frequency, phaseShift, dimension);
         }
 
-        public IPatchCalculator CreateCalculator(CalculatorCache calculatorCache, params Outlet[] channelOutlets)
+        public IPatchCalculator CreateCalculator(
+            Outlet outlet,
+            CalculatorCache calculatorCache,
+            bool mustSubstituteSineForUnfilledInSignalPatchInlets = true)
         {
-            return _patchManager.CreateCalculator(calculatorCache, channelOutlets);
+            return _patchManager.CreateCalculator(outlet, calculatorCache, mustSubstituteSineForUnfilledInSignalPatchInlets);
         }
     }
 }

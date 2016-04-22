@@ -42,7 +42,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            MockAudioOutput = CreateMockAudioOutput_Mono();
+            MockAudioOutput = CreateMockAudioOutput_Stereo();
 
             var noteRecycler = new NoteRecycler(winFormsConfig.MaxConcurrentNotes);
 
