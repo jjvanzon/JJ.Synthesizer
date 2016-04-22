@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Windows.Forms;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Common;
 using JJ.Framework.Configuration;
@@ -42,16 +43,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            MockAudioOutput = CreateMockAudioOutput_Stereo();
+            MockAudioOutput = CreateMockAudioOutput_Mono();
 
             var noteRecycler = new NoteRecycler(winFormsConfig.MaxConcurrentNotes);
 
             if (winFormsConfig.MultiThreaded)
             {
-                //PatchCalculatorContainer = new MultiThreadedPatchCalculatorContainer_WithThreads(
-                //    noteRecycler,
-                //    winFormsConfig.MaxThreads,
-                //    MockAudioOutput);
                 PatchCalculatorContainer = new MultiThreadedPatchCalculatorContainer(noteRecycler);
             }
             else
@@ -86,6 +83,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
         {
             var speakerSetup = new SpeakerSetup
             {
+                ID = (int)SpeakerSetupEnum.Mono,
                 SpeakerSetupChannels = new List<SpeakerSetupChannel>()
             };
 
@@ -101,7 +99,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 SamplingRate = 44100,
                 SpeakerSetup = speakerSetup,
                 SpeedFactor = 1,
-                VolumeFactor = 1
+                VolumeFactor = 1,
+                MaxConcurrentNotes = 16,
+                BufferDuration = 0.1
             };
 
             return audioOutput;
@@ -115,6 +115,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
         {
             var speakerSetup = new SpeakerSetup
             {
+                ID = (int)SpeakerSetupEnum.Stereo,
                 SpeakerSetupChannels = new List<SpeakerSetupChannel>()
             };
 
@@ -137,7 +138,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 SamplingRate = 44100,
                 SpeakerSetup = speakerSetup,
                 SpeedFactor = 1,
-                VolumeFactor = 1
+                VolumeFactor = 1,
+                MaxConcurrentNotes = 16,
+                BufferDuration = 0.1
             };
 
             return audioOutput;

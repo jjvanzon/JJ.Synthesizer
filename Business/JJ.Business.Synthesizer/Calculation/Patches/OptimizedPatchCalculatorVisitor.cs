@@ -367,7 +367,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             // the user with validation messages, because he is busy making music and the show must go on.
             bool startTimeIsValid = !Double.IsNaN(startTime) && !Double.IsInfinity(startTime);
             bool endTimeIsValid = !Double.IsNaN(endTime) && !Double.IsInfinity(endTime);
-            bool samplingRateIsValid = CalculationHelper.CanCastToInt32(samplingRate) && (int)samplingRate > 0;
+            bool samplingRateIsValid = ConversionHelper.CanCastToInt32(samplingRate) && (int)samplingRate > 0;
             bool startTimeComparedToEndTimeIsValid = endTime > startTime;
             bool valuesAreValid = startTimeIsValid &&
                                   endTimeIsValid &&

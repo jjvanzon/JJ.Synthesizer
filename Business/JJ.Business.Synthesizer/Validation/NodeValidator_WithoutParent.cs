@@ -21,6 +21,9 @@ namespace JJ.Business.Synthesizer.Validation
                     .IsEnum<NodeTypeEnum>()
                     .IsNot(NodeTypeEnum.Undefined);
             }
+
+            For(() => Object.X, PropertyDisplayNames.X).NotNaN().NotInfinity();
+            For(() => Object.Y, PropertyDisplayNames.Y).NotNaN().NotInfinity();
         }
     }
 }

@@ -23,9 +23,13 @@ namespace JJ.Business.Synthesizer.Validation
                 .IsNot(SpeakerSetupEnum.Undefined);
 
             For(() => Object.SamplingRate, PropertyDisplayNames.SamplingRate).GreaterThan(0);
-            For(() => Object.SpeedFactor, PropertyDisplayNames.SpeedFactor).IsNot(0);
+            For(() => Object.SpeedFactor, PropertyDisplayNames.SpeedFactor).NotNaN().NotInfinity().IsNot(0);
             For(() => Object.MaxConcurrentNotes, PropertyDisplayNames.MaxConcurrentNotes).GreaterThan(0);
-            For(() => Object.BufferDuration, PropertyDisplayNames.MaxConcurrentNotes).GreaterThan(0);
+
+            For(() => Object.BufferDuration, PropertyDisplayNames.BufferDuration)
+                .NotNaN()
+                .NotInfinity()
+                .GreaterThan(0);
         }
     }
 }

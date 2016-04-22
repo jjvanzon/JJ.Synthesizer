@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -102,7 +103,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double timeSliceDuration = _timeSliceDurationCalculator.Calculate(dimensionStack);
             _sampleCountDouble = _sampleCountCalculator.Calculate(dimensionStack);
 
-            if (CalculationHelper.CanCastToNonNegativeInt32(_sampleCountDouble))
+            if (ConversionHelper.CanCastToNonNegativeInt32(_sampleCountDouble))
             {
                 _sampleCountDouble = (int)_sampleCountDouble;
             }
@@ -121,7 +122,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private Queue<double> CreateQueue(double sampleCountDouble)
         {
             int sampleCountInt = 0;
-            if (CalculationHelper.CanCastToNonNegativeInt32(sampleCountDouble))
+            if (ConversionHelper.CanCastToNonNegativeInt32(sampleCountDouble))
             {
                 sampleCountInt = (int)(_sampleCountDouble);
             }

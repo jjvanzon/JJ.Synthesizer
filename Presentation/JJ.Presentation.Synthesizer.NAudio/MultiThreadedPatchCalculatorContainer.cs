@@ -3,11 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using JJ.Business.Synthesizer;
-using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Patches;
-using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
@@ -37,10 +33,10 @@ namespace JJ.Presentation.Synthesizer.NAudio
         public void RecreateCalculator(
             IList<Patch> patches, 
             int maxConcurrentNotes, 
-            PatchRepositories repositories,
+            RepositoryWrapper repositories,
             AudioOutput audioOutput)
         {
-            var patchManager = new PatchManager(repositories);
+            var patchManager = new PatchManager(new PatchRepositories(repositories));
 
             // Auto-Patch
             patchManager.AutoPatch(patches);

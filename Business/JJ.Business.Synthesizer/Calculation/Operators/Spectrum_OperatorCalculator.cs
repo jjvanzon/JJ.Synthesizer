@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Mathematics;
 using Lomont;
 
@@ -147,7 +148,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private static bool FrequencyCountIsValid(double frequencyCount)
         {
-            if (!CalculationHelper.CanCastToInt32(frequencyCount))
+            if (!ConversionHelper.CanCastToInt32(frequencyCount))
             {
                 return false;
             }

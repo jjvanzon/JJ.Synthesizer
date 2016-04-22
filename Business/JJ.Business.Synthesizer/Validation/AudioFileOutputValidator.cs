@@ -18,8 +18,16 @@ namespace JJ.Business.Synthesizer.Validation
         {
             AudioFileOutput audioFileOutput = Object;
 
-            For(() => audioFileOutput.TimeMultiplier, PropertyDisplayNames.TimeMultiplier).IsNot(0);
-            For(() => audioFileOutput.Duration, PropertyDisplayNames.Duration).GreaterThan(0);
+            For(() => audioFileOutput.TimeMultiplier, PropertyDisplayNames.TimeMultiplier)
+                .NotNaN()
+                .NotInfinity()
+                .IsNot(0);
+
+            For(() => audioFileOutput.Duration, PropertyDisplayNames.Duration)
+                .NotNaN()
+                .NotInfinity()
+                .GreaterThan(0);
+
             For(() => audioFileOutput.SamplingRate, PropertyDisplayNames.SamplingRate).GreaterThan(0);
             For(() => audioFileOutput.AudioFileFormat, PropertyDisplayNames.AudioFileFormat).NotNull();
             For(() => audioFileOutput.SampleDataType, PropertyDisplayNames.SampleDataType).NotNull();

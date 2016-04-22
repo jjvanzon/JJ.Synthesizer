@@ -17,7 +17,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
         void RecreateCalculator(
             IList<Patch> patches, 
             int maxConcurrentNotes, 
-            PatchRepositories repositories,
+            RepositoryWrapper repositories,
             AudioOutput audioOutput);
     }
 }

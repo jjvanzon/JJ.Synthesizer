@@ -123,7 +123,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             Program.PatchCalculatorContainer.RecreateCalculator(
                 patches, 
                 _maxConcurrentNotes,
-                new PatchRepositories(_repositories),
+                _repositories,
                 Program.MockAudioOutput);
         }
 

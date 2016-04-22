@@ -24,10 +24,10 @@ namespace JJ.Presentation.Synthesizer.NAudio
         public void RecreateCalculator(
             IList<Patch> patches, 
             int maxConcurrentNotes, 
-            PatchRepositories repositories,
+            RepositoryWrapper repositories,
             AudioOutput audioOutput)
         {
-            var patchManager = new PatchManager(repositories);
+            var patchManager = new PatchManager(new PatchRepositories(repositories));
             Outlet autoPatchOutlet = patchManager.AutoPatchPolyphonic(patches, maxConcurrentNotes);
             IPatchCalculator patchCalculator = patchManager.CreateCalculator(autoPatchOutlet, new CalculatorCache());
 

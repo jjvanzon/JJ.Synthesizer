@@ -11,6 +11,8 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Data.Canonical;
+using JJ.Business.Canonical;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
@@ -38,14 +40,14 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         private readonly NoteRecycler _noteRecycler;
 
+        private readonly double[] _emptyBuffer;
+
         /// <summary> First index is channel, second index is frame. </summary>
         private readonly double[][] _buffers;
         /// <summary> First index is channel, second index is frame. </summary>
         private readonly object[][] _bufferLocks;
         /// <summary> First index is NoteIndex, second index is channel. </summary>
         private readonly PatchCalculatorInfo[][] _patchCalculatorInfos;
-        /// <summary> Index is NoteIndex. Initialized with as many items as _maxConcurrentNotes. </summary>
-        private readonly Task[] _tasks;
 
         private readonly int _frameCount;
         private readonly double _frameDuration;
@@ -57,28 +59,27 @@ namespace JJ.Presentation.Synthesizer.NAudio
             Patch patch,
             AudioOutput audioOutput,
             NoteRecycler noteRecycler,
-            PatchRepositories repositories)
+            RepositoryWrapper repositories)
         {
             if (patch == null) throw new NullException(() => patch);
             if (audioOutput == null) throw new NullException(() => audioOutput);
             if (noteRecycler == null) throw new NullException(() => noteRecycler);
             if (repositories == null) throw new NullException(() => repositories);
 
+            AssertAudioOutput(audioOutput, repositories);
+
             // Get Audio Properties
             double frameDuration = audioOutput.GetSampleDuration();
             int channelCount = audioOutput.GetChannelCount();
-            //int maxConcurrentNotes = audioOutput.MaxConcurrentNotes;
+            int maxConcurrentNotes = audioOutput.MaxConcurrentNotes;
 
-            //int bufferFrameCount = 0; 
-            //if (bufferFrameCount < 0) throw new LessThanException(() => bufferFrameCount, 0);
-
-            // TODO: Get from AudioOutput.
-            int maxConcurrentNotes = 16;
-            int frameCount = 2205;
-
-            // TODO: Verify the values
+            // TODO: Solve whatever problem makes us have to divide by 2
+            // to not get jittery (mono) sound!
+            int frameCount = audioOutput.GetBufferFrameCount() / 2;
 
             // Create Buffers
+            double[] emptyBuffer = new double[frameCount];
+
             double[][] buffers = new double[channelCount][];
             for (int channelIndex = 0; channelIndex < channelCount; channelIndex++)
             {
@@ -97,7 +98,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             }
 
             // Prepare some patching variables
-            var patchManager = new PatchManager(repositories);
+            var patchManager = new PatchManager(new PatchRepositories(repositories));
             patchManager.Patch = patch;
 
             var calculatorCache = new CalculatorCache();
@@ -124,17 +125,16 @@ namespace JJ.Presentation.Synthesizer.NAudio
                 }
             }
 
-            // Assign fields
+            // Assign Fields
             _noteRecycler = noteRecycler;
             _frameDuration = frameDuration;
             _channelCount = channelCount;
             _maxConcurrentNotes = maxConcurrentNotes;
+            _emptyBuffer = emptyBuffer;
             _buffers = buffers;
             _bufferLocks = bufferLocks;
             _frameCount = frameCount;
             _patchCalculatorInfos = patchCalculatorInfos;
-
-            _tasks = new Task[_maxConcurrentNotes];
         }
 
         // Calculate
@@ -159,21 +159,32 @@ namespace JJ.Presentation.Synthesizer.NAudio
             _t0 = t0;
 
             double channelIndexDouble = dimensionStack.Get(DimensionEnum.Channel);
-            int channelIndex = (int)channelIndexDouble; // TODO: Cast more safely.
+            if (!CanCastToInt32(channelIndexDouble))
+            {
+                return _emptyBuffer;
+            }
+            int channelIndex = (int)channelIndexDouble;
 
             double[] buffer = _buffers[channelIndex];
 
             Array.Clear(buffer, 0, buffer.Length);
 
+            var tasks = new List<Task>(_maxConcurrentNotes);
+
             for (int noteIndex = 0; noteIndex < _maxConcurrentNotes; noteIndex++)
             {
+                bool isActive = !_noteRecycler.IsNoteReleased(noteIndex, _t0);
+                if (!isActive)
+                {
+                    continue;
+                }
+
                 PatchCalculatorInfo patchCalculatorInfo = _patchCalculatorInfos[noteIndex][channelIndex];
                 Task task = Task.Factory.StartNew(() => CalculateSingleThread(patchCalculatorInfo));
-
-                _tasks[noteIndex] = task;
+                tasks.Add(task);
             }
 
-            Task.WaitAll(_tasks);
+            Task.WaitAll(tasks.ToArray());
 
             return buffer;
         }
@@ -185,13 +196,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         private void CalculateSingleThread(PatchCalculatorInfo patchCalculatorInfo)
         {
-            // TODO: You could check this outside the thread.
-            bool isActive = !_noteRecycler.IsNoteReleased(patchCalculatorInfo.NoteIndex, _t0);
-            if (!isActive)
-            {
-                return;
-            }
-
             int channelIndex = patchCalculatorInfo.ChannelIndex;
             double[] buffer = _buffers[channelIndex];
             object[] bufferLocks = _bufferLocks[channelIndex];
@@ -368,6 +372,30 @@ namespace JJ.Presentation.Synthesizer.NAudio
         {
             if (patchCalcultorInfosListIndex < 0) throw new LessThanException(() => patchCalcultorInfosListIndex, 0);
             if (patchCalcultorInfosListIndex >= _patchCalculatorInfos.Length) throw new GreaterThanOrEqualException(() => patchCalcultorInfosListIndex, () => _patchCalculatorInfos.Length);
+        }
+
+        private void AssertAudioOutput(AudioOutput audioOutput, RepositoryWrapper repositories)
+        {
+            // Assert validity of AudioOutput values, by delegating to AudioOutputManager.
+            // It may not be clear from the interface that this will ensure things are valid for this class,
+            // but it is a shame to reprogram the rules here, already programmed out in the business layer.
+
+            var audioOutputManager = new AudioOutputManager(
+                repositories.AudioOutputRepository,
+                repositories.SpeakerSetupRepository,
+                repositories.IDRepository);
+
+            VoidResult voidResult = audioOutputManager.Save(audioOutput);
+
+            ResultHelper.Assert(voidResult);
+        }
+
+        private bool CanCastToInt32(double value)
+        {
+            return value >= Int32.MinValue &&
+                   value <= Int32.MaxValue &&
+                   !Double.IsNaN(value) &&
+                   !Double.IsInfinity(value);
         }
 
         // Source: http://stackoverflow.com/questions/1400465/why-is-there-no-overload-of-interlocked-add-that-accepts-doubles-as-parameters
