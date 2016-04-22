@@ -18,23 +18,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
 {
     public class MultiThreadedPatchCalculator : IPatchCalculator
     {
-        // TODO: Not even sure I need this Info class anymore.
-        private class PatchCalculatorInfo
-        {
-            public PatchCalculatorInfo(int noteIndex, int channelIndex, IPatchCalculator patchCalculator)
-            {
-                NoteIndex = noteIndex;
-                ChannelIndex = channelIndex;
-                PatchCalculator = patchCalculator;
-            }
-
-            public int NoteIndex { get; private set; }
-            public int ChannelIndex { get; private set; }
-            public IPatchCalculator PatchCalculator { get; private set; }
-
-            public bool IsActive { get; set; }
-        }
-
         private const int TIME_DIMENSION_INDEX = (int)DimensionEnum.Time;
         private const int CHANNEL_DIMENSION_INDEX = (int)DimensionEnum.Channel;
 
@@ -47,7 +30,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
         /// <summary> First index is channel, second index is frame. </summary>
         private readonly object[][] _bufferLocks;
         /// <summary> First index is NoteIndex, second index is channel. </summary>
-        private readonly PatchCalculatorInfo[][] _patchCalculatorInfos;
+        private readonly IPatchCalculator[][] _patchCalculators;
 
         private readonly int _frameCount;
         private readonly double _frameDuration;
@@ -113,15 +96,15 @@ namespace JJ.Presentation.Synthesizer.NAudio
             }
 
             // Create PatchCalculator(Infos)
-            PatchCalculatorInfo[][] patchCalculatorInfos = new PatchCalculatorInfo[maxConcurrentNotes][];
+            IPatchCalculator[][] patchCalculators = new IPatchCalculator[maxConcurrentNotes][];
             for (int noteIndex = 0; noteIndex < maxConcurrentNotes; noteIndex++)
             {
-                patchCalculatorInfos[noteIndex] = new PatchCalculatorInfo[channelCount];
+                patchCalculators[noteIndex] = new IPatchCalculator[channelCount];
 
                 for (int channelIndex = 0; channelIndex < channelCount; channelIndex++)
                 {
                     IPatchCalculator patchCalculator = patchManager.CreateCalculator(signalOutlet, calculatorCache);
-                    patchCalculatorInfos[noteIndex][channelIndex] = new PatchCalculatorInfo(noteIndex, channelIndex, patchCalculator);
+                    patchCalculators[noteIndex][channelIndex] = patchCalculator;
                 }
             }
 
@@ -134,7 +117,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             _buffers = buffers;
             _bufferLocks = bufferLocks;
             _frameCount = frameCount;
-            _patchCalculatorInfos = patchCalculatorInfos;
+            _patchCalculators = patchCalculators;
         }
 
         // Calculate
@@ -173,14 +156,16 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
             for (int noteIndex = 0; noteIndex < _maxConcurrentNotes; noteIndex++)
             {
-                bool isActive = !_noteRecycler.IsNoteReleased(noteIndex, _t0);
-                if (!isActive)
+                bool noteIsReleased = _noteRecycler.NoteIsReleased(noteIndex, _t0);
+                if (noteIsReleased)
                 {
                     continue;
                 }
 
-                PatchCalculatorInfo patchCalculatorInfo = _patchCalculatorInfos[noteIndex][channelIndex];
-                Task task = Task.Factory.StartNew(() => CalculateSingleThread(patchCalculatorInfo));
+                // Capture variable in loop iteration, to prevent delegate from getting the wrong getting a next value in the loop
+                IPatchCalculator patchCalculator = _patchCalculators[noteIndex][channelIndex];
+
+                Task task = Task.Factory.StartNew(() => CalculateSingleThread(patchCalculator, channelIndex));
                 tasks.Add(task);
             }
 
@@ -189,17 +174,10 @@ namespace JJ.Presentation.Synthesizer.NAudio
             return buffer;
         }
 
-        public double Calculate(DimensionStack dimensionStack)
+        private void CalculateSingleThread(IPatchCalculator patchCalculator, int channelIndex)
         {
-            throw new NotSupportedException("Operation not supported. Can only calculate by chunk (use the other overload).");
-        }
-
-        private void CalculateSingleThread(PatchCalculatorInfo patchCalculatorInfo)
-        {
-            int channelIndex = patchCalculatorInfo.ChannelIndex;
             double[] buffer = _buffers[channelIndex];
             object[] bufferLocks = _bufferLocks[channelIndex];
-            IPatchCalculator patchCalculator = patchCalculatorInfo.PatchCalculator;
 
             var dimensionStack = new DimensionStack();
             dimensionStack.Set(CHANNEL_DIMENSION_INDEX, channelIndex);
@@ -221,6 +199,11 @@ namespace JJ.Presentation.Synthesizer.NAudio
             }
         }
 
+        public double Calculate(DimensionStack dimensionStack)
+        {
+            throw new NotSupportedException("Operation not supported. Can only calculate by chunk (use the other overload).");
+        }
+
         // Values
 
         public double GetValue(int noteIndex)
@@ -235,11 +218,11 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         public double GetValue(string name)
         {
-            PatchCalculatorInfo patchCalculatorInfo = _patchCalculatorInfos[0][0];
+            IPatchCalculator patchCalculator = _patchCalculators[0][0];
 
-            if (patchCalculatorInfo != null)
+            if (patchCalculator != null)
             {
-                return patchCalculatorInfo.PatchCalculator.GetValue(name);
+                return patchCalculator.GetValue(name);
             }
 
             return 0.0;
@@ -251,31 +234,31 @@ namespace JJ.Presentation.Synthesizer.NAudio
             {
                 for (int j = 0; j < _channelCount; j++)
                 {
-                    PatchCalculatorInfo patchCalculatorInfo = _patchCalculatorInfos[i][j];
-                    patchCalculatorInfo.PatchCalculator.SetValue(name, value);
+                    IPatchCalculator patchCalculator = _patchCalculators[i][j];
+                    patchCalculator.SetValue(name, value);
                 }
             }
         }
 
         public double GetValue(string name, int noteIndex)
         {
-            PatchCalculatorInfo patchCalculatorInfo = GetPatchCalculatorInfo(noteIndex);
-            return patchCalculatorInfo.PatchCalculator.GetValue(name);
+            IPatchCalculator patchCalculator = GetPatchCalculator(noteIndex);
+            return patchCalculator.GetValue(name);
         }
 
         public void SetValue(string name, int noteIndex, double value)
         {
-            PatchCalculatorInfo patchCalculatorInfo = GetPatchCalculatorInfo(noteIndex);
-            patchCalculatorInfo.PatchCalculator.SetValue(name, value);
+            IPatchCalculator patchCalculator = GetPatchCalculator(noteIndex);
+            patchCalculator.SetValue(name, value);
         }
 
         public double GetValue(DimensionEnum dimensionEnum)
         {
-            PatchCalculatorInfo patchCalculatorInfo = _patchCalculatorInfos[0][0];
+            IPatchCalculator patchCalculator = _patchCalculators[0][0];
 
-            if (patchCalculatorInfo != null)
+            if (patchCalculator != null)
             {
-                return patchCalculatorInfo.PatchCalculator.GetValue(dimensionEnum);
+                return patchCalculator.GetValue(dimensionEnum);
             }
 
             return 0.0;
@@ -287,31 +270,31 @@ namespace JJ.Presentation.Synthesizer.NAudio
             {
                 for (int j = 0; j < _channelCount; j++)
                 {
-                    PatchCalculatorInfo patchCalculatorInfo = _patchCalculatorInfos[i][j];
-                    patchCalculatorInfo.PatchCalculator.SetValue(dimensionEnum, value);
+                    IPatchCalculator patchCalculator = _patchCalculators[i][j];
+                    patchCalculator.SetValue(dimensionEnum, value);
                 }
             }
         }
 
         public double GetValue(DimensionEnum dimensionEnum, int noteIndex)
         {
-            PatchCalculatorInfo patchCalculatorInfo = GetPatchCalculatorInfo(noteIndex);
+            IPatchCalculator patchCalculator = GetPatchCalculator(noteIndex);
 
-            double value = patchCalculatorInfo.PatchCalculator.GetValue(dimensionEnum);
+            double value = patchCalculator.GetValue(dimensionEnum);
             return value;
         }
 
         public void SetValue(DimensionEnum dimensionEnum, int noteIndex, double value)
         {
-            PatchCalculatorInfo patchCalculatorInfo = GetPatchCalculatorInfo(noteIndex);
+            IPatchCalculator patchCalculator = GetPatchCalculator(noteIndex);
 
-            patchCalculatorInfo.PatchCalculator.SetValue(dimensionEnum, value);
+            patchCalculator.SetValue(dimensionEnum, value);
         }
 
         public void Reset(DimensionStack dimensionStack, int noteIndex)
         {
-            PatchCalculatorInfo patchCalculatorInfo = GetPatchCalculatorInfo(noteIndex);
-            patchCalculatorInfo.PatchCalculator.Reset(dimensionStack);
+            IPatchCalculator patchCalculator = GetPatchCalculator(noteIndex);
+            patchCalculator.Reset(dimensionStack);
         }
 
         public void Reset(DimensionStack dimensionStack)
@@ -320,8 +303,8 @@ namespace JJ.Presentation.Synthesizer.NAudio
             {
                 for (int j = 0; j < _channelCount; j++)
                 {
-                    PatchCalculatorInfo patchCalculatorInfo = _patchCalculatorInfos[i][j];
-                    patchCalculatorInfo.PatchCalculator.Reset(dimensionStack);
+                    IPatchCalculator patchCalculator = _patchCalculators[i][j];
+                    patchCalculator.Reset(dimensionStack);
                 }
             }
         }
@@ -332,8 +315,8 @@ namespace JJ.Presentation.Synthesizer.NAudio
             {
                 for (int j = 0; j < _channelCount; j++)
                 {
-                    PatchCalculatorInfo patchCalculatorInfo = _patchCalculatorInfos[i][j];
-                    patchCalculatorInfo.PatchCalculator.Reset(dimensionStack, name);
+                    IPatchCalculator patchCalculator = _patchCalculators[i][j];
+                    patchCalculator.Reset(dimensionStack, name);
                 }
             }
         }
@@ -350,28 +333,29 @@ namespace JJ.Presentation.Synthesizer.NAudio
             {
                 for (int j = 0; j < _channelCount; j++)
                 {
-                    PatchCalculatorInfo source = castedSourceCalculator._patchCalculatorInfos[i][j];
-                    PatchCalculatorInfo dest = _patchCalculatorInfos[i][j];
+                    IPatchCalculator source = castedSourceCalculator._patchCalculators[i][j];
+                    IPatchCalculator dest = _patchCalculators[i][j];
 
-                    dest.PatchCalculator.CloneValues(source.PatchCalculator);
+                    dest.CloneValues(source);
                 }
             }
         }
 
         // Helpers
 
-        private PatchCalculatorInfo GetPatchCalculatorInfo(int noteIndex)
+        private IPatchCalculator GetPatchCalculator(int noteIndex)
         {
-            AssertPatchCalculatorInfosListIndex(noteIndex);
+            AssertPatchCalculatorNoteIndex(noteIndex);
 
-            PatchCalculatorInfo patchCalculatorInfo = _patchCalculatorInfos[noteIndex].First();
-            return patchCalculatorInfo;
+            IPatchCalculator patchCalculator = _patchCalculators[noteIndex].First();
+
+            return patchCalculator;
         }
 
-        private void AssertPatchCalculatorInfosListIndex(int patchCalcultorInfosListIndex)
+        private void AssertPatchCalculatorNoteIndex(int patchCalcultorNoteIndex)
         {
-            if (patchCalcultorInfosListIndex < 0) throw new LessThanException(() => patchCalcultorInfosListIndex, 0);
-            if (patchCalcultorInfosListIndex >= _patchCalculatorInfos.Length) throw new GreaterThanOrEqualException(() => patchCalcultorInfosListIndex, () => _patchCalculatorInfos.Length);
+            if (patchCalcultorNoteIndex < 0) throw new LessThanException(() => patchCalcultorNoteIndex, 0);
+            if (patchCalcultorNoteIndex >= _patchCalculators.Length) throw new GreaterThanOrEqualException(() => patchCalcultorNoteIndex, () => _patchCalculators.Length);
         }
 
         private void AssertAudioOutput(AudioOutput audioOutput, RepositoryWrapper repositories)

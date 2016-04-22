@@ -66,7 +66,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             noteInfo.EndTime = endTime;
         }
 
-        public bool IsNoteReleased(int noteListIndex, double presentTime)
+        public bool NoteIsReleased(int noteListIndex, double presentTime)
         {
             if (noteListIndex < 0) throw new LessThanException(() => noteListIndex, 0);
             if (noteListIndex > _noteInfos.Count) throw new GreaterThanException(() => noteListIndex, () => _noteInfos.Count);
