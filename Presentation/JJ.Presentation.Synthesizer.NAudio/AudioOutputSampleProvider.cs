@@ -68,7 +68,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     return count;
                 }
 
-                int frameOffset = offset / _channelCount;
                 int frameCount = count / _channelCount;
 
                 // First index is channel, second index is frame.
@@ -81,7 +80,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
                 }
 
                 int i = 0;
-                for (int frameIndex = frameOffset; frameIndex < frameCount; frameIndex++)
+                for (int frameIndex = 0; frameIndex < frameCount; frameIndex++)
                 {
                     for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
                     {
@@ -102,7 +101,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     }
                 }
 
-                _time += _sampleDuration * count;
+                _time += _sampleDuration * frameCount;
 
                 return count;
             }
