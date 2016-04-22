@@ -60,9 +60,9 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 
             // Prepare the calculators
             IList<Outlet> outlets = audioFileOutput.AudioFileOutputChannels
-                                                    .OrderBy(x => x.IndexNumber)
-                                                    .Select(x => x.Outlet)
-                                                    .ToArray();
+                                                   .OrderBy(x => x.IndexNumber)
+                                                   .Select(x => x.Outlet)
+                                                   .ToArray();
 
             var noiseCalculator = new NoiseCalculator(audioFileOutput.SamplingRate);
             

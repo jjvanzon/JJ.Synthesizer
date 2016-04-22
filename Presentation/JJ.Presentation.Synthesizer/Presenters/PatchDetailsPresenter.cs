@@ -17,6 +17,7 @@ using System;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Configuration;
+using JJ.Business.Synthesizer.Extensions;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -350,14 +351,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 return null;
             }
 
-            // GetEntity
+            // GetEntities
             Outlet outlet = selectedOperator.Outlets.Single();
+            AudioOutput audioOutput = outlet.Operator.Patch.Document.GetRootDocument().AudioOutput;
 
             // Business
-            IPatchCalculator patchCalculator = CreatePatchCalculator(new PatchRepositories(repositories), outlet);
+            var patchManager = new PatchManager(outlet.Operator.Patch, new PatchRepositories(repositories));
+            IPatchCalculator patchCalculator = patchManager.CreateCalculator(outlet, new CalculatorCache());
 
-            AudioFileOutputManager audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
+            var audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
             AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
+            audioFileOutputManager.SetSpeakerSetup(audioFileOutput, audioOutput.SpeakerSetup);
             audioFileOutput.FilePath = _patchPlayOutputFilePath;
             audioFileOutput.Duration = _patchPlayDuration;
             audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
@@ -397,12 +401,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     operatorViewModel.IsSelected = false;
                 }
             }
-        }
-
-        private IPatchCalculator CreatePatchCalculator(PatchRepositories repositories, Outlet outlet)
-        {
-            var patchManager = new PatchManager(outlet.Operator.Patch, repositories);
-            return patchManager.CreateCalculator(outlet, new CalculatorCache());
         }
 
         private static double GetPatchPlayDuration()
