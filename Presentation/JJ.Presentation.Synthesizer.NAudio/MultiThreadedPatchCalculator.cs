@@ -242,14 +242,22 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         public double GetValue(string name, int noteIndex)
         {
-            IPatchCalculator patchCalculator = GetPatchCalculator(noteIndex);
+            AssertPatchCalculatorNoteIndex(noteIndex);
+
+            IPatchCalculator patchCalculator = _patchCalculators[noteIndex].First();
+
             return patchCalculator.GetValue(name);
         }
 
         public void SetValue(string name, int noteIndex, double value)
         {
-            IPatchCalculator patchCalculator = GetPatchCalculator(noteIndex);
-            patchCalculator.SetValue(name, value);
+            AssertPatchCalculatorNoteIndex(noteIndex);
+
+            for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
+            {
+                IPatchCalculator patchCalculator = _patchCalculators[noteIndex][channelIndex];
+                patchCalculator.SetValue(name, value);
+            }
         }
 
         public double GetValue(DimensionEnum dimensionEnum)
@@ -278,23 +286,35 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         public double GetValue(DimensionEnum dimensionEnum, int noteIndex)
         {
-            IPatchCalculator patchCalculator = GetPatchCalculator(noteIndex);
+            AssertPatchCalculatorNoteIndex(noteIndex);
+
+            IPatchCalculator patchCalculator = _patchCalculators[noteIndex].First();
 
             double value = patchCalculator.GetValue(dimensionEnum);
+
             return value;
         }
 
         public void SetValue(DimensionEnum dimensionEnum, int noteIndex, double value)
         {
-            IPatchCalculator patchCalculator = GetPatchCalculator(noteIndex);
+            AssertPatchCalculatorNoteIndex(noteIndex);
 
-            patchCalculator.SetValue(dimensionEnum, value);
+            for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
+            {
+                IPatchCalculator patchCalculator = _patchCalculators[noteIndex][channelIndex];
+                patchCalculator.SetValue(dimensionEnum, value);
+            }
         }
 
         public void Reset(DimensionStack dimensionStack, int noteIndex)
         {
-            IPatchCalculator patchCalculator = GetPatchCalculator(noteIndex);
-            patchCalculator.Reset(dimensionStack);
+            AssertPatchCalculatorNoteIndex(noteIndex);
+
+            for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
+            {
+                IPatchCalculator patchCalculator = _patchCalculators[noteIndex][channelIndex];
+                patchCalculator.Reset(dimensionStack);
+            }
         }
 
         public void Reset(DimensionStack dimensionStack)
@@ -343,14 +363,15 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         // Helpers
 
-        private IPatchCalculator GetPatchCalculator(int noteIndex)
-        {
-            AssertPatchCalculatorNoteIndex(noteIndex);
+        // TODO: Remove outcommented code.
+        //private IPatchCalculator GetPatchCalculator(int noteIndex)
+        //{
+        //    AssertPatchCalculatorNoteIndex(noteIndex);
 
-            IPatchCalculator patchCalculator = _patchCalculators[noteIndex].First();
+        //    IPatchCalculator patchCalculator = _patchCalculators[noteIndex].First();
 
-            return patchCalculator;
-        }
+        //    return patchCalculator;
+        //}
 
         private void AssertPatchCalculatorNoteIndex(int patchCalcultorNoteIndex)
         {

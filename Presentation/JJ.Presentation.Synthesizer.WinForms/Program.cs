@@ -43,7 +43,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            AudioOutput audioOutput = CreateMockAudioOutput_Mono();
+            AudioOutput audioOutput = CreateMockAudioOutput_Stereo();
 
             SetAudioOutput(audioOutput);
 
