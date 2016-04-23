@@ -1047,7 +1047,7 @@ namespace JJ.Business.Synthesizer.Tests
                 IEnumerable<Document> rootDocuments = repositories.DocumentRepository.GetAll().Where(x => x.ParentDocument == null);
                 foreach (Document rootDocument in rootDocuments)
                 {
-                    VoidResult result = documentManager.ValidateRecursive(rootDocument);
+                    VoidResult result = documentManager.Save(rootDocument);
                     messages.AddRange(result.Messages);
                 }
 

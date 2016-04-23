@@ -275,7 +275,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             patchManager.AutoPatchPolyphonic(underlyingPatches, 2);
 
             // Business
-            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            IResult validationResult = _documentManager.Save(rootDocument);
             if (!validationResult.Successful)
             {
                 // Non-Persisted
@@ -330,7 +330,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             patchManager.AutoPatch(underlyingPatches);
 
             // Business
-            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            IResult validationResult = _documentManager.Save(rootDocument);
             if (!validationResult.Successful)
             {
                 // Non-Persisted
@@ -745,7 +745,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Document document = MainViewModel.ToEntityWithRelatedEntities(_repositories);
 
             // Business
-            IResult validationResult = _documentManager.ValidateRecursive(document);
+            IResult validationResult = _documentManager.Save(document);
             IResult warningsResult = _documentManager.GetWarningsRecursive(document);
 
             // Commit
@@ -2057,7 +2057,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             toneGridEditViewModel.Successful = false;
 
             // Business
-            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            IResult validationResult = _documentManager.Save(rootDocument);
             if (!validationResult.Successful)
             {
                 scalePropertiesViewModel.ValidationMessages.AddRange(validationResult.Messages);
@@ -2282,7 +2282,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 outlet = x.Sine(x.PatchInlet(DimensionEnum.Frequency, frequency));
             }
 
-            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            IResult validationResult = _documentManager.Save(rootDocument);
             if (!validationResult.Successful)
             {
                 userInput.Successful = false;
@@ -2346,7 +2346,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             viewModel.Successful = false;
 
             // Business
-            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            IResult validationResult = _documentManager.Save(rootDocument);
             if (!validationResult.Successful)
             {
                 // Non-Persisted

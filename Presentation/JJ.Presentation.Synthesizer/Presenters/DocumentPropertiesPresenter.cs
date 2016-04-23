@@ -112,7 +112,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Document document = _repositories.DocumentRepository.Get(userInput.Entity.ID);
 
             // Business
-            VoidResult result = _documentManager.ValidateNonRecursive(document);
+            VoidResult result = _documentManager.Save(document);
 
             // ToViewModel
             DocumentPropertiesViewModel viewModel = document.ToPropertiesViewModel();

@@ -439,14 +439,29 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (viewModel == null) throw new NullException(() => viewModel);
 
             Document document = viewModel.Entity.ToDocument(documentRepository);
+
             return document;
         }
 
-        public static Document ToEntity(this DocumentDetailsViewModel viewModel, IDocumentRepository documentRepository)
+        public static Document ToEntity(
+            this DocumentDetailsViewModel viewModel, 
+            IDocumentRepository documentRepository,
+            IAudioOutputRepository audioOutputRepository,
+            ISpeakerSetupRepository speakerSetupRepository,
+            IIDRepository idRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
+            // NOTE: AudioOutput must be created first and then Document, or you get a FK constraint violation.
+
+            AudioOutput audioOutput = viewModel.AudioOutput.ToEntity(
+                audioOutputRepository, 
+                speakerSetupRepository, 
+                idRepository);
+
             Document document = viewModel.Document.ToDocument(documentRepository);
+            document.LinkTo(audioOutput);
+
             return document;
         }
 

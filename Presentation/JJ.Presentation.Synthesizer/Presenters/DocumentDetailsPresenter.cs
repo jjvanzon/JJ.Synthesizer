@@ -53,10 +53,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // ToEntity
-            Document document = userInput.ToEntity(_repositories.DocumentRepository);
+            Document document = userInput.ToEntity(
+                _repositories.DocumentRepository,
+                _repositories.AudioOutputRepository,
+                _repositories.SpeakerSetupRepository,
+                _repositories.IDRepository);
 
             // Business
-            VoidResult result = _documentManager.ValidateNonRecursive(document);
+            VoidResult result = _documentManager.Save(document);
             if (!result.Successful)
             {
                 // ToViewModel
@@ -98,7 +102,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // ToEntity
-            Document document = userInput.ToEntity(_repositories.DocumentRepository);
+            Document document = userInput.ToEntity(
+                _repositories.DocumentRepository,
+                _repositories.AudioOutputRepository,
+                _repositories.SpeakerSetupRepository,
+                _repositories.IDRepository);
 
             // ToViewModel
             DocumentDetailsViewModel viewModel = document.ToDetailsViewModel();

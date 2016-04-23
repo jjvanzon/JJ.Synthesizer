@@ -75,25 +75,20 @@ namespace JJ.Business.Synthesizer
 
         // Save
 
-        public VoidResult SaveChildDocument(Document entity)
+        public VoidResult Save(Document document)
         {
-            IValidator validator = new ChildDocument_DocumentValidator(entity);
-            if (!validator.IsValid)
-            {
-                return new VoidResult
-                {
-                    Successful = false,
-                    Messages = validator.ValidationMessages.ToCanonical()
-                };
-            }
+            if (document == null) throw new NullException(() => document);
 
-            return new VoidResult { Successful = true };
-        }
+            // TODO: Remove outcommented code.
+            //ISideEffect sideEffect = new Document_SideEffect_AutoCreateAudioOutput(
+            //    document,
+            //    _repositories.AudioOutputRepository,
+            //    _repositories.SpeakerSetupRepository,
+            //    _repositories.IDRepository);
+            //sideEffect.Execute();
 
-        public VoidResult ValidateRecursive(Document entity)
-        {
             IValidator validator = new Recursive_DocumentValidator(
-                entity, 
+                document, 
                 _repositories.CurveRepository, _repositories. SampleRepository, _repositories.PatchRepository, 
                 new HashSet<object>());
 
@@ -106,17 +101,20 @@ namespace JJ.Business.Synthesizer
             return result;
         }
 
-        public VoidResult ValidateNonRecursive(Document entity)
+        public VoidResult SaveChildDocument(Document entity)
         {
-            IValidator validator = new Basic_DocumentValidator(entity);
-
-            var result = new VoidResult
+            // TODO: I doubt that this validator is enough for a certain level of robustness.
+            IValidator validator = new ChildDocument_DocumentValidator(entity);
+            if (!validator.IsValid)
             {
-                Successful = validator.IsValid,
-                Messages = validator.ValidationMessages.ToCanonical()
-            };
+                return new VoidResult
+                {
+                    Successful = false,
+                    Messages = validator.ValidationMessages.ToCanonical()
+                };
+            }
 
-            return result;
+            return new VoidResult { Successful = true };
         }
 
         // Delete

@@ -28,7 +28,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 Entity = CreateEmptyAudioOutputViewModel(),
                 ValidationMessages = new List<Message>(),
-                SpeakerSetupLookup = new List<IDAndName>()
+                SpeakerSetupLookup = CreateSpeakerSetupLookupViewModel()
             };
 
             return viewModel;
@@ -38,7 +38,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new AudioOutputViewModel
             {
-                SpeakerSetup = CreateEmptyIDAndName()
+                SpeakerSetup = CreateEmptyIDAndName(),
+                MaxConcurrentNotes = 1
             };
 
             return viewModel;
@@ -72,6 +73,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 AudioFileOutputGrid = CreateEmptyAudioFileOutputGridViewModel(),
                 AudioFileOutputPropertiesList = new List<AudioFileOutputPropertiesViewModel>(),
+                AudioOutputProperties = CreateEmptyAudioOutputPropertiesViewModel(),
                 AutoPatchDetails = CreateEmptyPatchDetailsViewModel(),
                 CurrentPatches = CreateEmptyCurrentPatchesViewModel(),
                 CurveDetailsList = new List<CurveDetailsViewModel>(),

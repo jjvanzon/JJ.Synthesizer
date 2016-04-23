@@ -153,6 +153,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new DocumentDetailsViewModel
             {
                 Document = document.ToIDAndName(),
+                AudioOutput = document.AudioOutput.ToViewModel(),
                 ValidationMessages = new List<Message>()
             };
 

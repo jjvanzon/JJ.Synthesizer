@@ -1292,7 +1292,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                 progressCallback(progressMessage);
 
                 // Validate
-                VoidResult result = documentManager.ValidateRecursive(rootDocument);
+                VoidResult result = documentManager.Save(rootDocument);
                 try
                 {
                     ResultHelper.Assert(result);
