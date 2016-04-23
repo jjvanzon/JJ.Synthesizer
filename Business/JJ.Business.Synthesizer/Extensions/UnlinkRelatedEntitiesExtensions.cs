@@ -16,14 +16,7 @@ namespace JJ.Business.Synthesizer.Extensions
             audioFileOutput.UnlinkSampleDataType();
             audioFileOutput.UnlinkSpeakerSetup();
             audioFileOutput.UnlinkDocument();
-        }
-
-        public static void UnlinkRelatedEntities(this AudioFileOutputChannel audioFileOutputChannel)
-        {
-            if (audioFileOutputChannel == null) throw new NullException(() => audioFileOutputChannel);
-
-            audioFileOutputChannel.UnlinkAudioFileOutput();
-            audioFileOutputChannel.UnlinkOutlet();
+            audioFileOutput.UnlinkOutlet();
         }
 
         public static void UnlinkRelatedEntities(this AudioOutput audioOutput)

@@ -1,18 +1,13 @@
 ﻿using JJ.Data.Synthesizer;
 using System.IO;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Business.Synthesizer.Calculation.Patches;
 
 namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 {
     internal class ByteAudioFileOutputCalculator : AudioFileOutputCalculatorBase
     {
-        public ByteAudioFileOutputCalculator(
-            IPatchCalculator patchCalculator,
-            ICurveRepository curveRepository, 
-            ISampleRepository sampleRepository, 
-            IPatchRepository patchRepository)
-            : base(patchCalculator, curveRepository, sampleRepository, patchRepository)
+        public ByteAudioFileOutputCalculator(IPatchCalculator patchCalculator)
+            : base(patchCalculator)
         { }
 
         protected override void WriteValue(BinaryWriter binaryWriter, double value)

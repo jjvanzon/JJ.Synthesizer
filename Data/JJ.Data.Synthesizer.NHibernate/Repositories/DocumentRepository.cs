@@ -68,11 +68,6 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
                                                                 .Where(() => parentDocument.ID == documentID)
                                                                 .Future<Document>();
 
-            var level_3_audioFileOutputChannelsQuery = _context.Session.QueryOver(() => audioFileOutput)
-                                                                       .Fetch(x => x.AudioFileOutputChannels).Eager
-                                                                       .Where(x => x.Document.ID == documentID)
-                                                                       .Future<AudioFileOutput>();
-
             var level_2_curvesQuery = _context.Session.QueryOver(() => parentDocument)
                                                       .Left.JoinAlias(() => parentDocument.Curves, () => curve)
                                                       .Where(() => parentDocument.ID == documentID)

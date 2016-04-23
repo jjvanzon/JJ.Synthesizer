@@ -10,7 +10,7 @@ namespace JJ.Data.Synthesizer
         public Outlet()
         {
             ConnectedInlets = new List<Inlet>();
-            AsAudioFileOutputChannels = new List<AudioFileOutputChannel>();
+            InAudioFileOutputs = new List<AudioFileOutput>();
         }
 
         public virtual int ID { get; set; }
@@ -28,7 +28,7 @@ namespace JJ.Data.Synthesizer
         public virtual Operator Operator { get; set; }
 
         public virtual IList<Inlet> ConnectedInlets { get; set; }
-        public virtual IList<AudioFileOutputChannel> AsAudioFileOutputChannels { get; set; }
+        public virtual IList<AudioFileOutput> InAudioFileOutputs { get; set; }
 
         private string DebuggerDisplay
         {

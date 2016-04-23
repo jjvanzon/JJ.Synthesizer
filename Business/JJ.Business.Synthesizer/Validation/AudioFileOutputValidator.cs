@@ -1,10 +1,12 @@
 ﻿using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Validation
 {
@@ -41,45 +43,42 @@ namespace JJ.Business.Synthesizer.Validation
             For(() => audioFileOutput.SampleDataType, PropertyDisplayNames.SampleDataType).NotNull();
             For(() => audioFileOutput.SpeakerSetup, PropertyDisplayNames.SpeakerSetup).NotNull();
 
-            if (audioFileOutput.AudioFileFormat != null)
+            For(() => audioFileOutput.GetAudioFileFormatEnum(), PropertyDisplayNames.AudioFileFormat)
+                .IsEnum<AudioFileFormatEnum>()
+                .IsNot(AudioFileFormatEnum.Undefined);
+
+            For(() => audioFileOutput.GetSampleDataTypeEnum(), PropertyDisplayNames.SampleDataType)
+                .IsEnum<SampleDataTypeEnum>()
+                .IsNot(SampleDataTypeEnum.Undefined);
+
+            For(() => audioFileOutput.GetSpeakerSetupEnum(), PropertyDisplayNames.SpeakerSetup)
+                .IsEnum<SpeakerSetupEnum>()
+                .IsNot(SpeakerSetupEnum.Undefined);
+
+            TryValidateOutletReference();
+        }
+
+        private void TryValidateOutletReference()
+        {
+            bool mustValidate = Object.Outlet != null &&
+                                Object.Document != null;
+
+            if (!mustValidate)
             {
-                For(() => audioFileOutput.AudioFileFormat.ID, PropertyDisplayNames.AudioFileFormat)
-                    .IsEnum<AudioFileFormatEnum>()
-                    .IsNot(AudioFileFormatEnum.Undefined);
+                return;
             }
 
-            if (audioFileOutput.SampleDataType != null)
+            IEnumerable<Outlet> outletsEnumerable = 
+                Object.Document.EnumerateSelfAndParentAndTheirChildren()
+                               .SelectMany(x => x.Patches)
+                               .SelectMany(x => x.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet))
+                               .SelectMany(x => x.Outlets);
+
+            bool referenceIsValid = outletsEnumerable.Any(x => x.ID == Object.Outlet.ID);
+
+            if (!referenceIsValid)
             {
-                For(() => audioFileOutput.SampleDataType.ID, PropertyDisplayNames.SampleDataType)
-                    .IsEnum<SampleDataTypeEnum>()
-                    .IsNot(SampleDataTypeEnum.Undefined);
-            }
-
-            if (audioFileOutput.SpeakerSetup != null)
-            {
-                if (audioFileOutput.AudioFileOutputChannels.Count != audioFileOutput.SpeakerSetup.SpeakerSetupChannels.Count)
-                {
-                    ValidationMessages.Add(() => audioFileOutput.AudioFileOutputChannels.Count, MessageFormatter.ChannelCountDoesNotMatchSpeakerSetup());
-                }
-
-                IList<AudioFileOutputChannel> sortedAudioFileOutputChannels = audioFileOutput.AudioFileOutputChannels.OrderBy(x => x.IndexNumber).ToArray();
-                IList<SpeakerSetupChannel> sortedSpeakerSetupChannels = audioFileOutput.SpeakerSetup.SpeakerSetupChannels.OrderBy(x => x.Channel.IndexNumber).ToArray();
-
-                if (sortedAudioFileOutputChannels.Count == sortedSpeakerSetupChannels.Count)
-                {
-                    for (int i = 0; i < sortedAudioFileOutputChannels.Count; i++)
-                    {
-                        AudioFileOutputChannel audioFileOutputChannel = sortedAudioFileOutputChannels[i];
-                        SpeakerSetupChannel speakerSetupChannel = sortedSpeakerSetupChannels[i];
-
-                        if (audioFileOutputChannel.IndexNumber != speakerSetupChannel.IndexNumber)
-                        {
-                            string messageHeading = String.Format("{0} {1}: ", PropertyDisplayNames.Channel, i + 1);
-
-                            ValidationMessages.Add(() => audioFileOutputChannel.IndexNumber, messageHeading + MessageFormatter.ChannelIndexNumberDoesNotMatchSpeakerSetup());
-                        }
-                    }
-                }
+                ValidationMessages.AddNotInListMessage(PropertyNames.Outlet, PropertyDisplayNames.Outlet, Object.Outlet.ID);
             }
         }
     }

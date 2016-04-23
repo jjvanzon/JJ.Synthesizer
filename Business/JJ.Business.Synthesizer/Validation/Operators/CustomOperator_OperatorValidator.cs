@@ -125,7 +125,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 bool isInList = documents.SelectMany(x => x.Patches).Any(x => x.ID == underlyingPatch.ID);
                 if (!isInList)
                 {
-                    ValidationMessages.Add(PropertyNames.UnderlyingPatch, MessageFormatter.NotFoundInList_WithItemName_AndID(PropertyDisplayNames.UnderlyingPatch, underlyingPatch.ID));
+                    ValidationMessages.AddNotInListMessage(PropertyNames.UnderlyingPatch, PropertyDisplayNames.UnderlyingPatch, underlyingPatch.ID);
                 }
             }
         }

@@ -31,7 +31,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = new AudioFileOutputPropertiesViewModel
             {
-                Entity = entity.ToViewModelWithRelatedEntities(),
+                Entity = entity.ToViewModel(),
                 AudioFileFormatLookup = ViewModelHelper.CreateAudioFileFormatLookupViewModel(audioFileFormatRepository),
                 SampleDataTypeLookup = ViewModelHelper.CreateSampleDataTypeLookupViewModel(sampleDataTypeRepository),
                 SpeakerSetupLookup = ViewModelHelper.CreateSpeakerSetupLookupViewModel(),

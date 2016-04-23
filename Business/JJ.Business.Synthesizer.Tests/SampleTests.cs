@@ -55,13 +55,13 @@ namespace JJ.Business.Synthesizer.Tests
                 IPatchCalculator patchCalculator = x.CreateCalculator(outlet, DEFAULT_CHANNEL_COUNT, new CalculatorCache());
 
                 AudioFileOutputManager audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
-                AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
+                AudioFileOutput audioFileOutput = audioFileOutputManager.Create();
                 audioFileOutput.Duration = duration;
                 audioFileOutput.FilePath = OUTPUT_FILE_NAME;
-                audioFileOutput.AudioFileOutputChannels[0].LinkTo(outlet);
+                audioFileOutput.LinkTo(outlet);
 
                 {
-                    VoidResult validationResult = audioFileOutputManager.Validate(audioFileOutput);
+                    VoidResult validationResult = audioFileOutputManager.Save(audioFileOutput);
                     if (!validationResult.Successful)
                     {
                         throw new Exception(String.Join(Environment.NewLine, validationResult.Messages));

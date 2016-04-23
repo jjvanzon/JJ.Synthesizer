@@ -40,7 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AudioFileOutput.cs" />
-    <Compile Include="AudioFileOutputChannel.cs" />
+    <Compile Include="2016-04-23 Backup of AudioFileOutputChannel.cs" />
     <Compile Include="AudioOutput.cs" />
     <Compile Include="Document.cs">
       <SubType>Code</SubType>

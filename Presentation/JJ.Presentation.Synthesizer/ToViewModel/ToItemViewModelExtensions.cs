@@ -19,7 +19,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
     {
         // AudioFileOutput
 
-        public static AudioFileOutputViewModel ToViewModelWithRelatedEntities(this AudioFileOutput entity)
+        public static AudioFileOutputViewModel ToViewModel(this AudioFileOutput entity)
         {
             if (entity == null) throw new NullException(() => entity);
             if (entity.Document == null) throw new NullException(() => entity.Document);
@@ -63,22 +63,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 viewModel.SpeakerSetup = ViewModelHelper.CreateEmptyIDAndName();
             }
 
-            viewModel.Channels = entity.AudioFileOutputChannels.Select(x => x.ToViewModelWithRelatedEntities())
-                                                               .OrderBy(x => x.IndexNumber)
-                                                               .ToList();
-            return viewModel;
-        }
-
-        public static AudioFileOutputChannelViewModel ToViewModelWithRelatedEntities(this AudioFileOutputChannel entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            var viewModel = new AudioFileOutputChannelViewModel
-            {
-                ID = entity.ID,
-                IndexNumber = entity.IndexNumber
-            };
-
             if (entity.Outlet != null)
             {
                 viewModel.Outlet = entity.Outlet.ToIDAndName();
@@ -87,9 +71,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 viewModel.Outlet = ViewModelHelper.CreateEmptyIDAndName();
             }
-
-            // TODO: Adding a (display) name to the view model requires cross referencing with SpeakerSetup, 
-            // which you might want to do in extension methods.
 
             return viewModel;
         }

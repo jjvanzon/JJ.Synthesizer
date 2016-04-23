@@ -65,7 +65,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
                         if (!isInList)
                         {
-                            ValidationMessages.Add(PropertyNames.Sample, MessageFormatter.NotFoundInList_WithItemName_AndID(PropertyDisplayNames.Sample, sampleID));
+                            ValidationMessages.AddNotInListMessage(PropertyNames.Sample, PropertyDisplayNames.Sample, sampleID);
                         }
                     }
                 }

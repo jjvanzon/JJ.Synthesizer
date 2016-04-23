@@ -20,6 +20,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Calculation;
+using JJ.Business.Synthesizer.LinkTo;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -87,7 +88,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Document rootDocument = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
 
                 // Business
-                audioFileOutput = _audioFileOutputManager.CreateWithRelatedEntities(rootDocument, mustGenerateName: true);
+                audioFileOutput = _audioFileOutputManager.Create(rootDocument, mustGenerateName: true);
 
                 // Successful
                 userInput.Successful = true;
@@ -123,7 +124,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 userInput.Successful = false;
 
                 // Business
-                _audioFileOutputManager.DeleteWithRelatedEntities(id);
+                _audioFileOutputManager.Delete(id);
 
                 // Successful
                 userInput.Successful = true;
@@ -2297,12 +2298,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IPatchCalculator patchCalculator = patchManager.CreateCalculator(outlet, audioOutput.GetChannelCount(), new CalculatorCache());
 
             // Infrastructure
-            AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateWithRelatedEntities();
-            _audioFileOutputManager.SetSpeakerSetup(audioFileOutput, audioOutput.SpeakerSetup);
+            AudioFileOutput audioFileOutput = _audioFileOutputManager.Create();
+            audioFileOutput.LinkTo(audioOutput.SpeakerSetup);
             audioFileOutput.SamplingRate = audioOutput.SamplingRate;
             audioFileOutput.FilePath = _playOutputFilePath;
             audioFileOutput.Duration = DEFAULT_DURATION;
-            audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
+            audioFileOutput.LinkTo(outlet);
             _audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
 
             // Successful

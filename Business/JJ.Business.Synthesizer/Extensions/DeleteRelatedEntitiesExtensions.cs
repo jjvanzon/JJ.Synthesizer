@@ -10,18 +10,6 @@ namespace JJ.Business.Synthesizer.Extensions
     /// <summary> Deletes related entities that are inherently part of the entity. </summary>
     internal static class DeleteRelatedEntitiesExtensions
     {
-        public static void DeleteRelatedEntities(this AudioFileOutput audioFileOutput, IAudioFileOutputChannelRepository audioFileOutputChannelRepository)
-        {
-            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
-            if (audioFileOutputChannelRepository == null) throw new NullException(() => audioFileOutputChannelRepository);
-
-            foreach (AudioFileOutputChannel audioFileOutputChannel in audioFileOutput.AudioFileOutputChannels.ToArray())
-            {
-                audioFileOutputChannel.UnlinkRelatedEntities();
-                audioFileOutputChannelRepository.Delete(audioFileOutputChannel);
-            }
-        }
-
         public static void DeleteRelatedEntities(this Curve curve, INodeRepository nodeRepository)
         {
             if (curve == null) throw new NullException(() => curve);
@@ -62,7 +50,6 @@ namespace JJ.Business.Synthesizer.Extensions
 
             foreach (AudioFileOutput audioFileOutput in document.AudioFileOutputs.ToArray())
             {
-                audioFileOutput.DeleteRelatedEntities(repositories.AudioFileOutputChannelRepository);
                 audioFileOutput.UnlinkRelatedEntities();
                 repositories.AudioFileOutputRepository.Delete(audioFileOutput);
             }

@@ -40,6 +40,7 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="2016-04-23 Backup of AudioFileOutputManager.cs" />
     <Compile Include="AudioOutputManager.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculatorBase.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculatorBase_Hermite.cs" />
@@ -492,7 +493,7 @@
     <Compile Include="Validation\WavHeaderStructValidator.cs" />
     <Compile Include="Calculation\Patches\OptimizedPatchCalculatorVisitor.cs" />
     <Compile Include="Calculation\Patches\OperatorVisitorBase.cs" />
-    <Compile Include="Warnings\AudioFileOutputChannelWarningValidator.cs" />
+    <Compile Include="Warnings\2016-04-24 Backup of AudioFileOutputChannelWarningValidator.cs" />
     <Compile Include="Warnings\AudioFileOutputWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Unbundle_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Bundle_OperatorWarningValidator.cs" />

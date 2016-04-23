@@ -13,7 +13,6 @@ namespace JJ.Business.Synthesizer.Helpers
         public IAudioOutputRepository AudioOutputRepository { get; private set; }
         public IDocumentReferenceRepository DocumentReferenceRepository { get; private set; }
         public INodeRepository NodeRepository { get; private set; }
-        public IAudioFileOutputChannelRepository AudioFileOutputChannelRepository { get; private set; }
         public IOperatorRepository OperatorRepository { get; private set; }
         public IOperatorTypeRepository OperatorTypeRepository { get; private set; }
         public IInletRepository InletRepository { get; private set; }
@@ -41,7 +40,6 @@ namespace JJ.Business.Synthesizer.Helpers
             IAudioOutputRepository audioOutputRepository,
             IDocumentReferenceRepository documentReferenceRepository,
             INodeRepository nodeRepository,
-            IAudioFileOutputChannelRepository audioFileOutputChannelRepository,
             IOperatorRepository operatorRepository,
             IOperatorTypeRepository operatorTypeRepository,
             IInletRepository inletRepository,
@@ -69,7 +67,6 @@ namespace JJ.Business.Synthesizer.Helpers
             if (audioOutputRepository == null) throw new NullException(() => audioOutputRepository);
             if (documentReferenceRepository == null) throw new NullException(() => documentReferenceRepository);
             if (nodeRepository == null) throw new NullException(() => nodeRepository);
-            if (audioFileOutputChannelRepository == null) throw new NullException(() => audioFileOutputChannelRepository);
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
             if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
             if (inletRepository == null) throw new NullException(() => inletRepository);
@@ -97,7 +94,6 @@ namespace JJ.Business.Synthesizer.Helpers
             AudioOutputRepository = audioOutputRepository;
             DocumentReferenceRepository = documentReferenceRepository;
             NodeRepository = nodeRepository;
-            AudioFileOutputChannelRepository = audioFileOutputChannelRepository;
             OperatorRepository = operatorRepository;
             OperatorTypeRepository = operatorTypeRepository;
             InletRepository = inletRepository;

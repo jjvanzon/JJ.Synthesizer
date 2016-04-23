@@ -31,7 +31,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
                 CreateRepository<IAudioOutputRepository>(context),
                 CreateRepository<IDocumentReferenceRepository>(context),
                 CreateRepository<INodeRepository>(context),
-                CreateRepository<IAudioFileOutputChannelRepository>(context),
                 CreateRepository<IOperatorRepository>(context),
                 CreateRepository<IOperatorTypeRepository>(context),
                 CreateRepository<IInletRepository>(context),

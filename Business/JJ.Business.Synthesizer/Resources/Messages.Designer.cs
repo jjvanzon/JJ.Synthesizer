@@ -214,15 +214,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} with ID &apos;{1}&apos; not found in the list..
-        /// </summary>
-        internal static string NotFoundInList_WithItemName_AndID {
-            get {
-                return ResourceManager.GetString("NotFoundInList_WithItemName_AndID", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to {0} with ID &apos;{1}&apos; not found in the list of {2}..
         /// </summary>
         internal static string NotFoundInList_WithItemName_ID_AndListName {

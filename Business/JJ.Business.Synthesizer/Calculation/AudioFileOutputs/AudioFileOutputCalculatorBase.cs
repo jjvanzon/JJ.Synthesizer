@@ -9,10 +9,7 @@ using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 using System.IO;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Framework.Common;
 using JJ.Business.Synthesizer.Calculation.Patches;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
-using JJ.Business.Synthesizer.Configuration;
 using System.Collections.Generic;
 using JJ.Framework.Common.Exceptions;
 
@@ -23,31 +20,13 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
         private const int TIME_DIMENSION_INDEX = (int)DimensionEnum.Time;
         private const int CHANNEL_DIMENSION_INDEX = (int)DimensionEnum.Channel;
 
-        private readonly ICurveRepository _curveRepository;
-        private readonly ISampleRepository _sampleRepository;
-        private readonly IPatchRepository _patchRepository;
-
         private readonly IPatchCalculator _patchCalculator;
 
-        /// <param name="patchRepository">
-        /// Nullable. 
-        /// If provided this saves you the overhead of re-initializing the patch calculation every time you write a file.
-        /// </param>
-        public AudioFileOutputCalculatorBase(
-            IPatchCalculator patchCalculator,
-            ICurveRepository curveRepository, 
-            ISampleRepository sampleRepository,
-            IPatchRepository patchRepository)
+        public AudioFileOutputCalculatorBase(IPatchCalculator patchCalculator)
         {
             if (patchCalculator == null) throw new NullException(() => patchCalculator);
-            if (curveRepository == null) throw new NullException(() => curveRepository);
-            if (sampleRepository == null) throw new NullException(() => sampleRepository);
-            if (patchRepository == null) throw new NullException(() => patchRepository);
 
             _patchCalculator = patchCalculator;
-            _curveRepository = curveRepository;
-            _sampleRepository = sampleRepository;
-            _patchRepository = patchRepository;
         }
         
         public void Execute(AudioFileOutput audioFileOutput)
@@ -59,11 +38,6 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
             validator.Assert();
 
             // Prepare the calculators
-            IList<Outlet> outlets = audioFileOutput.AudioFileOutputChannels
-                                                   .OrderBy(x => x.IndexNumber)
-                                                   .Select(x => x.Outlet)
-                                                   .ToArray();
-
             var noiseCalculator = new NoiseCalculator(audioFileOutput.SamplingRate);
             
             // Calculate output and write file

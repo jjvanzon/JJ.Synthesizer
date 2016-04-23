@@ -360,12 +360,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IPatchCalculator patchCalculator = patchManager.CreateCalculator(outlet, audioOutput.GetChannelCount(), new CalculatorCache());
 
             var audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
-            AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
-            audioFileOutputManager.SetSpeakerSetup(audioFileOutput, audioOutput.SpeakerSetup);
+            AudioFileOutput audioFileOutput = audioFileOutputManager.Create();
+            audioFileOutput.LinkTo(audioOutput.SpeakerSetup);
             audioFileOutput.SamplingRate = audioOutput.SamplingRate;
             audioFileOutput.FilePath = _patchPlayOutputFilePath;
             audioFileOutput.Duration = _patchPlayDuration;
-            audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
+            audioFileOutput.LinkTo(outlet);
 
             // Infrastructure
             audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);

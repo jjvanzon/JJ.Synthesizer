@@ -129,11 +129,6 @@ namespace JJ.Business.Synthesizer.Resources
             return String.Format(Messages.NotFoundInList_WithItemName_ID_AndListName, name, documentID, listName);
         }
 
-        public static string NotFoundInList_WithItemName_AndID(string name, int documentID)
-        {
-            return String.Format(Messages.NotFoundInList_WithItemName_AndID, name, documentID);
-        }
-
         public static string NotFound_WithTypeName_AndName(string entityTypeDisplayName, string name)
         {
             return String.Format(Messages.NotFound_WithTypeName_AndName, entityTypeDisplayName, name);

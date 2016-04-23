@@ -64,7 +64,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
                         if (!isInList)
                         {
-                            ValidationMessages.Add(PropertyNames.Curve, MessageFormatter.NotFoundInList_WithItemName_AndID(PropertyDisplayNames.Curve, curveID));
+                            ValidationMessages.AddNotInListMessage(PropertyNames.Curve, PropertyDisplayNames.Curve, curveID);
                         }
                     }
                 }

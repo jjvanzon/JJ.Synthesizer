@@ -115,7 +115,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             AudioFileOutput entity = _repositories.AudioFileOutputRepository.Get(userInput.Entity.ID);
 
             // Business
-            VoidResult result = _audioFileOutputManager.Validate(entity);
+            VoidResult result = _audioFileOutputManager.Save(entity);
 
             // ToViewModel
             AudioFileOutputPropertiesViewModel viewModel = entity.ToPropertiesViewModel(

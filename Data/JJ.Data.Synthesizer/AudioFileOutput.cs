@@ -4,11 +4,6 @@ namespace JJ.Data.Synthesizer
 {
     public class AudioFileOutput
     {
-        public AudioFileOutput()
-        {
-            AudioFileOutputChannels = new List<AudioFileOutputChannel>();
-        }
-
         public virtual int ID { get; set; }
         public virtual string Name { get; set; }
         public virtual double Amplifier { get; set; }
@@ -22,7 +17,7 @@ namespace JJ.Data.Synthesizer
         public virtual SampleDataType SampleDataType { get; set; }
         public virtual SpeakerSetup SpeakerSetup { get; set; }
 
-        public virtual IList<AudioFileOutputChannel> AudioFileOutputChannels { get; set; }
+        public virtual Outlet Outlet { get; set; }
 
         /// <summary> parent, nullable </summary>
         public virtual Document Document { get; set; }

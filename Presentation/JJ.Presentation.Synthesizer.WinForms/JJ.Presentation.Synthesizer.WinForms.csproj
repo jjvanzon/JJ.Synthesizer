@@ -225,17 +225,13 @@
     <Compile Include="UserControls\AudioFileOutputPropertiesUserControl.Designer.cs">
       <DependentUpon>AudioFileOutputPropertiesUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Partials\AudioFileOutputChannelUserControl.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="UserControls\Partials\2016-04-24 Backup of AudioFileOutputChannelUserControl.cs" />
+    <Compile Include="UserControls\Partials\2016-04-24 Backup of AudioFileOutputChannelUserControl.Designer.cs">
+      <DependentUpon>2016-04-24 Backup of AudioFileOutputChannelUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Partials\AudioFileOutputChannelUserControl.Designer.cs">
-      <DependentUpon>AudioFileOutputChannelUserControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\Partials\AudioFileOutputChannelsUserControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\Partials\AudioFileOutputChannelsUserControl.Designer.cs">
-      <DependentUpon>AudioFileOutputChannelsUserControl.cs</DependentUpon>
+    <Compile Include="UserControls\Partials\2016-04-24 Backup of AudioFileOutputChannelsUserControl.cs" />
+    <Compile Include="UserControls\Partials\2016-04-24 Backup of AudioFileOutputChannelsUserControl.Designer.cs">
+      <DependentUpon>2016-04-24 Backup of AudioFileOutputChannelsUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_ForSample.cs">
       <SubType>UserControl</SubType>
@@ -442,11 +438,11 @@
     <EmbeddedResource Include="UserControls\AudioFileOutputPropertiesUserControl.resx">
       <DependentUpon>AudioFileOutputPropertiesUserControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\Partials\AudioFileOutputChannelUserControl.resx">
-      <DependentUpon>AudioFileOutputChannelUserControl.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\Partials\2016-04-24 Backup of AudioFileOutputChannelUserControl.resx">
+      <DependentUpon>2016-04-24 Backup of AudioFileOutputChannelUserControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\Partials\AudioFileOutputChannelsUserControl.resx">
-      <DependentUpon>AudioFileOutputChannelsUserControl.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\Partials\2016-04-24 Backup of AudioFileOutputChannelsUserControl.resx">
+      <DependentUpon>2016-04-24 Backup of AudioFileOutputChannelsUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForSample.resx">
       <DependentUpon>OperatorPropertiesUserControl_ForSample.cs</DependentUpon>

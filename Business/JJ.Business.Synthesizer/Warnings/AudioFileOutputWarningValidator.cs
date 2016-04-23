@@ -16,16 +16,8 @@ namespace JJ.Business.Synthesizer.Warnings
         {
             AudioFileOutput audioFileOutput = Object;
 
+            For(() => Object.Outlet, PropertyDisplayNames.Outlet).NotNull();
             For(() => audioFileOutput.Amplifier, PropertyDisplayNames.Amplifier).IsNot(0.0);
-
-            int i = 1;
-            foreach (AudioFileOutputChannel audioFileOutputChannel in audioFileOutput.AudioFileOutputChannels)
-            {
-                string messagePrefix = ValidationHelper.GetMessagePrefix(audioFileOutputChannel, i);
-                Execute(new AudioFileOutputChannelWarningValidator(audioFileOutputChannel), messagePrefix);
-
-                i++;
-            }
         }
     }
 }

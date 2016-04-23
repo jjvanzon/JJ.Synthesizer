@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Api
         
         public static AudioFileOutput CreateWithRelatedEntities()
         {
-            return _audioFileOutputManager.CreateWithRelatedEntities();
+            return _audioFileOutputManager.Create();
         }
 
         public static void WriteFile(AudioFileOutput audioFileOutput, IPatchCalculator patchCalculator)

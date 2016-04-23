@@ -7,6 +7,8 @@ using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Framework.Presentation.WinForms.Extensions;
+using JJ.Data.Canonical;
+using System.Collections.Generic;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -29,6 +31,22 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             ApplyStyling();
         }
+
+
+        ///// <summary> virtually not nullable </summary>
+        //private IList<IDAndName> _outletLookup;
+
+        //[Browsable(false)]
+        //[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        //public IList<IDAndName> OutletLookup
+        //{
+        //    get { return _outletLookup; }
+        //    set
+        //    {
+        //        _outletLookup = value;
+        //        ApplyOutletLookupToControls();
+        //    }
+        //}
 
         // Gui
 
@@ -89,7 +107,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             textBoxFilePath.Text = ViewModel.Entity.FilePath;
 
-            audioFileOutputChannelsUserControl.ViewModel = ViewModel.Entity.Channels;
+            //comboBoxOutlet.ValueMember = PropertyNames.ID;
+            //comboBoxOutlet.DisplayMember = PropertyNames.Name;
+            //comboBoxOutlet.DataSource = _outletLookup;
         }
 
         private void ApplyControlsToViewModel()
@@ -110,8 +130,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ViewModel.Entity.TimeMultiplier = (double)numericUpDownTimeMultiplier.Value;
 
             ViewModel.Entity.FilePath = textBoxFilePath.Text;
-
-            audioFileOutputChannelsUserControl.ApplyControlsToViewModels();
         }
 
         // Actions

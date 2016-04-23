@@ -54,7 +54,6 @@
             this.numericUpDownStartTime = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownSamplingRate = new System.Windows.Forms.NumericUpDown();
             this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
-            this.audioFileOutputChannelsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.AudioFileOutputChannelsUserControl();
             this.groupBoxFilePath.SuspendLayout();
             this.tableLayoutPanelFilePath.SuspendLayout();
             this.tableLayoutPanelMain.SuspendLayout();
@@ -71,36 +70,38 @@
             // 
             this.groupBoxFilePath.Controls.Add(this.tableLayoutPanelFilePath);
             this.groupBoxFilePath.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBoxFilePath.Location = new System.Drawing.Point(3, 266);
+            this.groupBoxFilePath.Location = new System.Drawing.Point(4, 328);
+            this.groupBoxFilePath.Margin = new System.Windows.Forms.Padding(4);
             this.groupBoxFilePath.Name = "groupBoxFilePath";
-            this.groupBoxFilePath.Size = new System.Drawing.Size(44, 44);
+            this.groupBoxFilePath.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBoxFilePath.Size = new System.Drawing.Size(10, 54);
             this.groupBoxFilePath.TabIndex = 6;
             this.groupBoxFilePath.TabStop = false;
             // 
             // tableLayoutPanelFilePath
             // 
             this.tableLayoutPanelFilePath.ColumnCount = 2;
-            this.tableLayoutPanelFilePath.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tableLayoutPanelFilePath.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 133F));
             this.tableLayoutPanelFilePath.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelFilePath.Controls.Add(this.labelFilePath, 0, 0);
             this.tableLayoutPanelFilePath.Controls.Add(this.textBoxFilePath, 1, 0);
             this.tableLayoutPanelFilePath.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanelFilePath.Location = new System.Drawing.Point(3, 16);
+            this.tableLayoutPanelFilePath.Location = new System.Drawing.Point(4, 19);
             this.tableLayoutPanelFilePath.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanelFilePath.Name = "tableLayoutPanelFilePath";
             this.tableLayoutPanelFilePath.RowCount = 2;
-            this.tableLayoutPanelFilePath.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tableLayoutPanelFilePath.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanelFilePath.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelFilePath.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanelFilePath.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanelFilePath.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanelFilePath.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanelFilePath.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanelFilePath.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanelFilePath.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanelFilePath.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanelFilePath.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanelFilePath.Size = new System.Drawing.Size(38, 25);
+            this.tableLayoutPanelFilePath.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanelFilePath.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanelFilePath.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanelFilePath.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanelFilePath.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanelFilePath.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanelFilePath.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanelFilePath.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanelFilePath.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanelFilePath.Size = new System.Drawing.Size(2, 31);
             this.tableLayoutPanelFilePath.TabIndex = 7;
             // 
             // labelFilePath
@@ -109,7 +110,7 @@
             this.labelFilePath.Location = new System.Drawing.Point(0, 0);
             this.labelFilePath.Margin = new System.Windows.Forms.Padding(0);
             this.labelFilePath.Name = "labelFilePath";
-            this.labelFilePath.Size = new System.Drawing.Size(100, 24);
+            this.labelFilePath.Size = new System.Drawing.Size(133, 30);
             this.labelFilePath.TabIndex = 6;
             this.labelFilePath.Text = "FilePath";
             this.labelFilePath.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -117,10 +118,10 @@
             // textBoxFilePath
             // 
             this.textBoxFilePath.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxFilePath.Location = new System.Drawing.Point(100, 0);
+            this.textBoxFilePath.Location = new System.Drawing.Point(133, 0);
             this.textBoxFilePath.Margin = new System.Windows.Forms.Padding(0);
             this.textBoxFilePath.Name = "textBoxFilePath";
-            this.textBoxFilePath.Size = new System.Drawing.Size(10, 20);
+            this.textBoxFilePath.Size = new System.Drawing.Size(10, 22);
             this.textBoxFilePath.TabIndex = 5;
             // 
             // tableLayoutPanelMain
@@ -130,32 +131,34 @@
             this.tableLayoutPanelMain.Controls.Add(this.groupBoxGeneral, 0, 1);
             this.tableLayoutPanelMain.Controls.Add(this.groupBoxFilePath, 0, 2);
             this.tableLayoutPanelMain.Controls.Add(this.titleBarUserControl, 0, 0);
-            this.tableLayoutPanelMain.Controls.Add(this.audioFileOutputChannelsUserControl, 0, 3);
             this.tableLayoutPanelMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelMain.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanelMain.Margin = new System.Windows.Forms.Padding(4);
             this.tableLayoutPanelMain.Name = "tableLayoutPanelMain";
             this.tableLayoutPanelMain.RowCount = 4;
-            this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 21F));
-            this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 242F));
-            this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
+            this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 298F));
+            this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 62F));
             this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelMain.Size = new System.Drawing.Size(50, 34);
+            this.tableLayoutPanelMain.Size = new System.Drawing.Size(10, 10);
             this.tableLayoutPanelMain.TabIndex = 8;
             // 
             // groupBoxGeneral
             // 
             this.groupBoxGeneral.Controls.Add(this.tableLayoutPanelGeneral);
             this.groupBoxGeneral.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBoxGeneral.Location = new System.Drawing.Point(3, 24);
+            this.groupBoxGeneral.Location = new System.Drawing.Point(4, 30);
+            this.groupBoxGeneral.Margin = new System.Windows.Forms.Padding(4);
             this.groupBoxGeneral.Name = "groupBoxGeneral";
-            this.groupBoxGeneral.Size = new System.Drawing.Size(44, 236);
+            this.groupBoxGeneral.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBoxGeneral.Size = new System.Drawing.Size(10, 290);
             this.groupBoxGeneral.TabIndex = 6;
             this.groupBoxGeneral.TabStop = false;
             // 
             // tableLayoutPanelGeneral
             // 
             this.tableLayoutPanelGeneral.ColumnCount = 2;
-            this.tableLayoutPanelGeneral.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tableLayoutPanelGeneral.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 133F));
             this.tableLayoutPanelGeneral.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelGeneral.Controls.Add(this.numericUpDownTimeMultiplier, 1, 8);
             this.tableLayoutPanelGeneral.Controls.Add(this.numericUpDownAmplifier, 1, 7);
@@ -176,22 +179,22 @@
             this.tableLayoutPanelGeneral.Controls.Add(this.numericUpDownStartTime, 1, 5);
             this.tableLayoutPanelGeneral.Controls.Add(this.numericUpDownSamplingRate, 1, 1);
             this.tableLayoutPanelGeneral.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanelGeneral.Location = new System.Drawing.Point(3, 16);
+            this.tableLayoutPanelGeneral.Location = new System.Drawing.Point(4, 19);
             this.tableLayoutPanelGeneral.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanelGeneral.Name = "tableLayoutPanelGeneral";
             this.tableLayoutPanelGeneral.RowCount = 10;
-            this.tableLayoutPanelGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableLayoutPanelGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableLayoutPanelGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableLayoutPanelGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableLayoutPanelGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableLayoutPanelGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableLayoutPanelGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableLayoutPanelGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableLayoutPanelGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tableLayoutPanelGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanelGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanelGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanelGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanelGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanelGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanelGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanelGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanelGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanelGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanelGeneral.Size = new System.Drawing.Size(38, 217);
+            this.tableLayoutPanelGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanelGeneral.Size = new System.Drawing.Size(2, 267);
             this.tableLayoutPanelGeneral.TabIndex = 3;
             // 
             // numericUpDownTimeMultiplier
@@ -203,7 +206,7 @@
             0,
             0,
             65536});
-            this.numericUpDownTimeMultiplier.Location = new System.Drawing.Point(100, 192);
+            this.numericUpDownTimeMultiplier.Location = new System.Drawing.Point(133, 240);
             this.numericUpDownTimeMultiplier.Margin = new System.Windows.Forms.Padding(0);
             this.numericUpDownTimeMultiplier.Maximum = new decimal(new int[] {
             1000000000,
@@ -216,14 +219,14 @@
             0,
             -2147483648});
             this.numericUpDownTimeMultiplier.Name = "numericUpDownTimeMultiplier";
-            this.numericUpDownTimeMultiplier.Size = new System.Drawing.Size(10, 20);
+            this.numericUpDownTimeMultiplier.Size = new System.Drawing.Size(10, 22);
             this.numericUpDownTimeMultiplier.TabIndex = 20;
             // 
             // numericUpDownAmplifier
             // 
             this.numericUpDownAmplifier.DecimalPlaces = 3;
             this.numericUpDownAmplifier.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.numericUpDownAmplifier.Location = new System.Drawing.Point(100, 168);
+            this.numericUpDownAmplifier.Location = new System.Drawing.Point(133, 210);
             this.numericUpDownAmplifier.Margin = new System.Windows.Forms.Padding(0);
             this.numericUpDownAmplifier.Maximum = new decimal(new int[] {
             1000000000,
@@ -231,14 +234,14 @@
             0,
             0});
             this.numericUpDownAmplifier.Name = "numericUpDownAmplifier";
-            this.numericUpDownAmplifier.Size = new System.Drawing.Size(10, 20);
+            this.numericUpDownAmplifier.Size = new System.Drawing.Size(10, 22);
             this.numericUpDownAmplifier.TabIndex = 19;
             // 
             // numericUpDownDuration
             // 
             this.numericUpDownDuration.DecimalPlaces = 3;
             this.numericUpDownDuration.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.numericUpDownDuration.Location = new System.Drawing.Point(100, 144);
+            this.numericUpDownDuration.Location = new System.Drawing.Point(133, 180);
             this.numericUpDownDuration.Margin = new System.Windows.Forms.Padding(0);
             this.numericUpDownDuration.Maximum = new decimal(new int[] {
             1000000000,
@@ -246,7 +249,7 @@
             0,
             0});
             this.numericUpDownDuration.Name = "numericUpDownDuration";
-            this.numericUpDownDuration.Size = new System.Drawing.Size(10, 20);
+            this.numericUpDownDuration.Size = new System.Drawing.Size(10, 22);
             this.numericUpDownDuration.TabIndex = 18;
             // 
             // labelName
@@ -255,7 +258,7 @@
             this.labelName.Location = new System.Drawing.Point(0, 0);
             this.labelName.Margin = new System.Windows.Forms.Padding(0);
             this.labelName.Name = "labelName";
-            this.labelName.Size = new System.Drawing.Size(100, 24);
+            this.labelName.Size = new System.Drawing.Size(133, 30);
             this.labelName.TabIndex = 2;
             this.labelName.Text = "Name";
             this.labelName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -264,10 +267,10 @@
             // 
             this.labelSamplingRate.Cursor = System.Windows.Forms.Cursors.Default;
             this.labelSamplingRate.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelSamplingRate.Location = new System.Drawing.Point(0, 24);
+            this.labelSamplingRate.Location = new System.Drawing.Point(0, 30);
             this.labelSamplingRate.Margin = new System.Windows.Forms.Padding(0);
             this.labelSamplingRate.Name = "labelSamplingRate";
-            this.labelSamplingRate.Size = new System.Drawing.Size(100, 24);
+            this.labelSamplingRate.Size = new System.Drawing.Size(133, 30);
             this.labelSamplingRate.TabIndex = 3;
             this.labelSamplingRate.Text = "SamplingRate";
             this.labelSamplingRate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -276,10 +279,10 @@
             // 
             this.labelAudioFileFormat.Cursor = System.Windows.Forms.Cursors.Default;
             this.labelAudioFileFormat.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelAudioFileFormat.Location = new System.Drawing.Point(0, 48);
+            this.labelAudioFileFormat.Location = new System.Drawing.Point(0, 60);
             this.labelAudioFileFormat.Margin = new System.Windows.Forms.Padding(0);
             this.labelAudioFileFormat.Name = "labelAudioFileFormat";
-            this.labelAudioFileFormat.Size = new System.Drawing.Size(100, 24);
+            this.labelAudioFileFormat.Size = new System.Drawing.Size(133, 30);
             this.labelAudioFileFormat.TabIndex = 4;
             this.labelAudioFileFormat.Text = "AudioFileFormat";
             this.labelAudioFileFormat.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -288,10 +291,10 @@
             // 
             this.labelSampleDataType.Cursor = System.Windows.Forms.Cursors.Default;
             this.labelSampleDataType.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelSampleDataType.Location = new System.Drawing.Point(0, 72);
+            this.labelSampleDataType.Location = new System.Drawing.Point(0, 90);
             this.labelSampleDataType.Margin = new System.Windows.Forms.Padding(0);
             this.labelSampleDataType.Name = "labelSampleDataType";
-            this.labelSampleDataType.Size = new System.Drawing.Size(100, 24);
+            this.labelSampleDataType.Size = new System.Drawing.Size(133, 30);
             this.labelSampleDataType.TabIndex = 5;
             this.labelSampleDataType.Text = "SampleDataType";
             this.labelSampleDataType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -300,10 +303,10 @@
             // 
             this.labelSpeakerSetup.Cursor = System.Windows.Forms.Cursors.Default;
             this.labelSpeakerSetup.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelSpeakerSetup.Location = new System.Drawing.Point(0, 96);
+            this.labelSpeakerSetup.Location = new System.Drawing.Point(0, 120);
             this.labelSpeakerSetup.Margin = new System.Windows.Forms.Padding(0);
             this.labelSpeakerSetup.Name = "labelSpeakerSetup";
-            this.labelSpeakerSetup.Size = new System.Drawing.Size(100, 24);
+            this.labelSpeakerSetup.Size = new System.Drawing.Size(133, 30);
             this.labelSpeakerSetup.TabIndex = 6;
             this.labelSpeakerSetup.Text = "SpeakerSetup";
             this.labelSpeakerSetup.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -312,10 +315,10 @@
             // 
             this.labelStartTime.Cursor = System.Windows.Forms.Cursors.Default;
             this.labelStartTime.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelStartTime.Location = new System.Drawing.Point(0, 120);
+            this.labelStartTime.Location = new System.Drawing.Point(0, 150);
             this.labelStartTime.Margin = new System.Windows.Forms.Padding(0);
             this.labelStartTime.Name = "labelStartTime";
-            this.labelStartTime.Size = new System.Drawing.Size(100, 24);
+            this.labelStartTime.Size = new System.Drawing.Size(133, 30);
             this.labelStartTime.TabIndex = 7;
             this.labelStartTime.Text = "StartTime";
             this.labelStartTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -324,10 +327,10 @@
             // 
             this.labelDuration.Cursor = System.Windows.Forms.Cursors.Default;
             this.labelDuration.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelDuration.Location = new System.Drawing.Point(0, 144);
+            this.labelDuration.Location = new System.Drawing.Point(0, 180);
             this.labelDuration.Margin = new System.Windows.Forms.Padding(0);
             this.labelDuration.Name = "labelDuration";
-            this.labelDuration.Size = new System.Drawing.Size(100, 24);
+            this.labelDuration.Size = new System.Drawing.Size(133, 30);
             this.labelDuration.TabIndex = 8;
             this.labelDuration.Text = "Duration";
             this.labelDuration.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -336,10 +339,10 @@
             // 
             this.labelAmplifier.Cursor = System.Windows.Forms.Cursors.Default;
             this.labelAmplifier.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelAmplifier.Location = new System.Drawing.Point(0, 168);
+            this.labelAmplifier.Location = new System.Drawing.Point(0, 210);
             this.labelAmplifier.Margin = new System.Windows.Forms.Padding(0);
             this.labelAmplifier.Name = "labelAmplifier";
-            this.labelAmplifier.Size = new System.Drawing.Size(100, 24);
+            this.labelAmplifier.Size = new System.Drawing.Size(133, 30);
             this.labelAmplifier.TabIndex = 9;
             this.labelAmplifier.Text = "Amplifier";
             this.labelAmplifier.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -348,10 +351,10 @@
             // 
             this.labelTimeMultiplier.Cursor = System.Windows.Forms.Cursors.Default;
             this.labelTimeMultiplier.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelTimeMultiplier.Location = new System.Drawing.Point(0, 192);
+            this.labelTimeMultiplier.Location = new System.Drawing.Point(0, 240);
             this.labelTimeMultiplier.Margin = new System.Windows.Forms.Padding(0);
             this.labelTimeMultiplier.Name = "labelTimeMultiplier";
-            this.labelTimeMultiplier.Size = new System.Drawing.Size(100, 24);
+            this.labelTimeMultiplier.Size = new System.Drawing.Size(133, 30);
             this.labelTimeMultiplier.TabIndex = 10;
             this.labelTimeMultiplier.Text = "TimeMultiplier";
             this.labelTimeMultiplier.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -359,10 +362,10 @@
             // textBoxName
             // 
             this.textBoxName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxName.Location = new System.Drawing.Point(100, 0);
+            this.textBoxName.Location = new System.Drawing.Point(133, 0);
             this.textBoxName.Margin = new System.Windows.Forms.Padding(0);
             this.textBoxName.Name = "textBoxName";
-            this.textBoxName.Size = new System.Drawing.Size(10, 20);
+            this.textBoxName.Size = new System.Drawing.Size(10, 22);
             this.textBoxName.TabIndex = 11;
             // 
             // comboBoxAudioFileFormat
@@ -370,10 +373,10 @@
             this.comboBoxAudioFileFormat.Dock = System.Windows.Forms.DockStyle.Fill;
             this.comboBoxAudioFileFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxAudioFileFormat.FormattingEnabled = true;
-            this.comboBoxAudioFileFormat.Location = new System.Drawing.Point(100, 48);
+            this.comboBoxAudioFileFormat.Location = new System.Drawing.Point(133, 60);
             this.comboBoxAudioFileFormat.Margin = new System.Windows.Forms.Padding(0);
             this.comboBoxAudioFileFormat.Name = "comboBoxAudioFileFormat";
-            this.comboBoxAudioFileFormat.Size = new System.Drawing.Size(10, 21);
+            this.comboBoxAudioFileFormat.Size = new System.Drawing.Size(10, 24);
             this.comboBoxAudioFileFormat.TabIndex = 13;
             // 
             // comboBoxSampleDataType
@@ -381,10 +384,10 @@
             this.comboBoxSampleDataType.Dock = System.Windows.Forms.DockStyle.Fill;
             this.comboBoxSampleDataType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxSampleDataType.FormattingEnabled = true;
-            this.comboBoxSampleDataType.Location = new System.Drawing.Point(100, 72);
+            this.comboBoxSampleDataType.Location = new System.Drawing.Point(133, 90);
             this.comboBoxSampleDataType.Margin = new System.Windows.Forms.Padding(0);
             this.comboBoxSampleDataType.Name = "comboBoxSampleDataType";
-            this.comboBoxSampleDataType.Size = new System.Drawing.Size(10, 21);
+            this.comboBoxSampleDataType.Size = new System.Drawing.Size(10, 24);
             this.comboBoxSampleDataType.TabIndex = 14;
             // 
             // comboBoxSpeakerSetup
@@ -392,10 +395,10 @@
             this.comboBoxSpeakerSetup.Dock = System.Windows.Forms.DockStyle.Fill;
             this.comboBoxSpeakerSetup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxSpeakerSetup.FormattingEnabled = true;
-            this.comboBoxSpeakerSetup.Location = new System.Drawing.Point(100, 96);
+            this.comboBoxSpeakerSetup.Location = new System.Drawing.Point(133, 120);
             this.comboBoxSpeakerSetup.Margin = new System.Windows.Forms.Padding(0);
             this.comboBoxSpeakerSetup.Name = "comboBoxSpeakerSetup";
-            this.comboBoxSpeakerSetup.Size = new System.Drawing.Size(10, 21);
+            this.comboBoxSpeakerSetup.Size = new System.Drawing.Size(10, 24);
             this.comboBoxSpeakerSetup.TabIndex = 15;
             // 
             // numericUpDownStartTime
@@ -407,7 +410,7 @@
             0,
             0,
             65536});
-            this.numericUpDownStartTime.Location = new System.Drawing.Point(100, 120);
+            this.numericUpDownStartTime.Location = new System.Drawing.Point(133, 150);
             this.numericUpDownStartTime.Margin = new System.Windows.Forms.Padding(0);
             this.numericUpDownStartTime.Maximum = new decimal(new int[] {
             1000000000,
@@ -420,7 +423,7 @@
             0,
             -2147483648});
             this.numericUpDownStartTime.Name = "numericUpDownStartTime";
-            this.numericUpDownStartTime.Size = new System.Drawing.Size(10, 20);
+            this.numericUpDownStartTime.Size = new System.Drawing.Size(10, 22);
             this.numericUpDownStartTime.TabIndex = 16;
             // 
             // numericUpDownSamplingRate
@@ -431,7 +434,7 @@
             0,
             0,
             0});
-            this.numericUpDownSamplingRate.Location = new System.Drawing.Point(100, 24);
+            this.numericUpDownSamplingRate.Location = new System.Drawing.Point(133, 30);
             this.numericUpDownSamplingRate.Margin = new System.Windows.Forms.Padding(0);
             this.numericUpDownSamplingRate.Maximum = new decimal(new int[] {
             1000000000,
@@ -439,7 +442,7 @@
             0,
             0});
             this.numericUpDownSamplingRate.Name = "numericUpDownSamplingRate";
-            this.numericUpDownSamplingRate.Size = new System.Drawing.Size(10, 20);
+            this.numericUpDownSamplingRate.Size = new System.Drawing.Size(10, 22);
             this.numericUpDownSamplingRate.TabIndex = 17;
             // 
             // titleBarUserControl
@@ -452,28 +455,19 @@
             this.titleBarUserControl.Margin = new System.Windows.Forms.Padding(0);
             this.titleBarUserControl.Name = "titleBarUserControl";
             this.titleBarUserControl.RemoveButtonVisible = false;
-            this.titleBarUserControl.Size = new System.Drawing.Size(50, 21);
+            this.titleBarUserControl.Size = new System.Drawing.Size(18, 26);
             this.titleBarUserControl.TabIndex = 8;
             this.titleBarUserControl.CloseClicked += new System.EventHandler(this.titleBarUserControl_CloseClicked);
             // 
-            // audioFileOutputChannelsUserControl
-            // 
-            this.audioFileOutputChannelsUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.audioFileOutputChannelsUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.audioFileOutputChannelsUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.audioFileOutputChannelsUserControl.Location = new System.Drawing.Point(3, 316);
-            this.audioFileOutputChannelsUserControl.Name = "audioFileOutputChannelsUserControl";
-            this.audioFileOutputChannelsUserControl.Size = new System.Drawing.Size(44, 10);
-            this.audioFileOutputChannelsUserControl.TabIndex = 1;
-            // 
             // AudioFileOutputPropertiesUserControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.Controls.Add(this.tableLayoutPanelMain);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "AudioFileOutputPropertiesUserControl";
-            this.Size = new System.Drawing.Size(50, 34);
+            this.Size = new System.Drawing.Size(10, 10);
             this.Load += new System.EventHandler(this.AudioFileOutputPropertiesUserControl_Load);
             this.Leave += new System.EventHandler(this.AudioFileOutputPropertiesUserControl_Leave);
             this.groupBoxFilePath.ResumeLayout(false);
@@ -520,6 +514,5 @@
         private System.Windows.Forms.NumericUpDown numericUpDownSamplingRate;
         private Partials.TitleBarUserControl titleBarUserControl;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelFilePath;
-        private Partials.AudioFileOutputChannelsUserControl audioFileOutputChannelsUserControl;
     }
 }

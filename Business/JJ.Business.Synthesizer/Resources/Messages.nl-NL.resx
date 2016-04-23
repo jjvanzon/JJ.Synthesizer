@@ -145,10 +145,6 @@
   <data name="InletNotSet" xml:space="preserve">
     <value>{2} is niet ingevuld voor {0} operator genaamd '{1}'.</value>
   </data>
-  <data name="NotFoundInList_WithItemName_AndID" xml:space="preserve">
-    <value>{0} met ID '{1}' niet gevonden in de lijst.</value>
-    <comment>{0} = name, {1} = id</comment>
-  </data>
   <data name="NotFoundInList_WithItemName_ID_AndListName" xml:space="preserve">
     <value>{0} met ID '{1}' niet gevonden in de lijst van {2}.</value>
     <comment>{0} = name, {1} = id, {2} = name plural</comment>

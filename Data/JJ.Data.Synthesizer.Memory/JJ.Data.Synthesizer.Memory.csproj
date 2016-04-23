@@ -49,7 +49,7 @@
     <Compile Include="Mappings\ScaleMapping.cs" />
     <Compile Include="Mappings\ChannelMapping.cs" />
     <Compile Include="Mappings\AudioFileOutputMapping.cs" />
-    <Compile Include="Mappings\AudioFileOutputChannelMapping.cs" />
+    <Compile Include="Mappings\2016-04-23 Backup of AudioFileOutputChannelMapping.cs" />
     <Compile Include="Mappings\OperatorTypeMapping.cs" />
     <Compile Include="Mappings\DocumentMapping.cs" />
     <Compile Include="Mappings\DocumentReferenceMapping.cs" />

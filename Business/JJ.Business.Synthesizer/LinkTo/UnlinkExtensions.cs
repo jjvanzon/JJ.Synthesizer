@@ -12,18 +12,11 @@ namespace JJ.Business.Synthesizer.LinkTo
             audioFileOutput.LinkTo((Document)null);
         }
 
-        public static void UnlinkAudioFileOutput(this AudioFileOutputChannel audioFileOutputChannel)
+        public static void UnlinkOutlet(this AudioFileOutput audioFileOutput)
         {
-            if (audioFileOutputChannel == null) throw new NullException(() => audioFileOutputChannel);
+            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
 
-            audioFileOutputChannel.LinkTo((AudioFileOutput)null);
-        }
-
-        public static void UnlinkOutlet(this AudioFileOutputChannel audioFileOutputChannel)
-        {
-            if (audioFileOutputChannel == null) throw new NullException(() => audioFileOutputChannel);
-
-            audioFileOutputChannel.LinkTo((Outlet)null);
+            audioFileOutput.LinkTo((Outlet)null);
         }
 
         public static void UnlinkDocument(this Curve curve)

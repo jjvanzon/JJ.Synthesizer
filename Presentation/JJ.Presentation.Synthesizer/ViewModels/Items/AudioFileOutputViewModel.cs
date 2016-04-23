@@ -13,13 +13,14 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public IDAndName SampleDataType { get; set; }
         public IDAndName SpeakerSetup { get; set; }
 
+        /// <summary> nullable </summary>
+        public IDAndName Outlet { get; set; }
+
         public double StartTime { get; set; }
         public double Duration { get; set; }
         public double Amplifier { get; set; }
         public double TimeMultiplier { get; set; }
 
         public string FilePath { get; set; }
-
-        public IList<AudioFileOutputChannelViewModel> Channels { get; set; }
     }
 }

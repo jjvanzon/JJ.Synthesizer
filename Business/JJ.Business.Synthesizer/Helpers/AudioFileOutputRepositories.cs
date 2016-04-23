@@ -9,7 +9,6 @@ namespace JJ.Business.Synthesizer.Helpers
         public IAudioFileFormatRepository AudioFileFormatRepository { get; private set; }
         public ISampleDataTypeRepository SampleDataTypeRepository { get; private set; }
         public ISpeakerSetupRepository SpeakerSetupRepository { get; private set; }
-        public IAudioFileOutputChannelRepository AudioFileOutputChannelRepository { get; private set; }
         public IOutletRepository OutletRepository { get; private set; }
         public ICurveRepository CurveRepository { get; private set; }
         public ISampleRepository SampleRepository { get; private set; }
@@ -24,7 +23,6 @@ namespace JJ.Business.Synthesizer.Helpers
             AudioFileFormatRepository = repositoryWrapper.AudioFileFormatRepository;
             SampleDataTypeRepository = repositoryWrapper.SampleDataTypeRepository;
             SpeakerSetupRepository = repositoryWrapper.SpeakerSetupRepository;
-            AudioFileOutputChannelRepository = repositoryWrapper.AudioFileOutputChannelRepository;
             OutletRepository = repositoryWrapper.OutletRepository;
             CurveRepository = repositoryWrapper.CurveRepository;
             SampleRepository = repositoryWrapper.SampleRepository;
@@ -37,7 +35,6 @@ namespace JJ.Business.Synthesizer.Helpers
             IAudioFileFormatRepository audioFileFormatRepository,
             ISampleDataTypeRepository sampleDataTypeRepository,
             ISpeakerSetupRepository speakerSetupRepository,
-            IAudioFileOutputChannelRepository audioFileOutputChannelRepository,
             IOutletRepository outletRepository,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
@@ -48,7 +45,6 @@ namespace JJ.Business.Synthesizer.Helpers
             if (audioFileFormatRepository == null) throw new NullException(() => audioFileFormatRepository);
             if (sampleDataTypeRepository == null) throw new NullException(() => sampleDataTypeRepository);
             if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
-            if (audioFileOutputChannelRepository == null) throw new NullException(() => audioFileOutputChannelRepository);
             if (outletRepository == null) throw new NullException(() => outletRepository);
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
@@ -59,7 +55,6 @@ namespace JJ.Business.Synthesizer.Helpers
             AudioFileFormatRepository = audioFileFormatRepository;
             SampleDataTypeRepository = sampleDataTypeRepository;
             SpeakerSetupRepository = speakerSetupRepository;
-            AudioFileOutputChannelRepository = audioFileOutputChannelRepository;
             OutletRepository = outletRepository;
             CurveRepository = curveRepository;
             SampleRepository = sampleRepository;

@@ -150,7 +150,7 @@
     <Compile Include="ViewModels\DocumentGridViewModel.cs" />
     <Compile Include="ViewModels\DocumentPropertiesViewModel.cs" />
     <Compile Include="ViewModels\DocumentTreeViewModel.cs" />
-    <Compile Include="ViewModels\Items\AudioFileOutputChannelViewModel.cs" />
+    <Compile Include="ViewModels\Items\2016-04-24 Backup of AudioFileOutputChannelViewModel.cs" />
     <Compile Include="ViewModels\Items\AudioFileOutputListItemViewModel.cs" />
     <Compile Include="ViewModels\Items\AudioFileOutputViewModel.cs" />
     <Compile Include="ViewModels\Items\DocumentViewModel.cs" />

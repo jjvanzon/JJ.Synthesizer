@@ -28,48 +28,25 @@ namespace JJ.Business.Synthesizer.LinkTo
             }
         }
 
-        public static void LinkTo(this AudioFileOutputChannel audioFileOutputChannel, AudioFileOutput audioFileOutput)
+        public static void LinkTo(this AudioFileOutput audioFileOutput, Outlet outlet)
         {
-            if (audioFileOutputChannel == null) throw new NullException(() => audioFileOutputChannel);
+            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
 
-            if (audioFileOutputChannel.AudioFileOutput != null)
+            if (audioFileOutput.Outlet != null)
             {
-                if (audioFileOutputChannel.AudioFileOutput.AudioFileOutputChannels.Contains(audioFileOutputChannel))
+                if (audioFileOutput.Outlet.InAudioFileOutputs.Contains(audioFileOutput))
                 {
-                    audioFileOutputChannel.AudioFileOutput.AudioFileOutputChannels.Remove(audioFileOutputChannel);
+                    audioFileOutput.Outlet.InAudioFileOutputs.Remove(audioFileOutput);
                 }
             }
 
-            audioFileOutputChannel.AudioFileOutput = audioFileOutput;
+            audioFileOutput.Outlet = outlet;
 
-            if (audioFileOutputChannel.AudioFileOutput != null)
+            if (audioFileOutput.Outlet != null)
             {
-                if (!audioFileOutputChannel.AudioFileOutput.AudioFileOutputChannels.Contains(audioFileOutputChannel))
+                if (!audioFileOutput.Outlet.InAudioFileOutputs.Contains(audioFileOutput))
                 {
-                    audioFileOutputChannel.AudioFileOutput.AudioFileOutputChannels.Add(audioFileOutputChannel);
-                }
-            }
-        }
-
-        public static void LinkTo(this AudioFileOutputChannel audioFileOutputChannel, Outlet outlet)
-        {
-            if (audioFileOutputChannel == null) throw new NullException(() => audioFileOutputChannel);
-
-            if (audioFileOutputChannel.Outlet != null)
-            {
-                if (audioFileOutputChannel.Outlet.AsAudioFileOutputChannels.Contains(audioFileOutputChannel))
-                {
-                    audioFileOutputChannel.Outlet.AsAudioFileOutputChannels.Remove(audioFileOutputChannel);
-                }
-            }
-
-            audioFileOutputChannel.Outlet = outlet;
-
-            if (audioFileOutputChannel.Outlet != null)
-            {
-                if (!audioFileOutputChannel.Outlet.AsAudioFileOutputChannels.Contains(audioFileOutputChannel))
-                {
-                    audioFileOutputChannel.Outlet.AsAudioFileOutputChannels.Add(audioFileOutputChannel);
+                    audioFileOutput.Outlet.InAudioFileOutputs.Add(audioFileOutput);
                 }
             }
         }

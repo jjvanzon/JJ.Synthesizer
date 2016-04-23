@@ -27,24 +27,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         public static AudioFileOutput ToEntityWithRelatedEntities(this AudioFileOutputPropertiesViewModel viewModel, AudioFileOutputRepositories audioFileOutputRepositories)
         {
-            return viewModel.Entity.ToEntityWithRelatedEntities(audioFileOutputRepositories);
+            return viewModel.Entity.ToEntity(audioFileOutputRepositories);
         }
 
-        public static AudioFileOutput ToEntityWithRelatedEntities(
-            this AudioFileOutputViewModel sourceViewModel,
+        public static AudioFileOutput ToEntity(
+            this AudioFileOutputViewModel viewModel,
             AudioFileOutputRepositories repositories)
-        {
-            if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
-            if (repositories == null) throw new NullException(() => repositories);
-
-            AudioFileOutput destAudioFileOutput = sourceViewModel.ToEntity(repositories);
-
-            sourceViewModel.Channels.ToAudioFileOutputChannels(destAudioFileOutput, repositories);
-
-            return destAudioFileOutput;
-        }
-
-        public static AudioFileOutput ToEntity(this AudioFileOutputViewModel viewModel, AudioFileOutputRepositories repositories)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (repositories == null) throw new NullException(() => repositories);
@@ -97,29 +85,10 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 entity.UnlinkSpeakerSetup();
             }
 
-            return entity;
-        }
-
-        public static AudioFileOutputChannel ToEntity(this AudioFileOutputChannelViewModel viewModel, IAudioFileOutputChannelRepository audioFileOutputChannelRepository, IOutletRepository outletRepository)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            if (audioFileOutputChannelRepository == null) throw new NullException(() => audioFileOutputChannelRepository);
-            if (outletRepository == null) throw new NullException(() => outletRepository);
-
-            AudioFileOutputChannel entity = audioFileOutputChannelRepository.TryGet(viewModel.ID);
-            if (entity == null)
-            {
-                entity = new AudioFileOutputChannel();
-                entity.ID = viewModel.ID;
-                audioFileOutputChannelRepository.Insert(entity);
-            }
-
-            entity.IndexNumber = viewModel.IndexNumber;
-
             bool outletIsFilledIn = viewModel.Outlet != null && viewModel.Outlet.ID != 0;
             if (outletIsFilledIn)
             {
-                Outlet outlet = outletRepository.Get(viewModel.Outlet.ID);
+                Outlet outlet = repositories.OutletRepository.Get(viewModel.Outlet.ID);
                 entity.LinkTo(outlet);
             }
             else
@@ -130,7 +99,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return entity;
         }
 
-        public static void ToAudioFileOutputsWithRelatedEntities(
+        public static void ToAudioFileOutputs(
             this IList<AudioFileOutputPropertiesViewModel> viewModelList,
             Document destDocument,
             AudioFileOutputRepositories repositories)
@@ -143,7 +112,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             foreach (AudioFileOutputPropertiesViewModel viewModel in viewModelList)
             {
-                AudioFileOutput entity = viewModel.Entity.ToEntityWithRelatedEntities(repositories);
+                AudioFileOutput entity = viewModel.Entity.ToEntity(repositories);
                 entity.LinkTo(destDocument);
 
                 if (!idsToKeep.Contains(entity.ID))
@@ -158,39 +127,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
             foreach (int idToDelete in idsToDelete)
             {
-                audioFileOutputManager.DeleteWithRelatedEntities(idToDelete);
-            }
-        }
-
-        public static void ToAudioFileOutputChannels(
-            this IList<AudioFileOutputChannelViewModel> viewModelList,
-            AudioFileOutput destAudioFileOutput,
-            AudioFileOutputRepositories repositories)
-        {
-            if (viewModelList == null) throw new NullException(() => viewModelList);
-            if (destAudioFileOutput == null) throw new NullException(() => destAudioFileOutput);
-            if (repositories == null) throw new NullException(() => repositories);
-
-            var idsToKeep = new HashSet<int>();
-
-            foreach (AudioFileOutputChannelViewModel viewModel in viewModelList)
-            {
-                AudioFileOutputChannel entity = viewModel.ToEntity(repositories.AudioFileOutputChannelRepository, repositories.OutletRepository);
-                entity.LinkTo(destAudioFileOutput);
-
-                if (!idsToKeep.Contains(entity.ID))
-                {
-                    idsToKeep.Add(entity.ID);
-                }
-            }
-
-            var audioFileOutputManager = new AudioFileOutputManager(repositories);
-
-            IList<int> existingIDs = destAudioFileOutput.AudioFileOutputChannels.Select(x => x.ID).ToArray();
-            IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
-            foreach (int idToDelete in idsToDelete)
-            {
-                audioFileOutputManager.DeleteAudioFileOutputChannel(idToDelete);
+                audioFileOutputManager.Delete(idToDelete);
             }
         }
 
@@ -400,7 +337,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             destDocument = userInput.ToEntity(repositories.DocumentRepository);
 
             userInput.PatchDocumentList.ToChildDocumentsWithRelatedEntities(destDocument, repositories);
-            userInput.AudioFileOutputPropertiesList.ToAudioFileOutputsWithRelatedEntities(destDocument, new AudioFileOutputRepositories(repositories));
+            userInput.AudioFileOutputPropertiesList.ToAudioFileOutputs(destDocument, new AudioFileOutputRepositories(repositories));
             userInput.AudioOutputProperties.ToEntity(repositories.AudioOutputRepository, repositories.SpeakerSetupRepository, repositories.IDRepository);
             userInput.CurvePropertiesList.ToEntitiesWithDimensions(destDocument, curveRepositories);
             // Order-Dependence: NodeProperties are leading over the CurveDetails Nodes.
