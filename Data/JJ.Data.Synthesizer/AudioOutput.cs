@@ -9,8 +9,6 @@ namespace JJ.Data.Synthesizer
         public virtual int ID { get; set; }
         public virtual SpeakerSetup SpeakerSetup { get; set; }
         public virtual int SamplingRate { get; set; }
-        public virtual double VolumeFactor { get; set; }
-        public virtual double SpeedFactor { get; set; }
         public virtual int MaxConcurrentNotes { get; set; }
         public virtual double BufferDuration { get; set; }
         

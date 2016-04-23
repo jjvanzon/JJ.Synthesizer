@@ -121,8 +121,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             {
                 SamplingRate = 44100,
                 SpeakerSetup = speakerSetup,
-                SpeedFactor = 1,
-                VolumeFactor = 1,
                 MaxConcurrentNotes = 16,
                 BufferDuration = 0.1
             };
@@ -160,8 +158,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             {
                 SamplingRate = 44100,
                 SpeakerSetup = speakerSetup,
-                SpeedFactor = 1,
-                VolumeFactor = 1,
                 MaxConcurrentNotes = 16,
                 BufferDuration = 0.1
             };

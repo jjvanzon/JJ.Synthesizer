@@ -15,7 +15,6 @@ namespace JJ.Business.Synthesizer.Warnings
 
         protected override void Execute()
         {
-            For(() => Object.VolumeFactor, PropertyDisplayNames.VolumeFactor).IsNot(0);
             For(() => Object.BufferDuration, PropertyDisplayNames.BufferDuration).LessThan(5);
         }
     }

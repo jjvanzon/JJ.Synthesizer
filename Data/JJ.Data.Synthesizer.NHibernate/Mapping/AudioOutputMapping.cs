@@ -12,8 +12,6 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
         {
             Id(x => x.ID);
             Map(x => x.SamplingRate);
-            Map(x => x.VolumeFactor);
-            Map(x => x.SpeedFactor);
             Map(x => x.MaxConcurrentNotes);
             Map(x => x.BufferDuration);
             References(x => x.SpeakerSetup, ColumnNames.SpeakerSetupID);

@@ -249,6 +249,8 @@
     <Content Include="2016-04-16 050 SynthesizerDB Document.AudioOutputID.sql" />
     <Content Include="2016-04-16 060 SynthesizerDB FK_Document_AudioOutput.sql" />
     <Content Include="2016-04-16 070 SynthesizerDB AudioOutput.DocumentID drop column + related objects.sql" />
+    <Content Include="2016-04-23 010 SynthesizerDB AudioOutput.SpeedFactor drop column.sql" />
+    <Content Include="2016-04-23 010 SynthesizerDB AudioOutput.VolumeFactor drop column.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

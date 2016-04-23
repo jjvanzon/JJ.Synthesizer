@@ -793,12 +793,6 @@
   <data name="AudioOutput" xml:space="preserve">
     <value>Geluidsuitvoer</value>
   </data>
-  <data name="SpeedFactor" xml:space="preserve">
-    <value>Snelheid factor</value>
-  </data>
-  <data name="VolumeFactor" xml:space="preserve">
-    <value>Volume factor</value>
-  </data>
   <data name="BufferDuration" xml:space="preserve">
     <value>Buffer grootte (sec.)</value>
   </data>

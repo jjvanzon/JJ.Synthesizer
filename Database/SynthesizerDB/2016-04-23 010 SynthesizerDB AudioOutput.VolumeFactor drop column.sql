@@ -1,0 +1,1 @@
+alter table AudioOutput drop column VolumeFactor;

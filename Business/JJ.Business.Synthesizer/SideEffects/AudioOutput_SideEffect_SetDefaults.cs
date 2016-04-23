@@ -28,8 +28,6 @@ namespace JJ.Business.Synthesizer.SideEffects
         {
             _entity.SetSpeakerSetupEnum(SpeakerSetupEnum.Mono, _speakerSetupRepository);
             _entity.SamplingRate = 44100;
-            _entity.SpeedFactor = 1.0;
-            _entity.VolumeFactor = 1.0;
             _entity.MaxConcurrentNotes = 16;
             _entity.BufferDuration = 0.1;
         }
