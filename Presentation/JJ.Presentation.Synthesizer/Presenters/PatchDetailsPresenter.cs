@@ -357,11 +357,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Business
             var patchManager = new PatchManager(outlet.Operator.Patch, new PatchRepositories(repositories));
-            IPatchCalculator patchCalculator = patchManager.CreateCalculator(outlet, new CalculatorCache());
+            IPatchCalculator patchCalculator = patchManager.CreateCalculator(outlet, audioOutput.GetChannelCount(), new CalculatorCache());
 
             var audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
             AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
             audioFileOutputManager.SetSpeakerSetup(audioFileOutput, audioOutput.SpeakerSetup);
+            audioFileOutput.SamplingRate = audioOutput.SamplingRate;
             audioFileOutput.FilePath = _patchPlayOutputFilePath;
             audioFileOutput.Duration = _patchPlayDuration;
             audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;

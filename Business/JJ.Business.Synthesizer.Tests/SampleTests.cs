@@ -25,6 +25,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private const string OUTPUT_FILE_NAME = "AudioFileOutput.wav";
+        private const int DEFAULT_CHANNEL_COUNT = 1;
 
         // Test engine crashes
         [TestMethod]
@@ -51,7 +52,7 @@ namespace JJ.Business.Synthesizer.Tests
 
                 PatchManager x = new PatchManager(new PatchRepositories(repositories));
                 Outlet outlet = x.SlowDown(x.Sample(sample), x.Number(timeMultiplier));
-                IPatchCalculator patchCalculator = x.CreateCalculator(outlet, new CalculatorCache());
+                IPatchCalculator patchCalculator = x.CreateCalculator(outlet, DEFAULT_CHANNEL_COUNT, new CalculatorCache());
 
                 AudioFileOutputManager audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
@@ -89,7 +90,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Outlet outlet = x.Sample(sample);
 
                 // Trigger SampleCalculation
-                IPatchCalculator calculator = x.CreateCalculator(outlet, new CalculatorCache());
+                IPatchCalculator calculator = x.CreateCalculator(outlet, DEFAULT_CHANNEL_COUNT, new CalculatorCache());
                 double value = calculator.Calculate(new DimensionStack());
             }
         }

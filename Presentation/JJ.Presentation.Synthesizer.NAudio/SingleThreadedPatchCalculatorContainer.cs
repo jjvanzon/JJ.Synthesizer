@@ -5,6 +5,7 @@ using System.Threading;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Patches;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
@@ -28,7 +29,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
             var patchManager = new PatchManager(new PatchRepositories(repositories));
             Outlet autoPatchOutlet = patchManager.AutoPatchPolyphonic(patches, audioOutput.MaxConcurrentNotes);
-            IPatchCalculator patchCalculator = patchManager.CreateCalculator(autoPatchOutlet, new CalculatorCache());
+            IPatchCalculator patchCalculator = patchManager.CreateCalculator(autoPatchOutlet, audioOutput.GetChannelCount(), new CalculatorCache());
 
             Lock.EnterWriteLock();
             try

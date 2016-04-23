@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Validation.Scales
         {
             if (Object.BaseFrequency.HasValue)
             {
-                For(() => Object.BaseFrequency, PropertyDisplayNames.BaseFrequency).GreaterThan(0);
+                For(() => Object.BaseFrequency, PropertyDisplayNames.BaseFrequency).NotNaN().NotInfinity().GreaterThan(0);
             }
 
             For(() => Object.GetScaleTypeEnum(), PropertyDisplayNames.ScaleType)

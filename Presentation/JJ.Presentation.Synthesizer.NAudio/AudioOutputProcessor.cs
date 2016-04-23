@@ -21,10 +21,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
             _desiredLatencyInMilliseconds = (int)(audioOutput.BufferDuration * 1000.0);
 
-            // HACK: Not sure, but NAudio seems to reserve a different buffer size than it should.
-            // TODO: Solve the hack.
-            //_desiredLatencyInMilliseconds *= 2;
-
             _sampleProvider = new AudioOutputSampleProvider(patchCalculatorContainer, audioOutput);
         }
 

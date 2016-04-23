@@ -29,6 +29,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         public OptimizedPatchCalculator(
             Outlet outlet,
+            int channelCount,
             CalculatorCache calculatorCache,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
@@ -39,7 +40,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             var visitor = new OptimizedPatchCalculatorVisitor(curveRepository, sampleRepository, patchRepository, speakerSetupRepository, calculatorCache);
 
-            OptimizedPatchCalculatorVisitor.Result result = visitor.Execute(outlet);
+            OptimizedPatchCalculatorVisitor.Result result = visitor.Execute(outlet, channelCount);
 
             _outputOperatorCalculator = result.Output_OperatorCalculator;
             _inputOperatorCalculators = result.Input_OperatorCalculators.OrderBy(x => x.ListIndex).ToArray();

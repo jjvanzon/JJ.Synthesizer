@@ -219,11 +219,5 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             return CustomConfigurationManager.GetSection<ConfigurationSection>().PatchPlayHackedAudioFileOutputFilePath;
         }
-
-        private IPatchCalculator CreatePatchCalculator(PatchRepositories repositories, Outlet outlet)
-        {
-            var patchManager = new PatchManager(outlet.Operator.Patch, repositories);
-            return patchManager.CreateCalculator(outlet, new CalculatorCache());
-        }
     }
 }

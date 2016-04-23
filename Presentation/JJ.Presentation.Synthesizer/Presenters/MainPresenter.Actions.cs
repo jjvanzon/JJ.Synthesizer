@@ -19,6 +19,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Calculation.Patches;
+using JJ.Business.Synthesizer.Calculation;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -2254,6 +2255,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // ToEntity
             Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
             Tone tone = _repositories.ToneRepository.Get(id);
+            AudioOutput audioOutput = rootDocument.AudioOutput;
 
             var underlyingPatches = new List<Patch>(MainViewModel.Document.CurrentPatches.List.Count);
             foreach (CurrentPatchItemViewModel itemViewModel in MainViewModel.Document.CurrentPatches.List)
@@ -2268,10 +2270,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             // Business
+            var patchManager = new PatchManager(_patchRepositories);
+
             Outlet outlet = null;
             if (underlyingPatches.Count != 0)
             {
-                var patchManager = new PatchManager(_patchRepositories);
                 outlet = patchManager.TryAutoPatch_WithTone(tone, underlyingPatches);
             }
 
@@ -2290,10 +2293,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 return null;
             }
 
-            IPatchCalculator patchCalculator = CreatePatchCalculator(_patchRepositories, outlet);
+            patchManager.Patch = outlet.Operator.Patch;
+            IPatchCalculator patchCalculator = patchManager.CreateCalculator(outlet, audioOutput.GetChannelCount(), new CalculatorCache());
 
             // Infrastructure
             AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateWithRelatedEntities();
+            _audioFileOutputManager.SetSpeakerSetup(audioFileOutput, audioOutput.SpeakerSetup);
+            audioFileOutput.SamplingRate = audioOutput.SamplingRate;
             audioFileOutput.FilePath = _playOutputFilePath;
             audioFileOutput.Duration = DEFAULT_DURATION;
             audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;

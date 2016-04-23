@@ -103,7 +103,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
                 for (int channelIndex = 0; channelIndex < channelCount; channelIndex++)
                 {
-                    IPatchCalculator patchCalculator = patchManager.CreateCalculator(signalOutlet, calculatorCache);
+                    IPatchCalculator patchCalculator = patchManager.CreateCalculator(signalOutlet, channelCount, calculatorCache);
                     patchCalculators[noteIndex][channelIndex] = patchCalculator;
                 }
             }
