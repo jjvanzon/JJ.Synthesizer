@@ -54,7 +54,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return value;
         }
 
-        public double[] Calculate(double t0, double sampleDuration, int count, DimensionStack dimensionStack)
+        public double[] Calculate(double t0, double frameDuration, int count, DimensionStack dimensionStack)
         {
             double t = t0;
 
@@ -68,7 +68,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
                 values[i] = value;
 
-                t += sampleDuration;
+                t += frameDuration;
             }
 
             return values;

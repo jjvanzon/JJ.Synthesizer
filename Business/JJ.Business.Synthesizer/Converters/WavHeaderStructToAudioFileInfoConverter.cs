@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Converters
                 BytesPerValue = wavHeaderStruct.BitsPerValue / 8,
                 ChannelCount = wavHeaderStruct.ChannelCount,
                 SamplingRate = wavHeaderStruct.SamplingRate,
-                SampleCount = wavHeaderStruct.SubChunk2Size / wavHeaderStruct.ChannelCount / (wavHeaderStruct.BitsPerValue / 8)
+                FrameCount = wavHeaderStruct.SubChunk2Size / wavHeaderStruct.ChannelCount / (wavHeaderStruct.BitsPerValue / 8)
             };
 
             return audioFileInfo;

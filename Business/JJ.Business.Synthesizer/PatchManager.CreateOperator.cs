@@ -1049,10 +1049,11 @@ namespace JJ.Business.Synthesizer
             Operator op = CreateOperatorBase(OperatorTypeEnum.Sample, inletCount: 1, outletCount: 1);
 
             var wrapper = new Sample_OperatorWrapper(op, _repositories.SampleRepository);
+            wrapper.Dimension = dimension;
+
             if (sample != null)
             {
                 wrapper.SampleID = sample.ID;
-                wrapper.Dimension = dimension;
             }
 
             op.LinkTo(Patch);

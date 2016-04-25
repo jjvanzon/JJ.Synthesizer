@@ -52,7 +52,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             AssertAudioOutput(audioOutput, repositories);
 
             // Get Audio Properties
-            double frameDuration = audioOutput.GetSampleDuration();
+            double frameDuration = audioOutput.GetFrameDuration();
             int channelCount = audioOutput.GetChannelCount();
             int maxConcurrentNotes = audioOutput.MaxConcurrentNotes;
 
@@ -122,7 +122,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         // Calculate
 
-        /// <param name="sampleDuration">
+        /// <param name="frameDuration">
         /// Not used. Alternative value is determined internally.
         /// This parameter is currently not used, but I want this abstraction to stay similar
         /// to PatchCalculator, or I would be refactoring my brains out.
@@ -137,7 +137,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
         /// This parameter is currently not used, but I want this abstraction to stay similar
         /// to PatchCalculator, or I would be refactoring my brains out.
         /// </param>
-        public double[] Calculate(double t0, double sampleDuration, int count, DimensionStack dimensionStack)
+        public double[] Calculate(double t0, double frameDuration, int count, DimensionStack dimensionStack)
         {
             _t0 = t0;
 

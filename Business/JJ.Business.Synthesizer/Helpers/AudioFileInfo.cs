@@ -4,7 +4,7 @@
     {
         public int BytesPerValue { get; set; }
         public int ChannelCount { get; set; }
-        public int SampleCount { get; set; }
+        public int FrameCount { get; set; }
         public int SamplingRate { get; set; }
     }
 }

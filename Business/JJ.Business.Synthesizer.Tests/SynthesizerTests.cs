@@ -316,7 +316,7 @@ namespace JJ.Business.Synthesizer.Tests
                 {
                     using (BinaryWriter writer = new BinaryWriter(destStream))
                     {
-                        int destSampleCount = (int)(samplingRate * seconds);
+                        int destFrameCount = (int)(samplingRate * seconds);
 
                         // Write header
                         var audioFileInfo = new AudioFileInfo
@@ -324,7 +324,7 @@ namespace JJ.Business.Synthesizer.Tests
                             BytesPerValue = 2,
                             ChannelCount = 1,
                             SamplingRate = 44100,
-                            SampleCount = destSampleCount
+                            FrameCount = destFrameCount
                         };
                         WavHeaderStruct wavHeaderStruct = WavHeaderManager.CreateWavHeaderStruct(audioFileInfo);
                         writer.WriteStruct(wavHeaderStruct);
@@ -332,7 +332,7 @@ namespace JJ.Business.Synthesizer.Tests
                         double t = 0;
                         double dt = 1.0 / samplingRate;
 
-                        for (int i = 0; i < destSampleCount; i++)
+                        for (int i = 0; i < destFrameCount; i++)
                         {
                             double value = hardCodedCalculator.CalculateTimePowerWithEcho(t);
                             short convertedValue = (short)value;
@@ -375,7 +375,7 @@ namespace JJ.Business.Synthesizer.Tests
                 {
                     using (BinaryWriter writer = new BinaryWriter(destStream))
                     {
-                        int destSampleCount = (int)(samplingRate * seconds);
+                        int destFrameCount = (int)(samplingRate * seconds);
 
                         // Write header
                         var audioFileInfo = new AudioFileInfo
@@ -383,7 +383,7 @@ namespace JJ.Business.Synthesizer.Tests
                             BytesPerValue = 2,
                             ChannelCount = 1,
                             SamplingRate = 44100,
-                            SampleCount = destSampleCount
+                            FrameCount = destFrameCount
                         };
                         WavHeaderStruct wavHeaderStruct = WavHeaderManager.CreateWavHeaderStruct(audioFileInfo);
                         writer.WriteStruct(wavHeaderStruct);
@@ -391,7 +391,7 @@ namespace JJ.Business.Synthesizer.Tests
                         double t = 0;
                         double dt = 1.0 / samplingRate;
 
-                        for (int i = 0; i < destSampleCount; i++)
+                        for (int i = 0; i < destFrameCount; i++)
                         {
                             double value = hardCodedCalculator.CalculateMultiplyWithEcho(t);
                             short convertedValue = (short)value;

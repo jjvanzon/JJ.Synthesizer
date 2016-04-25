@@ -15,13 +15,13 @@ namespace JJ.Business.Synthesizer.Extensions
             return entity.SpeakerSetup.SpeakerSetupChannels.Count;
         }
 
-        public static double GetSampleDuration(this AudioOutput entity)
+        public static double GetFrameDuration(this AudioOutput entity)
         {
             if (entity == null) throw new NullException(() => entity);
             if (entity.SamplingRate == 0.0) throw new ZeroException(() => entity.SamplingRate);
 
-            double sampleDuration = 1.0 / (double)entity.SamplingRate;
-            return sampleDuration;
+            double frameDuration = 1.0 / (double)entity.SamplingRate;
+            return frameDuration;
         }
 
         public static int GetBufferFrameCount(this AudioOutput entity)

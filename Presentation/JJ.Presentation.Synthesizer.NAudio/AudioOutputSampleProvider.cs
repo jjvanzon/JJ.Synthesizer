@@ -16,7 +16,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
     {
         private readonly WaveFormat _waveFormat;
         private readonly IPatchCalculatorContainer _patchCalculatorContainer;
-        private readonly double _sampleDuration;
+        private readonly double _frameDuration;
         private readonly DimensionStack _dimensionStack;
         private readonly int _channelCount;
 
@@ -31,7 +31,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
             _patchCalculatorContainer = patchCalculatorContainer;
 
-            _sampleDuration = audioOutput.GetSampleDuration();
+            _frameDuration = audioOutput.GetFrameDuration();
             _channelCount = audioOutput.SpeakerSetup.SpeakerSetupChannels.Count;
 
             _waveFormat = CreateWaveFormat(audioOutput);
@@ -76,7 +76,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
                 {
                     _dimensionStack.Set(DimensionEnum.Channel, channelIndex);
 
-                    values[channelIndex] = patchCalculator.Calculate(_time, _sampleDuration, frameCount, _dimensionStack);
+                    values[channelIndex] = patchCalculator.Calculate(_time, _frameDuration, frameCount, _dimensionStack);
                 }
 
                 int i = 0;
@@ -101,7 +101,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     }
                 }
 
-                _time += _sampleDuration * frameCount;
+                _time += _frameDuration * frameCount;
 
                 return count;
             }

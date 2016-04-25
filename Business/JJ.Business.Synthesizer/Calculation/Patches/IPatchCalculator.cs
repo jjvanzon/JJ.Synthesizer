@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         
         double Calculate(DimensionStack dimensionStack);
 
-        double[] Calculate(double t0, double sampleDuration, int sampleCount, DimensionStack dimensionStack);
+        double[] Calculate(double t0, double frameDuration, int frameCount, DimensionStack dimensionStack);
 
         void Reset(DimensionStack dimensionStack);
         void Reset(DimensionStack dimensionStack, string name);

@@ -18,13 +18,13 @@ namespace JJ.Business.Synthesizer.Extensions
             return audioFileOutput.SpeakerSetup.SpeakerSetupChannels.Count;
         }
 
-        public static double GetSampleDuration(this AudioFileOutput audioFileOutput)
+        public static double GetFrameDuration(this AudioFileOutput audioFileOutput)
         {
             if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
             if (audioFileOutput.SamplingRate == 0.0) throw new ZeroException(() => audioFileOutput.SamplingRate);
 
-            double sampleDuration = 1 / audioFileOutput.SamplingRate;
-            return sampleDuration;
+            double frameDuration = 1 / audioFileOutput.SamplingRate;
+            return frameDuration;
         }
     }
 }

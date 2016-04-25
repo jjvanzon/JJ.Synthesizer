@@ -9,7 +9,7 @@ namespace JJ.Business.Synthesizer.Converters
         {
             if (audioFileInfo == null) throw new NullException(() => audioFileInfo);
 
-            int soundByteCount = audioFileInfo.SampleCount * audioFileInfo.ChannelCount * audioFileInfo.BytesPerValue;
+            int soundByteCount = audioFileInfo.FrameCount * audioFileInfo.ChannelCount * audioFileInfo.BytesPerValue;
             
             WavHeaderStruct wavHeaderStruct = new WavHeaderStruct
             {
