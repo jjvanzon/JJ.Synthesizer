@@ -1,22 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Framework.Reflection.Exceptions;
-using JJ.Framework.Common;
-using JJ.Framework.Presentation.VectorGraphics.Enums;
-using JJ.Framework.Presentation.VectorGraphics.Helpers;
-using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
 using JJ.Business.Synthesizer.Api;
+using JJ.Business.Synthesizer.Calculation.Curves;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Data.Synthesizer;
+using JJ.Framework.Common;
+using JJ.Framework.Common.Exceptions;
+using JJ.Framework.Presentation.VectorGraphics.Enums;
+using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
+using JJ.Framework.Reflection.Exceptions;
+using JJ.Presentation.Synthesizer.VectorGraphics.Configuration;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
-using JJ.Business.Synthesizer.Calculation;
-using JJ.Business.Synthesizer.Helpers;
-using JJ.Data.Synthesizer;
-using JJ.Presentation.Synthesizer.VectorGraphics.Configuration;
-using JJ.Business.Synthesizer.Calculation.Curves;
-using JJ.Framework.Common.Exceptions;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics
 {

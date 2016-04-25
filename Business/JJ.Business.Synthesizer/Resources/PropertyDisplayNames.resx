@@ -782,12 +782,6 @@
   <data name="Y" xml:space="preserve">
     <value>y</value>
   </data>
-  <data name="XDimension" xml:space="preserve">
-    <value>X Dimension</value>
-  </data>
-  <data name="YDimension" xml:space="preserve">
-    <value>Y Dimension</value>
-  </data>
   <data name="Position" xml:space="preserve">
     <value>Position</value>
   </data>
@@ -799,5 +793,8 @@
   </data>
   <data name="MaxConcurrentNotes" xml:space="preserve">
     <value>Concurrent Notes</value>
+  </data>
+  <data name="Balance" xml:space="preserve">
+    <value>Balance</value>
   </data>
 </root>

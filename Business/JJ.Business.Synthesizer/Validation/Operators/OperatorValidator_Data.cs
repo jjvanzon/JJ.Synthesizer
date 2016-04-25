@@ -13,7 +13,7 @@ using JJ.Business.Synthesizer.Helpers;
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
     /// <summary> Validates the inlet and outlet ListIndexes and that the inlet names are NOT filled in. </summary>
-    public class OperatorValidator_Data : FluentValidator<Operator>
+    internal class OperatorValidator_Data : FluentValidator<Operator>
     {
         private readonly static int? _dataMaxLength = GetDataMaxLength();
 

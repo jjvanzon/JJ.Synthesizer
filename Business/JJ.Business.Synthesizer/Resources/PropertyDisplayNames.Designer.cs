@@ -178,6 +178,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Balance.
+        /// </summary>
+        public static string Balance {
+            get {
+                return ResourceManager.GetString("Balance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Band Width.
         /// </summary>
         public static string BandWidth {
@@ -2068,29 +2077,11 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to X Dimension.
-        /// </summary>
-        public static string XDimension {
-            get {
-                return ResourceManager.GetString("XDimension", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to y.
         /// </summary>
         public static string Y {
             get {
                 return ResourceManager.GetString("Y", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Y Dimension.
-        /// </summary>
-        public static string YDimension {
-            get {
-                return ResourceManager.GetString("YDimension", resourceCulture);
             }
         }
     }
