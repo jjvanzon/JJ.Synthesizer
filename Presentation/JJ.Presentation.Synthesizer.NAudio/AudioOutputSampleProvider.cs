@@ -75,7 +75,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
                 for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
                 {
                     _dimensionStack.Set(DimensionEnum.Channel, channelIndex);
-
+                     
                     values[channelIndex] = patchCalculator.Calculate(_time, _frameDuration, frameCount, _dimensionStack);
                 }
 

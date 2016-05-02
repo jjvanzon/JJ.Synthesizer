@@ -194,13 +194,13 @@
             // 
             // numericUpDownBufferDuration
             // 
-            this.numericUpDownBufferDuration.DecimalPlaces = 6;
+            this.numericUpDownBufferDuration.DecimalPlaces = 3;
             this.numericUpDownBufferDuration.Dock = System.Windows.Forms.DockStyle.Fill;
             this.numericUpDownBufferDuration.Increment = new decimal(new int[] {
-            250,
+            2,
             0,
             0,
-            327680});
+            196608});
             this.numericUpDownBufferDuration.Location = new System.Drawing.Point(133, 90);
             this.numericUpDownBufferDuration.Margin = new System.Windows.Forms.Padding(0);
             this.numericUpDownBufferDuration.Name = "numericUpDownBufferDuration";

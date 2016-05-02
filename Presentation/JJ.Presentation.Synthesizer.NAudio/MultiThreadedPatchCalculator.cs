@@ -58,7 +58,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
             // TODO: Solve whatever problem makes us have to divide by 2
             // to not get jittery (mono) sound!
-            int frameCount = audioOutput.GetBufferFrameCount() / 2;
+            int frameCount = (int)Math.Ceiling(audioOutput.GetBufferFrameCount() / 2.0);
 
             // Create Buffers
             double[] emptyBuffer = new double[frameCount];
@@ -162,7 +162,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     continue;
                 }
 
-                // Capture variable in loop iteration, to prevent delegate from getting the wrong getting a next value in the loop
+                // Capture variable in loop iteration, to prevent delegate from getting a value from a different iteration.
                 IPatchCalculator patchCalculator = _patchCalculators[noteIndex][channelIndex];
 
                 Task task = Task.Factory.StartNew(() => CalculateSingleThread(patchCalculator, channelIndex));
