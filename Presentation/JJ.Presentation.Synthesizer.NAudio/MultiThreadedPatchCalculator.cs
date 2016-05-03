@@ -13,6 +13,7 @@ using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Data.Canonical;
 using JJ.Business.Canonical;
+using System.Runtime.CompilerServices;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
@@ -92,6 +93,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
         /// The buffer size could have been guessed up front, but then it would not adapt to different 
         /// infrastructural contexts.
         /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void LazyInitializeBuffers(int frameCount)
         {
             // This makes it more than lazy initialization: if the frameCount would suddenly change,
