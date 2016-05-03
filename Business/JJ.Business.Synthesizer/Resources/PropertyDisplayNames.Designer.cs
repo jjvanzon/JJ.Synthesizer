@@ -250,15 +250,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Buffer Size (sec.).
-        /// </summary>
-        public static string BufferDuration {
-            get {
-                return ResourceManager.GetString("BufferDuration", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Bundle.
         /// </summary>
         public static string Bundle {
@@ -525,6 +516,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Denominator {
             get {
                 return ResourceManager.GetString("Denominator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Desired Buffer Size (sec.).
+        /// </summary>
+        public static string DesiredBufferDuration {
+            get {
+                return ResourceManager.GetString("DesiredBufferDuration", resourceCulture);
             }
         }
         

@@ -24,18 +24,17 @@ namespace JJ.Business.Synthesizer.Extensions
             return frameDuration;
         }
 
-        public static int GetBufferFrameCount(this AudioOutput entity)
+        /// <summary> 
+        /// The desired buffer frame count is only an indication, 
+        /// that could be adapted to the audio device's capabilities.
+        /// </summary>
+        public static double GetDesiredBufferFrameCount(this AudioOutput entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
-            double bufferFrameCount = entity.SamplingRate * entity.BufferDuration;
+            double bufferFrameCount = entity.SamplingRate * entity.DesiredBufferDuration;
 
-            if (!ConversionHelper.CanCastToInt32(bufferFrameCount))
-            {
-                throw new Exception(String.Format("bufferFrameCount '{0}' cannot be cast to Int32.", bufferFrameCount));
-            }
-
-            return (int)bufferFrameCount;
+            return bufferFrameCount;
         }
     }
 }

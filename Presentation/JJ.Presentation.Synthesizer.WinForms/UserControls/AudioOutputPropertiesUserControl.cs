@@ -38,7 +38,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelSamplingRate.Text = PropertyDisplayNames.SamplingRate;
             labelSpeakerSetup.Text = PropertyDisplayNames.SpeakerSetup;
             labelMaxConcurrentNotes.Text = PropertyDisplayNames.MaxConcurrentNotes;
-            labelBufferDuration.Text = PropertyDisplayNames.BufferDuration;
+            labelDesiredBufferDuration.Text = PropertyDisplayNames.DesiredBufferDuration;
         }
 
         private void ApplyStyling()
@@ -70,7 +70,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             comboBoxSpeakerSetup.SelectedValue = ViewModel.Entity.SpeakerSetup.ID;
 
             numericUpDownMaxConcurrentNotes.Value = ViewModel.Entity.MaxConcurrentNotes;
-            numericUpDownBufferDuration.Value = (decimal)ViewModel.Entity.BufferDuration;
+            numericUpDownDesiredBufferDuration.Value = (decimal)ViewModel.Entity.DesiredBufferDuration;
         }
 
         private void ApplyControlsToViewModel()
@@ -83,7 +83,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ViewModel.Entity.SamplingRate = (int)numericUpDownSamplingRate.Value;
             ViewModel.Entity.SpeakerSetup = (IDAndName)comboBoxSpeakerSetup.SelectedItem;
             ViewModel.Entity.MaxConcurrentNotes = (int)numericUpDownMaxConcurrentNotes.Value;
-            ViewModel.Entity.BufferDuration = (double)numericUpDownBufferDuration.Value;
+            ViewModel.Entity.DesiredBufferDuration = (double)numericUpDownDesiredBufferDuration.Value;
         }
 
         // Actions

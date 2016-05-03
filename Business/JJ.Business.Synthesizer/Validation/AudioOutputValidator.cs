@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Validation
             For(() => Object.SamplingRate, PropertyDisplayNames.SamplingRate).GreaterThan(0);
             For(() => Object.MaxConcurrentNotes, PropertyDisplayNames.MaxConcurrentNotes).GreaterThan(0);
 
-            For(() => Object.BufferDuration, PropertyDisplayNames.BufferDuration)
+            For(() => Object.DesiredBufferDuration, PropertyDisplayNames.DesiredBufferDuration)
                 .NotNaN()
                 .NotInfinity()
                 .GreaterThan(0);

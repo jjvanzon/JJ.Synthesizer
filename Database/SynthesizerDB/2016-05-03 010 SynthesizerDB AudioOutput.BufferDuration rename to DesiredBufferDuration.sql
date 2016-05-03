@@ -1,0 +1,1 @@
+exec sp_rename 'AudioOutput.BufferDuration', 'DesiredBufferDuration', 'COLUMN'

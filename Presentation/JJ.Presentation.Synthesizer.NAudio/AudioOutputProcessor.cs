@@ -19,7 +19,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
         {
             if (audioOutput == null) throw new NullException(() => audioOutput);
 
-            _desiredLatencyInMilliseconds = (int)(Math.Ceiling(audioOutput.BufferDuration * 1000.0));
+            _desiredLatencyInMilliseconds = (int)(Math.Ceiling(audioOutput.DesiredBufferDuration * 1000.0));
 
             _sampleProvider = new AudioOutputSampleProvider(patchCalculatorContainer, audioOutput);
         }

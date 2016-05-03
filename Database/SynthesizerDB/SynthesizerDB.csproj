@@ -254,6 +254,7 @@
     <Content Include="2016-04-23 010 SynthesizerDB AudioOutput.VolumeFactor drop column.sql" />
     <Content Include="2016-04-23 020 SynthesizerDB AudioFileOutputChannel to AudioFileOutput.Outlet migration 1 %28WARNING CLEARS TABLES%29.sql" />
     <Content Include="2016-04-23 030 SynthesizerDB AudioFileOutputChannel to AudioFileOutput.Outlet migration 2 %28IX and FK%29.sql" />
+    <Content Include="2016-05-03 010 SynthesizerDB AudioOutput.BufferDuration rename to DesiredBufferDuration.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

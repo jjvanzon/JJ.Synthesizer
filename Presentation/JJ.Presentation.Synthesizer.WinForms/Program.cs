@@ -122,7 +122,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 SamplingRate = 44100,
                 SpeakerSetup = speakerSetup,
                 MaxConcurrentNotes = 16,
-                BufferDuration = 0.1
+                DesiredBufferDuration = 0.1
             };
 
             return audioOutput;
@@ -159,7 +159,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 SamplingRate = 44100,
                 SpeakerSetup = speakerSetup,
                 MaxConcurrentNotes = 16,
-                BufferDuration = 0.1
+                DesiredBufferDuration = 0.1
             };
 
             return audioOutput;

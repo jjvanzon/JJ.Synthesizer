@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Warnings
 
         protected override void Execute()
         {
-            For(() => Object.BufferDuration, PropertyDisplayNames.BufferDuration).LessThan(5);
+            For(() => Object.DesiredBufferDuration, PropertyDisplayNames.DesiredBufferDuration).LessThan(5);
         }
     }
 }

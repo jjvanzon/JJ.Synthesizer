@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.SideEffects
             _entity.SetSpeakerSetupEnum(SpeakerSetupEnum.Mono, _speakerSetupRepository);
             _entity.SamplingRate = 44100;
             _entity.MaxConcurrentNotes = 16;
-            _entity.BufferDuration = 0.1;
+            _entity.DesiredBufferDuration = 0.1;
         }
     }
 }

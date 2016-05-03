@@ -9,6 +9,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public int SamplingRate { get; set; }
         public IDAndName SpeakerSetup { get; set; }
         public int MaxConcurrentNotes { get; set; }
-        public double BufferDuration { get; set; }
+        public double DesiredBufferDuration { get; set; }
     }
 }

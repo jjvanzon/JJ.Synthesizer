@@ -167,7 +167,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             entity.SamplingRate = viewModel.SamplingRate;
             entity.MaxConcurrentNotes = viewModel.MaxConcurrentNotes;
-            entity.BufferDuration = viewModel.BufferDuration;
+            entity.DesiredBufferDuration = viewModel.DesiredBufferDuration;
 
             bool speakerSetupIsFilledIn = viewModel.SpeakerSetup != null && viewModel.SpeakerSetup.ID != 0;
             if (speakerSetupIsFilledIn)

@@ -36,14 +36,14 @@
             this.numericUpDownSamplingRate = new System.Windows.Forms.NumericUpDown();
             this.labelMaxConcurrentNotes = new System.Windows.Forms.Label();
             this.numericUpDownMaxConcurrentNotes = new System.Windows.Forms.NumericUpDown();
-            this.labelBufferDuration = new System.Windows.Forms.Label();
-            this.numericUpDownBufferDuration = new System.Windows.Forms.NumericUpDown();
+            this.labelDesiredBufferDuration = new System.Windows.Forms.Label();
+            this.numericUpDownDesiredBufferDuration = new System.Windows.Forms.NumericUpDown();
             this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
             this.tableLayoutPanelMain.SuspendLayout();
             this.tableLayoutPanelContent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSamplingRate)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxConcurrentNotes)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownBufferDuration)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDesiredBufferDuration)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanelMain
@@ -73,8 +73,8 @@
             this.tableLayoutPanelContent.Controls.Add(this.numericUpDownSamplingRate, 1, 0);
             this.tableLayoutPanelContent.Controls.Add(this.labelMaxConcurrentNotes, 0, 2);
             this.tableLayoutPanelContent.Controls.Add(this.numericUpDownMaxConcurrentNotes, 1, 2);
-            this.tableLayoutPanelContent.Controls.Add(this.labelBufferDuration, 0, 3);
-            this.tableLayoutPanelContent.Controls.Add(this.numericUpDownBufferDuration, 1, 3);
+            this.tableLayoutPanelContent.Controls.Add(this.labelDesiredBufferDuration, 0, 3);
+            this.tableLayoutPanelContent.Controls.Add(this.numericUpDownDesiredBufferDuration, 1, 3);
             this.tableLayoutPanelContent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelContent.Location = new System.Drawing.Point(4, 30);
             this.tableLayoutPanelContent.Margin = new System.Windows.Forms.Padding(4);
@@ -180,32 +180,32 @@
             0,
             0});
             // 
-            // labelBufferDuration
+            // labelDesiredBufferDuration
             // 
-            this.labelBufferDuration.Cursor = System.Windows.Forms.Cursors.Default;
-            this.labelBufferDuration.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelBufferDuration.Location = new System.Drawing.Point(0, 90);
-            this.labelBufferDuration.Margin = new System.Windows.Forms.Padding(0);
-            this.labelBufferDuration.Name = "labelBufferDuration";
-            this.labelBufferDuration.Size = new System.Drawing.Size(133, 30);
-            this.labelBufferDuration.TabIndex = 23;
-            this.labelBufferDuration.Text = "labelBufferDuration";
-            this.labelBufferDuration.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelDesiredBufferDuration.Cursor = System.Windows.Forms.Cursors.Default;
+            this.labelDesiredBufferDuration.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelDesiredBufferDuration.Location = new System.Drawing.Point(0, 90);
+            this.labelDesiredBufferDuration.Margin = new System.Windows.Forms.Padding(0);
+            this.labelDesiredBufferDuration.Name = "labelDesiredBufferDuration";
+            this.labelDesiredBufferDuration.Size = new System.Drawing.Size(133, 30);
+            this.labelDesiredBufferDuration.TabIndex = 23;
+            this.labelDesiredBufferDuration.Text = "labelDesiredBufferDuration";
+            this.labelDesiredBufferDuration.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // numericUpDownBufferDuration
+            // numericUpDownDesiredBufferDuration
             // 
-            this.numericUpDownBufferDuration.DecimalPlaces = 3;
-            this.numericUpDownBufferDuration.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.numericUpDownBufferDuration.Increment = new decimal(new int[] {
+            this.numericUpDownDesiredBufferDuration.DecimalPlaces = 4;
+            this.numericUpDownDesiredBufferDuration.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.numericUpDownDesiredBufferDuration.Increment = new decimal(new int[] {
             2,
             0,
             0,
             196608});
-            this.numericUpDownBufferDuration.Location = new System.Drawing.Point(133, 90);
-            this.numericUpDownBufferDuration.Margin = new System.Windows.Forms.Padding(0);
-            this.numericUpDownBufferDuration.Name = "numericUpDownBufferDuration";
-            this.numericUpDownBufferDuration.Size = new System.Drawing.Size(10, 22);
-            this.numericUpDownBufferDuration.TabIndex = 24;
+            this.numericUpDownDesiredBufferDuration.Location = new System.Drawing.Point(133, 90);
+            this.numericUpDownDesiredBufferDuration.Margin = new System.Windows.Forms.Padding(0);
+            this.numericUpDownDesiredBufferDuration.Name = "numericUpDownDesiredBufferDuration";
+            this.numericUpDownDesiredBufferDuration.Size = new System.Drawing.Size(10, 22);
+            this.numericUpDownDesiredBufferDuration.TabIndex = 24;
             // 
             // titleBarUserControl
             // 
@@ -236,7 +236,7 @@
             this.tableLayoutPanelContent.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSamplingRate)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxConcurrentNotes)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownBufferDuration)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDesiredBufferDuration)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -252,7 +252,7 @@
         private System.Windows.Forms.NumericUpDown numericUpDownSamplingRate;
         private System.Windows.Forms.Label labelMaxConcurrentNotes;
         private System.Windows.Forms.NumericUpDown numericUpDownMaxConcurrentNotes;
-        private System.Windows.Forms.Label labelBufferDuration;
-        private System.Windows.Forms.NumericUpDown numericUpDownBufferDuration;
+        private System.Windows.Forms.Label labelDesiredBufferDuration;
+        private System.Windows.Forms.NumericUpDown numericUpDownDesiredBufferDuration;
     }
 }
