@@ -5,7 +5,7 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Resample_OperatorCalculator_CubicSmoothInclination : OperatorCalculatorBase_WithChildCalculators
+    internal class Resample_OperatorCalculator_CubicSmoothSlope : OperatorCalculatorBase_WithChildCalculators
     {
         private const double MINIMUM_SAMPLING_RATE = 0.01666666666666667; // Once a minute
 
@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _y1;
         private double _y2;
 
-        public Resample_OperatorCalculator_CubicSmoothInclination(
+        public Resample_OperatorCalculator_CubicSmoothSlope(
             OperatorCalculatorBase signalCalculator, 
             OperatorCalculatorBase samplingRateCalculator,
             DimensionEnum dimensionEnum)
@@ -77,7 +77,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 dimensionStack.Pop(_dimensionIndex);
             }
 
-            double y = Interpolator.Interpolate_Cubic_SmoothInclination(
+            double y = Interpolator.Interpolate_Cubic_SmoothSlope(
                 _xMinus1, _x0, _x1, _x2,
                 _yMinus1, _y0, _y1, _y2,
                 x);

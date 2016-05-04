@@ -133,7 +133,7 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
 
         private static double CalculateY_ForNodeTypeCurve(Node nodeMinus1, Node node0, Node node1, Node node2, double time)
         {
-            double y = Interpolator.Interpolate_Cubic_SmoothInclination(
+            double y = Interpolator.Interpolate_Cubic_SmoothSlope(
                 nodeMinus1.X, node0.X, node1.X, node2.X,
                 nodeMinus1.Y, node0.Y, node1.Y, node2.Y,
                 time);

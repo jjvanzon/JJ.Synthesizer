@@ -12,8 +12,8 @@ namespace JJ.Business.Synthesizer.Enums
         LineRememberT0,
         LineRememberT1,
         CubicEquidistant,
-        CubicAbruptInclination,
-        CubicSmoothInclination,
+        CubicAbruptSlope,
+        CubicSmoothSlope,
         Hermite
     }
 }

@@ -122,11 +122,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Random_OperatorCalculator_CubicAbruptInclination : OperatorCalculatorBase_WithChildCalculators
+    internal class Random_OperatorCalculator_CubicAbruptSlope : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _resampleOperator;
 
-        public Random_OperatorCalculator_CubicAbruptInclination(
+        public Random_OperatorCalculator_CubicAbruptSlope(
             RandomCalculatorBase randomCalculator,
             double randomCalculatorOffset,
             OperatorCalculatorBase rateCalculator,
@@ -142,7 +142,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 randomCalculator, randomCalculatorOffset, rateCalculator, phaseShiftCalculator, dimensionEnum);
 
             // Lead their outputs to a Resample operator calculator
-            _resampleOperator = new Resample_OperatorCalculator_CubicAbruptInclination(
+            _resampleOperator = new Resample_OperatorCalculator_CubicAbruptSlope(
                 signalCalculator: randomCalculator2,
                 samplingRateCalculator: rateCalculator, 
                 dimensionEnum: dimensionEnum);
@@ -160,11 +160,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Random_OperatorCalculator_CubicSmoothInclination : OperatorCalculatorBase_WithChildCalculators
+    internal class Random_OperatorCalculator_CubicSmoothSlope : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _resampleOperator;
 
-        public Random_OperatorCalculator_CubicSmoothInclination(
+        public Random_OperatorCalculator_CubicSmoothSlope(
             RandomCalculatorBase randomCalculator,
             double randomCalculatorOffset,
             OperatorCalculatorBase rateCalculator,
@@ -180,7 +180,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 randomCalculator, randomCalculatorOffset, rateCalculator, phaseShiftCalculator, dimensionEnum);
 
             // Lead their outputs to a Resample operator calculator
-            _resampleOperator = new Resample_OperatorCalculator_CubicSmoothInclination(
+            _resampleOperator = new Resample_OperatorCalculator_CubicSmoothSlope(
                 signalCalculator: randomCalculator2,
                 samplingRateCalculator: rateCalculator,
                 dimensionEnum: dimensionEnum);

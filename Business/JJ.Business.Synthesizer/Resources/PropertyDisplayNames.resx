@@ -604,14 +604,14 @@
   <data name="TimeSliceDuration" xml:space="preserve">
     <value>Time Slice Duration</value>
   </data>
-  <data name="CubicAbruptInclination" xml:space="preserve">
-    <value>Cubic Abrupt Inclination</value>
+  <data name="CubicAbruptSlope" xml:space="preserve">
+    <value>Cubic Abrupt Slope</value>
   </data>
   <data name="CubicEquidistant" xml:space="preserve">
     <value>Cubic Equidistant</value>
   </data>
-  <data name="CubicSmoothInclination" xml:space="preserve">
-    <value>Cubic Smooth Inclination</value>
+  <data name="CubicSmoothSlope" xml:space="preserve">
+    <value>Cubic Smooth Slope</value>
   </data>
   <data name="Hermite" xml:space="preserve">
     <value>Hermite</value>

@@ -2118,11 +2118,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                             break;
                         }
 
-                    case ResampleInterpolationTypeEnum.CubicAbruptInclination:
+                    case ResampleInterpolationTypeEnum.CubicAbruptSlope:
                         {
                             var randomCalculator = new RandomCalculator_StripeInterpolation();
 
-                            calculator = new Random_OperatorCalculator_CubicAbruptInclination(
+                            calculator = new Random_OperatorCalculator_CubicAbruptSlope(
                                 randomCalculator,
                                 randomCalculatorOffset,
                                 rateCalculator,
@@ -2132,11 +2132,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                             break;
                         }
 
-                    case ResampleInterpolationTypeEnum.CubicSmoothInclination:
+                    case ResampleInterpolationTypeEnum.CubicSmoothSlope:
                         {
                             var randomCalculator = new RandomCalculator_StripeInterpolation();
 
-                            calculator = new Random_OperatorCalculator_CubicSmoothInclination(
+                            calculator = new Random_OperatorCalculator_CubicSmoothSlope(
                                 randomCalculator,
                                 randomCalculatorOffset,
                                 rateCalculator,
@@ -2236,12 +2236,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                         calculator = new Resample_OperatorCalculator_CubicEquidistant(signalCalculator, samplingRateCalculator, dimensionEnum);
                         break;
 
-                    case ResampleInterpolationTypeEnum.CubicAbruptInclination:
-                        calculator = new Resample_OperatorCalculator_CubicAbruptInclination(signalCalculator, samplingRateCalculator, dimensionEnum);
+                    case ResampleInterpolationTypeEnum.CubicAbruptSlope:
+                        calculator = new Resample_OperatorCalculator_CubicAbruptSlope(signalCalculator, samplingRateCalculator, dimensionEnum);
                         break;
 
-                    case ResampleInterpolationTypeEnum.CubicSmoothInclination:
-                        calculator = new Resample_OperatorCalculator_CubicSmoothInclination(signalCalculator, samplingRateCalculator, dimensionEnum);
+                    case ResampleInterpolationTypeEnum.CubicSmoothSlope:
+                        calculator = new Resample_OperatorCalculator_CubicSmoothSlope(signalCalculator, samplingRateCalculator, dimensionEnum);
                         break;
 
                     case ResampleInterpolationTypeEnum.Hermite:

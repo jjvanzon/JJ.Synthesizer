@@ -385,11 +385,11 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cubic Abrupt Inclination.
+        ///   Looks up a localized string similar to Cubic Abrupt Slope.
         /// </summary>
-        public static string CubicAbruptInclination {
+        public static string CubicAbruptSlope {
             get {
-                return ResourceManager.GetString("CubicAbruptInclination", resourceCulture);
+                return ResourceManager.GetString("CubicAbruptSlope", resourceCulture);
             }
         }
         
@@ -403,11 +403,11 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cubic Smooth Inclination.
+        ///   Looks up a localized string similar to Cubic Smooth Slope.
         /// </summary>
-        public static string CubicSmoothInclination {
+        public static string CubicSmoothSlope {
             get {
-                return ResourceManager.GetString("CubicSmoothInclination", resourceCulture);
+                return ResourceManager.GetString("CubicSmoothSlope", resourceCulture);
             }
         }
         

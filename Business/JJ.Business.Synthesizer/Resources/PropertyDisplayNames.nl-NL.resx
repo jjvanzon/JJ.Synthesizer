@@ -603,13 +603,13 @@
   <data name="TimeSliceDuration" xml:space="preserve">
     <value>Tijdspan</value>
   </data>
-  <data name="CubicAbruptInclination" xml:space="preserve">
+  <data name="CubicAbruptSlope" xml:space="preserve">
     <value>Kubiek abrupte afbuiging</value>
   </data>
   <data name="CubicEquidistant" xml:space="preserve">
     <value>Kubiek equidistant</value>
   </data>
-  <data name="CubicSmoothInclination" xml:space="preserve">
+  <data name="CubicSmoothSlope" xml:space="preserve">
     <value>Kubiek gladde afbuiging</value>
   </data>
   <data name="Hermite" xml:space="preserve">

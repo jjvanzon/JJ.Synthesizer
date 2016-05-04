@@ -968,7 +968,7 @@ namespace JJ.Business.Synthesizer
         public Resample_OperatorWrapper Resample(
             Outlet signal = null, 
             Outlet samplingRate = null, 
-            ResampleInterpolationTypeEnum interpolationType = ResampleInterpolationTypeEnum.CubicSmoothInclination,
+            ResampleInterpolationTypeEnum interpolationType = ResampleInterpolationTypeEnum.CubicSmoothSlope,
             DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Resample, inletCount: 2, outletCount: 1);

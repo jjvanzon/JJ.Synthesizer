@@ -342,7 +342,7 @@ namespace JJ.Business.Synthesizer.Api
         public Resample_OperatorWrapper Resample(
             Outlet signal = null,
             Outlet samplingRate = null,
-            ResampleInterpolationTypeEnum interpolationType = ResampleInterpolationTypeEnum.CubicSmoothInclination,
+            ResampleInterpolationTypeEnum interpolationType = ResampleInterpolationTypeEnum.CubicSmoothSlope,
             DimensionEnum dimension = DimensionEnum.Time)
         {
             return _patchManager.Resample(signal, samplingRate, interpolationType, dimension);
