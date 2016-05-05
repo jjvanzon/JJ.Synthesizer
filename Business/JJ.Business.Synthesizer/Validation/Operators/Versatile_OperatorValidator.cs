@@ -34,6 +34,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             { OperatorTypeEnum.GreaterThan, typeof(GreaterThan_OperatorValidator) },
             { OperatorTypeEnum.GreaterThanOrEqual, typeof(GreaterThanOrEqual_OperatorValidator) },
             { OperatorTypeEnum.HighPassFilter, typeof(HighPassFilter_OperatorValidator) },
+            { OperatorTypeEnum.Hold, typeof(Hold_OperatorValidator) },
             { OperatorTypeEnum.If, typeof(If_OperatorValidator) },
             { OperatorTypeEnum.LessThan, typeof(LessThan_OperatorValidator) },
             { OperatorTypeEnum.LessThanOrEqual, typeof(LessThanOrEqual_OperatorValidator) },

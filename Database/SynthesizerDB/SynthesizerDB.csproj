@@ -94,6 +94,7 @@
     <Content Include="2015-10-29 010 SynthesizerDB Operator Type 26 - Select.sql" />
     <Content Include="2015-10-26 010 SynthesizerDB Operator Type 25 - Loop.sql" />
     <Content Include="2015-11-07 030 SynthesizerDB rename OperatorType TimeSubtract to Earlier - Copy.sql" />
+    <Content Include="2016-05-05 010 SynthesizerDB OperatorType 65 - Hold.sql" />
     <Content Include="2016-04-25 010 SynthesizerDB Dimension 25 - Balance.sql" />
     <Content Include="2016-04-10 120 SynthesizerDB OperatorType 64 - SetDimension.sql" />
     <Content Include="2016-04-10 110 SynthesizerDB OperatorType 63 - GetDimension.sql" />
@@ -255,7 +256,7 @@
     <Content Include="2016-04-23 020 SynthesizerDB AudioFileOutputChannel to AudioFileOutput.Outlet migration 1 %28WARNING CLEARS TABLES%29.sql" />
     <Content Include="2016-04-23 030 SynthesizerDB AudioFileOutputChannel to AudioFileOutput.Outlet migration 2 %28IX and FK%29.sql" />
     <Content Include="2016-05-03 010 SynthesizerDB AudioOutput.BufferDuration rename to DesiredBufferDuration.sql" />
-    <Content Include="2016-05-04 010 SynthesizerDB Operator.Data reample Inclination with Slope.sql" />
+    <Content Include="2016-05-04 010 SynthesizerDB Operator.Data rename Inclination to Slope.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

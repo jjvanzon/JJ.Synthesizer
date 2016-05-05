@@ -488,6 +488,23 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        public Hold_OperatorWrapper Hold(Outlet signal = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Hold, inletCount: 1, outletCount: 1);
+
+            var wrapper = new Hold_OperatorWrapper(op)
+            {
+                Signal = signal,
+            };
+
+            op.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
         public If_OperatorWrapper If(Outlet condition = null, Outlet then = null, Outlet @else = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.If, inletCount: 3, outletCount: 1);
@@ -1470,6 +1487,7 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.GreaterThan: return GreaterThan();
                 case OperatorTypeEnum.GreaterThanOrEqual: return GreaterThanOrEqual();
                 case OperatorTypeEnum.HighPassFilter: return HighPassFilter();
+                case OperatorTypeEnum.Hold: return Hold();
                 case OperatorTypeEnum.If: return If();
                 case OperatorTypeEnum.LessThan: return LessThan();
                 case OperatorTypeEnum.LessThanOrEqual: return LessThanOrEqual();

@@ -72,6 +72,7 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             RepositoryHelper.EnsureEnumEntity(this, 62, "ToggleTrigger");
             RepositoryHelper.EnsureEnumEntity(this, 63, "GetDimension");
             RepositoryHelper.EnsureEnumEntity(this, 64, "SetDimension");
+            RepositoryHelper.EnsureEnumEntity(this, 65, "Hold");
         }
     }
 }

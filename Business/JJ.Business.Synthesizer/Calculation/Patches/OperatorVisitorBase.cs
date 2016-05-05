@@ -35,6 +35,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.GetDimension, VisitGetDimension },
                 { OperatorTypeEnum.GreaterThan, VisitGreaterThan },
                 { OperatorTypeEnum.GreaterThanOrEqual, VisitGreaterThanOrEqual },
+                { OperatorTypeEnum.Hold, VisitHold },
                 { OperatorTypeEnum.HighPassFilter, VisitHighPassFilter },
                 { OperatorTypeEnum.If, VisitIf },
                 { OperatorTypeEnum.LessThan, VisitLessThan },
@@ -177,6 +178,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         /// <summary> does nothing </summary>
         protected virtual void VisitGreaterThanOrEqual(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitHold(Operator op) { }
 
         /// <summary> does nothing </summary>
         protected virtual void VisitHighPassFilter(Operator op) { }

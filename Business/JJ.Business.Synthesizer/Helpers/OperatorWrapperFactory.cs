@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Reflection.Exceptions;
 
-namespace JJ.Business.Synthesizer.EntityWrappers
+namespace JJ.Business.Synthesizer.Helpers
 {
     public static class OperatorWrapperFactory
     {
@@ -32,6 +33,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             { OperatorTypeEnum.GreaterThan, Create_GreaterThan_OperatorWrapper },
             { OperatorTypeEnum.GreaterThanOrEqual, Create_GreaterThanOrEqual_OperatorWrapper },
             { OperatorTypeEnum.HighPassFilter, Create_HighPassFilter_OperatorWrapper },
+            { OperatorTypeEnum.Hold, Create_Hold_OperatorWrapper },
             { OperatorTypeEnum.If, Create_If_OperatorWrapper },
             { OperatorTypeEnum.LessThan, Create_LessThan_OperatorWrapper },
             { OperatorTypeEnum.LessThanOrEqual, Create_LessThanOrEqual_OperatorWrapper },
@@ -76,6 +78,19 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             { OperatorTypeEnum.Triangle, Create_Triangle_OperatorWrapper },
             { OperatorTypeEnum.Unbundle, Create_Unbundle_OperatorWrapper },
         };
+
+        public static Dictionary<OperatorTypeEnum, Func<Operator, OperatorWrapperBase>> CreateOperatorWrapperDelegateDictionary
+        {
+            get
+            {
+                return _createOperatorWrapperDelegateDictionary;
+            }
+
+            set
+            {
+                _createOperatorWrapperDelegateDictionary = value;
+            }
+        }
 
         public static OperatorWrapperBase CreateOperatorWrapper(
             Operator op, 
@@ -129,6 +144,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         private static GreaterThan_OperatorWrapper Create_GreaterThan_OperatorWrapper(Operator op) { return new GreaterThan_OperatorWrapper(op); }
         private static GreaterThanOrEqual_OperatorWrapper Create_GreaterThanOrEqual_OperatorWrapper(Operator op) { return new GreaterThanOrEqual_OperatorWrapper(op); }
         private static HighPassFilter_OperatorWrapper Create_HighPassFilter_OperatorWrapper(Operator op) { return new HighPassFilter_OperatorWrapper(op); }
+        private static Hold_OperatorWrapper Create_Hold_OperatorWrapper(Operator op) { return new Hold_OperatorWrapper(op); }
         private static If_OperatorWrapper Create_If_OperatorWrapper(Operator op) { return new If_OperatorWrapper(op); }
         private static LessThan_OperatorWrapper Create_LessThan_OperatorWrapper(Operator op) { return new LessThan_OperatorWrapper(op); }
         private static LessThanOrEqual_OperatorWrapper Create_LessThanOrEqual_OperatorWrapper(Operator op) { return new LessThanOrEqual_OperatorWrapper(op); }

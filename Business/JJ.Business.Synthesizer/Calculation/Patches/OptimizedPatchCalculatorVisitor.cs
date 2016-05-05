@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using JJ.Framework.Reflection.Exceptions;
-using JJ.Framework.Validation;
+using System.Linq;
+using System.Reflection;
+using JJ.Business.Synthesizer.Calculation.Arrays;
+using JJ.Business.Synthesizer.Calculation.Curves;
+using JJ.Business.Synthesizer.Calculation.Operators;
+using JJ.Business.Synthesizer.Calculation.Random;
+using JJ.Business.Synthesizer.Calculation.Samples;
+using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Validation.Operators;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
-using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.Calculation.Operators;
-using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Enums;
-using System.Linq;
-using JJ.Business.Synthesizer.Calculation.Curves;
-using JJ.Business.Synthesizer.Calculation.Samples;
-using System.Reflection;
-using JJ.Business.Synthesizer.Calculation.Random;
-using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Framework.Common.Exceptions;
-using JJ.Business.Synthesizer.Validation.Operators;
+using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {
@@ -1093,6 +1093,26 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             else
             {
                 calculator = new HighPassFilter_VarMinFrequency_OperatorCalculator(signalCalculator, minFrequencyCalculator);
+            }
+
+            _stack.Push(calculator);
+        }
+
+        protected override void VisitHold(Operator op)
+        {
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
+            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+
+            if (signalIsConst)
+            {
+                calculator = signalCalculator;
+            }
+            else
+            {
+                calculator = new Hold_OperatorCalculator(signalCalculator);
             }
 
             _stack.Push(calculator);

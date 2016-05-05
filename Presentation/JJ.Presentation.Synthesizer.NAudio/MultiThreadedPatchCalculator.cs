@@ -375,9 +375,9 @@ namespace JJ.Presentation.Synthesizer.NAudio
                 repositories.SpeakerSetupRepository,
                 repositories.IDRepository);
 
-            VoidResult voidResult = audioOutputManager.Save(audioOutput);
+            VoidResult result = audioOutputManager.Save(audioOutput);
 
-            ResultHelper.Assert(voidResult);
+            ResultHelper.Assert(result);
         }
 
         private bool CanCastToInt32(double value)

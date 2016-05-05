@@ -114,6 +114,7 @@
         ChangeTrigger = 61,
         ToggleTrigger = 62,
         GetDimension = 63,
-        SetDimension = 64
+        SetDimension = 64,
+        Hold = 65
     }
 }

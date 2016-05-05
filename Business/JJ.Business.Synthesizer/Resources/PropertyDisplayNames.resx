@@ -797,4 +797,7 @@
   <data name="Balance" xml:space="preserve">
     <value>Balance</value>
   </data>
+  <data name="Hold" xml:space="preserve">
+    <value>Hold</value>
+  </data>
 </root>

@@ -46,9 +46,9 @@ namespace JJ.Business.Synthesizer.Calculation
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Push(int dimensionEnumInt, double value)
+        public void Push(int dimensionIndex, double value)
         {
-            _stacks[dimensionEnumInt].Push(value);
+            _stacks[dimensionIndex].Push(value);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -58,9 +58,9 @@ namespace JJ.Business.Synthesizer.Calculation
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Pop(int dimensionEnumInt)
+        public void Pop(int dimensionIndex)
         {
-            _stacks[dimensionEnumInt].Pop();
+            _stacks[dimensionIndex].Pop();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -70,9 +70,9 @@ namespace JJ.Business.Synthesizer.Calculation
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public double Get(int dimensionEnumInt)
+        public double Get(int dimensionIndex)
         {
-            return _stacks[dimensionEnumInt].Peek();
+            return _stacks[dimensionIndex].Peek();
         }
 
         /// <summary>
@@ -92,9 +92,9 @@ namespace JJ.Business.Synthesizer.Calculation
         /// or when you know you are at the top level of the stack.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Set(int dimensionEnumInt, double value)
+        public void Set(int dimensionIndex, double value)
         {
-            _stacks[dimensionEnumInt].Set(value);
+            _stacks[dimensionIndex].Set(value);
         }
     }
 }

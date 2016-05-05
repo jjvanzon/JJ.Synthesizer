@@ -31,6 +31,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             { OperatorTypeEnum.GreaterThan, typeof(GreaterThan_OperatorWarningValidator) },
             { OperatorTypeEnum.GreaterThanOrEqual, typeof(GreaterThanOrEqual_OperatorWarningValidator) },
             { OperatorTypeEnum.HighPassFilter, typeof(HighPassFilter_OperatorWarningValidator) },
+            { OperatorTypeEnum.Hold, typeof(Hold_OperatorWarningValidator) },
             { OperatorTypeEnum.If, typeof(If_OperatorWarningValidator) },
             { OperatorTypeEnum.LessThan, typeof(LessThan_OperatorWarningValidator) },
             { OperatorTypeEnum.LessThanOrEqual, typeof(LessThanOrEqual_OperatorWarningValidator) },
