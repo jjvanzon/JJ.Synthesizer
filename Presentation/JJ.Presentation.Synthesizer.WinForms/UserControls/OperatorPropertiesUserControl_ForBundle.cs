@@ -7,6 +7,8 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Framework.Presentation.WinForms.Extensions;
 using JJ.Presentation.Synthesizer.Resources;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Data.Canonical;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -38,9 +40,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             labelName.Text = CommonTitles.Name;
             labelOperatorTypeTitle.Text = Titles.Type + ":";
-            labelInletCount.Text = CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Inlets);
-
             labelOperatorTypeValue.Text = PropertyDisplayNames.Bundle;
+            labelInletCount.Text = CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Inlets);
+            labelDimension.Text = PropertyDisplayNames.Dimension;
         }
 
         private void ApplyStyling()
@@ -54,6 +56,22 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             textBoxName.Text = ViewModel.Name;
             numericUpDownInletCount.Value = ViewModel.InletCount;
+
+            if (comboBoxDimension.DataSource == null)
+            {
+                comboBoxDimension.ValueMember = PropertyNames.ID;
+                comboBoxDimension.DisplayMember = PropertyNames.Name;
+                comboBoxDimension.DataSource = ViewModel.DimensionLookup;
+            }
+
+            if (ViewModel.Dimension != null)
+            {
+                comboBoxDimension.SelectedValue = ViewModel.Dimension.ID;
+            }
+            else
+            {
+                comboBoxDimension.SelectedValue = 0;
+            }
         }
 
         private void ApplyControlsToViewModel()
@@ -62,6 +80,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             ViewModel.Name = textBoxName.Text;
             ViewModel.InletCount = (int)numericUpDownInletCount.Value;
+            ViewModel.Dimension = (IDAndName)comboBoxDimension.SelectedItem;
         }
 
         // Actions

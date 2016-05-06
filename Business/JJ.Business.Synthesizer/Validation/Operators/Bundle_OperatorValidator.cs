@@ -1,27 +1,40 @@
 ﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Presentation.Resources;
-using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
 using System;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class Bundle_OperatorValidator : FluentValidator<Operator>
+    internal class Bundle_OperatorValidator : OperatorValidator_Base
     {
         public Bundle_OperatorValidator(Operator obj)
-            : base(obj)
+            : base(
+                  obj,
+                  OperatorTypeEnum.Bundle,
+                  expectedInletCount: obj.Inlets.Count, // TODO: Low priority: if obj is null, this fails.
+                  expectedOutletCount: 1,
+                  allowedDataKeys: new string[] { PropertyNames.Dimension })
         { }
 
         protected override void Execute()
         {
             Operator op = Object;
 
-            For(() => op.GetOperatorTypeEnum(), PropertyDisplayNames.OperatorType).Is(OperatorTypeEnum.Bundle);
-            For(() => op.Inlets.Count, CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Inlets)).GreaterThan(1);
-            For(() => op.Outlets.Count, CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Outlets)).Is(1);
-            For(() => op.Data, PropertyDisplayNames.Data).IsNull();
+            For(() => op.Inlets.Count, CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Inlets)).GreaterThan(0);
+
+            if (DataPropertyParser.DataIsWellFormed(op))
+            {
+                // Dimension can be Undefined, but key must exist.
+                string dimensionString = DataPropertyParser.TryGetString(op, PropertyNames.Dimension);
+                For(() => dimensionString, PropertyNames.Dimension)
+                    .NotNullOrEmpty()
+                    .IsEnum<DimensionEnum>();
+            }
+
+            base.Execute();
         }
     }
 }

@@ -8,5 +8,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public int PatchID { get; internal set; }
         public string Name { get; set; }
         public int InletCount { get; set; }
+        public IDAndName Dimension { get; set; }
+        public IList<IDAndName> DimensionLookup { get; set; }
     }
 }

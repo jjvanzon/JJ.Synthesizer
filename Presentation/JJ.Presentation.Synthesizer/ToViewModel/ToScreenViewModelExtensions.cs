@@ -441,6 +441,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 PatchID = entity.Patch.ID,
                 Name = entity.Name,
                 InletCount = entity.Inlets.Count,
+                Dimension = wrapper.Dimension.ToIDAndDisplayName(),
+                DimensionLookup = ViewModelHelper.CreateDimensionLookupViewModel(),
                 ValidationMessages = new List<Message>()
             };
 
@@ -734,6 +736,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 PatchID = entity.Patch.ID,
                 Name = entity.Name,
                 OutletCount = entity.Outlets.Count,
+                Dimension = wrapper.Dimension.ToIDAndDisplayName(),
+                DimensionLookup = ViewModelHelper.CreateDimensionLookupViewModel(),
                 ValidationMessages = new List<Message>()
             };
 

@@ -789,6 +789,17 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.Name = viewModel.Name;
             entity.SetOperatorTypeEnum(OperatorTypeEnum.Bundle, operatorTypeRepository);
 
+            var wrapper = new Bundle_OperatorWrapper(entity);
+            bool interpolationTypeIsFilledIn = viewModel.Dimension != null && viewModel.Dimension.ID != 0;
+            if (interpolationTypeIsFilledIn)
+            {
+                wrapper.Dimension = (DimensionEnum)viewModel.Dimension.ID;
+            }
+            else
+            {
+                wrapper.Dimension = DimensionEnum.Undefined;
+            }
+
             return entity;
         }
 
@@ -1299,6 +1310,17 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             entity.Name = viewModel.Name;
             entity.SetOperatorTypeEnum(OperatorTypeEnum.Unbundle, operatorTypeRepository);
+
+            var wrapper = new Unbundle_OperatorWrapper(entity);
+            bool interpolationTypeIsFilledIn = viewModel.Dimension != null && viewModel.Dimension.ID != 0;
+            if (interpolationTypeIsFilledIn)
+            {
+                wrapper.Dimension = (DimensionEnum)viewModel.Dimension.ID;
+            }
+            else
+            {
+                wrapper.Dimension = DimensionEnum.Undefined;
+            }
 
             return entity;
         }

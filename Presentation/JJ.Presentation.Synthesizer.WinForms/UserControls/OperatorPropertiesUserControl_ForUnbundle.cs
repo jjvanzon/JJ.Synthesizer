@@ -7,6 +7,8 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Framework.Presentation.WinForms.Extensions;
 using JJ.Presentation.Synthesizer.Resources;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Data.Canonical;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -38,9 +40,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             labelName.Text = CommonTitles.Name;
             labelOperatorTypeTitle.Text = Titles.Type + ":";
-            labelOutletCount.Text = CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Outlets);
-
             labelOperatorTypeValue.Text = PropertyDisplayNames.Unbundle;
+            labelOutletCount.Text = CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Outlets);
+            labelDimension.Text = PropertyDisplayNames.Dimension;
         }
 
         private void ApplyStyling()
@@ -54,6 +56,22 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             textBoxName.Text = ViewModel.Name;
             numericUpDownOutletCount.Value = ViewModel.OutletCount;
+
+            if (comboBoxDimension.DataSource == null)
+            {
+                comboBoxDimension.ValueMember = PropertyNames.ID;
+                comboBoxDimension.DisplayMember = PropertyNames.Name;
+                comboBoxDimension.DataSource = ViewModel.DimensionLookup;
+            }
+
+            if (ViewModel.Dimension != null)
+            {
+                comboBoxDimension.SelectedValue = ViewModel.Dimension.ID;
+            }
+            else
+            {
+                comboBoxDimension.SelectedValue = 0;
+            }
         }
 
         private void ApplyControlsToViewModel()
@@ -62,6 +80,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             ViewModel.Name = textBoxName.Text;
             ViewModel.OutletCount = (int)numericUpDownOutletCount.Value;
+            ViewModel.Dimension = (IDAndName)comboBoxDimension.SelectedItem;
         }
 
         // Actions

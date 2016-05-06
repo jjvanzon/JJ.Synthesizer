@@ -1277,6 +1277,64 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
         }
 
+        public static void Migrate_BundleAndUnbundleOperators_SetInletAndOutletListIndexes_AndDimensionParameter(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                var patchManager = new PatchManager(new PatchRepositories(repositories));
+
+                IList<Operator> operators = repositories.OperatorRepository
+                                                        .GetAll()
+                                                        .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.Bundle ||
+                                                                    x.GetOperatorTypeEnum() == OperatorTypeEnum.Unbundle)
+                                                        .ToArray();
+                for (int i = 0; i < operators.Count; i++)
+                {
+                    Operator op = operators[i];
+                    for (int j = 0; j < op.Outlets.Count; j++)
+                    {
+                        Outlet outlet = op.Outlets[j];
+                        outlet.ListIndex = j;
+                    }
+
+                    for (int j = 0; j < op.Inlets.Count; j++)
+                    {
+                        Inlet inlet = op.Inlets[j];
+                        inlet.ListIndex = j;
+                    }
+
+                    var wrapper = new Dimension_OperatorWrapperBase(op);
+                    // This is the strangest if,
+                    // but this adds the Dimension key to the operator's data property,
+                    // without removing the original Dimension property.
+                    if (wrapper.Dimension == DimensionEnum.Undefined)
+                    {
+                        wrapper.Dimension = DimensionEnum.Undefined;
+                    }
+
+                    patchManager.Patch = op.Patch;
+                    VoidResult result = patchManager.SaveOperator(op);
+                    ResultHelper.Assert(result);
+
+                    string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
+                    progressCallback(progressMessage);
+                }
+
+                AssertDocuments(repositories, progressCallback);
+
+                //throw new Exception("Temporarily not committing, for debugging purposes.");
+                context.Commit();
+            }
+
+            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        }
+
         // Helpers
 
         private static void AssertDocuments(RepositoryWrapper repositories, Action<string> progressCallback)

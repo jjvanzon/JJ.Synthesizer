@@ -167,10 +167,11 @@ namespace JJ.Business.Synthesizer
 
             op.LinkTo(Patch);
 
+            var wrapper = new Bundle_OperatorWrapper(op);
+            wrapper.Dimension = DimensionEnum.Undefined;
+
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
-
-            var wrapper = new Bundle_OperatorWrapper(op);
             return wrapper;
         }
 
@@ -1422,7 +1423,8 @@ namespace JJ.Business.Synthesizer
 
             var wrapper = new Unbundle_OperatorWrapper(op)
             {
-                Operand = operand
+                Operand = operand,
+                Dimension = DimensionEnum.Undefined
             };
 
             op.LinkTo(Patch);
@@ -1460,19 +1462,20 @@ namespace JJ.Business.Synthesizer
 
         // Generic methods for operator creation
 
-        /// <param name="inletCount">
-        /// Applies to operators with a variable amount of inlets, such as the Adder operator and the Bundle operator.
+        /// <param name="inletOrOutletCount">
+        /// Applies to operators with a variable amount of inlets or outlets,
+        /// such as the Adder operator and the Bundle operator.
         /// </param>
-        public Operator CreateOperator(OperatorTypeEnum operatorTypeEnum, int inletCount = 16)
+        public Operator CreateOperator(OperatorTypeEnum operatorTypeEnum, int inletOrOutletCount = 16)
         {
             switch (operatorTypeEnum)
             {
                 case OperatorTypeEnum.Absolute: return Absolute();
                 case OperatorTypeEnum.Add: return Add();
-                case OperatorTypeEnum.Adder: return Adder(new Outlet[inletCount]);
+                case OperatorTypeEnum.Adder: return Adder(new Outlet[inletOrOutletCount]);
                 case OperatorTypeEnum.And: return And();
                 case OperatorTypeEnum.Average: return Average();
-                case OperatorTypeEnum.Bundle: return Bundle(new Outlet[inletCount]);
+                case OperatorTypeEnum.Bundle: return Bundle(new Outlet[inletOrOutletCount]);
                 case OperatorTypeEnum.ChangeTrigger: return ChangeTrigger();
                 case OperatorTypeEnum.Cache: return Cache();
                 case OperatorTypeEnum.Curve: return Curve();
@@ -1531,7 +1534,7 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.TimePower: return TimePower();
                 case OperatorTypeEnum.ToggleTrigger: return ToggleTrigger();
                 case OperatorTypeEnum.Triangle: return Triangle();
-                case OperatorTypeEnum.Unbundle: return Unbundle();
+                case OperatorTypeEnum.Unbundle: return Unbundle(null, inletOrOutletCount);
 
                 default:
                     throw new ValueNotSupportedException(operatorTypeEnum);

@@ -406,6 +406,7 @@ namespace JJ.Business.Synthesizer
             for (int i = sortedInlets.Count; i < inletCount; i++)
             {
                 Inlet inlet = CreateInlet(op);
+                inlet.ListIndex = i;
             }
 
             // Delete excessive inlets
@@ -441,6 +442,7 @@ namespace JJ.Business.Synthesizer
             for (int i = sortedOutlets.Count; i < outletCount; i++)
             {
                 Outlet outlet = CreateOutlet(op);
+                outlet.ListIndex = i;
             }
 
             // Delete excessive outlets
