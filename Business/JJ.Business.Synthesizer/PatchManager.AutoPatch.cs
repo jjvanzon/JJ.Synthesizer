@@ -135,7 +135,7 @@ namespace JJ.Business.Synthesizer
             foreach (Patch underlyingPatch in underlyingPatches)
             {
                 CustomOperator_OperatorWrapper customOperatorWrapper = CustomOperator(underlyingPatch);
-                customOperatorWrapper.Name = String.Format("{0} (Auto-Generated CustomOperator)", underlyingPatch.Name);
+                customOperatorWrapper.Name = String.Format("{0}", underlyingPatch.Name);
 
                 customOperators.Add(customOperatorWrapper);
             }

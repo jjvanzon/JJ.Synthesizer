@@ -74,7 +74,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private DimensionStack _defaultDimensionStack;
         private int _channelCount;
         private Stack<OperatorCalculatorBase> _stack;
-        private Stack<int> _bundleIndexStack;
+        private Stack<int> _bundleItemIndexStack;
 
         private Dictionary<Operator, double> _operator_NoiseOffsetInSeconds_Dictionary;
         private Dictionary<Operator, int> _operator_RandomOffsetInSeconds_Dictionary;
@@ -114,7 +114,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             validator.Assert();
 
             _stack = new Stack<OperatorCalculatorBase>();
-            _bundleIndexStack = new Stack<int>();
+            _bundleItemIndexStack = new Stack<int>();
             _operator_NoiseOffsetInSeconds_Dictionary = new Dictionary<Operator, double>();
             _operator_RandomOffsetInSeconds_Dictionary = new Dictionary<Operator, int>();
             _patchInlet_Calculator_Dictionary = new Dictionary<Operator, VariableInput_OperatorCalculator>();
@@ -130,7 +130,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             if (_stack.Count != 0)
             {
-                throw new Exception("_stack.Count should have been 0.");
+                throw new NotEqualException(() => _stack.Count, 0);
             }
 
             return new Result(
@@ -144,11 +144,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase calculatorX = _stack.Pop();
-
             calculatorX = calculatorX ?? new Zero_OperatorCalculator();
-
             double x = calculatorX.Calculate(_defaultDimensionStack);
-
             bool xIsConst = calculatorX is Number_OperatorCalculator;
 
             if (xIsConst)
@@ -3328,7 +3325,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private void VisitUnbundleOperatorOutlet(Outlet outlet)
         {
             Operator op = outlet.Operator;
-            Inlet inlet = op.Inlets.Single();
+            Inlet inlet = op.Inlets[0];
             Outlet inputOutlet = inlet.InputOutlet;
             if (inputOutlet == null)
             {
@@ -3338,21 +3335,21 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             int outletIndex = outlet.Operator.Outlets.IndexOf(outlet);
 
-            _bundleIndexStack.Push(outletIndex);
+            _bundleItemIndexStack.Push(outletIndex);
 
             VisitOutlet(inputOutlet);
 
-            _bundleIndexStack.Pop();
+            _bundleItemIndexStack.Pop();
         }
 
         private void VisitBundleOperatorOutlet(Outlet outlet)
         {
-            if (_bundleIndexStack.Count == 0)
+            if (_bundleItemIndexStack.Count == 0)
             {
                 throw new NotSupportedException(String.Format("Bundle Operator with ID '{0}' encountered without first encountering an Unbundle Operator. This is not yet supported.", outlet.Operator.ID));
             }
 
-            int bundleIndex = _bundleIndexStack.Pop();
+            int bundleIndex = _bundleItemIndexStack.Pop();
 
             if (bundleIndex >= outlet.Operator.Inlets.Count)
             {
@@ -3370,7 +3367,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 VisitOutlet(inlet.InputOutlet);
             }
 
-            _bundleIndexStack.Push(bundleIndex);
+            _bundleItemIndexStack.Push(bundleIndex);
         }
 
         protected override void VisitReset(Operator op)

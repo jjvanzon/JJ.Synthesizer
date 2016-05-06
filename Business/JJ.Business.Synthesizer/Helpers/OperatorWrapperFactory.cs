@@ -93,7 +93,7 @@ namespace JJ.Business.Synthesizer.Helpers
         }
 
         public static OperatorWrapperBase CreateOperatorWrapper(
-            Operator op, 
+            Operator op,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
             IPatchRepository patchRepository)

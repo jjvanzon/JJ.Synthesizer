@@ -14,8 +14,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
     {
         private const int TIME_DIMENSION_INDEX = (int)DimensionEnum.Time;
 
-        /// <summary> Array for optimization in calculating values. </summary>
         private readonly OperatorCalculatorBase _outputOperatorCalculator;
+        /// <summary> Array, instead of IList<T> for optimization in calculating values. </summary>
         private readonly VariableInput_OperatorCalculator[] _inputOperatorCalculators;
 
         private readonly Dictionary<string, IList<OperatorCalculatorBase>> _name_To_ResettableOperatorCalculators_Dictionary;

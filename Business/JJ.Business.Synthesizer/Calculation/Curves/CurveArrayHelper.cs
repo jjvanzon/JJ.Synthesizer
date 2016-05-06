@@ -21,21 +21,21 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
             double yAfter = sortedNodes.Last().Y;
             double minX = sortedNodes.First().X;
             double maxX = sortedNodes.Last().X;
-            double totalXSpan = maxX - minX;
-            double minNodeXSpan = GetMinNodeXSpan(sortedNodes);
+            double totalLengthX = maxX - minX;
+            double smallestNodeLengthX = GetSmallestNodeLengthX(sortedNodes);
 
             // Try basing sample count on MINIMUM_SAMPLES_PER_NODE.
-            double step = minNodeXSpan / MINIMUM_SAMPLES_PER_NODE;
-            int sampleCount = (int)(totalXSpan / step) + 1; // + 1 because 2 sample durations require 3 samples.
+            double step = smallestNodeLengthX / MINIMUM_SAMPLES_PER_NODE;
+            int sampleCount = (int)(totalLengthX / step) + 1; // + 1 because 2 sample durations require 3 samples.
 
             // If that gets to high, base it on MAXIMUM_SAMPLE_COUNT
             if (sampleCount > MAXIMUM_SAMPLE_COUNT)
             {
                 sampleCount = MAXIMUM_SAMPLE_COUNT;
-                step = totalXSpan / (sampleCount - 1); // - 1 because 3 samples make 2 sample durations.
+                step = totalLengthX / (sampleCount - 1); // - 1 because 3 samples make 2 sample durations.
             }
 
-            double samplingRate = (sampleCount - 1) / totalXSpan; // - 1 because 3 samples make 2 sample durations.
+            double samplingRate = (sampleCount - 1) / totalLengthX; // - 1 because 3 samples make 2 sample durations.
 
             // Calculate the array.
             double[] samples = new double[sampleCount];
@@ -57,25 +57,25 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
                 YAfter = yAfter
             };
         }
-
-        private static double GetMinNodeXSpan(IList<Node> sortedNodes)
+        
+        private static double GetSmallestNodeLengthX(IList<Node> sortedNodes)
         {
-            double minNodeLength = CalculationHelper.VERY_HIGH_VALUE;
+            double smallestNodeLengthX = CalculationHelper.VERY_HIGH_VALUE;
 
             for (int i = 0; i < sortedNodes.Count - 1; i++)
             {
                 Node nodeA = sortedNodes[i];
                 Node nodeB = sortedNodes[i + 1];
 
-                double nodeXSpan = nodeB.X - nodeA.X;
+                double nodeLengthX = nodeB.X - nodeA.X;
 
-                if (minNodeLength > nodeXSpan)
+                if (smallestNodeLengthX > nodeLengthX)
                 {
-                    minNodeLength = nodeXSpan;
+                    smallestNodeLengthX = nodeLengthX;
                 }
             }
 
-            return minNodeLength;
+            return smallestNodeLengthX;
         }
     }
 }

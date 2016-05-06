@@ -79,17 +79,11 @@ namespace JJ.Business.Synthesizer
         {
             if (document == null) throw new NullException(() => document);
 
-            // TODO: Remove outcommented code.
-            //ISideEffect sideEffect = new Document_SideEffect_AutoCreateAudioOutput(
-            //    document,
-            //    _repositories.AudioOutputRepository,
-            //    _repositories.SpeakerSetupRepository,
-            //    _repositories.IDRepository);
-            //sideEffect.Execute();
-
             IValidator validator = new Recursive_DocumentValidator(
                 document, 
-                _repositories.CurveRepository, _repositories. SampleRepository, _repositories.PatchRepository, 
+                _repositories.CurveRepository, 
+                _repositories. SampleRepository, 
+                _repositories.PatchRepository, 
                 new HashSet<object>());
 
             var result = new VoidResult

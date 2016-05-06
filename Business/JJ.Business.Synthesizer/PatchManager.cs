@@ -140,20 +140,15 @@ namespace JJ.Business.Synthesizer
             switch (operatorTypeEnum)
             {
                 case OperatorTypeEnum.PatchInlet:
-                    return SaveOperator_PatchInlet(op);
-
                 case OperatorTypeEnum.PatchOutlet:
-                    return SaveOperator_PatchOutlet(op);
-
-                case OperatorTypeEnum.CustomOperator:
-                    return SaveOperator_Custom(op);
+                    return SaveOperator_PatchInlet_OrPatchOutlet(op);
 
                 default:
                     return SaveOperator_Other(op);
             }
         }
 
-        private VoidResult SaveOperator_PatchInlet(Operator op)
+        private VoidResult SaveOperator_PatchInlet_OrPatchOutlet(Operator op)
         {
             ExecuteSideEffects(op);
 
@@ -161,32 +156,7 @@ namespace JJ.Business.Synthesizer
             // but also there are unique validations over e.g. ListIndexes of multiple PatchInlet Operators.
             // That is why the whole patch is validated.
 
-            Document rootDocument = op.Patch.Document.GetRootDocument();
             VoidResult result = ValidatePatchRecursive();
-
-            return result;
-        }
-
-        private VoidResult SaveOperator_PatchOutlet(Operator op)
-        {
-            ExecuteSideEffects(op);
-
-            // Side-effect can affect whole patch,
-            // but also there are unique validations over e.g. ListIndexes of multiple PatchInlet Operators.
-            // That is why the whole patch is validated.
-
-            Document rootDocument = op.Patch.Document.GetRootDocument();
-            VoidResult result = ValidatePatchRecursive();
-
-            return result;
-        }
-
-        private VoidResult SaveOperator_Custom(Operator op)
-        {
-            ExecuteSideEffects(op);
-
-            Document rootDocument = op.Patch.Document.GetRootDocument();
-            VoidResult result = ValidateOperatorNonRecursive(op);
 
             return result;
         }

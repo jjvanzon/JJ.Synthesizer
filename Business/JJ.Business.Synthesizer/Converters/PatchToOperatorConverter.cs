@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Converters
 {
     /// <summary>
     /// Converts a Patch to a CustomOperator.
-    /// A Patch can has PatchInlet and PatchOutlet Operators in it.
+    /// A Patch can have PatchInlet and PatchOutlet Operators in it.
     /// This Patch can function as a template for a CustomOperator.
     /// 
     /// This class applies the Patch to the CustomOperator.
@@ -25,8 +25,9 @@ namespace JJ.Business.Synthesizer.Converters
     /// that are not even in the UnderlyingPatch.
     /// 
     /// However, existing Inlets and Outlets are matches with the new Patch as best as possible.
-    /// First an existing Inlet or Outlet is matched by name, otherwise an it is matched by ListIndex,
-    /// and if none match, the Inlet or Outlet is deleted if not in use, or kept if it was in use.
+    /// First an existing Inlet or Outlet is matched by name, otherwise an it is matched by Dimension,
+    /// otherwise by ListIndex.
+    /// And if none match, the Inlet or Outlet is deleted if not in use, or kept if it was in use.
     /// </summary>
     internal class PatchToOperatorConverter
     {

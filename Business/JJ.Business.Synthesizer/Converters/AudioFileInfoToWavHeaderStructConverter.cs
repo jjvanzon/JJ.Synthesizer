@@ -11,11 +11,11 @@ namespace JJ.Business.Synthesizer.Converters
 
             int soundByteCount = audioFileInfo.FrameCount * audioFileInfo.ChannelCount * audioFileInfo.BytesPerValue;
             
-            WavHeaderStruct wavHeaderStruct = new WavHeaderStruct
+            var wavHeaderStruct = new WavHeaderStruct
             {
                 ChunkID = WavHeaderConstants.BIG_ENDIAN_ASCII_CHARACTERS_RIFF,
 
-                // Total size of file minus ChunkID and ChunkSize.
+                // Total size of file minus ChunkID and size of ChunkSize field.
                 ChunkSize = WavHeaderConstants.WAV_HEADER_LENGTH - sizeof(int) * 2 + soundByteCount,
                 Format = WavHeaderConstants.BIG_ENDIAN_ASCII_CHARACTERS_WAVE,
 

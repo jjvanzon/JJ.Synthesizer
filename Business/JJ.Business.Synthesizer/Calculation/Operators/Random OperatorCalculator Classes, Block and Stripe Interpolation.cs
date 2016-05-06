@@ -69,12 +69,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return value;
         }
 
+        // TODO: Probably remove this whole method.
         public override void Reset(DimensionStack dimensionStack)
         {
             double position = dimensionStack.Get(_dimensionIndex);
 
             _previousPosition = position;
-            _phase = _randomCalculatorOffset;
+            //_phase = _randomCalculatorOffset;
 
             base.Reset(dimensionStack);
         }

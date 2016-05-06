@@ -15,9 +15,12 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
         {
             base.Execute();
 
-            string dimensionString = DataPropertyParser.TryGetString(Object, PropertyNames.Dimension);
+            if (DataPropertyParser.DataIsWellFormed(Object))
+            {
+                string dimensionString = DataPropertyParser.TryGetString(Object, PropertyNames.Dimension);
 
-            For(() => dimensionString, PropertyDisplayNames.Dimension).IsNot(DimensionEnum.Undefined);
+                For(() => dimensionString, PropertyDisplayNames.Dimension).IsNot(DimensionEnum.Undefined);
+            }
         }
     }
 }

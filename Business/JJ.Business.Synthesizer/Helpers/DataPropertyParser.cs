@@ -203,7 +203,7 @@ namespace JJ.Business.Synthesizer.Helpers
             }
 
             string[] keyValueStrings = data.Split(';');
-            IList<ParsedKeyValuePair> results = new List<ParsedKeyValuePair>(keyValueStrings.Length);
+            var results = new List<ParsedKeyValuePair>(keyValueStrings.Length);
             for (int i = 0; i < keyValueStrings.Length; i++)
             {
                 string keyValueString = keyValueStrings[i];

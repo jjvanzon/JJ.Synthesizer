@@ -10,8 +10,6 @@ namespace JJ.Business.Synthesizer
     {
         public static WavHeaderStruct CreateWavHeaderStruct(AudioFileInfo audioFileInfo)
         {
-            if (audioFileInfo == null) throw new NullException(() => audioFileInfo);
-
             WavHeaderStruct wavHeaderStruct = AudioFileInfoToWavHeaderStructConverter.Convert(audioFileInfo);
 
             IValidator validator = new WavHeaderStructValidator(wavHeaderStruct);

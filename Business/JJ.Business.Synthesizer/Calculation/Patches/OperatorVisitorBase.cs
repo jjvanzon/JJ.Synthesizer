@@ -88,7 +88,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             if (op == null) throw new NullException(() => op);
 
-            // TODO: Is the trick below not specific to the OptimizedPatchCalculatorVisitor?
+            // TODO: Low priority: Is the trick below not specific to the OptimizedPatchCalculatorVisitor?
 
             // Reverse the order of evaluating the inlet,
             // so that the first inlet will be the last one pushed

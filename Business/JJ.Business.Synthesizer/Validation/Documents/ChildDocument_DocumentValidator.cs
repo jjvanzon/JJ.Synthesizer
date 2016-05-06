@@ -18,6 +18,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             For(() => document.ParentDocument, PropertyDisplayNames.ParentDocument).NotNull();
             For(() => document.ChildDocuments.Count, PropertyDisplayNames.ChildDocumentCount).Is(0);
 
+            // TODO: Message prefix, or it will say 'Name is too long'.
             Execute(new NameValidator(Object.GroupName, required: false));
 
             // AudioOutput must be null for child documents.

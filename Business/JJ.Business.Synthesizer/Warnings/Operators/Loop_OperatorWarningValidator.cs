@@ -27,15 +27,16 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
 
             foreach (int indexToCheck in indexesToCheck)
             {
-                if (sortedInlets.Count > indexToCheck)
+                bool isValidIndex = sortedInlets.Count > indexToCheck;
+                if (isValidIndex)
                 {
-                    Inlet loopStartInlet = sortedInlets[indexToCheck];
+                    Inlet inlet = sortedInlets[indexToCheck];
 
-                    if (loopStartInlet.InputOutlet == null)
+                    if (inlet.InputOutlet == null)
                     {
                         string operatorTypeDisplayName = ResourceHelper.GetOperatorTypeDisplayName(Object);
-                        string message = MessageFormatter.InletNotSet(operatorTypeDisplayName, Object.Name, loopStartInlet.Name);
-                        ValidationMessages.Add(() => loopStartInlet.InputOutlet, message);
+                        string message = MessageFormatter.InletNotSet(operatorTypeDisplayName, Object.Name, inlet.Name);
+                        ValidationMessages.Add(() => inlet.InputOutlet, message);
                     }
                 }
             }

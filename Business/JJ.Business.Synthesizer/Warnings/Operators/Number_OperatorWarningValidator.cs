@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
 
         protected override void Execute()
         {
-            if (DataPropertyParser.DataIsWellFormed(Object.Data))
+            if (DataPropertyParser.DataIsWellFormed(Object))
             {
                 string numberString = DataPropertyParser.TryGetString(Object, PropertyNames.Number);
                 double number;

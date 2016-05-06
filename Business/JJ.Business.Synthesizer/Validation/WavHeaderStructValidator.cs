@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Validation
             For(() => (int)Object.BytesPerSample, PropertyNames.BytesPerSample)
                 .Is(Object.ChannelCount * Object.BitsPerValue / 8);
 
-            For(() => (int)Object.BytesPerSecond, PropertyNames.BytesPerSecond)
+            For(() => Object.BytesPerSecond, PropertyNames.BytesPerSecond)
                 .Is(Object.ChannelCount * Object.BitsPerValue / 8 * Object.SamplingRate);
 
             // ChunkSize = total size of file minus ChunkID and ChunkSize.

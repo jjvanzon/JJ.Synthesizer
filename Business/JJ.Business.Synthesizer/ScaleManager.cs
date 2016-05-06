@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Canonical;
-using JJ.Data.Canonical;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.SideEffects;
 using JJ.Business.Synthesizer.Validation;
+using JJ.Business.Synthesizer.Validation.Scales;
+using JJ.Data.Canonical;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Business;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
-using JJ.Business.Synthesizer.Validation.Scales;
 
 namespace JJ.Business.Synthesizer
 {
@@ -75,6 +75,20 @@ namespace JJ.Business.Synthesizer
 
         // Save
 
+        public VoidResult Save(Scale scale)
+        {
+            if (scale == null) throw new NullException(() => scale);
+            if (scale.ID == 0) throw new ZeroException(() => scale.ID);
+
+            VoidResult result = ValidateWithoutTones(scale);
+
+            IValidator validator = new ScaleValidator_Tones(scale);
+            result.Successful &= validator.IsValid;
+            result.Messages.AddRange(validator.ValidationMessages.ToCanonical());
+
+            return result;
+        }
+
         public VoidResult ValidateWithoutTones(Scale scale)
         {
             if (scale == null) throw new NullException(() => scale);
@@ -94,20 +108,6 @@ namespace JJ.Business.Synthesizer
             var result = new VoidResult();
             result.Messages = validators.SelectMany(x => x.ValidationMessages).ToCanonical();
             result.Successful = result.Messages.Count == 0;
-
-            return result;
-        }
-
-        public VoidResult Save(Scale scale)
-        {
-            if (scale == null) throw new NullException(() => scale);
-            if (scale.ID == 0) throw new ZeroException(() => scale.ID);
-
-            VoidResult result = ValidateWithoutTones(scale);
-
-            IValidator validator = new ScaleValidator_Tones(scale);
-            result.Successful &= validator.IsValid;
-            result.Messages.AddRange(validator.ValidationMessages.ToCanonical());
 
             return result;
         }

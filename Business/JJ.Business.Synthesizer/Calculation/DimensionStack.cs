@@ -7,6 +7,10 @@ using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer.Calculation
 {
+    /// <summary>
+    /// This class maintains for each dimension a stack of values 
+    /// and tries to make access to these values as fast as possible.
+    /// </summary>
     public class DimensionStack
     {
         private static int _dimensionCount = GetDimensionCount();

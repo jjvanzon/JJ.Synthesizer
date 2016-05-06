@@ -257,7 +257,6 @@ namespace JJ.Business.Synthesizer
             };
 
             return result;
-
         }
 
         // Delete
