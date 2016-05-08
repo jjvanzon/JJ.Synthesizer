@@ -14,13 +14,24 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 {
     internal static partial class ViewModelHelper
     {
-        public static IList<IDAndName> CreateAudioFileFormatLookupViewModel()
+        // AudioFileFormat
+
+        private static IList<IDAndName> _audioFileFormatLookupViewModel = CreateAudioFileFormatLookupViewModel();
+
+        public static IList<IDAndName> GetAudioFileFormatLookupViewModel()
+        {
+            return _audioFileFormatLookupViewModel;
+        }
+
+        private static IList<IDAndName> CreateAudioFileFormatLookupViewModel()
         {
             IList<IDAndName> idAndNames = CreateEnumLookupViewModel<AudioFileFormatEnum>(mustIncludeUndefined: false);
             idAndNames = idAndNames.OrderBy(x => x.Name).ToArray();
 
             return idAndNames;
         }
+
+        // Curve
 
         public static IList<IDAndName> CreateCurveLookupViewModel(Document rootDocument, Document childDocument)
         {
@@ -37,33 +48,84 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return list;
         }
 
-        public static IList<IDAndName> CreateDimensionLookupViewModel()
+        // Dimension
+
+        private static IList<IDAndName> _dimensionLookupViewModel = CreateDimensionLookupViewModel();
+
+        public static IList<IDAndName> GetDimensionLookupViewModel()
+        {
+            return _dimensionLookupViewModel;
+        }
+
+        private static IList<IDAndName> CreateDimensionLookupViewModel()
         {
             IList<IDAndName> idAndNames = CreateEnumLookupViewModel<DimensionEnum>(mustIncludeUndefined: true);
             idAndNames = idAndNames.OrderBy(x => x.Name).ToArray();
             return idAndNames;
         }
 
-        public static IList<IDAndName> CreateInterpolationTypeLookupViewModel(IInterpolationTypeRepository repository)
+        // FilterType
+
+        private static IList<IDAndName> _filterTypeLookupViewModel = CreateFilterTypeLookupViewModel();
+
+        public static IList<IDAndName> GetFilterTypeLookupViewModel()
         {
-            // Cannot delegate to CreateEnumLookupViewModel, because we need to order by SortOrder.
-
-            if (repository == null) throw new NullException(() => repository);
-
-            IList<InterpolationType> entities = repository.GetAll().OrderBy(x => x.SortOrder).ToArray();
-
-            IList<IDAndName> idNames = entities.Select(x => x.ToIDAndDisplayName()).ToArray();
-
-            return idNames;
+            return _filterTypeLookupViewModel;
         }
 
-        public static IList<IDAndName> CreateNodeTypeLookupViewModel()
+        private static IList<IDAndName> CreateFilterTypeLookupViewModel()
+        {
+            IList<IDAndName> idAndNames = CreateEnumLookupViewModel<FilterTypeEnum>(mustIncludeUndefined: true);
+            return idAndNames;
+        }
+
+        // InterpolationType
+
+        private static object _interpolationTypeLookupViewModelLock = new object();
+        private static IList<IDAndName> _interpolationTypeLookupViewModel;
+
+        public static IList<IDAndName> GetInterpolationTypeLookupViewModel(IInterpolationTypeRepository repository)
+        {
+            if (repository == null) throw new NullException(() => repository);
+
+            lock (_interpolationTypeLookupViewModelLock)
+            {
+                if (_interpolationTypeLookupViewModel == null)
+                {
+                    // Cannot delegate to CreateEnumLookupViewModel, because we need to order by SortOrder.
+                    IList<InterpolationType> entities = repository.GetAll().OrderBy(x => x.SortOrder).ToArray();
+                    _interpolationTypeLookupViewModel = entities.Select(x => x.ToIDAndDisplayName()).ToArray();
+                }
+
+                return _interpolationTypeLookupViewModel;
+            }
+        }
+
+        // NodeType
+
+        private static IList<IDAndName> _nodeTypeLookupViewModel = CreateNodeTypeLookupViewModel();
+
+        public static IList<IDAndName> GetNodeTypeLookupViewModel()
+        {
+            return _nodeTypeLookupViewModel;
+        }
+
+        private static IList<IDAndName> CreateNodeTypeLookupViewModel()
         {
             IList<IDAndName> idAndNames = CreateEnumLookupViewModel<NodeTypeEnum>(mustIncludeUndefined: false);
             return idAndNames;
         }
 
-        public static IList<IDAndName> CreateOperatorTypesViewModel()
+        // OperatorType
+
+        private static IList<IDAndName> _operatorTypesViewModel = CreateOperatorTypesViewModel();
+
+        public static IList<IDAndName> GetOperatorTypesViewModel()
+        {
+            return _operatorTypesViewModel;
+        }
+
+        private static IList<IDAndName> CreateOperatorTypesViewModel()
         {
             IList<IDAndName> idAndNames = CreateEnumLookupViewModel<OperatorTypeEnum>(mustIncludeUndefined: false);
 
@@ -72,18 +134,37 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return idAndNames;
         }
 
-        public static IList<IDAndName> CreateResampleInterpolationLookupViewModel()
+        // ResampleInterpolationType
+
+        private static IList<IDAndName> _resampleInterpolationLookupViewModel = CreateResampleInterpolationLookupViewModel();
+
+        public static IList<IDAndName> GetResampleInterpolationLookupViewModel()
+        {
+            return _resampleInterpolationLookupViewModel;
+        }
+
+        private static IList<IDAndName> CreateResampleInterpolationLookupViewModel()
         {
             IList<IDAndName> idAndNames = CreateEnumLookupViewModel<ResampleInterpolationTypeEnum>(mustIncludeUndefined: true);
             return idAndNames;
-
         }
 
-        public static IList<IDAndName> CreateSampleDataTypeLookupViewModel()
+        // SampleDataType
+
+        private static IList<IDAndName> _sampleDataTypeLookupViewModel = CreateSampleDataTypeLookupViewModel();
+
+        public static IList<IDAndName> GetSampleDataTypeLookupViewModel()
+        {
+            return _sampleDataTypeLookupViewModel;
+        }
+
+        private static IList<IDAndName> CreateSampleDataTypeLookupViewModel()
         {
             IList<IDAndName> idAndNames = CreateEnumLookupViewModel<SampleDataTypeEnum>(mustIncludeUndefined: false);
             return idAndNames;
         }
+
+        // Sample
 
         public static IList<IDAndName> CreateSampleLookupViewModel(Document rootDocument)
         {
@@ -114,7 +195,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return list;
         }
 
-        public static IList<IDAndName> CreateScaleTypeLookupViewModel()
+        // ScaleType
+
+        private static IList<IDAndName> _scaleTypeLookupViewModel =  CreateScaleTypeLookupViewModel();
+
+        public static IList<IDAndName> GetScaleTypeLookupViewModel()
+        {
+            return _scaleTypeLookupViewModel;
+        }
+
+        private static IList<IDAndName> CreateScaleTypeLookupViewModel()
         {
             // Cannot delegate to CreateEnumLookupViewModel, because plural names are needed.
 
@@ -140,11 +230,22 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return idAndNames;
         }
 
-        public static IList<IDAndName> CreateSpeakerSetupLookupViewModel()
+        // SpeakerSetup
+
+        private static IList<IDAndName> _speakerSetupLookupViewModel = CreateSpeakerSetupLookupViewModel();
+
+        public static IList<IDAndName> GetSpeakerSetupLookupViewModel()
+        {
+            return _speakerSetupLookupViewModel;
+        }
+
+        private static IList<IDAndName> CreateSpeakerSetupLookupViewModel()
         {
             IList<IDAndName> idAndNames = CreateEnumLookupViewModel<SpeakerSetupEnum>(mustIncludeUndefined: true);
             return idAndNames;
         }
+
+        // UnderlyingPatch
 
         public static IList<ChildDocumentIDAndNameViewModel> CreateUnderlyingPatchLookupViewModel(IList<Patch> underlyingPatches)
         {
@@ -157,11 +258,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return list;
         }
 
-        public static IList<IDAndName> CreateFilterTypeLookupViewModel()
-        {
-            IList<IDAndName> idAndNames = CreateEnumLookupViewModel<FilterTypeEnum>(mustIncludeUndefined: true);
-            return idAndNames;
-        }
+        // Helpers
 
         private static IList<IDAndName> CreateEnumLookupViewModel<TEnum>(bool mustIncludeUndefined)
             where TEnum : struct
@@ -199,6 +296,5 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             return idAndNames;
         }
-
     }
 }

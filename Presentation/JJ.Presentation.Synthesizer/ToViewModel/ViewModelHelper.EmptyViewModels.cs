@@ -28,7 +28,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 Entity = CreateEmptyAudioOutputViewModel(),
                 ValidationMessages = new List<Message>(),
-                SpeakerSetupLookup = CreateSpeakerSetupLookupViewModel()
+                SpeakerSetupLookup = GetSpeakerSetupLookupViewModel()
             };
 
             return viewModel;

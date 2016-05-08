@@ -11,6 +11,7 @@ using JJ.Framework.Presentation.WinForms.EventArg;
 using System.IO;
 using JJ.Framework.IO;
 using JJ.Framework.Reflection.Exceptions;
+using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {

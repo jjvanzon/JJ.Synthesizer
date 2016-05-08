@@ -48,7 +48,7 @@ namespace JJ.Presentation.Synthesizer.Converters
                 ValidationMessages = new List<Message>()
             };
 
-            viewModel.OperatorToolboxItems = ViewModelHelper.CreateOperatorTypesViewModel();
+            viewModel.OperatorToolboxItems = ViewModelHelper.GetOperatorTypesViewModel();
 
             foreach (OperatorViewModel operatorViewModel in viewModel.Entity.Operators)
             {

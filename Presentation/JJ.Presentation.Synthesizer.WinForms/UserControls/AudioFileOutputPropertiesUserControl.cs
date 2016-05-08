@@ -9,6 +9,7 @@ using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Framework.Presentation.WinForms.Extensions;
 using JJ.Data.Canonical;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -80,7 +81,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 comboBoxAudioFileFormat.ValueMember = PropertyNames.ID;
                 comboBoxAudioFileFormat.DisplayMember = PropertyNames.Name;
-                comboBoxAudioFileFormat.DataSource = ViewModel.AudioFileFormatLookup;
+                comboBoxAudioFileFormat.DataSource = ViewModel.AudioFileFormatLookup.ToArray();
             }
             comboBoxAudioFileFormat.SelectedValue = ViewModel.Entity.AudioFileFormat.ID;
 
