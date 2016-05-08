@@ -23,7 +23,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
     {
         private static readonly bool _previewAutoPatchPolyphonicEnabled = GetPreviewAutoPatchPolyphonicEnabled();
 
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithTheirOwnPropertyViews { get; } = new HashSet<OperatorTypeEnum>
+        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithTheirOwnPropertyViews { get; } = 
+                  new HashSet<OperatorTypeEnum>
         {
             OperatorTypeEnum.Bundle,
             OperatorTypeEnum.Cache,
@@ -41,7 +42,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.Unbundle
         };
 
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithDimensionPropertyViews { get; } = new HashSet<OperatorTypeEnum>
+        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithDimensionPropertyViews { get; } = 
+                  new HashSet<OperatorTypeEnum>
         {
             OperatorTypeEnum.Average,
             OperatorTypeEnum.Delay,
