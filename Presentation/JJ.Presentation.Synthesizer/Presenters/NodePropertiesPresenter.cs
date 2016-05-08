@@ -39,7 +39,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Node entity = _repositories.NodeRepository.Get(userInput.Entity.ID);
 
             // ToViewModel
-            NodePropertiesViewModel viewModel = entity.ToPropertiesViewModel(_repositories.NodeTypeRepository);
+            NodePropertiesViewModel viewModel = entity.ToPropertiesViewModel();
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
@@ -65,7 +65,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Node entity = _repositories.NodeRepository.Get(userInput.Entity.ID);
 
             // ToViewModel
-            NodePropertiesViewModel viewModel = entity.ToPropertiesViewModel(_repositories.NodeTypeRepository);
+            NodePropertiesViewModel viewModel = entity.ToPropertiesViewModel();
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
@@ -116,7 +116,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             VoidResult result = _curveManager.ValidateNode(entity);
 
             // ToViewModel
-            NodePropertiesViewModel viewModel = entity.ToPropertiesViewModel(_repositories.NodeTypeRepository);
+            NodePropertiesViewModel viewModel = entity.ToPropertiesViewModel();
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);

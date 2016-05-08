@@ -17,9 +17,9 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
             if (viewModel.OperatorType != null)
             {
-                if (!String.IsNullOrEmpty(viewModel.OperatorType.DisplayName))
+                if (!String.IsNullOrEmpty(viewModel.OperatorType.Name))
                 {
-                    sb.Append(viewModel.OperatorType.DisplayName);
+                    sb.Append(viewModel.OperatorType.Name);
                     sb.Append(' ');
                 }
             }

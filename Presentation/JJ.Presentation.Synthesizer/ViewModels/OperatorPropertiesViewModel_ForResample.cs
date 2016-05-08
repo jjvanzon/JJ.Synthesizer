@@ -13,7 +13,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public string Name { get; set; }
 
         /// <summary> not editable </summary>
-        public OperatorTypeViewModel OperatorType { get; set; }
+        public IDAndName OperatorType { get; set; }
 
         public IDAndName Interpolation { get; set; }
         public IList<IDAndName> InterpolationLookup { get; set; }

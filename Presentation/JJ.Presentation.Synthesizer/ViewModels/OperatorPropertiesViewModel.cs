@@ -1,4 +1,5 @@
-﻿using JJ.Presentation.Synthesizer.ViewModels.Items;
+﻿using JJ.Data.Canonical;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
@@ -7,6 +8,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public int PatchID { get; internal set; }
         public string Name { get; set; }
         /// <summary> not editable </summary>
-        public OperatorTypeViewModel OperatorType { get; set; }
+        public IDAndName OperatorType { get; set; }
     }
 }

@@ -337,14 +337,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.Caption = wrapper.GetOutletDisplayName(entity.ListIndex);
         }
 
-        public static OperatorTypeViewModel ToViewModel(this OperatorType operatorType)
+        public static IDAndName ToViewModel(this OperatorType operatorType)
         {
             if (operatorType == null) throw new NullException(() => operatorType);
 
-            var viewModel = new OperatorTypeViewModel
+            var viewModel = new IDAndName
             {
                 ID = operatorType.ID,
-                DisplayName = ResourceHelper.GetPropertyDisplayName(operatorType.Name)
+                Name = ResourceHelper.GetPropertyDisplayName(operatorType.Name)
             };
 
             return viewModel;

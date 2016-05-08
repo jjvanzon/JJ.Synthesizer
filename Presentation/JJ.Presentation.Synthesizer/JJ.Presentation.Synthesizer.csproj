@@ -160,7 +160,7 @@
     <Compile Include="ViewModels\Items\OperatorViewModel.cs" />
     <Compile Include="ViewModels\Items\OutletViewModel.cs" />
     <Compile Include="ViewModels\Items\PatchViewModel.cs" />
-    <Compile Include="ViewModels\Items\OperatorTypeViewModel.cs" />
+    <Compile Include="ViewModels\Items\2016-05-08 Backup of OperatorTypeViewModel.cs" />
     <Compile Include="ViewModels\Items\SampleViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />

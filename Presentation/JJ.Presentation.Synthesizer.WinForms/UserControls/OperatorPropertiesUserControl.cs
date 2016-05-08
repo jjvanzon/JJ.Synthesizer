@@ -49,7 +49,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (ViewModel == null) return;
 
             textBoxName.Text = ViewModel.Name;
-            labelOperatorTypeValue.Text = ViewModel.OperatorType.DisplayName;
+            labelOperatorTypeValue.Text = ViewModel.OperatorType.Name;
         }
 
         private void ApplyControlsToViewModel()

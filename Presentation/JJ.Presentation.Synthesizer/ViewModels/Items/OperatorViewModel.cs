@@ -1,6 +1,7 @@
 ﻿using JJ.Presentation.Synthesizer.Helpers;
 using System.Collections.Generic;
 using System.Diagnostics;
+using JJ.Data.Canonical;
 
 namespace JJ.Presentation.Synthesizer.ViewModels.Items
 {
@@ -28,9 +29,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         /// </summary>
         public IList<OutletViewModel> Outlets { get; set; }
 
-        // TODO: It might make more sense if this is simple OperatorTypeViewModel.
         /// <summary> persistence. Does not need to be displayed. </summary>
-        public OperatorTypeViewModel OperatorType { get; set; }
+        public IDAndName OperatorType { get; set; }
 
         public bool IsOwned { get; set; }
 

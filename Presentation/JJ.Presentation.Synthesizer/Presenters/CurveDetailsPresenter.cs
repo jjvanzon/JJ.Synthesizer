@@ -39,7 +39,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Curve entity = _repositories.CurveRepository.Get(userInput.ID);
 
             // ToViewModel
-            CurveDetailsViewModel viewModel = entity.ToDetailsViewModel(_repositories.NodeTypeRepository);
+            CurveDetailsViewModel viewModel = entity.ToDetailsViewModel();
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
@@ -65,7 +65,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Curve entity = _repositories.CurveRepository.Get(userInput.ID);
 
             // ToViewModel
-            CurveDetailsViewModel viewModel = entity.ToDetailsViewModel(_repositories.NodeTypeRepository);
+            CurveDetailsViewModel viewModel = entity.ToDetailsViewModel();
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
@@ -116,7 +116,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             VoidResult result = _curveManager.Validate(entity);
 
             // ToViewModel
-            CurveDetailsViewModel viewModel = entity.ToDetailsViewModel(_repositories.NodeTypeRepository);
+            CurveDetailsViewModel viewModel = entity.ToDetailsViewModel();
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
@@ -142,7 +142,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Curve entity = _repositories.CurveRepository.Get(userInput.ID);
 
             // ToViewModel
-            CurveDetailsViewModel viewModel = entity.ToDetailsViewModel(_repositories.NodeTypeRepository);
+            CurveDetailsViewModel viewModel = entity.ToDetailsViewModel();
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);

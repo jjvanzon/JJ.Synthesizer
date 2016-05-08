@@ -36,7 +36,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Scale scale = _repositories.ScaleRepository.Get(userInput.Entity.ID);
 
             // ToViewModel
-            ScalePropertiesViewModel viewModel = scale.ToPropertiesViewModel(_repositories.ScaleTypeRepository);
+            ScalePropertiesViewModel viewModel = scale.ToPropertiesViewModel();
 
             // Non-Persisted
             viewModel.Visible = true;
@@ -61,7 +61,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Scale entity = _repositories.ScaleRepository.Get(userInput.Entity.ID);
 
             // ToViewModel
-            ScalePropertiesViewModel viewModel = entity.ToPropertiesViewModel(_repositories.ScaleTypeRepository);
+            ScalePropertiesViewModel viewModel = entity.ToPropertiesViewModel();
 
             // Non-Persisted
             viewModel.Visible = userInput.Visible;
@@ -107,7 +107,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             VoidResult result = _scaleManager.ValidateWithoutTones(entity);
 
             // ToViewModel
-            ScalePropertiesViewModel viewModel = entity.ToPropertiesViewModel(_repositories.ScaleTypeRepository);
+            ScalePropertiesViewModel viewModel = entity.ToPropertiesViewModel();
 
             // Non-Persisted
             viewModel.ValidationMessages = result.Messages;

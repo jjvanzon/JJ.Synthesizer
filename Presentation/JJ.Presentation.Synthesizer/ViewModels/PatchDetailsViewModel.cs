@@ -7,7 +7,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
     public sealed class PatchDetailsViewModel : ViewModelBase
     {
         public PatchViewModel Entity { get; set; }
-        public IList<OperatorTypeViewModel> OperatorToolboxItems { get; set; }
+        public IList<IDAndName> OperatorToolboxItems { get; set; }
         public OperatorViewModel SelectedOperator { get; set; }
     }
 }

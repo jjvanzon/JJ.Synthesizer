@@ -38,7 +38,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 AudioFileOutputPropertiesViewModel viewModel = DocumentViewModelHelper.TryGetAudioFileOutputPropertiesViewModel(MainViewModel.Document, entity.ID);
                 if (viewModel == null)
                 {
-                    viewModel = entity.ToPropertiesViewModel(_repositories.AudioFileFormatRepository, _repositories.SampleDataTypeRepository);
+                    viewModel = entity.ToPropertiesViewModel();
                     viewModel.Successful = true;
                     MainViewModel.Document.AudioFileOutputPropertiesList.Add(viewModel);
                 }
@@ -97,7 +97,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 CurveDetailsViewModel curveDetailsViewModel = DocumentViewModelHelper.TryGetCurveDetailsViewModel(MainViewModel.Document, curve.ID);
                 if (curveDetailsViewModel == null)
                 {
-                    curveDetailsViewModel = curve.ToDetailsViewModel(_repositories.NodeTypeRepository);
+                    curveDetailsViewModel = curve.ToDetailsViewModel();
                     curveDetailsViewModel.Successful = true;
                     patchDocumentViewModel.CurveDetailsList.Add(curveDetailsViewModel);
                 }
@@ -123,7 +123,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 CurveDetailsViewModel viewModel = DocumentViewModelHelper.TryGetCurveDetailsViewModel(documentViewModel, entity.ID);
                 if (viewModel == null)
                 {
-                    viewModel = entity.ToDetailsViewModel(_repositories.NodeTypeRepository);
+                    viewModel = entity.ToDetailsViewModel();
                     viewModel.Successful = true;
                     documentViewModel.CurveDetailsList.Add(viewModel);
                 }
@@ -368,7 +368,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 NodePropertiesViewModel nodePropertiesViewModel = DocumentViewModelHelper.TryGetNodePropertiesViewModel(MainViewModel.Document, node.ID);
                 if (nodePropertiesViewModel == null)
                 {
-                    nodePropertiesViewModel = node.ToPropertiesViewModel(_repositories.NodeTypeRepository);
+                    nodePropertiesViewModel = node.ToPropertiesViewModel();
                     nodePropertiesViewModel.Successful = true;
                     patchDocumentViewModel.NodePropertiesList.Add(nodePropertiesViewModel);
                 }
@@ -394,7 +394,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 NodePropertiesViewModel viewModel = DocumentViewModelHelper.TryGetNodePropertiesViewModel(documentViewModel, entity.ID);
                 if (viewModel == null)
                 {
-                    viewModel = entity.ToPropertiesViewModel(_repositories.NodeTypeRepository);
+                    viewModel = entity.ToPropertiesViewModel();
                     viewModel.Successful = true;
                     documentViewModel.NodePropertiesList.Add(viewModel);
                 }
@@ -1154,7 +1154,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 ScalePropertiesViewModel viewModel = DocumentViewModelHelper.TryGetScalePropertiesViewModel(MainViewModel.Document, entity.ID);
                 if (viewModel == null)
                 {
-                    viewModel = entity.ToPropertiesViewModel(_repositories.ScaleTypeRepository);
+                    viewModel = entity.ToPropertiesViewModel();
                     viewModel.Successful = true;
                     MainViewModel.Document.ScalePropertiesList.Add(viewModel);
                 }

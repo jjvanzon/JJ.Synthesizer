@@ -21,10 +21,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
     {
         // AudioFileOutput
 
-        public static AudioFileOutputPropertiesViewModel ToPropertiesViewModel(
-            this AudioFileOutput entity,
-            IAudioFileFormatRepository audioFileFormatRepository,
-            ISampleDataTypeRepository sampleDataTypeRepository)
+        public static AudioFileOutputPropertiesViewModel ToPropertiesViewModel(this AudioFileOutput entity)
         {
             if (entity == null) throw new NullException(() => entity);
             if (entity.Document == null) throw new NullException(() => entity.Document);
@@ -32,8 +29,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new AudioFileOutputPropertiesViewModel
             {
                 Entity = entity.ToViewModel(),
-                AudioFileFormatLookup = ViewModelHelper.CreateAudioFileFormatLookupViewModel(audioFileFormatRepository),
-                SampleDataTypeLookup = ViewModelHelper.CreateSampleDataTypeLookupViewModel(sampleDataTypeRepository),
+                AudioFileFormatLookup = ViewModelHelper.CreateAudioFileFormatLookupViewModel(),
+                SampleDataTypeLookup = ViewModelHelper.CreateSampleDataTypeLookupViewModel(),
                 SpeakerSetupLookup = ViewModelHelper.CreateSpeakerSetupLookupViewModel(),
                 ValidationMessages = new List<Message>()
             };
@@ -84,7 +81,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // Curve
 
-        public static CurveDetailsViewModel ToDetailsViewModel(this Curve entity, INodeTypeRepository nodeTypeRepository)
+        public static CurveDetailsViewModel ToDetailsViewModel(this Curve entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -93,7 +90,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ID = entity.ID,
                 DocumentID = entity.Document.ID,
                 Nodes = entity.Nodes.ToViewModels(),
-                NodeTypeLookup = ViewModelHelper.CreateNodeTypeLookupViewModel(nodeTypeRepository),
+                NodeTypeLookup = ViewModelHelper.CreateNodeTypeLookupViewModel(),
                 ValidationMessages = new List<Message>()
             };
 
@@ -131,7 +128,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static NodePropertiesViewModel ToPropertiesViewModel(this Node entity, INodeTypeRepository nodeTypeRepository)
+        public static NodePropertiesViewModel ToPropertiesViewModel(this Node entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -140,7 +137,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 CurveID = entity.Curve.ID,
                 Entity = entity.ToViewModel(),
                 ValidationMessages = new List<Message>(),
-                NodeTypeLookup = ViewModelHelper.CreateNodeTypeLookupViewModel(nodeTypeRepository)
+                NodeTypeLookup = ViewModelHelper.CreateNodeTypeLookupViewModel()
             };
 
             return viewModel;
@@ -423,7 +420,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
             else
             {
-                viewModel.OperatorType = ViewModelHelper.CreateEmptyOperatorTypeViewModel();
+                viewModel.OperatorType = ViewModelHelper.CreateEmptyIDAndName();
             }
 
             return viewModel;
@@ -755,7 +752,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             EntityPositionManager entityPositionManager)
         {
             var converter = new RecursiveToViewModelConverter(
-                operatorTypeRepository, sampleRepository, curveRepository, patchRepository, entityPositionManager);
+                sampleRepository, curveRepository, patchRepository, entityPositionManager);
 
             return converter.ConvertToDetailsViewModel(patch);
         }
@@ -851,8 +848,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new SamplePropertiesViewModel
             {
                 DocumentID = entity.Document.ID,
-                AudioFileFormatLookup = ViewModelHelper.CreateAudioFileFormatLookupViewModel(repositories.AudioFileFormatRepository),
-                SampleDataTypeLookup = ViewModelHelper.CreateSampleDataTypeLookupViewModel(repositories.SampleDataTypeRepository),
+                AudioFileFormatLookup = ViewModelHelper.CreateAudioFileFormatLookupViewModel(),
+                SampleDataTypeLookup = ViewModelHelper.CreateSampleDataTypeLookupViewModel(),
                 SpeakerSetupLookup = ViewModelHelper.CreateSpeakerSetupLookupViewModel(),
                 InterpolationTypeLookup = ViewModelHelper.CreateInterpolationTypeLookupViewModel(repositories.InterpolationTypeRepository),
                 ValidationMessages = new List<Message>()
@@ -880,15 +877,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // Scale
 
-        public static ScalePropertiesViewModel ToPropertiesViewModel(this Scale entity, IScaleTypeRepository scaleTypeRepository)
+        public static ScalePropertiesViewModel ToPropertiesViewModel(this Scale entity)
         {
             if (entity == null) throw new NullException(() => entity);
-            if (scaleTypeRepository == null) throw new NullException(() => scaleTypeRepository);
 
             var viewModel = new ScalePropertiesViewModel
             {
                 Entity = entity.ToViewModel(),
-                ScaleTypeLookup = ViewModelHelper.CreateScaleTypeLookupViewModel(scaleTypeRepository),
+                ScaleTypeLookup = ViewModelHelper.CreateScaleTypeLookupViewModel(),
                 ValidationMessages = new List<Message>()
             };
 

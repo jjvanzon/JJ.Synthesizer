@@ -17,6 +17,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.Configuration;
+using JJ.Data.Canonical;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -132,7 +133,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private bool _operatorToolboxItemsViewModelIsApplied = false; // Dirty way to only apply it once.
 
-        private void ApplyOperatorToolboxItemsViewModel(IList<OperatorTypeViewModel> operatorTypeToolboxItems)
+        private void ApplyOperatorToolboxItemsViewModel(IList<IDAndName> operatorTypeToolboxItems)
         {
             if (_operatorToolboxItemsViewModelIsApplied)
             {
@@ -142,15 +143,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             int i = 1;
 
-            foreach (OperatorTypeViewModel operatorTypeToolboxItem in operatorTypeToolboxItems)
+            foreach (IDAndName idAndName in operatorTypeToolboxItems)
             {
                 ToolStripItem toolStripItem = new ToolStripButton
                 {
                     Name = "toolStripButton" + i,
                     Size = _defaultToolStripLabelSize,
-                    Text = operatorTypeToolboxItem.DisplayName,
+                    Text = idAndName.Name,
                     DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text,
-                    Tag = operatorTypeToolboxItem.ID
+                    Tag = idAndName.ID
                 };
 
                 // TODO: Clean up the event handlers too somewhere.

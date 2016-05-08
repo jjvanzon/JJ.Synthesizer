@@ -253,7 +253,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new PatchDetailsViewModel
             {
                 Entity = CreateEmptyPatchViewModel(),
-                OperatorToolboxItems = new List<OperatorTypeViewModel>(),
+                OperatorToolboxItems = new List<IDAndName>(),
                 ValidationMessages = new List<Message>()
             };
 
@@ -267,12 +267,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Operators = new List<OperatorViewModel>()
             };
 
-            return viewModel;
-        }
-
-        public static OperatorTypeViewModel CreateEmptyOperatorTypeViewModel()
-        {
-            var viewModel = new OperatorTypeViewModel();
             return viewModel;
         }
 

@@ -13,7 +13,6 @@ namespace JJ.Presentation.Synthesizer.Converters
 {
     internal class RecursiveToViewModelConverter
     {
-        private readonly IOperatorTypeRepository _operatorTypeRepository;
         private readonly ISampleRepository _sampleRepository;
         private readonly ICurveRepository _curveRepository;
         private readonly IPatchRepository _patchRepository;
@@ -21,19 +20,16 @@ namespace JJ.Presentation.Synthesizer.Converters
         private Dictionary<Operator, OperatorViewModel> _dictionary;
 
         public RecursiveToViewModelConverter(
-            IOperatorTypeRepository operatorTypeRepository, 
             ISampleRepository sampleRepository, 
             ICurveRepository curveRepository,
             IPatchRepository patchRepository,
             EntityPositionManager entityPositionManager)
         {
-            if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (patchRepository == null) throw new NullException(() => patchRepository);
             if (entityPositionManager == null) throw new NullException(() => entityPositionManager);
 
-            _operatorTypeRepository = operatorTypeRepository;
             _sampleRepository = sampleRepository;
             _curveRepository = curveRepository;
             _patchRepository = patchRepository;
@@ -52,7 +48,7 @@ namespace JJ.Presentation.Synthesizer.Converters
                 ValidationMessages = new List<Message>()
             };
 
-            viewModel.OperatorToolboxItems = ViewModelHelper.CreateOperatorTypesViewModel(_operatorTypeRepository);
+            viewModel.OperatorToolboxItems = ViewModelHelper.CreateOperatorTypesViewModel();
 
             foreach (OperatorViewModel operatorViewModel in viewModel.Entity.Operators)
             {

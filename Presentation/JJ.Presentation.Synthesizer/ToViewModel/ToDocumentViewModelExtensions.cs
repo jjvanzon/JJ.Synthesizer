@@ -23,22 +23,20 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 ID = document.ID,
                 AudioFileOutputGrid = document.ToAudioFileOutputGridViewModel(),
-                AudioFileOutputPropertiesList = document.AudioFileOutputs.Select(x => x.ToPropertiesViewModel(
-                    repositories.AudioFileFormatRepository,
-                    repositories.SampleDataTypeRepository)).ToList(),
+                AudioFileOutputPropertiesList = document.AudioFileOutputs.Select(x => x.ToPropertiesViewModel()).ToList(),
                 PatchDocumentList = document.ChildDocuments.Select(x => x.ToPatchDocumentViewModel(repositories, entityPositionManager)).ToList(),
                 CurrentPatches = ViewModelHelper.CreateEmptyCurrentPatchesViewModel(),
-                CurveDetailsList = document.Curves.Select(x => x.ToDetailsViewModel(repositories.NodeTypeRepository)).ToList(),
+                CurveDetailsList = document.Curves.Select(x => x.ToDetailsViewModel()).ToList(),
                 CurveGrid = document.Curves.ToGridViewModel(document.ID),
                 CurvePropertiesList = document.Curves.Select(x => x.ToPropertiesViewModel()).ToList(),
                 DocumentProperties = document.ToPropertiesViewModel(),
                 DocumentTree = document.ToTreeViewModel(),
                 PatchGridList = document.ToPatchGridViewModelList(),
-                NodePropertiesList = document.Curves.SelectMany(x => x.Nodes).Select(x => x.ToPropertiesViewModel(repositories.NodeTypeRepository)).ToList(),
+                NodePropertiesList = document.Curves.SelectMany(x => x.Nodes).Select(x => x.ToPropertiesViewModel()).ToList(),
                 SampleGrid = document.Samples.ToGridViewModel(document.ID),
                 SamplePropertiesList = document.Samples.Select(x => x.ToPropertiesViewModel(new SampleRepositories(repositories))).ToList(),
                 ScaleGrid = document.Scales.ToGridViewModel(document.ID),
-                ScalePropertiesList = document.Scales.Select(x => x.ToPropertiesViewModel(repositories.ScaleTypeRepository)).ToList(),
+                ScalePropertiesList = document.Scales.Select(x => x.ToPropertiesViewModel()).ToList(),
                 ToneGridEditList = document.Scales.Select(x => x.ToToneGridEditViewModel()).ToList(),
                 AutoPatchDetails = ViewModelHelper.CreateEmptyPatchDetailsViewModel()
             };
@@ -71,11 +69,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new PatchDocumentViewModel
             {
                 ChildDocumentID = childDocument.ID,
-                CurveDetailsList = childDocument.Curves.Select(x => x.ToDetailsViewModel(repositories.NodeTypeRepository)).ToList(),
+                CurveDetailsList = childDocument.Curves.Select(x => x.ToDetailsViewModel()).ToList(),
                 CurveGrid = childDocument.Curves.ToGridViewModel(childDocument.ID),
                 CurveLookup = ViewModelHelper.CreateCurveLookupViewModel(childDocument.ParentDocument, childDocument),
                 CurvePropertiesList = childDocument.Curves.Select(x => x.ToPropertiesViewModel()).ToList(),
-                NodePropertiesList = childDocument.Curves.SelectMany(x => x.Nodes).Select(x => x.ToPropertiesViewModel(repositories.NodeTypeRepository)).ToList(),
+                NodePropertiesList = childDocument.Curves.SelectMany(x => x.Nodes).Select(x => x.ToPropertiesViewModel()).ToList(),
                 OperatorPropertiesList = childDocument.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList()).ToList(),
                 OperatorPropertiesList_ForBundles = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForBundles()).ToList(),
                 OperatorPropertiesList_ForCaches = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForCaches(repositories.InterpolationTypeRepository)).ToList(),

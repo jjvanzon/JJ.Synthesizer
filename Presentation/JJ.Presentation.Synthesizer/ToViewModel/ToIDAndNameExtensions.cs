@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using JJ.Data.Canonical;
+using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Data.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
-using System;
-using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -210,6 +209,17 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 ID = entity.ID,
                 Name = entity.Name
+            };
+        }
+
+        public static IDAndName ToIDAndDisplayNamePlural(this ScaleTypeEnum enumValue)
+        {
+            string displayName = ResourceHelper.GetDisplayNamePlural(enumValue);
+
+            return new IDAndName
+            {
+                ID = (int)enumValue,
+                Name = displayName
             };
         }
 

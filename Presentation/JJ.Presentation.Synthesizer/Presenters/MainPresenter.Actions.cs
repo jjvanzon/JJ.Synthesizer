@@ -99,7 +99,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (gridViewModel.Successful)
             {
                 // ToViewModel
-                AudioFileOutputPropertiesViewModel propertiesViewModel = audioFileOutput.ToPropertiesViewModel(_repositories.AudioFileFormatRepository, _repositories.SampleDataTypeRepository);
+                AudioFileOutputPropertiesViewModel propertiesViewModel = audioFileOutput.ToPropertiesViewModel();
 
                 // DispatchViewModel
                 DispatchViewModel(propertiesViewModel);

@@ -5,27 +5,21 @@ using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Presentation.Synthesizer.ViewModels;
 using System;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Framework.Common;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
     internal static partial class ViewModelHelper
     {
-        // TODO: Refactor these methods so they do not use repositories, but completely rely on the enum members,
-        // like already applied in CreateResampleInterpolationTypeLookupViewModel.
-
-        public static IList<IDAndName> CreateAudioFileFormatLookupViewModel(IAudioFileFormatRepository repository)
+        public static IList<IDAndName> CreateAudioFileFormatLookupViewModel()
         {
-            if (repository == null) throw new NullException(() => repository);
+            IList<IDAndName> idAndNames = CreateEnumLookupViewModel<AudioFileFormatEnum>(mustIncludeUndefined: false);
+            idAndNames = idAndNames.OrderBy(x => x.Name).ToArray();
 
-            IList<AudioFileFormat> entities = repository.GetAll().ToArray();
-
-            IList<IDAndName> idNames = entities.Select(x => x.ToIDAndDisplayName()).OrderBy(x => x.Name).ToArray();
-
-            return idNames;
+            return idAndNames;
         }
 
         public static IList<IDAndName> CreateCurveLookupViewModel(Document rootDocument, Document childDocument)
@@ -45,12 +39,15 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static IList<IDAndName> CreateDimensionLookupViewModel()
         {
-            IList<IDAndName> idAndNames = CreateEnumLookupViewModel<DimensionEnum>();
+            IList<IDAndName> idAndNames = CreateEnumLookupViewModel<DimensionEnum>(mustIncludeUndefined: true);
+            idAndNames = idAndNames.OrderBy(x => x.Name).ToArray();
             return idAndNames;
         }
 
         public static IList<IDAndName> CreateInterpolationTypeLookupViewModel(IInterpolationTypeRepository repository)
         {
+            // Cannot delegate to CreateEnumLookupViewModel, because we need to order by SortOrder.
+
             if (repository == null) throw new NullException(() => repository);
 
             IList<InterpolationType> entities = repository.GetAll().OrderBy(x => x.SortOrder).ToArray();
@@ -60,60 +57,32 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return idNames;
         }
 
-        public static IList<IDAndName> CreateNodeTypeLookupViewModel(INodeTypeRepository repository)
+        public static IList<IDAndName> CreateNodeTypeLookupViewModel()
         {
-            if (repository == null) throw new NullException(() => repository);
-
-            IList<NodeType> entities = repository.GetAll().OrderBy(x => x.ID).ToArray();
-
-            IList<IDAndName> idNames = entities.Select(x => x.ToIDAndDisplayName()).ToArray();
-
-            return idNames;
+            IList<IDAndName> idAndNames = CreateEnumLookupViewModel<NodeTypeEnum>(mustIncludeUndefined: false);
+            return idAndNames;
         }
 
-        public static IList<OperatorTypeViewModel> CreateOperatorTypesViewModel(IOperatorTypeRepository operatorTypeRepository)
+        public static IList<IDAndName> CreateOperatorTypesViewModel()
         {
-            if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
+            IList<IDAndName> idAndNames = CreateEnumLookupViewModel<OperatorTypeEnum>(mustIncludeUndefined: false);
 
-            IList<OperatorType> operatorTypes = operatorTypeRepository.GetAll();
-
-            IList<OperatorTypeViewModel> operatorTypeViewModels = operatorTypes.Select(x => x.ToViewModel())
-                                                                               .OrderBy(x => x.DisplayName)
-                                                                               .ToArray();
-            return operatorTypeViewModels;
-        }
-
-        public static IList<IDAndName> CreateResampleInterpolationLookupViewModel()
-        {
-            ResampleInterpolationTypeEnum[] enumValues = (ResampleInterpolationTypeEnum[])Enum.GetValues(typeof(ResampleInterpolationTypeEnum));
-
-            var idAndNames = new List<IDAndName>(enumValues.Length);
-            idAndNames.Add(new IDAndName { ID = 0, Name = null });
-
-            foreach (ResampleInterpolationTypeEnum enumValue in enumValues)
-            {
-                if (enumValue == ResampleInterpolationTypeEnum.Undefined)
-                {
-                    continue;
-                }
-
-                var idAndName = enumValue.ToIDAndDisplayName();
-
-                idAndNames.Add(idAndName);
-            }
+            idAndNames = idAndNames.OrderBy(x => x.Name).ToArray();
 
             return idAndNames;
         }
 
-        public static IList<IDAndName> CreateSampleDataTypeLookupViewModel(ISampleDataTypeRepository repository)
+        public static IList<IDAndName> CreateResampleInterpolationLookupViewModel()
         {
-            if (repository == null) throw new NullException(() => repository);
+            IList<IDAndName> idAndNames = CreateEnumLookupViewModel<ResampleInterpolationTypeEnum>(mustIncludeUndefined: true);
+            return idAndNames;
 
-            IList<SampleDataType> entities = repository.GetAll().OrderBy(x => x.ID).ToArray();
+        }
 
-            IList<IDAndName> idNames = entities.Select(x => x.ToIDAndDisplayName()).ToArray();
-
-            return idNames;
+        public static IList<IDAndName> CreateSampleDataTypeLookupViewModel()
+        {
+            IList<IDAndName> idAndNames = CreateEnumLookupViewModel<SampleDataTypeEnum>(mustIncludeUndefined: false);
+            return idAndNames;
         }
 
         public static IList<IDAndName> CreateSampleLookupViewModel(Document rootDocument)
@@ -145,38 +114,35 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return list;
         }
 
-        public static IList<IDAndName> CreateScaleTypeLookupViewModel(IScaleTypeRepository repository)
+        public static IList<IDAndName> CreateScaleTypeLookupViewModel()
         {
-            if (repository == null) throw new NullException(() => repository);
+            // Cannot delegate to CreateEnumLookupViewModel, because plural names are needed.
 
-            IList<ScaleType> entities = repository.GetAll().ToArray();
+            IList<ScaleTypeEnum> enumValues = EnumHelper.GetValues<ScaleTypeEnum>();
+            IList<IDAndName> idAndNames = new List<IDAndName>(enumValues.Count);
 
-            var list = new List<IDAndName>(entities.Count + 1);
-            list.Add(new IDAndName { ID = 0, Name = null });
-            list.AddRange(entities.OrderBy(x => x.ID).Select(x => x.ToIDAndDisplayNamePlural()).OrderBy(x => x.Name));
-
-            return list;
-        }
-
-        public static IList<IDAndName> CreateSpeakerSetupLookupViewModel()
-        {
-            SpeakerSetupEnum[] enumValues = (SpeakerSetupEnum[])Enum.GetValues(typeof(SpeakerSetupEnum));
-
-            var idAndNames = new List<IDAndName>(enumValues.Length);
+            // Add Undefined separately, so it is shown as a null string.
             idAndNames.Add(new IDAndName { ID = 0, Name = null });
 
-            foreach (SpeakerSetupEnum enumValue in enumValues)
+            foreach (ScaleTypeEnum enumValue in enumValues)
             {
-                if (enumValue == SpeakerSetupEnum.Undefined)
+                if (enumValue == ScaleTypeEnum.Undefined)
                 {
                     continue;
                 }
 
-                var idAndName = enumValue.ToIDAndDisplayName();
-
+                var idAndName = enumValue.ToIDAndDisplayNamePlural();
                 idAndNames.Add(idAndName);
             }
 
+            idAndNames = idAndNames.OrderBy(x => x.Name).ToArray();
+
+            return idAndNames;
+        }
+
+        public static IList<IDAndName> CreateSpeakerSetupLookupViewModel()
+        {
+            IList<IDAndName> idAndNames = CreateEnumLookupViewModel<SpeakerSetupEnum>(mustIncludeUndefined: true);
             return idAndNames;
         }
 
@@ -193,35 +159,22 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static IList<IDAndName> CreateFilterTypeLookupViewModel()
         {
-            FilterTypeEnum[] enumValues = (FilterTypeEnum[])Enum.GetValues(typeof(FilterTypeEnum));
-
-            var idAndNames = new List<IDAndName>(enumValues.Length);
-            idAndNames.Add(new IDAndName { ID = 0, Name = null });
-
-            foreach (FilterTypeEnum enumValue in enumValues)
-            {
-                if (enumValue == FilterTypeEnum.Undefined)
-                {
-                    continue;
-                }
-
-                IDAndName idAndName = enumValue.ToIDAndDisplayName();
-
-                idAndNames.Add(idAndName);
-            }
-
+            IList<IDAndName> idAndNames = CreateEnumLookupViewModel<FilterTypeEnum>(mustIncludeUndefined: true);
             return idAndNames;
         }
 
-
-        // TODO: Use this generalized method for all the enum lookup view models.
-        private static IList<IDAndName> CreateEnumLookupViewModel<TEnum>()
+        private static IList<IDAndName> CreateEnumLookupViewModel<TEnum>(bool mustIncludeUndefined)
             where TEnum : struct
         {
             TEnum[] enumValues = (TEnum[])Enum.GetValues(typeof(TEnum));
 
             var idAndNames = new List<IDAndName>(enumValues.Length);
-            idAndNames.Add(new IDAndName { ID = 0, Name = null });
+
+            // Add Undefined separately, so it is shown as a null string.
+            if (mustIncludeUndefined)
+            {
+                idAndNames.Add(new IDAndName { ID = 0, Name = null });
+            }
 
             foreach (TEnum enumValue in enumValues)
             {
