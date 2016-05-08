@@ -23,7 +23,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
     {
         private static readonly bool _previewAutoPatchPolyphonicEnabled = GetPreviewAutoPatchPolyphonicEnabled();
 
-        private static HashSet<OperatorTypeEnum> _operatorTypeEnums_WithTheirOwnPropertyViews = new HashSet<OperatorTypeEnum>
+        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithTheirOwnPropertyViews { get; } = new HashSet<OperatorTypeEnum>
         {
             OperatorTypeEnum.Bundle,
             OperatorTypeEnum.Cache,
@@ -41,7 +41,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.Unbundle
         };
 
-        private static HashSet<OperatorTypeEnum> _operatorTypeEnums_WithDimensionPropertyViews = new HashSet<OperatorTypeEnum>
+        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithDimensionPropertyViews { get; } = new HashSet<OperatorTypeEnum>
         {
             OperatorTypeEnum.Average,
             OperatorTypeEnum.Delay,
@@ -67,16 +67,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.TimePower,
             OperatorTypeEnum.Triangle
         };
-
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithTheirOwnPropertyViews
-        {
-            get { return _operatorTypeEnums_WithTheirOwnPropertyViews; }
-        }
-
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithDimensionPropertyViews
-        {
-            get { return _operatorTypeEnums_WithDimensionPropertyViews; }
-        }
 
         public static CurrentPatchesViewModel CreateCurrentPatchesViewModel(IList<Document> childDocuments)
         {

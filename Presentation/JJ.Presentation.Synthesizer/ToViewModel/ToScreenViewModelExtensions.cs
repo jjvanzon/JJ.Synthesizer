@@ -274,7 +274,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
 
-                if (!ViewModelHelper.OperatorTypeEnums_WithTheirOwnPropertyViews.Contains(operatorTypeEnum))
+                if (!ViewModelHelper.OperatorTypeEnums_WithTheirOwnPropertyViews.Contains(operatorTypeEnum) &&
+                    !ViewModelHelper.OperatorTypeEnums_WithDimensionPropertyViews.Contains(operatorTypeEnum))
                 {
                     OperatorPropertiesViewModel viewModel = op.ToPropertiesViewModel();
                     viewModels.Add(viewModel);
