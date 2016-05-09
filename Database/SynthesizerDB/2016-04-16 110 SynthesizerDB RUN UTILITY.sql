@@ -1,3 +1,4 @@
 -- RUN THE C# UTILITY:
 -- JJ.OneOff.Synthesizer.DataMigration
--- Select the option 'Migrate_Document_CreateAudioOutput'.
+-- Select the option 'Migrate_SetDimensionParameter_ForManyOperatorTypes'.
+-- Then select the option 'Migrate_Document_CreateAudioOutput'.
