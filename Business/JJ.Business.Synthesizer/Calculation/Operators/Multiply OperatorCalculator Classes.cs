@@ -272,4 +272,110 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return a * _b;
         }
     }
+
+    // Special commonly used cases, that use concrete types to promote inlining.
+    
+    internal class Multiply_OperatorCalculator_MulWithVarB_VarB_NoOrigin : OperatorCalculatorBase_WithChildCalculators
+    {
+        private readonly Multiply_OperatorCalculator_VarA_VarB_NoOrigin _aCalculator;
+        private readonly OperatorCalculatorBase _bCalculator;
+
+        /// <summary> Special commonly used case, that uses a concrete type to promote inlining. </summary>
+        public Multiply_OperatorCalculator_MulWithVarB_VarB_NoOrigin(
+            Multiply_OperatorCalculator_VarA_VarB_NoOrigin aCalculator,
+            OperatorCalculatorBase bCalculator)
+            : base(new OperatorCalculatorBase[] { aCalculator, bCalculator })
+        {
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(aCalculator, () => aCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(bCalculator, () => bCalculator);
+
+            _aCalculator = aCalculator;
+            _bCalculator = bCalculator;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override double Calculate(DimensionStack dimensionStack)
+        {
+            double a = _aCalculator.Calculate(dimensionStack);
+            double b = _bCalculator.Calculate(dimensionStack);
+            return a * b;
+        }
+    }
+
+    internal class Multiply_OperatorCalculator_MulWithConstB_VarB_NoOrigin : OperatorCalculatorBase_WithChildCalculators
+    {
+        private readonly Multiply_OperatorCalculator_VarA_ConstB_NoOrigin _aCalculator;
+        private readonly OperatorCalculatorBase _bCalculator;
+
+        /// <summary> Special commonly used case, that uses a concrete type to promote inlining. </summary>
+        public Multiply_OperatorCalculator_MulWithConstB_VarB_NoOrigin(
+            Multiply_OperatorCalculator_VarA_ConstB_NoOrigin aCalculator,
+            OperatorCalculatorBase bCalculator)
+            : base(new OperatorCalculatorBase[] { aCalculator, bCalculator })
+        {
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(aCalculator, () => aCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(bCalculator, () => bCalculator);
+
+            _aCalculator = aCalculator;
+            _bCalculator = bCalculator;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override double Calculate(DimensionStack dimensionStack)
+        {
+            double a = _aCalculator.Calculate(dimensionStack);
+            double b = _bCalculator.Calculate(dimensionStack);
+            return a * b;
+        }
+    }
+
+    internal class Multiply_OperatorCalculator_MulWithVarB_ConstB_NoOrigin : OperatorCalculatorBase_WithChildCalculators
+    {
+        private readonly Multiply_OperatorCalculator_VarA_VarB_NoOrigin _aCalculator;
+        private readonly double _b;
+
+        /// <summary> Special commonly used case, that uses a concrete type to promote inlining. </summary>
+        public Multiply_OperatorCalculator_MulWithVarB_ConstB_NoOrigin(
+            Multiply_OperatorCalculator_VarA_VarB_NoOrigin aCalculator, 
+            double b)
+            : base(new OperatorCalculatorBase[] { aCalculator })
+        {
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(aCalculator, () => aCalculator);
+
+            _aCalculator = aCalculator;
+            _b = b;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override double Calculate(DimensionStack dimensionStack)
+        {
+            double a = _aCalculator.Calculate(dimensionStack);
+            return a * _b;
+        }
+    }
+
+    internal class Multiply_OperatorCalculator_MulWithConstB_ConstB_NoOrigin : OperatorCalculatorBase_WithChildCalculators
+    {
+        private readonly Multiply_OperatorCalculator_VarA_ConstB_NoOrigin _aCalculator;
+        private readonly double _b;
+
+        /// <summary> Special commonly used case, that uses a concrete type to promote inlining. </summary>
+        public Multiply_OperatorCalculator_MulWithConstB_ConstB_NoOrigin(
+            Multiply_OperatorCalculator_VarA_ConstB_NoOrigin aCalculator,
+            double b)
+            : base(new OperatorCalculatorBase[] { aCalculator })
+        {
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(aCalculator, () => aCalculator);
+
+            _aCalculator = aCalculator;
+            _b = b;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override double Calculate(DimensionStack dimensionStack)
+        {
+            double a = _aCalculator.Calculate(dimensionStack);
+            return a * _b;
+        }
+    }
 }

@@ -1553,11 +1553,37 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (!aIsConst && bIsConst && originIsConstZero)
             {
-                calculator = new Multiply_OperatorCalculator_VarA_ConstB_NoOrigin(aCalculator, b);
+                var castedACalculator1 = aCalculator as Multiply_OperatorCalculator_VarA_VarB_NoOrigin;
+                var castedACalculator2 = aCalculator as Multiply_OperatorCalculator_VarA_ConstB_NoOrigin;
+                if (castedACalculator1 != null)
+                {
+                    calculator = new Multiply_OperatorCalculator_MulWithVarB_ConstB_NoOrigin(castedACalculator1, b);
+                }
+                else if (castedACalculator2 != null)
+                {
+                    calculator = new Multiply_OperatorCalculator_MulWithConstB_ConstB_NoOrigin(castedACalculator2, b);
+                }
+                else
+                {
+                    calculator = new Multiply_OperatorCalculator_VarA_ConstB_NoOrigin(aCalculator, b);
+                }
             }
             else if (!aIsConst && !bIsConst && originIsConstZero)
             {
-                calculator = new Multiply_OperatorCalculator_VarA_VarB_NoOrigin(aCalculator, bCalculator);
+                var castedACalculator1 = aCalculator as Multiply_OperatorCalculator_VarA_VarB_NoOrigin;
+                var castedACalculator2 = aCalculator as Multiply_OperatorCalculator_VarA_ConstB_NoOrigin;
+                if (castedACalculator1 != null)
+                {
+                    calculator = new Multiply_OperatorCalculator_MulWithVarB_VarB_NoOrigin(castedACalculator1, bCalculator);
+                }
+                else if (castedACalculator2 != null)
+                {
+                    calculator = new Multiply_OperatorCalculator_MulWithConstB_VarB_NoOrigin(castedACalculator2, bCalculator);
+                }
+                else
+                {
+                    calculator = new Multiply_OperatorCalculator_VarA_VarB_NoOrigin(aCalculator, bCalculator);
+                }
             }
             else if (aIsConst && !bIsConst && originIsConst)
             {
