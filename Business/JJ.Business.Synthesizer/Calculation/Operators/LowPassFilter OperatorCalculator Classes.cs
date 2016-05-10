@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using JJ.Framework.Reflection.Exceptions;
@@ -35,6 +36,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             Reset(new DimensionStack());
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double maxFrequency = _maxFrequencyCalculator.Calculate(dimensionStack);
@@ -79,6 +81,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             Reset(new DimensionStack());
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double signal = _signalCalculator.Calculate(dimensionStack);

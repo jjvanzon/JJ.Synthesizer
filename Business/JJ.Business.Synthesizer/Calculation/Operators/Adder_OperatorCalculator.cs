@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -15,6 +16,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _operandCalculators = operandCalculators;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double result = 0;

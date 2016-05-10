@@ -1,4 +1,6 @@
-﻿namespace JJ.Business.Synthesizer.Calculation.Operators
+﻿using System.Runtime.CompilerServices;
+
+namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     /// <summary>
     /// Slight performace gain compared to the Number_OperatorCalculator.
@@ -7,6 +9,7 @@
     /// </summary>
     internal class Zero_OperatorCalculator : Number_OperatorCalculator
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             return 0;

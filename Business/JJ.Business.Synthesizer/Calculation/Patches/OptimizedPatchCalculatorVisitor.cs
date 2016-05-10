@@ -65,6 +65,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             public int? ListIndex { get; private set; }
         }
 
+        /// <summary>
+        /// Feature switch: not being able to vary bundle dimension values
+        /// during the calculation is faster, but would not give the expected behavior.
+        /// However, we keep the code alive, to be able to experiment with the performance impact.
+        /// </summary>
+        private const bool BUNDLE_DIMENSION_VALUES_ARE_INVARIANT = false;
+
         private const double DEFAULT_PULSE_WIDTH = 0.5;
 
         private readonly ICurveRepository _curveRepository;
@@ -1341,9 +1348,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                if (skipIsConst && 
-                    loopStartMarkerIsConst && 
-                    skip == loopStartMarker && 
+                if (skipIsConst &&
+                    loopStartMarkerIsConst &&
+                    skip == loopStartMarker &&
                     noteDurationIsConstVeryHighValue)
                 {
                     if (loopEndMarkerIsConst)
@@ -1380,12 +1387,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     else
                     {
                         calculator = new Loop_OperatorCalculator(
-                            signalCalculator, 
-                            skipCalculator, 
-                            loopStartMarkerCalculator, 
-                            loopEndMarkerCalculator, 
-                            releaseEndMarkerCalculator, 
-                            noteDurationCalculator, 
+                            signalCalculator,
+                            skipCalculator,
+                            loopStartMarkerCalculator,
+                            loopEndMarkerCalculator,
+                            releaseEndMarkerCalculator,
+                            noteDurationCalculator,
                             dimensionEnum);
                     }
                 }
@@ -3291,7 +3298,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool isTopLevelPatchInlet = IsTopLevelPatchInlet(patchInlet);
 
             // Only top-level PatchInlets are values controllable from the outside.
-            // For foreward compatibility we only apply that rule if nothing else was filled in.
+            // For compatibility we only apply that rule if nothing else was filled in
+            // into the (non-visible) PatchInlet Inlet.
             if (isTopLevelPatchInlet && inputIsConstDefaultValue)
             {
                 VariableInput_OperatorCalculator variableInputCalculator;
@@ -3333,26 +3341,26 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected override void VisitOutlet(Outlet outlet)
         {
             OperatorTypeEnum operatorTypeEnum = outlet.Operator.GetOperatorTypeEnum();
-            switch (operatorTypeEnum)
+
+            if (operatorTypeEnum == OperatorTypeEnum.CustomOperator)
             {
-                case OperatorTypeEnum.CustomOperator:
-                    VisitCustomOperatorOutlet(outlet);
-                    break;
-
-                case OperatorTypeEnum.Bundle:
-                    VisitBundleOperatorOutlet(outlet);
-                    break;
-
-                case OperatorTypeEnum.Unbundle:
-                    VisitUnbundleOperatorOutlet(outlet);
-                    break;
-
-                default:
-                    base.VisitOutlet(outlet);
-                    break;
+                VisitCustomOperatorOutlet(outlet);
+                return;
             }
-        }
+            else if (operatorTypeEnum == OperatorTypeEnum.Bundle)
+            {
+                VisitBundleOperatorOutlet(outlet);
+                return;
+            }
+            else if (operatorTypeEnum == OperatorTypeEnum.Unbundle)
+            {
+                VisitUnbundleOperatorOutlet(outlet);
+                return;
+            }
 
+            base.VisitOutlet(outlet);
+        }
+    
         // TODO: Low Priority: Get rid of the asymmetry in the Operators with one outlet and the ones with multiple outlets.
 
         private void VisitCustomOperatorOutlet(Outlet outlet)
@@ -3372,8 +3380,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         private void VisitUnbundleOperatorOutlet(Outlet outlet)
         {
-            //VisitOperator(outlet.Operator);
-
             Operator op = outlet.Operator;
             Inlet inlet = op.Inlets.Single();
             Outlet inputOutlet = inlet.InputOutlet;
@@ -3397,8 +3403,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         private void VisitBundleOperatorOutlet(Outlet outlet)
         {
-            //VisitOperator(outlet.Operator);
-
             var wrapper = new Bundle_OperatorWrapper(outlet.Operator);
             int dimensionIndex = (int)wrapper.Dimension;
 

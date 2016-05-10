@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Helpers
                    !Double.IsInfinity(value);
         }
 
-        /// <param name="max">Is assumed to fit in an Int32.</param>
+        /// <param name="max">max is assumed to fit in an Int32.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool CanCastToNonNegativeInt32WithMax(double value, double max)
         {

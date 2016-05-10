@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Calculation.Random;
 using JJ.Business.Synthesizer.Enums;
 
@@ -34,6 +35,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 dimensionEnum: dimensionEnum);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             return _resampleOperator.Calculate(dimensionStack);
@@ -72,6 +74,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 dimensionEnum: dimensionEnum);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             return _resampleOperator.Calculate(dimensionStack);
@@ -110,6 +113,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 dimensionEnum: dimensionEnum);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             return _resampleOperator.Calculate(dimensionStack);
@@ -148,6 +152,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 dimensionEnum: dimensionEnum);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             return _resampleOperator.Calculate(dimensionStack);
@@ -186,6 +191,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 dimensionEnum: dimensionEnum);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             return _resampleOperator.Calculate(dimensionStack);
@@ -224,6 +230,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 dimensionEnum: dimensionEnum);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             return _resampleOperator.Calculate(dimensionStack);

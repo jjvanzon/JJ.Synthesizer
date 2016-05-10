@@ -1,5 +1,6 @@
 ﻿
 
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +35,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					if (operandCalculator3 == null) throw new NullException(() => operandCalculator3);
 					_operandCalculator3 = operandCalculator3;
 			}
-
+			 
+			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate(DimensionStack dimensionStack)
 			{
 				return 
@@ -74,7 +76,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					if (operandCalculator4 == null) throw new NullException(() => operandCalculator4);
 					_operandCalculator4 = operandCalculator4;
 			}
-
+			 
+			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate(DimensionStack dimensionStack)
 			{
 				return 
@@ -120,7 +123,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					if (operandCalculator5 == null) throw new NullException(() => operandCalculator5);
 					_operandCalculator5 = operandCalculator5;
 			}
-
+			 
+			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate(DimensionStack dimensionStack)
 			{
 				return 
@@ -172,7 +176,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					if (operandCalculator6 == null) throw new NullException(() => operandCalculator6);
 					_operandCalculator6 = operandCalculator6;
 			}
-
+			 
+			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate(DimensionStack dimensionStack)
 			{
 				return 
@@ -230,7 +235,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					if (operandCalculator7 == null) throw new NullException(() => operandCalculator7);
 					_operandCalculator7 = operandCalculator7;
 			}
-
+			 
+			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate(DimensionStack dimensionStack)
 			{
 				return 
@@ -294,7 +300,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					if (operandCalculator8 == null) throw new NullException(() => operandCalculator8);
 					_operandCalculator8 = operandCalculator8;
 			}
-
+			 
+			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate(DimensionStack dimensionStack)
 			{
 				return 
@@ -364,7 +371,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					if (operandCalculator9 == null) throw new NullException(() => operandCalculator9);
 					_operandCalculator9 = operandCalculator9;
 			}
-
+			 
+			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate(DimensionStack dimensionStack)
 			{
 				return 
@@ -440,7 +448,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					if (operandCalculator10 == null) throw new NullException(() => operandCalculator10);
 					_operandCalculator10 = operandCalculator10;
 			}
-
+			 
+			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate(DimensionStack dimensionStack)
 			{
 				return 
@@ -522,7 +531,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					if (operandCalculator11 == null) throw new NullException(() => operandCalculator11);
 					_operandCalculator11 = operandCalculator11;
 			}
-
+			 
+			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate(DimensionStack dimensionStack)
 			{
 				return 
@@ -610,7 +620,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					if (operandCalculator12 == null) throw new NullException(() => operandCalculator12);
 					_operandCalculator12 = operandCalculator12;
 			}
-
+			 
+			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate(DimensionStack dimensionStack)
 			{
 				return 
@@ -704,7 +715,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					if (operandCalculator13 == null) throw new NullException(() => operandCalculator13);
 					_operandCalculator13 = operandCalculator13;
 			}
-
+			 
+			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate(DimensionStack dimensionStack)
 			{
 				return 
@@ -804,7 +816,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					if (operandCalculator14 == null) throw new NullException(() => operandCalculator14);
 					_operandCalculator14 = operandCalculator14;
 			}
-
+			 
+			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate(DimensionStack dimensionStack)
 			{
 				return 
@@ -910,7 +923,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					if (operandCalculator15 == null) throw new NullException(() => operandCalculator15);
 					_operandCalculator15 = operandCalculator15;
 			}
-
+			 
+			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate(DimensionStack dimensionStack)
 			{
 				return 
@@ -1022,7 +1036,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					if (operandCalculator16 == null) throw new NullException(() => operandCalculator16);
 					_operandCalculator16 = operandCalculator16;
 			}
-
+			 
+			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate(DimensionStack dimensionStack)
 			{
 				return 
@@ -1140,7 +1155,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					if (operandCalculator17 == null) throw new NullException(() => operandCalculator17);
 					_operandCalculator17 = operandCalculator17;
 			}
-
+			 
+			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate(DimensionStack dimensionStack)
 			{
 				return 
@@ -1264,7 +1280,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					if (operandCalculator18 == null) throw new NullException(() => operandCalculator18);
 					_operandCalculator18 = operandCalculator18;
 			}
-
+			 
+			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate(DimensionStack dimensionStack)
 			{
 				return 
@@ -1394,7 +1411,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					if (operandCalculator19 == null) throw new NullException(() => operandCalculator19);
 					_operandCalculator19 = operandCalculator19;
 			}
-
+			 
+			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate(DimensionStack dimensionStack)
 			{
 				return 
@@ -1530,7 +1548,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					if (operandCalculator20 == null) throw new NullException(() => operandCalculator20);
 					_operandCalculator20 = operandCalculator20;
 			}
-
+			 
+			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate(DimensionStack dimensionStack)
 			{
 				return 
@@ -1672,7 +1691,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					if (operandCalculator21 == null) throw new NullException(() => operandCalculator21);
 					_operandCalculator21 = operandCalculator21;
 			}
-
+			 
+			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate(DimensionStack dimensionStack)
 			{
 				return 
@@ -1820,7 +1840,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					if (operandCalculator22 == null) throw new NullException(() => operandCalculator22);
 					_operandCalculator22 = operandCalculator22;
 			}
-
+			 
+			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate(DimensionStack dimensionStack)
 			{
 				return 
@@ -1974,7 +1995,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					if (operandCalculator23 == null) throw new NullException(() => operandCalculator23);
 					_operandCalculator23 = operandCalculator23;
 			}
-
+			 
+			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate(DimensionStack dimensionStack)
 			{
 				return 
@@ -2134,7 +2156,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					if (operandCalculator24 == null) throw new NullException(() => operandCalculator24);
 					_operandCalculator24 = operandCalculator24;
 			}
-
+			 
+			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate(DimensionStack dimensionStack)
 			{
 				return 
@@ -2300,7 +2323,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					if (operandCalculator25 == null) throw new NullException(() => operandCalculator25);
 					_operandCalculator25 = operandCalculator25;
 			}
-
+			 
+			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate(DimensionStack dimensionStack)
 			{
 				return 
@@ -2472,7 +2496,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					if (operandCalculator26 == null) throw new NullException(() => operandCalculator26);
 					_operandCalculator26 = operandCalculator26;
 			}
-
+			 
+			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate(DimensionStack dimensionStack)
 			{
 				return 
@@ -2650,7 +2675,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					if (operandCalculator27 == null) throw new NullException(() => operandCalculator27);
 					_operandCalculator27 = operandCalculator27;
 			}
-
+			 
+			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate(DimensionStack dimensionStack)
 			{
 				return 
@@ -2834,7 +2860,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					if (operandCalculator28 == null) throw new NullException(() => operandCalculator28);
 					_operandCalculator28 = operandCalculator28;
 			}
-
+			 
+			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate(DimensionStack dimensionStack)
 			{
 				return 
@@ -3024,7 +3051,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					if (operandCalculator29 == null) throw new NullException(() => operandCalculator29);
 					_operandCalculator29 = operandCalculator29;
 			}
-
+			 
+			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate(DimensionStack dimensionStack)
 			{
 				return 
@@ -3220,7 +3248,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					if (operandCalculator30 == null) throw new NullException(() => operandCalculator30);
 					_operandCalculator30 = operandCalculator30;
 			}
-
+			 
+			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate(DimensionStack dimensionStack)
 			{
 				return 
@@ -3422,7 +3451,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					if (operandCalculator31 == null) throw new NullException(() => operandCalculator31);
 					_operandCalculator31 = operandCalculator31;
 			}
-
+			 
+			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate(DimensionStack dimensionStack)
 			{
 				return 
@@ -3630,7 +3660,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					if (operandCalculator32 == null) throw new NullException(() => operandCalculator32);
 					_operandCalculator32 = operandCalculator32;
 			}
-
+			 
+			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate(DimensionStack dimensionStack)
 			{
 				return 

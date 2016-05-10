@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -24,6 +25,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _resetCalculator = resetCalculator;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double newTriggerValue = _resetCalculator.Calculate(dimensionStack);

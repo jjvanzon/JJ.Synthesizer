@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Calculation.Samples;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Reflection.Exceptions;
@@ -34,6 +35,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionIndex = (int)dimensionEnum;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double position = dimensionStack.Get(_dimensionIndex);
@@ -94,6 +96,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _rate = frequency / Sample_OperatorCalculator_Helper.BASE_FREQUENCY;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double position = dimensionStack.Get(_dimensionIndex);
@@ -152,6 +155,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionIndex = (int)dimensionEnum;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double position = dimensionStack.Get(_dimensionIndex);
@@ -211,6 +215,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _rate = frequency / Sample_OperatorCalculator_Helper.BASE_FREQUENCY;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double position = dimensionStack.Get(_dimensionIndex);
@@ -268,6 +273,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionIndex = (int)dimensionEnum;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double position = dimensionStack.Get(_dimensionIndex);
@@ -327,6 +333,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _rate = frequency / Sample_OperatorCalculator_Helper.BASE_FREQUENCY;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double position = dimensionStack.Get(_dimensionIndex);

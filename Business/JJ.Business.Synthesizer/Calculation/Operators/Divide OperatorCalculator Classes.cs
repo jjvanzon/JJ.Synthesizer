@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -26,6 +27,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _originValue = originValue;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double a = _numeratorCalculator.Calculate(dimensionStack);
@@ -53,6 +55,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _originValue = originValue;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double denominator = _denominatorCalculator.Calculate(dimensionStack);
@@ -88,6 +91,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _originValue = originValue;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double numerator = _numeratorCalculator.Calculate(dimensionStack);
@@ -125,6 +129,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _originCalculator = originCalculator;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double origin = _originCalculator.Calculate(dimensionStack);
@@ -154,6 +159,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _originCalculator = originCalculator;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double origin = _originCalculator.Calculate(dimensionStack);
@@ -183,6 +189,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _originCalculator = originCalculator;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double denominator = _denominatorCalculator.Calculate(dimensionStack);
@@ -222,6 +229,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _originCalculator = originCalculator;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double numerator = _numeratorCalculator.Calculate(dimensionStack);
@@ -255,6 +263,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _denominatorCalculator = denominatorCalculator;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double numerator = _numeratorCalculator.Calculate(dimensionStack);
@@ -285,6 +294,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _denominatorValue = denominatorValue;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double numerator = _numeratorCalculator.Calculate(dimensionStack);
@@ -310,6 +320,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _denominatorCalculator = denominatorCalculator;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double denominator = _denominatorCalculator.Calculate(dimensionStack);

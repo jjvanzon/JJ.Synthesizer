@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Calculation.Random;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Reflection.Exceptions;
@@ -43,6 +44,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _phase = _randomCalculatorOffset;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double position = dimensionStack.Get(_dimensionIndex);
@@ -53,11 +55,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double positionChange = position - _previousPosition;
             double phase = _phase + positionChange * rate;
 
-            // Prevent phase from becoming a special number, rendering it unusable forever.
-            //if (Double.IsNaN(phase) || Double.IsInfinity(phase))
-            //{
-            //    return Double.NaN;
-            //}
             _phase = phase;
 
             double shiftedPhase = _phase + phaseShift;

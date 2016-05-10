@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -21,6 +22,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _calculatorB = calculatorB;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double a = _calculatorA.Calculate(dimensionStack);
@@ -45,6 +47,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _b = b;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double a = _calculatorA.Calculate(dimensionStack);
@@ -68,6 +71,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _calculatorB = calculatorB;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double b = _calculatorB.Calculate(dimensionStack);

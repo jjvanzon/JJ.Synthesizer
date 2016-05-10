@@ -3,6 +3,7 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
+
 <#@ output extension=".cs" #>
 
 <# int maxAdderOperands = 32; #>
@@ -75,7 +76,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				}
 #>
 			}
-
+			 
+			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate(DimensionStack dimensionStack)
 			{
 				return 

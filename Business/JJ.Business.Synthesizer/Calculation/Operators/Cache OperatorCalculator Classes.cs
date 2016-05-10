@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -24,6 +26,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionIndex = (int)dimensionEnum;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double time = dimensionStack.Get(_dimensionIndex);
@@ -36,6 +39,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         where TArrayCalculator : ArrayCalculatorBase
     {
         private readonly TArrayCalculator[] _arrayCalculators;
+        private readonly int _arrayCalculatorsLength;
         private readonly int _dimensionIndex;
 
         public Cache_OperatorCalculator_MultiChannel(
@@ -47,15 +51,21 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             _arrayCalculators = arrayCalculators.ToArray();
             _dimensionIndex = (int)dimensionEnum;
+            _arrayCalculatorsLength = _arrayCalculators.Length;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
-            double channel = dimensionStack.Get(DimensionEnum.Channel);
+            double channelDouble = dimensionStack.Get(DimensionEnum.Channel);
             double time = dimensionStack.Get(_dimensionIndex);
 
-            // TODO: Cast to int can fail.
-            int channelInt = (int)channel;
+            if (!ConversionHelper.CanCastToNonNegativeInt32WithMax(channelDouble, _arrayCalculatorsLength))
+            {
+                return 0.0;
+            }
+
+            int channelInt = (int)channelDouble;
 
             return _arrayCalculators[channelInt].CalculateValue(time);
         }

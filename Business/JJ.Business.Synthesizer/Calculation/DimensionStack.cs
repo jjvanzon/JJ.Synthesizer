@@ -76,7 +76,7 @@ namespace JJ.Business.Synthesizer.Calculation
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double PopAndGet(int dimensionIndex)
         {
-            double value = _stacks[dimensionIndex].Pop();
+            double value = _stacks[dimensionIndex].PopAndGet();
             return value;
         }
 

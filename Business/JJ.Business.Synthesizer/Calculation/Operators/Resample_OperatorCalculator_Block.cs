@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Reflection.Exceptions;
 
@@ -33,6 +34,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionIndex = (int)dimensionEnum;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double samplingRate = _samplingRateCalculator.Calculate(dimensionStack);

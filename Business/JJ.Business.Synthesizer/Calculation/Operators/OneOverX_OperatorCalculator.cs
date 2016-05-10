@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -16,6 +17,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _xCalculator = xCalculator;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double x = _xCalculator.Calculate(dimensionStack);

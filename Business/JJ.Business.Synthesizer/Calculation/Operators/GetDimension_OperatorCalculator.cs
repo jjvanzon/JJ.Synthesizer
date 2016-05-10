@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -16,6 +17,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionEnumInt = (int)dimensionEnum;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             return dimensionStack.Get(_dimensionEnumInt);

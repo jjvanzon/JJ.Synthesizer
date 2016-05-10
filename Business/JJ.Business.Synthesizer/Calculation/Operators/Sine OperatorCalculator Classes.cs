@@ -2,6 +2,7 @@
 using System;
 using JJ.Framework.Mathematics;
 using JJ.Business.Synthesizer.Enums;
+using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -25,6 +26,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionIndex = (int)dimensionEnum;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double position = dimensionStack.Get(_dimensionIndex);
@@ -83,6 +85,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionIndex = (int)dimensionEnum;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double position = dimensionStack.Get(_dimensionIndex);
@@ -145,6 +148,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionIndex = (int)dimensionEnum;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double position = dimensionStack.Get(_dimensionIndex);
@@ -196,6 +200,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionIndex = (int)dimensionEnum;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double position = dimensionStack.Get(_dimensionIndex);
@@ -225,6 +230,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionIndex = (int)dimensionEnum;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double position = dimensionStack.Get(_dimensionIndex);
@@ -255,6 +261,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionIndex = (int)dimensionEnum;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double position = dimensionStack.Get(_dimensionIndex);

@@ -204,7 +204,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return (a - origin) * b + origin;
         }
     }
-
+     
     internal class Multiply_OperatorCalculator_VarA_VarB_NoOrigin : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _aCalculator;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Common.Exceptions;
 using JJ.Framework.Reflection.Exceptions;
@@ -44,6 +45,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             Reset(new DimensionStack());
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double signal = _signalCalculator.Calculate(dimensionStack);

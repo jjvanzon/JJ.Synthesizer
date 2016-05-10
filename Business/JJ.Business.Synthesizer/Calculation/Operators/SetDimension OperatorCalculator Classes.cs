@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -27,6 +28,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _calculationCalculator = calculationCalculator;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             dimensionStack.Push(_dimensionEnumInt, _value);
@@ -62,6 +64,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _valueCalculator = valueCalculator;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double dimensionValue = _valueCalculator.Calculate(dimensionStack);

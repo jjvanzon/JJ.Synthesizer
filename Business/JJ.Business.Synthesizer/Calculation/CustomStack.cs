@@ -49,13 +49,19 @@ namespace System.Collections.Generic
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public T Pop()
+        public T PopAndGet()
         {
             _size--;
 
             T item = _array[_size];
 
             return item;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Pop()
+        {
+            _size--;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

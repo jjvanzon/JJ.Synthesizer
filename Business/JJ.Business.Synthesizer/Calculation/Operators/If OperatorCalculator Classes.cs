@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -25,6 +26,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _elseCalculator = elseCalculator;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double condition = _conditionCalculator.Calculate(dimensionStack);
@@ -64,6 +66,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _elseCalculator = elseCalculator;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double condition = _conditionCalculator.Calculate(dimensionStack);
@@ -102,6 +105,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _else = @else;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double condition = _conditionCalculator.Calculate(dimensionStack);
@@ -139,6 +143,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _else = @else;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double condition = _conditionCalculator.Calculate(dimensionStack);

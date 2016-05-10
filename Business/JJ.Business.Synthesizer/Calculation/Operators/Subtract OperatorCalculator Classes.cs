@@ -1,5 +1,6 @@
 ﻿using JJ.Framework.Reflection.Exceptions;
 using System;
+using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -22,6 +23,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _bCalculator = bCalculator;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double a = _aCalculator.Calculate(dimensionStack);
@@ -45,6 +47,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _bCalculator = bCalculator;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double b = _bCalculator.Calculate(dimensionStack);
@@ -67,6 +70,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _b = b;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double a = _aCalculator.Calculate(dimensionStack);

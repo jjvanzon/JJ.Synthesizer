@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -39,6 +40,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _targetValueBCalculator = targetValueBCalculator;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double signal = _signalCalculator.Calculate(dimensionStack);

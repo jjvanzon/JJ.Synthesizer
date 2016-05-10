@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using JJ.Framework.Mathematics;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -26,6 +27,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _offsetCalculator = offsetCalculator;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double signal = _signalCalculator.Calculate(dimensionStack);
@@ -58,6 +60,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _offset = offset;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double signal = _signalCalculator.Calculate(dimensionStack);
@@ -85,6 +88,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _stepCalculator = stepCalculator;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double signal = _signalCalculator.Calculate(dimensionStack);
@@ -116,6 +120,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _offsetCalculator = offsetCalculator;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double signal = _signalCalculator.Calculate(dimensionStack);
@@ -147,6 +152,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _offset = offset;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double signal = _signalCalculator.Calculate(dimensionStack);
@@ -173,6 +179,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _step = step;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double signal = _signalCalculator.Calculate(dimensionStack);
@@ -204,6 +211,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _offsetCalculator = offsetCalculator;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double step = _stepCalculator.Calculate(dimensionStack);
@@ -226,6 +234,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _signalCalculator = signalCalculator;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double signal = _signalCalculator.Calculate(dimensionStack);

@@ -2,6 +2,7 @@
 using JJ.Framework.Reflection.Exceptions;
 using System;
 using JJ.Business.Synthesizer.Enums;
+using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {

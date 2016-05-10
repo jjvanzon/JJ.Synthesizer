@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 
@@ -20,6 +21,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _operandCountDouble = operands.Count;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double dimensionValue = dimensionStack.PopAndGet(_dimensionIndex);

@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -23,6 +24,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionIndex = (int)dimensionEnum;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double position = dimensionStack.Get(_dimensionIndex);

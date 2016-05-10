@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -24,6 +25,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _ratioCalculator = ratioCalculator;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double low = _lowCalculator.Calculate(dimensionStack);
@@ -54,6 +56,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _ratioCalculator = ratioCalculator;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double high = _highCalculator.Calculate(dimensionStack);
@@ -83,6 +86,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _ratioCalculator = ratioCalculator;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double low = _lowCalculator.Calculate(dimensionStack);
@@ -119,6 +123,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _ratioCalculator = ratioCalculator;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double ratio = _ratioCalculator.Calculate(dimensionStack);
@@ -147,6 +152,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _ratio = ratio;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double low = _lowCalculator.Calculate(dimensionStack);
@@ -174,6 +180,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _ratio = ratio;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double high = _highCalculator.Calculate(dimensionStack);
@@ -200,6 +207,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _ratio = ratio;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double low = _lowCalculator.Calculate(dimensionStack);
