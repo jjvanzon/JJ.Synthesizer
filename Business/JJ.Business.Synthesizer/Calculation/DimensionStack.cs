@@ -68,6 +68,19 @@ namespace JJ.Business.Synthesizer.Calculation
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public double PopAndGet(DimensionEnum dimensionEnum)
+        {
+            return PopAndGet((int)dimensionEnum);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public double PopAndGet(int dimensionIndex)
+        {
+            double value = _stacks[dimensionIndex].Pop();
+            return value;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double Get(DimensionEnum dimensionEnum)
         {
             return Get((int)dimensionEnum);
@@ -99,6 +112,19 @@ namespace JJ.Business.Synthesizer.Calculation
         public void Set(int dimensionIndex, double value)
         {
             _stacks[dimensionIndex].Set(value);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int Count(DimensionEnum dimensionEnum)
+        {
+            return Count((int)dimensionEnum);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int Count(int dimensionIndex)
+        {
+            int count = _stacks[dimensionIndex].Count;
+            return count;
         }
     }
 }

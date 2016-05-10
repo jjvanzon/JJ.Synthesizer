@@ -44,7 +44,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     break;
 
                 case 2:
-                    calculator = new Add_OperatorCalculator(operandCalculators[0], operandCalculators[1]);
+                    calculator = new Add_OperatorCalculator_VarA_VarB(operandCalculators[0], operandCalculators[1]);
                     break;
 
 <#

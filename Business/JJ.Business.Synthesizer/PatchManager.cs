@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer
 {
     /// <summary>
     /// Manages a Patch and its Operators.
-    /// You can supply a patch, Create a new one using the Create method
+    /// You can supply a patch, Create a new one using the CreatePatch method
     /// or omit the Patch to only call methods that do not require it.
     /// </summary>
     public partial class PatchManager

@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using JJ.Framework.Reflection.Exceptions;
-
-namespace JJ.Business.Synthesizer.Calculation.Operators
+﻿namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     // Dispatch through a base class is faster than using an interface.
 

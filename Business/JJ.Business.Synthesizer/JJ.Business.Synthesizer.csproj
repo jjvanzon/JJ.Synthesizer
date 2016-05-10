@@ -83,6 +83,10 @@
     <Compile Include="Calculation\Curves\CurveCalculator_MinXZero.cs" />
     <Compile Include="Calculation\Curves\CurveCalculator_MinX.cs" />
     <Compile Include="Calculation\DimensionStack.cs" />
+    <Compile Include="Calculation\Operators\Backup of Add OperatorCalculator Classes %28with Generics%29.cs" />
+    <Compile Include="Calculation\Operators\2016-05-10 Backup of Multiply OperatorCalculator Classes %28With Generics%29.cs" />
+    <Compile Include="Calculation\Operators\Unbundle_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Bundle_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Cache OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\2016-04-05 Backup of SpeedUp OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\2016-04-05 Backup of SlowDown OperatorCalculator Classes.cs" />
@@ -165,6 +169,7 @@
     <Compile Include="Calculation\Operators\Sine OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Noise_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\One_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Patches\2016-05-10 Backup of OptimizedPatchCalculatorVisitor %28With Generics%29.cs" />
     <Compile Include="Calculation\Patches\IPatchCalculator.cs" />
     <Compile Include="Calculation\Operators\Zero_OperatorCalculator.cs" />
     <Compile Include="Calculation\Patches\OptimizedPatchCalculator.cs" />

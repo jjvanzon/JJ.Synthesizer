@@ -3,7 +3,7 @@ using JJ.Framework.Data.Memory;
 
 namespace JJ.Data.Synthesizer.Memory.Mappings
 {
-    public class AudioOutputMapping : MemoryMapping<AudioFileOutput>
+    public class AudioOutputMapping : MemoryMapping<AudioOutput>
     {
         public AudioOutputMapping()
         {

@@ -1,28 +1,28 @@
 ﻿using System;
-using JJ.Framework.Reflection.Exceptions;
+using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Multiply_ConstA_VarB_ConstOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Multiply_OperatorCalculator_ConstA_VarB_ConstOrigin : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly double _a;
         private readonly OperatorCalculatorBase _bCalculator;
         private readonly double _origin;
 
-        public Multiply_ConstA_VarB_ConstOrigin_OperatorCalculator(
+        public Multiply_OperatorCalculator_ConstA_VarB_ConstOrigin(
             double a,
             OperatorCalculatorBase bCalculator,
             double origin)
             : base(new OperatorCalculatorBase[] { bCalculator })
         {
-            if (bCalculator == null) throw new NullException(() => bCalculator);
-            if (bCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => bCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(bCalculator, () => bCalculator);
 
             _a = a;
             _bCalculator = bCalculator;
             _origin = origin;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double b = _bCalculator.Calculate(dimensionStack);
@@ -30,29 +30,29 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Multiply_VarA_ConstB_ConstOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Multiply_OperatorCalculator_VarA_ConstB_ConstOrigin : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _aCalculator;
         private readonly double _b;
         private readonly double _origin;
 
-        public Multiply_VarA_ConstB_ConstOrigin_OperatorCalculator(
+        public Multiply_OperatorCalculator_VarA_ConstB_ConstOrigin(
             OperatorCalculatorBase aCalculator,
             double b,
             double origin)
             : base(new OperatorCalculatorBase[] { aCalculator })
         {
-            if (aCalculator == null) throw new NullException(() => aCalculator);
             // TODO: Enable this code line again after debugging the hacsk in Random_OperatorCalculator_OtherInterpolations's
             // constructor that creates an instance of Divide_WithoutOrigin_WithConstNumerator_OperatorCalculator.
             // It that no longer happens in that constructor, you can enable this code line again.
-            //if (aCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => aCalculator);
+            //OperatorCalculatorHelper.AssertOperatorCalculatorBase(aCalculator, () => aCalculator);
 
             _aCalculator = aCalculator;
             _b = b;
             _origin = origin;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double a = _aCalculator.Calculate(dimensionStack);
@@ -60,28 +60,27 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Multiply_VarA_VarB_ConstOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Multiply_OperatorCalculator_VarA_VarB_ConstOrigin : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _aCalculator;
         private readonly OperatorCalculatorBase _bCalculator;
         private readonly double _origin;
 
-        public Multiply_VarA_VarB_ConstOrigin_OperatorCalculator(
+        public Multiply_OperatorCalculator_VarA_VarB_ConstOrigin(
             OperatorCalculatorBase aCalculator,
             OperatorCalculatorBase bCalculator,
             double origin)
             : base(new OperatorCalculatorBase[] { aCalculator, bCalculator })
         {
-            if (aCalculator == null) throw new NullException(() => aCalculator);
-            if (aCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => aCalculator);
-            if (bCalculator == null) throw new NullException(() => bCalculator);
-            if (bCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => bCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(aCalculator, () => aCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(bCalculator, () => bCalculator);
 
             _aCalculator = aCalculator;
             _bCalculator = bCalculator;
             _origin = origin;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double a = _aCalculator.Calculate(dimensionStack);
@@ -90,26 +89,26 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Multiply_ConstA_ConstB_VarOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Multiply_OperatorCalculator_ConstA_ConstB_VarOrigin : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly double _a;
         private readonly double _b;
         private readonly OperatorCalculatorBase _originCalculator;
 
-        public Multiply_ConstA_ConstB_VarOrigin_OperatorCalculator(
+        public Multiply_OperatorCalculator_ConstA_ConstB_VarOrigin(
             double a,
             double b,
             OperatorCalculatorBase originCalculator)
             : base(new OperatorCalculatorBase[] { originCalculator })
         {
-            if (originCalculator == null) throw new NullException(() => originCalculator);
-            if (originCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => originCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(originCalculator, () => originCalculator);
 
             _a = a;
             _b = b;
             _originCalculator = originCalculator;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double origin = _originCalculator.Calculate(dimensionStack);
@@ -117,28 +116,27 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Multiply_ConstA_VarB_VarOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Multiply_OperatorCalculator_ConstA_VarB_VarOrigin : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly double _a;
         private readonly OperatorCalculatorBase _bCalculator;
         private readonly OperatorCalculatorBase _originCalculator;
 
-        public Multiply_ConstA_VarB_VarOrigin_OperatorCalculator(
+        public Multiply_OperatorCalculator_ConstA_VarB_VarOrigin(
             double a,
             OperatorCalculatorBase bCalculator,
             OperatorCalculatorBase originCalculator)
             : base(new OperatorCalculatorBase[] { bCalculator, originCalculator })
         {
-            if (bCalculator == null) throw new NullException(() => bCalculator);
-            if (bCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => bCalculator);
-            if (originCalculator == null) throw new NullException(() => originCalculator);
-            if (originCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => originCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(bCalculator, () => bCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(originCalculator, () => originCalculator);
 
             _a = a;
             _bCalculator = bCalculator;
             _originCalculator = originCalculator;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double origin = _originCalculator.Calculate(dimensionStack);
@@ -147,28 +145,27 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Multiply_VarA_ConstB_VarOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Multiply_OperatorCalculator_VarA_ConstB_VarOrigin : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _aCalculator;
         private readonly double _b;
         private readonly OperatorCalculatorBase _originCalculator;
 
-        public Multiply_VarA_ConstB_VarOrigin_OperatorCalculator(
+        public Multiply_OperatorCalculator_VarA_ConstB_VarOrigin(
             OperatorCalculatorBase aCalculator,
             double b,
             OperatorCalculatorBase originCalculator)
             : base(new OperatorCalculatorBase[] { aCalculator, originCalculator })
         {
-            if (aCalculator == null) throw new NullException(() => aCalculator);
-            if (aCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => aCalculator);
-            if (originCalculator == null) throw new NullException(() => originCalculator);
-            if (originCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => originCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(aCalculator, () => aCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(originCalculator, () => originCalculator);
 
             _aCalculator = aCalculator;
             _b = b;
             _originCalculator = originCalculator;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double origin = _originCalculator.Calculate(dimensionStack);
@@ -177,38 +174,28 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Multiply_VarA_VarB_VarOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Multiply_OperatorCalculator_VarA_VarB_VarOrigin : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _aCalculator;
         private readonly OperatorCalculatorBase _bCalculator;
         private readonly OperatorCalculatorBase _originCalculator;
         
-        public Multiply_VarA_VarB_VarOrigin_OperatorCalculator(
+        public Multiply_OperatorCalculator_VarA_VarB_VarOrigin(
             OperatorCalculatorBase aCalculator,
             OperatorCalculatorBase bCalculator,
             OperatorCalculatorBase originCalculator)
             : base(new OperatorCalculatorBase[] { aCalculator, bCalculator, originCalculator })
         {
-            if (aCalculator == null) throw new NullException(() => aCalculator);
-            if (aCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => aCalculator);
-            if (bCalculator == null) throw new NullException(() => bCalculator);
-            if (bCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => bCalculator);
-            if (originCalculator == null) throw new NullException(() => originCalculator);
-            if (originCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => originCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(aCalculator, () => aCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(bCalculator, () => bCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(originCalculator, () => originCalculator);
 
             _aCalculator = aCalculator;
             _bCalculator = bCalculator;
             _originCalculator = originCalculator;
         }
 
-        internal OperatorCalculatorBase BCalculator
-        {
-            get
-            {
-                return _bCalculator;
-            }
-        }
-
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double origin = _originCalculator.Calculate(dimensionStack);
@@ -218,23 +205,22 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Multiply_VarA_VarB_NoOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Multiply_OperatorCalculator_VarA_VarB_NoOrigin : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _aCalculator;
         private readonly OperatorCalculatorBase _bCalculator;
 
-        public Multiply_VarA_VarB_NoOrigin_OperatorCalculator(OperatorCalculatorBase aCalculator, OperatorCalculatorBase bCalculator)
+        public Multiply_OperatorCalculator_VarA_VarB_NoOrigin(OperatorCalculatorBase aCalculator, OperatorCalculatorBase bCalculator)
             : base(new OperatorCalculatorBase[] { aCalculator, bCalculator })
         {
-            if (aCalculator == null) throw new NullException(() => aCalculator);
-            if (aCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => aCalculator);
-            if (bCalculator == null) throw new NullException(() => bCalculator);
-            if (bCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => bCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(aCalculator, () => aCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(bCalculator, () => bCalculator);
 
             _aCalculator = aCalculator;
             _bCalculator = bCalculator;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double a = _aCalculator.Calculate(dimensionStack);
@@ -243,21 +229,21 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Multiply_ConstA_VarB_NoOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Multiply_OperatorCalculator_ConstA_VarB_NoOrigin : OperatorCalculatorBase_WithChildCalculators
     {
         private double _a;
         private OperatorCalculatorBase _bCalculator;
 
-        public Multiply_ConstA_VarB_NoOrigin_OperatorCalculator(double a, OperatorCalculatorBase bCalculator)
+        public Multiply_OperatorCalculator_ConstA_VarB_NoOrigin(double a, OperatorCalculatorBase bCalculator)
             : base(new OperatorCalculatorBase[] { bCalculator })
         {
-            if (bCalculator == null) throw new NullException(() => bCalculator);
-            if (bCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => bCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(bCalculator, () => bCalculator);
 
             _a = a;
             _bCalculator = bCalculator;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double b = _bCalculator.Calculate(dimensionStack);
@@ -265,21 +251,21 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Multiply_VarA_ConstB_NoOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Multiply_OperatorCalculator_VarA_ConstB_NoOrigin : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _aCalculator;
         private readonly double _b;
 
-        public Multiply_VarA_ConstB_NoOrigin_OperatorCalculator(OperatorCalculatorBase aCalculator, double b)
+        public Multiply_OperatorCalculator_VarA_ConstB_NoOrigin(OperatorCalculatorBase aCalculator, double b)
             : base(new OperatorCalculatorBase[] { aCalculator })
         {
-            if (aCalculator == null) throw new NullException(() => aCalculator);
-            if (aCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => aCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(aCalculator, () => aCalculator);
 
             _aCalculator = aCalculator;
             _b = b;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double a = _aCalculator.Calculate(dimensionStack);

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Diagnostics;
 
 namespace System.Collections.Generic
 {
@@ -74,6 +75,12 @@ namespace System.Collections.Generic
         public void Set(T item)
         {
             _array[_size - 1] = item;
+        }
+
+        public int Count
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get { return _size; }
         }
     }
 }

@@ -228,6 +228,7 @@ namespace JJ.Business.Synthesizer.Tests
                 var sampleManager = new SampleManager(new SampleRepositories(repositories));
                 var audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
                 var patchManager = new PatchManager(new PatchRepositories(repositories));
+                patchManager.CreatePatch();
 
                 Stream sampleStream = TestHelper.GetViolin16BitMono44100WavStream();
                 SampleInfo sampleInfo = sampleManager.CreateSample(sampleStream);
@@ -265,6 +266,7 @@ namespace JJ.Business.Synthesizer.Tests
                 var sampleManager =  new SampleManager(new SampleRepositories(repositories));
                 var audioFileOutputManager = new AudioFileOutputManager (new AudioFileOutputRepositories(repositories));
                 var patchManager = new PatchManager(new PatchRepositories(repositories));
+                patchManager.CreatePatch();
 
                 Stream sampleStream = TestHelper.GetViolin16BitMono44100WavStream();
                 SampleInfo sampleInfo = sampleManager.CreateSample(sampleStream);
@@ -293,7 +295,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_Synthesizer_HardCodedTimePowerWithEcho()
+        public void Test_Synthesizer_TimePowerWithEcho_HardCoded()
         {
             const double seconds = 6.5;
             const double samplingRate = 44100.0;
@@ -352,7 +354,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_Synthesizer_HardCodedMultiplyWithEcho()
+        public void Test_Synthesizer_MultiplyWithEcho_HardCoded()
         {
             const double seconds = 6.5;
             const double samplingRate = 44100.0;

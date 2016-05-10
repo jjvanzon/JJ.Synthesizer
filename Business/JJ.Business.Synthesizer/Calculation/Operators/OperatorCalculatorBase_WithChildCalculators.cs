@@ -14,6 +14,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             if (childOperatorCalculators == null) throw new NullException(() => childOperatorCalculators);
             if (childOperatorCalculators.Count < 1) throw new LessThanException(() => childOperatorCalculators.Count, 1);
+            if (childOperatorCalculators.Contains(null)) throw new HasNullsException(() => childOperatorCalculators);
 
             _childOperatorCalculators = childOperatorCalculators.ToArray();
         }

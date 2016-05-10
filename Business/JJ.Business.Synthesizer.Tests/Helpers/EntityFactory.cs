@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             return outlet;
         }
 
-        public static Outlet CreateEcho(PatchManager x, Outlet signal, int count = 15, double denominator = 1.5, double delay = 0.25)
+        public static Outlet CreateEcho(PatchManager x, Outlet signal, int count = 15, double denominator = 1.5, double delayValue = 0.25)
         {
             if (x == null) throw new NullException(() => x);
 
@@ -53,11 +53,11 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             for (int i = 0; i < count; i++)
             {
                 Outlet divide = x.Divide(signal, x.Number(cumulativeDenominator));
-                Outlet timeAdd = x.Delay(divide, x.Number(cumulativeDelay));
-                repeats.Add(timeAdd);
+                Outlet delay = x.Delay(divide, x.Number(cumulativeDelay));
+                repeats.Add(delay);
 
                 cumulativeDenominator *= denominator;
-                cumulativeDelay += delay;
+                cumulativeDelay += delayValue;
             }
 
             Adder_OperatorWrapper adder = x.Adder(repeats);

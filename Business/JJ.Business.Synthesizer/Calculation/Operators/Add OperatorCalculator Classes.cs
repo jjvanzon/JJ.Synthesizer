@@ -1,97 +1,76 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Add_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Add_OperatorCalculator_VarA_VarB : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _aCalculator;
         private readonly OperatorCalculatorBase _bCalculator;
 
-        public Add_OperatorCalculator(OperatorCalculatorBase aCalculator, OperatorCalculatorBase bCalculator)
+        public Add_OperatorCalculator_VarA_VarB(OperatorCalculatorBase aCalculator, OperatorCalculatorBase bCalculator)
             : base(new OperatorCalculatorBase[] { aCalculator, bCalculator })
         {
-            if (aCalculator == null) throw new NullException(() => aCalculator);
-            if (bCalculator == null) throw new NullException(() => bCalculator);
-            if (aCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => aCalculator);
-            if (bCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => bCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(aCalculator, () => aCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(bCalculator, () => bCalculator);
 
             _aCalculator = aCalculator;
             _bCalculator = bCalculator;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double a = _aCalculator.Calculate(dimensionStack);
             double b = _bCalculator.Calculate(dimensionStack);
-
-            // Strategically prevent NaN in case of addition, or one sound will destroy the others too.
-            //if (Double.IsNaN(a)) a = 0.0;
-            //if (Double.IsNaN(b)) b = 0.0;
 
             return a + b;
         }
     }
 
-    internal class Add_ConstA_VarB_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Add_OperatorCalculator_ConstA_VarB : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly double _a;
         private readonly OperatorCalculatorBase _bCalculator;
 
-        public Add_ConstA_VarB_OperatorCalculator(double a, OperatorCalculatorBase bCalculator)
+        public Add_OperatorCalculator_ConstA_VarB(double a, OperatorCalculatorBase bCalculator)
             : base(new OperatorCalculatorBase[] { bCalculator })
         {
-            if (bCalculator == null) throw new NullException(() => bCalculator);
-            if (bCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => bCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(bCalculator, () => bCalculator);
 
             _a = a;
-
-            // Strategically prevent NaN in case of addition, or one sound will destroy the others too.
-            //if (Double.IsNaN(_a)) _a = 0.0;
 
             _bCalculator = bCalculator;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double b = _bCalculator.Calculate(dimensionStack);
-
-            // Strategically prevent NaN in case of addition, or one sound will destroy the others too.
-            //if (Double.IsNaN(b))
-            //{
-            //    return _a;
-            //}
 
             return _a + b;
         }
     }
 
-    internal class Add_VarA_ConstB_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Add_OperatorCalculator_VarA_ConstB : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _aCalculator;
         private readonly double _b;
 
-        public Add_VarA_ConstB_OperatorCalculator(OperatorCalculatorBase aCalculator, double b)
+        public Add_OperatorCalculator_VarA_ConstB(OperatorCalculatorBase aCalculator, double b)
             : base(new OperatorCalculatorBase[] { aCalculator })
         {
-            if (aCalculator == null) throw new NullException(() => aCalculator);
-            if (aCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => aCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(aCalculator, () => aCalculator);
 
             _aCalculator = aCalculator;
             _b = b;
-
-            if (Double.IsNaN(_b)) _b = 0.0;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate(DimensionStack dimensionStack)
         {
             double a = _aCalculator.Calculate(dimensionStack);
-
-            // Strategically prevent NaN in case of addition, or one sound will destroy the others too.
-            //if (Double.IsNaN(a))
-            //{
-            //    return _b;
-            //}
 
             return a + _b;
         }

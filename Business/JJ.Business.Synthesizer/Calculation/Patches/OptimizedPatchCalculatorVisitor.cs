@@ -14,7 +14,9 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Validation.Operators;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Framework.Common;
 using JJ.Framework.Common.Exceptions;
+using JJ.Framework.Reflection;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
 
@@ -74,7 +76,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private DimensionStack _defaultDimensionStack;
         private int _channelCount;
         private Stack<OperatorCalculatorBase> _stack;
-        private Stack<int> _bundleItemIndexStack;
+        private DimensionStack _bundleDimensionStack;
 
         private Dictionary<Operator, double> _operator_NoiseOffsetInSeconds_Dictionary;
         private Dictionary<Operator, int> _operator_RandomOffsetInSeconds_Dictionary;
@@ -114,7 +116,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             validator.Assert();
 
             _stack = new Stack<OperatorCalculatorBase>();
-            _bundleItemIndexStack = new Stack<int>();
+            _bundleDimensionStack = new DimensionStack();
             _operator_NoiseOffsetInSeconds_Dictionary = new Dictionary<Operator, double>();
             _operator_RandomOffsetInSeconds_Dictionary = new Dictionary<Operator, int>();
             _patchInlet_Calculator_Dictionary = new Dictionary<Operator, VariableInput_OperatorCalculator>();
@@ -210,15 +212,15 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (aIsConst)
             {
-                calculator = new Add_ConstA_VarB_OperatorCalculator(a, bCalculator);
+                calculator = new Add_OperatorCalculator_ConstA_VarB(a, bCalculator);
             }
             else if (bIsConst)
             {
-                calculator = new Add_VarA_ConstB_OperatorCalculator(aCalculator, b);
+                calculator = new Add_OperatorCalculator_VarA_ConstB(aCalculator, b);
             }
             else
             {
-                calculator = new Add_OperatorCalculator(aCalculator, bCalculator);
+                calculator = new Add_OperatorCalculator_VarA_VarB(aCalculator, bCalculator);
             }
 
             _stack.Push(calculator);
@@ -299,6 +301,26 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = new Average_OperatorCalculator(signalCalculator, timeSliceDurationCalculator, sampleCountCalculator, dimensionEnum);
             }
+
+            _stack.Push(calculator);
+        }
+
+        protected override void VisitBundle(Operator op)
+        {
+            var operandCalculators = new List<OperatorCalculatorBase>(op.Inlets.Count);
+
+            for (int i = 0; i < op.Inlets.Count; i++)
+            {
+                OperatorCalculatorBase operandCalculator = _stack.Pop();
+
+                operandCalculator = operandCalculator ?? new Zero_OperatorCalculator();
+
+                operandCalculators.Add(operandCalculator);
+            }
+
+            var wrapper = new Bundle_OperatorWrapper(op);
+
+            OperatorCalculatorBase calculator = new Bundle_OperatorCalculator(wrapper.Dimension, operandCalculators);
 
             _stack.Push(calculator);
         }
@@ -1520,43 +1542,43 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (aIsConst && !bIsConst && originIsConstZero)
             {
-                calculator = new Multiply_ConstA_VarB_NoOrigin_OperatorCalculator(a, bCalculator);
+                calculator = new Multiply_OperatorCalculator_ConstA_VarB_NoOrigin(a, bCalculator);
             }
             else if (!aIsConst && bIsConst && originIsConstZero)
             {
-                calculator = new Multiply_VarA_ConstB_NoOrigin_OperatorCalculator(aCalculator, b);
+                calculator = new Multiply_OperatorCalculator_VarA_ConstB_NoOrigin(aCalculator, b);
             }
             else if (!aIsConst && !bIsConst && originIsConstZero)
             {
-                calculator = new Multiply_VarA_VarB_NoOrigin_OperatorCalculator(aCalculator, bCalculator);
+                calculator = new Multiply_OperatorCalculator_VarA_VarB_NoOrigin(aCalculator, bCalculator);
             }
             else if (aIsConst && !bIsConst && originIsConst)
             {
-                calculator = new Multiply_ConstA_VarB_ConstOrigin_OperatorCalculator(a, bCalculator, origin);
+                calculator = new Multiply_OperatorCalculator_ConstA_VarB_ConstOrigin(a, bCalculator, origin);
             }
             else if (!aIsConst && bIsConst && originIsConst)
             {
-                calculator = new Multiply_VarA_ConstB_ConstOrigin_OperatorCalculator(aCalculator, b, origin);
+                calculator = new Multiply_OperatorCalculator_VarA_ConstB_ConstOrigin(aCalculator, b, origin);
             }
             else if (!aIsConst && !bIsConst && originIsConst)
             {
-                calculator = new Multiply_VarA_VarB_ConstOrigin_OperatorCalculator(aCalculator, bCalculator, origin);
+                calculator = new Multiply_OperatorCalculator_VarA_VarB_ConstOrigin(aCalculator, bCalculator, origin);
             }
             else if (aIsConst && bIsConst && !originIsConst)
             {
-                calculator = new Multiply_ConstA_ConstB_VarOrigin_OperatorCalculator(a, b, originCalculator);
+                calculator = new Multiply_OperatorCalculator_ConstA_ConstB_VarOrigin(a, b, originCalculator);
             }
             else if (aIsConst && !bIsConst && !originIsConst)
             {
-                calculator = new Multiply_ConstA_VarB_VarOrigin_OperatorCalculator(a, bCalculator, originCalculator);
+                calculator = new Multiply_OperatorCalculator_ConstA_VarB_VarOrigin(a, bCalculator, originCalculator);
             }
             else if (!aIsConst && bIsConst && !originIsConst)
             {
-                calculator = new Multiply_VarA_ConstB_VarOrigin_OperatorCalculator(aCalculator, b, originCalculator);
+                calculator = new Multiply_OperatorCalculator_VarA_ConstB_VarOrigin(aCalculator, b, originCalculator);
             }
             else
             {
-                calculator = new Multiply_VarA_VarB_VarOrigin_OperatorCalculator(aCalculator, bCalculator, originCalculator);
+                calculator = new Multiply_OperatorCalculator_VarA_VarB_VarOrigin(aCalculator, bCalculator, originCalculator);
             }
 
             _stack.Push(calculator);
@@ -3207,6 +3229,32 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
+        protected override void VisitUnbundle(Operator op)
+        {
+            OperatorCalculatorBase operatorCalculator;
+
+            OperatorCalculatorBase operandCalculator = _stack.Pop();
+
+            operandCalculator = operandCalculator ?? new Zero_OperatorCalculator();
+
+            bool operandIsConst = operandCalculator is Number_OperatorCalculator;
+
+            if (operandIsConst)
+            {
+                operatorCalculator = operandCalculator;
+            }
+            else
+            {
+                var wrapper = new Unbundle_OperatorWrapper(op);
+                int dimensionIndex = (int)wrapper.Dimension;
+                double dimensionValue = _bundleDimensionStack.Get(dimensionIndex);
+
+                operatorCalculator = new Unbundle_OperatorCalculator(operandCalculator, wrapper.Dimension, dimensionValue);
+            }
+
+            _stack.Push(operatorCalculator);
+        }
+
         // Special Visitation
 
         /// <summary> Overridden to push null-inlets or default values for those inlets. </summary>
@@ -3324,8 +3372,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         private void VisitUnbundleOperatorOutlet(Outlet outlet)
         {
+            //VisitOperator(outlet.Operator);
+
             Operator op = outlet.Operator;
-            Inlet inlet = op.Inlets[0];
+            Inlet inlet = op.Inlets.Single();
             Outlet inputOutlet = inlet.InputOutlet;
             if (inputOutlet == null)
             {
@@ -3335,28 +3385,54 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             int outletIndex = outlet.Operator.Outlets.IndexOf(outlet);
 
-            _bundleItemIndexStack.Push(outletIndex);
+            var wrapper = new Unbundle_OperatorWrapper(op);
+            int dimensionIndex = (int)wrapper.Dimension;
+
+            _bundleDimensionStack.Push(dimensionIndex, outletIndex);
 
             VisitOutlet(inputOutlet);
 
-            _bundleItemIndexStack.Pop();
+            _bundleDimensionStack.Pop(dimensionIndex);
         }
 
         private void VisitBundleOperatorOutlet(Outlet outlet)
         {
-            if (_bundleItemIndexStack.Count == 0)
+            //VisitOperator(outlet.Operator);
+
+            var wrapper = new Bundle_OperatorWrapper(outlet.Operator);
+            int dimensionIndex = (int)wrapper.Dimension;
+
+            if (_bundleDimensionStack.Count(dimensionIndex) == 0)
             {
-                throw new NotSupportedException(String.Format("Bundle Operator with ID '{0}' encountered without first encountering an Unbundle Operator. This is not yet supported.", outlet.Operator.ID));
+                throw new NotSupportedException(String.Format(
+                    "Bundle Operator with ID '{0}' and Dimension '{1}' encountered without first encountering an Unbundle Operator. This is not yet supported.",
+                    outlet.Operator.ID, 
+                    wrapper.Dimension));
             }
 
-            int bundleIndex = _bundleItemIndexStack.Pop();
+            double bundleIndexDouble = _bundleDimensionStack.PopAndGet(dimensionIndex);
 
-            if (bundleIndex >= outlet.Operator.Inlets.Count)
+            if (!ConversionHelper.CanCastToNonNegativeInt32(bundleIndexDouble))
             {
-                throw new Exception(String.Format("Index '{0}' does not exist in Bundle Operator with ID '{0}'.", bundleIndex, outlet.Operator.ID));
+                throw new Exception(String.Format(
+                    "Index '{0}' cannot be cast to non-negative Int32 for Bundle Operator with ID '{1}' and Dimension '{2}'.",
+                    bundleIndexDouble,
+                    outlet.Operator.ID,
+                    wrapper.Dimension));
             }
 
-            Inlet inlet = outlet.Operator.Inlets[bundleIndex];
+            if (bundleIndexDouble >= outlet.Operator.Inlets.Count)
+            {
+                throw new Exception(String.Format(
+                    "Index '{0}' does not exist in Bundle Operator with ID '{1}' and Dimension '{2}'.",
+                    bundleIndexDouble,
+                    outlet.Operator.ID,
+                    wrapper.Dimension));
+            }
+
+            int bundleIndexInt32 = (int)bundleIndexDouble;
+
+            Inlet inlet = outlet.Operator.Inlets[bundleIndexInt32];
             if (inlet.InputOutlet == null)
             {
                 double defaultValue = inlet.DefaultValue ?? 0.0;
@@ -3367,7 +3443,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 VisitOutlet(inlet.InputOutlet);
             }
 
-            _bundleItemIndexStack.Push(bundleIndex);
+            _bundleDimensionStack.Push(dimensionIndex, bundleIndexDouble);
         }
 
         protected override void VisitReset(Operator op)
