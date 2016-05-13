@@ -5,8 +5,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 {
     public interface IPatchCalculator
     {
-        double Calculate(DimensionStack dimensionStack);
-        double[] Calculate(double t0, double frameDuration, int frameCount, DimensionStack dimensionStack);
+        double Calculate();
+        double[] Calculate(double t0, double frameDuration, int frameCount);
 
         double GetValue(int listIndex);
         void SetValue(int listIndex, double value);
@@ -25,8 +25,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         void CloneValues(IPatchCalculator sourcePatchCalculator);
 
-        void Reset(DimensionStack dimensionStack);
-        void Reset(DimensionStack dimensionStack, string name);
-        void Reset(DimensionStack dimensionStack, int listIndex);
+        void Reset();
+        void Reset(string name);
+        void Reset(int listIndex);
     }
 }

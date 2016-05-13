@@ -29,6 +29,9 @@ namespace JJ.Presentation.Synthesizer.NAudio
         /// <summary> First index is NoteIndex, second index is channel. </summary>
         private readonly IPatchCalculator[][] _patchCalculators;
 
+        /// <summary> First index is NoteIndex, second index is channel. </summary>
+        private readonly DimensionStack[][] _dimensionStacks;
+
         private int _frameCount;
         private double _t0;
         private double[] _emptyBuffer;
@@ -72,18 +75,21 @@ namespace JJ.Presentation.Synthesizer.NAudio
             }
 
             // Create PatchCalculator(Infos)
-            IPatchCalculator[][] patchCalculators = new IPatchCalculator[_maxConcurrentNotes][];
+            _patchCalculators = new IPatchCalculator[_maxConcurrentNotes][];
+            _dimensionStacks = new DimensionStack[_maxConcurrentNotes][];
             for (int noteIndex = 0; noteIndex < _maxConcurrentNotes; noteIndex++)
             {
-                patchCalculators[noteIndex] = new IPatchCalculator[_channelCount];
+                _patchCalculators[noteIndex] = new IPatchCalculator[_channelCount];
+                _dimensionStacks[noteIndex] = new DimensionStack[_channelCount];
 
                 for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
                 {
-                    IPatchCalculator patchCalculator = patchManager.CreateCalculator(signalOutlet, _channelCount, calculatorCache);
-                    patchCalculators[noteIndex][channelIndex] = patchCalculator;
+                    var dimensionStack = new DimensionStack();
+                    IPatchCalculator patchCalculator = patchManager.CreateCalculator(signalOutlet, _channelCount, calculatorCache, dimensionStack);
+                    _patchCalculators[noteIndex][channelIndex] = patchCalculator;
+                    _dimensionStacks[noteIndex][channelIndex] = dimensionStack;
                 }
             }
-            _patchCalculators = patchCalculators;
         }
 
         /// <summary>
@@ -129,13 +135,14 @@ namespace JJ.Presentation.Synthesizer.NAudio
         // Calculate
 
         /// <param name="frameDuration"> Not used. Alternative value is determined internally. </param>
-        public double[] Calculate(double t0, double frameDuration, int frameCount, DimensionStack dimensionStack)
+        public double[] Calculate(double t0, double frameDuration, int frameCount)
         {
             LazyInitializeBuffers(frameCount);
 
             _t0 = t0;
 
-            double channelIndexDouble = dimensionStack.Get(DimensionEnum.Channel);
+            // TODO: This cannot be right.
+            double channelIndexDouble = _dimensionStacks[0][0].Get(DimensionEnum.Channel);
             if (!CanCastToInt32(channelIndexDouble))
             {
                 return _emptyBuffer;
@@ -159,8 +166,9 @@ namespace JJ.Presentation.Synthesizer.NAudio
                 // Capture variable in loop iteration, 
                 // to prevent delegate from getting a value from a different iteration.
                 IPatchCalculator patchCalculator = _patchCalculators[noteIndex][channelIndex];
+                DimensionStack dimensionStack = _dimensionStacks[noteIndex][channelIndex];
 
-                Task task = Task.Factory.StartNew(() => CalculateSingleThread(patchCalculator, channelIndex));
+                Task task = Task.Factory.StartNew(() => CalculateSingleThread(patchCalculator, dimensionStack, channelIndex));
                 tasks.Add(task);
             }
 
@@ -169,12 +177,11 @@ namespace JJ.Presentation.Synthesizer.NAudio
             return buffer;
         }
 
-        private void CalculateSingleThread(IPatchCalculator patchCalculator, int channelIndex)
+        private void CalculateSingleThread(IPatchCalculator patchCalculator, DimensionStack dimensionStack, int channelIndex)
         {
             double[] buffer = _buffers[channelIndex];
             object[] bufferLocks = _bufferLocks[channelIndex];
 
-            var dimensionStack = new DimensionStack();
             dimensionStack.Set(CHANNEL_DIMENSION_INDEX, channelIndex);
 
             double t = _t0;
@@ -182,7 +189,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             {
                 dimensionStack.Set(TIME_DIMENSION_INDEX, t);
 
-                double value = patchCalculator.Calculate(dimensionStack);
+                double value = patchCalculator.Calculate();
 
                 // TODO: Low priority: Not sure how to do a quicker interlocked add for doubles.
                 lock (bufferLocks[frameIndex])
@@ -194,7 +201,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             }
         }
 
-        public double Calculate(DimensionStack dimensionStack)
+        public double Calculate()
         {
             throw new NotSupportedException("Operation not supported. Can only calculate by chunk (use the other overload).");
         }
@@ -301,37 +308,37 @@ namespace JJ.Presentation.Synthesizer.NAudio
             }
         }
 
-        public void Reset(DimensionStack dimensionStack, int noteIndex)
+        public void Reset(int noteIndex)
         {
             AssertPatchCalculatorNoteIndex(noteIndex);
 
             for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
             {
                 IPatchCalculator patchCalculator = _patchCalculators[noteIndex][channelIndex];
-                patchCalculator.Reset(dimensionStack);
+                patchCalculator.Reset();
             }
         }
 
-        public void Reset(DimensionStack dimensionStack)
+        public void Reset()
         {
             for (int i = 0; i < _maxConcurrentNotes; i++)
             {
                 for (int j = 0; j < _channelCount; j++)
                 {
                     IPatchCalculator patchCalculator = _patchCalculators[i][j];
-                    patchCalculator.Reset(dimensionStack);
+                    patchCalculator.Reset();
                 }
             }
         }
 
-        public void Reset(DimensionStack dimensionStack, string name)
+        public void Reset(string name)
         {
             for (int i = 0; i < _maxConcurrentNotes; i++)
             {
                 for (int j = 0; j < _channelCount; j++)
                 {
                     IPatchCalculator patchCalculator = _patchCalculators[i][j];
-                    patchCalculator.Reset(dimensionStack, name);
+                    patchCalculator.Reset(name);
                 }
             }
         }

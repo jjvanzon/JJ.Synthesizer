@@ -462,6 +462,7 @@ namespace JJ.Business.Synthesizer
             Outlet outlet,
             int channelCount,
             CalculatorCache calculatorCache,
+            DimensionStack dimensionStack,
             bool mustSubstituteSineForUnfilledInSignalPatchInlets = true)
         {
             if (mustSubstituteSineForUnfilledInSignalPatchInlets)
@@ -473,6 +474,7 @@ namespace JJ.Business.Synthesizer
                 outlet,
                 channelCount,
                 calculatorCache,
+                dimensionStack,
                 _repositories.CurveRepository,
                 _repositories.SampleRepository,
                 _repositories.PatchRepository,

@@ -21,6 +21,7 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
         private const int CHANNEL_DIMENSION_INDEX = (int)DimensionEnum.Channel;
 
         private readonly IPatchCalculator _patchCalculator;
+        private readonly IPatchCalculator _dimensionStack;
 
         public AudioFileOutputCalculatorBase(IPatchCalculator patchCalculator)
         {
@@ -85,7 +86,7 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
                         for (int i = 0; i < channelCount; i++)
                         {
                             dimensionStack.Set(CHANNEL_DIMENSION_INDEX, i);
-                            double value = _patchCalculator.Calculate(dimensionStack);
+                            double value = _patchCalculator.Calculate();
 
                             value *= adjustedAmplifier;
 

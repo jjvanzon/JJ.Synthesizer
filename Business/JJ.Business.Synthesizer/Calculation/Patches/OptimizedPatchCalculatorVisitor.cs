@@ -14,7 +14,9 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Validation.Operators;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Framework.Common;
 using JJ.Framework.Common.Exceptions;
+using JJ.Framework.Reflection;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
 
@@ -113,8 +115,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         }
 
         /// <param name="channelCount">Used for e.g. mixing channels of samples into one channel.</param>
-        public Result Execute(Outlet outlet, int channelCount = 2)
+        public Result Execute(DimensionStack dimensionStack, Outlet outlet, int channelCount = 2)
         {
+            if (dimensionStack == null) throw new NullException(() => dimensionStack);
             if (outlet == null) throw new NullException(() => outlet);
 
             IValidator validator = new Recursive_OperatorValidator(
@@ -130,7 +133,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _patchInlet_Calculator_Dictionary = new Dictionary<Operator, VariableInput_OperatorCalculator>();
             _resettableOperatorTuples = new List<ResettableOperatorTuple>();
 
-            _dimensionStack = new DimensionStack();
+            _dimensionStack = dimensionStack;
             _outlet = outlet;
             _channelCount = channelCount;
 

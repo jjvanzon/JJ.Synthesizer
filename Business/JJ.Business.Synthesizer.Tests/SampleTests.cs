@@ -52,7 +52,7 @@ namespace JJ.Business.Synthesizer.Tests
 
                 PatchManager x = new PatchManager(new PatchRepositories(repositories));
                 Outlet outlet = x.SlowDown(x.Sample(sample), x.Number(timeMultiplier));
-                IPatchCalculator patchCalculator = x.CreateCalculator(outlet, DEFAULT_CHANNEL_COUNT, new CalculatorCache());
+                IPatchCalculator patchCalculator = x.CreateCalculator(outlet, DEFAULT_CHANNEL_COUNT, new CalculatorCache(), new DimensionStack());
 
                 AudioFileOutputManager audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
                 AudioFileOutput audioFileOutput = audioFileOutputManager.Create();
@@ -90,8 +90,8 @@ namespace JJ.Business.Synthesizer.Tests
                 Outlet outlet = x.Sample(sample);
 
                 // Trigger SampleCalculation
-                IPatchCalculator calculator = x.CreateCalculator(outlet, DEFAULT_CHANNEL_COUNT, new CalculatorCache());
-                double value = calculator.Calculate(new DimensionStack());
+                IPatchCalculator calculator = x.CreateCalculator(outlet, DEFAULT_CHANNEL_COUNT, new CalculatorCache(), new DimensionStack());
+                double value = calculator.Calculate();
             }
         }
 

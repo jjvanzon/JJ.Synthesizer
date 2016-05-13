@@ -499,9 +499,10 @@ namespace JJ.Business.Synthesizer.Api
             Outlet outlet,
             int channelCount,
             CalculatorCache calculatorCache,
+            DimensionStack dimensionStack,
             bool mustSubstituteSineForUnfilledInSignalPatchInlets = true)
         {
-            return _patchManager.CreateCalculator(outlet, channelCount, calculatorCache, mustSubstituteSineForUnfilledInSignalPatchInlets);
+            return _patchManager.CreateCalculator(outlet, channelCount, calculatorCache, dimensionStack, mustSubstituteSineForUnfilledInSignalPatchInlets);
         }
     }
 }

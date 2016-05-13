@@ -14,10 +14,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
     {
         private const int TIME_DIMENSION_INDEX = (int)DimensionEnum.Time;
 
+        private DimensionStack _dimensionStack;
         private readonly OperatorCalculatorBase _outputOperatorCalculator;
         /// <summary> Array, instead of IList<T> for optimization in calculating values. </summary>
         private readonly VariableInput_OperatorCalculator[] _inputOperatorCalculators;
-        private readonly DimensionStack _operatorDimensionStack;
 
         private readonly Dictionary<string, IList<OperatorCalculatorBase>> _name_To_ResettableOperatorCalculators_Dictionary;
         private readonly Dictionary<int, IList<OperatorCalculatorBase>> _listIndex_To_ResettableOperatorCalculators_Dictionary;
@@ -32,6 +32,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             Outlet outlet,
             int channelCount,
             CalculatorCache calculatorCache,
+            DimensionStack dimensionStack,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
             IPatchRepository patchRepository,
@@ -41,24 +42,22 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             var visitor = new OptimizedPatchCalculatorVisitor(curveRepository, sampleRepository, patchRepository, speakerSetupRepository, calculatorCache);
 
-            OptimizedPatchCalculatorVisitor.Result result = visitor.Execute(outlet, channelCount);
+            OptimizedPatchCalculatorVisitor.Result result = visitor.Execute(dimensionStack, outlet, channelCount);
 
-            _operatorDimensionStack = result.DimensionStack;
+            _dimensionStack = result.DimensionStack;
             _outputOperatorCalculator = result.Output_OperatorCalculator;
             _inputOperatorCalculators = result.Input_OperatorCalculators.OrderBy(x => x.ListIndex).ToArray();
             _name_To_ResettableOperatorCalculators_Dictionary = result.ResettableOperatorTuples.ToNonUniqueDictionary(x => x.Name ?? "", x => x.OperatorCalculator);
             _listIndex_To_ResettableOperatorCalculators_Dictionary = result.ResettableOperatorTuples.Where(x => x.ListIndex.HasValue).ToNonUniqueDictionary(x => x.ListIndex.Value, x => x.OperatorCalculator);
         }
 
-        public double Calculate(DimensionStack dimensionStack)
+        public double Calculate()
         {
-            CopyDimensionStackValues(dimensionStack, _operatorDimensionStack);
-
             double value = _outputOperatorCalculator.Calculate();
             return value;
         }
 
-        public double[] Calculate(double t0, double frameDuration, int count, DimensionStack dimensionStack)
+        public double[] Calculate(double t0, double frameDuration, int count)
         {
             double t = t0;
 
@@ -66,9 +65,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             for (int i = 0; i < count; i++)
             {
-                dimensionStack.Set(TIME_DIMENSION_INDEX, t);
+                _dimensionStack.Set(TIME_DIMENSION_INDEX, t);
 
-                double value = Calculate(dimensionStack);
+                double value = Calculate();
 
                 values[i] = value;
 
@@ -349,10 +348,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
         }
 
-        public void Reset(DimensionStack dimensionStack)
+        public void Reset()
         {
-            CopyDimensionStackValues(dimensionStack, _operatorDimensionStack);
-
             _outputOperatorCalculator.Reset();
 
             _valuesByListIndex.Clear();
@@ -362,7 +359,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _dimensionEnumAndListIndex_To_Value_Dictionary.Clear();
         }
 
-        public void Reset(DimensionStack dimensionStack, string name)
+        public void Reset(string name)
         {
             // Necessary for using null or empty string as the key of a dictionary.
             // The dictionary neither accepts null as a key,
@@ -374,34 +371,20 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 foreach (OperatorCalculatorBase calculator in calculators)
                 {
-                    CopyDimensionStackValues(dimensionStack, _operatorDimensionStack);
                     calculator.Reset();
                 }
             }
         }
 
-        public void Reset(DimensionStack dimensionStack, int listIndex)
+        public void Reset(int listIndex)
         {
             IList<OperatorCalculatorBase> calculators;
             if (_listIndex_To_ResettableOperatorCalculators_Dictionary.TryGetValue(listIndex, out calculators))
             {
                 foreach (OperatorCalculatorBase calculator in calculators)
                 {
-                    CopyDimensionStackValues(dimensionStack, _operatorDimensionStack);
                     calculator.Reset();
                 }
-            }
-        }
-
-        /// <summary>
-        /// The operator dimension stack is protected here, but to patch calculator is passed a different dimension
-        /// stack, of which the values are copied to the operator dimension stack.
-        /// </summary>
-        private void CopyDimensionStackValues(DimensionStack sourceDimensionStack, DimensionStack destDimensionStack)
-        {
-            foreach (DimensionEnum dimensionEnum in EnumHelper.GetValues<DimensionEnum>())
-            {
-                destDimensionStack.Set(dimensionEnum, sourceDimensionStack.Get(dimensionEnum));
             }
         }
     }

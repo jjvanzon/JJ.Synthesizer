@@ -30,10 +30,8 @@ namespace JJ.Presentation.Synthesizer.NAudio
             if (audioOutput == null) throw new NullException(() => audioOutput);
 
             _patchCalculatorContainer = patchCalculatorContainer;
-
             _frameDuration = audioOutput.GetFrameDuration();
             _channelCount = audioOutput.SpeakerSetup.SpeakerSetupChannels.Count;
-
             _waveFormat = CreateWaveFormat(audioOutput);
 
             _dimensionStack = new DimensionStack();
@@ -76,7 +74,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
                 {
                     _dimensionStack.Set(DimensionEnum.Channel, channelIndex);
                      
-                    values[channelIndex] = patchCalculator.Calculate(_time, _frameDuration, frameCount, _dimensionStack);
+                    values[channelIndex] = patchCalculator.Calculate(_time, _frameDuration, frameCount);
                 }
 
                 int i = 0;

@@ -138,7 +138,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     var dimensionStack = new DimensionStack();
 
                     dimensionStack.Set(DimensionEnum.Time, time);
-                    calculator.Reset(dimensionStack, noteInfo.ListIndex);
+                    calculator.Reset(noteInfo.ListIndex);
 
                     calculator.SetValue(DimensionEnum.Frequency, noteInfo.ListIndex, frequency);
                     calculator.SetValue(DimensionEnum.Volume, noteInfo.ListIndex, volume);
