@@ -10,24 +10,28 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _frequency;
         private readonly double _phaseShift;
         private readonly int _dimensionIndex;
+        private readonly DimensionStack _dimensionStack;
 
         public SawDown_WithConstFrequency_WithConstPhaseShift_OperatorCalculator(
             double frequency, 
             double phaseShift,
-            DimensionEnum dimensionEnum)
+            DimensionEnum dimensionEnum,
+            DimensionStack dimensionStack)
         {
             if (frequency == 0) throw new ZeroException(() => frequency);
             OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
+            if (dimensionStack == null) throw new NullException(() => dimensionStack);
 
             _frequency = frequency;
             _phaseShift = phaseShift;
             _dimensionIndex = (int)dimensionEnum;
+            _dimensionStack = dimensionStack;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double position = dimensionStack.Get(_dimensionIndex);
+            double position = _dimensionStack.Get(_dimensionIndex);
             double shiftedPhase = position * _frequency + _phaseShift;
             double value = 1.0 - (2.0 * shiftedPhase % 2.0);
             return value;
@@ -39,28 +43,32 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _frequency;
         private readonly OperatorCalculatorBase _phaseShiftCalculator;
         private readonly int _dimensionIndex;
+        private readonly DimensionStack _dimensionStack;
 
         public SawDown_WithConstFrequency_WithVarPhaseShift_OperatorCalculator(
             double frequency,
             OperatorCalculatorBase phaseShiftCalculator,
-            DimensionEnum dimensionEnum)
+            DimensionEnum dimensionEnum,
+            DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[] { phaseShiftCalculator })
         {
             if (frequency == 0) throw new ZeroException(() => frequency);
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(phaseShiftCalculator, () => phaseShiftCalculator);
             OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
+            if (dimensionStack == null) throw new NullException(() => dimensionStack);
 
             _frequency = frequency;
             _phaseShiftCalculator = phaseShiftCalculator;
             _dimensionIndex = (int)dimensionEnum;
+            _dimensionStack = dimensionStack;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double position = dimensionStack.Get(_dimensionIndex);
+            double position = _dimensionStack.Get(_dimensionIndex);
 
-            double phaseShift = _phaseShiftCalculator.Calculate(dimensionStack);
+            double phaseShift = _phaseShiftCalculator.Calculate();
 
             double phase = position * _frequency;
 
@@ -75,6 +83,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly int _dimensionIndex;
+        private readonly DimensionStack _dimensionStack;
 
         private double _phase;
         private double _previousPosition;
@@ -82,35 +91,31 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public SawDown_WithVarFrequency_WithConstPhaseShift_OperatorCalculator(
             OperatorCalculatorBase frequencyCalculator,
             double phaseShift,
-            DimensionEnum dimensionEnum)
+            DimensionEnum dimensionEnum,
+            DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[] { frequencyCalculator })
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(frequencyCalculator, () => frequencyCalculator);
             OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
+            if (dimensionStack == null) throw new NullException(() => dimensionStack);
 
             _frequencyCalculator = frequencyCalculator;
             _dimensionIndex = (int)dimensionEnum;
+            _dimensionStack = dimensionStack;
 
             // TODO: Assert so it does not become NaN.
             _phase = phaseShift;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double position = dimensionStack.Get(_dimensionIndex);
+            double position = _dimensionStack.Get(_dimensionIndex);
 
-            double frequency = _frequencyCalculator.Calculate(dimensionStack);
+            double frequency = _frequencyCalculator.Calculate();
 
             double positionChange = position - _previousPosition;
-            double phase = _phase + positionChange * frequency;
-
-            // Prevent phase from becoming a special number, rendering it unusable forever.
-            //if (Double.IsNaN(phase) || Double.IsInfinity(phase))
-            //{
-            //    return Double.NaN;
-            //}
-            _phase = phase;
+            _phase = _phase + positionChange * frequency;
 
             double value = 1 - (2 * _phase % 2);
 
@@ -119,14 +124,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return value;
         }
 
-        public override void Reset(DimensionStack dimensionStack)
+        public override void Reset()
         {
-            double position = dimensionStack.Get(_dimensionIndex);
+            double position = _dimensionStack.Get(_dimensionIndex);
 
             _previousPosition = position;
             _phase = 0.0;
 
-            base.Reset(dimensionStack);
+            base.Reset();
         }
     }
 
@@ -135,6 +140,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly OperatorCalculatorBase _phaseShiftCalculator;
         private readonly int _dimensionIndex;
+        private readonly DimensionStack _dimensionStack;
 
         private double _phase;
         private double _previousPosition;
@@ -142,35 +148,31 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public SawDown_WithVarFrequency_WithVarPhaseShift_OperatorCalculator(
             OperatorCalculatorBase frequencyCalculator,
             OperatorCalculatorBase phaseShiftCalculator,
-            DimensionEnum dimensionEnum)
+            DimensionEnum dimensionEnum,
+            DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[] { frequencyCalculator, phaseShiftCalculator })
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(frequencyCalculator, () => frequencyCalculator);
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(phaseShiftCalculator, () => phaseShiftCalculator);
             OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
+            if (dimensionStack == null) throw new NullException(() => dimensionStack);
 
             _frequencyCalculator = frequencyCalculator;
             _phaseShiftCalculator = phaseShiftCalculator;
             _dimensionIndex = (int)dimensionEnum;
+            _dimensionStack = dimensionStack;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double position = dimensionStack.Get(_dimensionIndex);
+            double position = _dimensionStack.Get(_dimensionIndex);
 
-            double frequency = _frequencyCalculator.Calculate(dimensionStack);
-            double phaseShift = _phaseShiftCalculator.Calculate(dimensionStack);
+            double frequency = _frequencyCalculator.Calculate();
+            double phaseShift = _phaseShiftCalculator.Calculate();
 
             double positionChange = position - _previousPosition;
-            double phase = _phase + positionChange * frequency;
-
-            // Prevent phase from becoming a special number, rendering it unusable forever.
-            //if (Double.IsNaN(phase) || Double.IsInfinity(phase))
-            //{
-            //    return Double.NaN;
-            //}
-            _phase = phase;
+            _phase = _phase + positionChange * frequency;
 
             double shiftedPhase = _phase + phaseShift;
             double value = 1 - (2 * shiftedPhase % 2);
@@ -180,14 +182,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return value;
         }
 
-        public override void Reset(DimensionStack dimensionStack)
+        public override void Reset()
         {
-            double position = dimensionStack.Get(_dimensionIndex);
+            double position = _dimensionStack.Get(_dimensionIndex);
 
             _previousPosition = position;
             _phase = 0.0;
 
-            base.Reset(dimensionStack);
+            base.Reset();
         }
     }
 }

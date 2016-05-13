@@ -21,10 +21,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase loopEndMarkerCalculator,
             OperatorCalculatorBase releaseEndMarkerCalculator,
             OperatorCalculatorBase noteDurationCalculator,
-            DimensionEnum dimensionEnum)
+            DimensionEnum dimensionEnum,
+            DimensionStack dimensionStack)
             : base(
                   signalCalculator,
                   dimensionEnum,
+                  dimensionStack,
                   new OperatorCalculatorBase[]
                   {
                       signalCalculator,
@@ -44,12 +46,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         /// <summary> Returns null if before attack or after release. </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected override double? TransformPosition(DimensionStack dimensionStack)
+        protected override double? TransformPosition()
         {
-            double outputPosition = dimensionStack.Get(_dimensionIndex);
+            double outputPosition = _dimensionStack.Get(_dimensionIndex);
 
             // BeforeAttack
-            double skip = GetSkip(dimensionStack);
+            double skip = GetSkip();
             double inputPosition = outputPosition + skip;
             bool isBeforeAttack = inputPosition < skip;
             if (isBeforeAttack)
@@ -58,7 +60,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             }
 
             // InAttack
-            double loopStartMarker = GetLoopStartMarker(dimensionStack);
+            double loopStartMarker = GetLoopStartMarker();
             bool isInAttack = inputPosition < loopStartMarker;
             if (isInAttack)
             {
@@ -66,8 +68,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             }
 
             // InLoop
-            double noteDuration = GetNoteDuration(dimensionStack);
-            double loopEndMarker = GetLoopEndMarker(dimensionStack);
+            double noteDuration = GetNoteDuration();
+            double loopEndMarker = GetLoopEndMarker();
             double cycleLength = loopEndMarker - loopStartMarker;
 
             // Round up end of loop to whole cycles.
@@ -84,7 +86,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             }
 
             // InRelease
-            double releaseEndMarker = GetReleaseEndMarker(dimensionStack);
+            double releaseEndMarker = GetReleaseEndMarker();
             double releaseLength = releaseEndMarker - loopEndMarker;
             double outputReleaseEndPosition = outputLoopEnd + releaseLength;
             bool isInRelease = outputPosition < outputReleaseEndPosition;
@@ -100,60 +102,60 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private double GetSkip(DimensionStack dimensionStack)
+        private double GetSkip()
         {
             double value = 0;
             if (_skipCalculator != null)
             {
-                value = _skipCalculator.Calculate(dimensionStack);
+                value = _skipCalculator.Calculate();
             }
 
             return value;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private double GetLoopStartMarker(DimensionStack dimensionStack)
+        private double GetLoopStartMarker()
         {
             double value = 0;
             if (_loopStartMarkerCalculator != null)
             {
-                value = _loopStartMarkerCalculator.Calculate(dimensionStack);
+                value = _loopStartMarkerCalculator.Calculate();
             }
 
             return value;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private double GetLoopEndMarker(DimensionStack dimensionStack)
+        private double GetLoopEndMarker()
         {
             double value = 0;
             if (_loopEndMarkerCalculator != null)
             {
-                value = _loopEndMarkerCalculator.Calculate(dimensionStack);
+                value = _loopEndMarkerCalculator.Calculate();
             }
 
             return value;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private double GetReleaseEndMarker(DimensionStack dimensionStack)
+        private double GetReleaseEndMarker()
         {
             double value = 0;
             if (_releaseEndMarkerCalculator != null)
             {
-                value = _releaseEndMarkerCalculator.Calculate(dimensionStack);
+                value = _releaseEndMarkerCalculator.Calculate();
             }
 
             return value;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private double GetNoteDuration(DimensionStack dimensionStack)
+        private double GetNoteDuration()
         {
             double value = CalculationHelper.VERY_HIGH_VALUE;
             if (_noteDurationCalculator != null)
             {
-                value = _noteDurationCalculator.Calculate(dimensionStack);
+                value = _noteDurationCalculator.Calculate();
             }
 
             return value;

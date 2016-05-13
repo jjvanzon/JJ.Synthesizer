@@ -17,20 +17,20 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             _signalCalculator = signalCalculator;
 
-            Reset(new DimensionStack());
+            Reset();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
             return _value;
         }
 
-        public override void Reset(DimensionStack dimensionStack)
+        public override void Reset()
         {
-            _value = _signalCalculator.Calculate(dimensionStack);
+            _value = _signalCalculator.Calculate();
 
-            base.Reset(dimensionStack);
+            base.Reset();
         }
     }
 }

@@ -20,10 +20,10 @@
 //        }
 
 //        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//        public override double Calculate(DimensionStack dimensionStack)
+//        public override double Calculate()
 //        {
-//            double a = _aCalculator.Calculate(dimensionStack);
-//            double b = _bCalculator.Calculate(dimensionStack);
+//            double a = _aCalculator.Calculate();
+//            double b = _bCalculator.Calculate();
 
 //            return a + b;
 //        }
@@ -47,10 +47,10 @@
 //        }
 
 //        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//        public override double Calculate(DimensionStack dimensionStack)
+//        public override double Calculate()
 //        {
-//            double a = _aCalculator.Calculate(dimensionStack);
-//            double b = _bCalculator.Calculate(dimensionStack);
+//            double a = _aCalculator.Calculate();
+//            double b = _bCalculator.Calculate();
 
 //            return a + b;
 //        }
@@ -72,9 +72,9 @@
 //        }
 
 //        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//        public override double Calculate(DimensionStack dimensionStack)
+//        public override double Calculate()
 //        {
-//            double b = _bCalculator.Calculate(dimensionStack);
+//            double b = _bCalculator.Calculate();
 
 //            return _a + b;
 //        }
@@ -97,9 +97,9 @@
 //        }
 
 //        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//        public override double Calculate(DimensionStack dimensionStack)
+//        public override double Calculate()
 //        {
-//            double b = _bCalculator.Calculate(dimensionStack);
+//            double b = _bCalculator.Calculate();
 
 //            return _a + b;
 //        }
@@ -120,9 +120,9 @@
 //        }
 
 //        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//        public override double Calculate(DimensionStack dimensionStack)
+//        public override double Calculate()
 //        {
-//            double a = _aCalculator.Calculate(dimensionStack);
+//            double a = _aCalculator.Calculate();
 
 //            return a + _b;
 //        }
@@ -144,9 +144,9 @@
 //        }
 
 //        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//        public override double Calculate(DimensionStack dimensionStack)
+//        public override double Calculate()
 //        {
-//            double a = _aCalculator.Calculate(dimensionStack);
+//            double a = _aCalculator.Calculate();
             
 //            return a + _b;
 //        }

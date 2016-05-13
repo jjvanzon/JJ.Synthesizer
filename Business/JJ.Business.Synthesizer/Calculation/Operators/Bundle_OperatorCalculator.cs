@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -12,19 +13,26 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly int _dimensionIndex;
         private readonly OperatorCalculatorBase[] _operands;
         private readonly double _operandCountDouble;
+        private readonly DimensionStack _dimensionStack;
 
-        public Bundle_OperatorCalculator(DimensionEnum dimensionEnum, IList<OperatorCalculatorBase> operands)
+        public Bundle_OperatorCalculator(
+            DimensionEnum dimensionEnum,
+            DimensionStack dimensionStack,
+            IList<OperatorCalculatorBase> operands)
             : base(operands)
         {
+            if (dimensionStack == null) throw new NullException(() => dimensionStack);
+
             _dimensionIndex = (int)dimensionEnum;
+            _dimensionStack = dimensionStack;
             _operands = operands.ToArray();
             _operandCountDouble = operands.Count;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double dimensionValue = dimensionStack.PopAndGet(_dimensionIndex);
+            double dimensionValue = _dimensionStack.PopAndGet(_dimensionIndex);
 
             double result;
 
@@ -34,14 +42,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
                 OperatorCalculatorBase operand = _operands[dimensionValueInt];
 
-                result = operand.Calculate(dimensionStack);
+                result = operand.Calculate();
             }
             else
             {
                 result = 0.0;
             }
 
-            dimensionStack.Push(_dimensionIndex, dimensionValue);
+            _dimensionStack.Push(_dimensionIndex, dimensionValue);
 
             return result;
         }

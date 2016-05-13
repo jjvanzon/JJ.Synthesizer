@@ -26,11 +26,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double low = _lowCalculator.Calculate(dimensionStack);
-            double high = _highCalculator.Calculate(dimensionStack);
-            double ratio = _ratioCalculator.Calculate(dimensionStack);
+            double low = _lowCalculator.Calculate();
+            double high = _highCalculator.Calculate();
+            double ratio = _ratioCalculator.Calculate();
             
             double result = low * Math.Pow(high / low, ratio);
             return result;
@@ -57,10 +57,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double high = _highCalculator.Calculate(dimensionStack);
-            double ratio = _ratioCalculator.Calculate(dimensionStack);
+            double high = _highCalculator.Calculate();
+            double ratio = _ratioCalculator.Calculate();
 
             double result = _low * Math.Pow(high / _low, ratio);
             return result;
@@ -87,10 +87,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double low = _lowCalculator.Calculate(dimensionStack);
-            double ratio = _ratioCalculator.Calculate(dimensionStack);
+            double low = _lowCalculator.Calculate();
+            double ratio = _ratioCalculator.Calculate();
 
             // TODO: Low priority: Can you break up a fraction raised to a power
             // into two so that you can cache one power and prevent the division below?
@@ -124,9 +124,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double ratio = _ratioCalculator.Calculate(dimensionStack);
+            double ratio = _ratioCalculator.Calculate();
 
             double result = _low * Math.Pow(_highDividedByLow, ratio);
             return result;
@@ -153,10 +153,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double low = _lowCalculator.Calculate(dimensionStack);
-            double high = _highCalculator.Calculate(dimensionStack);
+            double low = _lowCalculator.Calculate();
+            double high = _highCalculator.Calculate();
 
             double result = low * Math.Pow(high / low, _ratio);
             return result;
@@ -181,9 +181,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double high = _highCalculator.Calculate(dimensionStack);
+            double high = _highCalculator.Calculate();
 
             double result = _low * Math.Pow(high / _low, _ratio);
             return result;
@@ -208,9 +208,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double low = _lowCalculator.Calculate(dimensionStack);
+            double low = _lowCalculator.Calculate();
 
             double result = low * Math.Pow(_high / low, _ratio);
             return result;

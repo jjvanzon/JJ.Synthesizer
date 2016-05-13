@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Collections;
+using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -17,6 +18,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _timeSliceDurationCalculator;
         private readonly OperatorCalculatorBase _sampleCountCalculator;
         private readonly int _dimensionIndex;
+        private readonly DimensionStack _dimensionStack;
 
         private double _sampleDuration;
         private double _sampleCountDouble;
@@ -38,7 +40,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase timeSliceDurationCalculator,
             OperatorCalculatorBase sampleCountCalculator,
-            DimensionEnum dimensionEnum)
+            DimensionEnum dimensionEnum,
+            DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[] 
             {
                 signalCalculator,
@@ -50,21 +53,23 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertOperatorCalculatorBase_OnlyUsedUponResetState(timeSliceDurationCalculator, () => timeSliceDurationCalculator);
             OperatorCalculatorHelper.AssertOperatorCalculatorBase_OnlyUsedUponResetState(sampleCountCalculator, () => sampleCountCalculator);
             OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
+            if (dimensionStack == null) throw new NullException(() => dimensionStack);
 
             _signalCalculator = signalCalculator;
             _timeSliceDurationCalculator = timeSliceDurationCalculator;
             _sampleCountCalculator = sampleCountCalculator;
             _dimensionIndex = (int)dimensionEnum;
+            _dimensionStack = dimensionStack;
 
-            Reset(new DimensionStack());
+            Reset();
         }
 
         protected abstract double GetMaximumOrMinimum(RedBlackTree<double, double> redBlackTree);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double position = dimensionStack.Get(_dimensionIndex);
+            double position = _dimensionStack.Get(_dimensionIndex);
 
             bool isForward = position >= _previousPosition;
 
@@ -85,9 +90,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
                     do
                     {
-                        dimensionStack.Push(_dimensionIndex, _nextSamplePosition);
-                        CalculateValueAndUpdateCollections(dimensionStack);
-                        dimensionStack.Pop(_dimensionIndex);
+                        _dimensionStack.Push(_dimensionIndex, _nextSamplePosition);
+                        CalculateValueAndUpdateCollections(_dimensionStack);
+                        _dimensionStack.Pop(_dimensionIndex);
 
                         _nextSamplePosition += _sampleDuration;
                     }
@@ -114,9 +119,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
                     do
                     {
-                        dimensionStack.Push(_dimensionIndex, _nextSamplePosition);
-                        CalculateValueAndUpdateCollections(dimensionStack);
-                        dimensionStack.Pop(_dimensionIndex);
+                        _dimensionStack.Push(_dimensionIndex, _nextSamplePosition);
+                        CalculateValueAndUpdateCollections(_dimensionStack);
+                        _dimensionStack.Pop(_dimensionIndex);
 
                         _nextSamplePosition -= _sampleDuration;
                     }
@@ -142,7 +147,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private void CalculateValueAndUpdateCollections(DimensionStack dimensionStack)
         {
-            double newValue = _signalCalculator.Calculate(dimensionStack);
+            double newValue = _signalCalculator.Calculate();
 
             double oldValue = _queue.Dequeue();
             _queue.Enqueue(newValue);
@@ -151,17 +156,17 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _redBlackTree.Insert(newValue, newValue);
         }
 
-        public override void Reset(DimensionStack dimensionStack)
+        public override void Reset()
         {
-            double position = dimensionStack.Get(_dimensionIndex);
+            double position = _dimensionStack.Get(_dimensionIndex);
 
             _previousPosition = position;
 
             _maximumOrMinimum = 0.0;
             _nextSamplePosition = 0.0;
 
-            _timeSliceDuration = _timeSliceDurationCalculator.Calculate(dimensionStack);
-            _sampleCountDouble = _sampleCountCalculator.Calculate(dimensionStack);
+            _timeSliceDuration = _timeSliceDurationCalculator.Calculate();
+            _sampleCountDouble = _sampleCountCalculator.Calculate();
 
             if (ConversionHelper.CanCastToNonNegativeInt32(_sampleCountDouble))
             {
@@ -177,7 +182,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _redBlackTree = new RedBlackTree<double, double>();
             _queue = CreateQueue();
 
-            base.Reset(dimensionStack);
+            base.Reset();
         }
 
         private Queue<double> CreateQueue()

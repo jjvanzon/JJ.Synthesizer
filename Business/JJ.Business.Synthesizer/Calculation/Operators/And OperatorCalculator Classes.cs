@@ -23,10 +23,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double a = _calculatorA.Calculate(dimensionStack);
-            double b = _calculatorB.Calculate(dimensionStack);
+            double a = _calculatorA.Calculate();
+            double b = _calculatorB.Calculate();
 
             bool aIsTrue = a != 0.0;
             bool bIsTrue = b != 0.0;
@@ -51,9 +51,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double a = _calculatorA.Calculate(dimensionStack);
+            double a = _calculatorA.Calculate();
             bool aIsTrue = a != 0.0;
 
             if (aIsTrue && _bIsTrue) return 1.0;
@@ -76,9 +76,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double b = _calculatorB.Calculate(dimensionStack);
+            double b = _calculatorB.Calculate();
 
             bool bIsTrue = b != 0.0;
 

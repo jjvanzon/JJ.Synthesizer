@@ -7,9 +7,9 @@
     /// </summary>
     internal abstract class OperatorCalculatorBase
     {
-        public abstract double Calculate(DimensionStack dimensionStack);
+        public abstract double Calculate();
 
         /// <summary> Does nothing </summary>
-        public virtual void Reset(DimensionStack dimensionStack) { }
+        public virtual void Reset() { }
     }
 }

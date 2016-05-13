@@ -161,7 +161,7 @@ namespace JJ.Business.Synthesizer.Calculation
 
                 for (int i = 0; i < tickCount; i++)
                 {
-                    double sample = signalCalculator.Calculate(dimensionStack);
+                    double sample = signalCalculator.Calculate();
                     samples[i] = sample;
 
                     time += tickDuration;

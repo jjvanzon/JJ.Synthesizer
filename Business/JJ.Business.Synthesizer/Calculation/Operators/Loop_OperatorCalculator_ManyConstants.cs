@@ -24,10 +24,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double loopEndMarker,
             double releaseEndMarker,
             OperatorCalculatorBase noteDurationCalculator,
-            DimensionEnum dimensionEnum)
+            DimensionEnum dimensionEnum,
+            DimensionStack dimensionStack)
             : base(
                   signalCalculator,
                   dimensionEnum,
+                  dimensionStack,
                   new OperatorCalculatorBase[] 
                   {
                       signalCalculator,
@@ -45,9 +47,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _releaseLength = _releaseEndMarker - _loopEndMarker;
         }
 
-        protected override double? TransformPosition(DimensionStack dimensionStack)
+        protected override double? TransformPosition()
         {
-            double outputPosition = dimensionStack.Get(_dimensionIndex);
+            double outputPosition = _dimensionStack.Get(_dimensionIndex);
 
             outputPosition -= _origin;
 
@@ -67,7 +69,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             }
 
             // InLoop
-            double noteDuration = GetNoteDuration(dimensionStack);
+            double noteDuration = GetNoteDuration();
 
             // Round up end of loop to whole cycles.
             double noteEndPhase = (noteDuration - _outputLoopStart) / _cycleLength;
@@ -98,12 +100,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         // Helpers
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private double GetNoteDuration(DimensionStack dimensionStack)
+        private double GetNoteDuration()
         {
             double value = CalculationHelper.VERY_HIGH_VALUE;
             if (_noteDurationCalculator != null)
             {
-                value = _noteDurationCalculator.Calculate(dimensionStack);
+                value = _noteDurationCalculator.Calculate();
             }
 
             return value;

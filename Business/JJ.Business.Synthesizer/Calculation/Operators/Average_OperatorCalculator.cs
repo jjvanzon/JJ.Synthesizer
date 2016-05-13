@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -12,6 +13,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _timeSliceDurationCalculator;
         private readonly OperatorCalculatorBase _sampleCountCalculator;
         private readonly int _dimensionIndex;
+        private readonly DimensionStack _dimensionStack;
 
         private double _sampleLength;
         private double _sampleCountDouble;
@@ -27,7 +29,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase timeSliceDurationCalculator,
             OperatorCalculatorBase sampleCountCalculator,
-            DimensionEnum dimensionEnum)
+            DimensionEnum dimensionEnum,
+            DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[]
             {
                 signalCalculator,
@@ -39,19 +42,20 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertOperatorCalculatorBase_OnlyUsedUponResetState(timeSliceDurationCalculator, () => timeSliceDurationCalculator);
             OperatorCalculatorHelper.AssertOperatorCalculatorBase_OnlyUsedUponResetState(sampleCountCalculator, () => sampleCountCalculator);
             OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
+            if (dimensionStack == null) throw new NullException(() => dimensionStack);
 
             _signalCalculator = signalCalculator;
             _timeSliceDurationCalculator = timeSliceDurationCalculator;
             _sampleCountCalculator = sampleCountCalculator;
-
             _dimensionIndex = (int)dimensionEnum;
+            _dimensionStack = dimensionStack;
 
-            Reset(new DimensionStack());
+            Reset();
         }
 
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double position = dimensionStack.Get(_dimensionIndex);
+            double position = _dimensionStack.Get(_dimensionIndex);
 
             // Update _passedSampleTime
             double positionChange = position - _previousTime;
@@ -71,7 +75,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 // Use a queueing trick to update the average without traversing a whole list.
                 // This also makes the average update more continually.
                 double oldValue = _queue.Dequeue();
-                double newValue = _signalCalculator.Calculate(dimensionStack);
+                double newValue = _signalCalculator.Calculate();
                 _queue.Enqueue(newValue);
 
                 _sum -= oldValue;
@@ -90,9 +94,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return _average;
         }
 
-        public override void Reset(DimensionStack dimensionStack)
+        public override void Reset()
         {
-            double position = dimensionStack.Get(_dimensionIndex);
+            double position = _dimensionStack.Get(_dimensionIndex);
 
             _previousTime = position;
 
@@ -100,8 +104,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _average = 0.0;
             _passedSamplingLength = 0.0;
 
-            double timeSliceDuration = _timeSliceDurationCalculator.Calculate(dimensionStack);
-            _sampleCountDouble = _sampleCountCalculator.Calculate(dimensionStack);
+            double timeSliceDuration = _timeSliceDurationCalculator.Calculate();
+            _sampleCountDouble = _sampleCountCalculator.Calculate();
 
             if (ConversionHelper.CanCastToNonNegativeInt32(_sampleCountDouble))
             {
@@ -116,7 +120,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             _queue = CreateQueue(_sampleCountDouble);
 
-            base.Reset(dimensionStack);
+            base.Reset();
         }
 
         private Queue<double> CreateQueue(double sampleCountDouble)

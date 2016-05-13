@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Mathematics;
+using JJ.Framework.Reflection.Exceptions;
 using Lomont;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -15,6 +16,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _startTimeCalculator;
         private readonly OperatorCalculatorBase _endTimeCalculator;
         private readonly OperatorCalculatorBase _frequencyCountCalculator;
+        private readonly DimensionStack _dimensionStack;
 
         private readonly LomontFFT _lomontFFT;
 
@@ -26,7 +28,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase startTimeCalculator,
             OperatorCalculatorBase endTimeCalculator,
-            OperatorCalculatorBase frequencyCountCalculator)
+            OperatorCalculatorBase frequencyCountCalculator,
+            DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[] 
             {
                 signalCalculator,
@@ -39,21 +42,23 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertOperatorCalculatorBase_OnlyUsedUponResetState(startTimeCalculator, () => startTimeCalculator);
             OperatorCalculatorHelper.AssertOperatorCalculatorBase_OnlyUsedUponResetState(endTimeCalculator, () => endTimeCalculator);
             OperatorCalculatorHelper.AssertOperatorCalculatorBase_OnlyUsedUponResetState(frequencyCountCalculator, () => frequencyCountCalculator);
+            if (dimensionStack == null) throw new NullException(() => dimensionStack);
 
             _signalCalculator = signalCalculator;
             _startTimeCalculator = startTimeCalculator;
             _endTimeCalculator = endTimeCalculator;
             _frequencyCountCalculator = frequencyCountCalculator;
+            _dimensionStack = dimensionStack;
 
             _lomontFFT = new LomontFFT();
 
-            Reset(new DimensionStack());
+            Reset();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double time = _dimensionStack.Get(DimensionEnum.Time);
 
             if (time < 0) time = 0;
             if (time > _harmonicVolumes.Length - 1) time = _harmonicVolumes.Length - 1;
@@ -67,12 +72,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return frequency;
         }
 
-        public override void Reset(DimensionStack dimensionStack)
+        public override void Reset()
         {
-            double time = dimensionStack.Get(DimensionEnum.Time);
+            double time = _dimensionStack.Get(DimensionEnum.Time);
 
             _previousTime = time;
-            _harmonicVolumes = CreateHarmonicVolumes(dimensionStack);
+            _harmonicVolumes = CreateHarmonicVolumes();
 
             // NOTE: Do not call base.
             // The Spectrum Operator is an exception to the rule.
@@ -80,11 +85,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             // but just recalculating the spectrum.
         }
 
-        private double[] CreateHarmonicVolumes(DimensionStack dimensionStack)
+        private double[] CreateHarmonicVolumes()
         {
-            double startTime = _startTimeCalculator.Calculate(dimensionStack);
-            double endTime = _endTimeCalculator.Calculate(dimensionStack);
-            double frequencyCountDouble = _frequencyCountCalculator.Calculate(dimensionStack);
+            double startTime = _startTimeCalculator.Calculate();
+            double endTime = _endTimeCalculator.Calculate();
+            double frequencyCountDouble = _frequencyCountCalculator.Calculate();
 
             // We need a lot of lenience in this code, because validity is dependent on user input,
             // and we cannot obtrusively interrupt the user with validation messages, 
@@ -113,9 +118,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double t = startTime;
             for (int i = 0; i < frequencyCountTimesTwo; i++)
             {
-                dimensionStack.Push(DimensionEnum.Time, t);
-                double value = _signalCalculator.Calculate(dimensionStack);
-                dimensionStack.Pop(DimensionEnum.Time);
+                _dimensionStack.Push(DimensionEnum.Time, t);
+
+                double value = _signalCalculator.Calculate();
+
+                _dimensionStack.Pop(DimensionEnum.Time);
 
                 data[i] = value;
 

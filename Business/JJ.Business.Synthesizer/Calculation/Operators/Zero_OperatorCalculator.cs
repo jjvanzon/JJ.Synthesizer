@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class Zero_OperatorCalculator : Number_OperatorCalculator
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
             return 0;
         }

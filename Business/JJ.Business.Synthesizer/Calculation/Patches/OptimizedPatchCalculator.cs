@@ -17,6 +17,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private readonly OperatorCalculatorBase _outputOperatorCalculator;
         /// <summary> Array, instead of IList<T> for optimization in calculating values. </summary>
         private readonly VariableInput_OperatorCalculator[] _inputOperatorCalculators;
+        private readonly DimensionStack _operatorDimensionStack;
 
         private readonly Dictionary<string, IList<OperatorCalculatorBase>> _name_To_ResettableOperatorCalculators_Dictionary;
         private readonly Dictionary<int, IList<OperatorCalculatorBase>> _listIndex_To_ResettableOperatorCalculators_Dictionary;
@@ -42,6 +43,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             OptimizedPatchCalculatorVisitor.Result result = visitor.Execute(outlet, channelCount);
 
+            _operatorDimensionStack = result.DimensionStack;
             _outputOperatorCalculator = result.Output_OperatorCalculator;
             _inputOperatorCalculators = result.Input_OperatorCalculators.OrderBy(x => x.ListIndex).ToArray();
             _name_To_ResettableOperatorCalculators_Dictionary = result.ResettableOperatorTuples.ToNonUniqueDictionary(x => x.Name ?? "", x => x.OperatorCalculator);
@@ -50,7 +52,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         public double Calculate(DimensionStack dimensionStack)
         {
-            double value = _outputOperatorCalculator.Calculate(dimensionStack);
+            CopyDimensionStackValues(dimensionStack, _operatorDimensionStack);
+
+            double value = _outputOperatorCalculator.Calculate();
             return value;
         }
 
@@ -347,7 +351,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         public void Reset(DimensionStack dimensionStack)
         {
-            _outputOperatorCalculator.Reset(dimensionStack);
+            CopyDimensionStackValues(dimensionStack, _operatorDimensionStack);
+
+            _outputOperatorCalculator.Reset();
 
             _valuesByListIndex.Clear();
             _valuesByName.Clear();
@@ -368,7 +374,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 foreach (OperatorCalculatorBase calculator in calculators)
                 {
-                    calculator.Reset(dimensionStack);
+                    CopyDimensionStackValues(dimensionStack, _operatorDimensionStack);
+                    calculator.Reset();
                 }
             }
         }
@@ -380,8 +387,21 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 foreach (OperatorCalculatorBase calculator in calculators)
                 {
-                    calculator.Reset(dimensionStack);
+                    CopyDimensionStackValues(dimensionStack, _operatorDimensionStack);
+                    calculator.Reset();
                 }
+            }
+        }
+
+        /// <summary>
+        /// The operator dimension stack is protected here, but to patch calculator is passed a different dimension
+        /// stack, of which the values are copied to the operator dimension stack.
+        /// </summary>
+        private void CopyDimensionStackValues(DimensionStack sourceDimensionStack, DimensionStack destDimensionStack)
+        {
+            foreach (DimensionEnum dimensionEnum in EnumHelper.GetValues<DimensionEnum>())
+            {
+                destDimensionStack.Set(dimensionEnum, sourceDimensionStack.Get(dimensionEnum));
             }
         }
     }

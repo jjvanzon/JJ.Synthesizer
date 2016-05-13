@@ -12,6 +12,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _samplingRateCalculator;
         private readonly int _dimensionIndex;
+        private readonly DimensionStack _dimensionStack;
 
         private double _position0;
         protected double _value0;
@@ -19,7 +20,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Resample_OperatorCalculator_Block(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase samplingRateCalculator,
-            DimensionEnum dimensionEnum)
+            DimensionEnum dimensionEnum,
+            DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[] { signalCalculator, samplingRateCalculator })
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
@@ -28,24 +30,26 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             // TODO: Resample with constant sampling rate does not have specialized calculators yet. Reactivate code line after those specialized calculators have been programmed.
             //if (samplingRateCalculator is Number_OperatorCalculator) throw new IsNotTypeException<Number_OperatorCalculator>(() => samplingRateCalculator);
             OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
+            if (dimensionStack == null) throw new NullException(() => dimensionStack);
 
             _signalCalculator = signalCalculator;
             _samplingRateCalculator = samplingRateCalculator;
             _dimensionIndex = (int)dimensionEnum;
+            _dimensionStack = dimensionStack;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double samplingRate = _samplingRateCalculator.Calculate(dimensionStack);
+            double samplingRate = _samplingRateCalculator.Calculate();
 
-            return Calculate(dimensionStack, samplingRate);
+            return Calculate(samplingRate);
         }
 
         /// <summary> This extra overload prevents additional invokations of the _samplingRateCalculator in derived classes </summary>
-        protected double Calculate(DimensionStack dimensionStack, double samplingRate)
+        protected double Calculate(double samplingRate)
         {
-            double position = dimensionStack.Get(_dimensionIndex);
+            double position = _dimensionStack.Get(_dimensionIndex);
 
             double offset = position - _position0;
             double sampleCount = offset * samplingRate;
@@ -55,11 +59,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             {
                 _position0 += sampleCount / samplingRate;
 
-                dimensionStack.Push(_dimensionIndex, _position0);
+                _dimensionStack.Push(_dimensionIndex, _position0);
 
-                _value0 = _signalCalculator.Calculate(dimensionStack);
+                _value0 = _signalCalculator.Calculate();
 
-                dimensionStack.Pop(_dimensionIndex);
+                _dimensionStack.Pop(_dimensionIndex);
             }
 
             return _value0;

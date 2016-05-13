@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using JJ.Framework.Validation;
 using JJ.Business.Synthesizer.Validation;
+using JJ.Business.Synthesizer.Extensions;
 
 namespace JJ.Business.Synthesizer.Calculation.Samples
 {
@@ -23,7 +24,11 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
             validator.Assert();
 
             _rate = sample.SamplingRate / sample.TimeMultiplier;
+
+            ChannelCount = sample.GetChannelCount();
         }
+
+        public int ChannelCount { get; }
 
         public abstract double CalculateValue(double time, int channelIndex);
     }

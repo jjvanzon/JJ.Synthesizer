@@ -9,11 +9,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _sampleLength;
         private readonly int _dimensionIndex;
+        private readonly DimensionStack _dimensionStack;
 
         public Resample_OperatorCalculator_LineWithConstSamplingRate(
             OperatorCalculatorBase signalCalculator, 
             double samplingRate,
-            DimensionEnum dimensionEnum)
+            DimensionEnum dimensionEnum,
+            DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[]
             {
                 signalCalculator
@@ -22,16 +24,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (samplingRate <= 0) throw new LessThanOrEqualException(() => samplingRate, 0);
             OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
+            if (dimensionStack == null) throw new NullException(() => dimensionStack);
 
             _signalCalculator = signalCalculator;
             _dimensionIndex = (int)dimensionEnum;
+            _dimensionStack = dimensionStack;
 
             _sampleLength = 1.0 / samplingRate;
         }
 
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double x = dimensionStack.Get(_dimensionIndex);
+            double x = _dimensionStack.Get(_dimensionIndex);
 
             double remainder = x % _sampleLength;
 
@@ -39,15 +43,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double x1 = x0 + _sampleLength;
             double dx = x1 - x0;
 
-            dimensionStack.Push(_dimensionIndex, x0);
+            _dimensionStack.Push(_dimensionIndex, x0);
 
-            double y0 = _signalCalculator.Calculate(dimensionStack);
+            double y0 = _signalCalculator.Calculate();
 
-            dimensionStack.Set(_dimensionIndex, x1);
+            _dimensionStack.Set(_dimensionIndex, x1);
 
-            double y1 = _signalCalculator.Calculate(dimensionStack);
+            double y1 = _signalCalculator.Calculate();
 
-            dimensionStack.Pop(_dimensionIndex);
+            _dimensionStack.Pop(_dimensionIndex);
 
             double dy = y1 - y0;
 

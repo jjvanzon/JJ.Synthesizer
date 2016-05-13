@@ -12,6 +12,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _samplingRateCalculator;
         private readonly int _dimensionIndex;
+        private readonly DimensionStack _dimensionStack;
 
         private double _xMinus1;
         private double _x0;
@@ -26,7 +27,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Resample_OperatorCalculator_CubicSmoothSlope(
             OperatorCalculatorBase signalCalculator, 
             OperatorCalculatorBase samplingRateCalculator,
-            DimensionEnum dimensionEnum)
+            DimensionEnum dimensionEnum,
+            DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[] { signalCalculator, samplingRateCalculator })
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
@@ -35,17 +37,19 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             // TODO: Resample with constant sampling rate does not have specialized calculators yet. Reactivate code line after those specialized calculators have been programmed.
             //if (samplingRateCalculator is Number_OperatorCalculator) throw new IsNotTypeException<Number_OperatorCalculator>(() => samplingRateCalculator);
             OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
+            if (dimensionStack == null) throw new NullException(() => dimensionStack);
 
             _signalCalculator = signalCalculator;
             _samplingRateCalculator = samplingRateCalculator;
             _dimensionIndex = (int)dimensionEnum;
+            _dimensionStack = dimensionStack;
 
-            ResetNonRecursive(new DimensionStack());
+            ResetNonRecursive();
         }
 
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double position = dimensionStack.Get(_dimensionIndex);
+            double position = _dimensionStack.Get(_dimensionIndex);
 
             // TODO: What if position goes in reverse?
             // TODO: What if _x0 or _x1 are way off? How will it correct itself?
@@ -63,18 +67,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 _y1 = _y2;
 
                 // Determine next sample
-                dimensionStack.Push(_dimensionIndex, _x1);
+                _dimensionStack.Push(_dimensionIndex, _x1);
 
-                double samplingRate = GetSamplingRate(dimensionStack);
+                double samplingRate = GetSamplingRate();
 
                 _dx1 = 1.0 / samplingRate;
                 _x2 = _x1 + _dx1;
 
-                dimensionStack.Set(_dimensionIndex, _x2);
+                _dimensionStack.Set(_dimensionIndex, _x2);
 
-                _y2 = _signalCalculator.Calculate(dimensionStack);
+                _y2 = _signalCalculator.Calculate();
 
-                dimensionStack.Pop(_dimensionIndex);
+                _dimensionStack.Pop(_dimensionIndex);
             }
 
             double y = Interpolator.Interpolate_Cubic_SmoothSlope(
@@ -86,9 +90,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         /// <summary> Gets the sampling rate, converts it to an absolute number and ensures a minimum value. </summary>
-        private double GetSamplingRate(DimensionStack dimensionStack)
+        private double GetSamplingRate()
         {
-            double samplingRate = _samplingRateCalculator.Calculate(dimensionStack);
+            double samplingRate = _samplingRateCalculator.Calculate();
 
             samplingRate = Math.Abs(samplingRate);
 
@@ -100,16 +104,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return samplingRate;
         }
 
-        public override void Reset(DimensionStack dimensionStack)
+        public override void Reset()
         {
-            ResetNonRecursive(dimensionStack);
+            ResetNonRecursive();
 
-            base.Reset(dimensionStack);
+            base.Reset();
         }
 
-        private void ResetNonRecursive(DimensionStack dimensionStack)
+        private void ResetNonRecursive()
         {
-            double position = dimensionStack.Get(_dimensionIndex);
+            double position = _dimensionStack.Get(_dimensionIndex);
 
             _xMinus1 = CalculationHelper.VERY_LOW_VALUE;
             _x0 = position - Double.Epsilon;

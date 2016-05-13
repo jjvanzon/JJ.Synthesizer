@@ -28,9 +28,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double a = _numeratorCalculator.Calculate(dimensionStack);
+            double a = _numeratorCalculator.Calculate();
             return (a - _originValue) / _denominatorValue + _originValue;
         }
     }
@@ -56,9 +56,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double denominator = _denominatorCalculator.Calculate(dimensionStack);
+            double denominator = _denominatorCalculator.Calculate();
 
             if (denominator == 0)
             {
@@ -92,10 +92,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double numerator = _numeratorCalculator.Calculate(dimensionStack);
-            double denominator = _denominatorCalculator.Calculate(dimensionStack);
+            double numerator = _numeratorCalculator.Calculate();
+            double denominator = _denominatorCalculator.Calculate();
 
             if (denominator == 0)
             {
@@ -130,10 +130,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double origin = _originCalculator.Calculate(dimensionStack);
-            double a = _numeratorCalculator.Calculate(dimensionStack);
+            double origin = _originCalculator.Calculate();
+            double a = _numeratorCalculator.Calculate();
             return (a - origin) / _denominatorValue + origin;
         }
     }
@@ -160,9 +160,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double origin = _originCalculator.Calculate(dimensionStack);
+            double origin = _originCalculator.Calculate();
             return (_numeratorValue - origin) / _denominatorValue + origin;
         }
     }
@@ -190,16 +190,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double denominator = _denominatorCalculator.Calculate(dimensionStack);
+            double denominator = _denominatorCalculator.Calculate();
 
             if (denominator == 0)
             {
                 return _numeratorValue;
             }
 
-            double origin = _originCalculator.Calculate(dimensionStack);
+            double origin = _originCalculator.Calculate();
 
             return (_numeratorValue - origin) / denominator + origin;
         }
@@ -230,17 +230,17 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double numerator = _numeratorCalculator.Calculate(dimensionStack);
-            double denominator = _denominatorCalculator.Calculate(dimensionStack);
+            double numerator = _numeratorCalculator.Calculate();
+            double denominator = _denominatorCalculator.Calculate();
 
             if (denominator == 0)
             {
                 return numerator;
             }
 
-            double origin = _originCalculator.Calculate(dimensionStack);
+            double origin = _originCalculator.Calculate();
 
             return (numerator - origin) / denominator + origin;
         }
@@ -264,10 +264,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double numerator = _numeratorCalculator.Calculate(dimensionStack);
-            double denominator = _denominatorCalculator.Calculate(dimensionStack);
+            double numerator = _numeratorCalculator.Calculate();
+            double denominator = _denominatorCalculator.Calculate();
 
             if (denominator == 0)
             {
@@ -295,9 +295,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double numerator = _numeratorCalculator.Calculate(dimensionStack);
+            double numerator = _numeratorCalculator.Calculate();
             return numerator / _denominatorValue;
         }
     }
@@ -321,9 +321,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double denominator = _denominatorCalculator.Calculate(dimensionStack);
+            double denominator = _denominatorCalculator.Calculate();
 
             if (denominator == 0)
             {

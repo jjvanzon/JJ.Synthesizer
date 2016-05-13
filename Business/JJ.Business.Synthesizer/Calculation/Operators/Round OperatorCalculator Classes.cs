@@ -28,11 +28,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double signal = _signalCalculator.Calculate(dimensionStack);
-            double step = _stepCalculator.Calculate(dimensionStack);
-            double offset = _offsetCalculator.Calculate(dimensionStack);
+            double signal = _signalCalculator.Calculate();
+            double step = _stepCalculator.Calculate();
+            double offset = _offsetCalculator.Calculate();
 
             double result = Maths.RoundWithStep(signal, step, offset);
             return result;
@@ -61,10 +61,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double signal = _signalCalculator.Calculate(dimensionStack);
-            double step = _stepCalculator.Calculate(dimensionStack);
+            double signal = _signalCalculator.Calculate();
+            double step = _stepCalculator.Calculate();
 
             double result = Maths.RoundWithStep(signal, step, _offset);
             return result;
@@ -89,10 +89,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double signal = _signalCalculator.Calculate(dimensionStack);
-            double step = _stepCalculator.Calculate(dimensionStack);
+            double signal = _signalCalculator.Calculate();
+            double step = _stepCalculator.Calculate();
 
             double result = Maths.RoundWithStep(signal, step);
             return result;
@@ -121,10 +121,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double signal = _signalCalculator.Calculate(dimensionStack);
-            double offset = _offsetCalculator.Calculate(dimensionStack);
+            double signal = _signalCalculator.Calculate();
+            double offset = _offsetCalculator.Calculate();
 
             double result = Maths.RoundWithStep(signal, _step, offset);
             return result;
@@ -153,9 +153,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double signal = _signalCalculator.Calculate(dimensionStack);
+            double signal = _signalCalculator.Calculate();
 
             double result = Maths.RoundWithStep(signal, _step, _offset);
             return result;
@@ -180,9 +180,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double signal = _signalCalculator.Calculate(dimensionStack);
+            double signal = _signalCalculator.Calculate();
 
             double result = Maths.RoundWithStep(signal, _step);
             return result;
@@ -212,10 +212,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double step = _stepCalculator.Calculate(dimensionStack);
-            double offset = _offsetCalculator.Calculate(dimensionStack);
+            double step = _stepCalculator.Calculate();
+            double offset = _offsetCalculator.Calculate();
 
             double result = Maths.RoundWithStep(_signal, step, offset);
             return result;
@@ -235,9 +235,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double signal = _signalCalculator.Calculate(dimensionStack);
+            double signal = _signalCalculator.Calculate();
 
             double result = Math.Round(signal, MidpointRounding.AwayFromZero);
             return result;

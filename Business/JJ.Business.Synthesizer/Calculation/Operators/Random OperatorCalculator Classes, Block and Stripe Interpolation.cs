@@ -16,6 +16,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _rateCalculator;
         private readonly OperatorCalculatorBase _phaseShiftCalculator;
         private readonly int _dimensionIndex;
+        private readonly DimensionStack _dimensionStack;
 
         private double _phase;
         private double _previousPosition;
@@ -25,7 +26,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double randomCalculatorOffset,
             OperatorCalculatorBase rateCalculator,
             OperatorCalculatorBase phaseShiftCalculator,
-            DimensionEnum dimensionEnum)
+            DimensionEnum dimensionEnum,
+            DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[] { rateCalculator, phaseShiftCalculator })
         {
             if (randomCalculator == null) throw new NullException(() => randomCalculator);
@@ -33,24 +35,26 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             //OperatorCalculatorHelper.AssertOperatorCalculatorBase(frequencyCalculator, () => frequencyCalculator);
             //OperatorCalculatorHelper.AssertOperatorCalculatorBase(phaseShiftCalculator, () => phaseShiftCalculator);
             OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
+            if (dimensionStack == null) throw new NullException(() => dimensionStack);
 
             _randomCalculator = randomCalculator;
             _randomCalculatorOffset = randomCalculatorOffset;
             _rateCalculator = rateCalculator;
             _phaseShiftCalculator = phaseShiftCalculator;
             _dimensionIndex = (int)dimensionEnum;
+            _dimensionStack = dimensionStack;
 
             // TODO: Make sure you asser this strictly, so it does not become NaN.
             _phase = _randomCalculatorOffset;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double position = dimensionStack.Get(_dimensionIndex);
+            double position = _dimensionStack.Get(_dimensionIndex);
 
-            double rate = _rateCalculator.Calculate(dimensionStack);
-            double phaseShift = _phaseShiftCalculator.Calculate(dimensionStack);
+            double rate = _rateCalculator.Calculate();
+            double phaseShift = _phaseShiftCalculator.Calculate();
 
             double positionChange = position - _previousPosition;
             double phase = _phase + positionChange * rate;
@@ -66,15 +70,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return value;
         }
 
-        // TODO: Probably remove this whole method.
-        public override void Reset(DimensionStack dimensionStack)
+        public override void Reset()
         {
-            double position = dimensionStack.Get(_dimensionIndex);
+            _previousPosition = _dimensionStack.Get(_dimensionIndex);
 
-            _previousPosition = position;
-            //_phase = _randomCalculatorOffset;
-
-            base.Reset(dimensionStack);
+            base.Reset();
         }
     }
 }

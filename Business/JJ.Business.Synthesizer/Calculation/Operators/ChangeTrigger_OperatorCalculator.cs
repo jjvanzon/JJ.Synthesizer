@@ -26,18 +26,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double newTriggerValue = _resetCalculator.Calculate(dimensionStack);
+            double newTriggerValue = _resetCalculator.Calculate();
 
             if (_previousTriggerValue != newTriggerValue)
             {
-                _calculationCalculator.Reset(dimensionStack);
+                _calculationCalculator.Reset();
 
                 _previousTriggerValue = newTriggerValue;
             }
 
-            return _calculationCalculator.Calculate(dimensionStack);
+            return _calculationCalculator.Calculate();
         }
     }
 }

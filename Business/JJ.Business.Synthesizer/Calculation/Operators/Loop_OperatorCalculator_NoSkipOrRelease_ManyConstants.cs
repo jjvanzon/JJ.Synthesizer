@@ -19,10 +19,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double loopStartMarker,
             double loopEndMarker,
             OperatorCalculatorBase noteDurationCalculator,
-            DimensionEnum dimensionEnum)
+            DimensionEnum dimensionEnum,
+            DimensionStack dimensionStack)
             : base(
                   signalCalculator,
                   dimensionEnum,
+                  dimensionStack,
                   new OperatorCalculatorBase[]
                   {
                       signalCalculator,
@@ -36,9 +38,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _cycleLength = _loopEndMarker - _loopStartMarker;
         }
 
-        protected override double? TransformPosition(DimensionStack dimensionStack)
+        protected override double? TransformPosition()
         {
-            double position = dimensionStack.Get(_dimensionIndex);
+            double position = _dimensionStack.Get(_dimensionIndex);
 
             position -= _origin;
 
@@ -57,7 +59,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             }
 
             // InLoop
-            double noteDuration = GetNoteDuration(dimensionStack);
+            double noteDuration = GetNoteDuration();
             bool isInLoop = position < noteDuration;
             if (isInLoop)
             {
@@ -71,12 +73,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         } 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private double GetNoteDuration(DimensionStack dimensionStack)
+        private double GetNoteDuration()
         {
             double value = CalculationHelper.VERY_HIGH_VALUE;
             if (_noteDurationCalculator != null)
             {
-                value = _noteDurationCalculator.Calculate(dimensionStack);
+                value = _noteDurationCalculator.Calculate();
             }
 
             return value;

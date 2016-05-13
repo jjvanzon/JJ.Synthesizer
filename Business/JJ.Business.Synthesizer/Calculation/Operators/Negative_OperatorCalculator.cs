@@ -18,9 +18,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double x = _xCalculator.Calculate(dimensionStack);
+            double x = _xCalculator.Calculate();
             return -x;
         }
     }

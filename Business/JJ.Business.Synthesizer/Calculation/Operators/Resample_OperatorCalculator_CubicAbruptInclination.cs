@@ -15,11 +15,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _samplingRateCalculator;
         private readonly int _dimensionIndex;
+        private readonly DimensionStack _dimensionStack;
 
         public Resample_OperatorCalculator_CubicAbruptSlope(
             OperatorCalculatorBase signalCalculator, 
             OperatorCalculatorBase samplingRateCalculator,
-            DimensionEnum dimensionEnum)
+            DimensionEnum dimensionEnum,
+            DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[]
             {
                 signalCalculator, 
@@ -32,10 +34,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             // TODO: Resample with constant sampling rate does not have specialized calculators yet. Reactivate code line after those specialized calculators have been programmed.
             //if (samplingRateCalculator is Number_OperatorCalculator) throw new IsNotTypeException<Number_OperatorCalculator>(() => samplingRateCalculator);
             OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
+            if (dimensionStack == null) throw new NullException(() => dimensionStack);
 
             _signalCalculator = signalCalculator;
             _samplingRateCalculator = samplingRateCalculator;
             _dimensionIndex = (int)dimensionEnum;
+            _dimensionStack = dimensionStack;
         }
 
         // HACK: These defaults are hacks that are meaningless in practice.
@@ -54,9 +58,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _a0;
         private double _a1;
 
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double position = dimensionStack.Get(_dimensionIndex);
+            double position = _dimensionStack.Get(_dimensionIndex);
 
             double x = position;
             if (x > _x1)
@@ -72,19 +76,19 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 _dx0 = _dx1;
                 _a0 = _a1;
 
-                dimensionStack.Push(_dimensionIndex, _x1);
+                _dimensionStack.Push(_dimensionIndex, _x1);
 
-                double samplingRate1 = GetSamplingRate(dimensionStack);
+                double samplingRate1 = GetSamplingRate();
                 // TODO: Handle SamplingRate 0.
 
                 _dx1 = 1.0 / samplingRate1;
                 _x2 += _dx1;
 
-                dimensionStack.Set(_dimensionIndex, _x2);
+                _dimensionStack.Set(_dimensionIndex, _x2);
 
-                _y2 = _signalCalculator.Calculate(dimensionStack);
+                _y2 = _signalCalculator.Calculate();
 
-                dimensionStack.Pop(_dimensionIndex);
+                _dimensionStack.Pop(_dimensionIndex);
 
                 _a1 = (_y2 - _y0) / (_x2 - _x0);
 
@@ -120,9 +124,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         /// Gets the sampling rate, converts it to an absolute number
         /// and ensures a minimum value.
         /// </summary>
-        private double GetSamplingRate(DimensionStack dimensionStack)
+        private double GetSamplingRate()
         {
-            double samplingRate = _samplingRateCalculator.Calculate(dimensionStack);
+            double samplingRate = _samplingRateCalculator.Calculate();
 
             samplingRate = Math.Abs(samplingRate);
 

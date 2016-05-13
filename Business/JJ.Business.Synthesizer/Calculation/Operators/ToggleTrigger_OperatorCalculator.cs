@@ -27,34 +27,34 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double newTriggerValue = _resetCalculator.Calculate(dimensionStack);
+            double newTriggerValue = _resetCalculator.Calculate();
 
             bool newValueIsZero = newTriggerValue == 0;
 
             if (_previousZero == 0 && !newValueIsZero)
             {
-                _calculationCalculator.Reset(dimensionStack);
+                _calculationCalculator.Reset();
 
                 // _previousZero = something non-zero, by flipping all bits.
                 _previousZero = ~_previousZero;
             }
             else if (_previousZero != 0 && newValueIsZero)
             {
-                _calculationCalculator.Reset(dimensionStack);
+                _calculationCalculator.Reset();
 
                 // _previousZero = 0, by XOR'ing it onto itself.
                 _previousZero ^= _previousZero;
             }
 
-            return _calculationCalculator.Calculate(dimensionStack);
+            return _calculationCalculator.Calculate();
         }
 
         // Non-optimized version:
-        //public override double Calculate(DimensionStack dimensionStack)
+        //public override double Calculate()
         //{
-        //    double newTriggerValue = _resetCalculator.Calculate(dimensionStack);
+        //    double newTriggerValue = _resetCalculator.Calculate();
 
         //    if (_previousTriggerValue == 0 && newTriggerValue != 0)
         //    {
@@ -67,7 +67,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         //    _previousTriggerValue = newTriggerValue;
 
-        //    return _calculationCalculator.Calculate(dimensionStack);
+        //    return _calculationCalculator.Calculate();
         //}
     }
 }

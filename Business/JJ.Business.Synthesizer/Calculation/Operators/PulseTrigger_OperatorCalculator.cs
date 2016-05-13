@@ -26,13 +26,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double newTriggerValue = _resetCalculator.Calculate(dimensionStack);
+            double newTriggerValue = _resetCalculator.Calculate();
 
             if (_previousZero == 0 && newTriggerValue != 0)
             {
-                _calculationCalculator.Reset(dimensionStack);
+                _calculationCalculator.Reset();
 
                 // _previousZero = something non-zero, by flipping all bits.
                 _previousZero = ~_previousZero;
@@ -43,13 +43,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 _previousZero ^= _previousZero;
             }
 
-            return _calculationCalculator.Calculate(dimensionStack);
+            return _calculationCalculator.Calculate();
         }
 
         // Non-Optimized version
-        //public override double Calculate(DimensionStack dimensionStack)
+        //public override double Calculate()
         //{
-        //    double newTriggerValue = _resetCalculator.Calculate(dimensionStack);
+        //    double newTriggerValue = _resetCalculator.Calculate();
 
         //    if (_previousTriggerValue == 0 && newTriggerValue != 0)
         //    {
@@ -58,7 +58,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         //    _previousTriggerValue = newTriggerValue;
 
-        //    return _calculationCalculator.Calculate(dimensionStack);
+        //    return _calculationCalculator.Calculate();
         //}
     }
 }

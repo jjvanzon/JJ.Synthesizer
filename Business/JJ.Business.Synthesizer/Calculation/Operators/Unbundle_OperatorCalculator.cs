@@ -12,28 +12,33 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _operandCalculator;
         private readonly int _dimensionIndex;
         private readonly double _dimensionValue;
+        private readonly DimensionStack _dimensionStack;
 
         public Unbundle_OperatorCalculator(
             OperatorCalculatorBase operandCalculator, 
             DimensionEnum dimensionEnum, 
-            double dimensionValue)
+            double dimensionValue,
+            DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[] { operandCalculator })
         {
             if (operandCalculator == null) throw new NullException(() => operandCalculator);
+            // Do not call OperatorCalculatorHelper.AssertDimensionEnum, because Undefined is allowed to.
+            if (dimensionStack == null) throw new NullException(() => dimensionStack);
 
             _operandCalculator = operandCalculator;
             _dimensionIndex = (int)dimensionEnum;
             _dimensionValue = dimensionValue;
+            _dimensionStack = dimensionStack;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            dimensionStack.Push(_dimensionIndex, _dimensionValue);
+            _dimensionStack.Push(_dimensionIndex, _dimensionValue);
 
-            double result = _operandCalculator.Calculate(dimensionStack);
+            double result = _operandCalculator.Calculate();
 
-            dimensionStack.Pop(_dimensionIndex);
+            _dimensionStack.Pop(_dimensionIndex);
 
             return result;
         }

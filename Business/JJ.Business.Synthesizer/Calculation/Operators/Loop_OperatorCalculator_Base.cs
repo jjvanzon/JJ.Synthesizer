@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -11,29 +12,32 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         protected readonly int _dimensionIndex;
         protected double _origin;
+        protected readonly DimensionStack _dimensionStack;
 
         public Loop_OperatorCalculator_Base(
             OperatorCalculatorBase signalCalculator,
             DimensionEnum dimensionEnum,
+            DimensionStack dimensionStack,
             IList<OperatorCalculatorBase> childOperatorCalculators)
             : base(childOperatorCalculators)
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
             OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
+            if (dimensionStack == null) throw new NullException(() => dimensionStack);
 
             _signalCalculator = signalCalculator;
             _dimensionIndex = (int)dimensionEnum;
         }
 
-        protected abstract double? TransformPosition(DimensionStack dimensionStack);
+        protected abstract double? TransformPosition();
 
-        public override void Reset(DimensionStack dimensionStack)
+        public override void Reset()
         {
-            double position = dimensionStack.Get(_dimensionIndex);
+            double position = _dimensionStack.Get(_dimensionIndex);
 
             _origin = position;
 
-            double? transformedPosition = TransformPosition(dimensionStack);
+            double? transformedPosition = TransformPosition();
             if (!transformedPosition.HasValue)
             {
                 // TODO: There is no meaningful value to fall back to.
@@ -41,23 +45,23 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 transformedPosition = position;
             }
 
-            dimensionStack.Push(_dimensionIndex, transformedPosition.Value);
-            base.Reset(dimensionStack);
-            dimensionStack.Pop(_dimensionIndex);
+            _dimensionStack.Push(_dimensionIndex, transformedPosition.Value);
+            base.Reset();
+            _dimensionStack.Pop(_dimensionIndex);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double? transformedPosition = TransformPosition(dimensionStack);
+            double? transformedPosition = TransformPosition();
             if (!transformedPosition.HasValue)
             {
                 return 0;
             }
 
-            dimensionStack.Push(_dimensionIndex, transformedPosition.Value);
-            double value = _signalCalculator.Calculate(dimensionStack);
-            dimensionStack.Pop(_dimensionIndex);
+            _dimensionStack.Push(_dimensionIndex, transformedPosition.Value);
+            double value = _signalCalculator.Calculate();
+            _dimensionStack.Pop(_dimensionIndex);
 
             return value;
         }

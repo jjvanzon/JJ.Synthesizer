@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using JJ.Framework.Reflection.Exceptions;
 using NAudio.Dsp;
 
@@ -33,14 +31,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _signalCalculator = signalCalculator;
             _minFrequencyCalculator = minFrequencyCalculator;
 
-            Reset(new DimensionStack());
+            Reset();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double minFrequency = _minFrequencyCalculator.Calculate(dimensionStack);
-            double signal = _signalCalculator.Calculate(dimensionStack);
+            double minFrequency = _minFrequencyCalculator.Calculate();
+            double signal = _signalCalculator.Calculate();
 
             _biQuadFilter.SetHighPassFilter(ASSUMED_SAMPLE_RATE, (float)minFrequency, DEFAULT_BAND_WIDTH);
 
@@ -49,9 +47,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return value;
         }
 
-        public override void Reset(DimensionStack dimensionStack)
+        public override void Reset()
         {
-            base.Reset(dimensionStack);
+            base.Reset();
 
             _biQuadFilter = BiQuadFilter.HighPassFilter(ASSUMED_SAMPLE_RATE, DEFAULT_MIN_FREQUENCY, DEFAULT_BAND_WIDTH);
         }
@@ -80,18 +78,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double signal = _signalCalculator.Calculate(dimensionStack);
+            double signal = _signalCalculator.Calculate();
 
             float value = _biQuadFilter.Transform((float)signal);
 
             return value;
         }
 
-        public override void Reset(DimensionStack dimensionStack)
+        public override void Reset()
         {
-            base.Reset(dimensionStack);
+            base.Reset();
 
             _biQuadFilter = BiQuadFilter.HighPassFilter(ASSUMED_SAMPLE_RATE, (float)_minFrequency, DEFAULT_BAND_WIDTH);
         }

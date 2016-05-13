@@ -22,10 +22,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double @base = _baseCalculator.Calculate(dimensionStack);
-            double exponent = _exponentCalculator.Calculate(dimensionStack);
+            double @base = _baseCalculator.Calculate();
+            double exponent = _exponentCalculator.Calculate();
             return Math.Pow(@base, exponent);
         }
     }
@@ -46,9 +46,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double exponent = _exponentCalculator.Calculate(dimensionStack);
+            double exponent = _exponentCalculator.Calculate();
             return Math.Pow(_baseValue, exponent);
         }
     }
@@ -69,9 +69,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double @base = _baseCalculator.Calculate(dimensionStack);
+            double @base = _baseCalculator.Calculate();
             return Math.Pow(@base, _exponentValue);
         }
     }

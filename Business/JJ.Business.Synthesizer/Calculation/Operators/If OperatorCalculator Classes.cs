@@ -27,11 +27,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double condition = _conditionCalculator.Calculate(dimensionStack);
-            double then = _thenCalculator.Calculate(dimensionStack);
-            double @else = _elseCalculator.Calculate(dimensionStack);
+            double condition = _conditionCalculator.Calculate();
+            double then = _thenCalculator.Calculate();
+            double @else = _elseCalculator.Calculate();
 
             bool conditionIsTrue = condition != 0.0;
 
@@ -67,10 +67,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double condition = _conditionCalculator.Calculate(dimensionStack);
-            double @else = _elseCalculator.Calculate(dimensionStack);
+            double condition = _conditionCalculator.Calculate();
+            double @else = _elseCalculator.Calculate();
 
             bool conditionIsTrue = condition != 0.0;
 
@@ -106,10 +106,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double condition = _conditionCalculator.Calculate(dimensionStack);
-            double then = _thenCalculator.Calculate(dimensionStack);
+            double condition = _conditionCalculator.Calculate();
+            double then = _thenCalculator.Calculate();
 
             bool conditionIsTrue = condition != 0.0;
 
@@ -144,9 +144,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double condition = _conditionCalculator.Calculate(dimensionStack);
+            double condition = _conditionCalculator.Calculate();
 
             bool conditionIsTrue = condition != 0.0;
 

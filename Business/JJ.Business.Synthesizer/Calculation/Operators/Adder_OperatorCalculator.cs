@@ -17,13 +17,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
             double result = 0;
 
             for (int i = 0; i < _operandCalculators.Length; i++)
             {
-                double result2 = _operandCalculators[i].Calculate(dimensionStack);
+                double result2 = _operandCalculators[i].Calculate();
 
                 result += result2;
             }

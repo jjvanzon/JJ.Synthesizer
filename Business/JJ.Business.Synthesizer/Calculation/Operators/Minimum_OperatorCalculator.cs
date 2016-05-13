@@ -12,8 +12,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase timeSliceDurationCalculator,
             OperatorCalculatorBase sampleCountCalculator,
-            DimensionEnum dimensionEnum)
-            : base(signalCalculator, timeSliceDurationCalculator, sampleCountCalculator, dimensionEnum)
+            DimensionEnum dimensionEnum,
+            DimensionStack dimensionStack)
+            : base(signalCalculator, timeSliceDurationCalculator, sampleCountCalculator, dimensionEnum, dimensionStack)
         { }
 
         protected override double GetMaximumOrMinimum(RedBlackTree<double, double> redBlackTree)

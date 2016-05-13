@@ -41,13 +41,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double signal = _signalCalculator.Calculate(dimensionStack);
-            double sourceValueA = _sourceValueACalculator.Calculate(dimensionStack);
-            double sourceValueB = _sourceValueBCalculator.Calculate(dimensionStack);
-            double targetValueA = _targetValueACalculator.Calculate(dimensionStack);
-            double targetValueB = _targetValueBCalculator.Calculate(dimensionStack);
+            double signal = _signalCalculator.Calculate();
+            double sourceValueA = _sourceValueACalculator.Calculate();
+            double sourceValueB = _sourceValueBCalculator.Calculate();
+            double targetValueA = _targetValueACalculator.Calculate();
+            double targetValueB = _targetValueBCalculator.Calculate();
 
             double sourceRange = sourceValueB - sourceValueA;
             double targetRange = targetValueB - targetValueA;

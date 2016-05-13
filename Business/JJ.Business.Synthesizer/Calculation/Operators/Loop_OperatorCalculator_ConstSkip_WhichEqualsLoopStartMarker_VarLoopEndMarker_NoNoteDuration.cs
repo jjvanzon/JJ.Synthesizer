@@ -19,19 +19,21 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             double loopStartMarker,
             OperatorCalculatorBase loopEndMarkerCalculator,
-            DimensionEnum dimensionEnum)
+            DimensionEnum dimensionEnum,
+            DimensionStack dimensionStack)
             : base(
                   signalCalculator,
                   dimensionEnum,
+                  dimensionStack,
                   new OperatorCalculatorBase[] { signalCalculator, loopEndMarkerCalculator })
         {
             _loopStartMarker = loopStartMarker;
             _loopEndMarkerCalculator = loopEndMarkerCalculator;
         }
 
-        protected override double? TransformPosition(DimensionStack dimensionStack)
+        protected override double? TransformPosition()
         {
-            double outputPosition = dimensionStack.Get(_dimensionIndex);
+            double outputPosition = _dimensionStack.Get(_dimensionIndex);
 
             double tempPosition = outputPosition - _origin;
 
@@ -46,9 +48,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             // InLoop
             if (tempPosition > _outputCycleEnd)
             {
-                dimensionStack.Push(_dimensionIndex, tempPosition);
-                _loopEndMarker = GetLoopEndMarker(dimensionStack);
-                dimensionStack.Pop(_dimensionIndex);
+                _dimensionStack.Push(_dimensionIndex, tempPosition);
+                _loopEndMarker = GetLoopEndMarker();
+                _dimensionStack.Pop(_dimensionIndex);
 
                 _cycleLength = _loopEndMarker - _loopStartMarker;
                 _outputCycleEnd += _cycleLength;
@@ -60,12 +62,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private double GetLoopEndMarker(DimensionStack dimensionStack)
+        private double GetLoopEndMarker()
         {
             double value = 0;
             if (_loopEndMarkerCalculator != null)
             {
-                value = _loopEndMarkerCalculator.Calculate(dimensionStack);
+                value = _loopEndMarkerCalculator.Calculate();
             }
 
             return value;

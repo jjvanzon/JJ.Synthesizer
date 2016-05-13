@@ -23,9 +23,9 @@
 //        }
 
 //        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//        public override double Calculate(DimensionStack dimensionStack)
+//        public override double Calculate()
 //        {
-//            double b = _bCalculator.Calculate(dimensionStack);
+//            double b = _bCalculator.Calculate();
 //            return (_a - _origin) * b + _origin;
 //        }
 //    }
@@ -51,9 +51,9 @@
 //        }
 
 //        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//        public override double Calculate(DimensionStack dimensionStack)
+//        public override double Calculate()
 //        {
-//            double b = _bCalculator.Calculate(dimensionStack);
+//            double b = _bCalculator.Calculate();
 //            return (_a - _origin) * b + _origin;
 //        }
 //    }
@@ -81,9 +81,9 @@
 //        }
 
 //        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//        public override double Calculate(DimensionStack dimensionStack)
+//        public override double Calculate()
 //        {
-//            double a = _aCalculator.Calculate(dimensionStack);
+//            double a = _aCalculator.Calculate();
 //            return (a - _origin) * _b + _origin;
 //        }
 //    }
@@ -112,9 +112,9 @@
 //        }
 
 //        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//        public override double Calculate(DimensionStack dimensionStack)
+//        public override double Calculate()
 //        {
-//            double a = _aCalculator.Calculate(dimensionStack);
+//            double a = _aCalculator.Calculate();
 //            return (a - _origin) * _b + _origin;
 //        }
 //    }
@@ -140,10 +140,10 @@
 //        }
 
 //        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//        public override double Calculate(DimensionStack dimensionStack)
+//        public override double Calculate()
 //        {
-//            double a = _aCalculator.Calculate(dimensionStack);
-//            double b = _bCalculator.Calculate(dimensionStack);
+//            double a = _aCalculator.Calculate();
+//            double b = _bCalculator.Calculate();
 //            return (a - _origin) * b + _origin;
 //        }
 //    }
@@ -171,10 +171,10 @@
 //        }
 
 //        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//        public override double Calculate(DimensionStack dimensionStack)
+//        public override double Calculate()
 //        {
-//            double a = _aCalculator.Calculate(dimensionStack);
-//            double b = _bCalculator.Calculate(dimensionStack);
+//            double a = _aCalculator.Calculate();
+//            double b = _bCalculator.Calculate();
 //            return (a - _origin) * b + _origin;
 //        }
 //    }
@@ -199,9 +199,9 @@
 //        }
 
 //        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//        public override double Calculate(DimensionStack dimensionStack)
+//        public override double Calculate()
 //        {
-//            double origin = _originCalculator.Calculate(dimensionStack);
+//            double origin = _originCalculator.Calculate();
 //            return (_a - origin) * _b + origin;
 //        }
 //    }
@@ -227,9 +227,9 @@
 //        }
 
 //        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//        public override double Calculate(DimensionStack dimensionStack)
+//        public override double Calculate()
 //        {
-//            double origin = _originCalculator.Calculate(dimensionStack);
+//            double origin = _originCalculator.Calculate();
 //            return (_a - origin) * _b + origin;
 //        }
 //    }
@@ -255,10 +255,10 @@
 //        }
 
 //        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//        public override double Calculate(DimensionStack dimensionStack)
+//        public override double Calculate()
 //        {
-//            double origin = _originCalculator.Calculate(dimensionStack);
-//            double b = _bCalculator.Calculate(dimensionStack);
+//            double origin = _originCalculator.Calculate();
+//            double b = _bCalculator.Calculate();
 //            return (_a - origin) * b + origin;
 //        }
 //    }
@@ -286,10 +286,10 @@
 //        }
 
 //        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//        public override double Calculate(DimensionStack dimensionStack)
+//        public override double Calculate()
 //        {
-//            double origin = _originCalculator.Calculate(dimensionStack);
-//            double b = _bCalculator.Calculate(dimensionStack);
+//            double origin = _originCalculator.Calculate();
+//            double b = _bCalculator.Calculate();
 //            return (_a - origin) * b + origin;
 //        }
 //    }
@@ -315,10 +315,10 @@
 //        }
 
 //        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//        public override double Calculate(DimensionStack dimensionStack)
+//        public override double Calculate()
 //        {
-//            double origin = _originCalculator.Calculate(dimensionStack);
-//            double a = _aCalculator.Calculate(dimensionStack);
+//            double origin = _originCalculator.Calculate();
+//            double a = _aCalculator.Calculate();
 //            return (a - origin) * _b + origin;
 //        }
 //    }
@@ -346,10 +346,10 @@
 //        }
 
 //        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//        public override double Calculate(DimensionStack dimensionStack)
+//        public override double Calculate()
 //        {
-//            double origin = _originCalculator.Calculate(dimensionStack);
-//            double a = _aCalculator.Calculate(dimensionStack);
+//            double origin = _originCalculator.Calculate();
+//            double a = _aCalculator.Calculate();
 //            return (a - origin) * _b + origin;
 //        }
 //    }
@@ -376,11 +376,11 @@
 //        }
 
 //        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//        public override double Calculate(DimensionStack dimensionStack)
+//        public override double Calculate()
 //        {
-//            double origin = _originCalculator.Calculate(dimensionStack);
-//            double a = _aCalculator.Calculate(dimensionStack);
-//            double b = _bCalculator.Calculate(dimensionStack);
+//            double origin = _originCalculator.Calculate();
+//            double a = _aCalculator.Calculate();
+//            double b = _bCalculator.Calculate();
 //            return (a - origin) * b + origin;
 //        }
 //    }
@@ -410,11 +410,11 @@
 //        }
 
 //        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//        public override double Calculate(DimensionStack dimensionStack)
+//        public override double Calculate()
 //        {
-//            double origin = _originCalculator.Calculate(dimensionStack);
-//            double a = _aCalculator.Calculate(dimensionStack);
-//            double b = _bCalculator.Calculate(dimensionStack);
+//            double origin = _originCalculator.Calculate();
+//            double a = _aCalculator.Calculate();
+//            double b = _bCalculator.Calculate();
 //            return (a - origin) * b + origin;
 //        }
 //    }
@@ -435,10 +435,10 @@
 //        }
 
 //        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//        public override double Calculate(DimensionStack dimensionStack)
+//        public override double Calculate()
 //        {
-//            double a = _aCalculator.Calculate(dimensionStack);
-//            double b = _bCalculator.Calculate(dimensionStack);
+//            double a = _aCalculator.Calculate();
+//            double b = _bCalculator.Calculate();
 //            return a * b;
 //        }
 //    }
@@ -461,10 +461,10 @@
 //        }
 
 //        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//        public override double Calculate(DimensionStack dimensionStack)
+//        public override double Calculate()
 //        {
-//            double a = _aCalculator.Calculate(dimensionStack);
-//            double b = _bCalculator.Calculate(dimensionStack);
+//            double a = _aCalculator.Calculate();
+//            double b = _bCalculator.Calculate();
 //            return a * b;
 //        }
 //    }
@@ -484,9 +484,9 @@
 //        }
 
 //        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//        public override double Calculate(DimensionStack dimensionStack)
+//        public override double Calculate()
 //        {
-//            double b = _bCalculator.Calculate(dimensionStack);
+//            double b = _bCalculator.Calculate();
 //            return _a * b;
 //        }
 //    }
@@ -507,9 +507,9 @@
 //        }
 
 //        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//        public override double Calculate(DimensionStack dimensionStack)
+//        public override double Calculate()
 //        {
-//            double b = _bCalculator.Calculate(dimensionStack);
+//            double b = _bCalculator.Calculate();
 //            return _a * b;
 //        }
 //    }
@@ -529,9 +529,9 @@
 //        }
 
 //        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//        public override double Calculate(DimensionStack dimensionStack)
+//        public override double Calculate()
 //        {
-//            double a = _aCalculator.Calculate(dimensionStack);
+//            double a = _aCalculator.Calculate();
 //            return a * _b;
 //        }
 //    }
@@ -552,9 +552,9 @@
 //        }
 
 //        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//        public override double Calculate(DimensionStack dimensionStack)
+//        public override double Calculate()
 //        {
-//            double a = _aCalculator.Calculate(dimensionStack);
+//            double a = _aCalculator.Calculate();
 //            return a * _b;
 //        }
 //    }

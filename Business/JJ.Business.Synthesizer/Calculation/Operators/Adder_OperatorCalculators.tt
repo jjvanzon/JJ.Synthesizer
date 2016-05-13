@@ -78,14 +78,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			}
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-			public override double Calculate(DimensionStack dimensionStack)
+			public override double Calculate()
 			{
 				return 
 <#
 					for (int j = 1; j <= i; j++)
 					{
 #>
-						_operandCalculator<#= j #>.Calculate(dimensionStack)
+						_operandCalculator<#= j #>.Calculate()
 <#
 						if (j != i)
 						{

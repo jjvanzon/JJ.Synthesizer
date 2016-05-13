@@ -42,22 +42,22 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dbGain = dbGain;
             _shelfSlope = shelfSlope;
 
-            Reset(new DimensionStack());
+            Reset();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(DimensionStack dimensionStack)
+        public override double Calculate()
         {
-            double signal = _signalCalculator.Calculate(dimensionStack);
+            double signal = _signalCalculator.Calculate();
 
             float value = _biQuadFilter.Transform((float)signal);
 
             return value;
         }
 
-        public override void Reset(DimensionStack dimensionStack)
+        public override void Reset()
         {
-            base.Reset(dimensionStack);
+            base.Reset();
 
             switch (_filterTypeEnum)
             {
