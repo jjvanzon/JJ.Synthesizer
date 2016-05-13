@@ -14,6 +14,9 @@ namespace JJ.Presentation.Synthesizer.NAudio
 {
     public class SingleThreadedPatchCalculatorContainer : IPatchCalculatorContainer
     {
+        // TODO: Low Priority: This class cannot work multi-channel.
+        private const int DEFAULT_CHANNEL_INDEX = 0;
+
         public ReaderWriterLockSlim Lock { get; } = new ReaderWriterLockSlim();
 
         /// <summary> null if RecreateCalculator is not yet called. </summary>
@@ -29,7 +32,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
             var patchManager = new PatchManager(new PatchRepositories(repositories));
             Outlet autoPatchOutlet = patchManager.AutoPatchPolyphonic(patches, audioOutput.MaxConcurrentNotes);
-            IPatchCalculator patchCalculator = patchManager.CreateCalculator(autoPatchOutlet, audioOutput.GetChannelCount(), new CalculatorCache(), new DimensionStack());
+            IPatchCalculator patchCalculator = patchManager.CreateCalculator(autoPatchOutlet, audioOutput.GetChannelCount(), DEFAULT_CHANNEL_INDEX, new CalculatorCache());
 
             Lock.EnterWriteLock();
             try

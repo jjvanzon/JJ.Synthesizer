@@ -29,9 +29,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
         /// <summary> First index is NoteIndex, second index is channel. </summary>
         private readonly IPatchCalculator[][] _patchCalculators;
 
-        /// <summary> First index is NoteIndex, second index is channel. </summary>
-        private readonly DimensionStack[][] _dimensionStacks;
-
         private int _frameCount;
         private double _t0;
         private double[] _emptyBuffer;
@@ -76,18 +73,14 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
             // Create PatchCalculator(Infos)
             _patchCalculators = new IPatchCalculator[_maxConcurrentNotes][];
-            _dimensionStacks = new DimensionStack[_maxConcurrentNotes][];
             for (int noteIndex = 0; noteIndex < _maxConcurrentNotes; noteIndex++)
             {
                 _patchCalculators[noteIndex] = new IPatchCalculator[_channelCount];
-                _dimensionStacks[noteIndex] = new DimensionStack[_channelCount];
 
                 for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
                 {
-                    var dimensionStack = new DimensionStack();
-                    IPatchCalculator patchCalculator = patchManager.CreateCalculator(signalOutlet, _channelCount, calculatorCache, dimensionStack);
+                    IPatchCalculator patchCalculator = patchManager.CreateCalculator(signalOutlet, _channelCount, channelIndex, calculatorCache);
                     _patchCalculators[noteIndex][channelIndex] = patchCalculator;
-                    _dimensionStacks[noteIndex][channelIndex] = dimensionStack;
                 }
             }
         }
@@ -135,19 +128,11 @@ namespace JJ.Presentation.Synthesizer.NAudio
         // Calculate
 
         /// <param name="frameDuration"> Not used. Alternative value is determined internally. </param>
-        public double[] Calculate(double t0, double frameDuration, int frameCount)
+        public double[] Calculate(double t0, double frameDuration, int frameCount, int channelIndex)
         {
             LazyInitializeBuffers(frameCount);
 
             _t0 = t0;
-
-            // TODO: This cannot be right.
-            double channelIndexDouble = _dimensionStacks[0][0].Get(DimensionEnum.Channel);
-            if (!CanCastToInt32(channelIndexDouble))
-            {
-                return _emptyBuffer;
-            }
-            int channelIndex = (int)channelIndexDouble;
 
             double[] buffer = _buffers[channelIndex];
 
@@ -166,9 +151,8 @@ namespace JJ.Presentation.Synthesizer.NAudio
                 // Capture variable in loop iteration, 
                 // to prevent delegate from getting a value from a different iteration.
                 IPatchCalculator patchCalculator = _patchCalculators[noteIndex][channelIndex];
-                DimensionStack dimensionStack = _dimensionStacks[noteIndex][channelIndex];
 
-                Task task = Task.Factory.StartNew(() => CalculateSingleThread(patchCalculator, dimensionStack, channelIndex));
+                Task task = Task.Factory.StartNew(() => CalculateSingleThread(patchCalculator, channelIndex));
                 tasks.Add(task);
             }
 
@@ -177,19 +161,15 @@ namespace JJ.Presentation.Synthesizer.NAudio
             return buffer;
         }
 
-        private void CalculateSingleThread(IPatchCalculator patchCalculator, DimensionStack dimensionStack, int channelIndex)
+        private void CalculateSingleThread(IPatchCalculator patchCalculator, int channelIndex)
         {
             double[] buffer = _buffers[channelIndex];
             object[] bufferLocks = _bufferLocks[channelIndex];
 
-            dimensionStack.Set(CHANNEL_DIMENSION_INDEX, channelIndex);
-
             double t = _t0;
             for (int frameIndex = 0; frameIndex < _frameCount; frameIndex++)
             {
-                dimensionStack.Set(TIME_DIMENSION_INDEX, t);
-
-                double value = patchCalculator.Calculate();
+                double value = patchCalculator.Calculate(t);
 
                 // TODO: Low priority: Not sure how to do a quicker interlocked add for doubles.
                 lock (bufferLocks[frameIndex])
@@ -201,7 +181,17 @@ namespace JJ.Presentation.Synthesizer.NAudio
             }
         }
 
-        public double Calculate()
+        public double[] Calculate(double t0, double frameDuration, int frameCount)
+        {
+            throw new NotSupportedException("Calculate without channelIndex is not supported. Use the overload with channelIndex.");
+        }
+
+        public double Calculate(double time, int channelIndex)
+        {
+            throw new NotSupportedException("Operation not supported. Can only calculate by chunk (use the other overload).");
+        }
+
+        public double Calculate(double time)
         {
             throw new NotSupportedException("Operation not supported. Can only calculate by chunk (use the other overload).");
         }
@@ -308,37 +298,37 @@ namespace JJ.Presentation.Synthesizer.NAudio
             }
         }
 
-        public void Reset(int noteIndex)
+        public void Reset(double time, int noteIndex)
         {
             AssertPatchCalculatorNoteIndex(noteIndex);
 
             for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
             {
                 IPatchCalculator patchCalculator = _patchCalculators[noteIndex][channelIndex];
-                patchCalculator.Reset();
+                patchCalculator.Reset(time);
             }
         }
 
-        public void Reset()
+        public void Reset(double time)
         {
             for (int i = 0; i < _maxConcurrentNotes; i++)
             {
                 for (int j = 0; j < _channelCount; j++)
                 {
                     IPatchCalculator patchCalculator = _patchCalculators[i][j];
-                    patchCalculator.Reset();
+                    patchCalculator.Reset(time);
                 }
             }
         }
 
-        public void Reset(string name)
+        public void Reset(double time, string name)
         {
             for (int i = 0; i < _maxConcurrentNotes; i++)
             {
                 for (int j = 0; j < _channelCount; j++)
                 {
                     IPatchCalculator patchCalculator = _patchCalculators[i][j];
-                    patchCalculator.Reset(name);
+                    patchCalculator.Reset(time, name);
                 }
             }
         }

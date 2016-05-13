@@ -498,11 +498,11 @@ namespace JJ.Business.Synthesizer.Api
         public IPatchCalculator CreateCalculator(
             Outlet outlet,
             int channelCount,
+            int channelIndex,
             CalculatorCache calculatorCache,
-            DimensionStack dimensionStack,
             bool mustSubstituteSineForUnfilledInSignalPatchInlets = true)
         {
-            return _patchManager.CreateCalculator(outlet, channelCount, calculatorCache, dimensionStack, mustSubstituteSineForUnfilledInSignalPatchInlets);
+            return _patchManager.CreateCalculator(outlet, channelCount, channelIndex, calculatorCache, mustSubstituteSineForUnfilledInSignalPatchInlets);
         }
     }
 }

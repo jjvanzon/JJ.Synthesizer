@@ -115,9 +115,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         }
 
         /// <param name="channelCount">Used for e.g. mixing channels of samples into one channel.</param>
-        public Result Execute(DimensionStack dimensionStack, Outlet outlet, int channelCount = 2)
+        public Result Execute(Outlet outlet, int channelCount = 2)
         {
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
             if (outlet == null) throw new NullException(() => outlet);
 
             IValidator validator = new Recursive_OperatorValidator(
@@ -133,7 +132,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _patchInlet_Calculator_Dictionary = new Dictionary<Operator, VariableInput_OperatorCalculator>();
             _resettableOperatorTuples = new List<ResettableOperatorTuple>();
 
-            _dimensionStack = dimensionStack;
+            _dimensionStack = new DimensionStack();
             _outlet = outlet;
             _channelCount = channelCount;
 

@@ -32,6 +32,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
     public partial class MainPresenter
     {
         private const double DEFAULT_DURATION = 0.75;
+        private const int DEFAULT_CHANNEL_INDEX = 0;
 
         private static string _playOutputFilePath = GetPlayOutputFilePath();
 

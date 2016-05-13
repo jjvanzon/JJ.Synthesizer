@@ -135,10 +135,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
                         controllerInfo.TempValue = controllerValue;
                     }
 
-                    var dimensionStack = new DimensionStack();
-
-                    dimensionStack.Set(DimensionEnum.Time, time);
-                    calculator.Reset(noteInfo.ListIndex);
+                    calculator.Reset(time, noteInfo.ListIndex);
 
                     calculator.SetValue(DimensionEnum.Frequency, noteInfo.ListIndex, frequency);
                     calculator.SetValue(DimensionEnum.Volume, noteInfo.ListIndex, volume);

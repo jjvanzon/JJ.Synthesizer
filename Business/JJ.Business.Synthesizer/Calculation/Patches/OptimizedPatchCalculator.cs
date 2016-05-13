@@ -7,12 +7,14 @@ using System.Linq;
 using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Enums;
 using System;
+using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {
     internal class OptimizedPatchCalculator : IPatchCalculator
     {
         private const int TIME_DIMENSION_INDEX = (int)DimensionEnum.Time;
+        private const int CHANNEL_DIMENSION_INDEX = (int)DimensionEnum.Channel;
 
         private DimensionStack _dimensionStack;
         private readonly OperatorCalculatorBase _outputOperatorCalculator;
@@ -31,8 +33,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         public OptimizedPatchCalculator(
             Outlet outlet,
             int channelCount,
+            int channelIndex,
             CalculatorCache calculatorCache,
-            DimensionStack dimensionStack,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
             IPatchRepository patchRepository,
@@ -42,18 +44,24 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             var visitor = new OptimizedPatchCalculatorVisitor(curveRepository, sampleRepository, patchRepository, speakerSetupRepository, calculatorCache);
 
-            OptimizedPatchCalculatorVisitor.Result result = visitor.Execute(dimensionStack, outlet, channelCount);
+            OptimizedPatchCalculatorVisitor.Result result = visitor.Execute(outlet, channelCount);
 
             _dimensionStack = result.DimensionStack;
             _outputOperatorCalculator = result.Output_OperatorCalculator;
             _inputOperatorCalculators = result.Input_OperatorCalculators.OrderBy(x => x.ListIndex).ToArray();
             _name_To_ResettableOperatorCalculators_Dictionary = result.ResettableOperatorTuples.ToNonUniqueDictionary(x => x.Name ?? "", x => x.OperatorCalculator);
             _listIndex_To_ResettableOperatorCalculators_Dictionary = result.ResettableOperatorTuples.Where(x => x.ListIndex.HasValue).ToNonUniqueDictionary(x => x.ListIndex.Value, x => x.OperatorCalculator);
+
+            _dimensionStack.Set(DimensionEnum.Channel, channelIndex);
         }
 
-        public double Calculate()
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public double Calculate(double time)
         {
+            _dimensionStack.Set(TIME_DIMENSION_INDEX, time);
+
             double value = _outputOperatorCalculator.Calculate();
+
             return value;
         }
 
@@ -67,7 +75,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 _dimensionStack.Set(TIME_DIMENSION_INDEX, t);
 
-                double value = Calculate();
+                double value = Calculate(t);
 
                 values[i] = value;
 
@@ -75,6 +83,16 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
 
             return values;
+        }
+
+        public double Calculate(double time, int channelIndex)
+        {
+            throw new NotSupportedException("Calculate with channelIndex is not supported. Use the overload without channelIndex.");
+        }
+
+        public double[] Calculate(double t0, double frameDuration, int count, int channelIndex)
+        {
+            throw new NotSupportedException("Calculate with channelIndex is not supported. Use the overload without channelIndex.");
         }
 
         public double GetValue(int listIndex)
@@ -348,8 +366,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
         }
 
-        public void Reset()
+        public void Reset(double time)
         {
+            _dimensionStack.Set(TIME_DIMENSION_INDEX, time);
+
             _outputOperatorCalculator.Reset();
 
             _valuesByListIndex.Clear();
@@ -359,12 +379,14 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _dimensionEnumAndListIndex_To_Value_Dictionary.Clear();
         }
 
-        public void Reset(string name)
+        public void Reset(double time, string name)
         {
             // Necessary for using null or empty string as the key of a dictionary.
             // The dictionary neither accepts null as a key,
             // and also null and empty must have the same behavior.
             name = name ?? "";
+
+            _dimensionStack.Set(TIME_DIMENSION_INDEX, time);
 
             IList<OperatorCalculatorBase> calculators;
             if (_name_To_ResettableOperatorCalculators_Dictionary.TryGetValue(name, out calculators))
@@ -376,8 +398,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
         }
 
-        public void Reset(int listIndex)
+        public void Reset(double time, int listIndex)
         {
+            _dimensionStack.Set(TIME_DIMENSION_INDEX, time);
+
             IList<OperatorCalculatorBase> calculators;
             if (_listIndex_To_ResettableOperatorCalculators_Dictionary.TryGetValue(listIndex, out calculators))
             {

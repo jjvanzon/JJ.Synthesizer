@@ -461,8 +461,8 @@ namespace JJ.Business.Synthesizer
         public IPatchCalculator CreateCalculator(
             Outlet outlet,
             int channelCount,
+            int channelIndex,
             CalculatorCache calculatorCache,
-            DimensionStack dimensionStack,
             bool mustSubstituteSineForUnfilledInSignalPatchInlets = true)
         {
             if (mustSubstituteSineForUnfilledInSignalPatchInlets)
@@ -473,8 +473,8 @@ namespace JJ.Business.Synthesizer
             IPatchCalculator calculator = new OptimizedPatchCalculator(
                 outlet,
                 channelCount,
+                channelIndex,
                 calculatorCache,
-                dimensionStack,
                 _repositories.CurveRepository,
                 _repositories.SampleRepository,
                 _repositories.PatchRepository,

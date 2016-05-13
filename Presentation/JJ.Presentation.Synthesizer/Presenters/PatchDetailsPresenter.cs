@@ -23,6 +23,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class PatchDetailsPresenter : PresenterBase<PatchDetailsViewModel>
     {
+        private int DEFAULT_CHANNEL_INDEX = 0;
+
         private static double _patchPlayDuration = GetPatchPlayDuration();
         private static string _patchPlayOutputFilePath = GetPatchPlayOutputFilePath();
 
@@ -357,7 +359,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Business
             var patchManager = new PatchManager(outlet.Operator.Patch, new PatchRepositories(repositories));
-            IPatchCalculator patchCalculator = patchManager.CreateCalculator(outlet, audioOutput.GetChannelCount(), new CalculatorCache(), new DimensionStack());
+            IPatchCalculator patchCalculator = patchManager.CreateCalculator(outlet, audioOutput.GetChannelCount(), DEFAULT_CHANNEL_INDEX, new CalculatorCache());
 
             var audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
             AudioFileOutput audioFileOutput = audioFileOutputManager.Create();

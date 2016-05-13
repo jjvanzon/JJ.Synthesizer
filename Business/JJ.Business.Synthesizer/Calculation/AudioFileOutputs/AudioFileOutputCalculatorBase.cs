@@ -79,14 +79,11 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
                     double adjustedAmplifier = GetAmplifierAdjustedToSampleDataType(audioFileOutput);
 
                     // Write Samples
-                    var dimensionStack = new DimensionStack();
                     for (double t = 0; t <= endTime; t += dt)
                     {
-                        dimensionStack.Set(TIME_DIMENSION_INDEX, t);
-                        for (int i = 0; i < channelCount; i++)
+                        for (int channelIndex = 0; channelIndex < channelCount; channelIndex++)
                         {
-                            dimensionStack.Set(CHANNEL_DIMENSION_INDEX, i);
-                            double value = _patchCalculator.Calculate();
+                            double value = _patchCalculator.Calculate(t, channelIndex);
 
                             value *= adjustedAmplifier;
 
