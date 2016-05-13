@@ -17,8 +17,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _timeSliceDurationCalculator;
         private readonly OperatorCalculatorBase _sampleCountCalculator;
-        private readonly int _dimensionIndex;
-        private readonly DimensionStacks _dimensionStack;
+        private readonly DimensionStack _dimensionStack;
 
         private double _sampleDuration;
         private double _sampleCountDouble;
@@ -40,8 +39,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase timeSliceDurationCalculator,
             OperatorCalculatorBase sampleCountCalculator,
-            DimensionEnum dimensionEnum,
-            DimensionStacks dimensionStack)
+            DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[] 
             {
                 signalCalculator,
@@ -52,13 +50,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
             OperatorCalculatorHelper.AssertOperatorCalculatorBase_OnlyUsedUponResetState(timeSliceDurationCalculator, () => timeSliceDurationCalculator);
             OperatorCalculatorHelper.AssertOperatorCalculatorBase_OnlyUsedUponResetState(sampleCountCalculator, () => sampleCountCalculator);
-            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
             if (dimensionStack == null) throw new NullException(() => dimensionStack);
 
             _signalCalculator = signalCalculator;
             _timeSliceDurationCalculator = timeSliceDurationCalculator;
             _sampleCountCalculator = sampleCountCalculator;
-            _dimensionIndex = (int)dimensionEnum;
             _dimensionStack = dimensionStack;
 
             Reset();
@@ -69,7 +65,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double position = _dimensionStack.Get(_dimensionIndex);
+            double position = _dimensionStack.Get();
 
             bool isForward = position >= _previousPosition;
 
@@ -90,9 +86,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
                     do
                     {
-                        _dimensionStack.Push(_dimensionIndex, _nextSamplePosition);
-                        CalculateValueAndUpdateCollections(_dimensionStack);
-                        _dimensionStack.Pop(_dimensionIndex);
+                        _dimensionStack.Push(_nextSamplePosition);
+                        CalculateValueAndUpdateCollections();
+                        _dimensionStack.Pop();
 
                         _nextSamplePosition += _sampleDuration;
                     }
@@ -119,9 +115,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
                     do
                     {
-                        _dimensionStack.Push(_dimensionIndex, _nextSamplePosition);
-                        CalculateValueAndUpdateCollections(_dimensionStack);
-                        _dimensionStack.Pop(_dimensionIndex);
+                        _dimensionStack.Push(_nextSamplePosition);
+                        CalculateValueAndUpdateCollections();
+                        _dimensionStack.Pop();
 
                         _nextSamplePosition -= _sampleDuration;
                     }
@@ -145,7 +141,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return _maximumOrMinimum;
         }
 
-        private void CalculateValueAndUpdateCollections(DimensionStacks dimensionStack)
+        private void CalculateValueAndUpdateCollections()
         {
             double newValue = _signalCalculator.Calculate();
 
@@ -158,7 +154,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
-            double position = _dimensionStack.Get(_dimensionIndex);
+            double position = _dimensionStack.Get();
 
             _previousPosition = position;
 

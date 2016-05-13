@@ -10,15 +10,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class Unbundle_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _operandCalculator;
-        private readonly int _dimensionIndex;
-        private readonly double _dimensionValue;
-        private readonly DimensionStacks _dimensionStack;
+        private readonly double _position;
+        private readonly DimensionStack _dimensionStack;
 
         public Unbundle_OperatorCalculator(
             OperatorCalculatorBase operandCalculator, 
-            DimensionEnum dimensionEnum, 
-            double dimensionValue,
-            DimensionStacks dimensionStack)
+            double position,
+            DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[] { operandCalculator })
         {
             if (operandCalculator == null) throw new NullException(() => operandCalculator);
@@ -26,19 +24,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (dimensionStack == null) throw new NullException(() => dimensionStack);
 
             _operandCalculator = operandCalculator;
-            _dimensionIndex = (int)dimensionEnum;
-            _dimensionValue = dimensionValue;
+            _position = position;
             _dimensionStack = dimensionStack;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            _dimensionStack.Push(_dimensionIndex, _dimensionValue);
+            _dimensionStack.Push(_position);
 
             double result = _operandCalculator.Calculate();
 
-            _dimensionStack.Pop(_dimensionIndex);
+            _dimensionStack.Pop();
 
             return result;
         }

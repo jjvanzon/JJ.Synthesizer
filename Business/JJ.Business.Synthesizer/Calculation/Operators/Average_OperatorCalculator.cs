@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _timeSliceDurationCalculator;
         private readonly OperatorCalculatorBase _sampleCountCalculator;
         private readonly int _dimensionIndex;
-        private readonly DimensionStacks _dimensionStack;
+        private readonly DimensionStack _dimensionStack;
 
         private double _sampleLength;
         private double _sampleCountDouble;
@@ -29,8 +29,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase timeSliceDurationCalculator,
             OperatorCalculatorBase sampleCountCalculator,
-            DimensionEnum dimensionEnum,
-            DimensionStacks dimensionStack)
+            DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[]
             {
                 signalCalculator,
@@ -41,13 +40,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
             OperatorCalculatorHelper.AssertOperatorCalculatorBase_OnlyUsedUponResetState(timeSliceDurationCalculator, () => timeSliceDurationCalculator);
             OperatorCalculatorHelper.AssertOperatorCalculatorBase_OnlyUsedUponResetState(sampleCountCalculator, () => sampleCountCalculator);
-            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
             if (dimensionStack == null) throw new NullException(() => dimensionStack);
 
             _signalCalculator = signalCalculator;
             _timeSliceDurationCalculator = timeSliceDurationCalculator;
             _sampleCountCalculator = sampleCountCalculator;
-            _dimensionIndex = (int)dimensionEnum;
             _dimensionStack = dimensionStack;
 
             Reset();
@@ -55,7 +52,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override double Calculate()
         {
-            double position = _dimensionStack.Get(_dimensionIndex);
+            double position = _dimensionStack.Get();
 
             // Update _passedSampleTime
             double positionChange = position - _previousTime;
@@ -96,7 +93,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
-            double position = _dimensionStack.Get(_dimensionIndex);
+            double position = _dimensionStack.Get();
 
             _previousTime = position;
 

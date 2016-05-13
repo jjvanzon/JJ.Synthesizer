@@ -10,34 +10,30 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _exponentCalculator;
         private readonly OperatorCalculatorBase _originCalculator;
-        private readonly int _dimensionIndex;
-        private readonly DimensionStacks _dimensionStack;
+        private readonly DimensionStack _dimensionStack;
 
         public TimePower_WithOrigin_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase exponentCalculator,
             OperatorCalculatorBase originCalculator,
-            DimensionEnum dimensionEnum,
-            DimensionStacks dimensionStack)
+            DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[] { signalCalculator, exponentCalculator, originCalculator })
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (exponentCalculator == null) throw new NullException(() => exponentCalculator);
             if (originCalculator == null) throw new NullException(() => originCalculator);
-            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
             if (dimensionStack == null) throw new NullException(() => dimensionStack);
 
             _signalCalculator = signalCalculator;
             _exponentCalculator = exponentCalculator;
             _originCalculator = originCalculator;
-            _dimensionIndex = (int)dimensionEnum;
             _dimensionStack = dimensionStack;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double position = _dimensionStack.Get(_dimensionIndex);
+            double position = _dimensionStack.Get();
 
             // IMPORTANT: 
 
@@ -63,11 +59,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 transformedPosition = -transformedPosition;
             }
 
-            _dimensionStack.Push(_dimensionIndex, transformedPosition);
+            _dimensionStack.Push(transformedPosition);
 
             double result = _signalCalculator.Calculate();
 
-            _dimensionStack.Pop(_dimensionIndex);
+            _dimensionStack.Pop();
 
             return result;
         }
@@ -77,31 +73,27 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _exponentCalculator;
-        private readonly int _dimensionIndex;
-        private readonly DimensionStacks _dimensionStack;
+        private readonly DimensionStack _dimensionStack;
 
         public TimePower_WithoutOrigin_OperatorCalculator(
             OperatorCalculatorBase signalCalculator, 
             OperatorCalculatorBase exponentCalculator,
-            DimensionEnum dimensionEnum,
-            DimensionStacks dimensionStack)
+            DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[] { signalCalculator, exponentCalculator })
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (exponentCalculator == null) throw new NullException(() => exponentCalculator);
-            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
             if (dimensionStack == null) throw new NullException(() => dimensionStack);
 
             _signalCalculator = signalCalculator;
             _exponentCalculator = exponentCalculator;
-            _dimensionIndex = (int)dimensionEnum;
             _dimensionStack = dimensionStack;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double position = _dimensionStack.Get(_dimensionIndex);
+            double position = _dimensionStack.Get();
 
             // IMPORTANT: 
 
@@ -126,11 +118,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 transformedPosition = -transformedPosition;
             }
 
-            _dimensionStack.Push(_dimensionIndex, transformedPosition);
+            _dimensionStack.Push(transformedPosition);
 
             double result = _signalCalculator.Calculate();
 
-            _dimensionStack.Pop(_dimensionIndex);
+            _dimensionStack.Pop();
 
             return result;
         }

@@ -2,26 +2,24 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using System.Diagnostics;
 
-namespace System.Collections.Generic
+namespace JJ.Business.Synthesizer.Calculation
 {
-    /// <summary> A less safe, faster variation of Stack<T>. </summary>
-    internal class DimensionStack<T>
+    internal class DimensionStack
     {
         private const int DEFAULT_CAPACITY = 128;
 
         private int _size;
-        private T[] _array;
+        private double[] _array;
 
         public DimensionStack()
         {
-            _array = new T[DEFAULT_CAPACITY];
+            _array = new double[DEFAULT_CAPACITY];
             _size = 0;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Push(T item)
+        public void Push(double item)
         {
             bool mustIncreaseCapacity = _array.Length == _size;
             if (mustIncreaseCapacity)
@@ -36,7 +34,7 @@ namespace System.Collections.Generic
                     capacity = _size * 2;
                 }
 
-                var array2 = new T[capacity];
+                var array2 = new double[capacity];
 
                 Array.Copy(_array, 0, array2, 0, _size);
 
@@ -49,11 +47,11 @@ namespace System.Collections.Generic
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public T PopAndGet()
+        public double PopAndGet()
         {
             _size--;
 
-            T item = _array[_size];
+            double item = _array[_size];
 
             return item;
         }
@@ -65,9 +63,9 @@ namespace System.Collections.Generic
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public T Peek()
+        public double Get()
         {
-            T item = _array[_size - 1];
+            double item = _array[_size - 1];
 
             return item;
         }
@@ -78,7 +76,7 @@ namespace System.Collections.Generic
         /// or when you know you are at the top level of the stack.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Set(T item)
+        public void Set(double item)
         {
             _array[_size - 1] = item;
         }

@@ -11,8 +11,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _samplingRateCalculator;
-        private readonly int _dimensionIndex;
-        private readonly DimensionStacks _dimensionStack;
+        private readonly DimensionStack _dimensionStack;
 
         private double _xMinus1;
         private double _x0;
@@ -27,8 +26,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Resample_OperatorCalculator_CubicSmoothSlope(
             OperatorCalculatorBase signalCalculator, 
             OperatorCalculatorBase samplingRateCalculator,
-            DimensionEnum dimensionEnum,
-            DimensionStacks dimensionStack)
+            DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[] { signalCalculator, samplingRateCalculator })
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
@@ -36,12 +34,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (samplingRateCalculator == null) throw new NullException(() => samplingRateCalculator);
             // TODO: Resample with constant sampling rate does not have specialized calculators yet. Reactivate code line after those specialized calculators have been programmed.
             //if (samplingRateCalculator is Number_OperatorCalculator) throw new IsNotTypeException<Number_OperatorCalculator>(() => samplingRateCalculator);
-            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
             if (dimensionStack == null) throw new NullException(() => dimensionStack);
 
             _signalCalculator = signalCalculator;
             _samplingRateCalculator = samplingRateCalculator;
-            _dimensionIndex = (int)dimensionEnum;
             _dimensionStack = dimensionStack;
 
             ResetNonRecursive();
@@ -49,7 +45,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override double Calculate()
         {
-            double position = _dimensionStack.Get(_dimensionIndex);
+            double position = _dimensionStack.Get();
 
             // TODO: What if position goes in reverse?
             // TODO: What if _x0 or _x1 are way off? How will it correct itself?
@@ -67,18 +63,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 _y1 = _y2;
 
                 // Determine next sample
-                _dimensionStack.Push(_dimensionIndex, _x1);
+                _dimensionStack.Push(_x1);
 
                 double samplingRate = GetSamplingRate();
 
                 _dx1 = 1.0 / samplingRate;
                 _x2 = _x1 + _dx1;
 
-                _dimensionStack.Set(_dimensionIndex, _x2);
+                _dimensionStack.Set(_x2);
 
                 _y2 = _signalCalculator.Calculate();
 
-                _dimensionStack.Pop(_dimensionIndex);
+                _dimensionStack.Pop();
             }
 
             double y = Interpolator.Interpolate_Cubic_SmoothSlope(
@@ -113,7 +109,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private void ResetNonRecursive()
         {
-            double position = _dimensionStack.Get(_dimensionIndex);
+            double position = _dimensionStack.Get();
 
             _xMinus1 = CalculationHelper.VERY_LOW_VALUE;
             _x0 = position - Double.Epsilon;

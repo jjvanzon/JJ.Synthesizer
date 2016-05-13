@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             OptimizedPatchCalculatorVisitor.Result result = visitor.Execute(outlet, channelCount);
 
-            _dimensionStack = result.DimensionStack;
+            _dimensionStack = result.DimensionStacks;
             _outputOperatorCalculator = result.Output_OperatorCalculator;
             _inputOperatorCalculators = result.Input_OperatorCalculators.OrderBy(x => x.ListIndex).ToArray();
             _name_To_ResettableOperatorCalculators_Dictionary = result.ResettableOperatorTuples.ToNonUniqueDictionary(x => x.Name ?? "", x => x.OperatorCalculator);

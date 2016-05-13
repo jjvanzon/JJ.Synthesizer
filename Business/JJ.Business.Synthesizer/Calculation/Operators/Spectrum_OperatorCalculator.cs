@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _startTimeCalculator;
         private readonly OperatorCalculatorBase _endTimeCalculator;
         private readonly OperatorCalculatorBase _frequencyCountCalculator;
-        private readonly DimensionStacks _dimensionStack;
+        private readonly DimensionStack _dimensionStack;
 
         private readonly LomontFFT _lomontFFT;
 
@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase startTimeCalculator,
             OperatorCalculatorBase endTimeCalculator,
             OperatorCalculatorBase frequencyCountCalculator,
-            DimensionStacks dimensionStack)
+            DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[] 
             {
                 signalCalculator,
@@ -42,7 +42,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertOperatorCalculatorBase_OnlyUsedUponResetState(startTimeCalculator, () => startTimeCalculator);
             OperatorCalculatorHelper.AssertOperatorCalculatorBase_OnlyUsedUponResetState(endTimeCalculator, () => endTimeCalculator);
             OperatorCalculatorHelper.AssertOperatorCalculatorBase_OnlyUsedUponResetState(frequencyCountCalculator, () => frequencyCountCalculator);
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
 
             _signalCalculator = signalCalculator;
             _startTimeCalculator = startTimeCalculator;
@@ -58,7 +57,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double time = _dimensionStack.Get(DimensionEnum.Time);
+            double time = _dimensionStack.Get();
 
             if (time < 0) time = 0;
             if (time > _harmonicVolumes.Length - 1) time = _harmonicVolumes.Length - 1;
@@ -74,7 +73,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
-            double time = _dimensionStack.Get(DimensionEnum.Time);
+            double time = _dimensionStack.Get();
 
             _previousTime = time;
             _harmonicVolumes = CreateHarmonicVolumes();
@@ -118,11 +117,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double t = startTime;
             for (int i = 0; i < frequencyCountTimesTwo; i++)
             {
-                _dimensionStack.Push(DimensionEnum.Time, t);
+                _dimensionStack.Push(t);
 
                 double value = _signalCalculator.Calculate();
 
-                _dimensionStack.Pop(DimensionEnum.Time);
+                _dimensionStack.Pop();
 
                 data[i] = value;
 

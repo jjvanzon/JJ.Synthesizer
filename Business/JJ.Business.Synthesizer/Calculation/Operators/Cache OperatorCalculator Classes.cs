@@ -13,27 +13,21 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         where TArrayCalculator : ArrayCalculatorBase
     {
         private readonly TArrayCalculator _arrayCalculator;
-        private readonly int _dimensionIndex;
-        private readonly DimensionStacks _dimensionStack;
+        private readonly DimensionStack _dimensionStack;
 
-        public Cache_OperatorCalculator_SingleChannel(
-            TArrayCalculator arrayCalculator,
-            DimensionEnum dimensionEnum,
-            DimensionStacks dimensionStack)
+        public Cache_OperatorCalculator_SingleChannel(TArrayCalculator arrayCalculator, DimensionStack dimensionStack)
         {
             if (arrayCalculator == null) throw new NullException(() => arrayCalculator);
-            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
             if (dimensionStack == null) throw new NullException(() => dimensionStack);
 
             _arrayCalculator = arrayCalculator;
-            _dimensionIndex = (int)dimensionEnum;
             _dimensionStack = dimensionStack;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double time = _dimensionStack.Get(_dimensionIndex);
+            double time = _dimensionStack.Get();
 
             return _arrayCalculator.CalculateValue(time);
         }
@@ -44,28 +38,29 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly TArrayCalculator[] _arrayCalculators;
         private readonly int _arrayCalculatorsLength;
-        private readonly int _dimensionIndex;
-        private readonly DimensionStacks _dimensionStack;
+        private readonly DimensionStack _channelDimensionStack;
+        private readonly DimensionStack _dimensionStack;
 
         public Cache_OperatorCalculator_MultiChannel(
             IList<TArrayCalculator> arrayCalculators,
-            DimensionEnum dimensionEnum,
-            DimensionStacks dimensionStack)
+            DimensionStack dimensionStack,
+            DimensionStack channelDimensionStack)
         {
             if (arrayCalculators == null) throw new NullException(() => arrayCalculators);
-            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
+            if (dimensionStack == null) throw new NullException(() => dimensionStack);
+            if (channelDimensionStack == null) throw new NullException(() => channelDimensionStack);
 
             _arrayCalculators = arrayCalculators.ToArray();
-            _dimensionIndex = (int)dimensionEnum;
             _arrayCalculatorsLength = _arrayCalculators.Length;
             _dimensionStack = dimensionStack;
+            _channelDimensionStack = channelDimensionStack;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double channelDouble = _dimensionStack.Get(DimensionEnum.Channel);
-            double time = _dimensionStack.Get(_dimensionIndex);
+            double channelDouble = _channelDimensionStack.Get();
+            double time = _dimensionStack.Get();
 
             if (!ConversionHelper.CanCastToNonNegativeInt32WithMax(channelDouble, _arrayCalculatorsLength))
             {

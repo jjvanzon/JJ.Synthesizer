@@ -1,8 +1,6 @@
 ﻿using JJ.Framework.Mathematics;
 using JJ.Framework.Reflection.Exceptions;
 using System;
-using JJ.Business.Synthesizer.Enums;
-using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -16,14 +14,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _samplingRateCalculator;
-        private readonly int _dimensionIndex;
-        private readonly DimensionStacks _dimensionStack;
+        private readonly DimensionStack _dimensionStack;
 
         public Resample_OperatorCalculator_CubicEquidistant(
             OperatorCalculatorBase signalCalculator, 
             OperatorCalculatorBase samplingRateCalculator,
-            DimensionEnum dimensionEnum,
-            DimensionStacks dimensionStack)
+            DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[]
             {
                 signalCalculator,
@@ -34,12 +30,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (samplingRateCalculator == null) throw new NullException(() => samplingRateCalculator);
             // TODO: Resample with constant sampling rate does not have specialized calculators yet. Reactivate code line after those specialized calculators have been programmed.
             //if (samplingRateCalculator is Number_OperatorCalculator) throw new IsNotTypeException<Number_OperatorCalculator>(() => samplingRateCalculator);
-            OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
             if (dimensionStack == null) throw new NullException(() => dimensionStack);
 
             _signalCalculator = signalCalculator;
             _samplingRateCalculator = samplingRateCalculator;
-            _dimensionIndex = (int)dimensionEnum;
             _dimensionStack = dimensionStack;
         }
 
@@ -54,12 +48,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override double Calculate()
         {
-            double position = _dimensionStack.Get(_dimensionIndex);
+            double position = _dimensionStack.Get();
 
             double x = position;
             if (x > _x1)
             {
-                _dimensionStack.Push(_dimensionIndex, _x1);
+                _dimensionStack.Push(_x1);
 
                 double samplingRate = GetSamplingRate();
 
@@ -71,23 +65,23 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 double xMinus1 = _x0 - _dx;
                 double x2 = _x1 + _dx;
 
-                _dimensionStack.Set(_dimensionIndex, xMinus1);
+                _dimensionStack.Set(xMinus1);
 
                 _yMinus1 = _signalCalculator.Calculate();
 
-                _dimensionStack.Set(_dimensionIndex, _x0);
+                _dimensionStack.Set(_x0);
 
                 _y0 = _signalCalculator.Calculate();
 
-                _dimensionStack.Set(_dimensionIndex, _x1);
+                _dimensionStack.Set(_x1);
 
                 _y1 = _signalCalculator.Calculate();
 
-                _dimensionStack.Set(_dimensionIndex, x2);
+                _dimensionStack.Set(x2);
 
                 _y2 = _signalCalculator.Calculate();
 
-                _dimensionStack.Pop(_dimensionIndex);
+                _dimensionStack.Pop();
             }
 
             double t = (x - _x0) / _dx;

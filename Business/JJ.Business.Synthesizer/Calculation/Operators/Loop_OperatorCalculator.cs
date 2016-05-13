@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -21,11 +20,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase loopEndMarkerCalculator,
             OperatorCalculatorBase releaseEndMarkerCalculator,
             OperatorCalculatorBase noteDurationCalculator,
-            DimensionEnum dimensionEnum,
-            DimensionStacks dimensionStack)
+            DimensionStack dimensionStack)
             : base(
                   signalCalculator,
-                  dimensionEnum,
                   dimensionStack,
                   new OperatorCalculatorBase[]
                   {
@@ -48,7 +45,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected override double? GetTransformedPosition()
         {
-            double outputPosition = _dimensionStack.Get(_dimensionIndex);
+            double outputPosition = _dimensionStack.Get();
 
             // BeforeAttack
             double skip = GetSkip();
