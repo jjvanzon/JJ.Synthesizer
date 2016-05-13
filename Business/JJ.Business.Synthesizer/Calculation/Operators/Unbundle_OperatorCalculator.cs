@@ -12,13 +12,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _operandCalculator;
         private readonly int _dimensionIndex;
         private readonly double _dimensionValue;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         public Unbundle_OperatorCalculator(
             OperatorCalculatorBase operandCalculator, 
             DimensionEnum dimensionEnum, 
             double dimensionValue,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(new OperatorCalculatorBase[] { operandCalculator })
         {
             if (operandCalculator == null) throw new NullException(() => operandCalculator);

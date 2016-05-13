@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase rateCalculator,
             OperatorCalculatorBase phaseShiftCalculator,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(new OperatorCalculatorBase[] { rateCalculator, phaseShiftCalculator })
         {
             // HACK in a piece of patch, to reuse the Resample_OperatorCalculator's capability of
@@ -60,7 +60,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase rateCalculator,
             OperatorCalculatorBase phaseShiftCalculator,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(new OperatorCalculatorBase[] { rateCalculator, phaseShiftCalculator })
         {
             // HACK in a piece of patch, to reuse the Resample_OperatorCalculator's capability of
@@ -101,7 +101,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase rateCalculator,
             OperatorCalculatorBase phaseShiftCalculator,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(new OperatorCalculatorBase[] { rateCalculator, phaseShiftCalculator })
         {
             // HACK in a piece of patch, to reuse the Resample_OperatorCalculator's capability of
@@ -142,7 +142,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase rateCalculator,
             OperatorCalculatorBase phaseShiftCalculator,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(new OperatorCalculatorBase[] { rateCalculator, phaseShiftCalculator })
         {
             // HACK in a piece of patch, to reuse the Resample_OperatorCalculator's capability of
@@ -183,7 +183,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase rateCalculator,
             OperatorCalculatorBase phaseShiftCalculator,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(new OperatorCalculatorBase[] { rateCalculator, phaseShiftCalculator })
         {
             // HACK in a piece of patch, to reuse the Resample_OperatorCalculator's capability of
@@ -224,7 +224,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase rateCalculator,
             OperatorCalculatorBase phaseShiftCalculator,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(new OperatorCalculatorBase[] { rateCalculator, phaseShiftCalculator })
         {
             // HACK in a piece of patch, to reuse the Resample_OperatorCalculator's capability of

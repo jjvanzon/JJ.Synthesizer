@@ -10,13 +10,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _dimensionValueCalculator;
         private readonly int _dimensionIndex;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         public Select_OperatorCalculator(
             OperatorCalculatorBase signalCalculator, 
             OperatorCalculatorBase dimensionValueCalculator,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(new OperatorCalculatorBase[] 
             {
                 signalCalculator,
@@ -54,13 +54,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _dimensionValue;
         private readonly int _dimensionIndex;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         public Select_WithConstDimensionValue_OperatorCalculator(
             OperatorCalculatorBase signalCalculator, 
             double dimensionValue,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(new OperatorCalculatorBase[] 
             {
                 signalCalculator

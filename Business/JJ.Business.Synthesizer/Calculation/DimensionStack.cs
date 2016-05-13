@@ -1,130 +1,92 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Framework.Common;
+using System.Diagnostics;
 
-namespace JJ.Business.Synthesizer.Calculation
+namespace System.Collections.Generic
 {
-    /// <summary>
-    /// This class maintains for each dimension a stack of values 
-    /// and tries to make access to these values as fast as possible.
-    /// </summary>
-    public class DimensionStack
+    /// <summary> A less safe, faster variation of Stack<T>. </summary>
+    internal class DimensionStack<T>
     {
-        private static int _dimensionCount = GetDimensionCount();
+        private const int DEFAULT_CAPACITY = 128;
 
-        /// <summary> Array index is the dimension enum member. </summary>
-        private CustomStack<double>[] _stacks;
-
-        private static int GetDimensionCount()
-        {
-            int dimensionEnumMaxValue = EnumHelper.GetValues<DimensionEnum>()
-                                                  .Select(x => (int)x)
-                                                  .Max();
-
-            int dimensionCount = dimensionEnumMaxValue + 1;
-            return dimensionCount;
-        }
+        private int _size;
+        private T[] _array;
 
         public DimensionStack()
         {
-            _stacks = new CustomStack<double>[_dimensionCount];
+            _array = new T[DEFAULT_CAPACITY];
+            _size = 0;
+        }
 
-            for (int i = 0; i < _dimensionCount; i++)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Push(T item)
+        {
+            bool mustIncreaseCapacity = _array.Length == _size;
+            if (mustIncreaseCapacity)
             {
-                var stack = new CustomStack<double>();
+                int capacity;
+                if (_size == 0)
+                {
+                    capacity = DEFAULT_CAPACITY;
+                }
+                else
+                {
+                    capacity = _size * 2;
+                }
 
-                // Initialize stack with one item in it, so Peek immediately works to return 0.0.
-                stack.Push(0.0);
+                var array2 = new T[capacity];
 
-                _stacks[i] = stack;
+                Array.Copy(_array, 0, array2, 0, _size);
+
+                _array = array2;
             }
+
+            _array[_size] = item;
+
+            _size++;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Push(DimensionEnum dimensionEnum, double value)
+        public T PopAndGet()
         {
-            Push((int)dimensionEnum, value);
+            _size--;
+
+            T item = _array[_size];
+
+            return item;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Push(int dimensionIndex, double value)
+        public void Pop()
         {
-            _stacks[dimensionIndex].Push(value);
+            _size--;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Pop(DimensionEnum dimensionEnum)
+        public T Peek()
         {
-            Pop((int)dimensionEnum);
-        }
+            T item = _array[_size - 1];
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Pop(int dimensionIndex)
-        {
-            _stacks[dimensionIndex].Pop();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public double PopAndGet(DimensionEnum dimensionEnum)
-        {
-            return PopAndGet((int)dimensionEnum);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public double PopAndGet(int dimensionIndex)
-        {
-            double value = _stacks[dimensionIndex].PopAndGet();
-            return value;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public double Get(DimensionEnum dimensionEnum)
-        {
-            return Get((int)dimensionEnum);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public double Get(int dimensionIndex)
-        {
-            return _stacks[dimensionIndex].Peek();
+            return item;
         }
 
         /// <summary>
         /// A slightly quicker alternative to a subsequent Pop and Push,
-        /// when you know there will not be any stack operators in between,
+        /// when you know there will not be any stack operations in between,
         /// or when you know you are at the top level of the stack.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Set(DimensionEnum dimensionEnum, double value)
+        public void Set(T item)
         {
-            Set((int)dimensionEnum, value);
+            _array[_size - 1] = item;
         }
 
-        /// <summary>
-        /// A slightly quicker alternative to a subsequent Pop and Push,
-        /// when you know there will not be any stack operators in between,
-        /// or when you know you are at the top level of the stack.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Set(int dimensionIndex, double value)
+        public int Count
         {
-            _stacks[dimensionIndex].Set(value);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public int Count(DimensionEnum dimensionEnum)
-        {
-            return Count((int)dimensionEnum);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public int Count(int dimensionIndex)
-        {
-            int count = _stacks[dimensionIndex].Count;
-            return count;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get { return _size; }
         }
     }
 }

@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _startTimeCalculator;
         private readonly OperatorCalculatorBase _endTimeCalculator;
         private readonly OperatorCalculatorBase _frequencyCountCalculator;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         private readonly LomontFFT _lomontFFT;
 
@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase startTimeCalculator,
             OperatorCalculatorBase endTimeCalculator,
             OperatorCalculatorBase frequencyCountCalculator,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(new OperatorCalculatorBase[] 
             {
                 signalCalculator,

@@ -11,14 +11,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _width;
         private readonly double _phaseShift;
         private readonly int _dimensionIndex;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         public Pulse_ConstFrequency_ConstWidth_ConstPhaseShift_OperatorCalculator(
             double frequency,
             double width,
             double phaseShift,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
         {
             OperatorCalculatorHelper.AssertFrequency(frequency);
             OperatorCalculatorHelper.AssertWidth(width);
@@ -57,14 +57,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _widthCalculator;
         private readonly double _phaseShift;
         private readonly int _dimensionIndex;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         public Pulse_ConstFrequency_VarWidth_ConstPhaseShift_OperatorCalculator(
             double frequency,
             OperatorCalculatorBase widthCalculator,
             double phaseShift,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(new OperatorCalculatorBase[] { widthCalculator })
         {
             OperatorCalculatorHelper.AssertFrequency(frequency);
@@ -106,14 +106,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _width;
         private readonly OperatorCalculatorBase _phaseShiftCalculator;
         private readonly int _dimensionIndex;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         public Pulse_ConstFrequency_ConstWidth_VarPhaseShift_OperatorCalculator(
             double frequency,
             double width,
             OperatorCalculatorBase phaseShiftCalculator,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(new OperatorCalculatorBase[] { phaseShiftCalculator })
         {
             OperatorCalculatorHelper.AssertFrequency(frequency);
@@ -156,14 +156,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _widthCalculator;
         private readonly OperatorCalculatorBase _phaseShiftCalculator;
         private readonly int _dimensionIndex;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         public Pulse_ConstFrequency_VarWidth_VarPhaseShift_OperatorCalculator(
             double frequency,
             OperatorCalculatorBase widthCalculator,
             OperatorCalculatorBase phaseShiftCalculator,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(new OperatorCalculatorBase[] { widthCalculator, phaseShiftCalculator })
         {
             OperatorCalculatorHelper.AssertFrequency(frequency);
@@ -206,7 +206,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly double _width;
         private readonly int _dimensionIndex;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         private double _phase;
         private double _previousPosition;
@@ -216,7 +216,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double width,
             double phaseShift,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(new OperatorCalculatorBase[] { frequencyCalculator })
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(frequencyCalculator, () => frequencyCalculator);
@@ -276,14 +276,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly int _dimensionIndex;
         private double _phase;
         private double _previousPosition;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         public Pulse_VarFrequency_VarWidth_ConstPhaseShift_OperatorCalculator(
             OperatorCalculatorBase frequencyCalculator,
             OperatorCalculatorBase widthCalculator,
             double phaseShift,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(new OperatorCalculatorBase[] { frequencyCalculator, widthCalculator })
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(frequencyCalculator, () => frequencyCalculator);
@@ -342,7 +342,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _phaseShiftCalculator;
         private readonly double _width;
         private readonly int _dimensionIndex;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         private double _phase;
         private double _previousPosition;
@@ -352,7 +352,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double width,
             OperatorCalculatorBase phaseShiftCalculator,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(new OperatorCalculatorBase[] { frequencyCalculator, phaseShiftCalculator })
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(frequencyCalculator, () => frequencyCalculator);
@@ -413,7 +413,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _widthCalculator;
         private readonly OperatorCalculatorBase _phaseShiftCalculator;
         private readonly int _dimensionIndex;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         private double _phase;
         private double _previousPosition;
@@ -423,7 +423,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase widthCalculator,
             OperatorCalculatorBase phaseShiftCalculator,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(new OperatorCalculatorBase[] { frequencyCalculator, widthCalculator, phaseShiftCalculator })
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(frequencyCalculator, () => frequencyCalculator);

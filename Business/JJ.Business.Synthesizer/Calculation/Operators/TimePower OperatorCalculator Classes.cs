@@ -11,14 +11,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _exponentCalculator;
         private readonly OperatorCalculatorBase _originCalculator;
         private readonly int _dimensionIndex;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         public TimePower_WithOrigin_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase exponentCalculator,
             OperatorCalculatorBase originCalculator,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(new OperatorCalculatorBase[] { signalCalculator, exponentCalculator, originCalculator })
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
@@ -78,13 +78,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _exponentCalculator;
         private readonly int _dimensionIndex;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         public TimePower_WithoutOrigin_OperatorCalculator(
             OperatorCalculatorBase signalCalculator, 
             OperatorCalculatorBase exponentCalculator,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(new OperatorCalculatorBase[] { signalCalculator, exponentCalculator })
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);

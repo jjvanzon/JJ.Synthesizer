@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly int _dimensionIndex;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         private double _phase;
         private double _previousPosition;
@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Sine_WithVarFrequency_WithoutPhaseShift_OperatorCalculator(
             OperatorCalculatorBase frequencyCalculator,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(new OperatorCalculatorBase[] { frequencyCalculator })
         {
             if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
@@ -63,7 +63,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly double _phaseShift;
         private readonly int _dimensionIndex;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         private double _phase;
         private double _previousPosition;
@@ -72,7 +72,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase frequencyCalculator,
             double phaseShift,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(new OperatorCalculatorBase[] { frequencyCalculator })
         {
             if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
@@ -119,7 +119,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly OperatorCalculatorBase _phaseShiftCalculator;
         private readonly int _dimensionIndex;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         private double _phase;
         private double _previousPosition;
@@ -128,7 +128,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase frequencyCalculator,
             OperatorCalculatorBase phaseShiftCalculator,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(new OperatorCalculatorBase[] 
             {
                 frequencyCalculator,
@@ -179,12 +179,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly double _frequency;
         private readonly int _dimensionIndex;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         public Sine_WithConstFrequency_WithoutPhaseShift_OperatorCalculator(
             double frequency,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
         {
             if (frequency == 0.0) throw new ZeroException(() => frequency);
             OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
@@ -210,13 +210,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _frequency;
         private readonly double _phaseShift;
         private readonly int _dimensionIndex;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         public Sine_WithConstFrequency_WithConstPhaseShift_OperatorCalculator(
             double frequency, 
             double phaseShift,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
         {
             if (frequency == 0.0) throw new ZeroException(() => frequency);
             if (phaseShift % 1.0 == 0.0) throw new Exception("phaseShift cannot be a multiple of 1.");
@@ -244,13 +244,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _frequency;
         private readonly OperatorCalculatorBase _phaseShiftCalculator;
         private readonly int _dimensionIndex;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         public Sine_WithConstFrequency_WithVarPhaseShift_OperatorCalculator(
             double frequency, 
             OperatorCalculatorBase phaseShiftCalculator,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(new OperatorCalculatorBase[] { phaseShiftCalculator })
         {
             if (frequency == 0.0) throw new ZeroException(() => frequency);

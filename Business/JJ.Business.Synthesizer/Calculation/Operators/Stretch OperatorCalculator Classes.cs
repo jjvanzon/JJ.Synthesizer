@@ -16,13 +16,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _factorValue;
         private readonly int _dimensionIndex;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         public Stretch_VarSignal_ConstFactor_ZeroOrigin_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
             double factorValue,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(new OperatorCalculatorBase[] { signalCalculator })
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
@@ -61,13 +61,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _factorCalculator;
         private readonly int _dimensionIndex;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         public Stretch_VarSignal_VarFactor_ZeroOrigin_OperatorCalculator(
             OperatorCalculatorBase signalCalculator, 
             OperatorCalculatorBase factorCalculator,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(new OperatorCalculatorBase[] 
             {
                 signalCalculator,
@@ -126,14 +126,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _factorValue;
         private readonly double _originValue;
         private readonly int _dimensionIndex;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         public Stretch_VarSignal_ConstFactor_ConstOrigin_OperatorCalculator(
             OperatorCalculatorBase signalCalculator, 
             double factorValue, 
             double originValue,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(new OperatorCalculatorBase[]
             {
                 signalCalculator
@@ -179,14 +179,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _factorValue;
         private readonly OperatorCalculatorBase _originCalculator;
         private readonly int _dimensionIndex;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         public Stretch_VarSignal_ConstFactor_VarOrigin_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
             double factorValue,
             OperatorCalculatorBase originCalculator,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(new OperatorCalculatorBase[]
             {
                 signalCalculator, 
@@ -233,14 +233,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _factorCalculator;
         private readonly double _originValue;
         private readonly int _dimensionIndex;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         public Stretch_VarSignal_VarFactor_ConstOrigin_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase factorCalculator,
             double originValue,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(new OperatorCalculatorBase[]
             {
                 signalCalculator, 
@@ -293,14 +293,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _factorCalculator;
         private readonly OperatorCalculatorBase _originCalculator;
         private readonly int _dimensionIndex;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         public Stretch_VarSignal_VarFactor_VarOrigin_OperatorCalculator(
             OperatorCalculatorBase signalCalculator, 
             OperatorCalculatorBase factorCalculator, 
             OperatorCalculatorBase originCalculator,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(new OperatorCalculatorBase[]
             {
                 signalCalculator,

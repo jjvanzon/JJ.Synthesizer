@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly ISampleCalculator _sampleCalculator;
         private readonly int _dimensionIndex;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
         private readonly int _channelCount;
 
         private double _phase;
@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase frequencyCalculator,
             ISampleCalculator sampleCalculator,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(new OperatorCalculatorBase[] { frequencyCalculator })
         {
             if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
@@ -86,7 +86,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly ISampleCalculator _sampleCalculator;
         private readonly double _rate;
         private readonly int _dimensionIndex;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
         private readonly int _channelCount;
 
         private double _phase;
@@ -96,7 +96,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double frequency,
             ISampleCalculator sampleCalculator,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
         {
             if (sampleCalculator == null) throw new NullException(() => sampleCalculator);
             OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
@@ -150,7 +150,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly ISampleCalculator _sampleCalculator;
         private readonly int _dimensionIndex;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         private double _phase;
         private double _previousPosition;
@@ -159,7 +159,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase frequencyCalculator, 
             ISampleCalculator sampleCalculator,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(new OperatorCalculatorBase[] { frequencyCalculator })
         {
             if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
@@ -208,7 +208,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly ISampleCalculator _sampleCalculator;
         private readonly int _dimensionIndex;
         private readonly double _rate;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         private double _phase;
         private double _previousPosition;
@@ -217,7 +217,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double frequency, 
             ISampleCalculator sampleCalculator,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
         {
             if (sampleCalculator == null) throw new NullException(() => sampleCalculator);
             OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
@@ -262,7 +262,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly ISampleCalculator _sampleCalculator;
         private readonly int _dimensionIndex;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         private double _phase;
         private double _previousPosition;
@@ -271,7 +271,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase frequencyCalculator,
             ISampleCalculator sampleCalculator,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(new OperatorCalculatorBase[] { frequencyCalculator })
         {
             if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
@@ -320,7 +320,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly ISampleCalculator _sampleCalculator;
         private readonly int _dimensionIndex;
         private readonly double _rate;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         private double _phase;
         private double _previousPosition;
@@ -329,7 +329,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double frequency, 
             ISampleCalculator sampleCalculator,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
         {
             if (sampleCalculator == null) throw new NullException(() => sampleCalculator);
             OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);

@@ -13,11 +13,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly int _dimensionIndex;
         private readonly OperatorCalculatorBase[] _operands;
         private readonly double _operandCountDouble;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         public Bundle_OperatorCalculator(
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack,
+            DimensionStacks dimensionStack,
             IList<OperatorCalculatorBase> operands)
             : base(operands)
         {

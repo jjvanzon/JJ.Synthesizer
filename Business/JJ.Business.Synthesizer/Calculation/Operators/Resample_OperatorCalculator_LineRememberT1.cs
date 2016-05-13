@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private OperatorCalculatorBase _signalCalculator;
         private OperatorCalculatorBase _samplingRateCalculator;
         private readonly int _dimensionIndex;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         private double _x0;
         private double _x1;
@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator, 
             OperatorCalculatorBase samplingRateCalculator,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(new OperatorCalculatorBase[]
             {
                 signalCalculator, 

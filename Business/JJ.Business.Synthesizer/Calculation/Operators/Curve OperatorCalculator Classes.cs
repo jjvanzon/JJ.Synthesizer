@@ -9,14 +9,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly CurveCalculator_MinX _curveCalculator;
         private readonly int _dimensionIndex;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         private double _origin;
 
         public Curve_MinX_OperatorCalculator(
             CurveCalculator_MinX curveCalculator,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
         {
             if (curveCalculator == null) throw new NullException(() => curveCalculator);
             OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
@@ -51,14 +51,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly CurveCalculator_MinXZero _curveCalculator;
         private readonly int _dimensionIndex;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         private double _origin;
 
         public Curve_MinXZero_OperatorCalculator(
             CurveCalculator_MinXZero curveCalculator,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
         {
             if (curveCalculator == null) throw new NullException(() => curveCalculator);
             OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);

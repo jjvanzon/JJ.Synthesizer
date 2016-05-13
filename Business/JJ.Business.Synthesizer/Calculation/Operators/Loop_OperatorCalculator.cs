@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase releaseEndMarkerCalculator,
             OperatorCalculatorBase noteDurationCalculator,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(
                   signalCalculator,
                   dimensionEnum,
@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         /// <summary> Returns null if before attack or after release. </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected override double? TransformPosition()
+        protected override double? GetTransformedPosition()
         {
             double outputPosition = _dimensionStack.Get(_dimensionIndex);
 

@@ -14,12 +14,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly TArrayCalculator _arrayCalculator;
         private readonly int _dimensionIndex;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         public Cache_OperatorCalculator_SingleChannel(
             TArrayCalculator arrayCalculator,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
         {
             if (arrayCalculator == null) throw new NullException(() => arrayCalculator);
             OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
@@ -45,12 +45,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly TArrayCalculator[] _arrayCalculators;
         private readonly int _arrayCalculatorsLength;
         private readonly int _dimensionIndex;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         public Cache_OperatorCalculator_MultiChannel(
             IList<TArrayCalculator> arrayCalculators,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
         {
             if (arrayCalculators == null) throw new NullException(() => arrayCalculators);
             OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);

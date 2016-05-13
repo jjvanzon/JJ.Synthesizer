@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase timeSliceDurationCalculator,
             OperatorCalculatorBase sampleCountCalculator,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(signalCalculator, timeSliceDurationCalculator, sampleCountCalculator, dimensionEnum, dimensionStack)
         { }
 

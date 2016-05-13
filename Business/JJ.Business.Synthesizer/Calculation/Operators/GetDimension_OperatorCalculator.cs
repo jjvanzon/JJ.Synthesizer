@@ -10,11 +10,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class GetDimension_OperatorCalculator : OperatorCalculatorBase
     {
         private readonly int _dimensionEnumInt;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         public GetDimension_OperatorCalculator(
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
         {
             OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
             if (dimensionStack == null) throw new NullException(() => dimensionStack);

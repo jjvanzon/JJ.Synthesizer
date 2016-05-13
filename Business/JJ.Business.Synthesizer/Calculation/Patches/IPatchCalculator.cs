@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         double GetValue(string name, int listIndex);
         void SetValue(string name, int listIndex, double value);
-        
+
         double GetValue(DimensionEnum dimensionEnum);
         void SetValue(DimensionEnum dimensionEnum, double value);
 

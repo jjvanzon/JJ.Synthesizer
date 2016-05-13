@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         public class Result
         {
             public Result(
-                DimensionStack dimensionStack,
+                DimensionStacks dimensionStack,
                 OperatorCalculatorBase output_OperatorCalculator,
                 IList<VariableInput_OperatorCalculator> input_OperatorCalculators,
                 IList<ResettableOperatorTuple> resettableOperatorTuples)
@@ -45,7 +45,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 ResettableOperatorTuples = resettableOperatorTuples;
             }
 
-            public DimensionStack DimensionStack { get; }
+            public DimensionStacks DimensionStack { get; }
             public OperatorCalculatorBase Output_OperatorCalculator { get; }
             public IList<VariableInput_OperatorCalculator> Input_OperatorCalculators { get; }
             public IList<ResettableOperatorTuple> ResettableOperatorTuples { get; }
@@ -83,10 +83,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private readonly ISpeakerSetupRepository _speakerSetupRepository;
         private readonly CalculatorCache _calculatorCache;
 
-        private DimensionStack _dimensionStack;
+        private DimensionStacks _dimensionStack;
         private int _channelCount;
         private Stack<OperatorCalculatorBase> _stack;
-        private DimensionStack _bundleDimensionStack;
+        private DimensionStacks _bundleDimensionStack;
 
         private Dictionary<Operator, double> _operator_NoiseOffsetInSeconds_Dictionary;
         private Dictionary<Operator, int> _operator_RandomOffsetInSeconds_Dictionary;
@@ -126,13 +126,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             validator.Assert();
 
             _stack = new Stack<OperatorCalculatorBase>();
-            _bundleDimensionStack = new DimensionStack();
+            _bundleDimensionStack = new DimensionStacks();
             _operator_NoiseOffsetInSeconds_Dictionary = new Dictionary<Operator, double>();
             _operator_RandomOffsetInSeconds_Dictionary = new Dictionary<Operator, int>();
             _patchInlet_Calculator_Dictionary = new Dictionary<Operator, VariableInput_OperatorCalculator>();
             _resettableOperatorTuples = new List<ResettableOperatorTuple>();
 
-            _dimensionStack = new DimensionStack();
+            _dimensionStack = new DimensionStacks();
             _outlet = outlet;
             _channelCount = channelCount;
 

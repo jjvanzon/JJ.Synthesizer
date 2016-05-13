@@ -83,7 +83,7 @@
     <Compile Include="Calculation\Curves\ICurveCalculator.cs" />
     <Compile Include="Calculation\Curves\CurveCalculator_MinXZero.cs" />
     <Compile Include="Calculation\Curves\CurveCalculator_MinX.cs" />
-    <Compile Include="Calculation\DimensionStack.cs" />
+    <Compile Include="Calculation\DimensionStacks.cs" />
     <Compile Include="Calculation\Operators\Backup of Add OperatorCalculator Classes %28with Generics%29.cs" />
     <Compile Include="Calculation\Operators\2016-05-10 Backup of Multiply OperatorCalculator Classes %28With Generics%29.cs" />
     <Compile Include="Calculation\Operators\Unbundle_OperatorCalculator.cs" />
@@ -207,7 +207,7 @@
     <Compile Include="Calculation\SineCalculator.cs" />
     <Compile Include="Calculation\Random\RandomCalculator_BlockInterpolation.cs" />
     <Compile Include="Calculation\NoiseCalculator.cs" />
-    <Compile Include="Calculation\CustomStack.cs" />
+    <Compile Include="Calculation\DimensionStack.cs" />
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="Converters\PatchToOperatorConverter.cs" />
     <Compile Include="EntityWrappers\Cache_OperatorWrapper.cs" />

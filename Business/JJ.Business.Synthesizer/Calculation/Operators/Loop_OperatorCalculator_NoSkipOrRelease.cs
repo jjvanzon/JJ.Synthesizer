@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase loopEndMarkerCalculator,
             OperatorCalculatorBase noteDurationCalculator,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(
                   signalCalculator, 
                   dimensionEnum,
@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _noteDurationCalculator = noteDurationCalculator;
         }
         
-        protected override double? TransformPosition()
+        protected override double? GetTransformedPosition()
         {
             double position = _dimensionStack.Get(_dimensionIndex);
 

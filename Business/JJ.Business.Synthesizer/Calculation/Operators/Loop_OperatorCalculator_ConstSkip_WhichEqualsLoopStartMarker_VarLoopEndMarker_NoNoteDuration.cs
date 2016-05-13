@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double loopStartMarker,
             OperatorCalculatorBase loopEndMarkerCalculator,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(
                   signalCalculator,
                   dimensionEnum,
@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _loopEndMarkerCalculator = loopEndMarkerCalculator;
         }
 
-        protected override double? TransformPosition()
+        protected override double? GetTransformedPosition()
         {
             double outputPosition = _dimensionStack.Get(_dimensionIndex);
 

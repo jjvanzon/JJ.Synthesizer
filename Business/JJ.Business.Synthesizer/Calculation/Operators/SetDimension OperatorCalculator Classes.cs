@@ -14,13 +14,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _calculationCalculator;
         private readonly double _value;
         private readonly int _dimensionEnumInt;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         public SetDimension_OperatorCalculator_ConstValue(
             OperatorCalculatorBase calculationCalculator,
             double value,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(new OperatorCalculatorBase[] { calculationCalculator })
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(calculationCalculator, () => calculationCalculator);
@@ -53,13 +53,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _calculationCalculator;
         private readonly OperatorCalculatorBase _valueCalculator;
         private readonly int _dimensionEnumInt;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         public SetDimension_OperatorCalculator_VarValue(
             OperatorCalculatorBase calculationCalculator,
             OperatorCalculatorBase valueCalculator,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(new OperatorCalculatorBase[] { calculationCalculator, valueCalculator })
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(calculationCalculator, () => calculationCalculator);

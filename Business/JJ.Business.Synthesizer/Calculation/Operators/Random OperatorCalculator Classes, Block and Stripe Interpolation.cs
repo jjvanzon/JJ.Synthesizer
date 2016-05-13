@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _rateCalculator;
         private readonly OperatorCalculatorBase _phaseShiftCalculator;
         private readonly int _dimensionIndex;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         private double _phase;
         private double _previousPosition;
@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase rateCalculator,
             OperatorCalculatorBase phaseShiftCalculator,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
             : base(new OperatorCalculatorBase[] { rateCalculator, phaseShiftCalculator })
         {
             if (randomCalculator == null) throw new NullException(() => randomCalculator);

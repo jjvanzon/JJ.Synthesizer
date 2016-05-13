@@ -12,12 +12,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         protected readonly int _dimensionIndex;
         protected double _origin;
-        protected readonly DimensionStack _dimensionStack;
+        protected readonly DimensionStacks _dimensionStack;
 
         public Loop_OperatorCalculator_Base(
             OperatorCalculatorBase signalCalculator,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack,
+            DimensionStacks dimensionStack,
             IList<OperatorCalculatorBase> childOperatorCalculators)
             : base(childOperatorCalculators)
         {
@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionIndex = (int)dimensionEnum;
         }
 
-        protected abstract double? TransformPosition();
+        protected abstract double? GetTransformedPosition();
 
         public override void Reset()
         {
@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             _origin = position;
 
-            double? transformedPosition = TransformPosition();
+            double? transformedPosition = GetTransformedPosition();
             if (!transformedPosition.HasValue)
             {
                 // TODO: There is no meaningful value to fall back to.
@@ -53,7 +53,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double? transformedPosition = TransformPosition();
+            double? transformedPosition = GetTransformedPosition();
             if (!transformedPosition.HasValue)
             {
                 return 0;

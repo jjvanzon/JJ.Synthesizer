@@ -10,13 +10,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         /// <summary> Each operator should start at a different time offset in the pre-generated noise, to prevent artifacts. </summary>
         private readonly double _offset;
         private readonly int _dimensionIndex;
-        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStacks _dimensionStack;
 
         public Noise_OperatorCalculator(
             NoiseCalculator noiseCalculator, 
             double offset,
             DimensionEnum dimensionEnum,
-            DimensionStack dimensionStack)
+            DimensionStacks dimensionStack)
         {
             if (noiseCalculator == null) throw new NullException(() => noiseCalculator);
             OperatorCalculatorHelper.AssertDimensionEnum(dimensionEnum);
