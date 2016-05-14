@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Calculation
     /// This class maintains for each dimension a stack of values 
     /// and tries to make access to these values as fast as possible.
     /// </summary>
-    internal class DimensionStacks
+    internal class DimensionStackCollection
     {
         private static int _dimensionCount = GetDimensionCount();
 
@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Calculation
             return dimensionCount;
         }
 
-        public DimensionStacks()
+        public DimensionStackCollection()
         {
             _stacks = new DimensionStack[_dimensionCount];
 

@@ -35,12 +35,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double dimensionValue = _dimensionStack.Get();
+            double position = _dimensionStack.Get();
 
             // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
-            double transformedDimensionValue = dimensionValue / _factorValue;
+            double transformedPosition = position / _factorValue;
 
-            _dimensionStack.Push(transformedDimensionValue);
+            _dimensionStack.Push(transformedPosition);
 
             double result = _signalCalculator.Calculate();
 

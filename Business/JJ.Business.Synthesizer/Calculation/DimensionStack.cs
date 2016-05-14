@@ -66,7 +66,13 @@ namespace JJ.Business.Synthesizer.Calculation
         public double Get()
         {
             double item = _array[_size - 1];
+            return item;
+        }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public double Get(int i)
+        {
+            double item = _array[i];
             return item;
         }
 

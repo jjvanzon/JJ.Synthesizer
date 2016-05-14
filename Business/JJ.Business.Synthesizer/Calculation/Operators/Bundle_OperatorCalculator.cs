@@ -9,14 +9,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Bundle_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly int _dimensionIndex;
         private readonly OperatorCalculatorBase[] _operands;
         private readonly double _operandCountDouble;
         private readonly DimensionStack _dimensionStack;
+        //private readonly int _dimensionLayer;
 
         public Bundle_OperatorCalculator(
             DimensionStack dimensionStack,
-            IList<OperatorCalculatorBase> operands)
+            IList<OperatorCalculatorBase> operands//,
+            /*int dimensionLayer*/)
             : base(operands)
         {
             if (dimensionStack == null) throw new NullException(() => dimensionStack);
@@ -24,6 +25,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionStack = dimensionStack;
             _operands = operands.ToArray();
             _operandCountDouble = operands.Count;
+            //_dimensionLayer = dimensionLayer;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

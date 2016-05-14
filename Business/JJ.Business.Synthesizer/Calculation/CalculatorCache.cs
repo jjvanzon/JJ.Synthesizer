@@ -149,15 +149,15 @@ namespace JJ.Business.Synthesizer.Calculation
             int channelDimensionIndex = (int)DimensionEnum.Channel;
             int timeDimensionIndex = (int)DimensionEnum.Time;
                 
-            var dimensionStack = new DimensionStacks();
+            var dimensionStackCollection = new DimensionStackCollection();
             for (int channelIndex = 0; channelIndex < channelCount; channelIndex++)
             {
-                dimensionStack.Set(channelDimensionIndex, channelIndex);
+                dimensionStackCollection.Set(channelDimensionIndex, channelIndex);
 
                 double[] samples = new double[tickCount];
 
                 double time = startTime;
-                dimensionStack.Set(timeDimensionIndex, time);
+                dimensionStackCollection.Set(timeDimensionIndex, time);
 
                 for (int i = 0; i < tickCount; i++)
                 {
@@ -165,7 +165,7 @@ namespace JJ.Business.Synthesizer.Calculation
                     samples[i] = sample;
 
                     time += tickDuration;
-                    dimensionStack.Set(timeDimensionIndex, time);
+                    dimensionStackCollection.Set(timeDimensionIndex, time);
                 }
 
                 ArrayCalculatorBase arrayCalculator = ArrayCalculatorFactory.CreateArrayCalculator(
