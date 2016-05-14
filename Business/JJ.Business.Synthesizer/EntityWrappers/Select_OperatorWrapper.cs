@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
     public class Select_OperatorWrapper : OperatorWrapperBase
     {
         private const int SIGNAL_INDEX = 0;
-        private const int TIME_INDEX = 1;
+        private const int POSITION_INDEX = 1;
         private const int RESULT_INDEX = 0;
 
         public Select_OperatorWrapper(Operator op)
@@ -25,8 +25,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Position
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, TIME_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, TIME_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInputOutlet(WrappedOperator, POSITION_INDEX); }
+            set { OperatorHelper.GetInlet(WrappedOperator, POSITION_INDEX).LinkTo(value); }
         }
 
         public Outlet Result
@@ -50,7 +50,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
                         return name;
                     }
 
-                case TIME_INDEX:
+                case POSITION_INDEX:
                     {
                         string name = ResourceHelper.GetPropertyDisplayName(() => Position);
                         return name;

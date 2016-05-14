@@ -9,71 +9,81 @@ namespace JJ.Business.Synthesizer.Calculation
     {
         private const int DEFAULT_CAPACITY = 128;
 
-        private int _size;
+        private int _count;
         private double[] _array;
 
         public DimensionStack()
         {
             _array = new double[DEFAULT_CAPACITY];
-            _size = 0;
+            _count = 0;
+        }
+
+        public int Count
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get { return _count; }
+        }
+
+        public int CurrentPosition
+        {
+            get { return _count - 1; }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Push(double item)
+        public void Push(double value)
         {
-            bool mustIncreaseCapacity = _array.Length == _size;
+            bool mustIncreaseCapacity = _array.Length == _count;
             if (mustIncreaseCapacity)
             {
-                int capacity;
-                if (_size == 0)
+                int newCapacity;
+                if (_count == 0)
                 {
-                    capacity = DEFAULT_CAPACITY;
+                    newCapacity = DEFAULT_CAPACITY;
                 }
                 else
                 {
-                    capacity = _size * 2;
+                    newCapacity = _count * 2;
                 }
 
-                var array2 = new double[capacity];
+                var array2 = new double[newCapacity];
 
-                Array.Copy(_array, 0, array2, 0, _size);
+                Array.Copy(_array, 0, array2, 0, _count);
 
                 _array = array2;
             }
 
-            _array[_size] = item;
+            _array[_count] = value;
 
-            _size++;
+            _count++;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double PopAndGet()
         {
-            _size--;
+            _count--;
 
-            double item = _array[_size];
-
-            return item;
+            double value = _array[_count];
+            return value;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Pop()
         {
-            _size--;
+            _count--;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double Get()
         {
-            double item = _array[_size - 1];
-            return item;
+            double value = _array[_count - 1];
+            return value;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double Get(int i)
         {
-            double item = _array[i];
-            return item;
+            double value = _array[i];
+            return value;
         }
 
         /// <summary>
@@ -82,15 +92,9 @@ namespace JJ.Business.Synthesizer.Calculation
         /// or when you know you are at the top level of the stack.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Set(double item)
+        public void Set(double value)
         {
-            _array[_size - 1] = item;
-        }
-
-        public int Count
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get { return _size; }
+            _array[_count - 1] = value;
         }
     }
 }
