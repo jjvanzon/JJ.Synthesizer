@@ -49,6 +49,7 @@ namespace JJ.Business.Synthesizer.Calculation
             return GetDimensionStack((int)dimensionEnum);
         }
 
+        // TODO: Get rid of this overload.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public DimensionStack GetDimensionStack(int dimensionIndex)
         {

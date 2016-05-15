@@ -11,6 +11,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _samplingRateCalculator;
         private readonly DimensionStack _dimensionStack;
+        private readonly int _currentDimensionStackIndex;
+        private readonly int _previousDimensionStackIndex;
 
         public Resample_OperatorCalculator_Stripe(
             OperatorCalculatorBase signalCalculator,
@@ -27,11 +29,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _signalCalculator = signalCalculator;
             _samplingRateCalculator = samplingRateCalculator;
             _dimensionStack = dimensionStack;
+            _currentDimensionStackIndex = dimensionStack.CurrentIndex;
+            _previousDimensionStackIndex = dimensionStack.CurrentIndex - 1;
         }
 
         public override double Calculate()
         {
-            double position = _dimensionStack.Get();
+            double position = _dimensionStack.Get(_previousDimensionStackIndex);
 
             double samplingRate = _samplingRateCalculator.Calculate();
             if (samplingRate == 0.0)
@@ -48,11 +52,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             // IMPORTANT: To subtract time from the output, you have add time to the input.
             double transformedPosition = position + earlierPositionShiftToGetFromBlockedToStriped;
 
-            _dimensionStack.Push(transformedPosition);
+            _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
 
             double value = Calculate(samplingRate);
-
-            _dimensionStack.Pop();
 
             return value;
         }

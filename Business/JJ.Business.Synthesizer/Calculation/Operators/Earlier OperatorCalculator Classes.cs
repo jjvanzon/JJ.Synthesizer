@@ -1,6 +1,5 @@
-﻿using JJ.Framework.Reflection.Exceptions;
-using System;
-using JJ.Business.Synthesizer.Enums;
+﻿using System;
+using JJ.Framework.Reflection.Exceptions;
 using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -8,43 +7,45 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class Earlier_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
-        private readonly OperatorCalculatorBase _timeDifferenceCalculator;
+        private readonly OperatorCalculatorBase _positionDifferenceCalculator;
         private readonly DimensionStack _dimensionStack;
+        private readonly int _currentDimensionStackIndex;
+        private readonly int _previousDimensionStackIndex;
 
         public Earlier_OperatorCalculator(
             OperatorCalculatorBase signalCalculator, 
-            OperatorCalculatorBase timeDifferenceCalculator,
+            OperatorCalculatorBase positionDifferenceCalculator,
             DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[] 
             {
                 signalCalculator,
-                timeDifferenceCalculator
+                positionDifferenceCalculator
             })
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(timeDifferenceCalculator, () => timeDifferenceCalculator);
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(positionDifferenceCalculator, () => positionDifferenceCalculator);
+            OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
 
             _signalCalculator = signalCalculator;
-            _timeDifferenceCalculator = timeDifferenceCalculator;
+            _positionDifferenceCalculator = positionDifferenceCalculator;
             _dimensionStack = dimensionStack;
+            _currentDimensionStackIndex = dimensionStack.CurrentIndex;
+            _previousDimensionStackIndex = dimensionStack.CurrentIndex - 1;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double position = _dimensionStack.Get();
+            double position = _dimensionStack.Get(_previousDimensionStackIndex);
 
-            double timeDifference = _timeDifferenceCalculator.Calculate();
+            double positionDifference = _positionDifferenceCalculator.Calculate();
 
             // IMPORTANT: To subtract time from the output, you have add time to the input.
-            double transformedPosition = position + timeDifference;
+            double transformedPosition = position + positionDifference;
 
-            _dimensionStack.Push(transformedPosition);
+            _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
 
             double result = _signalCalculator.Calculate();
-
-            _dimensionStack.Pop();
 
             return result;
         }
@@ -55,6 +56,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _timeDifference;
         private readonly DimensionStack _dimensionStack;
+        private readonly int _currentDimensionStackIndex;
+        private readonly int _previousDimensionStackIndex;
 
         public Earlier_WithConstTimeDifference_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
@@ -63,26 +66,26 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             : base(new OperatorCalculatorBase[] { signalCalculator })
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
 
             _signalCalculator = signalCalculator;
             _timeDifference = timeDifference;
             _dimensionStack = dimensionStack;
+            _currentDimensionStackIndex = dimensionStack.CurrentIndex;
+            _previousDimensionStackIndex = dimensionStack.CurrentIndex - 1;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double position = _dimensionStack.Get();
+            double position = _dimensionStack.Get(_previousDimensionStackIndex);
 
             // IMPORTANT: To subtract time from the output, you have add time to the input.
             double transformedPosition = position + _timeDifference;
 
-            _dimensionStack.Push(transformedPosition);
+            _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
 
             double result = _signalCalculator.Calculate();
-
-            _dimensionStack.Pop();
 
             return result;
         }

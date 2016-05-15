@@ -8,52 +8,53 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class Select_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
-        private readonly OperatorCalculatorBase _dimensionValueCalculator;
+        private readonly OperatorCalculatorBase _positionCalculator;
         private readonly DimensionStack _dimensionStack;
+        private readonly int _dimensionStackIndex;
 
         public Select_OperatorCalculator(
             OperatorCalculatorBase signalCalculator, 
-            OperatorCalculatorBase dimensionValueCalculator,
+            OperatorCalculatorBase positionCalculator,
             DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[] 
             {
                 signalCalculator,
-                dimensionValueCalculator
+                positionCalculator
             })
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(dimensionValueCalculator, () => dimensionValueCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(positionCalculator, () => positionCalculator);
             if (dimensionStack == null) throw new NullException(() => dimensionStack);
 
             _signalCalculator = signalCalculator;
-            _dimensionValueCalculator = dimensionValueCalculator;
+            _positionCalculator = positionCalculator;
             _dimensionStack = dimensionStack;
+            _dimensionStackIndex = dimensionStack.CurrentIndex;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double dimensionValue = _dimensionValueCalculator.Calculate();
+            double position = _positionCalculator.Calculate();
 
-            _dimensionStack.Push(dimensionValue);
+            _dimensionStack.Set(_dimensionStackIndex, position);
 
             double result = _signalCalculator.Calculate();
-
-            _dimensionStack.Pop();
 
             return result;
         }
     }
 
-    internal class Select_WithConstDimensionValue_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Select_WithConstPosition_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
-        private readonly double _dimensionValue;
+        private readonly double _position;
         private readonly DimensionStack _dimensionStack;
+        private readonly int _dimensionStackIndex;
 
-        public Select_WithConstDimensionValue_OperatorCalculator(
+        public Select_WithConstPosition_OperatorCalculator(
             OperatorCalculatorBase signalCalculator, 
-            double dimensionValue,
+            double position,
             DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[] 
             {
@@ -61,21 +62,20 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             })
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
 
             _signalCalculator = signalCalculator;
-            _dimensionValue = dimensionValue;
+            _position = position;
             _dimensionStack = dimensionStack;
+            _dimensionStackIndex = dimensionStack.CurrentIndex;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            _dimensionStack.Push(_dimensionValue);
+            _dimensionStack.Set(_dimensionStackIndex, _position);
 
             double result = _signalCalculator.Calculate();
-
-            _dimensionStack.Pop();
 
             return result;
         }

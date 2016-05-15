@@ -359,7 +359,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Business
             var patchManager = new PatchManager(outlet.Operator.Patch, new PatchRepositories(repositories));
-            IPatchCalculator patchCalculator = patchManager.CreateCalculator(outlet, audioOutput.GetChannelCount(), DEFAULT_CHANNEL_INDEX, new CalculatorCache());
+            var calculatorCache = new CalculatorCache();
+            int channelCount = audioOutput.GetChannelCount();
+            var patchCalculators = new IPatchCalculator[channelCount];
+            for (int i = 0; i < channelCount; i++)
+            {
+                patchCalculators[i] = patchManager.CreateCalculator(outlet, channelCount, i, calculatorCache);
+            }
 
             var audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
             AudioFileOutput audioFileOutput = audioFileOutputManager.Create();
@@ -370,7 +376,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             audioFileOutput.LinkTo(outlet);
 
             // Infrastructure
-            audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
+            audioFileOutputManager.WriteFile(audioFileOutput, patchCalculators);
 
             // Successful
             userInput.Successful = true;

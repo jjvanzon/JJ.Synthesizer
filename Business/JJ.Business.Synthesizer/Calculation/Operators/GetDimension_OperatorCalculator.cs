@@ -9,18 +9,20 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class GetDimension_OperatorCalculator : OperatorCalculatorBase
     {
         private readonly DimensionStack _dimensionStack;
+        private readonly int _dimensionStackIndex;
 
         public GetDimension_OperatorCalculator(DimensionStack dimensionStack)
         {
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
 
             _dimensionStack = dimensionStack;
+            _dimensionStackIndex = dimensionStack.CurrentIndex;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            return _dimensionStack.Get();
+            return _dimensionStack.Get(_dimensionStackIndex);
         }
     }
 }

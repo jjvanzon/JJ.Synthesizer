@@ -1,13 +1,14 @@
 ﻿using JJ.Data.Synthesizer;
 using System.IO;
 using JJ.Business.Synthesizer.Calculation.Patches;
+using System.Collections.Generic;
 
 namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 {
     internal class ByteAudioFileOutputCalculator : AudioFileOutputCalculatorBase
     {
-        public ByteAudioFileOutputCalculator(IPatchCalculator patchCalculator)
-            : base(patchCalculator)
+        public ByteAudioFileOutputCalculator(IList<IPatchCalculator> patchCalculators)
+            : base(patchCalculators)
         { }
 
         protected override void WriteValue(BinaryWriter binaryWriter, double value)

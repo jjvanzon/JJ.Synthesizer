@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         protected override double? GetTransformedPosition()
         {
-            double position = _dimensionStack.Get();
+            double position = _dimensionStack.Get(_previousDimensionStackIndex);
 
             position -= _origin;
 

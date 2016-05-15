@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Collections;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators

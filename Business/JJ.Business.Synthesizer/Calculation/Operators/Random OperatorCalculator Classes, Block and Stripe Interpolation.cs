@@ -15,6 +15,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _rateCalculator;
         private readonly OperatorCalculatorBase _phaseShiftCalculator;
         private readonly DimensionStack _dimensionStack;
+        private readonly int _dimensionStackIndex;
 
         private double _phase;
         private double _previousPosition;
@@ -31,13 +32,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             // TODO: Make assertion strict again, once you have more calculator variations.
             //OperatorCalculatorHelper.AssertOperatorCalculatorBase(frequencyCalculator, () => frequencyCalculator);
             //OperatorCalculatorHelper.AssertOperatorCalculatorBase(phaseShiftCalculator, () => phaseShiftCalculator);
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
 
             _randomCalculator = randomCalculator;
             _randomCalculatorOffset = randomCalculatorOffset;
             _rateCalculator = rateCalculator;
             _phaseShiftCalculator = phaseShiftCalculator;
             _dimensionStack = dimensionStack;
+            _dimensionStackIndex = dimensionStack.CurrentIndex;
 
             // TODO: Make sure you asser this strictly, so it does not become NaN.
             _phase = _randomCalculatorOffset;
@@ -46,7 +48,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double position = _dimensionStack.Get();
+            double position = _dimensionStack.Get(_dimensionStackIndex);
 
             double rate = _rateCalculator.Calculate();
             double phaseShift = _phaseShiftCalculator.Calculate();
@@ -67,7 +69,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
-            _previousPosition = _dimensionStack.Get();
+            _previousPosition = _dimensionStack.Get(_dimensionStackIndex);
 
             base.Reset();
         }

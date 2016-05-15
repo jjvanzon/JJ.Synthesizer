@@ -9,22 +9,23 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly CurveCalculator_MinX _curveCalculator;
         private readonly DimensionStack _dimensionStack;
-
+        private readonly int _dimensionStackIndex;
         private double _origin;
 
         public Curve_MinX_OperatorCalculator(CurveCalculator_MinX curveCalculator, DimensionStack dimensionStack)
         {
             if (curveCalculator == null) throw new NullException(() => curveCalculator);
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
 
             _curveCalculator = curveCalculator;
             _dimensionStack = dimensionStack;
+            _dimensionStackIndex = dimensionStack.CurrentIndex;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double position = _dimensionStack.Get();
+            double position = _dimensionStack.Get(_dimensionStackIndex);
 
             double transformedPosition = position - _origin;
             double result = _curveCalculator.CalculateY(transformedPosition);
@@ -33,7 +34,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
-            double position = _dimensionStack.Get();
+            double position = _dimensionStack.Get(_dimensionStackIndex);
 
             _origin = position;
 
@@ -45,22 +46,23 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly CurveCalculator_MinXZero _curveCalculator;
         private readonly DimensionStack _dimensionStack;
-
+        private readonly int _dimensionStackIndex;
         private double _origin;
 
         public Curve_MinXZero_OperatorCalculator(CurveCalculator_MinXZero curveCalculator, DimensionStack dimensionStack)
         {
             if (curveCalculator == null) throw new NullException(() => curveCalculator);
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
 
             _curveCalculator = curveCalculator;
             _dimensionStack = dimensionStack;
+            _dimensionStackIndex = dimensionStack.CurrentIndex;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double position = _dimensionStack.Get();
+            double position = _dimensionStack.Get(_dimensionStackIndex);
             double transformedPosition = position - _origin;
             double result = _curveCalculator.CalculateY(transformedPosition);
             return result;
@@ -68,7 +70,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
-            double position = _dimensionStack.Get();
+            double position = _dimensionStack.Get(_dimensionStackIndex);
 
             _origin = position;
 

@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -12,6 +10,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         protected double _origin;
         protected readonly DimensionStack _dimensionStack;
+        protected readonly int _currentDimensionStackIndex;
+        protected readonly int _previousDimensionStackIndex;
 
         public Loop_OperatorCalculator_Base(
             OperatorCalculatorBase signalCalculator,
@@ -20,16 +20,34 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             : base(childOperatorCalculators)
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
 
             _signalCalculator = signalCalculator;
+            _currentDimensionStackIndex = dimensionStack.CurrentIndex;
+            _previousDimensionStackIndex = dimensionStack.CurrentIndex - 1;
         }
 
         protected abstract double? GetTransformedPosition();
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override double Calculate()
+        {
+            double? transformedPosition = GetTransformedPosition();
+            if (!transformedPosition.HasValue)
+            {
+                return 0;
+            }
+
+            _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition.Value);
+
+            double value = _signalCalculator.Calculate();
+
+            return value;
+        }
+
         public override void Reset()
         {
-            double position = _dimensionStack.Get();
+            double position = _dimensionStack.Get(_previousDimensionStackIndex);
 
             _origin = position;
 
@@ -41,27 +59,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 transformedPosition = position;
             }
 
-            _dimensionStack.Push(transformedPosition.Value);
+            _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition.Value);
+
             base.Reset();
-            _dimensionStack.Pop();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate()
-        {
-            double? transformedPosition = GetTransformedPosition();
-            if (!transformedPosition.HasValue)
-            {
-                return 0;
-            }
-
-            _dimensionStack.Push(transformedPosition.Value);
-
-            double value = _signalCalculator.Calculate();
-
-            _dimensionStack.Pop();
-
-            return value;
         }
     }
 }

@@ -10,6 +10,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _frequency;
         private readonly double _phaseShift;
         private readonly DimensionStack _dimensionStack;
+        private readonly int _dimensionStackIndex;
 
         public SawUp_WithConstFrequency_WithConstPhaseShift_OperatorCalculator(
             double frequency, 
@@ -17,17 +18,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionStack dimensionStack)
         {
             if (frequency == 0) throw new ZeroException(() => frequency);
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
 
             _frequency = frequency;
             _phaseShift = phaseShift;
             _dimensionStack = dimensionStack;
+            _dimensionStackIndex = dimensionStack.CurrentIndex;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double position = _dimensionStack.Get();
+            double position = _dimensionStack.Get(_dimensionStackIndex);
 
             double shiftedPhase = position * _frequency + _phaseShift;
             double value = -1.0 + (2.0 * shiftedPhase % 2.0);
@@ -40,6 +42,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _frequency;
         private readonly OperatorCalculatorBase _phaseShiftCalculator;
         private readonly DimensionStack _dimensionStack;
+        private readonly int _dimensionStackIndex;
 
         public SawUp_WithConstFrequency_WithVarPhaseShift_OperatorCalculator(
             double frequency,
@@ -49,16 +52,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             if (frequency == 0) throw new ZeroException(() => frequency);
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(phaseShiftCalculator, () => phaseShiftCalculator);
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
 
             _frequency = frequency;
             _phaseShiftCalculator = phaseShiftCalculator;
+            _dimensionStack = dimensionStack;
+            _dimensionStackIndex = dimensionStack.Count;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double position = _dimensionStack.Get();
+            double position = _dimensionStack.Get(_dimensionStackIndex);
 
             double phaseShift = _phaseShiftCalculator.Calculate();
 
@@ -75,6 +80,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly DimensionStack _dimensionStack;
+        private readonly int _dimensionStackIndex;
 
         private double _phase;
         private double _previousPosition;
@@ -86,10 +92,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             : base(new OperatorCalculatorBase[] { frequencyCalculator })
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(frequencyCalculator, () => frequencyCalculator);
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
 
             _frequencyCalculator = frequencyCalculator;
             _dimensionStack = dimensionStack;
+            _dimensionStackIndex = dimensionStack.CurrentIndex;
 
             // TODO: Assert so it does not become NaN.
             _phase = phaseShift;
@@ -98,7 +105,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double position = _dimensionStack.Get();
+            double position = _dimensionStack.Get(_dimensionStackIndex);
 
             double frequency = _frequencyCalculator.Calculate();
 
@@ -114,7 +121,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
-            double position = _dimensionStack.Get();
+            double position = _dimensionStack.Get(_dimensionStackIndex);
 
             _previousPosition = position;
             _phase = 0.0;
@@ -128,6 +135,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly OperatorCalculatorBase _phaseShiftCalculator;
         private readonly DimensionStack _dimensionStack;
+        private readonly int _dimensionStackIndex;
 
         private double _phase;
         private double _previousPosition;
@@ -140,17 +148,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(frequencyCalculator, () => frequencyCalculator);
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(phaseShiftCalculator, () => phaseShiftCalculator);
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
 
             _frequencyCalculator = frequencyCalculator;
             _phaseShiftCalculator = phaseShiftCalculator;
             _dimensionStack = dimensionStack;
+            _dimensionStackIndex = dimensionStack.CurrentIndex;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double position = _dimensionStack.Get();
+            double position = _dimensionStack.Get(_dimensionStackIndex);
 
             double frequency = _frequencyCalculator.Calculate();
             double phaseShift = _phaseShiftCalculator.Calculate();
@@ -170,7 +179,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
-            double position = _dimensionStack.Get();
+            double position = _dimensionStack.Get(_dimensionStackIndex);
 
             _previousPosition = position;
             _phase = 0.0;

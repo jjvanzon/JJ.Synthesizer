@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Average_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
-        private readonly OperatorCalculatorBase _timeSliceDurationCalculator;
+        private readonly OperatorCalculatorBase _sliceLengthCalculator;
         private readonly OperatorCalculatorBase _sampleCountCalculator;
-        private readonly int _dimensionIndex;
         private readonly DimensionStack _dimensionStack;
+        private readonly int _dimensionStackIndex;
 
         private double _sampleLength;
         private double _sampleCountDouble;
@@ -22,40 +20,41 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private double _sum;
         private double _average;
-        private double _previousTime;
+        private double _previousPosition;
         private double _passedSamplingLength;
 
         public Average_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
-            OperatorCalculatorBase timeSliceDurationCalculator,
+            OperatorCalculatorBase sliceLengthCalculator,
             OperatorCalculatorBase sampleCountCalculator,
             DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[]
             {
                 signalCalculator,
-                timeSliceDurationCalculator,
+                sliceLengthCalculator,
                 sampleCountCalculator
             })
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase_OnlyUsedUponResetState(timeSliceDurationCalculator, () => timeSliceDurationCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase_OnlyUsedUponResetState(sliceLengthCalculator, () => sliceLengthCalculator);
             OperatorCalculatorHelper.AssertOperatorCalculatorBase_OnlyUsedUponResetState(sampleCountCalculator, () => sampleCountCalculator);
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
-
+            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
+            
             _signalCalculator = signalCalculator;
-            _timeSliceDurationCalculator = timeSliceDurationCalculator;
+            _sliceLengthCalculator = sliceLengthCalculator;
             _sampleCountCalculator = sampleCountCalculator;
             _dimensionStack = dimensionStack;
+            _dimensionStackIndex = dimensionStack.CurrentIndex;
 
             Reset();
         }
 
         public override double Calculate()
         {
-            double position = _dimensionStack.Get();
+            double position = _dimensionStack.Get(_dimensionStackIndex);
 
-            // Update _passedSampleTime
-            double positionChange = position - _previousTime;
+            // Update _passedSamplingLength
+            double positionChange = position - _previousPosition;
             if (positionChange >= 0)
             {
                 _passedSamplingLength += positionChange;
@@ -81,27 +80,27 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 _average = _sum / _sampleCountDouble;
 
                 // It may not be arithmetically perfect, that we ignore the fact that
-                // _passedSampleTime may be significantly greater than _sampleDuration,
+                // _passedSampleLength may be significantly greater than _sampleDuration,
                 // but in practice for this application it might not matter very much.
                 _passedSamplingLength = 0.0;
             }
 
-            _previousTime = position;
+            _previousPosition = position;
 
             return _average;
         }
 
         public override void Reset()
         {
-            double position = _dimensionStack.Get();
+            double position = _dimensionStack.Get(_dimensionStackIndex);
 
-            _previousTime = position;
+            _previousPosition = position;
 
             _sum = 0.0;
             _average = 0.0;
             _passedSamplingLength = 0.0;
 
-            double timeSliceDuration = _timeSliceDurationCalculator.Calculate();
+            double sliceLength = _sliceLengthCalculator.Calculate();
             _sampleCountDouble = _sampleCountCalculator.Calculate();
 
             if (ConversionHelper.CanCastToNonNegativeInt32(_sampleCountDouble))
@@ -113,7 +112,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 _sampleCountDouble = 0.0;
             }
 
-            _sampleLength = timeSliceDuration / _sampleCountDouble;
+            _sampleLength = sliceLength / _sampleCountDouble;
 
             _queue = CreateQueue(_sampleCountDouble);
 

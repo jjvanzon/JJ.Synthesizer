@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -14,6 +13,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _calculationCalculator;
         private readonly double _value;
         private readonly DimensionStack _dimensionStack;
+        private readonly int _dimensionStackIndex;
 
         public SetDimension_OperatorCalculator_ConstValue(
             OperatorCalculatorBase calculationCalculator,
@@ -27,16 +27,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _value = value;
             _calculationCalculator = calculationCalculator;
             _dimensionStack = dimensionStack;
+            _dimensionStackIndex = dimensionStack.CurrentIndex;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            _dimensionStack.Push(_value);
+            _dimensionStack.Set(_dimensionStackIndex, _value);
 
             double outputValue = _calculationCalculator.Calculate();
-
-            _dimensionStack.Pop();
 
             return outputValue;
         }
@@ -49,6 +48,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _calculationCalculator;
         private readonly OperatorCalculatorBase _valueCalculator;
         private readonly DimensionStack _dimensionStack;
+        private readonly int _dimensionStackIndex;
+        private readonly int _previousDimensionStackIndex;
 
         public SetDimension_OperatorCalculator_VarValue(
             OperatorCalculatorBase calculationCalculator,
@@ -58,23 +59,22 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(calculationCalculator, () => calculationCalculator);
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(valueCalculator, () => valueCalculator);
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
 
             _calculationCalculator = calculationCalculator;
             _valueCalculator = valueCalculator;
             _dimensionStack = dimensionStack;
+            _dimensionStackIndex = dimensionStack.CurrentIndex;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double dimensionValue = _valueCalculator.Calculate();
+            double position = _valueCalculator.Calculate();
 
-            _dimensionStack.Push(dimensionValue);
+            _dimensionStack.Set(_dimensionStackIndex, position);
 
             double outputValue = _calculationCalculator.Calculate();
-
-            _dimensionStack.Pop();
 
             return outputValue;
         }

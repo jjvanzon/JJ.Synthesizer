@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Calculation
             get { return _count; }
         }
 
-        public int CurrentPosition
+        public int CurrentIndex
         {
             get { return _count - 1; }
         }
@@ -92,9 +92,21 @@ namespace JJ.Business.Synthesizer.Calculation
         /// or when you know you are at the top level of the stack.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [Obsolete("Probably obsolete. Now that we set a DimensionStack value specifying its exact index, we shouldn't have this overload.")]
         public void Set(double value)
         {
             _array[_count - 1] = value;
+        }
+
+        /// <summary>
+        /// A slightly quicker alternative to a subsequent Pop and Push,
+        /// when you know there will not be any stack operations in between,
+        /// or when you know you are at the top level of the stack.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Set(int i, double value)
+        {
+            _array[i] = value;
         }
     }
 }

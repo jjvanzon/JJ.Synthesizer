@@ -18,6 +18,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _timeSliceDurationCalculator;
         private readonly OperatorCalculatorBase _sampleCountCalculator;
         private readonly DimensionStack _dimensionStack;
+        private readonly int _currentDimensionStackIndex;
+        private readonly int _previousDimensionStackIndex;
 
         private double _sampleDuration;
         private double _sampleCountDouble;
@@ -50,12 +52,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
             OperatorCalculatorHelper.AssertOperatorCalculatorBase_OnlyUsedUponResetState(timeSliceDurationCalculator, () => timeSliceDurationCalculator);
             OperatorCalculatorHelper.AssertOperatorCalculatorBase_OnlyUsedUponResetState(sampleCountCalculator, () => sampleCountCalculator);
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
 
             _signalCalculator = signalCalculator;
             _timeSliceDurationCalculator = timeSliceDurationCalculator;
             _sampleCountCalculator = sampleCountCalculator;
             _dimensionStack = dimensionStack;
+            _currentDimensionStackIndex = dimensionStack.CurrentIndex;
+            _previousDimensionStackIndex = dimensionStack.CurrentIndex - 1;
 
             Reset();
         }
@@ -65,7 +69,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double position = _dimensionStack.Get();
+            double position = _dimensionStack.Get(_previousDimensionStackIndex);
 
             bool isForward = position >= _previousPosition;
 
@@ -86,9 +90,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
                     do
                     {
-                        _dimensionStack.Push(_nextSamplePosition);
+                        _dimensionStack.Set(_currentDimensionStackIndex, _nextSamplePosition);
+
                         CalculateValueAndUpdateCollections();
-                        _dimensionStack.Pop();
 
                         _nextSamplePosition += _sampleDuration;
                     }
@@ -115,9 +119,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
                     do
                     {
-                        _dimensionStack.Push(_nextSamplePosition);
+                        _dimensionStack.Set(_currentDimensionStackIndex, _nextSamplePosition);
+
                         CalculateValueAndUpdateCollections();
-                        _dimensionStack.Pop();
 
                         _nextSamplePosition -= _sampleDuration;
                     }
@@ -154,7 +158,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
-            double position = _dimensionStack.Get();
+            double position = _dimensionStack.Get(_previousDimensionStackIndex);
 
             _previousPosition = position;
 

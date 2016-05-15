@@ -9,6 +9,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _sampleLength;
         private readonly DimensionStack _dimensionStack;
+        private readonly int _currentDimensionStackIndex;
+        private readonly int _previousDimensionStackIndex;
 
         public Resample_OperatorCalculator_LineWithConstSamplingRate(
             OperatorCalculatorBase signalCalculator, 
@@ -25,13 +27,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             _signalCalculator = signalCalculator;
             _dimensionStack = dimensionStack;
-
+            _currentDimensionStackIndex = dimensionStack.CurrentIndex;
+            _previousDimensionStackIndex = dimensionStack.CurrentIndex - 1;
             _sampleLength = 1.0 / samplingRate;
         }
 
         public override double Calculate()
         {
-            double x = _dimensionStack.Get();
+            double x = _dimensionStack.Get(_previousDimensionStackIndex);
 
             double remainder = x % _sampleLength;
 
@@ -39,15 +42,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double x1 = x0 + _sampleLength;
             double dx = x1 - x0;
 
-            _dimensionStack.Push(x0);
+            _dimensionStack.Set(_currentDimensionStackIndex, x0);
 
             double y0 = _signalCalculator.Calculate();
 
-            _dimensionStack.Set(x1);
+            _dimensionStack.Set(_currentDimensionStackIndex, x1);
 
             double y1 = _signalCalculator.Calculate();
-
-            _dimensionStack.Pop();
 
             double dy = y1 - y0;
 

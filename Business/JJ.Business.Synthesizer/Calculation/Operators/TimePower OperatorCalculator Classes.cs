@@ -11,6 +11,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _exponentCalculator;
         private readonly OperatorCalculatorBase _originCalculator;
         private readonly DimensionStack _dimensionStack;
+        private readonly int _currentDimensionStackIndex;
+        private readonly int _previousDimensionStackIndex;
 
         public TimePower_WithOrigin_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
@@ -22,18 +24,20 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (exponentCalculator == null) throw new NullException(() => exponentCalculator);
             if (originCalculator == null) throw new NullException(() => originCalculator);
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
 
             _signalCalculator = signalCalculator;
             _exponentCalculator = exponentCalculator;
             _originCalculator = originCalculator;
             _dimensionStack = dimensionStack;
+            _currentDimensionStackIndex = dimensionStack.CurrentIndex;
+            _previousDimensionStackIndex = dimensionStack.CurrentIndex - 1;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double position = _dimensionStack.Get();
+            double position = _dimensionStack.Get(_previousDimensionStackIndex);
 
             // IMPORTANT: 
 
@@ -59,11 +63,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 transformedPosition = -transformedPosition;
             }
 
-            _dimensionStack.Push(transformedPosition);
+            _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
 
             double result = _signalCalculator.Calculate();
-
-            _dimensionStack.Pop();
 
             return result;
         }
@@ -74,6 +76,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _exponentCalculator;
         private readonly DimensionStack _dimensionStack;
+        private readonly int _currentDimensionStackIndex;
+        private readonly int _previousDimensionStackIndex;
 
         public TimePower_WithoutOrigin_OperatorCalculator(
             OperatorCalculatorBase signalCalculator, 
@@ -83,17 +87,19 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (exponentCalculator == null) throw new NullException(() => exponentCalculator);
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
 
             _signalCalculator = signalCalculator;
             _exponentCalculator = exponentCalculator;
             _dimensionStack = dimensionStack;
+            _currentDimensionStackIndex = dimensionStack.CurrentIndex;
+            _previousDimensionStackIndex = dimensionStack.CurrentIndex - 1;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double position = _dimensionStack.Get();
+            double position = _dimensionStack.Get(_previousDimensionStackIndex);
 
             // IMPORTANT: 
 
@@ -118,11 +124,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 transformedPosition = -transformedPosition;
             }
 
-            _dimensionStack.Push(transformedPosition);
+            _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
 
             double result = _signalCalculator.Calculate();
-
-            _dimensionStack.Pop();
 
             return result;
         }

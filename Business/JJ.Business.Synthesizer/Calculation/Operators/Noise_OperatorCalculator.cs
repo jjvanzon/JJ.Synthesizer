@@ -10,6 +10,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         /// <summary> Each operator should start at a different time offset in the pre-generated noise, to prevent artifacts. </summary>
         private readonly double _offset;
         private readonly DimensionStack _dimensionStack;
+        private readonly int _dimensionStackIndex;
 
         public Noise_OperatorCalculator(
             NoiseCalculator noiseCalculator, 
@@ -17,17 +18,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionStack dimensionStack)
         {
             if (noiseCalculator == null) throw new NullException(() => noiseCalculator);
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
 
             _noiseCalculator = noiseCalculator;
             _offset = offset;
             _dimensionStack = dimensionStack;
+            _dimensionStackIndex = dimensionStack.CurrentIndex;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double position = _dimensionStack.Get();
+            double position = _dimensionStack.Get(_dimensionStackIndex);
 
             double value = _noiseCalculator.GetValue(position + _offset);
 

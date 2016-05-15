@@ -92,10 +92,10 @@ namespace JJ.Business.Synthesizer
         /// <summary>
         /// This overload taking PatchCalculator can save you the overhead of re-initializing the patch calculation every time you write a file.
         /// </summary>
-        public void WriteFile(AudioFileOutput audioFileOutput, IPatchCalculator patchCalculator)
+        public void WriteFile(AudioFileOutput audioFileOutput, params IPatchCalculator[] patchCalculators)
         {
             IAudioFileOutputCalculator audioFileOutputCalculator = 
-                AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(audioFileOutput, patchCalculator);
+                AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(audioFileOutput, patchCalculators);
 
             audioFileOutputCalculator.Execute(audioFileOutput);
         }

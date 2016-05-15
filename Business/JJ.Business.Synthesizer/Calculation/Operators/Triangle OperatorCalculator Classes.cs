@@ -10,17 +10,19 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _frequency;
         private readonly double _phaseShift;
         private readonly DimensionStack _dimensionStack;
+        private readonly int _dimensionStackIndex;
 
         public Triangle_WithConstFrequency_WithConstPhaseShift_OperatorCalculator(
             double frequency, 
             double phaseShift,
             DimensionStack dimensionStack)
         {
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
 
             _frequency = frequency;
             _phaseShift = phaseShift;
             _dimensionStack = dimensionStack;
+            _dimensionStackIndex = dimensionStack.CurrentIndex;
 
             // Correct the phase shift, because our calculation starts with value -1, but in practice you want to start at value 0 going up.
             _phaseShift += 0.25;
@@ -29,7 +31,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double position = _dimensionStack.Get();
+            double position = _dimensionStack.Get(_dimensionStackIndex);
 
             double phase = position * _frequency + _phaseShift;
             double relativePhase = phase % 1.0;
@@ -54,6 +56,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _frequency;
         private readonly OperatorCalculatorBase _phaseShiftCalculator;
         private readonly DimensionStack _dimensionStack;
+        private readonly int _dimensionStackIndex;
 
         public Triangle_WithConstFrequency_WithVarPhaseShift_OperatorCalculator(
             double frequency,
@@ -62,17 +65,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             : base(new OperatorCalculatorBase[] { phaseShiftCalculator })
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(phaseShiftCalculator, () => phaseShiftCalculator);
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
 
             _frequency = frequency;
             _phaseShiftCalculator = phaseShiftCalculator;
             _dimensionStack = dimensionStack;
+            _dimensionStackIndex = dimensionStack.CurrentIndex;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double position = _dimensionStack.Get();
+            double position = _dimensionStack.Get(_dimensionStackIndex);
 
             double phaseShift = _phaseShiftCalculator.Calculate();
             double phase = position * _frequency + phaseShift;
@@ -101,6 +105,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly DimensionStack _dimensionStack;
+        private readonly int _dimensionStackIndex;
 
         private double _phase;
         private double _previousPosition;
@@ -112,13 +117,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             : base(new OperatorCalculatorBase[] { frequencyCalculator })
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(frequencyCalculator, () => frequencyCalculator);
-            if (dimensionStack == null) throw new NullException(() => _dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
 
             _frequencyCalculator = frequencyCalculator;
 
             // TODO: Assert so it does not become NaN.
             _phase = phaseShift;
             _dimensionStack = dimensionStack;
+            _dimensionStackIndex = dimensionStack.CurrentIndex;
 
             // Correct the phase, because our calculation starts with value -1, but in practice you want to start at value 0 going up.
             _phase += 0.25;
@@ -127,7 +133,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double position = _dimensionStack.Get();
+            double position = _dimensionStack.Get(_dimensionStackIndex);
 
             double frequency = _frequencyCalculator.Calculate();
 
@@ -155,7 +161,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
-            double position = _dimensionStack.Get();
+            double position = _dimensionStack.Get(_dimensionStackIndex);
 
             _previousPosition = position;
             _phase = 0.0;
@@ -169,6 +175,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly OperatorCalculatorBase _phaseShiftCalculator;
         private readonly DimensionStack _dimensionStack;
+        private readonly int _dimensionStackIndex;
 
         private double _phase;
         private double _previousPosition;
@@ -181,11 +188,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(frequencyCalculator, () => frequencyCalculator);
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(phaseShiftCalculator, () => phaseShiftCalculator);
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
 
             _frequencyCalculator = frequencyCalculator;
             _phaseShiftCalculator = phaseShiftCalculator;
             _dimensionStack = dimensionStack;
+            _dimensionStackIndex = dimensionStack.CurrentIndex;
 
             // Correct the phase, because our calculation starts with value -1, but in practice you want to start at value 0 going up.
             _phase += 0.25;
@@ -194,7 +202,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double position = _dimensionStack.Get();
+            double position = _dimensionStack.Get(_dimensionStackIndex);
 
             double frequency = _frequencyCalculator.Calculate();
             double phaseShift = _phaseShiftCalculator.Calculate();
@@ -224,7 +232,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
-            double position = _dimensionStack.Get();
+            double position = _dimensionStack.Get(_dimensionStackIndex);
 
             _previousPosition = position;
             _phase = 0.0;

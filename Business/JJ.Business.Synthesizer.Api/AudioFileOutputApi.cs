@@ -22,9 +22,9 @@ namespace JJ.Business.Synthesizer.Api
             return _audioFileOutputManager.Create();
         }
 
-        public static void WriteFile(AudioFileOutput audioFileOutput, IPatchCalculator patchCalculator)
+        public static void WriteFile(AudioFileOutput audioFileOutput, params IPatchCalculator[] patchCalculators)
         {
-            _audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
+            _audioFileOutputManager.WriteFile(audioFileOutput, patchCalculators);
         }
     }
 }

@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Mathematics;
-using JJ.Framework.Reflection.Exceptions;
 using Lomont;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -17,6 +15,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _endTimeCalculator;
         private readonly OperatorCalculatorBase _frequencyCountCalculator;
         private readonly DimensionStack _dimensionStack;
+        private readonly int _currentDimensionStackIndex;
+        private readonly int _previousDimensionStackIndex;
 
         private readonly LomontFFT _lomontFFT;
 
@@ -42,12 +42,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertOperatorCalculatorBase_OnlyUsedUponResetState(startTimeCalculator, () => startTimeCalculator);
             OperatorCalculatorHelper.AssertOperatorCalculatorBase_OnlyUsedUponResetState(endTimeCalculator, () => endTimeCalculator);
             OperatorCalculatorHelper.AssertOperatorCalculatorBase_OnlyUsedUponResetState(frequencyCountCalculator, () => frequencyCountCalculator);
+            OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
 
             _signalCalculator = signalCalculator;
             _startTimeCalculator = startTimeCalculator;
             _endTimeCalculator = endTimeCalculator;
             _frequencyCountCalculator = frequencyCountCalculator;
             _dimensionStack = dimensionStack;
+            _currentDimensionStackIndex = dimensionStack.CurrentIndex;
+            _previousDimensionStackIndex = dimensionStack.CurrentIndex - 1;
 
             _lomontFFT = new LomontFFT();
 
@@ -57,7 +60,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double time = _dimensionStack.Get();
+            double time = _dimensionStack.Get(_previousDimensionStackIndex);
 
             if (time < 0) time = 0;
             if (time > _harmonicVolumes.Length - 1) time = _harmonicVolumes.Length - 1;
@@ -73,7 +76,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
-            double time = _dimensionStack.Get();
+            double time = _dimensionStack.Get(_previousDimensionStackIndex);
 
             _previousTime = time;
             _harmonicVolumes = CreateHarmonicVolumes();
@@ -117,11 +120,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double t = startTime;
             for (int i = 0; i < frequencyCountTimesTwo; i++)
             {
-                _dimensionStack.Push(t);
+                _dimensionStack.Set(_currentDimensionStackIndex, t);
 
                 double value = _signalCalculator.Calculate();
-
-                _dimensionStack.Pop();
 
                 data[i] = value;
 

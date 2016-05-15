@@ -31,15 +31,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double dimensionValue = _dimensionStack.PopAndGet();
+            double position = _dimensionStack.PopAndGet();
 
             double result;
 
-            if (ConversionHelper.CanCastToNonNegativeInt32WithMax(dimensionValue, _operandCountDouble))
+            if (ConversionHelper.CanCastToNonNegativeInt32WithMax(position, _operandCountDouble))
             {
-                int dimensionValueInt = (int)dimensionValue;
+                int positionInt = (int)position;
 
-                OperatorCalculatorBase operand = _operands[dimensionValueInt];
+                OperatorCalculatorBase operand = _operands[positionInt];
 
                 result = operand.Calculate();
             }
@@ -48,7 +48,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 result = 0.0;
             }
 
-            _dimensionStack.Push(dimensionValue);
+            _dimensionStack.Push(position);
 
             return result;
         }

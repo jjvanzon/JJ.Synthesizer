@@ -10,8 +10,8 @@ using JJ.Business.Synthesizer.Enums;
 using System.IO;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Calculation.Patches;
-using System.Collections.Generic;
 using JJ.Framework.Common.Exceptions;
+using System.Collections.Generic;
 
 namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 {
@@ -20,14 +20,14 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
         private const int TIME_DIMENSION_INDEX = (int)DimensionEnum.Time;
         private const int CHANNEL_DIMENSION_INDEX = (int)DimensionEnum.Channel;
 
-        private readonly IPatchCalculator _patchCalculator;
+        private readonly IPatchCalculator[] _patchCalculators;
         private readonly IPatchCalculator _dimensionStack;
 
-        public AudioFileOutputCalculatorBase(IPatchCalculator patchCalculator)
+        public AudioFileOutputCalculatorBase(IList<IPatchCalculator> patchCalculators)
         {
-            if (patchCalculator == null) throw new NullException(() => patchCalculator);
+            if (patchCalculators == null) throw new NullException(() => patchCalculators);
 
-            _patchCalculator = patchCalculator;
+            _patchCalculators = patchCalculators.ToArray();
         }
         
         public void Execute(AudioFileOutput audioFileOutput)
@@ -83,7 +83,7 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
                     {
                         for (int channelIndex = 0; channelIndex < channelCount; channelIndex++)
                         {
-                            double value = _patchCalculator.Calculate(t, channelIndex);
+                            double value = _patchCalculators[channelIndex].Calculate(t);
 
                             value *= adjustedAmplifier;
 

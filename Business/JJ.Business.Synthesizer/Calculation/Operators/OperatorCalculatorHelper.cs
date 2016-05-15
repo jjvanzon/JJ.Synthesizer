@@ -36,6 +36,26 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (Double.IsInfinity(width)) throw new InfinityException(() => width);
         }
 
+        public static void AssertDimensionStack_ForWriters(DimensionStack dimensionStack)
+        {
+            if (dimensionStack == null) throw new NullException(() => dimensionStack);
+            if (dimensionStack.CurrentIndex < 1) throw new Exception("dimensionStack.CurrentIndex cannot be less than 1, because a DimenionStack-writing OperatorCalculator must use the previous DimensionStack index too.");
+        }
+
+        public static void AssertDimensionStack_ForReaders(DimensionStack dimensionStack)
+        {
+            if (dimensionStack == null) throw new NullException(() => dimensionStack);
+            if (dimensionStack.CurrentIndex < 0) throw new LessThanException(() => dimensionStack.CurrentIndex, 0);
+        }
+
+        // TODO: Remove outcommented code.
+        //public static void AssertDimensionStackIndex(DimensionStack dimensionStack, int dimensionStackIndex)
+        //{
+        //    if (dimensionStack == null) throw new NullException(() => dimensionStack);
+        //    if (dimensionStackIndex < 0) throw new InvalidIndexException(() => dimensionStackIndex, () => dimensionStack.Count);
+        //    if (dimensionStackIndex >= dimensionStack.Count) throw new InvalidIndexException(() => dimensionStackIndex, () => dimensionStack.Count);
+        //}
+
         public static void AssertPhaseShift(double phaseShift)
         {
             if (phaseShift >= 1.0) throw new GreaterThanOrEqualException(() => phaseShift, 1.0);

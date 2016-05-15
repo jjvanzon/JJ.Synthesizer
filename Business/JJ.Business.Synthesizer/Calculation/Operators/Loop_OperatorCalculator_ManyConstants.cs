@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -47,7 +46,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         protected override double? GetTransformedPosition()
         {
-            double outputPosition = _dimensionStack.Get();
+            double outputPosition = _dimensionStack.Get(_previousDimensionStackIndex);
 
             outputPosition -= _origin;
 

@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         protected override double? GetTransformedPosition()
         {
-            double outputPosition = _dimensionStack.Get();
+            double outputPosition = _dimensionStack.Get(_previousDimensionStackIndex);
 
             double tempPosition = outputPosition - _origin;
 
@@ -46,9 +46,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             // InLoop
             if (tempPosition > _outputCycleEnd)
             {
-                _dimensionStack.Push(tempPosition);
+                _dimensionStack.Set(_currentDimensionStackIndex, tempPosition);
+
                 _loopEndMarker = GetLoopEndMarker();
-                _dimensionStack.Pop();
 
                 _cycleLength = _loopEndMarker - _loopStartMarker;
                 _outputCycleEnd += _cycleLength;

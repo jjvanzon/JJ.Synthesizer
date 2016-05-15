@@ -45,7 +45,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected override double? GetTransformedPosition()
         {
-            double outputPosition = _dimensionStack.Get();
+            double outputPosition = _dimensionStack.Get(_previousDimensionStackIndex);
 
             // BeforeAttack
             double skip = GetSkip();

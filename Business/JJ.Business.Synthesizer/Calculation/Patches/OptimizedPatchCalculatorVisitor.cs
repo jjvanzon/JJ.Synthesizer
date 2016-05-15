@@ -303,6 +303,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             var wrapper = new Average_OperatorWrapper(op);
             DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
             if (signalIsConst)
             {
@@ -310,7 +311,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                calculator = new Average_OperatorCalculator(signalCalculator, timeSliceDurationCalculator, sampleCountCalculator, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
+                calculator = new Average_OperatorCalculator(signalCalculator, timeSliceDurationCalculator, sampleCountCalculator, dimensionStack);
             }
 
             _stack.Push(calculator);
@@ -2715,7 +2716,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (positionIsConst)
             {
-                calculator = new Select_WithConstDimensionValue_OperatorCalculator(signalCalculator, position, dimensionStack);
+                calculator = new Select_WithConstPosition_OperatorCalculator(signalCalculator, position, dimensionStack);
             }
             else
             {
