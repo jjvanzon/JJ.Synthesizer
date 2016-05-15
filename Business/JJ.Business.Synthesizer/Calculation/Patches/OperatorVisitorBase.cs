@@ -1,6 +1,5 @@
 ﻿using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
 using System;
 using System.Linq;
@@ -84,10 +83,17 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             };
         }
 
-        protected virtual void VisitOperator(Operator op)
+        protected virtual void VisitOperatorPolymorphic(Operator op)
         {
-            if (op == null) throw new NullException(() => op);
+            Action<Operator> action;
+            if (_delegateDictionary.TryGetValue(op.GetOperatorTypeEnum(), out action))
+            {
+                action(op);
+            }
+        }
 
+        protected virtual void VisitOperatorBase(Operator op)
+        {
             // TODO: Low priority: Is the trick below not specific to the OptimizedPatchCalculatorVisitor?
 
             // Reverse the order of evaluating the inlet,
@@ -97,12 +103,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             foreach (Inlet inlet in inlets)
             {
                 VisitInlet(inlet);
-            }
-
-            Action<Operator> action;
-            if (_delegateDictionary.TryGetValue(op.GetOperatorTypeEnum(), out action))
-            {
-                action(op);
             }
         }
 
@@ -119,202 +119,332 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected virtual void VisitOutlet(Outlet outlet)
         {
             Operator op = outlet.Operator;
-            VisitOperator(op);
+            VisitOperatorPolymorphic(op);
         }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitAbsolute(Operator op) { }
+        protected virtual void VisitAbsolute(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitAdd(Operator op) { }
+        protected virtual void VisitAdd(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitAdder(Operator op) { }
+        protected virtual void VisitAdder(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitAnd(Operator op) { }
+        protected virtual void VisitAnd(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitAverage(Operator op) { }
+        protected virtual void VisitAverage(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitBundle(Operator op) { }
+        protected virtual void VisitBundle(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitChangeTrigger(Operator op) { }
+        protected virtual void VisitChangeTrigger(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitCache(Operator op) { }
+        protected virtual void VisitCache(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitCurveOperator(Operator op) { }
+        protected virtual void VisitCurveOperator(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitCustomOperator(Operator op) { }
+        protected virtual void VisitCustomOperator(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitDelay(Operator op) { }
+        protected virtual void VisitDelay(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitDivide(Operator op) { }
+        protected virtual void VisitDivide(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitEarlier(Operator op) { }
+        protected virtual void VisitEarlier(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitEqual(Operator op) { }
+        protected virtual void VisitEqual(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitExponent(Operator op) { }
+        protected virtual void VisitExponent(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitFilter(Operator op) { }
+        protected virtual void VisitFilter(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitGetDimension(Operator op) { }
+        protected virtual void VisitGetDimension(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitGreaterThan(Operator op) { }
+        protected virtual void VisitGreaterThan(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitGreaterThanOrEqual(Operator op) { }
+        protected virtual void VisitGreaterThanOrEqual(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitHold(Operator op) { }
+        protected virtual void VisitHold(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitHighPassFilter(Operator op) { }
+        protected virtual void VisitHighPassFilter(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitIf(Operator op) { }
+        protected virtual void VisitIf(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitLessThan(Operator op) { }
+        protected virtual void VisitLessThan(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitLessThanOrEqual(Operator op) { }
+        protected virtual void VisitLessThanOrEqual(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitLoop(Operator op) { }
+        protected virtual void VisitLoop(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitLowPassFilter(Operator op) { }
+        protected virtual void VisitLowPassFilter(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitMaximum(Operator op) { }
+        protected virtual void VisitMaximum(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitMinimum(Operator op) { }
+        protected virtual void VisitMinimum(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitMultiply(Operator op) { }
+        protected virtual void VisitMultiply(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitNarrower(Operator op) { }
+        protected virtual void VisitNarrower(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitNegative(Operator op) { }
+        protected virtual void VisitNegative(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitNoise(Operator op) { }
+        protected virtual void VisitNoise(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitNot(Operator op) { }
+        protected virtual void VisitNot(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitNotEqual(Operator op) { }
+        protected virtual void VisitNotEqual(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitNumber(Operator op) { }
+        protected virtual void VisitNumber(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitOneOverX(Operator op) { }
+        protected virtual void VisitOneOverX(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitOr(Operator op) { }
+        protected virtual void VisitOr(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitPatchInlet(Operator obj) { }
+        protected virtual void VisitPatchInlet(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitPatchOutlet(Operator obj) { }
+        protected virtual void VisitPatchOutlet(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitPower(Operator op) { }
+        protected virtual void VisitPower(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitPulse(Operator op) { }
+        protected virtual void VisitPulse(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitPulseTrigger(Operator op) { }
+        protected virtual void VisitPulseTrigger(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitRandom(Operator op) { }
+        protected virtual void VisitRandom(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitResample(Operator op) { }
+        protected virtual void VisitResample(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitReset(Operator op) { }
+        protected virtual void VisitReset(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitReverse(Operator op) { }
+        protected virtual void VisitReverse(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitRound(Operator op) { }
+        protected virtual void VisitRound(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitSampleOperator(Operator op) { }
+        protected virtual void VisitSampleOperator(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitSawDown(Operator op) { }
+        protected virtual void VisitSawDown(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitSawUp(Operator op) { }
+        protected virtual void VisitSawUp(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitScaler(Operator obj) { }
+        protected virtual void VisitScaler(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitSelect(Operator obj) { }
+        protected virtual void VisitSelect(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitSetDimension(Operator op) { }
+        protected virtual void VisitSetDimension(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitShift(Operator op) { }
+        protected virtual void VisitShift(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitSine(Operator op) { }
+        protected virtual void VisitSine(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitSlowDown(Operator op) { }
+        protected virtual void VisitSlowDown(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitSpectrum(Operator op) { }
+        protected virtual void VisitSpectrum(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitSpeedUp(Operator op) { }
+        protected virtual void VisitSpeedUp(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitSquare(Operator op) { }
+        protected virtual void VisitSquare(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitStretch(Operator op) { }
+        protected virtual void VisitStretch(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitSubtract(Operator op) { }
+        protected virtual void VisitSubtract(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitTimePower(Operator op) { }
+        protected virtual void VisitTimePower(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitTriangle(Operator op) { }
-        
-        /// <summary> does nothing </summary>
-        protected virtual void VisitToggleTrigger(Operator op) { }
+        protected virtual void VisitTriangle(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
 
-        /// <summary> does nothing </summary>
-        protected virtual void VisitUnbundle(Operator op) { }
+        protected virtual void VisitToggleTrigger(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
+
+        protected virtual void VisitUnbundle(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
     }
 }

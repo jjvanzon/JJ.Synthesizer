@@ -12,6 +12,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
     {
 	    protected override void VisitAdder(Operator op)
         {
+			base.VisitAdder(op);
+
             OperatorCalculatorBase calculator;
 
             List<OperatorCalculatorBase> operandCalculators = new List<OperatorCalculatorBase>();

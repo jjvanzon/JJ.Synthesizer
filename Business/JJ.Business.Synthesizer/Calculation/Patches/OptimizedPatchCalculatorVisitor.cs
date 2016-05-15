@@ -131,8 +131,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _patchInlet_Calculator_Dictionary = new Dictionary<Operator, VariableInput_OperatorCalculator>();
             _resettableOperatorTuples = new List<ResettableOperatorTuple>();
 
-            //_dimensionLayers = new DimensionStackCollection();
-
             _outlet = outlet;
             _channelCount = channelCount;
 
@@ -154,6 +152,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitAbsolute(Operator op)
         {
+            base.VisitAbsolute(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase calculatorX = _stack.Pop();
@@ -190,6 +190,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitAdd(Operator op)
         {
+            base.VisitAdd(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase aCalculator = _stack.Pop();
@@ -239,6 +241,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitAnd(Operator op)
         {
+            base.VisitAnd(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase calculatorA = _stack.Pop();
@@ -287,6 +291,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitAverage(Operator op)
         {
+            base.VisitAverage(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
@@ -324,6 +330,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         /// </summary>
         protected override void VisitBundle(Operator op)
         {
+            base.VisitBundle(op);
+
             var operandCalculators = new List<OperatorCalculatorBase>(op.Inlets.Count);
 
             for (int i = 0; i < op.Inlets.Count; i++)
@@ -348,37 +356,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitChangeTrigger(Operator op)
-        {
-            OperatorCalculatorBase operatorCalculator;
-
-            OperatorCalculatorBase calculationCalculator = _stack.Pop();
-            OperatorCalculatorBase resetCalculator = _stack.Pop();
-
-            calculationCalculator = calculationCalculator ?? new Zero_OperatorCalculator();
-            resetCalculator = resetCalculator ?? new Zero_OperatorCalculator();
-
-            bool calculationIsConst = calculationCalculator is Number_OperatorCalculator;
-            bool resetIsConst = resetCalculator is Number_OperatorCalculator;
-
-            if (calculationIsConst)
-            {
-                operatorCalculator = calculationCalculator;
-            }
-            else if (resetIsConst)
-            {
-                operatorCalculator = calculationCalculator;
-            }
-            else
-            {
-                operatorCalculator = new ChangeTrigger_OperatorCalculator(calculationCalculator, resetCalculator);
-            }
-
-            _stack.Push(operatorCalculator);
-        }
-
         protected override void VisitCache(Operator op)
         {
+            base.VisitCache(op);
+
             OperatorCalculatorBase calculator = null;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
@@ -616,8 +597,41 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
+        protected override void VisitChangeTrigger(Operator op)
+        {
+            base.VisitChangeTrigger(op);
+
+            OperatorCalculatorBase operatorCalculator;
+
+            OperatorCalculatorBase calculationCalculator = _stack.Pop();
+            OperatorCalculatorBase resetCalculator = _stack.Pop();
+
+            calculationCalculator = calculationCalculator ?? new Zero_OperatorCalculator();
+            resetCalculator = resetCalculator ?? new Zero_OperatorCalculator();
+
+            bool calculationIsConst = calculationCalculator is Number_OperatorCalculator;
+            bool resetIsConst = resetCalculator is Number_OperatorCalculator;
+
+            if (calculationIsConst)
+            {
+                operatorCalculator = calculationCalculator;
+            }
+            else if (resetIsConst)
+            {
+                operatorCalculator = calculationCalculator;
+            }
+            else
+            {
+                operatorCalculator = new ChangeTrigger_OperatorCalculator(calculationCalculator, resetCalculator);
+            }
+
+            _stack.Push(operatorCalculator);
+        }
+
         protected override void VisitCurveOperator(Operator op)
         {
+            base.VisitCurveOperator(op);
+
             OperatorCalculatorBase calculator = null;
 
             var wrapper = new Curve_OperatorWrapper(op, _curveRepository);
@@ -655,6 +669,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitDelay(Operator op)
         {
+            base.VisitDelay(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
@@ -702,6 +718,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitDivide(Operator op)
         {
+            base.VisitDivide(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase numeratorCalculator = _stack.Pop();
@@ -798,6 +816,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitEarlier(Operator op)
         {
+            base.VisitEarlier(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
@@ -845,6 +865,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitEqual(Operator op)
         {
+            base.VisitEqual(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase calculatorA = _stack.Pop();
@@ -890,6 +912,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitExponent(Operator op)
         {
+            base.VisitExponent(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase lowCalculator = _stack.Pop();
@@ -964,6 +988,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitFilter(Operator op)
         {
+            base.VisitFilter(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
@@ -1012,6 +1038,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitGetDimension(Operator op)
         {
+            base.VisitGetDimension(op);
+
             var wrapper = new GetDimension_OperatorWrapper(op);
             DimensionEnum dimensionEnum = wrapper.Dimension;
 
@@ -1021,6 +1049,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitGreaterThan(Operator op)
         {
+            base.VisitGreaterThan(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase calculatorA = _stack.Pop();
@@ -1066,6 +1096,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitGreaterThanOrEqual(Operator op)
         {
+            base.VisitGreaterThanOrEqual(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase calculatorA = _stack.Pop();
@@ -1111,6 +1143,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitHighPassFilter(Operator op)
         {
+            base.VisitHighPassFilter(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
@@ -1150,6 +1184,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitHold(Operator op)
         {
+            base.VisitHold(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
@@ -1170,6 +1206,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitIf(Operator op)
         {
+            base.VisitIf(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase conditionCalculator = _stack.Pop();
@@ -1226,6 +1264,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitLessThan(Operator op)
         {
+            base.VisitLessThan(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase calculatorA = _stack.Pop();
@@ -1271,6 +1311,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitLessThanOrEqual(Operator op)
         {
+            base.VisitLessThanOrEqual(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase calculatorA = _stack.Pop();
@@ -1316,6 +1358,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitLoop(Operator op)
         {
+            base.VisitLoop(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
@@ -1431,6 +1475,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitLowPassFilter(Operator op)
         {
+            base.VisitLowPassFilter(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
@@ -1470,6 +1516,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitMaximum(Operator op)
         {
+            base.VisitMaximum(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
@@ -1505,6 +1553,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitMinimum(Operator op)
         {
+            base.VisitMinimum(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
@@ -1540,6 +1590,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitMultiply(Operator op)
         {
+            base.VisitMultiply(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase aCalculator = _stack.Pop();
@@ -1655,6 +1707,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitNarrower(Operator op)
         {
+            base.VisitNarrower(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
@@ -1749,6 +1803,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitNegative(Operator op)
         {
+            base.VisitNegative(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase xCalculator = _stack.Pop();
@@ -1771,6 +1827,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitNoise(Operator op)
         {
+            base.VisitNoise(op);
+
             double offset;
             if (!_operator_NoiseOffsetInSeconds_Dictionary.TryGetValue(op, out offset))
             {
@@ -1787,6 +1845,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitNot(Operator op)
         {
+            base.VisitNot(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase xCalculator = _stack.Pop();
@@ -1822,6 +1882,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitNotEqual(Operator op)
         {
+            base.VisitNotEqual(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase calculatorA = _stack.Pop();
@@ -1867,6 +1929,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitNumber(Operator op)
         {
+            base.VisitNumber(op);
+
             var wrapper = new Number_OperatorWrapper(op);
             double number = wrapper.Number;
 
@@ -1876,6 +1940,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitOneOverX(Operator op)
         {
+            base.VisitOneOverX(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase xCalculator = _stack.Pop();
@@ -1898,6 +1964,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitOr(Operator op)
         {
+            base.VisitOr(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase calculatorA = _stack.Pop();
@@ -1946,6 +2014,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitPower(Operator op)
         {
+            base.VisitPower(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase baseCalculator = _stack.Pop();
@@ -1997,6 +2067,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitPulse(Operator op)
         {
+            base.VisitPulse(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase frequencyCalculator = _stack.Pop();
@@ -2083,6 +2155,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitPulseTrigger(Operator op)
         {
+            base.VisitPulseTrigger(op);
+
             OperatorCalculatorBase operatorCalculator;
 
             OperatorCalculatorBase calculationCalculator = _stack.Pop();
@@ -2112,6 +2186,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitRandom(Operator op)
         {
+            base.VisitRandom(op);
+
             int randomCalculatorOffset;
             if (!_operator_RandomOffsetInSeconds_Dictionary.TryGetValue(op, out randomCalculatorOffset))
             {
@@ -2282,6 +2358,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitResample(Operator op)
         {
+            base.VisitResample(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
@@ -2374,6 +2452,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitReverse(Operator op)
         {
+            base.VisitReverse(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
@@ -2434,6 +2514,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitRound(Operator op)
         {
+            base.VisitRound(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
@@ -2511,6 +2593,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitSampleOperator(Operator op)
         {
+            base.VisitSampleOperator(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase frequencyCalculator = _stack.Pop();
@@ -2583,6 +2667,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitSawDown(Operator op)
         {
+            base.VisitSawDown(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase frequencyCalculator = _stack.Pop();
@@ -2627,6 +2713,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitSawUp(Operator op)
         {
+            base.VisitSawUp(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase frequencyCalculator = _stack.Pop();
@@ -2671,6 +2759,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitScaler(Operator op)
         {
+            base.VisitScaler(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
@@ -2692,6 +2782,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitSelect(Operator op)
         {
+            base.VisitSelect(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
@@ -2730,6 +2822,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitSetDimension(Operator op)
         {
+            base.VisitSetDimension(op);
+
             OperatorCalculatorBase operatorCalculator;
 
             OperatorCalculatorBase calculationCalculator = _stack.Pop();
@@ -2767,12 +2861,16 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitShift(Operator op)
         {
+            base.VisitShift(op);
+
             // Shift is a synonym for Delay, that makes more sense in case the x-axis does not represent time.
             VisitDelay(op);
         }
 
         protected override void VisitSine(Operator op)
         {
+            base.VisitSine(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase frequencyCalculator = _stack.Pop();
@@ -2825,6 +2923,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitSlowDown(Operator op)
         {
+            base.VisitSlowDown(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
@@ -2897,6 +2997,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitSpectrum(Operator op)
         {
+            base.VisitSpectrum(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
@@ -2952,6 +3054,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitSpeedUp(Operator op)
         {
+            base.VisitSpeedUp(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
@@ -3023,6 +3127,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitSquare(Operator op)
         {
+            base.VisitSquare(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase frequencyCalculator = _stack.Pop();
@@ -3081,6 +3187,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitStretch(Operator op)
         {
+            base.VisitStretch(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
@@ -3165,6 +3273,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitSubtract(Operator op)
         {
+            base.VisitSubtract(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase aCalculator = _stack.Pop();
@@ -3210,6 +3320,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitTimePower(Operator op)
         {
+            base.VisitTimePower(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop(); ;
@@ -3271,6 +3383,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitToggleTrigger(Operator op)
         {
+            base.VisitToggleTrigger(op);
+
             OperatorCalculatorBase operatorCalculator;
 
             OperatorCalculatorBase calculationCalculator = _stack.Pop();
@@ -3300,6 +3414,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitTriangle(Operator op)
         {
+            base.VisitTriangle(op);
+
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase frequencyCalculator = _stack.Pop();
@@ -3348,6 +3464,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         /// </summary>
         protected override void VisitUnbundle(Operator op)
         {
+            base.VisitUnbundle(op);
+
             OperatorCalculatorBase operatorCalculator;
 
             OperatorCalculatorBase operandCalculator = _stack.Pop();
@@ -3394,6 +3512,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitPatchInlet(Operator patchInlet)
         {
+            base.VisitPatchInlet(patchInlet);
+
             var wrapper = new PatchInlet_OperatorWrapper(patchInlet);
 
             OperatorCalculatorBase calculator;
@@ -3485,7 +3605,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 throw new Exception("patchOutlet_Outlet was null after TryApplyCustomOperatorToUnderlyingPatch.");
             }
 
-            VisitOperator(patchOutlet_Outlet.Operator);
+            VisitOperatorPolymorphic(patchOutlet_Outlet.Operator);
         }
 
         private void VisitUnbundleOutlet(Outlet outlet)
@@ -3562,6 +3682,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitReset(Operator op)
         {
+            base.VisitReset(op);
+
             var wrapper = new Reset_OperatorWrapper(op);
 
             OperatorCalculatorBase calculator = _stack.Peek();
