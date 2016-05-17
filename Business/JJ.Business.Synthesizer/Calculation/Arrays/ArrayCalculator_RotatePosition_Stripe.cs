@@ -17,6 +17,9 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double CalculateValue(double position)
         {
+            if (Double.IsNaN(position)) return 0.0;
+            if (Double.IsInfinity(position)) return 0.0;
+
             double transformedPosition = position % _length;
 
             // Account for negative positions.
