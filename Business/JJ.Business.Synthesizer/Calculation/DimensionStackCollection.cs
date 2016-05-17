@@ -111,9 +111,9 @@ namespace JJ.Business.Synthesizer.Calculation
         /// or when you know you are at the top level of the stack.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Set(DimensionEnum dimensionEnum, double value)
+        public void Set(DimensionEnum dimensionEnum, int dimensionStackIndex, double value)
         {
-            Set((int)dimensionEnum, value);
+            Set((int)dimensionEnum, dimensionStackIndex, value);
         }
 
         /// <summary>
@@ -122,9 +122,9 @@ namespace JJ.Business.Synthesizer.Calculation
         /// or when you know you are at the top level of the stack.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Set(int dimensionIndex, double value)
+        public void Set(int dimensionIndex, int dimensionStackIndex, double value)
         {
-            _stacks[dimensionIndex].Set(value);
+            _stacks[dimensionIndex].Set(dimensionStackIndex, value);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

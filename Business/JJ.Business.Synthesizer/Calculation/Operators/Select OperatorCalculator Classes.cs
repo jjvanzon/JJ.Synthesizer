@@ -1,18 +1,17 @@
 ﻿using JJ.Framework.Reflection.Exceptions;
 using System;
-using JJ.Business.Synthesizer.Enums;
 using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Select_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Select_OperatorCalculator_VarPosition : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _positionCalculator;
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
-        public Select_OperatorCalculator(
+        public Select_OperatorCalculator_VarPosition(
             OperatorCalculatorBase signalCalculator, 
             OperatorCalculatorBase positionCalculator,
             DimensionStack dimensionStack)
@@ -43,16 +42,25 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             return result;
         }
+
+        public override void Reset()
+        {
+            double position = _positionCalculator.Calculate();
+
+            _dimensionStack.Set(_dimensionStackIndex, position);
+
+            base.Reset();
+        }
     }
 
-    internal class Select_WithConstPosition_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Select_OperatorCalculator_ConstPosition : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _position;
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
-        public Select_WithConstPosition_OperatorCalculator(
+        public Select_OperatorCalculator_ConstPosition(
             OperatorCalculatorBase signalCalculator, 
             double position,
             DimensionStack dimensionStack)
@@ -78,6 +86,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double result = _signalCalculator.Calculate();
 
             return result;
+        }
+
+        public override void Reset()
+        {
+            _dimensionStack.Set(_dimensionStackIndex, _position);
+
+            base.Reset();
         }
     }
 }

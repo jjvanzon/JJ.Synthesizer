@@ -17,6 +17,8 @@ namespace JJ.Business.Synthesizer.Calculation
     /// <summary> Caches several calculators for shared use between PatchCalculators, to save memory. </summary>
     public class CalculatorCache
     {
+        private const int TOP_LEVEL_DIMENSION_STACK_INDEX = 0;
+
         /// <summary>
         /// This dictionary is about reusing the same CurveCalculator in multiple OperatorCalculator_Curve's
         /// in case they uses the same Curve, more than optimizing things by using a dictionary.
@@ -152,12 +154,12 @@ namespace JJ.Business.Synthesizer.Calculation
             var dimensionStackCollection = new DimensionStackCollection();
             for (int channelIndex = 0; channelIndex < channelCount; channelIndex++)
             {
-                dimensionStackCollection.Set(channelDimensionIndex, channelIndex);
+                dimensionStackCollection.Set(channelDimensionIndex, TOP_LEVEL_DIMENSION_STACK_INDEX, channelIndex);
 
                 double[] samples = new double[tickCount];
 
                 double time = startTime;
-                dimensionStackCollection.Set(timeDimensionIndex, time);
+                dimensionStackCollection.Set(timeDimensionIndex, TOP_LEVEL_DIMENSION_STACK_INDEX, time);
 
                 for (int i = 0; i < tickCount; i++)
                 {
@@ -165,7 +167,7 @@ namespace JJ.Business.Synthesizer.Calculation
                     samples[i] = sample;
 
                     time += tickDuration;
-                    dimensionStackCollection.Set(timeDimensionIndex, time);
+                    dimensionStackCollection.Set(timeDimensionIndex, TOP_LEVEL_DIMENSION_STACK_INDEX, time);
                 }
 
                 ArrayCalculatorBase arrayCalculator = ArrayCalculatorFactory.CreateArrayCalculator(

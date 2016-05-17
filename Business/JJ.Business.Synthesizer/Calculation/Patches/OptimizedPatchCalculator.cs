@@ -15,6 +15,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
     {
         private const int TIME_DIMENSION_INDEX = (int)DimensionEnum.Time;
         private const int CHANNEL_DIMENSION_INDEX = (int)DimensionEnum.Channel;
+        private const int TOP_LEVEL_DIMENSION_STACK_INDEX = 0;
 
         private DimensionStackCollection _dimensionStackCollection;
         private readonly OperatorCalculatorBase _outputOperatorCalculator;
@@ -52,13 +53,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _name_To_ResettableOperatorCalculators_Dictionary = result.ResettableOperatorTuples.ToNonUniqueDictionary(x => x.Name ?? "", x => x.OperatorCalculator);
             _listIndex_To_ResettableOperatorCalculators_Dictionary = result.ResettableOperatorTuples.Where(x => x.ListIndex.HasValue).ToNonUniqueDictionary(x => x.ListIndex.Value, x => x.OperatorCalculator);
 
-            _dimensionStackCollection.Set(DimensionEnum.Channel, channelIndex);
+            _dimensionStackCollection.Set(DimensionEnum.Channel, TOP_LEVEL_DIMENSION_STACK_INDEX, channelIndex);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double Calculate(double time)
         {
-            _dimensionStackCollection.Set(TIME_DIMENSION_INDEX, time);
+            _dimensionStackCollection.Set(TIME_DIMENSION_INDEX, TOP_LEVEL_DIMENSION_STACK_INDEX, time);
 
             double value = _outputOperatorCalculator.Calculate();
 
@@ -73,7 +74,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             for (int i = 0; i < count; i++)
             {
-                _dimensionStackCollection.Set(TIME_DIMENSION_INDEX, t);
+                _dimensionStackCollection.Set(TIME_DIMENSION_INDEX, TOP_LEVEL_DIMENSION_STACK_INDEX, t);
 
                 double value = Calculate(t);
 
@@ -368,7 +369,17 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         public void Reset(double time)
         {
-            _dimensionStackCollection.Set(TIME_DIMENSION_INDEX, time);
+            _dimensionStackCollection.Set(TIME_DIMENSION_INDEX, 0, time);
+
+            // HACK: Reset does not work for other dimensions than time.
+            foreach (DimensionEnum dimensionEnum in EnumHelper.GetValues<DimensionEnum>())
+            {
+                if ((int)dimensionEnum == TIME_DIMENSION_INDEX)
+                {
+                    continue;
+                }
+                _dimensionStackCollection.Set(dimensionEnum, 0, 0.0);
+            }
 
             _outputOperatorCalculator.Reset();
 
@@ -386,7 +397,17 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             // and also null and empty must have the same behavior.
             name = name ?? "";
 
-            _dimensionStackCollection.Set(TIME_DIMENSION_INDEX, time);
+            _dimensionStackCollection.Set(TIME_DIMENSION_INDEX, TOP_LEVEL_DIMENSION_STACK_INDEX, time);
+
+            // HACK: Reset does not work for other dimensions than time.
+            foreach (DimensionEnum dimensionEnum in EnumHelper.GetValues<DimensionEnum>())
+            {
+                if ((int)dimensionEnum == TIME_DIMENSION_INDEX)
+                {
+                    continue;
+                }
+                _dimensionStackCollection.Set(dimensionEnum, TOP_LEVEL_DIMENSION_STACK_INDEX, 0.0);
+            }
 
             IList<OperatorCalculatorBase> calculators;
             if (_name_To_ResettableOperatorCalculators_Dictionary.TryGetValue(name, out calculators))
@@ -400,7 +421,17 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         public void Reset(double time, int listIndex)
         {
-            _dimensionStackCollection.Set(TIME_DIMENSION_INDEX, time);
+            _dimensionStackCollection.Set(TIME_DIMENSION_INDEX, TOP_LEVEL_DIMENSION_STACK_INDEX, time);
+
+            // HACK: Reset does not work for other dimensions than time.
+            foreach (DimensionEnum dimensionEnum in EnumHelper.GetValues<DimensionEnum>())
+            {
+                if ((int)dimensionEnum == TIME_DIMENSION_INDEX)
+                {
+                    continue;
+                }
+                _dimensionStackCollection.Set(dimensionEnum, TOP_LEVEL_DIMENSION_STACK_INDEX, 0.0);
+            }
 
             IList<OperatorCalculatorBase> calculators;
             if (_listIndex_To_ResettableOperatorCalculators_Dictionary.TryGetValue(listIndex, out calculators))

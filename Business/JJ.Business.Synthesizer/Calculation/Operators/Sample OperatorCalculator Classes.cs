@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Calculation.Samples;
-using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Reflection.Exceptions;
 
@@ -64,9 +63,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double rate = frequency / Sample_OperatorCalculator_Helper.BASE_FREQUENCY;
             
             double positionChange = position - _previousPosition;
-            double phase = _phase + positionChange * rate;
-
-            _phase = phase;
+            _phase = _phase + positionChange * rate;
 
             double value = _sampleCalculator.CalculateValue(_phase, channelIndex);
 

@@ -85,6 +85,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private int _channelCount;
         private Stack<OperatorCalculatorBase> _stack;
         private DimensionStackCollection _dimensionStackCollection;
+
+        /// <summary>
+        /// TODO: Try using _dimensionStackCollection for this again,
+        /// but do check well if it works.
+        /// </summary>
+        private DimensionStackCollection _bundleDimensionStackCollection;
         //private DimensionStackCollection _dimensionLayers;
 
         private Dictionary<Operator, double> _operator_NoiseOffsetInSeconds_Dictionary;
@@ -126,6 +132,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             _stack = new Stack<OperatorCalculatorBase>();
             _dimensionStackCollection = new DimensionStackCollection();
+            _bundleDimensionStackCollection = new DimensionStackCollection();
             _operator_NoiseOffsetInSeconds_Dictionary = new Dictionary<Operator, double>();
             _operator_RandomOffsetInSeconds_Dictionary = new Dictionary<Operator, int>();
             _patchInlet_Calculator_Dictionary = new Dictionary<Operator, VariableInput_OperatorCalculator>();
@@ -649,13 +656,27 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 var curveCalculator_MinTime = curveCalculator as CurveCalculator_MinX;
                 if (curveCalculator_MinTime != null)
                 {
-                    calculator = new Curve_MinX_OperatorCalculator(curveCalculator_MinTime, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
-                }
+                    if (dimensionEnum == DimensionEnum.Time)
+                    {
+                        calculator = new Curve_OperatorCalculator_PhaseTracking_MinX(curveCalculator_MinTime, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
+                    }
+                    else
+                    {
+                        calculator = new Curve_OperatorCalculator_NoPhaseTracking_MinX(curveCalculator_MinTime, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
+                    }
+               }
 
                 var curveCalculator_MinTimeZero = curveCalculator as CurveCalculator_MinXZero;
                 if (curveCalculator_MinTimeZero != null)
                 {
-                    calculator = new Curve_MinXZero_OperatorCalculator(curveCalculator_MinTimeZero, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
+                    if (dimensionEnum == DimensionEnum.Time)
+                    {
+                        calculator = new Curve_OperatorCalculator_PhaseTracking_MinXZero(curveCalculator_MinTimeZero, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
+                    }
+                    else
+                    {
+                        calculator = new Curve_OperatorCalculator_NoPhaseTracking_MinXZero(curveCalculator_MinTimeZero, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
+                    }
                 }
             }
 
@@ -2808,11 +2829,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (positionIsConst)
             {
-                calculator = new Select_WithConstPosition_OperatorCalculator(signalCalculator, position, dimensionStack);
+                calculator = new Select_OperatorCalculator_ConstPosition(signalCalculator, position, dimensionStack);
             }
             else
             {
-                calculator = new Select_OperatorCalculator(signalCalculator, positionCalculator, dimensionStack);
+                calculator = new Select_OperatorCalculator_VarPosition(signalCalculator, positionCalculator, dimensionStack);
             }
 
             dimensionStack.Pop();
@@ -3625,11 +3646,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             var wrapper = new Unbundle_OperatorWrapper(op);
             int dimensionIndex = (int)wrapper.Dimension;
 
-            _dimensionStackCollection.Push(dimensionIndex, outletIndex);
+            _bundleDimensionStackCollection.Push(dimensionIndex, outletIndex);
 
             VisitOutlet(inputOutlet);
 
-            _dimensionStackCollection.Pop(dimensionIndex);
+            _bundleDimensionStackCollection.Pop(dimensionIndex);
         }
 
         private void VisitBundleOutlet(Outlet outlet)
@@ -3637,7 +3658,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             var wrapper = new Bundle_OperatorWrapper(outlet.Operator);
             int dimensionIndex = (int)wrapper.Dimension;
 
-            if (_dimensionStackCollection.Count(dimensionIndex) == 0)
+            if (_bundleDimensionStackCollection.Count(dimensionIndex) == 0)
             {
                 throw new NotSupportedException(String.Format(
                     "Bundle Operator with ID '{0}' and Dimension '{1}' encountered without first encountering an Unbundle Operator. This is not yet supported.",
@@ -3645,7 +3666,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     wrapper.Dimension));
             }
 
-            double bundleIndexDouble = _dimensionStackCollection.PopAndGet(dimensionIndex);
+            double bundleIndexDouble = _bundleDimensionStackCollection.PopAndGet(dimensionIndex);
 
             if (!ConversionHelper.CanCastToNonNegativeInt32(bundleIndexDouble))
             {
@@ -3678,7 +3699,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 VisitOutlet(inlet.InputOutlet);
             }
 
-            _dimensionStackCollection.Push(dimensionIndex, bundleIndexDouble);
+            _bundleDimensionStackCollection.Push(dimensionIndex, bundleIndexDouble);
         }
 
         protected override void VisitReset(Operator op)
