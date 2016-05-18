@@ -725,7 +725,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (timeDifferenceIsConst)
             {
-                calculator = new Delay_VarSignal_ConstTimeDifference_OperatorCalculator(signalCalculator, timeDifference, dimensionStack);
+                calculator = new Delay_OperatorCalculator_VarSignal_ConstDistance(signalCalculator, timeDifference, dimensionStack);
             }
             else
             {

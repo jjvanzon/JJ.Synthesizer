@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -41,7 +39,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             double positionDifference = _positionDifferenceCalculator.Calculate();
 
-            // IMPORTANT: To add time to the output, you have subtract time from the input.
+            // IMPORTANT: To shift to the right in the output, you have shift to the left in the input.
             double transformedPosition = position - positionDifference;
 
             _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
@@ -52,17 +50,17 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Delay_VarSignal_ConstTimeDifference_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Delay_OperatorCalculator_VarSignal_ConstDistance : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
-        private readonly double _positionDifference;
+        private readonly double _distance;
         private readonly DimensionStack _dimensionStack;
         private readonly int _currentDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
 
-        public Delay_VarSignal_ConstTimeDifference_OperatorCalculator(
+        public Delay_OperatorCalculator_VarSignal_ConstDistance(
             OperatorCalculatorBase signalCalculator,
-            double positionDifferenceValue,
+            double distance,
             DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[] { signalCalculator })
         {
@@ -70,7 +68,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
 
             _signalCalculator = signalCalculator;
-            _positionDifference = positionDifferenceValue;
+            _distance = distance;
             _dimensionStack = dimensionStack;
             _currentDimensionStackIndex = _dimensionStack.CurrentIndex;
             _previousDimensionStackIndex = dimensionStack.CurrentIndex - 1;
@@ -81,8 +79,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double position = _dimensionStack.Get(_previousDimensionStackIndex);
 
-            // IMPORTANT: To add time to the output, you have subtract time from the input.
-            double transformedPosition = position - _positionDifference;
+            // IMPORTANT: To shift to the right in the output, you have shift to the left in the input.
+            double transformedPosition = position - _distance;
 
             _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
 
