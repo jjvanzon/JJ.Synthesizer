@@ -7,7 +7,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class Earlier_OperatorCalculator_VarDistance : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
-        private readonly OperatorCalculatorBase _dinstanceCalculator;
+        private readonly OperatorCalculatorBase _distanceCalculator;
         private readonly DimensionStack _dimensionStack;
         private readonly int _currentDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
 
             _signalCalculator = signalCalculator;
-            _dinstanceCalculator = distanceCalculator;
+            _distanceCalculator = distanceCalculator;
             _dimensionStack = dimensionStack;
             _currentDimensionStackIndex = dimensionStack.CurrentIndex;
             _previousDimensionStackIndex = dimensionStack.CurrentIndex - 1;
@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double position = _dimensionStack.Get(_previousDimensionStackIndex);
 
-            double distance = _dinstanceCalculator.Calculate();
+            double distance = _distanceCalculator.Calculate();
 
             // IMPORTANT: To shift to the left in the output, you have shift to the right in the input.
             double transformedPosition = position + distance;
