@@ -36,18 +36,34 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double position = _dimensionStack.Get(_previousDimensionStackIndex);
-
-            double distance = _distanceCalculator.Calculate();
-
-            // IMPORTANT: To shift to the left in the output, you have shift to the right in the input.
-            double transformedPosition = position + distance;
+            double transformedPosition = GetTransformedPosition();
 
             _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
 
             double result = _signalCalculator.Calculate();
 
             return result;
+        }
+
+        public override void Reset()
+        {
+            double transformedPosition = GetTransformedPosition();
+
+            _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
+
+            base.Reset();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private double GetTransformedPosition()
+        {
+            double position = _dimensionStack.Get(_previousDimensionStackIndex);
+
+            double distance = _distanceCalculator.Calculate();
+
+            // IMPORTANT: To shift to the left in the output, you have shift to the right in the input.
+            double transformedPosition = position + distance;
+            return transformedPosition;
         }
     }
 
@@ -78,16 +94,32 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double position = _dimensionStack.Get(_previousDimensionStackIndex);
-
-            // IMPORTANT: To shift to the left in the output, you have shift to the right in the input.
-            double transformedPosition = position + _distance;
+            double transformedPosition = GetTransformedPosition();
 
             _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
 
             double result = _signalCalculator.Calculate();
 
             return result;
+        }
+
+        public override void Reset()
+        {
+            double transformedPosition = GetTransformedPosition();
+
+            _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
+
+            base.Reset();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private double GetTransformedPosition()
+        {
+            double position = _dimensionStack.Get(_previousDimensionStackIndex);
+
+            // IMPORTANT: To shift to the left in the output, you have shift to the right in the input.
+            double transformedPosition = position + _distance;
+            return transformedPosition;
         }
     }
 }
