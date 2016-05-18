@@ -27,6 +27,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _previousDimensionStackIndex = dimensionStack.CurrentIndex - 1;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected abstract double? GetTransformedPosition();
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

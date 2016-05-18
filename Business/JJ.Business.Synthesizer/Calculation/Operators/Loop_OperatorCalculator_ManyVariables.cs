@@ -5,7 +5,7 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Loop_OperatorCalculator : Loop_OperatorCalculator_Base
+    internal class Loop_OperatorCalculator_ManyVariables : Loop_OperatorCalculator_Base
     {
         private readonly OperatorCalculatorBase _skipCalculator;
         private readonly OperatorCalculatorBase _loopStartMarkerCalculator;
@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _releaseEndMarkerCalculator;
         private readonly OperatorCalculatorBase _noteDurationCalculator;
 
-        public Loop_OperatorCalculator(
+        public Loop_OperatorCalculator_ManyVariables(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase skipCalculator,
             OperatorCalculatorBase loopStartMarkerCalculator,

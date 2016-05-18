@@ -142,7 +142,7 @@
     <Compile Include="Calculation\Operators\Power OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\SawUp OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Select OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\Loop_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Loop_OperatorCalculator_ManyVariables.cs" />
     <Compile Include="Calculation\Operators\Exponent_OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Add OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Adder_OperatorCalculator.cs" />

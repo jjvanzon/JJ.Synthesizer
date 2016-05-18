@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -36,7 +35,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _loopEndMarkerCalculator = loopEndMarkerCalculator;
             _noteDurationCalculator = noteDurationCalculator;
         }
-        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected override double? GetTransformedPosition()
         {
             double position = _dimensionStack.Get(_previousDimensionStackIndex);

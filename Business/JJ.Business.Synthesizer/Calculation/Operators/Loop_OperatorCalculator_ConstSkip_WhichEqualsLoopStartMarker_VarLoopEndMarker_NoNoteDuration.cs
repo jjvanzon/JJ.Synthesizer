@@ -29,6 +29,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _loopEndMarkerCalculator = loopEndMarkerCalculator;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected override double? GetTransformedPosition()
         {
             double outputPosition = _dimensionStack.Get(_previousDimensionStackIndex);

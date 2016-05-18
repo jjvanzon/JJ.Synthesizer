@@ -1477,7 +1477,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     }
                     else
                     {
-                        calculator = new Loop_OperatorCalculator(
+                        calculator = new Loop_OperatorCalculator_ManyVariables(
                             signalCalculator,
                             skipCalculator,
                             loopStartMarkerCalculator,
