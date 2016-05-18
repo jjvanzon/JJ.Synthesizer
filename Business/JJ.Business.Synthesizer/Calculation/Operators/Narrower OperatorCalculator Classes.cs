@@ -64,7 +64,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double position = _dimensionStack.Get(_previousDimensionStackIndex);
 
-            // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
+            // IMPORTANT: To squash things in the output, you have to stretch things in the input.
             double transformedPosition = position * _factor;
             return transformedPosition;
         }
@@ -129,7 +129,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             double factor = _factorCalculator.Calculate();
 
-            // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
+            // IMPORTANT: To squash things in the output, you have to stretch things in the input.
             double transformedPosition = position * factor;
 
             return transformedPosition;
@@ -204,7 +204,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double position = _dimensionStack.Get(_previousDimensionStackIndex);
 
-            // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
+            // IMPORTANT: To squash things in the output, you have to stretch things in the input.
             double transformedPosition = (position - _origin) * _factor + _origin;
             return transformedPosition;
         }
@@ -273,7 +273,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             double origin = _originCalculator.Calculate();
 
-            // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
+            // IMPORTANT: To squash things in the output, you have to stretch things in the input.
             double transformedPosition = (position - origin) * _factor + origin;
 
             return transformedPosition;
@@ -342,7 +342,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             double factor = _factorCalculator.Calculate();
 
-            // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
+            // IMPORTANT: To squash things in the output, you have to stretch things in the input.
             double transformedPosition = (position - _origin) * factor + _origin;
             return transformedPosition;
         }
@@ -412,7 +412,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double factor = _factorCalculator.Calculate();
             double origin = _originCalculator.Calculate();
 
-            // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
+            // IMPORTANT: To squash things in the output, you have to stretch things in the input.
             double transformedPosition = (position - origin) * factor + origin;
 
             return transformedPosition;
