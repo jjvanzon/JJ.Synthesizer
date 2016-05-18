@@ -1790,27 +1790,27 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (!signalIsConst && factorIsConst && originIsConstZero)
             {
-                calculator = new Narrower_VarSignal_ConstFactor_ZeroOrigin_OperatorCalculator(signalCalculator, factor, dimensionStack);
+                calculator = new Narrower_OperatorCalculator_VarSignal_ConstFactor_ZeroOrigin(signalCalculator, factor, dimensionStack);
             }
             else if (!signalIsConst && !factorIsConst && originIsConstZero)
             {
-                calculator = new Narrower_VarSignal_VarFactor_ZeroOrigin_OperatorCalculator(signalCalculator, factorCalculator, dimensionStack);
+                calculator = new Narrower_OperatorCalculator_VarSignal_VarFactor_ZeroOrigin(signalCalculator, factorCalculator, dimensionStack);
             }
             else if (!signalIsConst && factorIsConst && originIsConst)
             {
-                calculator = new Narrower_VarSignal_ConstFactor_ConstOrigin_OperatorCalculator(signalCalculator, factor, origin, dimensionStack);
+                calculator = new Narrower_OperatorCalculator_VarSignal_ConstFactor_ConstOrigin(signalCalculator, factor, origin, dimensionStack);
             }
             else if (!signalIsConst && factorIsConst && !originIsConst)
             {
-                calculator = new Narrower_VarSignal_ConstFactor_VarOrigin_OperatorCalculator(signalCalculator, factor, originCalculator, dimensionStack);
+                calculator = new Narrower_OperatorCalculator_VarSignal_ConstFactor_VarOrigin(signalCalculator, factor, originCalculator, dimensionStack);
             }
             else if (!signalIsConst && !factorIsConst && originIsConst)
             {
-                calculator = new Narrower_VarSignal_VarFactor_ConstOrigin_OperatorCalculator(signalCalculator, factorCalculator, origin, dimensionStack);
+                calculator = new Narrower_OperatorCalculator_VarSignal_VarFactor_ConstOrigin(signalCalculator, factorCalculator, origin, dimensionStack);
             }
             else if (!signalIsConst && !factorIsConst && !originIsConst)
             {
-                calculator = new Narrower_VarSignal_VarFactor_VarOrigin_OperatorCalculator(signalCalculator, factorCalculator, originCalculator, dimensionStack);
+                calculator = new Narrower_OperatorCalculator_VarSignal_VarFactor_VarOrigin(signalCalculator, factorCalculator, originCalculator, dimensionStack);
             }
             else
             {
