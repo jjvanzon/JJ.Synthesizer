@@ -6,27 +6,27 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class Delay_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
-        private readonly OperatorCalculatorBase _positionDifferenceCalculator;
+        private readonly OperatorCalculatorBase _distanceCalculator;
         private readonly DimensionStack _dimensionStack;
         private readonly int _currentDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
 
         public Delay_OperatorCalculator(
             OperatorCalculatorBase signalCalculator, 
-            OperatorCalculatorBase positionDifferenceCalculator,
+            OperatorCalculatorBase distanceCalculator,
             DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[] 
             {
                 signalCalculator,
-                positionDifferenceCalculator
+                distanceCalculator
             })
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(positionDifferenceCalculator, () => positionDifferenceCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(distanceCalculator, () => distanceCalculator);
             OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
 
             _signalCalculator = signalCalculator;
-            _positionDifferenceCalculator = positionDifferenceCalculator;
+            _distanceCalculator = distanceCalculator;
             _dimensionStack = dimensionStack;
             _currentDimensionStackIndex = dimensionStack.CurrentIndex;
             _previousDimensionStackIndex = dimensionStack.CurrentIndex - 1;
@@ -37,10 +37,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double position = _dimensionStack.Get(_previousDimensionStackIndex);
 
-            double positionDifference = _positionDifferenceCalculator.Calculate();
+            double distance = _distanceCalculator.Calculate();
 
             // IMPORTANT: To shift to the right in the output, you have shift to the left in the input.
-            double transformedPosition = position - positionDifference;
+            double transformedPosition = position - distance;
 
             _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
 
