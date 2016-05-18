@@ -658,11 +658,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 {
                     if (dimensionEnum == DimensionEnum.Time)
                     {
-                        calculator = new Curve_OperatorCalculator_PhaseTracking_MinX(curveCalculator_MinTime, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
+                        calculator = new Curve_OperatorCalculator_MinX_WithOriginShifting(curveCalculator_MinTime, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
                     }
                     else
                     {
-                        calculator = new Curve_OperatorCalculator_NoPhaseTracking_MinX(curveCalculator_MinTime, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
+                        calculator = new Curve_OperatorCalculator_MinX_NoOriginShifting(curveCalculator_MinTime, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
                     }
                }
 
@@ -671,7 +671,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 {
                     if (dimensionEnum == DimensionEnum.Time)
                     {
-                        calculator = new Curve_OperatorCalculator_PhaseTracking_MinXZero(curveCalculator_MinTimeZero, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
+                        calculator = new Curve_OperatorCalculator_MinXZero_WithOriginShifting(curveCalculator_MinTimeZero, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
                     }
                     else
                     {

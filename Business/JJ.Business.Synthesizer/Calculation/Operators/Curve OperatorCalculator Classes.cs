@@ -4,13 +4,13 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Curve_OperatorCalculator_NoPhaseTracking_MinX : OperatorCalculatorBase
+    internal class Curve_OperatorCalculator_MinX_NoOriginShifting : OperatorCalculatorBase
     {
         private readonly CurveCalculator_MinX _curveCalculator;
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
-        public Curve_OperatorCalculator_NoPhaseTracking_MinX(CurveCalculator_MinX curveCalculator, DimensionStack dimensionStack)
+        public Curve_OperatorCalculator_MinX_NoOriginShifting(CurveCalculator_MinX curveCalculator, DimensionStack dimensionStack)
         {
             if (curveCalculator == null) throw new NullException(() => curveCalculator);
             OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
@@ -31,16 +31,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Curve_OperatorCalculator_PhaseTracking_MinX : OperatorCalculatorBase
+    internal class Curve_OperatorCalculator_MinX_WithOriginShifting : OperatorCalculatorBase
     {
         private readonly CurveCalculator_MinX _curveCalculator;
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
-        private double _previousPosition;
-        private double _phase;
+        private double _origin;
 
-        public Curve_OperatorCalculator_PhaseTracking_MinX(CurveCalculator_MinX curveCalculator, DimensionStack dimensionStack)
+        public Curve_OperatorCalculator_MinX_WithOriginShifting(CurveCalculator_MinX curveCalculator, DimensionStack dimensionStack)
         {
             if (curveCalculator == null) throw new NullException(() => curveCalculator);
             OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
@@ -55,23 +54,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double position = _dimensionStack.Get(_dimensionStackIndex);
 
-            double positionChange = position - _previousPosition;
+            double phase = position - _origin;
 
-            _phase = _phase + positionChange;
-
-            double value = _curveCalculator.CalculateY(_phase);
-
-            _previousPosition = position;
+            double value = _curveCalculator.CalculateY(phase);
 
             return value;
         }
 
         public override void Reset()
         {
-            double position = _dimensionStack.Get(_dimensionStackIndex);
-
-            _previousPosition = position;
-            _phase = 0.0;
+            _origin = _dimensionStack.Get(_dimensionStackIndex);
 
             base.Reset();
         }
@@ -102,16 +94,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Curve_OperatorCalculator_PhaseTracking_MinXZero : OperatorCalculatorBase
+    internal class Curve_OperatorCalculator_MinXZero_WithOriginShifting : OperatorCalculatorBase
     {
         private readonly CurveCalculator_MinXZero _curveCalculator;
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
-        private double _phase;
-        private double _previousPosition;
+        private double _origin;
 
-        public Curve_OperatorCalculator_PhaseTracking_MinXZero(CurveCalculator_MinXZero curveCalculator, DimensionStack dimensionStack)
+        public Curve_OperatorCalculator_MinXZero_WithOriginShifting(CurveCalculator_MinXZero curveCalculator, DimensionStack dimensionStack)
         {
             if (curveCalculator == null) throw new NullException(() => curveCalculator);
             OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
@@ -126,23 +117,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double position = _dimensionStack.Get(_dimensionStackIndex);
 
-            double positionChange = position - _previousPosition;
+            double phase = position - _origin;
 
-            _phase = _phase + positionChange;
-
-            double value = _curveCalculator.CalculateY(_phase);
-
-            _previousPosition = position;
+            double value = _curveCalculator.CalculateY(phase);
 
             return value;
         }
 
         public override void Reset()
         {
-            double position = _dimensionStack.Get(_dimensionStackIndex);
-
-            _previousPosition = position;
-            _phase = 0.0;
+            _origin = _dimensionStack.Get(_dimensionStackIndex);
 
             base.Reset();
         }
