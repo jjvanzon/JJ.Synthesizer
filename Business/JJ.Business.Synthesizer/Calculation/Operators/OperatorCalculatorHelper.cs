@@ -48,19 +48,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (dimensionStack.CurrentIndex < 0) throw new LessThanException(() => dimensionStack.CurrentIndex, 0);
         }
 
-        // TODO: Remove outcommented code.
-        //public static void AssertDimensionStackIndex(DimensionStack dimensionStack, int dimensionStackIndex)
-        //{
-        //    if (dimensionStack == null) throw new NullException(() => dimensionStack);
-        //    if (dimensionStackIndex < 0) throw new InvalidIndexException(() => dimensionStackIndex, () => dimensionStack.Count);
-        //    if (dimensionStackIndex >= dimensionStack.Count) throw new InvalidIndexException(() => dimensionStackIndex, () => dimensionStack.Count);
-        //}
-
         public static void AssertPhaseShift(double phaseShift)
         {
             if (phaseShift >= 1.0) throw new GreaterThanOrEqualException(() => phaseShift, 1.0);
             if (Double.IsNaN(phaseShift)) throw new NaNException(() => phaseShift);
             if (Double.IsInfinity(phaseShift)) throw new InfinityException(() => phaseShift);
+            if (phaseShift % 1.0 == 0.0) throw new Exception("phaseShift cannot be a multiple of 1.");
         }
 
         public static void AssertDimensionEnum(DimensionEnum dimensionEnum)
