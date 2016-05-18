@@ -675,7 +675,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     }
                     else
                     {
-                        calculator = new Curve_OperatorCalculator_NoPhaseTracking_MinXZero(curveCalculator_MinTimeZero, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
+                        calculator = new Curve_OperatorCalculator_MinXZero_NoOriginShifting(curveCalculator_MinTimeZero, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
                     }
                 }
             }

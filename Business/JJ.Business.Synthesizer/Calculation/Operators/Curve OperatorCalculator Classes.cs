@@ -69,13 +69,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Curve_OperatorCalculator_NoPhaseTracking_MinXZero : OperatorCalculatorBase
+    internal class Curve_OperatorCalculator_MinXZero_NoOriginShifting : OperatorCalculatorBase
     {
         private readonly CurveCalculator_MinXZero _curveCalculator;
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
-        public Curve_OperatorCalculator_NoPhaseTracking_MinXZero(CurveCalculator_MinXZero curveCalculator, DimensionStack dimensionStack)
+        public Curve_OperatorCalculator_MinXZero_NoOriginShifting(CurveCalculator_MinXZero curveCalculator, DimensionStack dimensionStack)
         {
             if (curveCalculator == null) throw new NullException(() => curveCalculator);
             OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
