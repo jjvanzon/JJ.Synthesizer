@@ -8,10 +8,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal abstract class Loop_OperatorCalculator_Base : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
-        protected double _origin;
         protected readonly DimensionStack _dimensionStack;
         protected readonly int _currentDimensionStackIndex;
         protected readonly int _previousDimensionStackIndex;
+
+        protected double _origin;
 
         public Loop_OperatorCalculator_Base(
             OperatorCalculatorBase signalCalculator,
@@ -50,8 +51,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double position = _dimensionStack.Get(_previousDimensionStackIndex);
 
+            // Origin Shifting
             _origin = position;
 
+            // Dimension Transformation
             double? transformedPosition = GetTransformedPosition();
             if (!transformedPosition.HasValue)
             {
