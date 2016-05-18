@@ -872,11 +872,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (timeDifferenceIsConst)
             {
-                calculator = new Earlier_WithConstTimeDifference_OperatorCalculator(signalCalculator, timeDifference, dimensionStack);
+                calculator = new Earlier_OperatorCalculator_ConstDistance(signalCalculator, timeDifference, dimensionStack);
             }
             else
             {
-                calculator = new Earlier_OperatorCalculator(signalCalculator, timeDifferenceCalculator, dimensionStack);
+                calculator = new Earlier_OperatorCalculator_VarDistance(signalCalculator, timeDifferenceCalculator, dimensionStack);
             }
 
             dimensionStack.Pop();

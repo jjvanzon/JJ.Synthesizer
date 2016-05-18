@@ -4,30 +4,30 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Earlier_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Earlier_OperatorCalculator_VarDistance : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
-        private readonly OperatorCalculatorBase _positionDifferenceCalculator;
+        private readonly OperatorCalculatorBase _dinstanceCalculator;
         private readonly DimensionStack _dimensionStack;
         private readonly int _currentDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
 
-        public Earlier_OperatorCalculator(
+        public Earlier_OperatorCalculator_VarDistance(
             OperatorCalculatorBase signalCalculator, 
-            OperatorCalculatorBase positionDifferenceCalculator,
+            OperatorCalculatorBase distanceCalculator,
             DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[] 
             {
                 signalCalculator,
-                positionDifferenceCalculator
+                distanceCalculator
             })
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(positionDifferenceCalculator, () => positionDifferenceCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase(distanceCalculator, () => distanceCalculator);
             OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
 
             _signalCalculator = signalCalculator;
-            _positionDifferenceCalculator = positionDifferenceCalculator;
+            _dinstanceCalculator = distanceCalculator;
             _dimensionStack = dimensionStack;
             _currentDimensionStackIndex = dimensionStack.CurrentIndex;
             _previousDimensionStackIndex = dimensionStack.CurrentIndex - 1;
@@ -38,10 +38,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double position = _dimensionStack.Get(_previousDimensionStackIndex);
 
-            double positionDifference = _positionDifferenceCalculator.Calculate();
+            double distance = _dinstanceCalculator.Calculate();
 
-            // IMPORTANT: To subtract time from the output, you have add time to the input.
-            double transformedPosition = position + positionDifference;
+            // IMPORTANT: To shift to the left in the output, you have shift to the right in the input.
+            double transformedPosition = position + distance;
 
             _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
 
@@ -51,7 +51,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Earlier_WithConstTimeDifference_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Earlier_OperatorCalculator_ConstDistance : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _timeDifference;
@@ -59,7 +59,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly int _currentDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
 
-        public Earlier_WithConstTimeDifference_OperatorCalculator(
+        public Earlier_OperatorCalculator_ConstDistance(
             OperatorCalculatorBase signalCalculator,
             double timeDifference,
             DimensionStack dimensionStack)
@@ -80,7 +80,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double position = _dimensionStack.Get(_previousDimensionStackIndex);
 
-            // IMPORTANT: To subtract time from the output, you have add time to the input.
+            // IMPORTANT: To shift to the left in the output, you have shift to the right in the input.
             double transformedPosition = position + _timeDifference;
 
             _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
