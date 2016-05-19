@@ -342,4 +342,262 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             base.Reset();
         }
     }
+
+    // Copies with Phase Tracking and Origin Shifting removed.
+
+    internal class Sample_OperatorCalculator_VarFrequency_NoPhaseTracking : OperatorCalculatorBase_WithChildCalculators
+    {
+        private readonly OperatorCalculatorBase _frequencyCalculator;
+        private readonly ISampleCalculator _sampleCalculator;
+        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStack _channelDimensionStack;
+        private readonly int _dimensionStackIndex;
+        private readonly int _channelDimensionStackIndex;
+        private readonly int _channelCount;
+
+        public Sample_OperatorCalculator_VarFrequency_NoPhaseTracking(
+            OperatorCalculatorBase frequencyCalculator,
+            ISampleCalculator sampleCalculator,
+            DimensionStack dimensionStack,
+            DimensionStack channelDimensionStack)
+            : base(new OperatorCalculatorBase[] { frequencyCalculator })
+        {
+            if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
+            if (sampleCalculator == null) throw new NullException(() => sampleCalculator);
+
+            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(channelDimensionStack);
+
+            _frequencyCalculator = frequencyCalculator;
+            _sampleCalculator = sampleCalculator;
+            _dimensionStack = dimensionStack;
+            _channelDimensionStack = channelDimensionStack;
+            _dimensionStackIndex = dimensionStack.CurrentIndex;
+            _channelDimensionStackIndex = channelDimensionStack.CurrentIndex;
+
+            _channelCount = _sampleCalculator.ChannelCount;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override double Calculate()
+        {
+            double channelIndexDouble = _channelDimensionStack.Get(_channelDimensionStackIndex);
+            if (!ConversionHelper.CanCastToNonNegativeInt32WithMax(channelIndexDouble, _channelCount))
+            {
+                return 0.0;
+            }
+            int channelIndex = (int)channelIndexDouble;
+
+            double position = _dimensionStack.Get(_dimensionStackIndex);
+            double frequency = _frequencyCalculator.Calculate();
+
+            double rate = frequency / Sample_OperatorCalculator_Helper.BASE_FREQUENCY;
+            double phase = position * rate;
+
+            double value = _sampleCalculator.CalculateValue(phase, channelIndex);
+
+            return value;
+        }
+    }
+
+    internal class Sample_OperatorCalculator_ConstFrequency_NoOriginShifting : OperatorCalculatorBase
+    {
+        private readonly ISampleCalculator _sampleCalculator;
+        private readonly double _rate;
+        private readonly DimensionStack _dimensionStack;
+        private readonly DimensionStack _channelDimensionStack;
+        private readonly int _channelCount;
+        private readonly int _dimensionStackIndex;
+        private readonly int _channelDimensionStackIndex;
+
+        public Sample_OperatorCalculator_ConstFrequency_NoOriginShifting(
+            double frequency,
+            ISampleCalculator sampleCalculator,
+            DimensionStack dimensionStack,
+            DimensionStack channelDimensionStack)
+        {
+            if (sampleCalculator == null) throw new NullException(() => sampleCalculator);
+            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(channelDimensionStack);
+
+            _sampleCalculator = sampleCalculator;
+            _dimensionStack = dimensionStack;
+            _channelDimensionStack = channelDimensionStack;
+            _dimensionStackIndex = dimensionStack.CurrentIndex;
+            _channelDimensionStackIndex = dimensionStack.CurrentIndex;
+
+            _channelCount = sampleCalculator.ChannelCount;
+            _rate = frequency / Sample_OperatorCalculator_Helper.BASE_FREQUENCY;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override double Calculate()
+        {
+            double channelIndexDouble = _channelDimensionStack.Get(_channelDimensionStackIndex);
+            if (!ConversionHelper.CanCastToNonNegativeInt32WithMax(channelIndexDouble, _channelCount))
+            {
+                return 0.0;
+            }
+            int channelIndex = (int)channelIndexDouble;
+
+            double position = _dimensionStack.Get(_dimensionStackIndex);
+
+            double phase = position * _rate;
+            double value = _sampleCalculator.CalculateValue(phase, channelIndex);
+
+            return value;
+        }
+    }
+
+    internal class Sample_OperatorCalculator_VarFrequency_MonoToStereo_NoPhaseTracking : OperatorCalculatorBase_WithChildCalculators
+    {
+        private readonly OperatorCalculatorBase _frequencyCalculator;
+        private readonly ISampleCalculator _sampleCalculator;
+        private readonly DimensionStack _dimensionStack;
+        private readonly int _dimensionStackIndex;
+
+        public Sample_OperatorCalculator_VarFrequency_MonoToStereo_NoPhaseTracking(
+            OperatorCalculatorBase frequencyCalculator,
+            ISampleCalculator sampleCalculator,
+            DimensionStack dimensionStack)
+            : base(new OperatorCalculatorBase[] { frequencyCalculator })
+        {
+            if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
+            if (sampleCalculator == null) throw new NullException(() => sampleCalculator);
+            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
+
+            _frequencyCalculator = frequencyCalculator;
+            _sampleCalculator = sampleCalculator;
+            _dimensionStack = dimensionStack;
+            _dimensionStackIndex = dimensionStack.CurrentIndex;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override double Calculate()
+        {
+            double position = _dimensionStack.Get(_dimensionStackIndex);
+            double frequency = _frequencyCalculator.Calculate();
+
+            double rate = frequency / Sample_OperatorCalculator_Helper.BASE_FREQUENCY;
+            double phase = position * rate;
+
+            // Return the single channel for both channels.
+            double value = _sampleCalculator.CalculateValue(phase, 0);
+
+            return value;
+        }
+    }
+
+    internal class Sample_OperatorCalculator_ConstFrequency_MonoToStereo_NoOriginShifting : OperatorCalculatorBase
+    {
+        private readonly ISampleCalculator _sampleCalculator;
+        private readonly double _rate;
+        private readonly DimensionStack _dimensionStack;
+        private readonly int _dimensionStackIndex;
+
+        public Sample_OperatorCalculator_ConstFrequency_MonoToStereo_NoOriginShifting(
+            double frequency,
+            ISampleCalculator sampleCalculator,
+            DimensionStack dimensionStack)
+        {
+            if (sampleCalculator == null) throw new NullException(() => sampleCalculator);
+            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
+
+            _sampleCalculator = sampleCalculator;
+            _dimensionStack = dimensionStack;
+            _dimensionStackIndex = dimensionStack.CurrentIndex;
+
+            _rate = frequency / Sample_OperatorCalculator_Helper.BASE_FREQUENCY;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override double Calculate()
+        {
+            double position = _dimensionStack.Get(_dimensionStackIndex);
+
+            double phase = position * _rate;
+
+            // Return the single channel for both channels.
+            double value = _sampleCalculator.CalculateValue(phase, 0);
+
+            return value;
+        }
+    }
+
+    internal class Sample_OperatorCalculator_VarFrequency_StereoToMono_NoPhaseTracking : OperatorCalculatorBase_WithChildCalculators
+    {
+        private readonly OperatorCalculatorBase _frequencyCalculator;
+        private readonly ISampleCalculator _sampleCalculator;
+        private readonly DimensionStack _dimensionStack;
+        private readonly int _dimensionStackIndex;
+
+        public Sample_OperatorCalculator_VarFrequency_StereoToMono_NoPhaseTracking(
+            OperatorCalculatorBase frequencyCalculator,
+            ISampleCalculator sampleCalculator,
+            DimensionStack dimensionStack)
+            : base(new OperatorCalculatorBase[] { frequencyCalculator })
+        {
+            if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
+            if (sampleCalculator == null) throw new NullException(() => sampleCalculator);
+            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
+
+            _frequencyCalculator = frequencyCalculator;
+            _sampleCalculator = sampleCalculator;
+            _dimensionStack = dimensionStack;
+            _dimensionStackIndex = dimensionStack.CurrentIndex;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override double Calculate()
+        {
+            double position = _dimensionStack.Get(_dimensionStackIndex);
+            double frequency = _frequencyCalculator.Calculate();
+
+            double rate = frequency / Sample_OperatorCalculator_Helper.BASE_FREQUENCY;
+
+            double phase = position * rate;
+
+            double value0 = _sampleCalculator.CalculateValue(phase, 0);
+            double value1 = _sampleCalculator.CalculateValue(phase, 1);
+
+            return value0 + value1;
+        }
+    }
+
+    internal class Sample_OperatorCalculator_ConstFrequency_StereoToMono_NoOriginShifting : OperatorCalculatorBase
+    {
+        private readonly ISampleCalculator _sampleCalculator;
+        private readonly double _rate;
+        private readonly DimensionStack _dimensionStack;
+        private readonly int _dimensionStackIndex;
+
+        public Sample_OperatorCalculator_ConstFrequency_StereoToMono_NoOriginShifting(
+            double frequency,
+            ISampleCalculator sampleCalculator,
+            DimensionStack dimensionStack)
+        {
+            if (sampleCalculator == null) throw new NullException(() => sampleCalculator);
+            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
+
+            _sampleCalculator = sampleCalculator;
+            _dimensionStack = dimensionStack;
+            _dimensionStackIndex = dimensionStack.CurrentIndex;
+
+            _rate = frequency / Sample_OperatorCalculator_Helper.BASE_FREQUENCY;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override double Calculate()
+        {
+            double position = _dimensionStack.Get(_dimensionStackIndex);
+
+            double phase = position * _rate;
+
+            double value0 = _sampleCalculator.CalculateValue(phase, 0);
+            double value1 = _sampleCalculator.CalculateValue(phase, 1);
+
+            return value0 + value1;
+        }
+    }
+
 }
