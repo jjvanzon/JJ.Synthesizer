@@ -2648,33 +2648,33 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 {
                     if (frequencyIsConst)
                     {
-                        calculator = new Sample_OperatorCalculator_ConstFrequency(frequency, sampleCalculator, _dimensionStackCollection.GetDimensionStack(dimensionEnum), _dimensionStackCollection.GetDimensionStack(DimensionEnum.Channel));
+                        calculator = new Sample_OperatorCalculator_ConstFrequency_WithOriginShifting(frequency, sampleCalculator, _dimensionStackCollection.GetDimensionStack(dimensionEnum), _dimensionStackCollection.GetDimensionStack(DimensionEnum.Channel));
                     }
                     else
                     {
-                        calculator = new Sample_OperatorCalculator_VarFrequency(frequencyCalculator, sampleCalculator, _dimensionStackCollection.GetDimensionStack(dimensionEnum), _dimensionStackCollection.GetDimensionStack(DimensionEnum.Channel));
+                        calculator = new Sample_OperatorCalculator_VarFrequency_WithPhaseTracking(frequencyCalculator, sampleCalculator, _dimensionStackCollection.GetDimensionStack(dimensionEnum), _dimensionStackCollection.GetDimensionStack(DimensionEnum.Channel));
                     }
                 }
                 else if (sampleChannelCount == 1 && _channelCount == 2)
                 {
                     if (frequencyIsConst)
                     {
-                        calculator = new Sample_OperatorCalculator_ConstFrequency_MonoToStereo(frequency, sampleCalculator, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
+                        calculator = new Sample_OperatorCalculator_ConstFrequency_MonoToStereo_WithOriginShifting(frequency, sampleCalculator, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
                     }
                     else
                     {
-                        calculator = new Sample_OperatorCalculator_VarFrequency_MonoToStereo(frequencyCalculator, sampleCalculator, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
+                        calculator = new Sample_OperatorCalculator_VarFrequency_MonoToStereo_WithPhaseTracking(frequencyCalculator, sampleCalculator, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
                     }
                 }
                 else if (sampleChannelCount == 2 && _channelCount == 1)
                 {
                     if (frequencyIsConst)
                     {
-                        calculator = new Sample_OperatorCalculator_ConstFrequency_StereoToMono(frequency, sampleCalculator, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
+                        calculator = new Sample_OperatorCalculator_ConstFrequency_StereoToMono_WithOriginShifting(frequency, sampleCalculator, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
                     }
                     else
                     {
-                        calculator = new Sample_OperatorCalculator_VarFrequency_StereoToMono(frequencyCalculator, sampleCalculator, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
+                        calculator = new Sample_OperatorCalculator_VarFrequency_StereoToMono_WithPhaseTracking(frequencyCalculator, sampleCalculator, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
                     }
                 }
                 else
