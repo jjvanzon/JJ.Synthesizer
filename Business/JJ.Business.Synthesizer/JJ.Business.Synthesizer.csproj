@@ -86,6 +86,7 @@
     <Compile Include="Calculation\DimensionStackCollection.cs" />
     <Compile Include="Calculation\Operators\2016-05-12 Backup of Add OperatorCalculator Classes %28with Generics%29.cs" />
     <Compile Include="Calculation\Operators\2016-05-10 Backup of Multiply OperatorCalculator Classes %28With Generics%29.cs" />
+    <Compile Include="Calculation\Operators\Pulse OperatorCalculator Classes temp.cs" />
     <Compile Include="Calculation\Operators\Unbundle_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Bundle_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Cache OperatorCalculator Classes.cs" />

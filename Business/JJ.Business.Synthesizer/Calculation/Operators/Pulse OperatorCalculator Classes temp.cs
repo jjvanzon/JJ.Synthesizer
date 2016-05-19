@@ -7,7 +7,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     // TODO: Program variations without phase shift.
     // Phase shift checks are for that reason temporarily commented out.
 
-    internal class Pulse_OperatorCalculator_ConstFrequency_ConstWidth_ConstPhaseShift_WithOriginShifting : OperatorCalculatorBase
+    internal class Pulse_OperatorCalculator_ConstFrequency_ConstWidth_ConstPhaseShift_NoOriginShifting : OperatorCalculatorBase
     {
         private readonly double _frequency;
         private readonly double _width;
@@ -15,9 +15,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
-        private double _origin;
-
-        public Pulse_OperatorCalculator_ConstFrequency_ConstWidth_ConstPhaseShift_WithOriginShifting(
+        public Pulse_OperatorCalculator_ConstFrequency_ConstWidth_ConstPhaseShift_NoOriginShifting(
             double frequency,
             double width,
             double phaseShift,
@@ -40,7 +38,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double position = _dimensionStack.Get(_dimensionStackIndex);
 
-            double shiftedPhase = (position - _origin) * _frequency + _phaseShift;
+            double shiftedPhase = position * _frequency + _phaseShift;
             double relativePhase = shiftedPhase % 1.0;
             if (relativePhase < _width)
             {
@@ -51,16 +49,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 return 1.0;
             }
         }
-
-        public override void Reset()
-        {
-            _origin = _dimensionStack.Get(_dimensionStackIndex);
-
-            base.Reset();
-        }
     }
 
-    internal class Pulse_OperatorCalculator_ConstFrequency_VarWidth_ConstPhaseShift_WithOriginShifting : OperatorCalculatorBase_WithChildCalculators
+    internal class Pulse_OperatorCalculator_ConstFrequency_VarWidth_ConstPhaseShift_NoOriginShifting : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly double _frequency;
         private readonly OperatorCalculatorBase _widthCalculator;
@@ -68,9 +59,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
-        private double _origin;
-
-        public Pulse_OperatorCalculator_ConstFrequency_VarWidth_ConstPhaseShift_WithOriginShifting(
+        public Pulse_OperatorCalculator_ConstFrequency_VarWidth_ConstPhaseShift_NoOriginShifting(
             double frequency,
             OperatorCalculatorBase widthCalculator,
             double phaseShift,
@@ -96,7 +85,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             double width = _widthCalculator.Calculate();
 
-            double shiftedPhase = (position - _origin) * _frequency + _phaseShift;
+            double shiftedPhase = position * _frequency + _phaseShift;
             double relativePhase = shiftedPhase % 1.0;
             if (relativePhase < width)
             {
@@ -107,16 +96,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 return 1.0;
             }
         }
-
-        public override void Reset()
-        {
-            _origin = _dimensionStack.Get(_dimensionStackIndex);
-
-            base.Reset();
-        }
     }
 
-    internal class Pulse_OperatorCalculator_ConstFrequency_ConstWidth_VarPhaseShift_WithOriginShifting : OperatorCalculatorBase_WithChildCalculators
+    internal class Pulse_OperatorCalculator_ConstFrequency_ConstWidth_VarPhaseShift_NoOriginShifting : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly double _frequency;
         private readonly double _width;
@@ -124,9 +106,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly DimensionStack _dimensionStack;
         private int _dimensionStackIndex;
 
-        private double _origin;
-
-        public Pulse_OperatorCalculator_ConstFrequency_ConstWidth_VarPhaseShift_WithOriginShifting(
+        public Pulse_OperatorCalculator_ConstFrequency_ConstWidth_VarPhaseShift_NoOriginShifting(
             double frequency,
             double width,
             OperatorCalculatorBase phaseShiftCalculator,
@@ -152,7 +132,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             double phaseShift = _phaseShiftCalculator.Calculate();
 
-            double shiftedPhase = (position - _origin) * _frequency + phaseShift;
+            double shiftedPhase = position * _frequency + phaseShift;
 
             double relativePhase = shiftedPhase % 1.0;
             if (relativePhase < _width)
@@ -164,16 +144,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 return 1.0;
             }
         }
-
-        public override void Reset()
-        {
-            _origin = _dimensionStack.Get(_dimensionStackIndex);
-
-            base.Reset();
-        }
     }
 
-    internal class Pulse_OperatorCalculator_ConstFrequency_VarWidth_VarPhaseShift_WithOriginShifting : OperatorCalculatorBase_WithChildCalculators
+    internal class Pulse_OperatorCalculator_ConstFrequency_VarWidth_VarPhaseShift_NoOriginShifting : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly double _frequency;
         private readonly OperatorCalculatorBase _widthCalculator;
@@ -181,9 +154,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
-        private double _origin;
-
-        public Pulse_OperatorCalculator_ConstFrequency_VarWidth_VarPhaseShift_WithOriginShifting(
+        public Pulse_OperatorCalculator_ConstFrequency_VarWidth_VarPhaseShift_NoOriginShifting(
             double frequency,
             OperatorCalculatorBase widthCalculator,
             OperatorCalculatorBase phaseShiftCalculator,
@@ -210,7 +181,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double width = _widthCalculator.Calculate();
             double phaseShift = _phaseShiftCalculator.Calculate();
 
-            double shiftedPhase = (position - _origin) * _frequency + phaseShift;
+            double shiftedPhase = position * _frequency + phaseShift;
 
             double relativePhase = shiftedPhase % 1.0;
             if (relativePhase < width)
@@ -222,16 +193,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 return 1.0;
             }
         }
-
-        public override void Reset()
-        {
-            _origin = _dimensionStack.Get(_dimensionStackIndex);
-
-            base.Reset();
-        }
     }
 
-    internal class Pulse_OperatorCalculator_VarFrequency_ConstWidth_ConstPhaseShift_WithPhaseTracking : OperatorCalculatorBase_WithChildCalculators
+    internal class Pulse_OperatorCalculator_VarFrequency_ConstWidth_ConstPhaseShift_NoPhaseTracking : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly double _width;
@@ -239,10 +203,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
-        private double _shiftedPhase;
-        private double _previousPosition;
-
-        public Pulse_OperatorCalculator_VarFrequency_ConstWidth_ConstPhaseShift_WithPhaseTracking(
+        public Pulse_OperatorCalculator_VarFrequency_ConstWidth_ConstPhaseShift_NoPhaseTracking(
             OperatorCalculatorBase frequencyCalculator,
             double width,
             double phaseShift,
@@ -259,22 +220,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _phaseShift = phaseShift;
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
-
-            _shiftedPhase = phaseShift;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
             double position = _dimensionStack.Get(_dimensionStackIndex);
-
             double frequency = _frequencyCalculator.Calculate();
 
-            double positionChange = position - _previousPosition;
-            _shiftedPhase = _shiftedPhase + positionChange * frequency;
+            double phase = position * frequency + _phaseShift;
 
             double value;
-            double relativePhase = _shiftedPhase % 1.0;
+            double relativePhase = phase % 1.0;
             if (relativePhase < _width)
             {
                 value = -1.0;
@@ -284,23 +241,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 value = 1.0;
             }
 
-            _previousPosition = position;
-
             return value;
-        }
-
-        public override void Reset()
-        {
-            double position = _dimensionStack.Get(_dimensionStackIndex);
-
-            _previousPosition = position;
-            _shiftedPhase = _phaseShift;
-
-            base.Reset();
         }
     }
 
-    internal class Pulse_OperatorCalculator_VarFrequency_VarWidth_ConstPhaseShift_WithPhaseTracking : OperatorCalculatorBase_WithChildCalculators
+    internal class Pulse_OperatorCalculator_VarFrequency_VarWidth_ConstPhaseShift_NoPhaseTracking : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly OperatorCalculatorBase _widthCalculator;
@@ -308,10 +253,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
-        private double _shiftedPhase;
-        private double _previousPosition;
-
-        public Pulse_OperatorCalculator_VarFrequency_VarWidth_ConstPhaseShift_WithPhaseTracking(
+        public Pulse_OperatorCalculator_VarFrequency_VarWidth_ConstPhaseShift_NoPhaseTracking(
             OperatorCalculatorBase frequencyCalculator,
             OperatorCalculatorBase widthCalculator,
             double phaseShift,
@@ -329,7 +271,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionStack = dimensionStack;
 
             _dimensionStackIndex = dimensionStack.CurrentIndex;
-            _shiftedPhase = phaseShift;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -340,8 +281,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double width = _widthCalculator.Calculate();
             double frequency = _frequencyCalculator.Calculate();
 
-            double positionChange = position - _previousPosition;
-            _shiftedPhase = _shiftedPhase + positionChange * frequency;
+            double _shiftedPhase = position * frequency + _phaseShift;
 
             double value;
             double relativePhase = _shiftedPhase % 1.0;
@@ -354,23 +294,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 value = 1.0;
             }
 
-            _previousPosition = position;
-
             return value;
-        }
-
-        public override void Reset()
-        {
-            double position = _dimensionStack.Get(_dimensionStackIndex);
-
-            _previousPosition = position;
-            _shiftedPhase = _phaseShift;
-
-            base.Reset();
         }
     }
 
-    internal class Pulse_OperatorCalculator_VarFrequency_ConstWidth_VarPhaseShift_WithPhaseTracking : OperatorCalculatorBase_WithChildCalculators
+    internal class Pulse_OperatorCalculator_VarFrequency_ConstWidth_VarPhaseShift_NoPhaseTracking : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly OperatorCalculatorBase _phaseShiftCalculator;
@@ -378,10 +306,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
-        private double _phase;
-        private double _previousPosition;
-
-        public Pulse_OperatorCalculator_VarFrequency_ConstWidth_VarPhaseShift_WithPhaseTracking(
+        public Pulse_OperatorCalculator_VarFrequency_ConstWidth_VarPhaseShift_NoPhaseTracking(
             OperatorCalculatorBase frequencyCalculator,
             double width,
             OperatorCalculatorBase phaseShiftCalculator,
@@ -404,15 +329,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate()
         {
             double position = _dimensionStack.Get(_dimensionStackIndex);
-
             double frequency = _frequencyCalculator.Calculate();
             double phaseShift = _phaseShiftCalculator.Calculate();
 
-            double positionChange = position - _previousPosition;
-            _phase = _phase + positionChange * frequency;
+            double phase = position * frequency + phaseShift;
 
             double value;
-            double shiftedPhase = _phase + phaseShift;
+            double shiftedPhase = phase + phaseShift;
             double relativePhase = shiftedPhase % 1.0;
             if (relativePhase < _width)
             {
@@ -423,23 +346,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 value = 1.0;
             }
 
-            _previousPosition = position;
-
             return value;
-        }
-
-        public override void Reset()
-        {
-            double position = _dimensionStack.Get(_dimensionStackIndex);
-
-            _previousPosition = position;
-            _phase = 0.0;
-
-            base.Reset();
         }
     }
 
-    internal class Pulse_OperatorCalculator_VarFrequency_VarWidth_VarPhaseShift_WithPhaseTracking : OperatorCalculatorBase_WithChildCalculators
+    internal class Pulse_OperatorCalculator_VarFrequency_VarWidth_VarPhaseShift_NoPhaseTracking : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly OperatorCalculatorBase _widthCalculator;
@@ -447,10 +358,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
-        private double _phase;
-        private double _previousPosition;
-
-        public Pulse_OperatorCalculator_VarFrequency_VarWidth_VarPhaseShift_WithPhaseTracking(
+        public Pulse_OperatorCalculator_VarFrequency_VarWidth_VarPhaseShift_NoPhaseTracking(
             OperatorCalculatorBase frequencyCalculator,
             OperatorCalculatorBase widthCalculator,
             OperatorCalculatorBase phaseShiftCalculator,
@@ -473,16 +381,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate()
         {
             double position = _dimensionStack.Get(_dimensionStackIndex);
-
             double frequency = _frequencyCalculator.Calculate();
             double phaseShift = _phaseShiftCalculator.Calculate();
             double width = _widthCalculator.Calculate();
 
-            double positionChange = position - _previousPosition;
-            _phase = _phase + positionChange * frequency;
+            double phase = position * frequency + phaseShift;
 
             double value;
-            double shiftedPhase = _phase + phaseShift;
+            double shiftedPhase = phase + phaseShift;
             double relativePhase = shiftedPhase % 1.0;
 
             if (relativePhase < width)
@@ -494,19 +400,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 value = 1.0;
             }
 
-            _previousPosition = position;
-
             return value;
-        }
-
-        public override void Reset()
-        {
-            double position = _dimensionStack.Get(_dimensionStackIndex);
-
-            _previousPosition = position;
-            _phase = 0.0;
-
-            base.Reset();
         }
     }
 }
