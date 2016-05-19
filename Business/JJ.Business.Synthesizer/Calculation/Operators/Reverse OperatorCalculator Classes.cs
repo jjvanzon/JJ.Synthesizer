@@ -73,7 +73,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             double positionChange = position - _previousPosition;
 
-            // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
+            // IMPORTANT: To squash things in the output, you have to stretch things in the input.
             double phase = _phase - positionChange * speed;
 
             return phase;
@@ -166,7 +166,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (speed == 0) throw new ZeroException(() => speed);
             if (Double.IsNaN(speed)) throw new NaNException(() => speed);
             if (Double.IsInfinity(speed)) throw new InfinityException(() => speed);
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
 
             _signalCalculator = signalCalculator;
             _speed = -speed;
@@ -187,15 +187,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return value;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private double GetTransformedPosition(double position)
-        {
-            // IMPORTANT: To squash things in the output, you have to stretch things in the input.
-            double transformedPosition = (position - _origin) * _speed;
-
-            return transformedPosition;
-        }
-
         public override void Reset()
         {
             double position = _dimensionStack.Get(_previousDimensionStackIndex);
@@ -208,6 +199,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionStack.Set(_currentDimensionStackIndex, tranformedPosition);
 
             base.Reset();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private double GetTransformedPosition(double position)
+        {
+            // IMPORTANT: To squash things in the output, you have to stretch things in the input.
+            double transformedPosition = (position - _origin) * _speed;
+
+            return transformedPosition;
         }
     }
 
@@ -229,7 +229,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (speed == 0) throw new ZeroException(() => speed);
             if (Double.IsNaN(speed)) throw new NaNException(() => speed);
             if (Double.IsInfinity(speed)) throw new InfinityException(() => speed);
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
 
             _signalCalculator = signalCalculator;
             _speed = -speed;
@@ -250,6 +250,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return value;
         }
 
+        public override void Reset()
+        {
+            double tranformedPosition = GetTransformedPosition();
+
+            _dimensionStack.Set(_currentDimensionStackIndex, tranformedPosition);
+
+            base.Reset();
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private double GetTransformedPosition()
         {
@@ -259,15 +268,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double transformedPosition = position * _speed;
 
             return transformedPosition;
-        }
-
-        public override void Reset()
-        {
-            double tranformedPosition = GetTransformedPosition();
-
-            _dimensionStack.Set(_currentDimensionStackIndex, tranformedPosition);
-
-            base.Reset();
         }
     }
 }
