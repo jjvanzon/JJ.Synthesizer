@@ -786,10 +786,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double width = _widthCalculator.Calculate();
             double frequency = _frequencyCalculator.Calculate();
 
-            double _shiftedPhase = position * frequency + _phaseShift;
+            double phase = position * frequency + _phaseShift;
 
             double value;
-            double relativePhase = _shiftedPhase % 1.0;
+            double relativePhase = phase % 1.0;
             if (relativePhase < width)
             {
                 value = -1.0;
@@ -840,8 +840,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double phase = position * frequency + phaseShift;
 
             double value;
-            double shiftedPhase = phase + phaseShift;
-            double relativePhase = shiftedPhase % 1.0;
+            double relativePhase = phase % 1.0;
             if (relativePhase < _width)
             {
                 value = -1.0;
@@ -893,8 +892,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double phase = position * frequency + phaseShift;
 
             double value;
-            double shiftedPhase = phase + phaseShift;
-            double relativePhase = shiftedPhase % 1.0;
+            double relativePhase = phase % 1.0;
 
             if (relativePhase < width)
             {
