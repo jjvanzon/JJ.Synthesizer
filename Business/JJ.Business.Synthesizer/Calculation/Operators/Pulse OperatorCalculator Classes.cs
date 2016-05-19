@@ -54,7 +54,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
-            _origin = _dimensionStack.Get();
+            _origin = _dimensionStack.Get(_dimensionStackIndex);
 
             base.Reset();
         }
@@ -110,7 +110,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
-            _origin = _dimensionStack.Get();
+            _origin = _dimensionStack.Get(_dimensionStackIndex);
 
             base.Reset();
         }
@@ -167,7 +167,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
-            _origin = _dimensionStack.Get();
+            _origin = _dimensionStack.Get(_dimensionStackIndex);
 
             base.Reset();
         }
