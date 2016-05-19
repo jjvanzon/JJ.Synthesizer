@@ -2136,15 +2136,15 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (frequencyIsConst && widthIsConst && phaseShiftIsConst)
             {
-                calculator = new Pulse_OperatorCalculator_ConstFrequency_ConstWidth_ConstPhaseShift(frequency, width, phaseShift, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
+                calculator = new Pulse_OperatorCalculator_ConstFrequency_ConstWidth_ConstPhaseShift_WithOriginShifting(frequency, width, phaseShift, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
             }
             else if (frequencyIsConst && widthIsConst && !phaseShiftIsConst)
             {
-                calculator = new Pulse_OperatorCalculator_ConstFrequency_ConstWidth_VarPhaseShift(frequency, width, phaseShiftCalculator, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
+                calculator = new Pulse_OperatorCalculator_ConstFrequency_ConstWidth_VarPhaseShift_WithOriginShifting(frequency, width, phaseShiftCalculator, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
             }
             else if (frequencyIsConst && !widthIsConst && phaseShiftIsConst)
             {
-                calculator = new Pulse_OperatorCalculator_ConstFrequency_VarWidth_ConstPhaseShift(frequency, widthCalculator, phaseShift, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
+                calculator = new Pulse_OperatorCalculator_ConstFrequency_VarWidth_ConstPhaseShift_WithOriginShifting(frequency, widthCalculator, phaseShift, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
             }
             else if (frequencyIsConst && !widthIsConst && !phaseShiftIsConst)
             {
@@ -3185,7 +3185,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (frequencyIsConst && phaseShiftIsConst)
             {
-                calculator = new Pulse_OperatorCalculator_ConstFrequency_ConstWidth_ConstPhaseShift(frequency, DEFAULT_PULSE_WIDTH, phaseShift, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
+                calculator = new Pulse_OperatorCalculator_ConstFrequency_ConstWidth_ConstPhaseShift_WithOriginShifting(frequency, DEFAULT_PULSE_WIDTH, phaseShift, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
             }
             else if (!frequencyIsConst && phaseShiftIsConst)
             {
@@ -3193,7 +3193,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (frequencyIsConst && !phaseShiftIsConst)
             {
-                calculator = new Pulse_OperatorCalculator_ConstFrequency_ConstWidth_VarPhaseShift(frequency, DEFAULT_PULSE_WIDTH, phaseShiftCalculator, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
+                calculator = new Pulse_OperatorCalculator_ConstFrequency_ConstWidth_VarPhaseShift_WithOriginShifting(frequency, DEFAULT_PULSE_WIDTH, phaseShiftCalculator, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
             }
             else if (!frequencyIsConst && !phaseShiftIsConst)
             {
