@@ -1,11 +1,10 @@
 ﻿using JJ.Framework.Reflection.Exceptions;
 using System;
 using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class SlowDown_WithVarFactor_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class SlowDown_OperatorCalculator_VarFactor : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _factorCalculator;
@@ -16,7 +15,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _phase;
         private double _previousPosition;
 
-        public SlowDown_WithVarFactor_OperatorCalculator(
+        public SlowDown_OperatorCalculator_VarFactor(
             OperatorCalculatorBase signalCalculator, 
             OperatorCalculatorBase factorCalculator,
             DimensionStack dimensionStack)
@@ -80,7 +79,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class SlowDown_WithConstFactor_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class SlowDown_OperatorCalculator_ConstFactor : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _factor;
@@ -88,7 +87,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly int _currentDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
 
-        public SlowDown_WithConstFactor_OperatorCalculator(
+        public SlowDown_OperatorCalculator_ConstFactor(
             OperatorCalculatorBase signalCalculator,
             double factor,
             DimensionStack dimensionStack)

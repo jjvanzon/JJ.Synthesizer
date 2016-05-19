@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public const double BASE_FREQUENCY = 440.0;
     }
 
-    internal class Sample_WithVarFrequency_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Sample_OperatorCalculator_VarFrequency : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly ISampleCalculator _sampleCalculator;
@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _phase;
         private double _previousPosition;
 
-        public Sample_WithVarFrequency_OperatorCalculator(
+        public Sample_OperatorCalculator_VarFrequency(
             OperatorCalculatorBase frequencyCalculator,
             ISampleCalculator sampleCalculator,
             DimensionStack dimensionStack,
@@ -83,7 +83,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Sample_WithConstFrequency_OperatorCalculator : OperatorCalculatorBase
+    internal class Sample_OperatorCalculator_ConstFrequency : OperatorCalculatorBase
     {
         private readonly ISampleCalculator _sampleCalculator;
         private readonly double _rate;
@@ -96,7 +96,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _phase;
         private double _previousPosition;
 
-        public Sample_WithConstFrequency_OperatorCalculator(
+        public Sample_OperatorCalculator_ConstFrequency(
             double frequency,
             ISampleCalculator sampleCalculator,
             DimensionStack dimensionStack,
@@ -151,7 +151,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Sample_WithVarFrequency_MonoToStereo_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Sample_OperatorCalculator_VarFrequency_MonoToStereo : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly ISampleCalculator _sampleCalculator;
@@ -161,7 +161,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _phase;
         private double _previousPosition;
 
-        public Sample_WithVarFrequency_MonoToStereo_OperatorCalculator(
+        public Sample_OperatorCalculator_VarFrequency_MonoToStereo(
             OperatorCalculatorBase frequencyCalculator, 
             ISampleCalculator sampleCalculator,
             DimensionStack dimensionStack)
@@ -207,7 +207,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Sample_WithConstFrequency_MonoToStereo_OperatorCalculator : OperatorCalculatorBase
+    internal class Sample_OperatorCalculator_ConstFrequency_MonoToStereo : OperatorCalculatorBase
     {
         private readonly ISampleCalculator _sampleCalculator;
         private readonly double _rate;
@@ -217,7 +217,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _phase;
         private double _previousPosition;
 
-        public Sample_WithConstFrequency_MonoToStereo_OperatorCalculator(
+        public Sample_OperatorCalculator_ConstFrequency_MonoToStereo(
             double frequency, 
             ISampleCalculator sampleCalculator,
             DimensionStack dimensionStack)
@@ -259,7 +259,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Sample_WithVarFrequency_StereoToMono_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Sample_OperatorCalculator_VarFrequency_StereoToMono : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly ISampleCalculator _sampleCalculator;
@@ -269,7 +269,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _phase;
         private double _previousPosition;
         
-        public Sample_WithVarFrequency_StereoToMono_OperatorCalculator(
+        public Sample_OperatorCalculator_VarFrequency_StereoToMono(
             OperatorCalculatorBase frequencyCalculator,
             ISampleCalculator sampleCalculator,
             DimensionStack dimensionStack)
@@ -315,7 +315,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Sample_WithConstFrequency_StereoToMono_OperatorCalculator : OperatorCalculatorBase
+    internal class Sample_OperatorCalculator_ConstFrequency_StereoToMono : OperatorCalculatorBase
     {
         private readonly ISampleCalculator _sampleCalculator;
         private readonly double _rate;
@@ -325,7 +325,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _phase;
         private double _previousPosition;
 
-        public Sample_WithConstFrequency_StereoToMono_OperatorCalculator(
+        public Sample_OperatorCalculator_ConstFrequency_StereoToMono(
             double frequency, 
             ISampleCalculator sampleCalculator,
             DimensionStack dimensionStack)

@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Sine_WithVarFrequency_WithoutPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Sine_OperatorCalculator_VarFrequency_NoPhaseShift : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly DimensionStack _dimensionStack;
@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _phase;
         private double _previousPosition;
 
-        public Sine_WithVarFrequency_WithoutPhaseShift_OperatorCalculator(
+        public Sine_OperatorCalculator_VarFrequency_NoPhaseShift(
             OperatorCalculatorBase frequencyCalculator,
             DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[] { frequencyCalculator })
@@ -54,7 +54,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Sine_WithVarFrequency_WithConstPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Sine_OperatorCalculator_VarFrequency_ConstPhaseShift : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly double _phaseShift;
@@ -64,7 +64,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _phase;
         private double _previousPosition;
 
-        public Sine_WithVarFrequency_WithConstPhaseShift_OperatorCalculator(
+        public Sine_OperatorCalculator_VarFrequency_ConstPhaseShift(
             OperatorCalculatorBase frequencyCalculator,
             double phaseShift,
             DimensionStack dimensionStack)
@@ -108,7 +108,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Sine_WithVarFrequency_WithVarPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Sine_OperatorCalculator_VarFrequency_VarPhaseShift : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly OperatorCalculatorBase _phaseShiftCalculator;
@@ -118,7 +118,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _phase;
         private double _previousPosition;
 
-        public Sine_WithVarFrequency_WithVarPhaseShift_OperatorCalculator(
+        public Sine_OperatorCalculator_VarFrequency_VarPhaseShift(
             OperatorCalculatorBase frequencyCalculator,
             OperatorCalculatorBase phaseShiftCalculator,
             DimensionStack dimensionStack)
@@ -167,13 +167,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Sine_WithConstFrequency_WithoutPhaseShift_OperatorCalculator : OperatorCalculatorBase
+    internal class Sine_OperatorCalculator_ConstFrequency_NoPhaseShift : OperatorCalculatorBase
     {
         private readonly double _frequency;
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
-        public Sine_WithConstFrequency_WithoutPhaseShift_OperatorCalculator(
+        public Sine_OperatorCalculator_ConstFrequency_NoPhaseShift(
             double frequency,
             DimensionStack dimensionStack)
         {
@@ -195,14 +195,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Sine_WithConstFrequency_WithConstPhaseShift_OperatorCalculator : OperatorCalculatorBase
+    internal class Sine_OperatorCalculator_ConstFrequency_ConstPhaseShift : OperatorCalculatorBase
     {
         private readonly double _frequency;
         private readonly double _phaseShift;
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
-        public Sine_WithConstFrequency_WithConstPhaseShift_OperatorCalculator(
+        public Sine_OperatorCalculator_ConstFrequency_ConstPhaseShift(
             double frequency, 
             double phaseShift,
             DimensionStack dimensionStack)
@@ -227,14 +227,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Sine_WithConstFrequency_WithVarPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Sine_OperatorCalculator_ConstFrequency_VarPhaseShift : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly double _frequency;
         private readonly OperatorCalculatorBase _phaseShiftCalculator;
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
-        public Sine_WithConstFrequency_WithVarPhaseShift_OperatorCalculator(
+        public Sine_OperatorCalculator_ConstFrequency_VarPhaseShift(
             double frequency, 
             OperatorCalculatorBase phaseShiftCalculator,
             DimensionStack dimensionStack)

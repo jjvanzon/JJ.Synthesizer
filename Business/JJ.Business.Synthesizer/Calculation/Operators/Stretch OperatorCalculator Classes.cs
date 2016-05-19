@@ -1,6 +1,5 @@
 ﻿using JJ.Framework.Reflection.Exceptions;
 using System;
-using JJ.Business.Synthesizer.Enums;
 using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -11,7 +10,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     // Var-Const-Zero
 
-    internal class Stretch_VarSignal_ConstFactor_ZeroOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Stretch_OperatorCalculator_VarSignal_ConstFactor_ZeroOrigin : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _factorValue;
@@ -19,7 +18,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly int _currentDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
 
-        public Stretch_VarSignal_ConstFactor_ZeroOrigin_OperatorCalculator(
+        public Stretch_OperatorCalculator_VarSignal_ConstFactor_ZeroOrigin(
             OperatorCalculatorBase signalCalculator,
             double factorValue,
             DimensionStack dimensionStack)
@@ -54,7 +53,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     // Var-Var-Zero
 
-    internal class Stretch_VarSignal_VarFactor_ZeroOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Stretch_OperatorCalculator_VarSignal_VarFactor_ZeroOrigin : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _factorCalculator;
@@ -62,7 +61,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly int _currentDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
 
-        public Stretch_VarSignal_VarFactor_ZeroOrigin_OperatorCalculator(
+        public Stretch_OperatorCalculator_VarSignal_VarFactor_ZeroOrigin(
             OperatorCalculatorBase signalCalculator, 
             OperatorCalculatorBase factorCalculator,
             DimensionStack dimensionStack)
@@ -118,7 +117,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     // Var-Const-Const
 
-    internal class Stretch_VarSignal_ConstFactor_ConstOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Stretch_OperatorCalculator_VarSignal_ConstFactor_ConstOrigin : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _factor;
@@ -127,7 +126,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly int _currentDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
 
-        public Stretch_VarSignal_ConstFactor_ConstOrigin_OperatorCalculator(
+        public Stretch_OperatorCalculator_VarSignal_ConstFactor_ConstOrigin(
             OperatorCalculatorBase signalCalculator, 
             double factorValue, 
             double originValue,
@@ -169,7 +168,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     // Var-Const-Var
 
-    internal class Stretch_VarSignal_ConstFactor_VarOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Stretch_OperatorCalculator_VarSignal_ConstFactor_VarOrigin : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _factor;
@@ -178,7 +177,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly int _currentDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
 
-        public Stretch_VarSignal_ConstFactor_VarOrigin_OperatorCalculator(
+        public Stretch_OperatorCalculator_VarSignal_ConstFactor_VarOrigin(
             OperatorCalculatorBase signalCalculator,
             double factorValue,
             OperatorCalculatorBase originCalculator,
@@ -222,7 +221,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     // Var-Var-Const
 
-    internal class Stretch_VarSignal_VarFactor_ConstOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Stretch_OperatorCalculator_VarSignal_VarFactor_ConstOrigin : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _factorCalculator;
@@ -231,7 +230,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly int _currentDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
 
-        public Stretch_VarSignal_VarFactor_ConstOrigin_OperatorCalculator(
+        public Stretch_OperatorCalculator_VarSignal_VarFactor_ConstOrigin(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase factorCalculator,
             double origin,
@@ -282,7 +281,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     // Var-Var-Var
 
-    internal class Stretch_VarSignal_VarFactor_VarOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Stretch_OperatorCalculator_VarSignal_VarFactor_VarOrigin : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _factorCalculator;
@@ -291,7 +290,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly int _currentDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
 
-        public Stretch_VarSignal_VarFactor_VarOrigin_OperatorCalculator(
+        public Stretch_OperatorCalculator_VarSignal_VarFactor_VarOrigin(
             OperatorCalculatorBase signalCalculator, 
             OperatorCalculatorBase factorCalculator, 
             OperatorCalculatorBase originCalculator,

@@ -1,11 +1,10 @@
 ﻿using JJ.Framework.Reflection.Exceptions;
 using System;
-using JJ.Business.Synthesizer.Enums;
 using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class TimePower_WithOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class TimePower_OperatorCalculator_WithOrigin : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _exponentCalculator;
@@ -14,7 +13,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly int _currentDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
 
-        public TimePower_WithOrigin_OperatorCalculator(
+        public TimePower_OperatorCalculator_WithOrigin(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase exponentCalculator,
             OperatorCalculatorBase originCalculator,
@@ -71,7 +70,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class TimePower_WithoutOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class TimePower_OperatorCalculator_NoOrigin : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _exponentCalculator;
@@ -79,7 +78,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly int _currentDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
 
-        public TimePower_WithoutOrigin_OperatorCalculator(
+        public TimePower_OperatorCalculator_NoOrigin(
             OperatorCalculatorBase signalCalculator, 
             OperatorCalculatorBase exponentCalculator,
             DimensionStack dimensionStack)

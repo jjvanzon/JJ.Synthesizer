@@ -5,14 +5,14 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class SawDown_WithConstFrequency_WithConstPhaseShift_OperatorCalculator : OperatorCalculatorBase
+    internal class SawDown_OperatorCalculator_ConstFrequency_ConstPhaseShift : OperatorCalculatorBase
     {
         private readonly double _frequency;
         private readonly double _phaseShift;
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
-        public SawDown_WithConstFrequency_WithConstPhaseShift_OperatorCalculator(
+        public SawDown_OperatorCalculator_ConstFrequency_ConstPhaseShift(
             double frequency, 
             double phaseShift,
             DimensionStack dimensionStack)
@@ -36,14 +36,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class SawDown_WithConstFrequency_WithVarPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class SawDown_OperatorCalculator_ConstFrequency_VarPhaseShift : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly double _frequency;
         private readonly OperatorCalculatorBase _phaseShiftCalculator;
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
-        public SawDown_WithConstFrequency_WithVarPhaseShift_OperatorCalculator(
+        public SawDown_OperatorCalculator_ConstFrequency_VarPhaseShift(
             double frequency,
             OperatorCalculatorBase phaseShiftCalculator,
             DimensionStack dimensionStack)
@@ -75,7 +75,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class SawDown_WithVarFrequency_WithConstPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class SawDown_OperatorCalculator_VarFrequency_ConstPhaseShift : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly DimensionStack _dimensionStack;
@@ -84,7 +84,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _phase;
         private double _previousPosition;
         
-        public SawDown_WithVarFrequency_WithConstPhaseShift_OperatorCalculator(
+        public SawDown_OperatorCalculator_VarFrequency_ConstPhaseShift(
             OperatorCalculatorBase frequencyCalculator,
             double phaseShift,
             DimensionStack dimensionStack)
@@ -129,7 +129,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class SawDown_WithVarFrequency_WithVarPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class SawDown_OperatorCalculator_VarFrequency_VarPhaseShift : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly OperatorCalculatorBase _phaseShiftCalculator;
@@ -139,7 +139,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _phase;
         private double _previousPosition;
 
-        public SawDown_WithVarFrequency_WithVarPhaseShift_OperatorCalculator(
+        public SawDown_OperatorCalculator_VarFrequency_VarPhaseShift(
             OperatorCalculatorBase frequencyCalculator,
             OperatorCalculatorBase phaseShiftCalculator,
             DimensionStack dimensionStack)
