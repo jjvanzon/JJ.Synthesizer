@@ -44,11 +44,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double relativePhase = shiftedPhase % 1.0;
             if (relativePhase < _width)
             {
-                return -1;
+                return -1.0;
             }
             else
             {
-                return 1;
+                return 1.0;
             }
         }
 
@@ -100,11 +100,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double relativePhase = shiftedPhase % 1.0;
             if (relativePhase < width)
             {
-                return -1;
+                return -1.0;
             }
             else
             {
-                return 1;
+                return 1.0;
             }
         }
 
@@ -154,14 +154,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             double shiftedPhase = (position - _origin) * _frequency + phaseShift;
 
-            double relativePhase = shiftedPhase % 1;
+            double relativePhase = shiftedPhase % 1.0;
             if (relativePhase < _width)
             {
-                return -1;
+                return -1.0;
             }
             else
             {
-                return 1;
+                return 1.0;
             }
         }
 
@@ -210,14 +210,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             double shiftedPhase = position * _frequency + phaseShift;
 
-            double relativePhase = shiftedPhase % 1;
+            double relativePhase = shiftedPhase % 1.0;
             if (relativePhase < width)
             {
-                return -1;
+                return -1.0;
             }
             else
             {
-                return 1;
+                return 1.0;
             }
         }
     }
@@ -262,14 +262,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _phase = _phase + positionChange * frequency;
 
             double value;
-            double relativePhase = _phase % 1;
+            double relativePhase = _phase % 1.0;
             if (relativePhase < _width)
             {
-                value = -1;
+                value = -1.0;
             }
             else
             {
-                value = 1;
+                value = 1.0;
             }
 
             _previousPosition = position;
@@ -328,14 +328,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _phase = _phase + positionChange * frequency;
 
             double value;
-            double relativePhase = _phase % 1;
+            double relativePhase = _phase % 1.0;
             if (relativePhase < width)
             {
-                value = -1;
+                value = -1.0;
             }
             else
             {
-                value = 1;
+                value = 1.0;
             }
 
             _previousPosition = position;
@@ -397,14 +397,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             double value;
             double shiftedPhase = _phase + phaseShift;
-            double relativePhase = shiftedPhase % 1;
+            double relativePhase = shiftedPhase % 1.0;
             if (relativePhase < _width)
             {
-                value = -1;
+                value = -1.0;
             }
             else
             {
-                value = 1;
+                value = 1.0;
             }
 
             _previousPosition = position;
@@ -467,15 +467,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             double value;
             double shiftedPhase = _phase + phaseShift;
-            double relativePhase = shiftedPhase % 1;
+            double relativePhase = shiftedPhase % 1.0;
 
             if (relativePhase < width)
             {
-                value = -1;
+                value = -1.0;
             }
             else
             {
-                value = 1;
+                value = 1.0;
             }
 
             _previousPosition = position;
