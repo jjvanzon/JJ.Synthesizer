@@ -2148,23 +2148,23 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (frequencyIsConst && !widthIsConst && !phaseShiftIsConst)
             {
-                calculator = new Pulse_OperatorCalculator_ConstFrequency_VarWidth_VarPhaseShift(frequency, widthCalculator, phaseShiftCalculator, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
+                calculator = new Pulse_OperatorCalculator_ConstFrequency_VarWidth_VarPhaseShift_WithOriginShifting(frequency, widthCalculator, phaseShiftCalculator, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
             }
             else if (!frequencyIsConst && widthIsConst && phaseShiftIsConst)
             {
-                calculator = new Pulse_OperatorCalculator_VarFrequency_ConstWidth_ConstPhaseShift(frequencyCalculator, width, phaseShift, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
+                calculator = new Pulse_OperatorCalculator_VarFrequency_ConstWidth_ConstPhaseShift_WithPhaseTracking(frequencyCalculator, width, phaseShift, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
             }
             else if (!frequencyIsConst && widthIsConst && !phaseShiftIsConst)
             {
-                calculator = new Pulse_OperatorCalculator_VarFrequency_ConstWidth_VarPhaseShift(frequencyCalculator, width, phaseShiftCalculator, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
+                calculator = new Pulse_OperatorCalculator_VarFrequency_ConstWidth_VarPhaseShift_WithPhaseTracking(frequencyCalculator, width, phaseShiftCalculator, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
             }
             else if (!frequencyIsConst && !widthIsConst && phaseShiftIsConst)
             {
-                calculator = new Pulse_OperatorCalculator_VarFrequency_VarWidth_ConstPhaseShift(frequencyCalculator, widthCalculator, phaseShift, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
+                calculator = new Pulse_OperatorCalculator_VarFrequency_VarWidth_ConstPhaseShift_WithPhaseTracking(frequencyCalculator, widthCalculator, phaseShift, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
             }
             else if (!frequencyIsConst && !widthIsConst && !phaseShiftIsConst)
             {
-                calculator = new Pulse_OperatorCalculator_VarFrequency_VarWidth_VarPhaseShift(frequencyCalculator, widthCalculator, phaseShiftCalculator, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
+                calculator = new Pulse_OperatorCalculator_VarFrequency_VarWidth_VarPhaseShift_WithPhaseTracking(frequencyCalculator, widthCalculator, phaseShiftCalculator, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
             }
             else
             {
@@ -3189,7 +3189,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (!frequencyIsConst && phaseShiftIsConst)
             {
-                calculator = new Pulse_OperatorCalculator_VarFrequency_ConstWidth_ConstPhaseShift(frequencyCalculator, DEFAULT_PULSE_WIDTH, phaseShift, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
+                calculator = new Pulse_OperatorCalculator_VarFrequency_ConstWidth_ConstPhaseShift_WithPhaseTracking(frequencyCalculator, DEFAULT_PULSE_WIDTH, phaseShift, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
             }
             else if (frequencyIsConst && !phaseShiftIsConst)
             {
@@ -3197,7 +3197,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (!frequencyIsConst && !phaseShiftIsConst)
             {
-                calculator = new Pulse_OperatorCalculator_VarFrequency_ConstWidth_VarPhaseShift(frequencyCalculator, DEFAULT_PULSE_WIDTH, phaseShiftCalculator, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
+                calculator = new Pulse_OperatorCalculator_VarFrequency_ConstWidth_VarPhaseShift_WithPhaseTracking(frequencyCalculator, DEFAULT_PULSE_WIDTH, phaseShiftCalculator, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
             }
             else
             {
