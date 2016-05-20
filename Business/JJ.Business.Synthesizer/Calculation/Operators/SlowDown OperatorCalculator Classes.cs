@@ -165,6 +165,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
             if (factor == 0) throw new ZeroException(() => factor);
+            if (factor == 1) throw new ZeroException(() => factor);
             if (Double.IsNaN(factor)) throw new NaNException(() => factor);
             if (Double.IsInfinity(factor)) throw new InfinityException(() => factor);
             OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
@@ -231,6 +232,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
             if (factor == 0) throw new ZeroException(() => factor);
+            if (factor == 1) throw new ZeroException(() => factor);
             if (Double.IsNaN(factor)) throw new NaNException(() => factor);
             if (Double.IsInfinity(factor)) throw new InfinityException(() => factor);
             OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);

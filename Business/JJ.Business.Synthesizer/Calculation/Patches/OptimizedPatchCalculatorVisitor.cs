@@ -3135,11 +3135,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (factorIsConst)
             {
-                calculator = new SpeedUp_OperatorCalculator_ConstFactor(signalCalculator, factor, dimensionStack);
+                calculator = new SpeedUp_OperatorCalculator_ConstFactor_NoOriginShifting(signalCalculator, factor, dimensionStack);
             }
             else
             {
-                calculator = new SpeedUp_OperatorCalculator_VarFactor(signalCalculator, factorCalculator, dimensionStack);
+                calculator = new SpeedUp_OperatorCalculator_VarFactor_WithPhaseTracking(signalCalculator, factorCalculator, dimensionStack);
             }
 
             dimensionStack.Pop();
