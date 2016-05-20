@@ -19,7 +19,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double phaseShift,
             DimensionStack dimensionStack)
         {
-            if (frequency == 0) throw new ZeroException(() => frequency);
+            OperatorCalculatorHelper.AssertFrequency(frequency);
+            //OperatorCalculatorHelper.AssertPhaseShift(phaseShift);
             OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
 
             _frequency = frequency;
@@ -60,7 +61,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[] { phaseShiftCalculator })
         {
-            if (frequency == 0) throw new ZeroException(() => frequency);
+            OperatorCalculatorHelper.AssertFrequency(frequency);
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(phaseShiftCalculator, () => phaseShiftCalculator);
             OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
 
@@ -74,13 +75,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate()
         {
             double position = _dimensionStack.Get(_dimensionStackIndex);
-
             double phaseShift = _phaseShiftCalculator.Calculate();
 
-            double phase = (position - _origin) * _frequency;
-
-            double shiftedPhase = phase + phaseShift;
-            double value = 1 - (2 * shiftedPhase % 2);
+            double phase = (position - _origin) * _frequency + phaseShift;
+            double value = 1 - (2 * phase % 2);
 
             return value;
         }
@@ -105,7 +103,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double phaseShift,
             DimensionStack dimensionStack)
         {
-            if (frequency == 0) throw new ZeroException(() => frequency);
+            OperatorCalculatorHelper.AssertFrequency(frequency);
+            //OperatorCalculatorHelper.AssertPhaseShift(phaseShift);
             OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
 
             _frequency = frequency;
@@ -118,8 +117,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate()
         {
             double position = _dimensionStack.Get(_dimensionStackIndex);
-            double shiftedPhase = position * _frequency + _phaseShift;
-            double value = 1.0 - (2.0 * shiftedPhase % 2.0);
+            double phase = position * _frequency + _phaseShift;
+            double value = 1.0 - (2.0 * phase % 2.0);
             return value;
         }
     }
@@ -137,7 +136,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[] { phaseShiftCalculator })
         {
-            if (frequency == 0) throw new ZeroException(() => frequency);
+            OperatorCalculatorHelper.AssertFrequency(frequency);
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(phaseShiftCalculator, () => phaseShiftCalculator);
             OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
 
@@ -151,13 +150,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate()
         {
             double position = _dimensionStack.Get(_dimensionStackIndex);
-
             double phaseShift = _phaseShiftCalculator.Calculate();
 
-            double phase = position * _frequency;
-
-            double shiftedPhase = phase + phaseShift;
-            double value = 1 - (2 * shiftedPhase % 2);
+            double phase = position * _frequency + phaseShift;
+            double value = 1 - (2 * phase % 2);
 
             return value;
         }
