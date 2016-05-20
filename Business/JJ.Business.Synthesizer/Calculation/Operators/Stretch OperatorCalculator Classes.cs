@@ -13,23 +13,26 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class Stretch_OperatorCalculator_VarSignal_ConstFactor_ZeroOrigin : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
-        private readonly double _factorValue;
+        private readonly double _factor;
         private readonly DimensionStack _dimensionStack;
         private readonly int _currentDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
 
         public Stretch_OperatorCalculator_VarSignal_ConstFactor_ZeroOrigin(
             OperatorCalculatorBase signalCalculator,
-            double factorValue,
+            double factor,
             DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[] { signalCalculator })
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
-            if (factorValue == 0) throw new ZeroException(() => factorValue);
+            if (factor == 0) throw new ZeroException(() => factor);
+            if (factor == 1) throw new ZeroException(() => factor);
+            if (Double.IsNaN(factor)) throw new NaNException(() => factor);
+            if (Double.IsInfinity(factor)) throw new InfinityException(() => factor);
             OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
 
             _signalCalculator = signalCalculator;
-            _factorValue = factorValue;
+            _factor = factor;
             _dimensionStack = dimensionStack;
             _currentDimensionStackIndex = dimensionStack.CurrentIndex;
             _previousDimensionStackIndex = dimensionStack.CurrentIndex - 1;
@@ -38,16 +41,33 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double position = _dimensionStack.Get(_previousDimensionStackIndex);
-
-            // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
-            double transformedPosition = position / _factorValue;
+            double transformedPosition = GetTransformedPosition();
 
             _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
 
             double result = _signalCalculator.Calculate();
 
             return result;
+        }
+
+        public override void Reset()
+        {
+            double transformedPosition = GetTransformedPosition();
+
+            _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
+
+            base.Reset();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private double GetTransformedPosition()
+        {
+            double position = _dimensionStack.Get(_previousDimensionStackIndex);
+
+            // IMPORTANT: To stretch things in the output, you have to squash things in the input.
+            double transformedPosition = position / _factor;
+
+            return transformedPosition;
         }
     }
 
@@ -62,10 +82,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly int _previousDimensionStackIndex;
 
         public Stretch_OperatorCalculator_VarSignal_VarFactor_ZeroOrigin(
-            OperatorCalculatorBase signalCalculator, 
+            OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase factorCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] 
+            : base(new OperatorCalculatorBase[]
             {
                 signalCalculator,
                 factorCalculator
@@ -85,25 +105,34 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
+            double transformedPosition = GetTransformedPosition();
+
+            _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
+
+            double result = _signalCalculator.Calculate();
+
+            return result;
+        }
+
+        public override void Reset()
+        {
+            double transformedPosition = GetTransformedPosition();
+
+            _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
+
+            base.Reset();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private double GetTransformedPosition()
+        {
+            double position = _dimensionStack.Get(_previousDimensionStackIndex);
             double factor = _factorCalculator.Calculate();
-            if (factor == 0)
-            {
-                double result = _signalCalculator.Calculate();
-                return result;
-            }
-            else
-            {
-                double position = _dimensionStack.Get(_previousDimensionStackIndex);
 
-                // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
-                double transformedPosition = position / factor;
+            // IMPORTANT: To stretch things in the output, you have to squash things in the input.
+            double transformedPosition = position / factor;
 
-                _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
-
-                double result = _signalCalculator.Calculate();
-
-                return result;
-            }
+            return transformedPosition;
         }
     }
 
@@ -127,9 +156,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly int _previousDimensionStackIndex;
 
         public Stretch_OperatorCalculator_VarSignal_ConstFactor_ConstOrigin(
-            OperatorCalculatorBase signalCalculator, 
-            double factorValue, 
-            double originValue,
+            OperatorCalculatorBase signalCalculator,
+            double factor,
+            double origin,
             DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[]
             {
@@ -137,14 +166,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             })
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
-            if (factorValue == 0) throw new ZeroException(() => factorValue);
-            if (factorValue == 0) throw new ZeroException(() => factorValue);
-            if (originValue == 0) throw new ZeroException(() => originValue);
+            if (factor == 0) throw new ZeroException(() => factor);
+            if (factor == 1) throw new ZeroException(() => factor);
+            if (Double.IsNaN(factor)) throw new NaNException(() => factor);
+            if (Double.IsInfinity(factor)) throw new InfinityException(() => factor);
+            if (origin == 0) throw new ZeroException(() => origin);
             OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
 
             _signalCalculator = signalCalculator;
-            _factor = factorValue;
-            _origin = originValue;
+            _factor = factor;
+            _origin = origin;
             _dimensionStack = dimensionStack;
             _currentDimensionStackIndex = dimensionStack.CurrentIndex;
             _previousDimensionStackIndex = dimensionStack.CurrentIndex - 1;
@@ -153,16 +184,33 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double position = _dimensionStack.Get(_previousDimensionStackIndex);
-
-            // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
-            double transformedPosition = (position - _origin) / _factor + _origin;
+            double transformedPosition = GetTransformedPosition();
 
             _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
 
             double result = _signalCalculator.Calculate();
 
             return result;
+        }
+
+        public override void Reset()
+        {
+            double transformedPosition = GetTransformedPosition();
+
+            _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
+
+            base.Reset();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private double GetTransformedPosition()
+        {
+            double position = _dimensionStack.Get(_previousDimensionStackIndex);
+
+            // IMPORTANT: To stretch things in the output, you have to squash things in the input.
+            double transformedPosition = (position - _origin) / _factor + _origin;
+
+            return transformedPosition;
         }
     }
 
@@ -179,22 +227,25 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public Stretch_OperatorCalculator_VarSignal_ConstFactor_VarOrigin(
             OperatorCalculatorBase signalCalculator,
-            double factorValue,
+            double factor,
             OperatorCalculatorBase originCalculator,
             DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[]
             {
-                signalCalculator, 
+                signalCalculator,
                 originCalculator
             })
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
-            if (factorValue == 0) throw new ZeroException(() => factorValue);
+            if (factor == 0) throw new ZeroException(() => factor);
+            if (factor == 1) throw new ZeroException(() => factor);
+            if (Double.IsNaN(factor)) throw new NaNException(() => factor);
+            if (Double.IsInfinity(factor)) throw new InfinityException(() => factor);
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(originCalculator, () => originCalculator);
             OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
 
             _signalCalculator = signalCalculator;
-            _factor = factorValue;
+            _factor = factor;
             _originCalculator = originCalculator;
             _dimensionStack = dimensionStack;
             _currentDimensionStackIndex = dimensionStack.CurrentIndex;
@@ -204,18 +255,34 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double position = _dimensionStack.Get(_previousDimensionStackIndex);
-
-            // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
-            double origin = _originCalculator.Calculate();
-
-            double transformedPosition = (position - origin) / _factor + origin;
+            double transformedPosition = GetTransformedPosition();
 
             _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
 
             double result2 = _signalCalculator.Calculate();
 
             return result2;
+        }
+
+        public override void Reset()
+        {
+            double transformedPosition = GetTransformedPosition();
+
+            _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
+
+            base.Reset();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private double GetTransformedPosition()
+        {
+            double position = _dimensionStack.Get(_previousDimensionStackIndex);
+
+            // IMPORTANT: To stretch things in the output, you have to squash things in the input.
+            double origin = _originCalculator.Calculate();
+
+            double transformedPosition = (position - origin) / _factor + origin;
+            return transformedPosition;
         }
     }
 
@@ -237,12 +304,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[]
             {
-                signalCalculator, 
+                signalCalculator,
                 factorCalculator
             })
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(factorCalculator, () => factorCalculator);
+            if (origin == 0) throw new ZeroException(() => origin);
             OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
 
             _signalCalculator = signalCalculator;
@@ -256,26 +324,34 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
+            double transformedPosition = GetTransformedPosition();
+
+            _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
+
+            double result = _signalCalculator.Calculate();
+
+            return result;
+        }
+
+        public override void Reset()
+        {
+            double transformedPosition = GetTransformedPosition();
+
+            _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
+
+            base.Reset();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private double GetTransformedPosition()
+        {
             double factor = _factorCalculator.Calculate();
+            double position = _dimensionStack.Get(_previousDimensionStackIndex);
 
-            if (factor == 0)
-            {
-                double result = _signalCalculator.Calculate();
-                return result;
-            }
-            else
-            {
-                double position = _dimensionStack.Get(_previousDimensionStackIndex);
+            // IMPORTANT: To stretch things in the output, you have to squash things in the input.
+            double transformedPosition = (position - _origin) / factor + _origin;
 
-                // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
-                double transformedPosition = (position - _origin) / factor + _origin;
-
-                _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
-
-                double result = _signalCalculator.Calculate();
-
-                return result;
-            }
+            return transformedPosition;
         }
     }
 
@@ -291,8 +367,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly int _previousDimensionStackIndex;
 
         public Stretch_OperatorCalculator_VarSignal_VarFactor_VarOrigin(
-            OperatorCalculatorBase signalCalculator, 
-            OperatorCalculatorBase factorCalculator, 
+            OperatorCalculatorBase signalCalculator,
+            OperatorCalculatorBase factorCalculator,
             OperatorCalculatorBase originCalculator,
             DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[]
@@ -318,26 +394,34 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
+            double transformedPosition = GetTransformedPosition();
+
+            _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
+
+            double result = _signalCalculator.Calculate();
+
+            return result;
+        }
+
+        public override void Reset()
+        {
+            double transformedPosition = GetTransformedPosition();
+
+            _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
+
+            base.Reset();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private double GetTransformedPosition()
+        {
             double factor = _factorCalculator.Calculate();
-            if (factor == 0)
-            {
-                double result = _signalCalculator.Calculate();
-                return result;
-            }
-            else
-            {
-                double position = _dimensionStack.Get(_previousDimensionStackIndex);
+            double position = _dimensionStack.Get(_previousDimensionStackIndex);
+            double origin = _originCalculator.Calculate();
 
-                // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
-                double origin = _originCalculator.Calculate();
-                double transformedPosition = (position - origin) / factor + origin;
-
-                _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
-
-                double result = _signalCalculator.Calculate();
-
-                return result;
-            }
+            // IMPORTANT: To stretch things in the output, you have to squash things in the input.
+            double transformedPosition = (position - origin) / factor + origin;
+            return transformedPosition;
         }
     }
 }
