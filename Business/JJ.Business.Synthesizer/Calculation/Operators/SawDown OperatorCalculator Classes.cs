@@ -162,12 +162,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class SawDown_OperatorCalculator_VarFrequency_ConstPhaseShift_WithPhaseTracking : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
+        private readonly double _phaseShift;
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
-        private double _phase;
+        private double _shiftedPhase;
         private double _previousPosition;
-        
+
         public SawDown_OperatorCalculator_VarFrequency_ConstPhaseShift_WithPhaseTracking(
             OperatorCalculatorBase frequencyCalculator,
             double phaseShift,
@@ -175,14 +176,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             : base(new OperatorCalculatorBase[] { frequencyCalculator })
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(frequencyCalculator, () => frequencyCalculator);
+            //OperatorCalculatorHelper.AssertPhaseShift(phaseShift);
             OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
 
             _frequencyCalculator = frequencyCalculator;
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
 
-            // TODO: Assert so it does not become NaN.
-            _phase = phaseShift;
+            _phaseShift = phaseShift;
+            _shiftedPhase = phaseShift;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -193,9 +195,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double frequency = _frequencyCalculator.Calculate();
 
             double positionChange = position - _previousPosition;
-            _phase = _phase + positionChange * frequency;
+            _shiftedPhase = _shiftedPhase + positionChange * frequency;
 
-            double value = 1 - (2 * _phase % 2);
+            double value = 1 - (2 * _shiftedPhase % 2);
 
             _previousPosition = position;
 
@@ -207,7 +209,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double position = _dimensionStack.Get(_dimensionStackIndex);
 
             _previousPosition = position;
-            _phase = 0.0;
+            _shiftedPhase = _phaseShift;
 
             base.Reset();
         }
