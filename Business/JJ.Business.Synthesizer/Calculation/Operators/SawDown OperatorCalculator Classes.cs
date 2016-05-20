@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
+    // TODO: Program variations without phase shift.
+    // Phase shift checks are for that reason temporarily commented out.
+
     internal class SawDown_OperatorCalculator_ConstFrequency_ConstPhaseShift_WithOriginShifting : OperatorCalculatorBase
     {
         private readonly double _frequency;
@@ -245,13 +246,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate()
         {
             double position = _dimensionStack.Get(_dimensionStackIndex);
-
             double frequency = _frequencyCalculator.Calculate();
             double phaseShift = _phaseShiftCalculator.Calculate();
 
             double positionChange = position - _previousPosition;
             _phase = _phase + positionChange * frequency;
-
             double shiftedPhase = _phase + phaseShift;
             double value = 1 - (2 * shiftedPhase % 2);
 
@@ -274,9 +273,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class SawDown_OperatorCalculator_VarFrequency_ConstPhaseShift_NoPhaseTracking : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
+        private readonly double _phaseShift;
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
-        private readonly double _phaseShift;
 
         public SawDown_OperatorCalculator_VarFrequency_ConstPhaseShift_NoPhaseTracking(
             OperatorCalculatorBase frequencyCalculator,
@@ -338,7 +337,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double phaseShift = _phaseShiftCalculator.Calculate();
 
             double phase = position * frequency + phaseShift;
-
             double value = 1 - (2 * phase % 2);
 
             return value;
