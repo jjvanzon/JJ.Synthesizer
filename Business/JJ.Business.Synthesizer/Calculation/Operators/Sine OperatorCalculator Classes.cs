@@ -292,6 +292,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
+    // No Phase Tracking or Origin Shifting
+
     internal class Sine_OperatorCalculator_VarFrequency_PhaseShiftZero_NoPhaseTracking : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
@@ -457,7 +459,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double position = _dimensionStack.Get(_dimensionStackIndex);
 
-            double result = SineCalculator.Sin(position * _frequency + _phaseShift);
+            double phase = position * _frequency + _phaseShift;
+            double result = SineCalculator.Sin(phase);
 
             return result;
         }
