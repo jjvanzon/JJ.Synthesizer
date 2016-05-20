@@ -36,7 +36,29 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
+            double transformedPosition = GetTransformedPosition();
+
+            _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
+
+            double result = _signalCalculator.Calculate();
+
+            return result;
+        }
+
+        public override void Reset()
+        {
+            double transformedPosition = GetTransformedPosition();
+
+            _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
+
+            base.Reset();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private double GetTransformedPosition()
+        {
             double position = _dimensionStack.Get(_previousDimensionStackIndex);
+            double origin = _originCalculator.Calculate();
 
             // IMPORTANT: 
 
@@ -46,8 +68,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             // Furthermore, you can not use a fractional exponent on a negative number.
             // Time can be negative, that is why the sign is taken off the time 
             // before taking the power and then added to it again after taking the power.
-
-            double origin = _originCalculator.Calculate();
 
             double positionAbs = Math.Abs(position - origin);
 
@@ -62,11 +82,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 transformedPosition = -transformedPosition;
             }
 
-            _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
-
-            double result = _signalCalculator.Calculate();
-
-            return result;
+            return transformedPosition;
         }
     }
 
@@ -98,6 +114,27 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
+            double transformedPosition = GetTransformedPosition();
+
+            _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
+
+            double result = _signalCalculator.Calculate();
+
+            return result;
+        }
+
+        public override void Reset()
+        {
+            double transformedPosition = GetTransformedPosition();
+
+            _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
+
+            base.Reset();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private double GetTransformedPosition()
+        {
             double position = _dimensionStack.Get(_previousDimensionStackIndex);
 
             // IMPORTANT: 
@@ -123,11 +160,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 transformedPosition = -transformedPosition;
             }
 
-            _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
-
-            double result = _signalCalculator.Calculate();
-
-            return result;
+            return transformedPosition;
         }
     }
 }

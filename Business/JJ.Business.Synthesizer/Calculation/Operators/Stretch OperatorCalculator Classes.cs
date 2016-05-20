@@ -415,8 +415,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private double GetTransformedPosition()
         {
-            double factor = _factorCalculator.Calculate();
             double position = _dimensionStack.Get(_previousDimensionStackIndex);
+            double factor = _factorCalculator.Calculate();
             double origin = _originCalculator.Calculate();
 
             // IMPORTANT: To stretch things in the output, you have to squash things in the input.
