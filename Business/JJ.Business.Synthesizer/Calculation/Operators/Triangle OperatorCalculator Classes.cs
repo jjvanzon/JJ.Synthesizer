@@ -317,7 +317,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
 
-            // Correct the phase, because our calculation starts with value -1, but in practice you want to start at value 0 going up.
+            // Correct the phase with 0.25, because our calculation starts with value -1, but in practice you want to start at value 0 going up.
             _phasePlusQuarter = 0.25;
         }
 
