@@ -2760,19 +2760,19 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (frequencyIsConst && phaseShiftIsConst)
             {
-                calculator = new SawUp_OperatorCalculator_ConstFrequency_ConstPhaseShift(frequency, phaseShift, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
+                calculator = new SawUp_OperatorCalculator_ConstFrequency_ConstPhaseShift_NoOriginShifting(frequency, phaseShift, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
             }
             else if (!frequencyIsConst && phaseShiftIsConst)
             {
-                calculator = new SawUp_OperatorCalculator_VarFrequency_ConstPhaseShift(frequencyCalculator, phaseShift, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
+                calculator = new SawUp_OperatorCalculator_VarFrequency_ConstPhaseShift_WithPhaseTracking(frequencyCalculator, phaseShift, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
             }
             else if (frequencyIsConst && !phaseShiftIsConst)
             {
-                calculator = new SawUp_OperatorCalculator_ConstFrequency_VarPhaseShift(frequency, phaseShiftCalculator, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
+                calculator = new SawUp_OperatorCalculator_ConstFrequency_VarPhaseShift_NoOriginShifting(frequency, phaseShiftCalculator, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
             }
             else
             {
-                calculator = new SawUp_OperatorCalculator_VarFrequency_VarPhaseShift(frequencyCalculator, phaseShiftCalculator, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
+                calculator = new SawUp_OperatorCalculator_VarFrequency_VarPhaseShift_WithPhaseTracking(frequencyCalculator, phaseShiftCalculator, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
             }
 
             _stack.Push(calculator);
