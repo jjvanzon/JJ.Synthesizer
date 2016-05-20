@@ -2917,7 +2917,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (frequencyIsConst && phaseShiftIsConstZero)
             {
-                calculator = new Sine_OperatorCalculator_ConstFrequency_NoPhaseShift_NoOriginShifting(frequency, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
+                calculator = new Sine_OperatorCalculator_ConstFrequency_PhaseShiftZero_NoOriginShifting(frequency, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
             }
             else if (frequencyIsConst && phaseShiftIsConst)
             {
@@ -2929,7 +2929,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (!frequencyIsConst && phaseShiftIsConstZero)
             {
-                calculator = new Sine_OperatorCalculator_VarFrequency_NoPhaseShift_WithPhaseTracking(frequencyCalculator, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
+                calculator = new Sine_OperatorCalculator_VarFrequency_PhaseShiftZero_WithPhaseTracking(frequencyCalculator, _dimensionStackCollection.GetDimensionStack(dimensionEnum));
             }
             else if (!frequencyIsConst && phaseShiftIsConst)
             {
@@ -3005,11 +3005,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (factorIsConst)
             {
-                calculator = new SlowDown_OperatorCalculator_ConstFactor(signalCalculator, factor, dimensionStack);
+                calculator = new SlowDown_OperatorCalculator_ConstFactor_NoOriginShifting(signalCalculator, factor, dimensionStack);
             }
             else
             {
-                calculator = new SlowDown_OperatorCalculator_VarFactor(signalCalculator, factorCalculator, dimensionStack);
+                calculator = new SlowDown_OperatorCalculator_VarFactor_WithPhaseTracking(signalCalculator, factorCalculator, dimensionStack);
             }
 
             dimensionStack.Pop();
