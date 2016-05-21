@@ -44,7 +44,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _currentDimensionStackIndex = dimensionStack.CurrentIndex;
             _previousDimensionStackIndex = dimensionStack.CurrentIndex - 1;
 
-            Reset();
+            ResetNonRecursive();
         }
 
         public override double Calculate()
@@ -108,6 +108,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
+            ResetNonRecursive();
+
+            base.Reset();
+        }
+
+        private void ResetNonRecursive()
+        {
             double position = _dimensionStack.Get(_previousDimensionStackIndex);
 
             _xMinus1 = CalculationHelper.VERY_LOW_VALUE;
@@ -121,8 +128,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _y0 = 0;
             _y1 = 0;
             _y2 = 0;
-
-            base.Reset();
         }
     }
 }

@@ -9,6 +9,7 @@ using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
 using System.Collections.Generic;
 using System.Linq;
+using System.Diagnostics.CodeAnalysis;
 
 namespace JJ.Business.Synthesizer.Validation
 {
@@ -16,6 +17,7 @@ namespace JJ.Business.Synthesizer.Validation
     {
         private ISampleRepository _sampleRepository;
 
+        [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public SampleValidator_Delete(Sample obj, ISampleRepository sampleRepository)
             : base(obj, postponeExecute: true)
         {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using JJ.Business.Synthesizer.Configuration;
 using JJ.Framework.Common;
 using JJ.Framework.Presentation.Resources;
@@ -12,6 +13,7 @@ namespace JJ.Business.Synthesizer.Validation
 
         private bool _required;
 
+        [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public NameValidator(string obj, bool required = true)
             : base(obj, postponeExecute: true)
         {

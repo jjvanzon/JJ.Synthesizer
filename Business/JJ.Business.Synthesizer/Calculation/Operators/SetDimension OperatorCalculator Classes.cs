@@ -49,7 +49,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _valueCalculator;
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
-        private readonly int _previousDimensionStackIndex;
 
         public SetDimension_OperatorCalculator_VarValue(
             OperatorCalculatorBase calculationCalculator,

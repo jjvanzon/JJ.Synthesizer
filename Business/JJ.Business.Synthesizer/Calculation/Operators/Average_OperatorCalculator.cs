@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
 
-            Reset();
+            ResetNonRecursive();
         }
 
         public override double Calculate()
@@ -92,6 +92,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
+            ResetNonRecursive();
+
+            base.Reset();
+        }
+
+        private void ResetNonRecursive()
+        {
             double position = _dimensionStack.Get(_dimensionStackIndex);
 
             _previousPosition = position;
@@ -115,8 +122,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _sampleLength = sliceLength / _sampleCountDouble;
 
             _queue = CreateQueue(_sampleCountDouble);
-
-            base.Reset();
         }
 
         private Queue<double> CreateQueue(double sampleCountDouble)

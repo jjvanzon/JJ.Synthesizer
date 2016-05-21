@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 
             _patchCalculators = patchCalculators.ToArray();
         }
-        
+
         public void Execute(AudioFileOutput audioFileOutput)
         {
             // Assert
@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 
             // Prepare the calculators
             var noiseCalculator = new NoiseCalculator(audioFileOutput.SamplingRate);
-            
+
             // Calculate output and write file
             int channelCount = audioFileOutput.GetChannelCount();
 

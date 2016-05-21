@@ -5,6 +5,7 @@ using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
@@ -13,6 +14,7 @@ namespace JJ.Business.Synthesizer.Warnings
         private ISampleRepository _sampleRepository;
         private HashSet<object> _alreadyDone;
 
+        [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public DocumentWarningValidator_Recursive(Document document, ISampleRepository sampleRepository, HashSet<object> alreadyDone)
             : base(document, postponeExecute: true)
         {

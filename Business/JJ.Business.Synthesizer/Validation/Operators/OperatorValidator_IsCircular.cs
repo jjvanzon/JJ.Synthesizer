@@ -5,6 +5,7 @@ using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+using System.Diagnostics.CodeAnalysis;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
@@ -12,6 +13,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     {
         private IPatchRepository _patchRepository;
 
+        [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public OperatorValidator_IsCircular(Operator op, IPatchRepository patchRepository)
             : base(op, postponeExecute: true)
         {
@@ -34,7 +36,9 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             // TODO: Enable the UnderlyingPatchIsCircular check again, when it is corrected, so it works.
             return;
 
+#pragma warning disable CS0162 // Unreachable code detected
             if (op.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator)
+#pragma warning restore CS0162 // Unreachable code detected
             {
                 if (op.HasCircularUnderlyingPatch(_patchRepository))
                 {

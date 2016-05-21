@@ -61,7 +61,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _currentDimensionStackIndex = dimensionStack.CurrentIndex;
             _previousDimensionStackIndex = dimensionStack.CurrentIndex - 1;
 
-            Reset();
+            ResetNonRecursive();
         }
 
         protected abstract double GetMaximumOrMinimum(RedBlackTree<double, double> redBlackTree);
@@ -158,6 +158,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
+            ResetNonRecursive();
+
+            base.Reset();
+        }
+
+        private void ResetNonRecursive()
+        {
             double position = _dimensionStack.Get(_previousDimensionStackIndex);
 
             _previousPosition = position;
@@ -181,8 +188,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             _redBlackTree = new RedBlackTree<double, double>();
             _queue = CreateQueue();
-
-            base.Reset();
         }
 
         private Queue<double> CreateQueue()

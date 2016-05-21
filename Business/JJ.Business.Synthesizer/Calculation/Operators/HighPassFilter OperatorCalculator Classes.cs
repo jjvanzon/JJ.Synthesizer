@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _signalCalculator = signalCalculator;
             _minFrequencyCalculator = minFrequencyCalculator;
 
-            Reset();
+            ResetNonRecursive();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -51,6 +51,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             base.Reset();
 
+            ResetNonRecursive();
+        }
+
+        private void ResetNonRecursive()
+        {
             _biQuadFilter = BiQuadFilter.HighPassFilter(ASSUMED_SAMPLE_RATE, DEFAULT_MIN_FREQUENCY, DEFAULT_BAND_WIDTH);
         }
     }

@@ -48,7 +48,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public static implicit operator double(Number_OperatorWrapper wrapper)
         {
-            if (wrapper == null) throw new NullException(() => wrapper);
+            if (wrapper == null) return default(double);
 
             return wrapper.Number;
         }

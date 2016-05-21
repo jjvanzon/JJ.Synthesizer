@@ -42,7 +42,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dbGain = dbGain;
             _shelfSlope = shelfSlope;
 
-            Reset();
+            ResetNonRecursive();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -59,6 +59,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             base.Reset();
 
+            ResetNonRecursive();
+        }
+
+        private void ResetNonRecursive()
+        {
             switch (_filterTypeEnum)
             {
                 case FilterTypeEnum.LowPassFilter:

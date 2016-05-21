@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Helpers;
@@ -24,6 +25,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private double _previousTime;
 
+        [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Spectrum_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase startTimeCalculator,

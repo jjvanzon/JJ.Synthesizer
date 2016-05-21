@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _signalCalculator = signalCalculator;
             _maxFrequencyCalculator = maxFrequencyCalculator;
 
-            Reset();
+            ResetNonRecursive();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -51,6 +51,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             base.Reset();
 
+            ResetNonRecursive();
+        }
+
+        private void ResetNonRecursive()
+        {
             _biQuadFilter = BiQuadFilter.LowPassFilter(ASSUMED_SAMPLE_RATE, DEFAULT_MAX_FREQUENCY, DEFAULT_BAND_WIDTH);
         }
     }
@@ -76,7 +81,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _signalCalculator = signalCalculator;
             _maxFrequency = maxFrequency;
 
-            Reset();
+            ResetNonRecursive();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -93,6 +98,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             base.Reset();
 
+            ResetNonRecursive();
+        }
+
+        private void ResetNonRecursive()
+        {
             _biQuadFilter = BiQuadFilter.LowPassFilter(ASSUMED_SAMPLE_RATE, (float)_maxFrequency, DEFAULT_BAND_WIDTH);
         }
     }

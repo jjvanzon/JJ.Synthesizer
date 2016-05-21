@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 
 namespace JJ.Business.Synthesizer.Helpers
 {
+    [SuppressMessage("Microsoft.Usage", "CA2237:MarkISerializableTypesWithSerializable")]
     public class CalculatorNotFoundException : Exception
     {
         private string _message;

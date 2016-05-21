@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             _signalCalculator = signalCalculator;
 
-            Reset();
+            ResetNonRecursive();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -28,9 +28,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
-            _value = _signalCalculator.Calculate();
+            ResetNonRecursive();
 
             base.Reset();
+        }
+
+        private void ResetNonRecursive()
+        {
+            _value = _signalCalculator.Calculate();
         }
     }
 }
