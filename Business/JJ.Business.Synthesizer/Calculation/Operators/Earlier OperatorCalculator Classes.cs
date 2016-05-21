@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Earlier_OperatorCalculator_VarDistance : OperatorCalculatorBase_WithChildCalculators
+    internal class Earlier_OperatorCalculator_VarSignal_VarDistance : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _distanceCalculator;
@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly int _currentDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
 
-        public Earlier_OperatorCalculator_VarDistance(
+        public Earlier_OperatorCalculator_VarSignal_VarDistance(
             OperatorCalculatorBase signalCalculator, 
             OperatorCalculatorBase distanceCalculator,
             DimensionStack dimensionStack)
@@ -67,7 +67,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Earlier_OperatorCalculator_ConstDistance : OperatorCalculatorBase_WithChildCalculators
+    internal class Earlier_OperatorCalculator_VarSignal_ConstDistance : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _distance;
@@ -75,7 +75,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly int _currentDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
         
-        public Earlier_OperatorCalculator_ConstDistance(
+        public Earlier_OperatorCalculator_VarSignal_ConstDistance(
             OperatorCalculatorBase signalCalculator,
             double distance,
             DimensionStack dimensionStack)

@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Delay_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Delay_OperatorCalculator_VarSignal_VarDistance : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _distanceCalculator;
@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly int _currentDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
 
-        public Delay_OperatorCalculator(
+        public Delay_OperatorCalculator_VarSignal_VarDistance(
             OperatorCalculatorBase signalCalculator, 
             OperatorCalculatorBase distanceCalculator,
             DimensionStack dimensionStack)
