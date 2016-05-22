@@ -641,7 +641,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected override void VisitCurveOperator(Operator op)
         {
             var wrapper = new Curve_OperatorWrapper(op, _curveRepository);
-            Curve curve = wrapper.Curve;
             DimensionEnum dimensionEnum = wrapper.Dimension;
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
@@ -649,6 +648,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             OperatorCalculatorBase calculator = null;
 
+            Curve curve = wrapper.Curve;
             if (curve == null)
             {
                 calculator = new Zero_OperatorCalculator();
