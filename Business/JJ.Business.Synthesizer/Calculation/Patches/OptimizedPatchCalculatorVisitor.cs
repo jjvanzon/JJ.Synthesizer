@@ -2773,7 +2773,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             base.VisitSawDown(op);
 
-            OperatorCalculatorBase calculator = null;
+            OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase frequencyCalculator = _stack.Pop();
             OperatorCalculatorBase phaseShiftCalculator = _stack.Pop();
@@ -2824,8 +2824,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = new SawDown_OperatorCalculator_VarFrequency_VarPhaseShift_NoPhaseTracking(frequencyCalculator, phaseShiftCalculator, dimensionStack);
             }
-
-            if (calculator == null)
+            else 
             {
                 throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
@@ -2841,7 +2840,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             base.VisitSawUp(op);
 
-            OperatorCalculatorBase calculator = null;
+            OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase frequencyCalculator = _stack.Pop();
             OperatorCalculatorBase phaseShiftCalculator = _stack.Pop();
@@ -2892,8 +2891,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = new SawUp_OperatorCalculator_VarFrequency_VarPhaseShift_NoPhaseTracking(frequencyCalculator, phaseShiftCalculator, dimensionStack);
             }
-
-            if (calculator == null)
+            else
             {
                 throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
@@ -3020,7 +3018,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             base.VisitSine(op);
 
-            OperatorCalculatorBase calculator = null;
+            OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase frequencyCalculator = _stack.Pop();
             OperatorCalculatorBase phaseShiftCalculator = _stack.Pop();
@@ -3089,8 +3087,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = new Sine_OperatorCalculator_VarFrequency_VarPhaseShift_NoPhaseTracking(frequencyCalculator, phaseShiftCalculator, dimensionStack);
             }
-
-            if (calculator == null)
+            else
             {
                 throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
@@ -3107,7 +3104,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             base.VisitSlowDown(op);
 
-            OperatorCalculatorBase calculator = null;
+            OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
             OperatorCalculatorBase factorCalculator = _stack.Pop();
@@ -3174,8 +3171,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = new SlowDown_OperatorCalculator_VarFactor_NoPhaseTracking(signalCalculator, factorCalculator, dimensionStack);
             }
-
-            if (calculator == null)
+            else
             {
                 throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
@@ -3251,7 +3247,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             base.VisitSpeedUp(op);
 
-            OperatorCalculatorBase calculator = null;
+            OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
             OperatorCalculatorBase factorCalculator = _stack.Pop();
@@ -3317,8 +3313,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = new SpeedUp_OperatorCalculator_VarFactor_NoPhaseTracking(signalCalculator, factorCalculator, dimensionStack);
             }
-
-            if (calculator == null)
+            else
             {
                 throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
@@ -3640,7 +3635,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             base.VisitTriangle(op);
 
-            OperatorCalculatorBase calculator = null;
+            OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase frequencyCalculator = _stack.Pop();
             OperatorCalculatorBase phaseShiftCalculator = _stack.Pop();
@@ -3656,7 +3651,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             if (frequencyIsConstZero)
             {
                 // Special number
-                calculator = new Zero_OperatorCalculator();
+                // Frequency 0 means time stands still.
+                calculator = new Number_OperatorCalculator(phaseShift);
             }
             else if (frequencyIsConst && phaseShiftIsConst && dimensionEnum == DimensionEnum.Time)
             {
@@ -3690,8 +3686,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = new Triangle_OperatorCalculator_VarFrequency_VarPhaseShift_NoPhaseTracking(frequencyCalculator, phaseShiftCalculator, dimensionStack);
             }
-
-            if (calculator == null)
+            else
             {
                 throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
