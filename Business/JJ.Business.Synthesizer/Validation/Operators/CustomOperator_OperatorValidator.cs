@@ -11,7 +11,6 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.EntityWrappers;
-using System.Diagnostics.CodeAnalysis;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
@@ -22,7 +21,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     
         private readonly IPatchRepository _patchRepository;
 
-        [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public CustomOperator_OperatorValidator(Operator op, IPatchRepository patchRepository)
             : base(op, postponeExecute: true)
         {

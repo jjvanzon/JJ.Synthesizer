@@ -5,7 +5,6 @@ using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
-using System.Diagnostics.CodeAnalysis;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
@@ -13,7 +12,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     {
         private IPatchRepository _patchRepository;
 
-        [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public OperatorValidator_IsCircular(Operator op, IPatchRepository patchRepository)
             : base(op, postponeExecute: true)
         {

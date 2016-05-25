@@ -5,7 +5,6 @@ using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Warnings.Operators;
-using System.Diagnostics.CodeAnalysis;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
@@ -15,7 +14,6 @@ namespace JJ.Business.Synthesizer.Warnings
 
         private HashSet<object> _alreadyDone;
 
-        [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public PatchWarningValidator_Recursive(Patch obj, ISampleRepository sampleRepository, HashSet<object> alreadyDone)
             : base(obj, postponeExecute: true)
         {

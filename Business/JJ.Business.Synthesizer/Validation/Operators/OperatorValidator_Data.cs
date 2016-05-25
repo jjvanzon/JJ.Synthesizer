@@ -9,7 +9,6 @@ using System.Linq;
 using JJ.Framework.Common;
 using JJ.Business.Synthesizer.Configuration;
 using JJ.Business.Synthesizer.Helpers;
-using System.Diagnostics.CodeAnalysis;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
@@ -21,7 +20,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         /// <summary> HashSet for unicity and value comparisons. </summary>
         private HashSet<string> _allowedDataKeysHashSet;
 
-        [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public OperatorValidator_Data(
             Operator obj,
             IList<string> allowedDataKeys)

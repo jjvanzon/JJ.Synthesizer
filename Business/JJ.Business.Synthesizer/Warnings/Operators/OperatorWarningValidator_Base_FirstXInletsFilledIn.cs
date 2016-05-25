@@ -4,7 +4,6 @@ using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
 using System.Linq;
-using System.Diagnostics.CodeAnalysis;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
@@ -12,7 +11,6 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
     {
         private int _inletCount;
 
-        [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public OperatorWarningValidator_Base_FirstXInletsFilledIn(Operator obj, int inletCount)
             : base(obj, postponeExecute: true)
         {

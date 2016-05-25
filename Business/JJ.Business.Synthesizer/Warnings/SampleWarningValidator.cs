@@ -3,7 +3,6 @@ using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Helpers;
-using System.Diagnostics.CodeAnalysis;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
@@ -13,7 +12,6 @@ namespace JJ.Business.Synthesizer.Warnings
         private HashSet<object> _alreadyDone;
 
         /// <param name="bytes">nullable</param>
-        [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public SampleWarningValidator(Sample obj, byte[] bytes, HashSet<object> alreadyDone)
             : base(obj, postponeExecute: true)
         {

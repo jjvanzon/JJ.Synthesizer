@@ -9,7 +9,6 @@ using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Common;
-using System.Diagnostics.CodeAnalysis;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
@@ -22,7 +21,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         private IList<string> _allowedDataKeys;
 
-        [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public OperatorValidator_Base(
             Operator obj,
             OperatorTypeEnum expectedOperatorTypeEnum,

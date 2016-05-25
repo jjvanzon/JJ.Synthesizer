@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Presentation.Resources;
@@ -13,7 +12,6 @@ namespace JJ.Business.Synthesizer.Validation
         private readonly int _expectedListIndex;
 
         /// <summary> For operators other than CustomOperator. </summary>
-        [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public InletValidator_ForOtherOperator(Inlet obj, int expectedListIndex)
             : base(obj, postponeExecute: true)
         {

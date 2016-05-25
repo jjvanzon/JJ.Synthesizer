@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Business.Synthesizer.Validation.Scales;
 using JJ.Business.Synthesizer.Validation.Curves;
-using System.Diagnostics.CodeAnalysis;
 
 namespace JJ.Business.Synthesizer.Validation.Documents
 {
@@ -17,7 +16,6 @@ namespace JJ.Business.Synthesizer.Validation.Documents
         private IPatchRepository _patchRepository;
         private HashSet<object> _alreadyDone;
 
-        [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Recursive_DocumentValidator(
             Document document, 
             ICurveRepository curveRepository,

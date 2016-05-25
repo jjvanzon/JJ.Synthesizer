@@ -11,7 +11,6 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Validation.Operators;
-using System.Diagnostics.CodeAnalysis;
 
 namespace JJ.Business.Synthesizer.Validation
 {
@@ -22,7 +21,6 @@ namespace JJ.Business.Synthesizer.Validation
         private IPatchRepository _patchRepository;
         private HashSet<object> _alreadyDone;
 
-        [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public PatchValidator_Recursive(
             Patch obj, 
             ICurveRepository curveRepository,

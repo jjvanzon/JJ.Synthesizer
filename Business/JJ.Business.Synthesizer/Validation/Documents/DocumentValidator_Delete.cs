@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Extensions;
@@ -17,7 +16,6 @@ namespace JJ.Business.Synthesizer.Validation.Documents
     {
         private IPatchRepository _patchRepository;
 
-        [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public DocumentValidator_Delete(Document obj, IPatchRepository patchRepository)
             : base(obj, postponeExecute: true)
         {

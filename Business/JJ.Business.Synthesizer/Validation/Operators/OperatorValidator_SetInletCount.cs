@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -16,7 +15,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     {
         private readonly int _newInletCount;
 
-        [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public OperatorValidator_SetInletCount(Operator obj, int newInletCount)
             : base(obj, postponeExecute: true)
         {

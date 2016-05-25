@@ -9,7 +9,6 @@ using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
 using System.Collections.Generic;
 using System.Linq;
-using System.Diagnostics.CodeAnalysis;
 
 namespace JJ.Business.Synthesizer.Validation.Curves
 {
@@ -17,7 +16,6 @@ namespace JJ.Business.Synthesizer.Validation.Curves
     {
         private ICurveRepository _curveRepository;
 
-        [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public CurveValidator_Delete(Curve curve, ICurveRepository curveRepository)
             : base(curve, postponeExecute: true)
         {
