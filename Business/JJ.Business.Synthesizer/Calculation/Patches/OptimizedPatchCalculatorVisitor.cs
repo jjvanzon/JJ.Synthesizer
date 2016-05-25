@@ -405,7 +405,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                                   endTimeIsValid &&
                                   samplingRateIsValid &&
                                   startTimeComparedToEndTimeIsValid;
-
             if (!valuesAreValid)
             {
                 calculator = new Number_OperatorCalculator(Double.NaN);
@@ -3004,8 +3003,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitShift(Operator op)
         {
-            base.VisitShift(op);
-
             // Shift is a synonym for Delay, that makes more sense in case the x-axis does not represent time.
             VisitDelay(op);
         }
@@ -3721,7 +3718,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                double position = _dimensionStackCollection.Get(dimensionEnum);
+                double position = _bundleDimensionStackCollection.Get(dimensionEnum);
 
                 operatorCalculator = new Unbundle_OperatorCalculator(operandCalculator, position, dimensionStack);
             }
