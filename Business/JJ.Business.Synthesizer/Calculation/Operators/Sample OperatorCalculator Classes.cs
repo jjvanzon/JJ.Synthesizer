@@ -62,7 +62,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             double rate = frequency / Sample_OperatorCalculator_Helper.BASE_FREQUENCY;
             double positionChange = position - _previousPosition;
-
             _phase = _phase + positionChange * rate;
 
             double value = _sampleCalculator.CalculateValue(_phase, channelIndex);
@@ -128,6 +127,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double position = _dimensionStack.Get(_dimensionStackIndex);
 
             double phase = (position - _origin) * _rate;
+
             double value = _sampleCalculator.CalculateValue(phase, channelIndex);
 
             return value;
@@ -175,7 +175,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             double rate = frequency / Sample_OperatorCalculator_Helper.BASE_FREQUENCY;
             double positionChange = position - _previousPosition;
-
             _phase = _phase + positionChange * rate;
 
             // Return the single channel for both channels.
@@ -276,7 +275,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             double rate = frequency / Sample_OperatorCalculator_Helper.BASE_FREQUENCY;
             double positionChange = position - _previousPosition;
-
             _phase = _phase + positionChange * rate;
 
             double value0 = _sampleCalculator.CalculateValue(_phase, 0);
@@ -364,7 +362,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
             if (sampleCalculator == null) throw new NullException(() => sampleCalculator);
-
             OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
             OperatorCalculatorHelper.AssertDimensionStack_ForReaders(channelDimensionStack);
 
@@ -443,6 +440,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double position = _dimensionStack.Get(_dimensionStackIndex);
 
             double phase = position * _rate;
+
             double value = _sampleCalculator.CalculateValue(phase, channelIndex);
 
             return value;
@@ -554,7 +552,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double frequency = _frequencyCalculator.Calculate();
 
             double rate = frequency / Sample_OperatorCalculator_Helper.BASE_FREQUENCY;
-
             double phase = position * rate;
 
             double value0 = _sampleCalculator.CalculateValue(phase, 0);
@@ -599,5 +596,4 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return value0 + value1;
         }
     }
-
 }

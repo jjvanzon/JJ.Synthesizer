@@ -148,7 +148,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate()
         {
             double position = _dimensionStack.Get(_dimensionStackIndex);
-
             double phaseShift = _phaseShiftCalculator.Calculate();
 
             double shiftedPhase = (position - _origin) * _frequency + phaseShift;
