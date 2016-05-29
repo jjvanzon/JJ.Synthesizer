@@ -58,11 +58,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double GetTransformedPosition()
         {
             double position = _dimensionStack.Get(_previousDimensionStackIndex);
-
             double distance = _distanceCalculator.Calculate();
 
             // IMPORTANT: To shift to the left in the output, you have shift to the right in the input.
             double transformedPosition = position + distance;
+
             return transformedPosition;
         }
     }

@@ -1,10 +1,10 @@
-﻿using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Extensions;
-using JJ.Framework.Reflection.Exceptions;
-using JJ.Data.Synthesizer;
+﻿using System.Collections.Generic;
 using JJ.Business.Synthesizer.Calculation.Patches;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
+using JJ.Data.Synthesizer;
 using JJ.Framework.Common.Exceptions;
-using System.Collections.Generic;
+using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 {

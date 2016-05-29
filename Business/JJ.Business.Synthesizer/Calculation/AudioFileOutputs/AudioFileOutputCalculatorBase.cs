@@ -1,17 +1,17 @@
-﻿using JJ.Framework.IO;
-using JJ.Business.Synthesizer.Validation;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using JJ.Business.Synthesizer.Calculation.Patches;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Validation;
+using JJ.Data.Synthesizer;
+using JJ.Framework.Common.Exceptions;
+using JJ.Framework.IO;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
-using JJ.Data.Synthesizer;
-using System;
-using System.Linq;
-using JJ.Business.Synthesizer.Enums;
-using System.IO;
-using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Calculation.Patches;
-using JJ.Framework.Common.Exceptions;
-using System.Collections.Generic;
 
 namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 {
