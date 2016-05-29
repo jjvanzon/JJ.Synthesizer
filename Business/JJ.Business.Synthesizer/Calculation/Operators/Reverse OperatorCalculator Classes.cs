@@ -196,6 +196,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             // Origin Shifting
             _origin = position;
 
+            // Dimension Transformation
             double tranformedPosition = GetTransformedPosition(position);
 
             _dimensionStack.Set(_currentDimensionStackIndex, tranformedPosition);
