@@ -173,6 +173,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (factor == 1) throw new ZeroException(() => factor);
             if (Double.IsNaN(factor)) throw new NaNException(() => factor);
             if (Double.IsInfinity(factor)) throw new InfinityException(() => factor);
+            if (origin == 0) throw new ZeroException(() => origin);
             OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
 
             _signalCalculator = signalCalculator;
@@ -211,6 +212,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             // IMPORTANT: To squash things in the output, you have to stretch things in the input.
             double transformedPosition = (position - _origin) * _factor + _origin;
+
             return transformedPosition;
         }
     }
@@ -347,11 +349,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double GetTransformedPosition()
         {
             double position = _dimensionStack.Get(_previousDimensionStackIndex);
-
             double factor = _factorCalculator.Calculate();
 
             // IMPORTANT: To squash things in the output, you have to stretch things in the input.
             double transformedPosition = (position - _origin) * factor + _origin;
+
             return transformedPosition;
         }
     }
