@@ -34,8 +34,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate()
         {
             double position = _dimensionStack.Get(_dimensionStackIndex);
+
             double shiftedPhase = (position - _origin) * _frequency + _phaseShift;
-            double value = -1 + (2.0 * shiftedPhase % 2.0);
+            double value = -1.0 + (2.0 * shiftedPhase % 2.0);
+
             return value;
         }
 
@@ -79,7 +81,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double phaseShift = _phaseShiftCalculator.Calculate();
 
             double phase = (position - _origin) * _frequency + phaseShift;
-            double value = -1 + (2.0 * phase % 2.0);
+            double value = -1.0 + (2.0 * phase % 2.0);
 
             return value;
         }
@@ -120,7 +122,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double position = _dimensionStack.Get(_dimensionStackIndex);
 
             double phase = position * _frequency + _phaseShift;
-            double value = -1 + (2.0 * phase % 2.0);
+            double value = -1.0 + (2.0 * phase % 2.0);
 
             return value;
         }
@@ -156,7 +158,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double phaseShift = _phaseShiftCalculator.Calculate();
 
             double phase = position * _frequency + phaseShift;
-            double value = -1 + (2.0 * phase % 2.0);
+            double value = -1.0 + (2.0 * phase % 2.0);
 
             return value;
         }
@@ -198,7 +200,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             double positionChange = position - _previousPosition;
             _shiftedPhase = _shiftedPhase + positionChange * frequency;
-            double value = -1 + (2.0 * _shiftedPhase % 2.0);
+            double value = -1.0 + (2.0 * _shiftedPhase % 2.0);
 
             _previousPosition = position;
 
@@ -252,7 +254,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double positionChange = position - _previousPosition;
             _phase = _phase + positionChange * frequency;
             double shiftedPhase = _phase + phaseShift;
-            double value = -1 + (2.0 * shiftedPhase % 2.0);
+            double value = -1.0 + (2.0 * shiftedPhase % 2.0);
 
             _previousPosition = position;
 
@@ -300,7 +302,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double frequency = _frequencyCalculator.Calculate();
 
             double phase = position * frequency + _phaseShift;
-            double value = -1 + (2.0 * phase % 2.0);
+            double value = -1.0 + (2.0 * phase % 2.0);
 
             return value;
         }
@@ -337,7 +339,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double phaseShift = _phaseShiftCalculator.Calculate();
 
             double phase = position * frequency + phaseShift;
-            double value = -1 + (2.0 * phase % 2.0);
+            double value = -1.0 + (2.0 * phase % 2.0);
 
             return value;
         }
