@@ -93,7 +93,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate()
         {
             double position = _dimensionStack.Get(_dimensionStackIndex);
-
             double width = _widthCalculator.Calculate();
 
             double shiftedPhase = (position - _origin) * _frequency + _phaseShift;
@@ -206,7 +205,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate()
         {
             double position = _dimensionStack.Get(_dimensionStackIndex);
-
             double width = _widthCalculator.Calculate();
             double phaseShift = _phaseShiftCalculator.Calculate();
 
@@ -267,7 +265,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate()
         {
             double position = _dimensionStack.Get(_dimensionStackIndex);
-
             double frequency = _frequencyCalculator.Calculate();
 
             double positionChange = position - _previousPosition;
@@ -336,7 +333,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate()
         {
             double position = _dimensionStack.Get(_dimensionStackIndex);
-
             double width = _widthCalculator.Calculate();
             double frequency = _frequencyCalculator.Calculate();
 
@@ -404,7 +400,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate()
         {
             double position = _dimensionStack.Get(_dimensionStackIndex);
-
             double frequency = _frequencyCalculator.Calculate();
             double phaseShift = _phaseShiftCalculator.Calculate();
 
@@ -473,7 +468,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate()
         {
             double position = _dimensionStack.Get(_dimensionStackIndex);
-
             double frequency = _frequencyCalculator.Calculate();
             double phaseShift = _phaseShiftCalculator.Calculate();
             double width = _widthCalculator.Calculate();
@@ -587,7 +581,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate()
         {
             double position = _dimensionStack.Get(_dimensionStackIndex);
-
             double width = _widthCalculator.Calculate();
 
             double shiftedPhase = position * _frequency + _phaseShift;
@@ -634,7 +627,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate()
         {
             double position = _dimensionStack.Get(_dimensionStackIndex);
-
             double phaseShift = _phaseShiftCalculator.Calculate();
 
             double shiftedPhase = position * _frequency + phaseShift;
@@ -682,7 +674,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate()
         {
             double position = _dimensionStack.Get(_dimensionStackIndex);
-
             double width = _widthCalculator.Calculate();
             double phaseShift = _phaseShiftCalculator.Calculate();
 
@@ -782,7 +773,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate()
         {
             double position = _dimensionStack.Get(_dimensionStackIndex);
-
             double width = _widthCalculator.Calculate();
             double frequency = _frequencyCalculator.Calculate();
 
