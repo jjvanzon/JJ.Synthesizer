@@ -372,6 +372,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _dimensionStackCollection.Set(TIME_DIMENSION_INDEX, 0, time);
 
             // HACK: Reset does not work for other dimensions than time.
+            // (This means that MidiInputProcessor should reset only for the time dimension,
+            // but through the Reset method of IPatchCalculator you cannot be specific about what dimension it is.)
             foreach (DimensionEnum dimensionEnum in EnumHelper.GetValues<DimensionEnum>())
             {
                 if ((int)dimensionEnum == TIME_DIMENSION_INDEX)
@@ -400,6 +402,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _dimensionStackCollection.Set(TIME_DIMENSION_INDEX, TOP_LEVEL_DIMENSION_STACK_INDEX, time);
 
             // HACK: Reset does not work for other dimensions than time.
+            // (This means that MidiInputProcessor should reset only for the time dimension,
+            // but through the Reset method of IPatchCalculator you cannot be specific about what dimension it is.)
             foreach (DimensionEnum dimensionEnum in EnumHelper.GetValues<DimensionEnum>())
             {
                 if ((int)dimensionEnum == TIME_DIMENSION_INDEX)
@@ -424,6 +428,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _dimensionStackCollection.Set(TIME_DIMENSION_INDEX, TOP_LEVEL_DIMENSION_STACK_INDEX, time);
 
             // HACK: Reset does not work for other dimensions than time.
+            // (This means that MidiInputProcessor should reset only for the time dimension,
+            // but through the Reset method of IPatchCalculator you cannot be specific about what dimension it is.)
             foreach (DimensionEnum dimensionEnum in EnumHelper.GetValues<DimensionEnum>())
             {
                 if ((int)dimensionEnum == TIME_DIMENSION_INDEX)

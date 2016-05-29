@@ -421,6 +421,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             // IMPORTANT: To stretch things in the output, you have to squash things in the input.
             double transformedPosition = (position - origin) / factor + origin;
+
             return transformedPosition;
         }
     }
