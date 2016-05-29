@@ -68,14 +68,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate()
         {
             double channelDouble = _channelDimensionStack.Get(_channelDimensionStackIndex);
-            double position = _dimensionStack.Get(_dimensionStackIndex);
-
             if (!ConversionHelper.CanCastToNonNegativeInt32WithMax(channelDouble, _arrayCalculatorsLength))
             {
                 return 0.0;
             }
-
             int channelInt = (int)channelDouble;
+
+            double position = _dimensionStack.Get(_dimensionStackIndex);
 
             return _arrayCalculators[channelInt].CalculateValue(position);
         }

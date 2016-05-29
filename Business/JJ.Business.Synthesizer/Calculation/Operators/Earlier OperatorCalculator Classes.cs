@@ -119,6 +119,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             // IMPORTANT: To shift to the left in the output, you have shift to the right in the input.
             double transformedPosition = position + _distance;
+
             return transformedPosition;
         }
     }

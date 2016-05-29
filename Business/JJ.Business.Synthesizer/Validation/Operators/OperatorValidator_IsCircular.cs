@@ -34,9 +34,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             // TODO: Enable the UnderlyingPatchIsCircular check again, when it is corrected, so it works.
             return;
 
-#pragma warning disable CS0162 // Unreachable code detected
             if (op.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator)
-#pragma warning restore CS0162 // Unreachable code detected
             {
                 if (op.HasCircularUnderlyingPatch(_patchRepository))
                 {
