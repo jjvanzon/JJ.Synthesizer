@@ -201,7 +201,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double GetTransformedPosition(double position)
         {
             // IMPORTANT: To squash things in the output, you have to stretch things in the input.
-            double transformedPosition = (position - _origin) * _factor;
+            double transformedPosition = (position - _origin) * _factor + _origin;
             return transformedPosition;
         }
     }

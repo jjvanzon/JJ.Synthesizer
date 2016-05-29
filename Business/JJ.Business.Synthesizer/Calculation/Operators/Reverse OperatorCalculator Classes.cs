@@ -178,7 +178,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double transformedPosition = GetTransformedPosition(_previousDimensionStackIndex);
+            double position = _dimensionStack.Get(_previousDimensionStackIndex);
+
+            double transformedPosition = GetTransformedPosition(position);
 
             _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
 
