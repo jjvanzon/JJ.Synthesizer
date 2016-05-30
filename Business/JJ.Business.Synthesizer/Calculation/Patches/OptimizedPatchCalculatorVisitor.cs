@@ -3858,21 +3858,21 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             int outletIndex = outlet.Operator.Outlets.IndexOf(outlet);
 
             var wrapper = new Unbundle_OperatorWrapper(op);
-            int dimensionIndex = (int)wrapper.Dimension;
+            DimensionEnum dimensionEnum = wrapper.Dimension;
 
-            _bundleDimensionStackCollection.Push(dimensionIndex, outletIndex);
+            _bundleDimensionStackCollection.Push(dimensionEnum, outletIndex);
 
             VisitOutlet(inputOutlet);
 
-            _bundleDimensionStackCollection.Pop(dimensionIndex);
+            _bundleDimensionStackCollection.Pop(dimensionEnum);
         }
 
         private void VisitBundleOutlet(Outlet outlet)
         {
             var wrapper = new Bundle_OperatorWrapper(outlet.Operator);
-            int dimensionIndex = (int)wrapper.Dimension;
+            DimensionEnum dimensionEnum = wrapper.Dimension;
 
-            if (_bundleDimensionStackCollection.Count(dimensionIndex) == 0)
+            if (_bundleDimensionStackCollection.Count(dimensionEnum) == 0)
             {
                 throw new NotSupportedException(String.Format(
                     "Bundle Operator with ID '{0}' and Dimension '{1}' encountered without first encountering an Unbundle Operator. This is not yet supported.",
@@ -3880,7 +3880,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     wrapper.Dimension));
             }
 
-            double bundleIndexDouble = _bundleDimensionStackCollection.PopAndGet(dimensionIndex);
+            double bundleIndexDouble = _bundleDimensionStackCollection.PopAndGet(dimensionEnum);
 
             if (!ConversionHelper.CanCastToNonNegativeInt32(bundleIndexDouble))
             {
@@ -3913,7 +3913,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 VisitOutlet(inlet.InputOutlet);
             }
 
-            _bundleDimensionStackCollection.Push(dimensionIndex, bundleIndexDouble);
+            _bundleDimensionStackCollection.Push(dimensionEnum, bundleIndexDouble);
         }
 
         protected override void VisitReset(Operator op)

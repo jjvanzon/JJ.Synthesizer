@@ -148,18 +148,17 @@ namespace JJ.Business.Synthesizer.Calculation
 
             var arrayCalculators = new ArrayCalculatorBase[channelCount];
 
-            int channelDimensionIndex = (int)DimensionEnum.Channel;
-            int timeDimensionIndex = (int)DimensionEnum.Time;
-                
             var dimensionStackCollection = new DimensionStackCollection();
             for (int channelIndex = 0; channelIndex < channelCount; channelIndex++)
             {
-                dimensionStackCollection.Set(channelDimensionIndex, TOP_LEVEL_DIMENSION_STACK_INDEX, channelIndex);
+                // TODO: This could be done faster, by tapping into a specific DimensionStack.
+                dimensionStackCollection.Set(DimensionEnum.Channel, TOP_LEVEL_DIMENSION_STACK_INDEX, channelIndex);
 
                 double[] samples = new double[tickCount];
 
                 double time = startTime;
-                dimensionStackCollection.Set(timeDimensionIndex, TOP_LEVEL_DIMENSION_STACK_INDEX, time);
+                // TODO: This could be done faster, by tapping into a specific DimensionStack.
+                dimensionStackCollection.Set(DimensionEnum.Time, TOP_LEVEL_DIMENSION_STACK_INDEX, time);
 
                 for (int i = 0; i < tickCount; i++)
                 {
@@ -167,7 +166,8 @@ namespace JJ.Business.Synthesizer.Calculation
                     samples[i] = sample;
 
                     time += tickDuration;
-                    dimensionStackCollection.Set(timeDimensionIndex, TOP_LEVEL_DIMENSION_STACK_INDEX, time);
+                    // TODO: This could be done faster, by tapping into a specific DimensionStack.
+                    dimensionStackCollection.Set(DimensionEnum.Time, TOP_LEVEL_DIMENSION_STACK_INDEX, time);
                 }
 
                 ArrayCalculatorBase arrayCalculator = ArrayCalculatorFactory.CreateArrayCalculator(

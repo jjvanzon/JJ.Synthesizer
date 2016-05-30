@@ -46,63 +46,32 @@ namespace JJ.Business.Synthesizer.Calculation
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public DimensionStack GetDimensionStack(DimensionEnum dimensionEnum)
         {
-            return GetDimensionStack((int)dimensionEnum);
-        }
-
-        // TODO: Get rid of this overload.
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public DimensionStack GetDimensionStack(int dimensionIndex)
-        {
-            return _stacks[dimensionIndex];
+            return _stacks[(int)dimensionEnum];
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Push(DimensionEnum dimensionEnum, double value)
         {
-            Push((int)dimensionEnum, value);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Push(int dimensionIndex, double value)
-        {
-            _stacks[dimensionIndex].Push(value);
+            GetDimensionStack(dimensionEnum).Push(value);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Pop(DimensionEnum dimensionEnum)
         {
-            Pop((int)dimensionEnum);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Pop(int dimensionIndex)
-        {
-            _stacks[dimensionIndex].Pop();
+            GetDimensionStack(dimensionEnum).Pop();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double PopAndGet(DimensionEnum dimensionEnum)
         {
-            return PopAndGet((int)dimensionEnum);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public double PopAndGet(int dimensionIndex)
-        {
-            double value = _stacks[dimensionIndex].PopAndGet();
+            double value = GetDimensionStack(dimensionEnum).PopAndGet();
             return value;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double Get(DimensionEnum dimensionEnum)
         {
-            return Get((int)dimensionEnum);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public double Get(int dimensionIndex)
-        {
-            return _stacks[dimensionIndex].Get();
+            return GetDimensionStack(dimensionEnum).Get();
         }
 
         /// <summary>
@@ -111,32 +80,15 @@ namespace JJ.Business.Synthesizer.Calculation
         /// or when you know you are at the top level of the stack.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Set(DimensionEnum dimensionEnum, int dimensionStackIndex, double value)
+        public void Set(DimensionEnum dimensionEnum, int i, double value)
         {
-            Set((int)dimensionEnum, dimensionStackIndex, value);
-        }
-
-        /// <summary>
-        /// A slightly quicker alternative to a subsequent Pop and Push,
-        /// when you know there will not be any stack operators in between,
-        /// or when you know you are at the top level of the stack.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Set(int dimensionIndex, int dimensionStackIndex, double value)
-        {
-            _stacks[dimensionIndex].Set(dimensionStackIndex, value);
+            GetDimensionStack(dimensionEnum).Set(i, value);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int Count(DimensionEnum dimensionEnum)
         {
-            return Count((int)dimensionEnum);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public int Count(int dimensionIndex)
-        {
-            int count = _stacks[dimensionIndex].Count;
+            int count = GetDimensionStack(dimensionEnum).Count;
             return count;
         }
     }
