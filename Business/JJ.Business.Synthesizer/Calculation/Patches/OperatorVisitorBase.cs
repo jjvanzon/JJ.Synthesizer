@@ -4,6 +4,7 @@ using JJ.Data.Synthesizer;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {
@@ -85,6 +86,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected virtual void VisitOperatorPolymorphic(Operator op)
         {
+            if (op == null) throw new NullException(() => op);
+
             Action<Operator> action;
             if (_delegateDictionary.TryGetValue(op.GetOperatorTypeEnum(), out action))
             {
@@ -94,6 +97,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected virtual void VisitOperatorBase(Operator op)
         {
+            if (op == null) throw new NullException(() => op);
+
             // TODO: Low priority: Is the trick below not specific to the OptimizedPatchCalculatorVisitor?
 
             // Reverse the order of evaluating the inlet,
