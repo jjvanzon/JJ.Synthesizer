@@ -1,9 +1,9 @@
-﻿using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Data.Synthesizer;
-using System;
-using System.Linq;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
+using JJ.Data.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
