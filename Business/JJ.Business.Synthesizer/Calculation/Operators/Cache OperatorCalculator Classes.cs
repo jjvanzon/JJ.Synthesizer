@@ -16,12 +16,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly int _dimensionStackIndex;
 
         public Cache_OperatorCalculator_SingleChannel(
-            TArrayCalculator arrayCalculator, 
+            TArrayCalculatomr arrayCalculator, 
             DimensionStack dimensionStack)
         {
             if (arrayCalculator == null) throw new NullException(() => arrayCalculator);
             OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
 
             _arrayCalculator = arrayCalculator;
             _dimensionStack = dimensionStack;
