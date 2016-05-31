@@ -16,10 +16,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _previousPosition;
 
         public SlowDown_OperatorCalculator_VarFactor_WithPhaseTracking(
-            OperatorCalculatorBase signalCalculator, 
+            OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase factorCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] 
+            : base(new OperatorCalculatorBase[]
             {
                 signalCalculator,
                 factorCalculator
@@ -63,7 +63,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             // Dimension Transformation
             double transformedPosition = GetTransformedPosition(position);
 
-            _dimensionStack.Set(_currentDimensionStackIndex,transformedPosition);
+            _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
 
             base.Reset();
         }
