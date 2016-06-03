@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Loop_OperatorCalculator_NoSkipOrRelease_ManyConstants 
+    internal class Loop_OperatorCalculator_NoSkipOrRelease_ManyConstants
         : Loop_OperatorCalculator_Base
     {
         private readonly double _loopStartMarker;
@@ -38,7 +38,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected override double? GetTransformedPosition()
         {
+#if !USE_INVAR_INDICES
+            double position = _dimensionStack.Get();
+#else
             double position = _dimensionStack.Get(_previousDimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
+#endif
 
             position -= _origin;
 
@@ -68,7 +75,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             // AfterLoop
             return 0;
-        } 
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private double GetNoteDuration()

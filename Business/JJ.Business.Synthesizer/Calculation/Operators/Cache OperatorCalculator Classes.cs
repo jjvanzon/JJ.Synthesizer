@@ -30,8 +30,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
+#if !USE_INVAR_INDICES
+            double time = _dimensionStack.Get();
+#else
             double time = _dimensionStack.Get(_dimensionStackIndex);
-
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
             return _arrayCalculator.CalculateValue(time);
         }
     }
@@ -66,15 +72,28 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
+#if !USE_INVAR_INDICES
+            double channelDouble = _channelDimensionStack.Get();
+#else
             double channelDouble = _channelDimensionStack.Get(_channelDimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_channelDimensionStack, _channelDimensionStackIndex);
+#endif
             if (!ConversionHelper.CanCastToNonNegativeInt32WithMax(channelDouble, _arrayCalculatorsLength))
             {
                 return 0.0;
             }
             int channelInt = (int)channelDouble;
 
+#if !USE_INVAR_INDICES
+            double position = _dimensionStack.Get();
+#else
             double position = _dimensionStack.Get(_dimensionStackIndex);
-
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
             return _arrayCalculators[channelInt].CalculateValue(position);
         }
     }

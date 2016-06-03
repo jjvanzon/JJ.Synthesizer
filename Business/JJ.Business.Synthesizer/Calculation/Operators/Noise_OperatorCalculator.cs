@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly int _dimensionStackIndex;
 
         public Noise_OperatorCalculator(
-            NoiseCalculator noiseCalculator, 
+            NoiseCalculator noiseCalculator,
             double offset,
             DimensionStack dimensionStack)
         {
@@ -29,7 +29,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
+#if !USE_INVAR_INDICES
+            double position = _dimensionStack.Get();
+#else
             double position = _dimensionStack.Get(_dimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
 
             double value = _noiseCalculator.GetValue(position + _offset);
 

@@ -15,16 +15,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _samplingRateCalculator;
         private readonly DimensionStack _dimensionStack;
-        private readonly int _currentDimensionStackIndex;
+        private readonly int _nextDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
 
         public Resample_OperatorCalculator_CubicAbruptSlope(
-            OperatorCalculatorBase signalCalculator, 
+            OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase samplingRateCalculator,
             DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[]
             {
-                signalCalculator, 
+                signalCalculator,
                 samplingRateCalculator
             })
         {
@@ -38,8 +38,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _signalCalculator = signalCalculator;
             _samplingRateCalculator = samplingRateCalculator;
             _dimensionStack = dimensionStack;
-            _currentDimensionStackIndex = dimensionStack.CurrentIndex;
-            _previousDimensionStackIndex = dimensionStack.CurrentIndex - 1;
+            _previousDimensionStackIndex = dimensionStack.CurrentIndex;
+            _nextDimensionStackIndex = dimensionStack.CurrentIndex + 1;
         }
 
         // HACK: These defaults are hacks that are meaningless in practice.
@@ -60,7 +60,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override double Calculate()
         {
+#if !USE_INVAR_INDICES
+            double position = _dimensionStack.Get();
+#else
             double position = _dimensionStack.Get(_previousDimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
+#endif
 
             double x = position;
             if (x > _x1)
@@ -76,7 +83,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 _dx0 = _dx1;
                 _a0 = _a1;
 
-                _dimensionStack.Set(_currentDimensionStackIndex, _x1);
+#if !USE_INVAR_INDICES
+                _dimensionStack.Push(_x1);
+#else
+                _dimensionStack.Set(_nextDimensionStackIndex, _x1);
+#endif
+#if ASSERT_INVAR_INDICES
+                OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
+#endif
 
                 double samplingRate1 = GetSamplingRate();
                 // TODO: Handle SamplingRate 0.
@@ -84,9 +98,20 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 _dx1 = 1.0 / samplingRate1;
                 _x2 += _dx1;
 
-                _dimensionStack.Set(_currentDimensionStackIndex, _x2);
+#if !USE_INVAR_INDICES
+                _dimensionStack.Set(_x2);
+#else
+                _dimensionStack.Set(_nextDimensionStackIndex, _x2);
+#endif
+#if ASSERT_INVAR_INDICES
+                OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
+#endif
 
                 _y2 = _signalCalculator.Calculate();
+
+#if !USE_INVAR_INDICES
+                _dimensionStack.Pop();
+#endif
 
                 _a1 = (_y2 - _y0) / (_x2 - _x0);
 

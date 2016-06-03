@@ -152,13 +152,21 @@ namespace JJ.Business.Synthesizer.Calculation
             for (int channelIndex = 0; channelIndex < channelCount; channelIndex++)
             {
                 // TODO: This could be done faster, by tapping into a specific DimensionStack.
+#if !USE_INVAR_INDICES
+                dimensionStackCollection.Set(DimensionEnum.Channel, channelIndex);
+#else
                 dimensionStackCollection.Set(DimensionEnum.Channel, TOP_LEVEL_DIMENSION_STACK_INDEX, channelIndex);
-
+#endif
                 double[] samples = new double[tickCount];
 
                 double time = startTime;
+
                 // TODO: This could be done faster, by tapping into a specific DimensionStack.
+#if !USE_INVAR_INDICES
+                dimensionStackCollection.Set(DimensionEnum.Time, time);
+#else
                 dimensionStackCollection.Set(DimensionEnum.Time, TOP_LEVEL_DIMENSION_STACK_INDEX, time);
+#endif
 
                 for (int i = 0; i < tickCount; i++)
                 {
@@ -166,8 +174,13 @@ namespace JJ.Business.Synthesizer.Calculation
                     samples[i] = sample;
 
                     time += tickDuration;
+
                     // TODO: This could be done faster, by tapping into a specific DimensionStack.
+#if !USE_INVAR_INDICES
+                    dimensionStackCollection.Set(DimensionEnum.Time, time);
+#else
                     dimensionStackCollection.Set(DimensionEnum.Time, TOP_LEVEL_DIMENSION_STACK_INDEX, time);
+#endif
                 }
 
                 ArrayCalculatorBase arrayCalculator = ArrayCalculatorFactory.CreateArrayCalculator(

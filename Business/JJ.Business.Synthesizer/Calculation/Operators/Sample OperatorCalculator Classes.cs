@@ -50,14 +50,30 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
+#if !USE_INVAR_INDICES
+            double channelIndexDouble = _channelDimensionStack.Get();
+#else
             double channelIndexDouble = _channelDimensionStack.Get(_channelDimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_channelDimensionStack, _channelDimensionStackIndex);
+#endif
+
             if (!ConversionHelper.CanCastToNonNegativeInt32WithMax(channelIndexDouble, _channelCount))
             {
                 return 0.0;
             }
             int channelIndex = (int)channelIndexDouble;
 
+#if !USE_INVAR_INDICES
+            double position = _dimensionStack.Get();
+#else
             double position = _dimensionStack.Get(_dimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
+
             double frequency = _frequencyCalculator.Calculate();
 
             double rate = frequency / Sample_OperatorCalculator_Helper.BASE_FREQUENCY;
@@ -73,7 +89,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
+#if !USE_INVAR_INDICES
+            double position = _dimensionStack.Get();
+#else
             double position = _dimensionStack.Get(_dimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
 
             _previousPosition = position;
             _phase = 0.0;
@@ -117,14 +140,28 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
+#if !USE_INVAR_INDICES
+            double channelIndexDouble = _channelDimensionStack.Get();
+#else
             double channelIndexDouble = _channelDimensionStack.Get(_channelDimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_channelDimensionStack, _channelDimensionStackIndex);
+#endif
+
             if (!ConversionHelper.CanCastToNonNegativeInt32WithMax(channelIndexDouble, _channelCount))
             {
                 return 0.0;
             }
             int channelIndex = (int)channelIndexDouble;
-
+#if !USE_INVAR_INDICES
+            double position = _dimensionStack.Get();
+#else
             double position = _dimensionStack.Get(_dimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
 
             double phase = (position - _origin) * _rate;
 
@@ -135,7 +172,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
+#if !USE_INVAR_INDICES
+            _origin = _dimensionStack.Get();
+#else
             _origin = _dimensionStack.Get(_dimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
 
             base.Reset();
         }
@@ -152,7 +196,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _previousPosition;
 
         public Sample_OperatorCalculator_VarFrequency_MonoToStereo_WithPhaseTracking(
-            OperatorCalculatorBase frequencyCalculator, 
+            OperatorCalculatorBase frequencyCalculator,
             ISampleCalculator sampleCalculator,
             DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[] { frequencyCalculator })
@@ -170,7 +214,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
+#if !USE_INVAR_INDICES
+            double position = _dimensionStack.Get();
+#else
             double position = _dimensionStack.Get(_dimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
+
             double frequency = _frequencyCalculator.Calculate();
 
             double rate = frequency / Sample_OperatorCalculator_Helper.BASE_FREQUENCY;
@@ -187,7 +239,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
+#if !USE_INVAR_INDICES
+            double position = _dimensionStack.Get();
+#else
             double position = _dimensionStack.Get(_dimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
 
             _previousPosition = position;
             _phase = 0.0;
@@ -195,7 +254,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             base.Reset();
         }
     }
-    
+
     internal class Sample_OperatorCalculator_ConstFrequency_MonoToStereo_WithOriginShifting : OperatorCalculatorBase
     {
         private readonly ISampleCalculator _sampleCalculator;
@@ -206,7 +265,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _origin;
 
         public Sample_OperatorCalculator_ConstFrequency_MonoToStereo_WithOriginShifting(
-            double frequency, 
+            double frequency,
             ISampleCalculator sampleCalculator,
             DimensionStack dimensionStack)
         {
@@ -223,7 +282,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
+#if !USE_INVAR_INDICES
+            double position = _dimensionStack.Get();
+#else
             double position = _dimensionStack.Get(_dimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
 
             double phase = (position - _origin) * _rate;
 
@@ -235,7 +301,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
+#if !USE_INVAR_INDICES
+            _origin = _dimensionStack.Get();
+#else
             _origin = _dimensionStack.Get(_dimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
 
             base.Reset();
         }
@@ -250,7 +323,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private double _phase;
         private double _previousPosition;
-        
+
         public Sample_OperatorCalculator_VarFrequency_StereoToMono_WithPhaseTracking(
             OperatorCalculatorBase frequencyCalculator,
             ISampleCalculator sampleCalculator,
@@ -270,7 +343,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
+#if !USE_INVAR_INDICES
+            double position = _dimensionStack.Get();
+#else
             double position = _dimensionStack.Get(_dimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
+
             double frequency = _frequencyCalculator.Calculate();
 
             double rate = frequency / Sample_OperatorCalculator_Helper.BASE_FREQUENCY;
@@ -287,7 +368,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
+#if !USE_INVAR_INDICES
+            double position = _dimensionStack.Get();
+#else
             double position = _dimensionStack.Get(_dimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
 
             _previousPosition = position;
             _phase = 0.0;
@@ -306,7 +394,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _origin;
 
         public Sample_OperatorCalculator_ConstFrequency_StereoToMono_WithOriginShifting(
-            double frequency, 
+            double frequency,
             ISampleCalculator sampleCalculator,
             DimensionStack dimensionStack)
         {
@@ -323,7 +411,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
+#if !USE_INVAR_INDICES
+            double position = _dimensionStack.Get();
+#else
             double position = _dimensionStack.Get(_dimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
 
             double phase = (position - _origin) * _rate;
 
@@ -335,7 +430,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
+#if !USE_INVAR_INDICES
+            _origin = _dimensionStack.Get();
+#else
             _origin = _dimensionStack.Get(_dimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
 
             base.Reset();
         }
@@ -378,14 +480,30 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
+#if !USE_INVAR_INDICES
+            double channelIndexDouble = _channelDimensionStack.Get();
+#else
             double channelIndexDouble = _channelDimensionStack.Get(_channelDimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_channelDimensionStack, _channelDimensionStackIndex);
+#endif
+
             if (!ConversionHelper.CanCastToNonNegativeInt32WithMax(channelIndexDouble, _channelCount))
             {
                 return 0.0;
             }
             int channelIndex = (int)channelIndexDouble;
 
+#if !USE_INVAR_INDICES
+            double position = _dimensionStack.Get();
+#else
             double position = _dimensionStack.Get(_dimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
+
             double frequency = _frequencyCalculator.Calculate();
 
             double rate = frequency / Sample_OperatorCalculator_Helper.BASE_FREQUENCY;
@@ -430,14 +548,28 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
+#if !USE_INVAR_INDICES
+            double channelIndexDouble = _channelDimensionStack.Get();
+#else
             double channelIndexDouble = _channelDimensionStack.Get(_channelDimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_channelDimensionStack, _channelDimensionStackIndex);
+#endif
+
             if (!ConversionHelper.CanCastToNonNegativeInt32WithMax(channelIndexDouble, _channelCount))
             {
                 return 0.0;
             }
             int channelIndex = (int)channelIndexDouble;
-
+#if !USE_INVAR_INDICES
+            double position = _dimensionStack.Get();
+#else
             double position = _dimensionStack.Get(_dimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
 
             double phase = position * _rate;
 
@@ -473,7 +605,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
+#if !USE_INVAR_INDICES
+            double position = _dimensionStack.Get();
+#else
             double position = _dimensionStack.Get(_dimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
+
             double frequency = _frequencyCalculator.Calculate();
 
             double rate = frequency / Sample_OperatorCalculator_Helper.BASE_FREQUENCY;
@@ -511,7 +651,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
+#if !USE_INVAR_INDICES
+            double position = _dimensionStack.Get();
+#else
             double position = _dimensionStack.Get(_dimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
 
             double phase = position * _rate;
 
@@ -548,7 +695,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
+#if !USE_INVAR_INDICES
+            double position = _dimensionStack.Get();
+#else
             double position = _dimensionStack.Get(_dimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
+
             double frequency = _frequencyCalculator.Calculate();
 
             double rate = frequency / Sample_OperatorCalculator_Helper.BASE_FREQUENCY;
@@ -586,7 +741,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
+#if !USE_INVAR_INDICES
+            double position = _dimensionStack.Get();
+#else
             double position = _dimensionStack.Get(_dimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
 
             double phase = position * _rate;
 

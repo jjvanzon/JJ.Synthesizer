@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Common;
 using JJ.Framework.Common.Exceptions;
@@ -36,10 +38,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (Double.IsInfinity(width)) throw new InfinityException(() => width);
         }
 
+        // TODO: This variation is not necessary, now it does the same as AssertDimensionStack_ForReaders.
         public static void AssertDimensionStack_ForWriters(DimensionStack dimensionStack)
         {
             if (dimensionStack == null) throw new NullException(() => dimensionStack);
-            if (dimensionStack.CurrentIndex < 1) throw new Exception("dimensionStack.CurrentIndex cannot be less than 1, because a DimenionStack-writing OperatorCalculator must use the previous DimensionStack index too.");
+            if (dimensionStack.CurrentIndex < 0) throw new LessThanException(() => dimensionStack.CurrentIndex, 0);
+            //if (dimensionStack.CurrentIndex < 1) throw new Exception("dimensionStack.CurrentIndex cannot be less than 1, because a DimenionStack-writing OperatorCalculator must use the previous DimensionStack index too.");
         }
 
         public static void AssertDimensionStack_ForReaders(DimensionStack dimensionStack)
@@ -90,6 +94,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             Expression<Func<object>> expression)
         {
             if (operatorCalculatorBase == null) throw new NullException(expression);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static void AssertStackIndex(DimensionStack dimensionStack, int dimensionStackIndex)
+        {
+            if (dimensionStack.CurrentIndex != dimensionStackIndex)
+            {
+                throw new NotEqualException(() => dimensionStack.CurrentIndex, () => dimensionStackIndex);
+                //string message = String.Format("dimensionStack.CurrentIndex was expected to be '{0}' but is actually '{1}'.", dimensionStackIndex, dimensionStack.CurrentIndex);
+                //Debug.WriteLine(message);
+                //Debug.WriteLine(Environment.StackTrace);
+            }
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -9,7 +10,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         protected readonly DimensionStack _dimensionStack;
-        protected readonly int _currentDimensionStackIndex;
+        protected readonly int _nextDimensionStackIndex;
         protected readonly int _previousDimensionStackIndex;
 
         protected double _origin;
@@ -24,8 +25,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
 
             _signalCalculator = signalCalculator;
-            _currentDimensionStackIndex = dimensionStack.CurrentIndex;
-            _previousDimensionStackIndex = dimensionStack.CurrentIndex - 1;
+            _previousDimensionStackIndex = dimensionStack.CurrentIndex;
+            _nextDimensionStackIndex = dimensionStack.CurrentIndex + 1;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -40,16 +41,32 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 return 0;
             }
 
-            _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition.Value);
+#if !USE_INVAR_INDICES
+            _dimensionStack.Push(transformedPosition.Value);
+#else
+            _dimensionStack.Set(_nextDimensionStackIndex, transformedPosition.Value);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
+#endif
 
             double value = _signalCalculator.Calculate();
-
+#if !USE_INVAR_INDICES
+            _dimensionStack.Pop();
+#endif
             return value;
         }
 
         public override void Reset()
         {
+#if !USE_INVAR_INDICES
+            double position = _dimensionStack.Get();
+#else
             double position = _dimensionStack.Get(_previousDimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
+#endif
 
             // Origin Shifting
             _origin = position;
@@ -63,9 +80,20 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 transformedPosition = position;
             }
 
-            _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition.Value);
+#if !USE_INVAR_INDICES
+            _dimensionStack.Push(transformedPosition.Value);
+#else
+            _dimensionStack.Set(_nextDimensionStackIndex, transformedPosition.Value);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
+#endif
 
             base.Reset();
+
+#if !USE_INVAR_INDICES
+            _dimensionStack.Pop();
+#endif
         }
     }
 }

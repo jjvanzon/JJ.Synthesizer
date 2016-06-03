@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase noteDurationCalculator,
             DimensionStack dimensionStack)
             : base(
-                  signalCalculator, 
+                  signalCalculator,
                   dimensionStack,
                   new OperatorCalculatorBase[]
                   {
@@ -39,11 +39,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected override double? GetTransformedPosition()
         {
+#if !USE_INVAR_INDICES
+            double position = _dimensionStack.Get();
+#else
             double position = _dimensionStack.Get(_previousDimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
+#endif
 
             // Apply origin
             position -= _origin;
-            
+
             // BeforeAttack
             bool isBeforeAttack = position < 0;
             if (isBeforeAttack)

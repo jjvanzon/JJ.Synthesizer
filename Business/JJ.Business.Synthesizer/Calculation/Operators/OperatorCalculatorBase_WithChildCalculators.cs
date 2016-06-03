@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using JJ.Framework.Reflection.Exceptions;
 
@@ -6,7 +7,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     // Dispatch through a base class is faster than using an interface.
 
-    internal abstract class OperatorCalculatorBase_WithChildCalculators : OperatorCalculatorBase 
+    internal abstract class OperatorCalculatorBase_WithChildCalculators : OperatorCalculatorBase
     {
         private readonly OperatorCalculatorBase[] _childOperatorCalculators;
 
@@ -20,6 +21,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         /// <summary> Base implementation resets the state of the ChildOperatorCalculators. </summary>
+        [DebuggerHidden]
         public override void Reset()
         {
             for (int i = 0; i < _childOperatorCalculators.Length; i++)

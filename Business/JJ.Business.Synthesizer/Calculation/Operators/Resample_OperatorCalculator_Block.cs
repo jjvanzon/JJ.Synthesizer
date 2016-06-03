@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _samplingRateCalculator;
         private readonly DimensionStack _dimensionStack;
-        private readonly int _currentDimensionStackIndex;
+        private readonly int _nextDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
 
         private double _position0;
@@ -34,8 +34,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _signalCalculator = signalCalculator;
             _samplingRateCalculator = samplingRateCalculator;
             _dimensionStack = dimensionStack;
-            _currentDimensionStackIndex = dimensionStack.CurrentIndex;
-            _previousDimensionStackIndex = dimensionStack.CurrentIndex - 1;
+            _previousDimensionStackIndex = dimensionStack.CurrentIndex;
+            _nextDimensionStackIndex = dimensionStack.CurrentIndex + 1;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -49,7 +49,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         /// <summary> This extra overload prevents additional invokations of the _samplingRateCalculator in derived classes </summary>
         protected double Calculate(double samplingRate)
         {
+#if !USE_INVAR_INDICES
+            double position = _dimensionStack.Get();
+#else
             double position = _dimensionStack.Get(_previousDimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
+#endif
 
             double offset = position - _position0;
             double sampleCount = offset * samplingRate;
@@ -59,9 +66,20 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             {
                 _position0 += sampleCount / samplingRate;
 
-                _dimensionStack.Set(_currentDimensionStackIndex, _position0);
+#if !USE_INVAR_INDICES
+                _dimensionStack.Push(_position0);
+#else
+                _dimensionStack.Set(_nextDimensionStackIndex, _position0);
+#endif
+#if ASSERT_INVAR_INDICES
+                OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
+#endif
 
                 _value0 = _signalCalculator.Calculate();
+
+#if !USE_INVAR_INDICES
+                _dimensionStack.Pop();
+#endif
             }
 
             return _value0;

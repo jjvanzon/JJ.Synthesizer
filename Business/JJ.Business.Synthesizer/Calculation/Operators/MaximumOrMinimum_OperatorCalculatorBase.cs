@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _timeSliceDurationCalculator;
         private readonly OperatorCalculatorBase _sampleCountCalculator;
         private readonly DimensionStack _dimensionStack;
-        private readonly int _currentDimensionStackIndex;
+        private readonly int _nextDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
 
         private double _sampleDuration;
@@ -42,7 +42,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase timeSliceDurationCalculator,
             OperatorCalculatorBase sampleCountCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] 
+            : base(new OperatorCalculatorBase[]
             {
                 signalCalculator,
                 timeSliceDurationCalculator,
@@ -58,8 +58,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _timeSliceDurationCalculator = timeSliceDurationCalculator;
             _sampleCountCalculator = sampleCountCalculator;
             _dimensionStack = dimensionStack;
-            _currentDimensionStackIndex = dimensionStack.CurrentIndex;
-            _previousDimensionStackIndex = dimensionStack.CurrentIndex - 1;
+            _previousDimensionStackIndex = dimensionStack.CurrentIndex;
+            _nextDimensionStackIndex = dimensionStack.CurrentIndex + 1;
 
             ResetNonRecursive();
         }
@@ -69,7 +69,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
+#if !USE_INVAR_INDICES
+            double position = _dimensionStack.Get();
+#else
             double position = _dimensionStack.Get(_previousDimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
+#endif
 
             bool isForward = position >= _previousPosition;
 
@@ -90,10 +97,20 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
                     do
                     {
-                        _dimensionStack.Set(_currentDimensionStackIndex, _nextSamplePosition);
+#if !USE_INVAR_INDICES
+                        _dimensionStack.Push(_nextSamplePosition);
+#else
+                        _dimensionStack.Set(_nextDimensionStackIndex, _nextSamplePosition);
+#endif
+#if ASSERT_INVAR_INDICES
+                        OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
+#endif
 
                         CalculateValueAndUpdateCollections();
 
+#if !USE_INVAR_INDICES
+                        _dimensionStack.Pop();
+#endif
                         _nextSamplePosition += _sampleDuration;
                     }
                     while (position > _nextSamplePosition);
@@ -119,10 +136,20 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
                     do
                     {
-                        _dimensionStack.Set(_currentDimensionStackIndex, _nextSamplePosition);
+#if !USE_INVAR_INDICES
+                        _dimensionStack.Push(_nextSamplePosition);
+#else
+                        _dimensionStack.Set(_nextDimensionStackIndex, _nextSamplePosition);
+#endif
+#if ASSERT_INVAR_INDICES
+                        OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
+#endif
 
                         CalculateValueAndUpdateCollections();
 
+#if !USE_INVAR_INDICES
+                        _dimensionStack.Pop();
+#endif
                         _nextSamplePosition -= _sampleDuration;
                     }
                     while (position < _nextSamplePosition);
@@ -165,7 +192,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private void ResetNonRecursive()
         {
+#if !USE_INVAR_INDICES
+            double position = _dimensionStack.Get();
+#else
             double position = _dimensionStack.Get(_previousDimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
+#endif
 
             _previousPosition = position;
 

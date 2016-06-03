@@ -9,14 +9,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _distanceCalculator;
         private readonly DimensionStack _dimensionStack;
-        private readonly int _currentDimensionStackIndex;
+        private readonly int _nextDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
 
         public Earlier_OperatorCalculator_VarSignal_VarDistance(
-            OperatorCalculatorBase signalCalculator, 
+            OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase distanceCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] 
+            : base(new OperatorCalculatorBase[]
             {
                 signalCalculator,
                 distanceCalculator
@@ -29,8 +29,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _signalCalculator = signalCalculator;
             _distanceCalculator = distanceCalculator;
             _dimensionStack = dimensionStack;
-            _currentDimensionStackIndex = dimensionStack.CurrentIndex;
-            _previousDimensionStackIndex = dimensionStack.CurrentIndex - 1;
+            _previousDimensionStackIndex = dimensionStack.CurrentIndex;
+            _nextDimensionStackIndex = dimensionStack.CurrentIndex + 1;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -38,10 +38,19 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double transformedPosition = GetTransformedPosition();
 
-            _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
-
+#if !USE_INVAR_INDICES
+            _dimensionStack.Push(transformedPosition);
+#else
+            _dimensionStack.Set(_nextDimensionStackIndex, transformedPosition);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
+#endif
             double result = _signalCalculator.Calculate();
 
+#if !USE_INVAR_INDICES
+            _dimensionStack.Pop();
+#endif
             return result;
         }
 
@@ -49,15 +58,33 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double transformedPosition = GetTransformedPosition();
 
-            _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
+#if !USE_INVAR_INDICES
+            _dimensionStack.Push(transformedPosition);
+#else
+            _dimensionStack.Set(_nextDimensionStackIndex, transformedPosition);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
+#endif
 
             base.Reset();
+#if !USE_INVAR_INDICES
+            _dimensionStack.Pop();
+#endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private double GetTransformedPosition()
         {
+#if !USE_INVAR_INDICES
+            double position = _dimensionStack.Get();
+#else
             double position = _dimensionStack.Get(_previousDimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
+#endif
+
             double distance = _distanceCalculator.Calculate();
 
             // IMPORTANT: To shift to the left in the output, you have shift to the right in the input.
@@ -72,9 +99,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _distance;
         private readonly DimensionStack _dimensionStack;
-        private readonly int _currentDimensionStackIndex;
+        private readonly int _nextDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
-        
+
         public Earlier_OperatorCalculator_VarSignal_ConstDistance(
             OperatorCalculatorBase signalCalculator,
             double distance,
@@ -87,8 +114,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _signalCalculator = signalCalculator;
             _distance = distance;
             _dimensionStack = dimensionStack;
-            _currentDimensionStackIndex = dimensionStack.CurrentIndex;
-            _previousDimensionStackIndex = dimensionStack.CurrentIndex - 1;
+            _previousDimensionStackIndex = dimensionStack.CurrentIndex;
+            _nextDimensionStackIndex = dimensionStack.CurrentIndex + 1;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -96,10 +123,20 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double transformedPosition = GetTransformedPosition();
 
-            _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
+#if !USE_INVAR_INDICES
+            _dimensionStack.Push(transformedPosition);
+#else
+            _dimensionStack.Set(_nextDimensionStackIndex, transformedPosition);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
+#endif
 
             double result = _signalCalculator.Calculate();
 
+#if !USE_INVAR_INDICES
+            _dimensionStack.Pop();
+#endif
             return result;
         }
 
@@ -107,15 +144,32 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double transformedPosition = GetTransformedPosition();
 
-            _dimensionStack.Set(_currentDimensionStackIndex, transformedPosition);
+#if !USE_INVAR_INDICES
+            _dimensionStack.Push(transformedPosition);
+#else
+            _dimensionStack.Set(_nextDimensionStackIndex, transformedPosition);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
+#endif
 
             base.Reset();
+#if !USE_INVAR_INDICES
+            _dimensionStack.Pop();
+#endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private double GetTransformedPosition()
         {
+#if !USE_INVAR_INDICES
+            double position = _dimensionStack.Get();
+#else
             double position = _dimensionStack.Get(_previousDimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
+#endif
 
             // IMPORTANT: To shift to the left in the output, you have shift to the right in the input.
             double transformedPosition = position + _distance;

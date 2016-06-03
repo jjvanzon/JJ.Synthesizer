@@ -22,7 +22,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            return _dimensionStack.Get(_dimensionStackIndex);
+#if !USE_INVAR_INDICES
+            double value = _dimensionStack.Get();
+#else
+            double value = _dimensionStack.Get(_dimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
+
+            return value;
         }
     }
 }

@@ -33,10 +33,19 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
+#if !USE_INVAR_INDICES
+            _dimensionStack.Push(_value);
+#else
             _dimensionStack.Set(_dimensionStackIndex, _value);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
 
             double outputValue = _calculationCalculator.Calculate();
-
+#if !USE_INVAR_INDICES
+            _dimensionStack.Pop();
+#endif
             return outputValue;
         }
     }
@@ -71,10 +80,19 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double position = _valueCalculator.Calculate();
 
+#if !USE_INVAR_INDICES
+            _dimensionStack.Push(position);
+#else
             _dimensionStack.Set(_dimensionStackIndex, position);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
 
             double outputValue = _calculationCalculator.Calculate();
-
+#if !USE_INVAR_INDICES
+            _dimensionStack.Pop();
+#endif
             return outputValue;
         }
     }

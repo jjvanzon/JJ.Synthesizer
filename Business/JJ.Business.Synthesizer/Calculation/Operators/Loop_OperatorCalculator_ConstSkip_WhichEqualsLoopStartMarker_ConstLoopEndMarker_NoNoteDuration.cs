@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Loop_OperatorCalculator_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration 
+    internal class Loop_OperatorCalculator_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration
         : Loop_OperatorCalculator_Base
     {
         private readonly double _loopStartMarker;
@@ -17,21 +17,27 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double loopEndMarker,
             DimensionStack dimensionStack)
             : base(
-                  signalCalculator, 
+                  signalCalculator,
                   dimensionStack,
                   new OperatorCalculatorBase[] { signalCalculator })
         {
             _loopStartMarker = loopStartMarker;
             _loopEndMarker = loopEndMarker;
-            
+
             _cycleLength = _loopEndMarker - _loopStartMarker;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected override double? GetTransformedPosition()
         {
+#if !USE_INVAR_INDICES
+            double position = _dimensionStack.Get();
+#else
             double position = _dimensionStack.Get(_previousDimensionStackIndex);
-
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
+#endif
             position -= _origin;
 
             // BeforeLoop

@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Loop_OperatorCalculator_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration 
+    internal class Loop_OperatorCalculator_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration
         : Loop_OperatorCalculator_Base
     {
         private readonly double _loopStartMarker;
@@ -31,7 +31,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected override double? GetTransformedPosition()
         {
+#if !USE_INVAR_INDICES
+            double outputPosition = _dimensionStack.Get();
+#else
             double outputPosition = _dimensionStack.Get(_previousDimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
+#endif
 
             double tempPosition = outputPosition - _origin;
 
@@ -46,10 +53,20 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             // InLoop
             if (tempPosition > _outputCycleEnd)
             {
-                _dimensionStack.Set(_currentDimensionStackIndex, tempPosition);
+#if !USE_INVAR_INDICES
+                _dimensionStack.Push(tempPosition);
+#else
+                _dimensionStack.Set(_nextDimensionStackIndex, tempPosition);
+#endif
+#if ASSERT_INVAR_INDICES
+                OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
+#endif
 
                 _loopEndMarker = GetLoopEndMarker();
 
+#if !USE_INVAR_INDICES
+                _dimensionStack.Pop();
+#endif
                 _cycleLength = _loopEndMarker - _loopStartMarker;
                 _outputCycleEnd += _cycleLength;
             }

@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _samplingRateCalculator;
         private readonly DimensionStack _dimensionStack;
-        private readonly int _currentDimensionStackIndex;
+        private readonly int _nextDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
 
         private double _xMinus1;
@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _y2;
 
         public Resample_OperatorCalculator_CubicSmoothSlope(
-            OperatorCalculatorBase signalCalculator, 
+            OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase samplingRateCalculator,
             DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[] { signalCalculator, samplingRateCalculator })
@@ -41,15 +41,22 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _signalCalculator = signalCalculator;
             _samplingRateCalculator = samplingRateCalculator;
             _dimensionStack = dimensionStack;
-            _currentDimensionStackIndex = dimensionStack.CurrentIndex;
-            _previousDimensionStackIndex = dimensionStack.CurrentIndex - 1;
+            _previousDimensionStackIndex = dimensionStack.CurrentIndex;
+            _nextDimensionStackIndex = dimensionStack.CurrentIndex + 1;
 
             ResetNonRecursive();
         }
 
         public override double Calculate()
         {
+#if !USE_INVAR_INDICES
+            double position = _dimensionStack.Get();
+#else
             double position = _dimensionStack.Get(_previousDimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
+#endif
 
             // TODO: What if position goes in reverse?
             // TODO: What if _x0 or _x1 are way off? How will it correct itself?
@@ -67,16 +74,34 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 _y1 = _y2;
 
                 // Determine next sample
-                _dimensionStack.Set(_currentDimensionStackIndex, _x1);
+#if !USE_INVAR_INDICES
+                _dimensionStack.Push(_x1);
+#else
+                _dimensionStack.Set(_nextDimensionStackIndex, _x1);
+#endif
+#if ASSERT_INVAR_INDICES
+                OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
+#endif
 
                 double samplingRate = GetSamplingRate();
 
                 _dx1 = 1.0 / samplingRate;
                 _x2 = _x1 + _dx1;
 
-                _dimensionStack.Set(_currentDimensionStackIndex, _x2);
+#if !USE_INVAR_INDICES
+                _dimensionStack.Set(_x2);
+#else
+                _dimensionStack.Set(_nextDimensionStackIndex, _x2);
+#endif
+#if ASSERT_INVAR_INDICES
+                OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
+#endif
 
                 _y2 = _signalCalculator.Calculate();
+
+#if !USE_INVAR_INDICES
+                _dimensionStack.Pop();
+#endif
             }
 
             double y = Interpolator.Interpolate_Cubic_SmoothSlope(
@@ -111,7 +136,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private void ResetNonRecursive()
         {
+#if !USE_INVAR_INDICES
+            double position = _dimensionStack.Get();
+#else
             double position = _dimensionStack.Get(_previousDimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
+#endif
 
             _xMinus1 = CalculationHelper.VERY_LOW_VALUE;
             _x0 = position - Double.Epsilon;
