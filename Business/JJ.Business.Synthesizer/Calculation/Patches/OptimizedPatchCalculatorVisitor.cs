@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using JJ.Business.Synthesizer.Calculation.Arrays;
@@ -14,6 +15,7 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Validation.Operators;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Framework.Common;
 using JJ.Framework.Common.Exceptions;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
@@ -85,13 +87,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private int _channelCount;
         private Stack<OperatorCalculatorBase> _stack;
         private DimensionStackCollection _dimensionStackCollection;
-
-        /// <summary>
-        /// TODO: Try using _dimensionStackCollection for this again,
-        /// but do check well if it works.
-        /// </summary>
         private DimensionStackCollection _bundleDimensionStackCollection;
-        //private DimensionStackCollection _dimensionLayers;
 
         private Dictionary<Operator, double> _operator_NoiseOffsetInSeconds_Dictionary;
         private Dictionary<Operator, int> _operator_RandomOffsetInSeconds_Dictionary;
@@ -148,6 +144,15 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             if (_stack.Count != 0)
             {
                 throw new NotEqualException(() => _stack.Count, 0);
+            }
+
+            foreach (DimensionEnum dimensionEnum in EnumHelper.GetValues<DimensionEnum>())
+            {
+                DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+                if (dimensionStack.Count != 1) // 1, because a single item is added by default as when the DimensionStackCollection is initialized.
+                {
+                    throw new Exception(String.Format("DimensionStack.Count for DimensionEnum '{0}' should be 1 but it is {1}.", dimensionEnum, dimensionStack.Count));
+                }
             }
 
             return new Result(
@@ -353,11 +358,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             var wrapper = new Bundle_OperatorWrapper(op);
 
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(wrapper.Dimension);
-
-            //int dimensionLayer = (int)_dimensionLayers.Get(wrapper.Dimension);
-            //dimensionLayer++;
-
-            //OperatorCalculatorBase calculator = new Bundle_OperatorCalculator(dimensionStack, operandCalculators, dimensionLayer);
             OperatorCalculatorBase calculator = new Bundle_OperatorCalculator(dimensionStack, operandCalculators);
 
             _stack.Push(calculator);
@@ -667,7 +667,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     {
                         calculator = new Curve_OperatorCalculator_MinX_NoOriginShifting(curveCalculator_MinTime, dimensionStack);
                     }
-               }
+                }
 
                 var curveCalculator_MinTimeZero = curveCalculator as CurveCalculator_MinXZero;
                 if (curveCalculator_MinTimeZero != null)
@@ -714,6 +714,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool signalIsConstZero = signalIsConst && signal == 0;
             bool timeDifferenceIsConstZero = timeDifferenceIsConst && timeDifference == 0;
 
+            dimensionStack.Pop();
+
             if (signalIsConstZero)
             {
                 calculator = new Zero_OperatorCalculator();
@@ -734,8 +736,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = new Delay_OperatorCalculator_VarSignal_VarDistance(signalCalculator, timeDifferenceCalculator, dimensionStack);
             }
-
-            dimensionStack.Pop();
 
             _stack.Push(calculator);
         }
@@ -861,6 +861,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool signalIsConstZero = signalIsConst && signal == 0;
             bool timeDifferenceIsConstZero = timeDifferenceIsConst && signal == 0;
 
+            dimensionStack.Pop();
+
             if (signalIsConstZero)
             {
                 calculator = new Zero_OperatorCalculator();
@@ -881,8 +883,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = new Earlier_OperatorCalculator_VarSignal_VarDistance(signalCalculator, timeDifferenceCalculator, dimensionStack);
             }
-
-            dimensionStack.Pop();
 
             _stack.Push(calculator);
         }
@@ -1427,6 +1427,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool noteDurationIsConstVeryHighValue = noteDurationIsConst && noteDuration == CalculationHelper.VERY_HIGH_VALUE;
             bool releaseEndMarkerIsConstVeryHighValue = releaseEndMarkerIsConst && releaseEndMarker == CalculationHelper.VERY_HIGH_VALUE;
 
+            dimensionStack.Pop();
+
             if (signalIsConst)
             {
                 // Note that the signalCalculator is not used here,
@@ -1492,8 +1494,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     }
                 }
             }
-
-            dimensionStack.Pop();
 
             _stack.Push(calculator);
         }
@@ -1562,6 +1562,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             timeSliceDurationCalculator = timeSliceDurationCalculator ?? new Number_OperatorCalculator(0.02f);
             sampleCountCalculator = sampleCountCalculator ?? new Number_OperatorCalculator(100f);
 
+            dimensionStack.Pop();
+
             if (signalIsConst)
             {
                 calculator = signalCalculator;
@@ -1570,8 +1572,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = new Maximum_OperatorCalculator(signalCalculator, timeSliceDurationCalculator, sampleCountCalculator, dimensionStack);
             }
-
-            dimensionStack.Pop();
 
             _stack.Push(calculator);
         }
@@ -1599,6 +1599,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             timeSliceDurationCalculator = timeSliceDurationCalculator ?? new Number_OperatorCalculator(0.02f);
             sampleCountCalculator = sampleCountCalculator ?? new Number_OperatorCalculator(100f);
 
+            dimensionStack.Pop();
+
             if (signalIsConst)
             {
                 calculator = signalCalculator;
@@ -1607,8 +1609,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = new Minimum_OperatorCalculator(signalCalculator, timeSliceDurationCalculator, sampleCountCalculator, dimensionStack);
             }
-
-            dimensionStack.Pop();
 
             _stack.Push(calculator);
         }
@@ -1767,6 +1767,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool factorIsConstSpecialNumber = factorIsConst && (Double.IsNaN(factor) || Double.IsInfinity(factor));
             bool originIsConstSpecialNumber = originIsConst && (Double.IsNaN(origin) || Double.IsInfinity(origin));
 
+            dimensionStack.Pop();
+
             if (signalIsConstSpecialNumber || factorIsConstSpecialNumber || originIsConstSpecialNumber)
             {
                 // Wierd number
@@ -1820,8 +1822,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
-
-            dimensionStack.Pop();
 
             _stack.Push(calculator);
         }
@@ -2445,6 +2445,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool signalIsConstSpecialNumber = signalIsConst && (Double.IsNaN(signal) || Double.IsInfinity(signal));
             bool samplingRateIsConstSpecialNumber = samplingRateIsConst && (Double.IsNaN(samplingRate) || Double.IsInfinity(samplingRate));
 
+            dimensionStack.Pop();
+
             if (signalIsConst)
             {
                 // Const signal Preceeds weird numbers.
@@ -2505,8 +2507,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 }
             }
 
-            dimensionStack.Pop();
-
             _stack.Push(calculator);
         }
 
@@ -2537,6 +2537,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             bool signalIsConstSpecialNumber = signalIsConst && (Double.IsNaN(signal) || Double.IsInfinity(signal));
             bool speedIsConstSpecialNumber = speedIsConst && (Double.IsNaN(speed) || Double.IsInfinity(speed));
+
+            dimensionStack.Pop();
 
             if (speedIsConstSpecialNumber)
             {
@@ -2578,8 +2580,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
-
-            dimensionStack.Pop();
 
             _stack.Push(calculator);
         }
@@ -2823,7 +2823,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = new SawDown_OperatorCalculator_VarFrequency_VarPhaseShift_NoPhaseTracking(frequencyCalculator, phaseShiftCalculator, dimensionStack);
             }
-            else 
+            else
             {
                 throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
@@ -2937,11 +2937,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
             positionCalculator = positionCalculator ?? new Zero_OperatorCalculator();
-            
+
             double signal = signalCalculator.Calculate();
             double position = positionCalculator.Calculate();
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool positionIsConst = positionCalculator is Number_OperatorCalculator;
+
+            dimensionStack.Pop();
 
             if (signalIsConst)
             {
@@ -2955,8 +2957,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = new Select_OperatorCalculator_VarPosition(signalCalculator, positionCalculator, dimensionStack);
             }
-
-            dimensionStack.Pop();
 
             _stack.Push(calculator);
         }
@@ -2983,6 +2983,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             double value = valueCalculator.Calculate();
 
+            dimensionStack.Pop();
+
             if (calculationIsConst)
             {
                 operatorCalculator = calculationCalculator;
@@ -2995,8 +2997,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 operatorCalculator = new SetDimension_OperatorCalculator_VarValue(calculationCalculator, valueCalculator, dimensionStack);
             }
-
-            dimensionStack.Pop();
 
             _stack.Push(operatorCalculator);
         }
@@ -3123,6 +3123,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool signalIsConstSpecialNumber = signalIsConst && (Double.IsNaN(signal) || Double.IsInfinity(signal));
             bool factorIsConstSpecialNumber = factorIsConst && (Double.IsNaN(factor) || Double.IsInfinity(factor));
 
+            dimensionStack.Pop();
+
             if (factorIsConstSpecialNumber)
             {
                 // Special number
@@ -3173,8 +3175,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
 
-            dimensionStack.Pop();
-
             _stack.Push(calculator);
         }
 
@@ -3207,6 +3207,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool signalIsConstZero = signalIsConst && signal == 0;
             bool signalIsConstSpecialNumber = signalIsConst && (Double.IsNaN(signal) || Double.IsInfinity(signal));
 
+            dimensionStack.Pop();
+
             if (signalIsConstSpecialNumber)
             {
                 // Special number
@@ -3229,8 +3231,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     frequencyCountCalculator,
                     dimensionStack);
             }
-
-            dimensionStack.Pop();
 
             _stack.Push(calculator);
         }
@@ -3265,6 +3265,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             bool signalIsConstSpecialNumber = signalIsConst && (Double.IsNaN(signal) || Double.IsInfinity(signal));
             bool factorIsConstSpecialNumber = factorIsConst && (Double.IsNaN(factor) || Double.IsInfinity(factor));
+
+            dimensionStack.Pop();
 
             if (factorIsConstSpecialNumber)
             {
@@ -3314,8 +3316,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
-
-            dimensionStack.Pop();
 
             _stack.Push(calculator);
         }
@@ -3432,6 +3432,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             // TODO: Handle const special numbers.
 
+            dimensionStack.Pop();
+
             if (factorIsConstZero)
             {
                 // Special number
@@ -3477,8 +3479,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
-
-            dimensionStack.Pop();
 
             _stack.Push(calculator);
         }
@@ -3567,6 +3567,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool originIsConstZero = originIsConst && origin == 0;
             bool exponentIsConstOne = exponentIsConst && exponent == 1;
 
+            dimensionStack.Pop();
+
             if (signalIsConstZero)
             {
                 calculator = new Zero_OperatorCalculator();
@@ -3587,8 +3589,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = new TimePower_OperatorCalculator_WithOrigin(signalCalculator, exponentCalculator, originCalculator, dimensionStack);
             }
-
-            dimensionStack.Pop();
 
             _stack.Push(calculator);
         }
@@ -3729,6 +3729,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         // Special Visitation
 
         /// <summary> Overridden to push null-inlets or default values for those inlets. </summary>
+        [DebuggerHidden]
         protected override void VisitInlet(Inlet inlet)
         {
             if (inlet.InputOutlet == null)
@@ -3804,6 +3805,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return op.Patch.ID == _outlet.Operator.Patch.ID;
         }
 
+        [DebuggerHidden]
         protected override void VisitOutlet(Outlet outlet)
         {
             OperatorTypeEnum operatorTypeEnum = outlet.Operator.GetOperatorTypeEnum();
@@ -3826,7 +3828,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             base.VisitOutlet(outlet);
         }
-    
+
         // TODO: Low Priority: Get rid of the asymmetry in the Operators with one outlet and the ones with multiple outlets.
 
         private void VisitCustomOperatorOutlet(Outlet outlet)
@@ -3876,7 +3878,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 throw new NotSupportedException(String.Format(
                     "Bundle Operator with ID '{0}' and Dimension '{1}' encountered without first encountering an Unbundle Operator. This is not yet supported.",
-                    outlet.Operator.ID, 
+                    outlet.Operator.ID,
                     wrapper.Dimension));
             }
 
