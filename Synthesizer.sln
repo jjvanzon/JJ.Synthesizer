@@ -1080,7 +1080,6 @@ Global
 		{1ED07700-D0FE-4397-A6A2-5FAAB025A0D9} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{AE5758E9-37E7-41FE-844D-A91471DB8FA5} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{CEEB755D-DE12-4E70-816E-546C429B44B7} = {72857B67-3003-486C-9BB3-34AF5748BE95}
-		{529145D5-6CC3-4016-89B5-826563024AF1} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{DA4F02E3-0B5E-42CD-B8D9-5583FA51D66E} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{62CA5AED-85D7-43CA-9410-7C6E7CDB4A34} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{C37A547B-F31E-45FB-870A-CFA704D06152} = {72857B67-3003-486C-9BB3-34AF5748BE95}
@@ -1098,7 +1097,6 @@ Global
 		SccProjectName1 = Framework/JJ.Framework.Data
 		SccLocalPath1 = Framework\\JJ.Framework.Data
 		SccProjectUniqueName2 = Framework\\JJ.Framework.Data.NHibernate\\JJ.Framework.Data.NHibernate.csproj
-		SccProjectTopLevelParentUniqueName2 = Synthesizer.sln
 		SccProjectName2 = Framework/JJ.Framework.Data.NHibernate
 		SccLocalPath2 = Framework\\JJ.Framework.Data.NHibernate
 		SccProjectUniqueName3 = Framework\\JJ.Framework.Configuration\\JJ.Framework.Configuration.csproj
@@ -1170,7 +1168,6 @@ Global
 		SccProjectName19 = Framework/JJ.Framework.Business
 		SccLocalPath19 = Framework\\JJ.Framework.Business
 		SccProjectUniqueName20 = Framework\\JJ.Framework.Data.SqlClient\\JJ.Framework.Data.SqlClient.csproj
-		SccProjectTopLevelParentUniqueName20 = Synthesizer.sln
 		SccProjectName20 = Framework/JJ.Framework.Data.SqlClient
 		SccLocalPath20 = Framework\\JJ.Framework.Data.SqlClient
 		SccProjectUniqueName21 = Data\\JJ.Data.Synthesizer\\JJ.Data.Synthesizer.csproj
@@ -1222,7 +1219,6 @@ Global
 		SccProjectName35 = Framework/JJ.Framework.Logging
 		SccLocalPath35 = Framework\\JJ.Framework.Logging
 		SccProjectUniqueName36 = External\u0020Components\\NHibernate\\Source\u0020Code\\3.3.1.GA\\src\\NHibernate\\NHibernate.csproj
-		SccProjectTopLevelParentUniqueName36 = Synthesizer.sln
 		SccProjectName36 = External\u0020Components/NHibernate/Source\u0020Code/3.3.1.GA/src/NHibernate
 		SccLocalPath36 = External\u0020Components\\NHibernate\\Source\u0020Code\\3.3.1.GA\\src\\NHibernate
 		SccProjectUniqueName37 = External\u0020Components\\FluentNHibernate\\Source\u0020Code\\1.3\\src\\FluentNHibernate\\FluentNHibernate.csproj
