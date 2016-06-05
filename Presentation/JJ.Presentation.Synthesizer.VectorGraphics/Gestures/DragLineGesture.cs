@@ -72,7 +72,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
             var rectangle = element as Rectangle;
             if (rectangle == null)
             {
-                throw new IsNotTypeException<Rectangle>(() => element);
+                throw new InvalidTypeException<Rectangle>(() => element);
             }
 
             Geometry.GetCenter_ByWidthAndHeight(

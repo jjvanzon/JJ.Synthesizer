@@ -338,7 +338,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             var castedSourceCalculator = sourceCalculator as MultiThreadedPatchCalculator;
             if (castedSourceCalculator == null)
             {
-                throw new IsNotTypeException<MultiThreadedPatchCalculator>(() => castedSourceCalculator);
+                throw new InvalidTypeException<MultiThreadedPatchCalculator>(() => castedSourceCalculator);
             }
 
             for (int i = 0; i < _maxConcurrentNotes; i++)

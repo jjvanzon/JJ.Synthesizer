@@ -149,23 +149,24 @@ namespace JJ.Business.Synthesizer.Calculation
             var arrayCalculators = new ArrayCalculatorBase[channelCount];
 
             var dimensionStackCollection = new DimensionStackCollection();
+            DimensionStack timeDimensionStack = dimensionStackCollection.GetDimensionStack(DimensionEnum.Time);
+            DimensionStack channelDimensionStack = dimensionStackCollection.GetDimensionStack(DimensionEnum.Channel);
+
             for (int channelIndex = 0; channelIndex < channelCount; channelIndex++)
             {
-                // TODO: This could be done faster, by tapping into a specific DimensionStack.
 #if !USE_INVAR_INDICES
-                dimensionStackCollection.Set(DimensionEnum.Channel, channelIndex);
+                channelDimensionStack.Set(channelIndex);
 #else
-                dimensionStackCollection.Set(DimensionEnum.Channel, TOP_LEVEL_DIMENSION_STACK_INDEX, channelIndex);
+                channelDimensionStack.Set(TOP_LEVEL_DIMENSION_STACK_INDEX, channelIndex);
 #endif
                 double[] samples = new double[tickCount];
 
                 double time = startTime;
 
-                // TODO: This could be done faster, by tapping into a specific DimensionStack.
 #if !USE_INVAR_INDICES
-                dimensionStackCollection.Set(DimensionEnum.Time, time);
+                timeDimensionStack.Set(time);
 #else
-                dimensionStackCollection.Set(DimensionEnum.Time, TOP_LEVEL_DIMENSION_STACK_INDEX, time);
+                timeDimensionStack.Set(TOP_LEVEL_DIMENSION_STACK_INDEX, time);
 #endif
 
                 for (int i = 0; i < tickCount; i++)
@@ -175,11 +176,10 @@ namespace JJ.Business.Synthesizer.Calculation
 
                     time += tickDuration;
 
-                    // TODO: This could be done faster, by tapping into a specific DimensionStack.
 #if !USE_INVAR_INDICES
-                    dimensionStackCollection.Set(DimensionEnum.Time, time);
+                    timeDimensionStack.Set(time);
 #else
-                    dimensionStackCollection.Set(DimensionEnum.Time, TOP_LEVEL_DIMENSION_STACK_INDEX, time);
+                    timeDimensionStack.Set(TOP_LEVEL_DIMENSION_STACK_INDEX, time);
 #endif
                 }
 

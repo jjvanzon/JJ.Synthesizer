@@ -15,7 +15,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
     {
         private const int TOP_LEVEL_DIMENSION_STACK_INDEX = 0;
 
-        private DimensionStackCollection _dimensionStackCollection;
+        private readonly DimensionStackCollection _dimensionStackCollection;
+        private readonly DimensionStack _timeDimensionStack;
+        private readonly DimensionStack _channelDimensionStack;
+
         private readonly OperatorCalculatorBase _outputOperatorCalculator;
         /// <summary> Array, instead of IList<T> for optimization in calculating values. </summary>
         private readonly VariableInput_OperatorCalculator[] _inputOperatorCalculators;
@@ -23,11 +26,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private readonly Dictionary<string, IList<OperatorCalculatorBase>> _name_To_ResettableOperatorCalculators_Dictionary;
         private readonly Dictionary<int, IList<OperatorCalculatorBase>> _listIndex_To_ResettableOperatorCalculators_Dictionary;
 
-        private Dictionary<int, double> _valuesByListIndex = new Dictionary<int, double>();
-        private Dictionary<string, double> _valuesByName = new Dictionary<string, double>();
-        private Dictionary<Tuple<string, int>, double> _valuesByNameAndListIndex = new Dictionary<Tuple<string, int>, double>();
-        private Dictionary<DimensionEnum, double> _dimensionEnum_To_Value_Dictionary = new Dictionary<DimensionEnum, double>();
-        private Dictionary<Tuple<DimensionEnum, int>, double> _dimensionEnumAndListIndex_To_Value_Dictionary = new Dictionary<Tuple<DimensionEnum, int>, double>();
+        private readonly Dictionary<int, double> _valuesByListIndex = new Dictionary<int, double>();
+        private readonly Dictionary<string, double> _valuesByName = new Dictionary<string, double>();
+        private readonly Dictionary<Tuple<string, int>, double> _valuesByNameAndListIndex = new Dictionary<Tuple<string, int>, double>();
+        private readonly Dictionary<DimensionEnum, double> _dimensionEnum_To_Value_Dictionary = new Dictionary<DimensionEnum, double>();
+        private readonly Dictionary<Tuple<DimensionEnum, int>, double> _dimensionEnumAndListIndex_To_Value_Dictionary = new Dictionary<Tuple<DimensionEnum, int>, double>();
 
         public OptimizedPatchCalculator(
             Outlet outlet,
@@ -51,21 +54,23 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _name_To_ResettableOperatorCalculators_Dictionary = result.ResettableOperatorTuples.ToNonUniqueDictionary(x => x.Name ?? "", x => x.OperatorCalculator);
             _listIndex_To_ResettableOperatorCalculators_Dictionary = result.ResettableOperatorTuples.Where(x => x.ListIndex.HasValue).ToNonUniqueDictionary(x => x.ListIndex.Value, x => x.OperatorCalculator);
 
+            _timeDimensionStack = _dimensionStackCollection.GetDimensionStack(DimensionEnum.Time);
+            _channelDimensionStack = _dimensionStackCollection.GetDimensionStack(DimensionEnum.Channel);
+
 #if !USE_INVAR_INDICES
-            _dimensionStackCollection.Set(DimensionEnum.Channel, channelIndex);
+            _channelDimensionStack.Set(channelIndex);
 #else
-            _dimensionStackCollection.Set(DimensionEnum.Channel, TOP_LEVEL_DIMENSION_STACK_INDEX, channelIndex);
+            _channelDimensionStack.Set(TOP_LEVEL_DIMENSION_STACK_INDEX, channelIndex);
 #endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double Calculate(double time)
         {
-            // TODO: This could be done faster, by tapping into a specific DimensionStack.
 #if !USE_INVAR_INDICES
-            _dimensionStackCollection.Set(DimensionEnum.Time, time);
+            _timeDimensionStack.Set(time);
 #else
-            _dimensionStackCollection.Set(DimensionEnum.Time, TOP_LEVEL_DIMENSION_STACK_INDEX, time);
+            _timeDimensionStack.Set(TOP_LEVEL_DIMENSION_STACK_INDEX, time);
 #endif
             double value = _outputOperatorCalculator.Calculate();
 
@@ -80,13 +85,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             for (int i = 0; i < count; i++)
             {
-                // TODO: This could be done faster, by tapping into a specific DimensionStack.
 #if !USE_INVAR_INDICES
-                _dimensionStackCollection.Set(DimensionEnum.Time, t);
+                _timeDimensionStack.Set(t);
 #else
-                _dimensionStackCollection.Set(DimensionEnum.Time, TOP_LEVEL_DIMENSION_STACK_INDEX, t);
+                _timeDimensionStack.Set(TOP_LEVEL_DIMENSION_STACK_INDEX, t);
 #endif
-
                 double value = Calculate(t);
 
                 values[i] = value;
@@ -349,7 +352,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             var source = sourcePatchCalculator as OptimizedPatchCalculator;
             if (source == null)
             {
-                throw new IsNotTypeException<OptimizedPatchCalculator>(() => sourcePatchCalculator);
+                throw new InvalidTypeException<OptimizedPatchCalculator>(() => sourcePatchCalculator);
             }
 
             foreach (var entry in source._valuesByListIndex)
@@ -380,11 +383,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         public void Reset(double time)
         {
-            // TODO: This could be done faster, by tapping into a specific DimensionStack.
 #if !USE_INVAR_INDICES
-            _dimensionStackCollection.Set(DimensionEnum.Time, time);
+            _timeDimensionStack.Set(time);
 #else
-            _dimensionStackCollection.Set(DimensionEnum.Time, 0, time);
+            _timeDimensionStack.Set(TOP_LEVEL_DIMENSION_STACK_INDEX, time);
 #endif
 
             //// HACK: Reset does not work for other dimensions than time.
@@ -396,7 +398,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             //    {
             //        continue;
             //    }
-            //    _dimensionStackCollection.Set(dimensionEnum, 0, 0.0);
+            //    _dimensionStackCollection.Set(dimensionEnum, TOP_LEVEL_DIMENSION_STACK_INDEX, 0.0);
             //}
 
             _outputOperatorCalculator.Reset();
@@ -415,12 +417,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             // and also null and empty must have the same behavior.
             name = name ?? "";
 
-            // TODO: This could be done faster, by tapping into a specific DimensionStack.
-
 #if !USE_INVAR_INDICES
-            _dimensionStackCollection.Set(DimensionEnum.Time, time);
+            _timeDimensionStack.Set(time);
 #else
-            _dimensionStackCollection.Set(DimensionEnum.Time, TOP_LEVEL_DIMENSION_STACK_INDEX, time);
+            _timeDimensionStack.Set(TOP_LEVEL_DIMENSION_STACK_INDEX, time);
 #endif
             //// HACK: Reset does not work for other dimensions than time.
             //// (This means that MidiInputProcessor should reset only for the time dimension,
@@ -446,11 +446,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         public void Reset(double time, int listIndex)
         {
-            // TODO: This could be done faster, by tapping into a specific DimensionStack.
 #if !USE_INVAR_INDICES
-            _dimensionStackCollection.Set(DimensionEnum.Time, time);
+            _timeDimensionStack.Set(time);
 #else
-            _dimensionStackCollection.Set(DimensionEnum.Time, TOP_LEVEL_DIMENSION_STACK_INDEX, time);
+            _timeDimensionStack.Set(TOP_LEVEL_DIMENSION_STACK_INDEX, time);
 #endif
 
             //// HACK: Reset does not work for other dimensions than time.
