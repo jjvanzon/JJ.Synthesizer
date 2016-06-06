@@ -73,7 +73,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         /// during the calculation is faster, but would not give the expected behavior.
         /// However, we keep the code alive, to be able to experiment with the performance impact.
         /// </summary>
-        private const bool BUNDLE_DIMENSION_VALUES_ARE_INVARIANT = false;
+        private const bool BUNDLE_POSITIONS_ARE_INVARIANT = false;
 
         private const double DEFAULT_PULSE_WIDTH = 0.5;
         private const double DEFAULT_DIMENSION_VALUE = 0.0;
@@ -335,13 +335,17 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        /// <summary>
-        /// Currently (2016-05-14) not visited. VisitBundleOutlet is visited instead,
-        /// because BundleOperatorCalculator is not used yet,
-        /// because the programming task that would enable you to manipulate Bundle indices is not completed yet.
-        /// </summary>
         protected override void VisitBundle(Operator op)
         {
+            if (BUNDLE_POSITIONS_ARE_INVARIANT)
+            {
+                throw new Exception("VisitBundle should not execute if BUNDLE_POSITIONS_ARE_INVARIANT.");
+            }
+
+            var wrapper = new Bundle_OperatorWrapper(op);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+
             base.VisitBundle(op);
 
             var operandCalculators = new List<OperatorCalculatorBase>(op.Inlets.Count);
@@ -355,9 +359,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 operandCalculators.Add(operandCalculator);
             }
 
-            var wrapper = new Bundle_OperatorWrapper(op);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(wrapper.Dimension);
             OperatorCalculatorBase calculator = new Bundle_OperatorCalculator(dimensionStack, operandCalculators);
 
             _stack.Push(calculator);
@@ -3691,13 +3692,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        /// <summary>
-        /// Currently (2016-05-14) not visited. VisitUnbundleOutlet is visited instead,
-        /// because UnbundleOperatorCalculator is not used yet,
-        /// because the programming task that would enable you to manipulate Bundle indices is not completed yet.
-        /// </summary>
         protected override void VisitUnbundle(Operator op)
         {
+            if (BUNDLE_POSITIONS_ARE_INVARIANT)
+            {
+                throw new Exception("VisitUnbundle should not execute if BUNDLE_POSITIONS_ARE_INVARIANT.");
+            }
+
             var wrapper = new Unbundle_OperatorWrapper(op);
             DimensionEnum dimensionEnum = wrapper.Dimension;
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
@@ -3715,7 +3716,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             if (operandIsConst)
             {
                 operatorCalculator = operandCalculator;
-            }
+            }   
             else
             {
                 double position = _bundleDimensionStackCollection.Get(dimensionEnum);
@@ -3848,6 +3849,18 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         private void VisitUnbundleOutlet(Outlet outlet)
         {
+            if (BUNDLE_POSITIONS_ARE_INVARIANT)
+            {
+                VisitUnbundleOutlet_WithInvariantBundlePositions(outlet);
+            }
+            else
+            {
+                VisitUnbundleOutlet_WithVariableBundlePositions(outlet);
+            }
+        }
+
+        private void VisitUnbundleOutlet_WithInvariantBundlePositions(Outlet outlet)
+        {
             Operator op = outlet.Operator;
             Inlet inlet = op.Inlets.Single();
             Outlet inputOutlet = inlet.InputOutlet;
@@ -3869,7 +3882,33 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _bundleDimensionStackCollection.Pop(dimensionEnum);
         }
 
+        private void VisitUnbundleOutlet_WithVariableBundlePositions(Outlet outlet)
+        {
+            int outletIndex = outlet.Operator.Outlets.IndexOf(outlet);
+
+            var wrapper = new Unbundle_OperatorWrapper(outlet.Operator);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
+
+            _bundleDimensionStackCollection.Push(dimensionEnum, outletIndex);
+
+            base.VisitOutlet(outlet);
+
+            _bundleDimensionStackCollection.Pop(dimensionEnum);
+        }
+
         private void VisitBundleOutlet(Outlet outlet)
+        {
+            if (BUNDLE_POSITIONS_ARE_INVARIANT)
+            {
+                VisitBundleOutlet_WithInvariantBundlePositions(outlet);
+            }
+            else
+            {
+                VisitBundleOutlet_WithVariableBundlePositions(outlet);
+            }
+        }
+
+        private void VisitBundleOutlet_WithInvariantBundlePositions(Outlet outlet)
         {
             var wrapper = new Bundle_OperatorWrapper(outlet.Operator);
             DimensionEnum dimensionEnum = wrapper.Dimension;
@@ -3916,6 +3955,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
 
             _bundleDimensionStackCollection.Push(dimensionEnum, bundleIndexDouble);
+        }
+
+        private void VisitBundleOutlet_WithVariableBundlePositions(Outlet outlet)
+        {
+            base.VisitOutlet(outlet);
         }
 
         protected override void VisitReset(Operator op)
