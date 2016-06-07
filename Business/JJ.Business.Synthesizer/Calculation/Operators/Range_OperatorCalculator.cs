@@ -33,15 +33,27 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             // Example:
             // index { 0, 1, 2 } => value { 0.5, 2.25, 4 }
 
+            double index = _dimensionStack.Get();
+
+            if (index < 0.0) return 0.0;
+
             double from = _fromCalculator.Calculate();
             double till = _tillCalculator.Calculate();
             double step = _stepCalculator.Calculate();
-            double index = _dimensionStack.Get();
 
-            double nonRounded = from + index * step;
-            double rounded = Maths.RoundWithStep(nonRounded, step);
+            double valueNonRounded = from + index * step;
 
-            return rounded;
+            double upperBound = till + step; // Sustain last value for the length a of step.
+
+            if (valueNonRounded > upperBound) return 0.0;
+
+            // Correct so that we round down and never up.
+            // TODO: Try to avoid the division.
+            double valueNonRoundedCorrected = valueNonRounded - step / 2.0;
+
+            double valueRounded = Maths.RoundWithStep(valueNonRoundedCorrected, step);
+
+            return valueRounded;
         }
     }
 }
