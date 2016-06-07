@@ -983,6 +983,27 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        public Range_OperatorWrapper Range(Outlet from = null, Outlet till = null, Outlet step = null, DimensionEnum dimension = DimensionEnum.Undefined)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Range, inletCount: 3, outletCount: 1);
+
+            var wrapper = new Range_OperatorWrapper(op)
+            {
+                From = from,
+                Till = till,
+                Step = step,
+                Dimension = dimension
+            };
+
+            op.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
+
         public Resample_OperatorWrapper Resample(
             Outlet signal = null, 
             Outlet samplingRate = null, 
@@ -1513,6 +1534,7 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.Pulse: return Pulse();
                 case OperatorTypeEnum.PulseTrigger: return PulseTrigger();
                 case OperatorTypeEnum.Random: return Random();
+                case OperatorTypeEnum.Range: return Range();
                 case OperatorTypeEnum.Resample: return Resample();
                 case OperatorTypeEnum.Reset: return Reset();
                 case OperatorTypeEnum.Reverse: return Reverse();

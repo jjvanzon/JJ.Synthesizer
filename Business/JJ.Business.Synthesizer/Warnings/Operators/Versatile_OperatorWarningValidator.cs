@@ -53,6 +53,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             { OperatorTypeEnum.Power, typeof(Power_OperatorWarningValidator) },
             { OperatorTypeEnum.Pulse, typeof(Pulse_OperatorWarningValidator) },
             { OperatorTypeEnum.Random, typeof(Random_OperatorWarningValidator) },
+            { OperatorTypeEnum.Range, typeof(Range_OperatorWarningValidator) },
             { OperatorTypeEnum.Resample, typeof(Resample_OperatorWarningValidator) },
             { OperatorTypeEnum.Reverse , typeof(Reverse_OperatorWarningValidator ) },
             { OperatorTypeEnum.Reset, typeof(Reset_OperatorWarningValidator) },

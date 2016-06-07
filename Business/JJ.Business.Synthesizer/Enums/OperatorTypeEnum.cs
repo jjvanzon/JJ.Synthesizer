@@ -115,6 +115,7 @@
         ToggleTrigger = 62,
         GetDimension = 63,
         SetDimension = 64,
-        Hold = 65
+        Hold = 65,
+        Range = 66
     }
 }

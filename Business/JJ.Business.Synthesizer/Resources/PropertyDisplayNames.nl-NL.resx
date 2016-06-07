@@ -799,4 +799,13 @@
   <data name="Hold" xml:space="preserve">
     <value>Aanhouden</value>
   </data>
+  <data name="Range" xml:space="preserve">
+    <value>Reeks</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>Van</value>
+  </data>
+  <data name="Till" xml:space="preserve">
+    <value>Tot</value>
+  </data>
 </root>

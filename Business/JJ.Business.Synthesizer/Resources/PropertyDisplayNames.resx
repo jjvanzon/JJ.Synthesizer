@@ -800,4 +800,13 @@
   <data name="Hold" xml:space="preserve">
     <value>Hold</value>
   </data>
+  <data name="Range" xml:space="preserve">
+    <value>Range</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="Till" xml:space="preserve">
+    <value>Till</value>
+  </data>
 </root>

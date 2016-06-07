@@ -60,6 +60,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.Pulse, VisitPulse },
                 { OperatorTypeEnum.PulseTrigger, VisitPulseTrigger },
                 { OperatorTypeEnum.Random, VisitRandom },
+                { OperatorTypeEnum.Range, VisitRange },
                 { OperatorTypeEnum.Resample, VisitResample },
                 { OperatorTypeEnum.Reset, VisitReset },
                 { OperatorTypeEnum.Reverse, VisitReverse },
@@ -386,6 +387,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         [DebuggerHidden]
         protected virtual void VisitRandom(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
+
+        [DebuggerHidden]
+        protected virtual void VisitRange(Operator op)
         {
             VisitOperatorBase(op);
         }

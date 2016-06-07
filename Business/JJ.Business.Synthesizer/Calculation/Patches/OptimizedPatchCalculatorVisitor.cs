@@ -2417,6 +2417,31 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
+        protected override void VisitRange(Operator op)
+        {
+            var wrapper = new Random_OperatorWrapper(op);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+
+            base.VisitRange(op);
+
+            OperatorCalculatorBase operatorCalculator;
+
+            OperatorCalculatorBase fromCalculator = _stack.Pop();
+            OperatorCalculatorBase tillCalculator = _stack.Pop();
+            OperatorCalculatorBase stepCalculator = _stack.Pop();
+
+            // TODO: Do not use these magic defaults, but give standard operators default inlet value functionality.
+            fromCalculator = fromCalculator ?? new Number_OperatorCalculator(1.0);
+            tillCalculator = tillCalculator ?? new Number_OperatorCalculator(16.0);
+            stepCalculator = stepCalculator ?? new Number_OperatorCalculator(1.0);
+
+            // TODO: Make specialized calculators.
+            operatorCalculator = new Range_OperatorCalculator(fromCalculator, tillCalculator, stepCalculator, dimensionStack);
+
+            _stack.Push(operatorCalculator);
+        }
+
         protected override void VisitResample(Operator op)
         {
             var wrapper = new Resample_OperatorWrapper(op);

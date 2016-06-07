@@ -56,6 +56,7 @@ namespace JJ.Business.Synthesizer.Helpers
             { OperatorTypeEnum.PulseTrigger, Create_PulseTrigger_OperatorWrapper },
             { OperatorTypeEnum.Pulse, Create_Pulse_OperatorWrapper },
             { OperatorTypeEnum.Random, Create_Random_OperatorWrapper },
+            { OperatorTypeEnum.Range, Create_Range_OperatorWrapper },
             { OperatorTypeEnum.Resample, Create_Resample_OperatorWrapper },
             { OperatorTypeEnum.Reset, Create_Reset_OperatorWrapper },
             { OperatorTypeEnum.Reverse, Create_Reverse_OperatorWrapper },
@@ -167,6 +168,7 @@ namespace JJ.Business.Synthesizer.Helpers
         private static Pulse_OperatorWrapper Create_Pulse_OperatorWrapper(Operator op) { return new Pulse_OperatorWrapper(op); }
         private static PulseTrigger_OperatorWrapper Create_PulseTrigger_OperatorWrapper(Operator op) { return new PulseTrigger_OperatorWrapper(op); }
         private static Random_OperatorWrapper Create_Random_OperatorWrapper(Operator op) { return new Random_OperatorWrapper(op); }
+        private static Range_OperatorWrapper Create_Range_OperatorWrapper(Operator op) { return new Range_OperatorWrapper(op); }
         private static Resample_OperatorWrapper Create_Resample_OperatorWrapper(Operator op) { return new Resample_OperatorWrapper(op); }
         private static Reset_OperatorWrapper Create_Reset_OperatorWrapper(Operator op) { return new Reset_OperatorWrapper(op); }
         private static Reverse_OperatorWrapper Create_Reverse_OperatorWrapper(Operator op) { return new Reverse_OperatorWrapper(op); }

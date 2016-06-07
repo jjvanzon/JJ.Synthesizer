@@ -87,6 +87,7 @@
     <Compile Include="Calculation\DimensionStackCollection.cs" />
     <Compile Include="Calculation\Operators\2016-05-12 Backup of Add OperatorCalculator Classes %28with Generics%29.cs" />
     <Compile Include="Calculation\Operators\2016-05-10 Backup of Multiply OperatorCalculator Classes %28With Generics%29.cs" />
+    <Compile Include="Calculation\Operators\Range_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Unbundle_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Bundle_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Cache OperatorCalculator Classes.cs" />
@@ -216,6 +217,7 @@
     <Compile Include="EntityWrappers\Hold_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\OneOverX_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Negative_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\Range_OperatorWrapper.cs" />
     <Compile Include="Helpers\OperatorWrapperFactory.cs" />
     <Compile Include="EntityWrappers\Round_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\If_OperatorWrapper.cs" />
@@ -342,6 +344,7 @@
     <Compile Include="Validation\2016-03-03 Backup of NodeValidator_Delete.cs" />
     <Compile Include="Validation\Operators\Absolute_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Hold_OperatorValidator.cs" />
+    <Compile Include="Validation\Operators\Range_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\SetDimension_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\GetDimension_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_Base_WithDimension.cs" />
@@ -396,6 +399,7 @@
     <Compile Include="Warnings\Operators\Absolute_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\2016-03-30 Backup of OperatorWarningValidator_Cache.cs" />
     <Compile Include="Warnings\Operators\Hold_OperatorWarningValidator.cs" />
+    <Compile Include="Warnings\Operators\Range_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\SetDimension_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\GetDimension_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\ToggleTrigger_OperatorWarningValidator.cs" />

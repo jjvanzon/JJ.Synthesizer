@@ -55,6 +55,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.Narrower,
             OperatorTypeEnum.Noise,
             OperatorTypeEnum.Pulse,
+            OperatorTypeEnum.Range,
             OperatorTypeEnum.Reverse,
             OperatorTypeEnum.SawDown,
             OperatorTypeEnum.SawUp,
