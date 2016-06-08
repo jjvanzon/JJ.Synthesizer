@@ -398,8 +398,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             // In theory I could generate additional messages in the calculation optimization process,
             // but we should keep it possible to reoptimize in runtime, and we cannot obtrusively interrupt
             // the user with validation messages, because he is busy making music and the show must go on.
-            bool startTimeIsValid = !Double.IsNaN(startTime) && !Double.IsInfinity(startTime);
-            bool endTimeIsValid = !Double.IsNaN(endTime) && !Double.IsInfinity(endTime);
+            bool startTimeIsValid = !DoubleHelper.IsSpecialNumber(startTime);
+            bool endTimeIsValid = !DoubleHelper.IsSpecialNumber(endTime);
             bool samplingRateIsValid = ConversionHelper.CanCastToInt32(samplingRate) && (int)samplingRate > 0;
             bool startTimeComparedToEndTimeIsValid = endTime > startTime;
             bool valuesAreValid = startTimeIsValid &&
@@ -2121,9 +2121,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool frequencyIsConstZero = frequencyIsConst && frequency == 0.0;
             bool widthIsConstZero = widthIsConst && width == 0.0;
 
-            bool frequencyIsConstSpecialNumber = frequencyIsConst && (Double.IsNaN(frequency) || Double.IsInfinity(frequency));
-            bool widthIsConstSpecialNumber = widthIsConst && (Double.IsNaN(width) || Double.IsInfinity(width));
-            bool phaseShiftIsConstSpecialNumber = phaseShiftIsConst && (Double.IsNaN(phaseShift) || Double.IsInfinity(phaseShift));
+            bool frequencyIsConstSpecialNumber = frequencyIsConst && DoubleHelper.IsSpecialNumber(frequency);
+            bool widthIsConstSpecialNumber = widthIsConst && DoubleHelper.IsSpecialNumber(width);
+            bool phaseShiftIsConstSpecialNumber = phaseShiftIsConst && DoubleHelper.IsSpecialNumber(phaseShift);
 
             if (frequencyIsConstSpecialNumber || widthIsConstSpecialNumber || phaseShiftIsConstSpecialNumber)
             {
@@ -2276,8 +2276,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool rateIsConstZero = rateIsConst && rate == 0;
             bool phaseShiftIsConstZero = phaseShiftIsConst && phaseShift == 0;
 
-            bool rateIsConstSpecialNumber = rateIsConst && (Double.IsNaN(rate) || Double.IsInfinity(rate));
-            bool phaseShiftIsConstSpecialNumber = phaseShiftIsConst && (Double.IsNaN(phaseShift) || Double.IsInfinity(phaseShift));
+            bool rateIsConstSpecialNumber = rateIsConst && DoubleHelper.IsSpecialNumber(rate);
+            bool phaseShiftIsConstSpecialNumber = phaseShiftIsConst && DoubleHelper.IsSpecialNumber(phaseShift);
 
             if (rateIsConstSpecialNumber || phaseShiftIsConstSpecialNumber)
             {
@@ -2505,8 +2505,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool signalIsConstZero = signalIsConst && signal == 0;
             bool samplingRateIsConstZero = samplingRateIsConst && samplingRate == 0;
 
-            bool signalIsConstSpecialNumber = signalIsConst && (Double.IsNaN(signal) || Double.IsInfinity(signal));
-            bool samplingRateIsConstSpecialNumber = samplingRateIsConst && (Double.IsNaN(samplingRate) || Double.IsInfinity(samplingRate));
+            bool signalIsConstSpecialNumber = signalIsConst && DoubleHelper.IsSpecialNumber(signal);
+            bool samplingRateIsConstSpecialNumber = samplingRateIsConst && DoubleHelper.IsSpecialNumber(samplingRate);
 
             dimensionStack.Pop();
 
@@ -2598,8 +2598,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             bool speedIsConstZero = speedIsConst && speed == 0;
 
-            bool signalIsConstSpecialNumber = signalIsConst && (Double.IsNaN(signal) || Double.IsInfinity(signal));
-            bool speedIsConstSpecialNumber = speedIsConst && (Double.IsNaN(speed) || Double.IsInfinity(speed));
+            bool signalIsConstSpecialNumber = signalIsConst && DoubleHelper.IsSpecialNumber(signal);
+            bool speedIsConstSpecialNumber = speedIsConst && DoubleHelper.IsSpecialNumber(speed);
 
             dimensionStack.Pop();
 
@@ -2675,9 +2675,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             bool stepIsConstOne = stepIsConst && step == 1;
 
-            bool signalIsConstSpecialNumber = signalIsConst && (Double.IsNaN(signal) || Double.IsInfinity(signal));
-            bool stepIsConstSpecialNumber = stepIsConst && (Double.IsNaN(step) || Double.IsInfinity(step));
-            bool offsetIsConstSpecialNumber = offsetIsConst && (Double.IsNaN(offset) || Double.IsInfinity(offset));
+            bool signalIsConstSpecialNumber = signalIsConst && DoubleHelper.IsSpecialNumber(signal);
+            bool stepIsConstSpecialNumber = stepIsConst && DoubleHelper.IsSpecialNumber(step);
+            bool offsetIsConstSpecialNumber = offsetIsConst && DoubleHelper.IsSpecialNumber(offset);
 
             if (signalIsConstSpecialNumber || stepIsConstSpecialNumber || offsetIsConstSpecialNumber)
             {
@@ -3183,8 +3183,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             bool factorIsConstOne = factorIsConst && factor == 1;
 
-            bool signalIsConstSpecialNumber = signalIsConst && (Double.IsNaN(signal) || Double.IsInfinity(signal));
-            bool factorIsConstSpecialNumber = factorIsConst && (Double.IsNaN(factor) || Double.IsInfinity(factor));
+            bool signalIsConstSpecialNumber = signalIsConst && DoubleHelper.IsSpecialNumber(signal);
+            bool factorIsConstSpecialNumber = factorIsConst && DoubleHelper.IsSpecialNumber(factor);
 
             dimensionStack.Pop();
 
@@ -3268,7 +3268,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool signalIsConstZero = signalIsConst && signal == 0;
-            bool signalIsConstSpecialNumber = signalIsConst && (Double.IsNaN(signal) || Double.IsInfinity(signal));
+            bool signalIsConstSpecialNumber = signalIsConst && DoubleHelper.IsSpecialNumber(signal);
 
             dimensionStack.Pop();
 
@@ -3326,8 +3326,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             bool factorIsConstOne = factorIsConst && factor == 1;
 
-            bool signalIsConstSpecialNumber = signalIsConst && (Double.IsNaN(signal) || Double.IsInfinity(signal));
-            bool factorIsConstSpecialNumber = factorIsConst && (Double.IsNaN(factor) || Double.IsInfinity(factor));
+            bool signalIsConstSpecialNumber = signalIsConst && DoubleHelper.IsSpecialNumber(signal);
+            bool factorIsConstSpecialNumber = factorIsConst && DoubleHelper.IsSpecialNumber(factor);
 
             dimensionStack.Pop();
 
@@ -3407,8 +3407,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             bool frequencyIsConstZero = frequencyIsConst && frequency == 0;
 
-            bool frequencyIsConstSpecialNumber = frequencyIsConst && (Double.IsNaN(frequency) || Double.IsInfinity(frequency));
-            bool phaseShiftIsConstSpecialNumber = phaseShiftIsConst && (Double.IsNaN(phaseShift) || Double.IsInfinity(phaseShift));
+            bool frequencyIsConstSpecialNumber = frequencyIsConst && DoubleHelper.IsSpecialNumber(frequency);
+            bool phaseShiftIsConstSpecialNumber = phaseShiftIsConst && DoubleHelper.IsSpecialNumber(phaseShift);
 
             if (frequencyIsConstSpecialNumber || phaseShiftIsConstSpecialNumber)
             {
