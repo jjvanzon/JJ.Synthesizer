@@ -80,7 +80,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (Double.IsInfinity(step)) throw new InfinityException(() => step);
         }
 
-        /// <summary> Asserts that the calculator is not null and a Number_OperatorCalculator.</summary>
+        /// <summary> Asserts that the calculator is not null and not a Number_OperatorCalculator.</summary>
         public static void AssertOperatorCalculatorBase(
             OperatorCalculatorBase operatorCalculatorBase,
             Expression<Func<object>> expression)

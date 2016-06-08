@@ -319,7 +319,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double signal = signalCalculator.Calculate();
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
 
-            // TODO: Do not use these magic defaults, but give standard operators default inlet value functionality.
+            // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
             timeSliceDurationCalculator = timeSliceDurationCalculator ?? new Number_OperatorCalculator(0.02);
             sampleCountCalculator = sampleCountCalculator ?? new Number_OperatorCalculator(100.0);
 
@@ -381,7 +381,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase samplingRateCalculator = _stack.Pop();
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
-            // TODO: Do not use these magic defaults, but give standard operators default inlet value functionality.
+            // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
             startDateCalculator = startDateCalculator ?? new Number_OperatorCalculator(0.0);
             endDateCalculator = endDateCalculator ?? new Number_OperatorCalculator(1.0);
             samplingRateCalculator = samplingRateCalculator ?? new Number_OperatorCalculator(44100.0);
@@ -1559,7 +1559,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double signal = signalCalculator.Calculate();
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
 
-            // TODO: Do not use these magic defaults, but give standard operators default inlet value functionality.
+            // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
             timeSliceDurationCalculator = timeSliceDurationCalculator ?? new Number_OperatorCalculator(0.02f);
             sampleCountCalculator = sampleCountCalculator ?? new Number_OperatorCalculator(100f);
 
@@ -1596,7 +1596,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double signal = signalCalculator.Calculate();
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
 
-            // TODO: Do not use these magic defaults, but give standard operators default inlet value functionality.
+            // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
             timeSliceDurationCalculator = timeSliceDurationCalculator ?? new Number_OperatorCalculator(0.02f);
             sampleCountCalculator = sampleCountCalculator ?? new Number_OperatorCalculator(100f);
 
@@ -1764,9 +1764,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             bool factorIsConstOne = factorIsConst && factor == 1;
 
-            bool signalIsConstSpecialNumber = signalIsConst && (Double.IsNaN(signal) || Double.IsInfinity(signal));
-            bool factorIsConstSpecialNumber = factorIsConst && (Double.IsNaN(factor) || Double.IsInfinity(factor));
-            bool originIsConstSpecialNumber = originIsConst && (Double.IsNaN(origin) || Double.IsInfinity(origin));
+            bool signalIsConstSpecialNumber = signalIsConst && DoubleHelper.IsSpecialNumber(signal);
+            bool factorIsConstSpecialNumber = factorIsConst && DoubleHelper.IsSpecialNumber(factor);
+            bool originIsConstSpecialNumber = originIsConst && DoubleHelper.IsSpecialNumber(origin);
 
             dimensionStack.Pop();
 
@@ -2431,13 +2431,50 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase tillCalculator = _stack.Pop();
             OperatorCalculatorBase stepCalculator = _stack.Pop();
 
-            // TODO: Do not use these magic defaults, but give standard operators default inlet value functionality.
+            // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
             fromCalculator = fromCalculator ?? new Number_OperatorCalculator(1.0);
             tillCalculator = tillCalculator ?? new Number_OperatorCalculator(16.0);
             stepCalculator = stepCalculator ?? new Number_OperatorCalculator(1.0);
 
-            // TODO: Make specialized calculators.
-            operatorCalculator = new Range_OperatorCalculator(fromCalculator, tillCalculator, stepCalculator, dimensionStack);
+            bool fromIsConst = fromCalculator is Number_OperatorCalculator;
+            bool tillIsConst = tillCalculator is Number_OperatorCalculator;
+            bool stepIsConst = stepCalculator is Number_OperatorCalculator;
+
+            double from = fromIsConst ? fromCalculator.Calculate() : 0.0;
+            double till = tillIsConst ? tillCalculator.Calculate() : 0.0;
+            double step = stepIsConst ? stepCalculator.Calculate() : 0.0;
+
+            bool stepIsConstZero = stepIsConst && step == 0.0;
+            bool stepIsConstOne = stepIsConst && step == 1.0;
+            bool fromIsConstSpecialNumber = fromIsConst && DoubleHelper.IsSpecialNumber(from);
+            bool tillIsConstSpecialNumber = fromIsConst && DoubleHelper.IsSpecialNumber(from);
+            bool stepIsConstSpecialNumber = fromIsConst && DoubleHelper.IsSpecialNumber(from);
+
+            if (stepIsConstZero)
+            {
+                // Would eventually lead to divide by zero and an infinite amount of index positions.
+                operatorCalculator = new Number_OperatorCalculator(Double.NaN);
+            }
+            if (fromIsConstSpecialNumber || tillIsConstSpecialNumber || stepIsConstSpecialNumber)
+            {
+                operatorCalculator = new Number_OperatorCalculator(Double.NaN);
+            }
+            else if (fromIsConst && tillIsConst && stepIsConstOne)
+            {
+                operatorCalculator = new Range_OperatorCalculator_WithConstants_AndStepOne(from, till, dimensionStack);
+            }
+            else if (fromIsConst && tillIsConst && stepIsConst)
+            {
+                operatorCalculator = new Range_OperatorCalculator_WithConstants(from, till, step, dimensionStack);
+            }
+            else if (!fromIsConst && !tillIsConst && !stepIsConst)
+            {
+                operatorCalculator = new Range_OperatorCalculator_WithVariables(fromCalculator, tillCalculator, stepCalculator, dimensionStack);
+            }
+            else
+            {
+                throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
+            }
 
             _stack.Push(operatorCalculator);
         }
@@ -3219,7 +3256,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase frequencyCountCalculator = _stack.Pop();
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
-            // TODO: Do not use these magic defaults, but give standard operators default inlet value functionality.
+            // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
             startTimeCalculator = startTimeCalculator ?? new Number_OperatorCalculator(0.0);
             endTimeCalculator = endTimeCalculator ?? new Number_OperatorCalculator(1.0);
             frequencyCountCalculator = frequencyCountCalculator ?? new Number_OperatorCalculator(16);
