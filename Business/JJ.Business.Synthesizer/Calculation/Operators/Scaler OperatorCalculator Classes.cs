@@ -6,7 +6,7 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Scaler_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Scaler_OperatorCalculator_AllVariables : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _sourceValueACalculator;
@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _targetValueACalculator;
         private readonly OperatorCalculatorBase _targetValueBCalculator;
 
-        public Scaler_OperatorCalculator(
+        public Scaler_OperatorCalculator_AllVariables(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase sourceValueACalculator,
             OperatorCalculatorBase sourceValueBCalculator,
@@ -53,6 +53,47 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double targetRange = targetValueB - targetValueA;
             double between0And1 = (signal - sourceValueA) / sourceRange;
             double result = between0And1 * targetRange + targetValueA;
+
+            return result;
+        }
+    }
+
+    internal class Scaler_OperatorCalculator_ManyConstants : OperatorCalculatorBase_WithChildCalculators
+    {
+        private readonly OperatorCalculatorBase _signalCalculator;
+        private readonly double _sourceValueA;
+        private readonly double _sourceValueB;
+        private readonly double _targetValueA;
+        private readonly double _targetValueB;
+        private readonly double _slope;
+
+        public Scaler_OperatorCalculator_ManyConstants(
+            OperatorCalculatorBase signalCalculator,
+            double sourceValueA,
+            double sourceValueB,
+            double targetValueA,
+            double targetValueB)
+            : base(new OperatorCalculatorBase[] { signalCalculator })
+        {
+            if (signalCalculator == null) throw new NullException(() => signalCalculator);
+
+            _signalCalculator = signalCalculator;
+            _sourceValueA = sourceValueA;
+            _sourceValueB = sourceValueB;
+            _targetValueA = targetValueA;
+            _targetValueB = targetValueB;
+
+            double sourceRange = _sourceValueB - _sourceValueA;
+            double targetRange = _targetValueB - _targetValueA;
+            _slope = targetRange / sourceRange;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override double Calculate()
+        {
+            double signal = _signalCalculator.Calculate();
+
+            double result = (signal - _sourceValueA) * _slope + _targetValueA;
 
             return result;
         }

@@ -2979,7 +2979,24 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             targetValueACalculator = targetValueACalculator ?? new Zero_OperatorCalculator();
             targetValueBCalculator = targetValueBCalculator ?? new Zero_OperatorCalculator();
 
-            calculator = new Scaler_OperatorCalculator(signalCalculator, sourceValueACalculator, sourceValueBCalculator, targetValueACalculator, targetValueBCalculator);
+            bool sourceValueAIsConst = sourceValueACalculator is Number_OperatorCalculator;
+            bool sourceValueBIsConst = sourceValueBCalculator is Number_OperatorCalculator;
+            bool targetValueAIsConst = targetValueACalculator is Number_OperatorCalculator;
+            bool targetValueBIsConst = targetValueBCalculator is Number_OperatorCalculator;
+
+            double sourceValueA = sourceValueAIsConst ? sourceValueACalculator.Calculate() : 0.0;
+            double sourceValueB = sourceValueBIsConst ? sourceValueBCalculator.Calculate() : 0.0;
+            double targetValueA = targetValueAIsConst ? targetValueACalculator.Calculate() : 0.0;
+            double targetValueB = targetValueBIsConst ? targetValueBCalculator.Calculate() : 0.0;
+
+            if (sourceValueAIsConst && sourceValueBIsConst && targetValueAIsConst && targetValueBIsConst)
+            {
+                calculator = new Scaler_OperatorCalculator_ManyConstants(signalCalculator, sourceValueA, sourceValueB, targetValueA, targetValueB);
+            }
+            else
+            {
+                calculator = new Scaler_OperatorCalculator_AllVariables(signalCalculator, sourceValueACalculator, sourceValueBCalculator, targetValueACalculator, targetValueBCalculator);
+            }
 
             _stack.Push(calculator);
         }
