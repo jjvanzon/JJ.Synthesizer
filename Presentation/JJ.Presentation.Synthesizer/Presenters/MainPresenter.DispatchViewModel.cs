@@ -721,6 +721,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 HideAllListAndDetailViewModels();
                 castedViewModel.Visible = true;
             }
+
+            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            castedViewModel.ValidationMessages.Clear();
         }
 
         private void DispatchPatchPropertiesViewModel(object viewModel2)
