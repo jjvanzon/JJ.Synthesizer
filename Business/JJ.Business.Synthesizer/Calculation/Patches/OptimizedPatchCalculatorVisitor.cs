@@ -87,7 +87,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private int _channelCount;
         private Stack<OperatorCalculatorBase> _stack;
         private DimensionStackCollection _dimensionStackCollection;
-        private DimensionStackCollection _bundleDimensionStackCollection;
 
         private Dictionary<Operator, double> _operator_NoiseOffsetInSeconds_Dictionary;
         private Dictionary<Operator, int> _operator_RandomOffsetInSeconds_Dictionary;
@@ -128,7 +127,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             _stack = new Stack<OperatorCalculatorBase>();
             _dimensionStackCollection = new DimensionStackCollection();
-            _bundleDimensionStackCollection = new DimensionStackCollection();
             _operator_NoiseOffsetInSeconds_Dictionary = new Dictionary<Operator, double>();
             _operator_RandomOffsetInSeconds_Dictionary = new Dictionary<Operator, int>();
             _patchInlet_Calculator_Dictionary = new Dictionary<Operator, VariableInput_OperatorCalculator>();
@@ -345,6 +343,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             var wrapper = new Bundle_OperatorWrapper(op);
             DimensionEnum dimensionEnum = wrapper.Dimension;
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+
+            // No pushing and popping from the dimension stack here.
 
             base.VisitBundle(op);
 
@@ -3765,6 +3765,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             DimensionEnum dimensionEnum = wrapper.Dimension;
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
+            // NOTE: Pushing and popping from the dimension stack is done in VisitUnbundleOutlet_WithVariableBundlePositions.
+
             base.VisitUnbundle(op);
 
             OperatorCalculatorBase operatorCalculator;
@@ -3774,14 +3776,14 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             operandCalculator = operandCalculator ?? new Zero_OperatorCalculator();
 
             bool operandIsConst = operandCalculator is Number_OperatorCalculator;
-
+            
             if (operandIsConst)
             {
                 operatorCalculator = operandCalculator;
             }   
             else
             {
-                double position = _bundleDimensionStackCollection.Get(dimensionEnum);
+                double position = dimensionStack.Get();
 
                 operatorCalculator = new Unbundle_OperatorCalculator(operandCalculator, position, dimensionStack);
             }
@@ -3936,12 +3938,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             var wrapper = new Unbundle_OperatorWrapper(op);
             DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
-            _bundleDimensionStackCollection.Push(dimensionEnum, outletIndex);
+            dimensionStack.Push(outletIndex);
 
             VisitOutlet(inputOutlet);
 
-            _bundleDimensionStackCollection.Pop(dimensionEnum);
+            dimensionStack.Pop();
         }
 
         private void VisitUnbundleOutlet_WithVariableBundlePositions(Outlet outlet)
@@ -3950,12 +3953,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             var wrapper = new Unbundle_OperatorWrapper(outlet.Operator);
             DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
-            _bundleDimensionStackCollection.Push(dimensionEnum, outletIndex);
+            dimensionStack.Push(outletIndex);
 
             base.VisitOutlet(outlet);
 
-            _bundleDimensionStackCollection.Pop(dimensionEnum);
+            dimensionStack.Pop();
         }
 
         private void VisitBundleOutlet(Outlet outlet)
@@ -3974,8 +3978,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             var wrapper = new Bundle_OperatorWrapper(outlet.Operator);
             DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
-            if (_bundleDimensionStackCollection.Count(dimensionEnum) == 0)
+            if (dimensionStack.Count == 0)
             {
                 throw new NotSupportedException(String.Format(
                     "Bundle Operator with ID '{0}' and Dimension '{1}' encountered without first encountering an Unbundle Operator. This is not yet supported.",
@@ -3983,7 +3988,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     wrapper.Dimension));
             }
 
-            double bundleIndexDouble = _bundleDimensionStackCollection.PopAndGet(dimensionEnum);
+            double bundleIndexDouble = dimensionStack.PopAndGet();
 
             if (!ConversionHelper.CanCastToNonNegativeInt32(bundleIndexDouble))
             {
@@ -4016,7 +4021,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 VisitOutlet(inlet.InputOutlet);
             }
 
-            _bundleDimensionStackCollection.Push(dimensionEnum, bundleIndexDouble);
+            dimensionStack.Push(bundleIndexDouble);
         }
 
         private void VisitBundleOutlet_WithVariableBundlePositions(Outlet outlet)
