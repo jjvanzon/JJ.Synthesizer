@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -12,15 +11,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase[] _operands;
         private readonly double _operandCountDouble;
         private readonly DimensionStack _dimensionStack;
-
-        public Bundle_OperatorCalculator(
-            DimensionStack dimensionStack,
-            IList<OperatorCalculatorBase> operands)
+        private readonly int _dimensionStackIndex;
+        
+        public Bundle_OperatorCalculator(DimensionStack dimensionStack, IList<OperatorCalculatorBase> operands)
             : base(operands)
         {
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
 
             _dimensionStack = dimensionStack;
+            _dimensionStackIndex = dimensionStack.CurrentIndex;
             _operands = operands.ToArray();
             _operandCountDouble = operands.Count;
         }
@@ -28,8 +27,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
+#if !USE_INVAR_INDICES
             double position = _dimensionStack.PopAndGet();
-
+#else
+            double position = _dimensionStack.Get(_dimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
             double result;
 
             if (ConversionHelper.CanCastToNonNegativeInt32WithMax(position, _operandCountDouble))
@@ -45,8 +50,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 result = 0.0;
             }
 
+#if !USE_INVAR_INDICES
             _dimensionStack.Push(position);
-
+#endif
             return result;
         }
     }

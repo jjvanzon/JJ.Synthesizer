@@ -11,6 +11,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _operandCalculator;
         private readonly double _position;
         private readonly DimensionStack _dimensionStack;
+        private readonly int _dimensionStackIndex;
 
         public Unbundle_OperatorCalculator(
             OperatorCalculatorBase operandCalculator, 
@@ -19,8 +20,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             : base(new OperatorCalculatorBase[] { operandCalculator })
         {
             if (operandCalculator == null) throw new NullException(() => operandCalculator);
-            // Do not call OperatorCalculatorHelper.AssertDimensionEnum, because Undefined is allowed to.
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
 
             _operandCalculator = operandCalculator;
             _position = position;
@@ -30,12 +30,19 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
+#if !USE_INVAR_INDICES
             _dimensionStack.Push(_position);
-
+#else
+            _dimensionStack.Set(_dimensionStackIndex, _position);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
             double result = _operandCalculator.Calculate();
 
+#if !USE_INVAR_INDICES
             _dimensionStack.Pop();
-
+#endif
             return result;
         }
     }

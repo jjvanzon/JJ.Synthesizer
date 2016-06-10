@@ -22,11 +22,11 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>ExtendedDesignGuidelineRules.ruleset</CodeAnalysisRuleSet>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -218,6 +218,7 @@
     <Compile Include="EntityWrappers\OneOverX_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Negative_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Range_OperatorWrapper.cs" />
+    <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Helpers\OperatorWrapperFactory.cs" />
     <Compile Include="EntityWrappers\Round_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\If_OperatorWrapper.cs" />

@@ -12,6 +12,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _tillCalculator;
         private readonly OperatorCalculatorBase _stepCalculator;
         private readonly DimensionStack _dimensionStack;
+        private readonly int _dimensionStackIndex;
 
         public Range_OperatorCalculator_WithVariables(
             OperatorCalculatorBase fromCalculator,
@@ -20,12 +21,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[] { fromCalculator, tillCalculator, stepCalculator })
         {
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
 
             _fromCalculator = fromCalculator;
             _tillCalculator = tillCalculator;
             _stepCalculator = stepCalculator;
             _dimensionStack = dimensionStack;
+            _dimensionStackIndex = dimensionStack.CurrentIndex;
         }
 
         public override double Calculate()
@@ -33,15 +35,21 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             // Example:
             // index { 0, 1, 2 } => value { 0.5, 2.25, 4 }
 
-            double index = _dimensionStack.Get();
-
-            if (index < 0.0) return 0.0;
+#if !USE_INVAR_INDICES
+            double position = _dimensionStack.Get();
+#else
+            double position = _dimensionStack.Get(_dimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
+            if (position < 0.0) return 0.0;
 
             double from = _fromCalculator.Calculate();
             double till = _tillCalculator.Calculate();
             double step = _stepCalculator.Calculate();
 
-            double valueNonRounded = from + index * step;
+            double valueNonRounded = from + position * step;
 
             double upperBound = till + step; // Sustain last value for the length a of step.
 
@@ -64,6 +72,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _tillPlusStep;
         private readonly double _stepDividedBy2;
         private readonly DimensionStack _dimensionStack;
+        private readonly int _dimensionStackIndex;
 
         public Range_OperatorCalculator_WithConstants(
             double from,
@@ -71,12 +80,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double step,
             DimensionStack dimensionStack)
         {
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
 
             _from = from;
             _till = till;
             _step = step;
             _dimensionStack = dimensionStack;
+            _dimensionStackIndex = dimensionStack.CurrentIndex;
 
             _tillPlusStep = _till + _step;
             _stepDividedBy2 = _step / 2.0;
@@ -87,11 +97,17 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             // Example:
             // index { 0, 1, 2 } => value { 0.5, 2.25, 4 }
 
-            double index = _dimensionStack.Get();
+#if !USE_INVAR_INDICES
+            double position = _dimensionStack.Get();
+#else
+            double position = _dimensionStack.Get(_dimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
+            if (position < 0.0) return 0.0;
 
-            if (index < 0.0) return 0.0;
-
-            double valueNonRounded = _from + index * _step;
+            double valueNonRounded = _from + position * _step;
 
             double upperBound = _tillPlusStep; // Sustain last value for the length a of step.
 
@@ -112,17 +128,19 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _till;
         private readonly double _tillPlusOne;
         private readonly DimensionStack _dimensionStack;
+        private readonly int _dimensionStackIndex;
 
         public Range_OperatorCalculator_WithConstants_AndStepOne(
             double from,
             double till,
             DimensionStack dimensionStack)
         {
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
 
             _from = from;
             _till = till;
             _dimensionStack = dimensionStack;
+            _dimensionStackIndex = dimensionStack.CurrentIndex;
 
             _tillPlusOne = _till + 1.0;
         }
@@ -132,11 +150,17 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             // Example:
             // index { 0, 1, 2 } => value { 0.5, 2.25, 4 }
 
-            double index = _dimensionStack.Get();
+#if !USE_INVAR_INDICES
+            double position = _dimensionStack.Get();
+#else
+            double position = _dimensionStack.Get(_dimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
+            if (position < 0.0) return 0.0;
 
-            if (index < 0.0) return 0.0;
-
-            double valueNonRounded = _from + index;
+            double valueNonRounded = _from + position;
 
             double upperBound = _tillPlusOne; // Sustain last value for the length a of step.
 
