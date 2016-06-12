@@ -7,7 +7,7 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class SetDimension_OperatorWrapper : Dimension_OperatorWrapperBase
+    public class SetDimension_OperatorWrapper : OperatorWrapperBase_WithDimension
     {
         private const int CALCULATION_INDEX = 0;
         private const int VALUE_INDEX = 1;

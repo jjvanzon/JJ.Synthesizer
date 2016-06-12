@@ -39,15 +39,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(OperatorPropertiesViewModel_ForCache), DispatchOperatorPropertiesViewModel_ForCache },
                 { typeof(OperatorPropertiesViewModel_ForCurve), DispatchOperatorPropertiesViewModel_ForCurve },
                 { typeof(OperatorPropertiesViewModel_ForCustomOperator), DispatchOperatorPropertiesViewModel_ForCustomOperator },
-                { typeof(OperatorPropertiesViewModel_WithDimension), DispatchOperatorPropertiesViewModel_WithDimension },
                 { typeof(OperatorPropertiesViewModel_ForFilter), DispatchOperatorPropertiesViewModel_ForFilter },
                 { typeof(OperatorPropertiesViewModel_ForNumber), DispatchOperatorPropertiesViewModel_ForNumber },
                 { typeof(OperatorPropertiesViewModel_ForPatchInlet), DispatchOperatorPropertiesViewModel_ForPatchInlet },
                 { typeof(OperatorPropertiesViewModel_ForPatchOutlet), DispatchOperatorPropertiesViewModel_ForPatchOutlet },
-                { typeof(OperatorPropertiesViewModel_ForRandom), DispatchOperatorPropertiesViewModel_ForRandom },
-                { typeof(OperatorPropertiesViewModel_ForResample), DispatchOperatorPropertiesViewModel_ForResample },
                 { typeof(OperatorPropertiesViewModel_ForSample), DispatchOperatorPropertiesViewModel_ForSample },
                 { typeof(OperatorPropertiesViewModel_ForUnbundle), DispatchOperatorPropertiesViewModel_ForUnbundle },
+                { typeof(OperatorPropertiesViewModel_WithDimension), DispatchOperatorPropertiesViewModel_WithDimension },
+                { typeof(OperatorPropertiesViewModel_WithDimensionAndInterpolation), DispatchOperatorPropertiesViewModel_WithDimensionAndInterpolation },
                 { typeof(PatchDetailsViewModel), DispatchPatchDetailsViewModel },
                 { typeof(PatchGridViewModel), DispatchPatchGridViewModel },
                 { typeof(PatchPropertiesViewModel), DispatchPatchPropertiesViewModel },
@@ -466,31 +465,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             castedViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchOperatorPropertiesViewModel_WithDimension(object viewModel2)
-        {
-            var castedViewModel = (OperatorPropertiesViewModel_WithDimension)viewModel2;
-
-            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_WithDimensions_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
-            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
-            if (listIndex.HasValue)
-            {
-                list[listIndex.Value] = castedViewModel;
-            }
-            else
-            {
-                list.Add(castedViewModel);
-            }
-
-            if (castedViewModel.Visible)
-            {
-                HideAllPropertiesViewModels();
-                castedViewModel.Visible = true;
-            }
-
-            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
-            castedViewModel.ValidationMessages.Clear();
-        }
-
         private void DispatchOperatorPropertiesViewModel_ForFilter(object viewModel2)
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForFilter)viewModel2;
@@ -591,55 +565,31 @@ namespace JJ.Presentation.Synthesizer.Presenters
             castedViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchOperatorPropertiesViewModel_ForRandom(object viewModel2)
-        {
-            var castedViewModel = (OperatorPropertiesViewModel_ForRandom)viewModel2;
+        // TODO: Remove outcommented code.
+        //private void DispatchOperatorPropertiesViewModel_ForResample(object viewModel2)
+        //{
+        //    var castedViewModel = (OperatorPropertiesViewModel_ForResample)viewModel2;
 
-            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForRandoms_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
-            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
-            if (listIndex.HasValue)
-            {
-                list[listIndex.Value] = castedViewModel;
-            }
-            else
-            {
-                list.Add(castedViewModel);
-            }
+        //    var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForResamples_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
+        //    int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
+        //    if (listIndex.HasValue)
+        //    {
+        //        list[listIndex.Value] = castedViewModel;
+        //    }
+        //    else
+        //    {
+        //        list.Add(castedViewModel);
+        //    }
 
-            if (castedViewModel.Visible)
-            {
-                HideAllPropertiesViewModels();
-                castedViewModel.Visible = true;
-            }
+        //    if (castedViewModel.Visible)
+        //    {
+        //        HideAllPropertiesViewModels();
+        //        castedViewModel.Visible = true;
+        //    }
 
-            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
-            castedViewModel.ValidationMessages.Clear();
-        }
-
-        private void DispatchOperatorPropertiesViewModel_ForResample(object viewModel2)
-        {
-            var castedViewModel = (OperatorPropertiesViewModel_ForResample)viewModel2;
-
-            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForResamples_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
-            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
-            if (listIndex.HasValue)
-            {
-                list[listIndex.Value] = castedViewModel;
-            }
-            else
-            {
-                list.Add(castedViewModel);
-            }
-
-            if (castedViewModel.Visible)
-            {
-                HideAllPropertiesViewModels();
-                castedViewModel.Visible = true;
-            }
-
-            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
-            castedViewModel.ValidationMessages.Clear();
-        }
+        //    MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+        //    castedViewModel.ValidationMessages.Clear();
+        //}
 
         private void DispatchOperatorPropertiesViewModel_ForSample(object viewModel2)
         {
@@ -671,6 +621,56 @@ namespace JJ.Presentation.Synthesizer.Presenters
             var castedViewModel = (OperatorPropertiesViewModel_ForUnbundle)viewModel2;
 
             var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForUnbundles_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
+            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
+            if (listIndex.HasValue)
+            {
+                list[listIndex.Value] = castedViewModel;
+            }
+            else
+            {
+                list.Add(castedViewModel);
+            }
+
+            if (castedViewModel.Visible)
+            {
+                HideAllPropertiesViewModels();
+                castedViewModel.Visible = true;
+            }
+
+            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            castedViewModel.ValidationMessages.Clear();
+        }
+
+        private void DispatchOperatorPropertiesViewModel_WithDimension(object viewModel2)
+        {
+            var castedViewModel = (OperatorPropertiesViewModel_WithDimension)viewModel2;
+
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_WithDimension_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
+            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
+            if (listIndex.HasValue)
+            {
+                list[listIndex.Value] = castedViewModel;
+            }
+            else
+            {
+                list.Add(castedViewModel);
+            }
+
+            if (castedViewModel.Visible)
+            {
+                HideAllPropertiesViewModels();
+                castedViewModel.Visible = true;
+            }
+
+            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            castedViewModel.ValidationMessages.Clear();
+        }
+
+        private void DispatchOperatorPropertiesViewModel_WithDimensionAndInterpolation(object viewModel2)
+        {
+            var castedViewModel = (OperatorPropertiesViewModel_WithDimensionAndInterpolation)viewModel2;
+
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_WithDimensionAndInterpolation_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
             int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
             if (listIndex.HasValue)
             {

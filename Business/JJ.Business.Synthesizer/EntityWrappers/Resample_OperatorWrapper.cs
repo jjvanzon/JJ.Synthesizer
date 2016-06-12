@@ -1,13 +1,12 @@
 ﻿using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Resample_OperatorWrapper : OperatorWrapperBase
+    public class Resample_OperatorWrapper : OperatorWrapperBase_WithDimensionAndResampleInterpolationType
     {
         private const int SIGNAL_INDEX = 0;
         private const int SAMPLING_RATE_INDEX = 1;
@@ -32,18 +31,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         public Outlet Result
         {
             get { return OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX); }
-        }
-
-        public ResampleInterpolationTypeEnum InterpolationType
-        {
-            get { return DataPropertyParser.GetEnum<ResampleInterpolationTypeEnum>(WrappedOperator, PropertyNames.InterpolationType); }
-            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.InterpolationType, value); }
-        }
-
-        public DimensionEnum Dimension
-        {
-            get { return DataPropertyParser.GetEnum<DimensionEnum>(WrappedOperator, PropertyNames.Dimension); }
-            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.Dimension, value); }
         }
 
         public override string GetInletDisplayName(int listIndex)

@@ -4,9 +4,9 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Dimension_OperatorWrapperBase : OperatorWrapperBase
+    public class OperatorWrapperBase_WithDimension : OperatorWrapperBase
     {
-        public Dimension_OperatorWrapperBase(Operator op)
+        public OperatorWrapperBase_WithDimension(Operator op)
             : base(op)
         { }
 

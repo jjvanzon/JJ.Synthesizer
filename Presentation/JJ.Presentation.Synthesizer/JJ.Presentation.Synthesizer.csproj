@@ -51,9 +51,9 @@
     <Compile Include="Presenters\OperatorPropertiesPresenterBase.cs" />
     <Compile Include="Presenters\2016-03-24 Backup of OperatorPropertiesPresenter_ForAggregate.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_WithDimension.cs" />
-    <Compile Include="Presenters\OperatorPropertiesPresenter_ForRandom.cs" />
+    <Compile Include="Presenters\2016-06-12 Backup of OperatorPropertiesPresenter_ForRandom.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForFilter.cs" />
-    <Compile Include="Presenters\OperatorPropertiesPresenter_ForResample.cs" />
+    <Compile Include="Presenters\OperatorPropertiesPresenter_WithDimensionAndInterpolation.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForCache.cs" />
     <Compile Include="Presenters\2016-03-30 Backup of OperatorPropertiesPresenter_ForSpectrum.cs" />
     <Compile Include="Presenters\PatchGridPresenter.cs" />
@@ -112,7 +112,7 @@
     <Compile Include="ViewModels\Items\CurrentPatchItemViewModel.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForFilter.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_WithDimension.cs" />
-    <Compile Include="ViewModels\OperatorPropertiesViewModel_ForRandom.cs" />
+    <Compile Include="ViewModels\OperatorPropertiesViewModel_WithDimensionAndInterpolation.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForResample.cs" />
     <Compile Include="ViewModels\2016-04-10 Backup of OperatorPropertiesViewModel_ForAggregate.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForCache.cs" />

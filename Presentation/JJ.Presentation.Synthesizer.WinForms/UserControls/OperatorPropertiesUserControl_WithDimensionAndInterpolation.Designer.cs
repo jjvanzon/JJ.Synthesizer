@@ -1,7 +1,7 @@
 ﻿using JJ.Presentation.Synthesizer.WinForms.UserControls.Partials;
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    partial class OperatorPropertiesUserControl_ForResample
+    partial class OperatorPropertiesUserControl_WithDimensionAndInterpolation
     {
         /// <summary> 
         /// Required designer variable.
@@ -171,7 +171,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelDimension.Margin = new System.Windows.Forms.Padding(0);
             this.labelDimension.Name = "labelDimension";
             this.labelDimension.Size = new System.Drawing.Size(147, 30);
-            this.labelDimension.TabIndex = 32;
+            this.labelDimension.TabIndex = 30;
             this.labelDimension.Text = "labelDimension";
             this.labelDimension.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -184,9 +184,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.comboBoxDimension.Margin = new System.Windows.Forms.Padding(0);
             this.comboBoxDimension.Name = "comboBoxDimension";
             this.comboBoxDimension.Size = new System.Drawing.Size(10, 24);
-            this.comboBoxDimension.TabIndex = 33;
+            this.comboBoxDimension.TabIndex = 31;
             // 
-            // OperatorPropertiesUserControl_ForResample
+            // OperatorPropertiesUserControl_WithDimensionAndInterpolation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -194,10 +194,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.Controls.Add(this.tableLayoutPanelMain);
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.Name = "OperatorPropertiesUserControl_ForResample";
+            this.Name = "OperatorPropertiesUserControl_WithDimensionAndInterpolation";
             this.Size = new System.Drawing.Size(10, 10);
-            this.Load += new System.EventHandler(this.OperatorPropertiesUserControl_ForResample_Load);
-            this.Leave += new System.EventHandler(this.OperatorPropertiesUserControl_ForResample_Leave);
+            this.Load += new System.EventHandler(this.OperatorPropertiesUserControl_WithDimensionAndInterpolation_Load);
+            this.Leave += new System.EventHandler(this.OperatorPropertiesUserControl_WithDimensionAndInterpolation_Leave);
             this.tableLayoutPanelMain.ResumeLayout(false);
             this.tableLayoutPanelProperties.ResumeLayout(false);
             this.tableLayoutPanelProperties.PerformLayout();

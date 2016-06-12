@@ -219,6 +219,7 @@
     <Compile Include="EntityWrappers\Hold_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\OneOverX_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Negative_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\OperatorWrapperBase_WithDimensionAndResampleInterpolationType.cs" />
     <Compile Include="EntityWrappers\Range_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\MakeDiscrete_OperatorWrapper.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
@@ -245,7 +246,7 @@
     <Compile Include="EntityWrappers\Minimum_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\ChangeTrigger_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\GetDimension_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\Dimension_OperatorWrapperBase.cs" />
+    <Compile Include="EntityWrappers\OperatorWrapperBase_WithDimension.cs" />
     <Compile Include="EntityWrappers\SetDimension_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\ToggleTrigger_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\PulseTrigger_OperatorWrapper.cs" />

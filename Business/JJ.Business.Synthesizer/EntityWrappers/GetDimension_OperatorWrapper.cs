@@ -7,7 +7,7 @@ using System;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class GetDimension_OperatorWrapper : Dimension_OperatorWrapperBase
+    public class GetDimension_OperatorWrapper : OperatorWrapperBase_WithDimension
     {
         private const int VALUE_INDEX = 0;
 

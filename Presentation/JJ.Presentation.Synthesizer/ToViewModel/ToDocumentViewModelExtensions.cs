@@ -5,7 +5,6 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using System.Collections.Generic;
-using JJ.Framework.Common;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -79,15 +78,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorPropertiesList_ForCaches = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForCaches(repositories.InterpolationTypeRepository)).ToList(),
                 OperatorPropertiesList_ForCurves = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForCurves(repositories.CurveRepository)).ToList(),
                 OperatorPropertiesList_ForCustomOperators = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForCustomOperators(repositories.PatchRepository)).ToList(),
-                OperatorPropertiesList_WithDimensions = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithDimensions()).ToList(),
                 OperatorPropertiesList_ForFilters = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForFilters()).ToList(),
                 OperatorPropertiesList_ForNumbers = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForNumbers()).ToList(),
                 OperatorPropertiesList_ForPatchInlets = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForPatchInlets()).ToList(),
                 OperatorPropertiesList_ForPatchOutlets = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForPatchOutlets()).ToList(),
-                OperatorPropertiesList_ForRandoms = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForRandoms()).ToList(),
-                OperatorPropertiesList_ForResamples = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForResamples()).ToList(),
                 OperatorPropertiesList_ForSamples = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForSamples(repositories.SampleRepository)).ToList(),
                 OperatorPropertiesList_ForUnbundles = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForUnbundles()).ToList(),
+                OperatorPropertiesList_WithDimension = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithDimension()).ToList(),
+                OperatorPropertiesList_WithDimensionAndInterpolation = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithDimensionAndInterpolation()).ToList(),
                 PatchDetails = childDocument.Patches[0].ToDetailsViewModel(repositories.OperatorTypeRepository, repositories.SampleRepository, repositories.CurveRepository, repositories.PatchRepository, entityPositionManager),
                 PatchProperties = childDocument.ToPatchPropertiesViewModel(),
                 SampleGrid = childDocument.Samples.ToGridViewModel(childDocument.ID),

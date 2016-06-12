@@ -34,8 +34,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.Number,
             OperatorTypeEnum.PatchInlet,
             OperatorTypeEnum.PatchOutlet,
-            OperatorTypeEnum.Random,
-            OperatorTypeEnum.Resample,
             OperatorTypeEnum.Sample,
             OperatorTypeEnum.Select,
             OperatorTypeEnum.Stretch,
@@ -50,6 +48,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.Earlier,
             OperatorTypeEnum.GetDimension,
             OperatorTypeEnum.Loop,
+            OperatorTypeEnum.MakeDiscrete,
             OperatorTypeEnum.Maximum,
             OperatorTypeEnum.Minimum,
             OperatorTypeEnum.Narrower,
@@ -69,6 +68,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.Stretch,
             OperatorTypeEnum.TimePower,
             OperatorTypeEnum.Triangle
+        };
+
+        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithDimensionAndInterpolationPropertyViews { get; } =
+                  new HashSet<OperatorTypeEnum>
+        {
+            OperatorTypeEnum.Random,
+            OperatorTypeEnum.Resample,
+            OperatorTypeEnum.MakeContinuous
         };
 
         public static CurrentPatchesViewModel CreateCurrentPatchesViewModel(IList<Document> childDocuments)

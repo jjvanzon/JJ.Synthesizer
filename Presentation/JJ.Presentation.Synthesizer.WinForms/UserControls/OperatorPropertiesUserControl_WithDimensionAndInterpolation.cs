@@ -12,13 +12,13 @@ using JJ.Presentation.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class OperatorPropertiesUserControl_ForResample 
-        : OperatorPropertiesUserControl_ForResample_NotDesignable
+    internal partial class OperatorPropertiesUserControl_WithDimensionAndInterpolation 
+        : OperatorPropertiesUserControl_WithDimensionAndInterpolation_NotDesignable
     {
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
 
-        public OperatorPropertiesUserControl_ForResample()
+        public OperatorPropertiesUserControl_WithDimensionAndInterpolation()
         {
             InitializeComponent();
 
@@ -27,7 +27,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.AutomaticallyAssignTabIndexes();
         }
 
-        private void OperatorPropertiesUserControl_ForResample_Load(object sender, EventArgs e)
+        private void OperatorPropertiesUserControl_WithDimensionAndInterpolation_Load(object sender, EventArgs e)
         {
             ApplyStyling();
         }
@@ -40,7 +40,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             labelName.Text = CommonTitles.Name;
             labelOperatorTypeTitle.Text = Titles.Type + ":";
-            labelOperatorTypeValue.Text = PropertyDisplayNames.Resample;
+            labelOperatorTypeValue.Text = PropertyDisplayNames.Random;
             labelInterpolation.Text = PropertyDisplayNames.Interpolation;
             labelDimension.Text = PropertyDisplayNames.Dimension;
         }
@@ -57,7 +57,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (ViewModel == null) return;
 
             textBoxName.Text = ViewModel.Name;
-
+            
             // Interpolation
             if (comboBoxInterpolation.DataSource == null)
             {
@@ -128,7 +128,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         }
 
         // This event does not go off, if not clicked on a control that according to WinForms can get focus.
-        private void OperatorPropertiesUserControl_ForResample_Leave(object sender, EventArgs e)
+        private void OperatorPropertiesUserControl_WithDimensionAndInterpolation_Leave(object sender, EventArgs e)
         {
             // This Visible check is there because the leave event (lose focus) goes off after I closed, 
             // making it want to save again, even though view model is empty
@@ -141,8 +141,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     }
 
     /// <summary> The WinForms designer does not work when deriving directly from a generic class. </summary>
-    internal class OperatorPropertiesUserControl_ForResample_NotDesignable
-        : UserControlBase<OperatorPropertiesViewModel_ForResample>
+    internal class OperatorPropertiesUserControl_WithDimensionAndInterpolation_NotDesignable
+        : UserControlBase<OperatorPropertiesViewModel_WithDimensionAndInterpolation>
     {
         protected override void ApplyViewModelToControls()
         {

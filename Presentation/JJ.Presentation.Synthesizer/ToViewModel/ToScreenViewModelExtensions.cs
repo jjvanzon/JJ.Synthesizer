@@ -275,7 +275,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
 
                 if (!ViewModelHelper.OperatorTypeEnums_WithTheirOwnPropertyViews.Contains(operatorTypeEnum) &&
-                    !ViewModelHelper.OperatorTypeEnums_WithDimensionPropertyViews.Contains(operatorTypeEnum))
+                    !ViewModelHelper.OperatorTypeEnums_WithDimensionPropertyViews.Contains(operatorTypeEnum) &&
+                    !ViewModelHelper.OperatorTypeEnums_WithDimensionAndInterpolationPropertyViews.Contains(operatorTypeEnum))
                 {
                     OperatorPropertiesViewModel viewModel = op.ToPropertiesViewModel();
                     viewModels.Add(viewModel);
@@ -320,15 +321,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return patch.GetOperatorsOfType(OperatorTypeEnum.CustomOperator)
                         .Select(x => x.ToPropertiesViewModel_ForCustomOperator(patchRepository))
                         .ToList();
-        }
-
-        public static IList<OperatorPropertiesViewModel_WithDimension> ToPropertiesViewModelList_WithDimensions(this Patch patch)
-        {
-            if (patch == null) throw new NullException(() => patch);
-
-            return patch.Operators.Where(x => ViewModelHelper.OperatorTypeEnums_WithDimensionPropertyViews.Contains(x.GetOperatorTypeEnum()))
-                                  .Select(x => x.ToPropertiesViewModel_WithDimension())
-                                  .ToList();
         }
 
         public static IList<OperatorPropertiesViewModel_ForFilter> ToPropertiesViewModelList_ForFilters(this Patch patch)
@@ -376,30 +368,30 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                         .ToList();
         }
 
-        public static IList<OperatorPropertiesViewModel_ForRandom> ToPropertiesViewModelList_ForRandoms(this Patch patch)
-        {
-            if (patch == null) throw new NullException(() => patch);
-
-            return patch.GetOperatorsOfType(OperatorTypeEnum.Random)
-                        .Select(x => x.ToPropertiesViewModel_ForRandom())
-                        .ToList();
-        }
-
-        public static IList<OperatorPropertiesViewModel_ForResample> ToPropertiesViewModelList_ForResamples(this Patch patch)
-        {
-            if (patch == null) throw new NullException(() => patch);
-
-            return patch.GetOperatorsOfType(OperatorTypeEnum.Resample)
-                        .Select(x => x.ToPropertiesViewModel_ForResample())
-                        .ToList();
-        }
-
         public static IList<OperatorPropertiesViewModel_ForUnbundle> ToPropertiesViewModelList_ForUnbundles(this Patch patch)
         {
             if (patch == null) throw new NullException(() => patch);
 
             return patch.GetOperatorsOfType(OperatorTypeEnum.Unbundle)
                         .Select(x => x.ToPropertiesViewModel_ForUnbundle())
+                        .ToList();
+        }
+
+        public static IList<OperatorPropertiesViewModel_WithDimension> ToPropertiesViewModelList_WithDimension(this Patch patch)
+        {
+            if (patch == null) throw new NullException(() => patch);
+
+            return patch.Operators.Where(x => ViewModelHelper.OperatorTypeEnums_WithDimensionPropertyViews.Contains(x.GetOperatorTypeEnum()))
+                                  .Select(x => x.ToPropertiesViewModel_WithDimension())
+                                  .ToList();
+        }
+
+        public static IList<OperatorPropertiesViewModel_WithDimensionAndInterpolation> ToPropertiesViewModelList_WithDimensionAndInterpolation(this Patch patch)
+        {
+            if (patch == null) throw new NullException(() => patch);
+
+            return patch.Operators.Where(x => ViewModelHelper.OperatorTypeEnums_WithDimensionAndInterpolationPropertyViews.Contains(x.GetOperatorTypeEnum()))
+                        .Select(x => x.ToPropertiesViewModel_WithDimensionAndInterpolation())
                         .ToList();
         }
 
@@ -527,26 +519,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static OperatorPropertiesViewModel_WithDimension ToPropertiesViewModel_WithDimension(this Operator entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            var wrapper = new Dimension_OperatorWrapperBase(entity);
-
-            var viewModel = new OperatorPropertiesViewModel_WithDimension
-            {
-                ID = entity.ID,
-                PatchID = entity.Patch.ID,
-                Name = entity.Name,
-                OperatorType = entity.OperatorType.ToIDAndDisplayName(),
-                Dimension = wrapper.Dimension.ToIDAndDisplayName(),
-                DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel(),
-                ValidationMessages = new List<Message>()
-            };
-
-            return viewModel;
-        }
-
         public static OperatorPropertiesViewModel_ForFilter ToPropertiesViewModel_ForFilter(this Operator entity)
         {
             if (entity == null) throw new NullException(() => entity);
@@ -651,48 +623,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static OperatorPropertiesViewModel_ForRandom ToPropertiesViewModel_ForRandom(this Operator entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            var wrapper = new Random_OperatorWrapper(entity);
-
-            var viewModel = new OperatorPropertiesViewModel_ForRandom
-            {
-                ID = entity.ID,
-                PatchID = entity.Patch.ID,
-                Name = entity.Name,
-                Interpolation = wrapper.ResampleInterpolationType.ToIDAndDisplayName(),
-                InterpolationLookup = ViewModelHelper.GetResampleInterpolationLookupViewModel(),
-                Dimension = wrapper.Dimension.ToIDAndDisplayName(),
-                DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel(),
-                ValidationMessages = new List<Message>()
-            };
-
-            return viewModel;
-        }
-
-        public static OperatorPropertiesViewModel_ForResample ToPropertiesViewModel_ForResample(this Operator entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            var wrapper = new Resample_OperatorWrapper(entity);
-
-            var viewModel = new OperatorPropertiesViewModel_ForResample
-            {
-                ID = entity.ID,
-                PatchID = entity.Patch.ID,
-                Name = entity.Name,
-                Interpolation = wrapper.InterpolationType.ToIDAndDisplayName(),
-                InterpolationLookup = ViewModelHelper.GetResampleInterpolationLookupViewModel(),
-                Dimension = wrapper.Dimension.ToIDAndDisplayName(),
-                DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel(),
-                ValidationMessages = new List<Message>()
-            };
-
-            return viewModel;
-        }
-
         public static OperatorPropertiesViewModel_ForSample ToPropertiesViewModel_ForSample(this Operator entity, ISampleRepository sampleRepository)
         {
             if (entity == null) throw new NullException(() => entity);
@@ -734,6 +664,48 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 PatchID = entity.Patch.ID,
                 Name = entity.Name,
                 OutletCount = entity.Outlets.Count,
+                Dimension = wrapper.Dimension.ToIDAndDisplayName(),
+                DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel(),
+                ValidationMessages = new List<Message>()
+            };
+
+            return viewModel;
+        }
+
+        public static OperatorPropertiesViewModel_WithDimension ToPropertiesViewModel_WithDimension(this Operator entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            var wrapper = new OperatorWrapperBase_WithDimension(entity);
+
+            var viewModel = new OperatorPropertiesViewModel_WithDimension
+            {
+                ID = entity.ID,
+                PatchID = entity.Patch.ID,
+                Name = entity.Name,
+                OperatorType = entity.OperatorType.ToIDAndDisplayName(),
+                Dimension = wrapper.Dimension.ToIDAndDisplayName(),
+                DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel(),
+                ValidationMessages = new List<Message>()
+            };
+
+            return viewModel;
+        }
+
+        public static OperatorPropertiesViewModel_WithDimensionAndInterpolation ToPropertiesViewModel_WithDimensionAndInterpolation(this Operator entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            var wrapper = new OperatorWrapperBase_WithDimensionAndResampleInterpolationType(entity);
+
+            var viewModel = new OperatorPropertiesViewModel_WithDimensionAndInterpolation
+            {
+                ID = entity.ID,
+                PatchID = entity.Patch.ID,
+                Name = entity.Name,
+                OperatorType = entity.OperatorType.ToIDAndDisplayName(),
+                Interpolation = wrapper.InterpolationType.ToIDAndDisplayName(),
+                InterpolationLookup = ViewModelHelper.GetResampleInterpolationLookupViewModel(),
                 Dimension = wrapper.Dimension.ToIDAndDisplayName(),
                 DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel(),
                 ValidationMessages = new List<Message>()

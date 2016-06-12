@@ -1136,7 +1136,7 @@ namespace JJ.Business.Synthesizer
             {
                 Rate = rate,
                 PhaseShift = phaseShift,
-                ResampleInterpolationType = ResampleInterpolationTypeEnum.Block,
+                InterpolationType = ResampleInterpolationTypeEnum.Block,
                 Dimension = dimension
             };
 

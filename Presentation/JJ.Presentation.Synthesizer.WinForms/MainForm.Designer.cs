@@ -31,8 +31,7 @@
             this.operatorPropertiesUserControl_WithDimension = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_WithDimension();
             this.operatorPropertiesUserControl_ForFilter = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForFilter();
             this.operatorPropertiesUserControl_ForCache = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForCache();
-            this.operatorPropertiesUserControl_ForRandom = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForRandom();
-            this.operatorPropertiesUserControl_ForResample = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForResample();
+            this.operatorPropertiesUserControl_WithDimensionAndInterpolation = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_WithDimensionAndInterpolation();
             this.operatorPropertiesUserControl_ForUnbundle = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForUnbundle();
             this.operatorPropertiesUserControl_ForBundle = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForBundle();
             this.nodePropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.NodePropertiesUserControl();
@@ -119,8 +118,7 @@
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_WithDimension);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForFilter);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForCache);
-            this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForRandom);
-            this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForResample);
+            this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_WithDimensionAndInterpolation);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForUnbundle);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForBundle);
             this.splitContainerProperties.Panel2.Controls.Add(this.nodePropertiesUserControl);
@@ -290,29 +288,17 @@
             this.operatorPropertiesUserControl_ForCache.Size = new System.Drawing.Size(280, 814);
             this.operatorPropertiesUserControl_ForCache.TabIndex = 1;
             // 
-            // operatorPropertiesUserControl_ForRandom
+            // operatorPropertiesUserControl_WithDimensionAndInterpolation
             // 
-            this.operatorPropertiesUserControl_ForRandom.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.operatorPropertiesUserControl_ForRandom.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.operatorPropertiesUserControl_ForRandom.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.operatorPropertiesUserControl_ForRandom.Font = new System.Drawing.Font("Verdana", 10F);
-            this.operatorPropertiesUserControl_ForRandom.Location = new System.Drawing.Point(0, 0);
-            this.operatorPropertiesUserControl_ForRandom.Margin = new System.Windows.Forms.Padding(4);
-            this.operatorPropertiesUserControl_ForRandom.Name = "operatorPropertiesUserControl_ForRandom";
-            this.operatorPropertiesUserControl_ForRandom.Size = new System.Drawing.Size(280, 814);
-            this.operatorPropertiesUserControl_ForRandom.TabIndex = 1;
-            // 
-            // operatorPropertiesUserControl_ForResample
-            // 
-            this.operatorPropertiesUserControl_ForResample.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.operatorPropertiesUserControl_ForResample.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.operatorPropertiesUserControl_ForResample.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.operatorPropertiesUserControl_ForResample.Font = new System.Drawing.Font("Verdana", 10F);
-            this.operatorPropertiesUserControl_ForResample.Location = new System.Drawing.Point(0, 0);
-            this.operatorPropertiesUserControl_ForResample.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.operatorPropertiesUserControl_ForResample.Name = "operatorPropertiesUserControl_ForResample";
-            this.operatorPropertiesUserControl_ForResample.Size = new System.Drawing.Size(280, 814);
-            this.operatorPropertiesUserControl_ForResample.TabIndex = 1;
+            this.operatorPropertiesUserControl_WithDimensionAndInterpolation.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.operatorPropertiesUserControl_WithDimensionAndInterpolation.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.operatorPropertiesUserControl_WithDimensionAndInterpolation.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.operatorPropertiesUserControl_WithDimensionAndInterpolation.Font = new System.Drawing.Font("Verdana", 10F);
+            this.operatorPropertiesUserControl_WithDimensionAndInterpolation.Location = new System.Drawing.Point(0, 0);
+            this.operatorPropertiesUserControl_WithDimensionAndInterpolation.Margin = new System.Windows.Forms.Padding(4);
+            this.operatorPropertiesUserControl_WithDimensionAndInterpolation.Name = "operatorPropertiesUserControl_WithDimensionAndInterpolation";
+            this.operatorPropertiesUserControl_WithDimensionAndInterpolation.Size = new System.Drawing.Size(280, 814);
+            this.operatorPropertiesUserControl_WithDimensionAndInterpolation.TabIndex = 1;
             // 
             // operatorPropertiesUserControl_ForUnbundle
             // 
@@ -595,8 +581,7 @@
         private UserControls.OperatorPropertiesUserControl_ForBundle operatorPropertiesUserControl_ForBundle;
         private UserControls.OperatorPropertiesUserControl_ForUnbundle operatorPropertiesUserControl_ForUnbundle;
         private UserControls.Partials.CurrentPatchesUserControl currentPatchesUserControl;
-        private UserControls.OperatorPropertiesUserControl_ForResample operatorPropertiesUserControl_ForResample;
-        private UserControls.OperatorPropertiesUserControl_ForRandom operatorPropertiesUserControl_ForRandom;
+        private UserControls.OperatorPropertiesUserControl_WithDimensionAndInterpolation operatorPropertiesUserControl_WithDimensionAndInterpolation;
         private UserControls.OperatorPropertiesUserControl_ForCache operatorPropertiesUserControl_ForCache;
         private UserControls.OperatorPropertiesUserControl_ForFilter operatorPropertiesUserControl_ForFilter;
         private UserControls.OperatorPropertiesUserControl_WithDimension operatorPropertiesUserControl_WithDimension;

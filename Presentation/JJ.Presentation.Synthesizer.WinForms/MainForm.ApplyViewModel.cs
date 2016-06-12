@@ -14,7 +14,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
     {
         private void ApplyViewModel()
         {
-
             // NOTE: Actually making controls visible is postponed till last, to do it in a way that does not flash as much.
 
             Text = _presenter.MainViewModel.TitleBar;
@@ -121,12 +120,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 .FirstOrDefault();
             operatorPropertiesUserControl_ForCustomOperator.SetUnderlyingPatchLookup(_presenter.MainViewModel.Document.UnderlyingPatchLookup);
 
-            // OperatorProperties_WithDimension
-            operatorPropertiesUserControl_WithDimension.ViewModel =
-                _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_WithDimensions)
-                .Where(x => x.Visible)
-                .FirstOrDefault();
-
             // OperatorProperties_ForFilter
             operatorPropertiesUserControl_ForFilter.ViewModel =
                 _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForFilters)
@@ -151,18 +144,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 .Where(x => x.Visible)
                 .FirstOrDefault();
 
-            // OperatorProperties_ForRandom
-            operatorPropertiesUserControl_ForRandom.ViewModel =
-                _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForRandoms)
-                .Where(x => x.Visible)
-                .FirstOrDefault();
-
-            // OperatorProperties_ForResample
-            operatorPropertiesUserControl_ForResample.ViewModel =
-                _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForResamples)
-                .Where(x => x.Visible)
-                .FirstOrDefault();
-
             // OperatorProperties_ForSample
             // (Needs slightly different code, because the SampleLookup is different for root documents and child documents.
             operatorPropertiesUserControl_ForSample.ViewModel = null;
@@ -181,6 +162,18 @@ namespace JJ.Presentation.Synthesizer.WinForms
             // OperatorProperties_ForUnbundle
             operatorPropertiesUserControl_ForUnbundle.ViewModel =
                 _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForUnbundles)
+                .Where(x => x.Visible)
+                .FirstOrDefault();
+
+            // OperatorProperties_WithDimension
+            operatorPropertiesUserControl_WithDimension.ViewModel =
+                _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_WithDimension)
+                .Where(x => x.Visible)
+                .FirstOrDefault();
+
+            // OperatorProperties_WithDimensionAndInterpolation
+            operatorPropertiesUserControl_WithDimensionAndInterpolation.ViewModel =
+                _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_WithDimensionAndInterpolation)
                 .Where(x => x.Visible)
                 .FirstOrDefault();
 

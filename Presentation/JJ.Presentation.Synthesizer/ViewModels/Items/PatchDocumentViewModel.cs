@@ -22,15 +22,14 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public IList<OperatorPropertiesViewModel_ForCache> OperatorPropertiesList_ForCaches { get; set; }
         public IList<OperatorPropertiesViewModel_ForCurve> OperatorPropertiesList_ForCurves { get; set; }
         public IList<OperatorPropertiesViewModel_ForCustomOperator> OperatorPropertiesList_ForCustomOperators { get; set; }
-        public IList<OperatorPropertiesViewModel_WithDimension> OperatorPropertiesList_WithDimensions { get; set; }
         public IList<OperatorPropertiesViewModel_ForFilter> OperatorPropertiesList_ForFilters { get; set; }
         public IList<OperatorPropertiesViewModel_ForNumber> OperatorPropertiesList_ForNumbers { get; set; }
         public IList<OperatorPropertiesViewModel_ForPatchInlet> OperatorPropertiesList_ForPatchInlets { get; set; }
         public IList<OperatorPropertiesViewModel_ForPatchOutlet> OperatorPropertiesList_ForPatchOutlets { get; set; }
-        public IList<OperatorPropertiesViewModel_ForRandom> OperatorPropertiesList_ForRandoms { get; set; }
-        public IList<OperatorPropertiesViewModel_ForResample> OperatorPropertiesList_ForResamples { get; set; }
         public IList<OperatorPropertiesViewModel_ForSample> OperatorPropertiesList_ForSamples { get; set; }
         public IList<OperatorPropertiesViewModel_ForUnbundle> OperatorPropertiesList_ForUnbundles { get; set; }
+        public IList<OperatorPropertiesViewModel_WithDimension> OperatorPropertiesList_WithDimension { get; set; }
+        public IList<OperatorPropertiesViewModel_WithDimensionAndInterpolation> OperatorPropertiesList_WithDimensionAndInterpolation { get; set; }
         public PatchPropertiesViewModel PatchProperties { get; set; }
         public PatchDetailsViewModel PatchDetails { get; set; }
         public SampleGridViewModel SampleGrid { get; set; }
