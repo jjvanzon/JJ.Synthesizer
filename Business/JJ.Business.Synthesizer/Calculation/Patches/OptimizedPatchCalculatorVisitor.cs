@@ -359,7 +359,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 operandCalculators.Add(operandCalculator);
             }
 
-            OperatorCalculatorBase calculator = new Bundle_OperatorCalculator(dimensionStack, operandCalculators);
+            OperatorCalculatorBase calculator = new Bundle_OperatorCalculator(operandCalculators, dimensionStack);
 
             _stack.Push(calculator);
         }
@@ -1540,45 +1540,55 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        // TODO: Here accidentally I switch the behavior of MakeContinuous and MakeDiscrete.
+        //// Try instantiating MakeContinuous_OperatorCalculators
+        //protected override void VisitMakeContinuous(Operator op)
+        //{
+        //    var wrapper = new MakeContinuous_OperatorWrapper(op);
+        //    DimensionEnum dimensionEnum = wrapper.Dimension;
+        //    DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+
+        //    // No pushing and popping from the dimension stack here.
+
+        //    base.VisitMakeContinuous(op);
+
+        //    var operandCalculators = new List<OperatorCalculatorBase>(op.Inlets.Count);
+
+        //    for (int i = 0; i < op.Inlets.Count; i++)
+        //    {
+        //        OperatorCalculatorBase operandCalculator = _stack.Pop();
+
+        //        operandCalculator = operandCalculator ?? new Zero_OperatorCalculator();
+
+        //        operandCalculators.Add(operandCalculator);
+        //    }
+
+        //    throw new NotImplementedException();
+        //    //OperatorCalculatorBase calculator = new MakeContinuous_OperatorCalculator(dimensionStack, operandCalculators);
+
+        //    _stack.Push(calculator);
+        //}
 
         protected override void VisitMakeContinuous(Operator op)
         {
-            // Exactly the same behavior as Bundle.
+            // DIRTY:
+            // Reuse Bundle and Resample visitation to realize the behavior of MakeContinuous.
+            // It is kind of dirty, because it depends on a quasi-multiple-inheritance relationship:
+            // It assumes a MakeContinuous operator can handle the behavior associated with
+            // both Bundle and Resample: the data keys should correspond, the inlet and outlet
+            // configuration should be similar.
+            
             VisitBundle(op);
+
+            // SamplingRate parameter for resample should be 1.
+            _stack.Push(new One_OperatorCalculator());
+
+            VisitResample(op);
         }
 
         protected override void VisitMakeDiscrete(Operator op)
         {
-            var wrapper = new MakeDiscrete_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
-
-            // NOTE: Pushing and popping from the dimension stack is done in VisitUnbundleOutlet_WithVariableBundlePositions.
-
-            base.VisitMakeDiscrete(op);
-
-            OperatorCalculatorBase operatorCalculator;
-
-            OperatorCalculatorBase operandCalculator = _stack.Pop();
-
-            operandCalculator = operandCalculator ?? new Zero_OperatorCalculator();
-
-            bool operandIsConst = operandCalculator is Number_OperatorCalculator;
-
-            if (operandIsConst)
-            {
-                operatorCalculator = operandCalculator;
-            }
-            else
-            {
-                double position = dimensionStack.Get();
-
-                throw new NotImplementedException();
-                //operatorCalculator = new MakeDiscrete_OperatorCalculator(operandCalculator, position, dimensionStack);
-            }
-
-            _stack.Push(operatorCalculator);
+            // Exactly the same behavior as Unbundle.
+            VisitUnbundle(op);
         }
 
         protected override void VisitMaximum(Operator op)

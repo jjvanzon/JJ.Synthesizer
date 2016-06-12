@@ -1706,6 +1706,8 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.LessThanOrEqual: return LessThanOrEqual();
                 case OperatorTypeEnum.Loop: return Loop();
                 case OperatorTypeEnum.LowPassFilter: return LowPassFilter();
+                case OperatorTypeEnum.MakeContinuous: return MakeContinuous(new Outlet[inletOrOutletCount]);
+                case OperatorTypeEnum.MakeDiscrete: return MakeDiscrete(null, inletOrOutletCount);
                 case OperatorTypeEnum.Maximum: return Maximum();
                 case OperatorTypeEnum.Minimum: return Minimum();
                 case OperatorTypeEnum.Multiply: return Multiply();
@@ -1748,7 +1750,7 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.Unbundle: return Unbundle(null, inletOrOutletCount);
 
                 default:
-                    throw new ValueNotSupportedException(operatorTypeEnum);
+                    throw new Exception(String.Format("{0} not supported by the PatchManager.CreateOperator method.", operatorTypeEnum));
             }
         }
 

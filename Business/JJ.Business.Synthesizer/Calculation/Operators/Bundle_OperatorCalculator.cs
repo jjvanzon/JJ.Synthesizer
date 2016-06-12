@@ -8,20 +8,20 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Bundle_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly OperatorCalculatorBase[] _operands;
+        private readonly OperatorCalculatorBase[] _operandCalculators;
         private readonly double _operandCountDouble;
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
         
-        public Bundle_OperatorCalculator(DimensionStack dimensionStack, IList<OperatorCalculatorBase> operands)
-            : base(operands)
+        public Bundle_OperatorCalculator(IList<OperatorCalculatorBase> operandCalculators, DimensionStack dimensionStack)
+            : base(operandCalculators)
         {
             OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
 
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
-            _operands = operands.ToArray();
-            _operandCountDouble = operands.Count;
+            _operandCalculators = operandCalculators.ToArray();
+            _operandCountDouble = operandCalculators.Count;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             {
                 int positionInt = (int)position;
 
-                OperatorCalculatorBase operand = _operands[positionInt];
+                OperatorCalculatorBase operand = _operandCalculators[positionInt];
 
                 result = operand.Calculate();
             }
