@@ -40,7 +40,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             labelName.Text = CommonTitles.Name;
             labelOperatorTypeTitle.Text = Titles.Type + ":";
-            labelOperatorTypeValue.Text = PropertyDisplayNames.Random;
             labelInterpolation.Text = PropertyDisplayNames.Interpolation;
             labelDimension.Text = PropertyDisplayNames.Dimension;
         }
@@ -57,7 +56,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (ViewModel == null) return;
 
             textBoxName.Text = ViewModel.Name;
-            
+            labelOperatorTypeValue.Text = ViewModel.OperatorType.Name;
+
             // Interpolation
             if (comboBoxInterpolation.DataSource == null)
             {

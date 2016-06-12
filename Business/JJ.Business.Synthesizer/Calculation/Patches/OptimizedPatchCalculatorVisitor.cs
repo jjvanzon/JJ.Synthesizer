@@ -1576,13 +1576,19 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             // It assumes a MakeContinuous operator can handle the behavior associated with
             // both Bundle and Resample: the data keys should correspond, the inlet and outlet
             // configuration should be similar.
-            
-            VisitBundle(op);
 
             // SamplingRate parameter for resample should be 1.
             _stack.Push(new One_OperatorCalculator());
 
-            VisitResample(op);
+            VisitBundle(op);
+
+            // TODO: This sucks. It breaks all patterns.
+            var wrapper = new Resample_OperatorWrapper(op);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
+
+            VisitResampleNonRecursive(op);
         }
 
         protected override void VisitMakeDiscrete(Operator op)
@@ -2538,6 +2544,15 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
 
             base.VisitResample(op);
+
+            VisitResampleNonRecursive(op);
+        }
+
+        private void VisitResampleNonRecursive(Operator op)
+        {
+            var wrapper = new Resample_OperatorWrapper(op);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
             OperatorCalculatorBase calculator;
 
