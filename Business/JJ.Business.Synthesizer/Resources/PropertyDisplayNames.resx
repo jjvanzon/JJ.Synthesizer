@@ -809,4 +809,10 @@
   <data name="Till" xml:space="preserve">
     <value>Till</value>
   </data>
+  <data name="MakeContinuous" xml:space="preserve">
+    <value>Make Continuous</value>
+  </data>
+  <data name="MakeDiscrete" xml:space="preserve">
+    <value>Make Discrete</value>
+  </data>
 </root>

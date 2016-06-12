@@ -1024,6 +1024,24 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Make Continuous.
+        /// </summary>
+        public static string MakeContinuous {
+            get {
+                return ResourceManager.GetString("MakeContinuous", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Make Discrete.
+        /// </summary>
+        public static string MakeDiscrete {
+            get {
+                return ResourceManager.GetString("MakeDiscrete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Concurrent Notes.
         /// </summary>
         public static string MaxConcurrentNotes {

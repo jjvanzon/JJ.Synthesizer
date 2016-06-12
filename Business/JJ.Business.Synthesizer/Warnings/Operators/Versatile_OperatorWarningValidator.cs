@@ -23,6 +23,8 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             { OperatorTypeEnum.Curve, typeof(Curve_OperatorWarningValidator) },
             { OperatorTypeEnum.CustomOperator, typeof(CustomOperator_OperatorWarningValidator) },
             { OperatorTypeEnum.Delay, typeof(Delay_OperatorWarningValidator) },
+            { OperatorTypeEnum.MakeContinuous, typeof(MakeContinuous_OperatorWarningValidator) },
+            { OperatorTypeEnum.MakeDiscrete, typeof(MakeDiscrete_OperatorWarningValidator) },
             { OperatorTypeEnum.Divide, typeof(Divide_OperatorWarningValidator) },
             { OperatorTypeEnum.Earlier, typeof(Earlier_OperatorWarningValidator) },
             { OperatorTypeEnum.Equal, typeof(Equal_OperatorWarningValidator) },

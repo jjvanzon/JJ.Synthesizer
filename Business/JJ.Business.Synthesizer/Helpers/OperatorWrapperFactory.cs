@@ -39,6 +39,8 @@ namespace JJ.Business.Synthesizer.Helpers
             { OperatorTypeEnum.LessThanOrEqual, Create_LessThanOrEqual_OperatorWrapper },
             { OperatorTypeEnum.Loop, Create_Loop_OperatorWrapper },
             { OperatorTypeEnum.LowPassFilter, Create_LowPassFilter_OperatorWrapper },
+            { OperatorTypeEnum.MakeContinuous, Create_MakeContinuous_OperatorWrapper },
+            { OperatorTypeEnum.MakeDiscrete, Create_MakeDiscrete_OperatorWrapper },
             { OperatorTypeEnum.Maximum, Create_Maximum_OperatorWrapper },
             { OperatorTypeEnum.Minimum, Create_Minimum_OperatorWrapper },
             { OperatorTypeEnum.Multiply , Create_Multiply_OperatorWrapper },
@@ -151,6 +153,8 @@ namespace JJ.Business.Synthesizer.Helpers
         private static LessThanOrEqual_OperatorWrapper Create_LessThanOrEqual_OperatorWrapper(Operator op) { return new LessThanOrEqual_OperatorWrapper(op); }
         private static Loop_OperatorWrapper Create_Loop_OperatorWrapper(Operator op) { return new Loop_OperatorWrapper(op); }
         private static LowPassFilter_OperatorWrapper Create_LowPassFilter_OperatorWrapper(Operator op) { return new LowPassFilter_OperatorWrapper(op); }
+        private static MakeContinuous_OperatorWrapper Create_MakeContinuous_OperatorWrapper(Operator op) { return new MakeContinuous_OperatorWrapper(op); }
+        private static MakeDiscrete_OperatorWrapper Create_MakeDiscrete_OperatorWrapper(Operator op) { return new MakeDiscrete_OperatorWrapper(op); }
         private static Maximum_OperatorWrapper Create_Maximum_OperatorWrapper(Operator op) { return new Maximum_OperatorWrapper(op); }
         private static Minimum_OperatorWrapper Create_Minimum_OperatorWrapper(Operator op) { return new Minimum_OperatorWrapper(op); }
         private static Multiply_OperatorWrapper Create_Multiply_OperatorWrapper(Operator op) { return new Multiply_OperatorWrapper(op); }

@@ -60,6 +60,21 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Average(signal, timeSliceDuration, sampleCount, dimension);
         }
 
+        public Bundle_OperatorWrapper Bundle(params Outlet[] operands)
+        {
+            return _patchManager.Bundle(operands);
+        }
+
+        public Bundle_OperatorWrapper Bundle(DimensionEnum dimension, params Outlet[] operands)
+        {
+            return _patchManager.Bundle(operands, dimension);
+        }
+
+        public Bundle_OperatorWrapper Bundle(IList<Outlet> operands, DimensionEnum dimension = DimensionEnum.Undefined)
+        {
+            return _patchManager.Bundle(operands, dimension);
+        }
+
         public ChangeTrigger_OperatorWrapper ChangeTrigger(Outlet calculation, Outlet reset)
         {
             return _patchManager.ChangeTrigger(calculation, reset);
@@ -203,6 +218,86 @@ namespace JJ.Business.Synthesizer.Api
         public LowPassFilter_OperatorWrapper LowPassFilter(Outlet signal = null, Outlet maxFrequency = null)
         {
             return _patchManager.LowPassFilter(signal, maxFrequency);
+        }
+
+        public MakeContinuous_OperatorWrapper MakeContinuous(ResampleInterpolationTypeEnum interpolation, DimensionEnum dimension, params Outlet[] operands)
+        {
+            return _patchManager.MakeContinuous(interpolation, dimension, operands);
+        }
+
+        public MakeContinuous_OperatorWrapper MakeContinuous(ResampleInterpolationTypeEnum interpolation, params Outlet[] operands)
+        {
+            return _patchManager.MakeContinuous(interpolation, operands);
+        }
+
+        public MakeContinuous_OperatorWrapper MakeContinuous(DimensionEnum dimension, params Outlet[] operands)
+        {
+            return _patchManager.MakeContinuous(dimension, operands);
+        }
+
+        public MakeContinuous_OperatorWrapper MakeContinuous(params Outlet[] operands)
+        {
+            return _patchManager.MakeContinuous(operands);
+        }
+
+        public MakeContinuous_OperatorWrapper MakeContinuous(IList<Outlet> operands, ResampleInterpolationTypeEnum interpolation, DimensionEnum dimension)
+        {
+            return _patchManager.MakeContinuous(operands, interpolation, dimension);
+        }
+
+        public MakeContinuous_OperatorWrapper MakeContinuous(IList<Outlet> operands, ResampleInterpolationTypeEnum interpolation)
+        {
+            return _patchManager.MakeContinuous(operands, interpolation);
+        }
+
+        public MakeContinuous_OperatorWrapper MakeContinuous(IList<Outlet> operands, DimensionEnum dimension)
+        {
+            return _patchManager.MakeContinuous(operands, dimension);
+        }
+
+        public MakeContinuous_OperatorWrapper MakeContinuous(IList<Outlet> operands)
+        {
+            return _patchManager.MakeContinuous(operands);
+        }
+
+        public MakeDiscrete_OperatorWrapper MakeDiscrete(Outlet operand, DimensionEnum dimension, int outletCount)
+        {
+            return _patchManager.MakeDiscrete(operand, dimension, outletCount);
+        }
+
+        public MakeDiscrete_OperatorWrapper MakeDiscrete(Outlet operand, DimensionEnum dimension)
+        {
+            return _patchManager.MakeDiscrete(operand, dimension);
+        }
+
+        public MakeDiscrete_OperatorWrapper MakeDiscrete(Outlet operand, int outletCount)
+        {
+            return _patchManager.MakeDiscrete(operand, outletCount);
+        }
+
+        public MakeDiscrete_OperatorWrapper MakeDiscrete(Outlet operand)
+        {
+            return _patchManager.MakeDiscrete(operand);
+        }
+
+        public MakeDiscrete_OperatorWrapper MakeDiscrete(DimensionEnum dimension, int outletCount)
+        {
+            return _patchManager.MakeDiscrete(dimension, outletCount);
+        }
+
+        public MakeDiscrete_OperatorWrapper MakeDiscrete(DimensionEnum dimension)
+        {
+            return _patchManager.MakeDiscrete(dimension);
+        }
+
+        public MakeDiscrete_OperatorWrapper MakeDiscrete(int outletCount)
+        {
+            return _patchManager.MakeDiscrete(outletCount);
+        }
+
+        public MakeDiscrete_OperatorWrapper MakeDiscrete()
+        {
+            return _patchManager.MakeDiscrete();
         }
 
         public Maximum_OperatorWrapper Maximum(
@@ -493,6 +588,46 @@ namespace JJ.Business.Synthesizer.Api
             DimensionEnum dimension = DimensionEnum.Time)
         {
             return _patchManager.Triangle(frequency, phaseShift, dimension);
+        }
+
+        public Unbundle_OperatorWrapper Unbundle(Outlet operand, DimensionEnum dimension, int outletCount)
+        {
+            return _patchManager.Unbundle(operand, dimension, outletCount);
+        }
+
+        public Unbundle_OperatorWrapper Unbundle(Outlet operand, DimensionEnum dimension)
+        {
+            return _patchManager.Unbundle(operand, dimension);
+        }
+
+        public Unbundle_OperatorWrapper Unbundle(Outlet operand, int outletCount)
+        {
+            return _patchManager.Unbundle(operand, outletCount);
+        }
+
+        public Unbundle_OperatorWrapper Unbundle(Outlet operand)
+        {
+            return _patchManager.Unbundle(operand);
+        }
+
+        public Unbundle_OperatorWrapper Unbundle(DimensionEnum dimension, int outletCount)
+        {
+            return _patchManager.Unbundle(dimension, outletCount);
+        }
+
+        public Unbundle_OperatorWrapper Unbundle(DimensionEnum dimension)
+        {
+            return _patchManager.Unbundle(dimension);
+        }
+
+        public Unbundle_OperatorWrapper Unbundle(int outletCount)
+        {
+            return _patchManager.Unbundle(outletCount);
+        }
+
+        public Unbundle_OperatorWrapper Unbundle()
+        {
+            return _patchManager.Unbundle();
         }
 
         public IPatchCalculator CreateCalculator(

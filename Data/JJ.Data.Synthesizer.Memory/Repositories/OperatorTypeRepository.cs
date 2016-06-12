@@ -74,6 +74,8 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             RepositoryHelper.EnsureEnumEntity(this, 64, "SetDimension");
             RepositoryHelper.EnsureEnumEntity(this, 65, "Hold");
             RepositoryHelper.EnsureEnumEntity(this, 66, "Range");
+            RepositoryHelper.EnsureEnumEntity(this, 67, "MakeDiscrete");
+            RepositoryHelper.EnsureEnumEntity(this, 68, "MakeContinuous");
         }
     }
 }

@@ -139,7 +139,12 @@ namespace JJ.Business.Synthesizer
             return Bundle((IList<Outlet>)operands);
         }
 
-        public Bundle_OperatorWrapper Bundle(IList<Outlet> operands)
+        public Bundle_OperatorWrapper Bundle(DimensionEnum dimension, params Outlet[] operands)
+        {
+            return Bundle(operands, dimension);
+        }
+
+        public Bundle_OperatorWrapper Bundle(IList<Outlet> operands, DimensionEnum dimension = DimensionEnum.Undefined)
         {
             if (operands == null) throw new NullException(() => operands);
 
@@ -168,7 +173,7 @@ namespace JJ.Business.Synthesizer
             op.LinkTo(Patch);
 
             var wrapper = new Bundle_OperatorWrapper(op);
-            wrapper.Dimension = DimensionEnum.Undefined;
+            wrapper.Dimension = dimension;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -609,6 +614,148 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        public MakeContinuous_OperatorWrapper MakeContinuous(ResampleInterpolationTypeEnum interpolation, DimensionEnum dimension, params Outlet[] operands)
+        {
+            return MakeContinuousPrivate(operands, interpolation, dimension);
+        }
+
+        public MakeContinuous_OperatorWrapper MakeContinuous(ResampleInterpolationTypeEnum interpolation, params Outlet[] operands)
+        {
+            return MakeContinuousPrivate(operands, interpolation, null);
+        }
+
+        public MakeContinuous_OperatorWrapper MakeContinuous(DimensionEnum dimension, params Outlet[] operands)
+        {
+            return MakeContinuousPrivate(operands, null, dimension);
+        }
+
+        public MakeContinuous_OperatorWrapper MakeContinuous(params Outlet[] operands)
+        {
+            return MakeContinuousPrivate(operands, null, null);
+        }
+
+        public MakeContinuous_OperatorWrapper MakeContinuous(IList<Outlet> operands, ResampleInterpolationTypeEnum interpolation, DimensionEnum dimension)
+        {
+            return MakeContinuousPrivate(operands, interpolation, dimension);
+        }
+
+        public MakeContinuous_OperatorWrapper MakeContinuous(IList<Outlet> operands, ResampleInterpolationTypeEnum interpolation)
+        {
+            return MakeContinuousPrivate(operands, interpolation, null);
+        }
+
+        public MakeContinuous_OperatorWrapper MakeContinuous(IList<Outlet> operands, DimensionEnum dimension)
+        {
+            return MakeContinuousPrivate(operands, null, dimension);
+        }
+
+        public MakeContinuous_OperatorWrapper MakeContinuous(IList<Outlet> operands)
+        {
+            return MakeContinuousPrivate(operands, null, null);
+        }
+
+        private MakeContinuous_OperatorWrapper MakeContinuousPrivate(IList<Outlet> operands, ResampleInterpolationTypeEnum? interpolation, DimensionEnum? dimension)
+        {
+            if (operands == null) throw new NullException(() => operands);
+            interpolation = interpolation ?? ResampleInterpolationTypeEnum.Block;
+            dimension = dimension ?? DimensionEnum.Undefined;
+
+            var op = new Operator();
+            op.ID = _repositories.IDRepository.GetID();
+            op.SetOperatorTypeEnum(OperatorTypeEnum.MakeContinuous, _repositories.OperatorTypeRepository);
+            _repositories.OperatorRepository.Insert(op);
+
+            for (int i = 0; i < operands.Count; i++)
+            {
+                var inlet = new Inlet();
+                inlet.ID = _repositories.IDRepository.GetID();
+                inlet.ListIndex = i;
+                inlet.LinkTo(op);
+                _repositories.InletRepository.Insert(inlet);
+
+                Outlet operand = operands[i];
+                inlet.InputOutlet = operand;
+            }
+
+            var outlet = new Outlet();
+            outlet.ID = _repositories.IDRepository.GetID();
+            outlet.LinkTo(op);
+            _repositories.OutletRepository.Insert(outlet);
+
+            op.LinkTo(Patch);
+
+            var wrapper = new MakeContinuous_OperatorWrapper(op);
+            wrapper.InterpolationType = interpolation.Value;
+            wrapper.Dimension = dimension.Value;
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+            return wrapper;
+        }
+
+        public MakeDiscrete_OperatorWrapper MakeDiscrete(Outlet operand, DimensionEnum dimension, int outletCount)
+        {
+            return MakeDiscretePrivate(operand, dimension, outletCount);
+        }
+
+        public MakeDiscrete_OperatorWrapper MakeDiscrete(Outlet operand, DimensionEnum dimension)
+        {
+            return MakeDiscretePrivate(operand, dimension, null);
+        }
+
+        public MakeDiscrete_OperatorWrapper MakeDiscrete(Outlet operand, int outletCount)
+        {
+            return MakeDiscretePrivate(operand, null, outletCount);
+        }
+
+        public MakeDiscrete_OperatorWrapper MakeDiscrete(Outlet operand)
+        {
+            return MakeDiscretePrivate(operand, null, null);
+        }
+
+        public MakeDiscrete_OperatorWrapper MakeDiscrete(DimensionEnum dimension, int outletCount)
+        {
+            return MakeDiscretePrivate(null, dimension, outletCount);
+        }
+
+        public MakeDiscrete_OperatorWrapper MakeDiscrete(DimensionEnum dimension)
+        {
+            return MakeDiscretePrivate(null, dimension, null);
+        }
+
+        public MakeDiscrete_OperatorWrapper MakeDiscrete(int outletCount)
+        {
+            return MakeDiscretePrivate(null, null, outletCount);
+        }
+
+        public MakeDiscrete_OperatorWrapper MakeDiscrete()
+        {
+            return MakeDiscretePrivate(null, null, null);
+        }
+
+        private MakeDiscrete_OperatorWrapper MakeDiscretePrivate(Outlet operand, DimensionEnum? dimension, int? outletCount)
+        {
+            dimension = dimension ?? DimensionEnum.Undefined;
+            outletCount = outletCount ?? 1;
+
+            if (outletCount < 1) throw new LessThanException(() => outletCount, 1);
+
+            Operator op = CreateOperatorBase(OperatorTypeEnum.MakeDiscrete, inletCount: 1, outletCount: outletCount.Value);
+
+            var wrapper = new MakeDiscrete_OperatorWrapper(op)
+            {
+                Operand = operand,
+                Dimension = dimension.Value
+            };
+
+            op.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
         public Maximum_OperatorWrapper Maximum(
             Outlet signal = null,
             Outlet timeSliceDuration = null,
@@ -963,6 +1110,24 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        public PulseTrigger_OperatorWrapper PulseTrigger(Outlet calculation = null, Outlet reset = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.PulseTrigger, inletCount: 2, outletCount: 1);
+
+            var wrapper = new PulseTrigger_OperatorWrapper(op)
+            {
+                Calculation = calculation,
+                Reset = reset
+            };
+
+            op.LinkTo(Patch);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
         public Random_OperatorWrapper Random(Outlet rate = null, Outlet phaseShift = null, DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Random, inletCount: 2, outletCount: 1);
@@ -1002,7 +1167,6 @@ namespace JJ.Business.Synthesizer
 
             return wrapper;
         }
-
 
         public Resample_OperatorWrapper Resample(
             Outlet signal = null, 
@@ -1418,34 +1582,59 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public PulseTrigger_OperatorWrapper PulseTrigger(Outlet calculation = null, Outlet reset = null)
+        public Unbundle_OperatorWrapper Unbundle(Outlet operand, DimensionEnum dimension, int outletCount)
         {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.PulseTrigger, inletCount: 2, outletCount: 1);
-
-            var wrapper = new PulseTrigger_OperatorWrapper(op)
-            {
-                Calculation = calculation,
-                Reset = reset
-            };
-
-            op.LinkTo(Patch);
-
-            VoidResult result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
-
-            return wrapper;
+            return UnbundlePrivate(operand, dimension, outletCount);
         }
 
-        public Unbundle_OperatorWrapper Unbundle(Outlet operand = null, int outletCount = 1)
+        public Unbundle_OperatorWrapper Unbundle(Outlet operand, DimensionEnum dimension)
         {
+            return UnbundlePrivate(operand, dimension, null);
+        }
+
+        public Unbundle_OperatorWrapper Unbundle(Outlet operand, int outletCount)
+        {
+            return UnbundlePrivate(operand, null, outletCount);
+        }
+
+        public Unbundle_OperatorWrapper Unbundle(Outlet operand)
+        {
+            return UnbundlePrivate(operand, null, null);
+        }
+
+        public Unbundle_OperatorWrapper Unbundle(DimensionEnum dimension, int outletCount)
+        {
+            return UnbundlePrivate(null, dimension, outletCount);
+        }
+
+        public Unbundle_OperatorWrapper Unbundle(DimensionEnum dimension)
+        {
+            return UnbundlePrivate(null, dimension, null);
+        }
+
+        public Unbundle_OperatorWrapper Unbundle(int outletCount)
+        {
+            return UnbundlePrivate(null, null, outletCount);
+        }
+
+        public Unbundle_OperatorWrapper Unbundle()
+        {
+            return UnbundlePrivate(null, null, null);
+        }
+
+        private Unbundle_OperatorWrapper UnbundlePrivate(Outlet operand, DimensionEnum? dimension, int? outletCount)
+        {
+            dimension = dimension ?? DimensionEnum.Undefined;
+            outletCount = outletCount ?? 1;
+
             if (outletCount < 1) throw new LessThanException(() => outletCount, 1);
 
-            Operator op = CreateOperatorBase(OperatorTypeEnum.Unbundle, inletCount: 1, outletCount: outletCount);
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Unbundle, inletCount: 1, outletCount: outletCount.Value);
 
             var wrapper = new Unbundle_OperatorWrapper(op)
             {
                 Operand = operand,
-                Dimension = DimensionEnum.Undefined
+                Dimension = dimension.Value
             };
 
             op.LinkTo(Patch);

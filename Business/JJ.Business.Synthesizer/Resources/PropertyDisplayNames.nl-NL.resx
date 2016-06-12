@@ -808,4 +808,10 @@
   <data name="Till" xml:space="preserve">
     <value>Tot</value>
   </data>
+  <data name="MakeContinuous" xml:space="preserve">
+    <value>Maak aaneengesloten</value>
+  </data>
+  <data name="MakeDiscrete" xml:space="preserve">
+    <value>Maak afzonderlijk</value>
+  </data>
 </root>

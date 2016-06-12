@@ -116,6 +116,8 @@
         GetDimension = 63,
         SetDimension = 64,
         Hold = 65,
-        Range = 66
+        Range = 66,
+        MakeDiscrete = 67,
+        MakeContinuous = 68
     }
 }

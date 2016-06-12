@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
 
-            // TODO: Make sure you asser this strictly, so it does not become NaN.
+            // TODO: Make sure you assert this strictly, so it does not become NaN.
             _phase = _randomCalculatorOffset;
         }
 

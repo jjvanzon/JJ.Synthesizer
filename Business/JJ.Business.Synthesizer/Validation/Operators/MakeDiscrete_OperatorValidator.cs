@@ -1,20 +1,20 @@
-﻿using JJ.Business.Synthesizer.Resources;
+﻿using System;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Presentation.Resources;
 using JJ.Data.Synthesizer;
-using System;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class Bundle_OperatorValidator : OperatorValidator_Base
+    internal class MakeDiscrete_OperatorValidator : OperatorValidator_Base
     {
-        public Bundle_OperatorValidator(Operator obj)
+        public MakeDiscrete_OperatorValidator(Operator obj)
             : base(
                   obj,
-                  OperatorTypeEnum.Bundle,
-                  expectedInletCount: obj.Inlets.Count, // TODO: Low priority: if obj is null, this fails.
-                  expectedOutletCount: 1,
+                  OperatorTypeEnum.MakeDiscrete,
+                  expectedInletCount: 1,
+                  expectedOutletCount: obj.Outlets.Count, // TODO: Low priority: if obj is null, this fails.
                   allowedDataKeys: new string[] { PropertyNames.Dimension })
         { }
 
@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             Operator op = Object;
 
-            For(() => op.Inlets.Count, CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Inlets)).GreaterThan(0);
+            For(() => op.Outlets.Count, CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Outlets)).GreaterThan(0);
 
             if (DataPropertyParser.DataIsWellFormed(op))
             {

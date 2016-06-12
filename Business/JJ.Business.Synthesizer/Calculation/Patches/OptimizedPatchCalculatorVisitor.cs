@@ -1540,6 +1540,47 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
+        // TODO: Here accidentally I switch the behavior of MakeContinuous and MakeDiscrete.
+
+        protected override void VisitMakeContinuous(Operator op)
+        {
+            // Exactly the same behavior as Bundle.
+            VisitBundle(op);
+        }
+
+        protected override void VisitMakeDiscrete(Operator op)
+        {
+            var wrapper = new MakeDiscrete_OperatorWrapper(op);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+
+            // NOTE: Pushing and popping from the dimension stack is done in VisitUnbundleOutlet_WithVariableBundlePositions.
+
+            base.VisitMakeDiscrete(op);
+
+            OperatorCalculatorBase operatorCalculator;
+
+            OperatorCalculatorBase operandCalculator = _stack.Pop();
+
+            operandCalculator = operandCalculator ?? new Zero_OperatorCalculator();
+
+            bool operandIsConst = operandCalculator is Number_OperatorCalculator;
+
+            if (operandIsConst)
+            {
+                operatorCalculator = operandCalculator;
+            }
+            else
+            {
+                double position = dimensionStack.Get();
+
+                throw new NotImplementedException();
+                //operatorCalculator = new MakeDiscrete_OperatorCalculator(operandCalculator, position, dimensionStack);
+            }
+
+            _stack.Push(operatorCalculator);
+        }
+
         protected override void VisitMaximum(Operator op)
         {
             var wrapper = new Maximum_OperatorWrapper(op);
@@ -3895,20 +3936,27 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             if (operatorTypeEnum == OperatorTypeEnum.CustomOperator)
             {
                 VisitCustomOperatorOutlet(outlet);
-                return;
             }
             else if (operatorTypeEnum == OperatorTypeEnum.Bundle)
             {
                 VisitBundleOutlet(outlet);
-                return;
             }
             else if (operatorTypeEnum == OperatorTypeEnum.Unbundle)
             {
                 VisitUnbundleOutlet(outlet);
-                return;
             }
-
-            base.VisitOutlet(outlet);
+            else if (operatorTypeEnum == OperatorTypeEnum.MakeContinuous)
+            {
+                VisitMakeContinuousOutlet(outlet);
+            }
+            else if (operatorTypeEnum == OperatorTypeEnum.MakeDiscrete)
+            {
+                VisitMakeDiscreteOutlet(outlet);
+            }
+            else
+            {
+                base.VisitOutlet(outlet);
+            }
         }
 
         // TODO: Low Priority: Get rid of the asymmetry in the Operators with one outlet and the ones with multiple outlets.
@@ -3926,57 +3974,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
 
             VisitOperatorPolymorphic(patchOutlet_Outlet.Operator);
-        }
-
-        private void VisitUnbundleOutlet(Outlet outlet)
-        {
-            if (BUNDLE_POSITIONS_ARE_INVARIANT)
-            {
-                VisitUnbundleOutlet_WithInvariantBundlePositions(outlet);
-            }
-            else
-            {
-                VisitUnbundleOutlet_WithVariableBundlePositions(outlet);
-            }
-        }
-
-        private void VisitUnbundleOutlet_WithInvariantBundlePositions(Outlet outlet)
-        {
-            Operator op = outlet.Operator;
-            Inlet inlet = op.Inlets.Single();
-            Outlet inputOutlet = inlet.InputOutlet;
-            if (inputOutlet == null)
-            {
-                _stack.Push(new Zero_OperatorCalculator());
-                return;
-            }
-
-            int outletIndex = outlet.Operator.Outlets.IndexOf(outlet);
-
-            var wrapper = new Unbundle_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
-
-            dimensionStack.Push(outletIndex);
-
-            VisitOutlet(inputOutlet);
-
-            dimensionStack.Pop();
-        }
-
-        private void VisitUnbundleOutlet_WithVariableBundlePositions(Outlet outlet)
-        {
-            int outletIndex = outlet.Operator.Outlets.IndexOf(outlet);
-
-            var wrapper = new Unbundle_OperatorWrapper(outlet.Operator);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
-
-            dimensionStack.Push(outletIndex);
-
-            base.VisitOutlet(outlet);
-
-            dimensionStack.Pop();
         }
 
         private void VisitBundleOutlet(Outlet outlet)
@@ -4044,6 +4041,77 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private void VisitBundleOutlet_WithVariableBundlePositions(Outlet outlet)
         {
             base.VisitOutlet(outlet);
+        }
+
+        private void VisitUnbundleOutlet(Outlet outlet)
+        {
+            if (BUNDLE_POSITIONS_ARE_INVARIANT)
+            {
+                VisitUnbundleOutlet_WithInvariantBundlePositions(outlet);
+            }
+            else
+            {
+                VisitUnbundleOutlet_WithVariableBundlePositions(outlet);
+            }
+        }
+
+        private void VisitUnbundleOutlet_WithInvariantBundlePositions(Outlet outlet)
+        {
+            Operator op = outlet.Operator;
+            Inlet inlet = op.Inlets.Single();
+            Outlet inputOutlet = inlet.InputOutlet;
+            if (inputOutlet == null)
+            {
+                _stack.Push(new Zero_OperatorCalculator());
+                return;
+            }
+
+            int outletIndex = outlet.Operator.Outlets.IndexOf(outlet);
+
+            var wrapper = new Unbundle_OperatorWrapper(op);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+
+            dimensionStack.Push(outletIndex);
+
+            VisitOutlet(inputOutlet);
+
+            dimensionStack.Pop();
+        }
+
+        private void VisitUnbundleOutlet_WithVariableBundlePositions(Outlet outlet)
+        {
+            int outletIndex = outlet.Operator.Outlets.IndexOf(outlet);
+
+            var wrapper = new Unbundle_OperatorWrapper(outlet.Operator);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+
+            dimensionStack.Push(outletIndex);
+
+            base.VisitOutlet(outlet);
+
+            dimensionStack.Pop();
+        }
+
+        private void VisitMakeContinuousOutlet(Outlet outlet)
+        {
+            base.VisitOutlet(outlet);
+        }
+
+        private void VisitMakeDiscreteOutlet(Outlet outlet)
+        {
+            int outletIndex = outlet.Operator.Outlets.IndexOf(outlet);
+
+            var wrapper = new MakeDiscrete_OperatorWrapper(outlet.Operator);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+
+            dimensionStack.Push(outletIndex);
+
+            base.VisitOutlet(outlet);
+
+            dimensionStack.Pop();
         }
 
         protected override void VisitReset(Operator op)
