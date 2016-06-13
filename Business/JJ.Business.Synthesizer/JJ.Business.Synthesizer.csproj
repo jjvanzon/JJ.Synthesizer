@@ -88,7 +88,7 @@
     <Compile Include="Calculation\Operators\2016-05-12 Backup of Add OperatorCalculator Classes %28with Generics%29.cs" />
     <Compile Include="Calculation\Operators\2016-05-10 Backup of Multiply OperatorCalculator Classes %28With Generics%29.cs" />
     <Compile Include="Calculation\Operators\Range OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\2016-06-12 Backup of MakeContinuous_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\MakeContinuous_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Unbundle_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Bundle_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Cache OperatorCalculator Classes.cs" />
@@ -223,6 +223,7 @@
     <Compile Include="EntityWrappers\Range_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\MakeDiscrete_OperatorWrapper.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
+    <Compile Include="Helpers\OperatorCalculatorFactory.cs" />
     <Compile Include="Helpers\OperatorWrapperFactory.cs" />
     <Compile Include="EntityWrappers\Round_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\If_OperatorWrapper.cs" />

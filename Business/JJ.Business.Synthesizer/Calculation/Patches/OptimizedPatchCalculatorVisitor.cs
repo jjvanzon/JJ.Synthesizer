@@ -1540,55 +1540,30 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        //// Try instantiating MakeContinuous_OperatorCalculators
-        //protected override void VisitMakeContinuous(Operator op)
-        //{
-        //    var wrapper = new MakeContinuous_OperatorWrapper(op);
-        //    DimensionEnum dimensionEnum = wrapper.Dimension;
-        //    DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
-
-        //    // No pushing and popping from the dimension stack here.
-
-        //    base.VisitMakeContinuous(op);
-
-        //    var operandCalculators = new List<OperatorCalculatorBase>(op.Inlets.Count);
-
-        //    for (int i = 0; i < op.Inlets.Count; i++)
-        //    {
-        //        OperatorCalculatorBase operandCalculator = _stack.Pop();
-
-        //        operandCalculator = operandCalculator ?? new Zero_OperatorCalculator();
-
-        //        operandCalculators.Add(operandCalculator);
-        //    }
-
-        //    throw new NotImplementedException();
-        //    //OperatorCalculatorBase calculator = new MakeContinuous_OperatorCalculator(dimensionStack, operandCalculators);
-
-        //    _stack.Push(calculator);
-        //}
-
         protected override void VisitMakeContinuous(Operator op)
         {
-            // DIRTY:
-            // Reuse Bundle and Resample visitation to realize the behavior of MakeContinuous.
-            // It is kind of dirty, because it depends on a quasi-multiple-inheritance relationship:
-            // It assumes a MakeContinuous operator can handle the behavior associated with
-            // both Bundle and Resample: the data keys should correspond, the inlet and outlet
-            // configuration should be similar.
-
-            // SamplingRate parameter for resample should be 1.
-            _stack.Push(new One_OperatorCalculator());
-
-            VisitBundle(op);
-
-            // TODO: This sucks. It breaks all patterns.
-            var wrapper = new Resample_OperatorWrapper(op);
+            var wrapper = new MakeContinuous_OperatorWrapper(op);
             DimensionEnum dimensionEnum = wrapper.Dimension;
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
-            dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
 
-            VisitResampleNonRecursive(op);
+            // No pushing and popping from the dimension stack here.
+
+            base.VisitMakeContinuous(op);
+
+            var operandCalculators = new List<OperatorCalculatorBase>(op.Inlets.Count);
+
+            for (int i = 0; i < op.Inlets.Count; i++)
+            {
+                OperatorCalculatorBase operandCalculator = _stack.Pop();
+
+                operandCalculator = operandCalculator ?? new Zero_OperatorCalculator();
+
+                operandCalculators.Add(operandCalculator);
+            }
+
+            OperatorCalculatorBase calculator = new MakeContinuous_OperatorCalculator(operandCalculators, wrapper.InterpolationType, dimensionStack);
+
+            _stack.Push(calculator);
         }
 
         protected override void VisitMakeDiscrete(Operator op)
@@ -2545,15 +2520,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             base.VisitResample(op);
 
-            VisitResampleNonRecursive(op);
-        }
-
-        private void VisitResampleNonRecursive(Operator op)
-        {
-            var wrapper = new Resample_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
-
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
@@ -2597,43 +2563,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 ResampleInterpolationTypeEnum resampleInterpolationTypeEnum = wrapper.InterpolationType;
 
-                switch (resampleInterpolationTypeEnum)
-                {
-                    case ResampleInterpolationTypeEnum.Block:
-                        calculator = new Resample_OperatorCalculator_Block(signalCalculator, samplingRateCalculator, dimensionStack);
-                        break;
-
-                    case ResampleInterpolationTypeEnum.Stripe:
-                        calculator = new Resample_OperatorCalculator_Stripe(signalCalculator, samplingRateCalculator, dimensionStack);
-                        break;
-
-                    case ResampleInterpolationTypeEnum.LineRememberT0:
-                        calculator = new Resample_OperatorCalculator_LineRememberT0(signalCalculator, samplingRateCalculator, dimensionStack);
-                        break;
-
-                    case ResampleInterpolationTypeEnum.LineRememberT1:
-                        calculator = new Resample_OperatorCalculator_LineRememberT1(signalCalculator, samplingRateCalculator, dimensionStack);
-                        break;
-
-                    case ResampleInterpolationTypeEnum.CubicEquidistant:
-                        calculator = new Resample_OperatorCalculator_CubicEquidistant(signalCalculator, samplingRateCalculator, dimensionStack);
-                        break;
-
-                    case ResampleInterpolationTypeEnum.CubicAbruptSlope:
-                        calculator = new Resample_OperatorCalculator_CubicAbruptSlope(signalCalculator, samplingRateCalculator, dimensionStack);
-                        break;
-
-                    case ResampleInterpolationTypeEnum.CubicSmoothSlope:
-                        calculator = new Resample_OperatorCalculator_CubicSmoothSlope(signalCalculator, samplingRateCalculator, dimensionStack);
-                        break;
-
-                    case ResampleInterpolationTypeEnum.Hermite:
-                        calculator = new Resample_OperatorCalculator_Hermite(signalCalculator, samplingRateCalculator, dimensionStack);
-                        break;
-
-                    default:
-                        throw new ValueNotSupportedException(resampleInterpolationTypeEnum);
-                }
+                calculator = OperatorCalculatorFactory.CreateResample_OperatorCalculator(resampleInterpolationTypeEnum, signalCalculator, samplingRateCalculator, dimensionStack);
             }
 
             _stack.Push(calculator);
