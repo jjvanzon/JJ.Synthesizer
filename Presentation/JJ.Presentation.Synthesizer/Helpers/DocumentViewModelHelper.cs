@@ -551,11 +551,11 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return viewModel;
         }
 
-        public static OperatorPropertiesViewModel_ForUnbundle TryGetOperatorPropertiesViewModel_ForUnbundle(DocumentViewModel rootDocumentViewModel, int operatorID)
+        public static OperatorPropertiesViewModel_WithDimensionAndOutletCount TryGetOperatorPropertiesViewModel_WithDimensionAndOutletCount(DocumentViewModel rootDocumentViewModel, int operatorID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            OperatorPropertiesViewModel_ForUnbundle viewModel = DocumentViewModelHelper.EnumerateOperatorPropertiesViewModels_ForUnbundles(rootDocumentViewModel)
+            OperatorPropertiesViewModel_WithDimensionAndOutletCount viewModel = DocumentViewModelHelper.EnumerateOperatorPropertiesViewModels_WithDimensionAndOutletCount(rootDocumentViewModel)
                                                                                    .FirstOrDefault(x => x.ID == operatorID); // First for performance.
             return viewModel;
         }
@@ -648,11 +648,11 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return rootDocumentViewModel.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForSamples);
         }
 
-        private static IEnumerable<OperatorPropertiesViewModel_ForUnbundle> EnumerateOperatorPropertiesViewModels_ForUnbundles(DocumentViewModel rootDocumentViewModel)
+        private static IEnumerable<OperatorPropertiesViewModel_WithDimensionAndOutletCount> EnumerateOperatorPropertiesViewModels_WithDimensionAndOutletCount(DocumentViewModel rootDocumentViewModel)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            return rootDocumentViewModel.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForUnbundles);
+            return rootDocumentViewModel.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_WithDimensionAndOutletCount);
         }
 
         private static IEnumerable<OperatorPropertiesViewModel_WithDimension> EnumerateOperatorPropertiesViewModels_WithDimension(DocumentViewModel rootDocumentViewModel)
@@ -819,7 +819,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
             throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForSample> with Patch ID '{0}' not found in any of the PatchDocumentViewModels.", patchID));
         }
 
-        public static IList<OperatorPropertiesViewModel_ForUnbundle> GetOperatorPropertiesViewModelList_ForUnbundles_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
+        public static IList<OperatorPropertiesViewModel_WithDimensionAndOutletCount> GetOperatorPropertiesViewModelList_WithDimensionAndOutletCount_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
@@ -827,11 +827,11 @@ namespace JJ.Presentation.Synthesizer.Helpers
             {
                 if (patchDocumentViewModel.PatchDetails.Entity.PatchID == patchID)
                 {
-                    return patchDocumentViewModel.OperatorPropertiesList_ForUnbundles;
+                    return patchDocumentViewModel.OperatorPropertiesList_WithDimensionAndOutletCount;
                 }
             }
 
-            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForUnbundle> for Patch ID '{0}' not found in any of the PatchDocumentViewModels.", patchID));
+            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_WithDimensionAndOutletCount> for Patch ID '{0}' not found in any of the PatchDocumentViewModels.", patchID));
         }
 
         public static IList<OperatorPropertiesViewModel_WithDimension> GetOperatorPropertiesViewModelList_WithDimension_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
@@ -863,217 +863,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
             throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForRandom> with Patch ID '{0}' not found in any of the PatchDocumentViewModels.", patchID));
         }
-
-        // TODO: Remove outcommented code.
-        //public static IList<OperatorPropertiesViewModel> GetOperatorPropertiesViewModelList_ByOperatorID(DocumentViewModel rootDocumentViewModel, int operatorID)
-        //{
-        //    if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-        //    foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentList)
-        //    {
-        //        if (patchDocumentViewModel.OperatorPropertiesList.Any(x => x.ID == operatorID))
-        //        {
-        //            return patchDocumentViewModel.OperatorPropertiesList;
-        //        }
-        //    }
-
-        //    throw new Exception(String.Format("IList<OperatorPropertiesViewModel> for operatorID '{0}' not found in any of the PatchDocumentViewModels.", operatorID));
-        //}
-        
-        //public static IList<OperatorPropertiesViewModel_ForBundle> GetOperatorPropertiesViewModelList_ForBundles_ByOperatorID(DocumentViewModel rootDocumentViewModel, int operatorID)
-        //{
-        //    if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-        //    foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentList)
-        //    {
-        //        if (patchDocumentViewModel.OperatorPropertiesList_ForBundles.Any(x => x.ID == operatorID))
-        //        {
-        //            return patchDocumentViewModel.OperatorPropertiesList_ForBundles;
-        //        }
-        //    }
-
-        //    throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForBundle> for operatorID '{0}' not found in any of the PatchDocumentViewModels.", operatorID));
-        //}
-
-        //public static IList<OperatorPropertiesViewModel_ForCache> GetOperatorPropertiesViewModelList_ForCaches_ByOperatorID(DocumentViewModel rootDocumentViewModel, int operatorID)
-        //{
-        //    if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-        //    foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentList)
-        //    {
-        //        if (patchDocumentViewModel.OperatorPropertiesList_ForCaches.Any(x => x.ID == operatorID))
-        //        {
-        //            return patchDocumentViewModel.OperatorPropertiesList_ForCaches;
-        //        }
-        //    }
-
-        //    throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForCache> for operatorID '{0}' not found in any of the PatchDocumentViewModels.", operatorID));
-        //}
-
-        //public static IList<OperatorPropertiesViewModel_ForCurve> GetOperatorPropertiesViewModelList_ForCurves_ByOperatorID(DocumentViewModel rootDocumentViewModel, int operatorID)
-        //{
-        //    if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-        //    foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentList)
-        //    {
-        //        if (patchDocumentViewModel.OperatorPropertiesList_ForCurves.Any(x => x.ID == operatorID))
-        //        {
-        //            return patchDocumentViewModel.OperatorPropertiesList_ForCurves;
-        //        }
-        //    }
-
-        //    throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForCurve> for operatorID '{0}' not found in any of the PatchDocumentViewModels.", operatorID));
-        //}
-
-        //public static IList<OperatorPropertiesViewModel_ForCustomOperator> GetOperatorPropertiesViewModelList_ForCustomOperators_ByOperatorID(DocumentViewModel rootDocumentViewModel, int operatorID)
-        //{
-        //    if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-        //    foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentList)
-        //    {
-        //        foreach (OperatorPropertiesViewModel_ForCustomOperator operatorPropertiesViewModel in patchDocumentViewModel.OperatorPropertiesList_ForCustomOperators)
-        //        {
-        //            if (operatorPropertiesViewModel.ID == operatorID)
-        //            {
-        //                return patchDocumentViewModel.OperatorPropertiesList_ForCustomOperators;
-        //            }
-        //        }
-
-        //    }
-
-        //    throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForCustomOperator> for Operator ID '{0}' not found in any of the PatchDocumentViewModels.", operatorID));
-        //}
-
-        //public static IList<OperatorPropertiesViewModel_ForNumber> GetOperatorPropertiesViewModelList_ForNumbers_ByOperatorID(DocumentViewModel rootDocumentViewModel, int operatorID)
-        //{
-        //    if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-        //    foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentList)
-        //    {
-        //        foreach (OperatorPropertiesViewModel_ForNumber operatorPropertiesViewModel in patchDocumentViewModel.OperatorPropertiesList_ForNumbers)
-        //        {
-        //            if (operatorPropertiesViewModel.ID == operatorID)
-        //            {
-        //                return patchDocumentViewModel.OperatorPropertiesList_ForNumbers;
-        //            }
-        //        }
-
-        //    }
-
-        //    throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForNumber> for Operator ID '{0}' not found in any of the PatchDocumentViewModels.", operatorID));
-        //}
-
-        //public static IList<OperatorPropertiesViewModel_ForPatchInlet> GetOperatorPropertiesViewModelList_ForPatchInlets_ByOperatorID(DocumentViewModel rootDocumentViewModel, int operatorID)
-        //{
-        //    if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-        //    foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentList)
-        //    {
-        //        foreach (OperatorPropertiesViewModel_ForPatchInlet operatorPropertiesViewModel in patchDocumentViewModel.OperatorPropertiesList_ForPatchInlets)
-        //        {
-        //            if (operatorPropertiesViewModel.ID == operatorID)
-        //            {
-        //                return patchDocumentViewModel.OperatorPropertiesList_ForPatchInlets;
-        //            }
-        //        }
-
-        //    }
-
-        //    throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForPatchInlet> for Operator ID '{0}' not found in any of the PatchDocumentViewModels.", operatorID));
-        //}
-
-        //public static IList<OperatorPropertiesViewModel_ForPatchOutlet> GetOperatorPropertiesViewModelList_ForPatchOutlets_ByOperatorID(DocumentViewModel rootDocumentViewModel, int operatorID)
-        //{
-        //    if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-        //    foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentList)
-        //    {
-        //        foreach (OperatorPropertiesViewModel_ForPatchOutlet operatorPropertiesViewModel in patchDocumentViewModel.OperatorPropertiesList_ForPatchOutlets)
-        //        {
-        //            if (operatorPropertiesViewModel.ID == operatorID)
-        //            {
-        //                return patchDocumentViewModel.OperatorPropertiesList_ForPatchOutlets;
-        //            }
-        //        }
-
-        //    }
-
-        //    throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForPatchOutlet> for Operator ID '{0}' not found in any of the PatchDocumentViewModels.", operatorID));
-        //}
-
-        //public static IList<OperatorPropertiesViewModel_WithDimensionAndInterpolation> GetOperatorPropertiesViewModelList_ForRandoms_ByOperatorID(DocumentViewModel rootDocumentViewModel, int operatorID)
-        //{
-        //    if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-        //    foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentList)
-        //    {
-        //        foreach (OperatorPropertiesViewModel_WithDimensionAndInterpolation operatorPropertiesViewModel in patchDocumentViewModel.OperatorPropertiesList_WithDimensionAndInterpolation)
-        //        {
-        //            if (operatorPropertiesViewModel.ID == operatorID)
-        //            {
-        //                return patchDocumentViewModel.OperatorPropertiesList_WithDimensionAndInterpolation;
-        //            }
-        //        }
-        //    }
-
-        //    throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForRandom> for Operator ID '{0}' not found in any of the PatchDocumentViewModels.", operatorID));
-        //}
-
-        //public static IList<OperatorPropertiesViewModel_ForResample> GetOperatorPropertiesViewModelList_ForResamples_ByOperatorID(DocumentViewModel rootDocumentViewModel, int operatorID)
-        //{
-        //    if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-        //    foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentList)
-        //    {
-        //        foreach (OperatorPropertiesViewModel_ForResample operatorPropertiesViewModel in patchDocumentViewModel.OperatorPropertiesList_ForResamples)
-        //        {
-        //            if (operatorPropertiesViewModel.ID == operatorID)
-        //            {
-        //                return patchDocumentViewModel.OperatorPropertiesList_ForResamples;
-        //            }
-        //        }
-        //    }
-
-        //    throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForResample> for Operator ID '{0}' not found in any of the PatchDocumentViewModels.", operatorID));
-        //}
-
-        //public static IList<OperatorPropertiesViewModel_ForSample> GetOperatorPropertiesViewModelList_ForSamples_ByOperatorID(DocumentViewModel rootDocumentViewModel, int operatorID)
-        //{
-        //    if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-        //    foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentList)
-        //    {
-        //        foreach (OperatorPropertiesViewModel_ForSample operatorPropertiesViewModel in patchDocumentViewModel.OperatorPropertiesList_ForSamples)
-        //        {
-        //            if (operatorPropertiesViewModel.ID == operatorID)
-        //            {
-        //                return patchDocumentViewModel.OperatorPropertiesList_ForSamples;
-        //            }
-        //        }
-
-        //    }
-
-        //    throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForSample> for Operator ID '{0}' not found in any of the PatchDocumentViewModels.", operatorID));
-        //}
-
-        //public static IList<OperatorPropertiesViewModel_ForUnbundle> GetOperatorPropertiesViewModelList_ForUnbundles_ByOperatorID(DocumentViewModel rootDocumentViewModel, int operatorID)
-        //{
-        //    if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-        //    foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentList)
-        //    {
-        //        foreach (OperatorPropertiesViewModel_ForUnbundle operatorPropertiesViewModel in patchDocumentViewModel.OperatorPropertiesList_ForUnbundles)
-        //        {
-        //            if (operatorPropertiesViewModel.ID == operatorID)
-        //            {
-        //                return patchDocumentViewModel.OperatorPropertiesList_ForUnbundles;
-        //            }
-        //        }
-
-        //    }
-
-        //    throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForUnbundle> for Operator ID '{0}' not found in any of the PatchDocumentViewModels.", operatorID));
-        //}
 
         public static OperatorPropertiesViewModel GetVisibleOperatorPropertiesViewModel(DocumentViewModel rootDocumentViewModel)
         {
@@ -1268,17 +1057,17 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return viewModel;
         }
 
-        public static OperatorPropertiesViewModel_ForUnbundle GetVisibleOperatorPropertiesViewModel_ForUnbundle(DocumentViewModel rootDocumentViewModel)
+        public static OperatorPropertiesViewModel_WithDimensionAndOutletCount GetVisibleOperatorPropertiesViewModel_WithDimensionAndOutletCount(DocumentViewModel rootDocumentViewModel)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            OperatorPropertiesViewModel_ForUnbundle viewModel = rootDocumentViewModel.PatchDocumentList
-                                                                                     .SelectMany(x => x.OperatorPropertiesList_ForUnbundles)
+            OperatorPropertiesViewModel_WithDimensionAndOutletCount viewModel = rootDocumentViewModel.PatchDocumentList
+                                                                                     .SelectMany(x => x.OperatorPropertiesList_WithDimensionAndOutletCount)
                                                                                      .Where(x => x.Visible)
                                                                                      .FirstOrDefault();
             if (viewModel == null)
             {
-                throw new Exception("No visible OperatorPropertiesViewModel_ForUnbundle found in rootDocumentViewModel.PatchDocumentList.");
+                throw new Exception("No visible OperatorPropertiesViewModel_WithDimensionAndOutletCount found in rootDocumentViewModel.PatchDocumentList.");
             }
 
             return viewModel;

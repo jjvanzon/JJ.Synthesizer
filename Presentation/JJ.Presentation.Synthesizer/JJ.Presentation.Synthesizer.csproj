@@ -59,7 +59,7 @@
     <Compile Include="Presenters\PatchGridPresenter.cs" />
     <Compile Include="Presenters\MainPresenter.Actions.cs" />
     <Compile Include="Presenters\MainPresenter.DispatchViewModel.cs" />
-    <Compile Include="Presenters\OperatorPropertiesPresenter_ForUnbundle.cs" />
+    <Compile Include="Presenters\OperatorPropertiesPresenter_WithDimensionAndOutletCount.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForCurve.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForBundle.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForSample.cs" />
@@ -165,7 +165,7 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />
     <Compile Include="ViewModels\2016-02-20 Backup of NotFoundViewModel.cs" />
-    <Compile Include="ViewModels\OperatorPropertiesViewModel_ForUnbundle.cs" />
+    <Compile Include="ViewModels\OperatorPropertiesViewModel_WithDimensionAndOutletCount.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForCurve.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForBundle.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForSample.cs" />

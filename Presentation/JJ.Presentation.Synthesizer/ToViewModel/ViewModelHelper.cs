@@ -36,8 +36,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.PatchOutlet,
             OperatorTypeEnum.Sample,
             OperatorTypeEnum.Select,
-            OperatorTypeEnum.Stretch,
-            OperatorTypeEnum.Unbundle
+            OperatorTypeEnum.Stretch
         };
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithDimensionPropertyViews { get; } = 
@@ -48,7 +47,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.Earlier,
             OperatorTypeEnum.GetDimension,
             OperatorTypeEnum.Loop,
-            OperatorTypeEnum.MakeDiscrete,
             OperatorTypeEnum.Maximum,
             OperatorTypeEnum.Minimum,
             OperatorTypeEnum.Narrower,
@@ -76,6 +74,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.Random,
             OperatorTypeEnum.Resample,
             OperatorTypeEnum.MakeContinuous
+        };
+
+        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithDimensionAndOutletCountPropertyViews { get; } =
+                  new HashSet<OperatorTypeEnum>
+        {
+            OperatorTypeEnum.MakeDiscrete,
+            OperatorTypeEnum.Unbundle
         };
 
         public static CurrentPatchesViewModel CreateCurrentPatchesViewModel(IList<Document> childDocuments)

@@ -8,12 +8,18 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Validation;
+using JJ.Framework.Validation.Resources;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
     internal class OperatorValidator_SetOutletCount : FluentValidator<Operator>
     {
         private readonly int _newOutletCount;
+        private static OperatorTypeEnum[] _allowedOperatorTypeEnums = new OperatorTypeEnum[]
+        {
+            OperatorTypeEnum.Unbundle,
+            OperatorTypeEnum.MakeDiscrete
+        };
 
         public OperatorValidator_SetOutletCount(Operator obj, int newOutletCount)
             : base(obj, postponeExecute: true)
@@ -28,10 +34,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             Operator op = Object;
 
             OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
-            if (operatorTypeEnum != OperatorTypeEnum.Unbundle)
+            if (!_allowedOperatorTypeEnums.Contains(operatorTypeEnum))
             {
-                string operatorTypeDisplayName = ResourceHelper.GetDisplayName(operatorTypeEnum);
-                ValidationMessages.Add(() => op.OperatorType, MessageFormatter.OperatorTypeMustBeOfType(operatorTypeDisplayName));
+                string message = GetOperatorTypeNotAllowedMessage();
+                ValidationMessages.Add(() => op.OperatorType, message);
             }
 
             For(_newOutletCount, PropertyNames.OutletCount, CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Outlets))
@@ -48,6 +54,13 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                     ValidationMessages.Add(PropertyNames.Outlets, message);
                 }
             }
+        }
+
+        private string GetOperatorTypeNotAllowedMessage()
+        {
+            IList<string> operatorTypeDisplayNames = _allowedOperatorTypeEnums.Select(x => ResourceHelper.GetDisplayName(x)).ToArray();
+            string message = ValidationMessageFormatter.NotInList(PropertyDisplayNames.OperatorType, operatorTypeDisplayNames);
+            return message;
         }
     }
 }

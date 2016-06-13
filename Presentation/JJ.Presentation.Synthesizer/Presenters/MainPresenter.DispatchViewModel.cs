@@ -44,7 +44,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(OperatorPropertiesViewModel_ForPatchInlet), DispatchOperatorPropertiesViewModel_ForPatchInlet },
                 { typeof(OperatorPropertiesViewModel_ForPatchOutlet), DispatchOperatorPropertiesViewModel_ForPatchOutlet },
                 { typeof(OperatorPropertiesViewModel_ForSample), DispatchOperatorPropertiesViewModel_ForSample },
-                { typeof(OperatorPropertiesViewModel_ForUnbundle), DispatchOperatorPropertiesViewModel_ForUnbundle },
+                { typeof(OperatorPropertiesViewModel_WithDimensionAndOutletCount), DispatchOperatorPropertiesViewModel_WithDimensionAndOutletCount },
                 { typeof(OperatorPropertiesViewModel_WithDimension), DispatchOperatorPropertiesViewModel_WithDimension },
                 { typeof(OperatorPropertiesViewModel_WithDimensionAndInterpolation), DispatchOperatorPropertiesViewModel_WithDimensionAndInterpolation },
                 { typeof(PatchDetailsViewModel), DispatchPatchDetailsViewModel },
@@ -616,11 +616,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             castedViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchOperatorPropertiesViewModel_ForUnbundle(object viewModel2)
+        private void DispatchOperatorPropertiesViewModel_WithDimensionAndOutletCount(object viewModel2)
         {
-            var castedViewModel = (OperatorPropertiesViewModel_ForUnbundle)viewModel2;
+            var castedViewModel = (OperatorPropertiesViewModel_WithDimensionAndOutletCount)viewModel2;
 
-            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForUnbundles_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_WithDimensionAndOutletCount_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
             int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
             if (listIndex.HasValue)
             {

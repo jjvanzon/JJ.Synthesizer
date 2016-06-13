@@ -32,7 +32,7 @@
             this.operatorPropertiesUserControl_ForFilter = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForFilter();
             this.operatorPropertiesUserControl_ForCache = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForCache();
             this.operatorPropertiesUserControl_WithDimensionAndInterpolation = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_WithDimensionAndInterpolation();
-            this.operatorPropertiesUserControl_ForUnbundle = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForUnbundle();
+            this.operatorPropertiesUserControl_WithDimensionAndOutletCount = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_WithDimensionAndOutletCount();
             this.operatorPropertiesUserControl_ForBundle = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForBundle();
             this.nodePropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.NodePropertiesUserControl();
             this.curvePropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurvePropertiesUserControl();
@@ -119,7 +119,7 @@
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForFilter);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForCache);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_WithDimensionAndInterpolation);
-            this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForUnbundle);
+            this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_WithDimensionAndOutletCount);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForBundle);
             this.splitContainerProperties.Panel2.Controls.Add(this.nodePropertiesUserControl);
             this.splitContainerProperties.Panel2.Controls.Add(this.curvePropertiesUserControl);
@@ -300,17 +300,17 @@
             this.operatorPropertiesUserControl_WithDimensionAndInterpolation.Size = new System.Drawing.Size(280, 814);
             this.operatorPropertiesUserControl_WithDimensionAndInterpolation.TabIndex = 1;
             // 
-            // operatorPropertiesUserControl_ForUnbundle
+            // operatorPropertiesUserControl_WithDimensionAndOutletCount
             // 
-            this.operatorPropertiesUserControl_ForUnbundle.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.operatorPropertiesUserControl_ForUnbundle.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.operatorPropertiesUserControl_ForUnbundle.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.operatorPropertiesUserControl_ForUnbundle.Font = new System.Drawing.Font("Verdana", 10F);
-            this.operatorPropertiesUserControl_ForUnbundle.Location = new System.Drawing.Point(0, 0);
-            this.operatorPropertiesUserControl_ForUnbundle.Margin = new System.Windows.Forms.Padding(5);
-            this.operatorPropertiesUserControl_ForUnbundle.Name = "operatorPropertiesUserControl_ForUnbundle";
-            this.operatorPropertiesUserControl_ForUnbundle.Size = new System.Drawing.Size(280, 814);
-            this.operatorPropertiesUserControl_ForUnbundle.TabIndex = 1;
+            this.operatorPropertiesUserControl_WithDimensionAndOutletCount.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.operatorPropertiesUserControl_WithDimensionAndOutletCount.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.operatorPropertiesUserControl_WithDimensionAndOutletCount.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.operatorPropertiesUserControl_WithDimensionAndOutletCount.Font = new System.Drawing.Font("Verdana", 10F);
+            this.operatorPropertiesUserControl_WithDimensionAndOutletCount.Location = new System.Drawing.Point(0, 0);
+            this.operatorPropertiesUserControl_WithDimensionAndOutletCount.Margin = new System.Windows.Forms.Padding(5);
+            this.operatorPropertiesUserControl_WithDimensionAndOutletCount.Name = "operatorPropertiesUserControl_WithDimensionAndOutletCount";
+            this.operatorPropertiesUserControl_WithDimensionAndOutletCount.Size = new System.Drawing.Size(280, 814);
+            this.operatorPropertiesUserControl_WithDimensionAndOutletCount.TabIndex = 1;
             // 
             // operatorPropertiesUserControl_ForBundle
             // 
@@ -579,7 +579,7 @@
         private UserControls.CurvePropertiesUserControl curvePropertiesUserControl;
         private UserControls.NodePropertiesUserControl nodePropertiesUserControl;
         private UserControls.OperatorPropertiesUserControl_ForBundle operatorPropertiesUserControl_ForBundle;
-        private UserControls.OperatorPropertiesUserControl_ForUnbundle operatorPropertiesUserControl_ForUnbundle;
+        private UserControls.OperatorPropertiesUserControl_WithDimensionAndOutletCount operatorPropertiesUserControl_WithDimensionAndOutletCount;
         private UserControls.Partials.CurrentPatchesUserControl currentPatchesUserControl;
         private UserControls.OperatorPropertiesUserControl_WithDimensionAndInterpolation operatorPropertiesUserControl_WithDimensionAndInterpolation;
         private UserControls.OperatorPropertiesUserControl_ForCache operatorPropertiesUserControl_ForCache;

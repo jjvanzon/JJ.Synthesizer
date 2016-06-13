@@ -181,11 +181,11 @@
     <Compile Include="UserControls\2016-03-30 Backup of OperatorPropertiesUserControl_ForSpectrum.Designer.cs">
       <DependentUpon>2016-03-30 Backup of OperatorPropertiesUserControl_ForSpectrum.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\OperatorPropertiesUserControl_ForUnbundle.cs">
+    <Compile Include="UserControls\OperatorPropertiesUserControl_WithDimensionAndOutletCount.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\OperatorPropertiesUserControl_ForUnbundle.Designer.cs">
-      <DependentUpon>OperatorPropertiesUserControl_ForUnbundle.cs</DependentUpon>
+    <Compile Include="UserControls\OperatorPropertiesUserControl_WithDimensionAndOutletCount.Designer.cs">
+      <DependentUpon>OperatorPropertiesUserControl_WithDimensionAndOutletCount.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_ForCustomOperator.cs">
       <SubType>UserControl</SubType>
@@ -415,8 +415,8 @@
     <EmbeddedResource Include="UserControls\2016-03-30 Backup of OperatorPropertiesUserControl_ForSpectrum.resx">
       <DependentUpon>2016-03-30 Backup of OperatorPropertiesUserControl_ForSpectrum.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForUnbundle.resx">
-      <DependentUpon>OperatorPropertiesUserControl_ForUnbundle.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_WithDimensionAndOutletCount.resx">
+      <DependentUpon>OperatorPropertiesUserControl_WithDimensionAndOutletCount.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForCustomOperator.resx">
       <DependentUpon>OperatorPropertiesUserControl_ForCustomOperator.cs</DependentUpon>

@@ -88,8 +88,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             operatorPropertiesUserControl_ForPatchOutlet.LoseFocusRequested += operatorPropertiesUserControl_ForPatchOutlet_LoseFocusRequested;
             operatorPropertiesUserControl_ForSample.CloseRequested += operatorPropertiesUserControl_ForSample_CloseRequested;
             operatorPropertiesUserControl_ForSample.LoseFocusRequested += operatorPropertiesUserControl_ForSample_LoseFocusRequested;
-            operatorPropertiesUserControl_ForUnbundle.CloseRequested += operatorPropertiesUserControl_ForUnbundle_CloseRequested;
-            operatorPropertiesUserControl_ForUnbundle.LoseFocusRequested += operatorPropertiesUserControl_ForUnbundle_LoseFocusRequested;
+            operatorPropertiesUserControl_WithDimensionAndOutletCount.CloseRequested += operatorPropertiesUserControl_WithDimensionAndOutletCount_CloseRequested;
+            operatorPropertiesUserControl_WithDimensionAndOutletCount.LoseFocusRequested += operatorPropertiesUserControl_WithDimensionAndOutletCount_LoseFocusRequested;
             operatorPropertiesUserControl_WithDimension.CloseRequested += operatorPropertiesUserControl_WithDimension_CloseRequested;
             operatorPropertiesUserControl_WithDimension.LoseFocusRequested += operatorPropertiesUserControl_WithDimension_LoseFocusRequested;
             operatorPropertiesUserControl_WithDimensionAndInterpolation.CloseRequested += operatorPropertiesUserControl_WithDimensionAndInterpolation_CloseRequested;
@@ -570,14 +570,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(_presenter.OperatorPropertiesClose_ForSample);
         }
 
-        private void operatorPropertiesUserControl_ForUnbundle_LoseFocusRequested(object sender, EventArgs e)
+        private void operatorPropertiesUserControl_WithDimensionAndOutletCount_LoseFocusRequested(object sender, EventArgs e)
         {
-            TemplateEventHandler(_presenter.OperatorPropertiesLoseFocus_ForUnbundle);
+            TemplateEventHandler(_presenter.OperatorPropertiesLoseFocus_WithDimensionAndOutletCount);
         }
 
-        private void operatorPropertiesUserControl_ForUnbundle_CloseRequested(object sender, EventArgs e)
+        private void operatorPropertiesUserControl_WithDimensionAndOutletCount_CloseRequested(object sender, EventArgs e)
         {
-            TemplateEventHandler(_presenter.OperatorPropertiesClose_ForUnbundle);
+            TemplateEventHandler(_presenter.OperatorPropertiesClose_WithDimensionAndOutletCount);
         }
 
         private void operatorPropertiesUserControl_WithDimension_LoseFocusRequested(object sender, EventArgs e)

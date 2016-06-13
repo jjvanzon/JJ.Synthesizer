@@ -44,11 +44,6 @@ namespace JJ.Business.Synthesizer.Resources
             return String.Format(Messages.NotUnique_WithPropertyName_AndValue, propertyDisplayName, value);
         }
 
-        public static string OperatorTypeMustBeOfType(string operatorTypeDisplayName)
-        {
-            return String.Format(Messages.OperatorTypeMustBeOfType, operatorTypeDisplayName);
-        }
-
         internal static string OperatorTypeMustBeAdderOrBundle()
         {
             return Messages.OperatorTypeMustBeAdderOrBundle;

@@ -199,14 +199,14 @@
     <comment>{0} = name or type of object</comment>
   </data>
   <data name="OperatorTypeMustBeAdderOrBundle" xml:space="preserve">
-    <value>Operator type moet 'Opteller' of 'Bundel' zijn.</value>
+    <value>Operator soort moet 'Opteller' of 'Bundel' zijn.</value>
   </data>
   <data name="CannotChangeInletCountBecauseOneIsStillFilledIn" xml:space="preserve">
     <value>Kan het aantal ingangen niet aanpassen, omdat ingang {0} nog ingevuld is.</value>
     <comment>{0} = number</comment>
   </data>
-  <data name="OperatorTypeMustBeOfType" xml:space="preserve">
-    <value>Operator type moet '{0}' zijn.</value>
+  <data name="OperatorTypeMustBeOneOutOf" xml:space="preserve">
+    <value>Operator soort moet één van de deze zijn: {0}</value>
     <comment>{0} = operator type name</comment>
   </data>
   <data name="CannotChangeOutletCountBecauseOneIsStillFilledIn" xml:space="preserve">

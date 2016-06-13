@@ -67,9 +67,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly OperatorPropertiesPresenter_ForPatchInlet _operatorPropertiesPresenter_ForPatchInlet;
         private readonly OperatorPropertiesPresenter_ForPatchOutlet _operatorPropertiesPresenter_ForPatchOutlet;
         private readonly OperatorPropertiesPresenter_ForSample _operatorPropertiesPresenter_ForSample;
-        private readonly OperatorPropertiesPresenter_ForUnbundle _operatorPropertiesPresenter_ForUnbundle;
         private readonly OperatorPropertiesPresenter_WithDimension _operatorPropertiesPresenter_WithDimension;
         private readonly OperatorPropertiesPresenter_WithDimensionAndInterpolation _operatorPropertiesPresenter_WithDimensionAndInterpolation;
+        private readonly OperatorPropertiesPresenter_WithDimensionAndOutletCount _operatorPropertiesPresenter_WithDimensionAndOutletCount;
         private readonly PatchDetailsPresenter _patchDetailsPresenter;
         private readonly PatchGridPresenter _patchGridPresenter;
         private readonly PatchPropertiesPresenter _patchPropertiesPresenter;
@@ -141,7 +141,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _operatorPropertiesPresenter_ForPatchInlet = new OperatorPropertiesPresenter_ForPatchInlet(_patchRepositories);
             _operatorPropertiesPresenter_ForPatchOutlet = new OperatorPropertiesPresenter_ForPatchOutlet(_patchRepositories);
             _operatorPropertiesPresenter_ForSample = new OperatorPropertiesPresenter_ForSample(_patchRepositories);
-            _operatorPropertiesPresenter_ForUnbundle = new OperatorPropertiesPresenter_ForUnbundle(_patchRepositories);
+            _operatorPropertiesPresenter_WithDimensionAndOutletCount = new OperatorPropertiesPresenter_WithDimensionAndOutletCount(_patchRepositories);
             _operatorPropertiesPresenter_WithDimension = new OperatorPropertiesPresenter_WithDimension(_patchRepositories);
             _operatorPropertiesPresenter_WithDimensionAndInterpolation = new OperatorPropertiesPresenter_WithDimensionAndInterpolation(_patchRepositories);
             _patchDetailsPresenter = new PatchDetailsPresenter(_patchRepositories, _entityPositionManager);
@@ -206,7 +206,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForPatchInlets).ForEach(x => x.Visible = false);
             MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForPatchOutlets).ForEach(x => x.Visible = false);
             MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForSamples).ForEach(x => x.Visible = false);
-            MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForUnbundles).ForEach(x => x.Visible = false);
+            MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_WithDimensionAndOutletCount).ForEach(x => x.Visible = false);
             MainViewModel.Document.PatchDocumentList.SelectMany(x => x.SamplePropertiesList).ForEach(x => x.Visible = false);
             MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_WithDimension).ForEach(x => x.Visible = false);
             MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_WithDimensionAndInterpolation).ForEach(x => x.Visible = false);

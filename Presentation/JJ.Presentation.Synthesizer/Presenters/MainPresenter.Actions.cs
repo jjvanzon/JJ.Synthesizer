@@ -720,7 +720,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 patchDocumentViewModel.OperatorPropertiesList_ForPatchInlets.ForEach(x => x.Successful = true);
                 patchDocumentViewModel.OperatorPropertiesList_ForPatchOutlets.ForEach(x => x.Successful = true);
                 patchDocumentViewModel.OperatorPropertiesList_ForSamples.ForEach(x => x.Successful = true);
-                patchDocumentViewModel.OperatorPropertiesList_ForUnbundles.ForEach(x => x.Successful = true);
+                patchDocumentViewModel.OperatorPropertiesList_WithDimensionAndOutletCount.ForEach(x => x.Successful = true);
                 patchDocumentViewModel.OperatorPropertiesList_WithDimension.ForEach(x => x.Successful = true);
                 patchDocumentViewModel.OperatorPropertiesList_WithDimensionAndInterpolation.ForEach(x => x.Successful = true);
                 patchDocumentViewModel.PatchDetails.Successful = true;
@@ -1181,10 +1181,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
             {
-                OperatorPropertiesViewModel_ForUnbundle userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForUnbundle(MainViewModel.Document, id);
+                OperatorPropertiesViewModel_WithDimensionAndOutletCount userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_WithDimensionAndOutletCount(MainViewModel.Document, id);
                 if (userInput != null)
                 {
-                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForUnbundle.Show(userInput));
+                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithDimensionAndOutletCount.Show(userInput));
                     return;
                 }
             }
@@ -1271,9 +1271,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesCloseOrLoseFocus_ForSample(_operatorPropertiesPresenter_ForSample.Close);
         }
 
-        public void OperatorPropertiesClose_ForUnbundle()
+        public void OperatorPropertiesClose_WithDimensionAndOutletCount()
         {
-            OperatorPropertiesCloseOrLoseFocus_ForUnbundle(_operatorPropertiesPresenter_ForUnbundle.Close);
+            OperatorPropertiesCloseOrLoseFocus_WithDimensionAndOutletCount(_operatorPropertiesPresenter_WithDimensionAndOutletCount.Close);
         }
 
         public void OperatorPropertiesClose_WithDimension()
@@ -1336,9 +1336,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesCloseOrLoseFocus_ForSample(_operatorPropertiesPresenter_ForSample.LoseFocus);
         }
 
-        public void OperatorPropertiesLoseFocus_ForUnbundle()
+        public void OperatorPropertiesLoseFocus_WithDimensionAndOutletCount()
         {
-            OperatorPropertiesCloseOrLoseFocus_ForUnbundle(_operatorPropertiesPresenter_ForUnbundle.LoseFocus);
+            OperatorPropertiesCloseOrLoseFocus_WithDimensionAndOutletCount(_operatorPropertiesPresenter_WithDimensionAndOutletCount.LoseFocus);
         }
 
         public void OperatorPropertiesLoseFocus_WithDimension()
@@ -1503,13 +1503,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        private void OperatorPropertiesCloseOrLoseFocus_ForUnbundle(Func<OperatorPropertiesViewModel_ForUnbundle, OperatorPropertiesViewModel_ForUnbundle> partialAction)
+        private void OperatorPropertiesCloseOrLoseFocus_WithDimensionAndOutletCount(Func<OperatorPropertiesViewModel_WithDimensionAndOutletCount, OperatorPropertiesViewModel_WithDimensionAndOutletCount> partialAction)
         {
             // GetViewModel
-            OperatorPropertiesViewModel_ForUnbundle userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForUnbundle(MainViewModel.Document);
+            OperatorPropertiesViewModel_WithDimensionAndOutletCount userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_WithDimensionAndOutletCount(MainViewModel.Document);
 
             // TemplateMethod
-            OperatorPropertiesViewModel_ForUnbundle viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
+            OperatorPropertiesViewModel_WithDimensionAndOutletCount viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
 
             // Refresh
             if (viewModel.Successful)

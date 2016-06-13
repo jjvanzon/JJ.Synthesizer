@@ -159,9 +159,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 }
             }
 
-            // OperatorProperties_ForUnbundle
-            operatorPropertiesUserControl_ForUnbundle.ViewModel =
-                _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForUnbundles)
+            // OperatorProperties_WithDimensionAndOutletCount
+            operatorPropertiesUserControl_WithDimensionAndOutletCount.ViewModel =
+                _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_WithDimensionAndOutletCount)
                 .Where(x => x.Visible)
                 .FirstOrDefault();
 

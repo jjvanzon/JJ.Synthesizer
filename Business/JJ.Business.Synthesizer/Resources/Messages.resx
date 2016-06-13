@@ -207,10 +207,6 @@
     <value>Cannot change the amount of inlets, because inlet {0} is still filled in.</value>
     <comment>{0} = number</comment>
   </data>
-  <data name="OperatorTypeMustBeOfType" xml:space="preserve">
-    <value>Operator type must be '{0}'.</value>
-    <comment>{0} = operator type name</comment>
-  </data>
   <data name="CannotChangeOutletCountBecauseOneIsStillFilledIn" xml:space="preserve">
     <value>Cannot change the amount of outlets, because outlet {0} is still in use.</value>
     <comment>{0} = number</comment>

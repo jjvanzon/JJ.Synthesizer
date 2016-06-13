@@ -1,7 +1,7 @@
 ﻿using JJ.Presentation.Synthesizer.WinForms.UserControls.Partials;
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    partial class OperatorPropertiesUserControl_ForUnbundle
+    partial class OperatorPropertiesUserControl_WithDimensionAndOutletCount
     {
         /// <summary> 
         /// Required designer variable.
@@ -195,7 +195,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelDimension.Text = "labelDimension";
             this.labelDimension.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // OperatorPropertiesUserControl_ForUnbundle
+            // OperatorPropertiesUserControl_WithDimensionAndOutletCount
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -203,10 +203,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.Controls.Add(this.tableLayoutPanel2);
             this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.Name = "OperatorPropertiesUserControl_ForUnbundle";
+            this.Name = "OperatorPropertiesUserControl_WithDimensionAndOutletCount";
             this.Size = new System.Drawing.Size(10, 10);
-            this.Load += new System.EventHandler(this.OperatorPropertiesUserControl_ForUnbundle_Load);
-            this.Leave += new System.EventHandler(this.OperatorPropertiesUserControl_ForUnbundle_Leave);
+            this.Load += new System.EventHandler(this.OperatorPropertiesUserControl_WithDimensionAndOutletCount_Load);
+            this.Leave += new System.EventHandler(this.OperatorPropertiesUserControl_WithDimensionAndOutletCount_Leave);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanelProperties.ResumeLayout(false);
             this.tableLayoutPanelProperties.PerformLayout();

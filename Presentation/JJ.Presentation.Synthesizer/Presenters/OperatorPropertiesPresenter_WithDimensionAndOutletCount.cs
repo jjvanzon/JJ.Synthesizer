@@ -12,19 +12,19 @@ using JJ.Framework.Common;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class OperatorPropertiesPresenter_ForUnbundle
-        : OperatorPropertiesPresenterBase<OperatorPropertiesViewModel_ForUnbundle>
+    internal class OperatorPropertiesPresenter_WithDimensionAndOutletCount
+        : OperatorPropertiesPresenterBase<OperatorPropertiesViewModel_WithDimensionAndOutletCount>
     {
-        public OperatorPropertiesPresenter_ForUnbundle(PatchRepositories repositories)
+        public OperatorPropertiesPresenter_WithDimensionAndOutletCount(PatchRepositories repositories)
             : base(repositories)
         { }
 
-        protected override OperatorPropertiesViewModel_ForUnbundle ToViewModel(Operator op)
+        protected override OperatorPropertiesViewModel_WithDimensionAndOutletCount ToViewModel(Operator op)
         {
-            return op.ToPropertiesViewModel_ForUnbundle();
+            return op.ToPropertiesViewModel_WithDimensionAndOutletCount();
         }
 
-        protected override OperatorPropertiesViewModel_ForUnbundle Update(OperatorPropertiesViewModel_ForUnbundle userInput)
+        protected override OperatorPropertiesViewModel_WithDimensionAndOutletCount Update(OperatorPropertiesViewModel_WithDimensionAndOutletCount userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
 
@@ -43,7 +43,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (!result1.Successful)
             {
                 // ToViewModel
-                OperatorPropertiesViewModel_ForUnbundle viewModel = entity.ToPropertiesViewModel_ForUnbundle();
+                OperatorPropertiesViewModel_WithDimensionAndOutletCount viewModel = entity.ToPropertiesViewModel_WithDimensionAndOutletCount();
 
                 // Non-Persisted
                 CopyNonPersistedProperties(userInput, viewModel);
@@ -57,7 +57,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (!result2.Successful)
             {
                 // ToViewModel
-                OperatorPropertiesViewModel_ForUnbundle viewModel = entity.ToPropertiesViewModel_ForUnbundle();
+                OperatorPropertiesViewModel_WithDimensionAndOutletCount viewModel = entity.ToPropertiesViewModel_WithDimensionAndOutletCount();
 
                 // Non-Persisted
                 CopyNonPersistedProperties(userInput, viewModel);
@@ -67,7 +67,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             // ToViewModel
-            OperatorPropertiesViewModel_ForUnbundle viewModel2 = entity.ToPropertiesViewModel_ForUnbundle();
+            OperatorPropertiesViewModel_WithDimensionAndOutletCount viewModel2 = entity.ToPropertiesViewModel_WithDimensionAndOutletCount();
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel2);
