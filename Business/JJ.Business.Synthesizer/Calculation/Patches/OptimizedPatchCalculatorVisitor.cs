@@ -2357,90 +2357,25 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                         }
 
                     case ResampleInterpolationTypeEnum.LineRememberT0:
-                        {
-                            var randomCalculator = new RandomCalculator_StripeInterpolation();
-
-                            calculator = new Random_OperatorCalculator_LineRememberT0(
-                                randomCalculator,
-                                randomCalculatorOffset,
-                                rateCalculator,
-                                phaseShiftCalculator,
-                                dimensionStack);
-
-                            break;
-                        }
-
-
                     case ResampleInterpolationTypeEnum.LineRememberT1:
-                        {
-                            var randomCalculator = new RandomCalculator_StripeInterpolation();
-
-                            calculator = new Random_OperatorCalculator_LineRememberT1(
-                                randomCalculator,
-                                randomCalculatorOffset,
-                                rateCalculator,
-                                phaseShiftCalculator,
-                                dimensionStack);
-
-                            break;
-                        }
-
                     case ResampleInterpolationTypeEnum.CubicEquidistant:
-                        {
-                            var randomCalculator = new RandomCalculator_StripeInterpolation();
-
-                            calculator = new Random_OperatorCalculator_CubicEquidistant(
-                                randomCalculator,
-                                randomCalculatorOffset,
-                                rateCalculator,
-                                phaseShiftCalculator,
-                                dimensionStack);
-
-                            break;
-                        }
-
                     case ResampleInterpolationTypeEnum.CubicAbruptSlope:
-                        {
-                            var randomCalculator = new RandomCalculator_StripeInterpolation();
-
-                            calculator = new Random_OperatorCalculator_CubicAbruptSlope(
-                                randomCalculator,
-                                randomCalculatorOffset,
-                                rateCalculator,
-                                phaseShiftCalculator,
-                                dimensionStack);
-
-                            break;
-                        }
-
                     case ResampleInterpolationTypeEnum.CubicSmoothSlope:
-                        {
-                            var randomCalculator = new RandomCalculator_StripeInterpolation();
-
-                            calculator = new Random_OperatorCalculator_CubicSmoothSlope(
-                                randomCalculator,
-                                randomCalculatorOffset,
-                                rateCalculator,
-                                phaseShiftCalculator,
-                                dimensionStack);
-
-                            break;
-                        }
-
                     case ResampleInterpolationTypeEnum.Hermite:
                         {
                             var randomCalculator = new RandomCalculator_StripeInterpolation();
 
-                            calculator = new Random_OperatorCalculator_Hermite(
+                            calculator = new Random_OperatorCalculator_OtherInterpolationTypes(
                                 randomCalculator,
                                 randomCalculatorOffset,
                                 rateCalculator,
                                 phaseShiftCalculator,
+                                resampleInterpolationTypeEnum,
                                 dimensionStack);
 
                             break;
                         }
-
+                    
                     default:
                         throw new ValueNotSupportedException(resampleInterpolationTypeEnum);
                 }

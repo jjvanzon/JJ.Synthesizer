@@ -8,6 +8,10 @@ using JJ.Framework.Common.Exceptions;
 
 namespace JJ.Business.Synthesizer.Helpers
 {
+    /// <summary>
+    /// For when creating an OperatorCalculator based on criteria is used
+    /// in more places than just the OptimizedPatchCalculatorVisitor.
+    /// </summary>
     internal class OperatorCalculatorFactory
     {
         public static OperatorCalculatorBase CreateResample_OperatorCalculator(
