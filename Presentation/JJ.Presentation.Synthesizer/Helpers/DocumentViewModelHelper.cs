@@ -515,6 +515,15 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return viewModel;
         }
 
+        public static OperatorPropertiesViewModel_ForMakeContinuous TryGetOperatorPropertiesViewModel_ForMakeContinuous(DocumentViewModel rootDocumentViewModel, int operatorID)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            OperatorPropertiesViewModel_ForMakeContinuous viewModel = DocumentViewModelHelper.EnumerateOperatorPropertiesViewModels_ForMakeContinuous(rootDocumentViewModel)
+                                                                                             .FirstOrDefault(x => x.ID == operatorID); // First for performance.
+            return viewModel;
+        }
+
         public static OperatorPropertiesViewModel_ForNumber TryGetOperatorPropertiesViewModel_ForNumber(DocumentViewModel rootDocumentViewModel, int operatorID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
@@ -618,6 +627,13 @@ namespace JJ.Presentation.Synthesizer.Helpers
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
             return rootDocumentViewModel.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForFilters);
+        }
+
+        private static IEnumerable<OperatorPropertiesViewModel_ForMakeContinuous> EnumerateOperatorPropertiesViewModels_ForMakeContinuous(DocumentViewModel rootDocumentViewModel)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            return rootDocumentViewModel.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForMakeContinuous);
         }
 
         private static IEnumerable<OperatorPropertiesViewModel_ForNumber> EnumerateOperatorPropertiesViewModels_ForNumbers(DocumentViewModel rootDocumentViewModel)
@@ -757,6 +773,21 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
 
             throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForFilter> with Patch ID '{0}' not found in any of the PatchDocumentViewModels.", patchID));
+        }
+
+        public static IList<OperatorPropertiesViewModel_ForMakeContinuous> GetOperatorPropertiesViewModelList_ForMakeContinuous_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentList)
+            {
+                if (patchDocumentViewModel.PatchDetails.Entity.PatchID == patchID)
+                {
+                    return patchDocumentViewModel.OperatorPropertiesList_ForMakeContinuous;
+                }
+            }
+
+            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForMakeContinuous> with Patch ID '{0}' not found in any of the PatchDocumentViewModels.", patchID));
         }
 
         public static IList<OperatorPropertiesViewModel_ForNumber> GetOperatorPropertiesViewModelList_ForNumbers_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
@@ -971,6 +1002,22 @@ namespace JJ.Presentation.Synthesizer.Helpers
             if (viewModel == null)
             {
                 throw new Exception("No visible OperatorPropertiesViewModel_ForFilter found in rootDocumentViewModel.PatchDocumentList.");
+            }
+
+            return viewModel;
+        }
+
+        public static OperatorPropertiesViewModel_ForMakeContinuous GetVisibleOperatorPropertiesViewModel_ForMakeContinuous(DocumentViewModel rootDocumentViewModel)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            OperatorPropertiesViewModel_ForMakeContinuous viewModel = rootDocumentViewModel.PatchDocumentList
+                                                                                   .SelectMany(x => x.OperatorPropertiesList_ForMakeContinuous)
+                                                                                   .Where(x => x.Visible)
+                                                                                   .FirstOrDefault();
+            if (viewModel == null)
+            {
+                throw new Exception("No visible OperatorPropertiesViewModel_ForMakeContinuous found in rootDocumentViewModel.PatchDocumentList.");
             }
 
             return viewModel;

@@ -715,8 +715,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.SetOperatorTypeEnum(OperatorTypeEnum.Bundle, operatorTypeRepository);
 
             var wrapper = new Bundle_OperatorWrapper(entity);
-            bool interpolationTypeIsFilledIn = viewModel.Dimension != null && viewModel.Dimension.ID != 0;
-            if (interpolationTypeIsFilledIn)
+            bool dimensionIsFilledIn = viewModel.Dimension != null && viewModel.Dimension.ID != 0;
+            if (dimensionIsFilledIn)
             {
                 wrapper.Dimension = (DimensionEnum)viewModel.Dimension.ID;
             }
@@ -898,6 +898,52 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             else
             {
                 wrapper.FilterTypeEnum = FilterTypeEnum.Undefined;
+            }
+
+            return entity;
+        }
+
+        public static Operator ToEntity(
+            this OperatorPropertiesViewModel_ForMakeContinuous viewModel,
+            IOperatorRepository operatorRepository,
+            IOperatorTypeRepository operatorTypeRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (operatorRepository == null) throw new NullException(() => operatorRepository);
+
+            Operator entity = operatorRepository.TryGet(viewModel.ID);
+            if (entity == null)
+            {
+                entity = new Operator();
+                entity.ID = viewModel.ID;
+                operatorRepository.Insert(entity);
+            }
+
+            entity.Name = viewModel.Name;
+            entity.SetOperatorTypeEnum(OperatorTypeEnum.MakeContinuous, operatorTypeRepository);
+
+            var wrapper = new MakeContinuous_OperatorWrapper(entity);
+
+            // Dimension
+            bool dimensionIsFilledIn = viewModel.Dimension != null && viewModel.Dimension.ID != 0;
+            if (dimensionIsFilledIn)
+            {
+                wrapper.Dimension = (DimensionEnum)viewModel.Dimension.ID;
+            }
+            else
+            {
+                wrapper.Dimension = DimensionEnum.Undefined;
+            }
+
+            // Interpolation
+            bool interpolationIsFilledIn = viewModel.Interpolation != null && viewModel.Interpolation.ID != 0;
+            if (interpolationIsFilledIn)
+            {
+                wrapper.InterpolationType = (ResampleInterpolationTypeEnum)viewModel.Interpolation.ID;
+            }
+            else
+            {
+                wrapper.InterpolationType = ResampleInterpolationTypeEnum.Undefined;
             }
 
             return entity;

@@ -333,6 +333,15 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                         .ToList();
         }
 
+        public static IList<OperatorPropertiesViewModel_ForMakeContinuous> ToPropertiesViewModelList_ForMakeContinuous(this Patch patch)
+        {
+            if (patch == null) throw new NullException(() => patch);
+
+            return patch.GetOperatorsOfType(OperatorTypeEnum.MakeContinuous)
+                        .Select(x => x.ToPropertiesViewModel_ForMakeContinuous())
+                        .ToList();
+        }
+
         public static IList<OperatorPropertiesViewModel_ForNumber> ToPropertiesViewModelList_ForNumbers(this Patch patch)
         {
             if (patch == null) throw new NullException(() => patch);
@@ -533,6 +542,28 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Name = entity.Name,
                 FilterType = wrapper.FilterTypeEnum.ToIDAndDisplayName(),
                 FilterTypeLookup = ViewModelHelper.GetFilterTypeLookupViewModel(),
+                ValidationMessages = new List<Message>()
+            };
+
+            return viewModel;
+        }
+
+        public static OperatorPropertiesViewModel_ForMakeContinuous ToPropertiesViewModel_ForMakeContinuous(this Operator entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            var wrapper = new MakeContinuous_OperatorWrapper(entity);
+
+            var viewModel = new OperatorPropertiesViewModel_ForMakeContinuous
+            {
+                ID = entity.ID,
+                PatchID = entity.Patch.ID,
+                Name = entity.Name,
+                InletCount = entity.Inlets.Count,
+                Dimension = wrapper.Dimension.ToIDAndDisplayName(),
+                DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel(),
+                Interpolation = wrapper.InterpolationType.ToIDAndDisplayName(),
+                InterpolationLookup = ViewModelHelper.GetResampleInterpolationLookupViewModel(),
                 ValidationMessages = new List<Message>()
             };
 

@@ -9,7 +9,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class Bundle_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase[] _operandCalculators;
-        private readonly double _operandCountDouble;
+        private readonly double _maxIndexDouble;
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
         
@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
             _operandCalculators = operandCalculators.ToArray();
-            _operandCountDouble = operandCalculators.Count;
+            _maxIndexDouble = operandCalculators.Count - 1;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #endif
             double result;
 
-            if (ConversionHelper.CanCastToNonNegativeInt32WithMax(position, _operandCountDouble))
+            if (ConversionHelper.CanCastToNonNegativeInt32WithMax(position, _maxIndexDouble))
             {
                 int positionInt = (int)position;
 

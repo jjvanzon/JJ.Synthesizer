@@ -117,6 +117,12 @@
     <Compile Include="UserControls\CurrentPatchesUserControl.Designer.cs">
       <DependentUpon>CurrentPatchesUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\OperatorPropertiesUserControl_ForMakeContinuous.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\OperatorPropertiesUserControl_ForMakeContinuous.Designer.cs">
+      <DependentUpon>OperatorPropertiesUserControl_ForMakeContinuous.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_WithDimension.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -354,6 +360,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\CurrentPatchesUserControl.resx">
       <DependentUpon>CurrentPatchesUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForMakeContinuous.resx">
+      <DependentUpon>OperatorPropertiesUserControl_ForMakeContinuous.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_WithDimension.resx">
       <DependentUpon>OperatorPropertiesUserControl_WithDimension.cs</DependentUpon>

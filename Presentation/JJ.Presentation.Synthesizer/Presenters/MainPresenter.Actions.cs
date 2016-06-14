@@ -716,6 +716,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 patchDocumentViewModel.OperatorPropertiesList_ForCurves.ForEach(x => x.Successful = true);
                 patchDocumentViewModel.OperatorPropertiesList_ForCustomOperators.ForEach(x => x.Successful = true);
                 patchDocumentViewModel.OperatorPropertiesList_ForFilters.ForEach(x => x.Successful = true);
+                patchDocumentViewModel.OperatorPropertiesList_ForMakeContinuous.ForEach(x => x.Successful = true);
                 patchDocumentViewModel.OperatorPropertiesList_ForNumbers.ForEach(x => x.Successful = true);
                 patchDocumentViewModel.OperatorPropertiesList_ForPatchInlets.ForEach(x => x.Successful = true);
                 patchDocumentViewModel.OperatorPropertiesList_ForPatchOutlets.ForEach(x => x.Successful = true);
@@ -1149,6 +1150,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
             {
+                OperatorPropertiesViewModel_ForMakeContinuous userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForMakeContinuous(MainViewModel.Document, id);
+                if (userInput != null)
+                {
+                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForMakeContinuous.Show(userInput));
+                    return;
+                }
+            }
+            {
                 OperatorPropertiesViewModel_ForNumber userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForNumber(MainViewModel.Document, id);
                 if (userInput != null)
                 {
@@ -1251,6 +1260,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesCloseOrLoseFocus_ForFilter(_operatorPropertiesPresenter_ForFilter.Close);
         }
 
+        public void OperatorPropertiesClose_ForMakeContinuous()
+        {
+            OperatorPropertiesCloseOrLoseFocus_ForMakeContinuous(_operatorPropertiesPresenter_ForMakeContinuous.Close);
+        }
+
         public void OperatorPropertiesClose_ForNumber()
         {
             OperatorPropertiesCloseOrLoseFocus_ForNumber(_operatorPropertiesPresenter_ForNumber.Close);
@@ -1309,6 +1323,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void OperatorPropertiesLoseFocus_ForCustomOperator()
         {
             OperatorPropertiesCloseOrLoseFocus_ForCustomOperator(_operatorPropertiesPresenter_ForCustomOperator.LoseFocus);
+        }
+
+        public void OperatorPropertiesLoseFocus_ForMakeContinuous()
+        {
+            OperatorPropertiesCloseOrLoseFocus_ForMakeContinuous(_operatorPropertiesPresenter_ForMakeContinuous.LoseFocus);
         }
 
         public void OperatorPropertiesLoseFocus_ForNumber()
@@ -1433,6 +1452,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // TemplateMethod
             OperatorPropertiesViewModel_ForFilter viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
+
+            // Refresh
+            if (viewModel.Successful)
+            {
+                PatchDetails_RefreshOperator(userInput.ID);
+            }
+        }
+
+        private void OperatorPropertiesCloseOrLoseFocus_ForMakeContinuous(Func<OperatorPropertiesViewModel_ForMakeContinuous, OperatorPropertiesViewModel_ForMakeContinuous> partialAction)
+        {
+            // GetViewModel
+            OperatorPropertiesViewModel_ForMakeContinuous userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_ForMakeContinuous(MainViewModel.Document);
+
+            // TemplateMethod
+            OperatorPropertiesViewModel_ForMakeContinuous viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
 
             // Refresh
             if (viewModel.Successful)

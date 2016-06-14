@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly DimensionStack _channelDimensionStack;
         private readonly int _dimensionStackIndex;
         private readonly int _channelDimensionStackIndex;
-        private readonly int _channelCount;
+        private readonly int _maxChannelIndex;
 
         private double _phase;
         private double _previousPosition;
@@ -44,7 +44,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionStackIndex = dimensionStack.CurrentIndex;
             _channelDimensionStackIndex = channelDimensionStack.CurrentIndex;
 
-            _channelCount = _sampleCalculator.ChannelCount;
+            _maxChannelIndex = _sampleCalculator.ChannelCount - 1;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -59,7 +59,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertStackIndex(_channelDimensionStack, _channelDimensionStackIndex);
 #endif
 
-            if (!ConversionHelper.CanCastToNonNegativeInt32WithMax(channelIndexDouble, _channelCount))
+            if (!ConversionHelper.CanCastToNonNegativeInt32WithMax(channelIndexDouble, _maxChannelIndex))
             {
                 return 0.0;
             }
@@ -111,7 +111,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _rate;
         private readonly DimensionStack _dimensionStack;
         private readonly DimensionStack _channelDimensionStack;
-        private readonly int _channelCount;
+        private readonly int _maxChannelIndex;
         private readonly int _dimensionStackIndex;
         private readonly int _channelDimensionStackIndex;
 
@@ -133,7 +133,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionStackIndex = dimensionStack.CurrentIndex;
             _channelDimensionStackIndex = dimensionStack.CurrentIndex;
 
-            _channelCount = sampleCalculator.ChannelCount;
+            _maxChannelIndex = sampleCalculator.ChannelCount - 1;
             _rate = frequency / Sample_OperatorCalculator_Helper.BASE_FREQUENCY;
         }
 
@@ -149,7 +149,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertStackIndex(_channelDimensionStack, _channelDimensionStackIndex);
 #endif
 
-            if (!ConversionHelper.CanCastToNonNegativeInt32WithMax(channelIndexDouble, _channelCount))
+            if (!ConversionHelper.CanCastToNonNegativeInt32WithMax(channelIndexDouble, _maxChannelIndex))
             {
                 return 0.0;
             }
@@ -453,7 +453,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly DimensionStack _channelDimensionStack;
         private readonly int _dimensionStackIndex;
         private readonly int _channelDimensionStackIndex;
-        private readonly int _channelCount;
+        private readonly int _maxChannelIndex;
 
         public Sample_OperatorCalculator_VarFrequency_NoPhaseTracking(
             OperatorCalculatorBase frequencyCalculator,
@@ -474,7 +474,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionStackIndex = dimensionStack.CurrentIndex;
             _channelDimensionStackIndex = channelDimensionStack.CurrentIndex;
 
-            _channelCount = _sampleCalculator.ChannelCount;
+            _maxChannelIndex = _sampleCalculator.ChannelCount - 1;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -489,7 +489,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertStackIndex(_channelDimensionStack, _channelDimensionStackIndex);
 #endif
 
-            if (!ConversionHelper.CanCastToNonNegativeInt32WithMax(channelIndexDouble, _channelCount))
+            if (!ConversionHelper.CanCastToNonNegativeInt32WithMax(channelIndexDouble, _maxChannelIndex))
             {
                 return 0.0;
             }
@@ -521,7 +521,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _rate;
         private readonly DimensionStack _dimensionStack;
         private readonly DimensionStack _channelDimensionStack;
-        private readonly int _channelCount;
+        private readonly int _maxChannelIndex;
         private readonly int _dimensionStackIndex;
         private readonly int _channelDimensionStackIndex;
 
@@ -541,7 +541,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionStackIndex = dimensionStack.CurrentIndex;
             _channelDimensionStackIndex = dimensionStack.CurrentIndex;
 
-            _channelCount = sampleCalculator.ChannelCount;
+            _maxChannelIndex = sampleCalculator.ChannelCount - 1;
             _rate = frequency / Sample_OperatorCalculator_Helper.BASE_FREQUENCY;
         }
 
@@ -557,11 +557,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertStackIndex(_channelDimensionStack, _channelDimensionStackIndex);
 #endif
 
-            if (!ConversionHelper.CanCastToNonNegativeInt32WithMax(channelIndexDouble, _channelCount))
+            if (!ConversionHelper.CanCastToNonNegativeInt32WithMax(channelIndexDouble, _maxChannelIndex))
             {
                 return 0.0;
             }
             int channelIndex = (int)channelIndexDouble;
+
 #if !USE_INVAR_INDICES
             double position = _dimensionStack.Get();
 #else
@@ -570,7 +571,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
 #endif
-
             double phase = position * _rate;
 
             double value = _sampleCalculator.CalculateValue(phase, channelIndex);

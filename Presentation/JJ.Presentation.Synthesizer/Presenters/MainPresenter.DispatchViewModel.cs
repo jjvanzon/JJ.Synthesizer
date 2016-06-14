@@ -40,6 +40,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(OperatorPropertiesViewModel_ForCurve), DispatchOperatorPropertiesViewModel_ForCurve },
                 { typeof(OperatorPropertiesViewModel_ForCustomOperator), DispatchOperatorPropertiesViewModel_ForCustomOperator },
                 { typeof(OperatorPropertiesViewModel_ForFilter), DispatchOperatorPropertiesViewModel_ForFilter },
+                { typeof(OperatorPropertiesViewModel_ForMakeContinuous), DispatchOperatorPropertiesViewModel_ForMakeContinuous },
                 { typeof(OperatorPropertiesViewModel_ForNumber), DispatchOperatorPropertiesViewModel_ForNumber },
                 { typeof(OperatorPropertiesViewModel_ForPatchInlet), DispatchOperatorPropertiesViewModel_ForPatchInlet },
                 { typeof(OperatorPropertiesViewModel_ForPatchOutlet), DispatchOperatorPropertiesViewModel_ForPatchOutlet },
@@ -470,6 +471,31 @@ namespace JJ.Presentation.Synthesizer.Presenters
             var castedViewModel = (OperatorPropertiesViewModel_ForFilter)viewModel2;
 
             var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForFilters_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
+            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
+            if (listIndex.HasValue)
+            {
+                list[listIndex.Value] = castedViewModel;
+            }
+            else
+            {
+                list.Add(castedViewModel);
+            }
+
+            if (castedViewModel.Visible)
+            {
+                HideAllPropertiesViewModels();
+                castedViewModel.Visible = true;
+            }
+
+            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            castedViewModel.ValidationMessages.Clear();
+        }
+
+        private void DispatchOperatorPropertiesViewModel_ForMakeContinuous(object viewModel2)
+        {
+            var castedViewModel = (OperatorPropertiesViewModel_ForMakeContinuous)viewModel2;
+
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForMakeContinuous_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
             int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
             if (listIndex.HasValue)
             {

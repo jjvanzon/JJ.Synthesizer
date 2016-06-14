@@ -330,6 +330,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     patchDocumentViewModel.OperatorPropertiesList_ForCurves.ForEach(x => x.Successful = true);
                     patchDocumentViewModel.OperatorPropertiesList_ForCustomOperators.ForEach(x => x.Successful = true);
                     patchDocumentViewModel.OperatorPropertiesList_ForFilters.ForEach(x => x.Successful = true);
+                    patchDocumentViewModel.OperatorPropertiesList_ForMakeContinuous.ForEach(x => x.Successful = true);
                     patchDocumentViewModel.OperatorPropertiesList_ForNumbers.ForEach(x => x.Successful = true);
                     patchDocumentViewModel.OperatorPropertiesList_ForPatchInlets.ForEach(x => x.Successful = true);
                     patchDocumentViewModel.OperatorPropertiesList_ForPatchOutlets.ForEach(x => x.Successful = true);
@@ -466,6 +467,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void OperatorProperties_ForFilter_Refresh(OperatorPropertiesViewModel_ForFilter userInput)
         {
             OperatorPropertiesViewModel_ForFilter viewModel = _operatorPropertiesPresenter_ForFilter.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
+        private void OperatorProperties_ForMakeContinuous_Refresh(OperatorPropertiesViewModel_ForMakeContinuous userInput)
+        {
+            OperatorPropertiesViewModel_ForMakeContinuous viewModel = _operatorPropertiesPresenter_ForMakeContinuous.Refresh(userInput);
             DispatchViewModel(viewModel);
         }
 
@@ -613,6 +620,32 @@ namespace JJ.Presentation.Synthesizer.Presenters
             patchDocumentViewModel.OperatorPropertiesList_ForCustomOperators = patchDocumentViewModel.OperatorPropertiesList_ForCustomOperators
                                                                                                      .Where(x => idsToKeep.Contains(x.ID))
                                                                                                      .ToList();
+        }
+
+        private void OperatorPropertiesList_ForMakeContinuous_Refresh(PatchDocumentViewModel patchDocumentViewModel)
+        {
+            Document childDocument = _repositories.DocumentRepository.Get(patchDocumentViewModel.ChildDocumentID);
+            IList<Operator> operators = childDocument.Patches[0].GetOperatorsOfType(OperatorTypeEnum.MakeContinuous);
+
+            foreach (Operator op in operators)
+            {
+                OperatorPropertiesViewModel_ForMakeContinuous viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForMakeContinuous(MainViewModel.Document, op.ID);
+                if (viewModel == null)
+                {
+                    viewModel = op.ToPropertiesViewModel_ForMakeContinuous();
+                    viewModel.Successful = true;
+                    patchDocumentViewModel.OperatorPropertiesList_ForMakeContinuous.Add(viewModel);
+                }
+                else
+                {
+                    OperatorProperties_ForMakeContinuous_Refresh(viewModel);
+                }
+            }
+
+            HashSet<int> idsToKeep = operators.Select(x => x.ID).ToHashSet();
+            patchDocumentViewModel.OperatorPropertiesList_ForMakeContinuous = patchDocumentViewModel.OperatorPropertiesList_ForMakeContinuous
+                                                                                             .Where(x => idsToKeep.Contains(x.ID))
+                                                                                             .ToList();
         }
 
         private void OperatorPropertiesList_ForNumbers_Refresh(PatchDocumentViewModel patchDocumentViewModel)
@@ -992,6 +1025,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesList_ForCurves_Refresh(patchDocumentViewModel);
             OperatorPropertiesList_ForCustomOperators_Refresh(patchDocumentViewModel);
             OperatorPropertiesList_ForFilters_Refresh(patchDocumentViewModel);
+            OperatorPropertiesList_ForMakeContinuous_Refresh(patchDocumentViewModel);
             OperatorPropertiesList_ForNumbers_Refresh(patchDocumentViewModel);
             OperatorPropertiesList_ForPatchInlets_Refresh(patchDocumentViewModel);
             OperatorPropertiesList_ForPatchOutlets_Refresh(patchDocumentViewModel);

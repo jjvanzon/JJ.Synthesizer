@@ -29,7 +29,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
             if (operatorTypeEnum != OperatorTypeEnum.Adder &&
-                operatorTypeEnum != OperatorTypeEnum.Bundle)
+                operatorTypeEnum != OperatorTypeEnum.Bundle &&
+                operatorTypeEnum != OperatorTypeEnum.MakeContinuous)
             {
                 ValidationMessages.Add(() => op.OperatorType, MessageFormatter.OperatorTypeMustBeAdderOrBundle());
                 return;

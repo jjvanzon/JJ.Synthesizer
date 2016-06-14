@@ -126,6 +126,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 .Where(x => x.Visible)
                 .FirstOrDefault();
 
+            // OperatorProperties_ForMakeContinuous
+            operatorPropertiesUserControl_ForMakeContinuous.ViewModel =
+                _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForMakeContinuous)
+                .Where(x => x.Visible)
+                .FirstOrDefault();
+
             // OperatorProperties_ForNumber
             operatorPropertiesUserControl_ForNumber.ViewModel =
                 _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForNumbers)
