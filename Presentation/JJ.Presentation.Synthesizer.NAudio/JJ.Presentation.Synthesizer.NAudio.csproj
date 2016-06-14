@@ -39,7 +39,6 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="2016-04-22 Backup of AudioOutputProcessor.cs" />
     <Compile Include="AudioOutputProcessor.cs" />
     <Compile Include="AudioOutputSampleProvider.cs" />
     <Compile Include="IPatchCalculatorContainer.cs" />

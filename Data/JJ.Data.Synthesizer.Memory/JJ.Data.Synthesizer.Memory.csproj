@@ -41,7 +41,6 @@
   <ItemGroup>
     <Compile Include="Helpers\RepositoryHelper.cs" />
     <Compile Include="Helpers\EntityIDs.cs" />
-    <Compile Include="Mappings\2016-04-10 Backup of OutletTypeMapping.cs" />
     <Compile Include="Mappings\AudioOutputMapping.cs" />
     <Compile Include="Mappings\DimensionMapping.cs" />
     <Compile Include="Mappings\ScaleTypeMapping.cs" />
@@ -49,7 +48,6 @@
     <Compile Include="Mappings\ScaleMapping.cs" />
     <Compile Include="Mappings\ChannelMapping.cs" />
     <Compile Include="Mappings\AudioFileOutputMapping.cs" />
-    <Compile Include="Mappings\2016-04-23 Backup of AudioFileOutputChannelMapping.cs" />
     <Compile Include="Mappings\OperatorTypeMapping.cs" />
     <Compile Include="Mappings\DocumentMapping.cs" />
     <Compile Include="Mappings\DocumentReferenceMapping.cs" />
@@ -66,7 +64,6 @@
     <Compile Include="Mappings\NodeTypeMapping.cs" />
     <Compile Include="Repositories\ChannelRepository.cs" />
     <Compile Include="Repositories\IDRepository.cs" />
-    <Compile Include="Repositories\2016-04-10 Backup of OutletTypeRepository.cs" />
     <Compile Include="Repositories\DimensionRepository.cs" />
     <Compile Include="Repositories\ScaleTypeRepository.cs" />
     <Compile Include="Repositories\OperatorTypeRepository.cs" />

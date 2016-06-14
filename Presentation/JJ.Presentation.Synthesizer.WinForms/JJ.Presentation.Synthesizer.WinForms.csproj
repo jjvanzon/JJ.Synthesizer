@@ -117,10 +117,6 @@
     <Compile Include="UserControls\CurrentPatchesUserControl.Designer.cs">
       <DependentUpon>CurrentPatchesUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\2016-03-06 Backup of MenuUserControl.cs" />
-    <Compile Include="UserControls\2016-03-06 Backup of MenuUserControl.Designer.cs">
-      <DependentUpon>2016-03-06 Backup of MenuUserControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_WithDimension.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -157,29 +153,17 @@
     <Compile Include="UserControls\NodePropertiesUserControl.Designer.cs">
       <DependentUpon>NodePropertiesUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\2016-03-24 Backup of OperatorPropertiesUserControl_ForAggregate.cs" />
-    <Compile Include="UserControls\2016-03-24 Backup of OperatorPropertiesUserControl_ForAggregate.Designer.cs">
-      <DependentUpon>2016-03-24 Backup of OperatorPropertiesUserControl_ForAggregate.cs</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_WithDimensionAndInterpolation.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_WithDimensionAndInterpolation.Designer.cs">
       <DependentUpon>OperatorPropertiesUserControl_WithDimensionAndInterpolation.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\2016-06-12 Backup of OperatorPropertiesUserControl_ForResample.cs" />
-    <Compile Include="UserControls\2016-06-12 Backup of OperatorPropertiesUserControl_ForResample.Designer.cs">
-      <DependentUpon>2016-06-12 Backup of OperatorPropertiesUserControl_ForResample.cs</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_ForCache.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_ForCache.Designer.cs">
       <DependentUpon>OperatorPropertiesUserControl_ForCache.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\2016-03-30 Backup of OperatorPropertiesUserControl_ForSpectrum.cs" />
-    <Compile Include="UserControls\2016-03-30 Backup of OperatorPropertiesUserControl_ForSpectrum.Designer.cs">
-      <DependentUpon>2016-03-30 Backup of OperatorPropertiesUserControl_ForSpectrum.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_WithDimensionAndOutletCount.cs">
       <SubType>UserControl</SubType>
@@ -222,14 +206,6 @@
     </Compile>
     <Compile Include="UserControls\AudioFileOutputPropertiesUserControl.Designer.cs">
       <DependentUpon>AudioFileOutputPropertiesUserControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\Partials\2016-04-24 Backup of AudioFileOutputChannelUserControl.cs" />
-    <Compile Include="UserControls\Partials\2016-04-24 Backup of AudioFileOutputChannelUserControl.Designer.cs">
-      <DependentUpon>2016-04-24 Backup of AudioFileOutputChannelUserControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\Partials\2016-04-24 Backup of AudioFileOutputChannelsUserControl.cs" />
-    <Compile Include="UserControls\Partials\2016-04-24 Backup of AudioFileOutputChannelsUserControl.Designer.cs">
-      <DependentUpon>2016-04-24 Backup of AudioFileOutputChannelsUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_ForSample.cs">
       <SubType>UserControl</SubType>
@@ -379,9 +355,6 @@
     <EmbeddedResource Include="UserControls\CurrentPatchesUserControl.resx">
       <DependentUpon>CurrentPatchesUserControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\2016-03-06 Backup of MenuUserControl.resx">
-      <DependentUpon>2016-03-06 Backup of MenuUserControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_WithDimension.resx">
       <DependentUpon>OperatorPropertiesUserControl_WithDimension.cs</DependentUpon>
     </EmbeddedResource>
@@ -400,20 +373,11 @@
     <EmbeddedResource Include="UserControls\NodePropertiesUserControl.resx">
       <DependentUpon>NodePropertiesUserControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\2016-03-24 Backup of OperatorPropertiesUserControl_ForAggregate.resx">
-      <DependentUpon>2016-03-24 Backup of OperatorPropertiesUserControl_ForAggregate.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_WithDimensionAndInterpolation.resx">
       <DependentUpon>OperatorPropertiesUserControl_WithDimensionAndInterpolation.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\2016-06-12 Backup of OperatorPropertiesUserControl_ForResample.resx">
-      <DependentUpon>2016-06-12 Backup of OperatorPropertiesUserControl_ForResample.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForCache.resx">
       <DependentUpon>OperatorPropertiesUserControl_ForCache.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\2016-03-30 Backup of OperatorPropertiesUserControl_ForSpectrum.resx">
-      <DependentUpon>2016-03-30 Backup of OperatorPropertiesUserControl_ForSpectrum.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_WithDimensionAndOutletCount.resx">
       <DependentUpon>OperatorPropertiesUserControl_WithDimensionAndOutletCount.cs</DependentUpon>
@@ -435,12 +399,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\AudioFileOutputPropertiesUserControl.resx">
       <DependentUpon>AudioFileOutputPropertiesUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\Partials\2016-04-24 Backup of AudioFileOutputChannelUserControl.resx">
-      <DependentUpon>2016-04-24 Backup of AudioFileOutputChannelUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\Partials\2016-04-24 Backup of AudioFileOutputChannelsUserControl.resx">
-      <DependentUpon>2016-04-24 Backup of AudioFileOutputChannelsUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForSample.resx">
       <DependentUpon>OperatorPropertiesUserControl_ForSample.cs</DependentUpon>

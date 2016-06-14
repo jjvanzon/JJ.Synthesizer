@@ -54,11 +54,9 @@
   <ItemGroup>
     <Compile Include="Helpers\SqlExecutorHelper.cs" />
     <Compile Include="Mapping\AudioFileFormatMapping.cs" />
-    <Compile Include="Mapping\2016-04-23 Backup of AudioFileOutputChannelMapping.cs" />
     <Compile Include="Mapping\AudioFileOutputMapping.cs" />
     <Compile Include="Mapping\AudioOutputMapping.cs" />
     <Compile Include="Mapping\ChannelMapping.cs" />
-    <Compile Include="Mapping\2016-04-10 Backup of OutletTypeMapping.cs" />
     <Compile Include="Mapping\DimensionMapping.cs" />
     <Compile Include="Mapping\OperatorTypeMapping.cs" />
     <Compile Include="Mapping\DocumentMapping.cs" />

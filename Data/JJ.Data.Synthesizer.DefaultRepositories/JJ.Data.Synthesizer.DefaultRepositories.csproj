@@ -42,12 +42,9 @@
     <Compile Include="AudioOutputRepository.cs" />
     <Compile Include="ChannelRepository.cs" />
     <Compile Include="AudioFileOutputRepository.cs" />
-    <Compile Include="2016-04-23 Backup of AudioFileOutputChannelRepository.cs" />
     <Compile Include="IDRepository.cs" />
-    <Compile Include="2016-04-10 Backup of OutletTypeRepository.cs" />
     <Compile Include="Interfaces\IAudioOutputRepository.cs" />
     <Compile Include="Interfaces\IIDRepository.cs" />
-    <Compile Include="Interfaces\2016-04-10 Backup of IOutletTypeRepository.cs" />
     <Compile Include="Interfaces\IScaleRepository.cs" />
     <Compile Include="Interfaces\IDimensionRepository.cs" />
     <Compile Include="Interfaces\IScaleTypeRepository.cs" />
@@ -62,7 +59,6 @@
     <Compile Include="EntityPositionRepository.cs" />
     <Compile Include="Interfaces\IOperatorTypeRepository.cs" />
     <Compile Include="Interfaces\IDocumentReferenceRepository.cs" />
-    <Compile Include="Interfaces\2016-04-23 Backup of IAudioFileOutputChannelRepository.cs" />
     <Compile Include="Interfaces\IAudioFileOutputRepository.cs" />
     <Compile Include="Interfaces\IDocumentRepository.cs" />
     <Compile Include="Interfaces\IEntityPositionRepository.cs" />
