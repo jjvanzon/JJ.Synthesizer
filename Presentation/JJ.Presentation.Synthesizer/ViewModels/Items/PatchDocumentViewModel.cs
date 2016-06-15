@@ -31,6 +31,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public IList<OperatorPropertiesViewModel_WithDimension> OperatorPropertiesList_WithDimension { get; set; }
         public IList<OperatorPropertiesViewModel_WithDimensionAndInterpolation> OperatorPropertiesList_WithDimensionAndInterpolation { get; set; }
         public IList<OperatorPropertiesViewModel_WithDimensionAndOutletCount> OperatorPropertiesList_WithDimensionAndOutletCount { get; set; }
+        public IList<OperatorPropertiesViewModel_WithInletCount> OperatorPropertiesList_WithInletCount { get; set; }
         public PatchPropertiesViewModel PatchProperties { get; set; }
         public PatchDetailsViewModel PatchDetails { get; set; }
         public SampleGridViewModel SampleGrid { get; set; }

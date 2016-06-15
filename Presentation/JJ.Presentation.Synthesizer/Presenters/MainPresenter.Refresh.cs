@@ -335,9 +335,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     patchDocumentViewModel.OperatorPropertiesList_ForPatchInlets.ForEach(x => x.Successful = true);
                     patchDocumentViewModel.OperatorPropertiesList_ForPatchOutlets.ForEach(x => x.Successful = true);
                     patchDocumentViewModel.OperatorPropertiesList_ForSamples.ForEach(x => x.Successful = true);
-                    patchDocumentViewModel.OperatorPropertiesList_WithDimensionAndOutletCount.ForEach(x => x.Successful = true);
                     patchDocumentViewModel.OperatorPropertiesList_WithDimension.ForEach(x => x.Successful = true);
                     patchDocumentViewModel.OperatorPropertiesList_WithDimensionAndInterpolation.ForEach(x => x.Successful = true);
+                    patchDocumentViewModel.OperatorPropertiesList_WithDimensionAndOutletCount.ForEach(x => x.Successful = true);
+                    patchDocumentViewModel.OperatorPropertiesList_WithInletCount.ForEach(x => x.Successful = true);
                     patchDocumentViewModel.PatchDetails.Successful = true;
                     patchDocumentViewModel.PatchProperties.Successful = true;
                     patchDocumentViewModel.SampleGrid.Successful = true;
@@ -500,12 +501,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(viewModel);
         }
 
-        private void OperatorProperties_WithDimensionAndOutletCount_Refresh(OperatorPropertiesViewModel_WithDimensionAndOutletCount userInput)
-        {
-            OperatorPropertiesViewModel_WithDimensionAndOutletCount viewModel = _operatorPropertiesPresenter_WithDimensionAndOutletCount.Refresh(userInput);
-            DispatchViewModel(viewModel);
-        }
-
         private void OperatorProperties_WithDimension_Refresh(OperatorPropertiesViewModel_WithDimension userInput)
         {
             OperatorPropertiesViewModel_WithDimension viewModel = _operatorPropertiesPresenter_WithDimension.Refresh(userInput);
@@ -515,6 +510,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void OperatorProperties_WithDimensionAndInterpolation_Refresh(OperatorPropertiesViewModel_WithDimensionAndInterpolation userInput)
         {
             OperatorPropertiesViewModel_WithDimensionAndInterpolation viewModel = _operatorPropertiesPresenter_WithDimensionAndInterpolation.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
+        private void OperatorProperties_WithDimensionAndOutletCount_Refresh(OperatorPropertiesViewModel_WithDimensionAndOutletCount userInput)
+        {
+            OperatorPropertiesViewModel_WithDimensionAndOutletCount viewModel = _operatorPropertiesPresenter_WithDimensionAndOutletCount.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
+        private void OperatorProperties_WithInletCount_Refresh(OperatorPropertiesViewModel_WithInletCount userInput)
+        {
+            OperatorPropertiesViewModel_WithInletCount viewModel = _operatorPropertiesPresenter_WithInletCount.Refresh(userInput);
             DispatchViewModel(viewModel);
         }
 
@@ -864,6 +871,34 @@ namespace JJ.Presentation.Synthesizer.Presenters
                                                                                                               .ToList();
         }
 
+        private void OperatorPropertiesList_WithInletCount_Refresh(PatchDocumentViewModel patchDocumentViewModel)
+        {
+            Document childDocument = _repositories.DocumentRepository.Get(patchDocumentViewModel.ChildDocumentID);
+            IList<Operator> operators = childDocument.Patches[0].Operators
+                                                     .Where(x => ViewModelHelper.OperatorTypeEnums_WithInletCountPropertyViews.Contains(x.GetOperatorTypeEnum()))
+                                                     .ToArray();
+
+            foreach (Operator op in operators)
+            {
+                OperatorPropertiesViewModel_WithInletCount viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_WithInletCount(MainViewModel.Document, op.ID);
+                if (viewModel == null)
+                {
+                    viewModel = op.ToPropertiesViewModel_WithInletCount();
+                    viewModel.Successful = true;
+                    patchDocumentViewModel.OperatorPropertiesList_WithInletCount.Add(viewModel);
+                }
+                else
+                {
+                    OperatorProperties_WithInletCount_Refresh(viewModel);
+                }
+            }
+
+            HashSet<int> idsToKeep = operators.Select(x => x.ID).ToHashSet();
+            patchDocumentViewModel.OperatorPropertiesList_WithInletCount = patchDocumentViewModel.OperatorPropertiesList_WithInletCount
+                                                                                                              .Where(x => idsToKeep.Contains(x.ID))
+                                                                                                              .ToList();
+        }
+
         private void OperatorPropertiesListRefresh(PatchDocumentViewModel patchDocumentViewModel)
         {
             Document childDocument = _repositories.DocumentRepository.Get(patchDocumentViewModel.ChildDocumentID);
@@ -871,7 +906,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                                                                 .Where(x => !ViewModelHelper.OperatorTypeEnums_WithTheirOwnPropertyViews.Contains(x.GetOperatorTypeEnum()) &&
                                                                             !ViewModelHelper.OperatorTypeEnums_WithDimensionPropertyViews.Contains(x.GetOperatorTypeEnum()) &&
                                                                             !ViewModelHelper.OperatorTypeEnums_WithDimensionAndInterpolationPropertyViews.Contains(x.GetOperatorTypeEnum()) &&
-                                                                            !ViewModelHelper.OperatorTypeEnums_WithDimensionAndOutletCountPropertyViews.Contains(x.GetOperatorTypeEnum()))
+                                                                            !ViewModelHelper.OperatorTypeEnums_WithDimensionAndOutletCountPropertyViews.Contains(x.GetOperatorTypeEnum()) &&
+                                                                            !ViewModelHelper.OperatorTypeEnums_WithInletCountPropertyViews.Contains(x.GetOperatorTypeEnum()))
                                                                 .ToArray();
             foreach (Operator op in operators)
             {
@@ -1030,9 +1066,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesList_ForPatchInlets_Refresh(patchDocumentViewModel);
             OperatorPropertiesList_ForPatchOutlets_Refresh(patchDocumentViewModel);
             OperatorPropertiesList_ForSamples_Refresh(patchDocumentViewModel);
-            OperatorPropertiesList_WithDimensionAndOutletCount_Refresh(patchDocumentViewModel);
             OperatorPropertiesList_WithDimension_Refresh(patchDocumentViewModel);
             OperatorPropertiesList_WithDimensionAndInterpolation_Refresh(patchDocumentViewModel);
+            OperatorPropertiesList_WithDimensionAndOutletCount_Refresh(patchDocumentViewModel);
+            OperatorPropertiesList_WithInletCount_Refresh(patchDocumentViewModel);
 
             SamplePropertiesListRefresh(patchDocumentViewModel);
 

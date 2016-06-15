@@ -9,7 +9,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public class Adder_OperatorWrapper : OperatorWrapperBase
     {
-        private const int ADDER_RESULT_INDEX = 0;
+        private const int RESULT_INDEX = 0;
 
         public Adder_OperatorWrapper(Operator op)
             : base(op)
@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Result
         {
-            get { return OperatorHelper.GetOutlet(WrappedOperator, ADDER_RESULT_INDEX); }
+            get { return OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX); }
         }
 
         public override string GetInletDisplayName(int listIndex)

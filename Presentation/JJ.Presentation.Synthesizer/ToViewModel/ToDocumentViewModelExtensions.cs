@@ -87,6 +87,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorPropertiesList_WithDimension = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithDimension()).ToList(),
                 OperatorPropertiesList_WithDimensionAndInterpolation = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithDimensionAndInterpolation()).ToList(),
                 OperatorPropertiesList_WithDimensionAndOutletCount = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithDimensionAndOutletCount()).ToList(),
+                OperatorPropertiesList_WithInletCount = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithInletCount()).ToList(),
                 PatchDetails = childDocument.Patches[0].ToDetailsViewModel(repositories.OperatorTypeRepository, repositories.SampleRepository, repositories.CurveRepository, repositories.PatchRepository, entityPositionManager),
                 PatchProperties = childDocument.ToPatchPropertiesViewModel(),
                 SampleGrid = childDocument.Samples.ToGridViewModel(childDocument.ID),

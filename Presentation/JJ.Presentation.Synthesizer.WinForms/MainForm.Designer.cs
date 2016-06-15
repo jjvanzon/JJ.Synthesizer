@@ -28,6 +28,7 @@
             this.documentGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentGridUserControl();
             this.patchDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.PatchDetailsUserControl();
             this.sampleGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.SampleGridUserControl();
+            this.operatorPropertiesUserControl_ForMakeContinuous = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForMakeContinuous();
             this.audioOutputPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.AudioOutputPropertiesUserControl();
             this.operatorPropertiesUserControl_WithDimension = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_WithDimension();
             this.operatorPropertiesUserControl_ForFilter = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForFilter();
@@ -51,7 +52,7 @@
             this.operatorPropertiesUserControl_ForPatchOutlet = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForPatchOutlet();
             this.menuUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.MenuUserControl();
             this.currentPatchesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.CurrentPatchesUserControl();
-            this.operatorPropertiesUserControl_ForMakeContinuous = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForMakeContinuous();
+            this.operatorPropertiesUserControl_WithInletCount = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_WithInletCount();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerTree)).BeginInit();
             this.splitContainerTree.Panel1.SuspendLayout();
             this.splitContainerTree.Panel2.SuspendLayout();
@@ -115,6 +116,7 @@
             // 
             // splitContainerProperties.Panel2
             // 
+            this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_WithInletCount);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForMakeContinuous);
             this.splitContainerProperties.Panel2.Controls.Add(this.audioOutputPropertiesUserControl);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_WithDimension);
@@ -138,7 +140,7 @@
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForNumber);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForPatchOutlet);
             this.splitContainerProperties.Size = new System.Drawing.Size(1189, 814);
-            this.splitContainerProperties.SplitterDistance = 852;
+            this.splitContainerProperties.SplitterDistance = 851;
             this.splitContainerProperties.SplitterWidth = 5;
             this.splitContainerProperties.TabIndex = 2;
             // 
@@ -149,7 +151,7 @@
             this.curveDetailsUserControl.Location = new System.Drawing.Point(0, 0);
             this.curveDetailsUserControl.Margin = new System.Windows.Forms.Padding(4);
             this.curveDetailsUserControl.Name = "curveDetailsUserControl";
-            this.curveDetailsUserControl.Size = new System.Drawing.Size(852, 814);
+            this.curveDetailsUserControl.Size = new System.Drawing.Size(851, 814);
             this.curveDetailsUserControl.TabIndex = 12;
             // 
             // toneGridEditUserControl
@@ -160,7 +162,7 @@
             this.toneGridEditUserControl.Location = new System.Drawing.Point(0, 0);
             this.toneGridEditUserControl.Margin = new System.Windows.Forms.Padding(5);
             this.toneGridEditUserControl.Name = "toneGridEditUserControl";
-            this.toneGridEditUserControl.Size = new System.Drawing.Size(852, 814);
+            this.toneGridEditUserControl.Size = new System.Drawing.Size(851, 814);
             this.toneGridEditUserControl.TabIndex = 1;
             // 
             // scaleGridUserControl
@@ -170,7 +172,7 @@
             this.scaleGridUserControl.Location = new System.Drawing.Point(0, 0);
             this.scaleGridUserControl.Margin = new System.Windows.Forms.Padding(4);
             this.scaleGridUserControl.Name = "scaleGridUserControl";
-            this.scaleGridUserControl.Size = new System.Drawing.Size(852, 814);
+            this.scaleGridUserControl.Size = new System.Drawing.Size(851, 814);
             this.scaleGridUserControl.TabIndex = 11;
             // 
             // curveGridUserControl
@@ -180,7 +182,7 @@
             this.curveGridUserControl.Location = new System.Drawing.Point(0, 0);
             this.curveGridUserControl.Margin = new System.Windows.Forms.Padding(4);
             this.curveGridUserControl.Name = "curveGridUserControl";
-            this.curveGridUserControl.Size = new System.Drawing.Size(852, 814);
+            this.curveGridUserControl.Size = new System.Drawing.Size(851, 814);
             this.curveGridUserControl.TabIndex = 6;
             this.curveGridUserControl.Visible = false;
             // 
@@ -191,7 +193,7 @@
             this.audioFileOutputGridUserControl.Location = new System.Drawing.Point(0, 0);
             this.audioFileOutputGridUserControl.Margin = new System.Windows.Forms.Padding(5);
             this.audioFileOutputGridUserControl.Name = "audioFileOutputGridUserControl";
-            this.audioFileOutputGridUserControl.Size = new System.Drawing.Size(852, 814);
+            this.audioFileOutputGridUserControl.Size = new System.Drawing.Size(851, 814);
             this.audioFileOutputGridUserControl.TabIndex = 5;
             this.audioFileOutputGridUserControl.Visible = false;
             // 
@@ -203,7 +205,7 @@
             this.patchGridUserControl.Location = new System.Drawing.Point(0, 0);
             this.patchGridUserControl.Margin = new System.Windows.Forms.Padding(4);
             this.patchGridUserControl.Name = "patchGridUserControl";
-            this.patchGridUserControl.Size = new System.Drawing.Size(852, 814);
+            this.patchGridUserControl.Size = new System.Drawing.Size(851, 814);
             this.patchGridUserControl.TabIndex = 13;
             // 
             // documentDetailsUserControl
@@ -215,7 +217,7 @@
             this.documentDetailsUserControl.Location = new System.Drawing.Point(0, 0);
             this.documentDetailsUserControl.Margin = new System.Windows.Forms.Padding(5);
             this.documentDetailsUserControl.Name = "documentDetailsUserControl";
-            this.documentDetailsUserControl.Size = new System.Drawing.Size(852, 814);
+            this.documentDetailsUserControl.Size = new System.Drawing.Size(851, 814);
             this.documentDetailsUserControl.TabIndex = 1;
             this.documentDetailsUserControl.Visible = false;
             // 
@@ -227,7 +229,7 @@
             this.documentGridUserControl.Location = new System.Drawing.Point(0, 0);
             this.documentGridUserControl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.documentGridUserControl.Name = "documentGridUserControl";
-            this.documentGridUserControl.Size = new System.Drawing.Size(852, 814);
+            this.documentGridUserControl.Size = new System.Drawing.Size(851, 814);
             this.documentGridUserControl.TabIndex = 0;
             this.documentGridUserControl.Visible = false;
             // 
@@ -239,7 +241,7 @@
             this.patchDetailsUserControl.Location = new System.Drawing.Point(0, 0);
             this.patchDetailsUserControl.Margin = new System.Windows.Forms.Padding(5);
             this.patchDetailsUserControl.Name = "patchDetailsUserControl";
-            this.patchDetailsUserControl.Size = new System.Drawing.Size(852, 814);
+            this.patchDetailsUserControl.Size = new System.Drawing.Size(851, 814);
             this.patchDetailsUserControl.TabIndex = 10;
             this.patchDetailsUserControl.Visible = false;
             // 
@@ -250,9 +252,21 @@
             this.sampleGridUserControl.Location = new System.Drawing.Point(0, 0);
             this.sampleGridUserControl.Margin = new System.Windows.Forms.Padding(4);
             this.sampleGridUserControl.Name = "sampleGridUserControl";
-            this.sampleGridUserControl.Size = new System.Drawing.Size(852, 814);
+            this.sampleGridUserControl.Size = new System.Drawing.Size(851, 814);
             this.sampleGridUserControl.TabIndex = 9;
             this.sampleGridUserControl.Visible = false;
+            // 
+            // operatorPropertiesUserControl_ForMakeContinuous
+            // 
+            this.operatorPropertiesUserControl_ForMakeContinuous.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.operatorPropertiesUserControl_ForMakeContinuous.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.operatorPropertiesUserControl_ForMakeContinuous.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.operatorPropertiesUserControl_ForMakeContinuous.Font = new System.Drawing.Font("Verdana", 10F);
+            this.operatorPropertiesUserControl_ForMakeContinuous.Location = new System.Drawing.Point(0, 0);
+            this.operatorPropertiesUserControl_ForMakeContinuous.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.operatorPropertiesUserControl_ForMakeContinuous.Name = "operatorPropertiesUserControl_ForMakeContinuous";
+            this.operatorPropertiesUserControl_ForMakeContinuous.Size = new System.Drawing.Size(333, 814);
+            this.operatorPropertiesUserControl_ForMakeContinuous.TabIndex = 1;
             // 
             // audioOutputPropertiesUserControl
             // 
@@ -262,7 +276,7 @@
             this.audioOutputPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.audioOutputPropertiesUserControl.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.audioOutputPropertiesUserControl.Name = "audioOutputPropertiesUserControl";
-            this.audioOutputPropertiesUserControl.Size = new System.Drawing.Size(332, 814);
+            this.audioOutputPropertiesUserControl.Size = new System.Drawing.Size(333, 814);
             this.audioOutputPropertiesUserControl.TabIndex = 1;
             // 
             // operatorPropertiesUserControl_WithDimension
@@ -274,7 +288,7 @@
             this.operatorPropertiesUserControl_WithDimension.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_WithDimension.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.operatorPropertiesUserControl_WithDimension.Name = "operatorPropertiesUserControl_WithDimension";
-            this.operatorPropertiesUserControl_WithDimension.Size = new System.Drawing.Size(332, 814);
+            this.operatorPropertiesUserControl_WithDimension.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl_WithDimension.TabIndex = 1;
             // 
             // operatorPropertiesUserControl_ForFilter
@@ -286,7 +300,7 @@
             this.operatorPropertiesUserControl_ForFilter.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_ForFilter.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.operatorPropertiesUserControl_ForFilter.Name = "operatorPropertiesUserControl_ForFilter";
-            this.operatorPropertiesUserControl_ForFilter.Size = new System.Drawing.Size(332, 814);
+            this.operatorPropertiesUserControl_ForFilter.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl_ForFilter.TabIndex = 1;
             // 
             // operatorPropertiesUserControl_ForCache
@@ -298,7 +312,7 @@
             this.operatorPropertiesUserControl_ForCache.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_ForCache.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.operatorPropertiesUserControl_ForCache.Name = "operatorPropertiesUserControl_ForCache";
-            this.operatorPropertiesUserControl_ForCache.Size = new System.Drawing.Size(332, 814);
+            this.operatorPropertiesUserControl_ForCache.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl_ForCache.TabIndex = 1;
             // 
             // operatorPropertiesUserControl_WithDimensionAndInterpolation
@@ -310,7 +324,7 @@
             this.operatorPropertiesUserControl_WithDimensionAndInterpolation.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_WithDimensionAndInterpolation.Margin = new System.Windows.Forms.Padding(4);
             this.operatorPropertiesUserControl_WithDimensionAndInterpolation.Name = "operatorPropertiesUserControl_WithDimensionAndInterpolation";
-            this.operatorPropertiesUserControl_WithDimensionAndInterpolation.Size = new System.Drawing.Size(332, 814);
+            this.operatorPropertiesUserControl_WithDimensionAndInterpolation.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl_WithDimensionAndInterpolation.TabIndex = 1;
             // 
             // operatorPropertiesUserControl_WithDimensionAndOutletCount
@@ -322,7 +336,7 @@
             this.operatorPropertiesUserControl_WithDimensionAndOutletCount.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_WithDimensionAndOutletCount.Margin = new System.Windows.Forms.Padding(5);
             this.operatorPropertiesUserControl_WithDimensionAndOutletCount.Name = "operatorPropertiesUserControl_WithDimensionAndOutletCount";
-            this.operatorPropertiesUserControl_WithDimensionAndOutletCount.Size = new System.Drawing.Size(332, 814);
+            this.operatorPropertiesUserControl_WithDimensionAndOutletCount.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl_WithDimensionAndOutletCount.TabIndex = 1;
             // 
             // operatorPropertiesUserControl_ForBundle
@@ -334,7 +348,7 @@
             this.operatorPropertiesUserControl_ForBundle.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_ForBundle.Margin = new System.Windows.Forms.Padding(5);
             this.operatorPropertiesUserControl_ForBundle.Name = "operatorPropertiesUserControl_ForBundle";
-            this.operatorPropertiesUserControl_ForBundle.Size = new System.Drawing.Size(332, 814);
+            this.operatorPropertiesUserControl_ForBundle.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl_ForBundle.TabIndex = 1;
             // 
             // nodePropertiesUserControl
@@ -346,7 +360,7 @@
             this.nodePropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.nodePropertiesUserControl.Margin = new System.Windows.Forms.Padding(5);
             this.nodePropertiesUserControl.Name = "nodePropertiesUserControl";
-            this.nodePropertiesUserControl.Size = new System.Drawing.Size(332, 814);
+            this.nodePropertiesUserControl.Size = new System.Drawing.Size(333, 814);
             this.nodePropertiesUserControl.TabIndex = 1;
             // 
             // curvePropertiesUserControl
@@ -358,7 +372,7 @@
             this.curvePropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.curvePropertiesUserControl.Margin = new System.Windows.Forms.Padding(5);
             this.curvePropertiesUserControl.Name = "curvePropertiesUserControl";
-            this.curvePropertiesUserControl.Size = new System.Drawing.Size(332, 814);
+            this.curvePropertiesUserControl.Size = new System.Drawing.Size(333, 814);
             this.curvePropertiesUserControl.TabIndex = 1;
             // 
             // operatorPropertiesUserControl_ForCurve
@@ -370,7 +384,7 @@
             this.operatorPropertiesUserControl_ForCurve.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_ForCurve.Margin = new System.Windows.Forms.Padding(5);
             this.operatorPropertiesUserControl_ForCurve.Name = "operatorPropertiesUserControl_ForCurve";
-            this.operatorPropertiesUserControl_ForCurve.Size = new System.Drawing.Size(332, 814);
+            this.operatorPropertiesUserControl_ForCurve.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl_ForCurve.TabIndex = 1;
             // 
             // scalePropertiesUserControl
@@ -382,7 +396,7 @@
             this.scalePropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.scalePropertiesUserControl.Margin = new System.Windows.Forms.Padding(5);
             this.scalePropertiesUserControl.Name = "scalePropertiesUserControl";
-            this.scalePropertiesUserControl.Size = new System.Drawing.Size(332, 814);
+            this.scalePropertiesUserControl.Size = new System.Drawing.Size(333, 814);
             this.scalePropertiesUserControl.TabIndex = 1;
             // 
             // operatorPropertiesUserControl_ForPatchInlet
@@ -394,7 +408,7 @@
             this.operatorPropertiesUserControl_ForPatchInlet.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_ForPatchInlet.Margin = new System.Windows.Forms.Padding(5);
             this.operatorPropertiesUserControl_ForPatchInlet.Name = "operatorPropertiesUserControl_ForPatchInlet";
-            this.operatorPropertiesUserControl_ForPatchInlet.Size = new System.Drawing.Size(332, 814);
+            this.operatorPropertiesUserControl_ForPatchInlet.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl_ForPatchInlet.TabIndex = 1;
             // 
             // documentPropertiesUserControl
@@ -406,7 +420,7 @@
             this.documentPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.documentPropertiesUserControl.Margin = new System.Windows.Forms.Padding(5);
             this.documentPropertiesUserControl.Name = "documentPropertiesUserControl";
-            this.documentPropertiesUserControl.Size = new System.Drawing.Size(332, 814);
+            this.documentPropertiesUserControl.Size = new System.Drawing.Size(333, 814);
             this.documentPropertiesUserControl.TabIndex = 1;
             // 
             // operatorPropertiesUserControl
@@ -418,7 +432,7 @@
             this.operatorPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.operatorPropertiesUserControl.Name = "operatorPropertiesUserControl";
-            this.operatorPropertiesUserControl.Size = new System.Drawing.Size(332, 814);
+            this.operatorPropertiesUserControl.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl.TabIndex = 1;
             // 
             // patchPropertiesUserControl
@@ -430,7 +444,7 @@
             this.patchPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.patchPropertiesUserControl.Margin = new System.Windows.Forms.Padding(5);
             this.patchPropertiesUserControl.Name = "patchPropertiesUserControl";
-            this.patchPropertiesUserControl.Size = new System.Drawing.Size(332, 814);
+            this.patchPropertiesUserControl.Size = new System.Drawing.Size(333, 814);
             this.patchPropertiesUserControl.TabIndex = 1;
             // 
             // samplePropertiesUserControl
@@ -442,7 +456,7 @@
             this.samplePropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.samplePropertiesUserControl.Margin = new System.Windows.Forms.Padding(5);
             this.samplePropertiesUserControl.Name = "samplePropertiesUserControl";
-            this.samplePropertiesUserControl.Size = new System.Drawing.Size(332, 814);
+            this.samplePropertiesUserControl.Size = new System.Drawing.Size(333, 814);
             this.samplePropertiesUserControl.TabIndex = 1;
             // 
             // audioFileOutputPropertiesUserControl
@@ -454,7 +468,7 @@
             this.audioFileOutputPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.audioFileOutputPropertiesUserControl.Margin = new System.Windows.Forms.Padding(0);
             this.audioFileOutputPropertiesUserControl.Name = "audioFileOutputPropertiesUserControl";
-            this.audioFileOutputPropertiesUserControl.Size = new System.Drawing.Size(332, 814);
+            this.audioFileOutputPropertiesUserControl.Size = new System.Drawing.Size(333, 814);
             this.audioFileOutputPropertiesUserControl.TabIndex = 1;
             // 
             // operatorPropertiesUserControl_ForSample
@@ -466,7 +480,7 @@
             this.operatorPropertiesUserControl_ForSample.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_ForSample.Margin = new System.Windows.Forms.Padding(5);
             this.operatorPropertiesUserControl_ForSample.Name = "operatorPropertiesUserControl_ForSample";
-            this.operatorPropertiesUserControl_ForSample.Size = new System.Drawing.Size(332, 814);
+            this.operatorPropertiesUserControl_ForSample.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl_ForSample.TabIndex = 1;
             // 
             // operatorPropertiesUserControl_ForCustomOperator
@@ -478,7 +492,7 @@
             this.operatorPropertiesUserControl_ForCustomOperator.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_ForCustomOperator.Margin = new System.Windows.Forms.Padding(5);
             this.operatorPropertiesUserControl_ForCustomOperator.Name = "operatorPropertiesUserControl_ForCustomOperator";
-            this.operatorPropertiesUserControl_ForCustomOperator.Size = new System.Drawing.Size(332, 814);
+            this.operatorPropertiesUserControl_ForCustomOperator.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl_ForCustomOperator.TabIndex = 1;
             // 
             // operatorPropertiesUserControl_ForNumber
@@ -490,7 +504,7 @@
             this.operatorPropertiesUserControl_ForNumber.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_ForNumber.Margin = new System.Windows.Forms.Padding(5);
             this.operatorPropertiesUserControl_ForNumber.Name = "operatorPropertiesUserControl_ForNumber";
-            this.operatorPropertiesUserControl_ForNumber.Size = new System.Drawing.Size(332, 814);
+            this.operatorPropertiesUserControl_ForNumber.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl_ForNumber.TabIndex = 1;
             // 
             // operatorPropertiesUserControl_ForPatchOutlet
@@ -502,7 +516,7 @@
             this.operatorPropertiesUserControl_ForPatchOutlet.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_ForPatchOutlet.Margin = new System.Windows.Forms.Padding(5);
             this.operatorPropertiesUserControl_ForPatchOutlet.Name = "operatorPropertiesUserControl_ForPatchOutlet";
-            this.operatorPropertiesUserControl_ForPatchOutlet.Size = new System.Drawing.Size(332, 814);
+            this.operatorPropertiesUserControl_ForPatchOutlet.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl_ForPatchOutlet.TabIndex = 1;
             // 
             // menuUserControl
@@ -525,17 +539,17 @@
             this.currentPatchesUserControl.Size = new System.Drawing.Size(1188, 30);
             this.currentPatchesUserControl.TabIndex = 14;
             // 
-            // operatorPropertiesUserControl_ForMakeContinuous
+            // operatorPropertiesUserControl_WithInletCount
             // 
-            this.operatorPropertiesUserControl_ForMakeContinuous.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.operatorPropertiesUserControl_ForMakeContinuous.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.operatorPropertiesUserControl_ForMakeContinuous.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.operatorPropertiesUserControl_ForMakeContinuous.Font = new System.Drawing.Font("Verdana", 10F);
-            this.operatorPropertiesUserControl_ForMakeContinuous.Location = new System.Drawing.Point(0, 0);
-            this.operatorPropertiesUserControl_ForMakeContinuous.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.operatorPropertiesUserControl_ForMakeContinuous.Name = "operatorPropertiesUserControl_ForMakeContinuous";
-            this.operatorPropertiesUserControl_ForMakeContinuous.Size = new System.Drawing.Size(332, 814);
-            this.operatorPropertiesUserControl_ForMakeContinuous.TabIndex = 1;
+            this.operatorPropertiesUserControl_WithInletCount.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.operatorPropertiesUserControl_WithInletCount.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.operatorPropertiesUserControl_WithInletCount.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.operatorPropertiesUserControl_WithInletCount.Font = new System.Drawing.Font("Verdana", 10F);
+            this.operatorPropertiesUserControl_WithInletCount.Location = new System.Drawing.Point(0, 0);
+            this.operatorPropertiesUserControl_WithInletCount.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.operatorPropertiesUserControl_WithInletCount.Name = "operatorPropertiesUserControl_WithInletCount";
+            this.operatorPropertiesUserControl_WithInletCount.Size = new System.Drawing.Size(333, 814);
+            this.operatorPropertiesUserControl_WithInletCount.TabIndex = 1;
             // 
             // MainForm
             // 
@@ -601,5 +615,6 @@
         private UserControls.OperatorPropertiesUserControl_WithDimension operatorPropertiesUserControl_WithDimension;
         private UserControls.AudioOutputPropertiesUserControl audioOutputPropertiesUserControl;
         private UserControls.OperatorPropertiesUserControl_ForMakeContinuous operatorPropertiesUserControl_ForMakeContinuous;
+        private UserControls.OperatorPropertiesUserControl_WithInletCount operatorPropertiesUserControl_WithInletCount;
     }
 }

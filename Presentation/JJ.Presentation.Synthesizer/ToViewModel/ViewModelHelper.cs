@@ -83,6 +83,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.Unbundle
         };
 
+        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithInletCountPropertyViews { get; } =
+                  new HashSet<OperatorTypeEnum>
+        {
+            OperatorTypeEnum.Adder,
+            OperatorTypeEnum.MaxDiscrete
+        };
+
         public static CurrentPatchesViewModel CreateCurrentPatchesViewModel(IList<Document> childDocuments)
         {
             if (childDocuments == null) throw new NullException(() => childDocuments);

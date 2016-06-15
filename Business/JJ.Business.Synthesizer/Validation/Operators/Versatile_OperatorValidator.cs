@@ -44,6 +44,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             { OperatorTypeEnum.Minimum, typeof(Minimum_OperatorValidator) },
             { OperatorTypeEnum.MakeContinuous, typeof(MakeContinuous_OperatorValidator) },
             { OperatorTypeEnum.MakeDiscrete, typeof(MakeDiscrete_OperatorValidator) },
+            { OperatorTypeEnum.MaxDiscrete, typeof(MaxDiscrete_OperatorValidator) },
             { OperatorTypeEnum.Multiply, typeof(Multiply_OperatorValidator) },
             { OperatorTypeEnum.Narrower, typeof(Narrower_OperatorValidator) },
             { OperatorTypeEnum.Negative, typeof(Negative_OperatorValidator) },

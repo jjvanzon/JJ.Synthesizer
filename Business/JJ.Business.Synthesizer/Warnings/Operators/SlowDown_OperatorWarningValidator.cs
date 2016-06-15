@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
-    internal class SlowDown_OperatorWarningValidator : OperatorWarningValidator_Base_AllInletsFilled
+    internal class SlowDown_OperatorWarningValidator : OperatorWarningValidator_Base_AllInletsFilledIn
     {
         public SlowDown_OperatorWarningValidator(Operator obj)
             : base(obj)

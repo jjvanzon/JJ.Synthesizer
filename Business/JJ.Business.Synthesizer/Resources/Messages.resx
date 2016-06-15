@@ -200,9 +200,6 @@
     <value>Operator '{0}' has no inlet filled in.</value>
     <comment>{0} = name or type of object</comment>
   </data>
-  <data name="OperatorTypeMustBeAdderOrBundle" xml:space="preserve">
-    <value>Operator type must be 'Adder' or 'Bundle'.</value>
-  </data>
   <data name="CannotChangeInletCountBecauseOneIsStillFilledIn" xml:space="preserve">
     <value>Cannot change the amount of inlets, because inlet {0} is still filled in.</value>
     <comment>{0} = number</comment>

@@ -814,4 +814,7 @@
   <data name="MakeDiscrete" xml:space="preserve">
     <value>Maak afzonderlijk</value>
   </data>
+  <data name="MaxDiscrete" xml:space="preserve">
+    <value>Max afzonderlijk</value>
+  </data>
 </root>

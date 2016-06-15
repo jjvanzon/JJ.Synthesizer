@@ -8,9 +8,6 @@ using JJ.Business.Synthesizer;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Calculation.Patches;
-using JJ.Data.Synthesizer;
-using JJ.Business.Synthesizer.Calculation;
 using JJ.Framework.Configuration;
 
 namespace JJ.Presentation.Synthesizer.Presenters
@@ -71,6 +68,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly OperatorPropertiesPresenter_WithDimension _operatorPropertiesPresenter_WithDimension;
         private readonly OperatorPropertiesPresenter_WithDimensionAndInterpolation _operatorPropertiesPresenter_WithDimensionAndInterpolation;
         private readonly OperatorPropertiesPresenter_WithDimensionAndOutletCount _operatorPropertiesPresenter_WithDimensionAndOutletCount;
+        private readonly OperatorPropertiesPresenter_WithInletCount _operatorPropertiesPresenter_WithInletCount;
         private readonly PatchDetailsPresenter _patchDetailsPresenter;
         private readonly PatchGridPresenter _patchGridPresenter;
         private readonly PatchPropertiesPresenter _patchPropertiesPresenter;
@@ -143,9 +141,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _operatorPropertiesPresenter_ForPatchInlet = new OperatorPropertiesPresenter_ForPatchInlet(_patchRepositories);
             _operatorPropertiesPresenter_ForPatchOutlet = new OperatorPropertiesPresenter_ForPatchOutlet(_patchRepositories);
             _operatorPropertiesPresenter_ForSample = new OperatorPropertiesPresenter_ForSample(_patchRepositories);
-            _operatorPropertiesPresenter_WithDimensionAndOutletCount = new OperatorPropertiesPresenter_WithDimensionAndOutletCount(_patchRepositories);
             _operatorPropertiesPresenter_WithDimension = new OperatorPropertiesPresenter_WithDimension(_patchRepositories);
             _operatorPropertiesPresenter_WithDimensionAndInterpolation = new OperatorPropertiesPresenter_WithDimensionAndInterpolation(_patchRepositories);
+            _operatorPropertiesPresenter_WithDimensionAndOutletCount = new OperatorPropertiesPresenter_WithDimensionAndOutletCount(_patchRepositories);
+            _operatorPropertiesPresenter_WithInletCount = new OperatorPropertiesPresenter_WithInletCount(_patchRepositories);
             _patchDetailsPresenter = new PatchDetailsPresenter(_patchRepositories, _entityPositionManager);
             _patchGridPresenter = new PatchGridPresenter(_repositories.DocumentRepository);
             _patchPropertiesPresenter = new PatchPropertiesPresenter(_repositories);
@@ -209,9 +208,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForPatchInlets).ForEach(x => x.Visible = false);
             MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForPatchOutlets).ForEach(x => x.Visible = false);
             MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForSamples).ForEach(x => x.Visible = false);
-            MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_WithDimensionAndOutletCount).ForEach(x => x.Visible = false);
             MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_WithDimension).ForEach(x => x.Visible = false);
             MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_WithDimensionAndInterpolation).ForEach(x => x.Visible = false);
+            MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_WithDimensionAndOutletCount).ForEach(x => x.Visible = false);
+            MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_WithInletCount).ForEach(x => x.Visible = false);
             MainViewModel.Document.PatchDocumentList.SelectMany(x => x.SamplePropertiesList).ForEach(x => x.Visible = false);
             MainViewModel.Document.PatchDocumentList.ForEach(x => x.PatchProperties.Visible = false);
         }

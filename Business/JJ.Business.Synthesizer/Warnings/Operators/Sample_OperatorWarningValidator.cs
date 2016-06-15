@@ -4,7 +4,7 @@ using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
-    internal class Sample_OperatorWarningValidator : OperatorWarningValidator_Base_AllInletsFilled
+    internal class Sample_OperatorWarningValidator : OperatorWarningValidator_Base_AllInletsFilledIn
     {
         public Sample_OperatorWarningValidator(Operator obj)
             : base(obj)

@@ -5,7 +5,7 @@ using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
-    internal class GetDimension_OperatorWarningValidator : OperatorWarningValidator_Base_AllInletsFilled
+    internal class GetDimension_OperatorWarningValidator : OperatorWarningValidator_Base_AllInletsFilledIn
     {
         public GetDimension_OperatorWarningValidator(Operator obj)
             : base(obj)

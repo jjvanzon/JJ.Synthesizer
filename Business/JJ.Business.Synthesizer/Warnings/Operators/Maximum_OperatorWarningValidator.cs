@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
-    internal class Maximum_OperatorWarningValidator : OperatorWarningValidator_Base_AllInletsFilled
+    internal class Maximum_OperatorWarningValidator : OperatorWarningValidator_Base_AllInletsFilledIn
     {
         public Maximum_OperatorWarningValidator(Operator obj)
             : base(obj)

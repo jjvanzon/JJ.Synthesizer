@@ -6,7 +6,7 @@ using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
-    internal class Cache_OperatorWarningValidator : OperatorWarningValidator_Base_AllInletsFilled
+    internal class Cache_OperatorWarningValidator : OperatorWarningValidator_Base_AllInletsFilledIn
     {
         public Cache_OperatorWarningValidator(Operator obj)
             : base(obj)

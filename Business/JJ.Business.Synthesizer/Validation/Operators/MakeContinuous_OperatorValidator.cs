@@ -1,5 +1,4 @@
 ﻿using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Presentation.Resources;
 using JJ.Data.Synthesizer;
 using System;
 using JJ.Business.Synthesizer.Enums;
@@ -7,22 +6,20 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class MakeContinuous_OperatorValidator : OperatorValidator_Base
+    internal class MakeContinuous_OperatorValidator : OperatorValidator_Base_VariableInletCountOneOutlet
     {
         public MakeContinuous_OperatorValidator(Operator obj)
             : base(
                   obj,
                   OperatorTypeEnum.MakeContinuous,
-                  expectedInletCount: obj.Inlets.Count, // TODO: Low priority: if obj is null, this fails.
-                  expectedOutletCount: 1,
                   allowedDataKeys: new string[] { PropertyNames.Dimension, PropertyNames.InterpolationType })
         { }
 
         protected override void Execute()
         {
-            Operator op = Object;
+            base.Execute();
 
-            For(() => op.Inlets.Count, CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Inlets)).GreaterThan(0);
+            Operator op = Object;
 
             if (DataPropertyParser.DataIsWellFormed(op))
             {
@@ -38,8 +35,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                     .IsEnum<ResampleInterpolationTypeEnum>()
                     .IsNot(ResampleInterpolationTypeEnum.Undefined);
             }
-
-            base.Execute();
         }
     }
 }

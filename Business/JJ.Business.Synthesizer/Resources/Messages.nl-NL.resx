@@ -198,9 +198,6 @@
     <value>Er is geen ingang ingevuld voor operator '{0}'.</value>
     <comment>{0} = name or type of object</comment>
   </data>
-  <data name="OperatorTypeMustBeAdderOrBundle" xml:space="preserve">
-    <value>Operator soort moet 'Opteller' of 'Bundel' zijn.</value>
-  </data>
   <data name="CannotChangeInletCountBecauseOneIsStillFilledIn" xml:space="preserve">
     <value>Kan het aantal ingangen niet aanpassen, omdat ingang {0} nog ingevuld is.</value>
     <comment>{0} = number</comment>

@@ -45,9 +45,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(OperatorPropertiesViewModel_ForPatchInlet), DispatchOperatorPropertiesViewModel_ForPatchInlet },
                 { typeof(OperatorPropertiesViewModel_ForPatchOutlet), DispatchOperatorPropertiesViewModel_ForPatchOutlet },
                 { typeof(OperatorPropertiesViewModel_ForSample), DispatchOperatorPropertiesViewModel_ForSample },
-                { typeof(OperatorPropertiesViewModel_WithDimensionAndOutletCount), DispatchOperatorPropertiesViewModel_WithDimensionAndOutletCount },
                 { typeof(OperatorPropertiesViewModel_WithDimension), DispatchOperatorPropertiesViewModel_WithDimension },
                 { typeof(OperatorPropertiesViewModel_WithDimensionAndInterpolation), DispatchOperatorPropertiesViewModel_WithDimensionAndInterpolation },
+                { typeof(OperatorPropertiesViewModel_WithDimensionAndOutletCount), DispatchOperatorPropertiesViewModel_WithDimensionAndOutletCount },
+                { typeof(OperatorPropertiesViewModel_WithInletCount), DispatchOperatorPropertiesViewModel_WithInletCount },
                 { typeof(PatchDetailsViewModel), DispatchPatchDetailsViewModel },
                 { typeof(PatchGridViewModel), DispatchPatchGridViewModel },
                 { typeof(PatchPropertiesViewModel), DispatchPatchPropertiesViewModel },
@@ -642,31 +643,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             castedViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchOperatorPropertiesViewModel_WithDimensionAndOutletCount(object viewModel2)
-        {
-            var castedViewModel = (OperatorPropertiesViewModel_WithDimensionAndOutletCount)viewModel2;
-
-            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_WithDimensionAndOutletCount_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
-            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
-            if (listIndex.HasValue)
-            {
-                list[listIndex.Value] = castedViewModel;
-            }
-            else
-            {
-                list.Add(castedViewModel);
-            }
-
-            if (castedViewModel.Visible)
-            {
-                HideAllPropertiesViewModels();
-                castedViewModel.Visible = true;
-            }
-
-            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
-            castedViewModel.ValidationMessages.Clear();
-        }
-
         private void DispatchOperatorPropertiesViewModel_WithDimension(object viewModel2)
         {
             var castedViewModel = (OperatorPropertiesViewModel_WithDimension)viewModel2;
@@ -697,6 +673,56 @@ namespace JJ.Presentation.Synthesizer.Presenters
             var castedViewModel = (OperatorPropertiesViewModel_WithDimensionAndInterpolation)viewModel2;
 
             var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_WithDimensionAndInterpolation_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
+            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
+            if (listIndex.HasValue)
+            {
+                list[listIndex.Value] = castedViewModel;
+            }
+            else
+            {
+                list.Add(castedViewModel);
+            }
+
+            if (castedViewModel.Visible)
+            {
+                HideAllPropertiesViewModels();
+                castedViewModel.Visible = true;
+            }
+
+            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            castedViewModel.ValidationMessages.Clear();
+        }
+
+        private void DispatchOperatorPropertiesViewModel_WithDimensionAndOutletCount(object viewModel2)
+        {
+            var castedViewModel = (OperatorPropertiesViewModel_WithDimensionAndOutletCount)viewModel2;
+
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_WithDimensionAndOutletCount_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
+            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
+            if (listIndex.HasValue)
+            {
+                list[listIndex.Value] = castedViewModel;
+            }
+            else
+            {
+                list.Add(castedViewModel);
+            }
+
+            if (castedViewModel.Visible)
+            {
+                HideAllPropertiesViewModels();
+                castedViewModel.Visible = true;
+            }
+
+            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            castedViewModel.ValidationMessages.Clear();
+        }
+
+        private void DispatchOperatorPropertiesViewModel_WithInletCount(object viewModel2)
+        {
+            var castedViewModel = (OperatorPropertiesViewModel_WithInletCount)viewModel2;
+
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_WithInletCount_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
             int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
             if (listIndex.HasValue)
             {

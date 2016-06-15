@@ -405,6 +405,15 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                         .ToList();
         }
 
+        public static IList<OperatorPropertiesViewModel_WithInletCount> ToPropertiesViewModelList_WithInletCount(this Patch patch)
+        {
+            if (patch == null) throw new NullException(() => patch);
+
+            return patch.Operators.Where(x => ViewModelHelper.OperatorTypeEnums_WithInletCountPropertyViews.Contains(x.GetOperatorTypeEnum()))
+                                  .Select(x => x.ToPropertiesViewModel_WithInletCount())
+                                  .ToList();
+        }
+
         public static OperatorPropertiesViewModel ToPropertiesViewModel(this Operator entity)
         {
             if (entity == null) throw new NullException(() => entity);
@@ -741,6 +750,23 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OutletCount = entity.Outlets.Count,
                 Dimension = wrapper.Dimension.ToIDAndDisplayName(),
                 DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel(),
+                ValidationMessages = new List<Message>()
+            };
+
+            return viewModel;
+        }
+
+        public static OperatorPropertiesViewModel_WithInletCount ToPropertiesViewModel_WithInletCount(this Operator entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            var viewModel = new OperatorPropertiesViewModel_WithInletCount
+            {
+                ID = entity.ID,
+                PatchID = entity.Patch.ID,
+                Name = entity.Name,
+                OperatorType = entity.OperatorType.ToIDAndDisplayName(),
+                InletCount = entity.Inlets.Count,
                 ValidationMessages = new List<Message>()
             };
 

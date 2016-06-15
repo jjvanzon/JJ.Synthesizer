@@ -45,6 +45,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.LowPassFilter, VisitLowPassFilter },
                 { OperatorTypeEnum.MakeContinuous, VisitMakeContinuous },
                 { OperatorTypeEnum.MakeDiscrete, VisitMakeDiscrete },
+                { OperatorTypeEnum.MaxDiscrete, VisitMaxDiscrete },
                 { OperatorTypeEnum.Maximum, VisitMaximum },
                 { OperatorTypeEnum.Minimum, VisitMinimum },
                 { OperatorTypeEnum.Multiply, VisitMultiply },
@@ -299,6 +300,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         [DebuggerHidden]
         protected virtual void VisitMakeDiscrete(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
+        [DebuggerHidden]
+        protected virtual void VisitMaxDiscrete(Operator op)
         {
             VisitOperatorBase(op);
         }

@@ -1051,6 +1051,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Max Discrete.
+        /// </summary>
+        public static string MaxDiscrete {
+            get {
+                return ResourceManager.GetString("MaxDiscrete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Maximum Frequency.
         /// </summary>
         public static string MaxFrequency {

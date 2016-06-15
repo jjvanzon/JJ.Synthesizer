@@ -1147,6 +1147,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
+            if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
 
             Operator entity = operatorRepository.TryGet(viewModel.ID);
             if (entity == null)
@@ -1157,7 +1158,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
 
             entity.Name = viewModel.Name;
-            entity.OperatorType = operatorTypeRepository.Get(viewModel.OperatorType.ID);
+            entity.LinkTo(operatorTypeRepository.Get(viewModel.OperatorType.ID));
 
             var wrapper = new OperatorWrapperBase_WithDimension(entity);
             bool interpolationTypeIsFilledIn = viewModel.Dimension != null && viewModel.Dimension.ID != 0;
@@ -1180,6 +1181,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
+            if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
 
             Operator entity = operatorRepository.TryGet(viewModel.ID);
             if (entity == null)
@@ -1190,7 +1192,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
 
             entity.Name = viewModel.Name;
-            entity.OperatorType = operatorTypeRepository.Get(viewModel.OperatorType.ID);
+            entity.LinkTo(operatorTypeRepository.Get(viewModel.OperatorType.ID));
 
             var wrapper = new OperatorWrapperBase_WithDimensionAndResampleInterpolationType(entity);
 
@@ -1226,6 +1228,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
+            if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
 
             Operator entity = operatorRepository.TryGet(viewModel.ID);
             if (entity == null)
@@ -1236,7 +1239,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
 
             entity.Name = viewModel.Name;
-            entity.OperatorType = operatorTypeRepository.Get(viewModel.OperatorType.ID);
+            entity.LinkTo(operatorTypeRepository.Get(viewModel.OperatorType.ID));
 
             var wrapper = new Unbundle_OperatorWrapper(entity);
             bool dimensionIsFilledIn = viewModel.Dimension != null && viewModel.Dimension.ID != 0;
@@ -1248,6 +1251,30 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             {
                 wrapper.Dimension = DimensionEnum.Undefined;
             }
+
+            return entity;
+        }
+
+        public static Operator ToEntity(
+            this OperatorPropertiesViewModel_WithInletCount viewModel,
+            IOperatorRepository operatorRepository,
+            IOperatorTypeRepository operatorTypeRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (operatorRepository == null) throw new NullException(() => operatorRepository);
+            if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
+            if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
+
+            Operator entity = operatorRepository.TryGet(viewModel.ID);
+            if (entity == null)
+            {
+                entity = new Operator();
+                entity.ID = viewModel.ID;
+                operatorRepository.Insert(entity);
+            }
+
+            entity.Name = viewModel.Name;
+            entity.LinkTo(operatorTypeRepository.Get(viewModel.OperatorType.ID));
 
             return entity;
         }
@@ -1392,19 +1419,19 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.PatchRepository, repositories.DocumentRepository);
             }
 
-            foreach (OperatorPropertiesViewModel_WithDimension operatorPropertiesViewModel_WithDimension in userInput.OperatorPropertiesList_WithDimension)
+            foreach (OperatorPropertiesViewModel_ForFilter propertiesViewModel in userInput.OperatorPropertiesList_ForFilters)
             {
-                operatorPropertiesViewModel_WithDimension.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
             }
 
-            foreach (OperatorPropertiesViewModel_ForFilter operatorPropertiesViewModel_ForFilter in userInput.OperatorPropertiesList_ForFilters)
+            foreach (OperatorPropertiesViewModel_ForMakeContinuous propertiesViewModel in userInput.OperatorPropertiesList_ForMakeContinuous)
             {
-                operatorPropertiesViewModel_ForFilter.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
             }
 
-            foreach (OperatorPropertiesViewModel_ForNumber operatorPropertiesViewModel_ForNumber in userInput.OperatorPropertiesList_ForNumbers)
+            foreach (OperatorPropertiesViewModel_ForNumber propertiesViewModel in userInput.OperatorPropertiesList_ForNumbers)
             {
-                operatorPropertiesViewModel_ForNumber.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
             }
 
             foreach (OperatorPropertiesViewModel_ForPatchInlet propertiesViewModel in userInput.OperatorPropertiesList_ForPatchInlets)
@@ -1417,17 +1444,27 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 propertiesViewModel.ToOperatorWithOutlet(patchRepositories);
             }
 
-            foreach (OperatorPropertiesViewModel_WithDimensionAndInterpolation propertiesViewModel in userInput.OperatorPropertiesList_WithDimensionAndInterpolation)
-            {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
-            }
-
             foreach (OperatorPropertiesViewModel_ForSample propertiesViewModel in userInput.OperatorPropertiesList_ForSamples)
             {
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.SampleRepository);
             }
 
+            foreach (OperatorPropertiesViewModel_WithDimension propertiesViewModel in userInput.OperatorPropertiesList_WithDimension)
+            {
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
+            }
+
+            foreach (OperatorPropertiesViewModel_WithDimensionAndInterpolation propertiesViewModel in userInput.OperatorPropertiesList_WithDimensionAndInterpolation)
+            {
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
+            }
+
             foreach (OperatorPropertiesViewModel_WithDimensionAndOutletCount propertiesViewModel in userInput.OperatorPropertiesList_WithDimensionAndOutletCount)
+            {
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
+            }
+
+            foreach (OperatorPropertiesViewModel_WithInletCount propertiesViewModel in userInput.OperatorPropertiesList_WithInletCount)
             {
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
             }

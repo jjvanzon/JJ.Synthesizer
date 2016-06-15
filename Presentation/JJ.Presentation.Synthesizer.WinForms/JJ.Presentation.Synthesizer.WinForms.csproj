@@ -117,6 +117,12 @@
     <Compile Include="UserControls\CurrentPatchesUserControl.Designer.cs">
       <DependentUpon>CurrentPatchesUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\OperatorPropertiesUserControl_WithInletCount.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\OperatorPropertiesUserControl_WithInletCount.Designer.cs">
+      <DependentUpon>OperatorPropertiesUserControl_WithInletCount.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_ForMakeContinuous.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -360,6 +366,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\CurrentPatchesUserControl.resx">
       <DependentUpon>CurrentPatchesUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_WithInletCount.resx">
+      <DependentUpon>OperatorPropertiesUserControl_WithInletCount.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForMakeContinuous.resx">
       <DependentUpon>OperatorPropertiesUserControl_ForMakeContinuous.cs</DependentUpon>

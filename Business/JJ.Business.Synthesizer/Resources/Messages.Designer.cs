@@ -277,15 +277,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Operator type must be &apos;Adder&apos; or &apos;Bundle&apos;..
-        /// </summary>
-        internal static string OperatorTypeMustBeAdderOrBundle {
-            get {
-                return ResourceManager.GetString("OperatorTypeMustBeAdderOrBundle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Outlet list indexes are not unique..
         /// </summary>
         internal static string OutletListIndexesAreNotUnique {

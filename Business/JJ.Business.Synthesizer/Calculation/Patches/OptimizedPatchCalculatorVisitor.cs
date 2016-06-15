@@ -1572,6 +1572,26 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             VisitUnbundle(op);
         }
 
+        protected override void VisitMaxDiscrete(Operator op)
+        {
+            base.VisitMaxDiscrete(op);
+
+            var operandCalculators = new List<OperatorCalculatorBase>(op.Inlets.Count);
+
+            for (int i = 0; i < op.Inlets.Count; i++)
+            {
+                OperatorCalculatorBase operandCalculator = _stack.Pop();
+
+                operandCalculator = operandCalculator ?? new Zero_OperatorCalculator();
+
+                operandCalculators.Add(operandCalculator);
+            }
+
+            OperatorCalculatorBase calculator = new MaxDiscrete_OperatorCalculator(operandCalculators);
+
+            _stack.Push(calculator);
+        }
+
         protected override void VisitMaximum(Operator op)
         {
             var wrapper = new Maximum_OperatorWrapper(op);

@@ -11,7 +11,6 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Canonical;
 using JJ.Business.Canonical;
-using JJ.Framework.Common.Exceptions;
 
 namespace JJ.Business.Synthesizer
 {
@@ -25,8 +24,6 @@ namespace JJ.Business.Synthesizer
             {
                 X = x,
             };
-
-            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -44,8 +41,6 @@ namespace JJ.Business.Synthesizer
                 B = b
             };
 
-            op.LinkTo(Patch);
-
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
@@ -61,29 +56,7 @@ namespace JJ.Business.Synthesizer
         {
             if (operands == null) throw new NullException(() => operands);
 
-            var op = new Operator();
-            op.ID = _repositories.IDRepository.GetID();
-            op.SetOperatorTypeEnum(OperatorTypeEnum.Adder, _repositories.OperatorTypeRepository);
-            _repositories.OperatorRepository.Insert(op);
-
-            for (int i = 0; i < operands.Count; i++)
-            {
-                var inlet = new Inlet();
-                inlet.ID = _repositories.IDRepository.GetID();
-                inlet.ListIndex = i;
-                inlet.LinkTo(op);
-                _repositories.InletRepository.Insert(inlet);
-
-                Outlet operand = operands[i];
-                inlet.InputOutlet = operand;
-            }
-
-            var outlet = new Outlet();
-            outlet.ID = _repositories.IDRepository.GetID();
-            outlet.LinkTo(op);
-            _repositories.OutletRepository.Insert(outlet);
-
-            op.LinkTo(Patch);
+            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.Adder, operands);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -101,8 +74,6 @@ namespace JJ.Business.Synthesizer
                 A = a,
                 B = b
             };
-
-            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -126,8 +97,6 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            op.LinkTo(Patch);
-
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
@@ -146,37 +115,14 @@ namespace JJ.Business.Synthesizer
 
         public Bundle_OperatorWrapper Bundle(IList<Outlet> operands, DimensionEnum dimension = DimensionEnum.Undefined)
         {
-            if (operands == null) throw new NullException(() => operands);
-
-            var op = new Operator();
-            op.ID = _repositories.IDRepository.GetID();
-            op.SetOperatorTypeEnum(OperatorTypeEnum.Bundle, _repositories.OperatorTypeRepository);
-            _repositories.OperatorRepository.Insert(op);
-
-            for (int i = 0; i < operands.Count; i++)
-            {
-                var inlet = new Inlet();
-                inlet.ID = _repositories.IDRepository.GetID();
-                inlet.ListIndex = i;
-                inlet.LinkTo(op);
-                _repositories.InletRepository.Insert(inlet);
-
-                Outlet operand = operands[i];
-                inlet.InputOutlet = operand;
-            }
-
-            var outlet = new Outlet();
-            outlet.ID = _repositories.IDRepository.GetID();
-            outlet.LinkTo(op);
-            _repositories.OutletRepository.Insert(outlet);
-
-            op.LinkTo(Patch);
+            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.Bundle, operands);
 
             var wrapper = new Bundle_OperatorWrapper(op);
             wrapper.Dimension = dimension;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -189,8 +135,6 @@ namespace JJ.Business.Synthesizer
                 Calculation = calculation,
                 Reset = reset
             };
-
-            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -220,8 +164,6 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            op.LinkTo(Patch);
-
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
@@ -239,8 +181,6 @@ namespace JJ.Business.Synthesizer
             {
                 wrapper.CurveID = curve.ID;
             }
-
-            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -314,8 +254,6 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            op.LinkTo(Patch);
-
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
@@ -332,8 +270,6 @@ namespace JJ.Business.Synthesizer
                 Denominator = denominator,
                 Origin = origin
             };
-
-            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -352,8 +288,6 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            op.LinkTo(Patch);
-
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
@@ -369,8 +303,6 @@ namespace JJ.Business.Synthesizer
                 A = a,
                 B = b
             };
-
-            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -388,8 +320,6 @@ namespace JJ.Business.Synthesizer
                 High = high,
                 Ratio = ratio
             };
-
-            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -432,8 +362,6 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            op.LinkTo(Patch);
-
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
@@ -449,8 +377,6 @@ namespace JJ.Business.Synthesizer
                 A = a,
                 B = b
             };
-
-            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -468,8 +394,6 @@ namespace JJ.Business.Synthesizer
                 B = b
             };
 
-            op.LinkTo(Patch);
-
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
@@ -486,8 +410,6 @@ namespace JJ.Business.Synthesizer
                 MinFrequency = minFrequency
             };
 
-            op.LinkTo(Patch);
-
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
@@ -502,8 +424,6 @@ namespace JJ.Business.Synthesizer
             {
                 Signal = signal,
             };
-
-            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -522,8 +442,6 @@ namespace JJ.Business.Synthesizer
                 Else = @else
             };
 
-            op.LinkTo(Patch);
-
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
@@ -540,8 +458,6 @@ namespace JJ.Business.Synthesizer
                 B = b
             };
 
-            op.LinkTo(Patch);
-
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
@@ -557,8 +473,6 @@ namespace JJ.Business.Synthesizer
                 A = a,
                 B = b
             };
-
-            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -588,8 +502,6 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            op.LinkTo(Patch);
-
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
@@ -605,8 +517,6 @@ namespace JJ.Business.Synthesizer
                 Signal = signal,
                 MaxFrequency = maxFrequency
             };
-
-            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -660,29 +570,7 @@ namespace JJ.Business.Synthesizer
             interpolation = interpolation ?? ResampleInterpolationTypeEnum.Block;
             dimension = dimension ?? DimensionEnum.Undefined;
 
-            var op = new Operator();
-            op.ID = _repositories.IDRepository.GetID();
-            op.SetOperatorTypeEnum(OperatorTypeEnum.MakeContinuous, _repositories.OperatorTypeRepository);
-            _repositories.OperatorRepository.Insert(op);
-
-            for (int i = 0; i < operands.Count; i++)
-            {
-                var inlet = new Inlet();
-                inlet.ID = _repositories.IDRepository.GetID();
-                inlet.ListIndex = i;
-                inlet.LinkTo(op);
-                _repositories.InletRepository.Insert(inlet);
-
-                Outlet operand = operands[i];
-                inlet.InputOutlet = operand;
-            }
-
-            var outlet = new Outlet();
-            outlet.ID = _repositories.IDRepository.GetID();
-            outlet.LinkTo(op);
-            _repositories.OutletRepository.Insert(outlet);
-
-            op.LinkTo(Patch);
+            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.MakeContinuous, operands);
 
             var wrapper = new MakeContinuous_OperatorWrapper(op);
             wrapper.InterpolationType = interpolation.Value;
@@ -690,6 +578,7 @@ namespace JJ.Business.Synthesizer
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -748,11 +637,27 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension.Value
             };
 
-            op.LinkTo(Patch);
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
+        public MaxDiscrete_OperatorWrapper MaxDiscrete(params Outlet[] operands)
+        {
+            return MaxDiscrete((IList<Outlet>)operands);
+        }
+
+        public MaxDiscrete_OperatorWrapper MaxDiscrete(IList<Outlet> operands)
+        {
+            if (operands == null) throw new NullException(() => operands);
+
+            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.MaxDiscrete, operands);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
+            var wrapper = new MaxDiscrete_OperatorWrapper(op);
             return wrapper;
         }
 
@@ -771,8 +676,6 @@ namespace JJ.Business.Synthesizer
                 SampleCount = sampleCount,
                 Dimension = dimension
             };
-
-            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -796,8 +699,6 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            op.LinkTo(Patch);
-
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
@@ -814,8 +715,6 @@ namespace JJ.Business.Synthesizer
                 B = b,
                 Origin = origin
             };
-
-            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -835,8 +734,6 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            op.LinkTo(Patch);
-
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
@@ -852,8 +749,6 @@ namespace JJ.Business.Synthesizer
                 X = x,
             };
 
-            op.LinkTo(Patch);
-
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
@@ -866,8 +761,6 @@ namespace JJ.Business.Synthesizer
 
             var wrapper = new Noise_OperatorWrapper(op);
             wrapper.Dimension = dimension;
-
-            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -883,8 +776,6 @@ namespace JJ.Business.Synthesizer
             {
                 X = x,
             };
-
-            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -902,8 +793,6 @@ namespace JJ.Business.Synthesizer
                 B = b
             };
 
-            op.LinkTo(Patch);
-
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
@@ -919,8 +808,6 @@ namespace JJ.Business.Synthesizer
                 Number = number
             };
 
-            op.LinkTo(Patch);
-
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
@@ -935,8 +822,6 @@ namespace JJ.Business.Synthesizer
             {
                 X = x,
             };
-
-            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -954,8 +839,6 @@ namespace JJ.Business.Synthesizer
                 B = b
             };
 
-            op.LinkTo(Patch);
-
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
@@ -971,8 +854,6 @@ namespace JJ.Business.Synthesizer
                 // You have to set this property or the wrapper's ListIndex getter would crash.
                 ListIndex = 0,
             };
-
-            op.LinkTo(Patch);
 
             ExecuteSideEffectsForCreatingPatchInletOrPatchOutlet(wrapper.WrappedOperator);
 
@@ -1040,8 +921,6 @@ namespace JJ.Business.Synthesizer
                 ListIndex = 0,
             };
 
-            op.LinkTo(Patch);
-
             ExecuteSideEffectsForCreatingPatchInletOrPatchOutlet(wrapper.WrappedOperator);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
@@ -1082,8 +961,6 @@ namespace JJ.Business.Synthesizer
                 Exponent = exponent
             };
 
-            op.LinkTo(Patch);
-
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
@@ -1102,8 +979,6 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            op.LinkTo(Patch);
-
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
@@ -1119,8 +994,6 @@ namespace JJ.Business.Synthesizer
                 Calculation = calculation,
                 Reset = reset
             };
-
-            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1140,8 +1013,6 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            op.LinkTo(Patch);
-
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
@@ -1159,8 +1030,6 @@ namespace JJ.Business.Synthesizer
                 Step = step,
                 Dimension = dimension
             };
-
-            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1184,8 +1053,6 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            op.LinkTo(Patch);
-
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
@@ -1203,8 +1070,6 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            op.LinkTo(Patch);
-
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
@@ -1219,8 +1084,6 @@ namespace JJ.Business.Synthesizer
             {
                 Operand = operand
             };
-
-            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1238,8 +1101,6 @@ namespace JJ.Business.Synthesizer
                 Step = step,
                 Offset = offset
             };
-
-            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1259,8 +1120,6 @@ namespace JJ.Business.Synthesizer
                 wrapper.SampleID = sample.ID;
             }
 
-            op.LinkTo(Patch);
-
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
@@ -1278,8 +1137,6 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            op.LinkTo(Patch);
-
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
@@ -1296,8 +1153,6 @@ namespace JJ.Business.Synthesizer
                 PhaseShift = phaseShift,
                 Dimension = dimension
             };
-
-            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1323,8 +1178,6 @@ namespace JJ.Business.Synthesizer
                 TargetValueB = targetValueB,
             };
 
-            op.LinkTo(Patch);
-
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
@@ -1345,8 +1198,6 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            op.LinkTo(Patch);
-
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
@@ -1363,8 +1214,6 @@ namespace JJ.Business.Synthesizer
                 Value = value,
                 Dimension = dimension
             };
-
-            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1383,8 +1232,6 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            op.LinkTo(Patch);
-
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
@@ -1402,8 +1249,6 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            op.LinkTo(Patch);
-
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
@@ -1420,8 +1265,6 @@ namespace JJ.Business.Synthesizer
                 Factor = factor,
                 Dimension = dimension
             };
-
-            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1441,8 +1284,6 @@ namespace JJ.Business.Synthesizer
                 FrequencyCount = frequencyCount
             };
 
-            op.LinkTo(Patch);
-
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
@@ -1460,8 +1301,6 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            op.LinkTo(Patch);
-
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
@@ -1478,8 +1317,6 @@ namespace JJ.Business.Synthesizer
                 PhaseShift = phaseShift,
                 Dimension = dimension
             };
-
-            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1499,8 +1336,6 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            op.LinkTo(Patch);
-
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
@@ -1516,8 +1351,6 @@ namespace JJ.Business.Synthesizer
                 A = a,
                 B = b
             };
-
-            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1537,8 +1370,6 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            op.LinkTo(Patch);
-
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
@@ -1554,8 +1385,6 @@ namespace JJ.Business.Synthesizer
                 Calculation = calculation,
                 Reset = reset
             };
-
-            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1573,8 +1402,6 @@ namespace JJ.Business.Synthesizer
                 PhaseShift = phaseShift,
                 Dimension = dimension
             };
-
-            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1636,8 +1463,6 @@ namespace JJ.Business.Synthesizer
                 Operand = operand,
                 Dimension = dimension.Value
             };
-
-            op.LinkTo(Patch);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1708,6 +1533,7 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.LowPassFilter: return LowPassFilter();
                 case OperatorTypeEnum.MakeContinuous: return MakeContinuous(new Outlet[inletOrOutletCount]);
                 case OperatorTypeEnum.MakeDiscrete: return MakeDiscrete(null, inletOrOutletCount);
+                case OperatorTypeEnum.MaxDiscrete: return MaxDiscrete(new Outlet[inletOrOutletCount]);
                 case OperatorTypeEnum.Maximum: return Maximum();
                 case OperatorTypeEnum.Minimum: return Minimum();
                 case OperatorTypeEnum.Multiply: return Multiply();
@@ -1760,8 +1586,6 @@ namespace JJ.Business.Synthesizer
             op.ID = _repositories.IDRepository.GetID();
             op.SetOperatorTypeEnum(operatorTypeEnum, _repositories.OperatorTypeRepository);
 
-            // TODO: This code line was just added on the fly, but really the whole code file must be checked,
-            // so that the operators are always linked to the (nullable) Patch.
             op.LinkTo(Patch);
             _repositories.OperatorRepository.Insert(op);
 
@@ -1776,6 +1600,37 @@ namespace JJ.Business.Synthesizer
                 Outlet outlet = CreateOutlet(op);
                 outlet.ListIndex = i;
             }
+
+            return op;
+        }
+
+        private Operator CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum operatorTypeEnum, IList<Outlet> operands)
+        {
+            if (operands == null) throw new NullException(() => operands);
+
+            var op = new Operator();
+            op.ID = _repositories.IDRepository.GetID();
+            op.SetOperatorTypeEnum(operatorTypeEnum, _repositories.OperatorTypeRepository);
+            _repositories.OperatorRepository.Insert(op);
+
+            for (int i = 0; i < operands.Count; i++)
+            {
+                var inlet = new Inlet();
+                inlet.ID = _repositories.IDRepository.GetID();
+                inlet.ListIndex = i;
+                inlet.LinkTo(op);
+                _repositories.InletRepository.Insert(inlet);
+
+                Outlet operand = operands[i];
+                inlet.InputOutlet = operand;
+            }
+
+            var outlet = new Outlet();
+            outlet.ID = _repositories.IDRepository.GetID();
+            outlet.LinkTo(op);
+            _repositories.OutletRepository.Insert(outlet);
+
+            op.LinkTo(Patch);
 
             return op;
         }

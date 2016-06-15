@@ -16,6 +16,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         protected override void Execute()
         {
+            base.Execute();
+
             Operator op = Object;
 
             if (DataPropertyParser.DataIsWellFormed(op))
@@ -26,8 +28,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                     .NotNullOrEmpty()
                     .IsEnum<DimensionEnum>();
             }
-
-            base.Execute();
         }
     }
 }

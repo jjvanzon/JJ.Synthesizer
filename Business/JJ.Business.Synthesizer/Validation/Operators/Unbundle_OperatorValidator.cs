@@ -20,6 +20,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         protected override void Execute()
         {
+            base.Execute();
+
             Operator op = Object;
 
             For(() => op.Outlets.Count, CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Outlets)).GreaterThan(0);
@@ -32,8 +34,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                     .NotNullOrEmpty()
                     .IsEnum<DimensionEnum>();
             }
-
-            base.Execute();
         }
     }
 }

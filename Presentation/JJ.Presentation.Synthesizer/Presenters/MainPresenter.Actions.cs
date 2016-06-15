@@ -721,9 +721,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 patchDocumentViewModel.OperatorPropertiesList_ForPatchInlets.ForEach(x => x.Successful = true);
                 patchDocumentViewModel.OperatorPropertiesList_ForPatchOutlets.ForEach(x => x.Successful = true);
                 patchDocumentViewModel.OperatorPropertiesList_ForSamples.ForEach(x => x.Successful = true);
-                patchDocumentViewModel.OperatorPropertiesList_WithDimensionAndOutletCount.ForEach(x => x.Successful = true);
                 patchDocumentViewModel.OperatorPropertiesList_WithDimension.ForEach(x => x.Successful = true);
                 patchDocumentViewModel.OperatorPropertiesList_WithDimensionAndInterpolation.ForEach(x => x.Successful = true);
+                patchDocumentViewModel.OperatorPropertiesList_WithDimensionAndOutletCount.ForEach(x => x.Successful = true);
+                patchDocumentViewModel.OperatorPropertiesList_WithInletCount.ForEach(x => x.Successful = true);
                 patchDocumentViewModel.PatchDetails.Successful = true;
                 patchDocumentViewModel.PatchProperties.Successful = true;
                 patchDocumentViewModel.SampleGrid.Successful = true;
@@ -1190,14 +1191,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
             {
-                OperatorPropertiesViewModel_WithDimensionAndOutletCount userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_WithDimensionAndOutletCount(MainViewModel.Document, id);
-                if (userInput != null)
-                {
-                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithDimensionAndOutletCount.Show(userInput));
-                    return;
-                }
-            }
-            {
                 OperatorPropertiesViewModel_WithDimension userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_WithDimension(MainViewModel.Document, id);
                 if (userInput != null)
                 {
@@ -1210,6 +1203,22 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 if (userInput != null)
                 {
                     TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithDimensionAndInterpolation.Show(userInput));
+                    return;
+                }
+            }
+            {
+                OperatorPropertiesViewModel_WithDimensionAndOutletCount userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_WithDimensionAndOutletCount(MainViewModel.Document, id);
+                if (userInput != null)
+                {
+                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithDimensionAndOutletCount.Show(userInput));
+                    return;
+                }
+            }
+            {
+                OperatorPropertiesViewModel_WithInletCount userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_WithInletCount(MainViewModel.Document, id);
+                if (userInput != null)
+                {
+                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithInletCount.Show(userInput));
                     return;
                 }
             }
@@ -1285,11 +1294,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesCloseOrLoseFocus_ForSample(_operatorPropertiesPresenter_ForSample.Close);
         }
 
-        public void OperatorPropertiesClose_WithDimensionAndOutletCount()
-        {
-            OperatorPropertiesCloseOrLoseFocus_WithDimensionAndOutletCount(_operatorPropertiesPresenter_WithDimensionAndOutletCount.Close);
-        }
-
         public void OperatorPropertiesClose_WithDimension()
         {
             OperatorPropertiesCloseOrLoseFocus_WithDimension(_operatorPropertiesPresenter_WithDimension.Close);
@@ -1298,6 +1302,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void OperatorPropertiesClose_WithDimensionAndInterpolation()
         {
             OperatorPropertiesCloseOrLoseFocus_WithDimensionAndInterpolation(_operatorPropertiesPresenter_WithDimensionAndInterpolation.Close);
+        }
+
+        public void OperatorPropertiesClose_WithDimensionAndOutletCount()
+        {
+            OperatorPropertiesCloseOrLoseFocus_WithDimensionAndOutletCount(_operatorPropertiesPresenter_WithDimensionAndOutletCount.Close);
+        }
+
+        public void OperatorPropertiesClose_WithInletCount()
+        {
+            OperatorPropertiesCloseOrLoseFocus_WithInletCount(_operatorPropertiesPresenter_WithInletCount.Close);
         }
 
         public void OperatorPropertiesLoseFocus()
@@ -1355,11 +1369,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesCloseOrLoseFocus_ForSample(_operatorPropertiesPresenter_ForSample.LoseFocus);
         }
 
-        public void OperatorPropertiesLoseFocus_WithDimensionAndOutletCount()
-        {
-            OperatorPropertiesCloseOrLoseFocus_WithDimensionAndOutletCount(_operatorPropertiesPresenter_WithDimensionAndOutletCount.LoseFocus);
-        }
-
         public void OperatorPropertiesLoseFocus_WithDimension()
         {
             OperatorPropertiesCloseOrLoseFocus_WithDimension(_operatorPropertiesPresenter_WithDimension.LoseFocus);
@@ -1368,6 +1377,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void OperatorPropertiesLoseFocus_WithDimensionAndInterpolation()
         {
             OperatorPropertiesCloseOrLoseFocus_WithDimensionAndInterpolation(_operatorPropertiesPresenter_WithDimensionAndInterpolation.LoseFocus);
+        }
+
+        public void OperatorPropertiesLoseFocus_WithDimensionAndOutletCount()
+        {
+            OperatorPropertiesCloseOrLoseFocus_WithDimensionAndOutletCount(_operatorPropertiesPresenter_WithDimensionAndOutletCount.LoseFocus);
+        }
+
+        public void OperatorPropertiesLoseFocus_WithInletCount()
+        {
+            OperatorPropertiesCloseOrLoseFocus_WithInletCount(_operatorPropertiesPresenter_WithInletCount.LoseFocus);
         }
 
         private void OperatorPropertiesCloseOrLoseFocus(Func<OperatorPropertiesViewModel, OperatorPropertiesViewModel> partialAction)
@@ -1537,21 +1556,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        private void OperatorPropertiesCloseOrLoseFocus_WithDimensionAndOutletCount(Func<OperatorPropertiesViewModel_WithDimensionAndOutletCount, OperatorPropertiesViewModel_WithDimensionAndOutletCount> partialAction)
-        {
-            // GetViewModel
-            OperatorPropertiesViewModel_WithDimensionAndOutletCount userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_WithDimensionAndOutletCount(MainViewModel.Document);
-
-            // TemplateMethod
-            OperatorPropertiesViewModel_WithDimensionAndOutletCount viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
-
-            // Refresh
-            if (viewModel.Successful)
-            {
-                PatchDetails_RefreshOperator(userInput.ID);
-            }
-        }
-
         private void OperatorPropertiesCloseOrLoseFocus_WithDimension(Func<OperatorPropertiesViewModel_WithDimension, OperatorPropertiesViewModel_WithDimension> partialAction)
         {
             // GetViewModel
@@ -1574,6 +1578,36 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // TemplateMethod
             OperatorPropertiesViewModel_WithDimensionAndInterpolation viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
+
+            // Refresh
+            if (viewModel.Successful)
+            {
+                PatchDetails_RefreshOperator(userInput.ID);
+            }
+        }
+
+        private void OperatorPropertiesCloseOrLoseFocus_WithDimensionAndOutletCount(Func<OperatorPropertiesViewModel_WithDimensionAndOutletCount, OperatorPropertiesViewModel_WithDimensionAndOutletCount> partialAction)
+        {
+            // GetViewModel
+            OperatorPropertiesViewModel_WithDimensionAndOutletCount userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_WithDimensionAndOutletCount(MainViewModel.Document);
+
+            // TemplateMethod
+            OperatorPropertiesViewModel_WithDimensionAndOutletCount viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
+
+            // Refresh
+            if (viewModel.Successful)
+            {
+                PatchDetails_RefreshOperator(userInput.ID);
+            }
+        }
+
+        private void OperatorPropertiesCloseOrLoseFocus_WithInletCount(Func<OperatorPropertiesViewModel_WithInletCount, OperatorPropertiesViewModel_WithInletCount> partialAction)
+        {
+            // GetViewModel
+            OperatorPropertiesViewModel_WithInletCount userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_WithInletCount(MainViewModel.Document);
+
+            // TemplateMethod
+            OperatorPropertiesViewModel_WithInletCount viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
 
             // Refresh
             if (viewModel.Successful)

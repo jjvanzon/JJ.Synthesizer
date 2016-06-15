@@ -39,14 +39,9 @@ namespace JJ.Business.Synthesizer.Resources
             return String.Format(Messages.UnsupportedOperatorTypeEnumValue, operatorTypeEnum);
         }
 
-        internal static string NotUnique_WithPropertyName_AndValue(string propertyDisplayName, object value)
+        public static string NotUnique_WithPropertyName_AndValue(string propertyDisplayName, object value)
         {
             return String.Format(Messages.NotUnique_WithPropertyName_AndValue, propertyDisplayName, value);
-        }
-
-        internal static string OperatorTypeMustBeAdderOrBundle()
-        {
-            return Messages.OperatorTypeMustBeAdderOrBundle;
         }
 
         public static string SampleNotLoaded(string sampleName)

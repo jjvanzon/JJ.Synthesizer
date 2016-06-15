@@ -13,6 +13,16 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 {
     internal class OperatorValidator_SetInletCount : FluentValidator<Operator>
     {
+        private static readonly HashSet<OperatorTypeEnum> _allowedOperatorTypeEnums = new HashSet<OperatorTypeEnum>
+        {
+            OperatorTypeEnum.Adder,
+            OperatorTypeEnum.Bundle,
+            OperatorTypeEnum.MakeContinuous,
+            OperatorTypeEnum.MaxDiscrete
+        };
+
+        private static readonly IList<string> _allowedOperatorTypeDisplayNames = _allowedOperatorTypeEnums.Select(x => ResourceHelper.GetDisplayName(x)).ToArray();
+
         private readonly int _newInletCount;
 
         public OperatorValidator_SetInletCount(Operator obj, int newInletCount)
@@ -28,11 +38,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             Operator op = Object;
 
             OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
-            if (operatorTypeEnum != OperatorTypeEnum.Adder &&
-                operatorTypeEnum != OperatorTypeEnum.Bundle &&
-                operatorTypeEnum != OperatorTypeEnum.MakeContinuous)
+
+            if (!_allowedOperatorTypeEnums.Contains(operatorTypeEnum))
             {
-                ValidationMessages.Add(() => op.OperatorType, MessageFormatter.OperatorTypeMustBeAdderOrBundle());
+                ValidationMessages.AddNotInListMessage(() => operatorTypeEnum, PropertyDisplayNames.OperatorType, _allowedOperatorTypeDisplayNames);
                 return;
             }
 

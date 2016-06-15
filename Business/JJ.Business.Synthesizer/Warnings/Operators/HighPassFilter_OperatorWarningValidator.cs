@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
-    internal class HighPassFilter_OperatorWarningValidator : OperatorWarningValidator_Base_AllInletsFilled
+    internal class HighPassFilter_OperatorWarningValidator : OperatorWarningValidator_Base_AllInletsFilledIn
     {
         public HighPassFilter_OperatorWarningValidator(Operator obj)
             : base(obj)

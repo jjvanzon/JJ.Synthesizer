@@ -165,12 +165,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 }
             }
 
-            // OperatorProperties_WithDimensionAndOutletCount
-            operatorPropertiesUserControl_WithDimensionAndOutletCount.ViewModel =
-                _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_WithDimensionAndOutletCount)
-                .Where(x => x.Visible)
-                .FirstOrDefault();
-
             // OperatorProperties_WithDimension
             operatorPropertiesUserControl_WithDimension.ViewModel =
                 _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_WithDimension)
@@ -180,6 +174,18 @@ namespace JJ.Presentation.Synthesizer.WinForms
             // OperatorProperties_WithDimensionAndInterpolation
             operatorPropertiesUserControl_WithDimensionAndInterpolation.ViewModel =
                 _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_WithDimensionAndInterpolation)
+                .Where(x => x.Visible)
+                .FirstOrDefault();
+
+            // OperatorProperties_WithDimensionAndOutletCount
+            operatorPropertiesUserControl_WithDimensionAndOutletCount.ViewModel =
+                _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_WithDimensionAndOutletCount)
+                .Where(x => x.Visible)
+                .FirstOrDefault();
+
+            // OperatorProperties_WithInletCount
+            operatorPropertiesUserControl_WithInletCount.ViewModel =
+                _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_WithInletCount)
                 .Where(x => x.Visible)
                 .FirstOrDefault();
 

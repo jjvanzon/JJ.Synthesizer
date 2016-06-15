@@ -23,6 +23,21 @@ namespace JJ.OneOff.Synthesizer.DataMigration
     {
         private const int DEFAULT_FREQUENCY = 440;
 
+        public static void AssertAllDocuments(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+                AssertDocuments(repositories, progressCallback);
+            }
+
+            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        }
+
         //public static void MigrateSineVolumes(Action<string> progressCallback)
         //{
         //    throw new NotSupportedException();
@@ -912,7 +927,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
         //                {
         //                    sampleID = Int32.Parse(op.Data);
         //                }
-                        
+
         //                op.Data = null;
 
         //                var wrapper = new Sample_OperatorWrapper(op, repositories.SampleRepository);

@@ -1,28 +1,22 @@
-﻿using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Presentation.Resources;
-using JJ.Data.Synthesizer;
+﻿using JJ.Data.Synthesizer;
 using System;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
+using System.Linq;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class Bundle_OperatorValidator : OperatorValidator_Base
+    internal class Bundle_OperatorValidator : OperatorValidator_Base_VariableInletCountOneOutlet
     {
         public Bundle_OperatorValidator(Operator obj)
-            : base(
-                  obj,
-                  OperatorTypeEnum.Bundle,
-                  expectedInletCount: obj.Inlets.Count, // TODO: Low priority: if obj is null, this fails.
-                  expectedOutletCount: 1,
-                  allowedDataKeys: new string[] { PropertyNames.Dimension })
+            : base(obj, OperatorTypeEnum.Bundle, allowedDataKeys: new string[] { PropertyNames.Dimension })
         { }
 
         protected override void Execute()
         {
-            Operator op = Object;
+            base.Execute();
 
-            For(() => op.Inlets.Count, CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Inlets)).GreaterThan(0);
+            Operator op = Object;
 
             if (DataPropertyParser.DataIsWellFormed(op))
             {
@@ -32,8 +26,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                     .NotNullOrEmpty()
                     .IsEnum<DimensionEnum>();
             }
-
-            base.Execute();
         }
     }
 }

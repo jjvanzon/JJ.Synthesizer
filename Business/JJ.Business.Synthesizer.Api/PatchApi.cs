@@ -300,6 +300,16 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.MakeDiscrete();
         }
 
+        public MaxDiscrete_OperatorWrapper MaxDiscrete(params Outlet[] operands)
+        {
+            return _patchManager.MaxDiscrete(operands);
+        }
+
+        public MaxDiscrete_OperatorWrapper MaxDiscrete(IList<Outlet> operands)
+        {
+            return _patchManager.MaxDiscrete(operands);
+        }
+
         public Maximum_OperatorWrapper Maximum(
             Outlet signal = null, 
             Outlet timeSliceDuration = null, 

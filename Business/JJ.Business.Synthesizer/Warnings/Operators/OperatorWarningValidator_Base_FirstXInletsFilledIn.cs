@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
-    internal class OperatorWarningValidator_Base_FirstXInletsFilledIn : OperatorWarningValidator_Base
+    internal abstract class OperatorWarningValidator_Base_FirstXInletsFilledIn : OperatorWarningValidator_Base
     {
         private int _inletCount;
 
