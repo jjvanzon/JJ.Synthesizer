@@ -18,7 +18,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             OperatorTypeEnum.Adder,
             OperatorTypeEnum.Bundle,
             OperatorTypeEnum.MakeContinuous,
-            OperatorTypeEnum.MaxDiscrete
+            OperatorTypeEnum.MaxDiscrete,
+            OperatorTypeEnum.MinDiscrete
         };
 
         private static readonly IList<string> _allowedOperatorTypeDisplayNames = _allowedOperatorTypeEnums.Select(x => ResourceHelper.GetDisplayName(x)).ToArray();

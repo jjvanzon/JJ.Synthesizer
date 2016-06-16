@@ -683,6 +683,24 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        public MinDiscrete_OperatorWrapper MinDiscrete(params Outlet[] operands)
+        {
+            return MinDiscrete((IList<Outlet>)operands);
+        }
+
+        public MinDiscrete_OperatorWrapper MinDiscrete(IList<Outlet> operands)
+        {
+            if (operands == null) throw new NullException(() => operands);
+
+            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.MinDiscrete, operands);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            var wrapper = new MinDiscrete_OperatorWrapper(op);
+            return wrapper;
+        }
+
         public Minimum_OperatorWrapper Minimum(
             Outlet signal = null,
             Outlet timeSliceDuration = null,
@@ -1534,6 +1552,7 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.MakeContinuous: return MakeContinuous(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.MakeDiscrete: return MakeDiscrete(null, variableInletOrOutletCount);
                 case OperatorTypeEnum.MaxDiscrete: return MaxDiscrete(new Outlet[variableInletOrOutletCount]);
+                case OperatorTypeEnum.MinDiscrete: return MinDiscrete(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.Maximum: return Maximum();
                 case OperatorTypeEnum.Minimum: return Minimum();
                 case OperatorTypeEnum.Multiply: return Multiply();

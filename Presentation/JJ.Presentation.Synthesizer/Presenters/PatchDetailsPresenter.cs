@@ -450,6 +450,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             switch (operatorTypeEnum)
             {
                 case OperatorTypeEnum.MaxDiscrete:
+                case OperatorTypeEnum.MinDiscrete:
                     return DEFAULT_DISCRETE_AGGREGATE_INLET_COUNT;
 
                 default:

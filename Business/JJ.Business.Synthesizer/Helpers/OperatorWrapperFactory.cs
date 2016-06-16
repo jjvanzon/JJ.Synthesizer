@@ -43,6 +43,7 @@ namespace JJ.Business.Synthesizer.Helpers
             { OperatorTypeEnum.MakeDiscrete, Create_MakeDiscrete_OperatorWrapper },
             { OperatorTypeEnum.MaxDiscrete, Create_MaxDiscrete_OperatorWrapper },
             { OperatorTypeEnum.Maximum, Create_Maximum_OperatorWrapper },
+            { OperatorTypeEnum.MinDiscrete, Create_MinDiscrete_OperatorWrapper },
             { OperatorTypeEnum.Minimum, Create_Minimum_OperatorWrapper },
             { OperatorTypeEnum.Multiply , Create_Multiply_OperatorWrapper },
             { OperatorTypeEnum.Narrower, Create_Narrower_OperatorWrapper },
@@ -158,6 +159,7 @@ namespace JJ.Business.Synthesizer.Helpers
         private static MakeDiscrete_OperatorWrapper Create_MakeDiscrete_OperatorWrapper(Operator op) { return new MakeDiscrete_OperatorWrapper(op); }
         private static MaxDiscrete_OperatorWrapper Create_MaxDiscrete_OperatorWrapper(Operator op) { return new MaxDiscrete_OperatorWrapper(op); }
         private static Maximum_OperatorWrapper Create_Maximum_OperatorWrapper(Operator op) { return new Maximum_OperatorWrapper(op); }
+        private static MinDiscrete_OperatorWrapper Create_MinDiscrete_OperatorWrapper(Operator op) { return new MinDiscrete_OperatorWrapper(op); }
         private static Minimum_OperatorWrapper Create_Minimum_OperatorWrapper(Operator op) { return new Minimum_OperatorWrapper(op); }
         private static Multiply_OperatorWrapper Create_Multiply_OperatorWrapper(Operator op) { return new Multiply_OperatorWrapper(op); }
         private static Narrower_OperatorWrapper Create_Narrower_OperatorWrapper(Operator op) { return new Narrower_OperatorWrapper(op); }

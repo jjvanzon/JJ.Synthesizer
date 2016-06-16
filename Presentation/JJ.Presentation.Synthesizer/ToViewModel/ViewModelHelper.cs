@@ -88,7 +88,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                   new HashSet<OperatorTypeEnum>
         {
             OperatorTypeEnum.Adder,
-            OperatorTypeEnum.MaxDiscrete
+            OperatorTypeEnum.MaxDiscrete,
+            OperatorTypeEnum.MinDiscrete
         };
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithoutAlternativePropertiesView { get; } =

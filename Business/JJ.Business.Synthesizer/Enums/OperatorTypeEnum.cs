@@ -119,6 +119,7 @@
         Range = 66,
         MakeDiscrete = 67,
         MakeContinuous = 68,
-        MaxDiscrete = 69
+        MaxDiscrete = 69,
+        MinDiscrete = 70
     }
 }

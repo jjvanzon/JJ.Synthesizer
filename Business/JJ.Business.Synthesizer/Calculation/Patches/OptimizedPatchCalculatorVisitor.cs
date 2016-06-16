@@ -1663,6 +1663,60 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
+        protected override void VisitMinDiscrete(Operator op)
+        {
+            base.VisitMinDiscrete(op);
+
+            OperatorCalculatorBase calculator;
+
+            var operandCalculators = new List<OperatorCalculatorBase>(op.Inlets.Count);
+            for (int i = 0; i < op.Inlets.Count; i++)
+            {
+                OperatorCalculatorBase operandCalculator = _stack.Pop();
+                if (operandCalculator != null)
+                {
+                    operandCalculators.Add(operandCalculator);
+                }
+            }
+
+            IList<OperatorCalculatorBase> constOperandCalculators = operandCalculators.Where(x => x is Number_OperatorCalculator).ToArray();
+            IList<OperatorCalculatorBase> varOperandCalculators = operandCalculators.Except(constOperandCalculators).ToArray();
+
+            OperatorCalculatorBase aggregatedConstOperandCalculator = null;
+            if (constOperandCalculators.Count != 0)
+            {
+                double aggregatedConsts = constOperandCalculators.Min(x => x.Calculate());
+                aggregatedConstOperandCalculator = new Number_OperatorCalculator(aggregatedConsts);
+            }
+
+            IList<OperatorCalculatorBase> truncatedOperandCalculatorList = varOperandCalculators.Union(aggregatedConstOperandCalculator)
+                                                                                                .Where(x => x != null)
+                                                                                                .ToArray();
+            switch (truncatedOperandCalculatorList.Count)
+            {
+                case 0:
+                    calculator = new Zero_OperatorCalculator();
+                    break;
+
+                case 1:
+                    // Also covers the 'all are const' situation, since all consts are aggregated to one in earlier code.
+                    calculator = truncatedOperandCalculatorList[0];
+                    break;
+
+                case 2:
+                    OperatorCalculatorBase aCalculator = truncatedOperandCalculatorList[0];
+                    OperatorCalculatorBase bCalculator = truncatedOperandCalculatorList[1];
+                    calculator = new MinDiscrete_OperatorCalculator_TwoOperands(aCalculator, bCalculator);
+                    break;
+
+                default:
+                    calculator = new MinDiscrete_OperatorCalculator_MoreThanTwoOperands(truncatedOperandCalculatorList);
+                    break;
+            }
+
+            _stack.Push(calculator);
+        }
+
         protected override void VisitMinimum(Operator op)
         {
             var wrapper = new Minimum_OperatorWrapper(op);

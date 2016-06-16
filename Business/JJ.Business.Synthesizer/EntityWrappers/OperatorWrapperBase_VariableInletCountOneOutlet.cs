@@ -4,14 +4,15 @@ using System.Collections.Generic;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Business.Synthesizer.Resources;
 using System;
+using System.Linq;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class MakeContinuous_OperatorWrapper : OperatorWrapperBase_WithDimensionAndResampleInterpolationType
+    public abstract class OperatorWrapperBase_VariableInletCountOneOutlet : OperatorWrapperBase
     {
         private const int RESULT_INDEX = 0;
 
-        public MakeContinuous_OperatorWrapper(Operator op)
+        public OperatorWrapperBase_VariableInletCountOneOutlet(Operator op)
             : base(op)
         { }
 
@@ -41,13 +42,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
             string name = ResourceHelper.GetPropertyDisplayName(() => Result);
             return name;
-        }
-
-        public static implicit operator Outlet(MakeContinuous_OperatorWrapper wrapper)
-        {
-            if (wrapper == null) return null;
-            
-            return wrapper.Result;
         }
     }
 }

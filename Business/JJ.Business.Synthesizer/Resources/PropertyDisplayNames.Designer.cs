@@ -1078,6 +1078,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Min (discrete).
+        /// </summary>
+        public static string MinDiscrete {
+            get {
+                return ResourceManager.GetString("MinDiscrete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Minimum Frequency.
         /// </summary>
         public static string MinFrequency {

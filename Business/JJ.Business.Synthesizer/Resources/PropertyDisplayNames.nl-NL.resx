@@ -817,4 +817,7 @@
   <data name="MaxDiscrete" xml:space="preserve">
     <value>Max (afzonderlijk)</value>
   </data>
+  <data name="MinDiscrete" xml:space="preserve">
+    <value>Minimum (afzonderlijk)</value>
+  </data>
 </root>
