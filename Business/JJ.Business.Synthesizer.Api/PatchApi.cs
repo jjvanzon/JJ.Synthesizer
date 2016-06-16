@@ -60,6 +60,16 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Average(signal, timeSliceDuration, sampleCount, dimension);
         }
 
+        public AverageDiscrete_OperatorWrapper AverageDiscrete(params Outlet[] operands)
+        {
+            return _patchManager.AverageDiscrete(operands);
+        }
+
+        public AverageDiscrete_OperatorWrapper AverageDiscrete(IList<Outlet> operands)
+        {
+            return _patchManager.AverageDiscrete(operands);
+        }
+
         public Bundle_OperatorWrapper Bundle(params Outlet[] operands)
         {
             return _patchManager.Bundle(operands);

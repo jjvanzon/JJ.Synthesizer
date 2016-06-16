@@ -20,6 +20,7 @@ namespace JJ.Business.Synthesizer.Helpers
             { OperatorTypeEnum.Adder , Create_Adder_OperatorWrapper },
             { OperatorTypeEnum.And, Create_And_OperatorWrapper },
             { OperatorTypeEnum.Average, Create_Average_OperatorWrapper },
+            { OperatorTypeEnum.AverageDiscrete, Create_AverageDiscrete_OperatorWrapper },
             { OperatorTypeEnum.Bundle, Create_Bundle_OperatorWrapper },
             { OperatorTypeEnum.ChangeTrigger, Create_ChangeTrigger_OperatorWrapper },
             { OperatorTypeEnum.Cache, Create_Cache_OperatorWrapper },
@@ -136,6 +137,7 @@ namespace JJ.Business.Synthesizer.Helpers
         private static Adder_OperatorWrapper Create_Adder_OperatorWrapper(Operator op) { return new Adder_OperatorWrapper(op); }
         private static And_OperatorWrapper Create_And_OperatorWrapper(Operator op) { return new And_OperatorWrapper(op); }
         private static Average_OperatorWrapper Create_Average_OperatorWrapper(Operator op) { return new Average_OperatorWrapper(op); }
+        private static AverageDiscrete_OperatorWrapper Create_AverageDiscrete_OperatorWrapper(Operator op) { return new AverageDiscrete_OperatorWrapper(op); }
         private static Bundle_OperatorWrapper Create_Bundle_OperatorWrapper(Operator op) { return new Bundle_OperatorWrapper(op); }
         private static Cache_OperatorWrapper Create_Cache_OperatorWrapper(Operator op) { return new Cache_OperatorWrapper(op); }
         private static ChangeTrigger_OperatorWrapper Create_ChangeTrigger_OperatorWrapper(Operator op) { return new ChangeTrigger_OperatorWrapper(op); }

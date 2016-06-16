@@ -18,7 +18,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public MinDiscrete_OperatorCalculator_MoreThanTwoOperands(IList<OperatorCalculatorBase> operandCalculators)
             : base(operandCalculators)
         {
-            if (operandCalculators.Count == 0) throw new CollectionEmptyException(() => operandCalculators);
+            if (operandCalculators == null) throw new NullException(() => operandCalculators);
+            if (operandCalculators.Count <= 2) throw new LessThanOrEqualException(() => operandCalculators.Count, 2);
 
             _firstOperandCalculator = operandCalculators.First();
             _remainingOperandCalculators = operandCalculators.Skip(1).ToArray();

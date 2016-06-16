@@ -120,6 +120,7 @@
         MakeDiscrete = 67,
         MakeContinuous = 68,
         MaxDiscrete = 69,
-        MinDiscrete = 70
+        MinDiscrete = 70,
+        AverageDiscrete = 71
     }
 }

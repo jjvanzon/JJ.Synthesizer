@@ -22,6 +22,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.Adder, VisitAdder },
                 { OperatorTypeEnum.And, VisitAnd },
                 { OperatorTypeEnum.Average, VisitAverage },
+                { OperatorTypeEnum.AverageDiscrete, VisitAverageDiscrete },
                 { OperatorTypeEnum.Bundle, VisitBundle },
                 { OperatorTypeEnum.Cache, VisitCache },
                 { OperatorTypeEnum.ChangeTrigger, VisitChangeTrigger },
@@ -163,6 +164,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         [DebuggerHidden]
         protected virtual void VisitAverage(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
+
+        [DebuggerHidden]
+        protected virtual void VisitAverageDiscrete(Operator op)
         {
             VisitOperatorBase(op);
         }

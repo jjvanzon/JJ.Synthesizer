@@ -20,6 +20,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             { OperatorTypeEnum.Adder, typeof(Adder_OperatorValidator) },
             { OperatorTypeEnum.And, typeof(And_OperatorValidator) },
             { OperatorTypeEnum.Average, typeof(Average_OperatorValidator) },
+            { OperatorTypeEnum.AverageDiscrete, typeof(AverageDiscrete_OperatorValidator) },
             { OperatorTypeEnum.Bundle, typeof(Bundle_OperatorValidator) },
             { OperatorTypeEnum.Cache, typeof(Cache_OperatorValidator) },
             { OperatorTypeEnum.ChangeTrigger, typeof(ChangeTrigger_OperatorValidator) },

@@ -84,6 +84,8 @@
     <Compile Include="Calculation\Curves\CurveCalculator_MinXZero.cs" />
     <Compile Include="Calculation\Curves\CurveCalculator_MinX.cs" />
     <Compile Include="Calculation\DimensionStackCollection.cs" />
+    <Compile Include="Calculation\Operators\2016-06-17 Backup of AverageDiscrete_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\AverageDiscrete_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\MinDiscrete_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\MaxDiscrete_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Range OperatorCalculator Classes.cs" />
@@ -209,6 +211,7 @@
     <Compile Include="Calculation\DimensionStack.cs" />
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="Converters\PatchToOperatorConverter.cs" />
+    <Compile Include="EntityWrappers\AverageDiscrete_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\MinDiscrete_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_VariableInletCountOneOutlet.cs" />
     <Compile Include="EntityWrappers\MaxDiscrete_OperatorWrapper.cs" />
@@ -346,6 +349,7 @@
     <Compile Include="Validation\Documents\RootDocument_DocumentValidator.cs" />
     <Compile Include="Validation\2016-06-15 Backup of InletsValidator_ListIndexConsecutive.cs" />
     <Compile Include="Validation\Operators\Absolute_OperatorValidator.cs" />
+    <Compile Include="Validation\Operators\AverageDiscrete_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\MinDiscrete_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\MaxDiscrete_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_Base_VariableInletCountOneOutlet.cs" />
@@ -404,6 +408,7 @@
     <Compile Include="Warnings\AudioOutputWarningValidator.cs" />
     <Compile Include="Warnings\CurveWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Absolute_OperatorWarningValidator.cs" />
+    <Compile Include="Warnings\Operators\AverageDiscrete_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\MinDiscrete_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\MaxDiscrete_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\OperatorWarningValidator_Base_AnyInletsFilledIn.cs" />

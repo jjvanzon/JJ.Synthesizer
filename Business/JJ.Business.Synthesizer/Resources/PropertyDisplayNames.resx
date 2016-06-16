@@ -821,4 +821,7 @@
   <data name="MinDiscrete" xml:space="preserve">
     <value>Min (discrete)</value>
   </data>
+  <data name="AverageDiscrete" xml:space="preserve">
+    <value>Average (discrete)</value>
+  </data>
 </root>
