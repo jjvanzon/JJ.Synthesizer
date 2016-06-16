@@ -1588,20 +1588,19 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 }
             }
 
-            bool allAreConst = operandCalculators.All(x => x is Number_OperatorCalculator);
+            IList<OperatorCalculatorBase> constOperandCalculators = operandCalculators.Where(x => x is Number_OperatorCalculator).ToArray();
+            bool allAreConst = constOperandCalculators.Count == operandCalculators.Count;
+            double aggregatedConsts = constOperandCalculators.Max(x => x.Calculate());
 
             if (allAreConst)
             {
-                double value = operandCalculators.Max(x => x.Calculate());
-                calculator = new Number_OperatorCalculator(value);
+                calculator = new Number_OperatorCalculator(aggregatedConsts);
             }
             else
             {
-                IList<OperatorCalculatorBase> constOperandCalculators = operandCalculators.Where(x => x is Number_OperatorCalculator).ToArray();
-                IList<OperatorCalculatorBase> varOperandCalculators = operandCalculators.Where(x => !(x is Number_OperatorCalculator)).ToArray();
+                IEnumerable<OperatorCalculatorBase> varOperandCalculators = operandCalculators.Except(constOperandCalculators);
 
-                double aggregateOfConsts = constOperandCalculators.Max(x => x.Calculate());
-                OperatorCalculatorBase virtualOperandCalculator = new Number_OperatorCalculator(aggregateOfConsts);
+                OperatorCalculatorBase virtualOperandCalculator = new Number_OperatorCalculator(aggregatedConsts);
 
                 IList<OperatorCalculatorBase> adaptedOperandCalculators = varOperandCalculators.Union(virtualOperandCalculator).ToArray();
 
