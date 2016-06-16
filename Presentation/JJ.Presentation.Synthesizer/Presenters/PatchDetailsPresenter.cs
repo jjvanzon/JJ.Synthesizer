@@ -23,7 +23,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class PatchDetailsPresenter : PresenterBase<PatchDetailsViewModel>
     {
-        private int DEFAULT_CHANNEL_INDEX = 0;
+        private const int DEFAULT_DISCRETE_AGGREGATE_INLET_COUNT = 3;
+        private const int DEFAULT_VARIABLE_INLET_OR_OUTLET_COUNT = 16;
 
         private static double _patchPlayDuration = GetPatchPlayDuration();
         private static string _patchPlayOutputFilePath = GetPatchPlayOutputFilePath();
@@ -296,7 +297,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Business
             var patchManager = new PatchManager(entity, _repositories);
-            Operator op = patchManager.CreateOperator((OperatorTypeEnum)operatorTypeID);
+            var operatorTypeEnum = (OperatorTypeEnum)operatorTypeID;
+            int variableInletOrOutletCount = GetVariableInletOrOutletCount(operatorTypeEnum);
+            Operator op = patchManager.CreateOperator(operatorTypeEnum, variableInletOrOutletCount);
 
             // ToViewModel
             PatchDetailsViewModel viewModel = CreateViewModel(entity);
@@ -439,6 +442,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (sourceViewModel.SelectedOperator != null)
             {
                 SetSelectedOperator(destViewModel, sourceViewModel.SelectedOperator.ID);
+            }
+        }
+
+        private int GetVariableInletOrOutletCount(OperatorTypeEnum operatorTypeEnum)
+        {
+            switch (operatorTypeEnum)
+            {
+                case OperatorTypeEnum.MaxDiscrete:
+                    return DEFAULT_DISCRETE_AGGREGATE_INLET_COUNT;
+
+                default:
+                    return DEFAULT_VARIABLE_INLET_OR_OUTLET_COUNT;
             }
         }
     }

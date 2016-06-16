@@ -1497,20 +1497,20 @@ namespace JJ.Business.Synthesizer
 
         // Generic methods for operator creation
 
-        /// <param name="inletOrOutletCount">
+        /// <param name="variableInletOrOutletCount">
         /// Applies to operators with a variable amount of inlets or outlets,
         /// such as the Adder operator and the Bundle operator.
         /// </param>
-        public Operator CreateOperator(OperatorTypeEnum operatorTypeEnum, int inletOrOutletCount = 16)
+        public Operator CreateOperator(OperatorTypeEnum operatorTypeEnum, int variableInletOrOutletCount = 16)
         {
             switch (operatorTypeEnum)
             {
                 case OperatorTypeEnum.Absolute: return Absolute();
                 case OperatorTypeEnum.Add: return Add();
-                case OperatorTypeEnum.Adder: return Adder(new Outlet[inletOrOutletCount]);
+                case OperatorTypeEnum.Adder: return Adder(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.And: return And();
                 case OperatorTypeEnum.Average: return Average();
-                case OperatorTypeEnum.Bundle: return Bundle(new Outlet[inletOrOutletCount]);
+                case OperatorTypeEnum.Bundle: return Bundle(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.ChangeTrigger: return ChangeTrigger();
                 case OperatorTypeEnum.Cache: return Cache();
                 case OperatorTypeEnum.Curve: return Curve();
@@ -1531,9 +1531,9 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.LessThanOrEqual: return LessThanOrEqual();
                 case OperatorTypeEnum.Loop: return Loop();
                 case OperatorTypeEnum.LowPassFilter: return LowPassFilter();
-                case OperatorTypeEnum.MakeContinuous: return MakeContinuous(new Outlet[inletOrOutletCount]);
-                case OperatorTypeEnum.MakeDiscrete: return MakeDiscrete(null, inletOrOutletCount);
-                case OperatorTypeEnum.MaxDiscrete: return MaxDiscrete(new Outlet[inletOrOutletCount]);
+                case OperatorTypeEnum.MakeContinuous: return MakeContinuous(new Outlet[variableInletOrOutletCount]);
+                case OperatorTypeEnum.MakeDiscrete: return MakeDiscrete(null, variableInletOrOutletCount);
+                case OperatorTypeEnum.MaxDiscrete: return MaxDiscrete(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.Maximum: return Maximum();
                 case OperatorTypeEnum.Minimum: return Minimum();
                 case OperatorTypeEnum.Multiply: return Multiply();
@@ -1573,7 +1573,7 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.TimePower: return TimePower();
                 case OperatorTypeEnum.ToggleTrigger: return ToggleTrigger();
                 case OperatorTypeEnum.Triangle: return Triangle();
-                case OperatorTypeEnum.Unbundle: return Unbundle(null, inletOrOutletCount);
+                case OperatorTypeEnum.Unbundle: return Unbundle(null, variableInletOrOutletCount);
 
                 default:
                     throw new Exception(String.Format("{0} not supported by the PatchManager.CreateOperator method.", operatorTypeEnum));

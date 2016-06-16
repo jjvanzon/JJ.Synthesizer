@@ -264,7 +264,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         // Operator
 
         /// <summary> Converts to properties view models, the operators that do not have a specialized properties view. </summary>
-        public static IList<OperatorPropertiesViewModel> ToOperatorPropertiesViewModelList(this Patch patch)
+        public static IList<OperatorPropertiesViewModel> ToOperatorPropertiesViewModelList_WithoutAlternativePropertiesView(this Patch patch)
         {
             if (patch == null) throw new NullException(() => patch);
 
@@ -274,10 +274,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
 
-                if (!ViewModelHelper.OperatorTypeEnums_WithTheirOwnPropertyViews.Contains(operatorTypeEnum) &&
-                    !ViewModelHelper.OperatorTypeEnums_WithDimensionPropertyViews.Contains(operatorTypeEnum) &&
-                    !ViewModelHelper.OperatorTypeEnums_WithDimensionAndInterpolationPropertyViews.Contains(operatorTypeEnum) &&
-                    !ViewModelHelper.OperatorTypeEnums_WithDimensionAndOutletCountPropertyViews.Contains(operatorTypeEnum))
+                if (ViewModelHelper.OperatorTypeEnums_WithoutAlternativePropertiesView.Contains(operatorTypeEnum))
                 {
                     OperatorPropertiesViewModel viewModel = op.ToPropertiesViewModel();
                     viewModels.Add(viewModel);

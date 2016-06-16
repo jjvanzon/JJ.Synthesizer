@@ -1590,21 +1590,33 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             IList<OperatorCalculatorBase> constOperandCalculators = operandCalculators.Where(x => x is Number_OperatorCalculator).ToArray();
             bool allAreConst = constOperandCalculators.Count == operandCalculators.Count;
-            double aggregatedConsts = constOperandCalculators.Max(x => x.Calculate());
+
+            double? aggregatedConsts = null;
+            if (constOperandCalculators.Any())
+            {
+                aggregatedConsts = constOperandCalculators.Max(x => x.Calculate());
+            }
 
             if (allAreConst)
             {
-                calculator = new Number_OperatorCalculator(aggregatedConsts);
+                calculator = new Number_OperatorCalculator(aggregatedConsts ?? 0);
             }
             else
             {
+
+                var adaptedOperandCalculatorList = new List<OperatorCalculatorBase>(operandCalculators.Count);
+
                 IEnumerable<OperatorCalculatorBase> varOperandCalculators = operandCalculators.Except(constOperandCalculators);
 
-                OperatorCalculatorBase virtualOperandCalculator = new Number_OperatorCalculator(aggregatedConsts);
+                adaptedOperandCalculatorList.AddRange(varOperandCalculators);
 
-                IList<OperatorCalculatorBase> adaptedOperandCalculators = varOperandCalculators.Union(virtualOperandCalculator).ToArray();
+                if (aggregatedConsts.HasValue)
+                {
+                    OperatorCalculatorBase virtualOperandCalculator = new Number_OperatorCalculator(aggregatedConsts.Value);
+                    adaptedOperandCalculatorList.Add(virtualOperandCalculator);
+                }
 
-                calculator = new MaxDiscrete_OperatorCalculator(adaptedOperandCalculators);
+                calculator = new MaxDiscrete_OperatorCalculator(adaptedOperandCalculatorList);
             }
 
             _stack.Push(calculator);
@@ -3952,7 +3964,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             int bundleIndexInt32 = (int)bundleIndexDouble;
 
-            Inlet inlet = outlet.Operator.Inlets[bundleIndexInt32];
+            Inlet inlet = outlet.Operator.Inlets.OrderBy(x => x.ListIndex).ElementAt(bundleIndexInt32);
             if (inlet.InputOutlet == null)
             {
                 double defaultValue = inlet.DefaultValue ?? 0.0;
@@ -3994,7 +4006,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 return;
             }
 
-            int outletIndex = outlet.Operator.Outlets.IndexOf(outlet);
+            int outletIndex = outlet.Operator.Outlets
+                                             .OrderBy(x => x.ListIndex)
+                                             .IndexOf(x => x == outlet);
 
             var wrapper = new Unbundle_OperatorWrapper(op);
             DimensionEnum dimensionEnum = wrapper.Dimension;
@@ -4009,7 +4023,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         private void VisitUnbundleOutlet_WithVariableBundlePositions(Outlet outlet)
         {
-            int outletIndex = outlet.Operator.Outlets.IndexOf(outlet);
+            int outletIndex = outlet.Operator.Outlets
+                                             .OrderBy(x => x.ListIndex)
+                                             .IndexOf(x => x == outlet);
 
             var wrapper = new Unbundle_OperatorWrapper(outlet.Operator);
             DimensionEnum dimensionEnum = wrapper.Dimension;
@@ -4029,7 +4045,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         private void VisitMakeDiscreteOutlet(Outlet outlet)
         {
-            int outletIndex = outlet.Operator.Outlets.IndexOf(outlet);
+            int outletIndex = outlet.Operator.Outlets
+                                             .OrderBy(x => x.ListIndex)
+                                             .IndexOf(x => x == outlet);
 
             var wrapper = new MakeDiscrete_OperatorWrapper(outlet.Operator);
             DimensionEnum dimensionEnum = wrapper.Dimension;

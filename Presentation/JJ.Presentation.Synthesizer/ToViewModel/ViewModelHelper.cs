@@ -15,6 +15,7 @@ using System.Linq;
 using JJ.Data.Canonical;
 using JJ.Framework.Configuration;
 using JJ.Presentation.Synthesizer.Helpers;
+using JJ.Framework.Common;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -89,6 +90,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.Adder,
             OperatorTypeEnum.MaxDiscrete
         };
+
+        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithoutAlternativePropertiesView { get; } =
+            EnumHelper.GetValues<OperatorTypeEnum>().Except(OperatorTypeEnums_WithTheirOwnPropertyViews)
+                                                    .Except(OperatorTypeEnums_WithDimensionPropertyViews)
+                                                    .Except(OperatorTypeEnums_WithDimensionAndInterpolationPropertyViews)
+                                                    .Except(OperatorTypeEnums_WithDimensionAndOutletCountPropertyViews)
+                                                    .Except(OperatorTypeEnums_WithInletCountPropertyViews)
+                                                    .ToHashSet();
 
         public static CurrentPatchesViewModel CreateCurrentPatchesViewModel(IList<Document> childDocuments)
         {
