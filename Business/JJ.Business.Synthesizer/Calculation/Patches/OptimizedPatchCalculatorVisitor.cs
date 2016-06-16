@@ -1576,18 +1576,37 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             base.VisitMaxDiscrete(op);
 
-            var operandCalculators = new List<OperatorCalculatorBase>(op.Inlets.Count);
+            OperatorCalculatorBase calculator;
 
+            var operandCalculators = new List<OperatorCalculatorBase>(op.Inlets.Count);
             for (int i = 0; i < op.Inlets.Count; i++)
             {
                 OperatorCalculatorBase operandCalculator = _stack.Pop();
-
-                operandCalculator = operandCalculator ?? new Zero_OperatorCalculator();
-
-                operandCalculators.Add(operandCalculator);
+                if (operandCalculator != null)
+                {
+                    operandCalculators.Add(operandCalculator);
+                }
             }
 
-            OperatorCalculatorBase calculator = new MaxDiscrete_OperatorCalculator(operandCalculators);
+            bool allAreConst = operandCalculators.All(x => x is Number_OperatorCalculator);
+
+            if (allAreConst)
+            {
+                double value = operandCalculators.Max(x => x.Calculate());
+                calculator = new Number_OperatorCalculator(value);
+            }
+            else
+            {
+                IList<OperatorCalculatorBase> constOperandCalculators = operandCalculators.Where(x => x is Number_OperatorCalculator).ToArray();
+                IList<OperatorCalculatorBase> varOperandCalculators = operandCalculators.Where(x => !(x is Number_OperatorCalculator)).ToArray();
+
+                double aggregateOfConsts = constOperandCalculators.Max(x => x.Calculate());
+                OperatorCalculatorBase virtualOperandCalculator = new Number_OperatorCalculator(aggregateOfConsts);
+
+                IList<OperatorCalculatorBase> adaptedOperandCalculators = varOperandCalculators.Union(virtualOperandCalculator).ToArray();
+
+                calculator = new MaxDiscrete_OperatorCalculator(adaptedOperandCalculators);
+            }
 
             _stack.Push(calculator);
         }
