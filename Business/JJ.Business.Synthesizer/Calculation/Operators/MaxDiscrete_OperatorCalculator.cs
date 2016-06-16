@@ -6,13 +6,16 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class MaxDiscrete_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    // You could imagine many more optimized calculations, such as first operand is const and several,
+    // that omit the loop, but future optimizations will just make that work obsolete again.
+
+    internal class MaxDiscrete_OperatorCalculator_MoreThanTwoOperands : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _firstOperandCalculator;
         private readonly OperatorCalculatorBase[] _remainingOperandCalculators;
         private readonly double _remainingOperandCalculatorsCount;
         
-        public MaxDiscrete_OperatorCalculator(IList<OperatorCalculatorBase> operandCalculators)
+        public MaxDiscrete_OperatorCalculator_MoreThanTwoOperands(IList<OperatorCalculatorBase> operandCalculators)
             : base(operandCalculators)
         {
             if (operandCalculators.Count == 0) throw new CollectionEmptyException(() => operandCalculators);
@@ -38,6 +41,40 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             }
 
             return result;
+        }
+    }
+
+    internal class MaxDiscrete_OperatorCalculator_TwoOperands : OperatorCalculatorBase_WithChildCalculators
+    {
+        private readonly OperatorCalculatorBase _aCalculator;
+        private readonly OperatorCalculatorBase _bCalculator;
+
+        public MaxDiscrete_OperatorCalculator_TwoOperands(
+            OperatorCalculatorBase aCalculator,
+            OperatorCalculatorBase bCalculator)
+            : base(new OperatorCalculatorBase[] { aCalculator, bCalculator })
+        {
+            if (aCalculator == null) throw new NullException(() => aCalculator);
+            if (bCalculator == null) throw new NullException(() => bCalculator);
+
+            _aCalculator = aCalculator;
+            _bCalculator = bCalculator;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override double Calculate()
+        {
+            double a = _aCalculator.Calculate();
+            double b = _bCalculator.Calculate();
+
+            if (a > b)
+            {
+                return a;
+            }
+            else
+            {
+                return b;
+            }
         }
     }
 }

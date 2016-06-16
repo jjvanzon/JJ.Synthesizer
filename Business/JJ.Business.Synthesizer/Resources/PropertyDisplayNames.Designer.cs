@@ -1051,7 +1051,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Max Discrete.
+        ///   Looks up a localized string similar to Max (discrete).
         /// </summary>
         public static string MaxDiscrete {
             get {

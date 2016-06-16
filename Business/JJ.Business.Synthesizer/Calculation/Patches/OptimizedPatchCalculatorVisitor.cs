@@ -1589,34 +1589,38 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
 
             IList<OperatorCalculatorBase> constOperandCalculators = operandCalculators.Where(x => x is Number_OperatorCalculator).ToArray();
-            bool allAreConst = constOperandCalculators.Count == operandCalculators.Count;
+            IList<OperatorCalculatorBase> varOperandCalculators = operandCalculators.Except(constOperandCalculators).ToArray();
 
-            double? aggregatedConsts = null;
-            if (constOperandCalculators.Any())
+            OperatorCalculatorBase aggregatedConstOperandCalculator = null;
+            if (constOperandCalculators.Count != 0)
             {
-                aggregatedConsts = constOperandCalculators.Max(x => x.Calculate());
+                double aggregatedConsts = constOperandCalculators.Max(x => x.Calculate());
+                aggregatedConstOperandCalculator = new Number_OperatorCalculator(aggregatedConsts);
             }
 
-            if (allAreConst)
+            IList<OperatorCalculatorBase> truncatedOperandCalculatorList = varOperandCalculators.Union(aggregatedConstOperandCalculator)
+                                                                                                .Where(x => x != null)
+                                                                                                .ToArray();
+            switch (truncatedOperandCalculatorList.Count)
             {
-                calculator = new Number_OperatorCalculator(aggregatedConsts ?? 0);
-            }
-            else
-            {
+                case 0:
+                    calculator = new Zero_OperatorCalculator();
+                    break;
 
-                var adaptedOperandCalculatorList = new List<OperatorCalculatorBase>(operandCalculators.Count);
+                case 1:
+                    // Also covers the 'all are const' situation, since all consts are aggregated to one in earlier code.
+                    calculator = truncatedOperandCalculatorList[0];
+                    break;
 
-                IEnumerable<OperatorCalculatorBase> varOperandCalculators = operandCalculators.Except(constOperandCalculators);
+                case 2:
+                    OperatorCalculatorBase aCalculator = truncatedOperandCalculatorList[0];
+                    OperatorCalculatorBase bCalculator = truncatedOperandCalculatorList[1];
+                    calculator = new MaxDiscrete_OperatorCalculator_TwoOperands(aCalculator, bCalculator);
+                    break;
 
-                adaptedOperandCalculatorList.AddRange(varOperandCalculators);
-
-                if (aggregatedConsts.HasValue)
-                {
-                    OperatorCalculatorBase virtualOperandCalculator = new Number_OperatorCalculator(aggregatedConsts.Value);
-                    adaptedOperandCalculatorList.Add(virtualOperandCalculator);
-                }
-
-                calculator = new MaxDiscrete_OperatorCalculator(adaptedOperandCalculatorList);
+                default:
+                    calculator = new MaxDiscrete_OperatorCalculator_MoreThanTwoOperands(truncatedOperandCalculatorList);
+                    break;
             }
 
             _stack.Push(calculator);

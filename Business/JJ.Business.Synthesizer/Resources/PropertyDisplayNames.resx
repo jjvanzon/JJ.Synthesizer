@@ -816,6 +816,6 @@
     <value>Make Discrete</value>
   </data>
   <data name="MaxDiscrete" xml:space="preserve">
-    <value>Max Discrete</value>
+    <value>Max (discrete)</value>
   </data>
 </root>
