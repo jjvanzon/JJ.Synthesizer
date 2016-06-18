@@ -44,6 +44,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                   new HashSet<OperatorTypeEnum>
         {
             OperatorTypeEnum.Average,
+            OperatorTypeEnum.AverageContinuous,
             OperatorTypeEnum.Delay,
             OperatorTypeEnum.Earlier,
             OperatorTypeEnum.GetDimension,

@@ -123,6 +123,7 @@
         MinDiscrete = 70,
         AverageDiscrete = 71,
         MaxContinuous = 72,
-        MinContinuous = 73
+        MinContinuous = 73,
+        AverageContinuous = 74
     }
 }

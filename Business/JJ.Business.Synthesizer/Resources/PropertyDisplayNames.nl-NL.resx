@@ -829,4 +829,7 @@
   <data name="MinContinuous" xml:space="preserve">
     <value>Minimum (aaneengesloten)</value>
   </data>
+  <data name="AverageContinuous" xml:space="preserve">
+    <value>Gemiddeld (aaneengesloten)</value>
+  </data>
 </root>

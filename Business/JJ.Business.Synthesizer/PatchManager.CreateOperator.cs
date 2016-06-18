@@ -103,6 +103,30 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        public AverageContinuous_OperatorWrapper AverageContinuous(
+            Outlet signal = null,
+            Outlet from = null,
+            Outlet till = null,
+            Outlet sampleCount = null,
+            DimensionEnum dimension = DimensionEnum.Undefined)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.AverageContinuous, inletCount: 4, outletCount: 1);
+
+            var wrapper = new AverageContinuous_OperatorWrapper(op)
+            {
+                Signal = signal,
+                From = from,
+                Till = till,
+                SampleCount = sampleCount,
+                Dimension = dimension
+            };
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
         public AverageDiscrete_OperatorWrapper AverageDiscrete(params Outlet[] operands)
         {
             return AverageDiscrete((IList<Outlet>)operands);
@@ -1594,6 +1618,7 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.Adder: return Adder(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.And: return And();
                 case OperatorTypeEnum.Average: return Average();
+                case OperatorTypeEnum.AverageContinuous: return AverageContinuous();
                 case OperatorTypeEnum.AverageDiscrete: return AverageDiscrete(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.Bundle: return Bundle(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.ChangeTrigger: return ChangeTrigger();

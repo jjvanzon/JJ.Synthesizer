@@ -169,6 +169,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Average (continuous).
+        /// </summary>
+        public static string AverageContinuous {
+            get {
+                return ResourceManager.GetString("AverageContinuous", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Average (discrete).
         /// </summary>
         public static string AverageDiscrete {

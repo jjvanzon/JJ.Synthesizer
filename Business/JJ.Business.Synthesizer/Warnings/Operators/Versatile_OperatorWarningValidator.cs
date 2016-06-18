@@ -17,6 +17,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             { OperatorTypeEnum.Adder, typeof(Adder_OperatorWarningValidator) },
             { OperatorTypeEnum.And, typeof(And_OperatorWarningValidator) },
             { OperatorTypeEnum.Average, typeof(Average_OperatorWarningValidator) },
+            { OperatorTypeEnum.AverageContinuous, typeof(AverageContinuous_OperatorWarningValidator) },
             { OperatorTypeEnum.AverageDiscrete, typeof(AverageDiscrete_OperatorWarningValidator) },
             { OperatorTypeEnum.Bundle, typeof(Bundle_OperatorWarningValidator) },
             { OperatorTypeEnum.Cache, typeof(Cache_OperatorWarningValidator) },

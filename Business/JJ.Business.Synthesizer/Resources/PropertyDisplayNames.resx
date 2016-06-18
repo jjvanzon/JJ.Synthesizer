@@ -830,4 +830,7 @@
   <data name="MinContinuous" xml:space="preserve">
     <value>Min (continuous)</value>
   </data>
+  <data name="AverageContinuous" xml:space="preserve">
+    <value>Average (continuous)</value>
+  </data>
 </root>
