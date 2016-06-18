@@ -661,12 +661,18 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public MaxContinuous_OperatorWrapper MaxContinuous(Outlet from = null, Outlet till = null, Outlet step = null, DimensionEnum dimension = DimensionEnum.Undefined)
+        public MaxContinuous_OperatorWrapper MaxContinuous(
+            Outlet signal = null,
+            Outlet from = null, 
+            Outlet till = null, 
+            Outlet step = null, 
+            DimensionEnum dimension = DimensionEnum.Undefined)
         {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.MaxContinuous, inletCount: 3, outletCount: 1);
+            Operator op = CreateOperatorBase(OperatorTypeEnum.MaxContinuous, inletCount: 4, outletCount: 1);
 
             var wrapper = new MaxContinuous_OperatorWrapper(op)
             {
+                Signal = signal,
                 From = from,
                 Till = till,
                 Step = step,

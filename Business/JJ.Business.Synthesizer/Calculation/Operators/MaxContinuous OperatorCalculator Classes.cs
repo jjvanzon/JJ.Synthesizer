@@ -31,6 +31,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _stepCalculator = stepCalculator;
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
+
+            ResetNonRecursive();
         }
 
         public override double Calculate()
@@ -42,42 +44,48 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             base.Reset();
 
+            ResetNonRecursive();
+        }
+
+        public void ResetNonRecursive()
+        {
             double from = _fromCalculator.Calculate();
             double till = _tillCalculator.Calculate();
             double step = _stepCalculator.Calculate();
 
-            double t = from;
+            double position = from;
 
-            _dimensionStack.Set(t);
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
+#if !USE_INVAR_INDICES
+            _dimensionStack.Set(position);
+#else
+            _dimensionStack.Set(_dimensionStackIndex, position);
+#endif
             double value = _signalCalculator.Calculate();
 
-            t += step;
+            position += step;
 
-            while (t <= till)
+            while (position <= till)
             {
-                _dimensionStack.Set(t);
+
+#if !USE_INVAR_INDICES
+                _dimensionStack.Set(position);
+#else
+                _dimensionStack.Set(_dimensionStackIndex, position);
+#endif
                 double value2 = _signalCalculator.Calculate();
 
-                if (value2 > value)
+                if (value < value2)
                 {
                     value = value2;
                 }
 
-                t += step;
+                position += step;
             }
 
             _value = value;
-
-//#if !USE_INVAR_INDICES
-//            double position = _dimensionStack.Get();
-//#else
-//            double position = _dimensionStack.Get(_dimensionStackIndex);
-//#endif
-//#if ASSERT_INVAR_INDICES
-//            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
-//#endif
-
-            throw new NotImplementedException();
         }
     }
 }

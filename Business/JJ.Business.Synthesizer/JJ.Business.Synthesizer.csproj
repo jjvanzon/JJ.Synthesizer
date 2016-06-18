@@ -417,7 +417,7 @@
     <Compile Include="Warnings\Operators\OperatorWarningValidator_Base_AnyInletsFilledIn.cs" />
     <Compile Include="Warnings\Operators\MakeContinuous_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Hold_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\OperatorWarningValidator_Base_SpecificInletFilledIn.cs" />
+    <Compile Include="Warnings\Operators\OperatorWarningValidator_Base_SpecificInletsFilledIn.cs" />
     <Compile Include="Warnings\Operators\MaxContinuous_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Range_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\SetDimension_OperatorWarningValidator.cs" />

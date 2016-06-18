@@ -9,7 +9,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         public MaxContinuous_OperatorValidator(Operator obj)
             : base(
                   obj, OperatorTypeEnum.MaxContinuous, 
-                  expectedInletCount: 3, 
+                  expectedInletCount: 4,
                   expectedOutletCount: 1,
                   allowedDataKeys: new string[] { PropertyNames.Dimension })
         { }

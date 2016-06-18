@@ -1619,30 +1619,32 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitMaxContinuous(Operator op)
         {
-            throw new NotImplementedException();
-
             var wrapper = new Random_OperatorWrapper(op);
             DimensionEnum dimensionEnum = wrapper.Dimension;
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
-            base.VisitRange(op);
+            base.VisitMaxContinuous(op);
 
             OperatorCalculatorBase operatorCalculator;
 
+            OperatorCalculatorBase signalCalculator = _stack.Pop();
             OperatorCalculatorBase fromCalculator = _stack.Pop();
             OperatorCalculatorBase tillCalculator = _stack.Pop();
             OperatorCalculatorBase stepCalculator = _stack.Pop();
 
             // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
+            signalCalculator = signalCalculator ?? new Number_OperatorCalculator(0.0);
             fromCalculator = fromCalculator ?? new Number_OperatorCalculator(0.0);
             tillCalculator = tillCalculator ?? new Number_OperatorCalculator(15.0);
             stepCalculator = stepCalculator ?? new Number_OperatorCalculator(1.0);
 
             // TODO: Clean up these variables if they are not used.
+            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool fromIsConst = fromCalculator is Number_OperatorCalculator;
             bool tillIsConst = tillCalculator is Number_OperatorCalculator;
             bool stepIsConst = stepCalculator is Number_OperatorCalculator;
 
+            double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
             double from = fromIsConst ? fromCalculator.Calculate() : 0.0;
             double till = tillIsConst ? tillCalculator.Calculate() : 0.0;
             double step = stepIsConst ? stepCalculator.Calculate() : 0.0;
@@ -1653,6 +1655,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool tillIsConstSpecialNumber = fromIsConst && DoubleHelper.IsSpecialNumber(from);
             bool stepIsConstSpecialNumber = fromIsConst && DoubleHelper.IsSpecialNumber(from);
 
+            if (signalIsConst)
+            {
+                operatorCalculator = signalCalculator;
+            }
             if (stepIsConstZero)
             {
                 // Would eventually lead to divide by zero and an infinite amount of index positions.
@@ -1664,9 +1670,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                // Must add Signal inlet to all the layers.
-                throw new NotImplementedException();
-                //operatorCalculator = new MaxContinuous_OperatorCalculator(fromCalculator, tillCalculator, stepCalculator, dimensionStack);
+                operatorCalculator = new MaxContinuous_OperatorCalculator(
+                    signalCalculator,
+                    fromCalculator, 
+                    tillCalculator, 
+                    stepCalculator, 
+                    dimensionStack);
             }
 
             _stack.Push(operatorCalculator);

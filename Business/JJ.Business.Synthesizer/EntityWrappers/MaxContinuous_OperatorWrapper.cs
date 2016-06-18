@@ -8,14 +8,21 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public class MaxContinuous_OperatorWrapper : OperatorWrapperBase_WithDimension
     {
-        private const int FROM_INDEX = 0;
-        private const int TILL_INDEX = 1;
-        private const int STEP_INDEX = 2;
+        private const int SIGNAL_INDEX = 0;
+        private const int FROM_INDEX = 1;
+        private const int TILL_INDEX = 2;
+        private const int STEP_INDEX = 3;
         private const int RESULT_INDEX = 0;
 
         public MaxContinuous_OperatorWrapper(Operator op)
             : base(op)
         { }
+
+        public Outlet Signal
+        {
+            get { return OperatorHelper.GetInputOutlet(WrappedOperator, SIGNAL_INDEX); }
+            set { OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX).LinkTo(value); }
+        }
 
         public Outlet From
         {
@@ -44,6 +51,12 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         {
             switch (listIndex)
             {
+                case SIGNAL_INDEX:
+                    {
+                        string name = ResourceHelper.GetPropertyDisplayName(() => Signal);
+                        return name;
+                    }
+
                 case FROM_INDEX:
                     {
                         string name = ResourceHelper.GetPropertyDisplayName(() => From);
