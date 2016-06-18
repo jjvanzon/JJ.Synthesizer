@@ -40,6 +40,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             { OperatorTypeEnum.LowPassFilter, typeof(LowPassFilter_OperatorWarningValidator) },
             { OperatorTypeEnum.MakeContinuous, typeof(MakeContinuous_OperatorWarningValidator) },
             { OperatorTypeEnum.MakeDiscrete, typeof(MakeDiscrete_OperatorWarningValidator) },
+            { OperatorTypeEnum.MaxContinuous, typeof(MaxContinuous_OperatorWarningValidator) },
             { OperatorTypeEnum.MaxDiscrete, typeof(MaxDiscrete_OperatorWarningValidator) },
             { OperatorTypeEnum.Maximum, typeof(Maximum_OperatorWarningValidator) },
             { OperatorTypeEnum.MinDiscrete, typeof(MinDiscrete_OperatorWarningValidator) },

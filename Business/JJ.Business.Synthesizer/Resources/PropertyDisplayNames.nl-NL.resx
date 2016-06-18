@@ -823,4 +823,7 @@
   <data name="AverageDiscrete" xml:space="preserve">
     <value>Gemiddeld (afzonderlijk)</value>
   </data>
+  <data name="MaxContinuous" xml:space="preserve">
+    <value>Max (aaneengesloten)</value>
+  </data>
 </root>

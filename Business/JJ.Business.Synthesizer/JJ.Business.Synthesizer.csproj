@@ -86,6 +86,7 @@
     <Compile Include="Calculation\DimensionStackCollection.cs" />
     <Compile Include="Calculation\Operators\2016-06-17 Backup of AverageDiscrete_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\AverageDiscrete_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\MaxContinuous OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\MinDiscrete_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\MaxDiscrete_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Range OperatorCalculator Classes.cs" />
@@ -222,6 +223,7 @@
     <Compile Include="EntityWrappers\OneOverX_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Negative_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_WithDimensionAndResampleInterpolationType.cs" />
+    <Compile Include="EntityWrappers\MaxContinuous_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Range_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\MakeDiscrete_OperatorWrapper.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
@@ -355,6 +357,7 @@
     <Compile Include="Validation\Operators\OperatorValidator_Base_VariableInletCountOneOutlet.cs" />
     <Compile Include="Validation\Operators\MakeContinuous_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Hold_OperatorValidator.cs" />
+    <Compile Include="Validation\Operators\MaxContinuous_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Range_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\SetDimension_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\GetDimension_OperatorValidator.cs" />
@@ -414,6 +417,8 @@
     <Compile Include="Warnings\Operators\OperatorWarningValidator_Base_AnyInletsFilledIn.cs" />
     <Compile Include="Warnings\Operators\MakeContinuous_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Hold_OperatorWarningValidator.cs" />
+    <Compile Include="Warnings\Operators\OperatorWarningValidator_Base_SpecificInletFilledIn.cs" />
+    <Compile Include="Warnings\Operators\MaxContinuous_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Range_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\SetDimension_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\GetDimension_OperatorWarningValidator.cs" />

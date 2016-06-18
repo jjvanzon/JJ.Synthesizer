@@ -38,6 +38,15 @@ namespace JJ.Business.Synthesizer.Helpers
 
         // Get Inlet
 
+        public static Inlet TryGetInlet(Operator op, int index)
+        {
+            IList<Inlet> sortedInlets = GetSortedInlets(op);
+
+            Inlet inlet = sortedInlets.Skip(index).Take(1).FirstOrDefault();
+
+            return inlet;
+        }
+
         /// <summary> Gets an item out of the sorted _operator.Inlets and verifies that the index is valid in the list. </summary>
         public static Inlet GetInlet(Operator op, int index)
         {

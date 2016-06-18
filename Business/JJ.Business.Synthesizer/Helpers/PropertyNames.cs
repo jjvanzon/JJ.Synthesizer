@@ -65,5 +65,6 @@ namespace JJ.Business.Synthesizer.Helpers
         public const string TimeSliceDuration = "TimeSliceDuration";
         public const string UnderlyingPatch = "UnderlyingPatch";
         public const string UnderlyingPatchID = "UnderlyingPatchID";
+        public const string Till = "Till";
     }
 }

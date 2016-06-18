@@ -46,6 +46,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.LowPassFilter, VisitLowPassFilter },
                 { OperatorTypeEnum.MakeContinuous, VisitMakeContinuous },
                 { OperatorTypeEnum.MakeDiscrete, VisitMakeDiscrete },
+                { OperatorTypeEnum.MaxContinuous, VisitMaxContinuous },
                 { OperatorTypeEnum.MaxDiscrete, VisitMaxDiscrete },
                 { OperatorTypeEnum.Maximum, VisitMaximum },
                 { OperatorTypeEnum.MinDiscrete, VisitMinDiscrete },
@@ -96,11 +97,15 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             if (op == null) throw new NullException(() => op);
 
+            OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
+
             Action<Operator> action;
-            if (_delegateDictionary.TryGetValue(op.GetOperatorTypeEnum(), out action))
+            if (!_delegateDictionary.TryGetValue(operatorTypeEnum, out action))
             {
-                action(op);
+                throw new Exception(String.Format("No delegate defined for OperatorTypeEnum '{0}' in {1}.", operatorTypeEnum, typeof(OperatorVisitorBase).Name));
             }
+
+            action(op);
         }
 
         [DebuggerHidden]
@@ -311,6 +316,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             VisitOperatorBase(op);
         }
+
+        [DebuggerHidden]
+        protected virtual void VisitMaxContinuous(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
+
         [DebuggerHidden]
         protected virtual void VisitMaxDiscrete(Operator op)
         {

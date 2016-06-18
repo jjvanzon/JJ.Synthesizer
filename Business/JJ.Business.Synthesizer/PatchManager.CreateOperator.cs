@@ -661,6 +661,24 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        public MaxContinuous_OperatorWrapper MaxContinuous(Outlet from = null, Outlet till = null, Outlet step = null, DimensionEnum dimension = DimensionEnum.Undefined)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.MaxContinuous, inletCount: 3, outletCount: 1);
+
+            var wrapper = new MaxContinuous_OperatorWrapper(op)
+            {
+                From = from,
+                Till = till,
+                Step = step,
+                Dimension = dimension
+            };
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
         public MaxDiscrete_OperatorWrapper MaxDiscrete(params Outlet[] operands)
         {
             return MaxDiscrete((IList<Outlet>)operands);
@@ -1570,6 +1588,7 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.LowPassFilter: return LowPassFilter();
                 case OperatorTypeEnum.MakeContinuous: return MakeContinuous(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.MakeDiscrete: return MakeDiscrete(null, variableInletOrOutletCount);
+                case OperatorTypeEnum.MaxContinuous: return MaxContinuous();
                 case OperatorTypeEnum.MaxDiscrete: return MaxDiscrete(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.MinDiscrete: return MinDiscrete(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.Maximum: return Maximum();

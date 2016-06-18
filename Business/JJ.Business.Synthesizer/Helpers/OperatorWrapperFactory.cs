@@ -42,6 +42,7 @@ namespace JJ.Business.Synthesizer.Helpers
             { OperatorTypeEnum.LowPassFilter, Create_LowPassFilter_OperatorWrapper },
             { OperatorTypeEnum.MakeContinuous, Create_MakeContinuous_OperatorWrapper },
             { OperatorTypeEnum.MakeDiscrete, Create_MakeDiscrete_OperatorWrapper },
+            { OperatorTypeEnum.MaxContinuous, Create_MaxContinuous_OperatorWrapper },
             { OperatorTypeEnum.MaxDiscrete, Create_MaxDiscrete_OperatorWrapper },
             { OperatorTypeEnum.Maximum, Create_Maximum_OperatorWrapper },
             { OperatorTypeEnum.MinDiscrete, Create_MinDiscrete_OperatorWrapper },
@@ -159,6 +160,7 @@ namespace JJ.Business.Synthesizer.Helpers
         private static LowPassFilter_OperatorWrapper Create_LowPassFilter_OperatorWrapper(Operator op) { return new LowPassFilter_OperatorWrapper(op); }
         private static MakeContinuous_OperatorWrapper Create_MakeContinuous_OperatorWrapper(Operator op) { return new MakeContinuous_OperatorWrapper(op); }
         private static MakeDiscrete_OperatorWrapper Create_MakeDiscrete_OperatorWrapper(Operator op) { return new MakeDiscrete_OperatorWrapper(op); }
+        private static MaxContinuous_OperatorWrapper Create_MaxContinuous_OperatorWrapper(Operator op) { return new MaxContinuous_OperatorWrapper(op); }
         private static MaxDiscrete_OperatorWrapper Create_MaxDiscrete_OperatorWrapper(Operator op) { return new MaxDiscrete_OperatorWrapper(op); }
         private static Maximum_OperatorWrapper Create_Maximum_OperatorWrapper(Operator op) { return new Maximum_OperatorWrapper(op); }
         private static MinDiscrete_OperatorWrapper Create_MinDiscrete_OperatorWrapper(Operator op) { return new MinDiscrete_OperatorWrapper(op); }

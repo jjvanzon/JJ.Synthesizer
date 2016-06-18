@@ -48,6 +48,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.Earlier,
             OperatorTypeEnum.GetDimension,
             OperatorTypeEnum.Loop,
+            OperatorTypeEnum.MaxContinuous,
             OperatorTypeEnum.Maximum,
             OperatorTypeEnum.Minimum,
             OperatorTypeEnum.Narrower,

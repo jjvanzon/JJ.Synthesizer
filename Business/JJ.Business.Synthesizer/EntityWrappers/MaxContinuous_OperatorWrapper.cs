@@ -3,18 +3,17 @@ using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Range_OperatorWrapper : OperatorWrapperBase_WithDimension
+    public class MaxContinuous_OperatorWrapper : OperatorWrapperBase_WithDimension
     {
         private const int FROM_INDEX = 0;
         private const int TILL_INDEX = 1;
         private const int STEP_INDEX = 2;
         private const int RESULT_INDEX = 0;
 
-        public Range_OperatorWrapper(Operator op)
+        public MaxContinuous_OperatorWrapper(Operator op)
             : base(op)
         { }
 
@@ -76,7 +75,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             return name;
         }
 
-        public static implicit operator Outlet(Range_OperatorWrapper wrapper)
+        public static implicit operator Outlet(MaxContinuous_OperatorWrapper wrapper)
         {
             if (wrapper == null) return null;
 

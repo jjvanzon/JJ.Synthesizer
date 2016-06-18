@@ -1060,6 +1060,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Max (continuous).
+        /// </summary>
+        public static string MaxContinuous {
+            get {
+                return ResourceManager.GetString("MaxContinuous", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Max (discrete).
         /// </summary>
         public static string MaxDiscrete {

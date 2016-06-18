@@ -310,6 +310,11 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.MakeDiscrete();
         }
 
+        public MaxContinuous_OperatorWrapper MaxContinuous(Outlet from = null, Outlet till = null, Outlet step = null, DimensionEnum dimension = DimensionEnum.Undefined)
+        {
+            return _patchManager.MaxContinuous(from, till, step, dimension);
+        }
+
         public MaxDiscrete_OperatorWrapper MaxDiscrete(params Outlet[] operands)
         {
             return _patchManager.MaxDiscrete(operands);
