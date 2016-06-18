@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         private const int SIGNAL_INDEX = 0;
         private const int FROM_INDEX = 1;
         private const int TILL_INDEX = 2;
-        private const int STEP_INDEX = 3;
+        private const int SAMPLE_COUNT_INDEX = 3;
         private const int RESULT_INDEX = 0;
 
         public MaxContinuous_OperatorWrapper(Operator op)
@@ -36,10 +36,10 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { OperatorHelper.GetInlet(WrappedOperator, TILL_INDEX).LinkTo(value); }
         }
 
-        public Outlet Step
+        public Outlet SampleCount
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, STEP_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, STEP_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInputOutlet(WrappedOperator, SAMPLE_COUNT_INDEX); }
+            set { OperatorHelper.GetInlet(WrappedOperator, SAMPLE_COUNT_INDEX).LinkTo(value); }
         }
 
         public Outlet Result
@@ -69,9 +69,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
                         return name;
                     }
 
-                case STEP_INDEX:
+                case SAMPLE_COUNT_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => Step);
+                        string name = ResourceHelper.GetPropertyDisplayName(() => SampleCount);
                         return name;
                     }
 

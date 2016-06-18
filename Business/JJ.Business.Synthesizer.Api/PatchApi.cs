@@ -314,10 +314,10 @@ namespace JJ.Business.Synthesizer.Api
             Outlet signal = null,
             Outlet from = null, 
             Outlet till = null, 
-            Outlet step = null, 
+            Outlet sampleCount = null, 
             DimensionEnum dimension = DimensionEnum.Undefined)
         {
-            return _patchManager.MaxContinuous(signal, from, till, step, dimension);
+            return _patchManager.MaxContinuous(signal, from, till, sampleCount, dimension);
         }
 
         public MaxDiscrete_OperatorWrapper MaxDiscrete(params Outlet[] operands)

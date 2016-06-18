@@ -9,7 +9,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _fromCalculator;
         private readonly OperatorCalculatorBase _tillCalculator;
-        private readonly OperatorCalculatorBase _stepCalculator;
+        private readonly OperatorCalculatorBase _sampleCountCalculator;
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
@@ -19,16 +19,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase fromCalculator,
             OperatorCalculatorBase tillCalculator,
-            OperatorCalculatorBase stepCalculator,
+            OperatorCalculatorBase sampleCountCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] { signalCalculator, fromCalculator, tillCalculator, stepCalculator })
+            : base(new OperatorCalculatorBase[] { signalCalculator, fromCalculator, tillCalculator, sampleCountCalculator })
         {
             OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
 
             _signalCalculator = signalCalculator;
             _fromCalculator = fromCalculator;
             _tillCalculator = tillCalculator;
-            _stepCalculator = stepCalculator;
+            _sampleCountCalculator = sampleCountCalculator;
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
 
@@ -51,17 +51,17 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double from = _fromCalculator.Calculate();
             double till = _tillCalculator.Calculate();
-            double step = _stepCalculator.Calculate();
+            double sampleCount = _sampleCountCalculator.Calculate();
 
-            bool isStandingStill = step == 0.0;
-            bool isForward = step >= 0.0;
-            bool directionIsMismatch = Math.Sign(till - from) != Math.Sign(step);
-
-            if (isStandingStill || directionIsMismatch)
+            if (sampleCount <= 0)
             {
-                _value = 0.0;
+                _value = 0;
                 return;
             }
+
+            double length = till - from;
+            double step = length / sampleCount;
+            bool isForward = length > 0.0;
 
             double position = from;
 
@@ -74,7 +74,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionStack.Set(_dimensionStackIndex, position);
 #endif
             double value = _signalCalculator.Calculate();
-
             position += step;
 
             if (isForward)
@@ -92,7 +91,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     {
                         value = value2;
                     }
-
                     position += step;
                 }
             }
@@ -112,7 +110,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     {
                         value = value2;
                     }
-
                     position += step;
                 }
             }

@@ -665,7 +665,7 @@ namespace JJ.Business.Synthesizer
             Outlet signal = null,
             Outlet from = null, 
             Outlet till = null, 
-            Outlet step = null, 
+            Outlet sampleCount = null, 
             DimensionEnum dimension = DimensionEnum.Undefined)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.MaxContinuous, inletCount: 4, outletCount: 1);
@@ -675,7 +675,7 @@ namespace JJ.Business.Synthesizer
                 Signal = signal,
                 From = from,
                 Till = till,
-                Step = step,
+                SampleCount = sampleCount,
                 Dimension = dimension
             };
 
