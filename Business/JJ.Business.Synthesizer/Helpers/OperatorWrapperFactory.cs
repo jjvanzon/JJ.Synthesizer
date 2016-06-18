@@ -45,6 +45,7 @@ namespace JJ.Business.Synthesizer.Helpers
             { OperatorTypeEnum.MaxContinuous, Create_MaxContinuous_OperatorWrapper },
             { OperatorTypeEnum.MaxDiscrete, Create_MaxDiscrete_OperatorWrapper },
             { OperatorTypeEnum.Maximum, Create_Maximum_OperatorWrapper },
+            { OperatorTypeEnum.MinContinuous, Create_MinContinuous_OperatorWrapper },
             { OperatorTypeEnum.MinDiscrete, Create_MinDiscrete_OperatorWrapper },
             { OperatorTypeEnum.Minimum, Create_Minimum_OperatorWrapper },
             { OperatorTypeEnum.Multiply , Create_Multiply_OperatorWrapper },
@@ -163,6 +164,7 @@ namespace JJ.Business.Synthesizer.Helpers
         private static MaxContinuous_OperatorWrapper Create_MaxContinuous_OperatorWrapper(Operator op) { return new MaxContinuous_OperatorWrapper(op); }
         private static MaxDiscrete_OperatorWrapper Create_MaxDiscrete_OperatorWrapper(Operator op) { return new MaxDiscrete_OperatorWrapper(op); }
         private static Maximum_OperatorWrapper Create_Maximum_OperatorWrapper(Operator op) { return new Maximum_OperatorWrapper(op); }
+        private static MinContinuous_OperatorWrapper Create_MinContinuous_OperatorWrapper(Operator op) { return new MinContinuous_OperatorWrapper(op); }
         private static MinDiscrete_OperatorWrapper Create_MinDiscrete_OperatorWrapper(Operator op) { return new MinDiscrete_OperatorWrapper(op); }
         private static Minimum_OperatorWrapper Create_Minimum_OperatorWrapper(Operator op) { return new Minimum_OperatorWrapper(op); }
         private static Multiply_OperatorWrapper Create_Multiply_OperatorWrapper(Operator op) { return new Multiply_OperatorWrapper(op); }

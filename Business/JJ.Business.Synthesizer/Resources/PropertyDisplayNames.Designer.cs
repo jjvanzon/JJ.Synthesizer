@@ -1096,6 +1096,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Min (continuous).
+        /// </summary>
+        public static string MinContinuous {
+            get {
+                return ResourceManager.GetString("MinContinuous", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Min (discrete).
         /// </summary>
         public static string MinDiscrete {

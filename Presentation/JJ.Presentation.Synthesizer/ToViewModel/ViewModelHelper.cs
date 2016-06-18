@@ -50,6 +50,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.Loop,
             OperatorTypeEnum.MaxContinuous,
             OperatorTypeEnum.Maximum,
+            OperatorTypeEnum.MinContinuous,
             OperatorTypeEnum.Minimum,
             OperatorTypeEnum.Narrower,
             OperatorTypeEnum.Noise,

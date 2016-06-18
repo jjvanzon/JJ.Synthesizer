@@ -2,13 +2,13 @@
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class MaxContinuous_OperatorWrapper : OperatorWrapperBase_ContinuousAggregate
+    public class MinContinuous_OperatorWrapper : OperatorWrapperBase_ContinuousAggregate
     {
-        public MaxContinuous_OperatorWrapper(Operator op)
+        public MinContinuous_OperatorWrapper(Operator op)
             : base(op)
         { }
 
-        public static implicit operator Outlet(MaxContinuous_OperatorWrapper wrapper)
+        public static implicit operator Outlet(MinContinuous_OperatorWrapper wrapper)
         {
             if (wrapper == null) return null;
 

@@ -258,6 +258,7 @@
     <Content Include="2016-04-23 030 SynthesizerDB AudioFileOutputChannel to AudioFileOutput.Outlet migration 2 %28IX and FK%29.sql" />
     <Content Include="2016-05-03 010 SynthesizerDB AudioOutput.BufferDuration rename to DesiredBufferDuration.sql" />
     <Content Include="2016-05-04 010 SynthesizerDB Operator.Data rename Inclination to Slope.sql" />
+    <Content Include="2016-06-18 010 SynthesizerDB OperatorType 73 - MinContinuous.sql" />
     <Content Include="2016-06-17 010 SynthesizerDB OperatorType 72 - MaxContinuous.sql" />
     <Content Include="2016-06-16 020 SynthesizerDB OperatorType 71 - AverageDiscrete.sql" />
     <Content Include="2016-06-16 010 SynthesizerDB OperatorType 70 - MinDiscrete.sql" />

@@ -826,4 +826,7 @@
   <data name="MaxContinuous" xml:space="preserve">
     <value>Max (aaneengesloten)</value>
   </data>
+  <data name="MinContinuous" xml:space="preserve">
+    <value>Minimum (aaneengesloten)</value>
+  </data>
 </root>

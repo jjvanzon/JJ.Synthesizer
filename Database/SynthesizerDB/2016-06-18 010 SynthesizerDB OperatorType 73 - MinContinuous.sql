@@ -1,0 +1,1 @@
+insert into OperatorType (ID, Name) values (73, 'MinContinuous');

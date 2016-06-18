@@ -339,6 +339,16 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Maximum(signal, timeSliceDuration, sampleCount, dimension);
         }
 
+        public MinContinuous_OperatorWrapper MinContinuous(
+            Outlet signal = null,
+            Outlet from = null,
+            Outlet till = null,
+            Outlet sampleCount = null,
+            DimensionEnum dimension = DimensionEnum.Undefined)
+        {
+            return _patchManager.MinContinuous(signal, from, till, sampleCount, dimension);
+        }
+
         public MinDiscrete_OperatorWrapper MinDiscrete(params Outlet[] operands)
         {
             return _patchManager.MinDiscrete(operands);

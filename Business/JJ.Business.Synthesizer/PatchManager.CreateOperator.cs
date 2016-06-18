@@ -725,6 +725,30 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        public MinContinuous_OperatorWrapper MinContinuous(
+            Outlet signal = null,
+            Outlet from = null,
+            Outlet till = null,
+            Outlet sampleCount = null,
+            DimensionEnum dimension = DimensionEnum.Undefined)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.MinContinuous, inletCount: 4, outletCount: 1);
+
+            var wrapper = new MinContinuous_OperatorWrapper(op)
+            {
+                Signal = signal,
+                From = from,
+                Till = till,
+                SampleCount = sampleCount,
+                Dimension = dimension
+            };
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
         public MinDiscrete_OperatorWrapper MinDiscrete(params Outlet[] operands)
         {
             return MinDiscrete((IList<Outlet>)operands);
@@ -1596,8 +1620,9 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.MakeDiscrete: return MakeDiscrete(null, variableInletOrOutletCount);
                 case OperatorTypeEnum.MaxContinuous: return MaxContinuous();
                 case OperatorTypeEnum.MaxDiscrete: return MaxDiscrete(new Outlet[variableInletOrOutletCount]);
-                case OperatorTypeEnum.MinDiscrete: return MinDiscrete(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.Maximum: return Maximum();
+                case OperatorTypeEnum.MinContinuous: return MinContinuous();
+                case OperatorTypeEnum.MinDiscrete: return MinDiscrete(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.Minimum: return Minimum();
                 case OperatorTypeEnum.Multiply: return Multiply();
                 case OperatorTypeEnum.Narrower: return Narrower();

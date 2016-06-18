@@ -43,6 +43,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             { OperatorTypeEnum.MaxContinuous, typeof(MaxContinuous_OperatorWarningValidator) },
             { OperatorTypeEnum.MaxDiscrete, typeof(MaxDiscrete_OperatorWarningValidator) },
             { OperatorTypeEnum.Maximum, typeof(Maximum_OperatorWarningValidator) },
+            { OperatorTypeEnum.MinContinuous, typeof(MinContinuous_OperatorWarningValidator) },
             { OperatorTypeEnum.MinDiscrete, typeof(MinDiscrete_OperatorWarningValidator) },
             { OperatorTypeEnum.Minimum, typeof(Minimum_OperatorWarningValidator) },
             { OperatorTypeEnum.Multiply, typeof(Multiply_OperatorWarningValidator) },

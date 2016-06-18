@@ -49,6 +49,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.MaxContinuous, VisitMaxContinuous },
                 { OperatorTypeEnum.MaxDiscrete, VisitMaxDiscrete },
                 { OperatorTypeEnum.Maximum, VisitMaximum },
+                { OperatorTypeEnum.MinContinuous, VisitMinContinuous },
                 { OperatorTypeEnum.MinDiscrete, VisitMinDiscrete },
                 { OperatorTypeEnum.Minimum, VisitMinimum },
                 { OperatorTypeEnum.Multiply, VisitMultiply },
@@ -331,6 +332,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         [DebuggerHidden]
         protected virtual void VisitMaximum(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
+
+        [DebuggerHidden]
+        protected virtual void VisitMinContinuous(Operator op)
         {
             VisitOperatorBase(op);
         }
