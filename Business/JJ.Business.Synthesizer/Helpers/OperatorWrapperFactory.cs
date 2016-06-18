@@ -19,9 +19,9 @@ namespace JJ.Business.Synthesizer.Helpers
             { OperatorTypeEnum.Add , Create_Add_OperatorWrapper },
             { OperatorTypeEnum.Adder , Create_Adder_OperatorWrapper },
             { OperatorTypeEnum.And, Create_And_OperatorWrapper },
-            { OperatorTypeEnum.Average, Create_Average_OperatorWrapper },
             { OperatorTypeEnum.AverageContinuous, Create_AverageContinuous_OperatorWrapper },
             { OperatorTypeEnum.AverageDiscrete, Create_AverageDiscrete_OperatorWrapper },
+            { OperatorTypeEnum.AverageFollower, Create_AverageFollower_OperatorWrapper },
             { OperatorTypeEnum.Bundle, Create_Bundle_OperatorWrapper },
             { OperatorTypeEnum.ChangeTrigger, Create_ChangeTrigger_OperatorWrapper },
             { OperatorTypeEnum.Cache, Create_Cache_OperatorWrapper },
@@ -45,10 +45,10 @@ namespace JJ.Business.Synthesizer.Helpers
             { OperatorTypeEnum.MakeDiscrete, Create_MakeDiscrete_OperatorWrapper },
             { OperatorTypeEnum.MaxContinuous, Create_MaxContinuous_OperatorWrapper },
             { OperatorTypeEnum.MaxDiscrete, Create_MaxDiscrete_OperatorWrapper },
-            { OperatorTypeEnum.Maximum, Create_Maximum_OperatorWrapper },
+            { OperatorTypeEnum.MaxFollower, Create_MaxFollower_OperatorWrapper },
             { OperatorTypeEnum.MinContinuous, Create_MinContinuous_OperatorWrapper },
             { OperatorTypeEnum.MinDiscrete, Create_MinDiscrete_OperatorWrapper },
-            { OperatorTypeEnum.Minimum, Create_Minimum_OperatorWrapper },
+            { OperatorTypeEnum.MinFollower, Create_MinFollower_OperatorWrapper },
             { OperatorTypeEnum.Multiply , Create_Multiply_OperatorWrapper },
             { OperatorTypeEnum.Narrower, Create_Narrower_OperatorWrapper },
             { OperatorTypeEnum.Negative, Create_Negative_OperatorWrapper },
@@ -139,7 +139,7 @@ namespace JJ.Business.Synthesizer.Helpers
         private static Add_OperatorWrapper Create_Add_OperatorWrapper(Operator op) { return new Add_OperatorWrapper(op); }
         private static Adder_OperatorWrapper Create_Adder_OperatorWrapper(Operator op) { return new Adder_OperatorWrapper(op); }
         private static And_OperatorWrapper Create_And_OperatorWrapper(Operator op) { return new And_OperatorWrapper(op); }
-        private static Average_OperatorWrapper Create_Average_OperatorWrapper(Operator op) { return new Average_OperatorWrapper(op); }
+        private static AverageFollower_OperatorWrapper Create_AverageFollower_OperatorWrapper(Operator op) { return new AverageFollower_OperatorWrapper(op); }
         private static AverageContinuous_OperatorWrapper Create_AverageContinuous_OperatorWrapper(Operator op) { return new AverageContinuous_OperatorWrapper(op); }
         private static AverageDiscrete_OperatorWrapper Create_AverageDiscrete_OperatorWrapper(Operator op) { return new AverageDiscrete_OperatorWrapper(op); }
         private static Bundle_OperatorWrapper Create_Bundle_OperatorWrapper(Operator op) { return new Bundle_OperatorWrapper(op); }
@@ -165,10 +165,10 @@ namespace JJ.Business.Synthesizer.Helpers
         private static MakeDiscrete_OperatorWrapper Create_MakeDiscrete_OperatorWrapper(Operator op) { return new MakeDiscrete_OperatorWrapper(op); }
         private static MaxContinuous_OperatorWrapper Create_MaxContinuous_OperatorWrapper(Operator op) { return new MaxContinuous_OperatorWrapper(op); }
         private static MaxDiscrete_OperatorWrapper Create_MaxDiscrete_OperatorWrapper(Operator op) { return new MaxDiscrete_OperatorWrapper(op); }
-        private static Maximum_OperatorWrapper Create_Maximum_OperatorWrapper(Operator op) { return new Maximum_OperatorWrapper(op); }
+        private static MaxFollower_OperatorWrapper Create_MaxFollower_OperatorWrapper(Operator op) { return new MaxFollower_OperatorWrapper(op); }
         private static MinContinuous_OperatorWrapper Create_MinContinuous_OperatorWrapper(Operator op) { return new MinContinuous_OperatorWrapper(op); }
         private static MinDiscrete_OperatorWrapper Create_MinDiscrete_OperatorWrapper(Operator op) { return new MinDiscrete_OperatorWrapper(op); }
-        private static Minimum_OperatorWrapper Create_Minimum_OperatorWrapper(Operator op) { return new Minimum_OperatorWrapper(op); }
+        private static MinFollower_OperatorWrapper Create_MinFollower_OperatorWrapper(Operator op) { return new MinFollower_OperatorWrapper(op); }
         private static Multiply_OperatorWrapper Create_Multiply_OperatorWrapper(Operator op) { return new Multiply_OperatorWrapper(op); }
         private static Narrower_OperatorWrapper Create_Narrower_OperatorWrapper(Operator op) { return new Narrower_OperatorWrapper(op); }
         private static Negative_OperatorWrapper Create_Negative_OperatorWrapper(Operator op) { return new Negative_OperatorWrapper(op); }

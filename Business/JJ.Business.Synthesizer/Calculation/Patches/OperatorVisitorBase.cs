@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.Add, VisitAdd },
                 { OperatorTypeEnum.Adder, VisitAdder },
                 { OperatorTypeEnum.And, VisitAnd },
-                { OperatorTypeEnum.Average, VisitAverage },
+                { OperatorTypeEnum.AverageFollower, VisitAverageFollower },
                 { OperatorTypeEnum.AverageContinuous, VisitAverageContinuous },
                 { OperatorTypeEnum.AverageDiscrete, VisitAverageDiscrete },
                 { OperatorTypeEnum.Bundle, VisitBundle },
@@ -49,10 +49,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.MakeDiscrete, VisitMakeDiscrete },
                 { OperatorTypeEnum.MaxContinuous, VisitMaxContinuous },
                 { OperatorTypeEnum.MaxDiscrete, VisitMaxDiscrete },
-                { OperatorTypeEnum.Maximum, VisitMaximum },
+                { OperatorTypeEnum.MaxFollower, VisitMaxFollower },
                 { OperatorTypeEnum.MinContinuous, VisitMinContinuous },
                 { OperatorTypeEnum.MinDiscrete, VisitMinDiscrete },
-                { OperatorTypeEnum.Minimum, VisitMinimum },
+                { OperatorTypeEnum.MinFollower, VisitMinFollower },
                 { OperatorTypeEnum.Multiply, VisitMultiply },
                 { OperatorTypeEnum.Narrower, VisitNarrower },
                 { OperatorTypeEnum.Negative, VisitNegative },
@@ -170,7 +170,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         }
 
         [DebuggerHidden]
-        protected virtual void VisitAverage(Operator op)
+        protected virtual void VisitAverageFollower(Operator op)
         {
             VisitOperatorBase(op);
         }
@@ -338,7 +338,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         }
 
         [DebuggerHidden]
-        protected virtual void VisitMaximum(Operator op)
+        protected virtual void VisitMaxFollower(Operator op)
         {
             VisitOperatorBase(op);
         }
@@ -356,7 +356,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         }
 
         [DebuggerHidden]
-        protected virtual void VisitMinimum(Operator op)
+        protected virtual void VisitMinFollower(Operator op)
         {
             VisitOperatorBase(op);
         }

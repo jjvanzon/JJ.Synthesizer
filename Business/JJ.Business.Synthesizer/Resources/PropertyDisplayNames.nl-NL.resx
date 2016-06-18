@@ -588,14 +588,14 @@
   <data name="Then" xml:space="preserve">
     <value>Dan</value>
   </data>
-  <data name="Average" xml:space="preserve">
-    <value>Gemiddeld</value>
+  <data name="AverageFollower" xml:space="preserve">
+    <value>Gemiddeld (volgen)</value>
   </data>
-  <data name="Maximum" xml:space="preserve">
-    <value>Maximum</value>
+  <data name="MaxFollower" xml:space="preserve">
+    <value>Max (volger)</value>
   </data>
-  <data name="Minimum" xml:space="preserve">
-    <value>Minimum</value>
+  <data name="MinFollower" xml:space="preserve">
+    <value>Minimum (volger)</value>
   </data>
   <data name="SampleCount" xml:space="preserve">
     <value>Aantal punten</value>

@@ -160,15 +160,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Average.
-        /// </summary>
-        public static string Average {
-            get {
-                return ResourceManager.GetString("Average", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Average (continuous).
         /// </summary>
         public static string AverageContinuous {
@@ -183,6 +174,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string AverageDiscrete {
             get {
                 return ResourceManager.GetString("AverageDiscrete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Average (follower).
+        /// </summary>
+        public static string AverageFollower {
+            get {
+                return ResourceManager.GetString("AverageFollower", resourceCulture);
             }
         }
         
@@ -1087,20 +1087,20 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Max (follower).
+        /// </summary>
+        public static string MaxFollower {
+            get {
+                return ResourceManager.GetString("MaxFollower", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Maximum Frequency.
         /// </summary>
         public static string MaxFrequency {
             get {
                 return ResourceManager.GetString("MaxFrequency", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Maximum.
-        /// </summary>
-        public static string Maximum {
-            get {
-                return ResourceManager.GetString("Maximum", resourceCulture);
             }
         }
         
@@ -1123,20 +1123,20 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Min (follower).
+        /// </summary>
+        public static string MinFollower {
+            get {
+                return ResourceManager.GetString("MinFollower", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Minimum Frequency.
         /// </summary>
         public static string MinFrequency {
             get {
                 return ResourceManager.GetString("MinFrequency", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Minimum.
-        /// </summary>
-        public static string Minimum {
-            get {
-                return ResourceManager.GetString("Minimum", resourceCulture);
             }
         }
         

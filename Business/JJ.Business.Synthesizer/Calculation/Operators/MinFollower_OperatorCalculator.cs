@@ -5,9 +5,9 @@ using JJ.Framework.Collections;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Minimum_OperatorCalculator : MaximumOrMinimum_OperatorCalculatorBase
+    internal class MinFollower_OperatorCalculator : MaxOrMinFollower_OperatorCalculatorBase
     {
-        public Minimum_OperatorCalculator(
+        public MinFollower_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase timeSliceDurationCalculator,
             OperatorCalculatorBase sampleCountCalculator,
@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             : base(signalCalculator, timeSliceDurationCalculator, sampleCountCalculator, dimensionStack)
         { }
 
-        protected override double GetMaximumOrMinimum(RedBlackTree<double, double> redBlackTree)
+        protected override double GetMaxOrMin(RedBlackTree<double, double> redBlackTree)
         {
             return redBlackTree.GetMinimum();
         }

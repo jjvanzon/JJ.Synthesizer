@@ -2,20 +2,20 @@
 using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Framework.Reflection.Exceptions;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Framework.Reflection.Exceptions;
 using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Minimum_OperatorWrapper : OperatorWrapperBase
+    public class MaxFollower_OperatorWrapper : OperatorWrapperBase
     {
         private const int RESULT_INDEX = 0;
         private const int TIME_SLICE_DURATION_INDEX = 1;
         private const int SAMPLE_COUNT_INDEX = 2;
         private const int SIGNAL_INDEX = 0;
 
-        public Minimum_OperatorWrapper(Operator op)
+        public MaxFollower_OperatorWrapper(Operator op)
             : base(op)
         { }
 
@@ -83,7 +83,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             return name;
         }
 
-        public static implicit operator Outlet(Minimum_OperatorWrapper wrapper)
+        public static implicit operator Outlet(MaxFollower_OperatorWrapper wrapper)
         {
             if (wrapper == null) return null;
 

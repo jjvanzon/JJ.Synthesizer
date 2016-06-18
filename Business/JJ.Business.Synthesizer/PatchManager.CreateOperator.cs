@@ -81,15 +81,15 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Average_OperatorWrapper Average(
+        public AverageFollower_OperatorWrapper AverageFollower(
             Outlet signal = null, 
             Outlet timeSliceDuration = null, 
             Outlet sampleCount = null,
             DimensionEnum dimension = DimensionEnum.Time)
         {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.Average, inletCount: 3, outletCount: 1);
+            Operator op = CreateOperatorBase(OperatorTypeEnum.AverageFollower, inletCount: 3, outletCount: 1);
 
-            var wrapper = new Average_OperatorWrapper(op)
+            var wrapper = new AverageFollower_OperatorWrapper(op)
             {
                 Signal = signal,
                 TimeSliceDuration = timeSliceDuration,
@@ -727,15 +727,15 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Maximum_OperatorWrapper Maximum(
+        public MaxFollower_OperatorWrapper MaxFollower(
             Outlet signal = null,
             Outlet timeSliceDuration = null,
             Outlet sampleCount = null,
             DimensionEnum dimension = DimensionEnum.Time)
         {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.Maximum, inletCount: 3, outletCount: 1);
+            Operator op = CreateOperatorBase(OperatorTypeEnum.MaxFollower, inletCount: 3, outletCount: 1);
 
-            var wrapper = new Maximum_OperatorWrapper(op)
+            var wrapper = new MaxFollower_OperatorWrapper(op)
             {
                 Signal = signal,
                 TimeSliceDuration = timeSliceDuration,
@@ -791,15 +791,15 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Minimum_OperatorWrapper Minimum(
+        public MinFollower_OperatorWrapper MinFollower(
             Outlet signal = null,
             Outlet timeSliceDuration = null,
             Outlet sampleCount = null, 
             DimensionEnum dimension = DimensionEnum.Time)
         {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.Minimum, inletCount: 3, outletCount: 1);
+            Operator op = CreateOperatorBase(OperatorTypeEnum.MinFollower, inletCount: 3, outletCount: 1);
 
-            var wrapper = new Minimum_OperatorWrapper(op)
+            var wrapper = new MinFollower_OperatorWrapper(op)
             {
                 Signal = signal,
                 TimeSliceDuration = timeSliceDuration,
@@ -1617,7 +1617,7 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.Add: return Add();
                 case OperatorTypeEnum.Adder: return Adder(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.And: return And();
-                case OperatorTypeEnum.Average: return Average();
+                case OperatorTypeEnum.AverageFollower: return AverageFollower();
                 case OperatorTypeEnum.AverageContinuous: return AverageContinuous();
                 case OperatorTypeEnum.AverageDiscrete: return AverageDiscrete(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.Bundle: return Bundle(new Outlet[variableInletOrOutletCount]);
@@ -1645,10 +1645,10 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.MakeDiscrete: return MakeDiscrete(null, variableInletOrOutletCount);
                 case OperatorTypeEnum.MaxContinuous: return MaxContinuous();
                 case OperatorTypeEnum.MaxDiscrete: return MaxDiscrete(new Outlet[variableInletOrOutletCount]);
-                case OperatorTypeEnum.Maximum: return Maximum();
+                case OperatorTypeEnum.MaxFollower: return MaxFollower();
                 case OperatorTypeEnum.MinContinuous: return MinContinuous();
                 case OperatorTypeEnum.MinDiscrete: return MinDiscrete(new Outlet[variableInletOrOutletCount]);
-                case OperatorTypeEnum.Minimum: return Minimum();
+                case OperatorTypeEnum.MinFollower: return MinFollower();
                 case OperatorTypeEnum.Multiply: return Multiply();
                 case OperatorTypeEnum.Narrower: return Narrower();
                 case OperatorTypeEnum.Noise: return Noise();

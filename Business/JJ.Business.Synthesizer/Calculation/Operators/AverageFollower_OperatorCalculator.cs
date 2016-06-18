@@ -5,7 +5,7 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Average_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class AverageFollower_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _sliceLengthCalculator;
@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _previousPosition;
         private double _passedSamplingLength;
 
-        public Average_OperatorCalculator(
+        public AverageFollower_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase sliceLengthCalculator,
             OperatorCalculatorBase sampleCountCalculator,

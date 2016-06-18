@@ -43,16 +43,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithDimensionPropertyViews { get; } = 
                   new HashSet<OperatorTypeEnum>
         {
-            OperatorTypeEnum.Average,
+            OperatorTypeEnum.AverageFollower,
             OperatorTypeEnum.AverageContinuous,
             OperatorTypeEnum.Delay,
             OperatorTypeEnum.Earlier,
             OperatorTypeEnum.GetDimension,
             OperatorTypeEnum.Loop,
             OperatorTypeEnum.MaxContinuous,
-            OperatorTypeEnum.Maximum,
+            OperatorTypeEnum.MaxFollower,
             OperatorTypeEnum.MinContinuous,
-            OperatorTypeEnum.Minimum,
+            OperatorTypeEnum.MinFollower,
             OperatorTypeEnum.Narrower,
             OperatorTypeEnum.Noise,
             OperatorTypeEnum.Pulse,

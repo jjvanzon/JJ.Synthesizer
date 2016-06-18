@@ -299,13 +299,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitAverage(Operator op)
+        protected override void VisitAverageFollower(Operator op)
         {
-            var wrapper = new Average_OperatorWrapper(op);
+            var wrapper = new AverageFollower_OperatorWrapper(op);
             DimensionEnum dimensionEnum = wrapper.Dimension;
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
-            base.VisitAverage(op);
+            base.VisitAverageFollower(op);
 
             OperatorCalculatorBase calculator;
 
@@ -327,7 +327,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                calculator = new Average_OperatorCalculator(signalCalculator, timeSliceDurationCalculator, sampleCountCalculator, dimensionStack);
+                calculator = new AverageFollower_OperatorCalculator(signalCalculator, timeSliceDurationCalculator, sampleCountCalculator, dimensionStack);
             }
 
             _stack.Push(calculator);
@@ -1800,14 +1800,14 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitMaximum(Operator op)
+        protected override void VisitMaxFollower(Operator op)
         {
-            var wrapper = new Maximum_OperatorWrapper(op);
+            var wrapper = new MaxFollower_OperatorWrapper(op);
             DimensionEnum dimensionEnum = wrapper.Dimension;
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
             dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
 
-            base.VisitMaximum(op);
+            base.VisitMaxFollower(op);
 
             OperatorCalculatorBase calculator;
 
@@ -1831,7 +1831,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                calculator = new Maximum_OperatorCalculator(signalCalculator, timeSliceDurationCalculator, sampleCountCalculator, dimensionStack);
+                calculator = new MaxFollower_OperatorCalculator(signalCalculator, timeSliceDurationCalculator, sampleCountCalculator, dimensionStack);
             }
 
             _stack.Push(calculator);
@@ -1954,14 +1954,14 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitMinimum(Operator op)
+        protected override void VisitMinFollower(Operator op)
         {
-            var wrapper = new Minimum_OperatorWrapper(op);
+            var wrapper = new MinFollower_OperatorWrapper(op);
             DimensionEnum dimensionEnum = wrapper.Dimension;
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
             dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
 
-            base.VisitMinimum(op);
+            base.VisitMinFollower(op);
 
             OperatorCalculatorBase calculator;
 
@@ -1985,7 +1985,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                calculator = new Minimum_OperatorCalculator(signalCalculator, timeSliceDurationCalculator, sampleCountCalculator, dimensionStack);
+                calculator = new MinFollower_OperatorCalculator(signalCalculator, timeSliceDurationCalculator, sampleCountCalculator, dimensionStack);
             }
 
             _stack.Push(calculator);

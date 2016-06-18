@@ -8,14 +8,14 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Average_OperatorWrapper : OperatorWrapperBase
+    public class MinFollower_OperatorWrapper : OperatorWrapperBase
     {
-        private const int SIGNAL_INDEX = 0;
+        private const int RESULT_INDEX = 0;
         private const int TIME_SLICE_DURATION_INDEX = 1;
         private const int SAMPLE_COUNT_INDEX = 2;
-        private const int RESULT_INDEX = 0;
+        private const int SIGNAL_INDEX = 0;
 
-        public Average_OperatorWrapper(Operator op)
+        public MinFollower_OperatorWrapper(Operator op)
             : base(op)
         { }
 
@@ -83,7 +83,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             return name;
         }
 
-        public static implicit operator Outlet(Average_OperatorWrapper wrapper)
+        public static implicit operator Outlet(MinFollower_OperatorWrapper wrapper)
         {
             if (wrapper == null) return null;
 

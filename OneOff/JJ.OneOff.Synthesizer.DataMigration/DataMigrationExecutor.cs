@@ -1209,9 +1209,9 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                 OperatorTypeEnum.Reverse,
                 OperatorTypeEnum.Resample,
                 OperatorTypeEnum.Random,
-                OperatorTypeEnum.Minimum,
-                OperatorTypeEnum.Maximum,
-                OperatorTypeEnum.Average,
+                OperatorTypeEnum.MinFollower,
+                OperatorTypeEnum.MaxFollower,
+                OperatorTypeEnum.AverageFollower,
                 OperatorTypeEnum.Cache
             };
 
