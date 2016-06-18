@@ -53,6 +53,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double till = _tillCalculator.Calculate();
             double step = _stepCalculator.Calculate();
 
+            bool isStandingStill = step == 0.0;
+            bool isForward = step >= 0.0;
+            bool directionIsMismatch = Math.Sign(till - from) != Math.Sign(step);
+
+            if (isStandingStill || directionIsMismatch)
+            {
+                _value = 0.0;
+                return;
+            }
+
             double position = from;
 
 #if ASSERT_INVAR_INDICES
@@ -67,22 +77,44 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             position += step;
 
-            while (position <= till)
+            if (isForward)
             {
+                while (position <= till)
+                {
 
 #if !USE_INVAR_INDICES
-                _dimensionStack.Set(position);
+                    _dimensionStack.Set(position);
 #else
-                _dimensionStack.Set(_dimensionStackIndex, position);
+                    _dimensionStack.Set(_dimensionStackIndex, position);
 #endif
-                double value2 = _signalCalculator.Calculate();
+                    double value2 = _signalCalculator.Calculate();
+                    if (value < value2)
+                    {
+                        value = value2;
+                    }
 
-                if (value < value2)
-                {
-                    value = value2;
+                    position += step;
                 }
+            }
+            else
+            {
+                // Is backwards
+                while (position >= till)
+                {
 
-                position += step;
+#if !USE_INVAR_INDICES
+                    _dimensionStack.Set(position);
+#else
+                    _dimensionStack.Set(_dimensionStackIndex, position);
+#endif
+                    double value2 = _signalCalculator.Calculate();
+                    if (value < value2)
+                    {
+                        value = value2;
+                    }
+
+                    position += step;
+                }
             }
 
             _value = value;
