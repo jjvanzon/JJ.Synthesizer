@@ -124,6 +124,7 @@
         AverageDiscrete = 71,
         MaxContinuous = 72,
         MinContinuous = 73,
-        AverageContinuous = 74
+        AverageContinuous = 74,
+        SumContinuous = 75
     }
 }

@@ -51,15 +51,6 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.And(a, b);
         }
 
-        public AverageFollower_OperatorWrapper AverageFollower(
-            Outlet signal = null, 
-            Outlet sliceLength = null, 
-            Outlet sampleCount = null,
-            DimensionEnum dimension = DimensionEnum.Time)
-        {
-            return _patchManager.AverageFollower(signal, sliceLength, sampleCount, dimension);
-        }
-
         public AverageContinuous_OperatorWrapper AverageContinuous(
             Outlet signal = null,
             Outlet from = null,
@@ -78,6 +69,15 @@ namespace JJ.Business.Synthesizer.Api
         public AverageDiscrete_OperatorWrapper AverageDiscrete(IList<Outlet> operands)
         {
             return _patchManager.AverageDiscrete(operands);
+        }
+
+        public AverageFollower_OperatorWrapper AverageFollower(
+            Outlet signal = null,
+            Outlet sliceLength = null,
+            Outlet sampleCount = null,
+            DimensionEnum dimension = DimensionEnum.Time)
+        {
+            return _patchManager.AverageFollower(signal, sliceLength, sampleCount, dimension);
         }
 
         public Bundle_OperatorWrapper Bundle(params Outlet[] operands)
@@ -626,6 +626,16 @@ namespace JJ.Business.Synthesizer.Api
         public Subtract_OperatorWrapper Subtract(Outlet a = null, Outlet b = null)
         {
             return _patchManager.Subtract(a, b);
+        }
+
+        public SumContinuous_OperatorWrapper SumContinuous(
+            Outlet signal = null,
+            Outlet from = null,
+            Outlet till = null,
+            Outlet sampleCount = null,
+            DimensionEnum dimension = DimensionEnum.Undefined)
+        {
+            return _patchManager.SumContinuous(signal, from, till, sampleCount, dimension);
         }
 
         public TimePower_OperatorWrapper TimePower(

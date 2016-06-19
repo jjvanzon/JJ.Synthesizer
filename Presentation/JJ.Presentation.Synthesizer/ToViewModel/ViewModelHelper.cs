@@ -68,6 +68,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.SpeedUp,
             OperatorTypeEnum.Square,
             OperatorTypeEnum.Stretch,
+            OperatorTypeEnum.SumContinuous,
             OperatorTypeEnum.TimePower,
             OperatorTypeEnum.Triangle
         };

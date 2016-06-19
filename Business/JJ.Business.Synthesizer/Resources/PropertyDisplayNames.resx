@@ -833,4 +833,7 @@
   <data name="AverageContinuous" xml:space="preserve">
     <value>Average (continuous)</value>
   </data>
+  <data name="SumContinuous" xml:space="preserve">
+    <value>Sum (continuous)</value>
+  </data>
 </root>

@@ -82,6 +82,7 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             RepositoryHelper.EnsureEnumEntity(this, 72, "MaxContinuous");
             RepositoryHelper.EnsureEnumEntity(this, 73, "MinContinuous");
             RepositoryHelper.EnsureEnumEntity(this, 74, "AverageContinuous");
+            RepositoryHelper.EnsureEnumEntity(this, 75, "SumContinuous");
         }
     }
 }

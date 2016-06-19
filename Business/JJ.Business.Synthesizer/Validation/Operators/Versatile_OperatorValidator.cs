@@ -83,6 +83,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             { OperatorTypeEnum.Square, typeof(Square_OperatorValidator) },
             { OperatorTypeEnum.Stretch, typeof(Stretch_OperatorValidator) },
             { OperatorTypeEnum.Subtract, typeof(Subtract_OperatorValidator) },
+            { OperatorTypeEnum.SumContinuous, typeof(SumContinuous_OperatorValidator) },
             { OperatorTypeEnum.TimePower, typeof(TimePower_OperatorValidator) },
             { OperatorTypeEnum.ToggleTrigger, typeof(ToggleTrigger_OperatorValidator) },
             { OperatorTypeEnum.Triangle, typeof(Triangle_OperatorValidator) },

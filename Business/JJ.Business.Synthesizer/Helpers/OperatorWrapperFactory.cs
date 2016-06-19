@@ -82,6 +82,7 @@ namespace JJ.Business.Synthesizer.Helpers
             { OperatorTypeEnum.Square, Create_Square_OperatorWrapper },
             { OperatorTypeEnum.Stretch, Create_Stretch_OperatorWrapper },
             { OperatorTypeEnum.Subtract, Create_Subtract_OperatorWrapper },
+            { OperatorTypeEnum.SumContinuous, Create_SumContinuous_OperatorWrapper },
             { OperatorTypeEnum.TimePower , Create_TimePower_OperatorWrapper },
             { OperatorTypeEnum.ToggleTrigger , Create_ToggleTrigger_OperatorWrapper },
             { OperatorTypeEnum.Triangle, Create_Triangle_OperatorWrapper },
@@ -202,6 +203,7 @@ namespace JJ.Business.Synthesizer.Helpers
         private static Square_OperatorWrapper Create_Square_OperatorWrapper(Operator op) { return new Square_OperatorWrapper(op); }
         private static Stretch_OperatorWrapper Create_Stretch_OperatorWrapper(Operator op) { return new Stretch_OperatorWrapper(op); }
         private static Subtract_OperatorWrapper Create_Subtract_OperatorWrapper(Operator op) { return new Subtract_OperatorWrapper(op); }
+        private static SumContinuous_OperatorWrapper Create_SumContinuous_OperatorWrapper(Operator op) { return new SumContinuous_OperatorWrapper(op); }
         private static TimePower_OperatorWrapper Create_TimePower_OperatorWrapper(Operator op) { return new TimePower_OperatorWrapper(op); }
         private static ToggleTrigger_OperatorWrapper Create_ToggleTrigger_OperatorWrapper(Operator op) { return new ToggleTrigger_OperatorWrapper(op); }
         private static Triangle_OperatorWrapper Create_Triangle_OperatorWrapper(Operator op) { return new Triangle_OperatorWrapper(op); }

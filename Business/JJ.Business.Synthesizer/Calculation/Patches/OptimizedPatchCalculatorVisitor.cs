@@ -335,7 +335,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitAverageContinuous(Operator op)
         {
-            var wrapper = new Random_OperatorWrapper(op);
+            var wrapper = new OperatorWrapperBase_WithDimension(op);
             DimensionEnum dimensionEnum = wrapper.Dimension;
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
@@ -1685,7 +1685,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitMaxContinuous(Operator op)
         {
-            var wrapper = new Random_OperatorWrapper(op);
+            var wrapper = new OperatorWrapperBase_WithDimension(op);
             DimensionEnum dimensionEnum = wrapper.Dimension;
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
@@ -1839,7 +1839,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitMinContinuous(Operator op)
         {
-            var wrapper = new Random_OperatorWrapper(op);
+            var wrapper = new OperatorWrapperBase_WithDimension(op);
             DimensionEnum dimensionEnum = wrapper.Dimension;
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
@@ -2731,7 +2731,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitRange(Operator op)
         {
-            var wrapper = new Random_OperatorWrapper(op);
+            var wrapper = new OperatorWrapperBase_WithDimension(op);
             DimensionEnum dimensionEnum = wrapper.Dimension;
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
@@ -3884,6 +3884,72 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
 
             _stack.Push(calculator);
+        }
+
+        protected override void VisitSumContinuous(Operator op)
+        {
+            var wrapper = new OperatorWrapperBase_WithDimension(op);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+
+            base.VisitSumContinuous(op);
+
+            OperatorCalculatorBase operatorCalculator;
+
+            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase fromCalculator = _stack.Pop();
+            OperatorCalculatorBase tillCalculator = _stack.Pop();
+            OperatorCalculatorBase sampleCountCalculator = _stack.Pop();
+
+            // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
+            signalCalculator = signalCalculator ?? new Number_OperatorCalculator(0.0);
+            fromCalculator = fromCalculator ?? new Number_OperatorCalculator(0.0);
+            tillCalculator = tillCalculator ?? new Number_OperatorCalculator(15.0);
+            sampleCountCalculator = sampleCountCalculator ?? new Number_OperatorCalculator(100.0);
+
+            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+            bool fromIsConst = fromCalculator is Number_OperatorCalculator;
+            bool tillIsConst = tillCalculator is Number_OperatorCalculator;
+            bool sampleCountIsConst = sampleCountCalculator is Number_OperatorCalculator;
+
+            double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
+            double from = fromIsConst ? fromCalculator.Calculate() : 0.0;
+            double till = tillIsConst ? tillCalculator.Calculate() : 0.0;
+            double sampleCount = sampleCountIsConst ? sampleCountCalculator.Calculate() : 0.0;
+
+            bool sampleCountIsConstZero = sampleCountIsConst && sampleCount == 0.0;
+            bool sampleCountIsConstNegative = sampleCountIsConst && sampleCount < 0.0;
+            bool fromIsConstSpecialNumber = fromIsConst && DoubleHelper.IsSpecialNumber(from);
+            bool tillIsConstSpecialNumber = fromIsConst && DoubleHelper.IsSpecialNumber(from);
+            bool sampleCountIsConstSpecialNumber = fromIsConst && DoubleHelper.IsSpecialNumber(from);
+
+            if (signalIsConst)
+            {
+                operatorCalculator = signalCalculator;
+            }
+            else if (sampleCountIsConstZero)
+            {
+                operatorCalculator = new Zero_OperatorCalculator();
+            }
+            else if (sampleCountIsConstNegative)
+            {
+                operatorCalculator = new Zero_OperatorCalculator();
+            }
+            else if (fromIsConstSpecialNumber || tillIsConstSpecialNumber || sampleCountIsConstSpecialNumber)
+            {
+                operatorCalculator = new Number_OperatorCalculator(Double.NaN);
+            }
+            else
+            {
+                operatorCalculator = new SumContinuous_OperatorCalculator(
+                    signalCalculator,
+                    fromCalculator,
+                    tillCalculator,
+                    sampleCountCalculator,
+                    dimensionStack);
+            }
+
+            _stack.Push(operatorCalculator);
         }
 
         protected override void VisitTimePower(Operator op)

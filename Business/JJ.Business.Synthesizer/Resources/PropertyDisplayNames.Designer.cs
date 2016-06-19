@@ -1942,6 +1942,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sum (continuous).
+        /// </summary>
+        public static string SumContinuous {
+            get {
+                return ResourceManager.GetString("SumContinuous", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sustain Volume.
         /// </summary>
         public static string SustainVolume {

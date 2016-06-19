@@ -81,28 +81,6 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public AverageFollower_OperatorWrapper AverageFollower(
-            Outlet signal = null, 
-            Outlet sliceLength = null, 
-            Outlet sampleCount = null,
-            DimensionEnum dimension = DimensionEnum.Time)
-        {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.AverageFollower, inletCount: 3, outletCount: 1);
-
-            var wrapper = new AverageFollower_OperatorWrapper(op)
-            {
-                Signal = signal,
-                SliceLength = sliceLength,
-                SampleCount = sampleCount,
-                Dimension = dimension
-            };
-
-            VoidResult result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
-
-            return wrapper;
-        }
-
         public AverageContinuous_OperatorWrapper AverageContinuous(
             Outlet signal = null,
             Outlet from = null,
@@ -142,6 +120,28 @@ namespace JJ.Business.Synthesizer
             ResultHelper.Assert(result);
 
             var wrapper = new AverageDiscrete_OperatorWrapper(op);
+            return wrapper;
+        }
+
+        public AverageFollower_OperatorWrapper AverageFollower(
+            Outlet signal = null,
+            Outlet sliceLength = null,
+            Outlet sampleCount = null,
+            DimensionEnum dimension = DimensionEnum.Time)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.AverageFollower, inletCount: 3, outletCount: 1);
+
+            var wrapper = new AverageFollower_OperatorWrapper(op)
+            {
+                Signal = signal,
+                SliceLength = sliceLength,
+                SampleCount = sampleCount,
+                Dimension = dimension
+            };
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
             return wrapper;
         }
 
@@ -1466,6 +1466,30 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        public SumContinuous_OperatorWrapper SumContinuous(
+            Outlet signal = null,
+            Outlet from = null,
+            Outlet till = null,
+            Outlet sampleCount = null,
+            DimensionEnum dimension = DimensionEnum.Undefined)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.SumContinuous, inletCount: 4, outletCount: 1);
+
+            var wrapper = new SumContinuous_OperatorWrapper(op)
+            {
+                Signal = signal,
+                From = from,
+                Till = till,
+                SampleCount = sampleCount,
+                Dimension = dimension
+            };
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
         public TimePower_OperatorWrapper TimePower(Outlet signal = null, Outlet exponent = null, Outlet origin = null, DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.TimePower, inletCount: 3, outletCount: 1);
@@ -1683,6 +1707,7 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.Square: return Square();
                 case OperatorTypeEnum.Stretch: return Stretch();
                 case OperatorTypeEnum.Subtract: return Subtract();
+                case OperatorTypeEnum.SumContinuous: return SumContinuous();
                 case OperatorTypeEnum.TimePower: return TimePower();
                 case OperatorTypeEnum.ToggleTrigger: return ToggleTrigger();
                 case OperatorTypeEnum.Triangle: return Triangle();

@@ -85,6 +85,7 @@
     <Compile Include="Calculation\Curves\CurveCalculator_MinX.cs" />
     <Compile Include="Calculation\DimensionStackCollection.cs" />
     <Compile Include="Calculation\Operators\2016-06-17 Backup of AverageDiscrete_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\SumContinuous_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\AverageDiscrete_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\AverageContinuous_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\MinOrMaxContinuous_OperatorCalculatorBase.cs" />
@@ -215,6 +216,7 @@
     <Compile Include="Calculation\DimensionStack.cs" />
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="Converters\PatchToOperatorConverter.cs" />
+    <Compile Include="EntityWrappers\SumContinuous_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\AverageDiscrete_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\AverageContinuous_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\MinContinuous_OperatorWrapper.cs" />
@@ -357,6 +359,7 @@
     <Compile Include="Validation\Documents\RootDocument_DocumentValidator.cs" />
     <Compile Include="Validation\2016-06-15 Backup of InletsValidator_ListIndexConsecutive.cs" />
     <Compile Include="Validation\Operators\Absolute_OperatorValidator.cs" />
+    <Compile Include="Validation\Operators\SumContinuous_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\AverageDiscrete_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\AverageContinuous_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\MinContinuous_OperatorValidator.cs" />
@@ -419,6 +422,7 @@
     <Compile Include="Warnings\AudioOutputWarningValidator.cs" />
     <Compile Include="Warnings\CurveWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Absolute_OperatorWarningValidator.cs" />
+    <Compile Include="Warnings\Operators\SumContinuous_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\AverageDiscrete_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\AverageContinuous_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\MinContinuous_OperatorWarningValidator.cs" />
