@@ -3,13 +3,13 @@ using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class AverageFollower_OperatorWrapper : OperatorWrapperBase_AggregateFollower
+    public class SumFollower_OperatorWrapper : OperatorWrapperBase_AggregateFollower
     {
-        public AverageFollower_OperatorWrapper(Operator op)
+        public SumFollower_OperatorWrapper(Operator op)
             : base(op)
         { }
 
-        public static implicit operator Outlet(AverageFollower_OperatorWrapper wrapper)
+        public static implicit operator Outlet(SumFollower_OperatorWrapper wrapper)
         {
             if (wrapper == null) return null;
 

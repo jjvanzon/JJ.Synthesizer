@@ -34,11 +34,6 @@ namespace JJ.Business.Synthesizer.Resources
             return Messages.NameOrDimensionMustBeFilledIn;
         }
 
-        public static string UnsupportedOperatorTypeEnumValue(OperatorTypeEnum operatorTypeEnum)
-        {
-            return String.Format(Messages.UnsupportedOperatorTypeEnumValue, operatorTypeEnum);
-        }
-
         public static string NotUnique_WithPropertyName_AndValue(string propertyDisplayName, object value)
         {
             return String.Format(Messages.NotUnique_WithPropertyName_AndValue, propertyDisplayName, value);

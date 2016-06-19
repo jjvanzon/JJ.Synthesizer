@@ -84,6 +84,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             { OperatorTypeEnum.Stretch, typeof(Stretch_OperatorValidator) },
             { OperatorTypeEnum.Subtract, typeof(Subtract_OperatorValidator) },
             { OperatorTypeEnum.SumContinuous, typeof(SumContinuous_OperatorValidator) },
+            { OperatorTypeEnum.SumFollower, typeof(SumFollower_OperatorValidator) },
             { OperatorTypeEnum.TimePower, typeof(TimePower_OperatorValidator) },
             { OperatorTypeEnum.ToggleTrigger, typeof(ToggleTrigger_OperatorValidator) },
             { OperatorTypeEnum.Triangle, typeof(Triangle_OperatorValidator) },
@@ -103,20 +104,25 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             Execute<Basic_OperatorValidator>();
 
-            if (Object.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator)
+            OperatorTypeEnum operatorTypeEnum = Object.GetOperatorTypeEnum();
+
+            if (operatorTypeEnum == OperatorTypeEnum.CustomOperator)
             {
                 Execute(new CustomOperator_OperatorValidator(Object, _patchRepository));
                 return;
             }
 
             Type validatorType;
-            if (!_validatorTypeDictionary.TryGetValue(Object.GetOperatorTypeEnum(), out validatorType))
+            if (!_validatorTypeDictionary.TryGetValue(operatorTypeEnum, out validatorType))
             {
-                ValidationMessages.Add(() => Object.GetOperatorTypeEnum(), MessageFormatter.UnsupportedOperatorTypeEnumValue(Object.GetOperatorTypeEnum()));
+                throw new Exception(String.Format("_validatorTypeDictionary does not contain key OperatorTypeEnum '{0}'.", operatorTypeEnum));
             }
             else
             {
-                Execute(validatorType);
+                if (validatorType != null)
+                {
+                    Execute(validatorType);
+                }
             }
         }
     }

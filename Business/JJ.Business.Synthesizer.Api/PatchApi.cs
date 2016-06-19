@@ -638,6 +638,15 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.SumContinuous(signal, from, till, sampleCount, dimension);
         }
 
+        public SumFollower_OperatorWrapper SumFollower(
+            Outlet signal = null,
+            Outlet sliceLength = null,
+            Outlet sampleCount = null,
+            DimensionEnum dimension = DimensionEnum.Time)
+        {
+            return _patchManager.SumFollower(signal, sliceLength, sampleCount, dimension);
+        }
+
         public TimePower_OperatorWrapper TimePower(
             Outlet signal = null, 
             Outlet exponent = null, 

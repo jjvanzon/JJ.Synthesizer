@@ -836,4 +836,7 @@
   <data name="SumContinuous" xml:space="preserve">
     <value>Som (aaneengesloten)</value>
   </data>
+  <data name="SumFollower" xml:space="preserve">
+    <value>Som (volgen)</value>
+  </data>
 </root>

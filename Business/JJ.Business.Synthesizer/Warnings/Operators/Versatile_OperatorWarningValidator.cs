@@ -1,5 +1,4 @@
 ﻿using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
 using System;
@@ -10,7 +9,8 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
 {
     internal class Versatile_OperatorWarningValidator : ValidatorBase<Operator>
     {
-        private IDictionary<OperatorTypeEnum, Type> _validatorTypeDictionary = new Dictionary<OperatorTypeEnum, Type>
+        private Dictionary<OperatorTypeEnum, Type> _warningValidatorTypeDictionary = 
+            new Dictionary<OperatorTypeEnum, Type>
         {
             { OperatorTypeEnum.Absolute, typeof(Absolute_OperatorWarningValidator) },
             { OperatorTypeEnum.Add, typeof(Add_OperatorWarningValidator) },
@@ -78,6 +78,8 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             { OperatorTypeEnum.Square, typeof(Square_OperatorWarningValidator) },
             { OperatorTypeEnum.Stretch, typeof(Stretch_OperatorWarningValidator) },
             { OperatorTypeEnum.Subtract, typeof(Subtract_OperatorWarningValidator) },
+            { OperatorTypeEnum.SumContinuous, typeof(SumContinuous_OperatorWarningValidator) },
+            { OperatorTypeEnum.SumFollower, typeof(SumFollower_OperatorWarningValidator) },
             { OperatorTypeEnum.TimePower, typeof(TimePower_OperatorWarningValidator) },
             { OperatorTypeEnum.ToggleTrigger, typeof(ToggleTrigger_OperatorWarningValidator) },
             { OperatorTypeEnum.Triangle, typeof(Triangle_OperatorWarningValidator) },
@@ -91,10 +93,11 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
 
         protected override void Execute()
         {
+            OperatorTypeEnum operatorTypeEnum = Object.GetOperatorTypeEnum();
             Type validatorType;
-            if (!_validatorTypeDictionary.TryGetValue(Object.GetOperatorTypeEnum(), out validatorType))
+            if (!_warningValidatorTypeDictionary.TryGetValue(operatorTypeEnum, out validatorType))
             {
-                ValidationMessages.Add(() => Object.GetOperatorTypeEnum(), MessageFormatter.UnsupportedOperatorTypeEnumValue(Object.GetOperatorTypeEnum()));
+                throw new Exception(String.Format("_validatorTypeDictionary does not contain key OperatorTypeEnum '{0}'.", operatorTypeEnum));
             }
             else
             {

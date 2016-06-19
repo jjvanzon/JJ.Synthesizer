@@ -172,9 +172,6 @@
   <data name="SampleNotLoaded" xml:space="preserve">
     <value>Geluidsfragment '{0} is niet ingeladen.</value>
   </data>
-  <data name="UnsupportedOperatorTypeEnumValue" xml:space="preserve">
-    <value>Operator type '{0}' wordt niet ondersteund.</value>
-  </data>
   <data name="NumberIs0WithName" xml:space="preserve">
     <value>Getal genaamd '{0}' is 0.</value>
   </data>

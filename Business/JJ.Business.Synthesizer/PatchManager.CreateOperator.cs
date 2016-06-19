@@ -1490,6 +1490,28 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        public SumFollower_OperatorWrapper SumFollower(
+            Outlet signal = null,
+            Outlet sliceLength = null,
+            Outlet sampleCount = null,
+            DimensionEnum dimension = DimensionEnum.Time)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.SumFollower, inletCount: 3, outletCount: 1);
+
+            var wrapper = new SumFollower_OperatorWrapper(op)
+            {
+                Signal = signal,
+                SliceLength = sliceLength,
+                SampleCount = sampleCount,
+                Dimension = dimension
+            };
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
         public TimePower_OperatorWrapper TimePower(Outlet signal = null, Outlet exponent = null, Outlet origin = null, DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.TimePower, inletCount: 3, outletCount: 1);
@@ -1708,13 +1730,14 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.Stretch: return Stretch();
                 case OperatorTypeEnum.Subtract: return Subtract();
                 case OperatorTypeEnum.SumContinuous: return SumContinuous();
+                case OperatorTypeEnum.SumFollower: return SumFollower();
                 case OperatorTypeEnum.TimePower: return TimePower();
                 case OperatorTypeEnum.ToggleTrigger: return ToggleTrigger();
                 case OperatorTypeEnum.Triangle: return Triangle();
                 case OperatorTypeEnum.Unbundle: return Unbundle(null, variableInletOrOutletCount);
 
                 default:
-                    throw new Exception(String.Format("{0} not supported by the PatchManager.CreateOperator method.", operatorTypeEnum));
+                    throw new Exception(String.Format("OperatorTypeEnum '{0}' not supported by the PatchManager.CreateOperator method.", operatorTypeEnum));
             }
         }
 

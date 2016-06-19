@@ -356,14 +356,5 @@ namespace JJ.Business.Synthesizer.Resources {
                 return ResourceManager.GetString("UnderlyingPatchIsCircular", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Operator type &apos;{0}&apos; is not supported..
-        /// </summary>
-        internal static string UnsupportedOperatorTypeEnumValue {
-            get {
-                return ResourceManager.GetString("UnsupportedOperatorTypeEnumValue", resourceCulture);
-            }
-        }
     }
 }

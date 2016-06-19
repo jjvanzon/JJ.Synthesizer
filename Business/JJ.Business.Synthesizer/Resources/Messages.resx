@@ -172,10 +172,6 @@
     <value>Sample '{0}' is not loaded.</value>
     <comment>{0} = sample name</comment>
   </data>
-  <data name="UnsupportedOperatorTypeEnumValue" xml:space="preserve">
-    <value>Operator type '{0}' is not supported.</value>
-    <comment>{0} = number or name</comment>
-  </data>
   <data name="NumberIs0WithName" xml:space="preserve">
     <value>Number named '{0}' is 0.</value>
     <comment>{0} = Value operator name.</comment>

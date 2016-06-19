@@ -836,4 +836,7 @@
   <data name="SumContinuous" xml:space="preserve">
     <value>Sum (continuous)</value>
   </data>
+  <data name="SumFollower" xml:space="preserve">
+    <value>Sum (follower)</value>
+  </data>
 </root>
