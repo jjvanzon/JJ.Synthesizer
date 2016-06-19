@@ -120,9 +120,6 @@
   <data name="Add" xml:space="preserve">
     <value>+</value>
   </data>
-  <data name="Adder" xml:space="preserve">
-    <value>Opteller</value>
-  </data>
   <data name="Curve" xml:space="preserve">
     <value>Curve</value>
   </data>

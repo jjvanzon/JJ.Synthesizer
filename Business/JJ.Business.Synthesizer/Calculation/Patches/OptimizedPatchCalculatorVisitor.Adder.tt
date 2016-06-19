@@ -5,56 +5,31 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".cs" #>
 
-<# int maxAdderOperands = 32; #>
+<# int maxAddOperands = 32; #>
 
 using JJ.Data.Synthesizer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Framework.Reflection.Exceptions;
 using JJ.Business.Synthesizer.Calculation.Operators;
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {
     internal partial class OptimizedPatchCalculatorVisitor
     {
-	    protected override void VisitAdder(Operator op)
+	    private OperatorCalculatorBase CreateAddCalculator_WithThreeOrMoreOperands(IList<OperatorCalculatorBase> operandCalculators)
         {
-			base.VisitAdder(op);
-
-            OperatorCalculatorBase calculator;
-
-            List<OperatorCalculatorBase> operandCalculators = new List<OperatorCalculatorBase>();
-
-            for (int i = 0; i < op.Inlets.Count; i++)
-            {
-                OperatorCalculatorBase operandCalculator =  _stack.Pop();
-
-                if (operandCalculator != null)
-                {
-                    operandCalculators.Add(operandCalculator);
-                }
-            }
+			if (operandCalculators.Count < 3) throw new LessThanException(() => operandCalculators.Count, 3);
 
             switch (operandCalculators.Count)
             {
-                case 0:
-                    calculator = new Zero_OperatorCalculator();
-                    break;
-
-                case 1:
-                    calculator = operandCalculators[0];
-                    break;
-
-                case 2:
-                    calculator = new Add_OperatorCalculator_VarA_VarB(operandCalculators[0], operandCalculators[1]);
-                    break;
-
 <#
-	for (int i = 3; i <= maxAdderOperands; i++)
+	for (int i = 3; i <= maxAddOperands; i++)
 	{
 #>
                 case <#= i #>:
-                    calculator = new Adder_OperatorCalculator<#= i #>
+                    return new Add_OperatorCalculator<#= i #>
 					(
 <#
 		for (int j = 0; j < i; j++)
@@ -62,23 +37,16 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 #>
 						operandCalculators[<#=j#>]<#
 						if (j != i - 1) Write(",");#>
-
 <#
 		}
 #>
 					);
-                    break;
-
 <#
 	}
 #>
-
                 default:
-                    calculator = new Adder_OperatorCalculator(operandCalculators.ToArray());
-                    break;
+                    return new Add_OperatorCalculator(operandCalculators.ToArray());
             }
-
-            _stack.Push(calculator);
         }
 	}
 }

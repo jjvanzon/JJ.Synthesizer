@@ -31,19 +31,14 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Absolute(x);
         }
 
-        public Add_OperatorWrapper Add(Outlet a = null, Outlet b = null)
+        public Add_OperatorWrapper Add(params Outlet[] operands)
         {
-            return _patchManager.Add(a, b);
+            return _patchManager.Add(operands);
         }
 
-        public Adder_OperatorWrapper Adder(params Outlet[] operands)
+        public Add_OperatorWrapper Add(IList<Outlet> operands)
         {
-            return _patchManager.Adder(operands);
-        }
-
-        public Adder_OperatorWrapper Adder(IList<Outlet> operands)
-        {
-            return _patchManager.Adder(operands);
+            return _patchManager.Add(operands);
         }
 
         public And_OperatorWrapper And(Outlet a = null, Outlet b = null)

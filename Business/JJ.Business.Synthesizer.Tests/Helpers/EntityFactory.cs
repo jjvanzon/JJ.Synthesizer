@@ -60,8 +60,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 cumulativeDelay += delayValue;
             }
 
-            Adder_OperatorWrapper adder = x.Adder(repeats);
-            return adder;
+            Add_OperatorWrapper add = x.Add(repeats);
+            return add;
         }
     }
 }

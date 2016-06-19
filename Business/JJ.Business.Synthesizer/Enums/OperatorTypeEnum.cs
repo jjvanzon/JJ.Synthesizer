@@ -4,7 +4,6 @@
     {
         Undefined = 0,
         Add = 1,
-        Adder = 2,
         Divide = 3,
         Multiply = 4,
         PatchInlet = 5,

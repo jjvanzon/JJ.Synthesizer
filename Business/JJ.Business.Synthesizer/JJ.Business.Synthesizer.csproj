@@ -153,11 +153,11 @@
     <Compile Include="Calculation\Operators\Loop_OperatorCalculator_ManyVariables.cs" />
     <Compile Include="Calculation\Operators\Exponent_OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Add OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\Adder_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\Adder_OperatorCalculators.cs">
+    <Compile Include="Calculation\Operators\2016-06-19 Backup of Add_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Add OperatorCalculator Classes 3 Or More Operands.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Adder_OperatorCalculators.tt</DependentUpon>
+      <DependentUpon>Add OperatorCalculator Classes 3 Or More Operands.tt</DependentUpon>
     </Compile>
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_CubicSmoothInclination.cs" />
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_Hermite.cs" />
@@ -317,7 +317,7 @@
     <Compile Include="Extensions\DeleteRelatedEntitiesExtensions.cs" />
     <Compile Include="Extensions\RecursionExtensions.cs" />
     <Compile Include="Extensions\UnlinkRelatedEntitiesExtensions.cs" />
-    <Compile Include="EntityWrappers\Adder_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\Add_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Curve_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Earlier_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\SlowDown_OperatorWrapper.cs" />
@@ -525,7 +525,7 @@
     <Compile Include="Validation\Operators\OperatorValidator_IsCircular.cs" />
     <Compile Include="Validation\PatchValidator_InDocument.cs" />
     <Compile Include="Validation\Documents\Recursive_DocumentValidator.cs" />
-    <Compile Include="Validation\Operators\Adder_OperatorValidator.cs" />
+    <Compile Include="Validation\Operators\Add_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Sample_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Curve_OperatorValidator.cs" />
     <Compile Include="Validation\SampleValidator.cs" />
@@ -581,7 +581,7 @@
     <Compile Include="Validation\Operators\Recursive_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Subtract_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_Base.cs" />
-    <Compile Include="EntityWrappers\Add_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\2016-06-19 Backup of Add_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Number_OperatorWrapper.cs" />
     <Compile Include="LinkTo\LinkToExtensions.cs" />
     <Compile Include="Helpers\PropertyNames.cs" />
@@ -591,14 +591,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PropertyDisplayNames.resx</DependentUpon>
     </Compile>
-    <Compile Include="Validation\Operators\Add_OperatorValidator.cs" />
+    <Compile Include="Validation\Operators\2016-06-19 Backup of Add_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Basic_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Versatile_OperatorValidator.cs" />
     <Compile Include="Warnings\Operators\Curve_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\DocumentWarningValidator_Recursive.cs" />
     <Compile Include="Warnings\Operators\Versatile_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\Adder_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Add_OperatorWarningValidator.cs" />
+    <Compile Include="Warnings\Operators\2016-06-19 Backup of Add_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Earlier_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\TimePower_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\SlowDown_OperatorWarningValidator.cs" />
@@ -693,9 +693,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Calculation\AudioFileOutputs\AudioFileOutputCalculators.cd" />
-    <None Include="Calculation\Operators\Adder_OperatorCalculators.tt">
+    <None Include="Calculation\Operators\Add OperatorCalculator Classes 3 Or More Operands.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Adder_OperatorCalculators.cs</LastGenOutput>
+      <LastGenOutput>Add OperatorCalculator Classes 3 Or More Operands.cs</LastGenOutput>
     </None>
     <None Include="Calculation\Operators\OperatorCalculator Inheritance.cd" />
     <None Include="Calculation\Patches\OptimizedPatchCalculatorVisitor.Adder.tt">

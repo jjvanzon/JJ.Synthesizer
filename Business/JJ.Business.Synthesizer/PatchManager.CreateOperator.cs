@@ -31,37 +31,21 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Add_OperatorWrapper Add(Outlet a = null, Outlet b = null)
+        public Add_OperatorWrapper Add(params Outlet[] operands)
         {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.Add, inletCount: 2, outletCount: 1);
-
-            var wrapper = new Add_OperatorWrapper(op)
-            {
-                A = a,
-                B = b
-            };
-
-            VoidResult result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
-
-            return wrapper;
+            return Add((IList<Outlet>)operands);
         }
 
-        public Adder_OperatorWrapper Adder(params Outlet[] operands)
-        {
-            return Adder((IList<Outlet>)operands);
-        }
-
-        public Adder_OperatorWrapper Adder(IList<Outlet> operands)
+        public Add_OperatorWrapper Add(IList<Outlet> operands)
         {
             if (operands == null) throw new NullException(() => operands);
 
-            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.Adder, operands);
+            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.Add, operands);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
-            var wrapper = new Adder_OperatorWrapper(op);
+            var wrapper = new Add_OperatorWrapper(op);
             return wrapper;
         }
 
@@ -1660,8 +1644,7 @@ namespace JJ.Business.Synthesizer
             switch (operatorTypeEnum)
             {
                 case OperatorTypeEnum.Absolute: return Absolute();
-                case OperatorTypeEnum.Add: return Add();
-                case OperatorTypeEnum.Adder: return Adder(new Outlet[variableInletOrOutletCount]);
+                case OperatorTypeEnum.Add: return Add(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.And: return And();
                 case OperatorTypeEnum.AverageFollower: return AverageFollower();
                 case OperatorTypeEnum.AverageContinuous: return AverageContinuous();

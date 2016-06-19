@@ -17,7 +17,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             { OperatorTypeEnum.Absolute, typeof(Absolute_OperatorValidator) },
             { OperatorTypeEnum.Add, typeof(Add_OperatorValidator) },
-            { OperatorTypeEnum.Adder, typeof(Adder_OperatorValidator) },
             { OperatorTypeEnum.And, typeof(And_OperatorValidator) },
             { OperatorTypeEnum.AverageContinuous, typeof(AverageContinuous_OperatorValidator) },
             { OperatorTypeEnum.AverageDiscrete, typeof(AverageDiscrete_OperatorValidator) },

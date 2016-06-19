@@ -4,7 +4,6 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
-using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
@@ -92,7 +91,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithInletCountPropertyViews { get; } =
                   new HashSet<OperatorTypeEnum>
         {
-            OperatorTypeEnum.Adder,
+            OperatorTypeEnum.Add,
             OperatorTypeEnum.AverageDiscrete,
             OperatorTypeEnum.MaxDiscrete,
             OperatorTypeEnum.MinDiscrete

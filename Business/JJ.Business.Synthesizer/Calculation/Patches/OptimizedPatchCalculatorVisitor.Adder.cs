@@ -4,756 +4,142 @@ using JJ.Data.Synthesizer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Framework.Reflection.Exceptions;
 using JJ.Business.Synthesizer.Calculation.Operators;
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {
     internal partial class OptimizedPatchCalculatorVisitor
     {
-	    protected override void VisitAdder(Operator op)
+	    private OperatorCalculatorBase CreateAddCalculator_WithThreeOrMoreOperands(IList<OperatorCalculatorBase> operandCalculators)
         {
-			base.VisitAdder(op);
-
-            OperatorCalculatorBase calculator;
-
-            List<OperatorCalculatorBase> operandCalculators = new List<OperatorCalculatorBase>();
-
-            for (int i = 0; i < op.Inlets.Count; i++)
-            {
-                OperatorCalculatorBase operandCalculator =  _stack.Pop();
-
-                if (operandCalculator != null)
-                {
-                    operandCalculators.Add(operandCalculator);
-                }
-            }
+			if (operandCalculators.Count < 3) throw new LessThanException(() => operandCalculators.Count, 3);
 
             switch (operandCalculators.Count)
             {
-                case 0:
-                    calculator = new Zero_OperatorCalculator();
-                    break;
-
-                case 1:
-                    calculator = operandCalculators[0];
-                    break;
-
-                case 2:
-                    calculator = new Add_OperatorCalculator_VarA_VarB(operandCalculators[0], operandCalculators[1]);
-                    break;
-
                 case 3:
-                    calculator = new Adder_OperatorCalculator3
+                    return new Add_OperatorCalculator3
 					(
-						operandCalculators[0],
-						operandCalculators[1],
-						operandCalculators[2]
-					);
-                    break;
-
+						operandCalculators[0],						operandCalculators[1],						operandCalculators[2]					);
                 case 4:
-                    calculator = new Adder_OperatorCalculator4
+                    return new Add_OperatorCalculator4
 					(
-						operandCalculators[0],
-						operandCalculators[1],
-						operandCalculators[2],
-						operandCalculators[3]
-					);
-                    break;
-
+						operandCalculators[0],						operandCalculators[1],						operandCalculators[2],						operandCalculators[3]					);
                 case 5:
-                    calculator = new Adder_OperatorCalculator5
+                    return new Add_OperatorCalculator5
 					(
-						operandCalculators[0],
-						operandCalculators[1],
-						operandCalculators[2],
-						operandCalculators[3],
-						operandCalculators[4]
-					);
-                    break;
-
+						operandCalculators[0],						operandCalculators[1],						operandCalculators[2],						operandCalculators[3],						operandCalculators[4]					);
                 case 6:
-                    calculator = new Adder_OperatorCalculator6
+                    return new Add_OperatorCalculator6
 					(
-						operandCalculators[0],
-						operandCalculators[1],
-						operandCalculators[2],
-						operandCalculators[3],
-						operandCalculators[4],
-						operandCalculators[5]
-					);
-                    break;
-
+						operandCalculators[0],						operandCalculators[1],						operandCalculators[2],						operandCalculators[3],						operandCalculators[4],						operandCalculators[5]					);
                 case 7:
-                    calculator = new Adder_OperatorCalculator7
+                    return new Add_OperatorCalculator7
 					(
-						operandCalculators[0],
-						operandCalculators[1],
-						operandCalculators[2],
-						operandCalculators[3],
-						operandCalculators[4],
-						operandCalculators[5],
-						operandCalculators[6]
-					);
-                    break;
-
+						operandCalculators[0],						operandCalculators[1],						operandCalculators[2],						operandCalculators[3],						operandCalculators[4],						operandCalculators[5],						operandCalculators[6]					);
                 case 8:
-                    calculator = new Adder_OperatorCalculator8
+                    return new Add_OperatorCalculator8
 					(
-						operandCalculators[0],
-						operandCalculators[1],
-						operandCalculators[2],
-						operandCalculators[3],
-						operandCalculators[4],
-						operandCalculators[5],
-						operandCalculators[6],
-						operandCalculators[7]
-					);
-                    break;
-
+						operandCalculators[0],						operandCalculators[1],						operandCalculators[2],						operandCalculators[3],						operandCalculators[4],						operandCalculators[5],						operandCalculators[6],						operandCalculators[7]					);
                 case 9:
-                    calculator = new Adder_OperatorCalculator9
+                    return new Add_OperatorCalculator9
 					(
-						operandCalculators[0],
-						operandCalculators[1],
-						operandCalculators[2],
-						operandCalculators[3],
-						operandCalculators[4],
-						operandCalculators[5],
-						operandCalculators[6],
-						operandCalculators[7],
-						operandCalculators[8]
-					);
-                    break;
-
+						operandCalculators[0],						operandCalculators[1],						operandCalculators[2],						operandCalculators[3],						operandCalculators[4],						operandCalculators[5],						operandCalculators[6],						operandCalculators[7],						operandCalculators[8]					);
                 case 10:
-                    calculator = new Adder_OperatorCalculator10
+                    return new Add_OperatorCalculator10
 					(
-						operandCalculators[0],
-						operandCalculators[1],
-						operandCalculators[2],
-						operandCalculators[3],
-						operandCalculators[4],
-						operandCalculators[5],
-						operandCalculators[6],
-						operandCalculators[7],
-						operandCalculators[8],
-						operandCalculators[9]
-					);
-                    break;
-
+						operandCalculators[0],						operandCalculators[1],						operandCalculators[2],						operandCalculators[3],						operandCalculators[4],						operandCalculators[5],						operandCalculators[6],						operandCalculators[7],						operandCalculators[8],						operandCalculators[9]					);
                 case 11:
-                    calculator = new Adder_OperatorCalculator11
+                    return new Add_OperatorCalculator11
 					(
-						operandCalculators[0],
-						operandCalculators[1],
-						operandCalculators[2],
-						operandCalculators[3],
-						operandCalculators[4],
-						operandCalculators[5],
-						operandCalculators[6],
-						operandCalculators[7],
-						operandCalculators[8],
-						operandCalculators[9],
-						operandCalculators[10]
-					);
-                    break;
-
+						operandCalculators[0],						operandCalculators[1],						operandCalculators[2],						operandCalculators[3],						operandCalculators[4],						operandCalculators[5],						operandCalculators[6],						operandCalculators[7],						operandCalculators[8],						operandCalculators[9],						operandCalculators[10]					);
                 case 12:
-                    calculator = new Adder_OperatorCalculator12
+                    return new Add_OperatorCalculator12
 					(
-						operandCalculators[0],
-						operandCalculators[1],
-						operandCalculators[2],
-						operandCalculators[3],
-						operandCalculators[4],
-						operandCalculators[5],
-						operandCalculators[6],
-						operandCalculators[7],
-						operandCalculators[8],
-						operandCalculators[9],
-						operandCalculators[10],
-						operandCalculators[11]
-					);
-                    break;
-
+						operandCalculators[0],						operandCalculators[1],						operandCalculators[2],						operandCalculators[3],						operandCalculators[4],						operandCalculators[5],						operandCalculators[6],						operandCalculators[7],						operandCalculators[8],						operandCalculators[9],						operandCalculators[10],						operandCalculators[11]					);
                 case 13:
-                    calculator = new Adder_OperatorCalculator13
+                    return new Add_OperatorCalculator13
 					(
-						operandCalculators[0],
-						operandCalculators[1],
-						operandCalculators[2],
-						operandCalculators[3],
-						operandCalculators[4],
-						operandCalculators[5],
-						operandCalculators[6],
-						operandCalculators[7],
-						operandCalculators[8],
-						operandCalculators[9],
-						operandCalculators[10],
-						operandCalculators[11],
-						operandCalculators[12]
-					);
-                    break;
-
+						operandCalculators[0],						operandCalculators[1],						operandCalculators[2],						operandCalculators[3],						operandCalculators[4],						operandCalculators[5],						operandCalculators[6],						operandCalculators[7],						operandCalculators[8],						operandCalculators[9],						operandCalculators[10],						operandCalculators[11],						operandCalculators[12]					);
                 case 14:
-                    calculator = new Adder_OperatorCalculator14
+                    return new Add_OperatorCalculator14
 					(
-						operandCalculators[0],
-						operandCalculators[1],
-						operandCalculators[2],
-						operandCalculators[3],
-						operandCalculators[4],
-						operandCalculators[5],
-						operandCalculators[6],
-						operandCalculators[7],
-						operandCalculators[8],
-						operandCalculators[9],
-						operandCalculators[10],
-						operandCalculators[11],
-						operandCalculators[12],
-						operandCalculators[13]
-					);
-                    break;
-
+						operandCalculators[0],						operandCalculators[1],						operandCalculators[2],						operandCalculators[3],						operandCalculators[4],						operandCalculators[5],						operandCalculators[6],						operandCalculators[7],						operandCalculators[8],						operandCalculators[9],						operandCalculators[10],						operandCalculators[11],						operandCalculators[12],						operandCalculators[13]					);
                 case 15:
-                    calculator = new Adder_OperatorCalculator15
+                    return new Add_OperatorCalculator15
 					(
-						operandCalculators[0],
-						operandCalculators[1],
-						operandCalculators[2],
-						operandCalculators[3],
-						operandCalculators[4],
-						operandCalculators[5],
-						operandCalculators[6],
-						operandCalculators[7],
-						operandCalculators[8],
-						operandCalculators[9],
-						operandCalculators[10],
-						operandCalculators[11],
-						operandCalculators[12],
-						operandCalculators[13],
-						operandCalculators[14]
-					);
-                    break;
-
+						operandCalculators[0],						operandCalculators[1],						operandCalculators[2],						operandCalculators[3],						operandCalculators[4],						operandCalculators[5],						operandCalculators[6],						operandCalculators[7],						operandCalculators[8],						operandCalculators[9],						operandCalculators[10],						operandCalculators[11],						operandCalculators[12],						operandCalculators[13],						operandCalculators[14]					);
                 case 16:
-                    calculator = new Adder_OperatorCalculator16
+                    return new Add_OperatorCalculator16
 					(
-						operandCalculators[0],
-						operandCalculators[1],
-						operandCalculators[2],
-						operandCalculators[3],
-						operandCalculators[4],
-						operandCalculators[5],
-						operandCalculators[6],
-						operandCalculators[7],
-						operandCalculators[8],
-						operandCalculators[9],
-						operandCalculators[10],
-						operandCalculators[11],
-						operandCalculators[12],
-						operandCalculators[13],
-						operandCalculators[14],
-						operandCalculators[15]
-					);
-                    break;
-
+						operandCalculators[0],						operandCalculators[1],						operandCalculators[2],						operandCalculators[3],						operandCalculators[4],						operandCalculators[5],						operandCalculators[6],						operandCalculators[7],						operandCalculators[8],						operandCalculators[9],						operandCalculators[10],						operandCalculators[11],						operandCalculators[12],						operandCalculators[13],						operandCalculators[14],						operandCalculators[15]					);
                 case 17:
-                    calculator = new Adder_OperatorCalculator17
+                    return new Add_OperatorCalculator17
 					(
-						operandCalculators[0],
-						operandCalculators[1],
-						operandCalculators[2],
-						operandCalculators[3],
-						operandCalculators[4],
-						operandCalculators[5],
-						operandCalculators[6],
-						operandCalculators[7],
-						operandCalculators[8],
-						operandCalculators[9],
-						operandCalculators[10],
-						operandCalculators[11],
-						operandCalculators[12],
-						operandCalculators[13],
-						operandCalculators[14],
-						operandCalculators[15],
-						operandCalculators[16]
-					);
-                    break;
-
+						operandCalculators[0],						operandCalculators[1],						operandCalculators[2],						operandCalculators[3],						operandCalculators[4],						operandCalculators[5],						operandCalculators[6],						operandCalculators[7],						operandCalculators[8],						operandCalculators[9],						operandCalculators[10],						operandCalculators[11],						operandCalculators[12],						operandCalculators[13],						operandCalculators[14],						operandCalculators[15],						operandCalculators[16]					);
                 case 18:
-                    calculator = new Adder_OperatorCalculator18
+                    return new Add_OperatorCalculator18
 					(
-						operandCalculators[0],
-						operandCalculators[1],
-						operandCalculators[2],
-						operandCalculators[3],
-						operandCalculators[4],
-						operandCalculators[5],
-						operandCalculators[6],
-						operandCalculators[7],
-						operandCalculators[8],
-						operandCalculators[9],
-						operandCalculators[10],
-						operandCalculators[11],
-						operandCalculators[12],
-						operandCalculators[13],
-						operandCalculators[14],
-						operandCalculators[15],
-						operandCalculators[16],
-						operandCalculators[17]
-					);
-                    break;
-
+						operandCalculators[0],						operandCalculators[1],						operandCalculators[2],						operandCalculators[3],						operandCalculators[4],						operandCalculators[5],						operandCalculators[6],						operandCalculators[7],						operandCalculators[8],						operandCalculators[9],						operandCalculators[10],						operandCalculators[11],						operandCalculators[12],						operandCalculators[13],						operandCalculators[14],						operandCalculators[15],						operandCalculators[16],						operandCalculators[17]					);
                 case 19:
-                    calculator = new Adder_OperatorCalculator19
+                    return new Add_OperatorCalculator19
 					(
-						operandCalculators[0],
-						operandCalculators[1],
-						operandCalculators[2],
-						operandCalculators[3],
-						operandCalculators[4],
-						operandCalculators[5],
-						operandCalculators[6],
-						operandCalculators[7],
-						operandCalculators[8],
-						operandCalculators[9],
-						operandCalculators[10],
-						operandCalculators[11],
-						operandCalculators[12],
-						operandCalculators[13],
-						operandCalculators[14],
-						operandCalculators[15],
-						operandCalculators[16],
-						operandCalculators[17],
-						operandCalculators[18]
-					);
-                    break;
-
+						operandCalculators[0],						operandCalculators[1],						operandCalculators[2],						operandCalculators[3],						operandCalculators[4],						operandCalculators[5],						operandCalculators[6],						operandCalculators[7],						operandCalculators[8],						operandCalculators[9],						operandCalculators[10],						operandCalculators[11],						operandCalculators[12],						operandCalculators[13],						operandCalculators[14],						operandCalculators[15],						operandCalculators[16],						operandCalculators[17],						operandCalculators[18]					);
                 case 20:
-                    calculator = new Adder_OperatorCalculator20
+                    return new Add_OperatorCalculator20
 					(
-						operandCalculators[0],
-						operandCalculators[1],
-						operandCalculators[2],
-						operandCalculators[3],
-						operandCalculators[4],
-						operandCalculators[5],
-						operandCalculators[6],
-						operandCalculators[7],
-						operandCalculators[8],
-						operandCalculators[9],
-						operandCalculators[10],
-						operandCalculators[11],
-						operandCalculators[12],
-						operandCalculators[13],
-						operandCalculators[14],
-						operandCalculators[15],
-						operandCalculators[16],
-						operandCalculators[17],
-						operandCalculators[18],
-						operandCalculators[19]
-					);
-                    break;
-
+						operandCalculators[0],						operandCalculators[1],						operandCalculators[2],						operandCalculators[3],						operandCalculators[4],						operandCalculators[5],						operandCalculators[6],						operandCalculators[7],						operandCalculators[8],						operandCalculators[9],						operandCalculators[10],						operandCalculators[11],						operandCalculators[12],						operandCalculators[13],						operandCalculators[14],						operandCalculators[15],						operandCalculators[16],						operandCalculators[17],						operandCalculators[18],						operandCalculators[19]					);
                 case 21:
-                    calculator = new Adder_OperatorCalculator21
+                    return new Add_OperatorCalculator21
 					(
-						operandCalculators[0],
-						operandCalculators[1],
-						operandCalculators[2],
-						operandCalculators[3],
-						operandCalculators[4],
-						operandCalculators[5],
-						operandCalculators[6],
-						operandCalculators[7],
-						operandCalculators[8],
-						operandCalculators[9],
-						operandCalculators[10],
-						operandCalculators[11],
-						operandCalculators[12],
-						operandCalculators[13],
-						operandCalculators[14],
-						operandCalculators[15],
-						operandCalculators[16],
-						operandCalculators[17],
-						operandCalculators[18],
-						operandCalculators[19],
-						operandCalculators[20]
-					);
-                    break;
-
+						operandCalculators[0],						operandCalculators[1],						operandCalculators[2],						operandCalculators[3],						operandCalculators[4],						operandCalculators[5],						operandCalculators[6],						operandCalculators[7],						operandCalculators[8],						operandCalculators[9],						operandCalculators[10],						operandCalculators[11],						operandCalculators[12],						operandCalculators[13],						operandCalculators[14],						operandCalculators[15],						operandCalculators[16],						operandCalculators[17],						operandCalculators[18],						operandCalculators[19],						operandCalculators[20]					);
                 case 22:
-                    calculator = new Adder_OperatorCalculator22
+                    return new Add_OperatorCalculator22
 					(
-						operandCalculators[0],
-						operandCalculators[1],
-						operandCalculators[2],
-						operandCalculators[3],
-						operandCalculators[4],
-						operandCalculators[5],
-						operandCalculators[6],
-						operandCalculators[7],
-						operandCalculators[8],
-						operandCalculators[9],
-						operandCalculators[10],
-						operandCalculators[11],
-						operandCalculators[12],
-						operandCalculators[13],
-						operandCalculators[14],
-						operandCalculators[15],
-						operandCalculators[16],
-						operandCalculators[17],
-						operandCalculators[18],
-						operandCalculators[19],
-						operandCalculators[20],
-						operandCalculators[21]
-					);
-                    break;
-
+						operandCalculators[0],						operandCalculators[1],						operandCalculators[2],						operandCalculators[3],						operandCalculators[4],						operandCalculators[5],						operandCalculators[6],						operandCalculators[7],						operandCalculators[8],						operandCalculators[9],						operandCalculators[10],						operandCalculators[11],						operandCalculators[12],						operandCalculators[13],						operandCalculators[14],						operandCalculators[15],						operandCalculators[16],						operandCalculators[17],						operandCalculators[18],						operandCalculators[19],						operandCalculators[20],						operandCalculators[21]					);
                 case 23:
-                    calculator = new Adder_OperatorCalculator23
+                    return new Add_OperatorCalculator23
 					(
-						operandCalculators[0],
-						operandCalculators[1],
-						operandCalculators[2],
-						operandCalculators[3],
-						operandCalculators[4],
-						operandCalculators[5],
-						operandCalculators[6],
-						operandCalculators[7],
-						operandCalculators[8],
-						operandCalculators[9],
-						operandCalculators[10],
-						operandCalculators[11],
-						operandCalculators[12],
-						operandCalculators[13],
-						operandCalculators[14],
-						operandCalculators[15],
-						operandCalculators[16],
-						operandCalculators[17],
-						operandCalculators[18],
-						operandCalculators[19],
-						operandCalculators[20],
-						operandCalculators[21],
-						operandCalculators[22]
-					);
-                    break;
-
+						operandCalculators[0],						operandCalculators[1],						operandCalculators[2],						operandCalculators[3],						operandCalculators[4],						operandCalculators[5],						operandCalculators[6],						operandCalculators[7],						operandCalculators[8],						operandCalculators[9],						operandCalculators[10],						operandCalculators[11],						operandCalculators[12],						operandCalculators[13],						operandCalculators[14],						operandCalculators[15],						operandCalculators[16],						operandCalculators[17],						operandCalculators[18],						operandCalculators[19],						operandCalculators[20],						operandCalculators[21],						operandCalculators[22]					);
                 case 24:
-                    calculator = new Adder_OperatorCalculator24
+                    return new Add_OperatorCalculator24
 					(
-						operandCalculators[0],
-						operandCalculators[1],
-						operandCalculators[2],
-						operandCalculators[3],
-						operandCalculators[4],
-						operandCalculators[5],
-						operandCalculators[6],
-						operandCalculators[7],
-						operandCalculators[8],
-						operandCalculators[9],
-						operandCalculators[10],
-						operandCalculators[11],
-						operandCalculators[12],
-						operandCalculators[13],
-						operandCalculators[14],
-						operandCalculators[15],
-						operandCalculators[16],
-						operandCalculators[17],
-						operandCalculators[18],
-						operandCalculators[19],
-						operandCalculators[20],
-						operandCalculators[21],
-						operandCalculators[22],
-						operandCalculators[23]
-					);
-                    break;
-
+						operandCalculators[0],						operandCalculators[1],						operandCalculators[2],						operandCalculators[3],						operandCalculators[4],						operandCalculators[5],						operandCalculators[6],						operandCalculators[7],						operandCalculators[8],						operandCalculators[9],						operandCalculators[10],						operandCalculators[11],						operandCalculators[12],						operandCalculators[13],						operandCalculators[14],						operandCalculators[15],						operandCalculators[16],						operandCalculators[17],						operandCalculators[18],						operandCalculators[19],						operandCalculators[20],						operandCalculators[21],						operandCalculators[22],						operandCalculators[23]					);
                 case 25:
-                    calculator = new Adder_OperatorCalculator25
+                    return new Add_OperatorCalculator25
 					(
-						operandCalculators[0],
-						operandCalculators[1],
-						operandCalculators[2],
-						operandCalculators[3],
-						operandCalculators[4],
-						operandCalculators[5],
-						operandCalculators[6],
-						operandCalculators[7],
-						operandCalculators[8],
-						operandCalculators[9],
-						operandCalculators[10],
-						operandCalculators[11],
-						operandCalculators[12],
-						operandCalculators[13],
-						operandCalculators[14],
-						operandCalculators[15],
-						operandCalculators[16],
-						operandCalculators[17],
-						operandCalculators[18],
-						operandCalculators[19],
-						operandCalculators[20],
-						operandCalculators[21],
-						operandCalculators[22],
-						operandCalculators[23],
-						operandCalculators[24]
-					);
-                    break;
-
+						operandCalculators[0],						operandCalculators[1],						operandCalculators[2],						operandCalculators[3],						operandCalculators[4],						operandCalculators[5],						operandCalculators[6],						operandCalculators[7],						operandCalculators[8],						operandCalculators[9],						operandCalculators[10],						operandCalculators[11],						operandCalculators[12],						operandCalculators[13],						operandCalculators[14],						operandCalculators[15],						operandCalculators[16],						operandCalculators[17],						operandCalculators[18],						operandCalculators[19],						operandCalculators[20],						operandCalculators[21],						operandCalculators[22],						operandCalculators[23],						operandCalculators[24]					);
                 case 26:
-                    calculator = new Adder_OperatorCalculator26
+                    return new Add_OperatorCalculator26
 					(
-						operandCalculators[0],
-						operandCalculators[1],
-						operandCalculators[2],
-						operandCalculators[3],
-						operandCalculators[4],
-						operandCalculators[5],
-						operandCalculators[6],
-						operandCalculators[7],
-						operandCalculators[8],
-						operandCalculators[9],
-						operandCalculators[10],
-						operandCalculators[11],
-						operandCalculators[12],
-						operandCalculators[13],
-						operandCalculators[14],
-						operandCalculators[15],
-						operandCalculators[16],
-						operandCalculators[17],
-						operandCalculators[18],
-						operandCalculators[19],
-						operandCalculators[20],
-						operandCalculators[21],
-						operandCalculators[22],
-						operandCalculators[23],
-						operandCalculators[24],
-						operandCalculators[25]
-					);
-                    break;
-
+						operandCalculators[0],						operandCalculators[1],						operandCalculators[2],						operandCalculators[3],						operandCalculators[4],						operandCalculators[5],						operandCalculators[6],						operandCalculators[7],						operandCalculators[8],						operandCalculators[9],						operandCalculators[10],						operandCalculators[11],						operandCalculators[12],						operandCalculators[13],						operandCalculators[14],						operandCalculators[15],						operandCalculators[16],						operandCalculators[17],						operandCalculators[18],						operandCalculators[19],						operandCalculators[20],						operandCalculators[21],						operandCalculators[22],						operandCalculators[23],						operandCalculators[24],						operandCalculators[25]					);
                 case 27:
-                    calculator = new Adder_OperatorCalculator27
+                    return new Add_OperatorCalculator27
 					(
-						operandCalculators[0],
-						operandCalculators[1],
-						operandCalculators[2],
-						operandCalculators[3],
-						operandCalculators[4],
-						operandCalculators[5],
-						operandCalculators[6],
-						operandCalculators[7],
-						operandCalculators[8],
-						operandCalculators[9],
-						operandCalculators[10],
-						operandCalculators[11],
-						operandCalculators[12],
-						operandCalculators[13],
-						operandCalculators[14],
-						operandCalculators[15],
-						operandCalculators[16],
-						operandCalculators[17],
-						operandCalculators[18],
-						operandCalculators[19],
-						operandCalculators[20],
-						operandCalculators[21],
-						operandCalculators[22],
-						operandCalculators[23],
-						operandCalculators[24],
-						operandCalculators[25],
-						operandCalculators[26]
-					);
-                    break;
-
+						operandCalculators[0],						operandCalculators[1],						operandCalculators[2],						operandCalculators[3],						operandCalculators[4],						operandCalculators[5],						operandCalculators[6],						operandCalculators[7],						operandCalculators[8],						operandCalculators[9],						operandCalculators[10],						operandCalculators[11],						operandCalculators[12],						operandCalculators[13],						operandCalculators[14],						operandCalculators[15],						operandCalculators[16],						operandCalculators[17],						operandCalculators[18],						operandCalculators[19],						operandCalculators[20],						operandCalculators[21],						operandCalculators[22],						operandCalculators[23],						operandCalculators[24],						operandCalculators[25],						operandCalculators[26]					);
                 case 28:
-                    calculator = new Adder_OperatorCalculator28
+                    return new Add_OperatorCalculator28
 					(
-						operandCalculators[0],
-						operandCalculators[1],
-						operandCalculators[2],
-						operandCalculators[3],
-						operandCalculators[4],
-						operandCalculators[5],
-						operandCalculators[6],
-						operandCalculators[7],
-						operandCalculators[8],
-						operandCalculators[9],
-						operandCalculators[10],
-						operandCalculators[11],
-						operandCalculators[12],
-						operandCalculators[13],
-						operandCalculators[14],
-						operandCalculators[15],
-						operandCalculators[16],
-						operandCalculators[17],
-						operandCalculators[18],
-						operandCalculators[19],
-						operandCalculators[20],
-						operandCalculators[21],
-						operandCalculators[22],
-						operandCalculators[23],
-						operandCalculators[24],
-						operandCalculators[25],
-						operandCalculators[26],
-						operandCalculators[27]
-					);
-                    break;
-
+						operandCalculators[0],						operandCalculators[1],						operandCalculators[2],						operandCalculators[3],						operandCalculators[4],						operandCalculators[5],						operandCalculators[6],						operandCalculators[7],						operandCalculators[8],						operandCalculators[9],						operandCalculators[10],						operandCalculators[11],						operandCalculators[12],						operandCalculators[13],						operandCalculators[14],						operandCalculators[15],						operandCalculators[16],						operandCalculators[17],						operandCalculators[18],						operandCalculators[19],						operandCalculators[20],						operandCalculators[21],						operandCalculators[22],						operandCalculators[23],						operandCalculators[24],						operandCalculators[25],						operandCalculators[26],						operandCalculators[27]					);
                 case 29:
-                    calculator = new Adder_OperatorCalculator29
+                    return new Add_OperatorCalculator29
 					(
-						operandCalculators[0],
-						operandCalculators[1],
-						operandCalculators[2],
-						operandCalculators[3],
-						operandCalculators[4],
-						operandCalculators[5],
-						operandCalculators[6],
-						operandCalculators[7],
-						operandCalculators[8],
-						operandCalculators[9],
-						operandCalculators[10],
-						operandCalculators[11],
-						operandCalculators[12],
-						operandCalculators[13],
-						operandCalculators[14],
-						operandCalculators[15],
-						operandCalculators[16],
-						operandCalculators[17],
-						operandCalculators[18],
-						operandCalculators[19],
-						operandCalculators[20],
-						operandCalculators[21],
-						operandCalculators[22],
-						operandCalculators[23],
-						operandCalculators[24],
-						operandCalculators[25],
-						operandCalculators[26],
-						operandCalculators[27],
-						operandCalculators[28]
-					);
-                    break;
-
+						operandCalculators[0],						operandCalculators[1],						operandCalculators[2],						operandCalculators[3],						operandCalculators[4],						operandCalculators[5],						operandCalculators[6],						operandCalculators[7],						operandCalculators[8],						operandCalculators[9],						operandCalculators[10],						operandCalculators[11],						operandCalculators[12],						operandCalculators[13],						operandCalculators[14],						operandCalculators[15],						operandCalculators[16],						operandCalculators[17],						operandCalculators[18],						operandCalculators[19],						operandCalculators[20],						operandCalculators[21],						operandCalculators[22],						operandCalculators[23],						operandCalculators[24],						operandCalculators[25],						operandCalculators[26],						operandCalculators[27],						operandCalculators[28]					);
                 case 30:
-                    calculator = new Adder_OperatorCalculator30
+                    return new Add_OperatorCalculator30
 					(
-						operandCalculators[0],
-						operandCalculators[1],
-						operandCalculators[2],
-						operandCalculators[3],
-						operandCalculators[4],
-						operandCalculators[5],
-						operandCalculators[6],
-						operandCalculators[7],
-						operandCalculators[8],
-						operandCalculators[9],
-						operandCalculators[10],
-						operandCalculators[11],
-						operandCalculators[12],
-						operandCalculators[13],
-						operandCalculators[14],
-						operandCalculators[15],
-						operandCalculators[16],
-						operandCalculators[17],
-						operandCalculators[18],
-						operandCalculators[19],
-						operandCalculators[20],
-						operandCalculators[21],
-						operandCalculators[22],
-						operandCalculators[23],
-						operandCalculators[24],
-						operandCalculators[25],
-						operandCalculators[26],
-						operandCalculators[27],
-						operandCalculators[28],
-						operandCalculators[29]
-					);
-                    break;
-
+						operandCalculators[0],						operandCalculators[1],						operandCalculators[2],						operandCalculators[3],						operandCalculators[4],						operandCalculators[5],						operandCalculators[6],						operandCalculators[7],						operandCalculators[8],						operandCalculators[9],						operandCalculators[10],						operandCalculators[11],						operandCalculators[12],						operandCalculators[13],						operandCalculators[14],						operandCalculators[15],						operandCalculators[16],						operandCalculators[17],						operandCalculators[18],						operandCalculators[19],						operandCalculators[20],						operandCalculators[21],						operandCalculators[22],						operandCalculators[23],						operandCalculators[24],						operandCalculators[25],						operandCalculators[26],						operandCalculators[27],						operandCalculators[28],						operandCalculators[29]					);
                 case 31:
-                    calculator = new Adder_OperatorCalculator31
+                    return new Add_OperatorCalculator31
 					(
-						operandCalculators[0],
-						operandCalculators[1],
-						operandCalculators[2],
-						operandCalculators[3],
-						operandCalculators[4],
-						operandCalculators[5],
-						operandCalculators[6],
-						operandCalculators[7],
-						operandCalculators[8],
-						operandCalculators[9],
-						operandCalculators[10],
-						operandCalculators[11],
-						operandCalculators[12],
-						operandCalculators[13],
-						operandCalculators[14],
-						operandCalculators[15],
-						operandCalculators[16],
-						operandCalculators[17],
-						operandCalculators[18],
-						operandCalculators[19],
-						operandCalculators[20],
-						operandCalculators[21],
-						operandCalculators[22],
-						operandCalculators[23],
-						operandCalculators[24],
-						operandCalculators[25],
-						operandCalculators[26],
-						operandCalculators[27],
-						operandCalculators[28],
-						operandCalculators[29],
-						operandCalculators[30]
-					);
-                    break;
-
+						operandCalculators[0],						operandCalculators[1],						operandCalculators[2],						operandCalculators[3],						operandCalculators[4],						operandCalculators[5],						operandCalculators[6],						operandCalculators[7],						operandCalculators[8],						operandCalculators[9],						operandCalculators[10],						operandCalculators[11],						operandCalculators[12],						operandCalculators[13],						operandCalculators[14],						operandCalculators[15],						operandCalculators[16],						operandCalculators[17],						operandCalculators[18],						operandCalculators[19],						operandCalculators[20],						operandCalculators[21],						operandCalculators[22],						operandCalculators[23],						operandCalculators[24],						operandCalculators[25],						operandCalculators[26],						operandCalculators[27],						operandCalculators[28],						operandCalculators[29],						operandCalculators[30]					);
                 case 32:
-                    calculator = new Adder_OperatorCalculator32
+                    return new Add_OperatorCalculator32
 					(
-						operandCalculators[0],
-						operandCalculators[1],
-						operandCalculators[2],
-						operandCalculators[3],
-						operandCalculators[4],
-						operandCalculators[5],
-						operandCalculators[6],
-						operandCalculators[7],
-						operandCalculators[8],
-						operandCalculators[9],
-						operandCalculators[10],
-						operandCalculators[11],
-						operandCalculators[12],
-						operandCalculators[13],
-						operandCalculators[14],
-						operandCalculators[15],
-						operandCalculators[16],
-						operandCalculators[17],
-						operandCalculators[18],
-						operandCalculators[19],
-						operandCalculators[20],
-						operandCalculators[21],
-						operandCalculators[22],
-						operandCalculators[23],
-						operandCalculators[24],
-						operandCalculators[25],
-						operandCalculators[26],
-						operandCalculators[27],
-						operandCalculators[28],
-						operandCalculators[29],
-						operandCalculators[30],
-						operandCalculators[31]
-					);
-                    break;
-
-
+						operandCalculators[0],						operandCalculators[1],						operandCalculators[2],						operandCalculators[3],						operandCalculators[4],						operandCalculators[5],						operandCalculators[6],						operandCalculators[7],						operandCalculators[8],						operandCalculators[9],						operandCalculators[10],						operandCalculators[11],						operandCalculators[12],						operandCalculators[13],						operandCalculators[14],						operandCalculators[15],						operandCalculators[16],						operandCalculators[17],						operandCalculators[18],						operandCalculators[19],						operandCalculators[20],						operandCalculators[21],						operandCalculators[22],						operandCalculators[23],						operandCalculators[24],						operandCalculators[25],						operandCalculators[26],						operandCalculators[27],						operandCalculators[28],						operandCalculators[29],						operandCalculators[30],						operandCalculators[31]					);
                 default:
-                    calculator = new Adder_OperatorCalculator(operandCalculators.ToArray());
-                    break;
+                    return new Add_OperatorCalculator(operandCalculators.ToArray());
             }
-
-            _stack.Push(calculator);
         }
 	}
 }

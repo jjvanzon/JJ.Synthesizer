@@ -258,7 +258,8 @@
     <Content Include="2016-04-23 030 SynthesizerDB AudioFileOutputChannel to AudioFileOutput.Outlet migration 2 %28IX and FK%29.sql" />
     <Content Include="2016-05-03 010 SynthesizerDB AudioOutput.BufferDuration rename to DesiredBufferDuration.sql" />
     <Content Include="2016-05-04 010 SynthesizerDB Operator.Data rename Inclination to Slope.sql" />
-    <Content Include="2016-06-19 030 SynthesizerDB OperatorType 75 - SumFollower.sql" />
+    <Content Include="2016-06-19 040 SynthesizerDB migrate OperatorType Adder to Add.sql" />
+    <Content Include="2016-06-19 030 SynthesizerDB OperatorType 76 - SumFollower.sql" />
     <Content Include="2016-06-19 020 SynthesizerDB OperatorType 75 - SumContinuous.sql" />
     <Content Include="2016-06-19 010 SynthesizerDB OperatorType rename aggregate followers.sql" />
     <Content Include="2016-06-18 020 SynthesizerDB OperatorType 74 - AverageContinuous.sql" />

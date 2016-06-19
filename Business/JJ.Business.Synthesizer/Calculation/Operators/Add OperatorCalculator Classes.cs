@@ -53,26 +53,31 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Add_OperatorCalculator_VarA_ConstB : OperatorCalculatorBase_WithChildCalculators
+    internal class Add_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly OperatorCalculatorBase _aCalculator;
-        private readonly double _b;
+        private readonly OperatorCalculatorBase[] _operandCalculators;
 
-        public Add_OperatorCalculator_VarA_ConstB(OperatorCalculatorBase aCalculator, double b)
-            : base(new OperatorCalculatorBase[] { aCalculator })
+        public Add_OperatorCalculator(OperatorCalculatorBase[] operandCalculators)
+            : base(operandCalculators)
         {
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(aCalculator, () => aCalculator);
+            if (operandCalculators == null) throw new NullException(() => operandCalculators);
 
-            _aCalculator = aCalculator;
-            _b = b;
+            _operandCalculators = operandCalculators;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double a = _aCalculator.Calculate();
+            double result = 0;
 
-            return a + _b;
+            for (int i = 0; i < _operandCalculators.Length; i++)
+            {
+                double result2 = _operandCalculators[i].Calculate();
+
+                result += result2;
+            }
+
+            return result;
         }
     }
 }

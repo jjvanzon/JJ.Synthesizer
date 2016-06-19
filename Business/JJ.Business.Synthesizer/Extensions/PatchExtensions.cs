@@ -13,7 +13,6 @@ namespace JJ.Business.Synthesizer.Extensions
         private static Dictionary<Type, OperatorTypeEnum> _OperatorWrapperType_To_OperatorTypeEnum_dictionary = new Dictionary<Type, OperatorTypeEnum>
         {
             { typeof(Add_OperatorWrapper),OperatorTypeEnum.Add },
-            { typeof(Adder_OperatorWrapper), OperatorTypeEnum.Adder },
             { typeof(Divide_OperatorWrapper), OperatorTypeEnum.Divide },
             { typeof(Multiply_OperatorWrapper), OperatorTypeEnum.Multiply },
             { typeof(PatchInlet_OperatorWrapper), OperatorTypeEnum.PatchInlet },

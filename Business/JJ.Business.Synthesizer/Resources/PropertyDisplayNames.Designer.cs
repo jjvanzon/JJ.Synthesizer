@@ -88,15 +88,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Adder.
-        /// </summary>
-        public static string Adder {
-            get {
-                return ResourceManager.GetString("Adder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Amplifier.
         /// </summary>
         public static string Amplifier {

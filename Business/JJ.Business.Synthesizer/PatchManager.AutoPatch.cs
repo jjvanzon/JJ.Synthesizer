@@ -69,8 +69,8 @@ namespace JJ.Business.Synthesizer
                 monophonicOutlets[i] = resetWrapper;
             }
 
-            Adder_OperatorWrapper adderWrapper = Adder(monophonicOutlets);
-            Outlet polyphonicOutlet = adderWrapper.Result;
+            Add_OperatorWrapper addWrapper = Add(monophonicOutlets);
+            Outlet polyphonicOutlet = addWrapper.Result;
 
             // This makes side-effects go off.
             VoidResult savePatchResult = SavePatch();
@@ -286,7 +286,7 @@ namespace JJ.Business.Synthesizer
             if (unmatchedOutlets.Count > 1)
             {
                 // You only need an adder, when there is more than 1 unmatchedOutlet.
-                patchOutletInput = Adder(unmatchedOutlets);
+                patchOutletInput = Add(unmatchedOutlets);
             }
 
             patchOutletWrapper.Input = patchOutletInput;

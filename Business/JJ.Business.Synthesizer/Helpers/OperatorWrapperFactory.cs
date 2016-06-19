@@ -17,7 +17,6 @@ namespace JJ.Business.Synthesizer.Helpers
         {
             { OperatorTypeEnum.Absolute, Create_Absolute_OperatorWrapper },
             { OperatorTypeEnum.Add , Create_Add_OperatorWrapper },
-            { OperatorTypeEnum.Adder , Create_Adder_OperatorWrapper },
             { OperatorTypeEnum.And, Create_And_OperatorWrapper },
             { OperatorTypeEnum.AverageContinuous, Create_AverageContinuous_OperatorWrapper },
             { OperatorTypeEnum.AverageDiscrete, Create_AverageDiscrete_OperatorWrapper },
@@ -139,7 +138,6 @@ namespace JJ.Business.Synthesizer.Helpers
 
         private static Absolute_OperatorWrapper Create_Absolute_OperatorWrapper(Operator op) { return new Absolute_OperatorWrapper(op); }
         private static Add_OperatorWrapper Create_Add_OperatorWrapper(Operator op) { return new Add_OperatorWrapper(op); }
-        private static Adder_OperatorWrapper Create_Adder_OperatorWrapper(Operator op) { return new Adder_OperatorWrapper(op); }
         private static And_OperatorWrapper Create_And_OperatorWrapper(Operator op) { return new And_OperatorWrapper(op); }
         private static AverageFollower_OperatorWrapper Create_AverageFollower_OperatorWrapper(Operator op) { return new AverageFollower_OperatorWrapper(op); }
         private static AverageContinuous_OperatorWrapper Create_AverageContinuous_OperatorWrapper(Operator op) { return new AverageContinuous_OperatorWrapper(op); }

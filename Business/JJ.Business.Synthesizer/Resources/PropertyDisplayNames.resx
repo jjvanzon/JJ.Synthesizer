@@ -121,9 +121,6 @@
     <value>+</value>
     <comment>The arithmetic meaning, like "a + b".</comment>
   </data>
-  <data name="Adder" xml:space="preserve">
-    <value>Adder</value>
-  </data>
   <data name="Curve" xml:space="preserve">
     <value>Curve</value>
   </data>

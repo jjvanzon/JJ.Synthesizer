@@ -6,7 +6,7 @@
 
 <#@ output extension=".cs" #>
 
-<# int maxAdderOperands = 32; #>
+<# int maxAddOperands = 32; #>
 
 using System;
 using System.Collections.Generic;
@@ -18,11 +18,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
 
 <# 
-	for (int i = 3; i <= maxAdderOperands; i++)
+	for (int i = 3; i <= maxAddOperands; i++)
 	{
 #>
 
-		internal class Adder_OperatorCalculator<#= i #> : OperatorCalculatorBase_WithChildCalculators
+		internal class Add_OperatorCalculator<#= i #> : OperatorCalculatorBase_WithChildCalculators
 		{
 <# 
 			for (int j = 1; j <= i; j++)
@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			}
 #>
 
-			public Adder_OperatorCalculator<#= i #>(
+			public Add_OperatorCalculator<#= i #>(
 <#
 				for (int j = 1; j <= i; j++)
 				{
