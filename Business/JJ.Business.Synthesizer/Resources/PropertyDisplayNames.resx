@@ -836,4 +836,7 @@
   <data name="SumFollower" xml:space="preserve">
     <value>Sum (follower)</value>
   </data>
+  <data name="Multiply" xml:space="preserve">
+    <value>×</value>
+  </data>
 </root>

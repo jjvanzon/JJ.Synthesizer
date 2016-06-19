@@ -10,14 +10,12 @@ using JJ.Framework.Reflection.Exceptions;
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
 
-
-		internal class Add_OperatorCalculator3 : OperatorCalculatorBase_WithChildCalculators
+		internal class Multiply_OperatorCalculator3 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
 				private OperatorCalculatorBase _operandCalculator3;
-
-			public Add_OperatorCalculator3(
+			public Multiply_OperatorCalculator3(
 					OperatorCalculatorBase operandCalculator1
 ,					OperatorCalculatorBase operandCalculator2
 ,					OperatorCalculatorBase operandCalculator3
@@ -41,19 +39,17 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			{
 				return 
 						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
+*						_operandCalculator2.Calculate()
+*						_operandCalculator3.Calculate()
 ;			}
 		}
-
-		internal class Add_OperatorCalculator4 : OperatorCalculatorBase_WithChildCalculators
+		internal class Multiply_OperatorCalculator4 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
 				private OperatorCalculatorBase _operandCalculator3;
 				private OperatorCalculatorBase _operandCalculator4;
-
-			public Add_OperatorCalculator4(
+			public Multiply_OperatorCalculator4(
 					OperatorCalculatorBase operandCalculator1
 ,					OperatorCalculatorBase operandCalculator2
 ,					OperatorCalculatorBase operandCalculator3
@@ -81,21 +77,19 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			{
 				return 
 						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
+*						_operandCalculator2.Calculate()
+*						_operandCalculator3.Calculate()
+*						_operandCalculator4.Calculate()
 ;			}
 		}
-
-		internal class Add_OperatorCalculator5 : OperatorCalculatorBase_WithChildCalculators
+		internal class Multiply_OperatorCalculator5 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
 				private OperatorCalculatorBase _operandCalculator3;
 				private OperatorCalculatorBase _operandCalculator4;
 				private OperatorCalculatorBase _operandCalculator5;
-
-			public Add_OperatorCalculator5(
+			public Multiply_OperatorCalculator5(
 					OperatorCalculatorBase operandCalculator1
 ,					OperatorCalculatorBase operandCalculator2
 ,					OperatorCalculatorBase operandCalculator3
@@ -127,14 +121,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			{
 				return 
 						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
+*						_operandCalculator2.Calculate()
+*						_operandCalculator3.Calculate()
+*						_operandCalculator4.Calculate()
+*						_operandCalculator5.Calculate()
 ;			}
 		}
-
-		internal class Add_OperatorCalculator6 : OperatorCalculatorBase_WithChildCalculators
+		internal class Multiply_OperatorCalculator6 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -142,8 +135,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				private OperatorCalculatorBase _operandCalculator4;
 				private OperatorCalculatorBase _operandCalculator5;
 				private OperatorCalculatorBase _operandCalculator6;
-
-			public Add_OperatorCalculator6(
+			public Multiply_OperatorCalculator6(
 					OperatorCalculatorBase operandCalculator1
 ,					OperatorCalculatorBase operandCalculator2
 ,					OperatorCalculatorBase operandCalculator3
@@ -179,15 +171,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			{
 				return 
 						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
+*						_operandCalculator2.Calculate()
+*						_operandCalculator3.Calculate()
+*						_operandCalculator4.Calculate()
+*						_operandCalculator5.Calculate()
+*						_operandCalculator6.Calculate()
 ;			}
 		}
-
-		internal class Add_OperatorCalculator7 : OperatorCalculatorBase_WithChildCalculators
+		internal class Multiply_OperatorCalculator7 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -196,8 +187,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				private OperatorCalculatorBase _operandCalculator5;
 				private OperatorCalculatorBase _operandCalculator6;
 				private OperatorCalculatorBase _operandCalculator7;
-
-			public Add_OperatorCalculator7(
+			public Multiply_OperatorCalculator7(
 					OperatorCalculatorBase operandCalculator1
 ,					OperatorCalculatorBase operandCalculator2
 ,					OperatorCalculatorBase operandCalculator3
@@ -237,16 +227,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			{
 				return 
 						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
+*						_operandCalculator2.Calculate()
+*						_operandCalculator3.Calculate()
+*						_operandCalculator4.Calculate()
+*						_operandCalculator5.Calculate()
+*						_operandCalculator6.Calculate()
+*						_operandCalculator7.Calculate()
 ;			}
 		}
-
-		internal class Add_OperatorCalculator8 : OperatorCalculatorBase_WithChildCalculators
+		internal class Multiply_OperatorCalculator8 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -256,8 +245,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				private OperatorCalculatorBase _operandCalculator6;
 				private OperatorCalculatorBase _operandCalculator7;
 				private OperatorCalculatorBase _operandCalculator8;
-
-			public Add_OperatorCalculator8(
+			public Multiply_OperatorCalculator8(
 					OperatorCalculatorBase operandCalculator1
 ,					OperatorCalculatorBase operandCalculator2
 ,					OperatorCalculatorBase operandCalculator3
@@ -301,17 +289,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			{
 				return 
 						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
+*						_operandCalculator2.Calculate()
+*						_operandCalculator3.Calculate()
+*						_operandCalculator4.Calculate()
+*						_operandCalculator5.Calculate()
+*						_operandCalculator6.Calculate()
+*						_operandCalculator7.Calculate()
+*						_operandCalculator8.Calculate()
 ;			}
 		}
-
-		internal class Add_OperatorCalculator9 : OperatorCalculatorBase_WithChildCalculators
+		internal class Multiply_OperatorCalculator9 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -322,8 +309,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				private OperatorCalculatorBase _operandCalculator7;
 				private OperatorCalculatorBase _operandCalculator8;
 				private OperatorCalculatorBase _operandCalculator9;
-
-			public Add_OperatorCalculator9(
+			public Multiply_OperatorCalculator9(
 					OperatorCalculatorBase operandCalculator1
 ,					OperatorCalculatorBase operandCalculator2
 ,					OperatorCalculatorBase operandCalculator3
@@ -371,18 +357,17 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			{
 				return 
 						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
+*						_operandCalculator2.Calculate()
+*						_operandCalculator3.Calculate()
+*						_operandCalculator4.Calculate()
+*						_operandCalculator5.Calculate()
+*						_operandCalculator6.Calculate()
+*						_operandCalculator7.Calculate()
+*						_operandCalculator8.Calculate()
+*						_operandCalculator9.Calculate()
 ;			}
 		}
-
-		internal class Add_OperatorCalculator10 : OperatorCalculatorBase_WithChildCalculators
+		internal class Multiply_OperatorCalculator10 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -394,8 +379,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				private OperatorCalculatorBase _operandCalculator8;
 				private OperatorCalculatorBase _operandCalculator9;
 				private OperatorCalculatorBase _operandCalculator10;
-
-			public Add_OperatorCalculator10(
+			public Multiply_OperatorCalculator10(
 					OperatorCalculatorBase operandCalculator1
 ,					OperatorCalculatorBase operandCalculator2
 ,					OperatorCalculatorBase operandCalculator3
@@ -447,19 +431,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			{
 				return 
 						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
+*						_operandCalculator2.Calculate()
+*						_operandCalculator3.Calculate()
+*						_operandCalculator4.Calculate()
+*						_operandCalculator5.Calculate()
+*						_operandCalculator6.Calculate()
+*						_operandCalculator7.Calculate()
+*						_operandCalculator8.Calculate()
+*						_operandCalculator9.Calculate()
+*						_operandCalculator10.Calculate()
 ;			}
 		}
-
-		internal class Add_OperatorCalculator11 : OperatorCalculatorBase_WithChildCalculators
+		internal class Multiply_OperatorCalculator11 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -472,8 +455,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				private OperatorCalculatorBase _operandCalculator9;
 				private OperatorCalculatorBase _operandCalculator10;
 				private OperatorCalculatorBase _operandCalculator11;
-
-			public Add_OperatorCalculator11(
+			public Multiply_OperatorCalculator11(
 					OperatorCalculatorBase operandCalculator1
 ,					OperatorCalculatorBase operandCalculator2
 ,					OperatorCalculatorBase operandCalculator3
@@ -529,20 +511,19 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			{
 				return 
 						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
+*						_operandCalculator2.Calculate()
+*						_operandCalculator3.Calculate()
+*						_operandCalculator4.Calculate()
+*						_operandCalculator5.Calculate()
+*						_operandCalculator6.Calculate()
+*						_operandCalculator7.Calculate()
+*						_operandCalculator8.Calculate()
+*						_operandCalculator9.Calculate()
+*						_operandCalculator10.Calculate()
+*						_operandCalculator11.Calculate()
 ;			}
 		}
-
-		internal class Add_OperatorCalculator12 : OperatorCalculatorBase_WithChildCalculators
+		internal class Multiply_OperatorCalculator12 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -556,8 +537,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				private OperatorCalculatorBase _operandCalculator10;
 				private OperatorCalculatorBase _operandCalculator11;
 				private OperatorCalculatorBase _operandCalculator12;
-
-			public Add_OperatorCalculator12(
+			public Multiply_OperatorCalculator12(
 					OperatorCalculatorBase operandCalculator1
 ,					OperatorCalculatorBase operandCalculator2
 ,					OperatorCalculatorBase operandCalculator3
@@ -617,21 +597,20 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			{
 				return 
 						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
+*						_operandCalculator2.Calculate()
+*						_operandCalculator3.Calculate()
+*						_operandCalculator4.Calculate()
+*						_operandCalculator5.Calculate()
+*						_operandCalculator6.Calculate()
+*						_operandCalculator7.Calculate()
+*						_operandCalculator8.Calculate()
+*						_operandCalculator9.Calculate()
+*						_operandCalculator10.Calculate()
+*						_operandCalculator11.Calculate()
+*						_operandCalculator12.Calculate()
 ;			}
 		}
-
-		internal class Add_OperatorCalculator13 : OperatorCalculatorBase_WithChildCalculators
+		internal class Multiply_OperatorCalculator13 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -646,8 +625,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				private OperatorCalculatorBase _operandCalculator11;
 				private OperatorCalculatorBase _operandCalculator12;
 				private OperatorCalculatorBase _operandCalculator13;
-
-			public Add_OperatorCalculator13(
+			public Multiply_OperatorCalculator13(
 					OperatorCalculatorBase operandCalculator1
 ,					OperatorCalculatorBase operandCalculator2
 ,					OperatorCalculatorBase operandCalculator3
@@ -711,22 +689,21 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			{
 				return 
 						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
+*						_operandCalculator2.Calculate()
+*						_operandCalculator3.Calculate()
+*						_operandCalculator4.Calculate()
+*						_operandCalculator5.Calculate()
+*						_operandCalculator6.Calculate()
+*						_operandCalculator7.Calculate()
+*						_operandCalculator8.Calculate()
+*						_operandCalculator9.Calculate()
+*						_operandCalculator10.Calculate()
+*						_operandCalculator11.Calculate()
+*						_operandCalculator12.Calculate()
+*						_operandCalculator13.Calculate()
 ;			}
 		}
-
-		internal class Add_OperatorCalculator14 : OperatorCalculatorBase_WithChildCalculators
+		internal class Multiply_OperatorCalculator14 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -742,8 +719,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				private OperatorCalculatorBase _operandCalculator12;
 				private OperatorCalculatorBase _operandCalculator13;
 				private OperatorCalculatorBase _operandCalculator14;
-
-			public Add_OperatorCalculator14(
+			public Multiply_OperatorCalculator14(
 					OperatorCalculatorBase operandCalculator1
 ,					OperatorCalculatorBase operandCalculator2
 ,					OperatorCalculatorBase operandCalculator3
@@ -811,23 +787,22 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			{
 				return 
 						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
+*						_operandCalculator2.Calculate()
+*						_operandCalculator3.Calculate()
+*						_operandCalculator4.Calculate()
+*						_operandCalculator5.Calculate()
+*						_operandCalculator6.Calculate()
+*						_operandCalculator7.Calculate()
+*						_operandCalculator8.Calculate()
+*						_operandCalculator9.Calculate()
+*						_operandCalculator10.Calculate()
+*						_operandCalculator11.Calculate()
+*						_operandCalculator12.Calculate()
+*						_operandCalculator13.Calculate()
+*						_operandCalculator14.Calculate()
 ;			}
 		}
-
-		internal class Add_OperatorCalculator15 : OperatorCalculatorBase_WithChildCalculators
+		internal class Multiply_OperatorCalculator15 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -844,8 +819,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				private OperatorCalculatorBase _operandCalculator13;
 				private OperatorCalculatorBase _operandCalculator14;
 				private OperatorCalculatorBase _operandCalculator15;
-
-			public Add_OperatorCalculator15(
+			public Multiply_OperatorCalculator15(
 					OperatorCalculatorBase operandCalculator1
 ,					OperatorCalculatorBase operandCalculator2
 ,					OperatorCalculatorBase operandCalculator3
@@ -917,24 +891,23 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			{
 				return 
 						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
+*						_operandCalculator2.Calculate()
+*						_operandCalculator3.Calculate()
+*						_operandCalculator4.Calculate()
+*						_operandCalculator5.Calculate()
+*						_operandCalculator6.Calculate()
+*						_operandCalculator7.Calculate()
+*						_operandCalculator8.Calculate()
+*						_operandCalculator9.Calculate()
+*						_operandCalculator10.Calculate()
+*						_operandCalculator11.Calculate()
+*						_operandCalculator12.Calculate()
+*						_operandCalculator13.Calculate()
+*						_operandCalculator14.Calculate()
+*						_operandCalculator15.Calculate()
 ;			}
 		}
-
-		internal class Add_OperatorCalculator16 : OperatorCalculatorBase_WithChildCalculators
+		internal class Multiply_OperatorCalculator16 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -952,8 +925,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				private OperatorCalculatorBase _operandCalculator14;
 				private OperatorCalculatorBase _operandCalculator15;
 				private OperatorCalculatorBase _operandCalculator16;
-
-			public Add_OperatorCalculator16(
+			public Multiply_OperatorCalculator16(
 					OperatorCalculatorBase operandCalculator1
 ,					OperatorCalculatorBase operandCalculator2
 ,					OperatorCalculatorBase operandCalculator3
@@ -1029,25 +1001,24 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			{
 				return 
 						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
+*						_operandCalculator2.Calculate()
+*						_operandCalculator3.Calculate()
+*						_operandCalculator4.Calculate()
+*						_operandCalculator5.Calculate()
+*						_operandCalculator6.Calculate()
+*						_operandCalculator7.Calculate()
+*						_operandCalculator8.Calculate()
+*						_operandCalculator9.Calculate()
+*						_operandCalculator10.Calculate()
+*						_operandCalculator11.Calculate()
+*						_operandCalculator12.Calculate()
+*						_operandCalculator13.Calculate()
+*						_operandCalculator14.Calculate()
+*						_operandCalculator15.Calculate()
+*						_operandCalculator16.Calculate()
 ;			}
 		}
-
-		internal class Add_OperatorCalculator17 : OperatorCalculatorBase_WithChildCalculators
+		internal class Multiply_OperatorCalculator17 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -1066,8 +1037,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				private OperatorCalculatorBase _operandCalculator15;
 				private OperatorCalculatorBase _operandCalculator16;
 				private OperatorCalculatorBase _operandCalculator17;
-
-			public Add_OperatorCalculator17(
+			public Multiply_OperatorCalculator17(
 					OperatorCalculatorBase operandCalculator1
 ,					OperatorCalculatorBase operandCalculator2
 ,					OperatorCalculatorBase operandCalculator3
@@ -1147,26 +1117,25 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			{
 				return 
 						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
+*						_operandCalculator2.Calculate()
+*						_operandCalculator3.Calculate()
+*						_operandCalculator4.Calculate()
+*						_operandCalculator5.Calculate()
+*						_operandCalculator6.Calculate()
+*						_operandCalculator7.Calculate()
+*						_operandCalculator8.Calculate()
+*						_operandCalculator9.Calculate()
+*						_operandCalculator10.Calculate()
+*						_operandCalculator11.Calculate()
+*						_operandCalculator12.Calculate()
+*						_operandCalculator13.Calculate()
+*						_operandCalculator14.Calculate()
+*						_operandCalculator15.Calculate()
+*						_operandCalculator16.Calculate()
+*						_operandCalculator17.Calculate()
 ;			}
 		}
-
-		internal class Add_OperatorCalculator18 : OperatorCalculatorBase_WithChildCalculators
+		internal class Multiply_OperatorCalculator18 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -1186,8 +1155,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				private OperatorCalculatorBase _operandCalculator16;
 				private OperatorCalculatorBase _operandCalculator17;
 				private OperatorCalculatorBase _operandCalculator18;
-
-			public Add_OperatorCalculator18(
+			public Multiply_OperatorCalculator18(
 					OperatorCalculatorBase operandCalculator1
 ,					OperatorCalculatorBase operandCalculator2
 ,					OperatorCalculatorBase operandCalculator3
@@ -1271,27 +1239,26 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			{
 				return 
 						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
+*						_operandCalculator2.Calculate()
+*						_operandCalculator3.Calculate()
+*						_operandCalculator4.Calculate()
+*						_operandCalculator5.Calculate()
+*						_operandCalculator6.Calculate()
+*						_operandCalculator7.Calculate()
+*						_operandCalculator8.Calculate()
+*						_operandCalculator9.Calculate()
+*						_operandCalculator10.Calculate()
+*						_operandCalculator11.Calculate()
+*						_operandCalculator12.Calculate()
+*						_operandCalculator13.Calculate()
+*						_operandCalculator14.Calculate()
+*						_operandCalculator15.Calculate()
+*						_operandCalculator16.Calculate()
+*						_operandCalculator17.Calculate()
+*						_operandCalculator18.Calculate()
 ;			}
 		}
-
-		internal class Add_OperatorCalculator19 : OperatorCalculatorBase_WithChildCalculators
+		internal class Multiply_OperatorCalculator19 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -1312,8 +1279,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				private OperatorCalculatorBase _operandCalculator17;
 				private OperatorCalculatorBase _operandCalculator18;
 				private OperatorCalculatorBase _operandCalculator19;
-
-			public Add_OperatorCalculator19(
+			public Multiply_OperatorCalculator19(
 					OperatorCalculatorBase operandCalculator1
 ,					OperatorCalculatorBase operandCalculator2
 ,					OperatorCalculatorBase operandCalculator3
@@ -1401,28 +1367,27 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			{
 				return 
 						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
+*						_operandCalculator2.Calculate()
+*						_operandCalculator3.Calculate()
+*						_operandCalculator4.Calculate()
+*						_operandCalculator5.Calculate()
+*						_operandCalculator6.Calculate()
+*						_operandCalculator7.Calculate()
+*						_operandCalculator8.Calculate()
+*						_operandCalculator9.Calculate()
+*						_operandCalculator10.Calculate()
+*						_operandCalculator11.Calculate()
+*						_operandCalculator12.Calculate()
+*						_operandCalculator13.Calculate()
+*						_operandCalculator14.Calculate()
+*						_operandCalculator15.Calculate()
+*						_operandCalculator16.Calculate()
+*						_operandCalculator17.Calculate()
+*						_operandCalculator18.Calculate()
+*						_operandCalculator19.Calculate()
 ;			}
 		}
-
-		internal class Add_OperatorCalculator20 : OperatorCalculatorBase_WithChildCalculators
+		internal class Multiply_OperatorCalculator20 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -1444,8 +1409,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				private OperatorCalculatorBase _operandCalculator18;
 				private OperatorCalculatorBase _operandCalculator19;
 				private OperatorCalculatorBase _operandCalculator20;
-
-			public Add_OperatorCalculator20(
+			public Multiply_OperatorCalculator20(
 					OperatorCalculatorBase operandCalculator1
 ,					OperatorCalculatorBase operandCalculator2
 ,					OperatorCalculatorBase operandCalculator3
@@ -1537,29 +1501,28 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			{
 				return 
 						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
-+						_operandCalculator20.Calculate()
+*						_operandCalculator2.Calculate()
+*						_operandCalculator3.Calculate()
+*						_operandCalculator4.Calculate()
+*						_operandCalculator5.Calculate()
+*						_operandCalculator6.Calculate()
+*						_operandCalculator7.Calculate()
+*						_operandCalculator8.Calculate()
+*						_operandCalculator9.Calculate()
+*						_operandCalculator10.Calculate()
+*						_operandCalculator11.Calculate()
+*						_operandCalculator12.Calculate()
+*						_operandCalculator13.Calculate()
+*						_operandCalculator14.Calculate()
+*						_operandCalculator15.Calculate()
+*						_operandCalculator16.Calculate()
+*						_operandCalculator17.Calculate()
+*						_operandCalculator18.Calculate()
+*						_operandCalculator19.Calculate()
+*						_operandCalculator20.Calculate()
 ;			}
 		}
-
-		internal class Add_OperatorCalculator21 : OperatorCalculatorBase_WithChildCalculators
+		internal class Multiply_OperatorCalculator21 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -1582,8 +1545,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				private OperatorCalculatorBase _operandCalculator19;
 				private OperatorCalculatorBase _operandCalculator20;
 				private OperatorCalculatorBase _operandCalculator21;
-
-			public Add_OperatorCalculator21(
+			public Multiply_OperatorCalculator21(
 					OperatorCalculatorBase operandCalculator1
 ,					OperatorCalculatorBase operandCalculator2
 ,					OperatorCalculatorBase operandCalculator3
@@ -1679,30 +1641,29 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			{
 				return 
 						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
-+						_operandCalculator20.Calculate()
-+						_operandCalculator21.Calculate()
+*						_operandCalculator2.Calculate()
+*						_operandCalculator3.Calculate()
+*						_operandCalculator4.Calculate()
+*						_operandCalculator5.Calculate()
+*						_operandCalculator6.Calculate()
+*						_operandCalculator7.Calculate()
+*						_operandCalculator8.Calculate()
+*						_operandCalculator9.Calculate()
+*						_operandCalculator10.Calculate()
+*						_operandCalculator11.Calculate()
+*						_operandCalculator12.Calculate()
+*						_operandCalculator13.Calculate()
+*						_operandCalculator14.Calculate()
+*						_operandCalculator15.Calculate()
+*						_operandCalculator16.Calculate()
+*						_operandCalculator17.Calculate()
+*						_operandCalculator18.Calculate()
+*						_operandCalculator19.Calculate()
+*						_operandCalculator20.Calculate()
+*						_operandCalculator21.Calculate()
 ;			}
 		}
-
-		internal class Add_OperatorCalculator22 : OperatorCalculatorBase_WithChildCalculators
+		internal class Multiply_OperatorCalculator22 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -1726,8 +1687,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				private OperatorCalculatorBase _operandCalculator20;
 				private OperatorCalculatorBase _operandCalculator21;
 				private OperatorCalculatorBase _operandCalculator22;
-
-			public Add_OperatorCalculator22(
+			public Multiply_OperatorCalculator22(
 					OperatorCalculatorBase operandCalculator1
 ,					OperatorCalculatorBase operandCalculator2
 ,					OperatorCalculatorBase operandCalculator3
@@ -1827,31 +1787,30 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			{
 				return 
 						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
-+						_operandCalculator20.Calculate()
-+						_operandCalculator21.Calculate()
-+						_operandCalculator22.Calculate()
+*						_operandCalculator2.Calculate()
+*						_operandCalculator3.Calculate()
+*						_operandCalculator4.Calculate()
+*						_operandCalculator5.Calculate()
+*						_operandCalculator6.Calculate()
+*						_operandCalculator7.Calculate()
+*						_operandCalculator8.Calculate()
+*						_operandCalculator9.Calculate()
+*						_operandCalculator10.Calculate()
+*						_operandCalculator11.Calculate()
+*						_operandCalculator12.Calculate()
+*						_operandCalculator13.Calculate()
+*						_operandCalculator14.Calculate()
+*						_operandCalculator15.Calculate()
+*						_operandCalculator16.Calculate()
+*						_operandCalculator17.Calculate()
+*						_operandCalculator18.Calculate()
+*						_operandCalculator19.Calculate()
+*						_operandCalculator20.Calculate()
+*						_operandCalculator21.Calculate()
+*						_operandCalculator22.Calculate()
 ;			}
 		}
-
-		internal class Add_OperatorCalculator23 : OperatorCalculatorBase_WithChildCalculators
+		internal class Multiply_OperatorCalculator23 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -1876,8 +1835,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				private OperatorCalculatorBase _operandCalculator21;
 				private OperatorCalculatorBase _operandCalculator22;
 				private OperatorCalculatorBase _operandCalculator23;
-
-			public Add_OperatorCalculator23(
+			public Multiply_OperatorCalculator23(
 					OperatorCalculatorBase operandCalculator1
 ,					OperatorCalculatorBase operandCalculator2
 ,					OperatorCalculatorBase operandCalculator3
@@ -1981,32 +1939,31 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			{
 				return 
 						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
-+						_operandCalculator20.Calculate()
-+						_operandCalculator21.Calculate()
-+						_operandCalculator22.Calculate()
-+						_operandCalculator23.Calculate()
+*						_operandCalculator2.Calculate()
+*						_operandCalculator3.Calculate()
+*						_operandCalculator4.Calculate()
+*						_operandCalculator5.Calculate()
+*						_operandCalculator6.Calculate()
+*						_operandCalculator7.Calculate()
+*						_operandCalculator8.Calculate()
+*						_operandCalculator9.Calculate()
+*						_operandCalculator10.Calculate()
+*						_operandCalculator11.Calculate()
+*						_operandCalculator12.Calculate()
+*						_operandCalculator13.Calculate()
+*						_operandCalculator14.Calculate()
+*						_operandCalculator15.Calculate()
+*						_operandCalculator16.Calculate()
+*						_operandCalculator17.Calculate()
+*						_operandCalculator18.Calculate()
+*						_operandCalculator19.Calculate()
+*						_operandCalculator20.Calculate()
+*						_operandCalculator21.Calculate()
+*						_operandCalculator22.Calculate()
+*						_operandCalculator23.Calculate()
 ;			}
 		}
-
-		internal class Add_OperatorCalculator24 : OperatorCalculatorBase_WithChildCalculators
+		internal class Multiply_OperatorCalculator24 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -2032,8 +1989,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				private OperatorCalculatorBase _operandCalculator22;
 				private OperatorCalculatorBase _operandCalculator23;
 				private OperatorCalculatorBase _operandCalculator24;
-
-			public Add_OperatorCalculator24(
+			public Multiply_OperatorCalculator24(
 					OperatorCalculatorBase operandCalculator1
 ,					OperatorCalculatorBase operandCalculator2
 ,					OperatorCalculatorBase operandCalculator3
@@ -2141,33 +2097,32 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			{
 				return 
 						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
-+						_operandCalculator20.Calculate()
-+						_operandCalculator21.Calculate()
-+						_operandCalculator22.Calculate()
-+						_operandCalculator23.Calculate()
-+						_operandCalculator24.Calculate()
+*						_operandCalculator2.Calculate()
+*						_operandCalculator3.Calculate()
+*						_operandCalculator4.Calculate()
+*						_operandCalculator5.Calculate()
+*						_operandCalculator6.Calculate()
+*						_operandCalculator7.Calculate()
+*						_operandCalculator8.Calculate()
+*						_operandCalculator9.Calculate()
+*						_operandCalculator10.Calculate()
+*						_operandCalculator11.Calculate()
+*						_operandCalculator12.Calculate()
+*						_operandCalculator13.Calculate()
+*						_operandCalculator14.Calculate()
+*						_operandCalculator15.Calculate()
+*						_operandCalculator16.Calculate()
+*						_operandCalculator17.Calculate()
+*						_operandCalculator18.Calculate()
+*						_operandCalculator19.Calculate()
+*						_operandCalculator20.Calculate()
+*						_operandCalculator21.Calculate()
+*						_operandCalculator22.Calculate()
+*						_operandCalculator23.Calculate()
+*						_operandCalculator24.Calculate()
 ;			}
 		}
-
-		internal class Add_OperatorCalculator25 : OperatorCalculatorBase_WithChildCalculators
+		internal class Multiply_OperatorCalculator25 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -2194,8 +2149,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				private OperatorCalculatorBase _operandCalculator23;
 				private OperatorCalculatorBase _operandCalculator24;
 				private OperatorCalculatorBase _operandCalculator25;
-
-			public Add_OperatorCalculator25(
+			public Multiply_OperatorCalculator25(
 					OperatorCalculatorBase operandCalculator1
 ,					OperatorCalculatorBase operandCalculator2
 ,					OperatorCalculatorBase operandCalculator3
@@ -2307,34 +2261,33 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			{
 				return 
 						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
-+						_operandCalculator20.Calculate()
-+						_operandCalculator21.Calculate()
-+						_operandCalculator22.Calculate()
-+						_operandCalculator23.Calculate()
-+						_operandCalculator24.Calculate()
-+						_operandCalculator25.Calculate()
+*						_operandCalculator2.Calculate()
+*						_operandCalculator3.Calculate()
+*						_operandCalculator4.Calculate()
+*						_operandCalculator5.Calculate()
+*						_operandCalculator6.Calculate()
+*						_operandCalculator7.Calculate()
+*						_operandCalculator8.Calculate()
+*						_operandCalculator9.Calculate()
+*						_operandCalculator10.Calculate()
+*						_operandCalculator11.Calculate()
+*						_operandCalculator12.Calculate()
+*						_operandCalculator13.Calculate()
+*						_operandCalculator14.Calculate()
+*						_operandCalculator15.Calculate()
+*						_operandCalculator16.Calculate()
+*						_operandCalculator17.Calculate()
+*						_operandCalculator18.Calculate()
+*						_operandCalculator19.Calculate()
+*						_operandCalculator20.Calculate()
+*						_operandCalculator21.Calculate()
+*						_operandCalculator22.Calculate()
+*						_operandCalculator23.Calculate()
+*						_operandCalculator24.Calculate()
+*						_operandCalculator25.Calculate()
 ;			}
 		}
-
-		internal class Add_OperatorCalculator26 : OperatorCalculatorBase_WithChildCalculators
+		internal class Multiply_OperatorCalculator26 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -2362,8 +2315,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				private OperatorCalculatorBase _operandCalculator24;
 				private OperatorCalculatorBase _operandCalculator25;
 				private OperatorCalculatorBase _operandCalculator26;
-
-			public Add_OperatorCalculator26(
+			public Multiply_OperatorCalculator26(
 					OperatorCalculatorBase operandCalculator1
 ,					OperatorCalculatorBase operandCalculator2
 ,					OperatorCalculatorBase operandCalculator3
@@ -2479,35 +2431,34 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			{
 				return 
 						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
-+						_operandCalculator20.Calculate()
-+						_operandCalculator21.Calculate()
-+						_operandCalculator22.Calculate()
-+						_operandCalculator23.Calculate()
-+						_operandCalculator24.Calculate()
-+						_operandCalculator25.Calculate()
-+						_operandCalculator26.Calculate()
+*						_operandCalculator2.Calculate()
+*						_operandCalculator3.Calculate()
+*						_operandCalculator4.Calculate()
+*						_operandCalculator5.Calculate()
+*						_operandCalculator6.Calculate()
+*						_operandCalculator7.Calculate()
+*						_operandCalculator8.Calculate()
+*						_operandCalculator9.Calculate()
+*						_operandCalculator10.Calculate()
+*						_operandCalculator11.Calculate()
+*						_operandCalculator12.Calculate()
+*						_operandCalculator13.Calculate()
+*						_operandCalculator14.Calculate()
+*						_operandCalculator15.Calculate()
+*						_operandCalculator16.Calculate()
+*						_operandCalculator17.Calculate()
+*						_operandCalculator18.Calculate()
+*						_operandCalculator19.Calculate()
+*						_operandCalculator20.Calculate()
+*						_operandCalculator21.Calculate()
+*						_operandCalculator22.Calculate()
+*						_operandCalculator23.Calculate()
+*						_operandCalculator24.Calculate()
+*						_operandCalculator25.Calculate()
+*						_operandCalculator26.Calculate()
 ;			}
 		}
-
-		internal class Add_OperatorCalculator27 : OperatorCalculatorBase_WithChildCalculators
+		internal class Multiply_OperatorCalculator27 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -2536,8 +2487,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				private OperatorCalculatorBase _operandCalculator25;
 				private OperatorCalculatorBase _operandCalculator26;
 				private OperatorCalculatorBase _operandCalculator27;
-
-			public Add_OperatorCalculator27(
+			public Multiply_OperatorCalculator27(
 					OperatorCalculatorBase operandCalculator1
 ,					OperatorCalculatorBase operandCalculator2
 ,					OperatorCalculatorBase operandCalculator3
@@ -2657,36 +2607,35 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			{
 				return 
 						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
-+						_operandCalculator20.Calculate()
-+						_operandCalculator21.Calculate()
-+						_operandCalculator22.Calculate()
-+						_operandCalculator23.Calculate()
-+						_operandCalculator24.Calculate()
-+						_operandCalculator25.Calculate()
-+						_operandCalculator26.Calculate()
-+						_operandCalculator27.Calculate()
+*						_operandCalculator2.Calculate()
+*						_operandCalculator3.Calculate()
+*						_operandCalculator4.Calculate()
+*						_operandCalculator5.Calculate()
+*						_operandCalculator6.Calculate()
+*						_operandCalculator7.Calculate()
+*						_operandCalculator8.Calculate()
+*						_operandCalculator9.Calculate()
+*						_operandCalculator10.Calculate()
+*						_operandCalculator11.Calculate()
+*						_operandCalculator12.Calculate()
+*						_operandCalculator13.Calculate()
+*						_operandCalculator14.Calculate()
+*						_operandCalculator15.Calculate()
+*						_operandCalculator16.Calculate()
+*						_operandCalculator17.Calculate()
+*						_operandCalculator18.Calculate()
+*						_operandCalculator19.Calculate()
+*						_operandCalculator20.Calculate()
+*						_operandCalculator21.Calculate()
+*						_operandCalculator22.Calculate()
+*						_operandCalculator23.Calculate()
+*						_operandCalculator24.Calculate()
+*						_operandCalculator25.Calculate()
+*						_operandCalculator26.Calculate()
+*						_operandCalculator27.Calculate()
 ;			}
 		}
-
-		internal class Add_OperatorCalculator28 : OperatorCalculatorBase_WithChildCalculators
+		internal class Multiply_OperatorCalculator28 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -2716,8 +2665,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				private OperatorCalculatorBase _operandCalculator26;
 				private OperatorCalculatorBase _operandCalculator27;
 				private OperatorCalculatorBase _operandCalculator28;
-
-			public Add_OperatorCalculator28(
+			public Multiply_OperatorCalculator28(
 					OperatorCalculatorBase operandCalculator1
 ,					OperatorCalculatorBase operandCalculator2
 ,					OperatorCalculatorBase operandCalculator3
@@ -2841,37 +2789,36 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			{
 				return 
 						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
-+						_operandCalculator20.Calculate()
-+						_operandCalculator21.Calculate()
-+						_operandCalculator22.Calculate()
-+						_operandCalculator23.Calculate()
-+						_operandCalculator24.Calculate()
-+						_operandCalculator25.Calculate()
-+						_operandCalculator26.Calculate()
-+						_operandCalculator27.Calculate()
-+						_operandCalculator28.Calculate()
+*						_operandCalculator2.Calculate()
+*						_operandCalculator3.Calculate()
+*						_operandCalculator4.Calculate()
+*						_operandCalculator5.Calculate()
+*						_operandCalculator6.Calculate()
+*						_operandCalculator7.Calculate()
+*						_operandCalculator8.Calculate()
+*						_operandCalculator9.Calculate()
+*						_operandCalculator10.Calculate()
+*						_operandCalculator11.Calculate()
+*						_operandCalculator12.Calculate()
+*						_operandCalculator13.Calculate()
+*						_operandCalculator14.Calculate()
+*						_operandCalculator15.Calculate()
+*						_operandCalculator16.Calculate()
+*						_operandCalculator17.Calculate()
+*						_operandCalculator18.Calculate()
+*						_operandCalculator19.Calculate()
+*						_operandCalculator20.Calculate()
+*						_operandCalculator21.Calculate()
+*						_operandCalculator22.Calculate()
+*						_operandCalculator23.Calculate()
+*						_operandCalculator24.Calculate()
+*						_operandCalculator25.Calculate()
+*						_operandCalculator26.Calculate()
+*						_operandCalculator27.Calculate()
+*						_operandCalculator28.Calculate()
 ;			}
 		}
-
-		internal class Add_OperatorCalculator29 : OperatorCalculatorBase_WithChildCalculators
+		internal class Multiply_OperatorCalculator29 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -2902,8 +2849,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				private OperatorCalculatorBase _operandCalculator27;
 				private OperatorCalculatorBase _operandCalculator28;
 				private OperatorCalculatorBase _operandCalculator29;
-
-			public Add_OperatorCalculator29(
+			public Multiply_OperatorCalculator29(
 					OperatorCalculatorBase operandCalculator1
 ,					OperatorCalculatorBase operandCalculator2
 ,					OperatorCalculatorBase operandCalculator3
@@ -3031,38 +2977,37 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			{
 				return 
 						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
-+						_operandCalculator20.Calculate()
-+						_operandCalculator21.Calculate()
-+						_operandCalculator22.Calculate()
-+						_operandCalculator23.Calculate()
-+						_operandCalculator24.Calculate()
-+						_operandCalculator25.Calculate()
-+						_operandCalculator26.Calculate()
-+						_operandCalculator27.Calculate()
-+						_operandCalculator28.Calculate()
-+						_operandCalculator29.Calculate()
+*						_operandCalculator2.Calculate()
+*						_operandCalculator3.Calculate()
+*						_operandCalculator4.Calculate()
+*						_operandCalculator5.Calculate()
+*						_operandCalculator6.Calculate()
+*						_operandCalculator7.Calculate()
+*						_operandCalculator8.Calculate()
+*						_operandCalculator9.Calculate()
+*						_operandCalculator10.Calculate()
+*						_operandCalculator11.Calculate()
+*						_operandCalculator12.Calculate()
+*						_operandCalculator13.Calculate()
+*						_operandCalculator14.Calculate()
+*						_operandCalculator15.Calculate()
+*						_operandCalculator16.Calculate()
+*						_operandCalculator17.Calculate()
+*						_operandCalculator18.Calculate()
+*						_operandCalculator19.Calculate()
+*						_operandCalculator20.Calculate()
+*						_operandCalculator21.Calculate()
+*						_operandCalculator22.Calculate()
+*						_operandCalculator23.Calculate()
+*						_operandCalculator24.Calculate()
+*						_operandCalculator25.Calculate()
+*						_operandCalculator26.Calculate()
+*						_operandCalculator27.Calculate()
+*						_operandCalculator28.Calculate()
+*						_operandCalculator29.Calculate()
 ;			}
 		}
-
-		internal class Add_OperatorCalculator30 : OperatorCalculatorBase_WithChildCalculators
+		internal class Multiply_OperatorCalculator30 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -3094,8 +3039,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				private OperatorCalculatorBase _operandCalculator28;
 				private OperatorCalculatorBase _operandCalculator29;
 				private OperatorCalculatorBase _operandCalculator30;
-
-			public Add_OperatorCalculator30(
+			public Multiply_OperatorCalculator30(
 					OperatorCalculatorBase operandCalculator1
 ,					OperatorCalculatorBase operandCalculator2
 ,					OperatorCalculatorBase operandCalculator3
@@ -3227,39 +3171,38 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			{
 				return 
 						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
-+						_operandCalculator20.Calculate()
-+						_operandCalculator21.Calculate()
-+						_operandCalculator22.Calculate()
-+						_operandCalculator23.Calculate()
-+						_operandCalculator24.Calculate()
-+						_operandCalculator25.Calculate()
-+						_operandCalculator26.Calculate()
-+						_operandCalculator27.Calculate()
-+						_operandCalculator28.Calculate()
-+						_operandCalculator29.Calculate()
-+						_operandCalculator30.Calculate()
+*						_operandCalculator2.Calculate()
+*						_operandCalculator3.Calculate()
+*						_operandCalculator4.Calculate()
+*						_operandCalculator5.Calculate()
+*						_operandCalculator6.Calculate()
+*						_operandCalculator7.Calculate()
+*						_operandCalculator8.Calculate()
+*						_operandCalculator9.Calculate()
+*						_operandCalculator10.Calculate()
+*						_operandCalculator11.Calculate()
+*						_operandCalculator12.Calculate()
+*						_operandCalculator13.Calculate()
+*						_operandCalculator14.Calculate()
+*						_operandCalculator15.Calculate()
+*						_operandCalculator16.Calculate()
+*						_operandCalculator17.Calculate()
+*						_operandCalculator18.Calculate()
+*						_operandCalculator19.Calculate()
+*						_operandCalculator20.Calculate()
+*						_operandCalculator21.Calculate()
+*						_operandCalculator22.Calculate()
+*						_operandCalculator23.Calculate()
+*						_operandCalculator24.Calculate()
+*						_operandCalculator25.Calculate()
+*						_operandCalculator26.Calculate()
+*						_operandCalculator27.Calculate()
+*						_operandCalculator28.Calculate()
+*						_operandCalculator29.Calculate()
+*						_operandCalculator30.Calculate()
 ;			}
 		}
-
-		internal class Add_OperatorCalculator31 : OperatorCalculatorBase_WithChildCalculators
+		internal class Multiply_OperatorCalculator31 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -3292,8 +3235,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				private OperatorCalculatorBase _operandCalculator29;
 				private OperatorCalculatorBase _operandCalculator30;
 				private OperatorCalculatorBase _operandCalculator31;
-
-			public Add_OperatorCalculator31(
+			public Multiply_OperatorCalculator31(
 					OperatorCalculatorBase operandCalculator1
 ,					OperatorCalculatorBase operandCalculator2
 ,					OperatorCalculatorBase operandCalculator3
@@ -3429,40 +3371,39 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			{
 				return 
 						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
-+						_operandCalculator20.Calculate()
-+						_operandCalculator21.Calculate()
-+						_operandCalculator22.Calculate()
-+						_operandCalculator23.Calculate()
-+						_operandCalculator24.Calculate()
-+						_operandCalculator25.Calculate()
-+						_operandCalculator26.Calculate()
-+						_operandCalculator27.Calculate()
-+						_operandCalculator28.Calculate()
-+						_operandCalculator29.Calculate()
-+						_operandCalculator30.Calculate()
-+						_operandCalculator31.Calculate()
+*						_operandCalculator2.Calculate()
+*						_operandCalculator3.Calculate()
+*						_operandCalculator4.Calculate()
+*						_operandCalculator5.Calculate()
+*						_operandCalculator6.Calculate()
+*						_operandCalculator7.Calculate()
+*						_operandCalculator8.Calculate()
+*						_operandCalculator9.Calculate()
+*						_operandCalculator10.Calculate()
+*						_operandCalculator11.Calculate()
+*						_operandCalculator12.Calculate()
+*						_operandCalculator13.Calculate()
+*						_operandCalculator14.Calculate()
+*						_operandCalculator15.Calculate()
+*						_operandCalculator16.Calculate()
+*						_operandCalculator17.Calculate()
+*						_operandCalculator18.Calculate()
+*						_operandCalculator19.Calculate()
+*						_operandCalculator20.Calculate()
+*						_operandCalculator21.Calculate()
+*						_operandCalculator22.Calculate()
+*						_operandCalculator23.Calculate()
+*						_operandCalculator24.Calculate()
+*						_operandCalculator25.Calculate()
+*						_operandCalculator26.Calculate()
+*						_operandCalculator27.Calculate()
+*						_operandCalculator28.Calculate()
+*						_operandCalculator29.Calculate()
+*						_operandCalculator30.Calculate()
+*						_operandCalculator31.Calculate()
 ;			}
 		}
-
-		internal class Add_OperatorCalculator32 : OperatorCalculatorBase_WithChildCalculators
+		internal class Multiply_OperatorCalculator32 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -3496,8 +3437,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				private OperatorCalculatorBase _operandCalculator30;
 				private OperatorCalculatorBase _operandCalculator31;
 				private OperatorCalculatorBase _operandCalculator32;
-
-			public Add_OperatorCalculator32(
+			public Multiply_OperatorCalculator32(
 					OperatorCalculatorBase operandCalculator1
 ,					OperatorCalculatorBase operandCalculator2
 ,					OperatorCalculatorBase operandCalculator3
@@ -3637,37 +3577,37 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			{
 				return 
 						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
-+						_operandCalculator20.Calculate()
-+						_operandCalculator21.Calculate()
-+						_operandCalculator22.Calculate()
-+						_operandCalculator23.Calculate()
-+						_operandCalculator24.Calculate()
-+						_operandCalculator25.Calculate()
-+						_operandCalculator26.Calculate()
-+						_operandCalculator27.Calculate()
-+						_operandCalculator28.Calculate()
-+						_operandCalculator29.Calculate()
-+						_operandCalculator30.Calculate()
-+						_operandCalculator31.Calculate()
-+						_operandCalculator32.Calculate()
+*						_operandCalculator2.Calculate()
+*						_operandCalculator3.Calculate()
+*						_operandCalculator4.Calculate()
+*						_operandCalculator5.Calculate()
+*						_operandCalculator6.Calculate()
+*						_operandCalculator7.Calculate()
+*						_operandCalculator8.Calculate()
+*						_operandCalculator9.Calculate()
+*						_operandCalculator10.Calculate()
+*						_operandCalculator11.Calculate()
+*						_operandCalculator12.Calculate()
+*						_operandCalculator13.Calculate()
+*						_operandCalculator14.Calculate()
+*						_operandCalculator15.Calculate()
+*						_operandCalculator16.Calculate()
+*						_operandCalculator17.Calculate()
+*						_operandCalculator18.Calculate()
+*						_operandCalculator19.Calculate()
+*						_operandCalculator20.Calculate()
+*						_operandCalculator21.Calculate()
+*						_operandCalculator22.Calculate()
+*						_operandCalculator23.Calculate()
+*						_operandCalculator24.Calculate()
+*						_operandCalculator25.Calculate()
+*						_operandCalculator26.Calculate()
+*						_operandCalculator27.Calculate()
+*						_operandCalculator28.Calculate()
+*						_operandCalculator29.Calculate()
+*						_operandCalculator30.Calculate()
+*						_operandCalculator31.Calculate()
+*						_operandCalculator32.Calculate()
 ;			}
 		}
 }

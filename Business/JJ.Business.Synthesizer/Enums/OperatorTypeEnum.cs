@@ -125,6 +125,7 @@
         MinContinuous = 73,
         AverageContinuous = 74,
         SumContinuous = 75,
-        SumFollower = 76
+        SumFollower = 76,
+        Multiply = 77
     }
 }

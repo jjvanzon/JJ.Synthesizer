@@ -797,6 +797,25 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+
+        public Multiply_OperatorWrapper Multiply(params Outlet[] operands)
+        {
+            return Multiply((IList<Outlet>)operands);
+        }
+
+        public Multiply_OperatorWrapper Multiply(IList<Outlet> operands)
+        {
+            if (operands == null) throw new NullException(() => operands);
+
+            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.Multiply, operands);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            var wrapper = new Multiply_OperatorWrapper(op);
+            return wrapper;
+        }
+
         public MultiplyWithOrigin_OperatorWrapper MultiplyWithOrigin(Outlet a = null, Outlet b = null, Outlet origin = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.MultiplyWithOrigin, inletCount: 3, outletCount: 1);
@@ -1678,6 +1697,7 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.MinContinuous: return MinContinuous();
                 case OperatorTypeEnum.MinDiscrete: return MinDiscrete(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.MinFollower: return MinFollower();
+                case OperatorTypeEnum.Multiply: return Multiply(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.MultiplyWithOrigin: return MultiplyWithOrigin();
                 case OperatorTypeEnum.Narrower: return Narrower();
                 case OperatorTypeEnum.Noise: return Noise();

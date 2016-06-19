@@ -53,11 +53,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Add_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Add_OperatorCalculator_WithOperandArray : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase[] _operandCalculators;
 
-        public Add_OperatorCalculator(OperatorCalculatorBase[] operandCalculators)
+        public Add_OperatorCalculator_WithOperandArray(OperatorCalculatorBase[] operandCalculators)
             : base(operandCalculators)
         {
             if (operandCalculators == null) throw new NullException(() => operandCalculators);

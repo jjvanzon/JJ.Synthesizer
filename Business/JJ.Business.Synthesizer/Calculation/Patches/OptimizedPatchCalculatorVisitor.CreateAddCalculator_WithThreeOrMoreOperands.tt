@@ -45,7 +45,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 	}
 #>
                 default:
-                    return new Add_OperatorCalculator(operandCalculators.ToArray());
+                    return new Add_OperatorCalculator_WithOperandArray(operandCalculators.ToArray());
             }
         }
 	}

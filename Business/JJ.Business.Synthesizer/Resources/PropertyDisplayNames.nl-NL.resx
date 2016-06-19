@@ -836,4 +836,7 @@
   <data name="SumFollower" xml:space="preserve">
     <value>Som (volgen)</value>
   </data>
+  <data name="MultiplyWithOrigin" xml:space="preserve">
+    <value>× (met oorsprong)</value>
+  </data>
 </root>

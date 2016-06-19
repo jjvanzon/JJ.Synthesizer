@@ -275,13 +275,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     // Special commonly used cases, that use concrete types to promote inlining.
     
-    internal class MultiplyWithOrigin_OperatorCalculator_MulWithVarB_VarB_NoOrigin : OperatorCalculatorBase_WithChildCalculators
+    internal class MultiplyWithOrigin_OperatorCalculator_AnotherMulWithVarB_VarB_NoOrigin : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly MultiplyWithOrigin_OperatorCalculator_VarA_VarB_NoOrigin _aCalculator;
         private readonly OperatorCalculatorBase _bCalculator;
 
         /// <summary> Special commonly used case, that uses a concrete type to promote inlining. </summary>
-        public MultiplyWithOrigin_OperatorCalculator_MulWithVarB_VarB_NoOrigin(
+        public MultiplyWithOrigin_OperatorCalculator_AnotherMulWithVarB_VarB_NoOrigin(
             MultiplyWithOrigin_OperatorCalculator_VarA_VarB_NoOrigin aCalculator,
             OperatorCalculatorBase bCalculator)
             : base(new OperatorCalculatorBase[] { aCalculator, bCalculator })
@@ -302,13 +302,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class MultiplyWithOrigin_OperatorCalculator_MulWithConstB_VarB_NoOrigin : OperatorCalculatorBase_WithChildCalculators
+    internal class MultiplyWithOrigin_OperatorCalculator_AnotherMulWithConstB_VarB_NoOrigin : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly MultiplyWithOrigin_OperatorCalculator_VarA_ConstB_NoOrigin _aCalculator;
         private readonly OperatorCalculatorBase _bCalculator;
 
         /// <summary> Special commonly used case, that uses a concrete type to promote inlining. </summary>
-        public MultiplyWithOrigin_OperatorCalculator_MulWithConstB_VarB_NoOrigin(
+        public MultiplyWithOrigin_OperatorCalculator_AnotherMulWithConstB_VarB_NoOrigin(
             MultiplyWithOrigin_OperatorCalculator_VarA_ConstB_NoOrigin aCalculator,
             OperatorCalculatorBase bCalculator)
             : base(new OperatorCalculatorBase[] { aCalculator, bCalculator })
@@ -329,13 +329,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class MultiplyWithOrigin_OperatorCalculator_MulWithVarB_ConstB_NoOrigin : OperatorCalculatorBase_WithChildCalculators
+    internal class MultiplyWithOrigin_OperatorCalculator_AnotherMulWithVarB_ConstB_NoOrigin : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly MultiplyWithOrigin_OperatorCalculator_VarA_VarB_NoOrigin _aCalculator;
         private readonly double _b;
 
         /// <summary> Special commonly used case, that uses a concrete type to promote inlining. </summary>
-        public MultiplyWithOrigin_OperatorCalculator_MulWithVarB_ConstB_NoOrigin(
+        public MultiplyWithOrigin_OperatorCalculator_AnotherMulWithVarB_ConstB_NoOrigin(
             MultiplyWithOrigin_OperatorCalculator_VarA_VarB_NoOrigin aCalculator, 
             double b)
             : base(new OperatorCalculatorBase[] { aCalculator })
@@ -354,13 +354,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class MultiplyWithOrigin_OperatorCalculator_MulWithConstB_ConstB_NoOrigin : OperatorCalculatorBase_WithChildCalculators
+    internal class MultiplyWithOrigin_OperatorCalculator_AnotherMulWithConstB_ConstB_NoOrigin : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly MultiplyWithOrigin_OperatorCalculator_VarA_ConstB_NoOrigin _aCalculator;
         private readonly double _b;
 
         /// <summary> Special commonly used case, that uses a concrete type to promote inlining. </summary>
-        public MultiplyWithOrigin_OperatorCalculator_MulWithConstB_ConstB_NoOrigin(
+        public MultiplyWithOrigin_OperatorCalculator_AnotherMulWithConstB_ConstB_NoOrigin(
             MultiplyWithOrigin_OperatorCalculator_VarA_ConstB_NoOrigin aCalculator,
             double b)
             : base(new OperatorCalculatorBase[] { aCalculator })

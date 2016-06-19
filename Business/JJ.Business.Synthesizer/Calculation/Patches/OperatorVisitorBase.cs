@@ -52,6 +52,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.MinContinuous, VisitMinContinuous },
                 { OperatorTypeEnum.MinDiscrete, VisitMinDiscrete },
                 { OperatorTypeEnum.MinFollower, VisitMinFollower },
+                { OperatorTypeEnum.Multiply, VisitMultiply },
                 { OperatorTypeEnum.MultiplyWithOrigin, VisitMultiplyWithOrigin },
                 { OperatorTypeEnum.Narrower, VisitNarrower },
                 { OperatorTypeEnum.Negative, VisitNegative },
@@ -352,6 +353,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         [DebuggerHidden]
         protected virtual void VisitMinFollower(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
+
+        [DebuggerHidden]
+        protected virtual void VisitMultiply(Operator op)
         {
             VisitOperatorBase(op);
         }

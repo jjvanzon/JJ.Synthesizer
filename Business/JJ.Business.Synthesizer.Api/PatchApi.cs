@@ -373,6 +373,16 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.MinFollower(signal, sliceLength, sampleCount, dimension);
         }
 
+        public Multiply_OperatorWrapper Multiply(params Outlet[] operands)
+        {
+            return _patchManager.Multiply(operands);
+        }
+
+        public Multiply_OperatorWrapper Multiply(IList<Outlet> operands)
+        {
+            return _patchManager.Multiply(operands);
+        }
+
         public MultiplyWithOrigin_OperatorWrapper MultiplyWithOrigin(Outlet a = null, Outlet b = null, Outlet origin = null)
         {
             return _patchManager.MultiplyWithOrigin(a, b, origin);

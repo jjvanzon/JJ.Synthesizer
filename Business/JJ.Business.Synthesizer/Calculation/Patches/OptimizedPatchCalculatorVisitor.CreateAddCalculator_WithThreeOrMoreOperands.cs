@@ -138,7 +138,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 					(
 						operandCalculators[0],						operandCalculators[1],						operandCalculators[2],						operandCalculators[3],						operandCalculators[4],						operandCalculators[5],						operandCalculators[6],						operandCalculators[7],						operandCalculators[8],						operandCalculators[9],						operandCalculators[10],						operandCalculators[11],						operandCalculators[12],						operandCalculators[13],						operandCalculators[14],						operandCalculators[15],						operandCalculators[16],						operandCalculators[17],						operandCalculators[18],						operandCalculators[19],						operandCalculators[20],						operandCalculators[21],						operandCalculators[22],						operandCalculators[23],						operandCalculators[24],						operandCalculators[25],						operandCalculators[26],						operandCalculators[27],						operandCalculators[28],						operandCalculators[29],						operandCalculators[30],						operandCalculators[31]					);
                 default:
-                    return new Add_OperatorCalculator(operandCalculators.ToArray());
+                    return new Add_OperatorCalculator_WithOperandArray(operandCalculators.ToArray());
             }
         }
 	}

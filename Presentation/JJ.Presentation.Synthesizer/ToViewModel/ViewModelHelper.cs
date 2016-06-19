@@ -92,6 +92,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                   new HashSet<OperatorTypeEnum>
         {
             OperatorTypeEnum.Add,
+            OperatorTypeEnum.Multiply,
             OperatorTypeEnum.AverageDiscrete,
             OperatorTypeEnum.MaxDiscrete,
             OperatorTypeEnum.MinDiscrete

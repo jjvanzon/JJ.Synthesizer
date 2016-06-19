@@ -1956,6 +1956,65 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
+        protected override void VisitMultiply(Operator op)
+        {
+            base.VisitMultiply(op);
+
+            OperatorCalculatorBase calculator;
+
+            IList<OperatorCalculatorBase> operandCalculators = new List<OperatorCalculatorBase>(op.Inlets.Count);
+            for (int i = 0; i < op.Inlets.Count; i++)
+            {
+                OperatorCalculatorBase operandCalculator = _stack.Pop();
+                operandCalculators.Add(operandCalculator);
+            }
+
+            operandCalculators = TruncateOperandCalculatorList(operandCalculators, x => x.Product());
+
+            // Handle zero.
+            bool isZero = operandCalculators.Any(x => x is Number_OperatorCalculator &&
+                                                      x.Calculate() == 0.0);
+            if (isZero)
+            {
+                calculator = new Zero_OperatorCalculator();
+            }
+            else
+            {
+                switch (operandCalculators.Count)
+                {
+                    case 0:
+                        calculator = new Zero_OperatorCalculator();
+                        break;
+
+                    case 1:
+                        calculator = operandCalculators[0];
+                        break;
+
+                    case 2:
+                        OperatorCalculatorBase constCalculator = operandCalculators.Where(x => x is Number_OperatorCalculator)
+                                                                                   .SingleOrDefault();
+                        if (constCalculator != null)
+                        {
+                            double constValue = constCalculator.Calculate();
+                            OperatorCalculatorBase varCalculator = operandCalculators.Except(constCalculator).Single();
+                            calculator = new Multiply_OperatorCalculator_ConstA_VarB(constValue, varCalculator);
+                        }
+                        else
+                        {
+                            calculator = new Multiply_OperatorCalculator_VarA_VarB(operandCalculators[0], operandCalculators[1]);
+                        }
+                        break;
+
+                    default:
+                        calculator = CreateMultiplyCalculator_WithThreeOrMoreOperands(operandCalculators);
+                        break;
+                }
+            }
+
+            _stack.Push(calculator);
+        }
+
+
         protected override void VisitMultiplyWithOrigin(Operator op)
         {
             base.VisitMultiplyWithOrigin(op);
@@ -2013,11 +2072,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 var castedACalculator2 = aCalculator as MultiplyWithOrigin_OperatorCalculator_VarA_ConstB_NoOrigin;
                 if (castedACalculator1 != null)
                 {
-                    calculator = new MultiplyWithOrigin_OperatorCalculator_MulWithVarB_ConstB_NoOrigin(castedACalculator1, b);
+                    calculator = new MultiplyWithOrigin_OperatorCalculator_AnotherMulWithVarB_ConstB_NoOrigin(castedACalculator1, b);
                 }
                 else if (castedACalculator2 != null)
                 {
-                    calculator = new MultiplyWithOrigin_OperatorCalculator_MulWithConstB_ConstB_NoOrigin(castedACalculator2, b);
+                    calculator = new MultiplyWithOrigin_OperatorCalculator_AnotherMulWithConstB_ConstB_NoOrigin(castedACalculator2, b);
                 }
                 else
                 {
@@ -2030,11 +2089,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 var castedACalculator2 = aCalculator as MultiplyWithOrigin_OperatorCalculator_VarA_ConstB_NoOrigin;
                 if (castedACalculator1 != null)
                 {
-                    calculator = new MultiplyWithOrigin_OperatorCalculator_MulWithVarB_VarB_NoOrigin(castedACalculator1, bCalculator);
+                    calculator = new MultiplyWithOrigin_OperatorCalculator_AnotherMulWithVarB_VarB_NoOrigin(castedACalculator1, bCalculator);
                 }
                 else if (castedACalculator2 != null)
                 {
-                    calculator = new MultiplyWithOrigin_OperatorCalculator_MulWithConstB_VarB_NoOrigin(castedACalculator2, bCalculator);
+                    calculator = new MultiplyWithOrigin_OperatorCalculator_AnotherMulWithConstB_VarB_NoOrigin(castedACalculator2, bCalculator);
                 }
                 else
                 {

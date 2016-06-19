@@ -1141,6 +1141,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ×.
+        /// </summary>
+        public static string Multiply {
+            get {
+                return ResourceManager.GetString("Multiply", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to × (with origin).
         /// </summary>
         public static string MultiplyWithOrigin {
