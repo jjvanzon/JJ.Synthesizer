@@ -52,7 +52,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.MinContinuous, VisitMinContinuous },
                 { OperatorTypeEnum.MinDiscrete, VisitMinDiscrete },
                 { OperatorTypeEnum.MinFollower, VisitMinFollower },
-                { OperatorTypeEnum.Multiply, VisitMultiply },
+                { OperatorTypeEnum.MultiplyWithOrigin, VisitMultiplyWithOrigin },
                 { OperatorTypeEnum.Narrower, VisitNarrower },
                 { OperatorTypeEnum.Negative, VisitNegative },
                 { OperatorTypeEnum.Noise, VisitNoise },
@@ -357,7 +357,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         }
 
         [DebuggerHidden]
-        protected virtual void VisitMultiply(Operator op)
+        protected virtual void VisitMultiplyWithOrigin(Operator op)
         {
             VisitOperatorBase(op);
         }

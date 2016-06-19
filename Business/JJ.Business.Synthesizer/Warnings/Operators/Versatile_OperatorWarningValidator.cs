@@ -47,7 +47,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             { OperatorTypeEnum.MinContinuous, typeof(MinContinuous_OperatorWarningValidator) },
             { OperatorTypeEnum.MinDiscrete, typeof(MinDiscrete_OperatorWarningValidator) },
             { OperatorTypeEnum.MinFollower, typeof(MinFollower_OperatorWarningValidator) },
-            { OperatorTypeEnum.Multiply, typeof(Multiply_OperatorWarningValidator) },
+            { OperatorTypeEnum.MultiplyWithOrigin, typeof(MultiplyWithOrigin_OperatorWarningValidator) },
             { OperatorTypeEnum.Narrower, typeof(Narrower_OperatorWarningValidator) },
             { OperatorTypeEnum.Negative, typeof(Negative_OperatorWarningValidator) },
             { OperatorTypeEnum.Noise, null },

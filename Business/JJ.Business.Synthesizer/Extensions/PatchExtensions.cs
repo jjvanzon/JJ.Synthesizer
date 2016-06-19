@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Extensions
         {
             { typeof(Add_OperatorWrapper),OperatorTypeEnum.Add },
             { typeof(Divide_OperatorWrapper), OperatorTypeEnum.Divide },
-            { typeof(Multiply_OperatorWrapper), OperatorTypeEnum.Multiply },
+            { typeof(MultiplyWithOrigin_OperatorWrapper), OperatorTypeEnum.MultiplyWithOrigin },
             { typeof(PatchInlet_OperatorWrapper), OperatorTypeEnum.PatchInlet },
             { typeof(PatchOutlet_OperatorWrapper), OperatorTypeEnum.PatchOutlet },
             { typeof(Power_OperatorWrapper), OperatorTypeEnum.Power },

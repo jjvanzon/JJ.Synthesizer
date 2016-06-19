@@ -3,13 +3,13 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Multiply_OperatorCalculator_ConstA_VarB_ConstOrigin : OperatorCalculatorBase_WithChildCalculators
+    internal class MultiplyWithOrigin_OperatorCalculator_ConstA_VarB_ConstOrigin : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly double _a;
         private readonly OperatorCalculatorBase _bCalculator;
         private readonly double _origin;
 
-        public Multiply_OperatorCalculator_ConstA_VarB_ConstOrigin(
+        public MultiplyWithOrigin_OperatorCalculator_ConstA_VarB_ConstOrigin(
             double a,
             OperatorCalculatorBase bCalculator,
             double origin)
@@ -30,13 +30,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Multiply_OperatorCalculator_VarA_ConstB_ConstOrigin : OperatorCalculatorBase_WithChildCalculators
+    internal class MultiplyWithOrigin_OperatorCalculator_VarA_ConstB_ConstOrigin : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _aCalculator;
         private readonly double _b;
         private readonly double _origin;
 
-        public Multiply_OperatorCalculator_VarA_ConstB_ConstOrigin(
+        public MultiplyWithOrigin_OperatorCalculator_VarA_ConstB_ConstOrigin(
             OperatorCalculatorBase aCalculator,
             double b,
             double origin)
@@ -60,13 +60,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Multiply_OperatorCalculator_VarA_VarB_ConstOrigin : OperatorCalculatorBase_WithChildCalculators
+    internal class MultiplyWithOrigin_OperatorCalculator_VarA_VarB_ConstOrigin : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _aCalculator;
         private readonly OperatorCalculatorBase _bCalculator;
         private readonly double _origin;
 
-        public Multiply_OperatorCalculator_VarA_VarB_ConstOrigin(
+        public MultiplyWithOrigin_OperatorCalculator_VarA_VarB_ConstOrigin(
             OperatorCalculatorBase aCalculator,
             OperatorCalculatorBase bCalculator,
             double origin)
@@ -89,13 +89,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Multiply_OperatorCalculator_ConstA_ConstB_VarOrigin : OperatorCalculatorBase_WithChildCalculators
+    internal class MultiplyWithOrigin_OperatorCalculator_ConstA_ConstB_VarOrigin : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly double _a;
         private readonly double _b;
         private readonly OperatorCalculatorBase _originCalculator;
 
-        public Multiply_OperatorCalculator_ConstA_ConstB_VarOrigin(
+        public MultiplyWithOrigin_OperatorCalculator_ConstA_ConstB_VarOrigin(
             double a,
             double b,
             OperatorCalculatorBase originCalculator)
@@ -116,13 +116,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Multiply_OperatorCalculator_ConstA_VarB_VarOrigin : OperatorCalculatorBase_WithChildCalculators
+    internal class MultiplyWithOrigin_OperatorCalculator_ConstA_VarB_VarOrigin : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly double _a;
         private readonly OperatorCalculatorBase _bCalculator;
         private readonly OperatorCalculatorBase _originCalculator;
 
-        public Multiply_OperatorCalculator_ConstA_VarB_VarOrigin(
+        public MultiplyWithOrigin_OperatorCalculator_ConstA_VarB_VarOrigin(
             double a,
             OperatorCalculatorBase bCalculator,
             OperatorCalculatorBase originCalculator)
@@ -145,13 +145,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Multiply_OperatorCalculator_VarA_ConstB_VarOrigin : OperatorCalculatorBase_WithChildCalculators
+    internal class MultiplyWithOrigin_OperatorCalculator_VarA_ConstB_VarOrigin : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _aCalculator;
         private readonly double _b;
         private readonly OperatorCalculatorBase _originCalculator;
 
-        public Multiply_OperatorCalculator_VarA_ConstB_VarOrigin(
+        public MultiplyWithOrigin_OperatorCalculator_VarA_ConstB_VarOrigin(
             OperatorCalculatorBase aCalculator,
             double b,
             OperatorCalculatorBase originCalculator)
@@ -174,13 +174,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Multiply_OperatorCalculator_VarA_VarB_VarOrigin : OperatorCalculatorBase_WithChildCalculators
+    internal class MultiplyWithOrigin_OperatorCalculator_VarA_VarB_VarOrigin : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _aCalculator;
         private readonly OperatorCalculatorBase _bCalculator;
         private readonly OperatorCalculatorBase _originCalculator;
         
-        public Multiply_OperatorCalculator_VarA_VarB_VarOrigin(
+        public MultiplyWithOrigin_OperatorCalculator_VarA_VarB_VarOrigin(
             OperatorCalculatorBase aCalculator,
             OperatorCalculatorBase bCalculator,
             OperatorCalculatorBase originCalculator)
@@ -205,12 +205,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
      
-    internal class Multiply_OperatorCalculator_VarA_VarB_NoOrigin : OperatorCalculatorBase_WithChildCalculators
+    internal class MultiplyWithOrigin_OperatorCalculator_VarA_VarB_NoOrigin : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _aCalculator;
         private readonly OperatorCalculatorBase _bCalculator;
 
-        public Multiply_OperatorCalculator_VarA_VarB_NoOrigin(OperatorCalculatorBase aCalculator, OperatorCalculatorBase bCalculator)
+        public MultiplyWithOrigin_OperatorCalculator_VarA_VarB_NoOrigin(OperatorCalculatorBase aCalculator, OperatorCalculatorBase bCalculator)
             : base(new OperatorCalculatorBase[] { aCalculator, bCalculator })
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(aCalculator, () => aCalculator);
@@ -229,12 +229,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Multiply_OperatorCalculator_ConstA_VarB_NoOrigin : OperatorCalculatorBase_WithChildCalculators
+    internal class MultiplyWithOrigin_OperatorCalculator_ConstA_VarB_NoOrigin : OperatorCalculatorBase_WithChildCalculators
     {
         private double _a;
         private OperatorCalculatorBase _bCalculator;
 
-        public Multiply_OperatorCalculator_ConstA_VarB_NoOrigin(double a, OperatorCalculatorBase bCalculator)
+        public MultiplyWithOrigin_OperatorCalculator_ConstA_VarB_NoOrigin(double a, OperatorCalculatorBase bCalculator)
             : base(new OperatorCalculatorBase[] { bCalculator })
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(bCalculator, () => bCalculator);
@@ -251,12 +251,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Multiply_OperatorCalculator_VarA_ConstB_NoOrigin : OperatorCalculatorBase_WithChildCalculators
+    internal class MultiplyWithOrigin_OperatorCalculator_VarA_ConstB_NoOrigin : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _aCalculator;
         private readonly double _b;
 
-        public Multiply_OperatorCalculator_VarA_ConstB_NoOrigin(OperatorCalculatorBase aCalculator, double b)
+        public MultiplyWithOrigin_OperatorCalculator_VarA_ConstB_NoOrigin(OperatorCalculatorBase aCalculator, double b)
             : base(new OperatorCalculatorBase[] { aCalculator })
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(aCalculator, () => aCalculator);
@@ -275,14 +275,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     // Special commonly used cases, that use concrete types to promote inlining.
     
-    internal class Multiply_OperatorCalculator_MulWithVarB_VarB_NoOrigin : OperatorCalculatorBase_WithChildCalculators
+    internal class MultiplyWithOrigin_OperatorCalculator_MulWithVarB_VarB_NoOrigin : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly Multiply_OperatorCalculator_VarA_VarB_NoOrigin _aCalculator;
+        private readonly MultiplyWithOrigin_OperatorCalculator_VarA_VarB_NoOrigin _aCalculator;
         private readonly OperatorCalculatorBase _bCalculator;
 
         /// <summary> Special commonly used case, that uses a concrete type to promote inlining. </summary>
-        public Multiply_OperatorCalculator_MulWithVarB_VarB_NoOrigin(
-            Multiply_OperatorCalculator_VarA_VarB_NoOrigin aCalculator,
+        public MultiplyWithOrigin_OperatorCalculator_MulWithVarB_VarB_NoOrigin(
+            MultiplyWithOrigin_OperatorCalculator_VarA_VarB_NoOrigin aCalculator,
             OperatorCalculatorBase bCalculator)
             : base(new OperatorCalculatorBase[] { aCalculator, bCalculator })
         {
@@ -302,14 +302,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Multiply_OperatorCalculator_MulWithConstB_VarB_NoOrigin : OperatorCalculatorBase_WithChildCalculators
+    internal class MultiplyWithOrigin_OperatorCalculator_MulWithConstB_VarB_NoOrigin : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly Multiply_OperatorCalculator_VarA_ConstB_NoOrigin _aCalculator;
+        private readonly MultiplyWithOrigin_OperatorCalculator_VarA_ConstB_NoOrigin _aCalculator;
         private readonly OperatorCalculatorBase _bCalculator;
 
         /// <summary> Special commonly used case, that uses a concrete type to promote inlining. </summary>
-        public Multiply_OperatorCalculator_MulWithConstB_VarB_NoOrigin(
-            Multiply_OperatorCalculator_VarA_ConstB_NoOrigin aCalculator,
+        public MultiplyWithOrigin_OperatorCalculator_MulWithConstB_VarB_NoOrigin(
+            MultiplyWithOrigin_OperatorCalculator_VarA_ConstB_NoOrigin aCalculator,
             OperatorCalculatorBase bCalculator)
             : base(new OperatorCalculatorBase[] { aCalculator, bCalculator })
         {
@@ -329,14 +329,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Multiply_OperatorCalculator_MulWithVarB_ConstB_NoOrigin : OperatorCalculatorBase_WithChildCalculators
+    internal class MultiplyWithOrigin_OperatorCalculator_MulWithVarB_ConstB_NoOrigin : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly Multiply_OperatorCalculator_VarA_VarB_NoOrigin _aCalculator;
+        private readonly MultiplyWithOrigin_OperatorCalculator_VarA_VarB_NoOrigin _aCalculator;
         private readonly double _b;
 
         /// <summary> Special commonly used case, that uses a concrete type to promote inlining. </summary>
-        public Multiply_OperatorCalculator_MulWithVarB_ConstB_NoOrigin(
-            Multiply_OperatorCalculator_VarA_VarB_NoOrigin aCalculator, 
+        public MultiplyWithOrigin_OperatorCalculator_MulWithVarB_ConstB_NoOrigin(
+            MultiplyWithOrigin_OperatorCalculator_VarA_VarB_NoOrigin aCalculator, 
             double b)
             : base(new OperatorCalculatorBase[] { aCalculator })
         {
@@ -354,14 +354,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Multiply_OperatorCalculator_MulWithConstB_ConstB_NoOrigin : OperatorCalculatorBase_WithChildCalculators
+    internal class MultiplyWithOrigin_OperatorCalculator_MulWithConstB_ConstB_NoOrigin : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly Multiply_OperatorCalculator_VarA_ConstB_NoOrigin _aCalculator;
+        private readonly MultiplyWithOrigin_OperatorCalculator_VarA_ConstB_NoOrigin _aCalculator;
         private readonly double _b;
 
         /// <summary> Special commonly used case, that uses a concrete type to promote inlining. </summary>
-        public Multiply_OperatorCalculator_MulWithConstB_ConstB_NoOrigin(
-            Multiply_OperatorCalculator_VarA_ConstB_NoOrigin aCalculator,
+        public MultiplyWithOrigin_OperatorCalculator_MulWithConstB_ConstB_NoOrigin(
+            MultiplyWithOrigin_OperatorCalculator_VarA_ConstB_NoOrigin aCalculator,
             double b)
             : base(new OperatorCalculatorBase[] { aCalculator })
         {

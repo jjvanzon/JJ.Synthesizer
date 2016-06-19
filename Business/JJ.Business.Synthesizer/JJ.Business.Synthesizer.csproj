@@ -130,7 +130,7 @@
     <Compile Include="Calculation\Operators\Equal OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\HighPassFilter OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\LowPassFilter OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\Multiply OperatorCalculator Classes.cs" />
+    <Compile Include="Calculation\Operators\MultiplyWithOrigin OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\OperatorCalculatorBase_WithChildCalculators.cs" />
     <Compile Include="Calculation\Operators\Narrower OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\OperatorCalculatorHelper.cs" />
@@ -331,7 +331,7 @@
     <Compile Include="EntityWrappers\Divide_OperatorWrapper.cs" />
     <Compile Include="Enums\NodeTypeEnum.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
-    <Compile Include="EntityWrappers\Multiply_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\MultiplyWithOrigin_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase.cs" />
     <Compile Include="EntityWrappers\Subtract_OperatorWrapper.cs" />
     <Compile Include="Helpers\AudioFileOutputRepositories.cs" />
@@ -577,7 +577,7 @@
     <Compile Include="Validation\Operators\PatchInlet_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Divide_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Number_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\Multiply_OperatorValidator.cs" />
+    <Compile Include="Validation\Operators\MultiplyWithOrigin_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Recursive_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Subtract_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_Base.cs" />
@@ -609,7 +609,7 @@
     <Compile Include="Warnings\Operators\OperatorWarningValidator_Base_FirstXInletsFilledIn.cs" />
     <Compile Include="Warnings\Operators\PatchOutlet_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Divide_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\Multiply_OperatorWarningValidator.cs" />
+    <Compile Include="Warnings\Operators\MultiplyWithOrigin_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Recursive_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Subtract_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Number_OperatorWarningValidator.cs" />

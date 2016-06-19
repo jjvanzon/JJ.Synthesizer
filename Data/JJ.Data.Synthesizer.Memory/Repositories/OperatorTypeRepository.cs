@@ -10,7 +10,7 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
         {
             RepositoryHelper.EnsureEnumEntity(this, 1, "Add");
             RepositoryHelper.EnsureEnumEntity(this, 3, "Divide");
-            RepositoryHelper.EnsureEnumEntity(this, 4, "Multiply");
+            RepositoryHelper.EnsureEnumEntity(this, 4, "MultiplyWithOrigin");
             RepositoryHelper.EnsureEnumEntity(this, 5, "PatchInlet");
             RepositoryHelper.EnsureEnumEntity(this, 6, "PatchOutlet");
             RepositoryHelper.EnsureEnumEntity(this, 7, "Power");

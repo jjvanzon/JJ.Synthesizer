@@ -49,7 +49,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             { OperatorTypeEnum.MinContinuous, typeof(MinContinuous_OperatorValidator) },
             { OperatorTypeEnum.MinDiscrete, typeof(MinDiscrete_OperatorValidator) },
             { OperatorTypeEnum.MinFollower, typeof(MinFollower_OperatorValidator) },
-            { OperatorTypeEnum.Multiply, typeof(Multiply_OperatorValidator) },
+            { OperatorTypeEnum.MultiplyWithOrigin, typeof(MultiplyWithOrigin_OperatorValidator) },
             { OperatorTypeEnum.Narrower, typeof(Narrower_OperatorValidator) },
             { OperatorTypeEnum.Negative, typeof(Negative_OperatorValidator) },
             { OperatorTypeEnum.Noise, typeof(Noise_OperatorValidator) },

@@ -139,7 +139,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             var signalOutlet = x.PatchOutlet
             (
                 DimensionEnum.Signal,
-                x.Multiply
+                x.MultiplyWithOrigin
                 (
                     x.Sine
                     (

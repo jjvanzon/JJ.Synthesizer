@@ -797,11 +797,11 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Multiply_OperatorWrapper Multiply(Outlet a = null, Outlet b = null, Outlet origin = null)
+        public MultiplyWithOrigin_OperatorWrapper MultiplyWithOrigin(Outlet a = null, Outlet b = null, Outlet origin = null)
         {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.Multiply, inletCount: 3, outletCount: 1);
+            Operator op = CreateOperatorBase(OperatorTypeEnum.MultiplyWithOrigin, inletCount: 3, outletCount: 1);
 
-            var wrapper = new Multiply_OperatorWrapper(op)
+            var wrapper = new MultiplyWithOrigin_OperatorWrapper(op)
             {
                 A = a,
                 B = b,
@@ -1678,7 +1678,7 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.MinContinuous: return MinContinuous();
                 case OperatorTypeEnum.MinDiscrete: return MinDiscrete(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.MinFollower: return MinFollower();
-                case OperatorTypeEnum.Multiply: return Multiply();
+                case OperatorTypeEnum.MultiplyWithOrigin: return MultiplyWithOrigin();
                 case OperatorTypeEnum.Narrower: return Narrower();
                 case OperatorTypeEnum.Noise: return Noise();
                 case OperatorTypeEnum.Not: return Not();

@@ -5,7 +5,7 @@
         Undefined = 0,
         Add = 1,
         Divide = 3,
-        Multiply = 4,
+        MultiplyWithOrigin = 4,
         PatchInlet = 5,
         PatchOutlet = 6,
         Power = 7,

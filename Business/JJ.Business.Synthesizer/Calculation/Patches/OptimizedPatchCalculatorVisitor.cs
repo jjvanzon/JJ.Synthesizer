@@ -1956,9 +1956,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitMultiply(Operator op)
+        protected override void VisitMultiplyWithOrigin(Operator op)
         {
-            base.VisitMultiply(op);
+            base.VisitMultiplyWithOrigin(op);
 
             OperatorCalculatorBase calculator;
 
@@ -2005,69 +2005,69 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (aIsConst && !bIsConst && originIsConstZero)
             {
-                calculator = new Multiply_OperatorCalculator_ConstA_VarB_NoOrigin(a, bCalculator);
+                calculator = new MultiplyWithOrigin_OperatorCalculator_ConstA_VarB_NoOrigin(a, bCalculator);
             }
             else if (!aIsConst && bIsConst && originIsConstZero)
             {
-                var castedACalculator1 = aCalculator as Multiply_OperatorCalculator_VarA_VarB_NoOrigin;
-                var castedACalculator2 = aCalculator as Multiply_OperatorCalculator_VarA_ConstB_NoOrigin;
+                var castedACalculator1 = aCalculator as MultiplyWithOrigin_OperatorCalculator_VarA_VarB_NoOrigin;
+                var castedACalculator2 = aCalculator as MultiplyWithOrigin_OperatorCalculator_VarA_ConstB_NoOrigin;
                 if (castedACalculator1 != null)
                 {
-                    calculator = new Multiply_OperatorCalculator_MulWithVarB_ConstB_NoOrigin(castedACalculator1, b);
+                    calculator = new MultiplyWithOrigin_OperatorCalculator_MulWithVarB_ConstB_NoOrigin(castedACalculator1, b);
                 }
                 else if (castedACalculator2 != null)
                 {
-                    calculator = new Multiply_OperatorCalculator_MulWithConstB_ConstB_NoOrigin(castedACalculator2, b);
+                    calculator = new MultiplyWithOrigin_OperatorCalculator_MulWithConstB_ConstB_NoOrigin(castedACalculator2, b);
                 }
                 else
                 {
-                    calculator = new Multiply_OperatorCalculator_VarA_ConstB_NoOrigin(aCalculator, b);
+                    calculator = new MultiplyWithOrigin_OperatorCalculator_VarA_ConstB_NoOrigin(aCalculator, b);
                 }
             }
             else if (!aIsConst && !bIsConst && originIsConstZero)
             {
-                var castedACalculator1 = aCalculator as Multiply_OperatorCalculator_VarA_VarB_NoOrigin;
-                var castedACalculator2 = aCalculator as Multiply_OperatorCalculator_VarA_ConstB_NoOrigin;
+                var castedACalculator1 = aCalculator as MultiplyWithOrigin_OperatorCalculator_VarA_VarB_NoOrigin;
+                var castedACalculator2 = aCalculator as MultiplyWithOrigin_OperatorCalculator_VarA_ConstB_NoOrigin;
                 if (castedACalculator1 != null)
                 {
-                    calculator = new Multiply_OperatorCalculator_MulWithVarB_VarB_NoOrigin(castedACalculator1, bCalculator);
+                    calculator = new MultiplyWithOrigin_OperatorCalculator_MulWithVarB_VarB_NoOrigin(castedACalculator1, bCalculator);
                 }
                 else if (castedACalculator2 != null)
                 {
-                    calculator = new Multiply_OperatorCalculator_MulWithConstB_VarB_NoOrigin(castedACalculator2, bCalculator);
+                    calculator = new MultiplyWithOrigin_OperatorCalculator_MulWithConstB_VarB_NoOrigin(castedACalculator2, bCalculator);
                 }
                 else
                 {
-                    calculator = new Multiply_OperatorCalculator_VarA_VarB_NoOrigin(aCalculator, bCalculator);
+                    calculator = new MultiplyWithOrigin_OperatorCalculator_VarA_VarB_NoOrigin(aCalculator, bCalculator);
                 }
             }
             else if (aIsConst && !bIsConst && originIsConst)
             {
-                calculator = new Multiply_OperatorCalculator_ConstA_VarB_ConstOrigin(a, bCalculator, origin);
+                calculator = new MultiplyWithOrigin_OperatorCalculator_ConstA_VarB_ConstOrigin(a, bCalculator, origin);
             }
             else if (!aIsConst && bIsConst && originIsConst)
             {
-                calculator = new Multiply_OperatorCalculator_VarA_ConstB_ConstOrigin(aCalculator, b, origin);
+                calculator = new MultiplyWithOrigin_OperatorCalculator_VarA_ConstB_ConstOrigin(aCalculator, b, origin);
             }
             else if (!aIsConst && !bIsConst && originIsConst)
             {
-                calculator = new Multiply_OperatorCalculator_VarA_VarB_ConstOrigin(aCalculator, bCalculator, origin);
+                calculator = new MultiplyWithOrigin_OperatorCalculator_VarA_VarB_ConstOrigin(aCalculator, bCalculator, origin);
             }
             else if (aIsConst && bIsConst && !originIsConst)
             {
-                calculator = new Multiply_OperatorCalculator_ConstA_ConstB_VarOrigin(a, b, originCalculator);
+                calculator = new MultiplyWithOrigin_OperatorCalculator_ConstA_ConstB_VarOrigin(a, b, originCalculator);
             }
             else if (aIsConst && !bIsConst && !originIsConst)
             {
-                calculator = new Multiply_OperatorCalculator_ConstA_VarB_VarOrigin(a, bCalculator, originCalculator);
+                calculator = new MultiplyWithOrigin_OperatorCalculator_ConstA_VarB_VarOrigin(a, bCalculator, originCalculator);
             }
             else if (!aIsConst && bIsConst && !originIsConst)
             {
-                calculator = new Multiply_OperatorCalculator_VarA_ConstB_VarOrigin(aCalculator, b, originCalculator);
+                calculator = new MultiplyWithOrigin_OperatorCalculator_VarA_ConstB_VarOrigin(aCalculator, b, originCalculator);
             }
             else
             {
-                calculator = new Multiply_OperatorCalculator_VarA_VarB_VarOrigin(aCalculator, bCalculator, originCalculator);
+                calculator = new MultiplyWithOrigin_OperatorCalculator_VarA_VarB_VarOrigin(aCalculator, bCalculator, originCalculator);
             }
 
             _stack.Push(calculator);

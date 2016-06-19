@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         {
             if (x == null) throw new NullException(() => x);
 
-            Outlet multiply = x.Multiply(signal, x.Number(1.5));
+            Outlet multiply = x.MultiplyWithOrigin(signal, x.Number(1.5));
             Outlet echo = CreateEcho(x, multiply);
             //Outlet myOutlet = x.Add(x.Sample(sample1), x.Multiply(x.Sample(sample2), x.Value(0.5)));
             return echo;

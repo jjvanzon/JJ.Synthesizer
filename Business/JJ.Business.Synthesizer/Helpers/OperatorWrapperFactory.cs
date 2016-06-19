@@ -48,7 +48,7 @@ namespace JJ.Business.Synthesizer.Helpers
             { OperatorTypeEnum.MinContinuous, Create_MinContinuous_OperatorWrapper },
             { OperatorTypeEnum.MinDiscrete, Create_MinDiscrete_OperatorWrapper },
             { OperatorTypeEnum.MinFollower, Create_MinFollower_OperatorWrapper },
-            { OperatorTypeEnum.Multiply , Create_Multiply_OperatorWrapper },
+            { OperatorTypeEnum.MultiplyWithOrigin , Create_MultiplyWithOrigin_OperatorWrapper },
             { OperatorTypeEnum.Narrower, Create_Narrower_OperatorWrapper },
             { OperatorTypeEnum.Negative, Create_Negative_OperatorWrapper },
             { OperatorTypeEnum.Noise, Create_Noise_OperatorWrapper },
@@ -169,7 +169,7 @@ namespace JJ.Business.Synthesizer.Helpers
         private static MinContinuous_OperatorWrapper Create_MinContinuous_OperatorWrapper(Operator op) { return new MinContinuous_OperatorWrapper(op); }
         private static MinDiscrete_OperatorWrapper Create_MinDiscrete_OperatorWrapper(Operator op) { return new MinDiscrete_OperatorWrapper(op); }
         private static MinFollower_OperatorWrapper Create_MinFollower_OperatorWrapper(Operator op) { return new MinFollower_OperatorWrapper(op); }
-        private static Multiply_OperatorWrapper Create_Multiply_OperatorWrapper(Operator op) { return new Multiply_OperatorWrapper(op); }
+        private static MultiplyWithOrigin_OperatorWrapper Create_MultiplyWithOrigin_OperatorWrapper(Operator op) { return new MultiplyWithOrigin_OperatorWrapper(op); }
         private static Narrower_OperatorWrapper Create_Narrower_OperatorWrapper(Operator op) { return new Narrower_OperatorWrapper(op); }
         private static Negative_OperatorWrapper Create_Negative_OperatorWrapper(Operator op) { return new Negative_OperatorWrapper(op); }
         private static Noise_OperatorWrapper Create_Noise_OperatorWrapper(Operator op) { return new Noise_OperatorWrapper(op); }

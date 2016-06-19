@@ -6,14 +6,14 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Multiply_OperatorWrapper : OperatorWrapperBase
+    public class MultiplyWithOrigin_OperatorWrapper : OperatorWrapperBase
     {
         private const int A_INDEX = 0;
         private const int B_INDEX = 1;
         private const int ORIGIN_INDEX = 2;
         private const int RESULT_INDEX = 0;
 
-        public Multiply_OperatorWrapper(Operator op)
+        public MultiplyWithOrigin_OperatorWrapper(Operator op)
             :base(op)
         { }
 
@@ -75,7 +75,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             return name;
         }
 
-        public static implicit operator Outlet(Multiply_OperatorWrapper wrapper)
+        public static implicit operator Outlet(MultiplyWithOrigin_OperatorWrapper wrapper)
         {
             if (wrapper == null) return null;
 

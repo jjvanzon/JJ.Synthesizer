@@ -154,7 +154,7 @@ namespace JJ.Business.Synthesizer.Tests
 
                 PatchManager x = new PatchManager(new PatchRepositories(repositories));
 
-                var outlet = x.Multiply(x.Curve(curve), x.Sine(x.Number(440)));
+                var outlet = x.MultiplyWithOrigin(x.Curve(curve), x.Sine(x.Number(440)));
 
                 CultureHelper.SetThreadCultureName("nl-NL");
 
@@ -529,7 +529,7 @@ namespace JJ.Business.Synthesizer.Tests
                 AudioFileOutputManager audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
                 PatchManager patchManager = new PatchManager(new PatchRepositories(repositories));
 
-                Outlet outlet = x.Multiply(x.Noise(), x.Number(Int16.MaxValue));
+                Outlet outlet = x.MultiplyWithOrigin(x.Noise(), x.Number(Int16.MaxValue));
 
                 IPatchCalculator patchCalculator = patchManager.CreateCalculator(outlet, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
 
@@ -579,7 +579,7 @@ namespace JJ.Business.Synthesizer.Tests
                 PatchManager x = new PatchManager(new PatchRepositories(repositories));
                 AudioFileOutputManager audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
 
-                Outlet noise = x.Multiply(x.Noise(), x.Number(amplification));
+                Outlet noise = x.MultiplyWithOrigin(x.Noise(), x.Number(amplification));
                 Outlet resampledNoise = x.Resample(noise, x.Number(alternativeSamplingRate));
 
                 IPatchCalculator patchCalculator;
@@ -715,7 +715,7 @@ namespace JJ.Business.Synthesizer.Tests
                     new NodeInfo(0, NodeTypeEnum.Line)
                 );
 
-                Outlet curveIn = x.Multiply(x.Curve(curve), x.Number(amplification));
+                Outlet curveIn = x.MultiplyWithOrigin(x.Curve(curve), x.Number(amplification));
                 Outlet resampled = x.Resample(curveIn, x.Number(alternativeSamplingRate));
 
                 IPatchCalculator patchCalculator;
@@ -762,7 +762,7 @@ namespace JJ.Business.Synthesizer.Tests
 
                 Curve curve = curveManager.Create(duration, samplingRate1, samplingRate2);
 
-                Outlet input = x.Multiply(x.Noise(), x.Number(amplification));
+                Outlet input = x.MultiplyWithOrigin(x.Noise(), x.Number(amplification));
                 Outlet outlet = x.Resample(input, x.Curve(curve));
 
                 IPatchCalculator patchCalculator = x.CreateCalculator(outlet, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
@@ -831,7 +831,7 @@ namespace JJ.Business.Synthesizer.Tests
                 double frequency = 1.0;
                 //double phase = 0.128;
                 double phase = 0;
-                Outlet sine = x.Multiply(x.Number(volume), x.Sine(x.Number(frequency), x.Number(phase)));
+                Outlet sine = x.MultiplyWithOrigin(x.Number(volume), x.Sine(x.Number(frequency), x.Number(phase)));
 
                 double newSamplingRate = 4;
                 Outlet resampled = x.Resample(sine, x.Number(newSamplingRate));

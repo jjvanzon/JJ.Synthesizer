@@ -133,8 +133,8 @@
   <data name="Inlets" xml:space="preserve">
     <value>Inlets</value>
   </data>
-  <data name="Multiply" xml:space="preserve">
-    <value>×</value>
+  <data name="MultiplyWithOrigin" xml:space="preserve">
+    <value>× (with origin)</value>
   </data>
   <data name="Nodes" xml:space="preserve">
     <value>Nodes</value>
