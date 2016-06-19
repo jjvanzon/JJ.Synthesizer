@@ -88,6 +88,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.Stretch, VisitStretch },
                 { OperatorTypeEnum.Subtract, VisitSubtract },
                 { OperatorTypeEnum.SumContinuous, VisitSumContinuous },
+                { OperatorTypeEnum.SumFollower, VisitSumFollower },
                 { OperatorTypeEnum.TimePower, VisitTimePower },
                 { OperatorTypeEnum.ToggleTrigger, VisitToggleTrigger },
                 { OperatorTypeEnum.Triangle, VisitTriangle },
@@ -568,6 +569,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         [DebuggerHidden]
         protected virtual void VisitSumContinuous(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
+
+        [DebuggerHidden]
+        protected virtual void VisitSumFollower(Operator op)
         {
             VisitOperatorBase(op);
         }

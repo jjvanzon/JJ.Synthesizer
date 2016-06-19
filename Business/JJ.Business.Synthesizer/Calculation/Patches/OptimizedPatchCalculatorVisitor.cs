@@ -299,40 +299,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitAverageFollower(Operator op)
-        {
-            var wrapper = new AverageFollower_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
-
-            base.VisitAverageFollower(op);
-
-            OperatorCalculatorBase calculator;
-
-            OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase sliceLengthCalculator = _stack.Pop();
-            OperatorCalculatorBase sampleCountCalculator = _stack.Pop();
-
-            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
-            double signal = signalCalculator.Calculate();
-            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
-
-            // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
-            sliceLengthCalculator = sliceLengthCalculator ?? new Number_OperatorCalculator(0.02);
-            sampleCountCalculator = sampleCountCalculator ?? new Number_OperatorCalculator(100.0);
-
-            if (signalIsConst)
-            {
-                calculator = signalCalculator;
-            }
-            else
-            {
-                calculator = new AverageFollower_OperatorCalculator(signalCalculator, sliceLengthCalculator, sampleCountCalculator, dimensionStack);
-            }
-
-            _stack.Push(calculator);
-        }
-
         protected override void VisitAverageContinuous(Operator op)
         {
             var wrapper = new OperatorWrapperBase_WithDimension(op);
@@ -439,6 +405,39 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 default:
                     calculator = new AverageDiscrete_OperatorCalculator(truncatedOperandCalculatorList);
                     break;
+            }
+
+            _stack.Push(calculator);
+        }
+
+        protected override void VisitAverageFollower(Operator op)
+        {
+            var wrapper = new AverageFollower_OperatorWrapper(op);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+
+            base.VisitAverageFollower(op);
+
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase sliceLengthCalculator = _stack.Pop();
+            OperatorCalculatorBase sampleCountCalculator = _stack.Pop();
+
+            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
+            // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
+            sliceLengthCalculator = sliceLengthCalculator ?? new Number_OperatorCalculator(0.02);
+            sampleCountCalculator = sampleCountCalculator ?? new Number_OperatorCalculator(100.0);
+
+            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+
+            if (signalIsConst)
+            {
+                calculator = signalCalculator;
+            }
+            else
+            {
+                calculator = new AverageFollower_OperatorCalculator(signalCalculator, sliceLengthCalculator, sampleCountCalculator, dimensionStack);
             }
 
             _stack.Push(calculator);
@@ -1816,12 +1815,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase sampleCountCalculator = _stack.Pop();
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
-            double signal = signalCalculator.Calculate();
-            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
-
             // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
             sliceLengthCalculator = sliceLengthCalculator ?? new Number_OperatorCalculator(0.02f);
             sampleCountCalculator = sampleCountCalculator ?? new Number_OperatorCalculator(100f);
+
+            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
 
             dimensionStack.Pop();
 
@@ -1970,12 +1968,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase sampleCountCalculator = _stack.Pop();
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
-            double signal = signalCalculator.Calculate();
-            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
-
             // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
             sliceLengthCalculator = sliceLengthCalculator ?? new Number_OperatorCalculator(0.02f);
             sampleCountCalculator = sampleCountCalculator ?? new Number_OperatorCalculator(100f);
+
+            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
 
             dimensionStack.Pop();
 
@@ -3950,6 +3947,39 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
 
             _stack.Push(operatorCalculator);
+        }
+
+        protected override void VisitSumFollower(Operator op)
+        {
+            var wrapper = new SumFollower_OperatorWrapper(op);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+
+            base.VisitSumFollower(op);
+
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase sliceLengthCalculator = _stack.Pop();
+            OperatorCalculatorBase sampleCountCalculator = _stack.Pop();
+
+            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
+            // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
+            sliceLengthCalculator = sliceLengthCalculator ?? new Number_OperatorCalculator(0.02);
+            sampleCountCalculator = sampleCountCalculator ?? new Number_OperatorCalculator(100.0);
+
+            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+
+            if (signalIsConst)
+            {
+                calculator = signalCalculator;
+            }
+            else
+            {
+                calculator = new SumFollower_OperatorCalculator(signalCalculator, sliceLengthCalculator, sampleCountCalculator, dimensionStack);
+            }
+
+            _stack.Push(calculator);
         }
 
         protected override void VisitTimePower(Operator op)

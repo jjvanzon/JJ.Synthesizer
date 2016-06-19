@@ -85,6 +85,7 @@
     <Compile Include="Calculation\Curves\CurveCalculator_MinX.cs" />
     <Compile Include="Calculation\DimensionStackCollection.cs" />
     <Compile Include="Calculation\Operators\2016-06-17 Backup of AverageDiscrete_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\SumFollower_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\SumContinuous_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\AverageDiscrete_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\AverageContinuous_OperatorCalculator.cs" />
