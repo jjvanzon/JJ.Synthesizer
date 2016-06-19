@@ -601,8 +601,8 @@
   <data name="SampleCount" xml:space="preserve">
     <value>Sample Count</value>
   </data>
-  <data name="TimeSliceDuration" xml:space="preserve">
-    <value>Time Slice Duration</value>
+  <data name="SliceLength" xml:space="preserve">
+    <value>Slice Length</value>
   </data>
   <data name="CubicAbruptSlope" xml:space="preserve">
     <value>Cubic Abrupt Slope</value>

@@ -62,7 +62,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public const string Signal = "Signal";
         public const string SpeakerSetup = "SpeakerSetup";
         public const string StartTime = "StartTime";
-        public const string TimeSliceDuration = "TimeSliceDuration";
+        public const string SliceLength = "SliceLength";
         public const string UnderlyingPatch = "UnderlyingPatch";
         public const string UnderlyingPatchID = "UnderlyingPatchID";
         public const string Till = "Till";

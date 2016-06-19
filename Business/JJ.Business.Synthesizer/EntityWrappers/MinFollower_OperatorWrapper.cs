@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
     public class MinFollower_OperatorWrapper : OperatorWrapperBase
     {
         private const int RESULT_INDEX = 0;
-        private const int TIME_SLICE_DURATION_INDEX = 1;
+        private const int SLICE_LENGTH_INDEX = 1;
         private const int SAMPLE_COUNT_INDEX = 2;
         private const int SIGNAL_INDEX = 0;
 
@@ -25,10 +25,10 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX).LinkTo(value); }
         }
 
-        public Outlet TimeSliceDuration
+        public Outlet SliceLength
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, TIME_SLICE_DURATION_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, TIME_SLICE_DURATION_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInputOutlet(WrappedOperator, SLICE_LENGTH_INDEX); }
+            set { OperatorHelper.GetInlet(WrappedOperator, SLICE_LENGTH_INDEX).LinkTo(value); }
         }
 
         public Outlet SampleCount
@@ -58,9 +58,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
                         return name;
                     }
 
-                case TIME_SLICE_DURATION_INDEX:
+                case SLICE_LENGTH_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => TimeSliceDuration);
+                        string name = ResourceHelper.GetPropertyDisplayName(() => SliceLength);
                         return name;
                     }
 

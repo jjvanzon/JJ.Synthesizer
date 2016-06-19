@@ -53,11 +53,11 @@ namespace JJ.Business.Synthesizer.Api
 
         public AverageFollower_OperatorWrapper AverageFollower(
             Outlet signal = null, 
-            Outlet timeSliceDuration = null, 
+            Outlet sliceLength = null, 
             Outlet sampleCount = null,
             DimensionEnum dimension = DimensionEnum.Time)
         {
-            return _patchManager.AverageFollower(signal, timeSliceDuration, sampleCount, dimension);
+            return _patchManager.AverageFollower(signal, sliceLength, sampleCount, dimension);
         }
 
         public AverageContinuous_OperatorWrapper AverageContinuous(
@@ -342,11 +342,11 @@ namespace JJ.Business.Synthesizer.Api
 
         public MaxFollower_OperatorWrapper MaxFollower(
             Outlet signal = null, 
-            Outlet timeSliceDuration = null, 
+            Outlet sliceLength = null, 
             Outlet sampleCount = null,
             DimensionEnum dimension = DimensionEnum.Time)
         {
-            return _patchManager.MaxFollower(signal, timeSliceDuration, sampleCount, dimension);
+            return _patchManager.MaxFollower(signal, sliceLength, sampleCount, dimension);
         }
 
         public MinContinuous_OperatorWrapper MinContinuous(
@@ -371,11 +371,11 @@ namespace JJ.Business.Synthesizer.Api
 
         public MinFollower_OperatorWrapper MinFollower(
             Outlet signal = null, 
-            Outlet timeSliceDuration = null, 
+            Outlet sliceLength = null, 
             Outlet sampleCount = null,
             DimensionEnum dimension = DimensionEnum.Time)
         {
-            return _patchManager.MinFollower(signal, timeSliceDuration, sampleCount, dimension);
+            return _patchManager.MinFollower(signal, sliceLength, sampleCount, dimension);
         }
 
         public Multiply_OperatorWrapper Multiply(Outlet a = null, Outlet b = null, Outlet origin = null)

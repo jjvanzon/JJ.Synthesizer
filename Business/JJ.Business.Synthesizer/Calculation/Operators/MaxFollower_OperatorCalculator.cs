@@ -9,10 +9,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         public MaxFollower_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
-            OperatorCalculatorBase timeSliceDurationCalculator,
+            OperatorCalculatorBase sliceLengthCalculator,
             OperatorCalculatorBase sampleCountCalculator,
             DimensionStack dimensionStack)
-            : base(signalCalculator, timeSliceDurationCalculator, sampleCountCalculator, dimensionStack)
+            : base(signalCalculator, sliceLengthCalculator, sampleCountCalculator, dimensionStack)
         { }
 
         protected override double GetMaxOrMin(RedBlackTree<double, double> redBlackTree)

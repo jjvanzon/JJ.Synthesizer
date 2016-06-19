@@ -83,7 +83,7 @@ namespace JJ.Business.Synthesizer
 
         public AverageFollower_OperatorWrapper AverageFollower(
             Outlet signal = null, 
-            Outlet timeSliceDuration = null, 
+            Outlet sliceLength = null, 
             Outlet sampleCount = null,
             DimensionEnum dimension = DimensionEnum.Time)
         {
@@ -92,7 +92,7 @@ namespace JJ.Business.Synthesizer
             var wrapper = new AverageFollower_OperatorWrapper(op)
             {
                 Signal = signal,
-                TimeSliceDuration = timeSliceDuration,
+                SliceLength = sliceLength,
                 SampleCount = sampleCount,
                 Dimension = dimension
             };
@@ -729,7 +729,7 @@ namespace JJ.Business.Synthesizer
 
         public MaxFollower_OperatorWrapper MaxFollower(
             Outlet signal = null,
-            Outlet timeSliceDuration = null,
+            Outlet sliceLength = null,
             Outlet sampleCount = null,
             DimensionEnum dimension = DimensionEnum.Time)
         {
@@ -738,7 +738,7 @@ namespace JJ.Business.Synthesizer
             var wrapper = new MaxFollower_OperatorWrapper(op)
             {
                 Signal = signal,
-                TimeSliceDuration = timeSliceDuration,
+                SliceLength = sliceLength,
                 SampleCount = sampleCount,
                 Dimension = dimension
             };
@@ -793,7 +793,7 @@ namespace JJ.Business.Synthesizer
 
         public MinFollower_OperatorWrapper MinFollower(
             Outlet signal = null,
-            Outlet timeSliceDuration = null,
+            Outlet sliceLength = null,
             Outlet sampleCount = null, 
             DimensionEnum dimension = DimensionEnum.Time)
         {
@@ -802,7 +802,7 @@ namespace JJ.Business.Synthesizer
             var wrapper = new MinFollower_OperatorWrapper(op)
             {
                 Signal = signal,
-                TimeSliceDuration = timeSliceDuration,
+                SliceLength = sliceLength,
                 SampleCount = sampleCount,
                 Dimension = dimension
             };

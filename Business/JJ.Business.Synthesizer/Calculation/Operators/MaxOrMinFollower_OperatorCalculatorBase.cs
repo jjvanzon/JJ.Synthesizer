@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal abstract class MaxOrMinFollower_OperatorCalculatorBase : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
-        private readonly OperatorCalculatorBase _timeSliceDurationCalculator;
+        private readonly OperatorCalculatorBase _sliceLengthCalculator;
         private readonly OperatorCalculatorBase _sampleCountCalculator;
         private readonly DimensionStack _dimensionStack;
         private readonly int _nextDimensionStackIndex;
@@ -33,27 +33,27 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _maxOrMin;
         private double _previousPosition;
         private double _nextSamplePosition;
-        private double _timeSliceDuration;
+        private double _sliceLength;
 
         public MaxOrMinFollower_OperatorCalculatorBase(
             OperatorCalculatorBase signalCalculator,
-            OperatorCalculatorBase timeSliceDurationCalculator,
+            OperatorCalculatorBase sliceLengthCalculator,
             OperatorCalculatorBase sampleCountCalculator,
             DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[]
             {
                 signalCalculator,
-                timeSliceDurationCalculator,
+                sliceLengthCalculator,
                 sampleCountCalculator
             })
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase_OnlyUsedUponResetState(timeSliceDurationCalculator, () => timeSliceDurationCalculator);
+            OperatorCalculatorHelper.AssertOperatorCalculatorBase_OnlyUsedUponResetState(sliceLengthCalculator, () => sliceLengthCalculator);
             OperatorCalculatorHelper.AssertOperatorCalculatorBase_OnlyUsedUponResetState(sampleCountCalculator, () => sampleCountCalculator);
             OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
 
             _signalCalculator = signalCalculator;
-            _timeSliceDurationCalculator = timeSliceDurationCalculator;
+            _sliceLengthCalculator = sliceLengthCalculator;
             _sampleCountCalculator = sampleCountCalculator;
             _dimensionStack = dimensionStack;
             _previousDimensionStackIndex = dimensionStack.CurrentIndex;
@@ -87,7 +87,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     // This prevents excessive sampling in case of a large jump in position.
                     // (Also takes care of the assumption that position would start at 0.)
                     double positionDifference = position - _nextSamplePosition;
-                    double positionDifferenceTooMuch = positionDifference - _timeSliceDuration;
+                    double positionDifferenceTooMuch = positionDifference - _sliceLength;
                     if (positionDifferenceTooMuch > 0.0)
                     {
                         _nextSamplePosition += positionDifferenceTooMuch;
@@ -125,7 +125,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     // This prevents excessive sampling in case of a large jump in position.
                     // (Also takes care of the assumption that position would start at 0.)
                     double positionDifference = _nextSamplePosition - position;
-                    double positionDifferenceTooMuch = positionDifference - _timeSliceDuration;
+                    double positionDifferenceTooMuch = positionDifference - _sliceLength;
                     if (positionDifferenceTooMuch > 0.0)
                     {
                         _nextSamplePosition -= positionDifferenceTooMuch;
@@ -202,7 +202,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _maxOrMin = 0.0;
             _nextSamplePosition = 0.0;
 
-            _timeSliceDuration = _timeSliceDurationCalculator.Calculate();
+            _sliceLength = _sliceLengthCalculator.Calculate();
             _sampleCountDouble = _sampleCountCalculator.Calculate();
 
             if (ConversionHelper.CanCastToNonNegativeInt32(_sampleCountDouble))
@@ -214,7 +214,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 _sampleCountDouble = 0.0;
             }
 
-            _sampleDuration = _timeSliceDuration / _sampleCountDouble;
+            _sampleDuration = _sliceLength / _sampleCountDouble;
 
             _redBlackTree = new RedBlackTree<double, double>();
             _queue = CreateQueue();

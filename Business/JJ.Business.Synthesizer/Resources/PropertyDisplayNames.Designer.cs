@@ -1807,6 +1807,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Slice Length.
+        /// </summary>
+        public static string SliceLength {
+            get {
+                return ResourceManager.GetString("SliceLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Slow Down.
         /// </summary>
         public static string SlowDown {
@@ -2010,15 +2019,6 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string TimePower {
             get {
                 return ResourceManager.GetString("TimePower", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Time Slice Duration.
-        /// </summary>
-        public static string TimeSliceDuration {
-            get {
-                return ResourceManager.GetString("TimeSliceDuration", resourceCulture);
             }
         }
         
