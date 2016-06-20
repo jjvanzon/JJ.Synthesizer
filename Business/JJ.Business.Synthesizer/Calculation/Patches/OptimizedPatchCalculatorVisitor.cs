@@ -1971,7 +1971,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             operandCalculators = TruncateOperandCalculatorList(operandCalculators, x => x.Product());
 
-            // Handle zero.
+            // Exclude ones
+            operandCalculators = operandCalculators.Except(x => x is Number_OperatorCalculator &&
+                                                                x.Calculate() == 1.0)
+                                                   .ToList();
+            // Handle zeroes
             bool isZero = operandCalculators.Any(x => x is Number_OperatorCalculator &&
                                                       x.Calculate() == 0.0);
             if (isZero)
