@@ -1968,16 +1968,32 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 OperatorCalculatorBase operandCalculator = _stack.Pop();
                 operandCalculators.Add(operandCalculator);
             }
-
             operandCalculators = TruncateOperandCalculatorList(operandCalculators, x => x.Product());
 
-            // Exclude ones
-            operandCalculators = operandCalculators.Except(x => x is Number_OperatorCalculator &&
-                                                                x.Calculate() == 1.0)
-                                                   .ToList();
-            // Handle zeroes
-            bool isZero = operandCalculators.Any(x => x is Number_OperatorCalculator &&
-                                                      x.Calculate() == 0.0);
+            // Get the constant, to handle 1 and 0.
+            OperatorCalculatorBase constOperandCalculator = operandCalculators.Where(x => x is Number_OperatorCalculator).SingleOrDefault();
+
+            bool isZero = false;
+            double? constValue = null;
+
+            if (constOperandCalculator != null)
+            {
+                constValue = constOperandCalculator.Calculate();
+
+                if (constValue.Value == 0.0)
+                {
+                    isZero = true;
+                }
+                else if (constValue.Value == 1.0)
+                {
+                    // Exclude ones
+                    operandCalculators = operandCalculators.Except(constOperandCalculator).ToArray();
+                }
+            }
+
+            IList<OperatorCalculatorBase> varOperandCalculators = operandCalculators.Except(constOperandCalculator).ToArray();
+
+            // Handle zero
             if (isZero)
             {
                 calculator = new Zero_OperatorCalculator();
@@ -1994,23 +2010,15 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                         calculator = operandCalculators[0];
                         break;
 
-                    case 2:
-                        OperatorCalculatorBase constCalculator = operandCalculators.Where(x => x is Number_OperatorCalculator)
-                                                                                   .SingleOrDefault();
-                        if (constCalculator != null)
+                    default:
+                        if (constOperandCalculator == null)
                         {
-                            double constValue = constCalculator.Calculate();
-                            OperatorCalculatorBase varCalculator = operandCalculators.Except(constCalculator).Single();
-                            calculator = new Multiply_OperatorCalculator_ConstA_VarB(constValue, varCalculator);
+                            calculator = CreateMultiplyCalculator(operandCalculators);
                         }
                         else
                         {
-                            calculator = new Multiply_OperatorCalculator_VarA_VarB(operandCalculators[0], operandCalculators[1]);
+                            calculator = CreateMultiplyCalculatorWithConst(constValue.Value, varOperandCalculators);
                         }
-                        break;
-
-                    default:
-                        calculator = CreateMultiplyCalculator_WithThreeOrMoreOperands(operandCalculators);
                         break;
                 }
             }

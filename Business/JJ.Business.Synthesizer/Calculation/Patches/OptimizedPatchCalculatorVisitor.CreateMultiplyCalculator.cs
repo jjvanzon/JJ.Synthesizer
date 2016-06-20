@@ -11,12 +11,18 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 {
     internal partial class OptimizedPatchCalculatorVisitor
     {
-	    private OperatorCalculatorBase CreateMultiplyCalculator_WithThreeOrMoreOperands(IList<OperatorCalculatorBase> operandCalculators)
+	    private OperatorCalculatorBase CreateMultiplyCalculator(IList<OperatorCalculatorBase> operandCalculators)
         {
-			if (operandCalculators.Count < 3) throw new LessThanException(() => operandCalculators.Count, 3);
+			if (operandCalculators.Count < 2) throw new LessThanException(() => operandCalculators.Count, 2);
 
             switch (operandCalculators.Count)
             {
+                case 2:
+                    return new Multiply_OperatorCalculator2
+					(
+						operandCalculators[0],
+						operandCalculators[1]
+					);
                 case 3:
                     return new Multiply_OperatorCalculator3
 					(

@@ -6,7 +6,8 @@
 
 <#@ output extension=".cs" #>
 
-<# int maxOperands = 32; #>
+<# int minVarOperands = 1; #>
+<# int maxVarOperands = 31; #>
 
 using System;
 using System.Collections.Generic;
@@ -18,20 +19,23 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
 
 <# 
-	for (int i = 3; i <= maxOperands; i++)
+	for (int i = minVarOperands; i <= maxVarOperands; i++)
 	{
 #>
-		internal class Multiply_OperatorCalculator<#= i #> : OperatorCalculatorBase_WithChildCalculators
+		internal class Multiply_OperatorCalculator_1Const_<#= i #>Var : OperatorCalculatorBase_WithChildCalculators
 		{
+			private readonly double _constValue;
 <# 
 			for (int j = 1; j <= i; j++)
 			{
 #>
-				private OperatorCalculatorBase _operandCalculator<#= j #>;
+				private readonly OperatorCalculatorBase _operandCalculator<#= j #>;
 <# 
 			}
 #>
-			public Multiply_OperatorCalculator<#= i #>(
+			
+			public Multiply_OperatorCalculator_1Const_<#= i #>Var(
+				double constValue,
 <#
 				for (int j = 1; j <= i; j++)
 				{
@@ -48,8 +52,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					}
 				}
 #>
-			: base
-			(new OperatorCalculatorBase[] { 
+			: base(new OperatorCalculatorBase[] { 
 <#
 				for (int j = 1; j <= i; j++)
 				{
@@ -64,6 +67,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #>
 			})
 			{
+				_constValue = constValue;
 <#
 				for (int j = 1; j <= i; j++)
 				{
@@ -78,7 +82,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
-				return 
+				return _constValue *
 <#
 					for (int j = 1; j <= i; j++)
 					{

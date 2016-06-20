@@ -5,6 +5,7 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".cs" #>
 
+<# int minOperands = 2; #>
 <# int maxOperands = 32; #>
 
 using JJ.Data.Synthesizer;
@@ -18,14 +19,14 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 {
     internal partial class OptimizedPatchCalculatorVisitor
     {
-	    private OperatorCalculatorBase CreateMultiplyCalculator_WithThreeOrMoreOperands(IList<OperatorCalculatorBase> operandCalculators)
+	    private OperatorCalculatorBase CreateMultiplyCalculator(IList<OperatorCalculatorBase> operandCalculators)
         {
-			if (operandCalculators.Count < 3) throw new LessThanException(() => operandCalculators.Count, 3);
+			if (operandCalculators.Count < <#= minOperands #>) throw new LessThanException(() => operandCalculators.Count, <#= minOperands #>);
 
             switch (operandCalculators.Count)
             {
 <#
-	for (int i = 3; i <= maxOperands; i++)
+	for (int i = minOperands; i <= maxOperands; i++)
 	{
 #>
                 case <#= i #>:
