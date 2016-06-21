@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 {
     internal partial class OptimizedPatchCalculatorVisitor
     {
-	    private OperatorCalculatorBase CreateMultiplyCalculator(IList<OperatorCalculatorBase> operandCalculators)
+	    private OperatorCalculatorBase CreateMultiplyCalculatorOnlyVars(IList<OperatorCalculatorBase> operandCalculators)
         {
 			if (operandCalculators.Count < <#= minOperands #>) throw new LessThanException(() => operandCalculators.Count, <#= minOperands #>);
 
@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 	{
 #>
                 case <#= i #>:
-                    return new Multiply_OperatorCalculator<#= i #>
+                    return new Multiply_OperatorCalculator_<#= i #>Vars
 					(
 <#
 		for (int j = 0; j < i; j++)

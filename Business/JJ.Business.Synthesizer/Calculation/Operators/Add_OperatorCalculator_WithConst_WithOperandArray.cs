@@ -6,12 +6,12 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Multiply_OperatorCalculator_WithConst_WithOperandArray : OperatorCalculatorBase_WithChildCalculators
+    internal class Add_OperatorCalculator_WithConst_WithOperandArray : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly double _constValue;
         private readonly OperatorCalculatorBase[] _varOperandCalculators;
 
-        public Multiply_OperatorCalculator_WithConst_WithOperandArray(double constValue, IList<OperatorCalculatorBase> varOperandCalculators)
+        public Add_OperatorCalculator_WithConst_WithOperandArray(double constValue, IList<OperatorCalculatorBase> varOperandCalculators)
             : base(varOperandCalculators)
         {
             if (varOperandCalculators == null) throw new NullException(() => varOperandCalculators);
@@ -24,16 +24,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double product = _constValue;
+            double sum = _constValue;
 
             for (int i = 0; i < _varOperandCalculators.Length; i++)
             {
                 double value = _varOperandCalculators[i].Calculate();
 
-                product *= value;
+                sum += value;
             }
 
-            return product;
+            return sum;
         }
     }
 }

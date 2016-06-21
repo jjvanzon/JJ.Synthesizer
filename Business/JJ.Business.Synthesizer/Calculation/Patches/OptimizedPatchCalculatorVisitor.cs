@@ -227,23 +227,20 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     calculator = operandCalculators[0];
                     break;
 
-                case 2:
-                    OperatorCalculatorBase constCalculator = operandCalculators.Where(x => x is Number_OperatorCalculator)
-                                                                               .SingleOrDefault();
-                    if (constCalculator != null)
+                default:
+                    OperatorCalculatorBase constOperandCalculator = operandCalculators.Where(x => x is Number_OperatorCalculator)
+                                                                                      .SingleOrDefault();
+                    if (constOperandCalculator == null)
                     {
-                        double constValue = constCalculator.Calculate();
-                        OperatorCalculatorBase varCalculator = operandCalculators.Except(constCalculator).Single();
-                        calculator = new Add_OperatorCalculator_ConstA_VarB(constValue, varCalculator);
+                        calculator = CreateAddCalculatorOnlyVars(operandCalculators);
                     }
                     else
                     {
-                        calculator = new Add_OperatorCalculator_VarA_VarB(operandCalculators[0], operandCalculators[1]);
-                    }
-                    break;
+                        IList<OperatorCalculatorBase> varOperandCalculators = operandCalculators.Except(constOperandCalculator).ToArray();
+                        double constValue = constOperandCalculator.Calculate();
 
-                default:
-                    calculator = CreateAddCalculator_WithThreeOrMoreOperands(operandCalculators);
+                        calculator = CreateAddCalculatorWithConst(constValue, varOperandCalculators);
+                    }
                     break;
             }
 
@@ -2013,7 +2010,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     default:
                         if (constOperandCalculator == null)
                         {
-                            calculator = CreateMultiplyCalculator(operandCalculators);
+                            calculator = CreateMultiplyCalculatorOnlyVars(operandCalculators);
                         }
                         else
                         {
@@ -2025,7 +2022,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             _stack.Push(calculator);
         }
-
 
         protected override void VisitMultiplyWithOrigin(Operator op)
         {
@@ -2084,7 +2080,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (!aIsConst && !bIsConst && originIsConstZero)
             {
-                calculator = new Multiply_OperatorCalculator2(aCalculator, bCalculator);
+                calculator = new Multiply_OperatorCalculator_2Vars(aCalculator, bCalculator);
             }
             else if (aIsConst && !bIsConst && originIsConst)
             {

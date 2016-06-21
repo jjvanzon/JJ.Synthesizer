@@ -1,0 +1,54 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+
+<# int minOperands = 2; #>
+<# int maxOperands = 32; #>
+
+using JJ.Data.Synthesizer;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using JJ.Framework.Reflection.Exceptions;
+using JJ.Business.Synthesizer.Calculation.Operators;
+
+namespace JJ.Business.Synthesizer.Calculation.Patches
+{
+    internal partial class OptimizedPatchCalculatorVisitor
+    {
+	    private OperatorCalculatorBase CreateAddCalculatorOnlyVars(IList<OperatorCalculatorBase> operandCalculators)
+        {
+			if (operandCalculators.Count < <#= minOperands #>) throw new LessThanException(() => operandCalculators.Count, <#= minOperands #>);
+
+            switch (operandCalculators.Count)
+            {
+<#
+	for (int i = minOperands; i <= maxOperands; i++)
+	{
+#>
+                case <#= i #>:
+                    return new Add_OperatorCalculator_<#= i #>Vars
+					(
+<#
+		for (int j = 0; j < i; j++)
+		{
+#>
+						operandCalculators[<#=j#>]<#
+						if (j != i - 1) Write(",");#>
+
+<#
+		}
+#>
+					);
+<#
+	}
+#>
+                default:
+                    return new Add_OperatorCalculator_WithOperandArray(operandCalculators.ToArray());
+            }
+        }
+	}
+}

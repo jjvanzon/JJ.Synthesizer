@@ -5,7 +5,8 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".cs" #>
 
-<# int maxAddOperands = 32; #>
+<# int minVarOperands = 1; #>
+<# int maxVarOperands = 31; #>
 
 using JJ.Data.Synthesizer;
 using System;
@@ -18,25 +19,27 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 {
     internal partial class OptimizedPatchCalculatorVisitor
     {
-	    private OperatorCalculatorBase CreateAddCalculator_WithThreeOrMoreOperands(IList<OperatorCalculatorBase> operandCalculators)
+	    private OperatorCalculatorBase CreateAddCalculatorWithConst(double constValue, IList<OperatorCalculatorBase> varOperandCalculators)
         {
-			if (operandCalculators.Count < 3) throw new LessThanException(() => operandCalculators.Count, 3);
+			if (varOperandCalculators.Count < <#= minVarOperands #>) throw new LessThanException(() => varOperandCalculators.Count, <#= minVarOperands #>);
 
-            switch (operandCalculators.Count)
+            switch (varOperandCalculators.Count)
             {
 <#
-	for (int i = 3; i <= maxAddOperands; i++)
+	for (int i = minVarOperands; i <= maxVarOperands; i++)
 	{
 #>
                 case <#= i #>:
-                    return new Add_OperatorCalculator<#= i #>
+                    return new Add_OperatorCalculator_1Const_<#= i #>Var
 					(
+						constValue,
 <#
 		for (int j = 0; j < i; j++)
 		{
 #>
-						operandCalculators[<#=j#>]<#
+						varOperandCalculators[<#=j#>]<#
 						if (j != i - 1) Write(",");#>
+
 <#
 		}
 #>
@@ -45,7 +48,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 	}
 #>
                 default:
-                    return new Add_OperatorCalculator_WithOperandArray(operandCalculators.ToArray());
+                    return new Add_OperatorCalculator_WithConst_WithOperandArray(constValue, varOperandCalculators);
             }
         }
 	}

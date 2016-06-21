@@ -213,7 +213,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 						varOperandCalculators[14]
 					);
                 default:
-                    return new Multiply_OperatorCalculator_WithConst_WithOperandArray(constValue, varOperandCalculators);
+                    return new Multiply_OperatorCalculator_WithOperandArray_WithConst(constValue, varOperandCalculators);
             }
         }
 	}
