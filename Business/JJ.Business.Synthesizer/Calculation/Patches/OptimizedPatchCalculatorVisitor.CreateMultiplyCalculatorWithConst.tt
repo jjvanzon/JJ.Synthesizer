@@ -6,7 +6,7 @@
 <#@ output extension=".cs" #>
 
 <# int minVarOperands = 1; #>
-<# int maxVarOperands = 31; #>
+<# int maxVarOperands = 15; #>
 
 using JJ.Data.Synthesizer;
 using System;

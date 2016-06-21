@@ -7,7 +7,7 @@
 <#@ output extension=".cs" #>
 
 <# int minOperands = 2; #>
-<# int maxOperands = 32; #>
+<# int maxOperands = 16; #>
 
 using System;
 using System.Collections.Generic;

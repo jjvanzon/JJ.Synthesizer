@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double product = _firstOperandCalculator.Calculate(); ;
+            double product = _firstOperandCalculator.Calculate();
 
             for (int i = 0; i < _remainingOperandCalculators.Length; i++)
             {
