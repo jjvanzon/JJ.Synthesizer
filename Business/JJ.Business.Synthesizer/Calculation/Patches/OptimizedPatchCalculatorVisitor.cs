@@ -2076,41 +2076,15 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (aIsConst && !bIsConst && originIsConstZero)
             {
-                calculator = new MultiplyWithOrigin_OperatorCalculator_ConstA_VarB_NoOrigin(a, bCalculator);
+                calculator = new Multiply_OperatorCalculator_1Const_1Var(a, bCalculator);
             }
             else if (!aIsConst && bIsConst && originIsConstZero)
             {
-                var castedACalculator1 = aCalculator as MultiplyWithOrigin_OperatorCalculator_VarA_VarB_NoOrigin;
-                var castedACalculator2 = aCalculator as MultiplyWithOrigin_OperatorCalculator_VarA_ConstB_NoOrigin;
-                if (castedACalculator1 != null)
-                {
-                    calculator = new MultiplyWithOrigin_OperatorCalculator_AnotherMulWithVarB_ConstB_NoOrigin(castedACalculator1, b);
-                }
-                else if (castedACalculator2 != null)
-                {
-                    calculator = new MultiplyWithOrigin_OperatorCalculator_AnotherMulWithConstB_ConstB_NoOrigin(castedACalculator2, b);
-                }
-                else
-                {
-                    calculator = new MultiplyWithOrigin_OperatorCalculator_VarA_ConstB_NoOrigin(aCalculator, b);
-                }
+                calculator = new Multiply_OperatorCalculator_1Const_1Var(b, aCalculator);
             }
             else if (!aIsConst && !bIsConst && originIsConstZero)
             {
-                var castedACalculator1 = aCalculator as MultiplyWithOrigin_OperatorCalculator_VarA_VarB_NoOrigin;
-                var castedACalculator2 = aCalculator as MultiplyWithOrigin_OperatorCalculator_VarA_ConstB_NoOrigin;
-                if (castedACalculator1 != null)
-                {
-                    calculator = new MultiplyWithOrigin_OperatorCalculator_AnotherMulWithVarB_VarB_NoOrigin(castedACalculator1, bCalculator);
-                }
-                else if (castedACalculator2 != null)
-                {
-                    calculator = new MultiplyWithOrigin_OperatorCalculator_AnotherMulWithConstB_VarB_NoOrigin(castedACalculator2, bCalculator);
-                }
-                else
-                {
-                    calculator = new MultiplyWithOrigin_OperatorCalculator_VarA_VarB_NoOrigin(aCalculator, bCalculator);
-                }
+                calculator = new Multiply_OperatorCalculator2(aCalculator, bCalculator);
             }
             else if (aIsConst && !bIsConst && originIsConst)
             {
