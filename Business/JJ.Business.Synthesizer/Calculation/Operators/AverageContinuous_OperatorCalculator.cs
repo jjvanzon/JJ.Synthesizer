@@ -10,23 +10,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase fromCalculator,
             OperatorCalculatorBase tillCalculator,
-            OperatorCalculatorBase sampleCountCalculator,
+            OperatorCalculatorBase stepCalculator,
             DimensionStack dimensionStack)
-            : base(signalCalculator, fromCalculator, tillCalculator, sampleCountCalculator, dimensionStack)
+            : base(signalCalculator, fromCalculator, tillCalculator, stepCalculator, dimensionStack)
         { }
 
         protected override void ResetNonRecursive()
         {
             base.ResetNonRecursive();
 
-            double sampleCount = _sampleCountCalculator.Calculate();
+            double step = _stepCalculator.Calculate();
 
-            if (sampleCount <= 0)
-            {
-                return;
-            }
-
-            _value /= sampleCount;
+            _aggregate *= step;
         }
     }
 }

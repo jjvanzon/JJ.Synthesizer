@@ -8,11 +8,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public abstract class OperatorWrapperBase_ContinuousAggregate : OperatorWrapperBase_WithDimension
     {
-        private const int SIGNAL_INDEX = 0;
-        private const int FROM_INDEX = 1;
-        private const int TILL_INDEX = 2;
-        private const int SAMPLE_COUNT_INDEX = 3;
-        private const int RESULT_INDEX = 0;
 
         public OperatorWrapperBase_ContinuousAggregate(Operator op)
             : base(op)
@@ -20,58 +15,58 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Signal
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, SIGNAL_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OperatorConstants.CONTINUOUS_AGGREGATE_SIGNAL_INDEX); }
+            set { OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CONTINUOUS_AGGREGATE_SIGNAL_INDEX).LinkTo(value); }
         }
 
         public Outlet From
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, FROM_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, FROM_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OperatorConstants.CONTINUOUS_AGGREGATE_FROM_INDEX); }
+            set { OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CONTINUOUS_AGGREGATE_FROM_INDEX).LinkTo(value); }
         }
 
         public Outlet Till
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, TILL_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, TILL_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OperatorConstants.CONTINUOUS_AGGREGATE_TILL_INDEX); }
+            set { OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CONTINUOUS_AGGREGATE_TILL_INDEX).LinkTo(value); }
         }
 
-        public Outlet SampleCount
+        public Outlet Step
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, SAMPLE_COUNT_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, SAMPLE_COUNT_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OperatorConstants.CONTINUOUS_AGGREGATE_STEP_INDEX); }
+            set { OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CONTINUOUS_AGGREGATE_STEP_INDEX).LinkTo(value); }
         }
 
         public Outlet Result
         {
-            get { return OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX); }
+            get { return OperatorHelper.GetOutlet(WrappedOperator, OperatorConstants.CONTINUOUS_AGGREGATE_RESULT_INDEX); }
         }
 
         public override string GetInletDisplayName(int listIndex)
         {
             switch (listIndex)
             {
-                case SIGNAL_INDEX:
+                case OperatorConstants.CONTINUOUS_AGGREGATE_SIGNAL_INDEX:
                     {
                         string name = ResourceHelper.GetPropertyDisplayName(() => Signal);
                         return name;
                     }
 
-                case FROM_INDEX:
+                case OperatorConstants.CONTINUOUS_AGGREGATE_FROM_INDEX:
                     {
                         string name = ResourceHelper.GetPropertyDisplayName(() => From);
                         return name;
                     }
 
-                case TILL_INDEX:
+                case OperatorConstants.CONTINUOUS_AGGREGATE_TILL_INDEX:
                     {
                         string name = ResourceHelper.GetPropertyDisplayName(() => Till);
                         return name;
                     }
 
-                case SAMPLE_COUNT_INDEX:
+                case OperatorConstants.CONTINUOUS_AGGREGATE_STEP_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => SampleCount);
+                        string name = ResourceHelper.GetPropertyDisplayName(() => Step);
                         return name;
                     }
 

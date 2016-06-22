@@ -151,7 +151,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Average (continuous).
+        ///   Looks up a localized string similar to Average over Dimension.
         /// </summary>
         public static string AverageContinuous {
             get {
@@ -160,7 +160,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Average (discrete).
+        ///   Looks up a localized string similar to Average.
         /// </summary>
         public static string AverageDiscrete {
             get {
@@ -169,7 +169,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Average (follower).
+        ///   Looks up a localized string similar to Average Follower.
         /// </summary>
         public static string AverageFollower {
             get {
@@ -1060,7 +1060,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Max (continuous).
+        ///   Looks up a localized string similar to Max over Dimension.
         /// </summary>
         public static string MaxContinuous {
             get {
@@ -1069,7 +1069,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Max (discrete).
+        ///   Looks up a localized string similar to Max.
         /// </summary>
         public static string MaxDiscrete {
             get {
@@ -1078,7 +1078,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Max (follower).
+        ///   Looks up a localized string similar to Max Follower.
         /// </summary>
         public static string MaxFollower {
             get {
@@ -1096,7 +1096,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Min (continuous).
+        ///   Looks up a localized string similar to Min over Dimension.
         /// </summary>
         public static string MinContinuous {
             get {
@@ -1105,7 +1105,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Min (discrete).
+        ///   Looks up a localized string similar to Min.
         /// </summary>
         public static string MinDiscrete {
             get {
@@ -1114,7 +1114,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Min (follower).
+        ///   Looks up a localized string similar to Min Follower.
         /// </summary>
         public static string MinFollower {
             get {
@@ -1942,7 +1942,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sum (continuous).
+        ///   Looks up a localized string similar to Sum over Dimension.
         /// </summary>
         public static string SumContinuous {
             get {
@@ -1951,7 +1951,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sum (follower).
+        ///   Looks up a localized string similar to Sum Follower.
         /// </summary>
         public static string SumFollower {
             get {

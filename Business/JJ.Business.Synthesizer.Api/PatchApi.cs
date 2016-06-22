@@ -50,10 +50,10 @@ namespace JJ.Business.Synthesizer.Api
             Outlet signal = null,
             Outlet from = null,
             Outlet till = null,
-            Outlet sampleCount = null,
+            Outlet step = null,
             DimensionEnum dimension = DimensionEnum.Undefined)
         {
-            return _patchManager.AverageContinuous(signal, from, till, sampleCount, dimension);
+            return _patchManager.AverageContinuous(signal, from, till, step, dimension);
         }
 
         public AverageDiscrete_OperatorWrapper AverageDiscrete(params Outlet[] operands)
@@ -319,10 +319,10 @@ namespace JJ.Business.Synthesizer.Api
             Outlet signal = null,
             Outlet from = null, 
             Outlet till = null, 
-            Outlet sampleCount = null, 
+            Outlet step = null, 
             DimensionEnum dimension = DimensionEnum.Undefined)
         {
-            return _patchManager.MaxContinuous(signal, from, till, sampleCount, dimension);
+            return _patchManager.MaxContinuous(signal, from, till, step, dimension);
         }
 
         public MaxDiscrete_OperatorWrapper MaxDiscrete(params Outlet[] operands)
@@ -348,10 +348,10 @@ namespace JJ.Business.Synthesizer.Api
             Outlet signal = null,
             Outlet from = null,
             Outlet till = null,
-            Outlet sampleCount = null,
+            Outlet step = null,
             DimensionEnum dimension = DimensionEnum.Undefined)
         {
-            return _patchManager.MinContinuous(signal, from, till, sampleCount, dimension);
+            return _patchManager.MinContinuous(signal, from, till, step, dimension);
         }
 
         public MinDiscrete_OperatorWrapper MinDiscrete(params Outlet[] operands)
@@ -637,10 +637,10 @@ namespace JJ.Business.Synthesizer.Api
             Outlet signal = null,
             Outlet from = null,
             Outlet till = null,
-            Outlet sampleCount = null,
+            Outlet step = null,
             DimensionEnum dimension = DimensionEnum.Undefined)
         {
-            return _patchManager.SumContinuous(signal, from, till, sampleCount, dimension);
+            return _patchManager.SumContinuous(signal, from, till, step, dimension);
         }
 
         public SumFollower_OperatorWrapper SumFollower(

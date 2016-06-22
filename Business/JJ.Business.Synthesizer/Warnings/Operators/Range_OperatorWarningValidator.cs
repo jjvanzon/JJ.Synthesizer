@@ -6,10 +6,8 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
 {
     internal class Range_OperatorWarningValidator : OperatorWarningValidator_Base_SpecificInletsFilledIn
     {
-        private const string IMPORTANT_INLET_NAME = PropertyNames.Till;
-
         public Range_OperatorWarningValidator(Operator obj)
-            : base(obj, IMPORTANT_INLET_NAME)
+            : base(obj, OperatorConstants.RANGE_TILL_INDEX)
         { }
     }
 }

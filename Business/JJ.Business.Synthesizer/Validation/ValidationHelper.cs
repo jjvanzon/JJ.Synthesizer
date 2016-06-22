@@ -14,6 +14,8 @@ namespace JJ.Business.Synthesizer.Validation
     {
         public static string GetOperatorIdentifier(Operator op)
         {
+            if (op == null) throw new NullException(() => op);
+
             if (!String.IsNullOrEmpty(op.Name))
             {
                 return op.Name;
@@ -26,6 +28,30 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             return op.ID.ToString();
+        }
+
+        public static string GetInletIdentifier(Inlet inlet)
+        {
+            if (inlet == null) throw new NullException(() => inlet);
+
+            // Use Name
+            if (!String.IsNullOrEmpty(inlet.Name))
+            {
+                return inlet.Name;
+            }
+
+            // Use Dimension
+            DimensionEnum dimensionEnum = inlet.GetDimensionEnum();
+            if (dimensionEnum != DimensionEnum.Undefined)
+            {
+                // Downside: Dimension might not be unique among an operator's inlets.
+                string dimensionDisplayName = ResourceHelper.GetDisplayName(dimensionEnum);
+                return dimensionDisplayName;
+            }
+
+            // Use ListIndex
+            string inletIdentifier = String.Format("{0} {1}", PropertyDisplayNames.Inlet, inlet.ListIndex);
+            return inletIdentifier;
         }
 
         public static double? TryGetConstantNumberFromInlet(Inlet inlet)

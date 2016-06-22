@@ -587,13 +587,13 @@
     <value>Then</value>
   </data>
   <data name="AverageFollower" xml:space="preserve">
-    <value>Average (follower)</value>
+    <value>Average Follower</value>
   </data>
   <data name="MaxFollower" xml:space="preserve">
-    <value>Max (follower)</value>
+    <value>Max Follower</value>
   </data>
   <data name="MinFollower" xml:space="preserve">
-    <value>Min (follower)</value>
+    <value>Min Follower</value>
   </data>
   <data name="SampleCount" xml:space="preserve">
     <value>Sample Count</value>
@@ -813,28 +813,28 @@
     <value>Make Discrete</value>
   </data>
   <data name="MaxDiscrete" xml:space="preserve">
-    <value>Max (discrete)</value>
+    <value>Max</value>
   </data>
   <data name="MinDiscrete" xml:space="preserve">
-    <value>Min (discrete)</value>
+    <value>Min</value>
   </data>
   <data name="AverageDiscrete" xml:space="preserve">
-    <value>Average (discrete)</value>
+    <value>Average</value>
   </data>
   <data name="MaxContinuous" xml:space="preserve">
-    <value>Max (continuous)</value>
+    <value>Max over Dimension</value>
   </data>
   <data name="MinContinuous" xml:space="preserve">
-    <value>Min (continuous)</value>
+    <value>Min over Dimension</value>
   </data>
   <data name="AverageContinuous" xml:space="preserve">
-    <value>Average (continuous)</value>
+    <value>Average over Dimension</value>
   </data>
   <data name="SumContinuous" xml:space="preserve">
-    <value>Sum (continuous)</value>
+    <value>Sum over Dimension</value>
   </data>
   <data name="SumFollower" xml:space="preserve">
-    <value>Sum (follower)</value>
+    <value>Sum Follower</value>
   </data>
   <data name="Multiply" xml:space="preserve">
     <value>×</value>

@@ -310,43 +310,43 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase signalCalculator = _stack.Pop();
             OperatorCalculatorBase fromCalculator = _stack.Pop();
             OperatorCalculatorBase tillCalculator = _stack.Pop();
-            OperatorCalculatorBase sampleCountCalculator = _stack.Pop();
+            OperatorCalculatorBase stepCalculator = _stack.Pop();
 
             // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
-            signalCalculator = signalCalculator ?? new Number_OperatorCalculator(0.0);
-            fromCalculator = fromCalculator ?? new Number_OperatorCalculator(0.0);
+            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
+            fromCalculator = fromCalculator ?? new Zero_OperatorCalculator();
             tillCalculator = tillCalculator ?? new Number_OperatorCalculator(15.0);
-            sampleCountCalculator = sampleCountCalculator ?? new Number_OperatorCalculator(100.0);
+            stepCalculator = stepCalculator ?? new One_OperatorCalculator();
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool fromIsConst = fromCalculator is Number_OperatorCalculator;
             bool tillIsConst = tillCalculator is Number_OperatorCalculator;
-            bool sampleCountIsConst = sampleCountCalculator is Number_OperatorCalculator;
+            bool stepIsConst = stepCalculator is Number_OperatorCalculator;
 
             double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
             double from = fromIsConst ? fromCalculator.Calculate() : 0.0;
             double till = tillIsConst ? tillCalculator.Calculate() : 0.0;
-            double sampleCount = sampleCountIsConst ? sampleCountCalculator.Calculate() : 0.0;
+            double step = stepIsConst ? stepCalculator.Calculate() : 0.0;
 
-            bool sampleCountIsConstZero = sampleCountIsConst && sampleCount == 0.0;
-            bool sampleCountIsConstNegative = sampleCountIsConst && sampleCount < 0.0;
+            bool stepIsConstZero = stepIsConst && step == 0.0;
+            bool stepIsConstNegative = stepIsConst && step < 0.0;
             bool fromIsConstSpecialNumber = fromIsConst && DoubleHelper.IsSpecialNumber(from);
-            bool tillIsConstSpecialNumber = fromIsConst && DoubleHelper.IsSpecialNumber(from);
-            bool sampleCountIsConstSpecialNumber = fromIsConst && DoubleHelper.IsSpecialNumber(from);
+            bool tillIsConstSpecialNumber = tillIsConst && DoubleHelper.IsSpecialNumber(till);
+            bool stepIsConstSpecialNumber = stepIsConst && DoubleHelper.IsSpecialNumber(step);
 
             if (signalIsConst)
             {
                 operatorCalculator = signalCalculator;
             }
-            else if (sampleCountIsConstZero)
+            else if (stepIsConstZero)
             {
                 operatorCalculator = new Zero_OperatorCalculator();
             }
-            else if (sampleCountIsConstNegative)
+            else if (stepIsConstNegative)
             {
                 operatorCalculator = new Zero_OperatorCalculator();
             }
-            else if (fromIsConstSpecialNumber || tillIsConstSpecialNumber || sampleCountIsConstSpecialNumber)
+            else if (fromIsConstSpecialNumber || tillIsConstSpecialNumber || stepIsConstSpecialNumber)
             {
                 operatorCalculator = new Number_OperatorCalculator(Double.NaN);
             }
@@ -356,7 +356,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     signalCalculator,
                     fromCalculator,
                     tillCalculator,
-                    sampleCountCalculator,
+                    stepCalculator,
                     dimensionStack);
             }
 
@@ -479,8 +479,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
             // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
-            startDateCalculator = startDateCalculator ?? new Number_OperatorCalculator(0.0);
-            endDateCalculator = endDateCalculator ?? new Number_OperatorCalculator(1.0);
+            startDateCalculator = startDateCalculator ?? new Zero_OperatorCalculator();
+            endDateCalculator = endDateCalculator ?? new One_OperatorCalculator();
             samplingRateCalculator = samplingRateCalculator ?? new Number_OperatorCalculator(44100.0);
 
             double signal = signalCalculator.Calculate();
@@ -1682,43 +1682,43 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase signalCalculator = _stack.Pop();
             OperatorCalculatorBase fromCalculator = _stack.Pop();
             OperatorCalculatorBase tillCalculator = _stack.Pop();
-            OperatorCalculatorBase sampleCountCalculator = _stack.Pop();
+            OperatorCalculatorBase stepCalculator = _stack.Pop();
 
             // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
-            signalCalculator = signalCalculator ?? new Number_OperatorCalculator(0.0);
-            fromCalculator = fromCalculator ?? new Number_OperatorCalculator(0.0);
+            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
+            fromCalculator = fromCalculator ?? new Zero_OperatorCalculator();
             tillCalculator = tillCalculator ?? new Number_OperatorCalculator(15.0);
-            sampleCountCalculator = sampleCountCalculator ?? new Number_OperatorCalculator(100.0);
+            stepCalculator = stepCalculator ?? new One_OperatorCalculator();
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool fromIsConst = fromCalculator is Number_OperatorCalculator;
             bool tillIsConst = tillCalculator is Number_OperatorCalculator;
-            bool sampleCountIsConst = sampleCountCalculator is Number_OperatorCalculator;
+            bool stepIsConst = stepCalculator is Number_OperatorCalculator;
 
             double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
             double from = fromIsConst ? fromCalculator.Calculate() : 0.0;
             double till = tillIsConst ? tillCalculator.Calculate() : 0.0;
-            double sampleCount = sampleCountIsConst ? sampleCountCalculator.Calculate() : 0.0;
+            double step = stepIsConst ? stepCalculator.Calculate() : 0.0;
 
-            bool sampleCountIsConstZero = sampleCountIsConst && sampleCount == 0.0;
-            bool sampleCountIsConstNegative = sampleCountIsConst && sampleCount < 0.0;
+            bool stepIsConstZero = stepIsConst && step == 0.0;
+            bool stepIsConstNegative = stepIsConst && step < 0.0;
             bool fromIsConstSpecialNumber = fromIsConst && DoubleHelper.IsSpecialNumber(from);
-            bool tillIsConstSpecialNumber = fromIsConst && DoubleHelper.IsSpecialNumber(from);
-            bool sampleCountIsConstSpecialNumber = fromIsConst && DoubleHelper.IsSpecialNumber(from);
+            bool tillIsConstSpecialNumber = tillIsConst && DoubleHelper.IsSpecialNumber(till);
+            bool stepIsConstSpecialNumber = stepIsConst && DoubleHelper.IsSpecialNumber(step);
 
             if (signalIsConst)
             {
                 operatorCalculator = signalCalculator;
             }
-            else if (sampleCountIsConstZero)
+            else if (stepIsConstZero)
             {
                 operatorCalculator = new Zero_OperatorCalculator();
             }
-            else if (sampleCountIsConstNegative)
+            else if (stepIsConstNegative)
             {
                 operatorCalculator = new Zero_OperatorCalculator();
             }
-            else if (fromIsConstSpecialNumber || tillIsConstSpecialNumber || sampleCountIsConstSpecialNumber)
+            else if (fromIsConstSpecialNumber || tillIsConstSpecialNumber || stepIsConstSpecialNumber)
             {
                 operatorCalculator = new Number_OperatorCalculator(Double.NaN);
             }
@@ -1728,7 +1728,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     signalCalculator,
                     fromCalculator, 
                     tillCalculator, 
-                    sampleCountCalculator, 
+                    stepCalculator, 
                     dimensionStack);
             }
 
@@ -1788,12 +1788,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
             OperatorCalculatorBase sliceLengthCalculator = _stack.Pop();
-            OperatorCalculatorBase sampleCountCalculator = _stack.Pop();
+            OperatorCalculatorBase stepCalculator = _stack.Pop();
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
             // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
-            sliceLengthCalculator = sliceLengthCalculator ?? new Number_OperatorCalculator(0.02f);
-            sampleCountCalculator = sampleCountCalculator ?? new Number_OperatorCalculator(100f);
+            sliceLengthCalculator = sliceLengthCalculator ?? new Number_OperatorCalculator(0.02);
+            stepCalculator = stepCalculator ?? new Number_OperatorCalculator(100.0);
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
 
@@ -1805,7 +1805,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                calculator = new MaxFollower_OperatorCalculator(signalCalculator, sliceLengthCalculator, sampleCountCalculator, dimensionStack);
+                calculator = new MaxFollower_OperatorCalculator(signalCalculator, sliceLengthCalculator, stepCalculator, dimensionStack);
             }
 
             _stack.Push(calculator);
@@ -1824,43 +1824,43 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase signalCalculator = _stack.Pop();
             OperatorCalculatorBase fromCalculator = _stack.Pop();
             OperatorCalculatorBase tillCalculator = _stack.Pop();
-            OperatorCalculatorBase sampleCountCalculator = _stack.Pop();
+            OperatorCalculatorBase stepCalculator = _stack.Pop();
 
             // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
-            signalCalculator = signalCalculator ?? new Number_OperatorCalculator(0.0);
-            fromCalculator = fromCalculator ?? new Number_OperatorCalculator(0.0);
+            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
+            fromCalculator = fromCalculator ?? new Zero_OperatorCalculator();
             tillCalculator = tillCalculator ?? new Number_OperatorCalculator(15.0);
-            sampleCountCalculator = sampleCountCalculator ?? new Number_OperatorCalculator(100.0);
+            stepCalculator = stepCalculator ?? new One_OperatorCalculator();
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool fromIsConst = fromCalculator is Number_OperatorCalculator;
             bool tillIsConst = tillCalculator is Number_OperatorCalculator;
-            bool sampleCountIsConst = sampleCountCalculator is Number_OperatorCalculator;
+            bool stepIsConst = stepCalculator is Number_OperatorCalculator;
 
             double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
             double from = fromIsConst ? fromCalculator.Calculate() : 0.0;
             double till = tillIsConst ? tillCalculator.Calculate() : 0.0;
-            double sampleCount = sampleCountIsConst ? sampleCountCalculator.Calculate() : 0.0;
+            double step = stepIsConst ? stepCalculator.Calculate() : 0.0;
 
-            bool sampleCountIsConstZero = sampleCountIsConst && sampleCount == 0.0;
-            bool sampleCountIsConstNegative = sampleCountIsConst && sampleCount < 0.0;
+            bool stepIsConstZero = stepIsConst && step == 0.0;
+            bool stepIsConstNegative = stepIsConst && step < 0.0;
             bool fromIsConstSpecialNumber = fromIsConst && DoubleHelper.IsSpecialNumber(from);
-            bool tillIsConstSpecialNumber = fromIsConst && DoubleHelper.IsSpecialNumber(from);
-            bool sampleCountIsConstSpecialNumber = fromIsConst && DoubleHelper.IsSpecialNumber(from);
+            bool tillIsConstSpecialNumber = tillIsConst && DoubleHelper.IsSpecialNumber(till);
+            bool stepIsConstSpecialNumber = stepIsConst && DoubleHelper.IsSpecialNumber(step);
 
             if (signalIsConst)
             {
                 operatorCalculator = signalCalculator;
             }
-            else if (sampleCountIsConstZero)
+            else if (stepIsConstZero)
             {
                 operatorCalculator = new Zero_OperatorCalculator();
             }
-            else if (sampleCountIsConstNegative)
+            else if (stepIsConstNegative)
             {
                 operatorCalculator = new Zero_OperatorCalculator();
             }
-            else if (fromIsConstSpecialNumber || tillIsConstSpecialNumber || sampleCountIsConstSpecialNumber)
+            else if (fromIsConstSpecialNumber || tillIsConstSpecialNumber || stepIsConstSpecialNumber)
             {
                 operatorCalculator = new Number_OperatorCalculator(Double.NaN);
             }
@@ -1870,7 +1870,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     signalCalculator,
                     fromCalculator,
                     tillCalculator,
-                    sampleCountCalculator,
+                    stepCalculator,
                     dimensionStack);
             }
 
@@ -1934,8 +1934,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
             // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
-            sliceLengthCalculator = sliceLengthCalculator ?? new Number_OperatorCalculator(0.02f);
-            sampleCountCalculator = sampleCountCalculator ?? new Number_OperatorCalculator(100f);
+            sliceLengthCalculator = sliceLengthCalculator ?? new Number_OperatorCalculator(0.02);
+            sampleCountCalculator = sampleCountCalculator ?? new Number_OperatorCalculator(100.0);
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
 
@@ -2750,9 +2750,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase stepCalculator = _stack.Pop();
 
             // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
-            fromCalculator = fromCalculator ?? new Number_OperatorCalculator(1.0);
+            fromCalculator = fromCalculator ?? new One_OperatorCalculator();
             tillCalculator = tillCalculator ?? new Number_OperatorCalculator(16.0);
-            stepCalculator = stepCalculator ?? new Number_OperatorCalculator(1.0);
+            stepCalculator = stepCalculator ?? new One_OperatorCalculator();
 
             bool fromIsConst = fromCalculator is Number_OperatorCalculator;
             bool tillIsConst = tillCalculator is Number_OperatorCalculator;
@@ -2765,8 +2765,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool stepIsConstZero = stepIsConst && step == 0.0;
             bool stepIsConstOne = stepIsConst && step == 1.0;
             bool fromIsConstSpecialNumber = fromIsConst && DoubleHelper.IsSpecialNumber(from);
-            bool tillIsConstSpecialNumber = fromIsConst && DoubleHelper.IsSpecialNumber(from);
-            bool stepIsConstSpecialNumber = fromIsConst && DoubleHelper.IsSpecialNumber(from);
+            bool tillIsConstSpecialNumber = tillIsConst && DoubleHelper.IsSpecialNumber(till);
+            bool stepIsConstSpecialNumber = stepIsConst && DoubleHelper.IsSpecialNumber(step);
 
             if (stepIsConstZero)
             {
@@ -3556,8 +3556,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
             // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
-            startTimeCalculator = startTimeCalculator ?? new Number_OperatorCalculator(0.0);
-            endTimeCalculator = endTimeCalculator ?? new Number_OperatorCalculator(1.0);
+            startTimeCalculator = startTimeCalculator ?? new Zero_OperatorCalculator();
+            endTimeCalculator = endTimeCalculator ?? new One_OperatorCalculator();
             frequencyCountCalculator = frequencyCountCalculator ?? new Number_OperatorCalculator(16);
 
             double signal = signalCalculator.Calculate();
@@ -3905,43 +3905,43 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase signalCalculator = _stack.Pop();
             OperatorCalculatorBase fromCalculator = _stack.Pop();
             OperatorCalculatorBase tillCalculator = _stack.Pop();
-            OperatorCalculatorBase sampleCountCalculator = _stack.Pop();
+            OperatorCalculatorBase stepCalculator = _stack.Pop();
 
             // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
-            signalCalculator = signalCalculator ?? new Number_OperatorCalculator(0.0);
-            fromCalculator = fromCalculator ?? new Number_OperatorCalculator(0.0);
+            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
+            fromCalculator = fromCalculator ?? new Zero_OperatorCalculator();
             tillCalculator = tillCalculator ?? new Number_OperatorCalculator(15.0);
-            sampleCountCalculator = sampleCountCalculator ?? new Number_OperatorCalculator(100.0);
+            stepCalculator = stepCalculator ?? new One_OperatorCalculator();
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool fromIsConst = fromCalculator is Number_OperatorCalculator;
             bool tillIsConst = tillCalculator is Number_OperatorCalculator;
-            bool sampleCountIsConst = sampleCountCalculator is Number_OperatorCalculator;
+            bool stepIsConst = stepCalculator is Number_OperatorCalculator;
 
             double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
             double from = fromIsConst ? fromCalculator.Calculate() : 0.0;
             double till = tillIsConst ? tillCalculator.Calculate() : 0.0;
-            double sampleCount = sampleCountIsConst ? sampleCountCalculator.Calculate() : 0.0;
+            double step = stepIsConst ? stepCalculator.Calculate() : 0.0;
 
-            bool sampleCountIsConstZero = sampleCountIsConst && sampleCount == 0.0;
-            bool sampleCountIsConstNegative = sampleCountIsConst && sampleCount < 0.0;
+            bool stepIsConstZero = stepIsConst && step == 0.0;
+            bool stepIsConstNegative = stepIsConst && step < 0.0;
             bool fromIsConstSpecialNumber = fromIsConst && DoubleHelper.IsSpecialNumber(from);
-            bool tillIsConstSpecialNumber = fromIsConst && DoubleHelper.IsSpecialNumber(from);
-            bool sampleCountIsConstSpecialNumber = fromIsConst && DoubleHelper.IsSpecialNumber(from);
+            bool tillIsConstSpecialNumber = tillsConst && DoubleHelper.IsSpecialNumber(till);
+            bool stepIsConstSpecialNumber = stepIsConst && DoubleHelper.IsSpecialNumber(step);
 
             if (signalIsConst)
             {
                 operatorCalculator = signalCalculator;
             }
-            else if (sampleCountIsConstZero)
+            else if (stepIsConstZero)
             {
                 operatorCalculator = new Zero_OperatorCalculator();
             }
-            else if (sampleCountIsConstNegative)
+            else if (stepIsConstNegative)
             {
                 operatorCalculator = new Zero_OperatorCalculator();
             }
-            else if (fromIsConstSpecialNumber || tillIsConstSpecialNumber || sampleCountIsConstSpecialNumber)
+            else if (fromIsConstSpecialNumber || tillIsConstSpecialNumber || stepIsConstSpecialNumber)
             {
                 operatorCalculator = new Number_OperatorCalculator(Double.NaN);
             }
@@ -3951,7 +3951,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     signalCalculator,
                     fromCalculator,
                     tillCalculator,
-                    sampleCountCalculator,
+                    stepCalculator,
                     dimensionStack);
             }
 

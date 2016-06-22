@@ -11,9 +11,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase fromCalculator,
             OperatorCalculatorBase tillCalculator,
-            OperatorCalculatorBase sampleCountCalculator,
+            OperatorCalculatorBase stepCalculator,
             DimensionStack dimensionStack)
-            : base(signalCalculator, fromCalculator, tillCalculator, sampleCountCalculator, dimensionStack)
+            : base(signalCalculator, fromCalculator, tillCalculator, stepCalculator, dimensionStack)
         { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

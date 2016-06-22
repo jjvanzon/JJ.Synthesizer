@@ -10,26 +10,26 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _fromCalculator;
         private readonly OperatorCalculatorBase _tillCalculator;
-        private readonly OperatorCalculatorBase _sampleCountCalculator;
+        private readonly OperatorCalculatorBase _stepCalculator;
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
-        private double _value;
+        private double _aggregate;
 
         public MinOrMaxContinuous_OperatorCalculatorBase(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase fromCalculator,
             OperatorCalculatorBase tillCalculator,
-            OperatorCalculatorBase sampleCountCalculator,
+            OperatorCalculatorBase stepCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] { signalCalculator, fromCalculator, tillCalculator, sampleCountCalculator })
+            : base(new OperatorCalculatorBase[] { signalCalculator, fromCalculator, tillCalculator, stepCalculator })
         {
             OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
 
             _signalCalculator = signalCalculator;
             _fromCalculator = fromCalculator;
             _tillCalculator = tillCalculator;
-            _sampleCountCalculator = sampleCountCalculator;
+            _stepCalculator = stepCalculator;
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
 
@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override double Calculate()
         {
-            return _value;
+            return _aggregate;
         }
 
         public override void Reset()
@@ -52,16 +52,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double from = _fromCalculator.Calculate();
             double till = _tillCalculator.Calculate();
-            double sampleCount = _sampleCountCalculator.Calculate();
-
-            if (sampleCount <= 0)
-            {
-                _value = 0;
-                return;
-            }
+            double step = _stepCalculator.Calculate();
 
             double length = till - from;
-            double step = length / sampleCount;
             bool isForward = length > 0.0;
 
             double position = from;
@@ -117,7 +110,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 }
             }
 
-            _value = currentValue;
+            _aggregate = currentValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

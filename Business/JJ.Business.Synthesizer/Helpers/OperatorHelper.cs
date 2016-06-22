@@ -42,7 +42,7 @@ namespace JJ.Business.Synthesizer.Helpers
         {
             IList<Inlet> sortedInlets = GetSortedInlets(op);
 
-            Inlet inlet = sortedInlets.Skip(index).Take(1).FirstOrDefault();
+            Inlet inlet = sortedInlets.Skip(index).FirstOrDefault();
 
             return inlet;
         }
