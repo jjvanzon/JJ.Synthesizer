@@ -586,13 +586,13 @@
     <value>Dan</value>
   </data>
   <data name="AverageFollower" xml:space="preserve">
-    <value>Gemiddeld (volgen)</value>
+    <value>Gemiddelde volgen</value>
   </data>
   <data name="MaxFollower" xml:space="preserve">
-    <value>Max (volger)</value>
+    <value>Max volger</value>
   </data>
   <data name="MinFollower" xml:space="preserve">
-    <value>Minimum (volger)</value>
+    <value>Minimum volger</value>
   </data>
   <data name="SampleCount" xml:space="preserve">
     <value>Aantal punten</value>
@@ -813,28 +813,28 @@
     <value>Maak afzonderlijk</value>
   </data>
   <data name="MaxDiscrete" xml:space="preserve">
-    <value>Max (afzonderlijk)</value>
+    <value>Max</value>
   </data>
   <data name="MinDiscrete" xml:space="preserve">
-    <value>Minimum (afzonderlijk)</value>
+    <value>Minimum</value>
   </data>
   <data name="AverageDiscrete" xml:space="preserve">
-    <value>Gemiddeld (afzonderlijk)</value>
+    <value>Gemiddeld</value>
   </data>
-  <data name="MaxContinuous" xml:space="preserve">
-    <value>Max (aaneengesloten)</value>
+  <data name="MaxOverDimension" xml:space="preserve">
+    <value>Max over dimensie</value>
   </data>
-  <data name="MinContinuous" xml:space="preserve">
-    <value>Minimum (aaneengesloten)</value>
+  <data name="MinOverDimension" xml:space="preserve">
+    <value>Minimum over dimensie</value>
   </data>
-  <data name="AverageContinuous" xml:space="preserve">
-    <value>Gemiddeld (aaneengesloten)</value>
+  <data name="AverageOverDimension" xml:space="preserve">
+    <value>Gemiddelde over dimensie</value>
   </data>
-  <data name="SumContinuous" xml:space="preserve">
-    <value>Som (aaneengesloten)</value>
+  <data name="SumOverDimension" xml:space="preserve">
+    <value>Som over dimensie</value>
   </data>
   <data name="SumFollower" xml:space="preserve">
-    <value>Som (volgen)</value>
+    <value>Som volgen</value>
   </data>
   <data name="MultiplyWithOrigin" xml:space="preserve">
     <value>× (met oorsprong)</value>

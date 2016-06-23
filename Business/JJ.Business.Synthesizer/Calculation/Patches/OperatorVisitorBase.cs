@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.Add, VisitAdd },
                 { OperatorTypeEnum.And, VisitAnd },
                 { OperatorTypeEnum.AverageFollower, VisitAverageFollower },
-                { OperatorTypeEnum.AverageContinuous, VisitAverageContinuous },
+                { OperatorTypeEnum.AverageOverDimension, VisitAverageOverDimension },
                 { OperatorTypeEnum.AverageDiscrete, VisitAverageDiscrete },
                 { OperatorTypeEnum.Bundle, VisitBundle },
                 { OperatorTypeEnum.Cache, VisitCache },
@@ -46,10 +46,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.LowPassFilter, VisitLowPassFilter },
                 { OperatorTypeEnum.MakeContinuous, VisitMakeContinuous },
                 { OperatorTypeEnum.MakeDiscrete, VisitMakeDiscrete },
-                { OperatorTypeEnum.MaxContinuous, VisitMaxContinuous },
+                { OperatorTypeEnum.MaxOverDimension, VisitMaxOverDimension },
                 { OperatorTypeEnum.MaxDiscrete, VisitMaxDiscrete },
                 { OperatorTypeEnum.MaxFollower, VisitMaxFollower },
-                { OperatorTypeEnum.MinContinuous, VisitMinContinuous },
+                { OperatorTypeEnum.MinOverDimension, VisitMinOverDimension },
                 { OperatorTypeEnum.MinDiscrete, VisitMinDiscrete },
                 { OperatorTypeEnum.MinFollower, VisitMinFollower },
                 { OperatorTypeEnum.Multiply, VisitMultiply },
@@ -87,7 +87,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.Square, VisitSquare },
                 { OperatorTypeEnum.Stretch, VisitStretch },
                 { OperatorTypeEnum.Subtract, VisitSubtract },
-                { OperatorTypeEnum.SumContinuous, VisitSumContinuous },
+                { OperatorTypeEnum.SumOverDimension, VisitSumOverDimension },
                 { OperatorTypeEnum.SumFollower, VisitSumFollower },
                 { OperatorTypeEnum.TimePower, VisitTimePower },
                 { OperatorTypeEnum.ToggleTrigger, VisitToggleTrigger },
@@ -172,7 +172,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         }
 
         [DebuggerHidden]
-        protected virtual void VisitAverageContinuous(Operator op)
+        protected virtual void VisitAverageOverDimension(Operator op)
         {
             VisitOperatorBase(op);
         }
@@ -322,7 +322,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         }
 
         [DebuggerHidden]
-        protected virtual void VisitMaxContinuous(Operator op)
+        protected virtual void VisitMaxOverDimension(Operator op)
         {
             VisitOperatorBase(op);
         }
@@ -340,7 +340,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         }
 
         [DebuggerHidden]
-        protected virtual void VisitMinContinuous(Operator op)
+        protected virtual void VisitMinOverDimension(Operator op)
         {
             VisitOperatorBase(op);
         }
@@ -568,7 +568,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         }
 
         [DebuggerHidden]
-        protected virtual void VisitSumContinuous(Operator op)
+        protected virtual void VisitSumOverDimension(Operator op)
         {
             VisitOperatorBase(op);
         }

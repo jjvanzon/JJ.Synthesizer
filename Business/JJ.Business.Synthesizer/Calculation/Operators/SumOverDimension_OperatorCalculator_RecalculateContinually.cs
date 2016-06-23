@@ -5,9 +5,9 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class SumContinuous_OperatorCalculator_RecalculateContinually : SumContinuous_OperatorCalculator_Base
+    internal class SumOverDimension_OperatorCalculator_RecalculateContinually : SumOverDimension_OperatorCalculator_Base
     {
-        public SumContinuous_OperatorCalculator_RecalculateContinually(
+        public SumOverDimension_OperatorCalculator_RecalculateContinually(
             OperatorCalculatorBase signalCalculator, 
             OperatorCalculatorBase fromCalculator, 
             OperatorCalculatorBase tillCalculator, 

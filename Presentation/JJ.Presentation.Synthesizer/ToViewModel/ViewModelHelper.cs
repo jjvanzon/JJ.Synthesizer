@@ -80,10 +80,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithDimensionAndRecalculationPropertyViews { get; } =
                   new HashSet<OperatorTypeEnum>
         {
-            OperatorTypeEnum.AverageContinuous,
-            OperatorTypeEnum.MaxContinuous,
-            OperatorTypeEnum.MinContinuous,
-            OperatorTypeEnum.SumContinuous
+            OperatorTypeEnum.AverageOverDimension,
+            OperatorTypeEnum.MaxOverDimension,
+            OperatorTypeEnum.MinOverDimension,
+            OperatorTypeEnum.SumOverDimension
         };
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithDimensionAndOutletCountPropertyViews { get; } =

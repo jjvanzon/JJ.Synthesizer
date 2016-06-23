@@ -4,10 +4,10 @@ using System.Linq;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class AverageContinuous_OperatorCalculator_RecalculateContinually 
-        : SumContinuous_OperatorCalculator_RecalculateContinually
+    internal class AverageOverDimension_OperatorCalculator_RecalculateContinually 
+        : SumOverDimension_OperatorCalculator_RecalculateContinually
     {
-        public AverageContinuous_OperatorCalculator_RecalculateContinually(
+        public AverageOverDimension_OperatorCalculator_RecalculateContinually(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase fromCalculator,
             OperatorCalculatorBase tillCalculator,

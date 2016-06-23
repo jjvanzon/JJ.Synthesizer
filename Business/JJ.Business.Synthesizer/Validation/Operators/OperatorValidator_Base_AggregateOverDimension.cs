@@ -4,9 +4,9 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class OperatorValidator_Base_ContinuousAggregate : OperatorValidator_Base
+    internal class OperatorValidator_Base_AggregateOverDimension : OperatorValidator_Base
     {
-        public OperatorValidator_Base_ContinuousAggregate(Operator obj, OperatorTypeEnum operatorTypeEnum)
+        public OperatorValidator_Base_AggregateOverDimension(Operator obj, OperatorTypeEnum operatorTypeEnum)
             : base(
                   obj,
                   operatorTypeEnum, 

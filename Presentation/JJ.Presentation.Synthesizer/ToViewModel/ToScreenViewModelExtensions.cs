@@ -745,7 +745,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
 
-            var wrapper = new SumContinuous_OperatorWrapper(entity);
+            var wrapper = new SumOverDimension_OperatorWrapper(entity);
 
             var viewModel = new OperatorPropertiesViewModel_WithDimensionAndRecalculation
             {

@@ -1241,7 +1241,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.Name = viewModel.Name;
             entity.LinkTo(operatorTypeRepository.Get(viewModel.OperatorType.ID));
 
-            var wrapper = new SumContinuous_OperatorWrapper(entity);
+            var wrapper = new SumOverDimension_OperatorWrapper(entity);
 
             // Recalculation
             bool recalculationIsFilledIn = viewModel.Recalculation != null && viewModel.Recalculation.ID != 0;

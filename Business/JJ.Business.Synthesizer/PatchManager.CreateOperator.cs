@@ -65,7 +65,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public AverageContinuous_OperatorWrapper AverageContinuous(
+        public AverageOverDimension_OperatorWrapper AverageOverDimension(
             Outlet signal = null,
             Outlet from = null,
             Outlet till = null,
@@ -73,9 +73,9 @@ namespace JJ.Business.Synthesizer
             DimensionEnum dimension = DimensionEnum.Undefined,
             AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continual)
         {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.AverageContinuous, inletCount: 4, outletCount: 1);
+            Operator op = CreateOperatorBase(OperatorTypeEnum.AverageOverDimension, inletCount: 4, outletCount: 1);
 
-            var wrapper = new AverageContinuous_OperatorWrapper(op)
+            var wrapper = new AverageOverDimension_OperatorWrapper(op)
             {
                 Signal = signal,
                 From = from,
@@ -671,7 +671,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public MaxContinuous_OperatorWrapper MaxContinuous(
+        public MaxOverDimension_OperatorWrapper MaxOverDimension(
             Outlet signal = null,
             Outlet from = null, 
             Outlet till = null, 
@@ -679,9 +679,9 @@ namespace JJ.Business.Synthesizer
             DimensionEnum dimension = DimensionEnum.Undefined,
             AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continual)
         {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.MaxContinuous, inletCount: 4, outletCount: 1);
+            Operator op = CreateOperatorBase(OperatorTypeEnum.MaxOverDimension, inletCount: 4, outletCount: 1);
 
-            var wrapper = new MaxContinuous_OperatorWrapper(op)
+            var wrapper = new MaxOverDimension_OperatorWrapper(op)
             {
                 Signal = signal,
                 From = from,
@@ -737,7 +737,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public MinContinuous_OperatorWrapper MinContinuous(
+        public MinOverDimension_OperatorWrapper MinOverDimension(
             Outlet signal = null,
             Outlet from = null,
             Outlet till = null,
@@ -745,9 +745,9 @@ namespace JJ.Business.Synthesizer
             DimensionEnum dimension = DimensionEnum.Undefined,
             AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continual)
         {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.MinContinuous, inletCount: 4, outletCount: 1);
+            Operator op = CreateOperatorBase(OperatorTypeEnum.MinOverDimension, inletCount: 4, outletCount: 1);
 
-            var wrapper = new MinContinuous_OperatorWrapper(op)
+            var wrapper = new MinOverDimension_OperatorWrapper(op)
             {
                 Signal = signal,
                 From = from,
@@ -1475,7 +1475,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public SumContinuous_OperatorWrapper SumContinuous(
+        public SumOverDimension_OperatorWrapper SumOverDimension(
             Outlet signal = null,
             Outlet from = null,
             Outlet till = null,
@@ -1483,9 +1483,9 @@ namespace JJ.Business.Synthesizer
             DimensionEnum dimension = DimensionEnum.Undefined,
             AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continual)
         {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.SumContinuous, inletCount: 4, outletCount: 1);
+            Operator op = CreateOperatorBase(OperatorTypeEnum.SumOverDimension, inletCount: 4, outletCount: 1);
 
-            var wrapper = new SumContinuous_OperatorWrapper(op)
+            var wrapper = new SumOverDimension_OperatorWrapper(op)
             {
                 Signal = signal,
                 From = from,
@@ -1674,7 +1674,7 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.Add: return Add(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.And: return And();
                 case OperatorTypeEnum.AverageFollower: return AverageFollower();
-                case OperatorTypeEnum.AverageContinuous: return AverageContinuous();
+                case OperatorTypeEnum.AverageOverDimension: return AverageOverDimension();
                 case OperatorTypeEnum.AverageDiscrete: return AverageDiscrete(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.Bundle: return Bundle(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.ChangeTrigger: return ChangeTrigger();
@@ -1699,10 +1699,10 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.LowPassFilter: return LowPassFilter();
                 case OperatorTypeEnum.MakeContinuous: return MakeContinuous(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.MakeDiscrete: return MakeDiscrete(null, variableInletOrOutletCount);
-                case OperatorTypeEnum.MaxContinuous: return MaxContinuous();
+                case OperatorTypeEnum.MaxOverDimension: return MaxOverDimension();
                 case OperatorTypeEnum.MaxDiscrete: return MaxDiscrete(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.MaxFollower: return MaxFollower();
-                case OperatorTypeEnum.MinContinuous: return MinContinuous();
+                case OperatorTypeEnum.MinOverDimension: return MinOverDimension();
                 case OperatorTypeEnum.MinDiscrete: return MinDiscrete(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.MinFollower: return MinFollower();
                 case OperatorTypeEnum.Multiply: return Multiply(new Outlet[variableInletOrOutletCount]);
@@ -1740,7 +1740,7 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.Square: return Square();
                 case OperatorTypeEnum.Stretch: return Stretch();
                 case OperatorTypeEnum.Subtract: return Subtract();
-                case OperatorTypeEnum.SumContinuous: return SumContinuous();
+                case OperatorTypeEnum.SumOverDimension: return SumOverDimension();
                 case OperatorTypeEnum.SumFollower: return SumFollower();
                 case OperatorTypeEnum.TimePower: return TimePower();
                 case OperatorTypeEnum.ToggleTrigger: return ToggleTrigger();

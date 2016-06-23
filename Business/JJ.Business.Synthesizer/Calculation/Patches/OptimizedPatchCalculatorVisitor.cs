@@ -297,13 +297,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitAverageContinuous(Operator op)
+        protected override void VisitAverageOverDimension(Operator op)
         {
-            var wrapper = new AverageContinuous_OperatorWrapper(op);
+            var wrapper = new AverageOverDimension_OperatorWrapper(op);
             DimensionEnum dimensionEnum = wrapper.Dimension;
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
-            base.VisitAverageContinuous(op);
+            base.VisitAverageOverDimension(op);
 
             OperatorCalculatorBase operatorCalculator;
 
@@ -356,7 +356,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 switch (aggregateRecalculationEnum)
                 {
                     case AggregateRecalculationEnum.Continual:
-                        operatorCalculator = new AverageContinuous_OperatorCalculator_RecalculateContinually(
+                        operatorCalculator = new AverageOverDimension_OperatorCalculator_RecalculateContinually(
                             signalCalculator,
                             fromCalculator,
                             tillCalculator,
@@ -365,7 +365,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                         break;
 
                     case AggregateRecalculationEnum.UponReset:
-                        operatorCalculator = new AverageContinuous_OperatorCalculator_RecalculateUponReset(
+                        operatorCalculator = new AverageOverDimension_OperatorCalculator_RecalculateUponReset(
                             signalCalculator,
                             fromCalculator,
                             tillCalculator,
@@ -1687,13 +1687,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             VisitUnbundle(op);
         }
 
-        protected override void VisitMaxContinuous(Operator op)
+        protected override void VisitMaxOverDimension(Operator op)
         {
-            var wrapper = new MaxContinuous_OperatorWrapper(op);
+            var wrapper = new MaxOverDimension_OperatorWrapper(op);
             DimensionEnum dimensionEnum = wrapper.Dimension;
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
-            base.VisitMaxContinuous(op);
+            base.VisitMaxOverDimension(op);
 
             OperatorCalculatorBase operatorCalculator;
 
@@ -1746,7 +1746,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 switch (aggregateRecalculationEnum)
                 {
                     case AggregateRecalculationEnum.Continual:
-                        operatorCalculator = new MaxContinuous_OperatorCalculator_RecalculateContinually(
+                        operatorCalculator = new MaxOverDimension_OperatorCalculator_RecalculateContinually(
                             signalCalculator,
                             fromCalculator,
                             tillCalculator,
@@ -1755,7 +1755,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                         break;
 
                     case AggregateRecalculationEnum.UponReset:
-                        operatorCalculator = new MaxContinuous_OperatorCalculator_RecalculateUponReset(
+                        operatorCalculator = new MaxOverDimension_OperatorCalculator_RecalculateUponReset(
                             signalCalculator,
                             fromCalculator,
                             tillCalculator,
@@ -1847,13 +1847,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitMinContinuous(Operator op)
+        protected override void VisitMinOverDimension(Operator op)
         {
-            var wrapper = new MinContinuous_OperatorWrapper(op);
+            var wrapper = new MinOverDimension_OperatorWrapper(op);
             DimensionEnum dimensionEnum = wrapper.Dimension;
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
-            base.VisitMinContinuous(op);
+            base.VisitMinOverDimension(op);
 
             OperatorCalculatorBase operatorCalculator;
 
@@ -1906,7 +1906,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 switch (aggregateRecalculationEnum)
                 {
                     case AggregateRecalculationEnum.Continual:
-                        operatorCalculator = new MinContinuous_OperatorCalculator_RecalculateContinually(
+                        operatorCalculator = new MinOverDimension_OperatorCalculator_RecalculateContinually(
                             signalCalculator,
                             fromCalculator,
                             tillCalculator,
@@ -1915,7 +1915,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                         break;
 
                     case AggregateRecalculationEnum.UponReset:
-                        operatorCalculator = new MinContinuous_OperatorCalculator_RecalculateUponReset(
+                        operatorCalculator = new MinOverDimension_OperatorCalculator_RecalculateUponReset(
                             signalCalculator,
                             fromCalculator,
                             tillCalculator,
@@ -3946,13 +3946,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitSumContinuous(Operator op)
+        protected override void VisitSumOverDimension(Operator op)
         {
-            var wrapper = new SumContinuous_OperatorWrapper(op);
+            var wrapper = new SumOverDimension_OperatorWrapper(op);
             DimensionEnum dimensionEnum = wrapper.Dimension;
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
-            base.VisitSumContinuous(op);
+            base.VisitSumOverDimension(op);
 
             OperatorCalculatorBase operatorCalculator;
 
@@ -4005,7 +4005,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 switch (aggregateRecalculationEnum)
                 {
                     case AggregateRecalculationEnum.Continual:
-                        operatorCalculator = new SumContinuous_OperatorCalculator_RecalculateContinually(
+                        operatorCalculator = new SumOverDimension_OperatorCalculator_RecalculateContinually(
                             signalCalculator,
                             fromCalculator,
                             tillCalculator,
@@ -4014,7 +4014,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                         break;
 
                     case AggregateRecalculationEnum.UponReset:
-                        operatorCalculator = new SumContinuous_OperatorCalculator_RecalculateUponReset(
+                        operatorCalculator = new SumOverDimension_OperatorCalculator_RecalculateUponReset(
                             signalCalculator,
                             fromCalculator,
                             tillCalculator,

@@ -151,15 +151,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Average over Dimension.
-        /// </summary>
-        public static string AverageContinuous {
-            get {
-                return ResourceManager.GetString("AverageContinuous", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Average.
         /// </summary>
         public static string AverageDiscrete {
@@ -174,6 +165,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string AverageFollower {
             get {
                 return ResourceManager.GetString("AverageFollower", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Average over Dimension.
+        /// </summary>
+        public static string AverageOverDimension {
+            get {
+                return ResourceManager.GetString("AverageOverDimension", resourceCulture);
             }
         }
         
@@ -1069,15 +1069,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Max over Dimension.
-        /// </summary>
-        public static string MaxContinuous {
-            get {
-                return ResourceManager.GetString("MaxContinuous", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Max.
         /// </summary>
         public static string MaxDiscrete {
@@ -1105,11 +1096,11 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Min over Dimension.
+        ///   Looks up a localized string similar to Max over Dimension.
         /// </summary>
-        public static string MinContinuous {
+        public static string MaxOverDimension {
             get {
-                return ResourceManager.GetString("MinContinuous", resourceCulture);
+                return ResourceManager.GetString("MaxOverDimension", resourceCulture);
             }
         }
         
@@ -1137,6 +1128,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string MinFrequency {
             get {
                 return ResourceManager.GetString("MinFrequency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Min over Dimension.
+        /// </summary>
+        public static string MinOverDimension {
+            get {
+                return ResourceManager.GetString("MinOverDimension", resourceCulture);
             }
         }
         
@@ -1960,20 +1960,20 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sum over Dimension.
-        /// </summary>
-        public static string SumContinuous {
-            get {
-                return ResourceManager.GetString("SumContinuous", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Sum Follower.
         /// </summary>
         public static string SumFollower {
             get {
                 return ResourceManager.GetString("SumFollower", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sum over Dimension.
+        /// </summary>
+        public static string SumOverDimension {
+            get {
+                return ResourceManager.GetString("SumOverDimension", resourceCulture);
             }
         }
         

@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal abstract class MinOrMaxContinuous_OperatorCalculatorBase : OperatorCalculatorBase_WithChildCalculators
+    internal abstract class MinOrMaxOverDimension_OperatorCalculatorBase : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _fromCalculator;
@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private double _aggregate;
 
-        public MinOrMaxContinuous_OperatorCalculatorBase(
+        public MinOrMaxOverDimension_OperatorCalculatorBase(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase fromCalculator,
             OperatorCalculatorBase tillCalculator,

@@ -121,10 +121,10 @@
         MaxDiscrete = 69,
         MinDiscrete = 70,
         AverageDiscrete = 71,
-        MaxContinuous = 72,
-        MinContinuous = 73,
-        AverageContinuous = 74,
-        SumContinuous = 75,
+        MaxOverDimension = 72,
+        MinOverDimension = 73,
+        AverageOverDimension = 74,
+        SumOverDimension = 75,
         SumFollower = 76,
         Multiply = 77
     }

@@ -7,39 +7,39 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public abstract class OperatorWrapperBase_ContinuousAggregate : OperatorWrapperBase_WithDimension
+    public abstract class OperatorWrapperBase_AggregateOverDimension : OperatorWrapperBase_WithDimension
     {
-        public OperatorWrapperBase_ContinuousAggregate(Operator op)
+        public OperatorWrapperBase_AggregateOverDimension(Operator op)
             : base(op)
         { }
 
         public Outlet Signal
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OperatorConstants.CONTINUOUS_AGGREGATE_SIGNAL_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CONTINUOUS_AGGREGATE_SIGNAL_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OperatorConstants.AGGREGATE_OVER_DIMENSION_SIGNAL_INDEX); }
+            set { OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.AGGREGATE_OVER_DIMENSION_SIGNAL_INDEX).LinkTo(value); }
         }
 
         public Outlet From
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OperatorConstants.CONTINUOUS_AGGREGATE_FROM_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CONTINUOUS_AGGREGATE_FROM_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OperatorConstants.AGGREGATE_OVER_DIMENSION_FROM_INDEX); }
+            set { OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.AGGREGATE_OVER_DIMENSION_FROM_INDEX).LinkTo(value); }
         }
 
         public Outlet Till
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OperatorConstants.CONTINUOUS_AGGREGATE_TILL_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CONTINUOUS_AGGREGATE_TILL_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OperatorConstants.AGGREGATE_OVER_DIMENSION_TILL_INDEX); }
+            set { OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.AGGREGATE_OVER_DIMENSION_TILL_INDEX).LinkTo(value); }
         }
 
         public Outlet Step
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OperatorConstants.CONTINUOUS_AGGREGATE_STEP_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CONTINUOUS_AGGREGATE_STEP_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OperatorConstants.AGGREGATE_OVER_DIMENSION_STEP_INDEX); }
+            set { OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.AGGREGATE_OVER_DIMENSION_STEP_INDEX).LinkTo(value); }
         }
 
         public Outlet Result
         {
-            get { return OperatorHelper.GetOutlet(WrappedOperator, OperatorConstants.CONTINUOUS_AGGREGATE_RESULT_INDEX); }
+            get { return OperatorHelper.GetOutlet(WrappedOperator, OperatorConstants.AGGREGATE_OVER_DIMENSION_RESULT_INDEX); }
         }
 
         public AggregateRecalculationEnum Recalculation
@@ -52,25 +52,25 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         {
             switch (listIndex)
             {
-                case OperatorConstants.CONTINUOUS_AGGREGATE_SIGNAL_INDEX:
+                case OperatorConstants.AGGREGATE_OVER_DIMENSION_SIGNAL_INDEX:
                     {
                         string name = ResourceHelper.GetPropertyDisplayName(() => Signal);
                         return name;
                     }
 
-                case OperatorConstants.CONTINUOUS_AGGREGATE_FROM_INDEX:
+                case OperatorConstants.AGGREGATE_OVER_DIMENSION_FROM_INDEX:
                     {
                         string name = ResourceHelper.GetPropertyDisplayName(() => From);
                         return name;
                     }
 
-                case OperatorConstants.CONTINUOUS_AGGREGATE_TILL_INDEX:
+                case OperatorConstants.AGGREGATE_OVER_DIMENSION_TILL_INDEX:
                     {
                         string name = ResourceHelper.GetPropertyDisplayName(() => Till);
                         return name;
                     }
 
-                case OperatorConstants.CONTINUOUS_AGGREGATE_STEP_INDEX:
+                case OperatorConstants.AGGREGATE_OVER_DIMENSION_STEP_INDEX:
                     {
                         string name = ResourceHelper.GetPropertyDisplayName(() => Step);
                         return name;

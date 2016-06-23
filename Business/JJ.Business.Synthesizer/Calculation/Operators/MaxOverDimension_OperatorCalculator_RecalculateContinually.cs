@@ -5,9 +5,9 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class MinContinuous_OperatorCalculator_RecalculateContinually : MinOrMaxContinuous_OperatorCalculatorBase
+    internal class MaxOverDimension_OperatorCalculator_RecalculateContinually : MinOrMaxOverDimension_OperatorCalculatorBase
     {
-        public MinContinuous_OperatorCalculator_RecalculateContinually(
+        public MaxOverDimension_OperatorCalculator_RecalculateContinually(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase fromCalculator,
             OperatorCalculatorBase tillCalculator,
@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected override bool MustOverwrite(double currentValue, double newValue)
         {
-            return newValue < currentValue;
+            return newValue > currentValue;
         }
     }
 }

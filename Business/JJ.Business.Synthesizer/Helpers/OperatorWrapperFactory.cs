@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Helpers
             { OperatorTypeEnum.Absolute, Create_Absolute_OperatorWrapper },
             { OperatorTypeEnum.Add , Create_Add_OperatorWrapper },
             { OperatorTypeEnum.And, Create_And_OperatorWrapper },
-            { OperatorTypeEnum.AverageContinuous, Create_AverageContinuous_OperatorWrapper },
+            { OperatorTypeEnum.AverageOverDimension, Create_AverageOverDimension_OperatorWrapper },
             { OperatorTypeEnum.AverageDiscrete, Create_AverageDiscrete_OperatorWrapper },
             { OperatorTypeEnum.AverageFollower, Create_AverageFollower_OperatorWrapper },
             { OperatorTypeEnum.Bundle, Create_Bundle_OperatorWrapper },
@@ -42,10 +42,10 @@ namespace JJ.Business.Synthesizer.Helpers
             { OperatorTypeEnum.LowPassFilter, Create_LowPassFilter_OperatorWrapper },
             { OperatorTypeEnum.MakeContinuous, Create_MakeContinuous_OperatorWrapper },
             { OperatorTypeEnum.MakeDiscrete, Create_MakeDiscrete_OperatorWrapper },
-            { OperatorTypeEnum.MaxContinuous, Create_MaxContinuous_OperatorWrapper },
+            { OperatorTypeEnum.MaxOverDimension, Create_MaxOverDimension_OperatorWrapper },
             { OperatorTypeEnum.MaxDiscrete, Create_MaxDiscrete_OperatorWrapper },
             { OperatorTypeEnum.MaxFollower, Create_MaxFollower_OperatorWrapper },
-            { OperatorTypeEnum.MinContinuous, Create_MinContinuous_OperatorWrapper },
+            { OperatorTypeEnum.MinOverDimension, Create_MinOverDimension_OperatorWrapper },
             { OperatorTypeEnum.MinDiscrete, Create_MinDiscrete_OperatorWrapper },
             { OperatorTypeEnum.MinFollower, Create_MinFollower_OperatorWrapper },
             { OperatorTypeEnum.Multiply, Create_Multiply_OperatorWrapper },
@@ -82,7 +82,7 @@ namespace JJ.Business.Synthesizer.Helpers
             { OperatorTypeEnum.Square, Create_Square_OperatorWrapper },
             { OperatorTypeEnum.Stretch, Create_Stretch_OperatorWrapper },
             { OperatorTypeEnum.Subtract, Create_Subtract_OperatorWrapper },
-            { OperatorTypeEnum.SumContinuous, Create_SumContinuous_OperatorWrapper },
+            { OperatorTypeEnum.SumOverDimension, Create_SumOverDimension_OperatorWrapper },
             { OperatorTypeEnum.SumFollower, Create_SumFollower_OperatorWrapper },
             { OperatorTypeEnum.TimePower , Create_TimePower_OperatorWrapper },
             { OperatorTypeEnum.ToggleTrigger , Create_ToggleTrigger_OperatorWrapper },
@@ -141,7 +141,7 @@ namespace JJ.Business.Synthesizer.Helpers
         private static Add_OperatorWrapper Create_Add_OperatorWrapper(Operator op) { return new Add_OperatorWrapper(op); }
         private static And_OperatorWrapper Create_And_OperatorWrapper(Operator op) { return new And_OperatorWrapper(op); }
         private static AverageFollower_OperatorWrapper Create_AverageFollower_OperatorWrapper(Operator op) { return new AverageFollower_OperatorWrapper(op); }
-        private static AverageContinuous_OperatorWrapper Create_AverageContinuous_OperatorWrapper(Operator op) { return new AverageContinuous_OperatorWrapper(op); }
+        private static AverageOverDimension_OperatorWrapper Create_AverageOverDimension_OperatorWrapper(Operator op) { return new AverageOverDimension_OperatorWrapper(op); }
         private static AverageDiscrete_OperatorWrapper Create_AverageDiscrete_OperatorWrapper(Operator op) { return new AverageDiscrete_OperatorWrapper(op); }
         private static Bundle_OperatorWrapper Create_Bundle_OperatorWrapper(Operator op) { return new Bundle_OperatorWrapper(op); }
         private static Cache_OperatorWrapper Create_Cache_OperatorWrapper(Operator op) { return new Cache_OperatorWrapper(op); }
@@ -164,10 +164,10 @@ namespace JJ.Business.Synthesizer.Helpers
         private static LowPassFilter_OperatorWrapper Create_LowPassFilter_OperatorWrapper(Operator op) { return new LowPassFilter_OperatorWrapper(op); }
         private static MakeContinuous_OperatorWrapper Create_MakeContinuous_OperatorWrapper(Operator op) { return new MakeContinuous_OperatorWrapper(op); }
         private static MakeDiscrete_OperatorWrapper Create_MakeDiscrete_OperatorWrapper(Operator op) { return new MakeDiscrete_OperatorWrapper(op); }
-        private static MaxContinuous_OperatorWrapper Create_MaxContinuous_OperatorWrapper(Operator op) { return new MaxContinuous_OperatorWrapper(op); }
+        private static MaxOverDimension_OperatorWrapper Create_MaxOverDimension_OperatorWrapper(Operator op) { return new MaxOverDimension_OperatorWrapper(op); }
         private static MaxDiscrete_OperatorWrapper Create_MaxDiscrete_OperatorWrapper(Operator op) { return new MaxDiscrete_OperatorWrapper(op); }
         private static MaxFollower_OperatorWrapper Create_MaxFollower_OperatorWrapper(Operator op) { return new MaxFollower_OperatorWrapper(op); }
-        private static MinContinuous_OperatorWrapper Create_MinContinuous_OperatorWrapper(Operator op) { return new MinContinuous_OperatorWrapper(op); }
+        private static MinOverDimension_OperatorWrapper Create_MinOverDimension_OperatorWrapper(Operator op) { return new MinOverDimension_OperatorWrapper(op); }
         private static MinDiscrete_OperatorWrapper Create_MinDiscrete_OperatorWrapper(Operator op) { return new MinDiscrete_OperatorWrapper(op); }
         private static MinFollower_OperatorWrapper Create_MinFollower_OperatorWrapper(Operator op) { return new MinFollower_OperatorWrapper(op); }
         private static Multiply_OperatorWrapper Create_Multiply_OperatorWrapper(Operator op) { return new Multiply_OperatorWrapper(op); }
@@ -204,7 +204,7 @@ namespace JJ.Business.Synthesizer.Helpers
         private static Square_OperatorWrapper Create_Square_OperatorWrapper(Operator op) { return new Square_OperatorWrapper(op); }
         private static Stretch_OperatorWrapper Create_Stretch_OperatorWrapper(Operator op) { return new Stretch_OperatorWrapper(op); }
         private static Subtract_OperatorWrapper Create_Subtract_OperatorWrapper(Operator op) { return new Subtract_OperatorWrapper(op); }
-        private static SumContinuous_OperatorWrapper Create_SumContinuous_OperatorWrapper(Operator op) { return new SumContinuous_OperatorWrapper(op); }
+        private static SumOverDimension_OperatorWrapper Create_SumOverDimension_OperatorWrapper(Operator op) { return new SumOverDimension_OperatorWrapper(op); }
         private static SumFollower_OperatorWrapper Create_SumFollower_OperatorWrapper(Operator op) { return new SumFollower_OperatorWrapper(op); }
         private static TimePower_OperatorWrapper Create_TimePower_OperatorWrapper(Operator op) { return new TimePower_OperatorWrapper(op); }
         private static ToggleTrigger_OperatorWrapper Create_ToggleTrigger_OperatorWrapper(Operator op) { return new ToggleTrigger_OperatorWrapper(op); }

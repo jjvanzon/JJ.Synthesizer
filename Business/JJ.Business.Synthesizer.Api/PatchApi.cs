@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.And(a, b);
         }
 
-        public AverageContinuous_OperatorWrapper AverageContinuous(
+        public AverageOverDimension_OperatorWrapper AverageOverDimension(
             Outlet signal = null,
             Outlet from = null,
             Outlet till = null,
@@ -54,7 +54,7 @@ namespace JJ.Business.Synthesizer.Api
             DimensionEnum dimension = DimensionEnum.Undefined,
             AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continual)
         {
-            return _patchManager.AverageContinuous(signal, from, till, step, dimension, recalculation);
+            return _patchManager.AverageOverDimension(signal, from, till, step, dimension, recalculation);
         }
 
         public AverageDiscrete_OperatorWrapper AverageDiscrete(params Outlet[] operands)
@@ -316,7 +316,7 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.MakeDiscrete();
         }
 
-        public MaxContinuous_OperatorWrapper MaxContinuous(
+        public MaxOverDimension_OperatorWrapper MaxOverDimension(
             Outlet signal = null,
             Outlet from = null, 
             Outlet till = null, 
@@ -324,7 +324,7 @@ namespace JJ.Business.Synthesizer.Api
             DimensionEnum dimension = DimensionEnum.Undefined,
             AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continual)
         {
-            return _patchManager.MaxContinuous(signal, from, till, step, dimension, recalculation);
+            return _patchManager.MaxOverDimension(signal, from, till, step, dimension, recalculation);
         }
 
         public MaxDiscrete_OperatorWrapper MaxDiscrete(params Outlet[] operands)
@@ -346,7 +346,7 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.MaxFollower(signal, sliceLength, sampleCount, dimension);
         }
 
-        public MinContinuous_OperatorWrapper MinContinuous(
+        public MinOverDimension_OperatorWrapper MinOverDimension(
             Outlet signal = null,
             Outlet from = null,
             Outlet till = null,
@@ -354,7 +354,7 @@ namespace JJ.Business.Synthesizer.Api
             DimensionEnum dimension = DimensionEnum.Undefined,
             AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continual)
         {
-            return _patchManager.MinContinuous(signal, from, till, step, dimension, recalculation);
+            return _patchManager.MinOverDimension(signal, from, till, step, dimension, recalculation);
         }
 
         public MinDiscrete_OperatorWrapper MinDiscrete(params Outlet[] operands)
@@ -636,7 +636,7 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Subtract(a, b);
         }
 
-        public SumContinuous_OperatorWrapper SumContinuous(
+        public SumOverDimension_OperatorWrapper SumOverDimension(
             Outlet signal = null,
             Outlet from = null,
             Outlet till = null,
@@ -644,7 +644,7 @@ namespace JJ.Business.Synthesizer.Api
             DimensionEnum dimension = DimensionEnum.Undefined,
             AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continual)
         {
-            return _patchManager.SumContinuous(signal, from, till, step, dimension, recalculation);
+            return _patchManager.SumOverDimension(signal, from, till, step, dimension, recalculation);
         }
 
         public SumFollower_OperatorWrapper SumFollower(

@@ -78,10 +78,10 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             RepositoryHelper.EnsureEnumEntity(this, 69, "MaxDiscrete");
             RepositoryHelper.EnsureEnumEntity(this, 70, "MinDiscrete");
             RepositoryHelper.EnsureEnumEntity(this, 71, "AverageDiscrete");
-            RepositoryHelper.EnsureEnumEntity(this, 72, "MaxContinuous");
-            RepositoryHelper.EnsureEnumEntity(this, 73, "MinContinuous");
-            RepositoryHelper.EnsureEnumEntity(this, 74, "AverageContinuous");
-            RepositoryHelper.EnsureEnumEntity(this, 75, "SumContinuous");
+            RepositoryHelper.EnsureEnumEntity(this, 72, "MaxOverDimension");
+            RepositoryHelper.EnsureEnumEntity(this, 73, "MinOverDimension");
+            RepositoryHelper.EnsureEnumEntity(this, 74, "AverageOverDimension");
+            RepositoryHelper.EnsureEnumEntity(this, 75, "SumOverDimension");
             RepositoryHelper.EnsureEnumEntity(this, 76, "SumFollower");
             RepositoryHelper.EnsureEnumEntity(this, 77, "Multiply");
         }

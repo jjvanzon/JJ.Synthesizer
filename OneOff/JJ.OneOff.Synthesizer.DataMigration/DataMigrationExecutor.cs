@@ -1350,7 +1350,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
         }
 
-        public static void Migrate_SetRecalculateParameter_ForContinuousAggregates(Action<string> progressCallback)
+        public static void Migrate_SetRecalculateParameter_ForAggregatesOverDimension(Action<string> progressCallback)
         {
             if (progressCallback == null) throw new NullException(() => progressCallback);
 
@@ -1358,10 +1358,10 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
             var operatorTypeEnumHashSet = new HashSet<OperatorTypeEnum>
             {
-                OperatorTypeEnum.AverageContinuous,
-                OperatorTypeEnum.MaxContinuous,
-                OperatorTypeEnum.MinContinuous,
-                OperatorTypeEnum.SumContinuous
+                OperatorTypeEnum.AverageOverDimension,
+                OperatorTypeEnum.MaxOverDimension,
+                OperatorTypeEnum.MinOverDimension,
+                OperatorTypeEnum.SumOverDimension
             };
 
             using (IContext context = PersistenceHelper.CreateContext())
@@ -1376,7 +1376,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                 for (int i = 0; i < operators.Count; i++)
                 {
                     Operator op = operators[i];
-                    var wrapper = new MaxContinuous_OperatorWrapper(op);
+                    var wrapper = new MaxOverDimension_OperatorWrapper(op);
 
                     OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
                     if (!operatorTypeEnumHashSet.Contains(operatorTypeEnum))

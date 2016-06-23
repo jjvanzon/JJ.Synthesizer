@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal abstract class SumContinuous_OperatorCalculator_Base : OperatorCalculatorBase_WithChildCalculators
+    internal abstract class SumOverDimension_OperatorCalculator_Base : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _fromCalculator;
@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         protected double _aggregate;
 
-        public SumContinuous_OperatorCalculator_Base(
+        public SumOverDimension_OperatorCalculator_Base(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase fromCalculator,
             OperatorCalculatorBase tillCalculator,

@@ -5,9 +5,9 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class MinContinuous_OperatorCalculator_RecalculateUponReset : MinOrMaxContinuous_OperatorCalculatorBase
+    internal class MinOverDimension_OperatorCalculator_RecalculateContinually : MinOrMaxOverDimension_OperatorCalculatorBase
     {
-        public MinContinuous_OperatorCalculator_RecalculateUponReset(
+        public MinOverDimension_OperatorCalculator_RecalculateContinually(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase fromCalculator,
             OperatorCalculatorBase tillCalculator,
@@ -16,10 +16,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             : base(signalCalculator, fromCalculator, tillCalculator, stepCalculator, dimensionStack)
         { }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected override void ResetNonRecursive()
+        public override double Calculate()
         {
             RecalculateAggregate();
+
+            return base.Calculate();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

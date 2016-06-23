@@ -4,9 +4,9 @@ using System.Linq;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class SumContinuous_OperatorCalculator_RecalculateUponReset : SumContinuous_OperatorCalculator_Base
+    internal class SumOverDimension_OperatorCalculator_RecalculateUponReset : SumOverDimension_OperatorCalculator_Base
     {
-        public SumContinuous_OperatorCalculator_RecalculateUponReset(
+        public SumOverDimension_OperatorCalculator_RecalculateUponReset(
             OperatorCalculatorBase signalCalculator, 
             OperatorCalculatorBase fromCalculator, 
             OperatorCalculatorBase tillCalculator, 

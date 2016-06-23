@@ -821,16 +821,16 @@
   <data name="AverageDiscrete" xml:space="preserve">
     <value>Average</value>
   </data>
-  <data name="MaxContinuous" xml:space="preserve">
+  <data name="MaxOverDimension" xml:space="preserve">
     <value>Max over Dimension</value>
   </data>
-  <data name="MinContinuous" xml:space="preserve">
+  <data name="MinOverDimension" xml:space="preserve">
     <value>Min over Dimension</value>
   </data>
-  <data name="AverageContinuous" xml:space="preserve">
+  <data name="AverageOverDimension" xml:space="preserve">
     <value>Average over Dimension</value>
   </data>
-  <data name="SumContinuous" xml:space="preserve">
+  <data name="SumOverDimension" xml:space="preserve">
     <value>Sum over Dimension</value>
   </data>
   <data name="SumFollower" xml:space="preserve">
