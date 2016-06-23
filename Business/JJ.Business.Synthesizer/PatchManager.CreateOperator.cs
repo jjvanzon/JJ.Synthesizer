@@ -91,21 +91,21 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public AverageDiscrete_OperatorWrapper AverageDiscrete(params Outlet[] operands)
+        public Average_OperatorWrapper Average(params Outlet[] operands)
         {
-            return AverageDiscrete((IList<Outlet>)operands);
+            return Average((IList<Outlet>)operands);
         }
 
-        public AverageDiscrete_OperatorWrapper AverageDiscrete(IList<Outlet> operands)
+        public Average_OperatorWrapper Average(IList<Outlet> operands)
         {
             if (operands == null) throw new NullException(() => operands);
 
-            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.AverageDiscrete, operands);
+            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.Average, operands);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
-            var wrapper = new AverageDiscrete_OperatorWrapper(op);
+            var wrapper = new Average_OperatorWrapper(op);
             return wrapper;
         }
 
@@ -697,21 +697,21 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public MaxDiscrete_OperatorWrapper MaxDiscrete(params Outlet[] operands)
+        public Max_OperatorWrapper Max(params Outlet[] operands)
         {
-            return MaxDiscrete((IList<Outlet>)operands);
+            return Max((IList<Outlet>)operands);
         }
 
-        public MaxDiscrete_OperatorWrapper MaxDiscrete(IList<Outlet> operands)
+        public Max_OperatorWrapper Max(IList<Outlet> operands)
         {
             if (operands == null) throw new NullException(() => operands);
 
-            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.MaxDiscrete, operands);
+            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.Max, operands);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
-            var wrapper = new MaxDiscrete_OperatorWrapper(op);
+            var wrapper = new Max_OperatorWrapper(op);
             return wrapper;
         }
 
@@ -763,21 +763,21 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public MinDiscrete_OperatorWrapper MinDiscrete(params Outlet[] operands)
+        public Min_OperatorWrapper Min(params Outlet[] operands)
         {
-            return MinDiscrete((IList<Outlet>)operands);
+            return Min((IList<Outlet>)operands);
         }
 
-        public MinDiscrete_OperatorWrapper MinDiscrete(IList<Outlet> operands)
+        public Min_OperatorWrapper Min(IList<Outlet> operands)
         {
             if (operands == null) throw new NullException(() => operands);
 
-            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.MinDiscrete, operands);
+            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.Min, operands);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
-            var wrapper = new MinDiscrete_OperatorWrapper(op);
+            var wrapper = new Min_OperatorWrapper(op);
             return wrapper;
         }
 
@@ -1675,7 +1675,7 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.And: return And();
                 case OperatorTypeEnum.AverageFollower: return AverageFollower();
                 case OperatorTypeEnum.AverageOverDimension: return AverageOverDimension();
-                case OperatorTypeEnum.AverageDiscrete: return AverageDiscrete(new Outlet[variableInletOrOutletCount]);
+                case OperatorTypeEnum.Average: return Average(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.Bundle: return Bundle(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.ChangeTrigger: return ChangeTrigger();
                 case OperatorTypeEnum.Cache: return Cache();
@@ -1700,10 +1700,10 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.MakeContinuous: return MakeContinuous(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.MakeDiscrete: return MakeDiscrete(null, variableInletOrOutletCount);
                 case OperatorTypeEnum.MaxOverDimension: return MaxOverDimension();
-                case OperatorTypeEnum.MaxDiscrete: return MaxDiscrete(new Outlet[variableInletOrOutletCount]);
+                case OperatorTypeEnum.Max: return Max(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.MaxFollower: return MaxFollower();
                 case OperatorTypeEnum.MinOverDimension: return MinOverDimension();
-                case OperatorTypeEnum.MinDiscrete: return MinDiscrete(new Outlet[variableInletOrOutletCount]);
+                case OperatorTypeEnum.Min: return Min(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.MinFollower: return MinFollower();
                 case OperatorTypeEnum.Multiply: return Multiply(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.MultiplyWithOrigin: return MultiplyWithOrigin();

@@ -153,9 +153,9 @@ namespace JJ.Business.Synthesizer.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Average.
         /// </summary>
-        public static string AverageDiscrete {
+        public static string Average {
             get {
-                return ResourceManager.GetString("AverageDiscrete", resourceCulture);
+                return ResourceManager.GetString("Average", resourceCulture);
             }
         }
         
@@ -1060,20 +1060,20 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Max.
+        /// </summary>
+        public static string Max {
+            get {
+                return ResourceManager.GetString("Max", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Concurrent Notes.
         /// </summary>
         public static string MaxConcurrentNotes {
             get {
                 return ResourceManager.GetString("MaxConcurrentNotes", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Max.
-        /// </summary>
-        public static string MaxDiscrete {
-            get {
-                return ResourceManager.GetString("MaxDiscrete", resourceCulture);
             }
         }
         
@@ -1107,9 +1107,9 @@ namespace JJ.Business.Synthesizer.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Min.
         /// </summary>
-        public static string MinDiscrete {
+        public static string Min {
             get {
-                return ResourceManager.GetString("MinDiscrete", resourceCulture);
+                return ResourceManager.GetString("Min", resourceCulture);
             }
         }
         

@@ -812,13 +812,13 @@
   <data name="MakeDiscrete" xml:space="preserve">
     <value>Maak afzonderlijk</value>
   </data>
-  <data name="MaxDiscrete" xml:space="preserve">
+  <data name="Max" xml:space="preserve">
     <value>Max</value>
   </data>
-  <data name="MinDiscrete" xml:space="preserve">
+  <data name="Min" xml:space="preserve">
     <value>Minimum</value>
   </data>
-  <data name="AverageDiscrete" xml:space="preserve">
+  <data name="Average" xml:space="preserve">
     <value>Gemiddeld</value>
   </data>
   <data name="MaxOverDimension" xml:space="preserve">

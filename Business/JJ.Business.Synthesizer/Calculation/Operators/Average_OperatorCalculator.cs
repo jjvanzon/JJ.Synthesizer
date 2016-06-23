@@ -9,14 +9,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     // You could imagine many more optimized calculations, such as first operand is const and several,
     // that omit the loop, but future optimizations will just make that work obsolete again.
 
-    internal class AverageDiscrete_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Average_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _firstOperandCalculator;
         private readonly OperatorCalculatorBase[] _remainingOperandCalculators;
         private readonly double _remainingOperandCalculatorsCount;
         private readonly double _count;
 
-        public AverageDiscrete_OperatorCalculator(IList<OperatorCalculatorBase> operandCalculators)
+        public Average_OperatorCalculator(IList<OperatorCalculatorBase> operandCalculators)
             : base(operandCalculators)
         {
             if (operandCalculators == null) throw new NullException(() => operandCalculators);

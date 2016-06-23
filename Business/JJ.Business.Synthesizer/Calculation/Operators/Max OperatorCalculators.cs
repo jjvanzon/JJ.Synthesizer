@@ -9,13 +9,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     // You could imagine many more optimized calculations, such as first operand is const and several,
     // that omit the loop, but future optimizations will just make that work obsolete again.
 
-    internal class MinDiscrete_OperatorCalculator_MoreThanTwoOperands : OperatorCalculatorBase_WithChildCalculators
+    internal class Max_OperatorCalculator_MoreThanTwoOperands : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _firstOperandCalculator;
         private readonly OperatorCalculatorBase[] _remainingOperandCalculators;
         private readonly double _remainingOperandCalculatorsCount;
         
-        public MinDiscrete_OperatorCalculator_MoreThanTwoOperands(IList<OperatorCalculatorBase> operandCalculators)
+        public Max_OperatorCalculator_MoreThanTwoOperands(IList<OperatorCalculatorBase> operandCalculators)
             : base(operandCalculators)
         {
             if (operandCalculators == null) throw new NullException(() => operandCalculators);
@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             {
                 double result2 = _remainingOperandCalculators[i].Calculate();
 
-                if (result2 < result)
+                if (result2 > result)
                 {
                     result = result2;
                 }
@@ -45,12 +45,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class MinDiscrete_OperatorCalculator_TwoOperands : OperatorCalculatorBase_WithChildCalculators
+    internal class Max_OperatorCalculator_TwoOperands : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _aCalculator;
         private readonly OperatorCalculatorBase _bCalculator;
 
-        public MinDiscrete_OperatorCalculator_TwoOperands(
+        public Max_OperatorCalculator_TwoOperands(
             OperatorCalculatorBase aCalculator,
             OperatorCalculatorBase bCalculator)
             : base(new OperatorCalculatorBase[] { aCalculator, bCalculator })
@@ -68,7 +68,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double a = _aCalculator.Calculate();
             double b = _bCalculator.Calculate();
 
-            if (a < b)
+            if (a > b)
             {
                 return a;
             }

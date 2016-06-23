@@ -381,9 +381,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(operatorCalculator);
         }
 
-        protected override void VisitAverageDiscrete(Operator op)
+        protected override void VisitAverage(Operator op)
         {
-            base.VisitAverageDiscrete(op);
+            base.VisitAverage(op);
 
             OperatorCalculatorBase calculator;
 
@@ -408,7 +408,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     break;
 
                 default:
-                    calculator = new AverageDiscrete_OperatorCalculator(operandCalculators);
+                    calculator = new Average_OperatorCalculator(operandCalculators);
                     break;
             }
 
@@ -1771,9 +1771,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(operatorCalculator);
         }
 
-        protected override void VisitMaxDiscrete(Operator op)
+        protected override void VisitMax(Operator op)
         {
-            base.VisitMaxDiscrete(op);
+            base.VisitMax(op);
 
             OperatorCalculatorBase calculator;
 
@@ -1800,11 +1800,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 case 2:
                     OperatorCalculatorBase aCalculator = operandCalculators[0];
                     OperatorCalculatorBase bCalculator = operandCalculators[1];
-                    calculator = new MaxDiscrete_OperatorCalculator_TwoOperands(aCalculator, bCalculator);
+                    calculator = new Max_OperatorCalculator_TwoOperands(aCalculator, bCalculator);
                     break;
 
                 default:
-                    calculator = new MaxDiscrete_OperatorCalculator_MoreThanTwoOperands(operandCalculators);
+                    calculator = new Max_OperatorCalculator_MoreThanTwoOperands(operandCalculators);
                     break;
             }
 
@@ -1931,9 +1931,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(operatorCalculator);
         }
 
-        protected override void VisitMinDiscrete(Operator op)
+        protected override void VisitMin(Operator op)
         {
-            base.VisitMinDiscrete(op);
+            base.VisitMin(op);
 
             OperatorCalculatorBase calculator;
 
@@ -1960,11 +1960,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 case 2:
                     OperatorCalculatorBase aCalculator = operandCalculators[0];
                     OperatorCalculatorBase bCalculator = operandCalculators[1];
-                    calculator = new MinDiscrete_OperatorCalculator_TwoOperands(aCalculator, bCalculator);
+                    calculator = new Min_OperatorCalculator_TwoOperands(aCalculator, bCalculator);
                     break;
 
                 default:
-                    calculator = new MinDiscrete_OperatorCalculator_MoreThanTwoOperands(operandCalculators);
+                    calculator = new Min_OperatorCalculator_MoreThanTwoOperands(operandCalculators);
                     break;
             }
 

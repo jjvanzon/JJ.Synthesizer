@@ -16,11 +16,11 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         private static readonly HashSet<OperatorTypeEnum> _allowedOperatorTypeEnums = new HashSet<OperatorTypeEnum>
         {
             OperatorTypeEnum.Add,
-            OperatorTypeEnum.AverageDiscrete,
+            OperatorTypeEnum.Average,
             OperatorTypeEnum.Bundle,
             OperatorTypeEnum.MakeContinuous,
-            OperatorTypeEnum.MaxDiscrete,
-            OperatorTypeEnum.MinDiscrete,
+            OperatorTypeEnum.Max,
+            OperatorTypeEnum.Min,
             OperatorTypeEnum.Multiply
         };
 

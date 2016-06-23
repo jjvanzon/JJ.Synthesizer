@@ -57,14 +57,14 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.AverageOverDimension(signal, from, till, step, dimension, recalculation);
         }
 
-        public AverageDiscrete_OperatorWrapper AverageDiscrete(params Outlet[] operands)
+        public Average_OperatorWrapper Average(params Outlet[] operands)
         {
-            return _patchManager.AverageDiscrete(operands);
+            return _patchManager.Average(operands);
         }
 
-        public AverageDiscrete_OperatorWrapper AverageDiscrete(IList<Outlet> operands)
+        public Average_OperatorWrapper Average(IList<Outlet> operands)
         {
-            return _patchManager.AverageDiscrete(operands);
+            return _patchManager.Average(operands);
         }
 
         public AverageFollower_OperatorWrapper AverageFollower(
@@ -327,14 +327,14 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.MaxOverDimension(signal, from, till, step, dimension, recalculation);
         }
 
-        public MaxDiscrete_OperatorWrapper MaxDiscrete(params Outlet[] operands)
+        public Max_OperatorWrapper Max(params Outlet[] operands)
         {
-            return _patchManager.MaxDiscrete(operands);
+            return _patchManager.Max(operands);
         }
 
-        public MaxDiscrete_OperatorWrapper MaxDiscrete(IList<Outlet> operands)
+        public Max_OperatorWrapper Max(IList<Outlet> operands)
         {
-            return _patchManager.MaxDiscrete(operands);
+            return _patchManager.Max(operands);
         }
 
         public MaxFollower_OperatorWrapper MaxFollower(
@@ -357,14 +357,14 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.MinOverDimension(signal, from, till, step, dimension, recalculation);
         }
 
-        public MinDiscrete_OperatorWrapper MinDiscrete(params Outlet[] operands)
+        public Min_OperatorWrapper Min(params Outlet[] operands)
         {
-            return _patchManager.MinDiscrete(operands);
+            return _patchManager.Min(operands);
         }
 
-        public MinDiscrete_OperatorWrapper MinDiscrete(IList<Outlet> operands)
+        public Min_OperatorWrapper Min(IList<Outlet> operands)
         {
-            return _patchManager.MinDiscrete(operands);
+            return _patchManager.Min(operands);
         }
 
         public MinFollower_OperatorWrapper MinFollower(

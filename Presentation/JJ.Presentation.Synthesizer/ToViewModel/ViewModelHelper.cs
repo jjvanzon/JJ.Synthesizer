@@ -98,9 +98,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             OperatorTypeEnum.Add,
             OperatorTypeEnum.Multiply,
-            OperatorTypeEnum.AverageDiscrete,
-            OperatorTypeEnum.MaxDiscrete,
-            OperatorTypeEnum.MinDiscrete
+            OperatorTypeEnum.Average,
+            OperatorTypeEnum.Max,
+            OperatorTypeEnum.Min
         };
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithoutAlternativePropertiesView { get; } =

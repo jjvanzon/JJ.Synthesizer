@@ -3,13 +3,13 @@ using System;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class MinDiscrete_OperatorWrapper : OperatorWrapperBase_VariableInletCountOneOutlet
+    public class Min_OperatorWrapper : OperatorWrapperBase_VariableInletCountOneOutlet
     {
-        public MinDiscrete_OperatorWrapper(Operator op)
+        public Min_OperatorWrapper(Operator op)
             : base(op)
         { }
 
-        public static implicit operator Outlet(MinDiscrete_OperatorWrapper wrapper)
+        public static implicit operator Outlet(Min_OperatorWrapper wrapper)
         {
             if (wrapper == null) return null;
             
