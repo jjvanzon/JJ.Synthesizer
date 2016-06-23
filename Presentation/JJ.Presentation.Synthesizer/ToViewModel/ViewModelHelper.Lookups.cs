@@ -149,7 +149,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return idAndNames;
         }
 
-
         // ResampleInterpolationType
 
         private static IList<IDAndName> _aggregateRecalculationLookupViewModel = CreateAggregateRecalculationLookupViewModel();
@@ -161,7 +160,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         private static IList<IDAndName> CreateAggregateRecalculationLookupViewModel()
         {
-            IList<IDAndName> idAndNames = CreateEnumLookupViewModel<AggregateRecalculationEnum>(mustIncludeUndefined: true);
+            IList<IDAndName> idAndNames = CreateEnumLookupViewModel<AggregateRecalculationEnum>(mustIncludeUndefined: false);
             return idAndNames;
         }
 

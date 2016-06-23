@@ -32,6 +32,12 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 For(() => dimensionString, PropertyNames.Dimension)
                     .NotNullOrEmpty()
                     .IsEnum<DimensionEnum>();
+
+                string recalculationString = DataPropertyParser.TryGetString(op, PropertyNames.Recalculation);
+                For(() => recalculationString, PropertyNames.Recalculation)
+                    .NotNullOrEmpty()
+                    .IsEnum<AggregateRecalculationEnum>()
+                    .IsNot(AggregateRecalculationEnum.Undefined);
             }
         }
     }
