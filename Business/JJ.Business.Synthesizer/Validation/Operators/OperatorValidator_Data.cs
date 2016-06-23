@@ -73,7 +73,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                         bool dataKeyIsAllowed = _allowedDataKeysHashSet.Contains(actualDataKey);
                         if (!dataKeyIsAllowed)
                         {
-                            ValidationMessages.AddNotInListMessage(PropertyNames.DataKey, PropertyDisplayNames.DataKey, actualDataKey);
+                            ValidationMessages.AddNotInListMessage(PropertyNames.DataKey, PropertyDisplayNames.DataKey, _allowedDataKeysHashSet);
                         }
                     }
                 }

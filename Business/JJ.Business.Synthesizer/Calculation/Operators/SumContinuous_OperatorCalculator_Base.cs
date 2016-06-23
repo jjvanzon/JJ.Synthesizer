@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class SumContinuous_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal abstract class SumContinuous_OperatorCalculator_Base : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _fromCalculator;
@@ -15,7 +16,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         protected double _aggregate;
 
-        public SumContinuous_OperatorCalculator(
+        public SumContinuous_OperatorCalculator_Base(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase fromCalculator,
             OperatorCalculatorBase tillCalculator,
@@ -35,19 +36,28 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             ResetNonRecursive();
         }
 
+        /// <summary> Just returns _aggregate. </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
             return _aggregate;
         }
 
-        public override void Reset()
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public sealed override void Reset()
         {
             base.Reset();
 
             ResetNonRecursive();
         }
 
+        /// <summary> does nothing </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual void ResetNonRecursive()
+        { }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual void RecalculateAggregate()
         {
             double from = _fromCalculator.Calculate();
             double till = _tillCalculator.Calculate();

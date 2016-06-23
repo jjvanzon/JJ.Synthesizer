@@ -47,6 +47,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(OperatorPropertiesViewModel_ForSample), DispatchOperatorPropertiesViewModel_ForSample },
                 { typeof(OperatorPropertiesViewModel_WithDimension), DispatchOperatorPropertiesViewModel_WithDimension },
                 { typeof(OperatorPropertiesViewModel_WithDimensionAndInterpolation), DispatchOperatorPropertiesViewModel_WithDimensionAndInterpolation },
+                { typeof(OperatorPropertiesViewModel_WithDimensionAndRecalculation), DispatchOperatorPropertiesViewModel_WithDimensionAndRecalculation },
                 { typeof(OperatorPropertiesViewModel_WithDimensionAndOutletCount), DispatchOperatorPropertiesViewModel_WithDimensionAndOutletCount },
                 { typeof(OperatorPropertiesViewModel_WithInletCount), DispatchOperatorPropertiesViewModel_WithInletCount },
                 { typeof(PatchDetailsViewModel), DispatchPatchDetailsViewModel },
@@ -673,6 +674,31 @@ namespace JJ.Presentation.Synthesizer.Presenters
             var castedViewModel = (OperatorPropertiesViewModel_WithDimensionAndInterpolation)viewModel2;
 
             var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_WithDimensionAndInterpolation_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
+            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
+            if (listIndex.HasValue)
+            {
+                list[listIndex.Value] = castedViewModel;
+            }
+            else
+            {
+                list.Add(castedViewModel);
+            }
+
+            if (castedViewModel.Visible)
+            {
+                HideAllPropertiesViewModels();
+                castedViewModel.Visible = true;
+            }
+
+            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            castedViewModel.ValidationMessages.Clear();
+        }
+
+        private void DispatchOperatorPropertiesViewModel_WithDimensionAndRecalculation(object viewModel2)
+        {
+            var castedViewModel = (OperatorPropertiesViewModel_WithDimensionAndRecalculation)viewModel2;
+
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_WithDimensionAndRecalculation_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
             int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
             if (listIndex.HasValue)
             {

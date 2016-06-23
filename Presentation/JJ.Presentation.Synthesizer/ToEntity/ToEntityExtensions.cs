@@ -1222,6 +1222,53 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         }
 
         public static Operator ToEntity(
+            this OperatorPropertiesViewModel_WithDimensionAndRecalculation viewModel,
+            IOperatorRepository operatorRepository,
+            IOperatorTypeRepository operatorTypeRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (operatorRepository == null) throw new NullException(() => operatorRepository);
+            if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
+
+            Operator entity = operatorRepository.TryGet(viewModel.ID);
+            if (entity == null)
+            {
+                entity = new Operator();
+                entity.ID = viewModel.ID;
+                operatorRepository.Insert(entity);
+            }
+
+            entity.Name = viewModel.Name;
+            entity.LinkTo(operatorTypeRepository.Get(viewModel.OperatorType.ID));
+
+            var wrapper = new SumContinuous_OperatorWrapper(entity);
+
+            // Recalculation
+            bool recalculationIsFilledIn = viewModel.Recalculation != null && viewModel.Recalculation.ID != 0;
+            if (recalculationIsFilledIn)
+            {
+                wrapper.Recalculation = (AggregateRecalculationEnum)viewModel.Recalculation.ID;
+            }
+            else
+            {
+                wrapper.Recalculation = AggregateRecalculationEnum.Undefined;
+            }
+
+            // Dimension
+            bool dimensionIsFilledIn = viewModel.Dimension != null && viewModel.Dimension.ID != 0;
+            if (dimensionIsFilledIn)
+            {
+                wrapper.Dimension = (DimensionEnum)viewModel.Dimension.ID;
+            }
+            else
+            {
+                wrapper.Dimension = DimensionEnum.Undefined;
+            }
+
+            return entity;
+        }
+
+        public static Operator ToEntity(
             this OperatorPropertiesViewModel_WithDimensionAndOutletCount viewModel,
             IOperatorRepository operatorRepository,
             IOperatorTypeRepository operatorTypeRepository)
@@ -1455,6 +1502,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
 
             foreach (OperatorPropertiesViewModel_WithDimensionAndInterpolation propertiesViewModel in userInput.OperatorPropertiesList_WithDimensionAndInterpolation)
+            {
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
+            }
+
+            foreach (OperatorPropertiesViewModel_WithDimensionAndRecalculation propertiesViewModel in userInput.OperatorPropertiesList_WithDimensionAndRecalculation)
             {
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
             }

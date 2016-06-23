@@ -67,6 +67,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly OperatorPropertiesPresenter_ForSample _operatorPropertiesPresenter_ForSample;
         private readonly OperatorPropertiesPresenter_WithDimension _operatorPropertiesPresenter_WithDimension;
         private readonly OperatorPropertiesPresenter_WithDimensionAndInterpolation _operatorPropertiesPresenter_WithDimensionAndInterpolation;
+        private readonly OperatorPropertiesPresenter_WithDimensionAndRecalculation _operatorPropertiesPresenter_WithDimensionAndRecalculation;
         private readonly OperatorPropertiesPresenter_WithDimensionAndOutletCount _operatorPropertiesPresenter_WithDimensionAndOutletCount;
         private readonly OperatorPropertiesPresenter_WithInletCount _operatorPropertiesPresenter_WithInletCount;
         private readonly PatchDetailsPresenter _patchDetailsPresenter;
@@ -143,6 +144,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _operatorPropertiesPresenter_ForSample = new OperatorPropertiesPresenter_ForSample(_patchRepositories);
             _operatorPropertiesPresenter_WithDimension = new OperatorPropertiesPresenter_WithDimension(_patchRepositories);
             _operatorPropertiesPresenter_WithDimensionAndInterpolation = new OperatorPropertiesPresenter_WithDimensionAndInterpolation(_patchRepositories);
+            _operatorPropertiesPresenter_WithDimensionAndRecalculation= new OperatorPropertiesPresenter_WithDimensionAndRecalculation(_patchRepositories);
             _operatorPropertiesPresenter_WithDimensionAndOutletCount = new OperatorPropertiesPresenter_WithDimensionAndOutletCount(_patchRepositories);
             _operatorPropertiesPresenter_WithInletCount = new OperatorPropertiesPresenter_WithInletCount(_patchRepositories);
             _patchDetailsPresenter = new PatchDetailsPresenter(_patchRepositories, _entityPositionManager);
@@ -209,6 +211,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForPatchOutlets).ForEach(x => x.Visible = false);
             MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForSamples).ForEach(x => x.Visible = false);
             MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_WithDimension).ForEach(x => x.Visible = false);
+            MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_WithDimensionAndRecalculation).ForEach(x => x.Visible = false);
             MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_WithDimensionAndInterpolation).ForEach(x => x.Visible = false);
             MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_WithDimensionAndOutletCount).ForEach(x => x.Visible = false);
             MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_WithInletCount).ForEach(x => x.Visible = false);

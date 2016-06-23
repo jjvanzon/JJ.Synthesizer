@@ -53,6 +53,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public const string Patches = "Patches";
         public const string PatchInlet = "PatchInlet";
         public const string PatchOutlet = "PatchOutlet";
+        public const string Recalculation = "Recalculation";
         public const string Sample = "Sample";
         public const string SampleID = "SampleID";
         public const string SampleCount = "SampleCount";

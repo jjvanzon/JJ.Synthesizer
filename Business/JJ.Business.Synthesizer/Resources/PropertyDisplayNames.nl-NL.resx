@@ -839,4 +839,13 @@
   <data name="MultiplyWithOrigin" xml:space="preserve">
     <value>× (met oorsprong)</value>
   </data>
+  <data name="Continual" xml:space="preserve">
+    <value>Continu</value>
+  </data>
+  <data name="UponReset" xml:space="preserve">
+    <value>Bij terugzetten</value>
+  </data>
+  <data name="Recalculation" xml:space="preserve">
+    <value>Herberekening</value>
+  </data>
 </root>

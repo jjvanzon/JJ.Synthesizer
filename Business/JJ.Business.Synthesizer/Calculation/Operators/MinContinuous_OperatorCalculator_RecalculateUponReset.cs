@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class AverageContinuous_OperatorCalculator : SumContinuous_OperatorCalculator
+    internal class MinContinuous_OperatorCalculator_RecalculateUponReset : MinOrMaxContinuous_OperatorCalculatorBase
     {
-        public AverageContinuous_OperatorCalculator(
+        public MinContinuous_OperatorCalculator_RecalculateUponReset(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase fromCalculator,
             OperatorCalculatorBase tillCalculator,
@@ -15,13 +16,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             : base(signalCalculator, fromCalculator, tillCalculator, stepCalculator, dimensionStack)
         { }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected override void ResetNonRecursive()
         {
-            base.ResetNonRecursive();
+            RecalculateAggregate();
+        }
 
-            double step = _stepCalculator.Calculate();
-
-            _aggregate *= step;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected override bool MustOverwrite(double currentValue, double newValue)
+        {
+            return newValue < currentValue;
         }
     }
 }

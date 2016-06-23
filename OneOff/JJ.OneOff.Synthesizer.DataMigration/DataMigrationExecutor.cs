@@ -1350,6 +1350,62 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
         }
 
+        public static void Migrate_SetRecalculateParameter_ForContinuousAggregates(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+
+            var operatorTypeEnumHashSet = new HashSet<OperatorTypeEnum>
+            {
+                OperatorTypeEnum.AverageContinuous,
+                OperatorTypeEnum.MaxContinuous,
+                OperatorTypeEnum.MinContinuous,
+                OperatorTypeEnum.SumContinuous
+            };
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                var patchManager = new PatchManager(new PatchRepositories(repositories));
+
+                IList<Operator> operators = repositories.OperatorRepository
+                                                        .GetAll().ToArray();
+
+                for (int i = 0; i < operators.Count; i++)
+                {
+                    Operator op = operators[i];
+                    var wrapper = new MaxContinuous_OperatorWrapper(op);
+
+                    OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
+                    if (!operatorTypeEnumHashSet.Contains(operatorTypeEnum))
+                    {
+                        continue;
+                    }
+
+                    if (wrapper.Recalculation != AggregateRecalculationEnum.Undefined)
+                    {
+                        throw new Exception("wrapper.Dimension == DimensionEnum.Undefined. Operator already migrated?");
+                    }
+                    wrapper.Recalculation = AggregateRecalculationEnum.Continual;
+
+                    patchManager.Patch = op.Patch;
+                    VoidResult result = patchManager.SaveOperator(op);
+                    ResultHelper.Assert(result);
+
+                    string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
+                    progressCallback(progressMessage);
+                }
+
+                AssertDocuments(repositories, progressCallback);
+
+                context.Commit();
+            }
+
+            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        }
+
         // Helpers
 
         private static void AssertDocuments(RepositoryWrapper repositories, Action<string> progressCallback)

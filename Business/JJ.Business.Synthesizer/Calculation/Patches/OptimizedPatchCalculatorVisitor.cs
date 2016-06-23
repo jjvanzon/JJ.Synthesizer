@@ -299,7 +299,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitAverageContinuous(Operator op)
         {
-            var wrapper = new OperatorWrapperBase_WithDimension(op);
+            var wrapper = new AverageContinuous_OperatorWrapper(op);
             DimensionEnum dimensionEnum = wrapper.Dimension;
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
@@ -352,12 +352,30 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                operatorCalculator = new AverageContinuous_OperatorCalculator(
-                    signalCalculator,
-                    fromCalculator,
-                    tillCalculator,
-                    stepCalculator,
-                    dimensionStack);
+                AggregateRecalculationEnum aggregateRecalculationEnum = wrapper.Recalculation;
+                switch (aggregateRecalculationEnum)
+                {
+                    case AggregateRecalculationEnum.Continual:
+                        operatorCalculator = new AverageContinuous_OperatorCalculator_RecalculateContinually(
+                            signalCalculator,
+                            fromCalculator,
+                            tillCalculator,
+                            stepCalculator,
+                            dimensionStack);
+                        break;
+
+                    case AggregateRecalculationEnum.UponReset:
+                        operatorCalculator = new AverageContinuous_OperatorCalculator_RecalculateUponReset(
+                            signalCalculator,
+                            fromCalculator,
+                            tillCalculator,
+                            stepCalculator,
+                            dimensionStack);
+                        break;
+
+                    default:
+                        throw new ValueNotSupportedException(aggregateRecalculationEnum);
+                }
             }
 
             _stack.Push(operatorCalculator);
@@ -1671,7 +1689,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitMaxContinuous(Operator op)
         {
-            var wrapper = new OperatorWrapperBase_WithDimension(op);
+            var wrapper = new MaxContinuous_OperatorWrapper(op);
             DimensionEnum dimensionEnum = wrapper.Dimension;
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
@@ -1724,12 +1742,30 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                operatorCalculator = new MaxContinuous_OperatorCalculator(
-                    signalCalculator,
-                    fromCalculator, 
-                    tillCalculator, 
-                    stepCalculator, 
-                    dimensionStack);
+                AggregateRecalculationEnum aggregateRecalculationEnum = wrapper.Recalculation;
+                switch (aggregateRecalculationEnum)
+                {
+                    case AggregateRecalculationEnum.Continual:
+                        operatorCalculator = new MaxContinuous_OperatorCalculator_RecalculateContinually(
+                            signalCalculator,
+                            fromCalculator,
+                            tillCalculator,
+                            stepCalculator,
+                            dimensionStack);
+                        break;
+
+                    case AggregateRecalculationEnum.UponReset:
+                        operatorCalculator = new MaxContinuous_OperatorCalculator_RecalculateUponReset(
+                            signalCalculator,
+                            fromCalculator,
+                            tillCalculator,
+                            stepCalculator,
+                            dimensionStack);
+                        break;
+
+                    default:
+                        throw new InvalidValueException(aggregateRecalculationEnum);
+                }
             }
 
             _stack.Push(operatorCalculator);
@@ -1813,7 +1849,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitMinContinuous(Operator op)
         {
-            var wrapper = new OperatorWrapperBase_WithDimension(op);
+            var wrapper = new MinContinuous_OperatorWrapper(op);
             DimensionEnum dimensionEnum = wrapper.Dimension;
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
@@ -1866,12 +1902,30 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                operatorCalculator = new MinContinuous_OperatorCalculator(
-                    signalCalculator,
-                    fromCalculator,
-                    tillCalculator,
-                    stepCalculator,
-                    dimensionStack);
+                AggregateRecalculationEnum aggregateRecalculationEnum = wrapper.Recalculation;
+                switch (aggregateRecalculationEnum)
+                {
+                    case AggregateRecalculationEnum.Continual:
+                        operatorCalculator = new MinContinuous_OperatorCalculator_RecalculateContinually(
+                            signalCalculator,
+                            fromCalculator,
+                            tillCalculator,
+                            stepCalculator,
+                            dimensionStack);
+                        break;
+
+                    case AggregateRecalculationEnum.UponReset:
+                        operatorCalculator = new MinContinuous_OperatorCalculator_RecalculateUponReset(
+                            signalCalculator,
+                            fromCalculator,
+                            tillCalculator,
+                            stepCalculator,
+                            dimensionStack);
+                        break;
+
+                    default:
+                        throw new InvalidValueException(aggregateRecalculationEnum);
+                }
             }
 
             _stack.Push(operatorCalculator);
@@ -3894,7 +3948,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitSumContinuous(Operator op)
         {
-            var wrapper = new OperatorWrapperBase_WithDimension(op);
+            var wrapper = new SumContinuous_OperatorWrapper(op);
             DimensionEnum dimensionEnum = wrapper.Dimension;
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
@@ -3926,7 +3980,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool stepIsConstZero = stepIsConst && step == 0.0;
             bool stepIsConstNegative = stepIsConst && step < 0.0;
             bool fromIsConstSpecialNumber = fromIsConst && DoubleHelper.IsSpecialNumber(from);
-            bool tillIsConstSpecialNumber = tillsConst && DoubleHelper.IsSpecialNumber(till);
+            bool tillIsConstSpecialNumber = tillIsConst && DoubleHelper.IsSpecialNumber(till);
             bool stepIsConstSpecialNumber = stepIsConst && DoubleHelper.IsSpecialNumber(step);
 
             if (signalIsConst)
@@ -3947,12 +4001,30 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                operatorCalculator = new SumContinuous_OperatorCalculator(
-                    signalCalculator,
-                    fromCalculator,
-                    tillCalculator,
-                    stepCalculator,
-                    dimensionStack);
+                AggregateRecalculationEnum aggregateRecalculationEnum = wrapper.Recalculation;
+                switch (aggregateRecalculationEnum)
+                {
+                    case AggregateRecalculationEnum.Continual:
+                        operatorCalculator = new SumContinuous_OperatorCalculator_RecalculateContinually(
+                            signalCalculator,
+                            fromCalculator,
+                            tillCalculator,
+                            stepCalculator,
+                            dimensionStack);
+                        break;
+
+                    case AggregateRecalculationEnum.UponReset:
+                        operatorCalculator = new SumContinuous_OperatorCalculator_RecalculateUponReset(
+                            signalCalculator,
+                            fromCalculator,
+                            tillCalculator,
+                            stepCalculator,
+                            dimensionStack);
+                        break;
+
+                    default:
+                        throw new ValueNotSupportedException(aggregateRecalculationEnum);
+                }
             }
 
             _stack.Push(operatorCalculator);

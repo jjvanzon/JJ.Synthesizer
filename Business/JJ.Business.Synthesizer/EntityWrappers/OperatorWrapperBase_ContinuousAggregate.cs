@@ -3,12 +3,12 @@ using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Reflection.Exceptions;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public abstract class OperatorWrapperBase_ContinuousAggregate : OperatorWrapperBase_WithDimension
     {
-
         public OperatorWrapperBase_ContinuousAggregate(Operator op)
             : base(op)
         { }
@@ -40,6 +40,12 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         public Outlet Result
         {
             get { return OperatorHelper.GetOutlet(WrappedOperator, OperatorConstants.CONTINUOUS_AGGREGATE_RESULT_INDEX); }
+        }
+
+        public AggregateRecalculationEnum Recalculation
+        {
+            get { return DataPropertyParser.GetEnum<AggregateRecalculationEnum>(WrappedOperator, PropertyNames.Recalculation); }
+            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.Recalculation, value); }
         }
 
         public override string GetInletDisplayName(int listIndex)

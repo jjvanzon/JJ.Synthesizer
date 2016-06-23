@@ -70,7 +70,8 @@ namespace JJ.Business.Synthesizer
             Outlet from = null,
             Outlet till = null,
             Outlet step = null,
-            DimensionEnum dimension = DimensionEnum.Undefined)
+            DimensionEnum dimension = DimensionEnum.Undefined,
+            AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continual)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.AverageContinuous, inletCount: 4, outletCount: 1);
 
@@ -80,7 +81,8 @@ namespace JJ.Business.Synthesizer
                 From = from,
                 Till = till,
                 Step = step,
-                Dimension = dimension
+                Dimension = dimension,
+                Recalculation = recalculation
             };
 
             VoidResult result = ValidateOperatorNonRecursive(op);
@@ -674,7 +676,8 @@ namespace JJ.Business.Synthesizer
             Outlet from = null, 
             Outlet till = null, 
             Outlet step = null, 
-            DimensionEnum dimension = DimensionEnum.Undefined)
+            DimensionEnum dimension = DimensionEnum.Undefined,
+            AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continual)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.MaxContinuous, inletCount: 4, outletCount: 1);
 
@@ -684,7 +687,8 @@ namespace JJ.Business.Synthesizer
                 From = from,
                 Till = till,
                 Step = step,
-                Dimension = dimension
+                Dimension = dimension,
+                Recalculation = recalculation
             };
 
             VoidResult result = ValidateOperatorNonRecursive(op);
@@ -738,7 +742,8 @@ namespace JJ.Business.Synthesizer
             Outlet from = null,
             Outlet till = null,
             Outlet step = null,
-            DimensionEnum dimension = DimensionEnum.Undefined)
+            DimensionEnum dimension = DimensionEnum.Undefined,
+            AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continual)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.MinContinuous, inletCount: 4, outletCount: 1);
 
@@ -748,7 +753,8 @@ namespace JJ.Business.Synthesizer
                 From = from,
                 Till = till,
                 Step = step,
-                Dimension = dimension
+                Dimension = dimension,
+                Recalculation = recalculation
             };
 
             VoidResult result = ValidateOperatorNonRecursive(op);
@@ -1474,7 +1480,8 @@ namespace JJ.Business.Synthesizer
             Outlet from = null,
             Outlet till = null,
             Outlet step = null,
-            DimensionEnum dimension = DimensionEnum.Undefined)
+            DimensionEnum dimension = DimensionEnum.Undefined,
+            AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continual)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.SumContinuous, inletCount: 4, outletCount: 1);
 
@@ -1484,7 +1491,8 @@ namespace JJ.Business.Synthesizer
                 From = from,
                 Till = till,
                 Step = step,
-                Dimension = dimension
+                Dimension = dimension,
+                Recalculation = recalculation
             };
 
             VoidResult result = ValidateOperatorNonRecursive(op);

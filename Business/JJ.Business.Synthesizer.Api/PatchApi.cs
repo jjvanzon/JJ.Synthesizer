@@ -51,9 +51,10 @@ namespace JJ.Business.Synthesizer.Api
             Outlet from = null,
             Outlet till = null,
             Outlet step = null,
-            DimensionEnum dimension = DimensionEnum.Undefined)
+            DimensionEnum dimension = DimensionEnum.Undefined,
+            AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continual)
         {
-            return _patchManager.AverageContinuous(signal, from, till, step, dimension);
+            return _patchManager.AverageContinuous(signal, from, till, step, dimension, recalculation);
         }
 
         public AverageDiscrete_OperatorWrapper AverageDiscrete(params Outlet[] operands)
@@ -320,9 +321,10 @@ namespace JJ.Business.Synthesizer.Api
             Outlet from = null, 
             Outlet till = null, 
             Outlet step = null, 
-            DimensionEnum dimension = DimensionEnum.Undefined)
+            DimensionEnum dimension = DimensionEnum.Undefined,
+            AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continual)
         {
-            return _patchManager.MaxContinuous(signal, from, till, step, dimension);
+            return _patchManager.MaxContinuous(signal, from, till, step, dimension, recalculation);
         }
 
         public MaxDiscrete_OperatorWrapper MaxDiscrete(params Outlet[] operands)
@@ -349,9 +351,10 @@ namespace JJ.Business.Synthesizer.Api
             Outlet from = null,
             Outlet till = null,
             Outlet step = null,
-            DimensionEnum dimension = DimensionEnum.Undefined)
+            DimensionEnum dimension = DimensionEnum.Undefined,
+            AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continual)
         {
-            return _patchManager.MinContinuous(signal, from, till, step, dimension);
+            return _patchManager.MinContinuous(signal, from, till, step, dimension, recalculation);
         }
 
         public MinDiscrete_OperatorWrapper MinDiscrete(params Outlet[] operands)
@@ -638,9 +641,10 @@ namespace JJ.Business.Synthesizer.Api
             Outlet from = null,
             Outlet till = null,
             Outlet step = null,
-            DimensionEnum dimension = DimensionEnum.Undefined)
+            DimensionEnum dimension = DimensionEnum.Undefined,
+            AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continual)
         {
-            return _patchManager.SumContinuous(signal, from, till, step, dimension);
+            return _patchManager.SumContinuous(signal, from, till, step, dimension, recalculation);
         }
 
         public SumFollower_OperatorWrapper SumFollower(

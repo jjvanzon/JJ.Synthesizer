@@ -25,6 +25,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _operandCalculator = operandCalculator;
             _position = position;
             _dimensionStack = dimensionStack;
+            _dimensionStackIndex = dimensionStack.CurrentIndex;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

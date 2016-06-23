@@ -385,6 +385,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Continual.
+        /// </summary>
+        public static string Continual {
+            get {
+                return ResourceManager.GetString("Continual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cubic.
         /// </summary>
         public static string Cubic {
@@ -1528,6 +1537,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Recalculation.
+        /// </summary>
+        public static string Recalculation {
+            get {
+                return ResourceManager.GetString("Recalculation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Libraries.
         /// </summary>
         public static string ReferencedDocuments {
@@ -2127,6 +2145,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string UnderlyingPatchID {
             get {
                 return ResourceManager.GetString("UnderlyingPatchID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upon Reset.
+        /// </summary>
+        public static string UponReset {
+            get {
+                return ResourceManager.GetString("UponReset", resourceCulture);
             }
         }
         

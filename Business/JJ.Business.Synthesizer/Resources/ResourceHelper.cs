@@ -117,6 +117,13 @@ namespace JJ.Business.Synthesizer.Resources
             return GetPropertyDisplayName(enumValue.ToString());
         }
 
+        // AggregateRecalculation
+
+        public static string GetDisplayName(AggregateRecalculationEnum enumValue)
+        {
+            return GetPropertyDisplayName(enumValue.ToString());
+        }
+
         // ScaleType Singular
 
         // TODO: For Scale implement overloads that take entity as such that unproxy is avoided.

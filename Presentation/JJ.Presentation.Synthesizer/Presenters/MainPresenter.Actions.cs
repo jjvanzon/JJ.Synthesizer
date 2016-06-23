@@ -723,6 +723,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 patchDocumentViewModel.OperatorPropertiesList_ForSamples.ForEach(x => x.Successful = true);
                 patchDocumentViewModel.OperatorPropertiesList_WithDimension.ForEach(x => x.Successful = true);
                 patchDocumentViewModel.OperatorPropertiesList_WithDimensionAndInterpolation.ForEach(x => x.Successful = true);
+                patchDocumentViewModel.OperatorPropertiesList_WithDimensionAndRecalculation.ForEach(x => x.Successful = true);
                 patchDocumentViewModel.OperatorPropertiesList_WithDimensionAndOutletCount.ForEach(x => x.Successful = true);
                 patchDocumentViewModel.OperatorPropertiesList_WithInletCount.ForEach(x => x.Successful = true);
                 patchDocumentViewModel.PatchDetails.Successful = true;
@@ -1207,6 +1208,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
             {
+                OperatorPropertiesViewModel_WithDimensionAndRecalculation userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_WithDimensionAndRecalculation(MainViewModel.Document, id);
+                if (userInput != null)
+                {
+                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithDimensionAndRecalculation.Show(userInput));
+                    return;
+                }
+            }
+            {
                 OperatorPropertiesViewModel_WithDimensionAndOutletCount userInput = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_WithDimensionAndOutletCount(MainViewModel.Document, id);
                 if (userInput != null)
                 {
@@ -1304,6 +1313,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesCloseOrLoseFocus_WithDimensionAndInterpolation(_operatorPropertiesPresenter_WithDimensionAndInterpolation.Close);
         }
 
+        public void OperatorPropertiesClose_WithDimensionAndRecalculation()
+        {
+            OperatorPropertiesCloseOrLoseFocus_WithDimensionAndRecalculation(_operatorPropertiesPresenter_WithDimensionAndRecalculation.Close);
+        }
+
         public void OperatorPropertiesClose_WithDimensionAndOutletCount()
         {
             OperatorPropertiesCloseOrLoseFocus_WithDimensionAndOutletCount(_operatorPropertiesPresenter_WithDimensionAndOutletCount.Close);
@@ -1377,6 +1391,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void OperatorPropertiesLoseFocus_WithDimensionAndInterpolation()
         {
             OperatorPropertiesCloseOrLoseFocus_WithDimensionAndInterpolation(_operatorPropertiesPresenter_WithDimensionAndInterpolation.LoseFocus);
+        }
+
+        public void OperatorPropertiesLoseFocus_WithDimensionAndRecalculation()
+        {
+            OperatorPropertiesCloseOrLoseFocus_WithDimensionAndRecalculation(_operatorPropertiesPresenter_WithDimensionAndRecalculation.LoseFocus);
         }
 
         public void OperatorPropertiesLoseFocus_WithDimensionAndOutletCount()
@@ -1578,6 +1597,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // TemplateMethod
             OperatorPropertiesViewModel_WithDimensionAndInterpolation viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
+
+            // Refresh
+            if (viewModel.Successful)
+            {
+                PatchDetails_RefreshOperator(userInput.ID);
+            }
+        }
+
+        private void OperatorPropertiesCloseOrLoseFocus_WithDimensionAndRecalculation(Func<OperatorPropertiesViewModel_WithDimensionAndRecalculation, OperatorPropertiesViewModel_WithDimensionAndRecalculation> partialAction)
+        {
+            // GetViewModel
+            OperatorPropertiesViewModel_WithDimensionAndRecalculation userInput = DocumentViewModelHelper.GetVisibleOperatorPropertiesViewModel_WithDimensionAndRecalculation(MainViewModel.Document);
+
+            // TemplateMethod
+            OperatorPropertiesViewModel_WithDimensionAndRecalculation viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
 
             // Refresh
             if (viewModel.Successful)
