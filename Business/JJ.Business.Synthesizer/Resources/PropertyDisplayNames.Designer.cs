@@ -385,11 +385,11 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Continual.
+        ///   Looks up a localized string similar to Continuous.
         /// </summary>
-        public static string Continual {
+        public static string Continuous {
             get {
-                return ResourceManager.GetString("Continual", resourceCulture);
+                return ResourceManager.GetString("Continuous", resourceCulture);
             }
         }
         

@@ -232,14 +232,14 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                                                                                       .SingleOrDefault();
                     if (constOperandCalculator == null)
                     {
-                        calculator = CreateAddCalculatorOnlyVars(operandCalculators);
+                        calculator = OperatorCalculatorFactory.CreateAddCalculatorOnlyVars(operandCalculators);
                     }
                     else
                     {
                         IList<OperatorCalculatorBase> varOperandCalculators = operandCalculators.Except(constOperandCalculator).ToArray();
                         double constValue = constOperandCalculator.Calculate();
 
-                        calculator = CreateAddCalculatorWithConst(constValue, varOperandCalculators);
+                        calculator = OperatorCalculatorFactory.CreateAddCalculatorWithConst(constValue, varOperandCalculators);
                     }
                     break;
             }
@@ -355,8 +355,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 AggregateRecalculationEnum aggregateRecalculationEnum = wrapper.Recalculation;
                 switch (aggregateRecalculationEnum)
                 {
-                    case AggregateRecalculationEnum.Continual:
-                        operatorCalculator = new AverageOverDimension_OperatorCalculator_RecalculateContinually(
+                    case AggregateRecalculationEnum.Continuous:
+                        operatorCalculator = new AverageOverDimension_OperatorCalculator_RecalculateContinuously(
                             signalCalculator,
                             fromCalculator,
                             tillCalculator,
@@ -1745,8 +1745,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 AggregateRecalculationEnum aggregateRecalculationEnum = wrapper.Recalculation;
                 switch (aggregateRecalculationEnum)
                 {
-                    case AggregateRecalculationEnum.Continual:
-                        operatorCalculator = new MaxOverDimension_OperatorCalculator_RecalculateContinually(
+                    case AggregateRecalculationEnum.Continuous:
+                        operatorCalculator = new MaxOverDimension_OperatorCalculator_RecalculateContinuously(
                             signalCalculator,
                             fromCalculator,
                             tillCalculator,
@@ -1905,8 +1905,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 AggregateRecalculationEnum aggregateRecalculationEnum = wrapper.Recalculation;
                 switch (aggregateRecalculationEnum)
                 {
-                    case AggregateRecalculationEnum.Continual:
-                        operatorCalculator = new MinOverDimension_OperatorCalculator_RecalculateContinually(
+                    case AggregateRecalculationEnum.Continuous:
+                        operatorCalculator = new MinOverDimension_OperatorCalculator_RecalculateContinuously(
                             signalCalculator,
                             fromCalculator,
                             tillCalculator,
@@ -2064,11 +2064,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     default:
                         if (constOperandCalculator == null)
                         {
-                            calculator = CreateMultiplyCalculatorOnlyVars(operandCalculators);
+                            calculator = OperatorCalculatorFactory.CreateMultiplyCalculatorOnlyVars(operandCalculators);
                         }
                         else
                         {
-                            calculator = CreateMultiplyCalculatorWithConst(constValue.Value, varOperandCalculators);
+                            calculator = OperatorCalculatorFactory.CreateMultiplyCalculatorWithConst(constValue.Value, varOperandCalculators);
                         }
                         break;
                 }
@@ -3978,7 +3978,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double step = stepIsConst ? stepCalculator.Calculate() : 0.0;
 
             bool stepIsConstZero = stepIsConst && step == 0.0;
+            bool stepIsConstOne = stepIsConst && step == 1.0;
             bool stepIsConstNegative = stepIsConst && step < 0.0;
+            bool fromIsConstZero = fromIsConst && from == 0.0;
             bool fromIsConstSpecialNumber = fromIsConst && DoubleHelper.IsSpecialNumber(from);
             bool tillIsConstSpecialNumber = tillIsConst && DoubleHelper.IsSpecialNumber(till);
             bool stepIsConstSpecialNumber = stepIsConst && DoubleHelper.IsSpecialNumber(step);
@@ -4004,14 +4006,25 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 AggregateRecalculationEnum aggregateRecalculationEnum = wrapper.Recalculation;
                 switch (aggregateRecalculationEnum)
                 {
-                    case AggregateRecalculationEnum.Continual:
-                        operatorCalculator = new SumOverDimension_OperatorCalculator_RecalculateContinually(
+                    case AggregateRecalculationEnum.Continuous:
+                        // TODO: This does not work (yet).
+                        //if (fromIsConstZero && tillIsConst && stepIsConstOne)
+                        //{
+                        //    operatorCalculator = new SumOverDimension_OperatorCalculator_ByUnbundleAndAdd(
+                        //        signalCalculator,
+                        //        till,
+                        //        dimensionStack);
+                        //}
+                        //else
+                        {
+                            operatorCalculator = new SumOverDimension_OperatorCalculator_RecalculateContinuously(
                             signalCalculator,
                             fromCalculator,
                             tillCalculator,
                             stepCalculator,
                             dimensionStack);
-                        break;
+                        }
+                            break;
 
                     case AggregateRecalculationEnum.UponReset:
                         operatorCalculator = new SumOverDimension_OperatorCalculator_RecalculateUponReset(

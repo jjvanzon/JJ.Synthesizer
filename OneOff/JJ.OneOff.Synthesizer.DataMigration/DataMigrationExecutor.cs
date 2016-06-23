@@ -10,12 +10,8 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer;
-using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Common;
 using JJ.Business.Canonical;
-using System.Globalization;
 
 namespace JJ.OneOff.Synthesizer.DataMigration
 {
@@ -1388,7 +1384,62 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                     {
                         throw new Exception("wrapper.Dimension == DimensionEnum.Undefined. Operator already migrated?");
                     }
-                    wrapper.Recalculation = AggregateRecalculationEnum.Continual;
+                    wrapper.Recalculation = AggregateRecalculationEnum.Continuous;
+
+                    patchManager.Patch = op.Patch;
+                    VoidResult result = patchManager.SaveOperator(op);
+                    ResultHelper.Assert(result);
+
+                    string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
+                    progressCallback(progressMessage);
+                }
+
+                AssertDocuments(repositories, progressCallback);
+
+                context.Commit();
+            }
+
+            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        }
+
+        public static void Migrate_RenameContinualToContinuous(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+
+            var operatorTypeEnumHashSet = new HashSet<OperatorTypeEnum>
+            {
+                OperatorTypeEnum.AverageOverDimension,
+                OperatorTypeEnum.MaxOverDimension,
+                OperatorTypeEnum.MinOverDimension,
+                OperatorTypeEnum.SumOverDimension
+            };
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                var patchManager = new PatchManager(new PatchRepositories(repositories));
+
+                IList<Operator> operators = repositories.OperatorRepository
+                                                        .GetAll().ToArray();
+
+                for (int i = 0; i < operators.Count; i++)
+                {
+                    Operator op = operators[i];
+
+                    OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
+                    if (!operatorTypeEnumHashSet.Contains(operatorTypeEnum))
+                    {
+                        continue;
+                    }
+
+                    string value = DataPropertyParser.TryGetString(op, PropertyNames.Recalculation);
+                    if (String.Equals(value, PropertyNames.Continual))
+                    {
+                        DataPropertyParser.SetValue(op, PropertyNames.Recalculation, PropertyNames.Continuous);
+                    }
 
                     patchManager.Patch = op.Patch;
                     VoidResult result = patchManager.SaveOperator(op);

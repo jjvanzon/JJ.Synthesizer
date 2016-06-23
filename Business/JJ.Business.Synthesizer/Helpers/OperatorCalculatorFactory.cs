@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Helpers
     /// For when creating an OperatorCalculator based on criteria is used
     /// in more places than just the OptimizedPatchCalculatorVisitor.
     /// </summary>
-    internal class OperatorCalculatorFactory
+    internal static partial class OperatorCalculatorFactory
     {
         public static OperatorCalculatorBase CreateResample_OperatorCalculator(
             ResampleInterpolationTypeEnum resampleInterpolationTypeEnum,

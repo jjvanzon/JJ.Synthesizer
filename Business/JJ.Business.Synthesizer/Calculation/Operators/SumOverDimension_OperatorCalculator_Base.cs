@@ -15,6 +15,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly int _dimensionStackIndex;
 
         protected double _aggregate;
+        protected double _step;
 
         public SumOverDimension_OperatorCalculator_Base(
             OperatorCalculatorBase signalCalculator,
@@ -61,7 +62,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double from = _fromCalculator.Calculate();
             double till = _tillCalculator.Calculate();
-            double step = _stepCalculator.Calculate();
+            _step = _stepCalculator.Calculate();
 
             double length = till - from;
             bool isForward = length > 0.0;
@@ -77,7 +78,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionStack.Set(_dimensionStackIndex, position);
 #endif
             double sum = _signalCalculator.Calculate();
-            position += step;
+            position += _step;
 
             if (isForward)
             {
@@ -92,7 +93,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     double value = _signalCalculator.Calculate();
                     sum += value;
 
-                    position += step;
+                    position += _step;
                 }
             }
             else
@@ -110,7 +111,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     double value = _signalCalculator.Calculate();
                     sum += value;
 
-                    position += step;
+                    position += _step;
                 }
             }
 

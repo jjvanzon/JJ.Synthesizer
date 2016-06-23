@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -16,13 +17,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             : base(signalCalculator, fromCalculator, tillCalculator, stepCalculator, dimensionStack)
         { }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected override void RecalculateAggregate()
         {
             base.RecalculateAggregate();
 
-            double step = _stepCalculator.Calculate();
-
-            _aggregate *= step;
+            _aggregate *= _step;
         }
     }
 }

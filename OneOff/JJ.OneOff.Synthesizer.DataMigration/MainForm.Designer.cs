@@ -34,7 +34,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(903, 449);
+            this.ClientSize = new System.Drawing.Size(771, 550);
             this.Description = "C# processes for migrating data when it is not easily done with SQL.";
             this.Margin = new System.Windows.Forms.Padding(5);
             this.MustShowExceptions = true;

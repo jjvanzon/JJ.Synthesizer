@@ -7,11 +7,11 @@ using System.Linq;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Business.Synthesizer.Calculation.Operators;
 
-namespace JJ.Business.Synthesizer.Calculation.Patches
+namespace JJ.Business.Synthesizer.Helpers
 {
-    internal partial class OptimizedPatchCalculatorVisitor
+    internal static partial class OperatorCalculatorFactory
     {
-	    private OperatorCalculatorBase CreateMultiplyCalculatorWithConst(double constValue, IList<OperatorCalculatorBase> varOperandCalculators)
+	    public static OperatorCalculatorBase CreateMultiplyCalculatorWithConst(double constValue, IList<OperatorCalculatorBase> varOperandCalculators)
         {
 			if (varOperandCalculators.Count < 1) throw new LessThanException(() => varOperandCalculators.Count, 1);
 

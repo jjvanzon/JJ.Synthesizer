@@ -6,7 +6,7 @@
 <#@ output extension=".cs" #>
 
 <# int minVarOperands = 1; #>
-<# int maxVarOperands = 15; #>
+<# int maxVarOperands = 31; #>
 
 using JJ.Data.Synthesizer;
 using System;
@@ -15,11 +15,11 @@ using System.Linq;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Business.Synthesizer.Calculation.Operators;
 
-namespace JJ.Business.Synthesizer.Calculation.Patches
+namespace JJ.Business.Synthesizer.Helpers
 {
-    internal partial class OptimizedPatchCalculatorVisitor
+    internal static partial class OperatorCalculatorFactory
     {
-	    private OperatorCalculatorBase CreateMultiplyCalculatorWithConst(double constValue, IList<OperatorCalculatorBase> varOperandCalculators)
+	    public static OperatorCalculatorBase CreateAddCalculatorWithConst(double constValue, IList<OperatorCalculatorBase> varOperandCalculators)
         {
 			if (varOperandCalculators.Count < <#= minVarOperands #>) throw new LessThanException(() => varOperandCalculators.Count, <#= minVarOperands #>);
 
@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 	{
 #>
                 case <#= i #>:
-                    return new Multiply_OperatorCalculator_1Const_<#= i #>Var
+                    return new Add_OperatorCalculator_1Const_<#= i #>Var
 					(
 						constValue,
 <#
@@ -48,7 +48,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 	}
 #>
                 default:
-                    return new Multiply_OperatorCalculator_WithConst_WithOperandArray(constValue, varOperandCalculators);
+                    return new Add_OperatorCalculator_WithConst_WithOperandArray(constValue, varOperandCalculators);
             }
         }
 	}

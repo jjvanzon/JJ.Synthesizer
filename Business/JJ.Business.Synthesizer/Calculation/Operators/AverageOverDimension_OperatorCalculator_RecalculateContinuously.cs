@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class AverageOverDimension_OperatorCalculator_RecalculateContinually 
-        : SumOverDimension_OperatorCalculator_RecalculateContinually
+    internal class AverageOverDimension_OperatorCalculator_RecalculateContinuously 
+        : SumOverDimension_OperatorCalculator_RecalculateContinuously
     {
-        public AverageOverDimension_OperatorCalculator_RecalculateContinually(
+        public AverageOverDimension_OperatorCalculator_RecalculateContinuously(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase fromCalculator,
             OperatorCalculatorBase tillCalculator,
@@ -16,13 +17,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             : base(signalCalculator, fromCalculator, tillCalculator, stepCalculator, dimensionStack)
         { }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected override void RecalculateAggregate()
         {
             base.RecalculateAggregate();
 
-            double step = _stepCalculator.Calculate();
-
-            _aggregate *= step;
+            _aggregate *= _step;
         }
     }
 }

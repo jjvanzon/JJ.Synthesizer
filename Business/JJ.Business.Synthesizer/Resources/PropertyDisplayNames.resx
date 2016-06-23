@@ -839,8 +839,8 @@
   <data name="Multiply" xml:space="preserve">
     <value>×</value>
   </data>
-  <data name="Continual" xml:space="preserve">
-    <value>Continual</value>
+  <data name="Continuous" xml:space="preserve">
+    <value>Continuous</value>
   </data>
   <data name="UponReset" xml:space="preserve">
     <value>Upon Reset</value>

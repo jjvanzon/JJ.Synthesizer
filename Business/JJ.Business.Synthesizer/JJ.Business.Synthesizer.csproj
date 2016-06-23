@@ -94,9 +94,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Calculation\Operators\AverageOverDimension_OperatorCalculator_RecalculateContinually.cs" />
-    <Compile Include="Calculation\Operators\MinOverDimension_OperatorCalculator_RecalculateContinually.cs" />
-    <Compile Include="Calculation\Operators\MaxOverDimension_OperatorCalculator_RecalculateContinually.cs" />
+    <Compile Include="Calculation\Operators\AverageOverDimension_OperatorCalculator_RecalculateContinuously.cs" />
+    <Compile Include="Calculation\Operators\MinOverDimension_OperatorCalculator_RecalculateContinuously.cs" />
+    <Compile Include="Calculation\Operators\MaxOverDimension_OperatorCalculator_RecalculateContinuously.cs" />
     <Compile Include="Calculation\Operators\MinOverDimension_OperatorCalculator_RecalculateUponReset.cs" />
     <Compile Include="Calculation\Operators\MaxOverDimension_OperatorCalculator_RecalculateUponReset.cs" />
     <Compile Include="Calculation\Operators\Multiply OperatorCalculator Classes WithConst.cs">
@@ -113,7 +113,7 @@
     <Compile Include="Calculation\Operators\Multiply_OperatorCalculator_WithOperandArray_WithConst.cs" />
     <Compile Include="Calculation\Operators\Add_OperatorCalculator_WithOperandArray.cs" />
     <Compile Include="Calculation\Operators\Multiply_OperatorCalculator_WithOperandArray.cs" />
-    <Compile Include="Calculation\Operators\SumOverDimension_OperatorCalculator_RecalculateContinually.cs" />
+    <Compile Include="Calculation\Operators\SumOverDimension_OperatorCalculator_RecalculateContinuously.cs" />
     <Compile Include="Calculation\Operators\SumOverDimension_OperatorCalculator_RecalculateUponReset.cs" />
     <Compile Include="Calculation\Operators\SumFollower_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\SumOverDimension_OperatorCalculator_Base.cs" />
@@ -207,27 +207,28 @@
     <Compile Include="Calculation\Operators\OperatorCalculatorBase.cs" />
     <Compile Include="Calculation\Operators\Delay OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Number_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Patches\OptimizedPatchCalculatorVisitor.CreateAddCalculatorOnlyVars.cs">
-      <DependentUpon>OptimizedPatchCalculatorVisitor.CreateAddCalculatorOnlyVars.tt</DependentUpon>
+    <Compile Include="Helpers\OperatorCalculatorFactory.CreateAddCalculatorOnlyVars.cs">
+      <DependentUpon>OperatorCalculatorFactory.CreateAddCalculatorOnlyVars.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Calculation\Patches\OptimizedPatchCalculatorVisitor.CreateAddCalculatorWithConst.cs">
-      <DependentUpon>OptimizedPatchCalculatorVisitor.CreateAddCalculatorWithConst.tt</DependentUpon>
+    <Compile Include="Helpers\OperatorCalculatorFactory.CreateAddCalculatorWithConst.cs">
+      <DependentUpon>OperatorCalculatorFactory.CreateAddCalculatorWithConst.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Calculation\Patches\OptimizedPatchCalculatorVisitor.CreateMultiplyCalculatorWithConst.cs">
-      <DependentUpon>OptimizedPatchCalculatorVisitor.CreateMultiplyCalculatorWithConst.tt</DependentUpon>
+    <Compile Include="Helpers\OperatorCalculatorFactory.CreateMultiplyCalculatorWithConst.cs">
+      <DependentUpon>OperatorCalculatorFactory.CreateMultiplyCalculatorWithConst.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Calculation\Patches\OptimizedPatchCalculatorVisitor.CreateMultiplyCalculatorOnlyVars.cs">
-      <DependentUpon>OptimizedPatchCalculatorVisitor.CreateMultiplyCalculatorOnlyVars.tt</DependentUpon>
+    <Compile Include="Helpers\OperatorCalculatorFactory.CreateMultiplyCalculatorOnlyVars.cs">
+      <DependentUpon>OperatorCalculatorFactory.CreateMultiplyCalculatorOnlyVars.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Calculation\Patches\PatchCalculationHelper.cs" />
+    <Compile Include="Calculation\Operators\SumOverDimension_OperatorCalculator_ByUnbundleAndAdd.cs" />
     <Compile Include="Calculation\Random\RandomCalculatorBase.cs" />
     <Compile Include="Calculation\Random\RandomCalculator_StripeInterpolation.cs" />
     <Compile Include="Calculation\Random\RandomCalculator_LineInterpolation.cs" />
@@ -742,17 +743,17 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Multiply OperatorCalculator Classes OnlyVars.cs</LastGenOutput>
     </None>
-    <None Include="Calculation\Patches\OptimizedPatchCalculatorVisitor.CreateMultiplyCalculatorOnlyVars.tt">
+    <None Include="Helpers\OperatorCalculatorFactory.CreateMultiplyCalculatorOnlyVars.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>OptimizedPatchCalculatorVisitor.CreateMultiplyCalculatorOnlyVars.cs</LastGenOutput>
+      <LastGenOutput>OperatorCalculatorFactory.CreateMultiplyCalculatorOnlyVars.cs</LastGenOutput>
     </None>
     <None Include="Calculation\Operators\Multiply OperatorCalculator Classes WithConst.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Multiply OperatorCalculator Classes WithConst.cs</LastGenOutput>
     </None>
-    <None Include="Calculation\Patches\OptimizedPatchCalculatorVisitor.CreateMultiplyCalculatorWithConst.tt">
+    <None Include="Helpers\OperatorCalculatorFactory.CreateMultiplyCalculatorWithConst.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>OptimizedPatchCalculatorVisitor.CreateMultiplyCalculatorWithConst.cs</LastGenOutput>
+      <LastGenOutput>OperatorCalculatorFactory.CreateMultiplyCalculatorWithConst.cs</LastGenOutput>
     </None>
     <None Include="Calculation\Operators\Add OperatorCalculator Classes WithConst.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -762,13 +763,13 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Add OperatorCalculator Classes Only Vars.cs</LastGenOutput>
     </None>
-    <None Include="Calculation\Patches\OptimizedPatchCalculatorVisitor.CreateAddCalculatorOnlyVars.tt">
+    <None Include="Helpers\OperatorCalculatorFactory.CreateAddCalculatorOnlyVars.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>OptimizedPatchCalculatorVisitor.CreateAddCalculatorOnlyVars.cs</LastGenOutput>
+      <LastGenOutput>OperatorCalculatorFactory.CreateAddCalculatorOnlyVars.cs</LastGenOutput>
     </None>
-    <None Include="Calculation\Patches\OptimizedPatchCalculatorVisitor.CreateAddCalculatorWithConst.tt">
+    <None Include="Helpers\OperatorCalculatorFactory.CreateAddCalculatorWithConst.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>OptimizedPatchCalculatorVisitor.CreateAddCalculatorWithConst.cs</LastGenOutput>
+      <LastGenOutput>OperatorCalculatorFactory.CreateAddCalculatorWithConst.cs</LastGenOutput>
     </None>
     <Content Include="NAudio Copies\README.TXT" />
   </ItemGroup>

@@ -52,7 +52,7 @@ namespace JJ.Business.Synthesizer.Api
             Outlet till = null,
             Outlet step = null,
             DimensionEnum dimension = DimensionEnum.Undefined,
-            AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continual)
+            AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continuous)
         {
             return _patchManager.AverageOverDimension(signal, from, till, step, dimension, recalculation);
         }
@@ -322,7 +322,7 @@ namespace JJ.Business.Synthesizer.Api
             Outlet till = null, 
             Outlet step = null, 
             DimensionEnum dimension = DimensionEnum.Undefined,
-            AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continual)
+            AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continuous)
         {
             return _patchManager.MaxOverDimension(signal, from, till, step, dimension, recalculation);
         }
@@ -352,7 +352,7 @@ namespace JJ.Business.Synthesizer.Api
             Outlet till = null,
             Outlet step = null,
             DimensionEnum dimension = DimensionEnum.Undefined,
-            AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continual)
+            AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continuous)
         {
             return _patchManager.MinOverDimension(signal, from, till, step, dimension, recalculation);
         }
@@ -642,7 +642,7 @@ namespace JJ.Business.Synthesizer.Api
             Outlet till = null,
             Outlet step = null,
             DimensionEnum dimension = DimensionEnum.Undefined,
-            AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continual)
+            AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continuous)
         {
             return _patchManager.SumOverDimension(signal, from, till, step, dimension, recalculation);
         }

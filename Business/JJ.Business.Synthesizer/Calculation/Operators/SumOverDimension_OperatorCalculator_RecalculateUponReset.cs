@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -20,6 +21,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                   dimensionStack)
         { }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected override void ResetNonRecursive()
         {
             RecalculateAggregate();

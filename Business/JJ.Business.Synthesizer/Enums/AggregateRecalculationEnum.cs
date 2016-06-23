@@ -3,7 +3,7 @@
     public enum AggregateRecalculationEnum
     {
         Undefined,
-        Continual,
+        Continuous,
         UponReset
     }
 }

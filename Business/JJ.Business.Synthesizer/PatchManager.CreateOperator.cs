@@ -71,7 +71,7 @@ namespace JJ.Business.Synthesizer
             Outlet till = null,
             Outlet step = null,
             DimensionEnum dimension = DimensionEnum.Undefined,
-            AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continual)
+            AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continuous)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.AverageOverDimension, inletCount: 4, outletCount: 1);
 
@@ -677,7 +677,7 @@ namespace JJ.Business.Synthesizer
             Outlet till = null, 
             Outlet step = null, 
             DimensionEnum dimension = DimensionEnum.Undefined,
-            AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continual)
+            AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continuous)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.MaxOverDimension, inletCount: 4, outletCount: 1);
 
@@ -743,7 +743,7 @@ namespace JJ.Business.Synthesizer
             Outlet till = null,
             Outlet step = null,
             DimensionEnum dimension = DimensionEnum.Undefined,
-            AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continual)
+            AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continuous)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.MinOverDimension, inletCount: 4, outletCount: 1);
 
@@ -1481,7 +1481,7 @@ namespace JJ.Business.Synthesizer
             Outlet till = null,
             Outlet step = null,
             DimensionEnum dimension = DimensionEnum.Undefined,
-            AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continual)
+            AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continuous)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.SumOverDimension, inletCount: 4, outletCount: 1);
 
