@@ -10,7 +10,7 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class MakeDiscrete_OperatorWrapper : OperatorWrapperBase_WithDimension
+    public class MakeDiscrete_OperatorWrapper : OperatorWrapperBase
     {
         private const int OPERAND_INDEX = 0;
 
@@ -22,6 +22,12 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         {
             get { return OperatorHelper.GetInputOutlet(WrappedOperator, OPERAND_INDEX); }
             set { OperatorHelper.GetInlet(WrappedOperator, OPERAND_INDEX).LinkTo(value); }
+        }
+
+        public DimensionEnum Dimension
+        {
+            get { return DataPropertyParser.GetEnum<DimensionEnum>(WrappedOperator, PropertyNames.Dimension); }
+            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.Dimension, value); }
         }
 
         public override string GetInletDisplayName(int listIndex)

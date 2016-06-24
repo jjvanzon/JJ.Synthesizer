@@ -11,6 +11,7 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Canonical;
 using JJ.Business.Canonical;
+using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer
 {
@@ -154,22 +155,6 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public ChangeTrigger_OperatorWrapper ChangeTrigger(Outlet calculation = null, Outlet reset = null)
-        {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.ChangeTrigger, inletCount: 2, outletCount: 1);
-
-            var wrapper = new ChangeTrigger_OperatorWrapper(op)
-            {
-                Calculation = calculation,
-                Reset = reset
-            };
-
-            VoidResult result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
-
-            return wrapper;
-        }
-
         public Cache_OperatorWrapper Cache(
             Outlet signal = null,
             Outlet startTime = null,
@@ -190,6 +175,69 @@ namespace JJ.Business.Synthesizer
                 InterpolationType = interpolationTypeEnum,
                 SpeakerSetup = speakerSetupEnum,
                 Dimension = dimension
+            };
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
+        public ChangeTrigger_OperatorWrapper ChangeTrigger(Outlet calculation = null, Outlet reset = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.ChangeTrigger, inletCount: 2, outletCount: 1);
+
+            var wrapper = new ChangeTrigger_OperatorWrapper(op)
+            {
+                Calculation = calculation,
+                Reset = reset
+            };
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
+        public Closest_OperatorWrapper Closest(Outlet signal, params Outlet[] items)
+        {
+            return Closest(signal, (IList<Outlet>)items);
+        }
+
+        public Closest_OperatorWrapper Closest(Outlet signal, IList<Outlet> items)
+        {
+            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(
+            OperatorTypeEnum.Closest,
+            signal.Union(items).ToArray());
+
+            var wrapper = new Closest_OperatorWrapper(op);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
+        public ClosestOverDimension_OperatorWrapper ClosestOverDimension(
+            Outlet signal = null,
+            Outlet collection = null,
+            Outlet from = null,
+            Outlet till = null,
+            Outlet step = null,
+            DimensionEnum dimension = DimensionEnum.Undefined,
+            AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continuous)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.ClosestOverDimension, inletCount: 5, outletCount: 1);
+
+            var wrapper = new ClosestOverDimension_OperatorWrapper(op)
+            {
+                Signal = signal,
+                Collection = collection,
+                From = from,
+                Till = till,
+                Step = step,
+                Dimension = dimension,
+                Recalculation = recalculation
             };
 
             VoidResult result = ValidateOperatorNonRecursive(op);
@@ -1673,12 +1721,14 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.Absolute: return Absolute();
                 case OperatorTypeEnum.Add: return Add(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.And: return And();
+                case OperatorTypeEnum.Average: return Average(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.AverageFollower: return AverageFollower();
                 case OperatorTypeEnum.AverageOverDimension: return AverageOverDimension();
-                case OperatorTypeEnum.Average: return Average(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.Bundle: return Bundle(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.ChangeTrigger: return ChangeTrigger();
                 case OperatorTypeEnum.Cache: return Cache();
+                case OperatorTypeEnum.Closest: return Closest(null, new Outlet[variableInletOrOutletCount]);
+                case OperatorTypeEnum.ClosestOverDimension: return ClosestOverDimension();
                 case OperatorTypeEnum.Curve: return Curve();
                 case OperatorTypeEnum.CustomOperator: return CustomOperator();
                 case OperatorTypeEnum.GetDimension: return GetDimension();

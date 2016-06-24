@@ -46,6 +46,16 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.And(a, b);
         }
 
+        public Average_OperatorWrapper Average(params Outlet[] operands)
+        {
+            return _patchManager.Average(operands);
+        }
+
+        public Average_OperatorWrapper Average(IList<Outlet> operands)
+        {
+            return _patchManager.Average(operands);
+        }
+
         public AverageOverDimension_OperatorWrapper AverageOverDimension(
             Outlet signal = null,
             Outlet from = null,
@@ -55,16 +65,6 @@ namespace JJ.Business.Synthesizer.Api
             AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continuous)
         {
             return _patchManager.AverageOverDimension(signal, from, till, step, dimension, recalculation);
-        }
-
-        public Average_OperatorWrapper Average(params Outlet[] operands)
-        {
-            return _patchManager.Average(operands);
-        }
-
-        public Average_OperatorWrapper Average(IList<Outlet> operands)
-        {
-            return _patchManager.Average(operands);
         }
 
         public AverageFollower_OperatorWrapper AverageFollower(
@@ -91,11 +91,6 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Bundle(operands, dimension);
         }
 
-        public ChangeTrigger_OperatorWrapper ChangeTrigger(Outlet calculation, Outlet reset)
-        {
-            return _patchManager.ChangeTrigger(calculation, reset);
-        }
-
         public Cache_OperatorWrapper Cache(
             Outlet signal = null,
             Outlet startTime = null,
@@ -113,6 +108,34 @@ namespace JJ.Business.Synthesizer.Api
                 interpolationType, 
                 speakerSetup, 
                 dimension);
+        }
+
+        public ChangeTrigger_OperatorWrapper ChangeTrigger(Outlet calculation, Outlet reset)
+        {
+            return _patchManager.ChangeTrigger(calculation, reset);
+        }
+
+
+        public Closest_OperatorWrapper Closest(Outlet signal, params Outlet[] items)
+        {
+            return _patchManager.Closest(signal, items);
+        }
+
+        public Closest_OperatorWrapper Closest(Outlet signal, IList<Outlet> items)
+        {
+            return _patchManager.Closest(signal, items);
+        }
+
+        public ClosestOverDimension_OperatorWrapper ClosestOverDimension(
+            Outlet signal = null,
+            Outlet collection = null,
+            Outlet from = null,
+            Outlet till = null,
+            Outlet step = null,
+            DimensionEnum dimension = DimensionEnum.Undefined,
+            AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continuous)
+        {
+            return _patchManager.ClosestOverDimension(signal, from, till, step, collection, dimension, recalculation);
         }
 
         public Curve_OperatorWrapper Curve(Curve curve = null, DimensionEnum dimension = DimensionEnum.Time)

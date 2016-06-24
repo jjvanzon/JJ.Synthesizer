@@ -126,6 +126,8 @@
         AverageOverDimension = 74,
         SumOverDimension = 75,
         SumFollower = 76,
-        Multiply = 77
+        Multiply = 77,
+        Closest = 78,
+        ClosestOverDimension = 79
     }
 }

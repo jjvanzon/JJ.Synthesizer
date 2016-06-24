@@ -7,6 +7,12 @@
         public const int CACHE_END_TIME_INDEX = 2;
         public const int CACHE_SAMPLING_RATE_INDEX = 3;
         public const int CACHE_RESULT_INDEX = 0;
+        public const int CLOSEST_OVER_DIMENSION_SIGNAL_INDEX = 0;
+        public const int CLOSEST_OVER_DIMENSION_COLLECTION_INDEX = 1;
+        public const int CLOSEST_OVER_DIMENSION_FROM_INDEX = 2;
+        public const int CLOSEST_OVER_DIMENSION_TILL_INDEX = 3;
+        public const int CLOSEST_OVER_DIMENSION_STEP_INDEX = 4;
+        public const int CLOSEST_OVER_DIMENSION_RESULT_INDEX = 0;
         public const int AGGREGATE_OVER_DIMENSION_SIGNAL_INDEX = 0;
         public const int AGGREGATE_OVER_DIMENSION_FROM_INDEX = 1;
         public const int AGGREGATE_OVER_DIMENSION_TILL_INDEX = 2;

@@ -703,7 +703,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
 
-            var wrapper = new OperatorWrapperBase_WithDimension(entity);
+            var wrapper = new GetDimension_OperatorWrapper(entity);
 
             var viewModel = new OperatorPropertiesViewModel_WithDimension
             {
@@ -723,7 +723,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
 
-            var wrapper = new OperatorWrapperBase_WithDimensionAndResampleInterpolationType(entity);
+            var wrapper = new Resample_OperatorWrapper(entity);
 
             var viewModel = new OperatorPropertiesViewModel_WithDimensionAndInterpolation
             {

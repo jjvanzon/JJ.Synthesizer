@@ -32,8 +32,14 @@ namespace JJ.Business.Synthesizer.Helpers
 
         public static IList<Outlet> GetSortedInputOutlets(Operator op)
         {
-            IList<Outlet> outlets = GetSortedInlets(op).Select(x => x.InputOutlet).ToArray();
+            IList<Outlet> outlets = EnumerateSortedInputOutlets(op).ToArray();
             return outlets;
+        }
+
+        public static IEnumerable<Outlet> EnumerateSortedInputOutlets(Operator op)
+        {
+            IEnumerable<Outlet> enumerable = GetSortedInlets(op).Select(x => x.InputOutlet);
+            return enumerable;
         }
 
         // Get Inlet

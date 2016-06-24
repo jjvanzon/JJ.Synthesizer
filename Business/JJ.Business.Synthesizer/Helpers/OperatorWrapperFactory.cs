@@ -22,8 +22,10 @@ namespace JJ.Business.Synthesizer.Helpers
             { OperatorTypeEnum.Average, Create_Average_OperatorWrapper },
             { OperatorTypeEnum.AverageFollower, Create_AverageFollower_OperatorWrapper },
             { OperatorTypeEnum.Bundle, Create_Bundle_OperatorWrapper },
-            { OperatorTypeEnum.ChangeTrigger, Create_ChangeTrigger_OperatorWrapper },
             { OperatorTypeEnum.Cache, Create_Cache_OperatorWrapper },
+            { OperatorTypeEnum.ChangeTrigger, Create_ChangeTrigger_OperatorWrapper },
+            { OperatorTypeEnum.Closest, Create_Closest_OperatorWrapper },
+            { OperatorTypeEnum.ClosestOverDimension, Create_ClosestOverDimension_OperatorWrapper },
             { OperatorTypeEnum.Delay , Create_Delay_OperatorWrapper },
             { OperatorTypeEnum.Divide , Create_Divide_OperatorWrapper },
             { OperatorTypeEnum.Earlier , Create_Earlier_OperatorWrapper },
@@ -146,6 +148,8 @@ namespace JJ.Business.Synthesizer.Helpers
         private static Bundle_OperatorWrapper Create_Bundle_OperatorWrapper(Operator op) { return new Bundle_OperatorWrapper(op); }
         private static Cache_OperatorWrapper Create_Cache_OperatorWrapper(Operator op) { return new Cache_OperatorWrapper(op); }
         private static ChangeTrigger_OperatorWrapper Create_ChangeTrigger_OperatorWrapper(Operator op) { return new ChangeTrigger_OperatorWrapper(op); }
+        private static Closest_OperatorWrapper Create_Closest_OperatorWrapper(Operator op) { return new Closest_OperatorWrapper(op); }
+        private static ClosestOverDimension_OperatorWrapper Create_ClosestOverDimension_OperatorWrapper(Operator op) { return new ClosestOverDimension_OperatorWrapper(op); }
         private static Delay_OperatorWrapper Create_Delay_OperatorWrapper(Operator op) { return new Delay_OperatorWrapper(op); }
         private static Divide_OperatorWrapper Create_Divide_OperatorWrapper(Operator op) { return new Divide_OperatorWrapper(op); }
         private static Earlier_OperatorWrapper Create_Earlier_OperatorWrapper(Operator op) { return new Earlier_OperatorWrapper(op); }

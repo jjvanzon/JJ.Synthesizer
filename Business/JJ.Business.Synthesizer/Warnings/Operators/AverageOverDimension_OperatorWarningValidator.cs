@@ -10,8 +10,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             : base(
                   obj, 
                   OperatorConstants.AGGREGATE_OVER_DIMENSION_SIGNAL_INDEX,
-                  OperatorConstants.AGGREGATE_OVER_DIMENSION_TILL_INDEX,
-                  OperatorConstants.AGGREGATE_OVER_DIMENSION_STEP_INDEX)
+                  OperatorConstants.AGGREGATE_OVER_DIMENSION_TILL_INDEX)
         { }
     }
 }

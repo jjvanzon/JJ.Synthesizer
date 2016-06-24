@@ -207,6 +207,8 @@
     <Compile Include="Calculation\Operators\OperatorCalculatorBase.cs" />
     <Compile Include="Calculation\Operators\Delay OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Number_OperatorCalculator.cs" />
+    <Compile Include="EntityWrappers\Closest_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\ClosestOverDimension_OperatorWrapper.cs" />
     <Compile Include="Helpers\OperatorCalculatorFactory.CreateAddCalculatorOnlyVars.cs">
       <DependentUpon>OperatorCalculatorFactory.CreateAddCalculatorOnlyVars.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -271,7 +273,7 @@
     <Compile Include="EntityWrappers\Hold_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\OneOverX_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Negative_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\OperatorWrapperBase_WithDimensionAndResampleInterpolationType.cs" />
+    <Compile Include="EntityWrappers\2016-06-24 Backup of OperatorWrapperBase_WithDimensionAndResampleInterpolationType.cs" />
     <Compile Include="EntityWrappers\MaxOverDimension_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Range_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\MakeDiscrete_OperatorWrapper.cs" />
@@ -301,7 +303,7 @@
     <Compile Include="EntityWrappers\MinFollower_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\ChangeTrigger_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\GetDimension_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\OperatorWrapperBase_WithDimension.cs" />
+    <Compile Include="EntityWrappers\2016-06-24 Backup of OperatorWrapperBase_WithDimension.cs" />
     <Compile Include="EntityWrappers\SetDimension_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\ToggleTrigger_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\PulseTrigger_OperatorWrapper.cs" />
@@ -400,6 +402,8 @@
     <Compile Include="Validation\Curves\CurveValidator_Nodes.cs" />
     <Compile Include="Validation\Documents\RootDocument_DocumentValidator.cs" />
     <Compile Include="Validation\Operators\Absolute_OperatorValidator.cs" />
+    <Compile Include="Validation\Operators\ClosestOverDimension_OperatorValidator.cs" />
+    <Compile Include="Validation\Operators\Closest_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_Base_AggregateOverDimension.cs" />
     <Compile Include="Validation\Operators\Multiply_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\SumFollower_OperatorValidator.cs" />
@@ -466,7 +470,9 @@
     <Compile Include="Warnings\AudioOutputWarningValidator.cs" />
     <Compile Include="Warnings\CurveWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Absolute_OperatorWarningValidator.cs" />
+    <Compile Include="Warnings\Operators\ClosestOverDimension_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Multiply_OperatorWarningValidator.cs" />
+    <Compile Include="Warnings\Operators\Closest_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\SumFollower_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\SumOverDimension_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Average_OperatorWarningValidator.cs" />

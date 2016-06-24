@@ -30,7 +30,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             Operator op = Object;
 
             For(() => op.Inlets.Count, CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Inlets)).GreaterThan(0);
-            For(() => op.Outlets.Count, CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Outlets)).Is(1);
         }
     }
 }

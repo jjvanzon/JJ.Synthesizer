@@ -81,6 +81,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                   new HashSet<OperatorTypeEnum>
         {
             OperatorTypeEnum.AverageOverDimension,
+            OperatorTypeEnum.ClosestOverDimension,
             OperatorTypeEnum.MaxOverDimension,
             OperatorTypeEnum.MinOverDimension,
             OperatorTypeEnum.SumOverDimension

@@ -7,7 +7,7 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public abstract class OperatorWrapperBase_AggregateOverDimension : OperatorWrapperBase_WithDimension
+    public abstract class OperatorWrapperBase_AggregateOverDimension : OperatorWrapperBase
     {
         public OperatorWrapperBase_AggregateOverDimension(Operator op)
             : base(op)
@@ -40,6 +40,12 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         public Outlet Result
         {
             get { return OperatorHelper.GetOutlet(WrappedOperator, OperatorConstants.AGGREGATE_OVER_DIMENSION_RESULT_INDEX); }
+        }
+
+        public DimensionEnum Dimension
+        {
+            get { return DataPropertyParser.GetEnum<DimensionEnum>(WrappedOperator, PropertyNames.Dimension); }
+            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.Dimension, value); }
         }
 
         public AggregateRecalculationEnum Recalculation

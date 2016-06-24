@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Business.Synthesizer.Resources;
 using System;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class MakeContinuous_OperatorWrapper : OperatorWrapperBase_WithDimensionAndResampleInterpolationType
+    public class MakeContinuous_OperatorWrapper : OperatorWrapperBase
     {
         private const int RESULT_INDEX = 0;
 
@@ -24,6 +25,18 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         public Outlet Result
         {
             get { return OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX); }
+        }
+
+        public DimensionEnum Dimension
+        {
+            get { return DataPropertyParser.GetEnum<DimensionEnum>(WrappedOperator, PropertyNames.Dimension); }
+            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.Dimension, value); }
+        }
+
+        public ResampleInterpolationTypeEnum InterpolationType
+        {
+            get { return DataPropertyParser.GetEnum<ResampleInterpolationTypeEnum>(WrappedOperator, PropertyNames.InterpolationType); }
+            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.InterpolationType, value); }
         }
 
         public override string GetInletDisplayName(int listIndex)

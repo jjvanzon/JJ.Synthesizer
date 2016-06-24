@@ -848,4 +848,10 @@
   <data name="Recalculation" xml:space="preserve">
     <value>Herberekening</value>
   </data>
+  <data name="Closest" xml:space="preserve">
+    <value>Dichtstbijzijnd</value>
+  </data>
+  <data name="ClosestOverDimension" xml:space="preserve">
+    <value>Dichtstbijzijnd over dimensie</value>
+  </data>
 </root>

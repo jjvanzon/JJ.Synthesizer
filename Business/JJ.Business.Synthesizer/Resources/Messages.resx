@@ -237,4 +237,8 @@
     <value>{0} must be a power of 2.</value>
     <comment>{0} = name of the value</comment>
   </data>
+  <data name="OperatorHasNoItemsFilledIn_WithOperatorName" xml:space="preserve">
+    <value>Operator '{0}' has no items filled in.</value>
+    <comment>{0} = name or type of object</comment>
+  </data>
 </root>

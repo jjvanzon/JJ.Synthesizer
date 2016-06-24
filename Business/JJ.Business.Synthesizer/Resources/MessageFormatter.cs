@@ -124,6 +124,11 @@ namespace JJ.Business.Synthesizer.Resources
             return String.Format(Messages.OperatorHasNoInletsFilledIn_WithOperatorName, name);
         }
 
+        public static string OperatorHasNoItemsFilledIn_WithOperatorName(string name)
+        {
+            return String.Format(Messages.OperatorHasNoItemsFilledIn_WithOperatorName, name);
+        }
+
         public static string InletNotFoundInUnderlyingPatch(string inletName, string dimensionDisplayName, int? inletListIndex)
         {
             return String.Format(Messages.InletNotFoundInUnderlyingPatch, inletName, dimensionDisplayName, inletListIndex);

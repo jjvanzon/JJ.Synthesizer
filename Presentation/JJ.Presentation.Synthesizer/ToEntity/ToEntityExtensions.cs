@@ -1160,7 +1160,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.Name = viewModel.Name;
             entity.LinkTo(operatorTypeRepository.Get(viewModel.OperatorType.ID));
 
-            var wrapper = new OperatorWrapperBase_WithDimension(entity);
+            var wrapper = new GetDimension_OperatorWrapper(entity);
             bool interpolationTypeIsFilledIn = viewModel.Dimension != null && viewModel.Dimension.ID != 0;
             if (interpolationTypeIsFilledIn)
             {
@@ -1194,7 +1194,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.Name = viewModel.Name;
             entity.LinkTo(operatorTypeRepository.Get(viewModel.OperatorType.ID));
 
-            var wrapper = new OperatorWrapperBase_WithDimensionAndResampleInterpolationType(entity);
+            var wrapper = new Resample_OperatorWrapper(entity);
 
             // Interpolation
             bool interpolationIsFilledIn = viewModel.Interpolation != null && viewModel.Interpolation.ID != 0;

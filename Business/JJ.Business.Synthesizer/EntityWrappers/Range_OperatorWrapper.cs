@@ -7,7 +7,7 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Range_OperatorWrapper : OperatorWrapperBase_WithDimension
+    public class Range_OperatorWrapper : OperatorWrapperBase
     {
         public Range_OperatorWrapper(Operator op)
             : base(op)
@@ -34,6 +34,12 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         public Outlet Result
         {
             get { return OperatorHelper.GetOutlet(WrappedOperator, OperatorConstants.RANGE_RESULT_INDEX); }
+        }
+
+        public DimensionEnum Dimension
+        {
+            get { return DataPropertyParser.GetEnum<DimensionEnum>(WrappedOperator, PropertyNames.Dimension); }
+            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.Dimension, value); }
         }
 
         public override string GetInletDisplayName(int listIndex)

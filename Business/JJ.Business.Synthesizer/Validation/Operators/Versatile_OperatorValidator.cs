@@ -24,6 +24,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             { OperatorTypeEnum.Bundle, typeof(Bundle_OperatorValidator) },
             { OperatorTypeEnum.Cache, typeof(Cache_OperatorValidator) },
             { OperatorTypeEnum.ChangeTrigger, typeof(ChangeTrigger_OperatorValidator) },
+            { OperatorTypeEnum.Closest, typeof(Closest_OperatorValidator) },
+            { OperatorTypeEnum.ClosestOverDimension, typeof(ClosestOverDimension_OperatorValidator) },
             { OperatorTypeEnum.Curve, typeof(Curve_OperatorValidator) },
             { OperatorTypeEnum.Delay, typeof(Delay_OperatorValidator) },
             { OperatorTypeEnum.Divide, typeof(Divide_OperatorValidator) },

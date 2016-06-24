@@ -2791,7 +2791,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitRange(Operator op)
         {
-            var wrapper = new OperatorWrapperBase_WithDimension(op);
+            var wrapper = new Range_OperatorWrapper(op);
             DimensionEnum dimensionEnum = wrapper.Dimension;
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 

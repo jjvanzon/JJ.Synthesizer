@@ -259,6 +259,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Operator &apos;{0}&apos; has no items filled in..
+        /// </summary>
+        internal static string OperatorHasNoItemsFilledIn_WithOperatorName {
+            get {
+                return ResourceManager.GetString("OperatorHasNoItemsFilledIn_WithOperatorName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Operator named &apos;{0}&apos; has a circular reference..
         /// </summary>
         internal static string OperatorIsCircularWithName {

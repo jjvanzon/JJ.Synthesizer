@@ -21,6 +21,8 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             { OperatorTypeEnum.Bundle, typeof(Bundle_OperatorWarningValidator) },
             { OperatorTypeEnum.Cache, typeof(Cache_OperatorWarningValidator) },
             { OperatorTypeEnum.ChangeTrigger, typeof(ChangeTrigger_OperatorWarningValidator) },
+            { OperatorTypeEnum.Closest, typeof(Closest_OperatorWarningValidator) },
+            { OperatorTypeEnum.ClosestOverDimension, typeof(ClosestOverDimension_OperatorWarningValidator) },
             { OperatorTypeEnum.Curve, typeof(Curve_OperatorWarningValidator) },
             { OperatorTypeEnum.CustomOperator, typeof(CustomOperator_OperatorWarningValidator) },
             { OperatorTypeEnum.Delay, typeof(Delay_OperatorWarningValidator) },

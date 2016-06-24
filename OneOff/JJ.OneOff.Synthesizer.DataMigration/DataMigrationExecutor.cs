@@ -1320,7 +1320,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                         inlet.ListIndex = j;
                     }
 
-                    var wrapper = new OperatorWrapperBase_WithDimension(op);
+                    var wrapper = new GetDimension_OperatorWrapper(op);
                     // This is the strangest if,
                     // but this adds the Dimension key to the operator's data property,
                     // without removing the original Dimension property.

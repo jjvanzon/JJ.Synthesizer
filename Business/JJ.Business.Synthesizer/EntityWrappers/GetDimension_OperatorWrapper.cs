@@ -7,7 +7,7 @@ using System;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class GetDimension_OperatorWrapper : OperatorWrapperBase_WithDimension
+    public class GetDimension_OperatorWrapper : OperatorWrapperBase
     {
         private const int VALUE_INDEX = 0;
 
@@ -18,6 +18,12 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         public Outlet Value
         {
             get { return OperatorHelper.GetOutlet(WrappedOperator, VALUE_INDEX); }
+        }
+
+        public DimensionEnum Dimension
+        {
+            get { return DataPropertyParser.GetEnum<DimensionEnum>(WrappedOperator, PropertyNames.Dimension); }
+            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.Dimension, value); }
         }
 
         public override string GetInletDisplayName(int listIndex)

@@ -376,6 +376,24 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Closest.
+        /// </summary>
+        public static string Closest {
+            get {
+                return ResourceManager.GetString("Closest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Closest over Dimension.
+        /// </summary>
+        public static string ClosestOverDimension {
+            get {
+                return ResourceManager.GetString("ClosestOverDimension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Condition.
         /// </summary>
         public static string Condition {
