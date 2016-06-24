@@ -4007,15 +4007,14 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 switch (aggregateRecalculationEnum)
                 {
                     case AggregateRecalculationEnum.Continuous:
-                        // TODO: This does not work (yet).
-                        //if (fromIsConstZero && tillIsConst && stepIsConstOne)
-                        //{
-                        //    operatorCalculator = new SumOverDimension_OperatorCalculator_ByUnbundleAndAdd(
-                        //        signalCalculator,
-                        //        till,
-                        //        dimensionStack);
-                        //}
-                        //else
+                        if (fromIsConstZero && tillIsConst && stepIsConstOne)
+                        {
+                            operatorCalculator = new SumOverDimension_OperatorCalculator_ByUnbundleAndAdd(
+                                signalCalculator,
+                                till,
+                                dimensionStack);
+                        }
+                        else
                         {
                             operatorCalculator = new SumOverDimension_OperatorCalculator_RecalculateContinuously(
                             signalCalculator,

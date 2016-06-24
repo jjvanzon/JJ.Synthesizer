@@ -7,7 +7,6 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    // DOES NOT WORK (YET).
     internal class SumOverDimension_OperatorCalculator_ByUnbundleAndAdd : OperatorCalculatorBase
     {
         private readonly OperatorCalculatorBase _addCalculator;
