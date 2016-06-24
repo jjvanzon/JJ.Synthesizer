@@ -98,10 +98,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                   new HashSet<OperatorTypeEnum>
         {
             OperatorTypeEnum.Add,
-            OperatorTypeEnum.Multiply,
             OperatorTypeEnum.Average,
+            OperatorTypeEnum.Closest,
             OperatorTypeEnum.Max,
-            OperatorTypeEnum.Min
+            OperatorTypeEnum.Min,
+            OperatorTypeEnum.Multiply
         };
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithoutAlternativePropertiesView { get; } =

@@ -208,7 +208,7 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(
             OperatorTypeEnum.Closest,
-            signal.Union(items).ToArray());
+            signal.Concat(items).ToArray());
 
             var wrapper = new Closest_OperatorWrapper(op);
 

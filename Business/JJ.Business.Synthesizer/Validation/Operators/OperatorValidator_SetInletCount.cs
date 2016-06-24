@@ -18,6 +18,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             OperatorTypeEnum.Add,
             OperatorTypeEnum.Average,
             OperatorTypeEnum.Bundle,
+            OperatorTypeEnum.Closest,
             OperatorTypeEnum.MakeContinuous,
             OperatorTypeEnum.Max,
             OperatorTypeEnum.Min,
