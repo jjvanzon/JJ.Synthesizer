@@ -136,21 +136,19 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private void BinarySearchInexactHighPerformance(
             double[] sortedArray, 
             double input, 
-            out double valueBefore, 
-            out double valueAfter)
+            out double min, 
+            out double max)
         {
             int length = sortedArray.Length;
-            int minIndex = 0;
-            int maxIndex = length - 1;
 
-            double min = sortedArray[minIndex];
-            double max = sortedArray[maxIndex];
+            min = sortedArray[0];
+            max = sortedArray[length - 1];
 
             int halfLength = length >> 1;
             int sampleIndex = halfLength;
             int jump = halfLength;
 
-            while (maxIndex - minIndex > 1)
+            while (jump != 0)
             {
                 double sample = sortedArray[sampleIndex];
 
@@ -159,21 +157,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 if (input >= sample)
                 {
                     min = sample;
-                    minIndex = sampleIndex;
 
                     sampleIndex += jump;
                 }
                 else
                 {
                     max = sample;
-                    maxIndex = sampleIndex;
 
                     sampleIndex -= jump;
                 }
             }
-
-            valueBefore = sortedArray[minIndex];
-            valueAfter = sortedArray[maxIndex];
         }
     }
 }
