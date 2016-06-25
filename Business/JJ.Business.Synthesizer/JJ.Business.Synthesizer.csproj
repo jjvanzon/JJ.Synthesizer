@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AudioOutputManager.cs" />
+    <Compile Include="Calculation\AggregateCalculator.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculatorBase.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculatorBase_Hermite.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculatorBase_Cubic.cs" />
@@ -95,6 +96,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Calculation\Operators\AverageOverDimension_OperatorCalculator_RecalculateContinuously.cs" />
+    <Compile Include="Calculation\Operators\Closest OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\MinOverDimension_OperatorCalculator_RecalculateContinuously.cs" />
     <Compile Include="Calculation\Operators\MaxOverDimension_OperatorCalculator_RecalculateContinuously.cs" />
     <Compile Include="Calculation\Operators\MinOverDimension_OperatorCalculator_RecalculateUponReset.cs" />
@@ -207,6 +209,7 @@
     <Compile Include="Calculation\Operators\OperatorCalculatorBase.cs" />
     <Compile Include="Calculation\Operators\Delay OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Number_OperatorCalculator.cs" />
+    <Compile Include="Copies from Framework\Geometry.cs" />
     <Compile Include="EntityWrappers\Closest_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\ClosestOverDimension_OperatorWrapper.cs" />
     <Compile Include="Helpers\OperatorCalculatorFactory.CreateAddCalculatorOnlyVars.cs">
@@ -389,9 +392,9 @@
     <Compile Include="CurveManager.cs" />
     <Compile Include="DocumentManager.cs" />
     <Compile Include="EntityPositionManager.cs" />
-    <Compile Include="NAudio Copies\BiQuadFilter.cs" />
-    <Compile Include="NAudio Copies\Complex.cs" />
-    <Compile Include="NAudio Copies\FastFourierTransform.cs" />
+    <Compile Include="Copies from NAudio\BiQuadFilter.cs" />
+    <Compile Include="Copies from NAudio\Complex.cs" />
+    <Compile Include="Copies from NAudio\FastFourierTransform.cs" />
     <Compile Include="PatchManager.AutoPatch.cs" />
     <Compile Include="SideEffects\AudioOutput_SideEffect_SetDefaults.cs" />
     <Compile Include="SideEffects\Curve_SideEffect_SetDefaults_Nodes.cs" />
@@ -777,7 +780,8 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>OperatorCalculatorFactory.CreateAddCalculatorWithConst.cs</LastGenOutput>
     </None>
-    <Content Include="NAudio Copies\README.TXT" />
+    <Content Include="Copies from Framework\README.TXT" />
+    <Content Include="Copies from NAudio\README.TXT" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

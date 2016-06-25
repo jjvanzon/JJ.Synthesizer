@@ -753,6 +753,54 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(operatorCalculator);
         }
 
+        protected override void VisitClosest(Operator op)
+        {
+            var wrapper = new Closest_OperatorWrapper(op);
+
+            base.VisitClosest(op);
+
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase inputCalculator = _stack.Pop();
+
+            int itemCount = op.Inlets.Count - 1;
+            IList<OperatorCalculatorBase> itemCalculators = new OperatorCalculatorBase[itemCount];
+            for (int i = 0; i < itemCount; i++)
+            {
+                OperatorCalculatorBase itemCalculator = _stack.Pop();
+                itemCalculators[i] = itemCalculator;
+            }
+
+            inputCalculator = inputCalculator ?? new Zero_OperatorCalculator();
+            itemCalculators = itemCalculators.Where(x => x != null).ToArray();
+
+            bool inputIsConst = inputCalculator is Number_OperatorCalculator;
+            bool allItemsAreConst = itemCalculators.All(x => x is Number_OperatorCalculator);
+
+            double input = inputIsConst ? inputCalculator.Calculate() : 0.0;
+            IList<double> items = null;
+            if (allItemsAreConst)
+            {
+                items = itemCalculators.Select(x => x.Calculate()).ToArray();
+            }
+
+            if (inputIsConst && allItemsAreConst)
+            {
+                double result = AggregateCalculator.Closest(input, items);
+                calculator = new Number_OperatorCalculator(result);
+            }
+            else if (allItemsAreConst)
+            {
+                calculator = new Closest_OperatorCalculator_ManyConsts(inputCalculator, items);
+            }
+            else
+            {
+                calculator = new Closest_OperatorCalculator_AllVars(inputCalculator, itemCalculators);
+            }
+
+            _stack.Push(calculator);
+        }
+
         protected override void VisitCurveOperator(Operator op)
         {
             var wrapper = new Curve_OperatorWrapper(op, _curveRepository);

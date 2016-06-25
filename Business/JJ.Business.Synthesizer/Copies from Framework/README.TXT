@@ -1,0 +1,1 @@
+﻿These copies of code from the framework are put here to promote inlining.
