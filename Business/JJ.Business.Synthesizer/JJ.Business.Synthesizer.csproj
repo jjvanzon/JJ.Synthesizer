@@ -212,6 +212,7 @@
     <Compile Include="Calculation\Operators\OperatorCalculatorBase.cs" />
     <Compile Include="Calculation\Operators\Delay OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Number_OperatorCalculator.cs" />
+    <Compile Include="Copies\FromFramework\CollectionHelper.cs" />
     <Compile Include="Copies\FromFramework\Geometry.cs" />
     <Compile Include="Copies\FromFramework\Interpolator.cs" />
     <Compile Include="Copies\FromFramework\Maths.cs" />

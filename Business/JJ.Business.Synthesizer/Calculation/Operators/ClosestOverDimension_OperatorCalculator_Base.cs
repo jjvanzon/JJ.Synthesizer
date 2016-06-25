@@ -18,6 +18,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly int _dimensionStackIndex;
 
         private double[] _sortedItems;
+        private double _min;
+        private double _max;
+        private int _halfCount;
 
         public ClosestOverDimension_OperatorCalculator_Base(
             OperatorCalculatorBase inputCalculator,
@@ -26,7 +29,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase tillCalculator,
             OperatorCalculatorBase stepCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] 
+            : base(new OperatorCalculatorBase[]
             {
                 inputCalculator,
                 collectionCalculator,
@@ -48,7 +51,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             ResetNonRecursive();
         }
 
-        /// <summary> Just returns _aggregate. </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
@@ -57,7 +59,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double valueBefore;
             double valueAfter;
 
-            BinarySearchInexactHighPerformance(_sortedItems, input, out valueBefore, out valueAfter);
+            CollectionHelper.BinarySearchInexact(
+                _sortedItems,
+                _halfCount,
+                _min,
+                _max,
+                input,
+                out valueBefore,
+                out valueAfter);
 
             double distanceBefore = Geometry.AbsoluteDistance(input, valueBefore);
             double distanceAfter = Geometry.AbsoluteDistance(input, valueAfter);
@@ -129,44 +138,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             Array.Sort(items);
 
             _sortedItems = items;
-        }
-
-        // TODO: Move to framework.
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void BinarySearchInexactHighPerformance(
-            double[] sortedArray, 
-            double input, 
-            out double min, 
-            out double max)
-        {
-            int length = sortedArray.Length;
-
-            min = sortedArray[0];
-            max = sortedArray[length - 1];
-
-            int halfLength = length >> 1;
-            int sampleIndex = halfLength;
-            int jump = halfLength;
-
-            while (jump != 0)
-            {
-                double sample = sortedArray[sampleIndex];
-
-                jump = jump >> 1;
-
-                if (input >= sample)
-                {
-                    min = sample;
-
-                    sampleIndex += jump;
-                }
-                else
-                {
-                    max = sample;
-
-                    sampleIndex -= jump;
-                }
-            }
+            _min = _sortedItems[0];
+            _max = _sortedItems[countInt - 1];
+            _halfCount = countInt >> 1;
         }
     }
 }
