@@ -140,38 +140,40 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             out double valueAfter)
         {
             int length = sortedArray.Length;
+            int minIndex = 0;
+            int maxIndex = length - 1;
+
+            double min = sortedArray[minIndex];
+            double max = sortedArray[maxIndex];
+
             int halfLength = length >> 1;
+            int sampleIndex = halfLength;
+            int jump = halfLength;
 
-            int range = halfLength;
-            int index = halfLength;
-            int previousIndex = -1;
-
-            while (index != previousIndex)
+            while (maxIndex - minIndex > 1)
             {
-                double sample = sortedArray[index];
-                previousIndex = index;
-                range = range >> 1;
+                double sample = sortedArray[sampleIndex];
 
-                if (input < sample)
+                jump = jump >> 1;
+
+                if (input >= sample)
                 {
-                    index -= range;
+                    min = sample;
+                    minIndex = sampleIndex;
+
+                    sampleIndex += jump;
                 }
                 else
                 {
-                    index += range;
+                    max = sample;
+                    maxIndex = sampleIndex;
+
+                    sampleIndex -= jump;
                 }
             }
 
-            valueBefore = sortedArray[index];
-
-            if (index == length - 1)
-            {
-                valueAfter = valueBefore;
-            }
-            else
-            {
-                valueAfter = sortedArray[index + 1];
-            }
+            valueBefore = sortedArray[minIndex];
+            valueAfter = sortedArray[maxIndex];
         }
     }
 }
