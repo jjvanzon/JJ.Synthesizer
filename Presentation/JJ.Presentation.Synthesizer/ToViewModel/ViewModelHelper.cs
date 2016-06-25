@@ -31,12 +31,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.Curve,
             OperatorTypeEnum.CustomOperator,
             OperatorTypeEnum.Filter,
+            OperatorTypeEnum.MakeContinuous,
             OperatorTypeEnum.Number,
             OperatorTypeEnum.PatchInlet,
             OperatorTypeEnum.PatchOutlet,
-            OperatorTypeEnum.Sample,
-            OperatorTypeEnum.Select,
-            OperatorTypeEnum.Stretch
+            OperatorTypeEnum.Sample
         };
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithDimensionPropertyViews { get; } = 
@@ -74,7 +73,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             OperatorTypeEnum.Random,
             OperatorTypeEnum.Resample,
-            OperatorTypeEnum.MakeContinuous
         };
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithDimensionAndRecalculationPropertyViews { get; } =

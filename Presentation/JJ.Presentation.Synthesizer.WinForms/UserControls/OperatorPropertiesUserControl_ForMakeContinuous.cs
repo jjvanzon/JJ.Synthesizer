@@ -97,6 +97,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             ViewModel.Name = textBoxName.Text;
             ViewModel.InletCount = (int)numericUpDownInletCount.Value;
+            ViewModel.Interpolation = (IDAndName)comboBoxInterpolation.SelectedItem;
             ViewModel.Dimension = (IDAndName)comboBoxDimension.SelectedItem;
         }
 
