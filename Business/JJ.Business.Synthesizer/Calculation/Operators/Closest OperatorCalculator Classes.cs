@@ -52,16 +52,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Closest_OperatorCalculator_ManyConsts : OperatorCalculatorBase_WithChildCalculators
+    internal class Closest_OperatorCalculator_VarInput_ConstItems : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _inputCalculator;
         private readonly double _firstItem;
         private readonly double[] _remainingItems;
 
-        public Closest_OperatorCalculator_ManyConsts(
+        public Closest_OperatorCalculator_VarInput_ConstItems(
             OperatorCalculatorBase inputCalculator,
             IList<double> items)
-            // TODO: Check if this syntax of list creation gives us all items.
             : base(new OperatorCalculatorBase[] { inputCalculator })
         {
             if (inputCalculator == null) throw new NullException(() => inputCalculator);
@@ -78,6 +77,35 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double input = _inputCalculator.Calculate();
 
             double result = AggregateCalculator.Closest(input, _firstItem, _remainingItems);
+
+            return result;
+        }
+    }
+
+    internal class Closest_OperatorCalculator_VarInput_2ConstItems : OperatorCalculatorBase_WithChildCalculators
+    {
+        private readonly OperatorCalculatorBase _inputCalculator;
+        private readonly double _item1;
+        private readonly double _item2;
+
+        public Closest_OperatorCalculator_VarInput_2ConstItems(
+            OperatorCalculatorBase inputCalculator,
+            double item1,
+            double item2)
+            : base(new OperatorCalculatorBase[] { inputCalculator })
+        {
+            if (inputCalculator == null) throw new NullException(() => inputCalculator);
+
+            _inputCalculator = inputCalculator;
+            _item1 = item1;
+            _item2 = item2;
+        }
+
+        public override double Calculate()
+        {
+            double input = _inputCalculator.Calculate();
+
+            double result = AggregateCalculator.Closest(input, _item1, _item2);
 
             return result;
         }

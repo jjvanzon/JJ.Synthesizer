@@ -41,5 +41,21 @@ namespace JJ.Business.Synthesizer.Calculation
 
             return closestItem;
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double Closest(double input, double item1, double item2)
+        {
+            double distance1 = Geometry.AbsoluteDistance(input, item1);
+            double distance2 = Geometry.AbsoluteDistance(input, item2);
+
+            if (distance1 < distance2)
+            {
+                return item1;
+            }
+            else
+            {
+                return item2;
+            }
+        }
     }
 }

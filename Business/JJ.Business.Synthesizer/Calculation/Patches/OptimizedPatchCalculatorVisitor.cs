@@ -796,7 +796,14 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (allItemsAreConst)
             {
-                calculator = new Closest_OperatorCalculator_ManyConsts(inputCalculator, items);
+                if (items.Count == 2)
+                {
+                    calculator = new Closest_OperatorCalculator_VarInput_2ConstItems(inputCalculator, items[0], items[1]);
+                }
+                else
+                {
+                    calculator = new Closest_OperatorCalculator_VarInput_ConstItems(inputCalculator, items);
+                }
             }
             else
             {
