@@ -13,10 +13,10 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             : base(op)
         { }
 
-        public Outlet Signal
+        public Outlet Input
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OperatorConstants.CLOSEST_OVER_DIMENSION_SIGNAL_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CLOSEST_OVER_DIMENSION_SIGNAL_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OperatorConstants.CLOSEST_OVER_DIMENSION_INPUT_INDEX); }
+            set { OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CLOSEST_OVER_DIMENSION_INPUT_INDEX).LinkTo(value); }
         }
 
         public Outlet Collection
@@ -64,9 +64,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         {
             switch (listIndex)
             {
-                case OperatorConstants.CLOSEST_OVER_DIMENSION_SIGNAL_INDEX:
+                case OperatorConstants.CLOSEST_OVER_DIMENSION_INPUT_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => Signal);
+                        string name = ResourceHelper.GetPropertyDisplayName(() => Input);
                         return name;
                     }
 

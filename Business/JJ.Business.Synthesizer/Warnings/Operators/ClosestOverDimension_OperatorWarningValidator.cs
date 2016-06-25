@@ -9,7 +9,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
         public ClosestOverDimension_OperatorWarningValidator(Operator obj)
             : base(
                   obj, 
-                  OperatorConstants.CLOSEST_OVER_DIMENSION_SIGNAL_INDEX,
+                  OperatorConstants.CLOSEST_OVER_DIMENSION_INPUT_INDEX,
                   OperatorConstants.CLOSEST_OVER_DIMENSION_COLLECTION_INDEX,
                   OperatorConstants.CLOSEST_OVER_DIMENSION_TILL_INDEX)
         { }

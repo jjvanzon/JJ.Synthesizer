@@ -12,17 +12,17 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public class Closest_OperatorWrapper : OperatorWrapperBase
     {
-        private const int SIGNAL_INDEX = 0;
+        private const int INPUT_INDEX = 0;
         private const int RESULT_INDEX = 0;
 
         public Closest_OperatorWrapper(Operator op)
             : base(op)
         { }
 
-        public Outlet Signal
+        public Outlet Input
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, SIGNAL_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInputOutlet(WrappedOperator, INPUT_INDEX); }
+            set { OperatorHelper.GetInlet(WrappedOperator, INPUT_INDEX).LinkTo(value); }
         }
 
         /// <summary> Executes a loop, so prevent calling it multiple times. summary>
@@ -47,9 +47,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             if (listIndex < 0) throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Inlets.Count);
             if (listIndex > WrappedOperator.Inlets.Count + 1) throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Inlets.Count + 1);
 
-            if (listIndex == SIGNAL_INDEX)
+            if (listIndex == INPUT_INDEX)
             {
-                string name = ResourceHelper.GetPropertyDisplayName(() => Signal);
+                string name = ResourceHelper.GetPropertyDisplayName(() => Input);
                 return name;
             }
             else

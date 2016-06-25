@@ -199,16 +199,16 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Closest_OperatorWrapper Closest(Outlet signal, params Outlet[] items)
+        public Closest_OperatorWrapper Closest(Outlet input, params Outlet[] items)
         {
-            return Closest(signal, (IList<Outlet>)items);
+            return Closest(input, (IList<Outlet>)items);
         }
 
-        public Closest_OperatorWrapper Closest(Outlet signal, IList<Outlet> items)
+        public Closest_OperatorWrapper Closest(Outlet input, IList<Outlet> items)
         {
             Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(
             OperatorTypeEnum.Closest,
-            signal.Concat(items).ToArray());
+            input.Concat(items).ToArray());
 
             var wrapper = new Closest_OperatorWrapper(op);
 
@@ -219,7 +219,7 @@ namespace JJ.Business.Synthesizer
         }
 
         public ClosestOverDimension_OperatorWrapper ClosestOverDimension(
-            Outlet signal = null,
+            Outlet input = null,
             Outlet collection = null,
             Outlet from = null,
             Outlet till = null,
@@ -231,7 +231,7 @@ namespace JJ.Business.Synthesizer
 
             var wrapper = new ClosestOverDimension_OperatorWrapper(op)
             {
-                Signal = signal,
+                Input = input,
                 Collection = collection,
                 From = from,
                 Till = till,
