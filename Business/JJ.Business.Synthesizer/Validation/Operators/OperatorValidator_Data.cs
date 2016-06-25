@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         private readonly static int? _dataMaxLength = GetDataMaxLength();
 
         /// <summary> HashSet for unicity and value comparisons. </summary>
-        private HashSet<string> _allowedDataKeysHashSet;
+        private readonly HashSet<string> _allowedDataKeysHashSet;
 
         public OperatorValidator_Data(
             Operator obj,

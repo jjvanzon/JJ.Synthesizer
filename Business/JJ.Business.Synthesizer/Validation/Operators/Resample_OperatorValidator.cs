@@ -5,7 +5,7 @@ using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class Resample_OperatorValidator : OperatorValidator_Base
+    internal class Resample_OperatorValidator : OperatorValidator_Base_WithDimension
     {
         public Resample_OperatorValidator(Operator obj)
             : base(
@@ -27,12 +27,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                     .NotNullOrEmpty()
                     .IsEnum<ResampleInterpolationTypeEnum>()
                     .IsNot(ResampleInterpolationTypeEnum.Undefined);
-
-                string dimensionString = DataPropertyParser.TryGetString(Object, PropertyNames.Dimension);
-                For(() => dimensionString, PropertyNames.Dimension)
-                    .NotNullOrEmpty()
-                    .IsEnum<DimensionEnum>()
-                    .IsNot(DimensionEnum.Undefined);
             }
         }
     }

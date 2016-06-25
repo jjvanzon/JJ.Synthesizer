@@ -4,7 +4,7 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class ClosestOverDimension_OperatorValidator : OperatorValidator_Base
+    internal class ClosestOverDimension_OperatorValidator : OperatorValidator_Base_WithDimension
     {
         public ClosestOverDimension_OperatorValidator(Operator obj)
             : base(
@@ -12,11 +12,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                   OperatorTypeEnum.ClosestOverDimension,
                   expectedInletCount: 5,
                   expectedOutletCount: 1,
-                  allowedDataKeys: new string[] 
-                  {
-                      PropertyNames.Dimension,
-                      PropertyNames.Recalculation
-                  })
+                  allowedDataKeys: new string[] { PropertyNames.Dimension, PropertyNames.Recalculation })
         { }
 
         protected override void Execute()
@@ -27,12 +23,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             if (DataPropertyParser.DataIsWellFormed(op))
             {
-                // Dimension can be Undefined, but key must exist.
-                string dimensionString = DataPropertyParser.TryGetString(op, PropertyNames.Dimension);
-                For(() => dimensionString, PropertyNames.Dimension)
-                    .NotNullOrEmpty()
-                    .IsEnum<DimensionEnum>();
-
                 string recalculationString = DataPropertyParser.TryGetString(op, PropertyNames.Recalculation);
                 For(() => recalculationString, PropertyNames.Recalculation)
                     .NotNullOrEmpty()

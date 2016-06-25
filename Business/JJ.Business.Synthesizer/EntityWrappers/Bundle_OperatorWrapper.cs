@@ -10,6 +10,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         public Bundle_OperatorWrapper(Operator op)
             : base(op)
         { }
+
         /// <summary> Can be Undefined. </summary>
         public DimensionEnum Dimension
         {

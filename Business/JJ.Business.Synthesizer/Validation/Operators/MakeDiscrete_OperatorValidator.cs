@@ -7,15 +7,14 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class MakeDiscrete_OperatorValidator : OperatorValidator_Base
+    internal class MakeDiscrete_OperatorValidator : OperatorValidator_Base_WithDimension
     {
         public MakeDiscrete_OperatorValidator(Operator obj)
             : base(
                   obj,
                   OperatorTypeEnum.MakeDiscrete,
                   expectedInletCount: 1,
-                  expectedOutletCount: obj.Outlets.Count, // TODO: Low priority: if obj is null, this fails.
-                  allowedDataKeys: new string[] { PropertyNames.Dimension })
+                  expectedOutletCount: obj?.Outlets?.Count ?? 0)
         { }
 
         protected override void Execute()
@@ -25,15 +24,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             Operator op = Object;
 
             For(() => op.Outlets.Count, CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Outlets)).GreaterThan(0);
-
-            if (DataPropertyParser.DataIsWellFormed(op))
-            {
-                // Dimension can be Undefined, but key must exist.
-                string dimensionString = DataPropertyParser.TryGetString(op, PropertyNames.Dimension);
-                For(() => dimensionString, PropertyNames.Dimension)
-                    .NotNullOrEmpty()
-                    .IsEnum<DimensionEnum>();
-            }
         }
     }
 }

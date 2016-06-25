@@ -6,7 +6,7 @@ using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class Cache_OperatorValidator : OperatorValidator_Base
+    internal class Cache_OperatorValidator : OperatorValidator_Base_WithDimension
     {
         public Cache_OperatorValidator(Operator obj)
             : base(
@@ -39,12 +39,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                     .NotNullOrEmpty()
                     .IsEnum<SpeakerSetupEnum>()
                     .IsNot(SpeakerSetupEnum.Undefined);
-
-                string dimensionString = DataPropertyParser.TryGetString(Object, PropertyNames.Dimension);
-                For(() => dimensionString, PropertyNames.Dimension)
-                    .NotNullOrEmpty()
-                    .IsEnum<DimensionEnum>()
-                    .IsNot(DimensionEnum.Undefined);
             }
         }
     }

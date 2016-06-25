@@ -6,11 +6,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Enums;
-using System.Globalization;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class Sample_OperatorValidator : OperatorValidator_Base
+    internal class Sample_OperatorValidator : OperatorValidator_Base_WithDimension
     {
         public Sample_OperatorValidator(Operator op)
             : base(
@@ -29,12 +28,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             if (DataPropertyParser.DataIsWellFormed(op))
             {
-                string dimensionString = DataPropertyParser.TryGetString(op, PropertyNames.Dimension);
-                For(() => dimensionString, PropertyNames.Dimension)
-                    .NotNullOrEmpty()
-                    .IsEnum<DimensionEnum>()
-                    .IsNot(DimensionEnum.Undefined);
-
                 string sampleIDString = DataPropertyParser.TryGetString(op, PropertyNames.SampleID);
 
                 For(() => sampleIDString, PropertyDisplayNames.SampleID).IsInteger();

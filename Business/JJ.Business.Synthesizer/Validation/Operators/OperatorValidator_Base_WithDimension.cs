@@ -1,22 +1,29 @@
 ﻿using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
+using System.Collections.Generic;
+using System.Linq;
+using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
     internal class OperatorValidator_Base_WithDimension : OperatorValidator_Base
     {
+        /// <param name="allowedDataKeys"> 
+        /// Validator will allow Dimension data key whether it is in this list or not. 
+        /// </param>
         public OperatorValidator_Base_WithDimension(
             Operator obj,
             OperatorTypeEnum expectedOperatorTypeEnum,
             int expectedInletCount,
-            int expectedOutletCount)
+            int expectedOutletCount,
+            IList<string> allowedDataKeys = null)
             : base(
                   obj,
                   expectedOperatorTypeEnum,
                   expectedInletCount,
                   expectedOutletCount,
-                  allowedDataKeys: new string[] { PropertyNames.Dimension })
+                  allowedDataKeys: PropertyNames.Dimension.Union(allowedDataKeys ?? new string[0]).ToArray())
         { }
 
         protected override void Execute()
@@ -27,11 +34,11 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             if (DataPropertyParser.DataIsWellFormed(op))
             {
+                // Dimension can be Undefined, but key must exist.
                 string dimensionString = DataPropertyParser.TryGetString(op, PropertyNames.Dimension);
                 For(() => dimensionString, PropertyNames.Dimension)
                     .NotNullOrEmpty()
-                    .IsEnum<DimensionEnum>()
-                    .IsNot(DimensionEnum.Undefined);
+                    .IsEnum<DimensionEnum>();
             }
         }
     }

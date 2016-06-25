@@ -494,8 +494,8 @@
     <Compile Include="Warnings\Operators\OperatorWarningValidator_Base_SpecificInletsFilledIn.cs" />
     <Compile Include="Warnings\Operators\MaxOverDimension_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Range_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\SetDimension_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\GetDimension_OperatorWarningValidator.cs" />
+    <Compile Include="Warnings\Operators\2016-06-25 Backup of SetDimension_OperatorWarningValidator.cs" />
+    <Compile Include="Warnings\Operators\2016-06-25 Backup of GetDimension_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\ToggleTrigger_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\OneOverX_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Negative_OperatorWarningValidator.cs" />
