@@ -132,7 +132,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         // TODO: Move to framework.
-        private void BinarySearchInexactHighPerformance(double[] sortedArray, double input, out double valueBefore, out double valueAfter)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void BinarySearchInexactHighPerformance(
+            double[] sortedArray, 
+            double input, 
+            out double valueBefore, 
+            out double valueAfter)
         {
             int length = sortedArray.Length;
             int halfLength = length >> 1;
@@ -144,11 +149,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             while (index != previousIndex)
             {
                 double sample = sortedArray[index];
-
                 previousIndex = index;
                 range = range >> 1;
 
-                if (sample > input)
+                if (input < sample)
                 {
                     index -= range;
                 }
