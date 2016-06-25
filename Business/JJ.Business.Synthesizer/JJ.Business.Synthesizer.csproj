@@ -209,7 +209,9 @@
     <Compile Include="Calculation\Operators\OperatorCalculatorBase.cs" />
     <Compile Include="Calculation\Operators\Delay OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Number_OperatorCalculator.cs" />
-    <Compile Include="Copies from Framework\Geometry.cs" />
+    <Compile Include="Copies\FromFramework\Geometry.cs" />
+    <Compile Include="Copies\FromFramework\Interpolator.cs" />
+    <Compile Include="Copies\FromFramework\Maths.cs" />
     <Compile Include="EntityWrappers\Closest_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\ClosestOverDimension_OperatorWrapper.cs" />
     <Compile Include="Helpers\OperatorCalculatorFactory.CreateAddCalculatorOnlyVars.cs">
@@ -392,9 +394,9 @@
     <Compile Include="CurveManager.cs" />
     <Compile Include="DocumentManager.cs" />
     <Compile Include="EntityPositionManager.cs" />
-    <Compile Include="Copies from NAudio\BiQuadFilter.cs" />
-    <Compile Include="Copies from NAudio\Complex.cs" />
-    <Compile Include="Copies from NAudio\FastFourierTransform.cs" />
+    <Compile Include="Copies\FromNAudio\BiQuadFilter.cs" />
+    <Compile Include="Copies\FromNAudio\Complex.cs" />
+    <Compile Include="Copies\FromNAudio\FastFourierTransform.cs" />
     <Compile Include="PatchManager.AutoPatch.cs" />
     <Compile Include="SideEffects\AudioOutput_SideEffect_SetDefaults.cs" />
     <Compile Include="SideEffects\Curve_SideEffect_SetDefaults_Nodes.cs" />
@@ -780,8 +782,8 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>OperatorCalculatorFactory.CreateAddCalculatorWithConst.cs</LastGenOutput>
     </None>
-    <Content Include="Copies from Framework\README.TXT" />
-    <Content Include="Copies from NAudio\README.TXT" />
+    <Content Include="Copies\FromFramework\README.TXT" />
+    <Content Include="Copies\FromNAudio\README.TXT" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

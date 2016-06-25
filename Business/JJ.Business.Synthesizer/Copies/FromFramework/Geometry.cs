@@ -1,8 +1,10 @@
-﻿// Copied from JJ.Framework.Mathematics (2016-06-25).
+﻿// 2016-06-25
+// Copied from JJ.Framework.Mathematics
+// to promote inlining and made class internal.
 
 using System.Runtime.CompilerServices;
 
-namespace JJ.Business.Synthesizer.CopiesFromFramework
+namespace JJ.Business.Synthesizer.Copies.FromFramework
 {
     internal static class Geometry
     {

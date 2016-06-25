@@ -1,3 +1,6 @@
+// Jan-Joost van Zon, 2016-06-25:
+// And made class internal.
+
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,7 +10,7 @@ namespace NAudio.Dsp
     /// <summary>
     /// Type to represent complex number
     /// </summary>
-    public struct Complex
+    internal struct Complex
     {
         /// <summary>
         /// Real Part

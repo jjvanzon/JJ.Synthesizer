@@ -1,3 +1,7 @@
+// Jan-Joost van Zon, 2016-06-25:
+// Added [MethodImpl(MethodImplOptions.AggressiveInlining)] to methods.
+// And made class internal.
+
 // based on Cookbook formulae for audio EQ biquad filter coefficients
 // http://www.musicdsp.org/files/Audio-EQ-Cookbook.txt
 // by Robert Bristow-Johnson  <rbj@audioimagination.com>
@@ -21,13 +25,14 @@
 // fixed f0/Fs and dBgain.
 
 using System;
+using System.Runtime.CompilerServices;
 
 namespace NAudio.Dsp
 {
     /// <summary>
     /// BiQuad filter
     /// </summary>
-    public class BiQuadFilter
+    internal class BiQuadFilter
     {
         // coefficients
         private double a0;
@@ -47,6 +52,7 @@ namespace NAudio.Dsp
         /// </summary>
         /// <param name="inSample">Input sample</param>
         /// <returns>Output sample</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float Transform(float inSample)
         {
             // compute result
@@ -63,6 +69,7 @@ namespace NAudio.Dsp
             return y1;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void SetCoefficients(double aa0, double aa1, double aa2, double b0, double b1, double b2)
         {
             // precompute the coefficients
@@ -79,6 +86,7 @@ namespace NAudio.Dsp
         /// <param name="sampleRate">Sample Rate</param>
         /// <param name="cutoffFrequency">Cut-off Frequency</param>
         /// <param name="q">Bandwidth</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void SetLowPassFilter(float sampleRate, float cutoffFrequency, float q)
         {
             // H(s) = 1 / (s^2 + s/Q + 1)
@@ -102,6 +110,7 @@ namespace NAudio.Dsp
         /// <param name="centreFrequency">Centre Frequency</param>
         /// <param name="q">Bandwidth (Q)</param>
         /// <param name="dbGain">Gain in decibels</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void SetPeakingEq(float sampleRate, float centreFrequency, float q, float dbGain)
         {
             // H(s) = (s^2 + s*(A/Q) + 1) / (s^2 + s/(A*Q) + 1)
@@ -123,6 +132,7 @@ namespace NAudio.Dsp
         /// <summary>
         /// Set this as a high pass filter
         /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void SetHighPassFilter(float sampleRate, float cutoffFrequency, float q)
         {
             // H(s) = s^2 / (s^2 + s/Q + 1)
@@ -142,6 +152,7 @@ namespace NAudio.Dsp
         /// <summary>
         /// Create a low pass filter
         /// </summary>
+        /// 
         public static BiQuadFilter LowPassFilter(float sampleRate, float cutoffFrequency, float q)
         {
             var filter = new BiQuadFilter();

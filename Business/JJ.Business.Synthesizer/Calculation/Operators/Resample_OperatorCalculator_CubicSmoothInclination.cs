@@ -1,7 +1,7 @@
-﻿using JJ.Framework.Mathematics;
-using JJ.Framework.Reflection.Exceptions;
+﻿using JJ.Framework.Reflection.Exceptions;
 using System;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Copies.FromFramework;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {

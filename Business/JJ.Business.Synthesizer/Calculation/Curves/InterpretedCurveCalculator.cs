@@ -7,10 +7,10 @@ using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
 using System.Linq;
 using System;
-using JJ.Framework.Mathematics;
 using System.Collections.Generic;
 using JJ.Framework.Common.Exceptions;
 using JJ.Business.Synthesizer.Validation.Curves;
+using JJ.Business.Synthesizer.Copies.FromFramework;
 
 namespace JJ.Business.Synthesizer.Calculation.Curves
 {

@@ -1,3 +1,6 @@
+// Jan-Joost van Zon, 2016-06-25:
+// And made class internal.
+
 using System;
 
 namespace NAudio.Dsp
@@ -5,7 +8,7 @@ namespace NAudio.Dsp
     /// <summary>
     /// Summary description for FastFourierTransform.
     /// </summary>
-    public static class FastFourierTransform
+    internal static class FastFourierTransform
     {
         /// <summary>
         /// This computes an in-place complex-to-complex FFT 
