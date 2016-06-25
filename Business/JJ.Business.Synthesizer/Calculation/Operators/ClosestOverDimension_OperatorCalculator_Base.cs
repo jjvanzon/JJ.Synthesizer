@@ -96,6 +96,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             double countDouble = length / step;
 
+            // 0-3 has length 3 in doubles, but length 4 in integers.
+            // But adding 1 works for non-integer double values too.
+            countDouble += 1;
+
             if (!ConversionHelper.CanCastToNonNegativeInt32(countDouble))
             {
                 _sortedItems = new double[0];
