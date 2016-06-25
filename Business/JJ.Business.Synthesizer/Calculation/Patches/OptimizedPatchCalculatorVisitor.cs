@@ -775,6 +775,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             itemCalculators = itemCalculators.Where(x => x != null).ToArray();
 
             bool inputIsConst = inputCalculator is Number_OperatorCalculator;
+            bool itemsIsEmpty = itemCalculators.Count == 0;
             bool allItemsAreConst = itemCalculators.All(x => x is Number_OperatorCalculator);
 
             double input = inputIsConst ? inputCalculator.Calculate() : 0.0;
@@ -784,7 +785,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 items = itemCalculators.Select(x => x.Calculate()).ToArray();
             }
 
-            if (inputIsConst && allItemsAreConst)
+            if (itemsIsEmpty)
+            {
+                calculator = new Zero_OperatorCalculator();
+            }
+            else if (inputIsConst && allItemsAreConst)
             {
                 double result = AggregateCalculator.Closest(input, items);
                 calculator = new Number_OperatorCalculator(result);

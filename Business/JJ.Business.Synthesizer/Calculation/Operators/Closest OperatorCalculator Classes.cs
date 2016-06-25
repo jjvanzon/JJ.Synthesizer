@@ -15,7 +15,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Closest_OperatorCalculator_AllVars(
             OperatorCalculatorBase inputCalculator,
             IList<OperatorCalculatorBase> itemCalculators)
-            // TODO: Check if this syntax of list creation gives us all items.
             : base(new List<OperatorCalculatorBase>(itemCalculators) { inputCalculator })
         {
             if (inputCalculator == null) throw new NullException(() => inputCalculator);
