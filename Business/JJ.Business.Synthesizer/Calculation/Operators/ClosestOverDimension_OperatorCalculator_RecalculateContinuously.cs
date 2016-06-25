@@ -26,9 +26,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            RecalculateAggregate();
+            RecalculateCollection();
 
-            return _closestItem;
+            return base.Calculate();
         }
     }
 }

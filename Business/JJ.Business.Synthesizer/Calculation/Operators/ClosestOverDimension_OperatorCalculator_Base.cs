@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Copies.FromFramework;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -16,7 +17,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
-        protected double _closestItem;
+        private double[] _sortedItems;
 
         public ClosestOverDimension_OperatorCalculator_Base(
             OperatorCalculatorBase inputCalculator,
@@ -51,7 +52,24 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            return _closestItem;
+            double input = _inputCalculator.Calculate();
+
+            double valueBefore;
+            double valueAfter;
+
+            BinarySearchInexactHighPerformance(_sortedItems, input, out valueBefore, out valueAfter);
+
+            double distanceBefore = Geometry.AbsoluteDistance(input, valueBefore);
+            double distanceAfter = Geometry.AbsoluteDistance(input, valueAfter);
+
+            if (distanceBefore <= distanceAfter)
+            {
+                return valueBefore;
+            }
+            else
+            {
+                return valueAfter;
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -68,81 +86,84 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual void RecalculateAggregate()
+        protected virtual void RecalculateCollection()
         {
-            double input = _inputCalculator.Calculate();
             double from = _fromCalculator.Calculate();
             double till = _tillCalculator.Calculate();
             double step = _stepCalculator.Calculate();
 
             double length = till - from;
-            bool isForward = length > 0.0;
+
+            double countDouble = length / step;
+
+            if (!ConversionHelper.CanCastToNonNegativeInt32(countDouble))
+            {
+                _sortedItems = new double[0];
+            }
+            int countInt = (int)countDouble;
+
+            var items = new double[countInt];
 
             double position = from;
 
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
-#endif
-#if !USE_INVAR_INDICES
-            _dimensionStack.Set(position);
-#else
-            _dimensionStack.Set(_dimensionStackIndex, position);
-#endif
-
-            double firstItem = _collectionCalculator.Calculate();
-
-            double smallestDistance = Geometry.AbsoluteDistance(input, firstItem);
-            double closestItem = firstItem;
-
-            position += step;
-
-            if (isForward)
+            for (int i = 0; i < countInt; i++)
             {
-                while (position <= till)
-                {
-
-#if !USE_INVAR_INDICES
-                    _dimensionStack.Set(position);
-#else
-                    _dimensionStack.Set(_dimensionStackIndex, position);
+#if ASSERT_INVAR_INDICES
+                OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
 #endif
-                    double item = _collectionCalculator.Calculate();
+#if !USE_INVAR_INDICES
+                _dimensionStack.Set(position);
+#else
+                _dimensionStack.Set(_dimensionStackIndex, position);
+#endif
+                double item = _collectionCalculator.Calculate();
+                items[i] = item;
 
-                    double distance = Geometry.AbsoluteDistance(input, item);
-                    if (smallestDistance > distance)
-                    {
-                        smallestDistance = distance;
-                        closestItem = item;
-                    }
+                position += step;
+            }
 
-                    position += step;
+            Array.Sort(items);
+
+            _sortedItems = items;
+        }
+
+        // TODO: Move to framework.
+        private void BinarySearchInexactHighPerformance(double[] sortedArray, double input, out double valueBefore, out double valueAfter)
+        {
+            int length = sortedArray.Length;
+            int halfLength = length >> 1;
+
+            int range = halfLength;
+            int index = halfLength;
+            int previousIndex = -1;
+
+            while (index != previousIndex)
+            {
+                double sample = sortedArray[index];
+
+                previousIndex = index;
+                range = range >> 1;
+
+                if (sample > input)
+                {
+                    index -= range;
                 }
+                else
+                {
+                    index += range;
+                }
+            }
+
+            valueBefore = sortedArray[index];
+
+            if (index == length - 1)
+            {
+                valueAfter = valueBefore;
             }
             else
             {
-                // Is backwards
-                while (position >= till)
-                {
-
-#if !USE_INVAR_INDICES
-                    _dimensionStack.Set(position);
-#else
-                    _dimensionStack.Set(_dimensionStackIndex, position);
-#endif
-                    double item = _collectionCalculator.Calculate();
-
-                    double distance = Geometry.AbsoluteDistance(input, item);
-                    if (smallestDistance > distance)
-                    {
-                        smallestDistance = distance;
-                        closestItem = item;
-                    }
-
-                    position += step;
-                }
+                valueAfter = sortedArray[index + 1];
             }
-
-            _closestItem = closestItem;
         }
     }
 }
