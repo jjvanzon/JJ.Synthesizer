@@ -2,32 +2,42 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.Copies.FromFramework;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal abstract class SumOverDimension_OperatorCalculator_Base : OperatorCalculatorBase_WithChildCalculators
+    internal abstract class ClosestOverDimension_OperatorCalculator_Base : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly OperatorCalculatorBase _signalCalculator;
+        private readonly OperatorCalculatorBase _inputCalculator;
+        private readonly OperatorCalculatorBase _collectionCalculator;
         private readonly OperatorCalculatorBase _fromCalculator;
         private readonly OperatorCalculatorBase _tillCalculator;
-        protected readonly OperatorCalculatorBase _stepCalculator;
+        private readonly OperatorCalculatorBase _stepCalculator;
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
-        protected double _aggregate;
-        protected double _step;
+        protected double _closestItem;
 
-        public SumOverDimension_OperatorCalculator_Base(
-            OperatorCalculatorBase signalCalculator,
+        public ClosestOverDimension_OperatorCalculator_Base(
+            OperatorCalculatorBase inputCalculator,
+            OperatorCalculatorBase collectionCalculator,
             OperatorCalculatorBase fromCalculator,
             OperatorCalculatorBase tillCalculator,
             OperatorCalculatorBase stepCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] { signalCalculator, fromCalculator, tillCalculator, stepCalculator })
+            : base(new OperatorCalculatorBase[] 
+            {
+                inputCalculator,
+                collectionCalculator,
+                fromCalculator,
+                tillCalculator,
+                stepCalculator
+            })
         {
             OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
 
-            _signalCalculator = signalCalculator;
+            _inputCalculator = inputCalculator;
+            _collectionCalculator = collectionCalculator;
             _fromCalculator = fromCalculator;
             _tillCalculator = tillCalculator;
             _stepCalculator = stepCalculator;
@@ -41,7 +51,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            return _aggregate;
+            return _closestItem;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -60,9 +70,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual void RecalculateAggregate()
         {
+            double input = _inputCalculator.Calculate();
             double from = _fromCalculator.Calculate();
             double till = _tillCalculator.Calculate();
-            _step = _stepCalculator.Calculate();
+            double step = _stepCalculator.Calculate();
 
             double length = till - from;
             bool isForward = length > 0.0;
@@ -77,8 +88,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #else
             _dimensionStack.Set(_dimensionStackIndex, position);
 #endif
-            double sum = _signalCalculator.Calculate();
-            position += _step;
+
+            double firstItem = _collectionCalculator.Calculate();
+
+            double smallestDistance = Geometry.AbsoluteDistance(input, firstItem);
+            double closestItem = firstItem;
+
+            position += step;
 
             if (isForward)
             {
@@ -90,10 +106,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #else
                     _dimensionStack.Set(_dimensionStackIndex, position);
 #endif
-                    double newValue = _signalCalculator.Calculate();
-                    sum += newValue;
+                    double item = _collectionCalculator.Calculate();
 
-                    position += _step;
+                    double distance = Geometry.AbsoluteDistance(input, item);
+                    if (smallestDistance > distance)
+                    {
+                        smallestDistance = distance;
+                        closestItem = item;
+                    }
+
+                    position += step;
                 }
             }
             else
@@ -107,14 +129,20 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #else
                     _dimensionStack.Set(_dimensionStackIndex, position);
 #endif
-                    double newValue = _signalCalculator.Calculate();
-                    sum += newValue;
+                    double item = _collectionCalculator.Calculate();
 
-                    position += _step;
+                    double distance = Geometry.AbsoluteDistance(input, item);
+                    if (smallestDistance > distance)
+                    {
+                        smallestDistance = distance;
+                        closestItem = item;
+                    }
+
+                    position += step;
                 }
             }
 
-            _aggregate = sum;
+            _closestItem = closestItem;
         }
     }
 }

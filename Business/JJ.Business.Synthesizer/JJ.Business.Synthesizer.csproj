@@ -115,7 +115,10 @@
     <Compile Include="Calculation\Operators\Multiply_OperatorCalculator_WithOperandArray_WithConst.cs" />
     <Compile Include="Calculation\Operators\Add_OperatorCalculator_WithOperandArray.cs" />
     <Compile Include="Calculation\Operators\Multiply_OperatorCalculator_WithOperandArray.cs" />
+    <Compile Include="Calculation\Operators\ClosestOverDimension_OperatorCalculator_Base.cs" />
+    <Compile Include="Calculation\Operators\ClosestOverDimension_OperatorCalculator_RecalculateContinuously.cs" />
     <Compile Include="Calculation\Operators\SumOverDimension_OperatorCalculator_RecalculateContinuously.cs" />
+    <Compile Include="Calculation\Operators\ClosestOverDimension_OperatorCalculator_RecalculateUponReset.cs" />
     <Compile Include="Calculation\Operators\SumOverDimension_OperatorCalculator_RecalculateUponReset.cs" />
     <Compile Include="Calculation\Operators\SumFollower_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\SumOverDimension_OperatorCalculator_Base.cs" />

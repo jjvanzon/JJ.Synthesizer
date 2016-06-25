@@ -40,7 +40,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 double item = itemCalculator.Calculate();
 
                 double distance = Geometry.AbsoluteDistance(input, item);
-
                 if (smallestDistance > distance)
                 {
                     smallestDistance = distance;
