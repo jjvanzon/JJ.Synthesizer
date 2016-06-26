@@ -49,7 +49,7 @@
     <Compile Include="Presenters\AudioOutputPropertiesPresenter.cs" />
     <Compile Include="Presenters\CurrentPatchesPresenter.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenterBase.cs" />
-    <Compile Include="Presenters\OperatorPropertiesPresenter_WithDimensionAndRecalculation.cs" />
+    <Compile Include="Presenters\OperatorPropertiesPresenter_WithDimensionAndCollectionRecalculation.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_WithInletCount.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForMakeContinuous.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_WithDimension.cs" />
@@ -110,7 +110,7 @@
     <Compile Include="ViewModels\Items\ToneViewModel.cs" />
     <Compile Include="ViewModels\Items\PatchDocumentViewModel.cs" />
     <Compile Include="ViewModels\Items\CurrentPatchItemViewModel.cs" />
-    <Compile Include="ViewModels\OperatorPropertiesViewModel_WithDimensionAndRecalculation.cs" />
+    <Compile Include="ViewModels\OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_WithInletCount.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForFilter.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_WithDimension.cs" />

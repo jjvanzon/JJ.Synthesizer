@@ -5,10 +5,9 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class AverageOverDimension_OperatorCalculator_RecalculateUponReset 
-        : SumOverDimension_OperatorCalculator_RecalculateUponReset
+    internal class MaxOverDimension_OperatorCalculator_CollectionRecalculationUponReset : MinOrMaxOverDimension_OperatorCalculatorBase
     {
-        public AverageOverDimension_OperatorCalculator_RecalculateUponReset(
+        public MaxOverDimension_OperatorCalculator_CollectionRecalculationUponReset(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase fromCalculator,
             OperatorCalculatorBase tillCalculator,
@@ -18,11 +17,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected override void RecalculateAggregate()
+        protected override void ResetNonRecursive()
         {
-            base.RecalculateAggregate();
+            RecalculateAggregate();
+        }
 
-            _aggregate *= _step;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected override bool MustOverwrite(double currentValue, double newValue)
+        {
+            return newValue > currentValue;
         }
     }
 }

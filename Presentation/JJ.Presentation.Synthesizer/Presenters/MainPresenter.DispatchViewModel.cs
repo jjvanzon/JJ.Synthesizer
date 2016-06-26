@@ -47,7 +47,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(OperatorPropertiesViewModel_ForSample), DispatchOperatorPropertiesViewModel_ForSample },
                 { typeof(OperatorPropertiesViewModel_WithDimension), DispatchOperatorPropertiesViewModel_WithDimension },
                 { typeof(OperatorPropertiesViewModel_WithDimensionAndInterpolation), DispatchOperatorPropertiesViewModel_WithDimensionAndInterpolation },
-                { typeof(OperatorPropertiesViewModel_WithDimensionAndRecalculation), DispatchOperatorPropertiesViewModel_WithDimensionAndRecalculation },
+                { typeof(OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation), DispatchOperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation },
                 { typeof(OperatorPropertiesViewModel_WithDimensionAndOutletCount), DispatchOperatorPropertiesViewModel_WithDimensionAndOutletCount },
                 { typeof(OperatorPropertiesViewModel_WithInletCount), DispatchOperatorPropertiesViewModel_WithInletCount },
                 { typeof(PatchDetailsViewModel), DispatchPatchDetailsViewModel },
@@ -694,11 +694,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             castedViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchOperatorPropertiesViewModel_WithDimensionAndRecalculation(object viewModel2)
+        private void DispatchOperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation(object viewModel2)
         {
-            var castedViewModel = (OperatorPropertiesViewModel_WithDimensionAndRecalculation)viewModel2;
+            var castedViewModel = (OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation)viewModel2;
 
-            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_WithDimensionAndRecalculation_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_WithDimensionAndCollectionRecalculation_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
             int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
             if (listIndex.HasValue)
             {

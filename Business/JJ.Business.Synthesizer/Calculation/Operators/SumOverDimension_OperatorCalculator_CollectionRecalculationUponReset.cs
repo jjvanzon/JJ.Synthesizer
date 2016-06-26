@@ -5,18 +5,16 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class ClosestOverDimension_OperatorCalculator_RecalculateUponReset : ClosestOverDimension_OperatorCalculator_Base
+    internal class SumOverDimension_OperatorCalculator_CollectionRecalculationUponReset : SumOverDimension_OperatorCalculator_Base
     {
-        public ClosestOverDimension_OperatorCalculator_RecalculateUponReset(
-            OperatorCalculatorBase inputCalculator, 
-            OperatorCalculatorBase collectionCalculator, 
+        public SumOverDimension_OperatorCalculator_CollectionRecalculationUponReset(
+            OperatorCalculatorBase signalCalculator, 
             OperatorCalculatorBase fromCalculator, 
             OperatorCalculatorBase tillCalculator, 
             OperatorCalculatorBase stepCalculator, 
             DimensionStack dimensionStack) 
             : base(
-                  inputCalculator,
-                  collectionCalculator, 
+                  signalCalculator, 
                   fromCalculator, 
                   tillCalculator, 
                   stepCalculator, 
@@ -26,7 +24,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected override void ResetNonRecursive()
         {
-            RecalculateCollection();
+            RecalculateAggregate();
         }
     }
 }

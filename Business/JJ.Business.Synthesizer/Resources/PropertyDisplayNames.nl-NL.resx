@@ -845,8 +845,8 @@
   <data name="UponReset" xml:space="preserve">
     <value>Bij terugzetten</value>
   </data>
-  <data name="Recalculation" xml:space="preserve">
-    <value>Herberekening</value>
+  <data name="CollectionRecalculation" xml:space="preserve">
+    <value>Verzameling herberekenen</value>
   </data>
   <data name="Closest" xml:space="preserve">
     <value>Dichtstbijzijnd</value>

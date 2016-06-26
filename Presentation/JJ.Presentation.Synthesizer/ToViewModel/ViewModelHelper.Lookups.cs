@@ -149,18 +149,18 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return idAndNames;
         }
 
-        // ResampleInterpolationType
+        // CollectionRecalculation
 
-        private static IList<IDAndName> _aggregateRecalculationLookupViewModel = CreateAggregateRecalculationLookupViewModel();
+        private static IList<IDAndName> _collectionRecalculationLookupViewModel = CreateCollectionRecalculationLookupViewModel();
 
-        public static IList<IDAndName> GetAggregateRecalculationLookupViewModel()
+        public static IList<IDAndName> GetCollectionRecalculationLookupViewModel()
         {
-            return _aggregateRecalculationLookupViewModel;
+            return _collectionRecalculationLookupViewModel;
         }
 
-        private static IList<IDAndName> CreateAggregateRecalculationLookupViewModel()
+        private static IList<IDAndName> CreateCollectionRecalculationLookupViewModel()
         {
-            IList<IDAndName> idAndNames = CreateEnumLookupViewModel<AggregateRecalculationEnum>(mustIncludeUndefined: false);
+            IList<IDAndName> idAndNames = CreateEnumLookupViewModel<CollectionRecalculationEnum>(mustIncludeUndefined: false);
             return idAndNames;
         }
 

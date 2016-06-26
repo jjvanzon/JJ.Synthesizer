@@ -5,10 +5,10 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class AverageOverDimension_OperatorCalculator_RecalculateContinuously 
-        : SumOverDimension_OperatorCalculator_RecalculateContinuously
+    internal class AverageOverDimension_OperatorCalculator_CollectionRecalculationContinuous 
+        : SumOverDimension_OperatorCalculator_CollectionRecalculationContinuous
     {
-        public AverageOverDimension_OperatorCalculator_RecalculateContinuously(
+        public AverageOverDimension_OperatorCalculator_CollectionRecalculationContinuous(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase fromCalculator,
             OperatorCalculatorBase tillCalculator,

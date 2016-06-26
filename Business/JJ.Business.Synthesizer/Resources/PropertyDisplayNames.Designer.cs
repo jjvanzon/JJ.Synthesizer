@@ -394,6 +394,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Collection Recalculation.
+        /// </summary>
+        public static string CollectionRecalculation {
+            get {
+                return ResourceManager.GetString("CollectionRecalculation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Condition.
         /// </summary>
         public static string Condition {
@@ -1551,15 +1560,6 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Raw {
             get {
                 return ResourceManager.GetString("Raw", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Recalculation.
-        /// </summary>
-        public static string Recalculation {
-            get {
-                return ResourceManager.GetString("Recalculation", resourceCulture);
             }
         }
         

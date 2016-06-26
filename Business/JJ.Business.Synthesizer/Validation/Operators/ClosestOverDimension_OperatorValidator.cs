@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                   OperatorTypeEnum.ClosestOverDimension,
                   expectedInletCount: 5,
                   expectedOutletCount: 1,
-                  allowedDataKeys: new string[] { PropertyNames.Dimension, PropertyNames.Recalculation })
+                  allowedDataKeys: new string[] { PropertyNames.Dimension, PropertyNames.CollectionRecalculation })
         { }
 
         protected override void Execute()
@@ -23,11 +23,11 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             if (DataPropertyParser.DataIsWellFormed(op))
             {
-                string recalculationString = DataPropertyParser.TryGetString(op, PropertyNames.Recalculation);
-                For(() => recalculationString, PropertyNames.Recalculation)
+                string collectionRecalculationString = DataPropertyParser.TryGetString(op, PropertyNames.CollectionRecalculation);
+                For(() => collectionRecalculationString, PropertyNames.CollectionRecalculation)
                     .NotNullOrEmpty()
-                    .IsEnum<AggregateRecalculationEnum>()
-                    .IsNot(AggregateRecalculationEnum.Undefined);
+                    .IsEnum<CollectionRecalculationEnum>()
+                    .IsNot(CollectionRecalculationEnum.Undefined);
             }
         }
     }

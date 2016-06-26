@@ -95,12 +95,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Calculation\Operators\AverageOverDimension_OperatorCalculator_RecalculateContinuously.cs" />
+    <Compile Include="Calculation\Operators\AverageOverDimension_OperatorCalculator_CollectionRecalculationContinuous.cs" />
     <Compile Include="Calculation\Operators\Closest OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\MinOverDimension_OperatorCalculator_RecalculateContinuously.cs" />
-    <Compile Include="Calculation\Operators\MaxOverDimension_OperatorCalculator_RecalculateContinuously.cs" />
-    <Compile Include="Calculation\Operators\MinOverDimension_OperatorCalculator_RecalculateUponReset.cs" />
-    <Compile Include="Calculation\Operators\MaxOverDimension_OperatorCalculator_RecalculateUponReset.cs" />
+    <Compile Include="Calculation\Operators\MinOverDimension_OperatorCalculator_CollectionRecalculationContinuous.cs" />
+    <Compile Include="Calculation\Operators\MaxOverDimension_OperatorCalculator_CollectionRecalculationContinuous.cs" />
+    <Compile Include="Calculation\Operators\MinOverDimension_OperatorCalculator_CollectionRecalculationUponReset.cs" />
+    <Compile Include="Calculation\Operators\MaxOverDimension_OperatorCalculator_CollectionRecalculationUponReset.cs" />
     <Compile Include="Calculation\Operators\Multiply OperatorCalculator Classes WithConst.cs">
       <DependentUpon>Multiply OperatorCalculator Classes WithConst.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -116,14 +116,14 @@
     <Compile Include="Calculation\Operators\Add_OperatorCalculator_WithOperandArray.cs" />
     <Compile Include="Calculation\Operators\Multiply_OperatorCalculator_WithOperandArray.cs" />
     <Compile Include="Calculation\Operators\ClosestOverDimension_OperatorCalculator_Base.cs" />
-    <Compile Include="Calculation\Operators\ClosestOverDimension_OperatorCalculator_RecalculateContinuously.cs" />
-    <Compile Include="Calculation\Operators\SumOverDimension_OperatorCalculator_RecalculateContinuously.cs" />
-    <Compile Include="Calculation\Operators\ClosestOverDimension_OperatorCalculator_RecalculateUponReset.cs" />
-    <Compile Include="Calculation\Operators\SumOverDimension_OperatorCalculator_RecalculateUponReset.cs" />
+    <Compile Include="Calculation\Operators\ClosestOverDimension_OperatorCalculator_CollectionRecalculationContinuous.cs" />
+    <Compile Include="Calculation\Operators\SumOverDimension_OperatorCalculator_CollectionRecalculationContinuous.cs" />
+    <Compile Include="Calculation\Operators\ClosestOverDimension_OperatorCalculator_CollectionRecalculationUponReset.cs" />
+    <Compile Include="Calculation\Operators\SumOverDimension_OperatorCalculator_CollectionRecalculationUponReset.cs" />
     <Compile Include="Calculation\Operators\SumFollower_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\SumOverDimension_OperatorCalculator_Base.cs" />
     <Compile Include="Calculation\Operators\Average_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\AverageOverDimension_OperatorCalculator_RecalculateUponReset.cs" />
+    <Compile Include="Calculation\Operators\AverageOverDimension_OperatorCalculator_CollectionRecalculationUponReset.cs" />
     <Compile Include="Calculation\Operators\MinOrMaxOverDimension_OperatorCalculatorBase.cs" />
     <Compile Include="Calculation\Operators\Min OperatorCalculators.cs" />
     <Compile Include="Calculation\Operators\Max OperatorCalculators.cs" />
@@ -286,7 +286,7 @@
     <Compile Include="EntityWrappers\MaxOverDimension_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Range_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\MakeDiscrete_OperatorWrapper.cs" />
-    <Compile Include="Enums\AggregateRecalculationEnum.cs" />
+    <Compile Include="Enums\CollectionRecalculationEnum.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Helpers\OperatorCalculatorFactory.cs" />
     <Compile Include="Helpers\OperatorWrapperFactory.cs" />

@@ -1222,7 +1222,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         }
 
         public static Operator ToEntity(
-            this OperatorPropertiesViewModel_WithDimensionAndRecalculation viewModel,
+            this OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation viewModel,
             IOperatorRepository operatorRepository,
             IOperatorTypeRepository operatorTypeRepository)
         {
@@ -1243,15 +1243,15 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             var wrapper = new SumOverDimension_OperatorWrapper(entity);
 
-            // Recalculation
-            bool recalculationIsFilledIn = viewModel.Recalculation != null && viewModel.Recalculation.ID != 0;
-            if (recalculationIsFilledIn)
+            // CollectionRecalculation
+            bool collectionRecalculationIsFilledIn = viewModel.CollectionRecalculation != null && viewModel.CollectionRecalculation.ID != 0;
+            if (collectionRecalculationIsFilledIn)
             {
-                wrapper.Recalculation = (AggregateRecalculationEnum)viewModel.Recalculation.ID;
+                wrapper.CollectionRecalculation = (CollectionRecalculationEnum)viewModel.CollectionRecalculation.ID;
             }
             else
             {
-                wrapper.Recalculation = AggregateRecalculationEnum.Undefined;
+                wrapper.CollectionRecalculation = CollectionRecalculationEnum.Undefined;
             }
 
             // Dimension
@@ -1506,7 +1506,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
             }
 
-            foreach (OperatorPropertiesViewModel_WithDimensionAndRecalculation propertiesViewModel in userInput.OperatorPropertiesList_WithDimensionAndRecalculation)
+            foreach (OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation propertiesViewModel in userInput.OperatorPropertiesList_WithDimensionAndCollectionRecalculation)
             {
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
             }

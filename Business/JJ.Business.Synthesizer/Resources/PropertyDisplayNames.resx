@@ -845,8 +845,8 @@
   <data name="UponReset" xml:space="preserve">
     <value>Upon Reset</value>
   </data>
-  <data name="Recalculation" xml:space="preserve">
-    <value>Recalculation</value>
+  <data name="CollectionRecalculation" xml:space="preserve">
+    <value>Collection Recalculation</value>
   </data>
   <data name="Closest" xml:space="preserve">
     <value>Closest</value>

@@ -117,9 +117,9 @@ namespace JJ.Business.Synthesizer.Resources
             return GetPropertyDisplayName(enumValue.ToString());
         }
 
-        // AggregateRecalculation
+        // CollectionRecalculation
 
-        public static string GetDisplayName(AggregateRecalculationEnum enumValue)
+        public static string GetDisplayName(CollectionRecalculationEnum enumValue)
         {
             return GetPropertyDisplayName(enumValue.ToString());
         }

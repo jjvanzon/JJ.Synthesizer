@@ -393,12 +393,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                         .ToList();
         }
 
-        public static IList<OperatorPropertiesViewModel_WithDimensionAndRecalculation> ToPropertiesViewModelList_WithDimensionAndRecalculation(this Patch patch)
+        public static IList<OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation> ToPropertiesViewModelList_WithDimensionAndCollectionRecalculation(this Patch patch)
         {
             if (patch == null) throw new NullException(() => patch);
 
-            return patch.Operators.Where(x => ViewModelHelper.OperatorTypeEnums_WithDimensionAndRecalculationPropertyViews.Contains(x.GetOperatorTypeEnum()))
-                        .Select(x => x.ToPropertiesViewModel_WithDimensionAndRecalculation())
+            return patch.Operators.Where(x => ViewModelHelper.OperatorTypeEnums_WithDimensionAndCollectionRecalculationPropertyViews.Contains(x.GetOperatorTypeEnum()))
+                        .Select(x => x.ToPropertiesViewModel_WithDimensionAndCollectionRecalculation())
                         .ToList();
         }
 
@@ -741,20 +741,20 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static OperatorPropertiesViewModel_WithDimensionAndRecalculation ToPropertiesViewModel_WithDimensionAndRecalculation(this Operator entity)
+        public static OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation ToPropertiesViewModel_WithDimensionAndCollectionRecalculation(this Operator entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
             var wrapper = new SumOverDimension_OperatorWrapper(entity);
 
-            var viewModel = new OperatorPropertiesViewModel_WithDimensionAndRecalculation
+            var viewModel = new OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation
             {
                 ID = entity.ID,
                 PatchID = entity.Patch.ID,
                 Name = entity.Name,
                 OperatorType = entity.OperatorType.ToIDAndDisplayName(),
-                Recalculation = wrapper.Recalculation.ToIDAndDisplayName(),
-                RecalculationLookup = ViewModelHelper.GetAggregateRecalculationLookupViewModel(),
+                CollectionRecalculation = wrapper.CollectionRecalculation.ToIDAndDisplayName(),
+                CollectionRecalculationLookup = ViewModelHelper.GetCollectionRecalculationLookupViewModel(),
                 Dimension = wrapper.Dimension.ToIDAndDisplayName(),
                 DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel(),
                 ValidationMessages = new List<Message>()

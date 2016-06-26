@@ -386,11 +386,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                AggregateRecalculationEnum aggregateRecalculationEnum = wrapper.Recalculation;
-                switch (aggregateRecalculationEnum)
+                CollectionRecalculationEnum collectionRecalculationEnum = wrapper.CollectionRecalculation;
+                switch (collectionRecalculationEnum)
                 {
-                    case AggregateRecalculationEnum.Continuous:
-                        operatorCalculator = new AverageOverDimension_OperatorCalculator_RecalculateContinuously(
+                    case CollectionRecalculationEnum.Continuous:
+                        operatorCalculator = new AverageOverDimension_OperatorCalculator_CollectionRecalculationContinuous(
                             signalCalculator,
                             fromCalculator,
                             tillCalculator,
@@ -398,8 +398,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                             dimensionStack);
                         break;
 
-                    case AggregateRecalculationEnum.UponReset:
-                        operatorCalculator = new AverageOverDimension_OperatorCalculator_RecalculateUponReset(
+                    case CollectionRecalculationEnum.UponReset:
+                        operatorCalculator = new AverageOverDimension_OperatorCalculator_CollectionRecalculationUponReset(
                             signalCalculator,
                             fromCalculator,
                             tillCalculator,
@@ -408,7 +408,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                         break;
 
                     default:
-                        throw new ValueNotSupportedException(aggregateRecalculationEnum);
+                        throw new ValueNotSupportedException(collectionRecalculationEnum);
                 }
             }
 
@@ -879,11 +879,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                AggregateRecalculationEnum aggregateRecalculationEnum = wrapper.Recalculation;
-                switch (aggregateRecalculationEnum)
+                CollectionRecalculationEnum collectionRecalculationEnum = wrapper.CollectionRecalculation;
+                switch (collectionRecalculationEnum)
                 {
-                    case AggregateRecalculationEnum.Continuous:
-                        calculator = new ClosestOverDimension_OperatorCalculator_RecalculateContinuously(
+                    case CollectionRecalculationEnum.Continuous:
+                        calculator = new ClosestOverDimension_OperatorCalculator_CollectionRecalculationContinuous(
                             inputCalculator,
                             collectionCalculator,
                             fromCalculator,
@@ -892,8 +892,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                             dimensionStack);
                         break;
 
-                    case AggregateRecalculationEnum.UponReset:
-                        calculator = new ClosestOverDimension_OperatorCalculator_RecalculateUponReset(
+                    case CollectionRecalculationEnum.UponReset:
+                        calculator = new ClosestOverDimension_OperatorCalculator_CollectionRecalculationUponReset(
                             inputCalculator,
                             collectionCalculator,
                             fromCalculator,
@@ -903,7 +903,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                         break;
 
                     default:
-                        throw new ValueNotSupportedException(aggregateRecalculationEnum);
+                        throw new ValueNotSupportedException(collectionRecalculationEnum);
                 }
             }
 
@@ -1899,11 +1899,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                AggregateRecalculationEnum aggregateRecalculationEnum = wrapper.Recalculation;
-                switch (aggregateRecalculationEnum)
+                CollectionRecalculationEnum collectionRecalculationEnum = wrapper.CollectionRecalculation;
+                switch (collectionRecalculationEnum)
                 {
-                    case AggregateRecalculationEnum.Continuous:
-                        operatorCalculator = new MaxOverDimension_OperatorCalculator_RecalculateContinuously(
+                    case CollectionRecalculationEnum.Continuous:
+                        operatorCalculator = new MaxOverDimension_OperatorCalculator_CollectionRecalculationContinuous(
                             signalCalculator,
                             fromCalculator,
                             tillCalculator,
@@ -1911,8 +1911,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                             dimensionStack);
                         break;
 
-                    case AggregateRecalculationEnum.UponReset:
-                        operatorCalculator = new MaxOverDimension_OperatorCalculator_RecalculateUponReset(
+                    case CollectionRecalculationEnum.UponReset:
+                        operatorCalculator = new MaxOverDimension_OperatorCalculator_CollectionRecalculationUponReset(
                             signalCalculator,
                             fromCalculator,
                             tillCalculator,
@@ -1921,7 +1921,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                         break;
 
                     default:
-                        throw new InvalidValueException(aggregateRecalculationEnum);
+                        throw new InvalidValueException(collectionRecalculationEnum);
                 }
             }
 
@@ -2059,11 +2059,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                AggregateRecalculationEnum aggregateRecalculationEnum = wrapper.Recalculation;
-                switch (aggregateRecalculationEnum)
+                CollectionRecalculationEnum collectionRecalculationEnum = wrapper.CollectionRecalculation;
+                switch (collectionRecalculationEnum)
                 {
-                    case AggregateRecalculationEnum.Continuous:
-                        operatorCalculator = new MinOverDimension_OperatorCalculator_RecalculateContinuously(
+                    case CollectionRecalculationEnum.Continuous:
+                        operatorCalculator = new MinOverDimension_OperatorCalculator_CollectionRecalculationContinuous(
                             signalCalculator,
                             fromCalculator,
                             tillCalculator,
@@ -2071,8 +2071,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                             dimensionStack);
                         break;
 
-                    case AggregateRecalculationEnum.UponReset:
-                        operatorCalculator = new MinOverDimension_OperatorCalculator_RecalculateUponReset(
+                    case CollectionRecalculationEnum.UponReset:
+                        operatorCalculator = new MinOverDimension_OperatorCalculator_CollectionRecalculationUponReset(
                             signalCalculator,
                             fromCalculator,
                             tillCalculator,
@@ -2081,7 +2081,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                         break;
 
                     default:
-                        throw new InvalidValueException(aggregateRecalculationEnum);
+                        throw new InvalidValueException(collectionRecalculationEnum);
                 }
             }
 
@@ -4160,10 +4160,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                AggregateRecalculationEnum aggregateRecalculationEnum = wrapper.Recalculation;
-                switch (aggregateRecalculationEnum)
+                CollectionRecalculationEnum collectionRecalculationEnum = wrapper.CollectionRecalculation;
+                switch (collectionRecalculationEnum)
                 {
-                    case AggregateRecalculationEnum.Continuous:
+                    case CollectionRecalculationEnum.Continuous:
                         if (fromIsConstZero && tillIsConst && stepIsConstOne)
                         {
                             operatorCalculator = new SumOverDimension_OperatorCalculator_ByUnbundleAndAdd(
@@ -4173,7 +4173,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                         }
                         else
                         {
-                            operatorCalculator = new SumOverDimension_OperatorCalculator_RecalculateContinuously(
+                            operatorCalculator = new SumOverDimension_OperatorCalculator_CollectionRecalculationContinuous(
                             signalCalculator,
                             fromCalculator,
                             tillCalculator,
@@ -4182,8 +4182,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                         }
                             break;
 
-                    case AggregateRecalculationEnum.UponReset:
-                        operatorCalculator = new SumOverDimension_OperatorCalculator_RecalculateUponReset(
+                    case CollectionRecalculationEnum.UponReset:
+                        operatorCalculator = new SumOverDimension_OperatorCalculator_CollectionRecalculationUponReset(
                             signalCalculator,
                             fromCalculator,
                             tillCalculator,
@@ -4192,7 +4192,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                         break;
 
                     default:
-                        throw new ValueNotSupportedException(aggregateRecalculationEnum);
+                        throw new ValueNotSupportedException(collectionRecalculationEnum);
                 }
             }
 

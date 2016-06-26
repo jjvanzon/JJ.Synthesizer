@@ -62,9 +62,9 @@ namespace JJ.Business.Synthesizer.Api
             Outlet till = null,
             Outlet step = null,
             DimensionEnum dimension = DimensionEnum.Undefined,
-            AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continuous)
+            CollectionRecalculationEnum collectionRecalculation = CollectionRecalculationEnum.Continuous)
         {
-            return _patchManager.AverageOverDimension(signal, from, till, step, dimension, recalculation);
+            return _patchManager.AverageOverDimension(signal, from, till, step, dimension, collectionRecalculation);
         }
 
         public AverageFollower_OperatorWrapper AverageFollower(
@@ -133,9 +133,9 @@ namespace JJ.Business.Synthesizer.Api
             Outlet till = null,
             Outlet step = null,
             DimensionEnum dimension = DimensionEnum.Undefined,
-            AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continuous)
+            CollectionRecalculationEnum collectionRecalculation = CollectionRecalculationEnum.Continuous)
         {
-            return _patchManager.ClosestOverDimension(input, from, till, step, collection, dimension, recalculation);
+            return _patchManager.ClosestOverDimension(input, from, till, step, collection, dimension, collectionRecalculation);
         }
 
         public Curve_OperatorWrapper Curve(Curve curve = null, DimensionEnum dimension = DimensionEnum.Time)
@@ -345,9 +345,9 @@ namespace JJ.Business.Synthesizer.Api
             Outlet till = null, 
             Outlet step = null, 
             DimensionEnum dimension = DimensionEnum.Undefined,
-            AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continuous)
+            CollectionRecalculationEnum collectionRecalculation = CollectionRecalculationEnum.Continuous)
         {
-            return _patchManager.MaxOverDimension(signal, from, till, step, dimension, recalculation);
+            return _patchManager.MaxOverDimension(signal, from, till, step, dimension, collectionRecalculation);
         }
 
         public Max_OperatorWrapper Max(params Outlet[] operands)
@@ -375,9 +375,9 @@ namespace JJ.Business.Synthesizer.Api
             Outlet till = null,
             Outlet step = null,
             DimensionEnum dimension = DimensionEnum.Undefined,
-            AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continuous)
+            CollectionRecalculationEnum collectionRecalculation = CollectionRecalculationEnum.Continuous)
         {
-            return _patchManager.MinOverDimension(signal, from, till, step, dimension, recalculation);
+            return _patchManager.MinOverDimension(signal, from, till, step, dimension, collectionRecalculation);
         }
 
         public Min_OperatorWrapper Min(params Outlet[] operands)
@@ -665,9 +665,9 @@ namespace JJ.Business.Synthesizer.Api
             Outlet till = null,
             Outlet step = null,
             DimensionEnum dimension = DimensionEnum.Undefined,
-            AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continuous)
+            CollectionRecalculationEnum collectionRecalculation = CollectionRecalculationEnum.Continuous)
         {
-            return _patchManager.SumOverDimension(signal, from, till, step, dimension, recalculation);
+            return _patchManager.SumOverDimension(signal, from, till, step, dimension, collectionRecalculation);
         }
 
         public SumFollower_OperatorWrapper SumFollower(

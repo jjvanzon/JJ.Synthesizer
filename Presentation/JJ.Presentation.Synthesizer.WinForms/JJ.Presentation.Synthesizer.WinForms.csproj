@@ -117,11 +117,11 @@
     <Compile Include="UserControls\CurrentPatchesUserControl.Designer.cs">
       <DependentUpon>CurrentPatchesUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\OperatorPropertiesUserControl_WithDimensionAndRecalculation.cs">
+    <Compile Include="UserControls\OperatorPropertiesUserControl_WithDimensionAndCollectionRecalculation.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\OperatorPropertiesUserControl_WithDimensionAndRecalculation.Designer.cs">
-      <DependentUpon>OperatorPropertiesUserControl_WithDimensionAndRecalculation.cs</DependentUpon>
+    <Compile Include="UserControls\OperatorPropertiesUserControl_WithDimensionAndCollectionRecalculation.Designer.cs">
+      <DependentUpon>OperatorPropertiesUserControl_WithDimensionAndCollectionRecalculation.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_WithInletCount.cs">
       <SubType>UserControl</SubType>
@@ -373,8 +373,8 @@
     <EmbeddedResource Include="UserControls\CurrentPatchesUserControl.resx">
       <DependentUpon>CurrentPatchesUserControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_WithDimensionAndRecalculation.resx">
-      <DependentUpon>OperatorPropertiesUserControl_WithDimensionAndRecalculation.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_WithDimensionAndCollectionRecalculation.resx">
+      <DependentUpon>OperatorPropertiesUserControl_WithDimensionAndCollectionRecalculation.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_WithInletCount.resx">
       <DependentUpon>OperatorPropertiesUserControl_WithInletCount.cs</DependentUpon>

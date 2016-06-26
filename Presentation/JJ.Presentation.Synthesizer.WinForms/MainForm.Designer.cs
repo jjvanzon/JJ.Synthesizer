@@ -53,7 +53,7 @@
             this.operatorPropertiesUserControl_ForPatchOutlet = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForPatchOutlet();
             this.menuUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.MenuUserControl();
             this.currentPatchesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.CurrentPatchesUserControl();
-            this.operatorPropertiesUserControl_WithDimensionAndRecalculation = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_WithDimensionAndRecalculation();
+            this.operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_WithDimensionAndCollectionRecalculation();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerTree)).BeginInit();
             this.splitContainerTree.Panel1.SuspendLayout();
             this.splitContainerTree.Panel2.SuspendLayout();
@@ -117,7 +117,7 @@
             // 
             // splitContainerProperties.Panel2
             // 
-            this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_WithDimensionAndRecalculation);
+            this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_WithInletCount);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForMakeContinuous);
             this.splitContainerProperties.Panel2.Controls.Add(this.audioOutputPropertiesUserControl);
@@ -553,17 +553,17 @@
             this.currentPatchesUserControl.Size = new System.Drawing.Size(1188, 30);
             this.currentPatchesUserControl.TabIndex = 14;
             // 
-            // operatorPropertiesUserControl_WithDimensionAndRecalculation
+            // operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation
             // 
-            this.operatorPropertiesUserControl_WithDimensionAndRecalculation.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.operatorPropertiesUserControl_WithDimensionAndRecalculation.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.operatorPropertiesUserControl_WithDimensionAndRecalculation.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.operatorPropertiesUserControl_WithDimensionAndRecalculation.Font = new System.Drawing.Font("Verdana", 10F);
-            this.operatorPropertiesUserControl_WithDimensionAndRecalculation.Location = new System.Drawing.Point(0, 0);
-            this.operatorPropertiesUserControl_WithDimensionAndRecalculation.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.operatorPropertiesUserControl_WithDimensionAndRecalculation.Name = "operatorPropertiesUserControl_WithDimensionAndRecalculation";
-            this.operatorPropertiesUserControl_WithDimensionAndRecalculation.Size = new System.Drawing.Size(333, 814);
-            this.operatorPropertiesUserControl_WithDimensionAndRecalculation.TabIndex = 1;
+            this.operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation.Font = new System.Drawing.Font("Verdana", 10F);
+            this.operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation.Location = new System.Drawing.Point(0, 0);
+            this.operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation.Name = "operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation";
+            this.operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation.Size = new System.Drawing.Size(333, 814);
+            this.operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation.TabIndex = 1;
             // 
             // MainForm
             // 
@@ -630,6 +630,6 @@
         private UserControls.AudioOutputPropertiesUserControl audioOutputPropertiesUserControl;
         private UserControls.OperatorPropertiesUserControl_ForMakeContinuous operatorPropertiesUserControl_ForMakeContinuous;
         private UserControls.OperatorPropertiesUserControl_WithInletCount operatorPropertiesUserControl_WithInletCount;
-        private UserControls.OperatorPropertiesUserControl_WithDimensionAndRecalculation operatorPropertiesUserControl_WithDimensionAndRecalculation;
+        private UserControls.OperatorPropertiesUserControl_WithDimensionAndCollectionRecalculation operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation;
     }
 }

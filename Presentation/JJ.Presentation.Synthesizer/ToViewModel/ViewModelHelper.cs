@@ -75,7 +75,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.Resample,
         };
 
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithDimensionAndRecalculationPropertyViews { get; } =
+        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithDimensionAndCollectionRecalculationPropertyViews { get; } =
                   new HashSet<OperatorTypeEnum>
         {
             OperatorTypeEnum.AverageOverDimension,
@@ -107,7 +107,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             EnumHelper.GetValues<OperatorTypeEnum>().Except(OperatorTypeEnums_WithTheirOwnPropertyViews)
                                                     .Except(OperatorTypeEnums_WithDimensionPropertyViews)
                                                     .Except(OperatorTypeEnums_WithDimensionAndInterpolationPropertyViews)
-                                                    .Except(OperatorTypeEnums_WithDimensionAndRecalculationPropertyViews)
+                                                    .Except(OperatorTypeEnums_WithDimensionAndCollectionRecalculationPropertyViews)
                                                     .Except(OperatorTypeEnums_WithDimensionAndOutletCountPropertyViews)
                                                     .Except(OperatorTypeEnums_WithInletCountPropertyViews)
                                                     .ToHashSet();

@@ -30,7 +30,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public IList<OperatorPropertiesViewModel_ForSample> OperatorPropertiesList_ForSamples { get; set; }
         public IList<OperatorPropertiesViewModel_WithDimension> OperatorPropertiesList_WithDimension { get; set; }
         public IList<OperatorPropertiesViewModel_WithDimensionAndInterpolation> OperatorPropertiesList_WithDimensionAndInterpolation { get; set; }
-        public IList<OperatorPropertiesViewModel_WithDimensionAndRecalculation> OperatorPropertiesList_WithDimensionAndRecalculation { get; set; }
+        public IList<OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation> OperatorPropertiesList_WithDimensionAndCollectionRecalculation { get; set; }
         public IList<OperatorPropertiesViewModel_WithDimensionAndOutletCount> OperatorPropertiesList_WithDimensionAndOutletCount { get; set; }
         public IList<OperatorPropertiesViewModel_WithInletCount> OperatorPropertiesList_WithInletCount { get; set; }
         public PatchPropertiesViewModel PatchProperties { get; set; }

@@ -48,10 +48,10 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.Dimension, value); }
         }
 
-        public AggregateRecalculationEnum Recalculation
+        public CollectionRecalculationEnum CollectionRecalculation
         {
-            get { return DataPropertyParser.GetEnum<AggregateRecalculationEnum>(WrappedOperator, PropertyNames.Recalculation); }
-            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.Recalculation, value); }
+            get { return DataPropertyParser.GetEnum<CollectionRecalculationEnum>(WrappedOperator, PropertyNames.CollectionRecalculation); }
+            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.CollectionRecalculation, value); }
         }
 
         public override string GetInletDisplayName(int listIndex)

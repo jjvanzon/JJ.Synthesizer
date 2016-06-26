@@ -85,7 +85,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorPropertiesList_ForPatchOutlets = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForPatchOutlets()).ToList(),
                 OperatorPropertiesList_ForSamples = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForSamples(repositories.SampleRepository)).ToList(),
                 OperatorPropertiesList_WithDimension = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithDimension()).ToList(),
-                OperatorPropertiesList_WithDimensionAndRecalculation = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithDimensionAndRecalculation()).ToList(),
+                OperatorPropertiesList_WithDimensionAndCollectionRecalculation = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithDimensionAndCollectionRecalculation()).ToList(),
                 OperatorPropertiesList_WithDimensionAndInterpolation = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithDimensionAndInterpolation()).ToList(),
                 OperatorPropertiesList_WithDimensionAndOutletCount = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithDimensionAndOutletCount()).ToList(),
                 OperatorPropertiesList_WithInletCount = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithInletCount()).ToList(),

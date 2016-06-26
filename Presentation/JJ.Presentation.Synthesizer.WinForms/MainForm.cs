@@ -204,7 +204,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 new UserControlTuple(operatorPropertiesUserControl_ForSample, isPropertiesView: true),
                 new UserControlTuple(operatorPropertiesUserControl_WithDimension, isPropertiesView: true),
                 new UserControlTuple(operatorPropertiesUserControl_WithDimensionAndInterpolation, isPropertiesView: true),
-                new UserControlTuple(operatorPropertiesUserControl_WithDimensionAndRecalculation, isPropertiesView: true),
+                new UserControlTuple(operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation, isPropertiesView: true),
                 new UserControlTuple(operatorPropertiesUserControl_WithDimensionAndOutletCount, isPropertiesView: true),
                 new UserControlTuple(operatorPropertiesUserControl_WithInletCount, isPropertiesView: true),
                 new UserControlTuple(patchGridUserControl),

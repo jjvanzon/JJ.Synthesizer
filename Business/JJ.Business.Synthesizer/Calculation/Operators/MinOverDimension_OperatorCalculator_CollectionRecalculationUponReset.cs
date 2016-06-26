@@ -5,9 +5,9 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class MinOverDimension_OperatorCalculator_RecalculateUponReset : MinOrMaxOverDimension_OperatorCalculatorBase
+    internal class MinOverDimension_OperatorCalculator_CollectionRecalculationUponReset : MinOrMaxOverDimension_OperatorCalculatorBase
     {
-        public MinOverDimension_OperatorCalculator_RecalculateUponReset(
+        public MinOverDimension_OperatorCalculator_CollectionRecalculationUponReset(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase fromCalculator,
             OperatorCalculatorBase tillCalculator,

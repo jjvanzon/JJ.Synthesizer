@@ -72,7 +72,7 @@ namespace JJ.Business.Synthesizer
             Outlet till = null,
             Outlet step = null,
             DimensionEnum dimension = DimensionEnum.Undefined,
-            AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continuous)
+            CollectionRecalculationEnum collectionRecalculation = CollectionRecalculationEnum.Continuous)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.AverageOverDimension, inletCount: 4, outletCount: 1);
 
@@ -83,7 +83,7 @@ namespace JJ.Business.Synthesizer
                 Till = till,
                 Step = step,
                 Dimension = dimension,
-                Recalculation = recalculation
+                CollectionRecalculation = collectionRecalculation
             };
 
             VoidResult result = ValidateOperatorNonRecursive(op);
@@ -225,7 +225,7 @@ namespace JJ.Business.Synthesizer
             Outlet till = null,
             Outlet step = null,
             DimensionEnum dimension = DimensionEnum.Undefined,
-            AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continuous)
+            CollectionRecalculationEnum collectionRecalculation = CollectionRecalculationEnum.Continuous)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.ClosestOverDimension, inletCount: 5, outletCount: 1);
 
@@ -237,7 +237,7 @@ namespace JJ.Business.Synthesizer
                 Till = till,
                 Step = step,
                 Dimension = dimension,
-                Recalculation = recalculation
+                CollectionRecalculation = collectionRecalculation
             };
 
             VoidResult result = ValidateOperatorNonRecursive(op);
@@ -725,7 +725,7 @@ namespace JJ.Business.Synthesizer
             Outlet till = null, 
             Outlet step = null, 
             DimensionEnum dimension = DimensionEnum.Undefined,
-            AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continuous)
+            CollectionRecalculationEnum collectionRecalculation = CollectionRecalculationEnum.Continuous)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.MaxOverDimension, inletCount: 4, outletCount: 1);
 
@@ -736,7 +736,7 @@ namespace JJ.Business.Synthesizer
                 Till = till,
                 Step = step,
                 Dimension = dimension,
-                Recalculation = recalculation
+                CollectionRecalculation = collectionRecalculation
             };
 
             VoidResult result = ValidateOperatorNonRecursive(op);
@@ -791,7 +791,7 @@ namespace JJ.Business.Synthesizer
             Outlet till = null,
             Outlet step = null,
             DimensionEnum dimension = DimensionEnum.Undefined,
-            AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continuous)
+            CollectionRecalculationEnum collectionRecalculation = CollectionRecalculationEnum.Continuous)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.MinOverDimension, inletCount: 4, outletCount: 1);
 
@@ -802,7 +802,7 @@ namespace JJ.Business.Synthesizer
                 Till = till,
                 Step = step,
                 Dimension = dimension,
-                Recalculation = recalculation
+                CollectionRecalculation = collectionRecalculation
             };
 
             VoidResult result = ValidateOperatorNonRecursive(op);
@@ -1529,7 +1529,7 @@ namespace JJ.Business.Synthesizer
             Outlet till = null,
             Outlet step = null,
             DimensionEnum dimension = DimensionEnum.Undefined,
-            AggregateRecalculationEnum recalculation = AggregateRecalculationEnum.Continuous)
+            CollectionRecalculationEnum collectionRecalculation = CollectionRecalculationEnum.Continuous)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.SumOverDimension, inletCount: 4, outletCount: 1);
 
@@ -1540,7 +1540,7 @@ namespace JJ.Business.Synthesizer
                 Till = till,
                 Step = step,
                 Dimension = dimension,
-                Recalculation = recalculation
+                CollectionRecalculation = collectionRecalculation
             };
 
             VoidResult result = ValidateOperatorNonRecursive(op);

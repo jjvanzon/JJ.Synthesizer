@@ -23,9 +23,12 @@ namespace JJ.Business.Synthesizer.Helpers
         public const string AudioFileOutputs = "AudioFileOutputs";
         public const string Cents = "Cents";
         public const string ChildDocumentID = "ChildDocumentID";
+        public const string CollectionRecalculation = "CollectionRecalculation";
         public const string Curve = "Curve";
         public const string CurveID = "CurveID";
         public const string Curves = "Curves";
+        public const string DataKey = "DataKey";
+        public const string DataKeys = "DataKeys";
         public const string Dimension = "Dimension";
         public const string Document = "Document";
         public const string DocumentReference = "DocumentReference";
@@ -44,8 +47,6 @@ namespace JJ.Business.Synthesizer.Helpers
         public const string LiteralFrequencies = "LiteralFrequencies";
         public const string Name = "Name";
         public const string Number = "Number";
-        public const string DataKeys = "DataKeys";
-        public const string DataKey = "DataKey";
         public const string Outlet = "Outlet";
         public const string OutletCount = "OutletCount";
         public const string Outlets = "Outlets";
@@ -53,19 +54,18 @@ namespace JJ.Business.Synthesizer.Helpers
         public const string Patches = "Patches";
         public const string PatchInlet = "PatchInlet";
         public const string PatchOutlet = "PatchOutlet";
-        public const string Recalculation = "Recalculation";
         public const string Sample = "Sample";
-        public const string SampleID = "SampleID";
         public const string SampleCount = "SampleCount";
+        public const string SampleID = "SampleID";
         public const string Samples = "Samples";
         public const string Scales = "Scales";
         public const string SemiTones = "SemiTones";
         public const string Signal = "Signal";
+        public const string SliceLength = "SliceLength";
         public const string SpeakerSetup = "SpeakerSetup";
         public const string StartTime = "StartTime";
-        public const string SliceLength = "SliceLength";
+        public const string Till = "Till";
         public const string UnderlyingPatch = "UnderlyingPatch";
         public const string UnderlyingPatchID = "UnderlyingPatchID";
-        public const string Till = "Till";
     }
 }

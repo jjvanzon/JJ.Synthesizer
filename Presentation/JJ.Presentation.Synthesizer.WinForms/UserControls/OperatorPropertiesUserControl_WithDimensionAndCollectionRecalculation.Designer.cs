@@ -1,7 +1,7 @@
 ﻿using JJ.Presentation.Synthesizer.WinForms.UserControls.Partials;
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    partial class OperatorPropertiesUserControl_WithDimensionAndRecalculation
+    partial class OperatorPropertiesUserControl_WithDimensionAndCollectionRecalculation
     {
         /// <summary> 
         /// Required designer variable.
@@ -36,7 +36,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelOperatorTypeTitle = new System.Windows.Forms.Label();
             this.labelOperatorTypeValue = new System.Windows.Forms.Label();
             this.labelRecalculation = new System.Windows.Forms.Label();
-            this.comboBoxRecalculation = new System.Windows.Forms.ComboBox();
+            this.comboBoxCollectionRecalculation = new System.Windows.Forms.ComboBox();
             this.labelDimension = new System.Windows.Forms.Label();
             this.comboBoxDimension = new System.Windows.Forms.ComboBox();
             this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
@@ -70,7 +70,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.tableLayoutPanelProperties.Controls.Add(this.labelOperatorTypeTitle, 0, 0);
             this.tableLayoutPanelProperties.Controls.Add(this.labelOperatorTypeValue, 1, 0);
             this.tableLayoutPanelProperties.Controls.Add(this.labelRecalculation, 0, 2);
-            this.tableLayoutPanelProperties.Controls.Add(this.comboBoxRecalculation, 1, 2);
+            this.tableLayoutPanelProperties.Controls.Add(this.comboBoxCollectionRecalculation, 1, 2);
             this.tableLayoutPanelProperties.Controls.Add(this.labelDimension, 0, 3);
             this.tableLayoutPanelProperties.Controls.Add(this.comboBoxDimension, 1, 3);
             this.tableLayoutPanelProperties.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -139,16 +139,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelRecalculation.Text = "labelRecalculation";
             this.labelRecalculation.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // comboBoxRecalculation
+            // comboBoxCollectionRecalculation
             // 
-            this.comboBoxRecalculation.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.comboBoxRecalculation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxRecalculation.FormattingEnabled = true;
-            this.comboBoxRecalculation.Location = new System.Drawing.Point(147, 60);
-            this.comboBoxRecalculation.Margin = new System.Windows.Forms.Padding(0);
-            this.comboBoxRecalculation.Name = "comboBoxRecalculation";
-            this.comboBoxRecalculation.Size = new System.Drawing.Size(10, 24);
-            this.comboBoxRecalculation.TabIndex = 21;
+            this.comboBoxCollectionRecalculation.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.comboBoxCollectionRecalculation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxCollectionRecalculation.FormattingEnabled = true;
+            this.comboBoxCollectionRecalculation.Location = new System.Drawing.Point(147, 60);
+            this.comboBoxCollectionRecalculation.Margin = new System.Windows.Forms.Padding(0);
+            this.comboBoxCollectionRecalculation.Name = "comboBoxCollectionRecalculation";
+            this.comboBoxCollectionRecalculation.Size = new System.Drawing.Size(10, 24);
+            this.comboBoxCollectionRecalculation.TabIndex = 21;
             // 
             // labelDimension
             // 
@@ -186,7 +186,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.titleBarUserControl.TabIndex = 7;
             this.titleBarUserControl.CloseClicked += new System.EventHandler(this.titleBarUserControl_CloseClicked);
             // 
-            // OperatorPropertiesUserControl_WithDimensionAndRecalculation
+            // OperatorPropertiesUserControl_WithDimensionAndCollectionRecalculation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -194,10 +194,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.Controls.Add(this.tableLayoutPanelMain);
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.Name = "OperatorPropertiesUserControl_WithDimensionAndRecalculation";
+            this.Name = "OperatorPropertiesUserControl_WithDimensionAndCollectionRecalculation";
             this.Size = new System.Drawing.Size(10, 10);
-            this.Load += new System.EventHandler(this.OperatorPropertiesUserControl_WithDimensionAndRecalculation_Load);
-            this.Leave += new System.EventHandler(this.OperatorPropertiesUserControl_WithDimensionAndRecalculation_Leave);
+            this.Load += new System.EventHandler(this.OperatorPropertiesUserControl_WithDimensionAndCollectionRecalculation_Load);
+            this.Leave += new System.EventHandler(this.OperatorPropertiesUserControl_WithDimensionAndCollectionRecalculation_Leave);
             this.tableLayoutPanelMain.ResumeLayout(false);
             this.tableLayoutPanelProperties.ResumeLayout(false);
             this.tableLayoutPanelProperties.PerformLayout();
@@ -215,7 +215,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private System.Windows.Forms.Label labelOperatorTypeTitle;
         private System.Windows.Forms.Label labelOperatorTypeValue;
         private System.Windows.Forms.Label labelRecalculation;
-        private System.Windows.Forms.ComboBox comboBoxRecalculation;
+        private System.Windows.Forms.ComboBox comboBoxCollectionRecalculation;
         private System.Windows.Forms.Label labelDimension;
         private System.Windows.Forms.ComboBox comboBoxDimension;
     }

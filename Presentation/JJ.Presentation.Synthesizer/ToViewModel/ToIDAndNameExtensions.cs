@@ -153,7 +153,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
         }
 
-        public static IDAndName ToIDAndDisplayName(this AggregateRecalculationEnum enumValue)
+        public static IDAndName ToIDAndDisplayName(this CollectionRecalculationEnum enumValue)
         {
             string displayName = ResourceHelper.GetDisplayName(enumValue);
 

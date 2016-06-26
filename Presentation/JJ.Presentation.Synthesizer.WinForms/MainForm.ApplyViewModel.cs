@@ -177,9 +177,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 .Where(x => x.Visible)
                 .FirstOrDefault();
 
-            // OperatorProperties_WithDimensionAndRecalculation
-            operatorPropertiesUserControl_WithDimensionAndRecalculation.ViewModel =
-                _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_WithDimensionAndRecalculation)
+            // OperatorProperties_WithDimensionAndCollectionRecalculation
+            operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation.ViewModel =
+                _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_WithDimensionAndCollectionRecalculation)
                 .Where(x => x.Visible)
                 .FirstOrDefault();
 
