@@ -462,6 +462,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     return DEFAULT_DISCRETE_AGGREGATE_INLET_COUNT;
 
                 case OperatorTypeEnum.Closest:
+                case OperatorTypeEnum.ClosestExp:
                     return DEFAULT_CLOSEST_ITEM_COUNT;
 
                 default:

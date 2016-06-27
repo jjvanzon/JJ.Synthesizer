@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Copies.FromFramework
 {
-    internal static class Maths
+    public static class Maths
     {
         public const double SQRT_2 = 1.4142135623730950;
         public const float FLOAT_SQRT_2 = 1.4142136f;
@@ -56,6 +56,13 @@ namespace JJ.Business.Synthesizer.Copies.FromFramework
 
             bool isPowerOf2 = (x & (x - 1)) == 0;
             return isPowerOf2;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double LogRatio(double x0, double x1, double x)
+        {
+            double ratio = Math.Log(x - x0) / Math.Log(x1 - x0);
+            return ratio;
         }
 
         /// <summary>

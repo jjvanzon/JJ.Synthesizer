@@ -57,5 +57,20 @@ namespace JJ.Business.Synthesizer.Calculation
                 return item2;
             }
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double ClosestExp(double input, double item1, double item2)
+        {
+            double logRatio = Maths.LogRatio(item1, item2, input);
+
+            if (logRatio < 0.5)
+            {
+                return item1;
+            }
+            else
+            {
+                return item2;
+            }
+        }
     }
 }

@@ -128,6 +128,8 @@
         SumFollower = 76,
         Multiply = 77,
         Closest = 78,
-        ClosestOverDimension = 79
+        ClosestOverDimension = 79,
+        ClosestExp = 80,
+        ClosestOverDimensionExp = 81
     }
 }

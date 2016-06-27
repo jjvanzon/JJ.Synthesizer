@@ -385,11 +385,29 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Closest Exp.
+        /// </summary>
+        public static string ClosestExp {
+            get {
+                return ResourceManager.GetString("ClosestExp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Closest over Dimension.
         /// </summary>
         public static string ClosestOverDimension {
             get {
                 return ResourceManager.GetString("ClosestOverDimension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Closest over Dimension Exp.
+        /// </summary>
+        public static string ClosestOverDimensionExp {
+            get {
+                return ResourceManager.GetString("ClosestOverDimensionExp", resourceCulture);
             }
         }
         

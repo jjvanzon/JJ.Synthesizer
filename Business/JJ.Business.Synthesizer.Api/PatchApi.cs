@@ -115,7 +115,6 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.ChangeTrigger(calculation, reset);
         }
 
-
         public Closest_OperatorWrapper Closest(Outlet input, params Outlet[] items)
         {
             return _patchManager.Closest(input, items);
@@ -124,6 +123,16 @@ namespace JJ.Business.Synthesizer.Api
         public Closest_OperatorWrapper Closest(Outlet input, IList<Outlet> items)
         {
             return _patchManager.Closest(input, items);
+        }
+
+        public ClosestExp_OperatorWrapper ClosestExp(Outlet input, params Outlet[] items)
+        {
+            return _patchManager.ClosestExp(input, items);
+        }
+
+        public ClosestExp_OperatorWrapper ClosestExp(Outlet input, IList<Outlet> items)
+        {
+            return _patchManager.ClosestExp(input, items);
         }
 
         public ClosestOverDimension_OperatorWrapper ClosestOverDimension(
@@ -136,6 +145,18 @@ namespace JJ.Business.Synthesizer.Api
             CollectionRecalculationEnum collectionRecalculation = CollectionRecalculationEnum.Continuous)
         {
             return _patchManager.ClosestOverDimension(input, from, till, step, collection, dimension, collectionRecalculation);
+        }
+
+        public ClosestOverDimensionExp_OperatorWrapper ClosestOverDimensionExp(
+            Outlet input = null,
+            Outlet collection = null,
+            Outlet from = null,
+            Outlet till = null,
+            Outlet step = null,
+            DimensionEnum dimension = DimensionEnum.Undefined,
+            CollectionRecalculationEnum collectionRecalculation = CollectionRecalculationEnum.Continuous)
+        {
+            return _patchManager.ClosestOverDimensionExp(input, from, till, step, collection, dimension, collectionRecalculation);
         }
 
         public Curve_OperatorWrapper Curve(Curve curve = null, DimensionEnum dimension = DimensionEnum.Time)

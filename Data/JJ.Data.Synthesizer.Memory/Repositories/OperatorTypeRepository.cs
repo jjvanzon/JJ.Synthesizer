@@ -86,6 +86,8 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             RepositoryHelper.EnsureEnumEntity(this, 77, "Multiply");
             RepositoryHelper.EnsureEnumEntity(this, 78, "Closest");
             RepositoryHelper.EnsureEnumEntity(this, 79, "ClosestOverDimension");
+            RepositoryHelper.EnsureEnumEntity(this, 80, "ClosestExp");
+            RepositoryHelper.EnsureEnumEntity(this, 81, "ClosestOverDimensionExp");
         }
     }
 }

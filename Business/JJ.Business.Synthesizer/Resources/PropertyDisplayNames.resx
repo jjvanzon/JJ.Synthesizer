@@ -854,4 +854,12 @@
   <data name="ClosestOverDimension" xml:space="preserve">
     <value>Closest over Dimension</value>
   </data>
+  <data name="ClosestExp" xml:space="preserve">
+    <value>Closest Exp</value>
+    <comment>'Exp' is an abbrevation of 'exponential'.</comment>
+  </data>
+  <data name="ClosestOverDimensionExp" xml:space="preserve">
+    <value>Closest over Dimension Exp</value>
+    <comment>'Exp' is an abbrevation of 'exponential'.</comment>
+  </data>
 </root>

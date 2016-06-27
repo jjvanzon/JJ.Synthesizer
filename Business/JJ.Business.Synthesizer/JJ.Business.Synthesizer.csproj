@@ -97,6 +97,7 @@
     </Compile>
     <Compile Include="Calculation\Operators\AverageOverDimension_OperatorCalculator_CollectionRecalculationContinuous.cs" />
     <Compile Include="Calculation\Operators\Closest OperatorCalculator Classes.cs" />
+    <Compile Include="Calculation\Operators\ClosestExp OperatorCalculators.cs" />
     <Compile Include="Calculation\Operators\MinOverDimension_OperatorCalculator_CollectionRecalculationContinuous.cs" />
     <Compile Include="Calculation\Operators\MaxOverDimension_OperatorCalculator_CollectionRecalculationContinuous.cs" />
     <Compile Include="Calculation\Operators\MinOverDimension_OperatorCalculator_CollectionRecalculationUponReset.cs" />
@@ -216,6 +217,8 @@
     <Compile Include="Copies\FromFramework\Geometry.cs" />
     <Compile Include="Copies\FromFramework\Interpolator.cs" />
     <Compile Include="Copies\FromFramework\Maths.cs" />
+    <Compile Include="EntityWrappers\ClosestExp_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\ClosestOverDimensionExp_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Closest_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\ClosestOverDimension_OperatorWrapper.cs" />
     <Compile Include="Helpers\OperatorCalculatorFactory.CreateAddCalculatorOnlyVars.cs">
@@ -411,7 +414,9 @@
     <Compile Include="Validation\Curves\CurveValidator_Nodes.cs" />
     <Compile Include="Validation\Documents\RootDocument_DocumentValidator.cs" />
     <Compile Include="Validation\Operators\Absolute_OperatorValidator.cs" />
+    <Compile Include="Validation\Operators\ClosestOverDimensionExp_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\ClosestOverDimension_OperatorValidator.cs" />
+    <Compile Include="Validation\Operators\ClosestExp_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Closest_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_Base_AggregateOverDimension.cs" />
     <Compile Include="Validation\Operators\Multiply_OperatorValidator.cs" />
@@ -479,6 +484,8 @@
     <Compile Include="Warnings\AudioOutputWarningValidator.cs" />
     <Compile Include="Warnings\CurveWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Absolute_OperatorWarningValidator.cs" />
+    <Compile Include="Warnings\Operators\ClosestExp_OperatorWarningValidator.cs" />
+    <Compile Include="Warnings\Operators\ClosestOverDimensionExp_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\ClosestOverDimension_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Multiply_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Closest_OperatorWarningValidator.cs" />

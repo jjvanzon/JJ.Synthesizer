@@ -23,22 +23,32 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
     {
         private static readonly bool _previewAutoPatchPolyphonicEnabled = GetPreviewAutoPatchPolyphonicEnabled();
 
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithTheirOwnPropertyViews { get; } = 
+        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithDimensionAndCollectionRecalculationPropertyViews { get; } =
                   new HashSet<OperatorTypeEnum>
         {
-            OperatorTypeEnum.Bundle,
-            OperatorTypeEnum.Cache,
-            OperatorTypeEnum.Curve,
-            OperatorTypeEnum.CustomOperator,
-            OperatorTypeEnum.Filter,
-            OperatorTypeEnum.MakeContinuous,
-            OperatorTypeEnum.Number,
-            OperatorTypeEnum.PatchInlet,
-            OperatorTypeEnum.PatchOutlet,
-            OperatorTypeEnum.Sample
+            OperatorTypeEnum.AverageOverDimension,
+            OperatorTypeEnum.ClosestOverDimension,
+            OperatorTypeEnum.ClosestOverDimensionExp,
+            OperatorTypeEnum.MaxOverDimension,
+            OperatorTypeEnum.MinOverDimension,
+            OperatorTypeEnum.SumOverDimension
         };
 
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithDimensionPropertyViews { get; } = 
+        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithDimensionAndInterpolationPropertyViews { get; } =
+          new HashSet<OperatorTypeEnum>
+{
+            OperatorTypeEnum.Random,
+            OperatorTypeEnum.Resample,
+};
+
+        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithDimensionAndOutletCountPropertyViews { get; } =
+                  new HashSet<OperatorTypeEnum>
+        {
+            OperatorTypeEnum.MakeDiscrete,
+            OperatorTypeEnum.Unbundle
+        };
+
+        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithDimensionPropertyViews { get; } =
                   new HashSet<OperatorTypeEnum>
         {
             OperatorTypeEnum.AverageFollower,
@@ -68,39 +78,31 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.Triangle
         };
 
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithDimensionAndInterpolationPropertyViews { get; } =
-                  new HashSet<OperatorTypeEnum>
-        {
-            OperatorTypeEnum.Random,
-            OperatorTypeEnum.Resample,
-        };
-
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithDimensionAndCollectionRecalculationPropertyViews { get; } =
-                  new HashSet<OperatorTypeEnum>
-        {
-            OperatorTypeEnum.AverageOverDimension,
-            OperatorTypeEnum.ClosestOverDimension,
-            OperatorTypeEnum.MaxOverDimension,
-            OperatorTypeEnum.MinOverDimension,
-            OperatorTypeEnum.SumOverDimension
-        };
-
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithDimensionAndOutletCountPropertyViews { get; } =
-                  new HashSet<OperatorTypeEnum>
-        {
-            OperatorTypeEnum.MakeDiscrete,
-            OperatorTypeEnum.Unbundle
-        };
-
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithInletCountPropertyViews { get; } =
                   new HashSet<OperatorTypeEnum>
         {
             OperatorTypeEnum.Add,
             OperatorTypeEnum.Average,
             OperatorTypeEnum.Closest,
+            OperatorTypeEnum.ClosestExp,
             OperatorTypeEnum.Max,
             OperatorTypeEnum.Min,
             OperatorTypeEnum.Multiply
+        };
+
+        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithTheirOwnPropertyViews { get; } =
+                  new HashSet<OperatorTypeEnum>
+        {
+            OperatorTypeEnum.Bundle,
+            OperatorTypeEnum.Cache,
+            OperatorTypeEnum.Curve,
+            OperatorTypeEnum.CustomOperator,
+            OperatorTypeEnum.Filter,
+            OperatorTypeEnum.MakeContinuous,
+            OperatorTypeEnum.Number,
+            OperatorTypeEnum.PatchInlet,
+            OperatorTypeEnum.PatchOutlet,
+            OperatorTypeEnum.Sample
         };
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithoutAlternativePropertiesView { get; } =

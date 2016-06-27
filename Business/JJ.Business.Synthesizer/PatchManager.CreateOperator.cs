@@ -218,6 +218,25 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        public ClosestExp_OperatorWrapper ClosestExp(Outlet input, params Outlet[] items)
+        {
+            return ClosestExp(input, (IList<Outlet>)items);
+        }
+
+        public ClosestExp_OperatorWrapper ClosestExp(Outlet input, IList<Outlet> items)
+        {
+            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(
+            OperatorTypeEnum.ClosestExp,
+            input.Concat(items).ToArray());
+
+            var wrapper = new ClosestExp_OperatorWrapper(op);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
         public ClosestOverDimension_OperatorWrapper ClosestOverDimension(
             Outlet input = null,
             Outlet collection = null,
@@ -230,6 +249,34 @@ namespace JJ.Business.Synthesizer
             Operator op = CreateOperatorBase(OperatorTypeEnum.ClosestOverDimension, inletCount: 5, outletCount: 1);
 
             var wrapper = new ClosestOverDimension_OperatorWrapper(op)
+            {
+                Input = input,
+                Collection = collection,
+                From = from,
+                Till = till,
+                Step = step,
+                Dimension = dimension,
+                CollectionRecalculation = collectionRecalculation
+            };
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
+        public ClosestOverDimensionExp_OperatorWrapper ClosestOverDimensionExp(
+            Outlet input = null,
+            Outlet collection = null,
+            Outlet from = null,
+            Outlet till = null,
+            Outlet step = null,
+            DimensionEnum dimension = DimensionEnum.Undefined,
+            CollectionRecalculationEnum collectionRecalculation = CollectionRecalculationEnum.Continuous)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.ClosestOverDimensionExp, inletCount: 5, outletCount: 1);
+
+            var wrapper = new ClosestOverDimensionExp_OperatorWrapper(op)
             {
                 Input = input,
                 Collection = collection,
@@ -1728,7 +1775,9 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.ChangeTrigger: return ChangeTrigger();
                 case OperatorTypeEnum.Cache: return Cache();
                 case OperatorTypeEnum.Closest: return Closest(null, new Outlet[variableInletOrOutletCount]);
+                case OperatorTypeEnum.ClosestExp: return ClosestExp(null, new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.ClosestOverDimension: return ClosestOverDimension();
+                case OperatorTypeEnum.ClosestOverDimensionExp: return ClosestOverDimensionExp();
                 case OperatorTypeEnum.Curve: return Curve();
                 case OperatorTypeEnum.CustomOperator: return CustomOperator();
                 case OperatorTypeEnum.GetDimension: return GetDimension();
