@@ -812,6 +812,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             _stack.Push(calculator);
         }
+
         protected override void VisitClosestExp(Operator op)
         {
             var wrapper = new ClosestExp_OperatorWrapper(op);
@@ -844,30 +845,30 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 items = itemCalculators.Select(x => x.Calculate()).ToArray();
             }
 
-            //if (itemsIsEmpty)
-            //{
-            //    calculator = new Zero_OperatorCalculator();
-            //}
-            //else if (inputIsConst && allItemsAreConst)
-            //{
-            //    double result = AggregateCalculator.ClosestExp(input, items);
-            //    calculator = new Number_OperatorCalculator(result);
-            //}
-            //else if (allItemsAreConst)
-            //{
-            //    if (items.Count == 2)
-            //    {
+            if (itemsIsEmpty)
+            {
+                calculator = new Zero_OperatorCalculator();
+            }
+            else if (inputIsConst && allItemsAreConst)
+            {
+                double result = AggregateCalculator.ClosestExp(input, items);
+                calculator = new Number_OperatorCalculator(result);
+            }
+            else if (allItemsAreConst)
+            {
+                if (items.Count == 2)
+                {
                     calculator = new ClosestExp_OperatorCalculator_VarInput_2ConstItems(inputCalculator, items[0], items[1]);
-            //    }
-            //    else
-            //    {
-            //        calculator = new ClosestExp_OperatorCalculator_VarInput_ConstItems(inputCalculator, items);
-            //    }
-            //}
-            //else
-            //{
-            //    calculator = new ClosestExp_OperatorCalculator_AllVars(inputCalculator, itemCalculators);
-            //}
+                }
+                else
+                {
+                    calculator = new ClosestExp_OperatorCalculator_VarInput_ConstItems(inputCalculator, items);
+                }
+            }
+            else
+            {
+                calculator = new ClosestExp_OperatorCalculator_AllVars(inputCalculator, itemCalculators);
+            }
 
             _stack.Push(calculator);
         }

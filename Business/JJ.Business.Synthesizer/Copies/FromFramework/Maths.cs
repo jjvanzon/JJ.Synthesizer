@@ -57,7 +57,14 @@ namespace JJ.Business.Synthesizer.Copies.FromFramework
             bool isPowerOf2 = (x & (x - 1)) == 0;
             return isPowerOf2;
         }
-
+        
+        /// <summary>
+        /// Calculates where x is in between x0 and x1 on a logarithmic scale.
+        /// 0 means it is on point x0. 1 means it is on pont x1.
+        /// between 0 and 1 means it is somewhere in between.
+        /// 0.5 means it is precisely half-way x0 and x1 logarithmically.
+        /// Note that it can also be outside the bounds 0 and 1 if it is not in between those numbers.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double LogRatio(double x0, double x1, double x)
         {
