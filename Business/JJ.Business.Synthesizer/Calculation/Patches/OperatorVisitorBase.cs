@@ -27,7 +27,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.Cache, VisitCache },
                 { OperatorTypeEnum.ChangeTrigger, VisitChangeTrigger },
                 { OperatorTypeEnum.Closest, VisitClosest },
+                { OperatorTypeEnum.ClosestExp, VisitClosestExp },
                 { OperatorTypeEnum.ClosestOverDimension, VisitClosestOverDimension },
+                { OperatorTypeEnum.ClosestOverDimensionExp, VisitClosestOverDimensionExp },
                 { OperatorTypeEnum.Curve, VisitCurveOperator },
                 { OperatorTypeEnum.CustomOperator, VisitCustomOperator },
                 { OperatorTypeEnum.Delay, VisitDelay },
@@ -204,7 +206,19 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         }
 
         [DebuggerHidden]
+        protected virtual void VisitClosestExp(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
+
+        [DebuggerHidden]
         protected virtual void VisitClosestOverDimension(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
+
+        [DebuggerHidden]
+        protected virtual void VisitClosestOverDimensionExp(Operator op)
         {
             VisitOperatorBase(op);
         }
