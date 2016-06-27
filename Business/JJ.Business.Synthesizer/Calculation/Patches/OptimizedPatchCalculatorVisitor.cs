@@ -970,6 +970,103 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
+        protected override void VisitClosestOverDimensionExp(Operator op)
+        {
+            var wrapper = new ClosestOverDimensionExp_OperatorWrapper(op);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+
+            base.VisitClosestOverDimensionExp(op);
+
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase inputCalculator = _stack.Pop();
+            OperatorCalculatorBase collectionCalculator = _stack.Pop();
+            OperatorCalculatorBase fromCalculator = _stack.Pop();
+            OperatorCalculatorBase tillCalculator = _stack.Pop();
+            OperatorCalculatorBase stepCalculator = _stack.Pop();
+
+            // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
+            inputCalculator = inputCalculator ?? new Zero_OperatorCalculator();
+            collectionCalculator = collectionCalculator ?? new Zero_OperatorCalculator();
+            fromCalculator = fromCalculator ?? new Zero_OperatorCalculator();
+            tillCalculator = tillCalculator ?? new Number_OperatorCalculator(15.0);
+            stepCalculator = stepCalculator ?? new One_OperatorCalculator();
+
+            bool inputIsConst = inputCalculator is Number_OperatorCalculator;
+            bool collectionIsConst = collectionCalculator is Number_OperatorCalculator;
+            bool fromIsConst = fromCalculator is Number_OperatorCalculator;
+            bool tillIsConst = tillCalculator is Number_OperatorCalculator;
+            bool stepIsConst = stepCalculator is Number_OperatorCalculator;
+
+            double input = inputIsConst ? inputCalculator.Calculate() : 0.0;
+            double collection = collectionIsConst ? collectionCalculator.Calculate() : 0.0;
+            double from = fromIsConst ? fromCalculator.Calculate() : 0.0;
+            double till = tillIsConst ? tillCalculator.Calculate() : 0.0;
+            double step = stepIsConst ? stepCalculator.Calculate() : 0.0;
+
+            bool stepIsConstZero = stepIsConst && step == 0.0;
+            bool collectionIsConstZero = collectionIsConst && collection == 0.0;
+            bool stepIsConstNegative = stepIsConst && step < 0.0;
+            bool inputIsConstSpecialNumber = inputIsConst && DoubleHelper.IsSpecialNumber(input);
+            bool collectionIsConstSpecialNumber = collectionIsConst && DoubleHelper.IsSpecialNumber(collection);
+            bool fromIsConstSpecialNumber = fromIsConst && DoubleHelper.IsSpecialNumber(from);
+            bool tillIsConstSpecialNumber = tillIsConst && DoubleHelper.IsSpecialNumber(till);
+            bool stepIsConstSpecialNumber = stepIsConst && DoubleHelper.IsSpecialNumber(step);
+
+            if (inputIsConstSpecialNumber ||
+                collectionIsConstSpecialNumber ||
+                fromIsConstSpecialNumber ||
+                tillIsConstSpecialNumber ||
+                stepIsConstSpecialNumber)
+            {
+                calculator = new Number_OperatorCalculator(Double.NaN);
+            }
+            else if (stepIsConstZero)
+            {
+                calculator = new Zero_OperatorCalculator();
+            }
+            else if (stepIsConstNegative)
+            {
+                calculator = new Zero_OperatorCalculator();
+            }
+            else if (collectionIsConst)
+            {
+                calculator = collectionCalculator;
+            }
+            else
+            {
+                CollectionRecalculationEnum collectionRecalculationEnum = wrapper.CollectionRecalculation;
+                switch (collectionRecalculationEnum)
+                {
+                    case CollectionRecalculationEnum.Continuous:
+                        calculator = new ClosestOverDimensionExp_OperatorCalculator_CollectionRecalculationContinuous(
+                            inputCalculator,
+                            collectionCalculator,
+                            fromCalculator,
+                            tillCalculator,
+                            stepCalculator,
+                            dimensionStack);
+                        break;
+
+                    case CollectionRecalculationEnum.UponReset:
+                        calculator = new ClosestOverDimensionExp_OperatorCalculator_CollectionRecalculationUponReset(
+                            inputCalculator,
+                            collectionCalculator,
+                            fromCalculator,
+                            tillCalculator,
+                            stepCalculator,
+                            dimensionStack);
+                        break;
+
+                    default:
+                        throw new ValueNotSupportedException(collectionRecalculationEnum);
+                }
+            }
+
+            _stack.Push(calculator);
+        }
+
         protected override void VisitCurveOperator(Operator op)
         {
             var wrapper = new Curve_OperatorWrapper(op, _curveRepository);

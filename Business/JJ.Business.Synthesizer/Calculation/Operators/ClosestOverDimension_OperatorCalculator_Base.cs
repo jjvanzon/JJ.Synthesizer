@@ -9,7 +9,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal abstract class ClosestOverDimension_OperatorCalculator_Base : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly OperatorCalculatorBase _inputCalculator;
+        protected readonly OperatorCalculatorBase _inputCalculator;
         private readonly OperatorCalculatorBase _collectionCalculator;
         private readonly OperatorCalculatorBase _fromCalculator;
         private readonly OperatorCalculatorBase _tillCalculator;
@@ -17,10 +17,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
-        private double[] _sortedItems;
-        private double _min;
-        private double _max;
-        private int _halfCount;
+        protected double[] _sortedItems;
+        protected double _min;
+        protected double _max;
+        protected int _halfCount;
 
         public ClosestOverDimension_OperatorCalculator_Base(
             OperatorCalculatorBase inputCalculator,
