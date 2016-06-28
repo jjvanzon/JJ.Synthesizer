@@ -24,36 +24,48 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                   dimensionStack)
         { }
 
+        protected override void RecalculateCollection()
+        {
+            base.RecalculateCollection();
+
+            for (int i = 0; i < _sortedItems.Length; i++)
+            {
+                _sortedItems[i] = Math.Log(_sortedItems[i]);
+            }
+
+            _min = Math.Log(_min);
+            _max = Math.Log(_max);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
             double input = _inputCalculator.Calculate();
+            double logInput = Math.Log(input);
 
-            double valueBefore;
-            double valueAfter;
+            double logValueBefore;
+            double logValueAfter;
 
+            // Fields are log'ed already.
             CollectionHelper.BinarySearchInexact(
                 _sortedItems,
                 _halfCount,
                 _min,
                 _max,
-                input,
-                out valueBefore,
-                out valueAfter);
+                logInput,
+                out logValueBefore,
+                out logValueAfter);
 
-            double inputLog = Math.Log(input);
+            double logDistanceBefore = Geometry.AbsoluteDistance(logInput, logValueBefore);
+            double logDistanceAfter = Geometry.AbsoluteDistance(logInput, logValueAfter);
 
-            double distanceBefore = Geometry.AbsoluteDistance(inputLog, Math.Log(valueBefore));
-            double distanceAfter = Geometry.AbsoluteDistance(inputLog, Math.Log(valueAfter));
-
-            if (distanceBefore <= distanceAfter)
+            if (logDistanceBefore <= logDistanceAfter)
             {
-                return valueBefore;
+                return Math.Exp(logValueBefore);
             }
             else
             {
-                return valueAfter;
+                return Math.Exp(logValueAfter);
             }
         }
     }
