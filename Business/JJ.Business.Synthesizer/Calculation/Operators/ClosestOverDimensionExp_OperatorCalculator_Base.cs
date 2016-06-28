@@ -30,30 +30,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             for (int i = 0; i < _sortedItems.Length; i++)
             {
-                _sortedItems[i] = Log(_sortedItems[i]);
+                _sortedItems[i] = Math.Log(_sortedItems[i]);
             }
 
-            _min = Log(_min);
-            _max = Log(_max);
+            _min = Math.Log(_min);
+            _max = Math.Log(_max);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            // By pre-calculating logs and doing it base 2 I can do:
-            // 2 logs, 1 div, 1 mul
-
-            // If I would go base e, I also could have gone for:
-            // 1 log e, 1 exp
-            // Which might not be faster. Exp isn't just 1 instruction either.
-
-            // If I would not pre-calculate logs, it would have been:
-            // 6 logs, 2 array indexers.
-            // (Each not-base-e log will be performed as 2 logs by .NET.
-            //  Perhaps it is time to start writing my own code for this.)
-
             double input = _inputCalculator.Calculate();
-            double logInput = Log(input);
+            double logInput = Math.Log(input);
 
             double logValueBefore;
             double logValueAfter;
@@ -73,25 +61,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             if (logDistanceBefore <= logDistanceAfter)
             {
-                return Pow(logValueBefore);
+                return Math.Exp(logValueBefore);
             }
             else
             {
-                return Pow(logValueAfter);
+                return Math.Exp(logValueAfter);
             }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private double Log(double value)
-        {
-            // Effectively performace 2 logs and a division.
-            return Math.Log(value);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private double Pow(double value)
-        {
-            return Math.Exp(value);
         }
     }
 }
