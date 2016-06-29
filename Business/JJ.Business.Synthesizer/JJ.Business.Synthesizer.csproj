@@ -53,6 +53,7 @@
     <Compile Include="Calculation\Arrays\ArrayCalculatorFactory.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculator_MinPositionZero_Hermite.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculator_MinPositionZero_Cubic.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_MinPositionZero_Stripe_NoRate.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculator_MinPositionZero_Stripe.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculator_MinPositionZero_Block.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculatorBase_Block.cs" />
@@ -101,6 +102,8 @@
     <Compile Include="Calculation\Operators\ClosestOverDimensionExp_OperatorCalculator_Base.cs" />
     <Compile Include="Calculation\Operators\ClosestOverDimensionExp_OperatorCalculator_CollectionRecalculationContinuous.cs" />
     <Compile Include="Calculation\Operators\ClosestOverDimensionExp_OperatorCalculator_CollectionRecalculationUponReset.cs" />
+    <Compile Include="Calculation\Operators\SortOverDimension_OperatorCalculator_CollectionRecalculationContinuous.cs" />
+    <Compile Include="Calculation\Operators\SortOverDimension_OperatorCalculator_CollectionRecalculationUponReset.cs" />
     <Compile Include="Calculation\Operators\MinOverDimension_OperatorCalculator_CollectionRecalculationContinuous.cs" />
     <Compile Include="Calculation\Operators\MaxOverDimension_OperatorCalculator_CollectionRecalculationContinuous.cs" />
     <Compile Include="Calculation\Operators\MinOverDimension_OperatorCalculator_CollectionRecalculationUponReset.cs" />

@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.Copies.FromFramework;
+using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal abstract class ClosestOverDimension_OperatorCalculator_Base : OperatorCalculatorBase_WithChildCalculators
+    internal abstract class SortOverDimension_OperatorCalculator_CollectionRecalculationUponReset 
+        : OperatorCalculatorBase_WithChildCalculators
     {
         protected readonly OperatorCalculatorBase _inputCalculator;
         private readonly OperatorCalculatorBase _collectionCalculator;
@@ -17,12 +18,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
-        protected double[] _sortedItems;
-        protected double _min;
-        protected double _max;
-        protected int _halfCount;
+        private ArrayCalculator_MinPositionZero_Stripe_NoRate _arrayCalculator;
 
-        public ClosestOverDimension_OperatorCalculator_Base(
+        public SortOverDimension_OperatorCalculator_CollectionRecalculationUponReset(
             OperatorCalculatorBase inputCalculator,
             OperatorCalculatorBase collectionCalculator,
             OperatorCalculatorBase fromCalculator,
@@ -54,31 +52,17 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double input = _inputCalculator.Calculate();
+#if !USE_INVAR_INDICES
+            double position = _dimensionStack.Get();
+#else
+            double position = _dimensionStack.Get(_dimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
 
-            double valueBefore;
-            double valueAfter;
-
-            CollectionHelper.BinarySearchInexact(
-                _sortedItems,
-                _halfCount,
-                _min,
-                _max,
-                input,
-                out valueBefore,
-                out valueAfter);
-
-            double distanceBefore = Geometry.AbsoluteDistance(input, valueBefore);
-            double distanceAfter = Geometry.AbsoluteDistance(input, valueAfter);
-
-            if (distanceBefore <= distanceAfter)
-            {
-                return valueBefore;
-            }
-            else
-            {
-                return valueAfter;
-            }
+            double value = _arrayCalculator.CalculateValue(position);
+            return value;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -111,10 +95,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             if (!ConversionHelper.CanCastToNonNegativeInt32(countDouble))
             {
-                _sortedItems = new double[0];
-                _min = 0;
-                _max = 0;
-                _halfCount = 0;
+                _arrayCalculator = new ArrayCalculator_MinPositionZero_Stripe_NoRate(new double[0]);
                 return;
             }
             int countInt = (int)countDouble;
@@ -141,10 +122,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             Array.Sort(items);
 
-            _sortedItems = items;
-            _min = _sortedItems[0];
-            _max = _sortedItems[countInt - 1];
-            _halfCount = countInt >> 1;
+            _arrayCalculator = new ArrayCalculator_MinPositionZero_Stripe_NoRate(items);
         }
     }
 }

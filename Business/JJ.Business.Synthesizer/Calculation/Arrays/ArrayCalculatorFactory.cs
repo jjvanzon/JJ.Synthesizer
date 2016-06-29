@@ -8,54 +8,6 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
 {
     internal static class ArrayCalculatorFactory
     {
-        public static ArrayCalculatorBase CreateArrayCalculator_RotatePosition(
-            double[] array,
-            double rate,
-            InterpolationTypeEnum interpolationTypeEnum)
-        {
-            switch (interpolationTypeEnum)
-            {
-                case InterpolationTypeEnum.Block:
-                    if (rate == 1.0)
-                    {
-                        return new ArrayCalculator_RotatePosition_Block_NoRate(array);
-                    }
-                    else
-                    {
-                        return new ArrayCalculator_RotatePosition_Block(array, rate);
-                    }
-
-                case InterpolationTypeEnum.Cubic:
-                    return new ArrayCalculator_RotatePosition_Cubic(array, rate);
-
-                case InterpolationTypeEnum.Hermite:
-                    return new ArrayCalculator_RotatePosition_Hermite(array, rate);
-
-                case InterpolationTypeEnum.Line:
-                    if (rate == 1.0)
-                    {
-                        return new ArrayCalculator_RotatePosition_Line_NoRate(array);
-                    }
-                    else
-                    {
-                        return new ArrayCalculator_RotatePosition_Line(array, rate);
-                    }
-
-                case InterpolationTypeEnum.Stripe:
-                    if (rate == 1.0)
-                    {
-                        return new ArrayCalculator_RotatePosition_Stripe_NoRate(array);
-                    }
-                    else
-                    {
-                        return new ArrayCalculator_RotatePosition_Stripe(array, rate);
-                    }
-
-                default:
-                    throw new ValueNotSupportedException(interpolationTypeEnum);
-            }
-        }
-
         public static ArrayCalculatorBase CreateArrayCalculator(
             double[] array,
             double rate,
@@ -79,7 +31,14 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
                         return new ArrayCalculator_MinPositionZero_Line(array, rate);
 
                     case InterpolationTypeEnum.Stripe:
-                        return new ArrayCalculator_MinPositionZero_Stripe(array, rate);
+                        if (rate == 1.0)
+                        {
+                            return new ArrayCalculator_MinPositionZero_Stripe_NoRate(array);
+                        }
+                        else
+                        {
+                            return new ArrayCalculator_MinPositionZero_Stripe(array, rate);
+                        }
 
                     default:
                         throw new ValueNotSupportedException(interpolationTypeEnum);
@@ -135,7 +94,14 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
                         return new ArrayCalculator_MinPositionZero_Line(array, rate, valueBefore, valueAfter);
 
                     case InterpolationTypeEnum.Stripe:
-                        return new ArrayCalculator_MinPositionZero_Stripe(array, rate, valueBefore, valueAfter);
+                        if (rate == 1.0)
+                        {
+                            return new ArrayCalculator_MinPositionZero_Stripe_NoRate(array, valueBefore, valueAfter);
+                        }
+                        else
+                        {
+                            return new ArrayCalculator_MinPositionZero_Stripe(array, rate, valueBefore, valueAfter);
+                        }
 
                     default:
                         throw new ValueNotSupportedException(interpolationTypeEnum);
@@ -163,6 +129,54 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
                     default:
                         throw new ValueNotSupportedException(interpolationTypeEnum);
                 }
+            }
+        }
+
+        public static ArrayCalculatorBase CreateArrayCalculator_RotatePosition(
+            double[] array,
+            double rate,
+            InterpolationTypeEnum interpolationTypeEnum)
+        {
+            switch (interpolationTypeEnum)
+            {
+                case InterpolationTypeEnum.Block:
+                    if (rate == 1.0)
+                    {
+                        return new ArrayCalculator_RotatePosition_Block_NoRate(array);
+                    }
+                    else
+                    {
+                        return new ArrayCalculator_RotatePosition_Block(array, rate);
+                    }
+
+                case InterpolationTypeEnum.Cubic:
+                    return new ArrayCalculator_RotatePosition_Cubic(array, rate);
+
+                case InterpolationTypeEnum.Hermite:
+                    return new ArrayCalculator_RotatePosition_Hermite(array, rate);
+
+                case InterpolationTypeEnum.Line:
+                    if (rate == 1.0)
+                    {
+                        return new ArrayCalculator_RotatePosition_Line_NoRate(array);
+                    }
+                    else
+                    {
+                        return new ArrayCalculator_RotatePosition_Line(array, rate);
+                    }
+
+                case InterpolationTypeEnum.Stripe:
+                    if (rate == 1.0)
+                    {
+                        return new ArrayCalculator_RotatePosition_Stripe_NoRate(array);
+                    }
+                    else
+                    {
+                        return new ArrayCalculator_RotatePosition_Stripe(array, rate);
+                    }
+
+                default:
+                    throw new ValueNotSupportedException(interpolationTypeEnum);
             }
         }
     }
