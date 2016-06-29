@@ -23,7 +23,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             OperatorTypeEnum.MakeContinuous,
             OperatorTypeEnum.Max,
             OperatorTypeEnum.Min,
-            OperatorTypeEnum.Multiply
+            OperatorTypeEnum.Multiply,
+            OperatorTypeEnum.Sort
         };
 
         private static readonly IList<string> _allowedOperatorTypeDisplayNames = _allowedOperatorTypeEnums.Select(x => ResourceHelper.GetDisplayName(x)).ToArray();

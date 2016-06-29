@@ -2001,90 +2001,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             VisitUnbundle(op);
         }
 
-        protected override void VisitMaxOverDimension(Operator op)
-        {
-            var wrapper = new MaxOverDimension_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
-
-            base.VisitMaxOverDimension(op);
-
-            OperatorCalculatorBase operatorCalculator;
-
-            OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase fromCalculator = _stack.Pop();
-            OperatorCalculatorBase tillCalculator = _stack.Pop();
-            OperatorCalculatorBase stepCalculator = _stack.Pop();
-
-            // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
-            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
-            fromCalculator = fromCalculator ?? new Zero_OperatorCalculator();
-            tillCalculator = tillCalculator ?? new Number_OperatorCalculator(15.0);
-            stepCalculator = stepCalculator ?? new One_OperatorCalculator();
-
-            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
-            bool fromIsConst = fromCalculator is Number_OperatorCalculator;
-            bool tillIsConst = tillCalculator is Number_OperatorCalculator;
-            bool stepIsConst = stepCalculator is Number_OperatorCalculator;
-
-            double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
-            double from = fromIsConst ? fromCalculator.Calculate() : 0.0;
-            double till = tillIsConst ? tillCalculator.Calculate() : 0.0;
-            double step = stepIsConst ? stepCalculator.Calculate() : 0.0;
-
-            bool stepIsConstZero = stepIsConst && step == 0.0;
-            bool stepIsConstNegative = stepIsConst && step < 0.0;
-            bool fromIsConstSpecialNumber = fromIsConst && DoubleHelper.IsSpecialNumber(from);
-            bool tillIsConstSpecialNumber = tillIsConst && DoubleHelper.IsSpecialNumber(till);
-            bool stepIsConstSpecialNumber = stepIsConst && DoubleHelper.IsSpecialNumber(step);
-
-            if (signalIsConst)
-            {
-                operatorCalculator = signalCalculator;
-            }
-            else if (stepIsConstZero)
-            {
-                operatorCalculator = new Zero_OperatorCalculator();
-            }
-            else if (stepIsConstNegative)
-            {
-                operatorCalculator = new Zero_OperatorCalculator();
-            }
-            else if (fromIsConstSpecialNumber || tillIsConstSpecialNumber || stepIsConstSpecialNumber)
-            {
-                operatorCalculator = new Number_OperatorCalculator(Double.NaN);
-            }
-            else
-            {
-                CollectionRecalculationEnum collectionRecalculationEnum = wrapper.CollectionRecalculation;
-                switch (collectionRecalculationEnum)
-                {
-                    case CollectionRecalculationEnum.Continuous:
-                        operatorCalculator = new MaxOverDimension_OperatorCalculator_CollectionRecalculationContinuous(
-                            signalCalculator,
-                            fromCalculator,
-                            tillCalculator,
-                            stepCalculator,
-                            dimensionStack);
-                        break;
-
-                    case CollectionRecalculationEnum.UponReset:
-                        operatorCalculator = new MaxOverDimension_OperatorCalculator_CollectionRecalculationUponReset(
-                            signalCalculator,
-                            fromCalculator,
-                            tillCalculator,
-                            stepCalculator,
-                            dimensionStack);
-                        break;
-
-                    default:
-                        throw new InvalidValueException(collectionRecalculationEnum);
-                }
-            }
-
-            _stack.Push(operatorCalculator);
-        }
-
         protected override void VisitMax(Operator op)
         {
             base.VisitMax(op);
@@ -2161,13 +2077,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitMinOverDimension(Operator op)
+        protected override void VisitMaxOverDimension(Operator op)
         {
-            var wrapper = new MinOverDimension_OperatorWrapper(op);
+            var wrapper = new MaxOverDimension_OperatorWrapper(op);
             DimensionEnum dimensionEnum = wrapper.Dimension;
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
-            base.VisitMinOverDimension(op);
+            base.VisitMaxOverDimension(op);
 
             OperatorCalculatorBase operatorCalculator;
 
@@ -2220,7 +2136,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 switch (collectionRecalculationEnum)
                 {
                     case CollectionRecalculationEnum.Continuous:
-                        operatorCalculator = new MinOverDimension_OperatorCalculator_CollectionRecalculationContinuous(
+                        operatorCalculator = new MaxOverDimension_OperatorCalculator_CollectionRecalculationContinuous(
                             signalCalculator,
                             fromCalculator,
                             tillCalculator,
@@ -2229,7 +2145,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                         break;
 
                     case CollectionRecalculationEnum.UponReset:
-                        operatorCalculator = new MinOverDimension_OperatorCalculator_CollectionRecalculationUponReset(
+                        operatorCalculator = new MaxOverDimension_OperatorCalculator_CollectionRecalculationUponReset(
                             signalCalculator,
                             fromCalculator,
                             tillCalculator,
@@ -2319,6 +2235,90 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
 
             _stack.Push(calculator);
+        }
+
+        protected override void VisitMinOverDimension(Operator op)
+        {
+            var wrapper = new MinOverDimension_OperatorWrapper(op);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+
+            base.VisitMinOverDimension(op);
+
+            OperatorCalculatorBase operatorCalculator;
+
+            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase fromCalculator = _stack.Pop();
+            OperatorCalculatorBase tillCalculator = _stack.Pop();
+            OperatorCalculatorBase stepCalculator = _stack.Pop();
+
+            // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
+            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
+            fromCalculator = fromCalculator ?? new Zero_OperatorCalculator();
+            tillCalculator = tillCalculator ?? new Number_OperatorCalculator(15.0);
+            stepCalculator = stepCalculator ?? new One_OperatorCalculator();
+
+            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+            bool fromIsConst = fromCalculator is Number_OperatorCalculator;
+            bool tillIsConst = tillCalculator is Number_OperatorCalculator;
+            bool stepIsConst = stepCalculator is Number_OperatorCalculator;
+
+            double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
+            double from = fromIsConst ? fromCalculator.Calculate() : 0.0;
+            double till = tillIsConst ? tillCalculator.Calculate() : 0.0;
+            double step = stepIsConst ? stepCalculator.Calculate() : 0.0;
+
+            bool stepIsConstZero = stepIsConst && step == 0.0;
+            bool stepIsConstNegative = stepIsConst && step < 0.0;
+            bool fromIsConstSpecialNumber = fromIsConst && DoubleHelper.IsSpecialNumber(from);
+            bool tillIsConstSpecialNumber = tillIsConst && DoubleHelper.IsSpecialNumber(till);
+            bool stepIsConstSpecialNumber = stepIsConst && DoubleHelper.IsSpecialNumber(step);
+
+            if (signalIsConst)
+            {
+                operatorCalculator = signalCalculator;
+            }
+            else if (stepIsConstZero)
+            {
+                operatorCalculator = new Zero_OperatorCalculator();
+            }
+            else if (stepIsConstNegative)
+            {
+                operatorCalculator = new Zero_OperatorCalculator();
+            }
+            else if (fromIsConstSpecialNumber || tillIsConstSpecialNumber || stepIsConstSpecialNumber)
+            {
+                operatorCalculator = new Number_OperatorCalculator(Double.NaN);
+            }
+            else
+            {
+                CollectionRecalculationEnum collectionRecalculationEnum = wrapper.CollectionRecalculation;
+                switch (collectionRecalculationEnum)
+                {
+                    case CollectionRecalculationEnum.Continuous:
+                        operatorCalculator = new MinOverDimension_OperatorCalculator_CollectionRecalculationContinuous(
+                            signalCalculator,
+                            fromCalculator,
+                            tillCalculator,
+                            stepCalculator,
+                            dimensionStack);
+                        break;
+
+                    case CollectionRecalculationEnum.UponReset:
+                        operatorCalculator = new MinOverDimension_OperatorCalculator_CollectionRecalculationUponReset(
+                            signalCalculator,
+                            fromCalculator,
+                            tillCalculator,
+                            stepCalculator,
+                            dimensionStack);
+                        break;
+
+                    default:
+                        throw new InvalidValueException(collectionRecalculationEnum);
+                }
+            }
+
+            _stack.Push(operatorCalculator);
         }
 
         protected override void VisitMultiply(Operator op)
@@ -3906,6 +3906,133 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
 
             _stack.Push(calculator);
+        }
+
+        protected override void VisitSort(Operator op)
+        {
+            base.VisitSort(op);
+
+            OperatorCalculatorBase calculator;
+
+            IList<OperatorCalculatorBase> operandCalculators = new List<OperatorCalculatorBase>(op.Inlets.Count);
+            for (int i = 0; i < op.Inlets.Count; i++)
+            {
+                OperatorCalculatorBase operandCalculator = _stack.Pop();
+                operandCalculators.Add(operandCalculator);
+            }
+
+            operandCalculators = operandCalculators.Where(x => x != null).ToArray();
+
+            switch (operandCalculators.Count)
+            {
+                case 0:
+                    calculator = new Zero_OperatorCalculator();
+                    break;
+
+                case 1:
+                    // Also covers the 'all are const' situation, since all consts are aggregated to one in earlier code.
+                    calculator = operandCalculators[0];
+                    break;
+
+                case 2:
+                    OperatorCalculatorBase aCalculator = operandCalculators[0];
+                    OperatorCalculatorBase bCalculator = operandCalculators[1];
+                    throw new NotImplementedException();
+                    //calculator = new Sort_OperatorCalculator_TwoOperands(aCalculator, bCalculator);
+                    break;
+
+                default:
+                    //calculator = new Sort_OperatorCalculator_MoreThanTwoOperands(operandCalculators);
+                    throw new NotImplementedException();
+                    break;
+            }
+
+            _stack.Push(calculator);
+        }
+
+        protected override void VisitSortOverDimension(Operator op)
+        {
+            var wrapper = new SortOverDimension_OperatorWrapper(op);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+
+            base.VisitSortOverDimension(op);
+
+            OperatorCalculatorBase operatorCalculator;
+
+            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase fromCalculator = _stack.Pop();
+            OperatorCalculatorBase tillCalculator = _stack.Pop();
+            OperatorCalculatorBase stepCalculator = _stack.Pop();
+
+            // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
+            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
+            fromCalculator = fromCalculator ?? new Zero_OperatorCalculator();
+            tillCalculator = tillCalculator ?? new Number_OperatorCalculator(15.0);
+            stepCalculator = stepCalculator ?? new One_OperatorCalculator();
+
+            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+            bool fromIsConst = fromCalculator is Number_OperatorCalculator;
+            bool tillIsConst = tillCalculator is Number_OperatorCalculator;
+            bool stepIsConst = stepCalculator is Number_OperatorCalculator;
+
+            double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
+            double from = fromIsConst ? fromCalculator.Calculate() : 0.0;
+            double till = tillIsConst ? tillCalculator.Calculate() : 0.0;
+            double step = stepIsConst ? stepCalculator.Calculate() : 0.0;
+
+            bool stepIsConstZero = stepIsConst && step == 0.0;
+            bool stepIsConstNegative = stepIsConst && step < 0.0;
+            bool fromIsConstSpecialNumber = fromIsConst && DoubleHelper.IsSpecialNumber(from);
+            bool tillIsConstSpecialNumber = tillIsConst && DoubleHelper.IsSpecialNumber(till);
+            bool stepIsConstSpecialNumber = stepIsConst && DoubleHelper.IsSpecialNumber(step);
+
+            if (signalIsConst)
+            {
+                operatorCalculator = signalCalculator;
+            }
+            else if (stepIsConstZero)
+            {
+                operatorCalculator = new Zero_OperatorCalculator();
+            }
+            else if (stepIsConstNegative)
+            {
+                operatorCalculator = new Zero_OperatorCalculator();
+            }
+            else if (fromIsConstSpecialNumber || tillIsConstSpecialNumber || stepIsConstSpecialNumber)
+            {
+                operatorCalculator = new Number_OperatorCalculator(Double.NaN);
+            }
+            else
+            {
+                CollectionRecalculationEnum collectionRecalculationEnum = wrapper.CollectionRecalculation;
+                switch (collectionRecalculationEnum)
+                {
+                    case CollectionRecalculationEnum.Continuous:
+                        throw new NotImplementedException();
+                        //operatorCalculator = new SortOverDimension_OperatorCalculator_CollectionRecalculationContinuous(
+                        //    signalCalculator,
+                        //    fromCalculator,
+                        //    tillCalculator,
+                        //    stepCalculator,
+                        //    dimensionStack);
+                        break;
+
+                    case CollectionRecalculationEnum.UponReset:
+                        operatorCalculator = new SortOverDimension_OperatorCalculator_CollectionRecalculationUponReset(
+                            signalCalculator,
+                            fromCalculator,
+                            tillCalculator,
+                            stepCalculator,
+                            dimensionStack);
+                        break;
+
+                    default:
+                        throw new InvalidValueException(collectionRecalculationEnum);
+                }
+            }
+
+            _stack.Push(operatorCalculator);
         }
 
         protected override void VisitSpectrum(Operator op)

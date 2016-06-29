@@ -227,6 +227,8 @@
     <Compile Include="EntityWrappers\ClosestOverDimensionExp_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Closest_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\ClosestOverDimension_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\Sort_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\SortOverDimension_OperatorWrapper.cs" />
     <Compile Include="Helpers\OperatorCalculatorFactory.CreateAddCalculatorOnlyVars.cs">
       <DependentUpon>OperatorCalculatorFactory.CreateAddCalculatorOnlyVars.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -424,6 +426,8 @@
     <Compile Include="Validation\Operators\ClosestOverDimension_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\ClosestExp_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Closest_OperatorValidator.cs" />
+    <Compile Include="Validation\Operators\SortOverDimension_OperatorValidator.cs" />
+    <Compile Include="Validation\Operators\Sort_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_Base_AggregateOverDimension.cs" />
     <Compile Include="Validation\Operators\Multiply_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\SumFollower_OperatorValidator.cs" />
@@ -493,6 +497,8 @@
     <Compile Include="Warnings\Operators\ClosestExp_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\ClosestOverDimensionExp_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\ClosestOverDimension_OperatorWarningValidator.cs" />
+    <Compile Include="Warnings\Operators\SortOverDimension_OperatorWarningValidator.cs" />
+    <Compile Include="Warnings\Operators\Sort_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Multiply_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Closest_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\SumFollower_OperatorWarningValidator.cs" />

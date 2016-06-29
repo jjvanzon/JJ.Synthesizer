@@ -1879,6 +1879,24 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sort.
+        /// </summary>
+        public static string Sort {
+            get {
+                return ResourceManager.GetString("Sort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sort over Dimension.
+        /// </summary>
+        public static string SortOverDimension {
+            get {
+                return ResourceManager.GetString("SortOverDimension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Source Value A.
         /// </summary>
         public static string SourceValueA {

@@ -82,6 +82,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             { OperatorTypeEnum.Shift, typeof(Shift_OperatorValidator) },
             { OperatorTypeEnum.Sine, typeof(Sine_OperatorValidator) },
             { OperatorTypeEnum.SlowDown, typeof(SlowDown_OperatorValidator) },
+            { OperatorTypeEnum.Sort, typeof(Sort_OperatorValidator) },
+            { OperatorTypeEnum.SortOverDimension, typeof(SortOverDimension_OperatorValidator) },
             { OperatorTypeEnum.Spectrum, typeof(Spectrum_OperatorValidator) },
             { OperatorTypeEnum.SpeedUp, typeof(SpeedUp_OperatorValidator) },
             { OperatorTypeEnum.Square, typeof(Square_OperatorValidator) },

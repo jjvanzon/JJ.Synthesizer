@@ -80,6 +80,8 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             { OperatorTypeEnum.SetDimension, null },
             { OperatorTypeEnum.Shift, typeof(Shift_OperatorWarningValidator) },
             { OperatorTypeEnum.Sine, typeof(Sine_OperatorWarningValidator) },
+            { OperatorTypeEnum.Sort, typeof(Sort_OperatorWarningValidator) },
+            { OperatorTypeEnum.SortOverDimension, typeof(SortOverDimension_OperatorWarningValidator) },
             { OperatorTypeEnum.SlowDown, typeof(SlowDown_OperatorWarningValidator) },
             { OperatorTypeEnum.Spectrum, typeof(Spectrum_OperatorWarningValidator) },
             { OperatorTypeEnum.SpeedUp, typeof(SpeedUp_OperatorWarningValidator) },

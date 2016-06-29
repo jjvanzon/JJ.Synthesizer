@@ -88,6 +88,8 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             RepositoryHelper.EnsureEnumEntity(this, 79, "ClosestOverDimension");
             RepositoryHelper.EnsureEnumEntity(this, 80, "ClosestExp");
             RepositoryHelper.EnsureEnumEntity(this, 81, "ClosestOverDimensionExp");
+            RepositoryHelper.EnsureEnumEntity(this, 82, "Sort");
+            RepositoryHelper.EnsureEnumEntity(this, 83, "SortOverDimension");
         }
     }
 }

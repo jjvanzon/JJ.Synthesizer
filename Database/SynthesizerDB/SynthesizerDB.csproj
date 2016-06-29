@@ -95,6 +95,8 @@
     <Content Include="2015-10-26 010 SynthesizerDB Operator Type 25 - Loop.sql" />
     <Content Include="2015-11-07 030 SynthesizerDB rename OperatorType TimeSubtract to Earlier - Copy.sql" />
     <Content Include="2016-06-23 040 SynthesizerDB RUN UTILITY.sql" />
+    <Content Include="2016-06-29 020 SynthesizerDB OperatorType 83 - SortOverDimension.sql" />
+    <Content Include="2016-06-29 010 SynthesizerDB OperatorType 82 - Sort.sql" />
     <Content Include="2016-06-27 020 SynthesizerDB OperatorType 81 - ClosestOverDimensionExp.sql" />
     <Content Include="2016-06-27 010 SynthesizerDB OperatorType 80 - ClosestExp.sql" />
     <Content Include="2016-06-26 010 SynthesizerDB RUN UTILITY.sql" />

@@ -50,12 +50,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.LowPassFilter, VisitLowPassFilter },
                 { OperatorTypeEnum.MakeContinuous, VisitMakeContinuous },
                 { OperatorTypeEnum.MakeDiscrete, VisitMakeDiscrete },
-                { OperatorTypeEnum.MaxOverDimension, VisitMaxOverDimension },
                 { OperatorTypeEnum.Max, VisitMax },
                 { OperatorTypeEnum.MaxFollower, VisitMaxFollower },
-                { OperatorTypeEnum.MinOverDimension, VisitMinOverDimension },
+                { OperatorTypeEnum.MaxOverDimension, VisitMaxOverDimension },
                 { OperatorTypeEnum.Min, VisitMin },
                 { OperatorTypeEnum.MinFollower, VisitMinFollower },
+                { OperatorTypeEnum.MinOverDimension, VisitMinOverDimension },
                 { OperatorTypeEnum.Multiply, VisitMultiply },
                 { OperatorTypeEnum.MultiplyWithOrigin, VisitMultiplyWithOrigin },
                 { OperatorTypeEnum.Narrower, VisitNarrower },
@@ -86,6 +86,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.Shift, VisitShift },
                 { OperatorTypeEnum.Sine, VisitSine },
                 { OperatorTypeEnum.SlowDown, VisitSlowDown },
+                { OperatorTypeEnum.Sort, VisitSort },
+                { OperatorTypeEnum.SortOverDimension, VisitSortOverDimension },
                 { OperatorTypeEnum.Spectrum, VisitSpectrum },
                 { OperatorTypeEnum.SpeedUp, VisitSpeedUp },
                 { OperatorTypeEnum.Square, VisitSquare },
@@ -561,6 +563,18 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         [DebuggerHidden]
         protected virtual void VisitSlowDown(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
+
+        [DebuggerHidden]
+        protected virtual void VisitSort(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
+
+        [DebuggerHidden]
+        protected virtual void VisitSortOverDimension(Operator op)
         {
             VisitOperatorBase(op);
         }

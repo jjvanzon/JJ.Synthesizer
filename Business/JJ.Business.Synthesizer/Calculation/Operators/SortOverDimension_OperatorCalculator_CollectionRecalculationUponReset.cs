@@ -7,11 +7,10 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal abstract class SortOverDimension_OperatorCalculator_CollectionRecalculationUponReset 
+    internal class SortOverDimension_OperatorCalculator_CollectionRecalculationUponReset
         : OperatorCalculatorBase_WithChildCalculators
     {
-        protected readonly OperatorCalculatorBase _inputCalculator;
-        private readonly OperatorCalculatorBase _collectionCalculator;
+        private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _fromCalculator;
         private readonly OperatorCalculatorBase _tillCalculator;
         private readonly OperatorCalculatorBase _stepCalculator;
@@ -21,16 +20,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private ArrayCalculator_MinPositionZero_Stripe_NoRate _arrayCalculator;
 
         public SortOverDimension_OperatorCalculator_CollectionRecalculationUponReset(
-            OperatorCalculatorBase inputCalculator,
-            OperatorCalculatorBase collectionCalculator,
+            OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase fromCalculator,
             OperatorCalculatorBase tillCalculator,
             OperatorCalculatorBase stepCalculator,
             DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[]
             {
-                inputCalculator,
-                collectionCalculator,
+                signalCalculator,
                 fromCalculator,
                 tillCalculator,
                 stepCalculator
@@ -38,8 +35,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
 
-            _inputCalculator = inputCalculator;
-            _collectionCalculator = collectionCalculator;
+            _signalCalculator = signalCalculator;
             _fromCalculator = fromCalculator;
             _tillCalculator = tillCalculator;
             _stepCalculator = stepCalculator;
@@ -114,7 +110,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #else
                 _dimensionStack.Set(_dimensionStackIndex, position);
 #endif
-                double item = _collectionCalculator.Calculate();
+                double item = _signalCalculator.Calculate();
                 items[i] = item;
 
                 position += step;

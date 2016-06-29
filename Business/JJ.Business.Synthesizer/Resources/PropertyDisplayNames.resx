@@ -862,4 +862,10 @@
     <value>Closest over Dimension Exp</value>
     <comment>'Exp' is an abbrevation of 'exponential'.</comment>
   </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Sort</value>
+  </data>
+  <data name="SortOverDimension" xml:space="preserve">
+    <value>Sort over Dimension</value>
+  </data>
 </root>

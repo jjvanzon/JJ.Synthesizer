@@ -860,4 +860,10 @@
   <data name="ClosestOverDimensionExp" xml:space="preserve">
     <value>Dichtstbijzijnd over dimensie exp</value>
   </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Sorteren</value>
+  </data>
+  <data name="SortOverDimension" xml:space="preserve">
+    <value>Sorteren over dimensie</value>
+  </data>
 </root>

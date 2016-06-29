@@ -31,6 +31,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.ClosestOverDimensionExp,
             OperatorTypeEnum.MaxOverDimension,
             OperatorTypeEnum.MinOverDimension,
+            OperatorTypeEnum.SortOverDimension,
             OperatorTypeEnum.SumOverDimension
         };
 
@@ -87,7 +88,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.ClosestExp,
             OperatorTypeEnum.Max,
             OperatorTypeEnum.Min,
-            OperatorTypeEnum.Multiply
+            OperatorTypeEnum.Multiply,
+            OperatorTypeEnum.Sort
         };
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithTheirOwnPropertyViews { get; } =

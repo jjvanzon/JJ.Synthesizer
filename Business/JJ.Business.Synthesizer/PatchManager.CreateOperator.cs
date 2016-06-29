@@ -766,32 +766,6 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public MaxOverDimension_OperatorWrapper MaxOverDimension(
-            Outlet signal = null,
-            Outlet from = null, 
-            Outlet till = null, 
-            Outlet step = null, 
-            DimensionEnum dimension = DimensionEnum.Undefined,
-            CollectionRecalculationEnum collectionRecalculation = CollectionRecalculationEnum.Continuous)
-        {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.MaxOverDimension, inletCount: 4, outletCount: 1);
-
-            var wrapper = new MaxOverDimension_OperatorWrapper(op)
-            {
-                Signal = signal,
-                From = from,
-                Till = till,
-                Step = step,
-                Dimension = dimension,
-                CollectionRecalculation = collectionRecalculation
-            };
-
-            VoidResult result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
-
-            return wrapper;
-        }
-
         public Max_OperatorWrapper Max(params Outlet[] operands)
         {
             return Max((IList<Outlet>)operands);
@@ -832,7 +806,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public MinOverDimension_OperatorWrapper MinOverDimension(
+        public MaxOverDimension_OperatorWrapper MaxOverDimension(
             Outlet signal = null,
             Outlet from = null,
             Outlet till = null,
@@ -840,9 +814,9 @@ namespace JJ.Business.Synthesizer
             DimensionEnum dimension = DimensionEnum.Undefined,
             CollectionRecalculationEnum collectionRecalculation = CollectionRecalculationEnum.Continuous)
         {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.MinOverDimension, inletCount: 4, outletCount: 1);
+            Operator op = CreateOperatorBase(OperatorTypeEnum.MaxOverDimension, inletCount: 4, outletCount: 1);
 
-            var wrapper = new MinOverDimension_OperatorWrapper(op)
+            var wrapper = new MaxOverDimension_OperatorWrapper(op)
             {
                 Signal = signal,
                 From = from,
@@ -879,7 +853,7 @@ namespace JJ.Business.Synthesizer
         public MinFollower_OperatorWrapper MinFollower(
             Outlet signal = null,
             Outlet sliceLength = null,
-            Outlet sampleCount = null, 
+            Outlet sampleCount = null,
             DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.MinFollower, inletCount: 3, outletCount: 1);
@@ -898,6 +872,31 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        public MinOverDimension_OperatorWrapper MinOverDimension(
+            Outlet signal = null,
+            Outlet from = null,
+            Outlet till = null,
+            Outlet step = null,
+            DimensionEnum dimension = DimensionEnum.Undefined,
+            CollectionRecalculationEnum collectionRecalculation = CollectionRecalculationEnum.Continuous)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.MinOverDimension, inletCount: 4, outletCount: 1);
+
+            var wrapper = new MinOverDimension_OperatorWrapper(op)
+            {
+                Signal = signal,
+                From = from,
+                Till = till,
+                Step = step,
+                Dimension = dimension,
+                CollectionRecalculation = collectionRecalculation
+            };
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
 
         public Multiply_OperatorWrapper Multiply(params Outlet[] operands)
         {
@@ -1484,6 +1483,50 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        public Sort_OperatorWrapper Sort(params Outlet[] operands)
+        {
+            return Sort((IList<Outlet>)operands);
+        }
+
+        public Sort_OperatorWrapper Sort(IList<Outlet> operands)
+        {
+            if (operands == null) throw new NullException(() => operands);
+
+            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.Sort, operands);
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            var wrapper = new Sort_OperatorWrapper(op);
+            return wrapper;
+        }
+
+        public SortOverDimension_OperatorWrapper SortOverDimension(
+            Outlet signal = null,
+            Outlet from = null,
+            Outlet till = null,
+            Outlet step = null,
+            DimensionEnum dimension = DimensionEnum.Undefined,
+            CollectionRecalculationEnum collectionRecalculation = CollectionRecalculationEnum.Continuous)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.SortOverDimension, inletCount: 4, outletCount: 1);
+
+            var wrapper = new SortOverDimension_OperatorWrapper(op)
+            {
+                Signal = signal,
+                From = from,
+                Till = till,
+                Step = step,
+                Dimension = dimension,
+                CollectionRecalculation = collectionRecalculation
+            };
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
         public Spectrum_OperatorWrapper Spectrum(Outlet signal = null, Outlet startTime = null, Outlet endTime = null, Outlet frequencyCount = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Spectrum, inletCount: 4, outletCount: 1);
@@ -1834,6 +1877,8 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.Shift: return Shift();
                 case OperatorTypeEnum.Sine: return Sine();
                 case OperatorTypeEnum.SlowDown: return SlowDown();
+                case OperatorTypeEnum.Sort: return Sort(new Outlet[variableInletOrOutletCount]);
+                case OperatorTypeEnum.SortOverDimension: return SortOverDimension();
                 case OperatorTypeEnum.Spectrum: return Spectrum();
                 case OperatorTypeEnum.SpeedUp: return SpeedUp();
                 case OperatorTypeEnum.Square: return Square();

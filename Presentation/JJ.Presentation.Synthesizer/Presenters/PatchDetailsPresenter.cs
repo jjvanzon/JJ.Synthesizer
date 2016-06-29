@@ -28,6 +28,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private const int DEFAULT_ADD_INLET_COUNT = 2;
         private const int DEFAULT_MULTIPLY_INLET_COUNT = 3;
         private const int DEFAULT_CLOSEST_ITEM_COUNT = 3;
+        private const int DEFAULT_SORT_INLET_COUNT = 8;
         private static double _patchPlayDuration = GetPatchPlayDuration();
         private static string _patchPlayOutputFilePath = GetPatchPlayOutputFilePath();
 
@@ -464,6 +465,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 case OperatorTypeEnum.Closest:
                 case OperatorTypeEnum.ClosestExp:
                     return DEFAULT_CLOSEST_ITEM_COUNT;
+
+                case OperatorTypeEnum.Sort:
+                    return DEFAULT_SORT_INLET_COUNT;
 
                 default:
                     return DEFAULT_VARIABLE_INLET_OR_OUTLET_COUNT;

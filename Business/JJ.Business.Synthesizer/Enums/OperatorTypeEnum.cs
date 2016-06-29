@@ -130,6 +130,8 @@
         Closest = 78,
         ClosestOverDimension = 79,
         ClosestExp = 80,
-        ClosestOverDimensionExp = 81
+        ClosestOverDimensionExp = 81,
+        Sort = 82,
+        SortOverDimension = 83
     }
 }
