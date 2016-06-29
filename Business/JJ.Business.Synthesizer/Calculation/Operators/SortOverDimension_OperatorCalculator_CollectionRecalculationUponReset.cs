@@ -72,7 +72,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         /// <summary> does nothing </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual void ResetNonRecursive()
-        { }
+        {
+            RecalculateCollection();
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual void RecalculateCollection()
