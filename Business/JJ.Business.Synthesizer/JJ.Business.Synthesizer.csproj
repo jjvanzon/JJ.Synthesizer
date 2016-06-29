@@ -103,7 +103,7 @@
     <Compile Include="Calculation\Operators\ClosestOverDimensionExp_OperatorCalculator_CollectionRecalculationContinuous.cs" />
     <Compile Include="Calculation\Operators\ClosestOverDimensionExp_OperatorCalculator_CollectionRecalculationUponReset.cs" />
     <Compile Include="Calculation\Operators\SortOverDimension_OperatorCalculator_CollectionRecalculationContinuous.cs" />
-    <Compile Include="Calculation\Operators\SortOverDimension_OperatorCalculator_CollectionRecalculationUponReset.cs" />
+    <Compile Include="Calculation\Operators\SortOverDimension_OperatorCalculator_Base.cs" />
     <Compile Include="Calculation\Operators\MinOverDimension_OperatorCalculator_CollectionRecalculationContinuous.cs" />
     <Compile Include="Calculation\Operators\MaxOverDimension_OperatorCalculator_CollectionRecalculationContinuous.cs" />
     <Compile Include="Calculation\Operators\MinOverDimension_OperatorCalculator_CollectionRecalculationUponReset.cs" />
@@ -124,6 +124,7 @@
     <Compile Include="Calculation\Operators\Multiply_OperatorCalculator_WithOperandArray.cs" />
     <Compile Include="Calculation\Operators\ClosestOverDimension_OperatorCalculator_Base.cs" />
     <Compile Include="Calculation\Operators\ClosestOverDimension_OperatorCalculator_CollectionRecalculationContinuous.cs" />
+    <Compile Include="Calculation\Operators\SortOverDimension_OperatorCalculator_CollectionRecalculationUponReset.cs" />
     <Compile Include="Calculation\Operators\SumOverDimension_OperatorCalculator_CollectionRecalculationContinuous.cs" />
     <Compile Include="Calculation\Operators\ClosestOverDimension_OperatorCalculator_CollectionRecalculationUponReset.cs" />
     <Compile Include="Calculation\Operators\SumOverDimension_OperatorCalculator_CollectionRecalculationUponReset.cs" />

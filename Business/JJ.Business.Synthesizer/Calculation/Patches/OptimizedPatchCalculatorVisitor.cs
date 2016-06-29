@@ -4009,13 +4009,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 switch (collectionRecalculationEnum)
                 {
                     case CollectionRecalculationEnum.Continuous:
-                        throw new NotImplementedException();
-                        //operatorCalculator = new SortOverDimension_OperatorCalculator_CollectionRecalculationContinuous(
-                        //    signalCalculator,
-                        //    fromCalculator,
-                        //    tillCalculator,
-                        //    stepCalculator,
-                        //    dimensionStack);
+                        operatorCalculator = new SortOverDimension_OperatorCalculator_CollectionRecalculationContinuous(
+                            signalCalculator,
+                            fromCalculator,
+                            tillCalculator,
+                            stepCalculator,
+                            dimensionStack);
                         break;
 
                     case CollectionRecalculationEnum.UponReset:
