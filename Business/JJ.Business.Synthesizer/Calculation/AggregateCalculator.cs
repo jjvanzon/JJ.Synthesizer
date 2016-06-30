@@ -16,7 +16,9 @@ namespace JJ.Business.Synthesizer.Calculation
             if (items == null) throw new NullException(() => items);
             if (items.Count < 1) throw new NullException(() => items);
 
-            return Closest(input, items[0], items.Skip(1).ToArray());
+            double[] remaingItems = items.Skip(1).ToArray();
+
+            return Closest(input, items[0], remaingItems, remaingItems.Length);
         }
 
         /// <summary> Slower than the other overload. </summary>
@@ -26,17 +28,19 @@ namespace JJ.Business.Synthesizer.Calculation
             if (items == null) throw new NullException(() => items);
             if (items.Count < 1) throw new NullException(() => items);
 
-            return ClosestExp(input, items[0], items.Skip(1).ToArray());
+            double[] remaingItems = items.Skip(1).ToArray();
+
+            return ClosestExp(input, items[0], remaingItems, remaingItems.Length);
         }
 
-        /// <summary> Null-checks omitted for performance. </summary>
+        /// <summary> Null-checks a.o. omitted for performance. </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double Closest(double input, double firstItem, double[] remainingItems)
+        public static double Closest(double input, double firstItem, double[] remainingItems, int remainingItemsCount)
         {
             double smallestDistance = Geometry.AbsoluteDistance(input, firstItem);
             double closestItem = firstItem;
 
-            for (int i = 0; i < remainingItems.Length; i++)
+            for (int i = 0; i < remainingItemsCount; i++)
             {
                 double item = remainingItems[i];
 
@@ -52,16 +56,16 @@ namespace JJ.Business.Synthesizer.Calculation
             return closestItem;
         }
 
-        /// <summary> Null-checks omitted for performance. </summary>
+        /// <summary> Null-checks a.o. omitted for performance. </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double ClosestExp(double input, double firstItem, double[] remainingItems)
+        public static double ClosestExp(double input, double firstItem, double[] remainingItems, int remainingItemsCount)
         {
             double logInput = Math.Log(input);
 
             double smallestDistance = Geometry.AbsoluteDistance(logInput, Math.Log(firstItem));
             double closestItem = firstItem;
 
-            for (int i = 0; i < remainingItems.Length; i++)
+            for (int i = 0; i < remainingItemsCount; i++)
             {
                 double item = remainingItems[i];
 

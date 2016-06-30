@@ -11,6 +11,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _inputCalculator;
         private readonly OperatorCalculatorBase _firstItemCalculators;
         private readonly OperatorCalculatorBase[] _remainingItemCalculators;
+        private readonly int _remainingItemCalculatorsCount;
 
         public ClosestExp_OperatorCalculator_AllVars(
             OperatorCalculatorBase inputCalculator,
@@ -24,6 +25,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _inputCalculator = inputCalculator;
             _firstItemCalculators = itemCalculators.First();
             _remainingItemCalculators = itemCalculators.Skip(1).ToArray();
+            _remainingItemCalculatorsCount = _remainingItemCalculators.Length;
         }
 
         public override double Calculate()
@@ -36,7 +38,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double smallestDistance = Geometry.AbsoluteDistance(logInput, Math.Log(firstItem));
             double closestItem = firstItem;
 
-            for (int i = 0; i < _remainingItemCalculators.Length; i++)
+            for (int i = 0; i < _remainingItemCalculatorsCount; i++)
             {
                 OperatorCalculatorBase itemCalculator = _remainingItemCalculators[i];
                 double item = itemCalculator.Calculate();
@@ -58,6 +60,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _inputCalculator;
         private readonly double _firstItem;
         private readonly double[] _remainingItems;
+        private readonly int _remainingItemsCount;
 
         public ClosestExp_OperatorCalculator_VarInput_ConstItems(
             OperatorCalculatorBase inputCalculator,
@@ -71,13 +74,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _inputCalculator = inputCalculator;
             _firstItem = items[0];
             _remainingItems = items.Skip(1).ToArray();
+            _remainingItemsCount = _remainingItems.Length;
         }
 
         public override double Calculate()
         {
             double input = _inputCalculator.Calculate();
 
-            double result = AggregateCalculator.ClosestExp(input, _firstItem, _remainingItems);
+            double result = AggregateCalculator.ClosestExp(input, _firstItem, _remainingItems, _remainingItemsCount);
 
             return result;
         }

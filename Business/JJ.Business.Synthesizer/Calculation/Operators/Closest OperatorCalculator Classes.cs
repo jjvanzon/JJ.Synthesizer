@@ -58,6 +58,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _inputCalculator;
         private readonly double _firstItem;
         private readonly double[] _remainingItems;
+        private readonly int _remainingItemsLength;
 
         public Closest_OperatorCalculator_VarInput_ConstItems(
             OperatorCalculatorBase inputCalculator,
@@ -71,13 +72,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _inputCalculator = inputCalculator;
             _firstItem = items[0];
             _remainingItems = items.Skip(1).ToArray();
+            _remainingItemsLength = _remainingItems.Length;
         }
 
         public override double Calculate()
         {
             double input = _inputCalculator.Calculate();
 
-            double result = AggregateCalculator.Closest(input, _firstItem, _remainingItems);
+            double result = AggregateCalculator.Closest(input, _firstItem, _remainingItems, _remainingItemsLength);
 
             return result;
         }

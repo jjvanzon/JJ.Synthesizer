@@ -10,6 +10,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal abstract class OperatorCalculatorBase_WithChildCalculators : OperatorCalculatorBase
     {
         private readonly OperatorCalculatorBase[] _childOperatorCalculators;
+        private readonly int _childOperatorCalculatorsCount;
 
         public OperatorCalculatorBase_WithChildCalculators(IList<OperatorCalculatorBase> childOperatorCalculators)
         {
@@ -18,13 +19,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (childOperatorCalculators.Contains(null)) throw new HasNullsException(() => childOperatorCalculators);
 
             _childOperatorCalculators = childOperatorCalculators.ToArray();
+            _childOperatorCalculatorsCount = _childOperatorCalculators.Length;
         }
 
         /// <summary> Base implementation resets the state of the ChildOperatorCalculators. </summary>
         [DebuggerHidden]
         public override void Reset()
         {
-            for (int i = 0; i < _childOperatorCalculators.Length; i++)
+            for (int i = 0; i < _childOperatorCalculatorsCount; i++)
             {
                 OperatorCalculatorBase childOperatorCalculator = _childOperatorCalculators[i];
                 childOperatorCalculator.Reset();

@@ -10,6 +10,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly double _constValue;
         private readonly OperatorCalculatorBase[] _varOperandCalculators;
+        private readonly int _varOperandCalculatorsCount;
 
         public Add_OperatorCalculator_WithConst_WithOperandArray(double constValue, IList<OperatorCalculatorBase> varOperandCalculators)
             : base(varOperandCalculators)
@@ -19,6 +20,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _constValue = constValue;
 
             _varOperandCalculators = varOperandCalculators.ToArray();
+            _varOperandCalculatorsCount = _varOperandCalculators.Length;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -26,7 +28,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double sum = _constValue;
 
-            for (int i = 0; i < _varOperandCalculators.Length; i++)
+            for (int i = 0; i < _varOperandCalculatorsCount; i++)
             {
                 double value = _varOperandCalculators[i].Calculate();
 

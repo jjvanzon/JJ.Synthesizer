@@ -10,6 +10,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly OperatorCalculatorBase _firstOperandCalculator;
         private readonly OperatorCalculatorBase[] _remainingOperandCalculators;
+        private readonly int _remainingOperandCalculatorsCount;
 
         public Add_OperatorCalculator_WithOperandArray(IList<OperatorCalculatorBase> operandCalculators)
             : base(operandCalculators)
@@ -19,6 +20,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             _firstOperandCalculator = operandCalculators.First();
             _remainingOperandCalculators = operandCalculators.Skip(1).ToArray();
+            _remainingOperandCalculatorsCount = _remainingOperandCalculators.Length;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -26,7 +28,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double sum = _firstOperandCalculator.Calculate();
 
-            for (int i = 0; i < _remainingOperandCalculators.Length; i++)
+            for (int i = 0; i < _remainingOperandCalculatorsCount; i++)
             {
                 double value = _remainingOperandCalculators[i].Calculate();
 

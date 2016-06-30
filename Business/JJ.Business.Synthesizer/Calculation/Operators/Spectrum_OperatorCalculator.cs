@@ -22,6 +22,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly LomontFFT _lomontFFT;
 
         private double[] _harmonicVolumes;
+        private int _harmonicVolumesCount;
 
         private double _previousTime;
 
@@ -95,6 +96,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             _previousTime = time;
             _harmonicVolumes = CreateHarmonicVolumes();
+            _harmonicVolumesCount = _harmonicVolumes.Length;
 
             // NOTE: Do not call base.
             // The Spectrum Operator is an exception to the rule.
