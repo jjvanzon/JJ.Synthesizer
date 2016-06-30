@@ -1,6 +1,7 @@
 ﻿using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Validation.OperatorData;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
@@ -19,16 +20,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             base.Execute();
 
-            Operator op = Object;
-
-            if (DataPropertyParser.DataIsWellFormed(op))
-            {
-                string recalculationRecalculationString = DataPropertyParser.TryGetString(op, PropertyNames.CollectionRecalculation);
-                For(() => recalculationRecalculationString, PropertyNames.CollectionRecalculation)
-                    .NotNullOrEmpty()
-                    .IsEnum<CollectionRecalculationEnum>()
-                    .IsNot(CollectionRecalculationEnum.Undefined);
-            }
+            Execute(new CollectionRecalculation_OperatorData_Validator(Object.Data));
         }
     }
 }

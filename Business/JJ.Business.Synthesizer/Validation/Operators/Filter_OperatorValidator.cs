@@ -2,6 +2,7 @@
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.Validation.OperatorData;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
@@ -20,12 +21,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             base.Execute();
 
-            string filterTypeString = DataPropertyParser.TryGetString(Object, PropertyNames.FilterType);
-
-            For(() => filterTypeString, PropertyDisplayNames.FilterType)
-                .NotNullOrEmpty()
-                .IsEnum<FilterTypeEnum>()
-                .IsNot(FilterTypeEnum.Undefined);
+            Execute(new FilterType_OperatorData_Validator(Object.Data));
         }
     }
 }

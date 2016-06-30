@@ -423,6 +423,13 @@
     <Compile Include="Validation\Curves\CurveValidator_InDocument.cs" />
     <Compile Include="Validation\Curves\CurveValidator_Nodes.cs" />
     <Compile Include="Validation\Documents\RootDocument_DocumentValidator.cs" />
+    <Compile Include="Validation\OperatorData\CollectionRecalculation_OperatorData_Validator.cs" />
+    <Compile Include="Validation\OperatorData\ResampleInterpolationType_OperatorData_Validator.cs" />
+    <Compile Include="Validation\OperatorData\ListIndex_OperatorData_Validator.cs" />
+    <Compile Include="Validation\OperatorData\FilterType_OperatorData_Validator.cs" />
+    <Compile Include="Validation\OperatorData\SpeakerSetup_OperatorData_Validator.cs" />
+    <Compile Include="Validation\OperatorData\InterpolationType_OperatorData_Validator.cs" />
+    <Compile Include="Validation\OperatorData\Dimension_OperatorData_Validator.cs" />
     <Compile Include="Validation\Operators\Absolute_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\ClosestOverDimensionExp_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\ClosestOverDimension_OperatorValidator.cs" />
@@ -448,7 +455,7 @@
     <Compile Include="Validation\Operators\GetDimension_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_Base_WithDimension.cs" />
     <Compile Include="Validation\Operators\ToggleTrigger_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\OperatorValidator_Data.cs" />
+    <Compile Include="Validation\OperatorData\OperatorDataValidator.cs" />
     <Compile Include="Validation\Operators\OneOverX_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Negative_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Filter_OperatorValidator.cs" />
@@ -810,9 +817,7 @@
     <Content Include="Copies\FromFramework\README.TXT" />
     <Content Include="Copies\FromNAudio\README.TXT" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Validation\OperatorData\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

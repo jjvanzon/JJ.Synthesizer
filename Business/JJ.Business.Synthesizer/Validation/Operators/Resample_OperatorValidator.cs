@@ -2,6 +2,7 @@
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.Validation.OperatorData;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
@@ -20,14 +21,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             base.Execute();
 
-            if (DataPropertyParser.DataIsWellFormed(Object))
-            {
-                string interpolationTypeString = DataPropertyParser.TryGetString(Object, PropertyNames.InterpolationType);
-                For(() => interpolationTypeString, PropertyDisplayNames.InterpolationType)
-                    .NotNullOrEmpty()
-                    .IsEnum<ResampleInterpolationTypeEnum>()
-                    .IsNot(ResampleInterpolationTypeEnum.Undefined);
-            }
+            Execute(new ResampleInterpolationType_OperatorData_Validator(Object.Data));
         }
     }
 }

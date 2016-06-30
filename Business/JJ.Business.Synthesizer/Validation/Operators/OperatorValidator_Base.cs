@@ -9,6 +9,7 @@ using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Common;
+using JJ.Business.Synthesizer.Validation.OperatorData;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
@@ -83,7 +84,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 }
             }
 
-            Execute(new OperatorValidator_Data(op, _allowedDataKeys));
+            Execute(new OperatorDataValidator(op.Data, _allowedDataKeys));
         }
 
         private string GetPropertyDisplayName_ForInletCount()

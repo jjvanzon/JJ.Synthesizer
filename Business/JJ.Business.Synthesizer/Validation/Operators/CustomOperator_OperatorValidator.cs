@@ -11,6 +11,7 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Validation.OperatorData;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
@@ -52,7 +53,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             ValidateInletNamesUnique();
             ValidateOutletNamesUnique();
 
-            Execute(new OperatorValidator_Data(op, _allowedDataKeys));
+            Execute(new OperatorDataValidator(op.Data, _allowedDataKeys));
 
             if (DataPropertyParser.DataIsWellFormed(op))
             {

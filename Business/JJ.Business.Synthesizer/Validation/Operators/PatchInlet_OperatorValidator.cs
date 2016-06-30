@@ -6,6 +6,7 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Extensions;
 using System;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Validation.OperatorData;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
@@ -24,17 +25,13 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             base.Execute();
 
-            string listIndexString = DataPropertyParser.TryGetString(Object, PropertyNames.ListIndex);
-            For(() => listIndexString, PropertyDisplayNames.ListIndex)
-                .NotNullOrEmpty()
-                .IsInteger()
-                .GreaterThanOrEqual(0);
+            Execute(new ListIndex_OperatorData_Validator(Object.Data));
 
             var patchInletWrapper = new PatchInlet_OperatorWrapper(Object);
             For(() => patchInletWrapper.Inlet.GetDimensionEnum(), PropertyDisplayNames.Dimension).IsEnum<DimensionEnum>();
 
             // PatchInlet.Inlet.Dimension is optional.
-            // patchInlet.Name is optional.
+            // PatchInlet.Name is optional.
         }
     }
 }

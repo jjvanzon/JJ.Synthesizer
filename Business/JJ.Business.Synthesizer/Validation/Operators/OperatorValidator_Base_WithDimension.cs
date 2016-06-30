@@ -4,6 +4,7 @@ using JJ.Business.Synthesizer.Helpers;
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Framework.Common;
+using JJ.Business.Synthesizer.Validation.OperatorData;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
@@ -30,16 +31,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             base.Execute();
 
-            Operator op = Object;
-
-            if (DataPropertyParser.DataIsWellFormed(op))
-            {
-                // Dimension can be Undefined, but key must exist.
-                string dimensionString = DataPropertyParser.TryGetString(op, PropertyNames.Dimension);
-                For(() => dimensionString, PropertyNames.Dimension)
-                    .NotNullOrEmpty()
-                    .IsEnum<DimensionEnum>();
-            }
+            Execute(new Dimension_OperatorData_Validator(Object.Data));
         }
     }
 }
