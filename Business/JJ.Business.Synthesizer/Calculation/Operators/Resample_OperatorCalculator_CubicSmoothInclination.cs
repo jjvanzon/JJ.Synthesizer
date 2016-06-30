@@ -146,10 +146,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #endif
 
             _xMinus1 = CalculationHelper.VERY_LOW_VALUE;
-            _x0 = position - Double.Epsilon;
+            _x0 = position - CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
             _x1 = position;
-            _x2 = position + Double.Epsilon;
-            _dx1 = Double.Epsilon;
+            _x2 = position + CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
+            _dx1 = CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
 
             // Assume values begin at 0
             _yMinus1 = 0;

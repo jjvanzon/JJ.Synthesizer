@@ -19,5 +19,8 @@ namespace JJ.Business.Synthesizer.Calculation
         /// even when you take a fraction of it or even the negative square root.
         /// </summary>
         public const double VERY_LOW_VALUE = -1E24;
+
+        /// <summary> Avoid using Double.Epsilon, because it will easily result in NaN </summary>
+        public const double VERY_SMALL_POSITIVE_VALUE = 1E-24;
     }
 }
