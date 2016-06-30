@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             _itemCalculators = itemCalculators.ToArray();
             _itemCount = itemCalculators.Count;
-            _items = new double[itemCalculators.Count];
+            _items = new double[_itemCount];
         }
 
         public override double Calculate()

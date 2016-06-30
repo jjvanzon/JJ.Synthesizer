@@ -36,13 +36,17 @@ namespace JJ.Business.Synthesizer.Helpers
             return regex;
         }
 
+        private static CultureInfo _formattingCulture = new CultureInfo("en-US");
+
+        public static CultureInfo FormattingCulture
+        {
+            get { return _formattingCulture; }
+        }
+
         public static bool DataIsWellFormed(Operator op)
         {
             if (op == null) throw new NullException(() => op);
-
-            bool dataIsWellFormed = DataIsWellFormed(op.Data);
-
-            return dataIsWellFormed;
+            return DataIsWellFormed(op.Data);
         }
 
         public static bool DataIsWellFormed(string data)
@@ -58,19 +62,18 @@ namespace JJ.Business.Synthesizer.Helpers
             return isMatch;
         }
 
-        private static CultureInfo _formattingCulture = new CultureInfo("en-US");
-
-        public static CultureInfo FormattingCulture
-        {
-            get { return _formattingCulture; }
-        }
-
         public static double GetDouble(Operator op, string key)
         {
-            double? value = TryGetDouble(op, key);
+            if (op == null) throw new NullException(() => op);
+            return GetDouble(op.Data, key);
+        }
+
+        public static double GetDouble(string data, string key)
+        {
+            double? value = TryGetDouble(data, key);
             if (!value.HasValue)
             {
-                throw new Exception(String.Format("Value with key '{0}' in data '{1}' of operator with ID '{2}' is empty.", key, op.Data, op.ID));
+                throw new Exception(String.Format("Value with key '{0}' in data '{1}' is empty.", key, data));
             }
             return value.Value;
         }
@@ -81,7 +84,17 @@ namespace JJ.Business.Synthesizer.Helpers
         /// </summary>
         public static double? TryGetDouble(Operator op, string key)
         {
-            string str = TryGetString(op, key);
+            if (op == null) throw new NullException(() => op);
+            return TryGetDouble(op.Data, key);
+        }
+
+        /// <summary>
+        /// Returns null if the key is not present or value not filled in.
+        /// Will throw an exception if said value cannot be parsed.
+        /// </summary>
+        public static double? TryGetDouble(string data, string key)
+        {
+            string str = TryGetString(data, key);
             if (String.IsNullOrEmpty(str))
             {
                 return null;
@@ -90,17 +103,23 @@ namespace JJ.Business.Synthesizer.Helpers
             double value;
             if (!DoubleHelper.TryParse(str, _formattingCulture, out value))
             {
-                throw new Exception(String.Format("Value with key '{0}' in data '{1}' of operator with ID '{2}' could not be parsed to Double.", key, op.Data, op.ID));
+                throw new Exception(String.Format("Value with key '{0}' in data '{1}' could not be parsed to Double.", key, data));
             }
             return value;
         }
 
         public static int GetInt32(Operator op, string key)
         {
-            int? value = TryGetInt32(op, key);
+            if (op == null) throw new NullException(() => op);
+            return GetInt32(op.Data, key);
+        }
+
+        public static int GetInt32(string data, string key)
+        {
+            int? value = TryGetInt32(data, key);
             if (!value.HasValue)
             {
-                throw new Exception(String.Format("Value with key '{0}' in data '{1}' of operator with ID '{2}' is empty.", key, op.Data, op.ID));
+                throw new Exception(String.Format("Value with key '{0}' in data '{1}' is empty.", key, data));
             }
             return value.Value;
         }
@@ -111,7 +130,17 @@ namespace JJ.Business.Synthesizer.Helpers
         /// </summary>
         public static int? TryGetInt32(Operator op, string key)
         {
-            string str = TryGetString(op, key);
+            if (op == null) throw new NullException(() => op);
+            return TryGetInt32(op.Data, key);
+        }
+
+        /// <summary>
+        /// Returns null if the key is not present or value not filled in.
+        /// Will throw an exception if said value cannot be parsed.
+        /// </summary>
+        public static int? TryGetInt32(string data, string key)
+        {
+            string str = TryGetString(data, key);
             if (String.IsNullOrEmpty(str))
             {
                 return null;
@@ -120,7 +149,7 @@ namespace JJ.Business.Synthesizer.Helpers
             int value;
             if (!Int32.TryParse(str, out value))
             {
-                throw new Exception(String.Format("Value with key '{0}' in data '{1}' of operator with ID '{2}' could not be parsed to Int32.", key, op.Data, op.ID));
+                throw new Exception(String.Format("Value with key '{0}' in data '{1}' could not be parsed to Int32.", key, data));
             }
             return value;
         }
@@ -129,7 +158,15 @@ namespace JJ.Business.Synthesizer.Helpers
         public static TEnum GetEnum<TEnum>(Operator op, string key)
             where TEnum : struct
         {
-            string str = TryGetString(op, key);
+            if (op == null) throw new NullException(() => op);
+            return GetEnum<TEnum>(op.Data, key);
+        }
+
+        /// <summary> If the property is not present, default(TEnum) is returned. </summary>
+        public static TEnum GetEnum<TEnum>(string data, string key)
+            where TEnum : struct
+        {
+            string str = TryGetString(data, key);
             if (String.IsNullOrEmpty(str))
             {
                 return default(TEnum);
@@ -138,19 +175,22 @@ namespace JJ.Business.Synthesizer.Helpers
             TEnum value;
             if (!Enum.TryParse(str, out value))
             {
-                throw new Exception(String.Format("Value with key '{0}' in data '{1}' of operator with ID '{2}' could not be parsed to Enum of type '{3}'.", key, op.Data, op.ID, typeof(TEnum).FullName));
+                throw new Exception(String.Format("Value with key '{0}' in data '{1}' could not be parsed to Enum of type '{2}'.", key, data, typeof(TEnum).FullName));
             }
             return value;
         }
 
-        /// <summary>
-        /// Returns null if key does not exist.
-        /// </summary>
+        /// <summary> Returns null if key does not exist. </summary>
         public static string TryGetString(Operator op, string key)
         {
             if (op == null) throw new NullException(() => op);
+            return TryGetString(op.Data, key);
+        }
 
-            IList<ParsedKeyValuePair> results = Parse(op.Data);
+        /// <summary> Returns null if key does not exist. </summary>
+        public static string TryGetString(string data, string key)
+        {
+            IList<ParsedKeyValuePair> results = Parse(data);
 
             ParsedKeyValuePair result = results.Where(x => String.Equals(x.Key, key)).FirstOrDefault();
             if (result == null)
@@ -163,14 +203,26 @@ namespace JJ.Business.Synthesizer.Helpers
 
         public static IList<string> GetKeys(Operator op)
         {
-            IList<ParsedKeyValuePair> results = Parse(op.Data);
+            if (op == null) throw new NullException(() => op);
+            return GetKeys(op.Data);
+        }
+
+        public static IList<string> GetKeys(string data)
+        {
+            IList<ParsedKeyValuePair> results = Parse(data);
             IList<string> keys = results.Select(x => x.Key).ToArray();
             return keys;
         }
 
         public static void SetValue(Operator op, string key, object value)
         {
-            IList<ParsedKeyValuePair> results = Parse(op.Data);
+            if (op == null) throw new NullException(() => op);
+            op.Data = SetValue(op.Data, key, value);
+        }
+
+        public static string SetValue(string data, string key, object value)
+        {
+            IList<ParsedKeyValuePair> results = Parse(data);
 
             // Remove original value.
             results = results.Where(x => !String.Equals(x.Key, key)).ToList();
@@ -179,20 +231,26 @@ namespace JJ.Business.Synthesizer.Helpers
             var result = new ParsedKeyValuePair(key, Convert.ToString(value, _formattingCulture));
             results.Add(result);
 
-            string data = Format(results);
+            string newData = Format(results);
 
-            op.Data = data;
+            return newData;
         }
 
         public static void RemoveKey(Operator op, string key)
         {
-            IList<ParsedKeyValuePair> results = Parse(op.Data);
+            if (op == null) throw new NullException(() => op);
+            op.Data = RemoveKey(op.Data, key);
+        }
+
+        public static string RemoveKey(string data, string key)
+        {
+            IList<ParsedKeyValuePair> results = Parse(data);
 
             results = results.Where(x => !String.Equals(x.Key, key)).ToList();
 
-            string data = Format(results);
+            string newData = Format(results);
 
-            op.Data = data;
+            return newData;
         }
 
         private static IList<ParsedKeyValuePair> Parse(string data)

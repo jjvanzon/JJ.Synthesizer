@@ -80,11 +80,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             }
         }
 
-        private string GetPropertyDisplayName_ForInletCount()
-        {
-            return CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Inlets);
-        }
-
         private static int? GetDataMaxLength()
         {
             return ConfigurationHelper.GetSection<ConfigurationSection>().OperatorDataMaxLength;
