@@ -11,6 +11,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _inputCalculator;
         private readonly OperatorCalculatorBase _firstItemCalculators;
         private readonly OperatorCalculatorBase[] _remainingItemCalculators;
+        private readonly int _remainingItemCalculatorsCount;
 
         public Closest_OperatorCalculator_AllVars(
             OperatorCalculatorBase inputCalculator,
@@ -24,6 +25,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _inputCalculator = inputCalculator;
             _firstItemCalculators = itemCalculators.First();
             _remainingItemCalculators = itemCalculators.Skip(1).ToArray();
+            _remainingItemCalculatorsCount = _remainingItemCalculators.Length;
         }
 
         public override double Calculate()
@@ -34,7 +36,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double smallestDistance = Geometry.AbsoluteDistance(input, firstItem);
             double closestItem = firstItem;
 
-            for (int i = 0; i < _remainingItemCalculators.Length; i++)
+            for (int i = 0; i < _remainingItemCalculatorsCount; i++)
             {
                 OperatorCalculatorBase itemCalculator = _remainingItemCalculators[i];
                 double item = itemCalculator.Calculate();

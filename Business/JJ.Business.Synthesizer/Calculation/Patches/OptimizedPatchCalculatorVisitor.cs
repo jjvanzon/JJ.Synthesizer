@@ -3910,6 +3910,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitSort(Operator op)
         {
+            //var wrapper = new Sort_OperatorWrapper(op);
+            //DimensionEnum dimensionEnum = wrapper.Dimension;
+            //DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            throw new NotImplementedException();
+
             base.VisitSort(op);
 
             OperatorCalculatorBase calculator;
@@ -3929,21 +3934,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     calculator = new Zero_OperatorCalculator();
                     break;
 
-                case 1:
-                    // Also covers the 'all are const' situation, since all consts are aggregated to one in earlier code.
-                    calculator = operandCalculators[0];
-                    break;
-
-                case 2:
-                    OperatorCalculatorBase aCalculator = operandCalculators[0];
-                    OperatorCalculatorBase bCalculator = operandCalculators[1];
-                    throw new NotImplementedException();
-                    //calculator = new Sort_OperatorCalculator_TwoOperands(aCalculator, bCalculator);
-                    break;
-
                 default:
-                    //calculator = new Sort_OperatorCalculator_MoreThanTwoOperands(operandCalculators);
                     throw new NotImplementedException();
+                    //calculator = new Sort_OperatorCalculator(operandCalculators, dimensionStack);
                     break;
             }
 

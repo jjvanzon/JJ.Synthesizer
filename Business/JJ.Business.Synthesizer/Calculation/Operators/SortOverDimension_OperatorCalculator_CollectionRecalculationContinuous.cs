@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -30,15 +31,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
 #endif
-            // Return if sample not in range.
-            // Execute it on the doubles, to prevent integer overflow later.
-            if (position < 0.0) return 0.0;
-            if (position > _items.Length) return 0.0;
-            if (Double.IsNaN(position)) return 0.0;
-            if (Double.IsInfinity(position)) return 0.0;
 
             // Stripe interpolation
             position += 0.5;
+
+            if (!ConversionHelper.CanCastToNonNegativeInt32WithMax(position, _items.Length))
+            {
+                return 0.0;
+            }
 
             int i = (int)position;
 
