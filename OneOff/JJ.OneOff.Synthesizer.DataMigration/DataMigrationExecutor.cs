@@ -1564,11 +1564,57 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
         }
 
+        public static void Migrate_ResetOperators_AddListIndexDataKey(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                var patchManager = new PatchManager(new PatchRepositories(repositories));
+
+                IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Reset);
+
+                for (int i = 0; i < operators.Count; i++)
+                {
+                    Operator op = operators[i];
+                    var wrapper = new Reset_OperatorWrapper(op);
+
+                    if (wrapper.ListIndex.HasValue)
+                    {
+                        continue;
+                    }
+
+                    // Adds data key if it is not present yet.
+                    wrapper.ListIndex = null;
+
+                    patchManager.Patch = op.Patch;
+                    VoidResult result = patchManager.SaveOperator(op);
+                    ResultHelper.Assert(result);
+
+                    string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
+                    progressCallback(progressMessage);
+                }
+
+                AssertDocuments(repositories, progressCallback);
+
+                //throw new Exception("Temporarily do not commit, for debugging.");
+                context.Commit();
+            }
+
+            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        }
+
         // Helpers
 
         private static void AssertDocuments(RepositoryWrapper repositories, Action<string> progressCallback)
         {
             var documentManager = new DocumentManager(repositories);
+
+            IResult totalResult = new VoidResult { Successful = true };
 
             IList<Document> rootDocuments = repositories.DocumentRepository.GetAll().Where(x => x.ParentDocument == null).ToArray();
             for (int i = 0; i < rootDocuments.Count; i++)
@@ -1580,16 +1626,18 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
                 // Validate
                 VoidResult result = documentManager.Save(rootDocument);
-                try
-                {
-                    ResultHelper.Assert(result);
-                }
-                catch
-                {
-                    string progressMessage2 = String.Format("Exception while validating document {0}/{1}: '{2}'.", i + 1, rootDocuments.Count, rootDocument.Name);
-                    progressCallback(progressMessage2);
-                    throw;
-                }
+                totalResult.Combine(result);
+            }
+
+            try
+            {
+                ResultHelper.Assert(totalResult);
+            }
+            catch
+            {
+                string progressMessage = String.Format("Exception while validating documents.");
+                progressCallback(progressMessage);
+                throw;
             }
         }
     }

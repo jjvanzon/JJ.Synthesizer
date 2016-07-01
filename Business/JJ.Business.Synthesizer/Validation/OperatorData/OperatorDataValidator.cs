@@ -48,30 +48,42 @@ namespace JJ.Business.Synthesizer.Validation.OperatorData
             if (!DataPropertyParser.DataIsWellFormed(Object))
             {
                 ValidationMessages.AddIsInvalidMessage(() => data, PropertyDisplayNames.Data);
+                return;
             }
-            else
+
+            IList<string> actualDataKeysList = DataPropertyParser.GetKeys(data); // List, not HashSet, so we can do a unicity check.
+
+            // Check unicity
+            int uniqueActualDataKeyCount = actualDataKeysList.Distinct().Count();
+            if (uniqueActualDataKeyCount != actualDataKeysList.Count)
             {
-                IList<string> actualDataKeysList = DataPropertyParser.GetKeys(data); // List, not HashSet, so we can do a unicity check.
+                ValidationMessages.AddNotUniqueMessagePlural(PropertyNames.DataKeys, PropertyDisplayNames.DataKeys);
+                return;
+            }
 
-                // Check unicity
-                int uniqueActualDataKeyCount = actualDataKeysList.Distinct().Count();
-                if (uniqueActualDataKeyCount != actualDataKeysList.Count)
+            HashSet<string> actualDataKeysHashSet = actualDataKeysList.ToHashSet(); // HashSet, not List, so we can do value comparisons.
+
+            foreach (string actualDataKey in actualDataKeysHashSet)
+            {
+                // Check non-existence
+                bool dataKeyIsAllowed = _allowedDataKeysHashSet.Contains(actualDataKey);
+                if (!dataKeyIsAllowed)
                 {
-                    ValidationMessages.AddNotUniqueMessagePlural(PropertyNames.DataKeys, PropertyDisplayNames.DataKeys);
+                    ValidationMessages.AddNotInListMessage(
+                        PropertyNames.DataKey,
+                        PropertyDisplayNames.DataKey,
+                        actualDataKey,
+                        _allowedDataKeysHashSet);
                 }
-                else
-                {
-                    HashSet<string> actualDataKeysHashSet = actualDataKeysList.ToHashSet(); // HashSet, not List, so we can do value comparisons.
+            }
 
-                    foreach (string actualDataKey in actualDataKeysHashSet)
-                    {
-                        // Check non-existence
-                        bool dataKeyIsAllowed = _allowedDataKeysHashSet.Contains(actualDataKey);
-                        if (!dataKeyIsAllowed)
-                        {
-                            ValidationMessages.AddNotInListMessage(PropertyNames.DataKey, PropertyDisplayNames.DataKey, _allowedDataKeysHashSet);
-                        }
-                    }
+            foreach (string allowedDataKey in _allowedDataKeysHashSet)
+            {
+                // Check existence
+                bool dataKeyExists = actualDataKeysHashSet.Contains(allowedDataKey);
+                if (!dataKeyExists)
+                {
+                    ValidationMessages.AddNotExistsMessage(PropertyNames.DataKey, PropertyDisplayNames.DataKey, allowedDataKey);
                 }
             }
         }

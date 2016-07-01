@@ -1,5 +1,8 @@
 ﻿using JJ.Framework.Data;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace JJ.Data.Synthesizer.DefaultRepositories
 {
@@ -8,5 +11,12 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
         public OperatorRepository(IContext context)
             : base(context)
         { }
+
+        public virtual IList<Operator> GetManyByOperatorTypeID(int operatorTypeID)
+        {
+            return _context.Query<Operator>()
+                           .Where(x => x.OperatorType.ID == operatorTypeID)
+                           .ToArray();
+        }
     }
 }
