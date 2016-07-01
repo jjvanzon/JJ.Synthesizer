@@ -1410,31 +1410,31 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (!lowIsConst && highIsConst && ratioIsConst)
             {
-                calculator = new Exponent_WithConstHighAndConstRatio_OperatorCalculator(lowCalculator, high, ratio);
+                calculator = new Exponent_OperatorCalculator_VarLow_ConstHigh_ConstRatio(lowCalculator, high, ratio);
             }
             else if (lowIsConst && !highIsConst && ratioIsConst)
             {
-                calculator = new Exponent_WithConstLowAndConstRatio_OperatorCalculator(low, highCalculator, ratio);
+                calculator = new Exponent_OperatorCalculator_ConstLow_VarHigh_ConstRatio(low, highCalculator, ratio);
             }
             else if (!lowIsConst && !highIsConst && ratioIsConst)
             {
-                calculator = new Exponent_WithConstRatio_OperatorCalculator(lowCalculator, highCalculator, ratio);
+                calculator = new Exponent_OperatorCalculator_VarLow_VarHigh_ConstRatio(lowCalculator, highCalculator, ratio);
             }
             else if (lowIsConst && highIsConst && !ratioIsConst)
             {
-                calculator = new Exponent_WithConstLowAndConstHigh_OperatorCalculator(low, high, ratioCalculator);
+                calculator = new Exponent_OperatorCalculator_ConstLow_ConstHigh_VarRatio(low, high, ratioCalculator);
             }
             else if (!lowIsConst && highIsConst && !ratioIsConst)
             {
-                calculator = new Exponent_WithConstHigh_OperatorCalculator(lowCalculator, high, ratioCalculator);
+                calculator = new Exponent_OperatorCalculator_VarLow_ConstHigh_VarRatio(lowCalculator, high, ratioCalculator);
             }
             else if (lowIsConst && !highIsConst && !ratioIsConst)
             {
-                calculator = new Exponent_WithConstLow_OperatorCalculator(low, highCalculator, ratioCalculator);
+                calculator = new Exponent_OperatorCalculator_ConstLow_VarHigh_VarRatio(low, highCalculator, ratioCalculator);
             }
             else
             {
-                calculator = new Exponent_OperatorCalculator(lowCalculator, highCalculator, ratioCalculator);
+                calculator = new Exponent_OperatorCalculator_VarLow_VarHigh_VarRatio(lowCalculator, highCalculator, ratioCalculator);
             }
 
             _stack.Push(calculator);
@@ -2829,15 +2829,15 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (baseIsConst)
             {
-                calculator = new Power_WithConstBase_OperatorCalculator(@base, exponentCalculator);
+                calculator = new Power_OperatorCalculator_ConstBase_VarExponent(@base, exponentCalculator);
             }
             else if (exponentIsConst)
             {
-                calculator = new Power_WithConstExponent_OperatorCalculator(baseCalculator, exponent);
+                calculator = new Power_OperatorCalculator_VarBase_ConstExponent(baseCalculator, exponent);
             }
             else
             {
-                calculator = new Power_OperatorCalculator(baseCalculator, exponentCalculator);
+                calculator = new Power_OperatorCalculator_VarBase_VarExponent(baseCalculator, exponentCalculator);
             }
 
             _stack.Push(calculator);

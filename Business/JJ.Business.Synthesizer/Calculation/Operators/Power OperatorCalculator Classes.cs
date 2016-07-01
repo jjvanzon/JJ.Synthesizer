@@ -4,12 +4,12 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Power_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Power_OperatorCalculator_VarBase_VarExponent : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _baseCalculator;
         private readonly OperatorCalculatorBase _exponentCalculator;
 
-        public Power_OperatorCalculator(OperatorCalculatorBase baseCalculator, OperatorCalculatorBase exponentCalculator)
+        public Power_OperatorCalculator_VarBase_VarExponent(OperatorCalculatorBase baseCalculator, OperatorCalculatorBase exponentCalculator)
             : base(new OperatorCalculatorBase[] { baseCalculator, exponentCalculator })
         {
             if (baseCalculator == null) throw new NullException(() => baseCalculator);
@@ -30,12 +30,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Power_WithConstBase_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Power_OperatorCalculator_ConstBase_VarExponent : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly double _baseValue;
         private readonly OperatorCalculatorBase _exponentCalculator;
 
-        public Power_WithConstBase_OperatorCalculator(double baseValue, OperatorCalculatorBase exponentCalculator)
+        public Power_OperatorCalculator_ConstBase_VarExponent(double baseValue, OperatorCalculatorBase exponentCalculator)
             : base(new OperatorCalculatorBase[] { exponentCalculator })
         {
             if (exponentCalculator == null) throw new NullException(() => exponentCalculator);
@@ -53,12 +53,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Power_WithConstExponent_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Power_OperatorCalculator_VarBase_ConstExponent : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _baseCalculator;
         private readonly double _exponentValue;
 
-        public Power_WithConstExponent_OperatorCalculator(OperatorCalculatorBase baseCalculator, double exponentValue)
+        public Power_OperatorCalculator_VarBase_ConstExponent(OperatorCalculatorBase baseCalculator, double exponentValue)
             : base(new OperatorCalculatorBase[] { baseCalculator })
         {
             if (baseCalculator == null) throw new NullException(() => baseCalculator);

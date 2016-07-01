@@ -311,10 +311,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             : base(new OperatorCalculatorBase[] { denominatorCalculator })
         {
             if (denominatorCalculator == null) throw new NullException(() => denominatorCalculator);
-            // TODO: Enable this code line again after debugging the hack in Random_OperatorCalculator_OtherInterpolations's
-            // constructor that creates an instance of Divide_WithoutOrigin_WithConstNumerator_OperatorCalculator.
-            // It that no longer happens in that constructor, you can enable this code line again.
-            //if (denominatorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => denominatorCalculator);
+            if (denominatorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => denominatorCalculator);
 
             _numeratorValue = numeratorValue;
             _denominatorCalculator = denominatorCalculator;
