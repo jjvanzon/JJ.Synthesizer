@@ -20,6 +20,7 @@ namespace JJ.Business.Synthesizer.Validation.OperatorData
             if (DataPropertyParser.DataIsWellFormed(data))
             {
                 string collectionRecalculationString = DataPropertyParser.TryGetString(data, PropertyNames.CollectionRecalculation);
+
                 For(() => collectionRecalculationString, PropertyNames.CollectionRecalculation)
                     .NotNullOrEmpty()
                     .IsEnum<CollectionRecalculationEnum>()

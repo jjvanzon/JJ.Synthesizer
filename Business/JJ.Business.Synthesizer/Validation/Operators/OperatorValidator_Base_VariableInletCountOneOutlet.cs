@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                   expectedOperatorTypeEnum,
                   expectedInletCount: obj.Inlets.Count,
                   expectedOutletCount: 1,
-                  allowedDataKeys: allowedDataKeys)
+                  expectedDataKeys: allowedDataKeys)
         { }
 
         protected override void Execute()

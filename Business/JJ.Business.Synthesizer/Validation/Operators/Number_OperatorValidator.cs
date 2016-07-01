@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                   OperatorTypeEnum.Number, 
                   expectedInletCount: 0, 
                   expectedOutletCount: 1,
-                  allowedDataKeys: new string[] { PropertyNames.Number })
+                  expectedDataKeys: new string[] { PropertyNames.Number })
         { }
 
         protected override void Execute()

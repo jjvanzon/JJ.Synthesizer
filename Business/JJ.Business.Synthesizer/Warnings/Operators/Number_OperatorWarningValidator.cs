@@ -17,11 +17,10 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
         {
             if (DataPropertyParser.DataIsWellFormed(Object))
             {
-                string numberString = DataPropertyParser.TryGetString(Object, PropertyNames.Number);
-                double number;
-                if (DoubleHelper.TryParse(numberString, DataPropertyParser.FormattingCulture, out number))
+                double? number = DataPropertyParser.TryParseDouble(Object, PropertyNames.Number);
+                if (number.HasValue)
                 {
-                    if (number == 0.0)
+                    if (number.Value == 0.0)
                     {
                         ValidationMessages.Add(() => Object.Data, MessageFormatter.NumberIs0WithName(Object.Name));
                     }

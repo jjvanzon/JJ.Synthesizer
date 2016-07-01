@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                   OperatorTypeEnum.ClosestExp,
                   expectedInletCount: Math.Max(obj.Inlets.Count, MINIMUM_INLET_COUNT),
                   expectedOutletCount: 1,
-                  allowedDataKeys: new string[0])
+                  expectedDataKeys: new string[0])
         { }
     }
 }

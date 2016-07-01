@@ -1289,15 +1289,14 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Reset_OperatorWrapper Reset(Outlet operand = null)
+        public Reset_OperatorWrapper Reset(Outlet operand = null, int? listIndex = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Reset, inletCount: 1, outletCount: 1);
 
             var wrapper = new Reset_OperatorWrapper(op)
             {
                 Operand = operand,
-                // Needed to create Operator.Data key "ListIndex".
-                ListIndex = null
+                ListIndex = listIndex
             };
 
             VoidResult result = ValidateOperatorNonRecursive(op);

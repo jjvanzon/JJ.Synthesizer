@@ -21,6 +21,7 @@ namespace JJ.Business.Synthesizer.Validation.OperatorData
             if (DataPropertyParser.DataIsWellFormed(data))
             {
                 string speakerSetupString = DataPropertyParser.TryGetString(Object, PropertyNames.SpeakerSetup);
+
                 For(() => speakerSetupString, PropertyDisplayNames.SpeakerSetup)
                     .NotNullOrEmpty()
                     .IsEnum<SpeakerSetupEnum>()

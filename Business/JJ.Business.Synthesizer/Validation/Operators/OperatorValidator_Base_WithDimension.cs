@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                   expectedOperatorTypeEnum,
                   expectedInletCount,
                   expectedOutletCount,
-                  allowedDataKeys: PropertyNames.Dimension.Union(allowedDataKeys ?? new string[0]).ToArray())
+                  expectedDataKeys: PropertyNames.Dimension.Union(allowedDataKeys ?? new string[0]).ToArray())
         { }
 
         protected override void Execute()

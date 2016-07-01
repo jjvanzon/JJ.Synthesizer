@@ -21,6 +21,7 @@ namespace JJ.Business.Synthesizer.Validation.OperatorData
             if (DataPropertyParser.DataIsWellFormed(data))
             {
                 string listIndexString = DataPropertyParser.TryGetString(Object, PropertyNames.ListIndex);
+
                 For(() => listIndexString, PropertyDisplayNames.ListIndex)
                     .NotNullOrEmpty()
                     .IsInteger()

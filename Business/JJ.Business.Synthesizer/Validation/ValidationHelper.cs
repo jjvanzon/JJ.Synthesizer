@@ -58,35 +58,18 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (inlet == null) throw new NullException(() => inlet);
 
-            // Be tolerant in warning validations.
-            if (inlet.InputOutlet == null)
+            if (inlet.InputOutlet?.Operator?.GetOperatorTypeEnum() != OperatorTypeEnum.Number)
             {
                 return null;
             }
 
-            if (inlet.InputOutlet.Operator == null)
+            if (DataPropertyParser.DataIsWellFormed(inlet.InputOutlet.Operator.Data))
             {
-                return null;
+                double? number = DataPropertyParser.TryParseDouble(inlet.InputOutlet.Operator, PropertyNames.Number);
+                return number;
             }
 
-            if (inlet.InputOutlet.Operator.GetOperatorTypeEnum() != OperatorTypeEnum.Number)
-            {
-                return null;
-            }
-
-            if (!DataPropertyParser.DataIsWellFormed(inlet.InputOutlet.Operator.Data))
-            {
-                return null;
-            }
-
-            string numberString = DataPropertyParser.TryGetString(inlet.InputOutlet.Operator, PropertyNames.Number);
-            double number;
-            if (!Double.TryParse(numberString, out number))
-            {
-                return null;
-            }
-
-            return number;
+            return null;
         }
     }
 }

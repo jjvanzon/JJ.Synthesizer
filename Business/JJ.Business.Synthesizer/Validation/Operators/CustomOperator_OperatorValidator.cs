@@ -235,15 +235,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         private static int? TryGetListIndex(Operator patchInletOrPatchOutletOperator)
         {
-            string listIndex_String = DataPropertyParser.TryGetString(patchInletOrPatchOutletOperator, PropertyNames.ListIndex);
-
-            if (!String.IsNullOrEmpty(listIndex_String))
+            if (DataPropertyParser.DataIsWellFormed(patchInletOrPatchOutletOperator))
             {
-                int listIndex;
-                if (Int32.TryParse(listIndex_String, out listIndex))
-                {
-                    return listIndex;
-                }
+                int? listIndex = DataPropertyParser.TryParseInt32(patchInletOrPatchOutletOperator, PropertyNames.ListIndex);
+                return listIndex;
             }
 
             return null;

@@ -21,6 +21,7 @@ namespace JJ.Business.Synthesizer.Validation.OperatorData
             if (DataPropertyParser.DataIsWellFormed(data))
             {
                 string interpolationTypeString = DataPropertyParser.TryGetString(Object, PropertyNames.InterpolationType);
+
                 For(() => interpolationTypeString, PropertyDisplayNames.InterpolationType)
                     .NotNullOrEmpty()
                     .IsEnum<InterpolationTypeEnum>()

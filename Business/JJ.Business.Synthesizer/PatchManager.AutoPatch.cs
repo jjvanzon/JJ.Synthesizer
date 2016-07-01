@@ -63,8 +63,7 @@ namespace JJ.Business.Synthesizer
             {
                 Outlet monophonicOutlet = monophonicOutlets[i];
 
-                Reset_OperatorWrapper resetWrapper = Reset(monophonicOutlet);
-                resetWrapper.ListIndex = i;
+                Reset_OperatorWrapper resetWrapper = Reset(monophonicOutlet, i);
 
                 monophonicOutlets[i] = resetWrapper;
             }

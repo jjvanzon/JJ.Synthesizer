@@ -75,7 +75,7 @@ namespace JJ.Business.Synthesizer.Validation
         {
             IList<int> listIndexes = Object.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
                                            .Where(x => DataPropertyParser.DataIsWellFormed(x))
-                                           .Select(x => DataPropertyParser.TryGetInt32(x, PropertyNames.ListIndex))
+                                           .Select(x => DataPropertyParser.TryParseInt32(x, PropertyNames.ListIndex))
                                            .Where(x => x.HasValue)
                                            .Select(x => x.Value)
                                            .ToArray();
@@ -105,7 +105,7 @@ namespace JJ.Business.Synthesizer.Validation
         {
             IList<int> listIndexes = Object.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
                                            .Where(x => DataPropertyParser.DataIsWellFormed(x))
-                                           .Select(x => DataPropertyParser.TryGetInt32(x, PropertyNames.ListIndex))
+                                           .Select(x => DataPropertyParser.TryParseInt32(x, PropertyNames.ListIndex))
                                            .Where(x => x.HasValue)
                                            .Select(x => x.Value)
                                            .ToArray();

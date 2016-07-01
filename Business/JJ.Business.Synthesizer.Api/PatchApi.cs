@@ -555,9 +555,9 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Resample(signal, samplingRate, interpolationType, dimension);
         }
 
-        public Reset_OperatorWrapper Reset(Outlet operand = null)
+        public Reset_OperatorWrapper Reset(Outlet operand = null, int? listIndex = null)
         {
-            return _patchManager.Reset(operand);
+            return _patchManager.Reset(operand, listIndex);
         }
 
         public Reverse_OperatorWrapper Reverse(

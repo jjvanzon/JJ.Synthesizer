@@ -16,20 +16,20 @@ namespace JJ.Business.Synthesizer.Validation.OperatorData
         private readonly static int? _dataMaxLength = GetDataMaxLength();
 
         /// <summary> HashSet for unicity and value comparisons. </summary>
-        private readonly HashSet<string> _allowedDataKeysHashSet;
+        private readonly HashSet<string> _expectedDataKeysHashSet;
 
-        public OperatorDataValidator(string data, IList<string> allowedDataKeys)
+        public OperatorDataValidator(string data, IList<string> expectedDataKeys)
             : base(data, postponeExecute: true)
         {
-            if (allowedDataKeys == null) throw new NullException(() => allowedDataKeys);
+            if (expectedDataKeys == null) throw new NullException(() => expectedDataKeys);
 
-            int uniqueExpectedDataPropertyKeyCount = allowedDataKeys.Distinct().Count();
-            if (uniqueExpectedDataPropertyKeyCount != allowedDataKeys.Count)
+            int uniqueExpectedDataPropertyKeyCount = expectedDataKeys.Distinct().Count();
+            if (uniqueExpectedDataPropertyKeyCount != expectedDataKeys.Count)
             {
-                throw new NotUniqueException(() => allowedDataKeys);
+                throw new NotUniqueException(() => expectedDataKeys);
             }
 
-            _allowedDataKeysHashSet = allowedDataKeys.ToHashSet();
+            _expectedDataKeysHashSet = expectedDataKeys.ToHashSet();
 
             Execute();
         }
@@ -66,24 +66,24 @@ namespace JJ.Business.Synthesizer.Validation.OperatorData
             foreach (string actualDataKey in actualDataKeysHashSet)
             {
                 // Check non-existence
-                bool dataKeyIsAllowed = _allowedDataKeysHashSet.Contains(actualDataKey);
+                bool dataKeyIsAllowed = _expectedDataKeysHashSet.Contains(actualDataKey);
                 if (!dataKeyIsAllowed)
                 {
                     ValidationMessages.AddNotInListMessage(
                         PropertyNames.DataKey,
                         PropertyDisplayNames.DataKey,
                         actualDataKey,
-                        _allowedDataKeysHashSet);
+                        _expectedDataKeysHashSet);
                 }
             }
 
-            foreach (string allowedDataKey in _allowedDataKeysHashSet)
+            foreach (string expectedDataKey in _expectedDataKeysHashSet)
             {
                 // Check existence
-                bool dataKeyExists = actualDataKeysHashSet.Contains(allowedDataKey);
+                bool dataKeyExists = actualDataKeysHashSet.Contains(expectedDataKey);
                 if (!dataKeyExists)
                 {
-                    ValidationMessages.AddNotExistsMessage(PropertyNames.DataKey, PropertyDisplayNames.DataKey, allowedDataKey);
+                    ValidationMessages.AddNotExistsMessage(PropertyNames.DataKey, PropertyDisplayNames.DataKey, expectedDataKey);
                 }
             }
         }

@@ -20,30 +20,30 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         private int _expectedInletCount;
         private int _expectedOutletCount;
 
-        private IList<string> _allowedDataKeys;
+        private IList<string> _expectedDataKeys;
 
         public OperatorValidator_Base(
             Operator obj,
             OperatorTypeEnum expectedOperatorTypeEnum,
             int expectedInletCount,
             int expectedOutletCount,
-            IList<string> allowedDataKeys)
+            IList<string> expectedDataKeys)
             : base(obj, postponeExecute: true)
         {
             if (expectedInletCount < 0) throw new LessThanException(() => expectedInletCount, 0);
             if (expectedOutletCount < 0) throw new LessThanException(() => expectedOutletCount, 0);
-            if (allowedDataKeys == null) throw new NullException(() => allowedDataKeys);
+            if (expectedDataKeys == null) throw new NullException(() => expectedDataKeys);
 
-            int uniqueExpectedDataPropertyKeyCount = allowedDataKeys.Distinct().Count();
-            if (uniqueExpectedDataPropertyKeyCount != allowedDataKeys.Count)
+            int uniqueExpectedDataPropertyKeyCount = expectedDataKeys.Distinct().Count();
+            if (uniqueExpectedDataPropertyKeyCount != expectedDataKeys.Count)
             {
-                throw new NotUniqueException(() => allowedDataKeys);
+                throw new NotUniqueException(() => expectedDataKeys);
             }
 
             _expectedOperatorTypeEnum = expectedOperatorTypeEnum;
             _expectedInletCount = expectedInletCount;
             _expectedOutletCount = expectedOutletCount;
-            _allowedDataKeys = allowedDataKeys;
+            _expectedDataKeys = expectedDataKeys;
 
             Execute();
         }
@@ -84,7 +84,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 }
             }
 
-            Execute(new OperatorDataValidator(op.Data, _allowedDataKeys));
+            Execute(new OperatorDataValidator(op.Data, _expectedDataKeys));
         }
 
         private string GetPropertyDisplayName_ForInletCount()

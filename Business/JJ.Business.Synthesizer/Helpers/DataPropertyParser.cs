@@ -81,6 +81,7 @@ namespace JJ.Business.Synthesizer.Helpers
         /// <summary>
         /// Returns null if the key is not present or value not filled in.
         /// Will throw an exception if said value cannot be parsed.
+        /// Will also throw an exception if Data is not well-formed.
         /// </summary>
         public static double? TryGetDouble(Operator op, string key)
         {
@@ -91,6 +92,7 @@ namespace JJ.Business.Synthesizer.Helpers
         /// <summary>
         /// Returns null if the key is not present or value not filled in.
         /// Will throw an exception if said value cannot be parsed.
+        /// Will also throw an exception if Data is not well-formed.
         /// </summary>
         public static double? TryGetDouble(string data, string key)
         {
@@ -106,6 +108,35 @@ namespace JJ.Business.Synthesizer.Helpers
                 throw new Exception(String.Format("Value with key '{0}' in data '{1}' could not be parsed to Double.", key, data));
             }
             return value;
+        }
+
+        /// <summary>
+        /// Returns null if the key is not present, the value is not filled in,
+        /// or if the value cannot be parsed.
+        /// Will throw an exception if Data is not well-formed.
+        /// </summary>
+        public static double? TryParseDouble(Operator op, string key)
+        {
+            if (op == null) throw new NullException(() => op);
+            return TryParseDouble(op.Data, key);
+        }
+
+        /// <summary>
+        /// Returns null if the key is not present, the value is not filled in,
+        /// or if the value cannot be parsed.
+        /// Will throw an exception if Data is not well-formed.
+        /// </summary>
+        public static double? TryParseDouble(string data, string key)
+        {
+            string str = TryGetString(data, key);
+
+            double value;
+            if (DoubleHelper.TryParse(str, _formattingCulture, out value))
+            {
+                return value;
+            }
+
+            return null;
         }
 
         public static int GetInt32(Operator op, string key)
@@ -127,6 +158,7 @@ namespace JJ.Business.Synthesizer.Helpers
         /// <summary>
         /// Returns null if the key is not present or value not filled in.
         /// Will throw an exception if said value cannot be parsed.
+        /// Will also throw an exception if Data is not well-formed.
         /// </summary>
         public static int? TryGetInt32(Operator op, string key)
         {
@@ -137,6 +169,7 @@ namespace JJ.Business.Synthesizer.Helpers
         /// <summary>
         /// Returns null if the key is not present or value not filled in.
         /// Will throw an exception if said value cannot be parsed.
+        /// Will also throw an exception if Data is not well-formed.
         /// </summary>
         public static int? TryGetInt32(string data, string key)
         {
@@ -154,7 +187,43 @@ namespace JJ.Business.Synthesizer.Helpers
             return value;
         }
 
-        /// <summary> If the property is not present, default(TEnum) is returned. </summary>
+        /// <summary>
+        /// Returns null if the key is not present, the value is not filled in,
+        /// or if the value cannot be parsed.
+        /// Will throw an exception if Data is not well-formed.
+        /// </summary>
+        public static int? TryParseInt32(Operator op, string key)
+        {
+            if (op == null) throw new NullException(() => op);
+            return TryParseInt32(op.Data, key);
+        }
+
+        /// <summary>
+        /// Returns null if the key is not present, the value is not filled in,
+        /// or if the value cannot be parsed.
+        /// Will throw an exception if Data is not well-formed.
+        /// </summary>
+        public static int? TryParseInt32(string data, string key)
+        {
+            string str = TryGetString(data, key);
+            if (String.IsNullOrEmpty(str))
+            {
+                return null;
+            }
+
+            int value;
+            if (Int32.TryParse(str, out value))
+            {
+                return value;
+            }
+
+            return null;
+        }
+
+        /// <summary> 
+        /// If the property is not present, default(TEnum) is returned. 
+        /// Will throw an exception if Data is not well-formed.
+        /// </summary>
         public static TEnum GetEnum<TEnum>(Operator op, string key)
             where TEnum : struct
         {
@@ -162,7 +231,10 @@ namespace JJ.Business.Synthesizer.Helpers
             return GetEnum<TEnum>(op.Data, key);
         }
 
-        /// <summary> If the property is not present, default(TEnum) is returned. </summary>
+        /// <summary> 
+        /// If the property is not present, default(TEnum) is returned. 
+        /// Will throw an exception if Data is not well-formed.
+        /// </summary>
         public static TEnum GetEnum<TEnum>(string data, string key)
             where TEnum : struct
         {
@@ -180,14 +252,20 @@ namespace JJ.Business.Synthesizer.Helpers
             return value;
         }
 
-        /// <summary> Returns null if key does not exist. </summary>
+        /// <summary> 
+        /// Returns null if key does not exist.
+        /// Will throw an exception if Data is not well-formed.
+        /// </summary>
         public static string TryGetString(Operator op, string key)
         {
             if (op == null) throw new NullException(() => op);
             return TryGetString(op.Data, key);
         }
 
-        /// <summary> Returns null if key does not exist. </summary>
+        /// <summary> 
+        /// Returns null if key does not exist.
+        /// Will throw an exception if Data is not well-formed.
+        /// </summary>
         public static string TryGetString(string data, string key)
         {
             IList<ParsedKeyValuePair> results = Parse(data);

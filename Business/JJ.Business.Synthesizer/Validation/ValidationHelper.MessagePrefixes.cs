@@ -121,7 +121,7 @@ namespace JJ.Business.Synthesizer.Validation
             // Use Underlying Entity Name
             if (DataPropertyParser.DataIsWellFormed(entity))
             {
-                int? underlyingEntityID = DataPropertyParser.TryGetInt32(entity, PropertyNames.CurveID);
+                int? underlyingEntityID = DataPropertyParser.TryParseInt32(entity, PropertyNames.CurveID);
                 if (underlyingEntityID.HasValue)
                 {
                     Curve underlyingEntity = curveRepository.TryGet(underlyingEntityID.Value);
@@ -154,7 +154,7 @@ namespace JJ.Business.Synthesizer.Validation
             // Use Underlying Entity Name
             if (DataPropertyParser.DataIsWellFormed(entity))
             {
-                int? underlyingEntityID = DataPropertyParser.TryGetInt32(entity, PropertyNames.UnderlyingPatchID);
+                int? underlyingEntityID = DataPropertyParser.TryParseInt32(entity, PropertyNames.UnderlyingPatchID);
                 if (underlyingEntityID.HasValue)
                 {
                     Patch underlyingEntity = patchRepository.TryGet(underlyingEntityID.Value);
@@ -185,7 +185,7 @@ namespace JJ.Business.Synthesizer.Validation
             // Use Number
             if (DataPropertyParser.DataIsWellFormed(entity.Data))
             {
-                double? number = DataPropertyParser.TryGetDouble(entity.Data, PropertyNames.Number);
+                double? number = DataPropertyParser.TryParseDouble(entity.Data, PropertyNames.Number);
                 if (number.HasValue)
                 {
                     string formattedValue = number.Value.ToString("0.######");
@@ -213,7 +213,7 @@ namespace JJ.Business.Synthesizer.Validation
             // Use Underlying Entity Name
             if (DataPropertyParser.DataIsWellFormed(entity))
             {
-                int? underlyingEntityID = DataPropertyParser.TryGetInt32(entity, PropertyNames.SampleID);
+                int? underlyingEntityID = DataPropertyParser.TryParseInt32(entity, PropertyNames.SampleID);
                 if (underlyingEntityID.HasValue)
                 {
                     Sample underlyingEntity = sampleRepository.TryGet(underlyingEntityID.Value);

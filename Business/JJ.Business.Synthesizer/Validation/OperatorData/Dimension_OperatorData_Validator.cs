@@ -21,6 +21,7 @@ namespace JJ.Business.Synthesizer.Validation.OperatorData
             {
                 // Dimension can be Undefined, but key must exist.
                 string dimensionString = DataPropertyParser.TryGetString(data, PropertyNames.Dimension);
+
                 For(() => dimensionString, PropertyNames.Dimension)
                     .NotNullOrEmpty()
                     .IsEnum<DimensionEnum>();
