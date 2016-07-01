@@ -15,6 +15,9 @@ using JJ.Data.Canonical;
 using JJ.Framework.Configuration;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Framework.Common;
+using JJ.Business.Synthesizer.Helpers;
+using System.Text;
+using JJ.Presentation.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -153,41 +156,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
 
             return viewModel;
-        }
-
-        public static string GetOperatorCaption(
-            Operator op, ISampleRepository sampleRepository, ICurveRepository curveRepository, IPatchRepository patchRepository)
-        {
-            if (op == null) throw new NullException(() => op);
-            if (sampleRepository == null) throw new NullException(() => sampleRepository);
-            if (curveRepository == null) throw new NullException(() => curveRepository);
-            if (patchRepository == null) throw new NullException(() => patchRepository);
-
-            OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
-
-            switch (operatorTypeEnum)
-            {
-                case OperatorTypeEnum.Number:
-                    return GetOperatorCaption_ForNumber(op);
-
-                case OperatorTypeEnum.PatchInlet:
-                    return GetOperatorCaption_ForPatchInlet(op);
-
-                case OperatorTypeEnum.PatchOutlet:
-                    return GetOperatorCaption_ForPatchOutlet(op);
-
-                case OperatorTypeEnum.Sample:
-                    return GetOperatorCaption_ForSample(op, sampleRepository);
-
-                case OperatorTypeEnum.Curve:
-                    return GetOperatorCaption_ForCurve(op, curveRepository);
-
-                case OperatorTypeEnum.CustomOperator:
-                    return GetOperatorCaption_ForCustomOperator(op, patchRepository);
-
-                default:
-                    return GetOperatorCaption_ForOtherOperators(op);
-            }
         }
 
         /// <summary>
@@ -350,8 +318,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         /// without having to re-establish the intricate relations with other operators.
         /// </summary>
         public static void RefreshViewModel_WithoutEntityPosition(
-            Operator entity, OperatorViewModel viewModel,
-            ISampleRepository sampleRepository, ICurveRepository curveRepository, IPatchRepository patchRepository)
+            Operator entity, 
+            OperatorViewModel viewModel,
+            ISampleRepository sampleRepository, 
+            ICurveRepository curveRepository, 
+            IPatchRepository patchRepository)
         {
             if (entity == null) throw new NullException(() => entity);
             if (viewModel == null) throw new NullException(() => viewModel);
@@ -370,6 +341,73 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
 
             viewModel.IsOwned = GetOperatorIsOwned(entity);
+        }
+
+        public static string GetInletCaption(
+            Inlet inlet,
+            ISampleRepository sampleRepository,
+            ICurveRepository curveRepository,
+            IPatchRepository patchRepository)
+        {
+            var sb = new StringBuilder();
+
+            var wrapper = OperatorWrapperFactory.CreateOperatorWrapper(
+                inlet.Operator, 
+                curveRepository, 
+                sampleRepository, 
+                patchRepository);
+
+            string inletDisplayName = wrapper.GetInletDisplayName(inlet.ListIndex);
+
+            sb.Append(inletDisplayName);
+
+            if (inlet.InputOutlet == null)
+            {
+                if (inlet.DefaultValue.HasValue)
+                {
+                    sb.AppendFormat(" ({0:0.#####})", inlet.DefaultValue.Value);
+                }
+            }
+
+            return sb.ToString();
+        }
+
+        public static string GetOperatorCaption(
+            Operator op, 
+            ISampleRepository sampleRepository, 
+            ICurveRepository curveRepository, 
+            IPatchRepository patchRepository)
+        {
+            if (op == null) throw new NullException(() => op);
+            if (sampleRepository == null) throw new NullException(() => sampleRepository);
+            if (curveRepository == null) throw new NullException(() => curveRepository);
+            if (patchRepository == null) throw new NullException(() => patchRepository);
+
+            OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
+
+            switch (operatorTypeEnum)
+            {
+                case OperatorTypeEnum.Curve:
+                    return GetOperatorCaption_ForCurve(op, curveRepository);
+
+                case OperatorTypeEnum.CustomOperator:
+                    return GetOperatorCaption_ForCustomOperator(op, patchRepository);
+
+                case OperatorTypeEnum.Number:
+                    return GetOperatorCaption_ForNumber(op);
+
+                case OperatorTypeEnum.PatchInlet:
+                    return GetOperatorCaption_ForPatchInlet(op);
+
+                case OperatorTypeEnum.PatchOutlet:
+                    return GetOperatorCaption_ForPatchOutlet(op);
+
+                case OperatorTypeEnum.Sample:
+                    return GetOperatorCaption_ForSample(op, sampleRepository);
+
+                default:
+                    return GetOperatorCaption_ForOtherOperators(op);
+            }
         }
 
         private static string GetOperatorCaption_ForCurve(Operator op, ICurveRepository curveRepository)
@@ -435,19 +473,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
         }
 
-        private static string GetOperatorCaption_ForOtherOperators(Operator op)
-        {
-            // Prefer Operator's explicit Name.
-            if (!String.IsNullOrWhiteSpace(op.Name))
-            {
-                return op.Name;
-            }
-
-            // Use OperatorType DisplayName as fallback.
-            string caption = ResourceHelper.GetDisplayName(op.GetOperatorTypeEnum());
-            return caption;
-        }
-
         private static string GetOperatorCaption_ForPatchInlet(Operator op)
         {
             // Prefer Operator's explicit Name.
@@ -509,6 +534,19 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 {
                     return underlyingEntity.Name;
                 }
+            }
+
+            // Use OperatorType DisplayName as fallback.
+            string caption = ResourceHelper.GetDisplayName(op.GetOperatorTypeEnum());
+            return caption;
+        }
+
+        private static string GetOperatorCaption_ForOtherOperators(Operator op)
+        {
+            // Prefer Operator's explicit Name.
+            if (!String.IsNullOrWhiteSpace(op.Name))
+            {
+                return op.Name;
             }
 
             // Use OperatorType DisplayName as fallback.

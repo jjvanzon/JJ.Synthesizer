@@ -69,17 +69,20 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
             Inlet inlet = Inlets[listIndex];
 
+            // Use Name
             if (!String.IsNullOrEmpty(inlet.Name))
             {
                 return inlet.Name;
             }
 
+            // Use Dimension
             DimensionEnum dimensionEnum = inlet.GetDimensionEnum();
             if (dimensionEnum != DimensionEnum.Undefined)
             {
                 return ResourceHelper.GetDisplayName(dimensionEnum);
             }
 
+            // Use ListIndex
             string displayName = String.Format("{0} {1}", PropertyDisplayNames.Inlet, listIndex + 1);
             return displayName;
         }
@@ -91,17 +94,20 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
             Outlet outlet = Outlets[listIndex];
 
+            // Use Name
             if (!String.IsNullOrEmpty(outlet.Name))
             {
                 return outlet.Name;
             }
 
+            // Use Dimension
             DimensionEnum dimensionEnum = outlet.GetDimensionEnum();
             if (dimensionEnum != DimensionEnum.Undefined)
             {
                 return ResourceHelper.GetDisplayName(dimensionEnum);
             }
 
+            // Use ListIndex
             string displayName = String.Format("{0} {1}", PropertyDisplayNames.Outlet, listIndex + 1);
             return displayName;
         }

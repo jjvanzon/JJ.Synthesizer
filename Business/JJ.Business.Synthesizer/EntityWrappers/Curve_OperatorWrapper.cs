@@ -63,6 +63,11 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.Dimension, value); }
         }
 
+        public override string GetInletDisplayName(int listIndex)
+        {
+            throw new NotSupportedException();
+        }
+
         public override string GetOutletDisplayName(int listIndex)
         {
             if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);

@@ -25,19 +25,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { _wrappedOperator.Name = value; }
         }
 
-        // TODO: Make abstract after you implemented in all OperatorWrappers.
-        public virtual string GetInletDisplayName(int listIndex)
-        {
-            // HACK
-            return null;
-        }
+        public abstract string GetInletDisplayName(int listIndex);
 
-        // TODO: Make abstract after you implemented in all OperatorWrappers.
-        public virtual string GetOutletDisplayName(int listIndex)
-        {
-            // HACK
-            return null;
-        }
+        public abstract string GetOutletDisplayName(int listIndex);
 
         public static implicit operator Operator(OperatorWrapperBase wrapper)
         {

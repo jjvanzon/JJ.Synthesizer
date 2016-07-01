@@ -264,6 +264,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.Name = entity.Name;
             viewModel.ListIndex = entity.ListIndex;
             viewModel.DefaultValue = entity.DefaultValue;
+            viewModel.Caption = ViewModelHelper.GetInletCaption(entity, sampleRepository, curveRepository, patchRepository);
 
             if (entity.Dimension != null)
             {
@@ -273,10 +274,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 viewModel.Dimension = ViewModelHelper.CreateEmptyIDAndName();
             }
-
-            // TODO: Not a great plan to use a wrapper, since it is strict and ToViewModel might have to be lenient?
-            var wrapper = OperatorWrapperFactory.CreateOperatorWrapper(entity.Operator, curveRepository, sampleRepository, patchRepository);
-            viewModel.Caption = wrapper.GetInletDisplayName(entity.ListIndex);
         }
 
         public static IList<OutletViewModel> ToViewModels(
