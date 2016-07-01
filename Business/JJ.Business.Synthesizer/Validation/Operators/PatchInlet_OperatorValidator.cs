@@ -1,12 +1,11 @@
 ﻿using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Presentation.Resources;
 using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Extensions;
 using System;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Validation.OperatorData;
+using System.Linq;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
@@ -26,12 +25,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             base.Execute();
 
             Execute(new ListIndex_OperatorData_Validator(Object.Data));
-
-            var patchInletWrapper = new PatchInlet_OperatorWrapper(Object);
-            For(() => patchInletWrapper.Inlet.GetDimensionEnum(), PropertyDisplayNames.Dimension).IsEnum<DimensionEnum>();
-
-            // PatchInlet.Inlet.Dimension is optional.
-            // PatchInlet.Name is optional.
         }
     }
 }

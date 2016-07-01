@@ -1161,8 +1161,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.LinkTo(operatorTypeRepository.Get(viewModel.OperatorType.ID));
 
             var wrapper = new GetDimension_OperatorWrapper(entity);
-            bool interpolationTypeIsFilledIn = viewModel.Dimension != null && viewModel.Dimension.ID != 0;
-            if (interpolationTypeIsFilledIn)
+            bool dimensionIsFilledIn = viewModel.Dimension != null && viewModel.Dimension.ID != 0;
+            if (dimensionIsFilledIn)
             {
                 wrapper.Dimension = (DimensionEnum)viewModel.Dimension.ID;
             }

@@ -10,7 +10,6 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Validation.OperatorData;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
@@ -19,7 +18,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     internal class CustomOperator_OperatorValidator : FluentValidator<Operator>
     {
         private static readonly string[] _allowedDataKeys = new string[] { PropertyNames.UnderlyingPatchID };
-    
+
         private readonly IPatchRepository _patchRepository;
 
         public CustomOperator_OperatorValidator(Operator op, IPatchRepository patchRepository)
@@ -152,8 +151,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 }
                 else
                 {
-                    var underlyingPatchInletWrapper = new PatchInlet_OperatorWrapper(underlyingPatchInletOperator);
-
                     int? underlyingPatchInlet_ListIndex = TryGetListIndex(underlyingPatchInletOperator);
 
                     if (customOperatorInlet.ListIndex != underlyingPatchInlet_ListIndex)
@@ -168,35 +165,23 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                         ValidationMessages.Add(PropertyNames.Inlet, message);
                     }
 
-                    if (customOperatorInlet.GetDimensionEnum() != underlyingPatchInletWrapper.Inlet.GetDimensionEnum())
+                    Inlet underlyingPatchInlet_Inlet = TryGetInlet(underlyingPatchInletOperator);
+                    if (underlyingPatchInlet_Inlet != null)
                     {
-                        string message = GetInletPropertyDoesNotMatchMessage(customOperatorInlet, PropertyDisplayNames.Dimension);
-                        ValidationMessages.Add(PropertyNames.Inlet, message);
-                    }
+                        if (customOperatorInlet.GetDimensionEnum() != underlyingPatchInlet_Inlet.GetDimensionEnum())
+                        {
+                            string message = GetInletPropertyDoesNotMatchMessage(customOperatorInlet, PropertyDisplayNames.Dimension);
+                            ValidationMessages.Add(PropertyNames.Inlet, message);
+                        }
 
-                    if (customOperatorInlet.DefaultValue != underlyingPatchInletWrapper.Inlet.DefaultValue)
-                    {
-                        string message = GetInletPropertyDoesNotMatchMessage(customOperatorInlet, PropertyDisplayNames.DefaultValue);
-                        ValidationMessages.Add(PropertyNames.Inlet, message);
+                        if (customOperatorInlet.DefaultValue != underlyingPatchInlet_Inlet.DefaultValue)
+                        {
+                            string message = GetInletPropertyDoesNotMatchMessage(customOperatorInlet, PropertyDisplayNames.DefaultValue);
+                            ValidationMessages.Add(PropertyNames.Inlet, message);
+                        }
                     }
                 }
             }
-        }
-
-        private static int? TryGetListIndex(Operator patchInletOrPatchOutletOperator)
-        {
-            string listIndex_String = DataPropertyParser.TryGetString(patchInletOrPatchOutletOperator, PropertyNames.ListIndex);
-
-            if (!String.IsNullOrEmpty(listIndex_String))
-            {
-                int listIndex;
-                if (Int32.TryParse(listIndex_String, out listIndex))
-                {
-                    return listIndex;
-                }
-            }
-
-            return null;
         }
 
         private void ValidateOutletsAgainstUnderlyingPatch(Patch underlyingPatch)
@@ -219,29 +204,59 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 }
                 else
                 {
-                    var underlyingPatchOutletWrapper = new PatchOutlet_OperatorWrapper(underlyingPatchOutlet);
-
                     int? underlyingPatchOutlet_ListIndex = TryGetListIndex(underlyingPatchOutlet);
 
                     if (customOperatorOutlet.ListIndex != underlyingPatchOutlet_ListIndex)
                     {
-                        string message = GetOutletPropertyDoesNotMatchMessage(underlyingPatchOutletWrapper, PropertyDisplayNames.ListIndex);
+                        string message = GetOutletPropertyDoesNotMatchMessage(customOperatorOutlet, PropertyDisplayNames.ListIndex);
                         ValidationMessages.Add(PropertyNames.Outlet, message);
                     }
 
                     if (!String.Equals(customOperatorOutlet.Name, underlyingPatchOutlet.Name))
                     {
-                        string message = GetOutletPropertyDoesNotMatchMessage(underlyingPatchOutletWrapper, CommonTitles.Name);
+                        string message = GetOutletPropertyDoesNotMatchMessage(customOperatorOutlet, CommonTitles.Name);
                         ValidationMessages.Add(PropertyNames.Outlet, message);
                     }
 
-                    if (customOperatorOutlet.GetDimensionEnum() != underlyingPatchOutletWrapper.Result.GetDimensionEnum())
+                    Outlet underlyingPatchOutlet_Outlet = TryGetOutlet(underlyingPatchOutlet);
+                    if (underlyingPatchOutlet_Outlet != null)
                     {
-                        string message = GetOutletPropertyDoesNotMatchMessage(underlyingPatchOutletWrapper, PropertyDisplayNames.Dimension);
-                        ValidationMessages.Add(PropertyNames.Outlet, message);
+                        if (customOperatorOutlet.GetDimensionEnum() != underlyingPatchOutlet_Outlet.GetDimensionEnum())
+                        {
+                            string message = GetOutletPropertyDoesNotMatchMessage(customOperatorOutlet, PropertyDisplayNames.Dimension);
+                            ValidationMessages.Add(PropertyNames.Outlet, message);
+                        }
                     }
                 }
             }
+        }
+
+        // Helpers
+
+        private static int? TryGetListIndex(Operator patchInletOrPatchOutletOperator)
+        {
+            string listIndex_String = DataPropertyParser.TryGetString(patchInletOrPatchOutletOperator, PropertyNames.ListIndex);
+
+            if (!String.IsNullOrEmpty(listIndex_String))
+            {
+                int listIndex;
+                if (Int32.TryParse(listIndex_String, out listIndex))
+                {
+                    return listIndex;
+                }
+            }
+
+            return null;
+        }
+
+        private Inlet TryGetInlet(Operator op)
+        {
+            return op.Inlets.FirstOrDefault();
+        }
+
+        private Outlet TryGetOutlet(Operator op)
+        {
+            return op.Outlets.FirstOrDefault();
         }
 
         private static string GetInletPropertyDoesNotMatchMessage(Inlet customOperatorInlet, string propertyDisplayName)

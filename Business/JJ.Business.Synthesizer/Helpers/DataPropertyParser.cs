@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Helpers
         /// Whatever I try, I just cannot make the last semi-colon optional.
         /// Not sure what I am doing wrong, so I am going to work around it.
         /// </summary>
-        private static Regex _regex_WithExcessiveSemiColonAtTheEnd = CreateRegex_WithExcessiveSemiColonAtTheEnd();
+        private static Regex _regex_WithExcessSemiColonAtTheEnd = CreateRegex_WithExcessiveSemiColonAtTheEnd();
 
         private static Regex CreateRegex_WithExcessiveSemiColonAtTheEnd()
         {
@@ -58,7 +58,7 @@ namespace JJ.Business.Synthesizer.Helpers
 
             string dataWithExtraSemiColon = data + ";";
 
-            bool isMatch = _regex_WithExcessiveSemiColonAtTheEnd.IsMatch(dataWithExtraSemiColon);
+            bool isMatch = _regex_WithExcessSemiColonAtTheEnd.IsMatch(dataWithExtraSemiColon);
             return isMatch;
         }
 

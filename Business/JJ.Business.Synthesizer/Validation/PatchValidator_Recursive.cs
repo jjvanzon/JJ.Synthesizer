@@ -9,7 +9,6 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Validation.Operators;
 
 namespace JJ.Business.Synthesizer.Validation
@@ -75,8 +74,8 @@ namespace JJ.Business.Synthesizer.Validation
         private void ValidatePatchInletListIndexesAreUnique()
         {
             IList<int> listIndexes = Object.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
-                                           .Select(x => new PatchInlet_OperatorWrapper(x))
-                                           .Select(x => x.ListIndex)
+                                           .Where(x => DataPropertyParser.DataIsWellFormed(x))
+                                           .Select(x => DataPropertyParser.TryGetInt32(x, PropertyNames.ListIndex))
                                            .Where(x => x.HasValue)
                                            .Select(x => x.Value)
                                            .ToArray();
@@ -105,8 +104,8 @@ namespace JJ.Business.Synthesizer.Validation
         private void ValidatePatchOutletListIndexesAreUnique()
         {
             IList<int> listIndexes = Object.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
-                                           .Select(x => new PatchOutlet_OperatorWrapper(x))
-                                           .Select(x => x.ListIndex)
+                                           .Where(x => DataPropertyParser.DataIsWellFormed(x))
+                                           .Select(x => DataPropertyParser.TryGetInt32(x, PropertyNames.ListIndex))
                                            .Where(x => x.HasValue)
                                            .Select(x => x.Value)
                                            .ToArray();

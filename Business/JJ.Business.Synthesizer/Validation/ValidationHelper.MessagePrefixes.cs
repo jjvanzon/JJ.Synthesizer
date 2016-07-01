@@ -4,10 +4,10 @@ using JJ.Framework.Reflection.Exceptions;
 using System;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Validation
 {
@@ -74,111 +74,180 @@ namespace JJ.Business.Synthesizer.Validation
             return messagePrefix;
         }
 
-        public static string GetMessagePrefix_ForCustomOperator(Operator entity, IPatchRepository patchRepository)
-        {
-            if (entity == null) throw new NullException(() => entity);
-            if (patchRepository == null) throw new NullException(() => patchRepository);
-            if (entity.GetOperatorTypeEnum() != OperatorTypeEnum.CustomOperator) throw new NotEqualException(() => entity.OperatorType, OperatorTypeEnum.CustomOperator);
-
-            // Prefer Operator's explicit Name.
-            if (!String.IsNullOrEmpty(entity.Name))
-            {
-                return GetMessagePrefix(ResourceHelper.GetOperatorTypeDisplayName(entity), entity.Name);
-            }
-
-            var wrapper = new CustomOperator_OperatorWrapper(entity, patchRepository);
-            Patch underlyingPatch = wrapper.UnderlyingPatch;
-            string underlyingEntityName = null;
-            if (underlyingPatch != null)
-            {
-                underlyingEntityName = underlyingPatch.Name;
-            }
-
-            string operatorTypeDisplayName = ResourceHelper.GetOperatorTypeDisplayName(entity);
-
-            string messagePrefix = GetMessagePrefix(operatorTypeDisplayName, underlyingEntityName);
-            return messagePrefix;
-        }
-
         public static string GetMessagePrefix(
-            Operator entity, 
-            ISampleRepository sampleRepository, 
-            ICurveRepository curveRepository, 
+            Operator entity,
+            ISampleRepository sampleRepository,
+            ICurveRepository curveRepository,
             IPatchRepository patchRepository)
         {
             if (entity == null) throw new NullException(() => entity);
-            if (sampleRepository == null) throw new NullException(() => sampleRepository);
-            if (curveRepository == null) throw new NullException(() => curveRepository);
-            if (patchRepository == null) throw new NullException(() => patchRepository);
 
             OperatorTypeEnum operatorTypeEnum = entity.GetOperatorTypeEnum();
 
             switch (operatorTypeEnum)
             {
-                case OperatorTypeEnum.Undefined:
-                    return GetMessagePrefix(PropertyDisplayNames.Operator, entity.Name);
+                case OperatorTypeEnum.Curve:
+                    return GetMessagePrefix_ForCurveOperator(entity, curveRepository);
 
                 case OperatorTypeEnum.CustomOperator:
                     return GetMessagePrefix_ForCustomOperator(entity, patchRepository);
-            }
 
-            // Prefer Operator's explicit Name.
-            if (!String.IsNullOrEmpty(entity.Name))
-            {
-                return GetMessagePrefix(ResourceHelper.GetOperatorTypeDisplayName(entity), entity.Name);
-            }
-
-            // TODO: Give the OperatorTypes below their own specialized GetMessagePrefix method, just like GetMessagePrefix_ForCustomOperator.
-
-            // No Operator Name: do specific thing for specific OperatorType
-            switch (operatorTypeEnum)
-            {
                 case OperatorTypeEnum.Number:
-                    {
-                        var wrapper = new Number_OperatorWrapper(entity);
-                        string formattedValue = wrapper.Number.ToString("0.######");
-                        return String.Format("{0} '{1}': ", ResourceHelper.GetOperatorTypeDisplayName(entity), formattedValue);
-                    }
+                    return GetMessagePrefix_ForNumberOperator(entity);
 
                 case OperatorTypeEnum.Sample:
-                    {
-                        var wrapper = new Sample_OperatorWrapper(entity, sampleRepository);
-                        Sample underlyingEntity = wrapper.Sample;
-                        if (underlyingEntity != null)
-                        {
-                            if (!String.IsNullOrEmpty(underlyingEntity.Name))
-                            {
-                                return GetMessagePrefix(ResourceHelper.GetDisplayName(operatorTypeEnum), underlyingEntity.Name);
-                            }
-                        }
-                        break;
-                    }
+                    return GetMessagePrefix_ForSampleOperator(entity, sampleRepository);
 
-                case OperatorTypeEnum.Curve:
-                    {
-                        var wrapper = new Curve_OperatorWrapper(entity, curveRepository);
-                        Curve underlyingEntity = wrapper.Curve;
-                        if (underlyingEntity != null)
-                        {
-                            if (!String.IsNullOrEmpty(underlyingEntity.Name))
-                            {
-                                return GetMessagePrefix(ResourceHelper.GetDisplayName(operatorTypeEnum), underlyingEntity.Name);
-                            }
-                        }
-                        break;
-                    }
+                case OperatorTypeEnum.Undefined:
+                    return GetMessagePrefix_ForUndefinedOperatorType(entity);
+
+                default:
+                    return GetMessagePrefix_ForOtherOperartorType(entity);
+            }
+        }
+
+        private static string GetMessagePrefix_ForCurveOperator(Operator entity, ICurveRepository curveRepository)
+        {
+            if (curveRepository == null) throw new NullException(() => curveRepository);
+
+            string operatorTypeDisplayName = ResourceHelper.GetOperatorTypeDisplayName(entity);
+
+            // Use Operator Name
+            if (!String.IsNullOrEmpty(entity.Name))
+            {
+                return GetMessagePrefix(operatorTypeDisplayName, entity.Name);
             }
 
-            // There is no Name and it is not OperatorType 
-            // Undefined, Value, Sample, Curve or CustomOperator.
+            // Use Underlying Entity Name
+            if (DataPropertyParser.DataIsWellFormed(entity))
+            {
+                int? underlyingEntityID = DataPropertyParser.TryGetInt32(entity, PropertyNames.CurveID);
+                if (underlyingEntityID.HasValue)
+                {
+                    Curve underlyingEntity = curveRepository.TryGet(underlyingEntityID.Value);
+                    if (underlyingEntity != null)
+                    {
+                        if (!String.IsNullOrEmpty(underlyingEntity.Name))
+                        {
+                            return GetMessagePrefix(operatorTypeDisplayName, underlyingEntity.Name);
+                        }
+                    }
+                }
+            }
 
-            // Then only use OperatorTypeDisplayName.
+            // Use OperatorTypeDisplayName only
+            return operatorTypeDisplayName + ": ";
+        }
 
-            // NOTE: Do not put this in the default case, 
-            // because there are more conditions than the switch value alone
-            // that must fallback to this last resort.
+        private static string GetMessagePrefix_ForCustomOperator(Operator entity, IPatchRepository patchRepository)
+        {
+            if (patchRepository == null) throw new NullException(() => patchRepository);
 
-            return ResourceHelper.GetDisplayName(operatorTypeEnum) + ": ";
+            string operatorTypeDisplayName = ResourceHelper.GetOperatorTypeDisplayName(entity);
+
+            // Use Operator Name
+            if (!String.IsNullOrEmpty(entity.Name))
+            {
+                return GetMessagePrefix(operatorTypeDisplayName, entity.Name);
+            }
+
+            // Use Underlying Entity Name
+            if (DataPropertyParser.DataIsWellFormed(entity))
+            {
+                int? underlyingEntityID = DataPropertyParser.TryGetInt32(entity, PropertyNames.UnderlyingPatchID);
+                if (underlyingEntityID.HasValue)
+                {
+                    Patch underlyingEntity = patchRepository.TryGet(underlyingEntityID.Value);
+                    if (underlyingEntity != null)
+                    {
+                        if (!String.IsNullOrEmpty(underlyingEntity.Name))
+                        {
+                            return GetMessagePrefix(operatorTypeDisplayName, underlyingEntity.Name);
+                        }
+                    }
+                }
+            }
+
+            // Use OperatorTypeDisplayName only
+            return operatorTypeDisplayName + ": ";
+        }
+
+        private static string GetMessagePrefix_ForNumberOperator(Operator entity)
+        {
+            string operatorTypeDisplayName = ResourceHelper.GetOperatorTypeDisplayName(entity);
+
+            // Use Operator Name
+            if (!String.IsNullOrEmpty(entity.Name))
+            {
+                return GetMessagePrefix(operatorTypeDisplayName, entity.Name);
+            }
+
+            // Use Number
+            if (DataPropertyParser.DataIsWellFormed(entity.Data))
+            {
+                double? number = DataPropertyParser.TryGetDouble(entity.Data, PropertyNames.Number);
+                if (number.HasValue)
+                {
+                    string formattedValue = number.Value.ToString("0.######");
+                    string messagePrefix = String.Format("{0} '{1}': ", operatorTypeDisplayName, formattedValue);
+                    return messagePrefix;
+                }
+            }
+
+            // Use OperatorTypeDisplayName
+            return operatorTypeDisplayName + ": ";
+        }
+
+        private static string GetMessagePrefix_ForSampleOperator(Operator entity, ISampleRepository sampleRepository)
+        {
+            if (sampleRepository == null) throw new NullException(() => sampleRepository);
+
+            string operatorTypeDisplayName = ResourceHelper.GetOperatorTypeDisplayName(entity);
+
+            // Use Operator Name
+            if (!String.IsNullOrEmpty(entity.Name))
+            {
+                return GetMessagePrefix(operatorTypeDisplayName, entity.Name);
+            }
+
+            // Use Underlying Entity Name
+            if (DataPropertyParser.DataIsWellFormed(entity))
+            {
+                int? underlyingEntityID = DataPropertyParser.TryGetInt32(entity, PropertyNames.SampleID);
+                if (underlyingEntityID.HasValue)
+                {
+                    Sample underlyingEntity = sampleRepository.TryGet(underlyingEntityID.Value);
+                    if (underlyingEntity != null)
+                    {
+                        if (!String.IsNullOrEmpty(underlyingEntity.Name))
+                        {
+                            return GetMessagePrefix(operatorTypeDisplayName, underlyingEntity.Name);
+                        }
+                    }
+                }
+            }
+
+            // Use OperatorTypeDisplayName
+            return operatorTypeDisplayName + ": ";
+        }
+
+        private static string GetMessagePrefix_ForUndefinedOperatorType(Operator entity)
+        {
+            return GetMessagePrefix(PropertyDisplayNames.Operator, entity.Name);
+        }
+
+        private static string GetMessagePrefix_ForOtherOperartorType(Operator entity)
+        {
+            string operatorTypeDisplayName = ResourceHelper.GetOperatorTypeDisplayName(entity);
+
+            // Use Name
+            if (!String.IsNullOrEmpty(entity.Name))
+            {
+                return GetMessagePrefix(operatorTypeDisplayName, entity.Name);
+            }
+
+            // Use OperatorTypeDisplayName
+            return operatorTypeDisplayName + ": ";
         }
 
         /// <param name="number">1-based</param>

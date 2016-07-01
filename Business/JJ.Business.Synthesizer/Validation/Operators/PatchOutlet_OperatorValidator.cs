@@ -1,11 +1,10 @@
 ﻿using JJ.Business.Synthesizer.Helpers;
-using JJ.Framework.Presentation.Resources;
 using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Validation.OperatorData;
+using System.Linq;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
@@ -25,14 +24,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             base.Execute();
 
             Execute(new ListIndex_OperatorData_Validator(Object.Data));
-
-            var patchOutletWrapper = new PatchOutlet_OperatorWrapper(Object);
-
-            For(() => patchOutletWrapper.Result.GetDimensionEnum(), PropertyDisplayNames.Dimension)
-                .IsEnum<DimensionEnum>();
-
-            // PatchOutlet.Result.Dimension is optional.
-            // PatchOutlet.Name is optional.
         }
     }
 }

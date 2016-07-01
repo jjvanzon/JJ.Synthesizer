@@ -297,13 +297,11 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Curve, inletCount: 0, outletCount: 1);
 
-            var wrapper = new Curve_OperatorWrapper(op, _repositories.CurveRepository);
-            wrapper.Dimension = dimension;
-
-            if (curve != null)
+            var wrapper = new Curve_OperatorWrapper(op, _repositories.CurveRepository)
             {
-                wrapper.CurveID = curve.ID;
-            }
+                Dimension = dimension,
+                CurveID = curve?.ID
+            };
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -318,7 +316,11 @@ namespace JJ.Business.Synthesizer
             op.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, _repositories.OperatorTypeRepository);
             _repositories.OperatorRepository.Insert(op);
 
-            var wrapper = new CustomOperator_OperatorWrapper(op, _repositories.PatchRepository);
+            var wrapper = new CustomOperator_OperatorWrapper(op, _repositories.PatchRepository)
+            {
+                // Needed to create Operator.Data key "UnderlyingPatchID"
+                UnderlyingPatch = null
+            };
 
             op.LinkTo(Patch);
 
@@ -1063,7 +1065,7 @@ namespace JJ.Business.Synthesizer
             var wrapper = new PatchInlet_OperatorWrapper(op)
             {
                 // You have to set this property or the wrapper's ListIndex getter would crash.
-                ListIndex = 0,
+                ListIndex = 0
             };
 
             ExecuteSideEffectsForCreatingPatchInletOrPatchOutlet(wrapper.WrappedOperator);
@@ -1293,7 +1295,9 @@ namespace JJ.Business.Synthesizer
 
             var wrapper = new Reset_OperatorWrapper(op)
             {
-                Operand = operand
+                Operand = operand,
+                // Needed to create Operator.Data key "ListIndex".
+                ListIndex = null
             };
 
             VoidResult result = ValidateOperatorNonRecursive(op);
@@ -1323,13 +1327,11 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Sample, inletCount: 1, outletCount: 1);
 
-            var wrapper = new Sample_OperatorWrapper(op, _repositories.SampleRepository);
-            wrapper.Dimension = dimension;
-
-            if (sample != null)
+            var wrapper = new Sample_OperatorWrapper(op, _repositories.SampleRepository)
             {
-                wrapper.SampleID = sample.ID;
-            }
+                Dimension = dimension,
+                SampleID = sample?.ID
+            };
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
