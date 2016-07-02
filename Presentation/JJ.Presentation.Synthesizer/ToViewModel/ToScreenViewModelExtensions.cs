@@ -205,7 +205,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new DocumentTreeViewModel
             {
                 ID = document.ID,
-                Name = document.Name,
                 PatchesNode = new PatchesTreeNodeViewModel
                 {
                     PatchGroupNodes = new List<PatchGroupTreeNodeViewModel>()

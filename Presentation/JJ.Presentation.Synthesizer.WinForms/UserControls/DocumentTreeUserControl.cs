@@ -72,14 +72,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                     return;
                 }
 
-                _documentTreeNode = new TreeNode(ViewModel.Name);
-                treeView.Nodes.Add(_documentTreeNode);
-
-                AddDocumentDescendantNodes(_documentTreeNode, ViewModel);
+                AddDocumentDescendantNodes(treeView.Nodes, ViewModel);
 
                 // TODO: Uncomment when the referenced documents functionality is programmed.
                 //var referencedDocumentsTreeNode = new TreeNode(PropertyDisplayNames.ReferencedDocuments);
-                //documentTreeNode.Nodes.Add(referencedDocumentsTreeNode);
+                //treeView.Nodes.Add(referencedDocumentsTreeNode);
 
                 //foreach (ReferencedDocumentViewModel referencedDocumentViewModel in _viewModel.ReferencedDocuments.List)
                 //{
@@ -103,8 +100,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
                 //referencedDocumentsTreeNode.Expand();
 
-                _documentTreeNode.Expand();
-
             }
             finally
             {
@@ -114,11 +109,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
-        private void AddDocumentDescendantNodes(TreeNode documentNode, DocumentTreeViewModel documentNodeViewModel)
+        private void AddDocumentDescendantNodes(TreeNodeCollection nodes, DocumentTreeViewModel documentNodeViewModel)
         {
             // Patches
             var patchesTreeNode = new TreeNode(PropertyDisplayNames.Patches);
-            documentNode.Nodes.Add(patchesTreeNode);
+            nodes.Add(patchesTreeNode);
             _patchesTreeNodes.Add(patchesTreeNode);
 
             // PatchGroups
@@ -151,21 +146,21 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             // Other Nodes
             var samplesTreeNode = new TreeNode(PropertyDisplayNames.Samples);
-            documentNode.Nodes.Add(samplesTreeNode);
+            nodes.Add(samplesTreeNode);
             _samplesTreeNodes.Add(samplesTreeNode);
 
             var curvesTreeNode = new TreeNode(PropertyDisplayNames.Curves);
-            documentNode.Nodes.Add(curvesTreeNode);
+            nodes.Add(curvesTreeNode);
             _curvesTreeNodes.Add(curvesTreeNode);
 
             _scalesTreeNode = new TreeNode(PropertyDisplayNames.Scales);
-            documentNode.Nodes.Add(_scalesTreeNode);
+            nodes.Add(_scalesTreeNode);
 
             _audioOutputNode = new TreeNode(PropertyDisplayNames.AudioOutput);
-            documentNode.Nodes.Add(_audioOutputNode);
+            nodes.Add(_audioOutputNode);
 
             _audioFileOutputsTreeNode = new TreeNode(PropertyDisplayNames.AudioFileOutputs);
-            documentNode.Nodes.Add(_audioFileOutputsTreeNode);
+            nodes.Add(_audioFileOutputsTreeNode);
         }
 
         private TreeNode ConvertPatchTreeNode(PatchTreeNodeViewModel patchTreeNodeViewModel)
@@ -173,7 +168,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             var patchTreeNode = new TreeNode(patchTreeNodeViewModel.Name);
             patchTreeNode.Tag = patchTreeNodeViewModel.ChildDocumentID;
 
-            AddPatchDescendantNodes(patchTreeNode, patchTreeNodeViewModel);
+            AddPatchDescendantNodes(patchTreeNode.Nodes, patchTreeNodeViewModel);
 
             if (patchTreeNodeViewModel.IsExpanded)
             {
@@ -187,18 +182,18 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             return patchTreeNode;
         }
 
-        private void AddPatchDescendantNodes(TreeNode patchNode, PatchTreeNodeViewModel patchTreeNodeViewModel)
+        private void AddPatchDescendantNodes(TreeNodeCollection nodes, PatchTreeNodeViewModel patchTreeNodeViewModel)
         {
             object childDocumentTag = TagHelper.GetChildDocumentTag(patchTreeNodeViewModel.ChildDocumentID);
 
             var samplesTreeNode = new TreeNode(PropertyDisplayNames.Samples);
             samplesTreeNode.Tag = childDocumentTag;
-            patchNode.Nodes.Add(samplesTreeNode);
+            nodes.Add(samplesTreeNode);
             _samplesTreeNodes.Add(samplesTreeNode);
 
             var curvesTreeNode = new TreeNode(PropertyDisplayNames.Curves);
             curvesTreeNode.Tag = childDocumentTag;
-            patchNode.Nodes.Add(curvesTreeNode);
+            nodes.Add(curvesTreeNode);
             _curvesTreeNodes.Add(curvesTreeNode);
         }
 
@@ -206,10 +201,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void Close()
         {
-            if (CloseRequested != null)
-            {
-                CloseRequested(this, EventArgs.Empty);
-            }
+            CloseRequested?.Invoke(this, EventArgs.Empty);
         }
 
         // Events
@@ -229,10 +221,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (_patchTreeNodes.Contains(e.Node))
             {
                 int id = (int)e.Node.Tag;
-                if (ExpandNodeRequested != null)
-                {
-                    ExpandNodeRequested(this, new Int32EventArgs(id));
-                }
+                ExpandNodeRequested?.Invoke(this, new Int32EventArgs(id));
             }
         }
 
@@ -246,10 +235,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (_patchTreeNodes.Contains(e.Node))
             {
                 int id = (int)e.Node.Tag;
-                if (CollapseNodeRequested != null)
-                {
-                    CollapseNodeRequested(this, new Int32EventArgs(id));
-                }
+                CollapseNodeRequested?.Invoke(this, new Int32EventArgs(id));
             }
         }
 
@@ -282,71 +268,43 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             if (node == _documentTreeNode)
             {
-                if (ShowDocumentPropertiesRequested != null)
-                {
-                    ShowDocumentPropertiesRequested(this, EventArgs.Empty);
-                }
+                ShowDocumentPropertiesRequested?.Invoke(this, EventArgs.Empty);
             }
 
             if (node == _audioFileOutputsTreeNode)
             {
-                if (ShowAudioFileOutputsRequested != null)
-                {
-                    ShowAudioFileOutputsRequested(this, EventArgs.Empty);
-                }
+                ShowAudioFileOutputsRequested?.Invoke(this, EventArgs.Empty);
             }
 
             if (node == _audioOutputNode)
             {
-                if (ShowAudioOutputRequested != null)
-                {
-                    ShowAudioOutputRequested(this, EventArgs.Empty);
-                }
+                ShowAudioOutputRequested?.Invoke(this, EventArgs.Empty);
             }
 
             if (_curvesTreeNodes.Contains(node))
             {
-                if (ShowCurvesRequested != null)
-                {
-                    Int32EventArgs e2 = GetChildDocumentEventArgs(node.Tag);
-                    ShowCurvesRequested(this, e2);
-                }
+                ShowCurvesRequested?.Invoke(this, GetChildDocumentEventArgs(node.Tag));
             }
 
             if (_patchesTreeNodes.Contains(node))
             {
-                if (ShowPatchGridRequested != null)
-                {
-                    var e2 = new StringEventArgs((string)node.Tag);
-                    ShowPatchGridRequested(this, e2);
-                }
+                ShowPatchGridRequested?.Invoke(this, new StringEventArgs((string)node.Tag));
             }
 
             if (_patchTreeNodes.Contains(node))
             {
-                if (ShowPatchDetailsRequested != null)
-                {
-                    int id = (int)node.Tag;
-                    Int32EventArgs e2 = new Int32EventArgs(id);
-                    ShowPatchDetailsRequested(this, e2);
-                }
+                int id = (int)node.Tag;
+                ShowPatchDetailsRequested?.Invoke(this, new Int32EventArgs(id));
             }
 
             if (_samplesTreeNodes.Contains(node))
             {
-                if (ShowSamplesRequested != null)
-                {
-                    Int32EventArgs e2 = GetChildDocumentEventArgs(node.Tag);
-                    ShowSamplesRequested(this, e2);
-                }
+                ShowSamplesRequested?.Invoke(this, GetChildDocumentEventArgs(node.Tag));
             }
 
             if (node == _scalesTreeNode)
             {
-                if (ShowScalesRequested != null)
-                {
-                    ShowScalesRequested(this, EventArgs.Empty);
-                }
+                ShowScalesRequested?.Invoke(this, EventArgs.Empty);
             }
         }
 
