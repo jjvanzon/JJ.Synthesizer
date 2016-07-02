@@ -365,7 +365,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 if (inlet.DefaultValue.HasValue)
                 {
-                    sb.AppendFormat(" ({0:0.#####})", inlet.DefaultValue.Value);
+                    sb.AppendFormat(" = {0:0.####}", inlet.DefaultValue.Value);
                 }
             }
 

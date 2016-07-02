@@ -660,8 +660,6 @@ namespace JJ.Business.Synthesizer
             wrapper.SkipInlet.DefaultValue = 0.0;
             wrapper.LoopStartMarkerInlet.DefaultValue = 0.0;
             wrapper.LoopEndMarkerInlet.DefaultValue = 1.0;
-            wrapper.ReleaseEndMarkerInlet.DefaultValue = 1000.0;
-            wrapper.NoteDurationInlet.DefaultValue = 1000.0;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
