@@ -478,27 +478,37 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         private static string GetOperatorCaption_ForPatchInlet(Operator op)
         {
-            string substituteOperatorTypeDisplayName = PropertyDisplayNames.Inlet;
+            var sb = new StringBuilder();
 
-            // Use Operator Name
-            if (!String.IsNullOrWhiteSpace(op.Name))
-            {
-                return String.Format("{0}: {1}", substituteOperatorTypeDisplayName, op.Name);
-            }
-
-            // Use Dimension
             var wrapper = new PatchInlet_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Inlet.GetDimensionEnum();
-            if (dimensionEnum != DimensionEnum.Undefined)
-            {
-                string dimensionDisplayName = ResourceHelper.GetDisplayName(dimensionEnum);
-                return String.Format("{0}: {1}", substituteOperatorTypeDisplayName,  dimensionDisplayName);
-            }
+            Inlet inlet = wrapper.Inlet;
 
             // Use Substitute OperatorType DisplayName
-            string caption = substituteOperatorTypeDisplayName;
+            sb.Append(PropertyDisplayNames.Inlet);
 
-            return caption;
+            // Try Use Operator Name
+            if (!String.IsNullOrWhiteSpace(op.Name))
+            {
+                sb.AppendFormat(": {0}", op.Name);
+            }
+            else
+            {
+                // Try Use Dimension
+                DimensionEnum dimensionEnum = inlet.GetDimensionEnum();
+                if (dimensionEnum != DimensionEnum.Undefined)
+                {
+                    sb.AppendFormat(": {0}", ResourceHelper.GetDisplayName(dimensionEnum));
+                }
+            }
+
+            // Try Use DefaultValue
+            double? defaultValue = inlet.DefaultValue;
+            if (defaultValue.HasValue)
+            {
+                sb.AppendFormat(" ({0})", defaultValue.Value);
+            }
+
+            return sb.ToString();
         }
 
         private static string GetOperatorCaption_ForPatchOutlet(Operator op)
