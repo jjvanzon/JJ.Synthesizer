@@ -13,7 +13,7 @@ using JJ.Data.Canonical;
 using JJ.Business.Canonical;
 using JJ.Framework.Common;
 
-namespace JJ.Business.Synthesizemr
+namespace JJ.Business.Synthesizer
 {
     public partial class PatchManager
     {
