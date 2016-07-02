@@ -18,14 +18,24 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Signal
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, SIGNAL_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX).LinkTo(value); }
+            get { return SignalInlet.InputOutlet; }
+            set { SignalInlet.LinkTo(value); }
+        }
+
+        public Inlet SignalInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX); }
         }
 
         public Outlet MinFrequency
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, MIN_FREQUENCY_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, MIN_FREQUENCY_INDEX).LinkTo(value); }
+            get { return MinFrequencyInlet.InputOutlet; }
+            set { MinFrequencyInlet.LinkTo(value); }
+        }
+
+        public Inlet MinFrequencyInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, MIN_FREQUENCY_INDEX); }
         }
 
         public Outlet Result

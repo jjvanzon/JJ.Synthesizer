@@ -15,26 +15,46 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Signal
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OperatorConstants.SPECTRUM_SIGNAL_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.SPECTRUM_SIGNAL_INDEX).LinkTo(value); }
+            get { return SignalInlet.InputOutlet; }
+            set { SignalInlet.LinkTo(value); }
+        }
+
+        public Inlet SignalInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.SPECTRUM_SIGNAL_INDEX); }
         }
 
         public Outlet StartTime
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OperatorConstants.SPECTRUM_START_TIME_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.SPECTRUM_START_TIME_INDEX).LinkTo(value); }
+            get { return StartTimeInlet.InputOutlet; }
+            set { StartTimeInlet.LinkTo(value); }
+        }
+
+        public Inlet StartTimeInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.SPECTRUM_START_TIME_INDEX); }
         }
 
         public Outlet EndTime
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OperatorConstants.SPECTRUM_END_TIME_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.SPECTRUM_END_TIME_INDEX).LinkTo(value); }
+            get { return EndTimeInlet.InputOutlet; }
+            set { EndTimeInlet.LinkTo(value); }
+        }
+
+        public Inlet EndTimeInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.SPECTRUM_END_TIME_INDEX); }
         }
 
         public Outlet FrequencyCount
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OperatorConstants.SPECTRUM_FREQUENCY_COUNT_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.SPECTRUM_FREQUENCY_COUNT_INDEX).LinkTo(value); }
+            get { return FrequencyCountInlet.InputOutlet; }
+            set { FrequencyCountInlet.LinkTo(value); }
+        }
+
+        public Inlet FrequencyCountInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.SPECTRUM_FREQUENCY_COUNT_INDEX); }
         }
 
         public Outlet Result

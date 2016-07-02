@@ -22,32 +22,57 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Signal
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, SIGNAL_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX).LinkTo(value); }
+            get { return SignalInlet.InputOutlet; }
+            set { SignalInlet.LinkTo(value); }
+        }
+
+        public Inlet SignalInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX); }
         }
 
         public Outlet SourceValueA
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, SOURCE_VALUE_A_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, SOURCE_VALUE_A_INDEX).LinkTo(value); }
+            get { return SourceValueAInlet.InputOutlet; }
+            set { SourceValueAInlet.LinkTo(value); }
+        }
+
+        public Inlet SourceValueAInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, SOURCE_VALUE_A_INDEX); }
         }
 
         public Outlet SourceValueB
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, SOURCE_VALUE_B_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, SOURCE_VALUE_B_INDEX).LinkTo(value); }
+            get { return SourceValueBInlet.InputOutlet; }
+            set { SourceValueBInlet.LinkTo(value); }
+        }
+
+        public Inlet SourceValueBInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, SOURCE_VALUE_B_INDEX); }
         }
 
         public Outlet TargetValueA
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, TARGET_VALUE_A_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, TARGET_VALUE_A_INDEX).LinkTo(value); }
+            get { return TargetValueAInlet.InputOutlet; }
+            set { TargetValueAInlet.LinkTo(value); }
+        }
+
+        public Inlet TargetValueAInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, TARGET_VALUE_A_INDEX); }
         }
 
         public Outlet TargetValueB
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, TARGET_VALUE_B_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, TARGET_VALUE_B_INDEX).LinkTo(value); }
+            get { return TargetValueBInlet.InputOutlet; }
+            set { TargetValueBInlet.LinkTo(value); }
+        }
+
+        public Inlet TargetValueBInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, TARGET_VALUE_B_INDEX); }
         }
 
         public Outlet Result

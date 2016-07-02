@@ -346,10 +346,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase tillCalculator = _stack.Pop();
             OperatorCalculatorBase stepCalculator = _stack.Pop();
 
-            // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
             fromCalculator = fromCalculator ?? new Zero_OperatorCalculator();
-            tillCalculator = tillCalculator ?? new Number_OperatorCalculator(15.0);
+            tillCalculator = tillCalculator ?? new Zero_OperatorCalculator();
             stepCalculator = stepCalculator ?? new One_OperatorCalculator();
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
@@ -430,9 +429,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase sampleCountCalculator = _stack.Pop();
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
-            // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
-            sliceLengthCalculator = sliceLengthCalculator ?? new Number_OperatorCalculator(0.02);
-            sampleCountCalculator = sampleCountCalculator ?? new Number_OperatorCalculator(100.0);
+            sliceLengthCalculator = sliceLengthCalculator ?? new One_OperatorCalculator();
+            sampleCountCalculator = sampleCountCalculator ?? new One_OperatorCalculator();
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
 
@@ -491,19 +489,18 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase calculator = null;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase startDateCalculator = _stack.Pop();
-            OperatorCalculatorBase endDateCalculator = _stack.Pop();
+            OperatorCalculatorBase startTimeCalculator = _stack.Pop();
+            OperatorCalculatorBase endTimeCalculator = _stack.Pop();
             OperatorCalculatorBase samplingRateCalculator = _stack.Pop();
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
-            // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
-            startDateCalculator = startDateCalculator ?? new Zero_OperatorCalculator();
-            endDateCalculator = endDateCalculator ?? new One_OperatorCalculator();
-            samplingRateCalculator = samplingRateCalculator ?? new Number_OperatorCalculator(44100.0);
+            startTimeCalculator = startTimeCalculator ?? new Zero_OperatorCalculator();
+            endTimeCalculator = endTimeCalculator ?? new One_OperatorCalculator();
+            samplingRateCalculator = samplingRateCalculator ?? new One_OperatorCalculator();
 
             double signal = signalCalculator.Calculate();
-            double startTime = startDateCalculator.Calculate();
-            double endTime = endDateCalculator.Calculate();
+            double startTime = startTimeCalculator.Calculate();
+            double endTime = endTimeCalculator.Calculate();
             double samplingRate = samplingRateCalculator.Calculate();
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
@@ -889,11 +886,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase tillCalculator = _stack.Pop();
             OperatorCalculatorBase stepCalculator = _stack.Pop();
 
-            // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
             inputCalculator = inputCalculator ?? new Zero_OperatorCalculator();
             collectionCalculator = collectionCalculator ?? new Zero_OperatorCalculator();
             fromCalculator = fromCalculator ?? new Zero_OperatorCalculator();
-            tillCalculator = tillCalculator ?? new Number_OperatorCalculator(15.0);
+            tillCalculator = tillCalculator ?? new Zero_OperatorCalculator();
             stepCalculator = stepCalculator ?? new One_OperatorCalculator();
 
             bool inputIsConst = inputCalculator is Number_OperatorCalculator;
@@ -986,11 +982,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase tillCalculator = _stack.Pop();
             OperatorCalculatorBase stepCalculator = _stack.Pop();
 
-            // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
             inputCalculator = inputCalculator ?? new Zero_OperatorCalculator();
             collectionCalculator = collectionCalculator ?? new Zero_OperatorCalculator();
             fromCalculator = fromCalculator ?? new Zero_OperatorCalculator();
-            tillCalculator = tillCalculator ?? new Number_OperatorCalculator(15.0);
+            tillCalculator = tillCalculator ?? new Zero_OperatorCalculator();
             stepCalculator = stepCalculator ?? new One_OperatorCalculator();
 
             bool inputIsConst = inputCalculator is Number_OperatorCalculator;
@@ -1137,8 +1132,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
             timeDifferenceCalculator = timeDifferenceCalculator ?? new Zero_OperatorCalculator();
+
             double signal = signalCalculator.Calculate();
             double timeDifference = timeDifferenceCalculator.Calculate();
+
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool timeDifferenceIsConst = timeDifferenceCalculator is Number_OperatorCalculator;
             bool signalIsConstZero = signalIsConst && signal == 0;
@@ -1284,8 +1281,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
             timeDifferenceCalculator = timeDifferenceCalculator ?? new Zero_OperatorCalculator();
+
             double signal = signalCalculator.Calculate();
             double timeDifference = timeDifferenceCalculator.Calculate();
+
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool timeDifferenceIsConst = timeDifferenceCalculator is Number_OperatorCalculator;
             bool signalIsConstZero = signalIsConst && signal == 0;
@@ -2054,12 +2053,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
             OperatorCalculatorBase sliceLengthCalculator = _stack.Pop();
-            OperatorCalculatorBase stepCalculator = _stack.Pop();
+            OperatorCalculatorBase sampleCountCalculator = _stack.Pop();
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
-            // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
-            sliceLengthCalculator = sliceLengthCalculator ?? new Number_OperatorCalculator(0.02);
-            stepCalculator = stepCalculator ?? new Number_OperatorCalculator(100.0);
+            sliceLengthCalculator = sliceLengthCalculator ?? new One_OperatorCalculator();
+            sampleCountCalculator = sampleCountCalculator ?? new One_OperatorCalculator();
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
 
@@ -2071,7 +2069,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                calculator = new MaxFollower_OperatorCalculator(signalCalculator, sliceLengthCalculator, stepCalculator, dimensionStack);
+                calculator = new MaxFollower_OperatorCalculator(signalCalculator, sliceLengthCalculator, sampleCountCalculator, dimensionStack);
             }
 
             _stack.Push(calculator);
@@ -2092,10 +2090,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase tillCalculator = _stack.Pop();
             OperatorCalculatorBase stepCalculator = _stack.Pop();
 
-            // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
             fromCalculator = fromCalculator ?? new Zero_OperatorCalculator();
-            tillCalculator = tillCalculator ?? new Number_OperatorCalculator(15.0);
+            tillCalculator = tillCalculator ?? new Zero_OperatorCalculator();
             stepCalculator = stepCalculator ?? new One_OperatorCalculator();
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
@@ -2217,9 +2214,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase sampleCountCalculator = _stack.Pop();
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
-            // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
-            sliceLengthCalculator = sliceLengthCalculator ?? new Number_OperatorCalculator(0.02);
-            sampleCountCalculator = sampleCountCalculator ?? new Number_OperatorCalculator(100.0);
+            sliceLengthCalculator = sliceLengthCalculator ?? new One_OperatorCalculator();
+            sampleCountCalculator = sampleCountCalculator ?? new One_OperatorCalculator();
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
 
@@ -2252,10 +2248,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase tillCalculator = _stack.Pop();
             OperatorCalculatorBase stepCalculator = _stack.Pop();
 
-            // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
             fromCalculator = fromCalculator ?? new Zero_OperatorCalculator();
-            tillCalculator = tillCalculator ?? new Number_OperatorCalculator(15.0);
+            tillCalculator = tillCalculator ?? new Zero_OperatorCalculator();
             stepCalculator = stepCalculator ?? new One_OperatorCalculator();
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
@@ -2709,10 +2704,24 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             base.VisitNumber(op);
 
+            OperatorCalculatorBase calculator;
+
             var wrapper = new Number_OperatorWrapper(op);
             double number = wrapper.Number;
 
-            var calculator = new Number_OperatorCalculator(number);
+            if (number == 0.0)
+            {
+                calculator = new Zero_OperatorCalculator();
+            }
+            else if (number == 1.0)
+            {
+                calculator = new One_OperatorCalculator();
+            }
+            else
+            {
+                calculator = new Number_OperatorCalculator(number);
+            }
+
             _stack.Push(calculator);
         }
 
@@ -3117,9 +3126,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase tillCalculator = _stack.Pop();
             OperatorCalculatorBase stepCalculator = _stack.Pop();
 
-            // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
-            fromCalculator = fromCalculator ?? new One_OperatorCalculator();
-            tillCalculator = tillCalculator ?? new Number_OperatorCalculator(16.0);
+            fromCalculator = fromCalculator ?? new Zero_OperatorCalculator();
+            tillCalculator = tillCalculator ?? new Zero_OperatorCalculator();
             stepCalculator = stepCalculator ?? new One_OperatorCalculator();
 
             bool fromIsConst = fromCalculator is Number_OperatorCalculator;
@@ -3492,8 +3500,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             frequencyCalculator = frequencyCalculator ?? new Zero_OperatorCalculator();
             phaseShiftCalculator = phaseShiftCalculator ?? new Zero_OperatorCalculator();
+
             double frequency = frequencyCalculator.Calculate();
             double phaseShift = phaseShiftCalculator.Calculate();
+
             bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
             bool phaseShiftIsConst = phaseShiftCalculator is Number_OperatorCalculator;
             bool frequencyIsConstZero = frequencyIsConst && frequency == 0;
@@ -3625,9 +3635,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
             sourceValueACalculator = sourceValueACalculator ?? new Zero_OperatorCalculator();
-            sourceValueBCalculator = sourceValueBCalculator ?? new Zero_OperatorCalculator();
+            sourceValueBCalculator = sourceValueBCalculator ?? new One_OperatorCalculator();
             targetValueACalculator = targetValueACalculator ?? new Zero_OperatorCalculator();
-            targetValueBCalculator = targetValueBCalculator ?? new Zero_OperatorCalculator();
+            targetValueBCalculator = targetValueBCalculator ?? new One_OperatorCalculator();
 
             bool sourceValueAIsConst = sourceValueACalculator is Number_OperatorCalculator;
             bool sourceValueBIsConst = sourceValueBCalculator is Number_OperatorCalculator;
@@ -3752,10 +3762,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             frequencyCalculator = frequencyCalculator ?? new Zero_OperatorCalculator();
             phaseShiftCalculator = phaseShiftCalculator ?? new Zero_OperatorCalculator();
+
             double frequency = frequencyCalculator.Calculate();
             double phaseShift = phaseShiftCalculator.Calculate();
+
             bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
             bool phaseShiftIsConst = phaseShiftCalculator is Number_OperatorCalculator;
+
             bool frequencyIsConstZero = frequencyIsConst && frequency == 0.0;
             bool phaseShiftIsConstZero = phaseShiftIsConst && phaseShift % 1.0 == 0.0;
 
@@ -3958,10 +3971,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase tillCalculator = _stack.Pop();
             OperatorCalculatorBase stepCalculator = _stack.Pop();
 
-            // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
             fromCalculator = fromCalculator ?? new Zero_OperatorCalculator();
-            tillCalculator = tillCalculator ?? new Number_OperatorCalculator(15.0);
+            tillCalculator = tillCalculator ?? new Zero_OperatorCalculator();
             stepCalculator = stepCalculator ?? new One_OperatorCalculator();
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
@@ -4042,10 +4054,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase frequencyCountCalculator = _stack.Pop();
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
-            // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
             startTimeCalculator = startTimeCalculator ?? new Zero_OperatorCalculator();
             endTimeCalculator = endTimeCalculator ?? new One_OperatorCalculator();
-            frequencyCountCalculator = frequencyCountCalculator ?? new Number_OperatorCalculator(16);
+            frequencyCountCalculator = frequencyCountCalculator ?? new Number_OperatorCalculator(2);
 
             double signal = signalCalculator.Calculate();
             double startTime = startTimeCalculator.Calculate();
@@ -4394,10 +4405,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase tillCalculator = _stack.Pop();
             OperatorCalculatorBase stepCalculator = _stack.Pop();
 
-            // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
             fromCalculator = fromCalculator ?? new Zero_OperatorCalculator();
-            tillCalculator = tillCalculator ?? new Number_OperatorCalculator(15.0);
+            tillCalculator = tillCalculator ?? new Zero_OperatorCalculator();
             stepCalculator = stepCalculator ?? new One_OperatorCalculator();
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
@@ -4490,9 +4500,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase sampleCountCalculator = _stack.Pop();
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
-            // TODO: Lower priority: Do not use these magic defaults, but give standard operators default inlet value functionality.
-            sliceLengthCalculator = sliceLengthCalculator ?? new Number_OperatorCalculator(0.02);
-            sampleCountCalculator = sampleCountCalculator ?? new Number_OperatorCalculator(100.0);
+            sliceLengthCalculator = sliceLengthCalculator ?? new One_OperatorCalculator();
+            sampleCountCalculator = sampleCountCalculator ?? new One_OperatorCalculator();
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
 
@@ -4523,15 +4532,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase exponentCalculator = _stack.Pop();
             OperatorCalculatorBase originCalculator = _stack.Pop();
 
-            // When nulls should make the operator do nothing but pass the signal.
-            if (exponentCalculator == null && signalCalculator != null)
-            {
-                _stack.Push(signalCalculator);
-                return;
-            }
-
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
-            exponentCalculator = exponentCalculator ?? new Zero_OperatorCalculator();
+            exponentCalculator = exponentCalculator ?? new One_OperatorCalculator();
             originCalculator = originCalculator ?? new Zero_OperatorCalculator();
 
             double signal = signalCalculator.Calculate();
@@ -4553,7 +4555,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (exponentIsConstZero)
             {
-                calculator = new One_OperatorCalculator(); // TODO: I cannot image this one... Look into later.
+                calculator = new One_OperatorCalculator();
             }
             else if (exponentIsConstOne)
             {
@@ -4617,11 +4619,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             frequencyCalculator = frequencyCalculator ?? new Zero_OperatorCalculator();
             phaseShiftCalculator = phaseShiftCalculator ?? new Zero_OperatorCalculator();
+
             double frequency = frequencyCalculator.Calculate();
             double phaseShift = phaseShiftCalculator.Calculate();
+
             bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
             bool phaseShiftIsConst = phaseShiftCalculator is Number_OperatorCalculator;
-            bool frequencyIsConstZero = frequencyIsConst && frequency == 0;
+            bool frequencyIsConstZero = frequencyIsConst && frequency == 0.0;
 
             if (frequencyIsConstZero)
             {

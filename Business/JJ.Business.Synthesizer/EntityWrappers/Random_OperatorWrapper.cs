@@ -20,14 +20,24 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Rate
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, RATE_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, RATE_INDEX).LinkTo(value); }
+            get { return RateInlet.InputOutlet; }
+            set { RateInlet.LinkTo(value); }
+        }
+
+        public Inlet RateInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, RATE_INDEX); }
         }
 
         public Outlet PhaseShift
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, PHASE_SHIFT_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, PHASE_SHIFT_INDEX).LinkTo(value); }
+            get { return PhaseShiftInlet.InputOutlet; }
+            set { PhaseShiftInlet.LinkTo(value); }
+        }
+
+        public Inlet PhaseShiftInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, PHASE_SHIFT_INDEX); }
         }
 
         public Outlet Result

@@ -16,26 +16,46 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Signal
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OperatorConstants.CACHE_SIGNAL_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CACHE_SIGNAL_INDEX).LinkTo(value); }
+            get { return SignalInlet.InputOutlet; }
+            set { SignalInlet.LinkTo(value); }
+        }
+
+        public Inlet SignalInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CACHE_SIGNAL_INDEX); }
         }
 
         public Outlet StartTime
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OperatorConstants.CACHE_START_TIME_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CACHE_START_TIME_INDEX).LinkTo(value); }
+            get { return StartTimeInlet.InputOutlet; }
+            set { StartTimeInlet.LinkTo(value); }
+        }
+
+        public Inlet StartTimeInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CACHE_START_TIME_INDEX); }
         }
 
         public Outlet EndTime
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OperatorConstants.CACHE_END_TIME_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CACHE_END_TIME_INDEX).LinkTo(value); }
+            get { return EndTimeInlet.InputOutlet; }
+            set { EndTimeInlet.LinkTo(value); }
+        }
+
+        public Inlet EndTimeInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CACHE_END_TIME_INDEX); }
         }
 
         public Outlet SamplingRate
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OperatorConstants.CACHE_SAMPLING_RATE_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CACHE_SAMPLING_RATE_INDEX).LinkTo(value); }
+            get { return SamplingRateInlet.InputOutlet; }
+            set { SamplingRateInlet.LinkTo(value); }
+        }
+
+        public Inlet SamplingRateInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CACHE_SAMPLING_RATE_INDEX); }
         }
 
         public Outlet Result

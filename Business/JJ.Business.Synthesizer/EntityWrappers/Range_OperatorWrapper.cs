@@ -15,20 +15,35 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet From
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OperatorConstants.RANGE_FROM_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.RANGE_FROM_INDEX).LinkTo(value); }
+            get { return FromInlet.InputOutlet; }
+            set { FromInlet.LinkTo(value); }
+        }
+
+        public Inlet FromInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.RANGE_FROM_INDEX); }
         }
 
         public Outlet Till
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OperatorConstants.RANGE_TILL_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.RANGE_TILL_INDEX).LinkTo(value); }
+            get { return TillInlet.InputOutlet; }
+            set { TillInlet.LinkTo(value); }
+        }
+
+        public Inlet TillInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.RANGE_TILL_INDEX); }
         }
 
         public Outlet Step
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OperatorConstants.RANGE_STEP_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.RANGE_STEP_INDEX).LinkTo(value); }
+            get { return StepInlet.InputOutlet; }
+            set { StepInlet.LinkTo(value); }
+        }
+
+        public Inlet StepInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.RANGE_STEP_INDEX); }
         }
 
         public Outlet Result

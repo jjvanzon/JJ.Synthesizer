@@ -19,14 +19,24 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Signal
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, SIGNAL_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX).LinkTo(value); }
+            get { return SignalInlet.InputOutlet; }
+            set { SignalInlet.LinkTo(value); }
+        }
+
+        public Inlet SignalInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX); }
         }
 
         public Outlet Difference
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, DIFFERENCE_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, DIFFERENCE_INDEX).LinkTo(value); }
+            get { return DifferenceInlet.InputOutlet; }
+            set { DifferenceInlet.LinkTo(value); }
+        }
+
+        public Inlet DifferenceInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, DIFFERENCE_INDEX); }
         }
 
         public Outlet Result

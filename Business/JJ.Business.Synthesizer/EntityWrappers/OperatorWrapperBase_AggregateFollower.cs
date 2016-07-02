@@ -21,20 +21,35 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Signal
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, SIGNAL_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX).LinkTo(value); }
+            get { return SignalInlet.InputOutlet; }
+            set { SignalInlet.LinkTo(value); }
         }
-        
+
+        public Inlet SignalInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX); }
+        }
+
         public Outlet SliceLength
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, SLICE_LENGTH_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, SLICE_LENGTH_INDEX).LinkTo(value); }
+            get { return SliceLengthInlet.InputOutlet; }
+            set { SliceLengthInlet.LinkTo(value); }
+        }
+
+        public Inlet SliceLengthInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, SLICE_LENGTH_INDEX); }
         }
 
         public Outlet SampleCount
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, SAMPLE_COUNT_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, SAMPLE_COUNT_INDEX).LinkTo(value); }
+            get { return SampleCountInlet.InputOutlet; }
+            set { SampleCountInlet.LinkTo(value); }
+        }
+
+        public Inlet SampleCountInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, SAMPLE_COUNT_INDEX); }
         }
 
         public Outlet Result

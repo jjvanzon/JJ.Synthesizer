@@ -573,9 +573,9 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Round(signal, step, offset);
         }
 
-        public Sample_OperatorWrapper Sample(Sample sample = null, DimensionEnum dimension = DimensionEnum.Time)
+        public Sample_OperatorWrapper Sample(Sample sample = null, Outlet frequency = null, DimensionEnum dimension = DimensionEnum.Time)
         {
-            return _patchManager.Sample(sample, dimension);
+            return _patchManager.Sample(sample, frequency, dimension);
         }
 
         public SawDown_OperatorWrapper SawDown(

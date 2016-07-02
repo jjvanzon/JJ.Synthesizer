@@ -20,20 +20,35 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Frequency
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, FREQUENCY_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, FREQUENCY_INDEX).LinkTo(value); }
+            get { return FrequencyInlet.InputOutlet; }
+            set { FrequencyInlet.LinkTo(value); }
+        }
+
+        public Inlet FrequencyInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, FREQUENCY_INDEX); }
         }
 
         public Outlet Width
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, WIDTH_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, WIDTH_INDEX).LinkTo(value); }
+            get { return WidthInlet.InputOutlet; }
+            set { WidthInlet.LinkTo(value); }
+        }
+
+        public Inlet WidthInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, WIDTH_INDEX); }
         }
 
         public Outlet PhaseShift
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, PHASE_SHIFT_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, PHASE_SHIFT_INDEX).LinkTo(value); }
+            get { return PhaseShiftInlet.InputOutlet; }
+            set { PhaseShiftInlet.LinkTo(value); }
+        }
+
+        public Inlet PhaseShiftInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, PHASE_SHIFT_INDEX); }
         }
 
         public Outlet Result

@@ -16,38 +16,68 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Signal
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OperatorConstants.LOOP_SIGNAL_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.LOOP_SIGNAL_INDEX).LinkTo(value); }
+            get { return SignalInlet.InputOutlet; }
+            set { SignalInlet.LinkTo(value); }
+        }
+
+        public Inlet SignalInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.LOOP_SIGNAL_INDEX); }
         }
 
         public Outlet Skip
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OperatorConstants.LOOP_SKIP_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.LOOP_SKIP_INDEX).LinkTo(value); }
+            get { return SkipInlet.InputOutlet; }
+            set { SkipInlet.LinkTo(value); }
+        }
+
+        public Inlet SkipInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.LOOP_SKIP_INDEX); }
         }
 
         public Outlet LoopStartMarker
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OperatorConstants.LOOP_LOOP_START_MARKER_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.LOOP_LOOP_START_MARKER_INDEX).LinkTo(value); }
+            get { return LoopStartMarkerInlet.InputOutlet; }
+            set { LoopStartMarkerInlet.LinkTo(value); }
+        }
+
+        public Inlet LoopStartMarkerInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.LOOP_LOOP_START_MARKER_INDEX); }
         }
 
         public Outlet LoopEndMarker
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OperatorConstants.LOOP_LOOP_END_MARKER_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.LOOP_LOOP_END_MARKER_INDEX).LinkTo(value); }
+            get { return LoopEndMarkerInlet.InputOutlet; }
+            set { LoopEndMarkerInlet.LinkTo(value); }
+        }
+
+        public Inlet LoopEndMarkerInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.LOOP_LOOP_END_MARKER_INDEX); }
         }
 
         public Outlet ReleaseEndMarker
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OperatorConstants.LOOP_RELEASE_END_MARKER_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.LOOP_RELEASE_END_MARKER_INDEX).LinkTo(value); }
+            get { return ReleaseEndMarkerInlet.InputOutlet; }
+            set { ReleaseEndMarkerInlet.LinkTo(value); }
+        }
+
+        public Inlet ReleaseEndMarkerInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.LOOP_RELEASE_END_MARKER_INDEX); }
         }
 
         public Outlet NoteDuration
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OperatorConstants.LOOP_NOTE_DURATION_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.LOOP_NOTE_DURATION_INDEX).LinkTo(value); }
+            get { return NoteDurationInlet.InputOutlet; }
+            set { NoteDurationInlet.LinkTo(value); }
+        }
+
+        public Inlet NoteDurationInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.LOOP_NOTE_DURATION_INDEX); }
         }
 
         public Outlet Result

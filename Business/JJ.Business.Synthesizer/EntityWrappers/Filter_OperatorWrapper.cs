@@ -22,32 +22,57 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Signal
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, SIGNAL_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX).LinkTo(value); }
+            get { return SignalInlet.InputOutlet; }
+            set { SignalInlet.LinkTo(value); }
+        }
+
+        public Inlet SignalInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX); }
         }
 
         public Outlet Frequency
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, FREQUENCY_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, FREQUENCY_INDEX).LinkTo(value); }
+            get { return FrequencyInlet.InputOutlet; }
+            set { FrequencyInlet.LinkTo(value); }
+        }
+
+        public Inlet FrequencyInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, FREQUENCY_INDEX); }
         }
 
         public Outlet BandWidth
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, BAND_WIDTH_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, BAND_WIDTH_INDEX).LinkTo(value); }
+            get { return BandWidthInlet.InputOutlet; }
+            set { BandWidthInlet.LinkTo(value); }
+        }
+
+        public Inlet BandWidthInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, BAND_WIDTH_INDEX); }
         }
 
         public Outlet DBGain
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, DB_GAIN_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, DB_GAIN_INDEX).LinkTo(value); }
+            get { return DBGainInlet.InputOutlet; }
+            set { DBGainInlet.LinkTo(value); }
+        }
+
+        public Inlet DBGainInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, DB_GAIN_INDEX); }
         }
 
         public Outlet ShelfSlope
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, BAND_WIDTH_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, BAND_WIDTH_INDEX).LinkTo(value); }
+            get { return ShelfSlopeInlet.InputOutlet; }
+            set { ShelfSlopeInlet.LinkTo(value); }
+        }
+
+        public Inlet ShelfSlopeInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, SHELF_SLOPE_INDEX); }
         }
 
         public FilterTypeEnum FilterTypeEnum

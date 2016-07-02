@@ -15,26 +15,46 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Signal
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OperatorConstants.AGGREGATE_OVER_DIMENSION_SIGNAL_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.AGGREGATE_OVER_DIMENSION_SIGNAL_INDEX).LinkTo(value); }
+            get { return SignalInlet.InputOutlet; }
+            set { SignalInlet.LinkTo(value); }
+        }
+
+        public Inlet SignalInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.AGGREGATE_OVER_DIMENSION_SIGNAL_INDEX); }
         }
 
         public Outlet From
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OperatorConstants.AGGREGATE_OVER_DIMENSION_FROM_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.AGGREGATE_OVER_DIMENSION_FROM_INDEX).LinkTo(value); }
+            get { return FromInlet.InputOutlet; }
+            set { FromInlet.LinkTo(value); }
+        }
+
+        public Inlet FromInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.AGGREGATE_OVER_DIMENSION_FROM_INDEX); }
         }
 
         public Outlet Till
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OperatorConstants.AGGREGATE_OVER_DIMENSION_TILL_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.AGGREGATE_OVER_DIMENSION_TILL_INDEX).LinkTo(value); }
+            get { return TillInlet.InputOutlet; }
+            set { TillInlet.LinkTo(value); }
+        }
+
+        public Inlet TillInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.AGGREGATE_OVER_DIMENSION_TILL_INDEX); }
         }
 
         public Outlet Step
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OperatorConstants.AGGREGATE_OVER_DIMENSION_STEP_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.AGGREGATE_OVER_DIMENSION_STEP_INDEX).LinkTo(value); }
+            get { return StepInlet.InputOutlet; }
+            set { StepInlet.LinkTo(value); }
+        }
+
+        public Inlet StepInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.AGGREGATE_OVER_DIMENSION_STEP_INDEX); }
         }
 
         public Outlet Result
