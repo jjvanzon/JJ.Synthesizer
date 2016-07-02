@@ -711,10 +711,10 @@
     <value>Input</value>
   </data>
   <data name="MaxFrequency" xml:space="preserve">
-    <value>Maximum Frequency</value>
+    <value>Max Frequency</value>
   </data>
   <data name="MinFrequency" xml:space="preserve">
-    <value>Minimum Frequency</value>
+    <value>Min Frequency</value>
   </data>
   <data name="Numerator" xml:space="preserve">
     <value>Numerator</value>

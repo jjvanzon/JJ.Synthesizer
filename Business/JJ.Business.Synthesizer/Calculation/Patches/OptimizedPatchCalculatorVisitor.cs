@@ -247,6 +247,44 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
+        protected override void VisitAllPassFilter(Operator op)
+        {
+            base.VisitAllPassFilter(op);
+
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase frequencyCalculator = _stack.Pop();
+            OperatorCalculatorBase bandWidthCalculator = _stack.Pop();
+
+            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
+            frequencyCalculator = frequencyCalculator ?? new Zero_OperatorCalculator();
+            bandWidthCalculator = bandWidthCalculator ?? new Zero_OperatorCalculator();
+
+            double signal = signalCalculator.Calculate();
+            double frequency = frequencyCalculator.Calculate();
+            double bandWidth = bandWidthCalculator.Calculate();
+
+            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+            bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
+            bool bandWidthIsConst = bandWidthCalculator is Number_OperatorCalculator;
+
+            if (signalIsConst)
+            {
+                // There are no frequencies. So you a filter should do nothing.
+                calculator = signalCalculator;
+            }
+            else
+            {
+                calculator = new AllPassFilter_ManyConstants_OperatorCalculator(
+                    signalCalculator,
+                    frequency,
+                    bandWidth);
+            }
+
+            _stack.Push(calculator);
+        }
+
         protected override void VisitAnd(Operator op)
         {
             base.VisitAnd(op);
@@ -441,6 +479,82 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             else
             {
                 calculator = new AverageFollower_OperatorCalculator(signalCalculator, sliceLengthCalculator, sampleCountCalculator, dimensionStack);
+            }
+
+            _stack.Push(calculator);
+        }
+
+        protected override void VisitBandPassFilterConstantTransitionGain(Operator op)
+        {
+            base.VisitBandPassFilterConstantTransitionGain(op);
+
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase frequencyCalculator = _stack.Pop();
+            OperatorCalculatorBase bandWidthCalculator = _stack.Pop();
+
+            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
+            frequencyCalculator = frequencyCalculator ?? new Zero_OperatorCalculator();
+            bandWidthCalculator = bandWidthCalculator ?? new Zero_OperatorCalculator();
+
+            double signal = signalCalculator.Calculate();
+            double frequency = frequencyCalculator.Calculate();
+            double bandWidth = bandWidthCalculator.Calculate();
+
+            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+            bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
+            bool bandWidthIsConst = bandWidthCalculator is Number_OperatorCalculator;
+
+            if (signalIsConst)
+            {
+                // There are no frequencies. So you a filter should do nothing.
+                calculator = signalCalculator;
+            }
+            else
+            {
+                calculator = new BandPassFilterConstantTransitionGain_ManyConstants_OperatorCalculator(
+                    signalCalculator,
+                    frequency,
+                    bandWidth);
+            }
+
+            _stack.Push(calculator);
+        }
+
+        protected override void VisitBandPassFilterConstantPeakGain(Operator op)
+        {
+            base.VisitBandPassFilterConstantPeakGain(op);
+
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase frequencyCalculator = _stack.Pop();
+            OperatorCalculatorBase bandWidthCalculator = _stack.Pop();
+
+            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
+            frequencyCalculator = frequencyCalculator ?? new Zero_OperatorCalculator();
+            bandWidthCalculator = bandWidthCalculator ?? new Zero_OperatorCalculator();
+
+            double signal = signalCalculator.Calculate();
+            double frequency = frequencyCalculator.Calculate();
+            double bandWidth = bandWidthCalculator.Calculate();
+
+            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+            bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
+            bool bandWidthIsConst = bandWidthCalculator is Number_OperatorCalculator;
+
+            if (signalIsConst)
+            {
+                // There are no frequencies. So you a filter should do nothing.
+                calculator = signalCalculator;
+            }
+            else
+            {
+                calculator = new BandPassFilterConstantPeakGain_ManyConstants_OperatorCalculator(
+                    signalCalculator,
+                    frequency,
+                    bandWidth);
             }
 
             _stack.Push(calculator);
@@ -1636,6 +1750,49 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
+        protected override void VisitHighShelfFilter(Operator op)
+        {
+            base.VisitHighShelfFilter(op);
+
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase frequencyCalculator = _stack.Pop();
+            OperatorCalculatorBase dbGainCalculator = _stack.Pop();
+            OperatorCalculatorBase shelfSlopeCalculator = _stack.Pop();
+
+            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
+            frequencyCalculator = frequencyCalculator ?? new Zero_OperatorCalculator();
+            dbGainCalculator = dbGainCalculator ?? new Zero_OperatorCalculator();
+            shelfSlopeCalculator = shelfSlopeCalculator ?? new Zero_OperatorCalculator();
+
+            double signal = signalCalculator.Calculate();
+            double frequency = frequencyCalculator.Calculate();
+            double dbGain = dbGainCalculator.Calculate();
+            double shelfSlope = shelfSlopeCalculator.Calculate();
+
+            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+            bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
+            bool dbGainIsConst = dbGainCalculator is Number_OperatorCalculator;
+            bool shelfSlopeIsConst = shelfSlopeCalculator is Number_OperatorCalculator;
+
+            if (signalIsConst)
+            {
+                // There are no frequencies. So you a filter should do nothing.
+                calculator = signalCalculator;
+            }
+            else
+            {
+                calculator = new HighShelfFilter_ManyConstants_OperatorCalculator(
+                    signalCalculator,
+                    frequency,
+                    dbGain,
+                    shelfSlope);
+            }
+
+            _stack.Push(calculator);
+        }
+
         protected override void VisitHold(Operator op)
         {
             base.VisitHold(op);
@@ -1963,6 +2120,49 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             else
             {
                 calculator = new LowPassFilter_VarMaxFrequency_OperatorCalculator(signalCalculator, maxFrequencyCalculator);
+            }
+
+            _stack.Push(calculator);
+        }
+
+        protected override void VisitLowShelfFilter(Operator op)
+        {
+            base.VisitLowShelfFilter(op);
+
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase frequencyCalculator = _stack.Pop();
+            OperatorCalculatorBase dbGainCalculator = _stack.Pop();
+            OperatorCalculatorBase shelfSlopeCalculator = _stack.Pop();
+
+            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
+            frequencyCalculator = frequencyCalculator ?? new Zero_OperatorCalculator();
+            dbGainCalculator = dbGainCalculator ?? new Zero_OperatorCalculator();
+            shelfSlopeCalculator = shelfSlopeCalculator ?? new Zero_OperatorCalculator();
+
+            double signal = signalCalculator.Calculate();
+            double frequency = frequencyCalculator.Calculate();
+            double dbGain = dbGainCalculator.Calculate();
+            double shelfSlope = shelfSlopeCalculator.Calculate();
+
+            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+            bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
+            bool dbGainIsConst = dbGainCalculator is Number_OperatorCalculator;
+            bool shelfSlopeIsConst = shelfSlopeCalculator is Number_OperatorCalculator;
+
+            if (signalIsConst)
+            {
+                // There are no frequencies. So you a filter should do nothing.
+                calculator = signalCalculator;
+            }
+            else
+            {
+                calculator = new LowShelfFilter_ManyConstants_OperatorCalculator(
+                    signalCalculator,
+                    frequency,
+                    dbGain,
+                    shelfSlope);
             }
 
             _stack.Push(calculator);
@@ -2653,6 +2853,45 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
+
+        protected override void VisitNotchFilter(Operator op)
+        {
+            base.VisitNotchFilter(op);
+
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase frequencyCalculator = _stack.Pop();
+            OperatorCalculatorBase bandWidthCalculator = _stack.Pop();
+
+            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
+            frequencyCalculator = frequencyCalculator ?? new Zero_OperatorCalculator();
+            bandWidthCalculator = bandWidthCalculator ?? new Zero_OperatorCalculator();
+
+            double signal = signalCalculator.Calculate();
+            double frequency = frequencyCalculator.Calculate();
+            double bandWidth = bandWidthCalculator.Calculate();
+
+            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+            bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
+            bool bandWidthIsConst = bandWidthCalculator is Number_OperatorCalculator;
+
+            if (signalIsConst)
+            {
+                // There are no frequencies. So you a filter should do nothing.
+                calculator = signalCalculator;
+            }
+            else
+            {
+                calculator = new NotchFilter_ManyConstants_OperatorCalculator(
+                    signalCalculator,
+                    frequency,
+                    bandWidth);
+            }
+
+            _stack.Push(calculator);
+        }
+
         protected override void VisitNotEqual(Operator op)
         {
             base.VisitNotEqual(op);
@@ -2794,6 +3033,49 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             else
             {
                 throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
+            }
+
+            _stack.Push(calculator);
+        }
+
+        protected override void VisitPeakingEQFilter(Operator op)
+        {
+            base.VisitPeakingEQFilter(op);
+
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase frequencyCalculator = _stack.Pop();
+            OperatorCalculatorBase bandWidthCalculator = _stack.Pop();
+            OperatorCalculatorBase dbGainCalculator = _stack.Pop();
+
+            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
+            frequencyCalculator = frequencyCalculator ?? new Zero_OperatorCalculator();
+            bandWidthCalculator = bandWidthCalculator ?? new Zero_OperatorCalculator();
+            dbGainCalculator = dbGainCalculator ?? new Zero_OperatorCalculator();
+
+            double signal = signalCalculator.Calculate();
+            double frequency = frequencyCalculator.Calculate();
+            double bandWidth = bandWidthCalculator.Calculate();
+            double dbGain = dbGainCalculator.Calculate();
+
+            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+            bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
+            bool bandWidthIsConst = bandWidthCalculator is Number_OperatorCalculator;
+            bool dbGainIsConst = dbGainCalculator is Number_OperatorCalculator;
+
+            if (signalIsConst)
+            {
+                // There are no frequencies. So you a filter should do nothing.
+                calculator = signalCalculator;
+            }
+            else
+            {
+                calculator = new PeakingEQFilter_ManyConstants_OperatorCalculator(
+                    signalCalculator,
+                    frequency,
+                    bandWidth,
+                    dbGain);
             }
 
             _stack.Push(calculator);

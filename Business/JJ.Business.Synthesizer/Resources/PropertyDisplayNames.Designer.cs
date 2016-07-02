@@ -1177,7 +1177,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Maximum Frequency.
+        ///   Looks up a localized string similar to Max Frequency.
         /// </summary>
         public static string MaxFrequency {
             get {
@@ -1213,7 +1213,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Minimum Frequency.
+        ///   Looks up a localized string similar to Min Frequency.
         /// </summary>
         public static string MinFrequency {
             get {

@@ -19,10 +19,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 { OperatorTypeEnum.Absolute, VisitAbsolute },
                 { OperatorTypeEnum.Add, VisitAdd },
+                { OperatorTypeEnum.AllPassFilter, VisitAllPassFilter },
                 { OperatorTypeEnum.And, VisitAnd },
                 { OperatorTypeEnum.AverageFollower, VisitAverageFollower },
                 { OperatorTypeEnum.AverageOverDimension, VisitAverageOverDimension },
                 { OperatorTypeEnum.Average, VisitAverage },
+                { OperatorTypeEnum.BandPassFilterConstantPeakGain, VisitBandPassFilterConstantPeakGain },
+                { OperatorTypeEnum.BandPassFilterConstantTransitionGain, VisitBandPassFilterConstantTransitionGain },
                 { OperatorTypeEnum.Bundle, VisitBundle },
                 { OperatorTypeEnum.Cache, VisitCache },
                 { OperatorTypeEnum.ChangeTrigger, VisitChangeTrigger },
@@ -43,11 +46,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.GreaterThanOrEqual, VisitGreaterThanOrEqual },
                 { OperatorTypeEnum.Hold, VisitHold },
                 { OperatorTypeEnum.HighPassFilter, VisitHighPassFilter },
+                { OperatorTypeEnum.HighShelfFilter, VisitHighShelfFilter },
                 { OperatorTypeEnum.If, VisitIf },
                 { OperatorTypeEnum.LessThan, VisitLessThan },
                 { OperatorTypeEnum.LessThanOrEqual, VisitLessThanOrEqual },
                 { OperatorTypeEnum.Loop, VisitLoop },
                 { OperatorTypeEnum.LowPassFilter, VisitLowPassFilter },
+                { OperatorTypeEnum.LowShelfFilter, VisitLowShelfFilter },
                 { OperatorTypeEnum.MakeContinuous, VisitMakeContinuous },
                 { OperatorTypeEnum.MakeDiscrete, VisitMakeDiscrete },
                 { OperatorTypeEnum.Max, VisitMax },
@@ -62,12 +67,14 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.Negative, VisitNegative },
                 { OperatorTypeEnum.Noise, VisitNoise },
                 { OperatorTypeEnum.Not, VisitNot },
+                { OperatorTypeEnum.NotchFilter, VisitNotchFilter },
                 { OperatorTypeEnum.NotEqual, VisitNotEqual },
                 { OperatorTypeEnum.Number, VisitNumber },
                 { OperatorTypeEnum.OneOverX, VisitOneOverX },
                 { OperatorTypeEnum.Or, VisitOr },
                 { OperatorTypeEnum.PatchInlet, VisitPatchInlet },
                 { OperatorTypeEnum.PatchOutlet, VisitPatchOutlet },
+                { OperatorTypeEnum.PeakingEQFilter, VisitPeakingEQFilter },
                 { OperatorTypeEnum.Power, VisitPower },
                 { OperatorTypeEnum.Pulse, VisitPulse },
                 { OperatorTypeEnum.PulseTrigger, VisitPulseTrigger },
@@ -166,6 +173,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         }
 
         [DebuggerHidden]
+        protected virtual void VisitAllPassFilter(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
+
+        [DebuggerHidden]
         protected virtual void VisitAnd(Operator op)
         {
             VisitOperatorBase(op);
@@ -185,6 +198,18 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         [DebuggerHidden]
         protected virtual void VisitAverage(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
+
+        [DebuggerHidden]
+        protected virtual void VisitBandPassFilterConstantPeakGain(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
+
+        [DebuggerHidden]
+        protected virtual void VisitBandPassFilterConstantTransitionGain(Operator op)
         {
             VisitOperatorBase(op);
         }
@@ -310,6 +335,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         }
 
         [DebuggerHidden]
+        protected virtual void VisitHighShelfFilter(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
+
+        [DebuggerHidden]
         protected virtual void VisitIf(Operator op)
         {
             VisitOperatorBase(op);
@@ -335,6 +366,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         [DebuggerHidden]
         protected virtual void VisitLowPassFilter(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
+
+        [DebuggerHidden]
+        protected virtual void VisitLowShelfFilter(Operator op)
         {
             VisitOperatorBase(op);
         }
@@ -424,6 +461,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         }
 
         [DebuggerHidden]
+        protected virtual void VisitNotchFilter(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
+
+        [DebuggerHidden]
         protected virtual void VisitNotEqual(Operator op)
         {
             VisitOperatorBase(op);
@@ -459,6 +502,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             VisitOperatorBase(op);
         }
 
+        [DebuggerHidden]
+        protected virtual void VisitPeakingEQFilter(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
+        
         [DebuggerHidden]
         protected virtual void VisitPower(Operator op)
         {
