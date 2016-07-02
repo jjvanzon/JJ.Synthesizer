@@ -46,7 +46,7 @@
             this.diagramControl1.BackColor = System.Drawing.SystemColors.Window;
             this.diagramControl1.Diagram = null;
             this.diagramControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.diagramControl1.Location = new System.Drawing.Point(260, 0);
+            this.diagramControl1.Location = new System.Drawing.Point(280, 0);
             this.diagramControl1.Margin = new System.Windows.Forms.Padding(0);
             this.diagramControl1.Name = "diagramControl1";
             this.diagramControl1.Size = new System.Drawing.Size(513, 275);
@@ -57,13 +57,13 @@
             this.toolStrip1.AutoSize = false;
             this.toolStrip1.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.toolStrip1.Font = new System.Drawing.Font("Verdana", 8.5F);
+            this.toolStrip1.Font = new System.Drawing.Font("Verdana", 8F);
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(19, 19);
             this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(260, 275);
+            this.toolStrip1.Size = new System.Drawing.Size(280, 275);
             this.toolStrip1.TabIndex = 3;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -76,7 +76,7 @@
             this.buttonPlay.Location = new System.Drawing.Point(0, 275);
             this.buttonPlay.Margin = new System.Windows.Forms.Padding(0);
             this.buttonPlay.Name = "buttonPlay";
-            this.buttonPlay.Size = new System.Drawing.Size(260, 24);
+            this.buttonPlay.Size = new System.Drawing.Size(280, 24);
             this.buttonPlay.TabIndex = 3;
             this.buttonPlay.Text = "Play";
             this.buttonPlay.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -103,7 +103,7 @@
             // tableLayoutPanelToolboxAndPatch
             // 
             this.tableLayoutPanelToolboxAndPatch.ColumnCount = 2;
-            this.tableLayoutPanelToolboxAndPatch.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 260F));
+            this.tableLayoutPanelToolboxAndPatch.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 280F));
             this.tableLayoutPanelToolboxAndPatch.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelToolboxAndPatch.Controls.Add(this.buttonPlay, 0, 1);
             this.tableLayoutPanelToolboxAndPatch.Controls.Add(this.toolStrip1, 0, 0);

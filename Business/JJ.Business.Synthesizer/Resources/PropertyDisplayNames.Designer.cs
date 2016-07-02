@@ -88,6 +88,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All Pass Filter.
+        /// </summary>
+        public static string AllPassFilter {
+            get {
+                return ResourceManager.GetString("AllPassFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Amplifier.
         /// </summary>
         public static string Amplifier {
@@ -192,6 +201,24 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Balance {
             get {
                 return ResourceManager.GetString("Balance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Band Pass Filter, Constant Peak Gain.
+        /// </summary>
+        public static string BandPassFilterConstantPeakGain {
+            get {
+                return ResourceManager.GetString("BandPassFilterConstantPeakGain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Band Pass Filter, Constant Transition Gain.
+        /// </summary>
+        public static string BandPassFilterConstantTransitionGain {
+            get {
+                return ResourceManager.GetString("BandPassFilterConstantTransitionGain", resourceCulture);
             }
         }
         
@@ -853,6 +880,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to High Shelf Filter.
+        /// </summary>
+        public static string HighShelfFilter {
+            get {
+                return ResourceManager.GetString("HighShelfFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hold.
         /// </summary>
         public static string Hold {
@@ -1087,6 +1123,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Low Shelf Filter.
+        /// </summary>
+        public static string LowShelfFilter {
+            get {
+                return ResourceManager.GetString("LowShelfFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Make Continuous.
         /// </summary>
         public static string MakeContinuous {
@@ -1272,6 +1317,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Not {
             get {
                 return ResourceManager.GetString("Not", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notch Filter.
+        /// </summary>
+        public static string NotchFilter {
+            get {
+                return ResourceManager.GetString("NotchFilter", resourceCulture);
             }
         }
         
@@ -1488,6 +1542,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string PatchOutlet {
             get {
                 return ResourceManager.GetString("PatchOutlet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Peaking EQ Filter.
+        /// </summary>
+        public static string PeakingEQFilter {
+            get {
+                return ResourceManager.GetString("PeakingEQFilter", resourceCulture);
             }
         }
         

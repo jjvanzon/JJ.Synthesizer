@@ -90,6 +90,13 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             RepositoryHelper.EnsureEnumEntity(this, 81, "ClosestOverDimensionExp");
             RepositoryHelper.EnsureEnumEntity(this, 82, "Sort");
             RepositoryHelper.EnsureEnumEntity(this, 83, "SortOverDimension");
+            RepositoryHelper.EnsureEnumEntity(this, 84, "BandPassFilterConstantSkirtGain");
+            RepositoryHelper.EnsureEnumEntity(this, 85, "BandPassFilterConstantPeakGain");
+            RepositoryHelper.EnsureEnumEntity(this, 86, "NotchFilter");
+            RepositoryHelper.EnsureEnumEntity(this, 87, "AllPassFilter");
+            RepositoryHelper.EnsureEnumEntity(this, 88, "PeakingEQFilter");
+            RepositoryHelper.EnsureEnumEntity(this, 89, "LowShelfFilter");
+            RepositoryHelper.EnsureEnumEntity(this, 90, "HighShelfFilter");
         }
     }
 }

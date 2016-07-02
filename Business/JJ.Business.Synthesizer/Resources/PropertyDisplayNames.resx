@@ -868,4 +868,25 @@
   <data name="SortOverDimension" xml:space="preserve">
     <value>Sort over Dimension</value>
   </data>
+  <data name="AllPassFilter" xml:space="preserve">
+    <value>All Pass Filter</value>
+  </data>
+  <data name="BandPassFilterConstantPeakGain" xml:space="preserve">
+    <value>Band Pass Filter, Constant Peak Gain</value>
+  </data>
+  <data name="BandPassFilterConstantTransitionGain" xml:space="preserve">
+    <value>Band Pass Filter, Constant Transition Gain</value>
+  </data>
+  <data name="HighShelfFilter" xml:space="preserve">
+    <value>High Shelf Filter</value>
+  </data>
+  <data name="LowShelfFilter" xml:space="preserve">
+    <value>Low Shelf Filter</value>
+  </data>
+  <data name="NotchFilter" xml:space="preserve">
+    <value>Notch Filter</value>
+  </data>
+  <data name="PeakingEQFilter" xml:space="preserve">
+    <value>Peaking EQ Filter</value>
+  </data>
 </root>

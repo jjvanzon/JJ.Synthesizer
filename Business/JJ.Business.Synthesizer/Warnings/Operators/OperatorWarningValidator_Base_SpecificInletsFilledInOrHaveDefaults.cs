@@ -9,11 +9,11 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
-    internal class OperatorWarningValidator_Base_SpecificInletsFilledIn : OperatorWarningValidator_Base
+    internal class OperatorWarningValidator_Base_SpecificInletsFilledInOrHaveDefaults : OperatorWarningValidator_Base
     {
         private readonly IList<int> _inletListIndexes;
 
-        public OperatorWarningValidator_Base_SpecificInletsFilledIn(Operator obj, params int[] inletListIndexes)
+        public OperatorWarningValidator_Base_SpecificInletsFilledInOrHaveDefaults(Operator obj, params int[] inletListIndexes)
             : base(obj, postponeExecute: true)
         {
             if (inletListIndexes == null) throw new NullException(() => inletListIndexes);
@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 Inlet inlet = OperatorHelper.TryGetInlet(op, inletIndex);
                 if (inlet != null)
                 {
-                    if (inlet.InputOutlet == null)
+                    if (inlet.InputOutlet == null && !inlet.DefaultValue.HasValue)
                     {
                         string inletIdentifier = ValidationHelper.GetInletIdentifier(inlet);
                         ValidationMessages.Add(() => inlet.InputOutlet, MessageFormatter.InletNotSet(Object.GetOperatorTypeEnum(), Object.Name, inletIdentifier));

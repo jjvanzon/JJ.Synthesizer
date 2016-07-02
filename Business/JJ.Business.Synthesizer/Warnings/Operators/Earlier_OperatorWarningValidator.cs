@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
-    internal class Earlier_OperatorWarningValidator : OperatorWarningValidator_Base_AllInletsFilledIn
+    internal class Earlier_OperatorWarningValidator : OperatorWarningValidator_Base_AllInletsFilledInOrHaveDefaults
     {
         public Earlier_OperatorWarningValidator(Operator obj)
             : base(obj)

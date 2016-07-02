@@ -866,4 +866,25 @@
   <data name="SortOverDimension" xml:space="preserve">
     <value>Sorteren over dimensie</value>
   </data>
+  <data name="AllPassFilter" xml:space="preserve">
+    <value>Alles doorlaten filter</value>
+  </data>
+  <data name="BandPassFilterConstantPeakGain" xml:space="preserve">
+    <value>Band doorlaat filter, constante piek verhoging</value>
+  </data>
+  <data name="BandPassFilterConstantTransitionGain" xml:space="preserve">
+    <value>Band doorlaat filter, constante verhoging in overgang </value>
+  </data>
+  <data name="HighShelfFilter" xml:space="preserve">
+    <value>Hoge plank filter</value>
+  </data>
+  <data name="LowShelfFilter" xml:space="preserve">
+    <value>Lage plank filter</value>
+  </data>
+  <data name="NotchFilter" xml:space="preserve">
+    <value>Deuk filter</value>
+  </data>
+  <data name="PeakingEQFilter" xml:space="preserve">
+    <value>Piekende EQ filter</value>
+  </data>
 </root>

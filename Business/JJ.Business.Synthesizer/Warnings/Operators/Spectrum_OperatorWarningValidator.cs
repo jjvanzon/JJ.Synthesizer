@@ -10,7 +10,7 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
-    internal class Spectrum_OperatorWarningValidator : OperatorWarningValidator_Base_AllInletsFilledIn
+    internal class Spectrum_OperatorWarningValidator : OperatorWarningValidator_Base_AllInletsFilledInOrHaveDefaults
     {
         public Spectrum_OperatorWarningValidator(Operator obj)
             : base(obj)

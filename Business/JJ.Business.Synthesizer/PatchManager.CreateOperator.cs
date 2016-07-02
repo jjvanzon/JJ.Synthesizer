@@ -17,6 +17,33 @@ namespace JJ.Business.Synthesizer
 {
     public partial class PatchManager
     {
+        private const double DEFAULF_FILTER_FREQUENCY = 1760.0;
+        private const double DEFAULF_FREQUENCY = 440.0;
+        private const double DEFAULT_AGGREGATE_FROM = 0.0;
+        private const double DEFAULT_AGGREGATE_TILL = 15.0;
+        private const double DEFAULT_BAND_WIDTH = 1.0;
+        private const double DEFAULT_DB_GAIN = 3.0;
+        private const double DEFAULT_DIFFERENCE = 1.0;
+        private const double DEFAULT_END_TIME = 1.0;
+        private const double DEFAULT_EXPONENT = 2.0;
+        private const double DEFAULT_FACTOR = 2.0;
+        private const double DEFAULT_PULSE_WIDTH = 0.5;
+        private const double DEFAULT_RANDOM_RATE = 16.0;
+        private const double DEFAULT_RANGE_FROM = 1.0;
+        private const double DEFAULT_RANGE_TILL = 16.0;
+        private const double DEFAULT_REVERSE_SPEED = 1.0;
+        private const double DEFAULT_SAMPLE_COUNT = 100.0;
+        private const double DEFAULT_SAMPLING_RATE = 44100.0;
+        private const double DEFAULT_SCALE_SOURCE_VALUE_A = -1.0;
+        private const double DEFAULT_SCALE_SOURCE_VALUE_B = 1.0;
+        private const double DEFAULT_SCALE_TARGET_VALUE_A = 1.0;
+        private const double DEFAULT_SCALE_TARGET_VALUE_B = 4.0;
+        private const double DEFAULT_SHELF_SLOPE = 1.0;
+        private const double DEFAULT_SLICE_LENGTH = 0.02;
+        private const double DEFAULT_SPECTRUM_FREQUENCY_COUNT = 256.0;
+        private const double DEFAULT_START_TIME = 0.0;
+        private const double DEFAULT_STEP = 1.0;
+
         public Absolute_OperatorWrapper Absolute(Outlet x = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Absolute, inletCount: 1, outletCount: 1);
@@ -66,6 +93,26 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        public AllPassFilter_OperatorWrapper AllPassFilter(Outlet signal = null, Outlet frequency = null, Outlet bandWidth = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.AllPassFilter, inletCount: 3, outletCount: 1);
+
+            var wrapper = new AllPassFilter_OperatorWrapper(op)
+            {
+                Signal = signal,
+                Frequency = frequency,
+                BandWidth = bandWidth
+            };
+
+            wrapper.FrequencyInlet.DefaultValue = DEFAULF_FILTER_FREQUENCY;
+            wrapper.BandWidthInlet.DefaultValue = DEFAULT_BAND_WIDTH;
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
         public AverageOverDimension_OperatorWrapper AverageOverDimension(
             Outlet signal = null,
             Outlet from = null,
@@ -86,9 +133,9 @@ namespace JJ.Business.Synthesizer
                 CollectionRecalculation = collectionRecalculation
             };
 
-            wrapper.FromInlet.DefaultValue = 0.0;
-            wrapper.TillInlet.DefaultValue = 15.0;
-            wrapper.StepInlet.DefaultValue = 1.0;
+            wrapper.FromInlet.DefaultValue = DEFAULT_AGGREGATE_FROM;
+            wrapper.TillInlet.DefaultValue = DEFAULT_AGGREGATE_TILL;
+            wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -130,8 +177,54 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            wrapper.SliceLengthInlet.DefaultValue = 0.02;
-            wrapper.SampleCountInlet.DefaultValue = 100.0;
+            wrapper.SliceLengthInlet.DefaultValue = DEFAULT_SLICE_LENGTH;
+            wrapper.SampleCountInlet.DefaultValue = DEFAULT_SAMPLE_COUNT;
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
+        public BandPassFilterConstantPeakGain_OperatorWrapper BandPassFilterConstantPeakGain(
+            Outlet signal = null,
+            Outlet frequency = null,
+            Outlet bandWidth = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.BandPassFilterConstantPeakGain, inletCount: 3, outletCount: 1);
+
+            var wrapper = new BandPassFilterConstantPeakGain_OperatorWrapper(op)
+            {
+                Signal = signal,
+                Frequency = frequency,
+                BandWidth = bandWidth
+            };
+
+            wrapper.FrequencyInlet.DefaultValue = DEFAULF_FILTER_FREQUENCY;
+            wrapper.BandWidthInlet.DefaultValue = DEFAULT_BAND_WIDTH;
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
+        public BandPassFilterConstantTransitionGain_OperatorWrapper BandPassFilterConstantTransitionGain(
+            Outlet signal = null,
+            Outlet frequency = null,
+            Outlet bandWidth = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.BandPassFilterConstantTransitionGain, inletCount: 3, outletCount: 1);
+
+            var wrapper = new BandPassFilterConstantTransitionGain_OperatorWrapper(op)
+            {
+                Signal = signal,
+                Frequency = frequency,
+                BandWidth = bandWidth
+            };
+
+            wrapper.FrequencyInlet.DefaultValue = DEFAULF_FILTER_FREQUENCY;
+            wrapper.BandWidthInlet.DefaultValue = DEFAULT_BAND_WIDTH;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -184,9 +277,9 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            wrapper.StartTimeInlet.DefaultValue = 0.0;
-            wrapper.EndTimeInlet.DefaultValue = 1.0;
-            wrapper.SamplingRateInlet.DefaultValue = 44100.0;
+            wrapper.StartTimeInlet.DefaultValue = DEFAULT_START_TIME;
+            wrapper.EndTimeInlet.DefaultValue = DEFAULT_END_TIME;
+            wrapper.SamplingRateInlet.DefaultValue = DEFAULT_SAMPLING_RATE;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -270,9 +363,9 @@ namespace JJ.Business.Synthesizer
                 CollectionRecalculation = collectionRecalculation
             };
 
-            wrapper.FromInlet.DefaultValue = 0.0;
-            wrapper.TillInlet.DefaultValue = 15.0;
-            wrapper.StepInlet.DefaultValue = 1.0;
+            wrapper.FromInlet.DefaultValue = DEFAULT_AGGREGATE_FROM;
+            wrapper.TillInlet.DefaultValue = DEFAULT_AGGREGATE_TILL;
+            wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -302,9 +395,9 @@ namespace JJ.Business.Synthesizer
                 CollectionRecalculation = collectionRecalculation
             };
 
-            wrapper.FromInlet.DefaultValue = 0.0;
-            wrapper.TillInlet.DefaultValue = 15.0;
-            wrapper.StepInlet.DefaultValue = 1.0;
+            wrapper.FromInlet.DefaultValue = DEFAULT_AGGREGATE_FROM;
+            wrapper.TillInlet.DefaultValue = DEFAULT_AGGREGATE_TILL;
+            wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -398,7 +491,7 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            wrapper.TimeDifferenceInlet.DefaultValue = 1.0;
+            wrapper.TimeDifferenceInlet.DefaultValue = DEFAULT_DIFFERENCE;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -434,7 +527,7 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            wrapper.TimeDifferenceInlet.DefaultValue = 1.0;
+            wrapper.TimeDifferenceInlet.DefaultValue = DEFAULT_DIFFERENCE;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -495,10 +588,10 @@ namespace JJ.Business.Synthesizer
                 ShelfSlope = shelfSlope
             };
 
-            wrapper.FrequencyInlet.DefaultValue = 1760.0;
-            wrapper.BandWidthInlet.DefaultValue = 1.0;
-            wrapper.DBGainInlet.DefaultValue = 3.0;
-            wrapper.ShelfSlopeInlet.DefaultValue = 1.0;
+            wrapper.FrequencyInlet.DefaultValue = DEFAULF_FILTER_FREQUENCY;
+            wrapper.BandWidthInlet.DefaultValue = DEFAULT_BAND_WIDTH;
+            wrapper.DBGainInlet.DefaultValue = DEFAULT_DB_GAIN;
+            wrapper.ShelfSlopeInlet.DefaultValue = DEFAULT_SHELF_SLOPE;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -563,7 +656,33 @@ namespace JJ.Business.Synthesizer
                 MinFrequency = minFrequency
             };
 
-            wrapper.MinFrequencyInlet.DefaultValue = 1760.0;
+            wrapper.MinFrequencyInlet.DefaultValue = DEFAULF_FILTER_FREQUENCY;
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
+        public HighShelfFilter_OperatorWrapper HighShelfFilter(
+            Outlet signal = null,
+            Outlet frequency = null,
+            Outlet dbGain = null,
+            Outlet shelfSlope = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.HighShelfFilter, inletCount: 4, outletCount: 1);
+
+            var wrapper = new HighShelfFilter_OperatorWrapper(op)
+            {
+                Signal = signal,
+                Frequency = frequency,
+                DBGain = dbGain,
+                ShelfSlope = shelfSlope
+            };
+
+            wrapper.FrequencyInlet.DefaultValue = DEFAULF_FILTER_FREQUENCY;
+            wrapper.DBGainInlet.DefaultValue = DEFAULT_DB_GAIN;
+            wrapper.ShelfSlopeInlet.DefaultValue = DEFAULT_SHELF_SLOPE;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -657,9 +776,8 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            wrapper.SkipInlet.DefaultValue = 0.0;
-            wrapper.LoopStartMarkerInlet.DefaultValue = 0.0;
-            wrapper.LoopEndMarkerInlet.DefaultValue = 1.0;
+            wrapper.LoopStartMarkerInlet.DefaultValue = DEFAULT_START_TIME;
+            wrapper.LoopEndMarkerInlet.DefaultValue = DEFAULT_END_TIME;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -677,7 +795,33 @@ namespace JJ.Business.Synthesizer
                 MaxFrequency = maxFrequency
             };
 
-            wrapper.MaxFrequencyInlet.DefaultValue = 1760.0;
+            wrapper.MaxFrequencyInlet.DefaultValue = DEFAULF_FILTER_FREQUENCY;
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
+        public LowShelfFilter_OperatorWrapper LowShelfFilter(
+            Outlet signal = null,
+            Outlet frequency = null,
+            Outlet dbGain = null,
+            Outlet shelfSlope = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.LowShelfFilter, inletCount: 4, outletCount: 1);
+
+            var wrapper = new LowShelfFilter_OperatorWrapper(op)
+            {
+                Signal = signal,
+                Frequency = frequency,
+                DBGain = dbGain,
+                ShelfSlope = shelfSlope
+            };
+
+            wrapper.FrequencyInlet.DefaultValue = DEFAULF_FILTER_FREQUENCY;
+            wrapper.DBGainInlet.DefaultValue = DEFAULT_DB_GAIN;
+            wrapper.ShelfSlopeInlet.DefaultValue = DEFAULT_SHELF_SLOPE;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -838,8 +982,8 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            wrapper.SliceLengthInlet.DefaultValue = 0.02;
-            wrapper.SampleCountInlet.DefaultValue = 100.0;
+            wrapper.SliceLengthInlet.DefaultValue = DEFAULT_SLICE_LENGTH;
+            wrapper.SampleCountInlet.DefaultValue = DEFAULT_SAMPLE_COUNT;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -867,9 +1011,9 @@ namespace JJ.Business.Synthesizer
                 CollectionRecalculation = collectionRecalculation
             };
 
-            wrapper.FromInlet.DefaultValue = 0.0;
-            wrapper.TillInlet.DefaultValue = 15.0;
-            wrapper.StepInlet.DefaultValue = 1.0;
+            wrapper.FromInlet.DefaultValue = DEFAULT_AGGREGATE_FROM;
+            wrapper.TillInlet.DefaultValue = DEFAULT_AGGREGATE_TILL;
+            wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -911,8 +1055,8 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            wrapper.SliceLengthInlet.DefaultValue = 0.02;
-            wrapper.SampleCountInlet.DefaultValue = 100.0;
+            wrapper.SliceLengthInlet.DefaultValue = DEFAULT_SLICE_LENGTH;
+            wrapper.SampleCountInlet.DefaultValue = DEFAULT_SAMPLE_COUNT;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -940,9 +1084,9 @@ namespace JJ.Business.Synthesizer
                 CollectionRecalculation = collectionRecalculation
             };
 
-            wrapper.FromInlet.DefaultValue = 0.0;
-            wrapper.TillInlet.DefaultValue = 15.0;
-            wrapper.StepInlet.DefaultValue = 1.0;
+            wrapper.FromInlet.DefaultValue = DEFAULT_AGGREGATE_FROM;
+            wrapper.TillInlet.DefaultValue = DEFAULT_AGGREGATE_TILL;
+            wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1001,7 +1145,7 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            wrapper.FactorInlet.DefaultValue = 2.0;
+            wrapper.FactorInlet.DefaultValue = DEFAULT_FACTOR;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1045,6 +1189,26 @@ namespace JJ.Business.Synthesizer
             {
                 X = x,
             };
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
+        public NotchFilter_OperatorWrapper NotchFilter(Outlet signal = null, Outlet frequency = null, Outlet bandWidth = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.NotchFilter, inletCount: 3, outletCount: 1);
+
+            var wrapper = new NotchFilter_OperatorWrapper(op)
+            {
+                Signal = signal,
+                Frequency = frequency,
+                BandWidth = bandWidth
+            };
+
+            wrapper.FrequencyInlet.DefaultValue = DEFAULF_FILTER_FREQUENCY;
+            wrapper.BandWidthInlet.DefaultValue = DEFAULT_BAND_WIDTH;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1220,6 +1384,32 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        public PeakingEQFilter_OperatorWrapper PeakingEQFilter(
+            Outlet signal = null,
+            Outlet frequency = null,
+            Outlet dbGain = null,
+            Outlet shelfSlope = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.PeakingEQFilter, inletCount: 4, outletCount: 1);
+
+            var wrapper = new PeakingEQFilter_OperatorWrapper(op)
+            {
+                Signal = signal,
+                Frequency = frequency,
+                DBGain = dbGain,
+                ShelfSlope = shelfSlope
+            };
+
+            wrapper.FrequencyInlet.DefaultValue = DEFAULF_FILTER_FREQUENCY;
+            wrapper.DBGainInlet.DefaultValue = DEFAULT_DB_GAIN;
+            wrapper.ShelfSlopeInlet.DefaultValue = DEFAULT_SHELF_SLOPE;
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
         public Power_OperatorWrapper Power(Outlet @base = null, Outlet exponent = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Power, inletCount: 2, outletCount: 1);
@@ -1248,8 +1438,8 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            wrapper.FrequencyInlet.DefaultValue = 440.0;
-            wrapper.WidthInlet.DefaultValue = 0.5;
+            wrapper.FrequencyInlet.DefaultValue = DEFAULF_FREQUENCY;
+            wrapper.WidthInlet.DefaultValue = DEFAULT_PULSE_WIDTH;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1285,7 +1475,7 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            wrapper.RateInlet.DefaultValue = 16.0;
+            wrapper.RateInlet.DefaultValue = DEFAULT_RANDOM_RATE;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1305,9 +1495,9 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            wrapper.FromInlet.DefaultValue = 1.0;
-            wrapper.TillInlet.DefaultValue = 16.0;
-            wrapper.StepInlet.DefaultValue = 1.0;
+            wrapper.FromInlet.DefaultValue = DEFAULT_RANGE_FROM;
+            wrapper.TillInlet.DefaultValue = DEFAULT_RANGE_TILL;
+            wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1331,7 +1521,7 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            wrapper.SamplingRateInlet.DefaultValue = 1760.0;
+            wrapper.SamplingRateInlet.DefaultValue = DEFAULF_FILTER_FREQUENCY;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1350,7 +1540,7 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            wrapper.SpeedInlet.DefaultValue = 1.0;
+            wrapper.SpeedInlet.DefaultValue = DEFAULT_REVERSE_SPEED;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1385,7 +1575,7 @@ namespace JJ.Business.Synthesizer
                 Offset = offset
             };
 
-            wrapper.StepInlet.DefaultValue = 1.0;
+            wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1404,7 +1594,7 @@ namespace JJ.Business.Synthesizer
                 SampleID = sample?.ID
             };
 
-            wrapper.FrequencyInlet.DefaultValue = 440.0;
+            wrapper.FrequencyInlet.DefaultValue = DEFAULF_FREQUENCY;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1423,7 +1613,7 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            wrapper.FrequencyInlet.DefaultValue = 440.0;
+            wrapper.FrequencyInlet.DefaultValue = DEFAULF_FREQUENCY;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1442,7 +1632,7 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            wrapper.FrequencyInlet.DefaultValue = 440.0;
+            wrapper.FrequencyInlet.DefaultValue = DEFAULF_FREQUENCY;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1468,10 +1658,10 @@ namespace JJ.Business.Synthesizer
                 TargetValueB = targetValueB,
             };
 
-            wrapper.SourceValueAInlet.DefaultValue = -1.0;
-            wrapper.SourceValueBInlet.DefaultValue = 1.0;
-            wrapper.TargetValueAInlet.DefaultValue = 1.0;
-            wrapper.TargetValueBInlet.DefaultValue = 4.0;
+            wrapper.SourceValueAInlet.DefaultValue = DEFAULT_SCALE_SOURCE_VALUE_A;
+            wrapper.SourceValueBInlet.DefaultValue = DEFAULT_SCALE_SOURCE_VALUE_B;
+            wrapper.TargetValueAInlet.DefaultValue = DEFAULT_SCALE_TARGET_VALUE_A;
+            wrapper.TargetValueBInlet.DefaultValue = DEFAULT_SCALE_TARGET_VALUE_B;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1527,7 +1717,7 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            wrapper.DifferenceInlet.DefaultValue = 1.0;
+            wrapper.DifferenceInlet.DefaultValue = DEFAULT_DIFFERENCE;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1546,7 +1736,7 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            wrapper.FrequencyInlet.DefaultValue = 440.0;
+            wrapper.FrequencyInlet.DefaultValue = DEFAULF_FREQUENCY;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1565,7 +1755,7 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            wrapper.FactorInlet.DefaultValue = 2.0;
+            wrapper.FactorInlet.DefaultValue = DEFAULT_FACTOR;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1611,9 +1801,9 @@ namespace JJ.Business.Synthesizer
                 CollectionRecalculation = collectionRecalculation
             };
 
-            wrapper.FromInlet.DefaultValue = 0.0;
-            wrapper.TillInlet.DefaultValue = 15.0;
-            wrapper.StepInlet.DefaultValue = 1.0;
+            wrapper.FromInlet.DefaultValue = DEFAULT_AGGREGATE_FROM;
+            wrapper.TillInlet.DefaultValue = DEFAULT_AGGREGATE_TILL;
+            wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1633,9 +1823,9 @@ namespace JJ.Business.Synthesizer
                 FrequencyCount = frequencyCount
             };
 
-            wrapper.StartTimeInlet.DefaultValue = 0.0;
-            wrapper.EndTimeInlet.DefaultValue = 1.0;
-            wrapper.FrequencyCountInlet.DefaultValue = 256.0;
+            wrapper.StartTimeInlet.DefaultValue = DEFAULT_START_TIME;
+            wrapper.EndTimeInlet.DefaultValue = DEFAULT_END_TIME;
+            wrapper.FrequencyCountInlet.DefaultValue = DEFAULT_SPECTRUM_FREQUENCY_COUNT;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1654,7 +1844,7 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            wrapper.FactorInlet.DefaultValue = 2.0;
+            wrapper.FactorInlet.DefaultValue = DEFAULT_FACTOR;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1673,7 +1863,7 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            wrapper.FrequencyInlet.DefaultValue = 440.0;
+            wrapper.FrequencyInlet.DefaultValue = DEFAULF_FREQUENCY;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1693,7 +1883,7 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            wrapper.FactorInlet.DefaultValue = 2.0;
+            wrapper.FactorInlet.DefaultValue = DEFAULT_FACTOR;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1737,9 +1927,9 @@ namespace JJ.Business.Synthesizer
                 CollectionRecalculation = collectionRecalculation
             };
 
-            wrapper.FromInlet.DefaultValue = 0.0;
-            wrapper.TillInlet.DefaultValue = 15.0;
-            wrapper.StepInlet.DefaultValue = 1.0;
+            wrapper.FromInlet.DefaultValue = DEFAULT_AGGREGATE_FROM;
+            wrapper.TillInlet.DefaultValue = DEFAULT_AGGREGATE_TILL;
+            wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1763,8 +1953,8 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            wrapper.SliceLengthInlet.DefaultValue = 0.02;
-            wrapper.SampleCountInlet.DefaultValue = 100.0;
+            wrapper.SliceLengthInlet.DefaultValue = DEFAULT_SLICE_LENGTH;
+            wrapper.SampleCountInlet.DefaultValue = DEFAULT_SAMPLE_COUNT;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1784,7 +1974,7 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            wrapper.ExponentInlet.DefaultValue = 2.0;
+            wrapper.ExponentInlet.DefaultValue = DEFAULT_EXPONENT;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1819,7 +2009,7 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            wrapper.FrequencyInlet.DefaultValue = 440.0;
+            wrapper.FrequencyInlet.DefaultValue = DEFAULF_FREQUENCY;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1925,10 +2115,13 @@ namespace JJ.Business.Synthesizer
             {
                 case OperatorTypeEnum.Absolute: return Absolute();
                 case OperatorTypeEnum.Add: return Add(new Outlet[variableInletOrOutletCount]);
+                case OperatorTypeEnum.AllPassFilter: return AllPassFilter();
                 case OperatorTypeEnum.And: return And();
                 case OperatorTypeEnum.Average: return Average(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.AverageFollower: return AverageFollower();
                 case OperatorTypeEnum.AverageOverDimension: return AverageOverDimension();
+                case OperatorTypeEnum.BandPassFilterConstantPeakGain: return BandPassFilterConstantPeakGain();
+                case OperatorTypeEnum.BandPassFilterConstantTransitionGain: return BandPassFilterConstantTransitionGain();
                 case OperatorTypeEnum.Bundle: return Bundle(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.ChangeTrigger: return ChangeTrigger();
                 case OperatorTypeEnum.Cache: return Cache();
@@ -1947,6 +2140,7 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.Filter: return Filter();
                 case OperatorTypeEnum.GreaterThan: return GreaterThan();
                 case OperatorTypeEnum.GreaterThanOrEqual: return GreaterThanOrEqual();
+                case OperatorTypeEnum.HighShelfFilter: return HighShelfFilter();
                 case OperatorTypeEnum.HighPassFilter: return HighPassFilter();
                 case OperatorTypeEnum.Hold: return Hold();
                 case OperatorTypeEnum.If: return If();
@@ -1954,6 +2148,7 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.LessThanOrEqual: return LessThanOrEqual();
                 case OperatorTypeEnum.Loop: return Loop();
                 case OperatorTypeEnum.LowPassFilter: return LowPassFilter();
+                case OperatorTypeEnum.LowShelfFilter: return LowShelfFilter();
                 case OperatorTypeEnum.MakeContinuous: return MakeContinuous(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.MakeDiscrete: return MakeDiscrete(null, variableInletOrOutletCount);
                 case OperatorTypeEnum.MaxOverDimension: return MaxOverDimension();
@@ -1967,6 +2162,7 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.Narrower: return Narrower();
                 case OperatorTypeEnum.Noise: return Noise();
                 case OperatorTypeEnum.Not: return Not();
+                case OperatorTypeEnum.NotchFilter: return NotchFilter();
                 case OperatorTypeEnum.NotEqual: return NotEqual();
                 case OperatorTypeEnum.Negative: return Negative();
                 case OperatorTypeEnum.Number: return Number();
@@ -1974,6 +2170,7 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.Or: return Or();
                 case OperatorTypeEnum.PatchInlet: return PatchInlet();
                 case OperatorTypeEnum.PatchOutlet: return PatchOutlet();
+                case OperatorTypeEnum.PeakingEQFilter: return PeakingEQFilter();
                 case OperatorTypeEnum.Power: return Power();
                 case OperatorTypeEnum.Pulse: return Pulse();
                 case OperatorTypeEnum.PulseTrigger: return PulseTrigger();

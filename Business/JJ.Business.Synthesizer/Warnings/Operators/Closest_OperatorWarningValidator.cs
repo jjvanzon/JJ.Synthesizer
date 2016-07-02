@@ -8,7 +8,7 @@ using JJ.Business.Synthesizer.Validation;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
-    internal class Closest_OperatorWarningValidator : OperatorWarningValidator_Base_FirstXInletsFilledIn
+    internal class Closest_OperatorWarningValidator : OperatorWarningValidator_Base_FirstXInletsFilledInOrHaveDefaults
     {
         public Closest_OperatorWarningValidator(Operator obj)
             : base(obj, inletCount: 1)

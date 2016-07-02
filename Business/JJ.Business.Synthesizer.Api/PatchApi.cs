@@ -46,6 +46,11 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.And(a, b);
         }
 
+        public AllPassFilter_OperatorWrapper AllPassFilter(Outlet signal = null, Outlet frequency = null, Outlet bandWidth = null)
+        {
+            return _patchManager.AllPassFilter(signal, frequency, bandWidth);
+        }
+
         public Average_OperatorWrapper Average(params Outlet[] operands)
         {
             return _patchManager.Average(operands);
@@ -74,6 +79,23 @@ namespace JJ.Business.Synthesizer.Api
             DimensionEnum dimension = DimensionEnum.Time)
         {
             return _patchManager.AverageFollower(signal, sliceLength, sampleCount, dimension);
+        }
+
+
+        public BandPassFilterConstantPeakGain_OperatorWrapper BandPassFilterConstantPeakGain(
+            Outlet signal = null,
+            Outlet frequency = null,
+            Outlet bandWidth = null)
+        {
+            return _patchManager.BandPassFilterConstantPeakGain(signal, frequency, bandWidth);
+        }
+
+        public BandPassFilterConstantTransitionGain_OperatorWrapper BandPassFilterConstantTransitionGain(
+            Outlet signal = null,
+            Outlet frequency = null,
+            Outlet bandWidth = null)
+        {
+            return _patchManager.BandPassFilterConstantTransitionGain(signal, frequency, bandWidth);
         }
 
         public Bundle_OperatorWrapper Bundle(params Outlet[] operands)
@@ -248,6 +270,15 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.HighPassFilter(signal, minFrequency);
         }
 
+        public HighShelfFilter_OperatorWrapper HighShelfFilter(
+            Outlet signal = null,
+            Outlet frequency = null,
+            Outlet dbGain = null,
+            Outlet shelfSlope = null)
+        {
+            return _patchManager.HighShelfFilter(signal, frequency, dbGain, shelfSlope);
+        }
+
         public If_OperatorWrapper If(Outlet condition = null, Outlet then = null, Outlet @else = null)
         {
             return _patchManager.If(condition, then, @else);
@@ -278,6 +309,15 @@ namespace JJ.Business.Synthesizer.Api
         public LowPassFilter_OperatorWrapper LowPassFilter(Outlet signal = null, Outlet maxFrequency = null)
         {
             return _patchManager.LowPassFilter(signal, maxFrequency);
+        }
+
+        public LowShelfFilter_OperatorWrapper LowShelfFilter(
+            Outlet signal = null,
+            Outlet frequency = null,
+            Outlet dbGain = null,
+            Outlet shelfSlope = null)
+        {
+            return _patchManager.LowShelfFilter(signal, frequency, dbGain, shelfSlope);
         }
 
         public MakeContinuous_OperatorWrapper MakeContinuous(ResampleInterpolationTypeEnum interpolation, DimensionEnum dimension, params Outlet[] operands)
@@ -459,6 +499,11 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Not(x);
         }
 
+        public NotchFilter_OperatorWrapper NotchFilter(Outlet signal = null, Outlet frequency = null, Outlet bandWidth = null)
+        {
+            return _patchManager.NotchFilter(signal, frequency, bandWidth);
+        }
+
         public NotEqual_OperatorWrapper NotEqual(Outlet a = null, Outlet b = null)
         {
             return _patchManager.NotEqual(a, b);
@@ -517,6 +562,15 @@ namespace JJ.Business.Synthesizer.Api
         public PatchOutlet_OperatorWrapper PatchOutlet(string name, Outlet input = null)
         {
             return _patchManager.PatchOutlet(name, input);
+        }
+
+        public PeakingEQFilter_OperatorWrapper PeakingEQFilter(
+            Outlet signal = null,
+            Outlet frequency = null,
+            Outlet dbGain = null,
+            Outlet shelfSlope = null)
+        {
+            return _patchManager.PeakingEQFilter(signal, frequency, dbGain, shelfSlope);
         }
 
         public Power_OperatorWrapper Power(Outlet @base = null, Outlet exponent = null)

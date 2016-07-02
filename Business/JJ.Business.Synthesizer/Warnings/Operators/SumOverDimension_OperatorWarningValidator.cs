@@ -4,7 +4,7 @@ using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
-    internal class SumOverDimension_OperatorWarningValidator : OperatorWarningValidator_Base_SpecificInletsFilledIn
+    internal class SumOverDimension_OperatorWarningValidator : OperatorWarningValidator_Base_SpecificInletsFilledInOrHaveDefaults
     {
         public SumOverDimension_OperatorWarningValidator(Operator obj)
             : base(

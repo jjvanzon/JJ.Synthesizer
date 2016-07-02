@@ -4,7 +4,7 @@ using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
-    internal class MaxOverDimension_OperatorWarningValidator : OperatorWarningValidator_Base_SpecificInletsFilledIn
+    internal class MaxOverDimension_OperatorWarningValidator : OperatorWarningValidator_Base_SpecificInletsFilledInOrHaveDefaults
     {
         public MaxOverDimension_OperatorWarningValidator(Operator obj)
             : base(

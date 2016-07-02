@@ -132,6 +132,13 @@
         ClosestExp = 80,
         ClosestOverDimensionExp = 81,
         Sort = 82,
-        SortOverDimension = 83
+        SortOverDimension = 83,
+        BandPassFilterConstantTransitionGain = 84,
+        BandPassFilterConstantPeakGain = 85,
+        NotchFilter = 86,
+        AllPassFilter = 87,
+        PeakingEQFilter = 88,
+        LowShelfFilter = 89,
+        HighShelfFilter = 90
     }
 }
