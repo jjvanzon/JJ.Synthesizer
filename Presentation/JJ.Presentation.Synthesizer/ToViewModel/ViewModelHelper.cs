@@ -412,36 +412,39 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         private static string GetOperatorCaption_ForCurve(Operator op, ICurveRepository curveRepository)
         {
-            // Prefer Operator's explicit Name.
+            string operatorTypeDisplayName = PropertyDisplayNames.Curve;
+
+            // Use Operator.Name
             if (!String.IsNullOrWhiteSpace(op.Name))
             {
-                return op.Name;
+                return String.Format("{0}: {1}", operatorTypeDisplayName, op.Name);
             }
 
-            // Use Curve Name as fallback.
+            // Use Curve.Name
             var wrapper = new Curve_OperatorWrapper(op, curveRepository);
             Curve underlyingEntity = wrapper.Curve;
             if (underlyingEntity != null)
             {
                 if (!String.IsNullOrWhiteSpace(underlyingEntity.Name))
                 {
-                    return underlyingEntity.Name;
+                    return String.Format("{0}: {1}", operatorTypeDisplayName, underlyingEntity.Name);
                 }
             }
 
-            // Use OperatorType DisplayName as fallback.
-            string caption = ResourceHelper.GetDisplayName(op.GetOperatorTypeEnum());
+            // Use OperatorTypeDisplayName
+            string caption = operatorTypeDisplayName;
             return caption;
         }
 
         private static string GetOperatorCaption_ForCustomOperator(Operator op, IPatchRepository patchRepository)
         {
-            // Prefer Operator's explicit Name.
+            // Use Operator.Name
             if (!String.IsNullOrWhiteSpace(op.Name))
             {
                 return op.Name;
             }
 
+            // Use UnderlyingPatch.Name
             var wrapper = new CustomOperator_OperatorWrapper(op, patchRepository);
             Patch underlyingPatch = wrapper.UnderlyingPatch;
             if (underlyingPatch != null)
@@ -452,7 +455,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 }
             }
 
-            // Use OperatorType DisplayName as fallback.
+            // Use OperatorTypeDisplayName
             string caption = ResourceHelper.GetDisplayName(op.GetOperatorTypeEnum());
             return caption;
         }
@@ -475,82 +478,91 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         private static string GetOperatorCaption_ForPatchInlet(Operator op)
         {
-            // Prefer Operator's explicit Name.
+            string substituteOperatorTypeDisplayName = PropertyDisplayNames.Inlet;
+
+            // Use Operator Name
             if (!String.IsNullOrWhiteSpace(op.Name))
             {
-                return op.Name;
+                return String.Format("{0}: {1}", substituteOperatorTypeDisplayName, op.Name);
             }
 
-            // Use PatchInlet Dimension as fallback
+            // Use Dimension
             var wrapper = new PatchInlet_OperatorWrapper(op);
             DimensionEnum dimensionEnum = wrapper.Inlet.GetDimensionEnum();
             if (dimensionEnum != DimensionEnum.Undefined)
             {
                 string dimensionDisplayName = ResourceHelper.GetDisplayName(dimensionEnum);
-                return dimensionDisplayName;
+                return String.Format("{0}: {1}", substituteOperatorTypeDisplayName,  dimensionDisplayName);
             }
 
-            // Use OperatorType DisplayName as fallback.
-            string caption = ResourceHelper.GetDisplayName(op.GetOperatorTypeEnum());
+            // Use Substitute OperatorType DisplayName
+            string caption = substituteOperatorTypeDisplayName;
+
             return caption;
         }
 
         private static string GetOperatorCaption_ForPatchOutlet(Operator op)
         {
-            // Prefer Operator's explicit Name.
+            string substituteOperatorTypeDisplayName = PropertyDisplayNames.Outlet;
+
+            // Use Operator.Name
             if (!String.IsNullOrWhiteSpace(op.Name))
             {
-                return op.Name;
+                return String.Format("{0}: {1}", substituteOperatorTypeDisplayName, op.Name);
             }
 
-            // Use PatchOutlet Dimension as fallback
+            // Use Dimension
             var wrapper = new PatchOutlet_OperatorWrapper(op);
             DimensionEnum dimensionEnum = wrapper.Result.GetDimensionEnum();
             if (dimensionEnum != DimensionEnum.Undefined)
             {
                 string dimensionDisplayName = ResourceHelper.GetDisplayName(dimensionEnum);
-                return dimensionDisplayName;
+                return String.Format("{0}: {1}", substituteOperatorTypeDisplayName, dimensionDisplayName);
             }
 
-            // Use OperatorType DisplayName as fallback.
-            string caption = ResourceHelper.GetDisplayName(op.GetOperatorTypeEnum());
+            // Use Substitute OperatorType DisplayName
+            string caption = substituteOperatorTypeDisplayName;
             return caption;
         }
 
         private static string GetOperatorCaption_ForSample(Operator op, ISampleRepository sampleRepository)
         {
-            // Prefer Operator's explicit Name.
+            string operatorTypeDisplayName = PropertyDisplayNames.Sample;
+
+            // Use Operator.Name
             if (!String.IsNullOrWhiteSpace(op.Name))
             {
-                return op.Name;
+                return String.Format("{0}: {1}", operatorTypeDisplayName, op.Name);
             }
 
-            // Use Sample Name as fallback.
+            // Use Sample.Name
             var wrapper = new Sample_OperatorWrapper(op, sampleRepository);
             Sample underlyingEntity = wrapper.Sample;
             if (underlyingEntity != null)
             {
                 if (!String.IsNullOrWhiteSpace(underlyingEntity.Name))
                 {
-                    return underlyingEntity.Name;
+                    return String.Format("{0}: {1}", operatorTypeDisplayName, underlyingEntity.Name);
                 }
             }
 
-            // Use OperatorType DisplayName as fallback.
-            string caption = ResourceHelper.GetDisplayName(op.GetOperatorTypeEnum());
+            // Use OperatorType DisplayName
+            string caption = operatorTypeDisplayName;
             return caption;
         }
 
         private static string GetOperatorCaption_ForOtherOperators(Operator op)
         {
-            // Prefer Operator's explicit Name.
+            string operatorTypeDisplayName = ResourceHelper.GetDisplayName(op.GetOperatorTypeEnum());
+
+            // Use Operator.Name
             if (!String.IsNullOrWhiteSpace(op.Name))
             {
-                return op.Name;
+                return String.Format("{0}: {1}", operatorTypeDisplayName, op.Name);
             }
 
-            // Use OperatorType DisplayName as fallback.
-            string caption = ResourceHelper.GetDisplayName(op.GetOperatorTypeEnum());
+            // Use OperatorType DisplayName
+            string caption = operatorTypeDisplayName;
             return caption;
         }
 
