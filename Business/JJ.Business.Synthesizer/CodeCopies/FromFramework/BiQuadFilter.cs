@@ -53,18 +53,14 @@ namespace JJ.Business.Synthesizer.CodeCopies.FromFramework
 
         private BiQuadFilter()
         {
-            // zero initial samples
-            _x1 = _x2 = 0;
-            _y1 = _y2 = 0;
+            Reset();
         }
 
         private BiQuadFilter(double a0, double a1, double a2, double b0, double b1, double b2)
         {
             SetCoefficients(a0, a1, a2, b0, b1, b2);
 
-            // zero initial samples
-            _x1 = _x2 = 0;
-            _y1 = _y2 = 0;
+            Reset();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -76,6 +72,13 @@ namespace JJ.Business.Synthesizer.CodeCopies.FromFramework
             _a2 = b2 / aa0;
             _a3 = aa1 / aa0;
             _a4 = aa2 / aa0;
+        }
+
+        private void Reset()
+        {
+            // zero initial samples
+            _x1 = _x2 = 0;
+            _y1 = _y2 = 0;
         }
 
         /// <summary> Passes a single sample through the filter. </summary>

@@ -9,6 +9,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class LowPassFilter_VarMaxFrequency_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
+        private const int SAMPLES_PER_SET_FILTER = 100;
         private const double ASSUMED_SAMPLE_RATE = 44100.0;
         private const double DEFAULT_MAX_FREQUENCY = 22050.0;
         private const double DEFAULT_BAND_WIDTH = 1.0;
@@ -17,6 +18,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _maxFrequencyCalculator;
 
         private BiQuadFilter _biQuadFilter;
+        private int _counter;
 
         public LowPassFilter_VarMaxFrequency_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
@@ -37,12 +39,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double maxFrequency = _maxFrequencyCalculator.Calculate();
+            if (_counter > SAMPLES_PER_SET_FILTER)
+            {
+                double maxFrequency = _maxFrequencyCalculator.Calculate();
+                _biQuadFilter.SetLowPassFilter(ASSUMED_SAMPLE_RATE, maxFrequency, DEFAULT_BAND_WIDTH);
+
+                _counter = 0;
+            }
+
             double signal = _signalCalculator.Calculate();
-
-            _biQuadFilter.SetLowPassFilter(ASSUMED_SAMPLE_RATE, maxFrequency, DEFAULT_BAND_WIDTH);
-
             double value = _biQuadFilter.Transform(signal);
+
+            _counter++;
 
             return value;
         }
@@ -57,6 +65,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private void ResetNonRecursive()
         {
             _biQuadFilter = BiQuadFilter.CreateLowPassFilter(ASSUMED_SAMPLE_RATE, DEFAULT_MAX_FREQUENCY, DEFAULT_BAND_WIDTH);
+            _counter = 0;
         }
     }
 

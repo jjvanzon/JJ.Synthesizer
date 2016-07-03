@@ -9,6 +9,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class HighPassFilter_VarMinFrequency_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
+        private const int SAMPLES_PER_SET_FILTER = 100;
         private const double ASSUMED_SAMPLE_RATE = 44100.0;
         private const double DEFAULT_MIN_FREQUENCY = 8.0;
         private const double DEFAULT_BAND_WIDTH = 1.0;
@@ -17,6 +18,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _minFrequencyCalculator;
 
         private BiQuadFilter _biQuadFilter;
+        private int _counter;
 
         public HighPassFilter_VarMinFrequency_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
@@ -37,12 +39,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double minFrequency = _minFrequencyCalculator.Calculate();
+            if (_counter > SAMPLES_PER_SET_FILTER)
+            {
+                double minFrequency = _minFrequencyCalculator.Calculate();
+                _biQuadFilter.SetHighPassFilter(ASSUMED_SAMPLE_RATE, minFrequency, DEFAULT_BAND_WIDTH);
+
+                _counter = 0;
+            }
+
             double signal = _signalCalculator.Calculate();
-
-            _biQuadFilter.SetHighPassFilter(ASSUMED_SAMPLE_RATE, minFrequency, DEFAULT_BAND_WIDTH);
-
             double value = _biQuadFilter.Transform(signal);
+
+            _counter++;
 
             return value;
         }
@@ -57,6 +65,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private void ResetNonRecursive()
         {
             _biQuadFilter = BiQuadFilter.CreateHighPassFilter(ASSUMED_SAMPLE_RATE, DEFAULT_MIN_FREQUENCY, DEFAULT_BAND_WIDTH);
+            _counter = 0;
         }
     }
 
@@ -67,7 +76,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _minFrequency;
-
         private BiQuadFilter _biQuadFilter;
 
         public HighPassFilter_ConstMinFrequency_OperatorCalculator(

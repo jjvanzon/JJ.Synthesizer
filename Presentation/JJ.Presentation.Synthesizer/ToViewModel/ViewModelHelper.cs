@@ -505,7 +505,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             double? defaultValue = inlet.DefaultValue;
             if (defaultValue.HasValue)
             {
-                sb.AppendFormat(" ({0})", defaultValue.Value);
+                sb.AppendFormat(" = {0}", defaultValue.Value);
             }
 
             return sb.ToString();
