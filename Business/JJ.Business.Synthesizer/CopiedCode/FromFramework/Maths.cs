@@ -5,7 +5,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace JJ.Business.Synthesizer.CodeCopies.FromFramework
+namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
 {
     public static class Maths
     {

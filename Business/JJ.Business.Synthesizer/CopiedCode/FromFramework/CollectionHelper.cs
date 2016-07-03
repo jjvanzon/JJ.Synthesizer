@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-namespace JJ.Business.Synthesizer.CodeCopies.FromFramework
+namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
 {
     public static class CollectionHelper
     {

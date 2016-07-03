@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using JJ.Framework.Common.Exceptions;
 using JJ.Business.Synthesizer.Validation.Curves;
-using JJ.Business.Synthesizer.CodeCopies.FromFramework;
+using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 
 namespace JJ.Business.Synthesizer.Calculation.Curves
 {

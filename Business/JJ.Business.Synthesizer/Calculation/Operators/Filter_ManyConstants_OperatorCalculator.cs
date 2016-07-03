@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.CodeCopies.FromFramework;
+using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Common.Exceptions;
 using JJ.Framework.Reflection.Exceptions;

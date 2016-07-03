@@ -1,6 +1,6 @@
 ﻿using JJ.Framework.Reflection.Exceptions;
 using System;
-using JJ.Business.Synthesizer.CodeCopies.FromFramework;
+using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {

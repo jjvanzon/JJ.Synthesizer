@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.CodeCopies.FromFramework;
+using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class HighPassFilter_OperatorCalculator_VarMinFrequency_VarBandWidth : OperatorCalculatorBase_WithChildCalculators
     {
-        private const int SAMPLES_PER_SET_FILTER = 100;
+        private const int SAMPLES_PER_SET_FILTER_CALL = 100;
         private const double ASSUMED_SAMPLE_RATE = 44100.0;
 
         private readonly OperatorCalculatorBase _signalCalculator;
@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            if (_counter > SAMPLES_PER_SET_FILTER)
+            if (_counter > SAMPLES_PER_SET_FILTER_CALL)
             {
                 double minFrequency = _minFrequencyCalculator.Calculate();
                 double bandWidth = _bandWidthCalculator.Calculate();

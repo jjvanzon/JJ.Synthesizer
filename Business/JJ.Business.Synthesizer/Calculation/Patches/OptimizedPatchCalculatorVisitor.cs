@@ -261,25 +261,32 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             frequencyCalculator = frequencyCalculator ?? new Zero_OperatorCalculator();
             bandWidthCalculator = bandWidthCalculator ?? new Zero_OperatorCalculator();
 
-            double signal = signalCalculator.Calculate();
-            double frequency = frequencyCalculator.Calculate();
-            double bandWidth = bandWidthCalculator.Calculate();
-
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
             bool bandWidthIsConst = bandWidthCalculator is Number_OperatorCalculator;
+
+            double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
+            double frequency = frequencyIsConst ? frequencyCalculator.Calculate() : 0.0;
+            double bandWidth = bandWidthIsConst ? bandWidthCalculator.Calculate() : 0.0;
 
             if (signalIsConst)
             {
                 // There are no frequencies. So you a filter should do nothing.
                 calculator = signalCalculator;
             }
-            else
+            else if (frequencyIsConst && bandWidthIsConst)
             {
-                calculator = new AllPassFilter_ManyConstants_OperatorCalculator(
+                calculator = new AllPassFilter_OperatorCalculator_ConstFrequency_ConstBandWidth(
                     signalCalculator,
                     frequency,
                     bandWidth);
+            }
+            else
+            {
+                calculator = new AllPassFilter_OperatorCalculator_VarFrequency_VarBandWidth(
+                    signalCalculator,
+                    frequencyCalculator,
+                    bandWidthCalculator);
             }
 
             _stack.Push(calculator);

@@ -4,7 +4,7 @@
 
 using System.Runtime.CompilerServices;
 
-namespace JJ.Business.Synthesizer.CodeCopies.FromFramework
+namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
 {
     internal static class Geometry
     {

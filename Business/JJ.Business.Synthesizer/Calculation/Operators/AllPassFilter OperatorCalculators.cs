@@ -7,30 +7,30 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class LowPassFilter_VarMaxFrequency_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class AllPassFilter_OperatorCalculator_VarFrequency_VarBandWidth : OperatorCalculatorBase_WithChildCalculators
     {
         private const int SAMPLES_PER_SET_FILTER_CALL = 100;
         private const double ASSUMED_SAMPLE_RATE = 44100.0;
 
         private readonly OperatorCalculatorBase _signalCalculator;
-        private readonly OperatorCalculatorBase _maxFrequencyCalculator;
+        private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly OperatorCalculatorBase _bandWidthCalculator;
 
         private BiQuadFilter _biQuadFilter;
         private int _counter;
 
-        public LowPassFilter_VarMaxFrequency_OperatorCalculator(
+        public AllPassFilter_OperatorCalculator_VarFrequency_VarBandWidth(
             OperatorCalculatorBase signalCalculator,
-            OperatorCalculatorBase maxFrequencyCalculator,
+            OperatorCalculatorBase frequencyCalculator,
             OperatorCalculatorBase bandWidthCalculator)
-            : base(new OperatorCalculatorBase[] { signalCalculator, maxFrequencyCalculator, bandWidthCalculator })
+            : base(new OperatorCalculatorBase[] { signalCalculator, frequencyCalculator, bandWidthCalculator })
         {
             OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
-            if (maxFrequencyCalculator == null) throw new NullException(() => maxFrequencyCalculator);
+            if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
             if (bandWidthCalculator == null) throw new NullException(() => bandWidthCalculator);
 
             _signalCalculator = signalCalculator;
-            _maxFrequencyCalculator = maxFrequencyCalculator;
+            _frequencyCalculator = frequencyCalculator;
             _bandWidthCalculator = bandWidthCalculator;
 
             ResetNonRecursive();
@@ -41,10 +41,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             if (_counter > SAMPLES_PER_SET_FILTER_CALL)
             {
-                double maxFrequency = _maxFrequencyCalculator.Calculate();
+                double frequency = _frequencyCalculator.Calculate();
                 double bandWidth = _bandWidthCalculator.Calculate();
 
-                _biQuadFilter.SetLowPassFilter(ASSUMED_SAMPLE_RATE, maxFrequency, bandWidth);
+                _biQuadFilter.SetAllPassFilter(ASSUMED_SAMPLE_RATE, frequency, bandWidth);
 
                 _counter = 0;
             }
@@ -66,35 +66,35 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private void ResetNonRecursive()
         {
-            double maxFrequency = _maxFrequencyCalculator.Calculate();
+            double frequency = _frequencyCalculator.Calculate();
             double bandWidth = _bandWidthCalculator.Calculate();
-
-            _biQuadFilter = BiQuadFilter.CreateLowPassFilter(ASSUMED_SAMPLE_RATE, maxFrequency, bandWidth);
+            _biQuadFilter = BiQuadFilter.CreateAllPassFilter(ASSUMED_SAMPLE_RATE, frequency, bandWidth);
 
             _counter = 0;
         }
     }
 
-    internal class LowPassFilter_ConstMaxFrequency_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class AllPassFilter_OperatorCalculator_ConstFrequency_ConstBandWidth : OperatorCalculatorBase_WithChildCalculators
     {
         private const double ASSUMED_SAMPLE_RATE = 44100.0;
 
         private readonly OperatorCalculatorBase _signalCalculator;
-        private readonly double _maxFrequency;
+        private readonly double _frequency;
         private readonly double _bandWidth;
 
         private BiQuadFilter _biQuadFilter;
 
-        public LowPassFilter_ConstMaxFrequency_OperatorCalculator(
+        public AllPassFilter_OperatorCalculator_ConstFrequency_ConstBandWidth(
             OperatorCalculatorBase signalCalculator,
-            double maxFrequency,
+            double frequency,
             double bandWidth)
             : base(new OperatorCalculatorBase[] { signalCalculator })
         {
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
+            if (signalCalculator == null) throw new NullException(() => signalCalculator);
+            if (signalCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => signalCalculator);
 
             _signalCalculator = signalCalculator;
-            _maxFrequency = maxFrequency;
+            _frequency = frequency;
             _bandWidth = bandWidth;
 
             ResetNonRecursive();
@@ -119,7 +119,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private void ResetNonRecursive()
         {
-            _biQuadFilter = BiQuadFilter.CreateLowPassFilter(ASSUMED_SAMPLE_RATE, _maxFrequency, _bandWidth);
+            _biQuadFilter = BiQuadFilter.CreateAllPassFilter(ASSUMED_SAMPLE_RATE, _frequency, _bandWidth);
         }
     }
 }

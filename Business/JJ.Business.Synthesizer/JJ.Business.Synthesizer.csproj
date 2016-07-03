@@ -108,7 +108,7 @@
     <Compile Include="Calculation\Operators\ClosestOverDimensionExp_OperatorCalculator_Base.cs" />
     <Compile Include="Calculation\Operators\ClosestOverDimensionExp_OperatorCalculator_CollectionRecalculationContinuous.cs" />
     <Compile Include="Calculation\Operators\ClosestOverDimensionExp_OperatorCalculator_CollectionRecalculationUponReset.cs" />
-    <Compile Include="Calculation\Operators\AllPassFilter_ManyConstants_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\AllPassFilter OperatorCalculators.cs" />
     <Compile Include="Calculation\Operators\Sort OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\SortOverDimension_OperatorCalculator_CollectionRecalculationContinuous.cs" />
     <Compile Include="Calculation\Operators\SortOverDimension_OperatorCalculator_Base.cs" />
@@ -228,11 +228,11 @@
     <Compile Include="Calculation\Operators\OperatorCalculatorBase.cs" />
     <Compile Include="Calculation\Operators\Delay OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Number_OperatorCalculator.cs" />
-    <Compile Include="CodeCopies\FromFramework\BiQuadFilter.cs" />
-    <Compile Include="CodeCopies\FromFramework\CollectionHelper.cs" />
-    <Compile Include="CodeCopies\FromFramework\Geometry.cs" />
-    <Compile Include="CodeCopies\FromFramework\Interpolator.cs" />
-    <Compile Include="CodeCopies\FromFramework\Maths.cs" />
+    <Compile Include="CopiedCode\FromFramework\BiQuadFilter.cs" />
+    <Compile Include="CopiedCode\FromFramework\CollectionHelper.cs" />
+    <Compile Include="CopiedCode\FromFramework\Geometry.cs" />
+    <Compile Include="CopiedCode\FromFramework\Interpolator.cs" />
+    <Compile Include="CopiedCode\FromFramework\Maths.cs" />
     <Compile Include="EntityWrappers\HighShelfFilter_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\LowShelfFilter_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\AllPassFilter_OperatorWrapper.cs" />
@@ -428,9 +428,9 @@
     <Compile Include="CurveManager.cs" />
     <Compile Include="DocumentManager.cs" />
     <Compile Include="EntityPositionManager.cs" />
-    <Compile Include="CodeCopies\FromNAudio\2016-07-03 Backup of BiQuadFilter.cs" />
-    <Compile Include="CodeCopies\FromNAudio\Complex.cs" />
-    <Compile Include="CodeCopies\FromNAudio\FastFourierTransform.cs" />
+    <Compile Include="CopiedCode\FromNAudio\2016-07-03 Backup of BiQuadFilter.cs" />
+    <Compile Include="CopiedCode\FromNAudio\Complex.cs" />
+    <Compile Include="CopiedCode\FromNAudio\FastFourierTransform.cs" />
     <Compile Include="PatchManager.AutoPatch.cs" />
     <Compile Include="SideEffects\AudioOutput_SideEffect_SetDefaults.cs" />
     <Compile Include="SideEffects\Curve_SideEffect_SetDefaults_Nodes.cs" />
@@ -846,8 +846,8 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>OperatorCalculatorFactory.CreateAddCalculatorWithConst.cs</LastGenOutput>
     </None>
-    <Content Include="CodeCopies\FromFramework\README.TXT" />
-    <Content Include="CodeCopies\FromNAudio\README.TXT" />
+    <Content Include="CopiedCode\FromFramework\README.TXT" />
+    <Content Include="CopiedCode\FromNAudio\README.TXT" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

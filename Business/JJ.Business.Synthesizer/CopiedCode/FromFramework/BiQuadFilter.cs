@@ -34,7 +34,7 @@ using System;
 using System.Runtime.CompilerServices;
 using JJ.Framework.Mathematics;
 
-namespace JJ.Business.Synthesizer.CodeCopies.FromFramework
+namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
 {
     public class BiQuadFilter
     {
