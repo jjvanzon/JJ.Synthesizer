@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Absolute_OperatorCalculator(OperatorCalculatorBase calculatorX)
             : base(new OperatorCalculatorBase[] { calculatorX })
         {
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(calculatorX, () => calculatorX);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(calculatorX, () => calculatorX);
 
             _calculatorX = calculatorX;
         }

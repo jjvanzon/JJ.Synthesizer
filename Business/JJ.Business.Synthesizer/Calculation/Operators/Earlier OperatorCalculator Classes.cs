@@ -22,8 +22,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 distanceCalculator
             })
         {
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(distanceCalculator, () => distanceCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(distanceCalculator, () => distanceCalculator);
             OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
 
             _signalCalculator = signalCalculator;
@@ -108,7 +108,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[] { signalCalculator })
         {
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
             OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
 
             _signalCalculator = signalCalculator;

@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double origin)
             : base(new OperatorCalculatorBase[] { bCalculator })
         {
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(bCalculator, () => bCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(bCalculator, () => bCalculator);
 
             _a = a;
             _bCalculator = bCalculator;
@@ -42,7 +42,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double origin)
             : base(new OperatorCalculatorBase[] { aCalculator })
         {
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(aCalculator, () => aCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(aCalculator, () => aCalculator);
 
             _aCalculator = aCalculator;
             _b = b;
@@ -69,8 +69,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double origin)
             : base(new OperatorCalculatorBase[] { aCalculator, bCalculator })
         {
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(aCalculator, () => aCalculator);
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(bCalculator, () => bCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(aCalculator, () => aCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(bCalculator, () => bCalculator);
 
             _aCalculator = aCalculator;
             _bCalculator = bCalculator;
@@ -98,7 +98,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase originCalculator)
             : base(new OperatorCalculatorBase[] { originCalculator })
         {
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(originCalculator, () => originCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(originCalculator, () => originCalculator);
 
             _a = a;
             _b = b;
@@ -125,8 +125,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase originCalculator)
             : base(new OperatorCalculatorBase[] { bCalculator, originCalculator })
         {
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(bCalculator, () => bCalculator);
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(originCalculator, () => originCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(bCalculator, () => bCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(originCalculator, () => originCalculator);
 
             _a = a;
             _bCalculator = bCalculator;
@@ -154,8 +154,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase originCalculator)
             : base(new OperatorCalculatorBase[] { aCalculator, originCalculator })
         {
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(aCalculator, () => aCalculator);
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(originCalculator, () => originCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(aCalculator, () => aCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(originCalculator, () => originCalculator);
 
             _aCalculator = aCalculator;
             _b = b;
@@ -183,9 +183,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase originCalculator)
             : base(new OperatorCalculatorBase[] { aCalculator, bCalculator, originCalculator })
         {
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(aCalculator, () => aCalculator);
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(bCalculator, () => bCalculator);
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(originCalculator, () => originCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(aCalculator, () => aCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(bCalculator, () => bCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(originCalculator, () => originCalculator);
 
             _aCalculator = aCalculator;
             _bCalculator = bCalculator;

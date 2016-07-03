@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Hold_OperatorCalculator(OperatorCalculatorBase signalCalculator)
             : base(new OperatorCalculatorBase[] { signalCalculator })
         {
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
 
             _signalCalculator = signalCalculator;
 

@@ -40,10 +40,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 frequencyCountCalculator
             })
         {
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase_OnlyUsedUponResetState(startTimeCalculator, () => startTimeCalculator);
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase_OnlyUsedUponResetState(endTimeCalculator, () => endTimeCalculator);
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase_OnlyUsedUponResetState(frequencyCountCalculator, () => frequencyCountCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator_OnlyUsedUponResetState(startTimeCalculator, () => startTimeCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator_OnlyUsedUponResetState(endTimeCalculator, () => endTimeCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator_OnlyUsedUponResetState(frequencyCountCalculator, () => frequencyCountCalculator);
             OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
 
             _signalCalculator = signalCalculator;

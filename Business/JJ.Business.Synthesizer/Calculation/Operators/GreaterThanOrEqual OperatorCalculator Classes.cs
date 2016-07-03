@@ -15,8 +15,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase calculatorB)
             : base(new OperatorCalculatorBase[] { calculatorA, calculatorB })
         {
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(calculatorA, () => calculatorA);
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(calculatorB, () => calculatorB);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(calculatorA, () => calculatorA);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(calculatorB, () => calculatorB);
 
             _calculatorA = calculatorA;
             _calculatorB = calculatorB;
@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public GreaterThanOrEqual_VarA_ConstB_OperatorCalculator(OperatorCalculatorBase calculatorA, double b)
             : base(new OperatorCalculatorBase[] { calculatorA })
         {
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(calculatorA, () => calculatorA);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(calculatorA, () => calculatorA);
 
             _calculatorA = calculatorA;
             _b = b;
@@ -65,7 +65,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public GreaterThanOrEqual_ConstA_VarB_OperatorCalculator(double a, OperatorCalculatorBase calculatorB)
             : base(new OperatorCalculatorBase[] { calculatorB })
         {
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(calculatorB, () => calculatorB);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(calculatorB, () => calculatorB);
 
             _a = a;
             _calculatorB = calculatorB;

@@ -889,4 +889,10 @@
   <data name="PeakingEQFilter" xml:space="preserve">
     <value>Peaking EQ Filter</value>
   </data>
+  <data name="CenterFrequency" xml:space="preserve">
+    <value>Center Frequency</value>
+  </data>
+  <data name="ShelfFrequency" xml:space="preserve">
+    <value>Shelf Frequency</value>
+  </data>
 </root>

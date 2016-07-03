@@ -93,18 +93,21 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public AllPassFilter_OperatorWrapper AllPassFilter(Outlet signal = null, Outlet frequency = null, Outlet bandWidth = null)
+        public AllPassFilter_OperatorWrapper AllPassFilter(
+            Outlet signal = null, 
+            Outlet centerFrequency = null, 
+            Outlet bandWidth = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.AllPassFilter, inletCount: 3, outletCount: 1);
 
             var wrapper = new AllPassFilter_OperatorWrapper(op)
             {
                 Signal = signal,
-                Frequency = frequency,
+                CenterFrequency = centerFrequency,
                 BandWidth = bandWidth
             };
 
-            wrapper.FrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
+            wrapper.CenterFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
             wrapper.BandWidthInlet.DefaultValue = DEFAULT_BAND_WIDTH;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
@@ -188,7 +191,7 @@ namespace JJ.Business.Synthesizer
 
         public BandPassFilterConstantPeakGain_OperatorWrapper BandPassFilterConstantPeakGain(
             Outlet signal = null,
-            Outlet frequency = null,
+            Outlet centerFrequency = null,
             Outlet bandWidth = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.BandPassFilterConstantPeakGain, inletCount: 3, outletCount: 1);
@@ -196,11 +199,11 @@ namespace JJ.Business.Synthesizer
             var wrapper = new BandPassFilterConstantPeakGain_OperatorWrapper(op)
             {
                 Signal = signal,
-                Frequency = frequency,
+                CenterFrequency = centerFrequency,
                 BandWidth = bandWidth
             };
 
-            wrapper.FrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
+            wrapper.CenterFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
             wrapper.BandWidthInlet.DefaultValue = DEFAULT_BAND_WIDTH;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
@@ -211,7 +214,7 @@ namespace JJ.Business.Synthesizer
 
         public BandPassFilterConstantTransitionGain_OperatorWrapper BandPassFilterConstantTransitionGain(
             Outlet signal = null,
-            Outlet frequency = null,
+            Outlet centerFrequency = null,
             Outlet bandWidth = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.BandPassFilterConstantTransitionGain, inletCount: 3, outletCount: 1);
@@ -219,11 +222,11 @@ namespace JJ.Business.Synthesizer
             var wrapper = new BandPassFilterConstantTransitionGain_OperatorWrapper(op)
             {
                 Signal = signal,
-                Frequency = frequency,
+                CenterFrequency = centerFrequency,
                 BandWidth = bandWidth
             };
 
-            wrapper.FrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
+            wrapper.CenterFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
             wrapper.BandWidthInlet.DefaultValue = DEFAULT_BAND_WIDTH;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
@@ -671,7 +674,7 @@ namespace JJ.Business.Synthesizer
 
         public HighShelfFilter_OperatorWrapper HighShelfFilter(
             Outlet signal = null,
-            Outlet frequency = null,
+            Outlet shelfFrequency = null,
             Outlet dbGain = null,
             Outlet shelfSlope = null)
         {
@@ -680,12 +683,12 @@ namespace JJ.Business.Synthesizer
             var wrapper = new HighShelfFilter_OperatorWrapper(op)
             {
                 Signal = signal,
-                Frequency = frequency,
+                ShelfFrequency = shelfFrequency,
                 DBGain = dbGain,
                 ShelfSlope = shelfSlope
             };
 
-            wrapper.FrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
+            wrapper.ShelfFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
             wrapper.DBGainInlet.DefaultValue = DEFAULT_DB_GAIN;
             wrapper.ShelfSlopeInlet.DefaultValue = DEFAULT_SHELF_SLOPE;
 
@@ -815,7 +818,7 @@ namespace JJ.Business.Synthesizer
 
         public LowShelfFilter_OperatorWrapper LowShelfFilter(
             Outlet signal = null,
-            Outlet frequency = null,
+            Outlet shelfFrequency = null,
             Outlet dbGain = null,
             Outlet shelfSlope = null)
         {
@@ -824,12 +827,12 @@ namespace JJ.Business.Synthesizer
             var wrapper = new LowShelfFilter_OperatorWrapper(op)
             {
                 Signal = signal,
-                Frequency = frequency,
+                ShelfFrequency = shelfFrequency,
                 DBGain = dbGain,
                 ShelfSlope = shelfSlope
             };
 
-            wrapper.FrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
+            wrapper.ShelfFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
             wrapper.DBGainInlet.DefaultValue = DEFAULT_DB_GAIN;
             wrapper.ShelfSlopeInlet.DefaultValue = DEFAULT_SHELF_SLOPE;
 
@@ -1206,18 +1209,21 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public NotchFilter_OperatorWrapper NotchFilter(Outlet signal = null, Outlet frequency = null, Outlet bandWidth = null)
+        public NotchFilter_OperatorWrapper NotchFilter(
+            Outlet signal = null, 
+            Outlet centerFrequency = null, 
+            Outlet bandWidth = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.NotchFilter, inletCount: 3, outletCount: 1);
 
             var wrapper = new NotchFilter_OperatorWrapper(op)
             {
                 Signal = signal,
-                Frequency = frequency,
+                CenterFrequency = centerFrequency,
                 BandWidth = bandWidth
             };
 
-            wrapper.FrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
+            wrapper.CenterFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
             wrapper.BandWidthInlet.DefaultValue = DEFAULT_BAND_WIDTH;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
@@ -1396,7 +1402,7 @@ namespace JJ.Business.Synthesizer
 
         public PeakingEQFilter_OperatorWrapper PeakingEQFilter(
             Outlet signal = null,
-            Outlet frequency = null,
+            Outlet centerFrequency = null,
             Outlet dbGain = null,
             Outlet shelfSlope = null)
         {
@@ -1405,12 +1411,12 @@ namespace JJ.Business.Synthesizer
             var wrapper = new PeakingEQFilter_OperatorWrapper(op)
             {
                 Signal = signal,
-                Frequency = frequency,
+                CenterFrequency = centerFrequency,
                 DBGain = dbGain,
                 ShelfSlope = shelfSlope
             };
 
-            wrapper.FrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
+            wrapper.CenterFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
             wrapper.DBGainInlet.DefaultValue = DEFAULT_DB_GAIN;
             wrapper.ShelfSlopeInlet.DefaultValue = DEFAULT_SHELF_SLOPE;
 

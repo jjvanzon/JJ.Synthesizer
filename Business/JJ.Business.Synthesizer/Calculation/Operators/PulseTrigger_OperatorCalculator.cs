@@ -18,8 +18,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase resetCalculator)
             : base (new OperatorCalculatorBase[] { calculationCalculator, resetCalculator })
         {
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(calculationCalculator, () => calculationCalculator);
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(resetCalculator, () => resetCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(calculationCalculator, () => calculationCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(resetCalculator, () => resetCalculator);
 
             _calculationCalculator = calculationCalculator;
             _resetCalculator = resetCalculator;

@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[] { calculationCalculator })
         {
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(calculationCalculator, () => calculationCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(calculationCalculator, () => calculationCalculator);
             if (dimensionStack == null) throw new NullException(() => dimensionStack);
 
             _value = value;
@@ -65,8 +65,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[] { calculationCalculator, valueCalculator })
         {
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(calculationCalculator, () => calculationCalculator);
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(valueCalculator, () => valueCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(calculationCalculator, () => calculationCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(valueCalculator, () => valueCalculator);
             OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
 
             _calculationCalculator = calculationCalculator;

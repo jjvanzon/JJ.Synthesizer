@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             IList<OperatorCalculatorBase> childOperatorCalculators)
             : base(childOperatorCalculators)
         {
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
             OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
 
             _signalCalculator = signalCalculator;

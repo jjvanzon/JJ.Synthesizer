@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Negative_OperatorCalculator(OperatorCalculatorBase xCalculator)
             : base(new OperatorCalculatorBase[] { xCalculator })
         {
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(xCalculator, () => xCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(xCalculator, () => xCalculator);
 
             _xCalculator = xCalculator;
         }

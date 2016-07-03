@@ -254,19 +254,19 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase frequencyCalculator = _stack.Pop();
+            OperatorCalculatorBase centerFrequencyCalculator = _stack.Pop();
             OperatorCalculatorBase bandWidthCalculator = _stack.Pop();
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
-            frequencyCalculator = frequencyCalculator ?? new Zero_OperatorCalculator();
+            centerFrequencyCalculator = centerFrequencyCalculator ?? new Zero_OperatorCalculator();
             bandWidthCalculator = bandWidthCalculator ?? new Zero_OperatorCalculator();
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
-            bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
+            bool centerFrequencyIsConst = centerFrequencyCalculator is Number_OperatorCalculator;
             bool bandWidthIsConst = bandWidthCalculator is Number_OperatorCalculator;
 
             double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
-            double frequency = frequencyIsConst ? frequencyCalculator.Calculate() : 0.0;
+            double centerFrequency = centerFrequencyIsConst ? centerFrequencyCalculator.Calculate() : 0.0;
             double bandWidth = bandWidthIsConst ? bandWidthCalculator.Calculate() : 0.0;
 
             if (signalIsConst)
@@ -274,18 +274,18 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 // There are no frequencies. So you a filter should do nothing.
                 calculator = signalCalculator;
             }
-            else if (frequencyIsConst && bandWidthIsConst)
+            else if (centerFrequencyIsConst && bandWidthIsConst)
             {
-                calculator = new AllPassFilter_OperatorCalculator_ConstFrequency_ConstBandWidth(
+                calculator = new AllPassFilter_OperatorCalculator_ConstCenterFrequency_ConstBandWidth(
                     signalCalculator,
-                    frequency,
+                    centerFrequency,
                     bandWidth);
             }
             else
             {
-                calculator = new AllPassFilter_OperatorCalculator_VarFrequency_VarBandWidth(
+                calculator = new AllPassFilter_OperatorCalculator_VarCenterFrequency_VarBandWidth(
                     signalCalculator,
-                    frequencyCalculator,
+                    centerFrequencyCalculator,
                     bandWidthCalculator);
             }
 
@@ -498,20 +498,20 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase frequencyCalculator = _stack.Pop();
+            OperatorCalculatorBase centerFrequencyCalculator = _stack.Pop();
             OperatorCalculatorBase bandWidthCalculator = _stack.Pop();
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
-            frequencyCalculator = frequencyCalculator ?? new Zero_OperatorCalculator();
+            centerFrequencyCalculator = centerFrequencyCalculator ?? new Zero_OperatorCalculator();
             bandWidthCalculator = bandWidthCalculator ?? new Zero_OperatorCalculator();
 
-            double signal = signalCalculator.Calculate();
-            double frequency = frequencyCalculator.Calculate();
-            double bandWidth = bandWidthCalculator.Calculate();
-
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
-            bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
+            bool centerFrequencyIsConst = centerFrequencyCalculator is Number_OperatorCalculator;
             bool bandWidthIsConst = bandWidthCalculator is Number_OperatorCalculator;
+
+            double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
+            double centerFrequency = centerFrequencyIsConst ? centerFrequencyCalculator.Calculate() : 0.0;
+            double bandWidth = bandWidthIsConst ? bandWidthCalculator.Calculate() : 0.0;
 
             if (signalIsConst)
             {
@@ -522,7 +522,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = new BandPassFilterConstantTransitionGain_ManyConstants_OperatorCalculator(
                     signalCalculator,
-                    frequency,
+                    centerFrequency,
                     bandWidth);
             }
 
@@ -536,20 +536,20 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase frequencyCalculator = _stack.Pop();
+            OperatorCalculatorBase centerFrequencyCalculator = _stack.Pop();
             OperatorCalculatorBase bandWidthCalculator = _stack.Pop();
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
-            frequencyCalculator = frequencyCalculator ?? new Zero_OperatorCalculator();
+            centerFrequencyCalculator = centerFrequencyCalculator ?? new Zero_OperatorCalculator();
             bandWidthCalculator = bandWidthCalculator ?? new Zero_OperatorCalculator();
 
-            double signal = signalCalculator.Calculate();
-            double frequency = frequencyCalculator.Calculate();
-            double bandWidth = bandWidthCalculator.Calculate();
-
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
-            bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
+            bool centerFrequencyIsConst = centerFrequencyCalculator is Number_OperatorCalculator;
             bool bandWidthIsConst = bandWidthCalculator is Number_OperatorCalculator;
+
+            double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
+            double centerFrequency = centerFrequencyIsConst ? centerFrequencyCalculator.Calculate() : 0.0;
+            double bandWidth = bandWidthIsConst ? bandWidthCalculator.Calculate() : 0.0;
 
             if (signalIsConst)
             {
@@ -560,7 +560,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = new BandPassFilterConstantPeakGain_ManyConstants_OperatorCalculator(
                     signalCalculator,
-                    frequency,
+                    centerFrequency,
                     bandWidth);
             }
 
@@ -1768,24 +1768,24 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase frequencyCalculator = _stack.Pop();
+            OperatorCalculatorBase shelfFrequencyCalculator = _stack.Pop();
             OperatorCalculatorBase dbGainCalculator = _stack.Pop();
             OperatorCalculatorBase shelfSlopeCalculator = _stack.Pop();
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
-            frequencyCalculator = frequencyCalculator ?? new Zero_OperatorCalculator();
+            shelfFrequencyCalculator = shelfFrequencyCalculator ?? new Zero_OperatorCalculator();
             dbGainCalculator = dbGainCalculator ?? new Zero_OperatorCalculator();
             shelfSlopeCalculator = shelfSlopeCalculator ?? new Zero_OperatorCalculator();
 
-            double signal = signalCalculator.Calculate();
-            double frequency = frequencyCalculator.Calculate();
-            double dbGain = dbGainCalculator.Calculate();
-            double shelfSlope = shelfSlopeCalculator.Calculate();
-
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
-            bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
+            bool shelfFrequencyIsConst = shelfFrequencyCalculator is Number_OperatorCalculator;
             bool dbGainIsConst = dbGainCalculator is Number_OperatorCalculator;
             bool shelfSlopeIsConst = shelfSlopeCalculator is Number_OperatorCalculator;
+
+            double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
+            double shelfFrequency = shelfFrequencyIsConst ? shelfFrequencyCalculator.Calculate() : 0.0;
+            double dbGain = dbGainCalculator.Calculate();
+            double shelfSlope = shelfSlopeCalculator.Calculate();
 
             if (signalIsConst)
             {
@@ -1796,7 +1796,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = new HighShelfFilter_ManyConstants_OperatorCalculator(
                     signalCalculator,
-                    frequency,
+                    shelfFrequency,
                     dbGain,
                     shelfSlope);
             }
@@ -2147,24 +2147,24 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase frequencyCalculator = _stack.Pop();
+            OperatorCalculatorBase shelfFrequencyCalculator = _stack.Pop();
             OperatorCalculatorBase dbGainCalculator = _stack.Pop();
             OperatorCalculatorBase shelfSlopeCalculator = _stack.Pop();
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
-            frequencyCalculator = frequencyCalculator ?? new Zero_OperatorCalculator();
+            shelfFrequencyCalculator = shelfFrequencyCalculator ?? new Zero_OperatorCalculator();
             dbGainCalculator = dbGainCalculator ?? new Zero_OperatorCalculator();
             shelfSlopeCalculator = shelfSlopeCalculator ?? new Zero_OperatorCalculator();
 
-            double signal = signalCalculator.Calculate();
-            double frequency = frequencyCalculator.Calculate();
-            double dbGain = dbGainCalculator.Calculate();
-            double shelfSlope = shelfSlopeCalculator.Calculate();
-
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
-            bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
+            bool shelfFrequencyIsConst = shelfFrequencyCalculator is Number_OperatorCalculator;
             bool dbGainIsConst = dbGainCalculator is Number_OperatorCalculator;
             bool shelfSlopeIsConst = shelfSlopeCalculator is Number_OperatorCalculator;
+
+            double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
+            double shelfFrequency = shelfFrequencyIsConst ? shelfFrequencyCalculator.Calculate() : 0.0;
+            double dbGain = dbGainIsConst ? dbGainCalculator.Calculate() : 0.0;
+            double shelfSlope = shelfSlopeIsConst ? shelfSlopeCalculator.Calculate() : 0.0;
 
             if (signalIsConst)
             {
@@ -2175,7 +2175,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = new LowShelfFilter_ManyConstants_OperatorCalculator(
                     signalCalculator,
-                    frequency,
+                    shelfFrequency,
                     dbGain,
                     shelfSlope);
             }
@@ -2876,20 +2876,20 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase frequencyCalculator = _stack.Pop();
+            OperatorCalculatorBase centerFrequencyCalculator = _stack.Pop();
             OperatorCalculatorBase bandWidthCalculator = _stack.Pop();
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
-            frequencyCalculator = frequencyCalculator ?? new Zero_OperatorCalculator();
+            centerFrequencyCalculator = centerFrequencyCalculator ?? new Zero_OperatorCalculator();
             bandWidthCalculator = bandWidthCalculator ?? new Zero_OperatorCalculator();
 
-            double signal = signalCalculator.Calculate();
-            double frequency = frequencyCalculator.Calculate();
-            double bandWidth = bandWidthCalculator.Calculate();
-
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
-            bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
+            bool centerFrequencyIsConst = centerFrequencyCalculator is Number_OperatorCalculator;
             bool bandWidthIsConst = bandWidthCalculator is Number_OperatorCalculator;
+
+            double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
+            double centerFrequency = centerFrequencyIsConst ? centerFrequencyCalculator.Calculate() : 0.0;
+            double bandWidth = bandWidthIsConst ? bandWidthCalculator.Calculate() : 0.0;
 
             if (signalIsConst)
             {
@@ -2900,7 +2900,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = new NotchFilter_ManyConstants_OperatorCalculator(
                     signalCalculator,
-                    frequency,
+                    centerFrequency,
                     bandWidth);
             }
 
@@ -3060,24 +3060,24 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase frequencyCalculator = _stack.Pop();
+            OperatorCalculatorBase centerFrequencyCalculator = _stack.Pop();
             OperatorCalculatorBase bandWidthCalculator = _stack.Pop();
             OperatorCalculatorBase dbGainCalculator = _stack.Pop();
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
-            frequencyCalculator = frequencyCalculator ?? new Zero_OperatorCalculator();
+            centerFrequencyCalculator = centerFrequencyCalculator ?? new Zero_OperatorCalculator();
             bandWidthCalculator = bandWidthCalculator ?? new Zero_OperatorCalculator();
             dbGainCalculator = dbGainCalculator ?? new Zero_OperatorCalculator();
 
-            double signal = signalCalculator.Calculate();
-            double frequency = frequencyCalculator.Calculate();
-            double bandWidth = bandWidthCalculator.Calculate();
-            double dbGain = dbGainCalculator.Calculate();
-
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
-            bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
+            bool centerFrequencyIsConst = centerFrequencyCalculator is Number_OperatorCalculator;
             bool bandWidthIsConst = bandWidthCalculator is Number_OperatorCalculator;
             bool dbGainIsConst = dbGainCalculator is Number_OperatorCalculator;
+
+            double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
+            double centerFrequency = centerFrequencyIsConst ? centerFrequencyCalculator.Calculate() : 0.0;
+            double bandWidth = bandWidthIsConst ? bandWidthCalculator.Calculate() : 0.0;
+            double dbGain = dbGainIsConst ? dbGainCalculator.Calculate() : 0.0;
 
             if (signalIsConst)
             {
@@ -3088,7 +3088,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = new PeakingEQFilter_ManyConstants_OperatorCalculator(
                     signalCalculator,
-                    frequency,
+                    centerFrequency,
                     bandWidth,
                     dbGain);
             }

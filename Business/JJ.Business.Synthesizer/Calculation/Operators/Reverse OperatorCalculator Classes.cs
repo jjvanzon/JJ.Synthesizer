@@ -25,8 +25,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 speedCalculator
             })
         {
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(speedCalculator, () => speedCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(speedCalculator, () => speedCalculator);
             OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
 
             _signalCalculator = signalCalculator;
@@ -129,8 +129,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 speedCalculator
             })
         {
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(speedCalculator, () => speedCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(speedCalculator, () => speedCalculator);
             OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
 
             _signalCalculator = signalCalculator;
@@ -224,7 +224,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[] { signalCalculator })
         {
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
             if (speed == 0) throw new ZeroException(() => speed);
             if (Double.IsNaN(speed)) throw new NaNException(() => speed);
             if (Double.IsInfinity(speed)) throw new InfinityException(() => speed);
@@ -322,7 +322,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[] { signalCalculator })
         {
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
             if (speed == 0) throw new ZeroException(() => speed);
             if (Double.IsNaN(speed)) throw new NaNException(() => speed);
             if (Double.IsInfinity(speed)) throw new InfinityException(() => speed);

@@ -3,9 +3,11 @@ using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Reflection.Exceptions;
+using System;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
+    [Obsolete("Copy code to derived classes instead.")]
     public abstract class OperatorWrapperBase_FilterWithFrequencyAndBandWidth : OperatorWrapperBase
     {
         private const int SIGNAL_INDEX = 0;

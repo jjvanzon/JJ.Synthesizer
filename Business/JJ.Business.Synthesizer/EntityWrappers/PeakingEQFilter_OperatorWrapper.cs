@@ -9,7 +9,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
     public class PeakingEQFilter_OperatorWrapper : OperatorWrapperBase
     {
         private const int SIGNAL_INDEX = 0;
-        private const int FREQUENCY_INDEX = 1;
+        private const int CENTER_FREQUENCY_INDEX = 1;
         private const int DB_GAIN_INDEX = 2;
         private const int SHELF_SLOPE_INDEX = 3;
         private const int RESULT_INDEX = 0;
@@ -29,15 +29,15 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX); }
         }
 
-        public Outlet Frequency
+        public Outlet CenterFrequency
         {
-            get { return FrequencyInlet.InputOutlet; }
-            set { FrequencyInlet.LinkTo(value); }
+            get { return CenterFrequencyInlet.InputOutlet; }
+            set { CenterFrequencyInlet.LinkTo(value); }
         }
 
-        public Inlet FrequencyInlet
+        public Inlet CenterFrequencyInlet
         {
-            get { return OperatorHelper.GetInlet(WrappedOperator, FREQUENCY_INDEX); }
+            get { return OperatorHelper.GetInlet(WrappedOperator, CENTER_FREQUENCY_INDEX); }
         }
 
         public Outlet DBGain
@@ -77,9 +77,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
                         return name;
                     }
 
-                case FREQUENCY_INDEX:
+                case CENTER_FREQUENCY_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => Frequency);
+                        string name = ResourceHelper.GetPropertyDisplayName(() => CenterFrequency);
                         return name;
                     }
 

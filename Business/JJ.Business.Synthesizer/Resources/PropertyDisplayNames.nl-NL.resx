@@ -887,4 +887,10 @@
   <data name="PeakingEQFilter" xml:space="preserve">
     <value>Piekende EQ filter</value>
   </data>
+  <data name="CenterFrequency" xml:space="preserve">
+    <value>Middenfrequentie</value>
+  </data>
+  <data name="ShelfFrequency" xml:space="preserve">
+    <value>Plank frequentie</value>
+  </data>
 </root>

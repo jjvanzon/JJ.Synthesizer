@@ -340,6 +340,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Center Frequency.
+        /// </summary>
+        public static string CenterFrequency {
+            get {
+                return ResourceManager.GetString("CenterFrequency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cents.
         /// </summary>
         public static string Cents {
@@ -1866,6 +1875,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string SetDimension {
             get {
                 return ResourceManager.GetString("SetDimension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shelf Frequency.
+        /// </summary>
+        public static string ShelfFrequency {
+            get {
+                return ResourceManager.GetString("ShelfFrequency", resourceCulture);
             }
         }
         

@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase bandWidthCalculator)
             : base(new OperatorCalculatorBase[] { signalCalculator, maxFrequencyCalculator, bandWidthCalculator })
         {
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
             if (maxFrequencyCalculator == null) throw new NullException(() => maxFrequencyCalculator);
             if (bandWidthCalculator == null) throw new NullException(() => bandWidthCalculator);
 
@@ -91,7 +91,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double bandWidth)
             : base(new OperatorCalculatorBase[] { signalCalculator })
         {
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
 
             _signalCalculator = signalCalculator;
             _maxFrequency = maxFrequency;

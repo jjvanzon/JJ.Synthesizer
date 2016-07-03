@@ -7,10 +7,10 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class OperatorWrapperBase_ShelfFilter : OperatorWrapperBase
+    public abstract class OperatorWrapperBase_ShelfFilter : OperatorWrapperBase
     {
         private const int SIGNAL_INDEX = 0;
-        private const int FREQUENCY_INDEX = 1;
+        private const int SHELF_FREQUENCY_INDEX = 1;
         private const int DB_GAIN_INDEX = 2;
         private const int SHELF_SLOPE_INDEX = 3;
         private const int RESULT_INDEX = 0;
@@ -30,15 +30,15 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX); }
         }
 
-        public Outlet Frequency
+        public Outlet ShelfFrequency
         {
-            get { return FrequencyInlet.InputOutlet; }
-            set { FrequencyInlet.LinkTo(value); }
+            get { return ShelfFrequencyInlet.InputOutlet; }
+            set { ShelfFrequencyInlet.LinkTo(value); }
         }
 
-        public Inlet FrequencyInlet
+        public Inlet ShelfFrequencyInlet
         {
-            get { return OperatorHelper.GetInlet(WrappedOperator, FREQUENCY_INDEX); }
+            get { return OperatorHelper.GetInlet(WrappedOperator, SHELF_FREQUENCY_INDEX); }
         }
 
         public Outlet DBGain
@@ -84,9 +84,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
                         return name;
                     }
 
-                case FREQUENCY_INDEX:
+                case SHELF_FREQUENCY_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => Frequency);
+                        string name = ResourceHelper.GetPropertyDisplayName(() => ShelfFrequency);
                         return name;
                     }
 

@@ -81,7 +81,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         /// <summary> Asserts that the calculator is not null and not a Number_OperatorCalculator.</summary>
-        public static void AssertOperatorCalculatorBase(
+        public static void AssertChildOperatorCalculator(
             OperatorCalculatorBase operatorCalculatorBase,
             Expression<Func<object>> expression)
         {
@@ -89,7 +89,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (operatorCalculatorBase is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(expression);
         }
 
-        public static void AssertOperatorCalculatorBase_OnlyUsedUponResetState(
+        public static void AssertChildOperatorCalculator_OnlyUsedUponResetState(
             OperatorCalculatorBase operatorCalculatorBase,
             Expression<Func<object>> expression)
         {

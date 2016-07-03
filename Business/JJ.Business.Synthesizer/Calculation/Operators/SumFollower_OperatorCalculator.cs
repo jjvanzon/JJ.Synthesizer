@@ -36,9 +36,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 sampleCountCalculator
             })
         {
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase(signalCalculator, () => signalCalculator);
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase_OnlyUsedUponResetState(sliceLengthCalculator, () => sliceLengthCalculator);
-            OperatorCalculatorHelper.AssertOperatorCalculatorBase_OnlyUsedUponResetState(sampleCountCalculator, () => sampleCountCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator_OnlyUsedUponResetState(sliceLengthCalculator, () => sliceLengthCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator_OnlyUsedUponResetState(sampleCountCalculator, () => sampleCountCalculator);
             OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
             
             _signalCalculator = signalCalculator;

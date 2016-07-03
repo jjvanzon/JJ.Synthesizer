@@ -3,17 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.CopiedCode.FromFramework;
-using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class LowShelfFilter_ManyConstants_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private const double ASSUMED_SAMPLE_RATE = 44100.0;
-        private const double DEFAULT_BAND_WIDTH = 1.0;
 
         private readonly OperatorCalculatorBase _signalCalculator;
-        private readonly double _frequency;
+        private readonly double _shelfFrequency;
         private readonly double _dbGain;
         private readonly double _shelfSlope;
 
@@ -21,16 +19,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public LowShelfFilter_ManyConstants_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
-            double frequency,
+            double shelfFrequency,
             double dbGain,
             double shelfSlope)
             : base(new OperatorCalculatorBase[] { signalCalculator })
         {
-            if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => signalCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
 
             _signalCalculator = signalCalculator;
-            _frequency = frequency;
+            _shelfFrequency = shelfFrequency;
             _dbGain = dbGain;
             _shelfSlope = shelfSlope;
 
@@ -56,7 +53,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private void ResetNonRecursive()
         {
-            _biQuadFilter = BiQuadFilter.CreateLowShelf(ASSUMED_SAMPLE_RATE, _frequency, _shelfSlope, _dbGain);
+            _biQuadFilter = BiQuadFilter.CreateLowShelf(ASSUMED_SAMPLE_RATE, _shelfFrequency, _shelfSlope, _dbGain);
         }
     }
 }

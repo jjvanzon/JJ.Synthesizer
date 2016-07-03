@@ -3,32 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.CopiedCode.FromFramework;
-using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class BandPassFilterConstantPeakGain_ManyConstants_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private const double ASSUMED_SAMPLE_RATE = 44100.0;
-        private const double DEFAULT_BAND_WIDTH = 1.0;
 
         private readonly OperatorCalculatorBase _signalCalculator;
-        private readonly double _frequency;
+        private readonly double _centerFrequency;
         private readonly double _bandWidth;
 
         private BiQuadFilter _biQuadFilter;
 
         public BandPassFilterConstantPeakGain_ManyConstants_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
-            double frequency,
+            double centerFrequency,
             double bandWidth)
             : base(new OperatorCalculatorBase[] { signalCalculator })
         {
-            if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => signalCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
 
             _signalCalculator = signalCalculator;
-            _frequency = frequency;
+            _centerFrequency = centerFrequency;
             _bandWidth = bandWidth;
 
             ResetNonRecursive();
@@ -53,7 +50,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private void ResetNonRecursive()
         {
-            _biQuadFilter = BiQuadFilter.CreateBandPassFilterConstantPeakGain(ASSUMED_SAMPLE_RATE, _frequency, _bandWidth);
+            _biQuadFilter = BiQuadFilter.CreateBandPassFilterConstantPeakGain(ASSUMED_SAMPLE_RATE, _centerFrequency, _bandWidth);
         }
     }
 }
