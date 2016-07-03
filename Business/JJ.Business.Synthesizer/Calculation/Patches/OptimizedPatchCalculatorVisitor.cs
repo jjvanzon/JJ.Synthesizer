@@ -1717,15 +1717,19 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
             OperatorCalculatorBase minFrequencyCalculator = _stack.Pop();
+            OperatorCalculatorBase bandWidthCalculator = _stack.Pop();
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
             minFrequencyCalculator = minFrequencyCalculator ?? new Zero_OperatorCalculator();
-
-            double signal = signalCalculator.Calculate();
-            double minFrequency = minFrequencyCalculator.Calculate();
+            bandWidthCalculator = bandWidthCalculator ?? new Zero_OperatorCalculator();
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool minFrequencyIsConst = minFrequencyCalculator is Number_OperatorCalculator;
+            bool bandWidthIsConst = bandWidthCalculator is Number_OperatorCalculator;
+
+            double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
+            double minFrequency = minFrequencyIsConst ? minFrequencyCalculator.Calculate() : 0.0;
+            double bandWidth = bandWidthIsConst ? bandWidthCalculator.Calculate() : 0.0;
 
             bool minFrequencyIsConstZero = minFrequencyIsConst && minFrequency == 0.0;
 
@@ -1738,13 +1742,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 // No filtering
                 calculator = signalCalculator;
             }
-            else if (minFrequencyIsConst)
+            else if (minFrequencyIsConst && bandWidthIsConst)
             {
-                calculator = new HighPassFilter_ConstMinFrequency_OperatorCalculator(signalCalculator, minFrequency);
+                calculator = new HighPassFilter_OperatorCalculator_ConstMinFrequency_ConstBandWidth(signalCalculator, minFrequency, bandWidth);
             }
             else
             {
-                calculator = new HighPassFilter_VarMinFrequency_OperatorCalculator(signalCalculator, minFrequencyCalculator);
+                calculator = new HighPassFilter_OperatorCalculator_VarMinFrequency_VarBandWidth(signalCalculator, minFrequencyCalculator, bandWidthCalculator);
             }
 
             _stack.Push(calculator);
@@ -2092,15 +2096,19 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
             OperatorCalculatorBase maxFrequencyCalculator = _stack.Pop();
+            OperatorCalculatorBase bandWidthCalculator = _stack.Pop();
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
             maxFrequencyCalculator = maxFrequencyCalculator ?? new Zero_OperatorCalculator();
-
-            double signal = signalCalculator.Calculate();
-            double maxFrequency = maxFrequencyCalculator.Calculate();
+            bandWidthCalculator = bandWidthCalculator ?? new Zero_OperatorCalculator();
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool maxFrequencyIsConst = maxFrequencyCalculator is Number_OperatorCalculator;
+            bool bandWidthIsConst = bandWidthCalculator is Number_OperatorCalculator;
+
+            double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
+            double maxFrequency = maxFrequencyIsConst ? maxFrequencyCalculator.Calculate() : 0.0;
+            double bandWidth = bandWidthIsConst ? bandWidthCalculator.Calculate() : 0.0;
 
             bool maxFrequencyIsConstZero = maxFrequencyIsConst && maxFrequency == 0.0;
 
@@ -2113,13 +2121,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 // Special number: time stands still.
                 calculator = new Number_OperatorCalculator(signal);
             }
-            else if (maxFrequencyIsConst)
+            else if (maxFrequencyIsConst && bandWidthIsConst)
             {
-                calculator = new LowPassFilter_ConstMaxFrequency_OperatorCalculator(signalCalculator, maxFrequency);
+                calculator = new LowPassFilter_ConstMaxFrequency_OperatorCalculator(signalCalculator, maxFrequency, bandWidth);
             }
             else
             {
-                calculator = new LowPassFilter_VarMaxFrequency_OperatorCalculator(signalCalculator, maxFrequencyCalculator);
+                calculator = new LowPassFilter_VarMaxFrequency_OperatorCalculator(signalCalculator, maxFrequencyCalculator, bandWidthCalculator);
             }
 
             _stack.Push(calculator);

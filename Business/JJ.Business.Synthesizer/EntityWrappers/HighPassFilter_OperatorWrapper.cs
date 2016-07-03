@@ -10,6 +10,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
     {
         private const int SIGNAL_INDEX = 0;
         private const int MIN_FREQUENCY_INDEX = 1;
+        private const int BAND_WIDTH_INDEX = 2;
         private const int RESULT_INDEX = 0;
 
         public HighPassFilter_OperatorWrapper(Operator op)
@@ -38,6 +39,17 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return OperatorHelper.GetInlet(WrappedOperator, MIN_FREQUENCY_INDEX); }
         }
 
+        public Outlet BandWidth
+        {
+            get { return BandWidthInlet.InputOutlet; }
+            set { BandWidthInlet.LinkTo(value); }
+        }
+
+        public Inlet BandWidthInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, BAND_WIDTH_INDEX); }
+        }
+
         public Outlet Result
         {
             get { return OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX); }
@@ -56,6 +68,12 @@ namespace JJ.Business.Synthesizer.EntityWrappers
                 case MIN_FREQUENCY_INDEX:
                     {
                         string name = ResourceHelper.GetPropertyDisplayName(() => MinFrequency);
+                        return name;
+                    }
+
+                case BAND_WIDTH_INDEX:
+                    {
+                        string name = ResourceHelper.GetPropertyDisplayName(() => BandWidth);
                         return name;
                     }
 

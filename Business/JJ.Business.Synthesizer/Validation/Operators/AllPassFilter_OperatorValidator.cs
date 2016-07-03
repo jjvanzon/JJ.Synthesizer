@@ -16,6 +16,5 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                   expectedOutletCount: 1,
                   expectedDataKeys: new string[0])
         { }
-
     }
 }

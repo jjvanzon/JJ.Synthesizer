@@ -265,9 +265,12 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.GreaterThanOrEqual(a, b);
         }
 
-        public HighPassFilter_OperatorWrapper HighPassFilter(Outlet signal = null, Outlet minFrequency = null)
+        public HighPassFilter_OperatorWrapper HighPassFilter(
+            Outlet signal = null, 
+            Outlet minFrequency = null,
+            Outlet bandWidth = null)
         {
-            return _patchManager.HighPassFilter(signal, minFrequency);
+            return _patchManager.HighPassFilter(signal, minFrequency, bandWidth);
         }
 
         public HighShelfFilter_OperatorWrapper HighShelfFilter(
@@ -306,9 +309,12 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Loop(signal, skip, loopStartMarker, loopEndMarker, releaseEndMarker, noteDuration, dimension);
         }
 
-        public LowPassFilter_OperatorWrapper LowPassFilter(Outlet signal = null, Outlet maxFrequency = null)
+        public LowPassFilter_OperatorWrapper LowPassFilter(
+            Outlet signal = null, 
+            Outlet maxFrequency = null,
+            Outlet bandWidth = null)
         {
-            return _patchManager.LowPassFilter(signal, maxFrequency);
+            return _patchManager.LowPassFilter(signal, maxFrequency, bandWidth);
         }
 
         public LowShelfFilter_OperatorWrapper LowShelfFilter(

@@ -95,6 +95,7 @@
     <Content Include="2015-10-26 010 SynthesizerDB Operator Type 25 - Loop.sql" />
     <Content Include="2015-11-07 030 SynthesizerDB rename OperatorType TimeSubtract to Earlier - Copy.sql" />
     <Content Include="2016-06-23 040 SynthesizerDB RUN UTILITY.sql" />
+    <Content Include="2016-07-03 010 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2016-07-02 080 SynthesizerDB OperatorType rename 84 from BandPassFilterConstantSkirtGain to BandPassFilterConstantTransitionGain.sql" />
     <Content Include="2016-07-02 070 SynthesizerDB OperatorType 90 - HighShelfFilter.sql" />
     <Content Include="2016-07-02 060 SynthesizerDB OperatorType 89 - LowShelfFilter.sql" />
