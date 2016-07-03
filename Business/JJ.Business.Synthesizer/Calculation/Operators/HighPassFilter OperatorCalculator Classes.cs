@@ -10,11 +10,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class HighPassFilter_OperatorCalculator_VarMinFrequency_VarBandWidth : OperatorCalculatorBase_WithChildCalculators
     {
         private const int SAMPLES_PER_SET_FILTER_CALL = 100;
-        private const double ASSUMED_SAMPLE_RATE = 44100.0;
 
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _minFrequencyCalculator;
         private readonly OperatorCalculatorBase _bandWidthCalculator;
+        private readonly double _samplingRate;
 
         private BiQuadFilter _biQuadFilter;
         private int _counter;
@@ -22,7 +22,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public HighPassFilter_OperatorCalculator_VarMinFrequency_VarBandWidth(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase minFrequencyCalculator,
-            OperatorCalculatorBase bandWidthCalculator)
+            OperatorCalculatorBase bandWidthCalculator,
+            double samplingRate)
             : base(new OperatorCalculatorBase[] { signalCalculator, minFrequencyCalculator, bandWidthCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
@@ -32,6 +33,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _signalCalculator = signalCalculator;
             _minFrequencyCalculator = minFrequencyCalculator;
             _bandWidthCalculator = bandWidthCalculator;
+            _samplingRate = samplingRate;
 
             ResetNonRecursive();
         }
@@ -44,7 +46,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 double minFrequency = _minFrequencyCalculator.Calculate();
                 double bandWidth = _bandWidthCalculator.Calculate();
 
-                _biQuadFilter.SetHighPassFilter(ASSUMED_SAMPLE_RATE, minFrequency, bandWidth);
+                _biQuadFilter.SetHighPassFilter(_samplingRate, minFrequency, bandWidth);
 
                 _counter = 0;
             }
@@ -69,7 +71,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double minFrequency = _minFrequencyCalculator.Calculate();
             double bandWidth = _bandWidthCalculator.Calculate();
 
-            _biQuadFilter = BiQuadFilter.CreateHighPassFilter(ASSUMED_SAMPLE_RATE, minFrequency, bandWidth);
+            _biQuadFilter = BiQuadFilter.CreateHighPassFilter(_samplingRate, minFrequency, bandWidth);
 
             _counter = 0;
         }
@@ -77,18 +79,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     internal class HighPassFilter_OperatorCalculator_ConstMinFrequency_ConstBandWidth : OperatorCalculatorBase_WithChildCalculators
     {
-        private const double ASSUMED_SAMPLE_RATE = 44100.0;
-
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _minFrequency;
         private readonly double _bandWidth;
+        private readonly double _samplingRate;
 
         private BiQuadFilter _biQuadFilter;
 
         public HighPassFilter_OperatorCalculator_ConstMinFrequency_ConstBandWidth(
             OperatorCalculatorBase signalCalculator,
             double minFrequency,
-            double bandWidth)
+            double bandWidth,
+            double samplingRate)
             : base(new OperatorCalculatorBase[] { signalCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
@@ -96,6 +98,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _signalCalculator = signalCalculator;
             _minFrequency = minFrequency;
             _bandWidth = bandWidth;
+            _samplingRate = samplingRate;
 
             ResetNonRecursive();
         }
@@ -119,7 +122,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private void ResetNonRecursive()
         {
-            _biQuadFilter = BiQuadFilter.CreateHighPassFilter(ASSUMED_SAMPLE_RATE, _minFrequency, _bandWidth);
+            _biQuadFilter = BiQuadFilter.CreateHighPassFilter(_samplingRate, _minFrequency, _bandWidth);
         }
     }
 }

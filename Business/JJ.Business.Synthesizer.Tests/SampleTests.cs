@@ -1,10 +1,8 @@
 ﻿using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Framework.Data;
-using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
@@ -25,6 +23,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         private const string OUTPUT_FILE_NAME = "AudioFileOutput.wav";
+        private const int DEFAULT_SAMPLING_RATE = 44100;
         private const int DEFAULT_CHANNEL_COUNT = 1;
         private const int DEFAULT_CHANNEL_INDEX = 0;
 
@@ -53,7 +52,7 @@ namespace JJ.Business.Synthesizer.Tests
 
                 PatchManager x = new PatchManager(new PatchRepositories(repositories));
                 Outlet outlet = x.SlowDown(x.Sample(sample), x.Number(timeMultiplier));
-                IPatchCalculator patchCalculator = x.CreateCalculator(outlet, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
+                IPatchCalculator patchCalculator = x.CreateCalculator(outlet, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
 
                 AudioFileOutputManager audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
                 AudioFileOutput audioFileOutput = audioFileOutputManager.Create();
@@ -91,7 +90,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Outlet outlet = x.Sample(sample);
 
                 // Trigger SampleCalculation
-                IPatchCalculator calculator = x.CreateCalculator(outlet, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
+                IPatchCalculator calculator = x.CreateCalculator(outlet, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
                 double value = calculator.Calculate(0, 0);
             }
         }

@@ -9,12 +9,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class HighShelfFilter_ManyConstants_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private const double ASSUMED_SAMPLE_RATE = 44100.0;
-
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _transitionFrequency;
         private readonly double _dbGain;
         private readonly double _transitionSlope;
+        private readonly double _samplingRate;
 
         private BiQuadFilter _biQuadFilter;
 
@@ -22,7 +21,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             double transitionFrequency,
             double dbGain,
-            double transitionSlope)
+            double transitionSlope,
+            double samplingRate)
             : base(new OperatorCalculatorBase[] { signalCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
@@ -31,6 +31,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _transitionFrequency = transitionFrequency;
             _dbGain = dbGain;
             _transitionSlope = transitionSlope;
+            _samplingRate = samplingRate;
 
             ResetNonRecursive();
         }
@@ -54,7 +55,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private void ResetNonRecursive()
         {
-            _biQuadFilter = BiQuadFilter.CreateHighShelf(ASSUMED_SAMPLE_RATE, _transitionFrequency, _transitionSlope, _dbGain);
+            _biQuadFilter = BiQuadFilter.CreateHighShelf(_samplingRate, _transitionFrequency, _transitionSlope, _dbGain);
         }
     }
 }

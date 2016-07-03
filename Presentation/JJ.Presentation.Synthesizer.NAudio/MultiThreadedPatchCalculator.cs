@@ -57,6 +57,8 @@ namespace JJ.Presentation.Synthesizer.NAudio
             _maxConcurrentNotes = audioOutput.MaxConcurrentNotes;
 
             // Prepare some patching variables
+            int samplingRate = audioOutput.SamplingRate;
+
             var patchManager = new PatchManager(new PatchRepositories(repositories));
             patchManager.Patch = patch;
 
@@ -79,7 +81,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
                 for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
                 {
-                    IPatchCalculator patchCalculator = patchManager.CreateCalculator(signalOutlet, _channelCount, channelIndex, calculatorCache);
+                    IPatchCalculator patchCalculator = patchManager.CreateCalculator(signalOutlet, samplingRate, _channelCount, channelIndex, calculatorCache);
                     _patchCalculators[noteIndex][channelIndex] = patchCalculator;
                 }
             }

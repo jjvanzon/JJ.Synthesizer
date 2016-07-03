@@ -34,6 +34,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         public OptimizedPatchCalculator(
             Outlet outlet,
+            int samplingRate,
             int channelCount,
             int channelIndex,
             CalculatorCache calculatorCache,
@@ -44,9 +45,14 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             if (outlet == null) throw new NullException(() => outlet);
 
-            var visitor = new OptimizedPatchCalculatorVisitor(curveRepository, sampleRepository, patchRepository, speakerSetupRepository, calculatorCache);
+            var visitor = new OptimizedPatchCalculatorVisitor(
+                curveRepository, 
+                sampleRepository, 
+                patchRepository, 
+                speakerSetupRepository, 
+                calculatorCache);
 
-            OptimizedPatchCalculatorVisitor.Result result = visitor.Execute(outlet, channelCount);
+            OptimizedPatchCalculatorVisitor.Result result = visitor.Execute(outlet, samplingRate, channelCount);
 
             _dimensionStackCollection = result.DimensionStackCollection;
             _outputOperatorCalculator = result.Output_OperatorCalculator;

@@ -9,12 +9,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class PeakingEQFilter_ManyConstants_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private const double ASSUMED_SAMPLE_RATE = 44100.0;
-
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _centerFrequency;
         private readonly double _bandWidth;
         private readonly double _dbGain;
+        private readonly double _samplingRate;
 
         private BiQuadFilter _biQuadFilter;
 
@@ -22,7 +21,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             double centerFrequency,
             double bandWidth,
-            double dbGain)
+            double dbGain,
+            double samplingRate)
             : base(new OperatorCalculatorBase[] { signalCalculator })
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
@@ -32,6 +32,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _centerFrequency = centerFrequency;
             _bandWidth = bandWidth;
             _dbGain = dbGain;
+            _samplingRate = samplingRate;
 
             ResetNonRecursive();
         }
@@ -55,7 +56,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private void ResetNonRecursive()
         {
-            _biQuadFilter = BiQuadFilter.CreatePeakingEQ(ASSUMED_SAMPLE_RATE, _centerFrequency, _bandWidth, _dbGain);
+            _biQuadFilter = BiQuadFilter.CreatePeakingEQ(_samplingRate, _centerFrequency, _bandWidth, _dbGain);
         }
     }
 }

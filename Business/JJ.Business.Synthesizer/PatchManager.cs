@@ -460,6 +460,7 @@ namespace JJ.Business.Synthesizer
 
         public IPatchCalculator CreateCalculator(
             Outlet outlet,
+            int samplingRate,
             int channelCount,
             int channelIndex,
             CalculatorCache calculatorCache,
@@ -472,6 +473,7 @@ namespace JJ.Business.Synthesizer
 
             IPatchCalculator calculator = new OptimizedPatchCalculator(
                 outlet,
+                samplingRate,
                 channelCount,
                 channelIndex,
                 calculatorCache,

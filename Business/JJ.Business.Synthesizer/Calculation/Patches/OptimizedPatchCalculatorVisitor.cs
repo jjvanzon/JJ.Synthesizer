@@ -84,6 +84,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private readonly ISpeakerSetupRepository _speakerSetupRepository;
         private readonly CalculatorCache _calculatorCache;
 
+        private int _samplingRate;
         private int _channelCount;
         private Stack<OperatorCalculatorBase> _stack;
         private DimensionStackCollection _dimensionStackCollection;
@@ -115,7 +116,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         }
 
         /// <param name="channelCount">Used for e.g. mixing channels of samples into one channel.</param>
-        public Result Execute(Outlet outlet, int channelCount = 2)
+        public Result Execute(Outlet outlet, int samplingRate, int channelCount = 2)
         {
             if (outlet == null) throw new NullException(() => outlet);
 
@@ -133,6 +134,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _resettableOperatorTuples = new List<ResettableOperatorTuple>();
 
             _outlet = outlet;
+            _samplingRate = samplingRate;
             _channelCount = channelCount;
 
             VisitOutlet(outlet);
@@ -279,14 +281,16 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 calculator = new AllPassFilter_OperatorCalculator_ConstCenterFrequency_ConstBandWidth(
                     signalCalculator,
                     centerFrequency,
-                    bandWidth);
+                    bandWidth,
+                    _samplingRate);
             }
             else
             {
                 calculator = new AllPassFilter_OperatorCalculator_VarCenterFrequency_VarBandWidth(
                     signalCalculator,
                     centerFrequencyCalculator,
-                    bandWidthCalculator);
+                    bandWidthCalculator,
+                    _samplingRate);
             }
 
             _stack.Push(calculator);
@@ -523,7 +527,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 calculator = new BandPassFilterConstantTransitionGain_ManyConstants_OperatorCalculator(
                     signalCalculator,
                     centerFrequency,
-                    bandWidth);
+                    bandWidth,
+                    _samplingRate);
             }
 
             _stack.Push(calculator);
@@ -561,7 +566,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 calculator = new BandPassFilterConstantPeakGain_ManyConstants_OperatorCalculator(
                     signalCalculator,
                     centerFrequency,
-                    bandWidth);
+                    bandWidth,
+                    _samplingRate);
             }
 
             _stack.Push(calculator);
@@ -1751,11 +1757,19 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (minFrequencyIsConst && bandWidthIsConst)
             {
-                calculator = new HighPassFilter_OperatorCalculator_ConstMinFrequency_ConstBandWidth(signalCalculator, minFrequency, bandWidth);
+                calculator = new HighPassFilter_OperatorCalculator_ConstMinFrequency_ConstBandWidth(
+                    signalCalculator, 
+                    minFrequency, 
+                    bandWidth,
+                    _samplingRate);
             }
             else
             {
-                calculator = new HighPassFilter_OperatorCalculator_VarMinFrequency_VarBandWidth(signalCalculator, minFrequencyCalculator, bandWidthCalculator);
+                calculator = new HighPassFilter_OperatorCalculator_VarMinFrequency_VarBandWidth(
+                    signalCalculator, 
+                    minFrequencyCalculator, 
+                    bandWidthCalculator,
+                    _samplingRate);
             }
 
             _stack.Push(calculator);
@@ -1798,7 +1812,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     signalCalculator,
                     transitionFrequency,
                     dbGain,
-                    transitionSlope);
+                    transitionSlope,
+                    _samplingRate);
             }
 
             _stack.Push(calculator);
@@ -2130,11 +2145,19 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (maxFrequencyIsConst && bandWidthIsConst)
             {
-                calculator = new LowPassFilter_ConstMaxFrequency_OperatorCalculator(signalCalculator, maxFrequency, bandWidth);
+                calculator = new LowPassFilter_ConstMaxFrequency_OperatorCalculator(
+                    signalCalculator, 
+                    maxFrequency, 
+                    bandWidth,
+                    _samplingRate);
             }
             else
             {
-                calculator = new LowPassFilter_VarMaxFrequency_OperatorCalculator(signalCalculator, maxFrequencyCalculator, bandWidthCalculator);
+                calculator = new LowPassFilter_VarMaxFrequency_OperatorCalculator(
+                    signalCalculator, 
+                    maxFrequencyCalculator, 
+                    bandWidthCalculator,
+                    _samplingRate);
             }
 
             _stack.Push(calculator);
@@ -2901,7 +2924,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 calculator = new NotchFilter_ManyConstants_OperatorCalculator(
                     signalCalculator,
                     centerFrequency,
-                    bandWidth);
+                    bandWidth,
+                    _samplingRate);
             }
 
             _stack.Push(calculator);
@@ -3090,7 +3114,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     signalCalculator,
                     centerFrequency,
                     bandWidth,
-                    dbGain);
+                    dbGain,
+                    _samplingRate);
             }
 
             _stack.Push(calculator);

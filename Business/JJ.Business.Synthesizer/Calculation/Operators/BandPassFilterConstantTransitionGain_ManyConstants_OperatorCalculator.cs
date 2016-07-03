@@ -9,18 +9,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class BandPassFilterConstantTransitionGain_ManyConstants_OperatorCalculator 
         : OperatorCalculatorBase_WithChildCalculators
     {
-        private const double ASSUMED_SAMPLE_RATE = 44100.0;
-
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _centerFrequency;
         private readonly double _bandWidth;
+        private readonly double _samplingRate;
 
         private BiQuadFilter _biQuadFilter;
 
         public BandPassFilterConstantTransitionGain_ManyConstants_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
             double centerFrequency,
-            double bandWidth)
+            double bandWidth,
+            double samplingRate)
             : base(new OperatorCalculatorBase[] { signalCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
@@ -28,6 +28,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _signalCalculator = signalCalculator;
             _centerFrequency = centerFrequency;
             _bandWidth = bandWidth;
+            _samplingRate = samplingRate;
 
             ResetNonRecursive();
         }
@@ -51,7 +52,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private void ResetNonRecursive()
         {
-            _biQuadFilter = BiQuadFilter.CreateBandPassFilterConstantSkirtGain(ASSUMED_SAMPLE_RATE, _centerFrequency, _bandWidth);
+            _biQuadFilter = BiQuadFilter.CreateBandPassFilterConstantSkirtGain(_samplingRate, _centerFrequency, _bandWidth);
         }
     }
 }

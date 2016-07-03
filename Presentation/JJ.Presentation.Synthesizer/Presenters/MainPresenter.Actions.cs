@@ -2366,7 +2366,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             patchManager.Patch = outlet.Operator.Patch;
-            IPatchCalculator patchCalculator = patchManager.CreateCalculator(outlet, audioOutput.GetChannelCount(), DEFAULT_CHANNEL_INDEX, new CalculatorCache());
+            IPatchCalculator patchCalculator = patchManager.CreateCalculator(
+                outlet,
+                audioOutput.SamplingRate,
+                audioOutput.GetChannelCount(), 
+                DEFAULT_CHANNEL_INDEX, 
+                new CalculatorCache());
 
             // Infrastructure
             AudioFileOutput audioFileOutput = _audioFileOutputManager.Create();

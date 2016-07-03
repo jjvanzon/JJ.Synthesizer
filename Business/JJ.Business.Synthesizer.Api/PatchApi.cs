@@ -851,12 +851,13 @@ namespace JJ.Business.Synthesizer.Api
 
         public IPatchCalculator CreateCalculator(
             Outlet outlet,
+            int samplingRate,
             int channelCount,
             int channelIndex,
             CalculatorCache calculatorCache,
             bool mustSubstituteSineForUnfilledInSignalPatchInlets = true)
         {
-            return _patchManager.CreateCalculator(outlet, channelCount, channelIndex, calculatorCache, mustSubstituteSineForUnfilledInSignalPatchInlets);
+            return _patchManager.CreateCalculator(outlet, samplingRate, channelCount, channelIndex, calculatorCache, mustSubstituteSineForUnfilledInSignalPatchInlets);
         }
     }
 }

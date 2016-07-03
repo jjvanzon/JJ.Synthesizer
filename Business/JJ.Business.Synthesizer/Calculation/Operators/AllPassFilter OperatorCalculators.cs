@@ -11,11 +11,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         : OperatorCalculatorBase_WithChildCalculators
     {
         private const int SAMPLES_PER_SET_FILTER_CALL = 100;
-        private const double ASSUMED_SAMPLE_RATE = 44100.0;
 
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _centerFrequencyCalculator;
         private readonly OperatorCalculatorBase _bandWidthCalculator;
+        private readonly double _samplingRate;
 
         private BiQuadFilter _biQuadFilter;
         private int _counter;
@@ -23,7 +23,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public AllPassFilter_OperatorCalculator_VarCenterFrequency_VarBandWidth(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase centerFrequencyCalculator,
-            OperatorCalculatorBase bandWidthCalculator)
+            OperatorCalculatorBase bandWidthCalculator,
+            double samplingRate)
             : base(new OperatorCalculatorBase[] { signalCalculator, centerFrequencyCalculator, bandWidthCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
@@ -33,6 +34,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _signalCalculator = signalCalculator;
             _centerFrequencyCalculator = centerFrequencyCalculator;
             _bandWidthCalculator = bandWidthCalculator;
+            _samplingRate = samplingRate;
 
             ResetNonRecursive();
         }
@@ -45,7 +47,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 double centerFrequency = _centerFrequencyCalculator.Calculate();
                 double bandWidth = _bandWidthCalculator.Calculate();
 
-                _biQuadFilter.SetAllPassFilter(ASSUMED_SAMPLE_RATE, centerFrequency, bandWidth);
+                _biQuadFilter.SetAllPassFilter(_samplingRate, centerFrequency, bandWidth);
 
                 _counter = 0;
             }
@@ -69,7 +71,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double centerFrequency = _centerFrequencyCalculator.Calculate();
             double bandWidth = _bandWidthCalculator.Calculate();
-            _biQuadFilter = BiQuadFilter.CreateAllPassFilter(ASSUMED_SAMPLE_RATE, centerFrequency, bandWidth);
+            _biQuadFilter = BiQuadFilter.CreateAllPassFilter(_samplingRate, centerFrequency, bandWidth);
 
             _counter = 0;
         }
@@ -77,18 +79,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     internal class AllPassFilter_OperatorCalculator_ConstCenterFrequency_ConstBandWidth : OperatorCalculatorBase_WithChildCalculators
     {
-        private const double ASSUMED_SAMPLE_RATE = 44100.0;
-
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _centerFrequency;
         private readonly double _bandWidth;
+        private readonly double _samplingRate;
 
         private BiQuadFilter _biQuadFilter;
 
         public AllPassFilter_OperatorCalculator_ConstCenterFrequency_ConstBandWidth(
             OperatorCalculatorBase signalCalculator,
             double centerFrequency,
-            double bandWidth)
+            double bandWidth,
+            double samplingRate)
             : base(new OperatorCalculatorBase[] { signalCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
@@ -96,6 +98,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _signalCalculator = signalCalculator;
             _centerFrequency = centerFrequency;
             _bandWidth = bandWidth;
+            _samplingRate = samplingRate;
 
             ResetNonRecursive();
         }
@@ -119,7 +122,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private void ResetNonRecursive()
         {
-            _biQuadFilter = BiQuadFilter.CreateAllPassFilter(ASSUMED_SAMPLE_RATE, _centerFrequency, _bandWidth);
+            _biQuadFilter = BiQuadFilter.CreateAllPassFilter(_samplingRate, _centerFrequency, _bandWidth);
         }
     }
 }

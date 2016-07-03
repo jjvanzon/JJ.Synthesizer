@@ -370,7 +370,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             var patchCalculators = new IPatchCalculator[channelCount];
             for (int i = 0; i < channelCount; i++)
             {
-                patchCalculators[i] = patchManager.CreateCalculator(outlet, channelCount, i, calculatorCache);
+                patchCalculators[i] = patchManager.CreateCalculator(outlet, audioOutput.SamplingRate, channelCount, i, calculatorCache);
             }
 
             var audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));

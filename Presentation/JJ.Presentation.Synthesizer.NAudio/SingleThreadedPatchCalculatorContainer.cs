@@ -32,7 +32,13 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
             var patchManager = new PatchManager(new PatchRepositories(repositories));
             Outlet autoPatchOutlet = patchManager.AutoPatchPolyphonic(patches, audioOutput.MaxConcurrentNotes);
-            IPatchCalculator patchCalculator = patchManager.CreateCalculator(autoPatchOutlet, audioOutput.GetChannelCount(), DEFAULT_CHANNEL_INDEX, new CalculatorCache());
+
+            IPatchCalculator patchCalculator = patchManager.CreateCalculator(
+                autoPatchOutlet, 
+                audioOutput.SamplingRate,
+                audioOutput.GetChannelCount(), 
+                DEFAULT_CHANNEL_INDEX, 
+                new CalculatorCache());
 
             Lock.EnterWriteLock();
             try
