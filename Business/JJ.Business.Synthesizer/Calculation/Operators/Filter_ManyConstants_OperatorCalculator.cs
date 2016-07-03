@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _frequency;
         private readonly double _bandWidth;
         private readonly double _dbGain;
-        private readonly double _shelfSlope;
+        private readonly double _transitionSlope;
 
         private BiQuadFilter _biQuadFilter;
 
@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double frequency,
             double bandWidth,
             double dbGain,
-            double shelfSlope,
+            double transitionSlope,
             FilterTypeEnum filterTypeEnum)
             : base(new OperatorCalculatorBase[] { signalCalculator })
         {
@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _frequency = frequency;
             _bandWidth = bandWidth;
             _dbGain = dbGain;
-            _shelfSlope = shelfSlope;
+            _transitionSlope = transitionSlope;
 
             ResetNonRecursive();
         }
@@ -95,11 +95,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     break;
 
                 case FilterTypeEnum.LowShelf:
-                    _biQuadFilter = BiQuadFilter.CreateLowShelf(ASSUMED_SAMPLE_RATE, _frequency, _shelfSlope, _dbGain);
+                    _biQuadFilter = BiQuadFilter.CreateLowShelf(ASSUMED_SAMPLE_RATE, _frequency, _transitionSlope, _dbGain);
                     break;
 
                 case FilterTypeEnum.HighShelf:
-                    _biQuadFilter = BiQuadFilter.CreateHighShelf(ASSUMED_SAMPLE_RATE, _frequency, _shelfSlope, _dbGain);
+                    _biQuadFilter = BiQuadFilter.CreateHighShelf(ASSUMED_SAMPLE_RATE, _frequency, _transitionSlope, _dbGain);
                     break;
 
                 default:

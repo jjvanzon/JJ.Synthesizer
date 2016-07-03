@@ -1879,24 +1879,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Shelf Frequency.
-        /// </summary>
-        public static string ShelfFrequency {
-            get {
-                return ResourceManager.GetString("ShelfFrequency", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Shelf Slope.
-        /// </summary>
-        public static string ShelfSlope {
-            get {
-                return ResourceManager.GetString("ShelfSlope", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Shift.
         /// </summary>
         public static string Shift {
@@ -2226,6 +2208,24 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Tones {
             get {
                 return ResourceManager.GetString("Tones", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transition Frequency.
+        /// </summary>
+        public static string TransitionFrequency {
+            get {
+                return ResourceManager.GetString("TransitionFrequency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transition Slope.
+        /// </summary>
+        public static string TransitionSlope {
+            get {
+                return ResourceManager.GetString("TransitionSlope", resourceCulture);
             }
         }
         

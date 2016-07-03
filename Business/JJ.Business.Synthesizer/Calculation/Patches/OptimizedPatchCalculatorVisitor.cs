@@ -1570,25 +1570,25 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase frequencyCalculator = _stack.Pop();
             OperatorCalculatorBase bandWidthCalculator = _stack.Pop();
             OperatorCalculatorBase dbGainCalculator = _stack.Pop();
-            OperatorCalculatorBase shelfSlopeCalculator = _stack.Pop();
+            OperatorCalculatorBase transitionSlopeCalculator = _stack.Pop();
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
             frequencyCalculator = frequencyCalculator ?? new Zero_OperatorCalculator();
             bandWidthCalculator = bandWidthCalculator ?? new Zero_OperatorCalculator();
             dbGainCalculator = dbGainCalculator ?? new Zero_OperatorCalculator();
-            shelfSlopeCalculator = shelfSlopeCalculator ?? new Zero_OperatorCalculator();
+            transitionSlopeCalculator = transitionSlopeCalculator ?? new Zero_OperatorCalculator();
 
             double signal = signalCalculator.Calculate();
             double frequency = frequencyCalculator.Calculate();
             double bandWidth = bandWidthCalculator.Calculate();
             double dbGain = dbGainCalculator.Calculate();
-            double shelfSlope = shelfSlopeCalculator.Calculate();
+            double transitionSlope = transitionSlopeCalculator.Calculate();
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
             bool bandWidthIsConst = bandWidthCalculator is Number_OperatorCalculator;
             bool dbGainIsConst = dbGainCalculator is Number_OperatorCalculator;
-            bool shelfSlopeIsConst = shelfSlopeCalculator is Number_OperatorCalculator;
+            bool transitionSlopeIsConst = transitionSlopeCalculator is Number_OperatorCalculator;
 
             if (signalIsConst)
             {
@@ -1603,7 +1603,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     frequency,
                     bandWidth,
                     dbGain,
-                    shelfSlope,
+                    transitionSlope,
                     wrapper.FilterTypeEnum);
             }
 
@@ -1768,24 +1768,24 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase shelfFrequencyCalculator = _stack.Pop();
+            OperatorCalculatorBase transitionFrequencyCalculator = _stack.Pop();
             OperatorCalculatorBase dbGainCalculator = _stack.Pop();
-            OperatorCalculatorBase shelfSlopeCalculator = _stack.Pop();
+            OperatorCalculatorBase transitionSlopeCalculator = _stack.Pop();
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
-            shelfFrequencyCalculator = shelfFrequencyCalculator ?? new Zero_OperatorCalculator();
+            transitionFrequencyCalculator = transitionFrequencyCalculator ?? new Zero_OperatorCalculator();
             dbGainCalculator = dbGainCalculator ?? new Zero_OperatorCalculator();
-            shelfSlopeCalculator = shelfSlopeCalculator ?? new Zero_OperatorCalculator();
+            transitionSlopeCalculator = transitionSlopeCalculator ?? new Zero_OperatorCalculator();
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
-            bool shelfFrequencyIsConst = shelfFrequencyCalculator is Number_OperatorCalculator;
+            bool transitionFrequencyIsConst = transitionFrequencyCalculator is Number_OperatorCalculator;
             bool dbGainIsConst = dbGainCalculator is Number_OperatorCalculator;
-            bool shelfSlopeIsConst = shelfSlopeCalculator is Number_OperatorCalculator;
+            bool transitionSlopeIsConst = transitionSlopeCalculator is Number_OperatorCalculator;
 
             double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
-            double shelfFrequency = shelfFrequencyIsConst ? shelfFrequencyCalculator.Calculate() : 0.0;
+            double transitionFrequency = transitionFrequencyIsConst ? transitionFrequencyCalculator.Calculate() : 0.0;
             double dbGain = dbGainCalculator.Calculate();
-            double shelfSlope = shelfSlopeCalculator.Calculate();
+            double transitionSlope = transitionSlopeCalculator.Calculate();
 
             if (signalIsConst)
             {
@@ -1796,9 +1796,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = new HighShelfFilter_ManyConstants_OperatorCalculator(
                     signalCalculator,
-                    shelfFrequency,
+                    transitionFrequency,
                     dbGain,
-                    shelfSlope);
+                    transitionSlope);
             }
 
             _stack.Push(calculator);
@@ -2147,24 +2147,24 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase shelfFrequencyCalculator = _stack.Pop();
+            OperatorCalculatorBase transitionFrequencyCalculator = _stack.Pop();
             OperatorCalculatorBase dbGainCalculator = _stack.Pop();
-            OperatorCalculatorBase shelfSlopeCalculator = _stack.Pop();
+            OperatorCalculatorBase transitionSlopeCalculator = _stack.Pop();
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
-            shelfFrequencyCalculator = shelfFrequencyCalculator ?? new Zero_OperatorCalculator();
+            transitionFrequencyCalculator = transitionFrequencyCalculator ?? new Zero_OperatorCalculator();
             dbGainCalculator = dbGainCalculator ?? new Zero_OperatorCalculator();
-            shelfSlopeCalculator = shelfSlopeCalculator ?? new Zero_OperatorCalculator();
+            transitionSlopeCalculator = transitionSlopeCalculator ?? new Zero_OperatorCalculator();
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
-            bool shelfFrequencyIsConst = shelfFrequencyCalculator is Number_OperatorCalculator;
+            bool transitionFrequencyIsConst = transitionFrequencyCalculator is Number_OperatorCalculator;
             bool dbGainIsConst = dbGainCalculator is Number_OperatorCalculator;
-            bool shelfSlopeIsConst = shelfSlopeCalculator is Number_OperatorCalculator;
+            bool transitionSlopeIsConst = transitionSlopeCalculator is Number_OperatorCalculator;
 
             double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
-            double shelfFrequency = shelfFrequencyIsConst ? shelfFrequencyCalculator.Calculate() : 0.0;
+            double transitionFrequency = transitionFrequencyIsConst ? transitionFrequencyCalculator.Calculate() : 0.0;
             double dbGain = dbGainIsConst ? dbGainCalculator.Calculate() : 0.0;
-            double shelfSlope = shelfSlopeIsConst ? shelfSlopeCalculator.Calculate() : 0.0;
+            double transitionSlope = transitionSlopeIsConst ? transitionSlopeCalculator.Calculate() : 0.0;
 
             if (signalIsConst)
             {
@@ -2175,9 +2175,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = new LowShelfFilter_ManyConstants_OperatorCalculator(
                     signalCalculator,
-                    shelfFrequency,
+                    transitionFrequency,
                     dbGain,
-                    shelfSlope);
+                    transitionSlope);
             }
 
             _stack.Push(calculator);

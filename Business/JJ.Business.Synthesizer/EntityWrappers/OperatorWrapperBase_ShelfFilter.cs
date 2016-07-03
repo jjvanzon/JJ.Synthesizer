@@ -10,9 +10,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
     public abstract class OperatorWrapperBase_ShelfFilter : OperatorWrapperBase
     {
         private const int SIGNAL_INDEX = 0;
-        private const int SHELF_FREQUENCY_INDEX = 1;
+        private const int TRANSITION_FREQUENCY_INDEX = 1;
         private const int DB_GAIN_INDEX = 2;
-        private const int SHELF_SLOPE_INDEX = 3;
+        private const int TRANSITION_SLOPE_INDEX = 3;
         private const int RESULT_INDEX = 0;
 
         public OperatorWrapperBase_ShelfFilter(Operator op)
@@ -30,15 +30,15 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX); }
         }
 
-        public Outlet ShelfFrequency
+        public Outlet TransitionFrequency
         {
-            get { return ShelfFrequencyInlet.InputOutlet; }
-            set { ShelfFrequencyInlet.LinkTo(value); }
+            get { return TransitionFrequencyInlet.InputOutlet; }
+            set { TransitionFrequencyInlet.LinkTo(value); }
         }
 
-        public Inlet ShelfFrequencyInlet
+        public Inlet TransitionFrequencyInlet
         {
-            get { return OperatorHelper.GetInlet(WrappedOperator, SHELF_FREQUENCY_INDEX); }
+            get { return OperatorHelper.GetInlet(WrappedOperator, TRANSITION_FREQUENCY_INDEX); }
         }
 
         public Outlet DBGain
@@ -52,15 +52,15 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return OperatorHelper.GetInlet(WrappedOperator, DB_GAIN_INDEX); }
         }
 
-        public Outlet ShelfSlope
+        public Outlet TransitionSlope
         {
-            get { return ShelfSlopeInlet.InputOutlet; }
-            set { ShelfSlopeInlet.LinkTo(value); }
+            get { return TransitionSlopeInlet.InputOutlet; }
+            set { TransitionSlopeInlet.LinkTo(value); }
         }
 
-        public Inlet ShelfSlopeInlet
+        public Inlet TransitionSlopeInlet
         {
-            get { return OperatorHelper.GetInlet(WrappedOperator, SHELF_SLOPE_INDEX); }
+            get { return OperatorHelper.GetInlet(WrappedOperator, TRANSITION_SLOPE_INDEX); }
         }
 
         public FilterTypeEnum FilterTypeEnum
@@ -84,9 +84,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
                         return name;
                     }
 
-                case SHELF_FREQUENCY_INDEX:
+                case TRANSITION_FREQUENCY_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => ShelfFrequency);
+                        string name = ResourceHelper.GetPropertyDisplayName(() => TransitionFrequency);
                         return name;
                     }
 
@@ -96,9 +96,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
                         return name;
                     }
 
-                case SHELF_SLOPE_INDEX:
+                case TRANSITION_SLOPE_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => ShelfSlope);
+                        string name = ResourceHelper.GetPropertyDisplayName(() => TransitionSlope);
                         return name;
                     }
 

@@ -12,25 +12,25 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private const double ASSUMED_SAMPLE_RATE = 44100.0;
 
         private readonly OperatorCalculatorBase _signalCalculator;
-        private readonly double _shelfFrequency;
+        private readonly double _transitionFrequency;
         private readonly double _dbGain;
-        private readonly double _shelfSlope;
+        private readonly double _transitionSlope;
 
         private BiQuadFilter _biQuadFilter;
 
         public HighShelfFilter_ManyConstants_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
-            double shelfFrequency,
+            double transitionFrequency,
             double dbGain,
-            double shelfSlope)
+            double transitionSlope)
             : base(new OperatorCalculatorBase[] { signalCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
 
             _signalCalculator = signalCalculator;
-            _shelfFrequency = shelfFrequency;
+            _transitionFrequency = transitionFrequency;
             _dbGain = dbGain;
-            _shelfSlope = shelfSlope;
+            _transitionSlope = transitionSlope;
 
             ResetNonRecursive();
         }
@@ -54,7 +54,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private void ResetNonRecursive()
         {
-            _biQuadFilter = BiQuadFilter.CreateHighShelf(ASSUMED_SAMPLE_RATE, _shelfFrequency, _shelfSlope, _dbGain);
+            _biQuadFilter = BiQuadFilter.CreateHighShelf(ASSUMED_SAMPLE_RATE, _transitionFrequency, _transitionSlope, _dbGain);
         }
     }
 }

@@ -24,9 +24,9 @@
 // and notch or between midpoint (dBgain/2) gain frequencies for
 // peaking EQ)
 //
-// S: a "shelf slope" parameter (for shelving EQ only).  When S = 1,
-// the shelf slope is as steep as it can be and remain monotonically
-// increasing or decreasing gain with frequency.  The shelf slope, in
+// S: a "transition slope" parameter (for shelving EQ only).  When S = 1,
+// the transition slope is as steep as it can be and remain monotonically
+// increasing or decreasing gain with frequency.  The transition slope, in
 // dB/octave, remains proportional to S for all other values for a
 // fixed f0/Fs and dBgain.
 
@@ -237,19 +237,19 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
         }
 
         /// <summary> H(s) = A * (s^2 + (sqrt(A)/Q)*s + A)/(A*s^2 + (sqrt(A)/Q)*s + 1) </summary>
-        /// <param name="shelfSlope">a "shelf slope" parameter (for shelving EQ only).  
-        /// When S = 1, the shelf slope is as steep as it can be and remain monotonically
-        /// increasing or decreasing gain with frequency.  The shelf slope, in dB/octave, 
+        /// <param name="transitionSlope">a "transition slope" parameter (for shelving EQ only).  
+        /// When S = 1, the transition slope is as steep as it can be and remain monotonically
+        /// increasing or decreasing gain with frequency.  The transition slope, in dB/octave, 
         /// remains proportional to S for all other values for a fixed f0/Fs and dBgain.</param>
         /// <param name="dbGain">Gain in decibels</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void SetLowShelf(double sampleRate, double cutoffFrequency, double shelfSlope, double dbGain)
+        public void SetLowShelf(double sampleRate, double cutoffFrequency, double transitionSlope, double dbGain)
         {
             double w0 = Maths.TWO_PI * cutoffFrequency / sampleRate;
             double cosw0 = Math.Cos(w0);
             double sinw0 = Math.Sin(w0);
             double a = Math.Pow(10, dbGain / 40);     // TODO: should we square root this value?
-            double alpha = sinw0 / 2 * Math.Sqrt((a + 1 / a) * (1 / shelfSlope - 1) + 2);
+            double alpha = sinw0 / 2 * Math.Sqrt((a + 1 / a) * (1 / transitionSlope - 1) + 2);
             double temp = 2 * Math.Sqrt(a) * alpha;
 
             double b0 = a * ((a + 1) - (a - 1) * cosw0 + temp);
@@ -264,13 +264,13 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
 
         /// <summary> H(s) = A * (A*s^2 + (sqrt(A)/Q)*s + 1)/(s^2 + (sqrt(A)/Q)*s + A) </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void SetHighShelf(double sampleRate, double cutoffFrequency, double shelfSlope, double dbGain)
+        public void SetHighShelf(double sampleRate, double cutoffFrequency, double transitionSlope, double dbGain)
         {
             double w0 = Maths.TWO_PI * cutoffFrequency / sampleRate;
             double cosw0 = Math.Cos(w0);
             double sinw0 = Math.Sin(w0);
             double a = Math.Pow(10, dbGain / 40); // TODO: should we square root this value?
-            double alpha = sinw0 / 2 * Math.Sqrt((a + 1 / a) * (1 / shelfSlope - 1) + 2);
+            double alpha = sinw0 / 2 * Math.Sqrt((a + 1 / a) * (1 / transitionSlope - 1) + 2);
             double temp = 2 * Math.Sqrt(a) * alpha;
 
             double b0 = a * ((a + 1) + (a - 1) * cosw0 + temp);
@@ -335,23 +335,23 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
         }
 
         /// <summary> H(s) = A * (s^2 + (sqrt(A)/Q)*s + A)/(A*s^2 + (sqrt(A)/Q)*s + 1) </summary>
-        /// <param name="shelfSlope">a "shelf slope" parameter (for shelving EQ only).  
-        /// When S = 1, the shelf slope is as steep as it can be and remain monotonically
-        /// increasing or decreasing gain with frequency.  The shelf slope, in dB/octave, 
+        /// <param name="transitionSlope">a "transition slope" parameter (for shelving EQ only).  
+        /// When S = 1, the transition slope is as steep as it can be and remain monotonically
+        /// increasing or decreasing gain with frequency.  The transition slope, in dB/octave, 
         /// remains proportional to S for all other values for a fixed f0/Fs and dBgain.</param>
         /// <param name="dbGain">Gain in decibels</param>
-        public static BiQuadFilter CreateLowShelf(double sampleRate, double cutoffFrequency, double shelfSlope, double dbGain)
+        public static BiQuadFilter CreateLowShelf(double sampleRate, double cutoffFrequency, double transitionSlope, double dbGain)
         {
             var filter = new BiQuadFilter();
-            filter.SetLowShelf(sampleRate, cutoffFrequency, shelfSlope, dbGain);
+            filter.SetLowShelf(sampleRate, cutoffFrequency, transitionSlope, dbGain);
             return filter;
         }
 
         /// <summary> H(s) = A * (A*s^2 + (sqrt(A)/Q)*s + 1)/(s^2 + (sqrt(A)/Q)*s + A) </summary>
-        public static BiQuadFilter CreateHighShelf(double sampleRate, double cutoffFrequency, double shelfSlope, double dbGain)
+        public static BiQuadFilter CreateHighShelf(double sampleRate, double cutoffFrequency, double transitionSlope, double dbGain)
         {
             var filter = new BiQuadFilter();
-            filter.SetHighShelf(sampleRate, cutoffFrequency, shelfSlope, dbGain);
+            filter.SetHighShelf(sampleRate, cutoffFrequency, transitionSlope, dbGain);
             return filter;
         }
     }

@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer
         private const double DEFAULT_SCALE_SOURCE_VALUE_B = 1.0;
         private const double DEFAULT_SCALE_TARGET_VALUE_A = 1.0;
         private const double DEFAULT_SCALE_TARGET_VALUE_B = 4.0;
-        private const double DEFAULT_SHELF_SLOPE = 1.0;
+        private const double DEFAULT_TRANSITION_SLOPE = 1.0;
         private const double DEFAULT_SLICE_LENGTH = 0.02;
         private const double DEFAULT_SPECTRUM_FREQUENCY_COUNT = 256.0;
         private const double DEFAULT_START_TIME = 0.0;
@@ -577,7 +577,7 @@ namespace JJ.Business.Synthesizer
             Outlet frequency = null,
             Outlet bandWidth = null,
             Outlet dbGain = null,
-            Outlet shelfSlope = null)
+            Outlet transitionSlope = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Filter, inletCount: 5, outletCount: 1);
 
@@ -588,13 +588,13 @@ namespace JJ.Business.Synthesizer
                 Frequency = frequency,
                 BandWidth = bandWidth,
                 DBGain = dbGain,
-                ShelfSlope = shelfSlope
+                TransitionSlope = transitionSlope
             };
 
             wrapper.FrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
             wrapper.BandWidthInlet.DefaultValue = DEFAULT_BAND_WIDTH;
             wrapper.DBGainInlet.DefaultValue = DEFAULT_DB_GAIN;
-            wrapper.ShelfSlopeInlet.DefaultValue = DEFAULT_SHELF_SLOPE;
+            wrapper.TransitionSlopeInlet.DefaultValue = DEFAULT_TRANSITION_SLOPE;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -674,23 +674,23 @@ namespace JJ.Business.Synthesizer
 
         public HighShelfFilter_OperatorWrapper HighShelfFilter(
             Outlet signal = null,
-            Outlet shelfFrequency = null,
+            Outlet transitionFrequency = null,
             Outlet dbGain = null,
-            Outlet shelfSlope = null)
+            Outlet transitionSlope = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.HighShelfFilter, inletCount: 4, outletCount: 1);
 
             var wrapper = new HighShelfFilter_OperatorWrapper(op)
             {
                 Signal = signal,
-                ShelfFrequency = shelfFrequency,
+                TransitionFrequency = transitionFrequency,
                 DBGain = dbGain,
-                ShelfSlope = shelfSlope
+                TransitionSlope = transitionSlope
             };
 
-            wrapper.ShelfFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
+            wrapper.TransitionFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
             wrapper.DBGainInlet.DefaultValue = DEFAULT_DB_GAIN;
-            wrapper.ShelfSlopeInlet.DefaultValue = DEFAULT_SHELF_SLOPE;
+            wrapper.TransitionSlopeInlet.DefaultValue = DEFAULT_TRANSITION_SLOPE;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -818,23 +818,23 @@ namespace JJ.Business.Synthesizer
 
         public LowShelfFilter_OperatorWrapper LowShelfFilter(
             Outlet signal = null,
-            Outlet shelfFrequency = null,
+            Outlet transitionFrequency = null,
             Outlet dbGain = null,
-            Outlet shelfSlope = null)
+            Outlet transitionSlope = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.LowShelfFilter, inletCount: 4, outletCount: 1);
 
             var wrapper = new LowShelfFilter_OperatorWrapper(op)
             {
                 Signal = signal,
-                ShelfFrequency = shelfFrequency,
+                TransitionFrequency = transitionFrequency,
                 DBGain = dbGain,
-                ShelfSlope = shelfSlope
+                TransitionSlope = transitionSlope
             };
 
-            wrapper.ShelfFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
+            wrapper.TransitionFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
             wrapper.DBGainInlet.DefaultValue = DEFAULT_DB_GAIN;
-            wrapper.ShelfSlopeInlet.DefaultValue = DEFAULT_SHELF_SLOPE;
+            wrapper.TransitionSlopeInlet.DefaultValue = DEFAULT_TRANSITION_SLOPE;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1404,7 +1404,7 @@ namespace JJ.Business.Synthesizer
             Outlet signal = null,
             Outlet centerFrequency = null,
             Outlet dbGain = null,
-            Outlet shelfSlope = null)
+            Outlet transitionSlope = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.PeakingEQFilter, inletCount: 4, outletCount: 1);
 
@@ -1413,12 +1413,12 @@ namespace JJ.Business.Synthesizer
                 Signal = signal,
                 CenterFrequency = centerFrequency,
                 DBGain = dbGain,
-                ShelfSlope = shelfSlope
+                TransitionSlope = transitionSlope
             };
 
             wrapper.CenterFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
             wrapper.DBGainInlet.DefaultValue = DEFAULT_DB_GAIN;
-            wrapper.ShelfSlopeInlet.DefaultValue = DEFAULT_SHELF_SLOPE;
+            wrapper.TransitionSlopeInlet.DefaultValue = DEFAULT_TRANSITION_SLOPE;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);

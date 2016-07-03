@@ -686,8 +686,8 @@
   <data name="FilterType" xml:space="preserve">
     <value>Filter Type</value>
   </data>
-  <data name="ShelfSlope" xml:space="preserve">
-    <value>Shelf Slope</value>
+  <data name="TransitionSlope" xml:space="preserve">
+    <value>Transition Slope</value>
   </data>
   <data name="Filter" xml:space="preserve">
     <value>Filter</value>
@@ -892,7 +892,7 @@
   <data name="CenterFrequency" xml:space="preserve">
     <value>Center Frequency</value>
   </data>
-  <data name="ShelfFrequency" xml:space="preserve">
-    <value>Shelf Frequency</value>
+  <data name="TransitionFrequency" xml:space="preserve">
+    <value>Transition Frequency</value>
   </data>
 </root>
