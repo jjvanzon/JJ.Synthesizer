@@ -99,6 +99,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lomont", "External Componen
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Collections", "Framework\JJ.Framework.Collections\JJ.Framework.Collections.csproj", "{5D06A212-5459-47F3-8109-E012C5FC9E3A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Sound", "Framework\JJ.Framework.Sound\JJ.Framework.Sound.csproj", "{BB8401C0-7742-46A0-9B11-7FFCFC4858DA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1054,6 +1056,30 @@ Global
 		{5D06A212-5459-47F3-8109-E012C5FC9E3A}.Release|x64.Build.0 = Release|Any CPU
 		{5D06A212-5459-47F3-8109-E012C5FC9E3A}.Release|x86.ActiveCfg = Release|Any CPU
 		{5D06A212-5459-47F3-8109-E012C5FC9E3A}.Release|x86.Build.0 = Release|Any CPU
+		{BB8401C0-7742-46A0-9B11-7FFCFC4858DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB8401C0-7742-46A0-9B11-7FFCFC4858DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB8401C0-7742-46A0-9B11-7FFCFC4858DA}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{BB8401C0-7742-46A0-9B11-7FFCFC4858DA}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{BB8401C0-7742-46A0-9B11-7FFCFC4858DA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BB8401C0-7742-46A0-9B11-7FFCFC4858DA}.Debug|x64.Build.0 = Debug|Any CPU
+		{BB8401C0-7742-46A0-9B11-7FFCFC4858DA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BB8401C0-7742-46A0-9B11-7FFCFC4858DA}.Debug|x86.Build.0 = Debug|Any CPU
+		{BB8401C0-7742-46A0-9B11-7FFCFC4858DA}.NPDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB8401C0-7742-46A0-9B11-7FFCFC4858DA}.NPDebug|Any CPU.Build.0 = Debug|Any CPU
+		{BB8401C0-7742-46A0-9B11-7FFCFC4858DA}.NPDebug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{BB8401C0-7742-46A0-9B11-7FFCFC4858DA}.NPDebug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{BB8401C0-7742-46A0-9B11-7FFCFC4858DA}.NPDebug|x64.ActiveCfg = Debug|Any CPU
+		{BB8401C0-7742-46A0-9B11-7FFCFC4858DA}.NPDebug|x64.Build.0 = Debug|Any CPU
+		{BB8401C0-7742-46A0-9B11-7FFCFC4858DA}.NPDebug|x86.ActiveCfg = Debug|Any CPU
+		{BB8401C0-7742-46A0-9B11-7FFCFC4858DA}.NPDebug|x86.Build.0 = Debug|Any CPU
+		{BB8401C0-7742-46A0-9B11-7FFCFC4858DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB8401C0-7742-46A0-9B11-7FFCFC4858DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB8401C0-7742-46A0-9B11-7FFCFC4858DA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{BB8401C0-7742-46A0-9B11-7FFCFC4858DA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{BB8401C0-7742-46A0-9B11-7FFCFC4858DA}.Release|x64.ActiveCfg = Release|Any CPU
+		{BB8401C0-7742-46A0-9B11-7FFCFC4858DA}.Release|x64.Build.0 = Release|Any CPU
+		{BB8401C0-7742-46A0-9B11-7FFCFC4858DA}.Release|x86.ActiveCfg = Release|Any CPU
+		{BB8401C0-7742-46A0-9B11-7FFCFC4858DA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1094,9 +1120,9 @@ Global
 		{5D06A212-5459-47F3-8109-E012C5FC9E3A} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 48
+		SccNumberOfProjects = 49
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = http://83.82.26.17:8080/tfs/defaultcollection
+		SccTeamFoundationServer = http://jjs-server:8080/tfs/defaultcollection
 		SccLocalPath0 = .
 		SccProjectUniqueName1 = Framework\\JJ.Framework.Data\\JJ.Framework.Data.csproj
 		SccProjectTopLevelParentUniqueName1 = Synthesizer.sln
@@ -1272,5 +1298,8 @@ Global
 		SccProjectTopLevelParentUniqueName47 = Synthesizer.sln
 		SccProjectName47 = Framework/JJ.Framework.Collections
 		SccLocalPath47 = Framework\\JJ.Framework.Collections
+		SccProjectUniqueName48 = Framework\\JJ.Framework.Sound\\JJ.Framework.Sound.csproj
+		SccProjectName48 = Framework/JJ.Framework.Sound
+		SccLocalPath48 = Framework\\JJ.Framework.Sound
 	EndGlobalSection
 EndGlobal

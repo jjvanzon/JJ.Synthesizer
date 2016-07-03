@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.CodeCopies.FromFramework;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Common.Exceptions;
 using JJ.Framework.Reflection.Exceptions;
-using NAudio.Dsp;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Filter_ManyConstants_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private const float ASSUMED_SAMPLE_RATE = 44100;
-        private const float DEFAULT_BAND_WIDTH = 1;
+        private const double ASSUMED_SAMPLE_RATE = 44100.0;
+        private const double DEFAULT_BAND_WIDTH = 1.0;
 
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly FilterTypeEnum _filterTypeEnum;
@@ -50,7 +50,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double signal = _signalCalculator.Calculate();
 
-            float value = _biQuadFilter.Transform((float)signal);
+            double value = _biQuadFilter.Transform(signal);
 
             return value;
         }
@@ -67,39 +67,39 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             switch (_filterTypeEnum)
             {
                 case FilterTypeEnum.LowPassFilter:
-                    _biQuadFilter = BiQuadFilter.LowPassFilter(ASSUMED_SAMPLE_RATE, (float)_frequency, (float)_bandWidth);
+                    _biQuadFilter = BiQuadFilter.CreateLowPassFilter(ASSUMED_SAMPLE_RATE, _frequency, _bandWidth);
                     break;
 
                 case FilterTypeEnum.HighPassFilter:
-                    _biQuadFilter = BiQuadFilter.HighPassFilter(ASSUMED_SAMPLE_RATE, (float)_frequency, (float)_bandWidth);
+                    _biQuadFilter = BiQuadFilter.CreateHighPassFilter(ASSUMED_SAMPLE_RATE, _frequency, _bandWidth);
                     break;
 
                 case FilterTypeEnum.BandPassFilterConstantSkirtGain:
-                    _biQuadFilter = BiQuadFilter.BandPassFilterConstantSkirtGain(ASSUMED_SAMPLE_RATE, (float)_frequency, (float)_bandWidth);
+                    _biQuadFilter = BiQuadFilter.CreateBandPassFilterConstantSkirtGain(ASSUMED_SAMPLE_RATE, _frequency, _bandWidth);
                     break;
 
                 case FilterTypeEnum.BandPassFilterConstantPeakGain:
-                    _biQuadFilter = BiQuadFilter.BandPassFilterConstantPeakGain(ASSUMED_SAMPLE_RATE, (float)_frequency, (float)_bandWidth);
+                    _biQuadFilter = BiQuadFilter.CreateBandPassFilterConstantPeakGain(ASSUMED_SAMPLE_RATE, _frequency, _bandWidth);
                     break;
 
                 case FilterTypeEnum.NotchFilter:
-                    _biQuadFilter = BiQuadFilter.NotchFilter(ASSUMED_SAMPLE_RATE, (float)_frequency, (float)_bandWidth);
+                    _biQuadFilter = BiQuadFilter.CreateNotchFilter(ASSUMED_SAMPLE_RATE, _frequency, _bandWidth);
                     break;
 
                 case FilterTypeEnum.AllPassFilter:
-                    _biQuadFilter = BiQuadFilter.AllPassFilter(ASSUMED_SAMPLE_RATE, (float)_frequency, (float)_bandWidth);
+                    _biQuadFilter = BiQuadFilter.CreateAllPassFilter(ASSUMED_SAMPLE_RATE, _frequency, _bandWidth);
                     break;
 
                 case FilterTypeEnum.PeakingEQ:
-                    _biQuadFilter = BiQuadFilter.PeakingEQ(ASSUMED_SAMPLE_RATE, (float)_frequency, (float)_bandWidth, (float)_dbGain);
+                    _biQuadFilter = BiQuadFilter.CreatePeakingEQ(ASSUMED_SAMPLE_RATE, _frequency, _bandWidth, _dbGain);
                     break;
 
                 case FilterTypeEnum.LowShelf:
-                    _biQuadFilter = BiQuadFilter.LowShelf(ASSUMED_SAMPLE_RATE, (float)_frequency, (float)_shelfSlope, (float)_dbGain);
+                    _biQuadFilter = BiQuadFilter.CreateLowShelf(ASSUMED_SAMPLE_RATE, _frequency, _shelfSlope, _dbGain);
                     break;
 
                 case FilterTypeEnum.HighShelf:
-                    _biQuadFilter = BiQuadFilter.HighShelf(ASSUMED_SAMPLE_RATE, (float)_frequency, (float)_shelfSlope, (float)_dbGain);
+                    _biQuadFilter = BiQuadFilter.CreateHighShelf(ASSUMED_SAMPLE_RATE, _frequency, _shelfSlope, _dbGain);
                     break;
 
                 default:

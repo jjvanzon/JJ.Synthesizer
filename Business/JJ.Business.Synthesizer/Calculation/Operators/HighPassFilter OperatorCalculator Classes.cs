@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.CodeCopies.FromFramework;
 using JJ.Framework.Reflection.Exceptions;
-using NAudio.Dsp;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class HighPassFilter_VarMinFrequency_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private const float ASSUMED_SAMPLE_RATE = 44100;
-        private const float DEFAULT_MIN_FREQUENCY = 8;
-        private const float DEFAULT_BAND_WIDTH = 1;
+        private const double ASSUMED_SAMPLE_RATE = 44100.0;
+        private const double DEFAULT_MIN_FREQUENCY = 8.0;
+        private const double DEFAULT_BAND_WIDTH = 1.0;
 
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _minFrequencyCalculator;
@@ -40,9 +40,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double minFrequency = _minFrequencyCalculator.Calculate();
             double signal = _signalCalculator.Calculate();
 
-            _biQuadFilter.SetHighPassFilter(ASSUMED_SAMPLE_RATE, (float)minFrequency, DEFAULT_BAND_WIDTH);
+            _biQuadFilter.SetHighPassFilter(ASSUMED_SAMPLE_RATE, minFrequency, DEFAULT_BAND_WIDTH);
 
-            float value = _biQuadFilter.Transform((float)signal);
+            double value = _biQuadFilter.Transform(signal);
 
             return value;
         }
@@ -56,14 +56,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private void ResetNonRecursive()
         {
-            _biQuadFilter = BiQuadFilter.HighPassFilter(ASSUMED_SAMPLE_RATE, DEFAULT_MIN_FREQUENCY, DEFAULT_BAND_WIDTH);
+            _biQuadFilter = BiQuadFilter.CreateHighPassFilter(ASSUMED_SAMPLE_RATE, DEFAULT_MIN_FREQUENCY, DEFAULT_BAND_WIDTH);
         }
     }
 
     internal class HighPassFilter_ConstMinFrequency_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private const float ASSUMED_SAMPLE_RATE = 44100;
-        private const float DEFAULT_BAND_WIDTH = 1;
+        private const double ASSUMED_SAMPLE_RATE = 44100.0;
+        private const double DEFAULT_BAND_WIDTH = 1.0;
 
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _minFrequency;
@@ -89,7 +89,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double signal = _signalCalculator.Calculate();
 
-            float value = _biQuadFilter.Transform((float)signal);
+            double value = _biQuadFilter.Transform(signal);
 
             return value;
         }
@@ -103,7 +103,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private void ResetNonRecursive()
         {
-            _biQuadFilter = BiQuadFilter.HighPassFilter(ASSUMED_SAMPLE_RATE, (float)_minFrequency, DEFAULT_BAND_WIDTH);
+            _biQuadFilter = BiQuadFilter.CreateHighPassFilter(ASSUMED_SAMPLE_RATE, _minFrequency, DEFAULT_BAND_WIDTH);
         }
     }
 }

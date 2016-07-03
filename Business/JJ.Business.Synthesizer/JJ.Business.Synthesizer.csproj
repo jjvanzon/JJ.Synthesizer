@@ -228,6 +228,7 @@
     <Compile Include="Calculation\Operators\OperatorCalculatorBase.cs" />
     <Compile Include="Calculation\Operators\Delay OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Number_OperatorCalculator.cs" />
+    <Compile Include="CodeCopies\FromFramework\BiQuadFilter.cs" />
     <Compile Include="CodeCopies\FromFramework\CollectionHelper.cs" />
     <Compile Include="CodeCopies\FromFramework\Geometry.cs" />
     <Compile Include="CodeCopies\FromFramework\Interpolator.cs" />
@@ -427,7 +428,7 @@
     <Compile Include="CurveManager.cs" />
     <Compile Include="DocumentManager.cs" />
     <Compile Include="EntityPositionManager.cs" />
-    <Compile Include="CodeCopies\FromNAudio\BiQuadFilter.cs" />
+    <Compile Include="CodeCopies\FromNAudio\2016-07-03 Backup of BiQuadFilter.cs" />
     <Compile Include="CodeCopies\FromNAudio\Complex.cs" />
     <Compile Include="CodeCopies\FromNAudio\FastFourierTransform.cs" />
     <Compile Include="PatchManager.AutoPatch.cs" />

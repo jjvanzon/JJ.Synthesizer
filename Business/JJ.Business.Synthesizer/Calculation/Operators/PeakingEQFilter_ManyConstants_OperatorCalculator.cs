@@ -2,20 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Framework.Common.Exceptions;
+using JJ.Business.Synthesizer.CodeCopies.FromFramework;
 using JJ.Framework.Reflection.Exceptions;
-using NAudio.Dsp;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class PeakingEQFilter_ManyConstants_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private const float ASSUMED_SAMPLE_RATE = 44100;
-        private const float DEFAULT_BAND_WIDTH = 1;
+        private const double ASSUMED_SAMPLE_RATE = 44100.0;
+        private const double DEFAULT_BAND_WIDTH = 1.0;
 
         private readonly OperatorCalculatorBase _signalCalculator;
-        private readonly FilterTypeEnum _filterTypeEnum;
         private readonly double _frequency;
         private readonly double _bandWidth;
         private readonly double _dbGain;
@@ -45,7 +42,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double signal = _signalCalculator.Calculate();
 
-            float value = _biQuadFilter.Transform((float)signal);
+            double value = _biQuadFilter.Transform(signal);
 
             return value;
         }
@@ -59,7 +56,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private void ResetNonRecursive()
         {
-            _biQuadFilter = BiQuadFilter.PeakingEQ(ASSUMED_SAMPLE_RATE, (float)_frequency, (float)_bandWidth, (float)_dbGain);
+            _biQuadFilter = BiQuadFilter.CreatePeakingEQ(ASSUMED_SAMPLE_RATE, _frequency, _bandWidth, _dbGain);
         }
     }
 }

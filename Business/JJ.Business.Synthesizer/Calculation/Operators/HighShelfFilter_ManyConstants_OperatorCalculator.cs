@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.CodeCopies.FromFramework;
 using JJ.Framework.Reflection.Exceptions;
-using NAudio.Dsp;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class HighShelfFilter_ManyConstants_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private const float ASSUMED_SAMPLE_RATE = 44100;
-        private const float DEFAULT_BAND_WIDTH = 1;
+        private const double ASSUMED_SAMPLE_RATE = 44100.0;
+        private const double DEFAULT_BAND_WIDTH = 1.0;
 
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _frequency;
@@ -42,7 +42,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double signal = _signalCalculator.Calculate();
 
-            float value = _biQuadFilter.Transform((float)signal);
+            double value = _biQuadFilter.Transform(signal);
 
             return value;
         }
@@ -56,7 +56,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private void ResetNonRecursive()
         {
-            _biQuadFilter = BiQuadFilter.HighShelf(ASSUMED_SAMPLE_RATE, (float)_frequency, (float)_shelfSlope, (float)_dbGain);
+            _biQuadFilter = BiQuadFilter.CreateHighShelf(ASSUMED_SAMPLE_RATE, _frequency, _shelfSlope, _dbGain);
         }
     }
 }
