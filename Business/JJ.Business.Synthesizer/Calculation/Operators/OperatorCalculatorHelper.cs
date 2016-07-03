@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Common;
 using JJ.Framework.Common.Exceptions;
 using JJ.Framework.Reflection;

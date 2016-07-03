@@ -10,12 +10,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class AllPassFilter_OperatorCalculator_VarCenterFrequency_VarBandWidth 
         : OperatorCalculatorBase_WithChildCalculators
     {
-        private const int SAMPLES_PER_SET_FILTER_CALL = 100;
-
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _centerFrequencyCalculator;
         private readonly OperatorCalculatorBase _bandWidthCalculator;
         private readonly double _samplingRate;
+        private readonly int _samplesBetweenApplyFilterVariables;
 
         private BiQuadFilter _biQuadFilter;
         private int _counter;
@@ -24,17 +23,20 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase centerFrequencyCalculator,
             OperatorCalculatorBase bandWidthCalculator,
-            double samplingRate)
+            double samplingRate,
+            int samplesBetweenApplyFilterVariables)
             : base(new OperatorCalculatorBase[] { signalCalculator, centerFrequencyCalculator, bandWidthCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
             if (centerFrequencyCalculator == null) throw new NullException(() => centerFrequencyCalculator);
             if (bandWidthCalculator == null) throw new NullException(() => bandWidthCalculator);
+            if (samplesBetweenApplyFilterVariables < 1) throw new LessThanException(() => samplesBetweenApplyFilterVariables, 1);
 
             _signalCalculator = signalCalculator;
             _centerFrequencyCalculator = centerFrequencyCalculator;
             _bandWidthCalculator = bandWidthCalculator;
             _samplingRate = samplingRate;
+            _samplesBetweenApplyFilterVariables = samplesBetweenApplyFilterVariables;
 
             ResetNonRecursive();
         }
@@ -42,7 +44,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            if (_counter > SAMPLES_PER_SET_FILTER_CALL)
+            if (_counter > _samplesBetweenApplyFilterVariables)
             {
                 double centerFrequency = _centerFrequencyCalculator.Calculate();
                 double bandWidth = _bandWidthCalculator.Calculate();

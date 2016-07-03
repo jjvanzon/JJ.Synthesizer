@@ -78,50 +78,64 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private const double DEFAULT_PULSE_WIDTH = 0.5;
         private const double DEFAULT_DIMENSION_VALUE = 0.0;
 
+        private readonly Outlet _outlet;
+        private readonly int _samplingRate;
+        private readonly int _channelCount;
+        private readonly int _samplesBetweenApplyFilterVariables;
+        private readonly CalculatorCache _calculatorCache;
         private readonly ICurveRepository _curveRepository;
         private readonly ISampleRepository _sampleRepository;
         private readonly IPatchRepository _patchRepository;
         private readonly ISpeakerSetupRepository _speakerSetupRepository;
-        private readonly CalculatorCache _calculatorCache;
 
-        private int _samplingRate;
-        private int _channelCount;
         private Stack<OperatorCalculatorBase> _stack;
         private DimensionStackCollection _dimensionStackCollection;
 
         private Dictionary<Operator, double> _operator_NoiseOffsetInSeconds_Dictionary;
         private Dictionary<Operator, int> _operator_RandomOffsetInSeconds_Dictionary;
-        private Outlet _outlet;
         private Dictionary<Operator, VariableInput_OperatorCalculator> _patchInlet_Calculator_Dictionary;
         private IList<ResettableOperatorTuple> _resettableOperatorTuples;
 
         public OptimizedPatchCalculatorVisitor(
+            Outlet outlet, 
+            int samplingRate,
+            int channelCount,
+            double secondsBetweenApplyFilterVariables,
+            CalculatorCache calculatorCache,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
             IPatchRepository patchRepository,
-            ISpeakerSetupRepository speakerSetupRepository,
-            CalculatorCache calculatorCache)
+            ISpeakerSetupRepository speakerSetupRepository)
         {
+            if (outlet == null) throw new NullException(() => outlet);
+            if (calculatorCache == null) throw new NullException(() => calculatorCache);
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
             if (patchRepository == null) throw new NullException(() => patchRepository);
             if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
-            if (calculatorCache == null) throw new NullException(() => calculatorCache);
 
+            _outlet = outlet;
+            _samplingRate = samplingRate;
+            _channelCount = channelCount;
+            _calculatorCache = calculatorCache;
             _curveRepository = curveRepository;
             _sampleRepository = sampleRepository;
             _patchRepository = patchRepository;
             _speakerSetupRepository = speakerSetupRepository;
-            _calculatorCache = calculatorCache;
+
+            double samplesBetweenApplyFilterVariablesDouble = secondsBetweenApplyFilterVariables * samplingRate;
+            if (!ConversionHelper.CanCastToPositiveInt32(samplesBetweenApplyFilterVariablesDouble))
+            {
+                throw new Exception(String.Format("samplesBetweenApplyFilterVariablesDouble {0} cannot be cast to positive Int32.", samplesBetweenApplyFilterVariablesDouble));
+            }
+            _samplesBetweenApplyFilterVariables = (int)(secondsBetweenApplyFilterVariables * samplingRate);
         }
 
         /// <param name="channelCount">Used for e.g. mixing channels of samples into one channel.</param>
-        public Result Execute(Outlet outlet, int samplingRate, int channelCount = 2)
+        public Result Execute()
         {
-            if (outlet == null) throw new NullException(() => outlet);
-
             IValidator validator = new Recursive_OperatorValidator(
-                outlet.Operator,
+                _outlet.Operator,
                 _curveRepository, _sampleRepository, _patchRepository,
                 alreadyDone: new HashSet<object>());
             validator.Assert();
@@ -133,11 +147,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _patchInlet_Calculator_Dictionary = new Dictionary<Operator, VariableInput_OperatorCalculator>();
             _resettableOperatorTuples = new List<ResettableOperatorTuple>();
 
-            _outlet = outlet;
-            _samplingRate = samplingRate;
-            _channelCount = channelCount;
-
-            VisitOutlet(outlet);
+            VisitOutlet(_outlet);
 
             OperatorCalculatorBase outputOperatorCalculator = _stack.Pop();
 
@@ -290,7 +300,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     signalCalculator,
                     centerFrequencyCalculator,
                     bandWidthCalculator,
-                    _samplingRate);
+                    _samplingRate,
+                    _samplesBetweenApplyFilterVariables);
             }
 
             _stack.Push(calculator);
@@ -1769,7 +1780,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     signalCalculator, 
                     minFrequencyCalculator, 
                     bandWidthCalculator,
-                    _samplingRate);
+                    _samplingRate,
+                    _samplesBetweenApplyFilterVariables);
             }
 
             _stack.Push(calculator);
@@ -2145,7 +2157,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (maxFrequencyIsConst && bandWidthIsConst)
             {
-                calculator = new LowPassFilter_ConstMaxFrequency_OperatorCalculator(
+                calculator = new LowPassFilter_OperatorCalculator_ConstMaxFrequency_ConstBandWidth(
                     signalCalculator, 
                     maxFrequency, 
                     bandWidth,
@@ -2153,11 +2165,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                calculator = new LowPassFilter_VarMaxFrequency_OperatorCalculator(
+                calculator = new LowPassFilter_OperatorCalculator_VarMaxFrequency_VarBandWidth(
                     signalCalculator, 
                     maxFrequencyCalculator, 
                     bandWidthCalculator,
-                    _samplingRate);
+                    _samplingRate,
+                    _samplesBetweenApplyFilterVariables);
             }
 
             _stack.Push(calculator);

@@ -38,6 +38,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             int channelCount,
             int channelIndex,
             CalculatorCache calculatorCache,
+            double secondsBetweenApplyFilterVariables,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
             IPatchRepository patchRepository,
@@ -46,13 +47,17 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             if (outlet == null) throw new NullException(() => outlet);
 
             var visitor = new OptimizedPatchCalculatorVisitor(
+                outlet,
+                samplingRate,
+                channelCount,
+                secondsBetweenApplyFilterVariables,
+                calculatorCache,
                 curveRepository, 
                 sampleRepository, 
                 patchRepository, 
-                speakerSetupRepository, 
-                calculatorCache);
+                speakerSetupRepository);
 
-            OptimizedPatchCalculatorVisitor.Result result = visitor.Execute(outlet, samplingRate, channelCount);
+            OptimizedPatchCalculatorVisitor.Result result = visitor.Execute();
 
             _dimensionStackCollection = result.DimensionStackCollection;
             _outputOperatorCalculator = result.Output_OperatorCalculator;

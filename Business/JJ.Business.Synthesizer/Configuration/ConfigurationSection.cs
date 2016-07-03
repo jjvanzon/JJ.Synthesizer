@@ -10,5 +10,8 @@ namespace JJ.Business.Synthesizer.Configuration
 
         [XmlAttribute]
         public int? OperatorDataMaxLength { get; set; }
+
+        [XmlAttribute]
+        public double SecondsBetweenApplyFilterVariables { get; set; }
     }
 }

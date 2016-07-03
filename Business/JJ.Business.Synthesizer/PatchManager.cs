@@ -17,6 +17,8 @@ using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Validation.Operators;
+using JJ.Business.Synthesizer.Configuration;
+using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer
 {
@@ -27,6 +29,8 @@ namespace JJ.Business.Synthesizer
     /// </summary>
     public partial class PatchManager
     {
+        private static readonly double _secondsBetweenApplyFilterVariables = ConfigurationHelper.GetSection<ConfigurationSection>().SecondsBetweenApplyFilterVariables;
+
         private PatchRepositories _repositories;
 
         /// <summary> nullable </summary>
@@ -477,6 +481,7 @@ namespace JJ.Business.Synthesizer
                 channelCount,
                 channelIndex,
                 calculatorCache,
+                _secondsBetweenApplyFilterVariables,
                 _repositories.CurveRepository,
                 _repositories.SampleRepository,
                 _repositories.PatchRepository,
