@@ -96,6 +96,8 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Calculation\Operators\OperatorCalculatorBase_Filter_ConstFrequency_ConstBandWidth.cs" />
+    <Compile Include="Calculation\Operators\OperatorCalculatorBase_Filter_VarFrequency_VarBandWidth.cs" />
     <Compile Include="Calculation\Operators\PeakingEQFilter_ManyConstants_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\LowShelfFilter_ManyConstants_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\HighShelfFilter_ManyConstants_OperatorCalculator.cs" />
