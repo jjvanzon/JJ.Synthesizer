@@ -245,7 +245,7 @@
     <Compile Include="EntityWrappers\ClosestOverDimensionExp_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Closest_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\ClosestOverDimension_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\OperatorWrapperBase_FilterWithFrequencyAndBandWidth.cs" />
+    <Compile Include="EntityWrappers\2016-07-04 Backup of OperatorWrapperBase_FilterWithFrequencyAndBandWidth.cs" />
     <Compile Include="EntityWrappers\Sort_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\SortOverDimension_OperatorWrapper.cs" />
     <Compile Include="Helpers\OperatorCalculatorFactory.CreateAddCalculatorOnlyVars.cs">

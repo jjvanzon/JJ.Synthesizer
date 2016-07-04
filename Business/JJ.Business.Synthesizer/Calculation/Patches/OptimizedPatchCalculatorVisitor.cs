@@ -567,18 +567,34 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double centerFrequency = centerFrequencyIsConst ? centerFrequencyCalculator.Calculate() : 0.0;
             double bandWidth = bandWidthIsConst ? bandWidthCalculator.Calculate() : 0.0;
 
+            bool centerFrequencyIsConstZero = centerFrequencyIsConst && centerFrequency == 0.0;
+
             if (signalIsConst)
             {
                 // There are no frequencies. So you a filter should do nothing.
                 calculator = signalCalculator;
             }
-            else
+            else if (centerFrequencyIsConstZero)
             {
-                calculator = new BandPassFilterConstantPeakGain_ManyConstants_OperatorCalculator(
+                // No filtering
+                calculator = signalCalculator;
+            }
+            else if (centerFrequencyIsConst && bandWidthIsConst)
+            {
+                calculator = new BandPassFilterConstantPeakGain_OperatorCalculator_ConstCenterFrequency_ConstBandWidth(
                     signalCalculator,
                     centerFrequency,
                     bandWidth,
                     _samplingRate);
+            }
+            else
+            {
+                calculator = new BandPassFilterConstantPeakGain_OperatorCalculator_VarCenterFrequency_VarBandWidth(
+                    signalCalculator,
+                    centerFrequencyCalculator,
+                    bandWidthCalculator,
+                    _samplingRate,
+                    _samplesBetweenApplyFilterVariables);
             }
 
             _stack.Push(calculator);

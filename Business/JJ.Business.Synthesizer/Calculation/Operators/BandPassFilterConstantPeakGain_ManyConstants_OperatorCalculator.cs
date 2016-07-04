@@ -3,10 +3,83 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.CopiedCode.FromFramework;
+using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class BandPassFilterConstantPeakGain_ManyConstants_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class BandPassFilterConstantPeakGain_OperatorCalculator_VarCenterFrequency_VarBandWidth
+        : OperatorCalculatorBase_WithChildCalculators
+    {
+        private readonly OperatorCalculatorBase _signalCalculator;
+        private readonly OperatorCalculatorBase _centerFrequencyCalculator;
+        private readonly OperatorCalculatorBase _bandWidthCalculator;
+        private readonly double _samplingRate;
+        private readonly int _samplesBetweenApplyFilterVariables;
+
+        private BiQuadFilter _biQuadFilter;
+        private int _counter;
+
+        public BandPassFilterConstantPeakGain_OperatorCalculator_VarCenterFrequency_VarBandWidth(
+            OperatorCalculatorBase signalCalculator,
+            OperatorCalculatorBase centerFrequencyCalculator,
+            OperatorCalculatorBase bandWidthCalculator,
+            double samplingRate,
+            int samplesBetweenApplyFilterVariables)
+            : base(new OperatorCalculatorBase[] { signalCalculator, centerFrequencyCalculator, bandWidthCalculator })
+        {
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
+            if (centerFrequencyCalculator == null) throw new NullException(() => centerFrequencyCalculator);
+            if (bandWidthCalculator == null) throw new NullException(() => bandWidthCalculator);
+            if (samplesBetweenApplyFilterVariables < 1) throw new LessThanException(() => samplesBetweenApplyFilterVariables, 1);
+
+            _signalCalculator = signalCalculator;
+            _centerFrequencyCalculator = centerFrequencyCalculator;
+            _bandWidthCalculator = bandWidthCalculator;
+            _samplingRate = samplingRate;
+            _samplesBetweenApplyFilterVariables = samplesBetweenApplyFilterVariables;
+
+            ResetNonRecursive();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override double Calculate()
+        {
+            if (_counter > _samplesBetweenApplyFilterVariables)
+            {
+                double centerFrequency = _centerFrequencyCalculator.Calculate();
+                double bandWidth = _bandWidthCalculator.Calculate();
+
+                _biQuadFilter.SetBandPassFilterConstantPeakGain(_samplingRate, centerFrequency, bandWidth);
+
+                _counter = 0;
+            }
+
+            double signal = _signalCalculator.Calculate();
+            double value = _biQuadFilter.Transform(signal);
+
+            _counter++;
+
+            return value;
+        }
+
+        public override void Reset()
+        {
+            base.Reset();
+
+            ResetNonRecursive();
+        }
+
+        private void ResetNonRecursive()
+        {
+            double centerFrequency = _centerFrequencyCalculator.Calculate();
+            double bandWidth = _bandWidthCalculator.Calculate();
+            _biQuadFilter = BiQuadFilter.CreateBandPassFilterConstantPeakGain(_samplingRate, centerFrequency, bandWidth);
+
+            _counter = 0;
+        }
+    }
+
+    internal class BandPassFilterConstantPeakGain_OperatorCalculator_ConstCenterFrequency_ConstBandWidth : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _centerFrequency;
@@ -15,7 +88,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private BiQuadFilter _biQuadFilter;
 
-        public BandPassFilterConstantPeakGain_ManyConstants_OperatorCalculator(
+        public BandPassFilterConstantPeakGain_OperatorCalculator_ConstCenterFrequency_ConstBandWidth(
             OperatorCalculatorBase signalCalculator,
             double centerFrequency,
             double bandWidth,
