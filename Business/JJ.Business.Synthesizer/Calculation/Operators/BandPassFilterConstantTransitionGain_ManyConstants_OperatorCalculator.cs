@@ -6,53 +6,49 @@ using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class BandPassFilterConstantTransitionGain_ManyConstants_OperatorCalculator 
-        : OperatorCalculatorBase_WithChildCalculators
+    internal class BandPassFilterConstantTransitionGain_OperatorCalculator_VarCenterFrequency_VarBandWidth
+        : OperatorCalculatorBase_Filter_VarFrequency_VarBandWidth
     {
-        private readonly OperatorCalculatorBase _signalCalculator;
-        private readonly double _centerFrequency;
-        private readonly double _bandWidth;
-        private readonly double _samplingRate;
+        public BandPassFilterConstantTransitionGain_OperatorCalculator_VarCenterFrequency_VarBandWidth(
+            OperatorCalculatorBase signalCalculator,
+            OperatorCalculatorBase centerFrequencyCalculator,
+            OperatorCalculatorBase bandWidthCalculator,
+            double samplingRate,
+            int samplesBetweenApplyFilterVariables)
+            : base(
+                  signalCalculator,
+                  centerFrequencyCalculator,
+                  bandWidthCalculator,
+                  samplingRate,
+                  samplesBetweenApplyFilterVariables)
+        { }
 
-        private BiQuadFilter _biQuadFilter;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected override void SetBiQuadFilterVariables(double frequency, double bandWidth)
+        {
+            _biQuadFilter.SetBandPassFilterConstantSkirtGainVariables(_samplingRate, frequency, bandWidth);
+        }
 
-        public BandPassFilterConstantTransitionGain_ManyConstants_OperatorCalculator(
+        protected override void CreateBiQuadFilter(double frequency, double bandWidth)
+        {
+            _biQuadFilter = BiQuadFilter.CreateBandPassFilterConstantSkirtGain(_samplingRate, frequency, bandWidth);
+        }
+    }
+
+    internal class BandPassFilterConstantTransitionGain_OperatorCalculator_ConstCenterFrequency_ConstBandWidth
+        : OperatorCalculatorBase_Filter_ConstFrequency_ConstBandWidth
+    {
+        public BandPassFilterConstantTransitionGain_OperatorCalculator_ConstCenterFrequency_ConstBandWidth(
             OperatorCalculatorBase signalCalculator,
             double centerFrequency,
             double bandWidth,
             double samplingRate)
-            : base(new OperatorCalculatorBase[] { signalCalculator })
+            : base(signalCalculator, centerFrequency, bandWidth, samplingRate)
+        { }
+
+        protected override void CreateBiQuadFilter()
         {
-            OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
-
-            _signalCalculator = signalCalculator;
-            _centerFrequency = centerFrequency;
-            _bandWidth = bandWidth;
-            _samplingRate = samplingRate;
-
-            ResetNonRecursive();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate()
-        {
-            double signal = _signalCalculator.Calculate();
-
-            double value = _biQuadFilter.Transform(signal);
-
-            return value;
-        }
-
-        public override void Reset()
-        {
-            base.Reset();
-
-            ResetNonRecursive();
-        }
-
-        private void ResetNonRecursive()
-        {
-            _biQuadFilter = BiQuadFilter.CreateBandPassFilterConstantSkirtGain(_samplingRate, _centerFrequency, _bandWidth);
+            _biQuadFilter = BiQuadFilter.CreateBandPassFilterConstantSkirtGain(_samplingRate, _frequency, _bandWidth);
         }
     }
 }

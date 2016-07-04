@@ -10,11 +10,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
-        private readonly double _frequency;
-        private readonly double _bandWidth;
-        private readonly double _samplingRate;
+        protected readonly double _frequency;
+        protected readonly double _bandWidth;
+        protected readonly double _samplingRate;
 
-        private BiQuadFilter _biQuadFilter;
+        protected BiQuadFilter _biQuadFilter;
 
         public OperatorCalculatorBase_Filter_ConstFrequency_ConstBandWidth(
             OperatorCalculatorBase signalCalculator,
@@ -52,9 +52,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private void ResetNonRecursive()
         {
-            _biQuadFilter = CreateBiQuadFilter(_samplingRate, _frequency, _bandWidth);
+            CreateBiQuadFilter();
         }
 
-        protected abstract BiQuadFilter CreateBiQuadFilter(double samplingRate, double frequency, double bandWidth);
+        protected abstract void CreateBiQuadFilter();
     }
 }

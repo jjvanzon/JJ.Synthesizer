@@ -528,18 +528,34 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double centerFrequency = centerFrequencyIsConst ? centerFrequencyCalculator.Calculate() : 0.0;
             double bandWidth = bandWidthIsConst ? bandWidthCalculator.Calculate() : 0.0;
 
+            bool centerFrequencyIsConstZero = centerFrequencyIsConst && centerFrequency == 0.0;
+
             if (signalIsConst)
             {
                 // There are no frequencies. So you a filter should do nothing.
                 calculator = signalCalculator;
             }
-            else
+            else if (centerFrequencyIsConstZero)
             {
-                calculator = new BandPassFilterConstantTransitionGain_ManyConstants_OperatorCalculator(
+                // No filtering
+                calculator = signalCalculator;
+            }
+            else if (centerFrequencyIsConst && bandWidthIsConst)
+            {
+                calculator = new BandPassFilterConstantTransitionGain_OperatorCalculator_ConstCenterFrequency_ConstBandWidth(
                     signalCalculator,
                     centerFrequency,
                     bandWidth,
                     _samplingRate);
+            }
+            else
+            {
+                calculator = new BandPassFilterConstantTransitionGain_OperatorCalculator_VarCenterFrequency_VarBandWidth(
+                    signalCalculator,
+                    centerFrequencyCalculator,
+                    bandWidthCalculator,
+                    _samplingRate,
+                    _samplesBetweenApplyFilterVariables);
             }
 
             _stack.Push(calculator);
@@ -2920,7 +2936,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-
         protected override void VisitNotchFilter(Operator op)
         {
             base.VisitNotchFilter(op);
@@ -2948,13 +2963,22 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 // There are no frequencies. So you a filter should do nothing.
                 calculator = signalCalculator;
             }
-            else
+            else if (centerFrequencyIsConst && bandWidthIsConst)
             {
-                calculator = new NotchFilter_ManyConstants_OperatorCalculator(
+                calculator = new NotchFilter_OperatorCalculator_ConstCenterFrequency_ConstBandWidth(
                     signalCalculator,
                     centerFrequency,
                     bandWidth,
                     _samplingRate);
+            }
+            else
+            {
+                calculator = new NotchFilter_OperatorCalculator_VarCenterFrequency_VarBandWidth(
+                    signalCalculator,
+                    centerFrequencyCalculator,
+                    bandWidthCalculator,
+                    _samplingRate,
+                    _samplesBetweenApplyFilterVariables);
             }
 
             _stack.Push(calculator);

@@ -13,10 +13,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly OperatorCalculatorBase _bandWidthCalculator;
-        private readonly double _samplingRate;
+        protected readonly double _samplingRate;
         private readonly int _samplesBetweenApplyFilterVariables;
 
-        private BiQuadFilter _biQuadFilter;
+        protected BiQuadFilter _biQuadFilter;
         private int _counter;
 
         public OperatorCalculatorBase_Filter_VarFrequency_VarBandWidth(
@@ -49,7 +49,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 double frequency = _frequencyCalculator.Calculate();
                 double bandWidth = _bandWidthCalculator.Calculate();
 
-                SetBiQuadFilter(_biQuadFilter, _samplingRate, frequency, bandWidth);
+                SetBiQuadFilterVariables(frequency, bandWidth);
 
                 _counter = 0;
             }
@@ -63,7 +63,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected abstract void SetBiQuadFilter(BiQuadFilter biQuadFilter, double samplingRate, double frequency, double bandWidth);
+        protected abstract void SetBiQuadFilterVariables(double frequency, double bandWidth);
 
         public override void Reset()
         {
@@ -77,11 +77,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double frequency = _frequencyCalculator.Calculate();
             double bandWidth = _bandWidthCalculator.Calculate();
 
-            _biQuadFilter = CreateBiQuadFilter(_samplingRate, frequency, bandWidth);
+            CreateBiQuadFilter(frequency, bandWidth);
 
             _counter = 0;
         }
 
-        protected abstract BiQuadFilter CreateBiQuadFilter(double samplingRate, double frequency, double bandWidth);
+        protected abstract void CreateBiQuadFilter(double frequency, double bandWidth);
     }
 }

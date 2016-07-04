@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.CopiedCode.FromFramework;
-using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -25,20 +25,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                   samplesBetweenApplyFilterVariables)
         { }
 
-        protected override BiQuadFilter CreateBiQuadFilter(double samplingRate, double frequency, double bandWidth)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected override void SetBiQuadFilterVariables(double frequency, double bandWidth)
         {
-            BiQuadFilter biQuadFilter = BiQuadFilter.CreateHighPassFilter(samplingRate, frequency, bandWidth);
-            return biQuadFilter;
+            _biQuadFilter.SetHighPassFilterVariables(_samplingRate, frequency, bandWidth);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected override void SetBiQuadFilter(
-            BiQuadFilter biQuadFilter, 
-            double samplingRate, 
-            double frequency, 
-            double bandWidth)
+        protected override void CreateBiQuadFilter(double frequency, double bandWidth)
         {
-            biQuadFilter.SetHighPassFilter(samplingRate, frequency, bandWidth);
+            _biQuadFilter = BiQuadFilter.CreateHighPassFilter(_samplingRate, frequency, bandWidth);
         }
     }
 
@@ -53,10 +48,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             : base(signalCalculator, minFrequency, bandWidth, samplingRate)
         { }
 
-        protected override BiQuadFilter CreateBiQuadFilter(double samplingRate, double frequency, double bandWidth)
+        protected override void CreateBiQuadFilter()
         {
-            BiQuadFilter biQuadFilter = BiQuadFilter.CreateHighPassFilter(samplingRate, frequency, bandWidth);
-            return biQuadFilter;
+            _biQuadFilter = BiQuadFilter.CreateHighPassFilter(_samplingRate, _frequency, _bandWidth);
         }
     }
 }

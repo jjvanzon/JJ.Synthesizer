@@ -37,6 +37,7 @@
     <WarningLevel>4</WarningLevel>
     <LangVersion>default</LangVersion>
     <CodeAnalysisRuleSet>ExtendedDesignGuidelineRules.ruleset</CodeAnalysisRuleSet>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

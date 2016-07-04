@@ -104,7 +104,7 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
         // Set Methods
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void SetLowPassFilter(double sampleRate, double cutoffFrequency, double q)
+        public void SetLowPassFilterVariables(double sampleRate, double cutoffFrequency, double q)
         {
             // H(s) = 1 / (s^2 + s/Q + 1)
             double w0 = Maths.TWO_PI * cutoffFrequency / sampleRate;
@@ -124,7 +124,7 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
         /// <param name="q">Bandwidth (Q)</param>
         /// <param name="dbGain">Gain in decibels</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void SetPeakingEQ(double sampleRate, double centreFrequency, double q, double dbGain)
+        public void SetPeakingEQVariables(double sampleRate, double centreFrequency, double q, double dbGain)
         {
             // H(s) = (s^2 + s*(A/Q) + 1) / (s^2 + s/(A*Q) + 1)
             double w0 = Maths.TWO_PI * centreFrequency / sampleRate;
@@ -144,7 +144,7 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void SetHighPassFilter(double sampleRate, double cutoffFrequency, double q)
+        public void SetHighPassFilterVariables(double sampleRate, double cutoffFrequency, double q)
         {
             // H(s) = s^2 / (s^2 + s/Q + 1)
             double w0 = Maths.TWO_PI * cutoffFrequency / sampleRate;
@@ -161,7 +161,7 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void SetBandPassFilterConstantSkirtGain(double sampleRate, double centreFrequency, double q)
+        public void SetBandPassFilterConstantSkirtGainVariables(double sampleRate, double centreFrequency, double q)
         {
             // H(s) = s / (s^2 + s/Q + 1)  (constant skirt gain, peak gain = Q)
             double w0 = Maths.TWO_PI * centreFrequency / sampleRate;
@@ -180,7 +180,7 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void SetBandPassFilterConstantPeakGain(double sampleRate, double centreFrequency, double q)
+        public void SetBandPassFilterConstantPeakGainVariables(double sampleRate, double centreFrequency, double q)
         {
             // H(s) = (s/Q) / (s^2 + s/Q + 1)      (constant 0 dB peak gain)
             double w0 = Maths.TWO_PI * centreFrequency / sampleRate;
@@ -199,7 +199,7 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void SetNotchFilter(double sampleRate, double centreFrequency, double q)
+        public void SetNotchFilterVariables(double sampleRate, double centreFrequency, double q)
         {
             // H(s) = (s^2 + 1) / (s^2 + s/Q + 1)
             double w0 = Maths.TWO_PI * centreFrequency / sampleRate;
@@ -218,7 +218,7 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void SetAllPassFilter(double sampleRate, double centreFrequency, double q)
+        public void SetAllPassFilterVariables(double sampleRate, double centreFrequency, double q)
         {
             //H(s) = (s^2 - s/Q + 1) / (s^2 + s/Q + 1)
             double w0 = Maths.TWO_PI * centreFrequency / sampleRate;
@@ -243,7 +243,7 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
         /// remains proportional to S for all other values for a fixed f0/Fs and dBgain.</param>
         /// <param name="dbGain">Gain in decibels</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void SetLowShelf(double sampleRate, double cutoffFrequency, double transitionSlope, double dbGain)
+        public void SetLowShelfVariables(double sampleRate, double cutoffFrequency, double transitionSlope, double dbGain)
         {
             double w0 = Maths.TWO_PI * cutoffFrequency / sampleRate;
             double cosw0 = Math.Cos(w0);
@@ -264,7 +264,7 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
 
         /// <summary> H(s) = A * (A*s^2 + (sqrt(A)/Q)*s + 1)/(s^2 + (sqrt(A)/Q)*s + A) </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void SetHighShelf(double sampleRate, double cutoffFrequency, double transitionSlope, double dbGain)
+        public void SetHighShelfVariables(double sampleRate, double cutoffFrequency, double transitionSlope, double dbGain)
         {
             double w0 = Maths.TWO_PI * cutoffFrequency / sampleRate;
             double cosw0 = Math.Cos(w0);
@@ -288,49 +288,49 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
         public static BiQuadFilter CreateLowPassFilter(double sampleRate, double cutoffFrequency, double q)
         {
             var filter = new BiQuadFilter();
-            filter.SetLowPassFilter(sampleRate, cutoffFrequency, q);
+            filter.SetLowPassFilterVariables(sampleRate, cutoffFrequency, q);
             return filter;
         }
 
         public static BiQuadFilter CreateHighPassFilter(double sampleRate, double cutoffFrequency, double q)
         {
             var filter = new BiQuadFilter();
-            filter.SetHighPassFilter(sampleRate, cutoffFrequency, q);
+            filter.SetHighPassFilterVariables(sampleRate, cutoffFrequency, q);
             return filter;
         }
 
         public static BiQuadFilter CreateBandPassFilterConstantSkirtGain(double sampleRate, double centreFrequency, double q)
         {
             var filter = new BiQuadFilter();
-            filter.SetBandPassFilterConstantSkirtGain(sampleRate, centreFrequency, q);
+            filter.SetBandPassFilterConstantSkirtGainVariables(sampleRate, centreFrequency, q);
             return filter;
         }
 
         public static BiQuadFilter CreateBandPassFilterConstantPeakGain(double sampleRate, double centreFrequency, double q)
         {
             var filter = new BiQuadFilter();
-            filter.SetBandPassFilterConstantPeakGain(sampleRate, centreFrequency, q);
+            filter.SetBandPassFilterConstantPeakGainVariables(sampleRate, centreFrequency, q);
             return filter;
         }
 
         public static BiQuadFilter CreateNotchFilter(double sampleRate, double centreFrequency, double q)
         {
             var filter = new BiQuadFilter();
-            filter.SetNotchFilter(sampleRate, centreFrequency, q);
+            filter.SetNotchFilterVariables(sampleRate, centreFrequency, q);
             return filter;
         }
 
         public static BiQuadFilter CreateAllPassFilter(double sampleRate, double centreFrequency, double q)
         {
             var filter = new BiQuadFilter();
-            filter.SetAllPassFilter(sampleRate, centreFrequency, q);
+            filter.SetAllPassFilterVariables(sampleRate, centreFrequency, q);
             return filter;
         }
 
         public static BiQuadFilter CreatePeakingEQ(double sampleRate, double centreFrequency, double q, double dbGain)
         {
             var filter = new BiQuadFilter();
-            filter.SetPeakingEQ(sampleRate, centreFrequency, q, dbGain);
+            filter.SetPeakingEQVariables(sampleRate, centreFrequency, q, dbGain);
             return filter;
         }
 
@@ -343,7 +343,7 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
         public static BiQuadFilter CreateLowShelf(double sampleRate, double cutoffFrequency, double transitionSlope, double dbGain)
         {
             var filter = new BiQuadFilter();
-            filter.SetLowShelf(sampleRate, cutoffFrequency, transitionSlope, dbGain);
+            filter.SetLowShelfVariables(sampleRate, cutoffFrequency, transitionSlope, dbGain);
             return filter;
         }
 
@@ -351,7 +351,7 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
         public static BiQuadFilter CreateHighShelf(double sampleRate, double cutoffFrequency, double transitionSlope, double dbGain)
         {
             var filter = new BiQuadFilter();
-            filter.SetHighShelf(sampleRate, cutoffFrequency, transitionSlope, dbGain);
+            filter.SetHighShelfVariables(sampleRate, cutoffFrequency, transitionSlope, dbGain);
             return filter;
         }
     }
