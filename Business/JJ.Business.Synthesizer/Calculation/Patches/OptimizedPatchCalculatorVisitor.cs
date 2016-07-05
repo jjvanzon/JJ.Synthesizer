@@ -1842,22 +1842,32 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
             double transitionFrequency = transitionFrequencyIsConst ? transitionFrequencyCalculator.Calculate() : 0.0;
-            double dbGain = dbGainCalculator.Calculate();
-            double transitionSlope = transitionSlopeCalculator.Calculate();
+            double dbGain = dbGainIsConst ? dbGainCalculator.Calculate() : 0.0;
+            double transitionSlope = transitionSlopeIsConst ? transitionSlopeCalculator.Calculate() : 0.0;
 
             if (signalIsConst)
             {
                 // There are no frequencies. So you a filter should do nothing.
                 calculator = signalCalculator;
             }
-            else
+            else if (transitionFrequencyIsConst && dbGainIsConst && transitionSlopeIsConst)
             {
-                calculator = new HighShelfFilter_ManyConstants_OperatorCalculator(
+                calculator = new HighShelfFilter_OperatorCalculator_ManyConstants(
                     signalCalculator,
                     transitionFrequency,
                     dbGain,
                     transitionSlope,
                     _samplingRate);
+            }
+            else
+            {
+                calculator = new HighShelfFilter_OperatorCalculator_ManyVariables(
+                    signalCalculator,
+                    transitionFrequencyCalculator,
+                    dbGainCalculator,
+                    transitionSlopeCalculator,
+                    _samplingRate,
+                    _samplesBetweenApplyFilterVariables);
             }
 
             _stack.Push(calculator);
@@ -2239,13 +2249,23 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 // There are no frequencies. So you a filter should do nothing.
                 calculator = signalCalculator;
             }
-            else
+            else if (transitionFrequencyIsConst && dbGainIsConst && transitionSlopeIsConst)
             {
-                calculator = new LowShelfFilter_ManyConstants_OperatorCalculator(
+                calculator = new LowShelfFilter_OperatorCalculator_ManyConstants(
                     signalCalculator,
                     transitionFrequency,
                     dbGain,
                     transitionSlope);
+            }
+            else
+            {
+                calculator = new LowShelfFilter_OperatorCalculator_ManyVariables(
+                    signalCalculator,
+                    transitionFrequencyCalculator,
+                    dbGainCalculator,
+                    transitionSlopeCalculator,
+                    _samplingRate,
+                    _samplesBetweenApplyFilterVariables);
             }
 
             _stack.Push(calculator);
@@ -3161,14 +3181,24 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 // There are no frequencies. So you a filter should do nothing.
                 calculator = signalCalculator;
             }
-            else
+            else if (centerFrequencyIsConst && bandWidthIsConst && dbGainIsConst)
             {
-                calculator = new PeakingEQFilter_ManyConstants_OperatorCalculator(
+                calculator = new PeakingEQFilter_OperatorCalculator_ManyConstants(
                     signalCalculator,
                     centerFrequency,
                     bandWidth,
                     dbGain,
                     _samplingRate);
+            }
+            else
+            {
+                calculator = new PeakingEQFilter_OperatorCalculator_ManyVariables(
+                    signalCalculator,
+                    centerFrequencyCalculator,
+                    bandWidthCalculator,
+                    dbGainCalculator,
+                    _samplingRate,
+                    _samplesBetweenApplyFilterVariables);
             }
 
             _stack.Push(calculator);
