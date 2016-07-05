@@ -2,7 +2,7 @@
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Business.Synthesizer.Validation.OperatorData;
+using JJ.Business.Synthesizer.Validation.DataProperty;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             base.Execute();
 
-            Execute(new ResampleInterpolationType_OperatorData_Validator(Object.Data));
+            Execute(new ResampleInterpolationType_DataProperty_Validator(Object.Data));
         }
     }
 }

@@ -6,11 +6,11 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Validation;
 
-namespace JJ.Business.Synthesizer.Validation.OperatorData
+namespace JJ.Business.Synthesizer.Validation.DataProperty
 {
-    internal class SpeakerSetup_OperatorData_Validator : FluentValidator_WithoutConstructorArgumentNullCheck<string>
+    internal class SpeakerSetup_DataProperty_Validator : FluentValidator_WithoutConstructorArgumentNullCheck<string>
     {
-        public SpeakerSetup_OperatorData_Validator(string obj) 
+        public SpeakerSetup_DataProperty_Validator(string obj) 
             : base(obj)
         { }
 

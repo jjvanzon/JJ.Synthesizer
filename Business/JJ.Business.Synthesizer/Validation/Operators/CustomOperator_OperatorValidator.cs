@@ -10,7 +10,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.Validation.OperatorData;
+using JJ.Business.Synthesizer.Validation.DataProperty;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
@@ -52,7 +52,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             ValidateInletNamesUnique();
             ValidateOutletNamesUnique();
 
-            Execute(new OperatorDataValidator(op.Data, _allowedDataKeys));
+            Execute(new DataPropertyValidator(op.Data, _allowedDataKeys));
 
             if (DataPropertyParser.DataIsWellFormed(op))
             {

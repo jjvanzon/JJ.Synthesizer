@@ -6,11 +6,11 @@
 //using JJ.Business.Synthesizer.Resources;
 //using JJ.Framework.Validation;
 
-//namespace JJ.Business.Synthesizer.Validation.OperatorData
+//namespace JJ.Business.Synthesizer.Validation.DataProperty
 //{
-//    internal class FilterType_OperatorData_Validator : FluentValidator_WithoutConstructorArgumentNullCheck<string>
+//    internal class FilterType_DataProperty_Validator : FluentValidator_WithoutConstructorArgumentNullCheck<string>
 //    {
-//        public FilterType_OperatorData_Validator(string obj) 
+//        public FilterType_DataProperty_Validator(string obj) 
 //            : base(obj)
 //        { }
 

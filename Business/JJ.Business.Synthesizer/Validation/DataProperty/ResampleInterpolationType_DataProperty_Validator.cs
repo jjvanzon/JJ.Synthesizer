@@ -6,11 +6,11 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Validation;
 
-namespace JJ.Business.Synthesizer.Validation.OperatorData
+namespace JJ.Business.Synthesizer.Validation.DataProperty
 {
-    internal class ResampleInterpolationType_OperatorData_Validator : FluentValidator_WithoutConstructorArgumentNullCheck<string>
+    internal class ResampleInterpolationType_DataProperty_Validator : FluentValidator_WithoutConstructorArgumentNullCheck<string>
     {
-        public ResampleInterpolationType_OperatorData_Validator(string obj) 
+        public ResampleInterpolationType_DataProperty_Validator(string obj) 
             : base(obj)
         { }
 

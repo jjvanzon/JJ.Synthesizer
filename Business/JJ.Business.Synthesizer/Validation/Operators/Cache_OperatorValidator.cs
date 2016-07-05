@@ -3,7 +3,7 @@ using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Business.Synthesizer.Validation.OperatorData;
+using JJ.Business.Synthesizer.Validation.DataProperty;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
@@ -27,8 +27,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             base.Execute();
 
-            Execute(new InterpolationType_OperatorData_Validator(Object.Data));
-            Execute(new SpeakerSetup_OperatorData_Validator(Object.Data));
+            Execute(new InterpolationType_DataProperty_Validator(Object.Data));
+            Execute(new SpeakerSetup_DataProperty_Validator(Object.Data));
         }
     }
 }

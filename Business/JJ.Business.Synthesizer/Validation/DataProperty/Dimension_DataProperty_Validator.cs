@@ -5,11 +5,11 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Validation;
 
-namespace JJ.Business.Synthesizer.Validation.OperatorData
+namespace JJ.Business.Synthesizer.Validation.DataProperty
 {
-    internal class Dimension_OperatorData_Validator : FluentValidator_WithoutConstructorArgumentNullCheck<string>
+    internal class Dimension_DataProperty_Validator : FluentValidator_WithoutConstructorArgumentNullCheck<string>
     {
-        public Dimension_OperatorData_Validator(string obj) 
+        public Dimension_DataProperty_Validator(string obj) 
             : base(obj)
         { }
 

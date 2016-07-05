@@ -4,7 +4,7 @@ using JJ.Business.Synthesizer.Helpers;
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Framework.Common;
-using JJ.Business.Synthesizer.Validation.OperatorData;
+using JJ.Business.Synthesizer.Validation.DataProperty;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             base.Execute();
 
-            Execute(new Dimension_OperatorData_Validator(Object.Data));
+            Execute(new Dimension_DataProperty_Validator(Object.Data));
         }
     }
 }
