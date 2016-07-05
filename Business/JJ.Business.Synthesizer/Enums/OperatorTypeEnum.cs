@@ -4,6 +4,7 @@
     {
         Undefined = 0,
         Add = 1,
+        //Adder = 2,
         Divide = 3,
         MultiplyWithOrigin = 4,
         PatchInlet = 5,
@@ -102,13 +103,7 @@
         Negative = 56,
         OneOverX = 57,
         Cache = 58,
-
-        /// <summary>
-        /// Allows all the types of filters that NAudio BiQuadFilter provides. 
-        /// Perhaps later this will replace the HighPassFilter and LowPassFilter operators.
-        /// Perhaps instead useful filters will be selected and turned into a separate operator.
-        /// </summary>
-        Filter = 59,
+        //Filter = 59,
         PulseTrigger = 60,
         ChangeTrigger = 61,
         ToggleTrigger = 62,

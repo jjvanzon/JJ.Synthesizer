@@ -683,14 +683,8 @@
   <data name="DBGain" xml:space="preserve">
     <value>dB verhoging</value>
   </data>
-  <data name="FilterType" xml:space="preserve">
-    <value>Filtersoort</value>
-  </data>
   <data name="TransitionSlope" xml:space="preserve">
     <value>Overgangshelling</value>
-  </data>
-  <data name="Filter" xml:space="preserve">
-    <value>Filter</value>
   </data>
   <data name="Result" xml:space="preserve">
     <value>Resultaat</value>

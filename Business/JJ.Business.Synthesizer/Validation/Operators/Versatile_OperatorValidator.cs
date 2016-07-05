@@ -37,7 +37,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             { OperatorTypeEnum.Earlier, typeof(Earlier_OperatorValidator) },
             { OperatorTypeEnum.Equal, typeof(Equal_OperatorValidator) },
             { OperatorTypeEnum.Exponent, typeof(Exponent_OperatorValidator) },
-            { OperatorTypeEnum.Filter, typeof(Filter_OperatorValidator) },
             { OperatorTypeEnum.GetDimension, typeof(GetDimension_OperatorValidator) },
             { OperatorTypeEnum.GreaterThan, typeof(GreaterThan_OperatorValidator) },
             { OperatorTypeEnum.GreaterThanOrEqual, typeof(GreaterThanOrEqual_OperatorValidator) },

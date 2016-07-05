@@ -36,7 +36,6 @@ namespace JJ.Business.Synthesizer.Helpers
             { OperatorTypeEnum.Earlier , Create_Earlier_OperatorWrapper },
             { OperatorTypeEnum.Equal, Create_Equal_OperatorWrapper },
             { OperatorTypeEnum.Exponent, Create_Exponent_OperatorWrapper },
-            { OperatorTypeEnum.Filter, Create_Filter_OperatorWrapper },
             { OperatorTypeEnum.GetDimension, Create_GetDimension_OperatorWrapper },
             { OperatorTypeEnum.GreaterThan, Create_GreaterThan_OperatorWrapper },
             { OperatorTypeEnum.GreaterThanOrEqual, Create_GreaterThanOrEqual_OperatorWrapper },
@@ -171,7 +170,6 @@ namespace JJ.Business.Synthesizer.Helpers
         private static Earlier_OperatorWrapper Create_Earlier_OperatorWrapper(Operator op) { return new Earlier_OperatorWrapper(op); }
         private static Equal_OperatorWrapper Create_Equal_OperatorWrapper(Operator op) { return new Equal_OperatorWrapper(op); }
         private static Exponent_OperatorWrapper Create_Exponent_OperatorWrapper(Operator op) { return new Exponent_OperatorWrapper(op); }
-        private static Filter_OperatorWrapper Create_Filter_OperatorWrapper(Operator op) { return new Filter_OperatorWrapper(op); }
         private static GetDimension_OperatorWrapper Create_GetDimension_OperatorWrapper(Operator op) { return new GetDimension_OperatorWrapper(op); }
         private static GreaterThan_OperatorWrapper Create_GreaterThan_OperatorWrapper(Operator op) { return new GreaterThan_OperatorWrapper(op); }
         private static GreaterThanOrEqual_OperatorWrapper Create_GreaterThanOrEqual_OperatorWrapper(Operator op) { return new GreaterThanOrEqual_OperatorWrapper(op); }

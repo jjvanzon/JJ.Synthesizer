@@ -36,7 +36,6 @@ namespace JJ.Business.Synthesizer.Helpers
         public const string EndTime = "EndTime";
         public const string Exponents = "Exponents";
         public const string Factors = "Factors";
-        public const string FilterType = "FilterType";
         public const string FrequencyCount = "FrequencyCount";
         public const string ID = "ID";
         public const string Inlet = "Inlet";

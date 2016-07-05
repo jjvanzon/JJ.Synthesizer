@@ -1609,56 +1609,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitFilter(Operator op)
-        {
-            base.VisitFilter(op);
-
-            OperatorCalculatorBase calculator;
-
-            OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase frequencyCalculator = _stack.Pop();
-            OperatorCalculatorBase bandWidthCalculator = _stack.Pop();
-            OperatorCalculatorBase dbGainCalculator = _stack.Pop();
-            OperatorCalculatorBase transitionSlopeCalculator = _stack.Pop();
-
-            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
-            frequencyCalculator = frequencyCalculator ?? new Zero_OperatorCalculator();
-            bandWidthCalculator = bandWidthCalculator ?? new Zero_OperatorCalculator();
-            dbGainCalculator = dbGainCalculator ?? new Zero_OperatorCalculator();
-            transitionSlopeCalculator = transitionSlopeCalculator ?? new Zero_OperatorCalculator();
-
-            double signal = signalCalculator.Calculate();
-            double frequency = frequencyCalculator.Calculate();
-            double bandWidth = bandWidthCalculator.Calculate();
-            double dbGain = dbGainCalculator.Calculate();
-            double transitionSlope = transitionSlopeCalculator.Calculate();
-
-            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
-            bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
-            bool bandWidthIsConst = bandWidthCalculator is Number_OperatorCalculator;
-            bool dbGainIsConst = dbGainCalculator is Number_OperatorCalculator;
-            bool transitionSlopeIsConst = transitionSlopeCalculator is Number_OperatorCalculator;
-
-            if (signalIsConst)
-            {
-                // There are no frequencies. So you a filter should do nothing.
-                calculator = signalCalculator;
-            }
-            else
-            {
-                var wrapper = new Filter_OperatorWrapper(op);
-                calculator = new Filter_ManyConstants_OperatorCalculator(
-                    signalCalculator,
-                    frequency,
-                    bandWidth,
-                    dbGain,
-                    transitionSlope,
-                    wrapper.FilterTypeEnum);
-            }
-
-            _stack.Push(calculator);
-        }
-
         protected override void VisitGetDimension(Operator op)
         {
             var wrapper = new GetDimension_OperatorWrapper(op);

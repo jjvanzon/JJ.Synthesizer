@@ -242,17 +242,6 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Exponent(low, high, ratio);
         }
 
-        public Filter_OperatorWrapper Filter(
-            FilterTypeEnum filterTypeEnum = FilterTypeEnum.LowPassFilter,
-            Outlet signal = null,
-            Outlet frequency = null,
-            Outlet bandWidth = null,
-            Outlet dbGain = null,
-            Outlet shelfSlope = null)
-        {
-            return _patchManager.Filter(filterTypeEnum, signal, frequency, bandWidth, dbGain, shelfSlope);
-        }
-
         public GetDimension_OperatorWrapper GetDimension(DimensionEnum dimension = DimensionEnum.Undefined)
         {
             return _patchManager.GetDimension(dimension);

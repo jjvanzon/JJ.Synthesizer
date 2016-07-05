@@ -64,24 +64,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return idAndNames;
         }
 
-        // FilterType
-
-        private static IList<IDAndName> _filterTypeLookupViewModel = CreateFilterTypeLookupViewModel();
-
-        public static IList<IDAndName> GetFilterTypeLookupViewModel()
-        {
-            return _filterTypeLookupViewModel;
-        }
-
-        private static IList<IDAndName> CreateFilterTypeLookupViewModel()
-        {
-            IList<IDAndName> idAndNames = CreateEnumLookupViewModel<FilterTypeEnum>(mustIncludeUndefined: true);
-            return idAndNames;
-        }
-
         // InterpolationType
 
         private static object _interpolationTypeLookupViewModelLock = new object();
+
         private static IList<IDAndName> _interpolationTypeLookupViewModel;
 
         public static IList<IDAndName> GetInterpolationTypeLookupViewModel(IInterpolationTypeRepository repository)

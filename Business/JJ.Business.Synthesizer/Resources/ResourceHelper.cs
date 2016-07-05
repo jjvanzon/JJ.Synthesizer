@@ -209,12 +209,5 @@ namespace JJ.Business.Synthesizer.Resources
             ScaleTypeEnum scaleTypeEnum = EnumHelper.Parse<ScaleTypeEnum>(scaleTypeName);
             return GetDisplayNamePlural(scaleTypeEnum);
         }
-
-        // FilterType
-
-        public static string GetDisplayName(FilterTypeEnum filterTypeEnum)
-        {
-            return GetPropertyDisplayName(filterTypeEnum.ToString());
-        }
     }
 }

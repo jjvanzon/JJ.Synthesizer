@@ -35,7 +35,6 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             { OperatorTypeEnum.Earlier, typeof(Earlier_OperatorWarningValidator) },
             { OperatorTypeEnum.Equal, typeof(Equal_OperatorWarningValidator) },
             { OperatorTypeEnum.Exponent, typeof(Exponent_OperatorWarningValidator) },
-            { OperatorTypeEnum.Filter, typeof(Filter_OperatorWarningValidator) },
             { OperatorTypeEnum.GetDimension, null },
             { OperatorTypeEnum.GreaterThan, typeof(GreaterThan_OperatorWarningValidator) },
             { OperatorTypeEnum.GreaterThanOrEqual, typeof(GreaterThanOrEqual_OperatorWarningValidator) },

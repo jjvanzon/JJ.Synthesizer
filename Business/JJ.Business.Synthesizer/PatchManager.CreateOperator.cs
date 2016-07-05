@@ -571,37 +571,6 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Filter_OperatorWrapper Filter(
-            FilterTypeEnum filterTypeEnum = FilterTypeEnum.LowPassFilter,
-            Outlet signal = null,
-            Outlet frequency = null,
-            Outlet bandWidth = null,
-            Outlet dbGain = null,
-            Outlet transitionSlope = null)
-        {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.Filter, inletCount: 5, outletCount: 1);
-
-            var wrapper = new Filter_OperatorWrapper(op)
-            {
-                FilterTypeEnum = filterTypeEnum,
-                Signal = signal, 
-                Frequency = frequency,
-                BandWidth = bandWidth,
-                DBGain = dbGain,
-                TransitionSlope = transitionSlope
-            };
-
-            wrapper.FrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
-            wrapper.BandWidthInlet.DefaultValue = DEFAULT_BAND_WIDTH;
-            wrapper.DBGainInlet.DefaultValue = DEFAULT_DB_GAIN;
-            wrapper.TransitionSlopeInlet.DefaultValue = DEFAULT_TRANSITION_SLOPE;
-
-            VoidResult result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
-
-            return wrapper;
-        }
-
         public GetDimension_OperatorWrapper GetDimension(DimensionEnum dimension = DimensionEnum.Undefined)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.GetDimension, inletCount: 0, outletCount: 1);
@@ -2153,7 +2122,6 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.Earlier: return Earlier();
                 case OperatorTypeEnum.Equal: return Equal();
                 case OperatorTypeEnum.Exponent: return Exponent();
-                case OperatorTypeEnum.Filter: return Filter();
                 case OperatorTypeEnum.GreaterThan: return GreaterThan();
                 case OperatorTypeEnum.GreaterThanOrEqual: return GreaterThanOrEqual();
                 case OperatorTypeEnum.HighShelfFilter: return HighShelfFilter();

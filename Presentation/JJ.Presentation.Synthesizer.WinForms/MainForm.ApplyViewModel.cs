@@ -120,12 +120,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 .FirstOrDefault();
             operatorPropertiesUserControl_ForCustomOperator.SetUnderlyingPatchLookup(_presenter.MainViewModel.Document.UnderlyingPatchLookup);
 
-            // OperatorProperties_ForFilter
-            operatorPropertiesUserControl_ForFilter.ViewModel =
-                _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForFilters)
-                .Where(x => x.Visible)
-                .FirstOrDefault();
-
             // OperatorProperties_ForMakeContinuous
             operatorPropertiesUserControl_ForMakeContinuous.ViewModel =
                 _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForMakeContinuous)

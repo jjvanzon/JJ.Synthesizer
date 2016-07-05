@@ -156,7 +156,7 @@
     <Compile Include="Calculation\Operators\Loop_OperatorCalculator_Base.cs" />
     <Compile Include="Calculation\Operators\GetDimension_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\ToggleTrigger_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\Filter_ManyConstants_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\2016-07-05 Backup of Filter_ManyConstants_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Loop_OperatorCalculator_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration.cs" />
     <Compile Include="Calculation\Operators\Loop_OperatorCalculator_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration.cs" />
     <Compile Include="Calculation\Operators\Loop_OperatorCalculator_ManyConstants.cs" />
@@ -311,7 +311,7 @@
     <Compile Include="EntityWrappers\Max_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\MakeContinuous_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Cache_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\Filter_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\2016-07-05 Backup of Filter_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Hold_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\OneOverX_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Negative_OperatorWrapper.cs" />
@@ -367,7 +367,7 @@
     <Compile Include="EntityWrappers\Triangle_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Square_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\SawUp_OperatorWrapper.cs" />
-    <Compile Include="Enums\FilterTypeEnum.cs" />
+    <Compile Include="Enums\2016-07-05 Backup of FilterTypeEnum.cs" />
     <Compile Include="Enums\DimensionEnum.cs" />
     <Compile Include="Enums\ResampleInterpolationTypeEnum.cs" />
     <Compile Include="Enums\ScaleTypeEnum.cs" />
@@ -446,7 +446,7 @@
     <Compile Include="Validation\OperatorData\CollectionRecalculation_OperatorData_Validator.cs" />
     <Compile Include="Validation\OperatorData\ResampleInterpolationType_OperatorData_Validator.cs" />
     <Compile Include="Validation\OperatorData\ListIndex_OperatorData_Validator.cs" />
-    <Compile Include="Validation\OperatorData\FilterType_OperatorData_Validator.cs" />
+    <Compile Include="Validation\OperatorData\2016-07-05 Backup of FilterType_OperatorData_Validator.cs" />
     <Compile Include="Validation\OperatorData\SpeakerSetup_OperatorData_Validator.cs" />
     <Compile Include="Validation\OperatorData\InterpolationType_OperatorData_Validator.cs" />
     <Compile Include="Validation\OperatorData\Dimension_OperatorData_Validator.cs" />
@@ -486,7 +486,7 @@
     <Compile Include="Validation\OperatorData\OperatorDataValidator.cs" />
     <Compile Include="Validation\Operators\OneOverX_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Negative_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\Filter_OperatorValidator.cs" />
+    <Compile Include="Validation\Operators\2016-07-05 Backup of Filter_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Round_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\SawDown_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Scaler_OperatorValidator.cs" />
@@ -564,7 +564,7 @@
     <Compile Include="Warnings\Operators\OneOverX_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Negative_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Round_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\Filter_OperatorWarningValidator.cs" />
+    <Compile Include="Warnings\Operators\2016-07-05 Backup of Filter_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\SawDown_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Scaler_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\MaxFollower_OperatorWarningValidator.cs" />

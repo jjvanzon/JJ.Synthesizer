@@ -102,7 +102,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.Cache,
             OperatorTypeEnum.Curve,
             OperatorTypeEnum.CustomOperator,
-            OperatorTypeEnum.Filter,
             OperatorTypeEnum.MakeContinuous,
             OperatorTypeEnum.Number,
             OperatorTypeEnum.PatchInlet,

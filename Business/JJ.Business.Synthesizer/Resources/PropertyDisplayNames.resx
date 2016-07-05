@@ -683,14 +683,8 @@
   <data name="DBGain" xml:space="preserve">
     <value>dB Gain</value>
   </data>
-  <data name="FilterType" xml:space="preserve">
-    <value>Filter Type</value>
-  </data>
   <data name="TransitionSlope" xml:space="preserve">
     <value>Transition Slope</value>
-  </data>
-  <data name="Filter" xml:space="preserve">
-    <value>Filter</value>
   </data>
   <data name="Result" xml:space="preserve">
     <value>Result</value>

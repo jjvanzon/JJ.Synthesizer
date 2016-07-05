@@ -63,12 +63,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return OperatorHelper.GetInlet(WrappedOperator, DB_GAIN_INDEX); }
         }
 
-        public FilterTypeEnum FilterTypeEnum
-        {
-            get { return DataPropertyParser.GetEnum<FilterTypeEnum>(WrappedOperator, PropertyNames.FilterType); }
-            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.FilterType, value); }
-        }
-
         public Outlet Result
         {
             get { return OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX); }

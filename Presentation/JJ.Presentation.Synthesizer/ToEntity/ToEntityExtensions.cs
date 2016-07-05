@@ -871,39 +871,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         }
 
         public static Operator ToEntity(
-            this OperatorPropertiesViewModel_ForFilter viewModel,
-            IOperatorRepository operatorRepository,
-            IOperatorTypeRepository operatorTypeRepository)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            if (operatorRepository == null) throw new NullException(() => operatorRepository);
-
-            Operator entity = operatorRepository.TryGet(viewModel.ID);
-            if (entity == null)
-            {
-                entity = new Operator();
-                entity.ID = viewModel.ID;
-                operatorRepository.Insert(entity);
-            }
-
-            entity.Name = viewModel.Name;
-            entity.SetOperatorTypeEnum(OperatorTypeEnum.Filter, operatorTypeRepository);
-
-            var wrapper = new Filter_OperatorWrapper(entity);
-            bool interpolationTypeIsFilledIn = viewModel.FilterType != null && viewModel.FilterType.ID != 0;
-            if (interpolationTypeIsFilledIn)
-            {
-                wrapper.FilterTypeEnum = (FilterTypeEnum)viewModel.FilterType.ID;
-            }
-            else
-            {
-                wrapper.FilterTypeEnum = FilterTypeEnum.Undefined;
-            }
-
-            return entity;
-        }
-
-        public static Operator ToEntity(
             this OperatorPropertiesViewModel_ForMakeContinuous viewModel,
             IOperatorRepository operatorRepository,
             IOperatorTypeRepository operatorTypeRepository)
@@ -1464,11 +1431,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             foreach (OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel in userInput.OperatorPropertiesList_ForCustomOperators)
             {
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.PatchRepository, repositories.DocumentRepository);
-            }
-
-            foreach (OperatorPropertiesViewModel_ForFilter propertiesViewModel in userInput.OperatorPropertiesList_ForFilters)
-            {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
             }
 
             foreach (OperatorPropertiesViewModel_ForMakeContinuous propertiesViewModel in userInput.OperatorPropertiesList_ForMakeContinuous)

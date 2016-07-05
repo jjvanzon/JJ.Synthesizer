@@ -196,7 +196,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 new UserControlTuple(operatorPropertiesUserControl_ForCache, isPropertiesView: true),
                 new UserControlTuple(operatorPropertiesUserControl_ForCurve, isPropertiesView: true),
                 new UserControlTuple(operatorPropertiesUserControl_ForCustomOperator, isPropertiesView: true),
-                new UserControlTuple(operatorPropertiesUserControl_ForFilter, isPropertiesView: true),
                 new UserControlTuple(operatorPropertiesUserControl_ForMakeContinuous, isPropertiesView: true),
                 new UserControlTuple(operatorPropertiesUserControl_ForNumber, isPropertiesView: true),
                 new UserControlTuple(operatorPropertiesUserControl_ForPatchInlet, isPropertiesView: true),
