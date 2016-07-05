@@ -99,19 +99,19 @@
     </Compile>
     <Compile Include="Calculation\Operators\OperatorCalculatorBase_Filter_ConstFrequency_ConstBandWidth.cs" />
     <Compile Include="Calculation\Operators\OperatorCalculatorBase_Filter_VarFrequency_VarBandWidth.cs" />
-    <Compile Include="Calculation\Operators\PeakingEQFilter_ManyConstants_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\LowShelfFilter_ManyConstants_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\HighShelfFilter_ManyConstants_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\NotchFilter_ManyConstants_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\BandPassFilterConstantTransitionGain_ManyConstants_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\BandPassFilterConstantPeakGain_ManyConstants_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\PeakingEQFilter OperatorCalculator Classes.cs" />
+    <Compile Include="Calculation\Operators\LowShelfFilter OperatorCalculator Classes.cs" />
+    <Compile Include="Calculation\Operators\HighShelfFilter OperatorCalculator Classes.cs" />
+    <Compile Include="Calculation\Operators\NotchFilter OperatorCalculator Classes.cs" />
+    <Compile Include="Calculation\Operators\BandPassFilterConstantTransitionGain OperatorCalculator Classes.cs" />
+    <Compile Include="Calculation\Operators\BandPassFilterConstantPeakGain OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\AverageOverDimension_OperatorCalculator_CollectionRecalculationContinuous.cs" />
     <Compile Include="Calculation\Operators\Closest OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\ClosestExp OperatorCalculators.cs" />
     <Compile Include="Calculation\Operators\ClosestOverDimensionExp_OperatorCalculator_Base.cs" />
     <Compile Include="Calculation\Operators\ClosestOverDimensionExp_OperatorCalculator_CollectionRecalculationContinuous.cs" />
     <Compile Include="Calculation\Operators\ClosestOverDimensionExp_OperatorCalculator_CollectionRecalculationUponReset.cs" />
-    <Compile Include="Calculation\Operators\AllPassFilter OperatorCalculators.cs" />
+    <Compile Include="Calculation\Operators\AllPassFilter OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Sort OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\SortOverDimension_OperatorCalculator_CollectionRecalculationContinuous.cs" />
     <Compile Include="Calculation\Operators\SortOverDimension_OperatorCalculator_Base.cs" />

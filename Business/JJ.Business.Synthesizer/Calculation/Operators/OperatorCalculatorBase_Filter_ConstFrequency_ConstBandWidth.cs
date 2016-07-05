@@ -6,15 +6,15 @@ using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
+    [Obsolete("Put implementation directly inside derived classes.", true)]
     internal abstract class OperatorCalculatorBase_Filter_ConstFrequency_ConstBandWidth 
         : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
-        protected readonly double _frequency;
-        protected readonly double _bandWidth;
-        protected readonly double _samplingRate;
-
-        protected BiQuadFilter _biQuadFilter;
+        private readonly double _frequency;
+        private readonly double _bandWidth;
+        private readonly double _samplingRate;
+        private readonly BiQuadFilter _biQuadFilter;
 
         public OperatorCalculatorBase_Filter_ConstFrequency_ConstBandWidth(
             OperatorCalculatorBase signalCalculator,
@@ -29,6 +29,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _frequency = frequency;
             _bandWidth = bandWidth;
             _samplingRate = samplingRate;
+            _biQuadFilter = new BiQuadFilter();
 
             ResetNonRecursive();
         }
@@ -37,24 +38,19 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate()
         {
             double signal = _signalCalculator.Calculate();
-
             double value = _biQuadFilter.Transform(signal);
-
             return value;
         }
 
         public override void Reset()
         {
             base.Reset();
-
             ResetNonRecursive();
         }
 
         private void ResetNonRecursive()
         {
-            CreateBiQuadFilter();
+            //_biQuadFilter...
         }
-
-        protected abstract void CreateBiQuadFilter();
     }
 }

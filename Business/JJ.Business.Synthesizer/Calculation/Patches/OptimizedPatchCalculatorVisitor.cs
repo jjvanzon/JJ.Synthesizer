@@ -288,7 +288,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (centerFrequencyIsConst && bandWidthIsConst)
             {
-                calculator = new AllPassFilter_OperatorCalculator_ConstCenterFrequency_ConstBandWidth(
+                calculator = new AllPassFilter_OperatorCalculator_ManyConsts(
                     signalCalculator,
                     centerFrequency,
                     bandWidth,
@@ -296,7 +296,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                calculator = new AllPassFilter_OperatorCalculator_VarCenterFrequency_VarBandWidth(
+                calculator = new AllPassFilter_OperatorCalculator_AllVars(
                     signalCalculator,
                     centerFrequencyCalculator,
                     bandWidthCalculator,
@@ -1800,7 +1800,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (minFrequencyIsConst && bandWidthIsConst)
             {
-                calculator = new HighPassFilter_OperatorCalculator_ConstMinFrequency_ConstBandWidth(
+                calculator = new HighPassFilter_OperatorCalculator_ManyVars(
                     signalCalculator, 
                     minFrequency, 
                     bandWidth,
@@ -1808,7 +1808,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                calculator = new HighPassFilter_OperatorCalculator_VarMinFrequency_VarBandWidth(
+                calculator = new HighPassFilter_OperatorCalculator_AllVars(
                     signalCalculator, 
                     minFrequencyCalculator, 
                     bandWidthCalculator,
@@ -1827,13 +1827,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
             OperatorCalculatorBase transitionFrequencyCalculator = _stack.Pop();
-            OperatorCalculatorBase dbGainCalculator = _stack.Pop();
             OperatorCalculatorBase transitionSlopeCalculator = _stack.Pop();
+            OperatorCalculatorBase dbGainCalculator = _stack.Pop();
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
             transitionFrequencyCalculator = transitionFrequencyCalculator ?? new Zero_OperatorCalculator();
-            dbGainCalculator = dbGainCalculator ?? new Zero_OperatorCalculator();
             transitionSlopeCalculator = transitionSlopeCalculator ?? new Zero_OperatorCalculator();
+            dbGainCalculator = dbGainCalculator ?? new Zero_OperatorCalculator();
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool transitionFrequencyIsConst = transitionFrequencyCalculator is Number_OperatorCalculator;
@@ -1842,8 +1842,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
             double transitionFrequency = transitionFrequencyIsConst ? transitionFrequencyCalculator.Calculate() : 0.0;
-            double dbGain = dbGainIsConst ? dbGainCalculator.Calculate() : 0.0;
             double transitionSlope = transitionSlopeIsConst ? transitionSlopeCalculator.Calculate() : 0.0;
+            double dbGain = dbGainIsConst ? dbGainCalculator.Calculate() : 0.0;
 
             if (signalIsConst)
             {
@@ -1852,20 +1852,20 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (transitionFrequencyIsConst && dbGainIsConst && transitionSlopeIsConst)
             {
-                calculator = new HighShelfFilter_OperatorCalculator_ManyConstants(
+                calculator = new HighShelfFilter_OperatorCalculator_ManyConsts(
                     signalCalculator,
                     transitionFrequency,
-                    dbGain,
                     transitionSlope,
+                    dbGain,
                     _samplingRate);
             }
             else
             {
-                calculator = new HighShelfFilter_OperatorCalculator_ManyVariables(
+                calculator = new HighShelfFilter_OperatorCalculator_AllVars(
                     signalCalculator,
                     transitionFrequencyCalculator,
-                    dbGainCalculator,
                     transitionSlopeCalculator,
+                    dbGainCalculator,
                     _samplingRate,
                     _samplesBetweenApplyFilterVariables);
             }
@@ -2149,7 +2149,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     }
                     else
                     {
-                        calculator = new Loop_OperatorCalculator_ManyVariables(
+                        calculator = new Loop_OperatorCalculator_AllVars(
                             signalCalculator,
                             skipCalculator,
                             loopStartMarkerCalculator,
@@ -2199,7 +2199,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (maxFrequencyIsConst && bandWidthIsConst)
             {
-                calculator = new LowPassFilter_OperatorCalculator_ConstMaxFrequency_ConstBandWidth(
+                calculator = new LowPassFilter_OperatorCalculator_ManyConsts(
                     signalCalculator, 
                     maxFrequency, 
                     bandWidth,
@@ -2207,7 +2207,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                calculator = new LowPassFilter_OperatorCalculator_VarMaxFrequency_VarBandWidth(
+                calculator = new LowPassFilter_OperatorCalculator_AllVars(
                     signalCalculator, 
                     maxFrequencyCalculator, 
                     bandWidthCalculator,
@@ -2226,23 +2226,23 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
             OperatorCalculatorBase transitionFrequencyCalculator = _stack.Pop();
-            OperatorCalculatorBase dbGainCalculator = _stack.Pop();
             OperatorCalculatorBase transitionSlopeCalculator = _stack.Pop();
+            OperatorCalculatorBase dbGainCalculator = _stack.Pop();
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
             transitionFrequencyCalculator = transitionFrequencyCalculator ?? new Zero_OperatorCalculator();
-            dbGainCalculator = dbGainCalculator ?? new Zero_OperatorCalculator();
             transitionSlopeCalculator = transitionSlopeCalculator ?? new Zero_OperatorCalculator();
+            dbGainCalculator = dbGainCalculator ?? new Zero_OperatorCalculator();
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool transitionFrequencyIsConst = transitionFrequencyCalculator is Number_OperatorCalculator;
-            bool dbGainIsConst = dbGainCalculator is Number_OperatorCalculator;
             bool transitionSlopeIsConst = transitionSlopeCalculator is Number_OperatorCalculator;
+            bool dbGainIsConst = dbGainCalculator is Number_OperatorCalculator;
 
             double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
             double transitionFrequency = transitionFrequencyIsConst ? transitionFrequencyCalculator.Calculate() : 0.0;
-            double dbGain = dbGainIsConst ? dbGainCalculator.Calculate() : 0.0;
             double transitionSlope = transitionSlopeIsConst ? transitionSlopeCalculator.Calculate() : 0.0;
+            double dbGain = dbGainIsConst ? dbGainCalculator.Calculate() : 0.0;
 
             if (signalIsConst)
             {
@@ -2251,19 +2251,20 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (transitionFrequencyIsConst && dbGainIsConst && transitionSlopeIsConst)
             {
-                calculator = new LowShelfFilter_OperatorCalculator_ManyConstants(
+                calculator = new LowShelfFilter_OperatorCalculator_ManyConsts(
                     signalCalculator,
                     transitionFrequency,
+                    transitionSlope,
                     dbGain,
-                    transitionSlope);
+                    _samplingRate);
             }
             else
             {
-                calculator = new LowShelfFilter_OperatorCalculator_ManyVariables(
+                calculator = new LowShelfFilter_OperatorCalculator_AllVars(
                     signalCalculator,
                     transitionFrequencyCalculator,
-                    dbGainCalculator,
                     transitionSlopeCalculator,
+                    dbGainCalculator,
                     _samplingRate,
                     _samplesBetweenApplyFilterVariables);
             }
@@ -2985,7 +2986,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (centerFrequencyIsConst && bandWidthIsConst)
             {
-                calculator = new NotchFilter_OperatorCalculator_ConstCenterFrequency_ConstBandWidth(
+                calculator = new NotchFilter_OperatorCalculator_ManyConsts(
                     signalCalculator,
                     centerFrequency,
                     bandWidth,
@@ -2993,7 +2994,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                calculator = new NotchFilter_OperatorCalculator_VarCenterFrequency_VarBandWidth(
+                calculator = new NotchFilter_OperatorCalculator_AllVars(
                     signalCalculator,
                     centerFrequencyCalculator,
                     bandWidthCalculator,
@@ -3183,7 +3184,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (centerFrequencyIsConst && bandWidthIsConst && dbGainIsConst)
             {
-                calculator = new PeakingEQFilter_OperatorCalculator_ManyConstants(
+                calculator = new PeakingEQFilter_OperatorCalculator_ManyConsts(
                     signalCalculator,
                     centerFrequency,
                     bandWidth,
@@ -3192,7 +3193,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                calculator = new PeakingEQFilter_OperatorCalculator_ManyVariables(
+                calculator = new PeakingEQFilter_OperatorCalculator_AllVars(
                     signalCalculator,
                     centerFrequencyCalculator,
                     bandWidthCalculator,

@@ -10,8 +10,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
     {
         private const int SIGNAL_INDEX = 0;
         private const int CENTER_FREQUENCY_INDEX = 1;
-        private const int DB_GAIN_INDEX = 2;
-        private const int TRANSITION_SLOPE_INDEX = 3;
+        private const int BAND_WIDTH_INDEX = 2;
+        private const int DB_GAIN_INDEX = 3;
         private const int RESULT_INDEX = 0;
 
         public PeakingEQFilter_OperatorWrapper(Operator op)
@@ -40,6 +40,17 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return OperatorHelper.GetInlet(WrappedOperator, CENTER_FREQUENCY_INDEX); }
         }
 
+        public Outlet BandWidth
+        {
+            get { return BandWidthInlet.InputOutlet; }
+            set { BandWidthInlet.LinkTo(value); }
+        }
+
+        public Inlet BandWidthInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, BAND_WIDTH_INDEX); }
+        }
+
         public Outlet DBGain
         {
             get { return DBGainInlet.InputOutlet; }
@@ -49,17 +60,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         public Inlet DBGainInlet
         {
             get { return OperatorHelper.GetInlet(WrappedOperator, DB_GAIN_INDEX); }
-        }
-
-        public Outlet TransitionSlope
-        {
-            get { return TransitionSlopeInlet.InputOutlet; }
-            set { TransitionSlopeInlet.LinkTo(value); }
-        }
-
-        public Inlet TransitionSlopeInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, TRANSITION_SLOPE_INDEX); }
         }
 
         public Outlet Result
@@ -83,15 +83,15 @@ namespace JJ.Business.Synthesizer.EntityWrappers
                         return name;
                     }
 
-                case DB_GAIN_INDEX:
+                case BAND_WIDTH_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => DBGain);
+                        string name = ResourceHelper.GetPropertyDisplayName(() => BandWidth);
                         return name;
                     }
 
-                case TRANSITION_SLOPE_INDEX:
+                case DB_GAIN_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => TransitionSlope);
+                        string name = ResourceHelper.GetPropertyDisplayName(() => DBGain);
                         return name;
                     }
 

@@ -11,8 +11,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
     {
         private const int SIGNAL_INDEX = 0;
         private const int TRANSITION_FREQUENCY_INDEX = 1;
-        private const int DB_GAIN_INDEX = 2;
-        private const int TRANSITION_SLOPE_INDEX = 3;
+        private const int TRANSITION_SLOPE_INDEX = 2;
+        private const int DB_GAIN_INDEX = 3;
         private const int RESULT_INDEX = 0;
 
         public OperatorWrapperBase_ShelfFilter(Operator op)
@@ -41,17 +41,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return OperatorHelper.GetInlet(WrappedOperator, TRANSITION_FREQUENCY_INDEX); }
         }
 
-        public Outlet DBGain
-        {
-            get { return DBGainInlet.InputOutlet; }
-            set { DBGainInlet.LinkTo(value); }
-        }
-
-        public Inlet DBGainInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, DB_GAIN_INDEX); }
-        }
-
         public Outlet TransitionSlope
         {
             get { return TransitionSlopeInlet.InputOutlet; }
@@ -61,6 +50,17 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         public Inlet TransitionSlopeInlet
         {
             get { return OperatorHelper.GetInlet(WrappedOperator, TRANSITION_SLOPE_INDEX); }
+        }
+
+        public Outlet DBGain
+        {
+            get { return DBGainInlet.InputOutlet; }
+            set { DBGainInlet.LinkTo(value); }
+        }
+
+        public Inlet DBGainInlet
+        {
+            get { return OperatorHelper.GetInlet(WrappedOperator, DB_GAIN_INDEX); }
         }
 
         public FilterTypeEnum FilterTypeEnum
@@ -90,15 +90,15 @@ namespace JJ.Business.Synthesizer.EntityWrappers
                         return name;
                     }
 
-                case DB_GAIN_INDEX:
-                    {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => DBGain);
-                        return name;
-                    }
-
                 case TRANSITION_SLOPE_INDEX:
                     {
                         string name = ResourceHelper.GetPropertyDisplayName(() => TransitionSlope);
+                        return name;
+                    }
+
+                case DB_GAIN_INDEX:
+                    {
+                        string name = ResourceHelper.GetPropertyDisplayName(() => DBGain);
                         return name;
                     }
 

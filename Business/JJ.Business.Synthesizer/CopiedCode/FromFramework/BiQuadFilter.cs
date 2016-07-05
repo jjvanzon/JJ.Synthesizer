@@ -51,7 +51,7 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
         private double _y1;
         private double _y2;
 
-        private BiQuadFilter()
+        public BiQuadFilter()
         {
             Reset();
         }

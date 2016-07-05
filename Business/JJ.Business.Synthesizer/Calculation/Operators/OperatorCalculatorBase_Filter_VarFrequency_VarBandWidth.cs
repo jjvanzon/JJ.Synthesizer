@@ -7,16 +7,17 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
+    [Obsolete("Put implementation directly inside derived classes.", true)]
     internal abstract class OperatorCalculatorBase_Filter_VarFrequency_VarBandWidth
         : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly OperatorCalculatorBase _bandWidthCalculator;
-        protected readonly double _samplingRate;
+        private readonly double _samplingRate;
         private readonly int _samplesBetweenApplyFilterVariables;
 
-        protected BiQuadFilter _biQuadFilter;
+        private BiQuadFilter _biQuadFilter;
         private int _counter;
 
         public OperatorCalculatorBase_Filter_VarFrequency_VarBandWidth(

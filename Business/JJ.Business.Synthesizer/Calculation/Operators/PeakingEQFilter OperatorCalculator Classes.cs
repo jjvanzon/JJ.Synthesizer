@@ -7,60 +7,7 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class PeakingEQFilter_OperatorCalculator_ManyConstants : OperatorCalculatorBase_WithChildCalculators
-    {
-        private readonly OperatorCalculatorBase _signalCalculator;
-        private readonly double _centerFrequency;
-        private readonly double _bandWidth;
-        private readonly double _dbGain;
-        private readonly double _samplingRate;
-
-        private BiQuadFilter _biQuadFilter;
-
-        public PeakingEQFilter_OperatorCalculator_ManyConstants(
-            OperatorCalculatorBase signalCalculator,
-            double centerFrequency,
-            double bandWidth,
-            double dbGain,
-            double samplingRate)
-            : base(new OperatorCalculatorBase[] { signalCalculator })
-        {
-            if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => signalCalculator);
-
-            _signalCalculator = signalCalculator;
-            _centerFrequency = centerFrequency;
-            _bandWidth = bandWidth;
-            _dbGain = dbGain;
-            _samplingRate = samplingRate;
-
-            ResetNonRecursive();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate()
-        {
-            double signal = _signalCalculator.Calculate();
-
-            double value = _biQuadFilter.Transform(signal);
-
-            return value;
-        }
-
-        public override void Reset()
-        {
-            base.Reset();
-
-            ResetNonRecursive();
-        }
-
-        private void ResetNonRecursive()
-        {
-            _biQuadFilter = BiQuadFilter.CreatePeakingEQ(_samplingRate, _centerFrequency, _bandWidth, _dbGain);
-        }
-    }
-
-    internal class PeakingEQFilter_OperatorCalculator_ManyVariables
+    internal class PeakingEQFilter_OperatorCalculator_AllVars
         : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
@@ -73,7 +20,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private BiQuadFilter _biQuadFilter;
         private int _counter;
 
-        public PeakingEQFilter_OperatorCalculator_ManyVariables(
+        public PeakingEQFilter_OperatorCalculator_AllVars(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase centerFrequencyCalculator,
             OperatorCalculatorBase bandWidthCalculator,
@@ -142,6 +89,59 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _biQuadFilter = BiQuadFilter.CreatePeakingEQ(_samplingRate, centerFrequency, bandWidth, dbGain);
 
             _counter = 0;
+        }
+    }
+
+    internal class PeakingEQFilter_OperatorCalculator_ManyConsts : OperatorCalculatorBase_WithChildCalculators
+    {
+        private readonly OperatorCalculatorBase _signalCalculator;
+        private readonly double _centerFrequency;
+        private readonly double _bandWidth;
+        private readonly double _dbGain;
+        private readonly double _samplingRate;
+
+        private BiQuadFilter _biQuadFilter;
+
+        public PeakingEQFilter_OperatorCalculator_ManyConsts(
+            OperatorCalculatorBase signalCalculator,
+            double centerFrequency,
+            double bandWidth,
+            double dbGain,
+            double samplingRate)
+            : base(new OperatorCalculatorBase[] { signalCalculator })
+        {
+            if (signalCalculator == null) throw new NullException(() => signalCalculator);
+            if (signalCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => signalCalculator);
+
+            _signalCalculator = signalCalculator;
+            _centerFrequency = centerFrequency;
+            _bandWidth = bandWidth;
+            _dbGain = dbGain;
+            _samplingRate = samplingRate;
+
+            ResetNonRecursive();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override double Calculate()
+        {
+            double signal = _signalCalculator.Calculate();
+
+            double value = _biQuadFilter.Transform(signal);
+
+            return value;
+        }
+
+        public override void Reset()
+        {
+            base.Reset();
+
+            ResetNonRecursive();
+        }
+
+        private void ResetNonRecursive()
+        {
+            _biQuadFilter = BiQuadFilter.CreatePeakingEQ(_samplingRate, _centerFrequency, _bandWidth, _dbGain);
         }
     }
 }

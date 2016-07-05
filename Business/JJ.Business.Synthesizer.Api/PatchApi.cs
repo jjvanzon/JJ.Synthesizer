@@ -278,11 +278,11 @@ namespace JJ.Business.Synthesizer.Api
 
         public HighShelfFilter_OperatorWrapper HighShelfFilter(
             Outlet signal = null,
-            Outlet shelfFrequency = null,
-            Outlet dbGain = null,
-            Outlet shelfSlope = null)
+            Outlet transitionFrequency = null,
+            Outlet transitionSlope = null,
+            Outlet dbGain = null)
         {
-            return _patchManager.HighShelfFilter(signal, shelfFrequency, dbGain, shelfSlope);
+            return _patchManager.HighShelfFilter(signal, transitionFrequency, transitionSlope, dbGain);
         }
 
         public If_OperatorWrapper If(Outlet condition = null, Outlet then = null, Outlet @else = null)
@@ -323,10 +323,10 @@ namespace JJ.Business.Synthesizer.Api
         public LowShelfFilter_OperatorWrapper LowShelfFilter(
             Outlet signal = null,
             Outlet shelfFrequency = null,
-            Outlet dbGain = null,
-            Outlet shelfSlope = null)
+            Outlet shelfSlope = null,
+            Outlet dbGain = null)
         {
-            return _patchManager.LowShelfFilter(signal, shelfFrequency, dbGain, shelfSlope);
+            return _patchManager.LowShelfFilter(signal, shelfFrequency, shelfSlope, dbGain);
         }
 
         public MakeContinuous_OperatorWrapper MakeContinuous(ResampleInterpolationTypeEnum interpolation, DimensionEnum dimension, params Outlet[] operands)
@@ -579,10 +579,10 @@ namespace JJ.Business.Synthesizer.Api
         public PeakingEQFilter_OperatorWrapper PeakingEQFilter(
             Outlet signal = null,
             Outlet centerFrequency = null,
-            Outlet dbGain = null,
-            Outlet shelfSlope = null)
+            Outlet bandWidth = null,
+            Outlet dbGain = null)
         {
-            return _patchManager.PeakingEQFilter(signal, centerFrequency, dbGain, shelfSlope);
+            return _patchManager.PeakingEQFilter(signal, centerFrequency, bandWidth, dbGain);
         }
 
         public Power_OperatorWrapper Power(Outlet @base = null, Outlet exponent = null)
