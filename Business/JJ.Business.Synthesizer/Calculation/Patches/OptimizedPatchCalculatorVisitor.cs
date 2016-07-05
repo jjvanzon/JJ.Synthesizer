@@ -1750,7 +1750,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (minFrequencyIsConst && bandWidthIsConst)
             {
-                calculator = new HighPassFilter_OperatorCalculator_ManyVars(
+                calculator = new HighPassFilter_OperatorCalculator_ManyConsts(
                     signalCalculator, 
                     minFrequency, 
                     bandWidth,

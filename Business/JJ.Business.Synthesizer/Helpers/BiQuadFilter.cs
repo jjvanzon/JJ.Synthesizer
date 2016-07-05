@@ -1,5 +1,5 @@
 // Jan-Joost van Zon, 2016-06-25:
-// This is an adaptation of the class from NAudio.
+// This is an adaptation of the class from NAudio. Some of the changes:
 // - Added AggressiveInlining attributes.
 // - Made all variable doubles.
 // - Removed some unnecessary XML comment.
@@ -34,7 +34,7 @@ using System;
 using System.Runtime.CompilerServices;
 using JJ.Framework.Mathematics;
 
-namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
+namespace JJ.Business.Synthesizer.Helpers
 {
     public class BiQuadFilter
     {
@@ -53,14 +53,14 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
 
         public BiQuadFilter()
         {
-            Reset();
+            ResetSamples();
         }
 
         private BiQuadFilter(double a0, double a1, double a2, double b0, double b1, double b2)
         {
             SetCoefficients(a0, a1, a2, b0, b1, b2);
 
-            Reset();
+            ResetSamples();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -74,7 +74,9 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
             _a4 = aa2 / aa0;
         }
 
-        private void Reset()
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void ResetSamples()
         {
             // zero initial samples
             _x1 = _x2 = 0;

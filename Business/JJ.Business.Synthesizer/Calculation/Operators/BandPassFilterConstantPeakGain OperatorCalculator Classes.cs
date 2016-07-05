@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.CopiedCode.FromFramework;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -47,13 +47,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             ResetNonRecursive();
         }
 
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
             if (_counter > _samplesBetweenApplyFilterVariables)
             {
-                ResetNonRecursive();
+                SetFilterVariables();
+                _counter = 0;
             }
 
             double signal = _signalCalculator.Calculate();
@@ -70,15 +70,20 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             ResetNonRecursive();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void ResetNonRecursive()
+        {
+            SetFilterVariables();
+            _counter = 0;
+            _biQuadFilter.ResetSamples();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void SetFilterVariables()
         {
             double centerFrequency = _centerFrequencyCalculator.Calculate();
             double bandWidth = _bandWidthCalculator.Calculate();
 
             _biQuadFilter.SetBandPassFilterConstantPeakGainVariables(_samplingRate, centerFrequency, bandWidth);
-
-            _counter = 0;
         }
     }
 
@@ -126,6 +131,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private void ResetNonRecursive()
         {
             _biQuadFilter.SetBandPassFilterConstantPeakGainVariables(_samplingRate, _centerFrequency, _bandWidth);
+            _biQuadFilter.ResetSamples();
         }
     }
 }

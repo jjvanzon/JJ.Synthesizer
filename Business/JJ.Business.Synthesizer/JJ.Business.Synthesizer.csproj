@@ -97,8 +97,8 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Calculation\Operators\OperatorCalculatorBase_Filter_ConstFrequency_ConstBandWidth.cs" />
-    <Compile Include="Calculation\Operators\OperatorCalculatorBase_Filter_VarFrequency_VarBandWidth.cs" />
+    <Compile Include="Calculation\Operators\2016-07-05 Backup of OperatorCalculatorBase_Filter_ConstFrequency_ConstBandWidth.cs" />
+    <Compile Include="Calculation\Operators\2016-07-05 Backup of OperatorCalculatorBase_Filter_VarFrequency_VarBandWidth.cs" />
     <Compile Include="Calculation\Operators\PeakingEQFilter OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\LowShelfFilter OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\HighShelfFilter OperatorCalculator Classes.cs" />
@@ -231,7 +231,7 @@
     <Compile Include="Calculation\Operators\OperatorCalculatorBase.cs" />
     <Compile Include="Calculation\Operators\Delay OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Number_OperatorCalculator.cs" />
-    <Compile Include="CopiedCode\FromFramework\BiQuadFilter.cs" />
+    <Compile Include="Helpers\BiQuadFilter.cs" />
     <Compile Include="CopiedCode\FromFramework\CollectionHelper.cs" />
     <Compile Include="CopiedCode\FromFramework\Geometry.cs" />
     <Compile Include="CopiedCode\FromFramework\Interpolator.cs" />

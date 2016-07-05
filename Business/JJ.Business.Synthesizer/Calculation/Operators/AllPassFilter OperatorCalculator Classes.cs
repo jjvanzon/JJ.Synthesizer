@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.CopiedCode.FromFramework;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -51,7 +51,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             if (_counter > _samplesBetweenApplyFilterVariables)
             {
-                ResetNonRecursive();
+                SetFilterVariables();
+                _counter = 0;
             }
 
             double signal = _signalCalculator.Calculate();
@@ -65,19 +66,23 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override void Reset()
         {
             base.Reset();
-
             ResetNonRecursive();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void ResetNonRecursive()
         {
-            double frequency = _centerFrequencyCalculator.Calculate();
+            SetFilterVariables();
+            _counter = 0;
+            _biQuadFilter.ResetSamples();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void SetFilterVariables()
+        {
+            double centerFrequency = _centerFrequencyCalculator.Calculate();
             double bandWidth = _bandWidthCalculator.Calculate();
 
-            _biQuadFilter.SetAllPassFilterVariables(_samplingRate, frequency, bandWidth);
-
-            _counter = 0;
+            _biQuadFilter.SetAllPassFilterVariables(_samplingRate, centerFrequency, bandWidth);
         }
     }
 
@@ -125,6 +130,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private void ResetNonRecursive()
         {
             _biQuadFilter.SetAllPassFilterVariables(_samplingRate, _centerFrequency, _bandWidth);
+            _biQuadFilter.ResetSamples();
         }
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.CopiedCode.FromFramework;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -51,7 +51,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             if (_counter > _samplesBetweenApplyFilterVariables)
             {
-                ResetNonRecursive();
+                SetFilterVariables();
+                _counter = 0;
             }
 
             double signal = _signalCalculator.Calculate();
@@ -65,23 +66,27 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override void Reset()
         {
             base.Reset();
-
             ResetNonRecursive();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void ResetNonRecursive()
+        {
+            SetFilterVariables();
+            _counter = 0;
+            _biQuadFilter.ResetSamples();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void SetFilterVariables()
         {
             double minFrequency = _minFrequencyCalculator.Calculate();
             double bandWidth = _bandWidthCalculator.Calculate();
 
             _biQuadFilter.SetHighPassFilterVariables(_samplingRate, minFrequency, bandWidth);
-
-            _counter = 0;
         }
     }
 
-    internal class HighPassFilter_OperatorCalculator_ManyVars
+    internal class HighPassFilter_OperatorCalculator_ManyConsts
         : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
@@ -90,7 +95,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _samplingRate;
         private readonly BiQuadFilter _biQuadFilter;
 
-        public HighPassFilter_OperatorCalculator_ManyVars(
+        public HighPassFilter_OperatorCalculator_ManyConsts(
             OperatorCalculatorBase signalCalculator,
             double minFrequency,
             double bandWidth,
@@ -125,6 +130,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private void ResetNonRecursive()
         {
             _biQuadFilter.SetHighPassFilterVariables(_samplingRate, _minFrequency, _bandWidth);
+            _biQuadFilter.ResetSamples();
         }
     }
 }
