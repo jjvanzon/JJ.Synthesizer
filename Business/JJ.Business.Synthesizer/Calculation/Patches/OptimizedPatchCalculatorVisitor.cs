@@ -80,6 +80,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         private readonly Outlet _outlet;
         private readonly int _samplingRate;
+        private readonly double _nyquistFrequency;
         private readonly int _channelCount;
         private readonly int _samplesBetweenApplyFilterVariables;
         private readonly CalculatorCache _calculatorCache;
@@ -122,6 +123,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _sampleRepository = sampleRepository;
             _patchRepository = patchRepository;
             _speakerSetupRepository = speakerSetupRepository;
+
+            _nyquistFrequency = _samplingRate / 2.0;
 
             double samplesBetweenApplyFilterVariablesDouble = secondsBetweenApplyFilterVariables * samplingRate;
             if (!ConversionHelper.CanCastToPositiveInt32(samplesBetweenApplyFilterVariablesDouble))
@@ -281,7 +284,18 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double centerFrequency = centerFrequencyIsConst ? centerFrequencyCalculator.Calculate() : 0.0;
             double bandWidth = bandWidthIsConst ? bandWidthCalculator.Calculate() : 0.0;
 
-            if (signalIsConst)
+            bool signalIsConstSpecialNumber = signalIsConst && DoubleHelper.IsSpecialNumber(signal);
+            bool centerFrequencyIsConstSpecialNumber = centerFrequencyIsConst && DoubleHelper.IsSpecialNumber(centerFrequency);
+            bool bandWidthIsConstSpecialNumber = bandWidthIsConst && DoubleHelper.IsSpecialNumber(bandWidth);
+
+            if (centerFrequency > _nyquistFrequency) centerFrequency = _nyquistFrequency;
+
+            if (signalIsConstSpecialNumber || centerFrequencyIsConstSpecialNumber || bandWidthIsConstSpecialNumber)
+            {
+                // Special Number
+                calculator = new Number_OperatorCalculator(Double.NaN);
+            }
+            else if (signalIsConst)
             {
                 // There are no frequencies. So you a filter should do nothing.
                 calculator = signalCalculator;
@@ -506,61 +520,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitBandPassFilterConstantTransitionGain(Operator op)
-        {
-            base.VisitBandPassFilterConstantTransitionGain(op);
-
-            OperatorCalculatorBase calculator;
-
-            OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase centerFrequencyCalculator = _stack.Pop();
-            OperatorCalculatorBase bandWidthCalculator = _stack.Pop();
-
-            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
-            centerFrequencyCalculator = centerFrequencyCalculator ?? new Zero_OperatorCalculator();
-            bandWidthCalculator = bandWidthCalculator ?? new Zero_OperatorCalculator();
-
-            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
-            bool centerFrequencyIsConst = centerFrequencyCalculator is Number_OperatorCalculator;
-            bool bandWidthIsConst = bandWidthCalculator is Number_OperatorCalculator;
-
-            double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
-            double centerFrequency = centerFrequencyIsConst ? centerFrequencyCalculator.Calculate() : 0.0;
-            double bandWidth = bandWidthIsConst ? bandWidthCalculator.Calculate() : 0.0;
-
-            bool centerFrequencyIsConstZero = centerFrequencyIsConst && centerFrequency == 0.0;
-
-            if (signalIsConst)
-            {
-                // There are no frequencies. So you a filter should do nothing.
-                calculator = signalCalculator;
-            }
-            else if (centerFrequencyIsConstZero)
-            {
-                // No filtering
-                calculator = signalCalculator;
-            }
-            else if (centerFrequencyIsConst && bandWidthIsConst)
-            {
-                calculator = new BandPassFilterConstantTransitionGain_OperatorCalculator_ConstCenterFrequency_ConstBandWidth(
-                    signalCalculator,
-                    centerFrequency,
-                    bandWidth,
-                    _samplingRate);
-            }
-            else
-            {
-                calculator = new BandPassFilterConstantTransitionGain_OperatorCalculator_VarCenterFrequency_VarBandWidth(
-                    signalCalculator,
-                    centerFrequencyCalculator,
-                    bandWidthCalculator,
-                    _samplingRate,
-                    _samplesBetweenApplyFilterVariables);
-            }
-
-            _stack.Push(calculator);
-        }
-
         protected override void VisitBandPassFilterConstantPeakGain(Operator op)
         {
             base.VisitBandPassFilterConstantPeakGain(op);
@@ -583,9 +542,19 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double centerFrequency = centerFrequencyIsConst ? centerFrequencyCalculator.Calculate() : 0.0;
             double bandWidth = bandWidthIsConst ? bandWidthCalculator.Calculate() : 0.0;
 
+            bool signalIsConstSpecialNumber = signalIsConst && DoubleHelper.IsSpecialNumber(signal);
             bool centerFrequencyIsConstZero = centerFrequencyIsConst && centerFrequency == 0.0;
+            bool centerFrequencyIsConstSpecialNumber = centerFrequencyIsConst && DoubleHelper.IsSpecialNumber(centerFrequency);
+            bool bandWidthIsConstSpecialNumber = bandWidthIsConst && DoubleHelper.IsSpecialNumber(bandWidth);
 
-            if (signalIsConst)
+            if (centerFrequency > _nyquistFrequency) centerFrequency = _nyquistFrequency;
+
+            if (signalIsConstSpecialNumber || centerFrequencyIsConstSpecialNumber || bandWidthIsConstSpecialNumber)
+            {
+                // Special Number
+                calculator = new Number_OperatorCalculator(Double.NaN);
+            }
+            else if (signalIsConst)
             {
                 // There are no frequencies. So you a filter should do nothing.
                 calculator = signalCalculator;
@@ -606,6 +575,71 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             else
             {
                 calculator = new BandPassFilterConstantPeakGain_OperatorCalculator_VarCenterFrequency_VarBandWidth(
+                    signalCalculator,
+                    centerFrequencyCalculator,
+                    bandWidthCalculator,
+                    _samplingRate,
+                    _samplesBetweenApplyFilterVariables);
+            }
+
+            _stack.Push(calculator);
+        }
+
+        protected override void VisitBandPassFilterConstantTransitionGain(Operator op)
+        {
+            base.VisitBandPassFilterConstantTransitionGain(op);
+
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase centerFrequencyCalculator = _stack.Pop();
+            OperatorCalculatorBase bandWidthCalculator = _stack.Pop();
+
+            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
+            centerFrequencyCalculator = centerFrequencyCalculator ?? new Zero_OperatorCalculator();
+            bandWidthCalculator = bandWidthCalculator ?? new Zero_OperatorCalculator();
+
+            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+            bool centerFrequencyIsConst = centerFrequencyCalculator is Number_OperatorCalculator;
+            bool bandWidthIsConst = bandWidthCalculator is Number_OperatorCalculator;
+
+            double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
+            double centerFrequency = centerFrequencyIsConst ? centerFrequencyCalculator.Calculate() : 0.0;
+            double bandWidth = bandWidthIsConst ? bandWidthCalculator.Calculate() : 0.0;
+
+            bool signalIsConstSpecialNumber = signalIsConst && DoubleHelper.IsSpecialNumber(signal);
+            bool centerFrequencyIsConstZero = centerFrequencyIsConst && centerFrequency == 0.0;
+            bool centerFrequencyIsConstSpecialNumber = centerFrequencyIsConst && DoubleHelper.IsSpecialNumber(centerFrequency);
+            bool bandWidthIsConstSpecialNumber = bandWidthIsConst && DoubleHelper.IsSpecialNumber(bandWidth);
+
+            if (centerFrequency > _nyquistFrequency) centerFrequency = _nyquistFrequency;
+
+            if (signalIsConstSpecialNumber || centerFrequencyIsConstSpecialNumber || bandWidthIsConstSpecialNumber)
+            {
+                // Special Number
+                calculator = new Number_OperatorCalculator(Double.NaN);
+            }
+            else if (signalIsConst)
+            {
+                // There are no frequencies. So you a filter should do nothing.
+                calculator = signalCalculator;
+            }
+            else if (centerFrequencyIsConstZero)
+            {
+                // No filtering
+                calculator = signalCalculator;
+            }
+            else if (centerFrequencyIsConst && bandWidthIsConst)
+            {
+                calculator = new BandPassFilterConstantTransitionGain_OperatorCalculator_ConstCenterFrequency_ConstBandWidth(
+                    signalCalculator,
+                    centerFrequency,
+                    bandWidth,
+                    _samplingRate);
+            }
+            else
+            {
+                calculator = new BandPassFilterConstantTransitionGain_OperatorCalculator_VarCenterFrequency_VarBandWidth(
                     signalCalculator,
                     centerFrequencyCalculator,
                     bandWidthCalculator,
@@ -1737,9 +1771,19 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double minFrequency = minFrequencyIsConst ? minFrequencyCalculator.Calculate() : 0.0;
             double bandWidth = bandWidthIsConst ? bandWidthCalculator.Calculate() : 0.0;
 
+            bool signalIsConstSpecialNumber = signalIsConst && DoubleHelper.IsSpecialNumber(signal);
             bool minFrequencyIsConstZero = minFrequencyIsConst && minFrequency == 0.0;
+            bool minFrequencyIsConstSpecialNumber = minFrequencyIsConst && DoubleHelper.IsSpecialNumber(minFrequency);
+            bool bandWidthIsConstSpecialNumber = bandWidthIsConst && DoubleHelper.IsSpecialNumber(bandWidth);
 
-            if (signalIsConst)
+            if (minFrequency > _nyquistFrequency) minFrequency = _nyquistFrequency;
+
+            if (signalIsConstSpecialNumber || minFrequencyIsConstSpecialNumber || bandWidthIsConstSpecialNumber)
+            {
+                // Special Number
+                calculator = new Number_OperatorCalculator(Double.NaN);
+            }
+            else if (signalIsConst)
             {
                 calculator = signalCalculator;
             }
@@ -1795,7 +1839,19 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double transitionSlope = transitionSlopeIsConst ? transitionSlopeCalculator.Calculate() : 0.0;
             double dbGain = dbGainIsConst ? dbGainCalculator.Calculate() : 0.0;
 
-            if (signalIsConst)
+            bool signalIsConstSpecialNumber = signalIsConst && DoubleHelper.IsSpecialNumber(signal);
+            bool transitionFrequencyIsConstSpecialNumber = transitionFrequencyIsConst && DoubleHelper.IsSpecialNumber(transitionFrequency);
+            bool transitionSlopeIsConstSpecialNumber = transitionSlopeIsConst && DoubleHelper.IsSpecialNumber(transitionSlope);
+            bool dbGainIsConstSpecialNumber = dbGainIsConst && DoubleHelper.IsSpecialNumber(dbGain);
+
+            if (transitionFrequency > _nyquistFrequency) transitionFrequency = _nyquistFrequency;
+
+            if (signalIsConstSpecialNumber || transitionFrequencyIsConstSpecialNumber || transitionSlopeIsConstSpecialNumber || dbGainIsConstSpecialNumber)
+            {
+                // Special Number
+                calculator = new Number_OperatorCalculator(Double.NaN);
+            }
+            else if (signalIsConst)
             {
                 // There are no frequencies. So you a filter should do nothing.
                 calculator = signalCalculator;
@@ -2136,9 +2192,19 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double maxFrequency = maxFrequencyIsConst ? maxFrequencyCalculator.Calculate() : 0.0;
             double bandWidth = bandWidthIsConst ? bandWidthCalculator.Calculate() : 0.0;
 
+            bool signalIsConstSpecialNumber = signalIsConst && DoubleHelper.IsSpecialNumber(signal);
             bool maxFrequencyIsConstZero = maxFrequencyIsConst && maxFrequency == 0.0;
+            bool maxFrequencyIsConstSpecialNumber = maxFrequencyIsConst && DoubleHelper.IsSpecialNumber(maxFrequency);
+            bool bandWidthIsConstSpecialNumber = bandWidthIsConst && DoubleHelper.IsSpecialNumber(bandWidth);
 
-            if (signalIsConst)
+            if (maxFrequency > _nyquistFrequency) maxFrequency = _nyquistFrequency;
+
+            if (signalIsConstSpecialNumber || maxFrequencyIsConstSpecialNumber || bandWidthIsConstSpecialNumber)
+            {
+                // Special Number
+                calculator = new Number_OperatorCalculator(Double.NaN);
+            }
+            else if (signalIsConst)
             {
                 calculator = signalCalculator;
             }
@@ -2194,7 +2260,19 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double transitionSlope = transitionSlopeIsConst ? transitionSlopeCalculator.Calculate() : 0.0;
             double dbGain = dbGainIsConst ? dbGainCalculator.Calculate() : 0.0;
 
-            if (signalIsConst)
+            bool signalIsConstSpecialNumber = signalIsConst && DoubleHelper.IsSpecialNumber(signal);
+            bool transitionFrequencyIsConstSpecialNumber = transitionFrequencyIsConst && DoubleHelper.IsSpecialNumber(transitionFrequency);
+            bool transitionSlopeIsConstSpecialNumber = transitionSlopeIsConst && DoubleHelper.IsSpecialNumber(transitionSlope);
+            bool dbGainIsConstSpecialNumber = dbGainIsConst && DoubleHelper.IsSpecialNumber(dbGain);
+
+            if (transitionFrequency > _nyquistFrequency) transitionFrequency = _nyquistFrequency;
+
+            if (signalIsConstSpecialNumber || transitionFrequencyIsConstSpecialNumber || transitionSlopeIsConstSpecialNumber || dbGainIsConstSpecialNumber)
+            {
+                // Special Number
+                calculator = new Number_OperatorCalculator(Double.NaN);
+            }
+            else if (signalIsConst)
             {
                 // There are no frequencies. So you a filter should do nothing.
                 calculator = signalCalculator;
@@ -2929,7 +3007,19 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double centerFrequency = centerFrequencyIsConst ? centerFrequencyCalculator.Calculate() : 0.0;
             double bandWidth = bandWidthIsConst ? bandWidthCalculator.Calculate() : 0.0;
 
-            if (signalIsConst)
+            bool signalIsConstSpecialNumber = signalIsConst && DoubleHelper.IsSpecialNumber(signal);
+            bool centerFrequencyIsConstZero = centerFrequencyIsConst && centerFrequency == 0.0;
+            bool centerFrequencyIsConstSpecialNumber = centerFrequencyIsConst && DoubleHelper.IsSpecialNumber(centerFrequency);
+            bool bandWidthIsConstSpecialNumber = bandWidthIsConst && DoubleHelper.IsSpecialNumber(bandWidth);
+
+            if (centerFrequency > _nyquistFrequency) centerFrequency = _nyquistFrequency;
+
+            if (signalIsConstSpecialNumber || centerFrequencyIsConstSpecialNumber || bandWidthIsConstSpecialNumber)
+            {
+                // Special Number
+                calculator = new Number_OperatorCalculator(Double.NaN);
+            }
+            else if (signalIsConst)
             {
                 // There are no frequencies. So you a filter should do nothing.
                 calculator = signalCalculator;
@@ -3126,6 +3216,36 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double centerFrequency = centerFrequencyIsConst ? centerFrequencyCalculator.Calculate() : 0.0;
             double bandWidth = bandWidthIsConst ? bandWidthCalculator.Calculate() : 0.0;
             double dbGain = dbGainIsConst ? dbGainCalculator.Calculate() : 0.0;
+
+            bool signalIsConstSpecialNumber = signalIsConst && DoubleHelper.IsSpecialNumber(signal);
+            bool centerFrequencyIsConstZero = centerFrequencyIsConst && centerFrequency == 0.0;
+            bool centerFrequencyIsConstSpecialNumber = centerFrequencyIsConst && DoubleHelper.IsSpecialNumber(centerFrequency);
+            bool bandWidthIsConstSpecialNumber = bandWidthIsConst && DoubleHelper.IsSpecialNumber(bandWidth);
+            bool dbGainIsConstSpecialNumber = dbGainIsConst && DoubleHelper.IsSpecialNumber(dbGain);
+
+            if (centerFrequency > _nyquistFrequency) centerFrequency = _nyquistFrequency;
+
+            if (signalIsConstSpecialNumber || centerFrequencyIsConstSpecialNumber || bandWidthIsConstSpecialNumber || dbGainIsConstSpecialNumber)
+            {
+                // Special Number
+                calculator = new Number_OperatorCalculator(Double.NaN);
+            }
+            else if (signalIsConst)
+            {
+                // There are no frequencies. So you a filter should do nothing.
+                calculator = signalCalculator;
+            }
+            else if (centerFrequencyIsConstZero)
+            {
+                // No filtering
+                calculator = signalCalculator;
+            }
+
+
+
+
+
+
 
             if (signalIsConst)
             {

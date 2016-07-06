@@ -15,6 +15,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _bandWidthCalculator;
         private readonly OperatorCalculatorBase _dbGainCalculator;
         private readonly double _samplingRate;
+        private readonly double _nyquistFrequency;
         private readonly int _samplesBetweenApplyFilterVariables;
         private BiQuadFilter _biQuadFilter;
 
@@ -48,6 +49,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _samplingRate = samplingRate;
             _samplesBetweenApplyFilterVariables = samplesBetweenApplyFilterVariables;
             _biQuadFilter = new BiQuadFilter();
+
+            _nyquistFrequency = _samplingRate / 2.0;
 
             ResetNonRecursive();
         }
@@ -89,6 +92,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double bandWidth = _bandWidthCalculator.Calculate();
             double dbGain = _dbGainCalculator.Calculate();
 
+            if (centerFrequency > _nyquistFrequency) centerFrequency = _nyquistFrequency;
+
             _biQuadFilter.SetPeakingEQVariables(_samplingRate, centerFrequency, bandWidth, dbGain);
         }
     }
@@ -110,8 +115,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double samplingRate)
                 : base(new OperatorCalculatorBase[] { signalCalculator })
         {
-            if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => signalCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
+            OperatorCalculatorHelper.AssertFilterFrequency(centerFrequency, samplingRate);
 
             _signalCalculator = signalCalculator;
             _centerFrequency = centerFrequency;

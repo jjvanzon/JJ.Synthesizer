@@ -81,6 +81,23 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (Double.IsInfinity(step)) throw new InfinityException(() => step);
         }
 
+        internal static void AssertFilterFrequency(double filterFrequency, double samplingRate)
+        {
+            if (filterFrequency == 0.0) throw new ZeroException(() => filterFrequency);
+            if (Double.IsNaN(filterFrequency)) throw new NaNException(() => filterFrequency);
+            if (Double.IsInfinity(filterFrequency)) throw new InfinityException(() => filterFrequency);
+
+            if (samplingRate == 0.0) throw new ZeroException(() => samplingRate);
+            if (Double.IsNaN(samplingRate)) throw new NaNException(() => samplingRate);
+            if (Double.IsInfinity(samplingRate)) throw new InfinityException(() => samplingRate);
+
+            double nyquistFrequency = samplingRate / 2.0;
+            if (filterFrequency > nyquistFrequency)
+            {
+                throw new GreaterThanException(() => filterFrequency, () => nyquistFrequency);
+            }
+        }
+
         /// <summary> Asserts that the calculator is not null and not a Number_OperatorCalculator.</summary>
         public static void AssertChildOperatorCalculator(
             OperatorCalculatorBase operatorCalculatorBase,

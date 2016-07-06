@@ -79,7 +79,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double input = _inputCalculator.Calculate();
 
-            double result = AggregateCalculator.Closest(input, _firstItem, _remainingItems, _remainingItemsLength);
+            double result = AggregateCalculator.ClosestUnsafe(input, _firstItem, _remainingItems, _remainingItemsLength);
 
             return result;
         }

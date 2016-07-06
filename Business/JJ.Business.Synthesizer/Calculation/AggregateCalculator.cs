@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Calculation
 
             double[] remaingItems = items.Skip(1).ToArray();
 
-            return Closest(input, items[0], remaingItems, remaingItems.Length);
+            return ClosestUnsafe(input, items[0], remaingItems, remaingItems.Length);
         }
 
         /// <summary> Slower than the other overload. </summary>
@@ -30,12 +30,12 @@ namespace JJ.Business.Synthesizer.Calculation
 
             double[] remaingItems = items.Skip(1).ToArray();
 
-            return ClosestExp(input, items[0], remaingItems, remaingItems.Length);
+            return ClosestExpUnsafe(input, items[0], remaingItems, remaingItems.Length);
         }
 
         /// <summary> Null-checks a.o. omitted for performance. </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double Closest(double input, double firstItem, double[] remainingItems, int remainingItemsCount)
+        public static double ClosestUnsafe(double input, double firstItem, double[] remainingItems, int remainingItemsCount)
         {
             double smallestDistance = Geometry.AbsoluteDistance(input, firstItem);
             double closestItem = firstItem;
@@ -58,7 +58,7 @@ namespace JJ.Business.Synthesizer.Calculation
 
         /// <summary> Null-checks a.o. omitted for performance. </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double ClosestExp(double input, double firstItem, double[] remainingItems, int remainingItemsCount)
+        public static double ClosestExpUnsafe(double input, double firstItem, double[] remainingItems, int remainingItemsCount)
         {
             double logInput = Math.Log(input);
 

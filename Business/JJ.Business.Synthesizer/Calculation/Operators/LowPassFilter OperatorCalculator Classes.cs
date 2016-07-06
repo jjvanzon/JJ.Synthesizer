@@ -14,6 +14,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _maxFrequencyCalculator;
         private readonly OperatorCalculatorBase _bandWidthCalculator;
         private readonly double _samplingRate;
+        private readonly double _nyquistFrequency;
         private readonly int _samplesBetweenApplyFilterVariables;
         private readonly BiQuadFilter _biQuadFilter;
 
@@ -43,6 +44,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _samplingRate = samplingRate;
             _samplesBetweenApplyFilterVariables = samplesBetweenApplyFilterVariables;
             _biQuadFilter = new BiQuadFilter();
+
+            _nyquistFrequency = _samplingRate / 2.0;
 
             ResetNonRecursive();
         }
@@ -83,6 +86,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double maxFrequency = _maxFrequencyCalculator.Calculate();
             double bandWidth = _bandWidthCalculator.Calculate();
 
+            if (maxFrequency > _nyquistFrequency) maxFrequency = _nyquistFrequency;
+
             _biQuadFilter.SetLowPassFilterVariables(_samplingRate, maxFrequency, bandWidth);
         }
     }
@@ -104,6 +109,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 : base(new OperatorCalculatorBase[] { signalCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
+            OperatorCalculatorHelper.AssertFilterFrequency(maxFrequency, samplingRate);
 
             _signalCalculator = signalCalculator;
             _maxFrequency = maxFrequency;
