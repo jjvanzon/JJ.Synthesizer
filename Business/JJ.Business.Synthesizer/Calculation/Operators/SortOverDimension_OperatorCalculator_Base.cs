@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -43,14 +42,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             ResetNonRecursive();
         }
-
-        // TODO: Remove outcommented code.
-        ///// <summary> does nothing </summary>
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public override double Calculate()
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sealed override void Reset()

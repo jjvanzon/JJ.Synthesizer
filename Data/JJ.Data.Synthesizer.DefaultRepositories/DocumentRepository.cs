@@ -22,23 +22,6 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
                            .ToArray();
         }
 
-        public virtual IList<Document> GetPageOfRootDocumentsOrderedByName(int firstIndex, int pageSize)
-        {
-            return _context.Query<Document>()
-                           .Where(x => x.ParentDocument == null)
-                           .OrderBy(x => x.Name)
-                           .Skip(firstIndex)
-                           .Take(pageSize)
-                           .ToArray();
-        }
-
-        public virtual int CountRootDocuments()
-        {
-            return _context.Query<Document>()
-                           .Where(x => x.ParentDocument == null)
-                           .Count();
-        }
-
         public virtual Document TryGetComplete(int id)
         {
             // By default do it with lazy loading after all.

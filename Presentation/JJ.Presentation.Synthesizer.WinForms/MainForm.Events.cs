@@ -474,154 +474,154 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Operator
 
-        private void operatorPropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
+        private void operatorPropertiesUserControl_LoseFocusRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.OperatorPropertiesLoseFocus);
+            TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus(e.Value));
         }
 
-        private void operatorPropertiesUserControl_CloseRequested(object sender, EventArgs e)
+        private void operatorPropertiesUserControl_CloseRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.OperatorPropertiesClose);
+            TemplateEventHandler(() => _presenter.OperatorPropertiesClose(e.Value));
         }
 
-        private void operatorPropertiesUserControl_ForBundle_LoseFocusRequested(object sender, EventArgs e)
+        private void operatorPropertiesUserControl_ForBundle_LoseFocusRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.OperatorPropertiesLoseFocus_ForBundle);
+            TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus_ForBundle(e.Value));
         }
 
-        private void operatorPropertiesUserControl_ForBundle_CloseRequested(object sender, EventArgs e)
+        private void operatorPropertiesUserControl_ForBundle_CloseRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.OperatorPropertiesClose_ForBundle);
+            TemplateEventHandler(() => _presenter.OperatorPropertiesClose_ForBundle(e.Value));
         }
 
-        private void operatorPropertiesUserControl_ForCache_LoseFocusRequested(object sender, EventArgs e)
+        private void operatorPropertiesUserControl_ForCache_LoseFocusRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.OperatorPropertiesLoseFocus_ForCache);
+            TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus_ForCache(e.Value));
         }
 
-        private void operatorPropertiesUserControl_ForCache_CloseRequested(object sender, EventArgs e)
+        private void operatorPropertiesUserControl_ForCache_CloseRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.OperatorPropertiesClose_ForCache);
+            TemplateEventHandler(() => _presenter.OperatorPropertiesClose_ForCache(e.Value));
         }
 
-        private void operatorPropertiesUserControl_ForCurve_LoseFocusRequested(object sender, EventArgs e)
+        private void operatorPropertiesUserControl_ForCurve_LoseFocusRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.OperatorPropertiesLoseFocus_ForCurve);
+            TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus_ForCurve(e.Value));
         }
 
-        private void operatorPropertiesUserControl_ForCurve_CloseRequested(object sender, EventArgs e)
+        private void operatorPropertiesUserControl_ForCurve_CloseRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.OperatorPropertiesClose_ForCurve);
+            TemplateEventHandler(() => _presenter.OperatorPropertiesClose_ForCurve(e.Value));
         }
 
-        private void operatorPropertiesUserControl_ForCustomOperator_LoseFocusRequested(object sender, EventArgs e)
+        private void operatorPropertiesUserControl_ForCustomOperator_LoseFocusRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.OperatorPropertiesLoseFocus_ForCustomOperator);
+            TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus_ForCustomOperator(e.Value));
         }
 
-        private void operatorPropertiesUserControl_ForCustomOperator_CloseRequested(object sender, EventArgs e)
+        private void operatorPropertiesUserControl_ForCustomOperator_CloseRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.OperatorPropertiesClose_ForCustomOperator);
+            TemplateEventHandler(() => _presenter.OperatorPropertiesClose_ForCustomOperator(e.Value));
         }
 
-        private void operatorPropertiesUserControl_ForMakeContinuous_LoseFocusRequested(object sender, EventArgs e)
+        private void operatorPropertiesUserControl_ForMakeContinuous_LoseFocusRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.OperatorPropertiesLoseFocus_ForMakeContinuous);
+            TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus_ForMakeContinuous(e.Value));
         }
 
-        private void operatorPropertiesUserControl_ForMakeContinuous_CloseRequested(object sender, EventArgs e)
+        private void operatorPropertiesUserControl_ForMakeContinuous_CloseRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.OperatorPropertiesClose_ForMakeContinuous);
+            TemplateEventHandler(() => _presenter.OperatorPropertiesClose_ForMakeContinuous(e.Value));
         }
 
-        private void operatorPropertiesUserControl_ForNumber_LoseFocusRequested(object sender, EventArgs e)
+        private void operatorPropertiesUserControl_ForNumber_LoseFocusRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.OperatorPropertiesLoseFocus_ForNumber);
+            TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus_ForNumber(e.Value));
         }
 
-        private void operatorPropertiesUserControl_ForNumber_CloseRequested(object sender, EventArgs e)
+        private void operatorPropertiesUserControl_ForNumber_CloseRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.OperatorPropertiesClose_ForNumber);
+            TemplateEventHandler(() => _presenter.OperatorPropertiesClose_ForNumber(e.Value));
         }
 
-        private void operatorPropertiesUserControl_ForPatchInlet_LoseFocusRequested(object sender, EventArgs e)
+        private void operatorPropertiesUserControl_ForPatchInlet_LoseFocusRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.OperatorPropertiesLoseFocus_ForPatchInlet);
+            TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus_ForPatchInlet(e.Value));
         }
 
-        private void operatorPropertiesUserControl_ForPatchInlet_CloseRequested(object sender, EventArgs e)
+        private void operatorPropertiesUserControl_ForPatchInlet_CloseRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.OperatorPropertiesClose_ForPatchInlet);
+            TemplateEventHandler(() => _presenter.OperatorPropertiesClose_ForPatchInlet(e.Value));
         }
 
-        private void operatorPropertiesUserControl_ForPatchOutlet_LoseFocusRequested(object sender, EventArgs e)
+        private void operatorPropertiesUserControl_ForPatchOutlet_LoseFocusRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.OperatorPropertiesLoseFocus_ForPatchOutlet);
+            TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus_ForPatchOutlet(e.Value));
         }
 
-        private void operatorPropertiesUserControl_ForPatchOutlet_CloseRequested(object sender, EventArgs e)
+        private void operatorPropertiesUserControl_ForPatchOutlet_CloseRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.OperatorPropertiesClose_ForPatchOutlet);
+            TemplateEventHandler(() => _presenter.OperatorPropertiesClose_ForPatchOutlet(e.Value));
         }
 
-        private void operatorPropertiesUserControl_ForSample_LoseFocusRequested(object sender, EventArgs e)
+        private void operatorPropertiesUserControl_ForSample_LoseFocusRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.OperatorPropertiesLoseFocus_ForSample);
+            TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus_ForSample(e.Value));
         }
 
-        private void operatorPropertiesUserControl_ForSample_CloseRequested(object sender, EventArgs e)
+        private void operatorPropertiesUserControl_ForSample_CloseRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.OperatorPropertiesClose_ForSample);
+            TemplateEventHandler(() => _presenter.OperatorPropertiesClose_ForSample(e.Value));
         }
 
-        private void operatorPropertiesUserControl_WithDimension_LoseFocusRequested(object sender, EventArgs e)
+        private void operatorPropertiesUserControl_WithDimension_LoseFocusRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.OperatorPropertiesLoseFocus_WithDimension);
+            TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus_WithDimension(e.Value));
         }
 
-        private void operatorPropertiesUserControl_WithDimension_CloseRequested(object sender, EventArgs e)
+        private void operatorPropertiesUserControl_WithDimension_CloseRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.OperatorPropertiesClose_WithDimension);
+            TemplateEventHandler(() => _presenter.OperatorPropertiesClose_WithDimension(e.Value));
         }
 
-        private void operatorPropertiesUserControl_WithDimensionAndInterpolation_LoseFocusRequested(object sender, EventArgs e)
+        private void operatorPropertiesUserControl_WithDimensionAndInterpolation_LoseFocusRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.OperatorPropertiesLoseFocus_WithDimensionAndInterpolation);
+            TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus_WithDimensionAndInterpolation(e.Value));
         }
 
-        private void operatorPropertiesUserControl_WithDimensionAndInterpolation_CloseRequested(object sender, EventArgs e)
+        private void operatorPropertiesUserControl_WithDimensionAndInterpolation_CloseRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.OperatorPropertiesClose_WithDimensionAndInterpolation);
+            TemplateEventHandler(() => _presenter.OperatorPropertiesClose_WithDimensionAndInterpolation(e.Value));
         }
 
-        private void operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation_LoseFocusRequested(object sender, EventArgs e)
+        private void operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation_LoseFocusRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.OperatorPropertiesLoseFocus_WithDimensionAndCollectionRecalculation);
+            TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus_WithDimensionAndCollectionRecalculation(e.Value));
         }
 
-        private void operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation_CloseRequested(object sender, EventArgs e)
+        private void operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation_CloseRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.OperatorPropertiesClose_WithDimensionAndCollectionRecalculation);
+            TemplateEventHandler(() => _presenter.OperatorPropertiesClose_WithDimensionAndCollectionRecalculation(e.Value));
         }
 
-        private void operatorPropertiesUserControl_WithDimensionAndOutletCount_LoseFocusRequested(object sender, EventArgs e)
+        private void operatorPropertiesUserControl_WithDimensionAndOutletCount_LoseFocusRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.OperatorPropertiesLoseFocus_WithDimensionAndOutletCount);
+            TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus_WithDimensionAndOutletCount(e.Value));
         }
 
-        private void operatorPropertiesUserControl_WithDimensionAndOutletCount_CloseRequested(object sender, EventArgs e)
+        private void operatorPropertiesUserControl_WithDimensionAndOutletCount_CloseRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.OperatorPropertiesClose_WithDimensionAndOutletCount);
+            TemplateEventHandler(() => _presenter.OperatorPropertiesClose_WithDimensionAndOutletCount(e.Value));
         }
 
-        private void operatorPropertiesUserControl_WithInletCount_LoseFocusRequested(object sender, EventArgs e)
+        private void operatorPropertiesUserControl_WithInletCount_LoseFocusRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.OperatorPropertiesLoseFocus_WithInletCount);
+            TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus_WithInletCount(e.Value));
         }
 
-        private void operatorPropertiesUserControl_WithInletCount_CloseRequested(object sender, EventArgs e)
+        private void operatorPropertiesUserControl_WithInletCount_CloseRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.OperatorPropertiesClose_WithInletCount);
+            TemplateEventHandler(() => _presenter.OperatorPropertiesClose_WithInletCount(e.Value));
         }
 
         // Patch

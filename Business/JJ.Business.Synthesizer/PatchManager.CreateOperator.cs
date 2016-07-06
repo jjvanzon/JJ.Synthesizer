@@ -2071,8 +2071,10 @@ namespace JJ.Business.Synthesizer
 
             for (int i = 0; i < operands.Count; i++)
             {
-                // TODO: Use LinkTo.
-                op.Inlets[i].InputOutlet = operands[i];
+                Inlet inlet = op.Inlets[i];
+                Outlet operand = operands[i];
+
+                inlet.LinkTo(operand);
             }
         }
 

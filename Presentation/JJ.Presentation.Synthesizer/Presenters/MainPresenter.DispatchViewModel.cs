@@ -567,32 +567,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             castedViewModel.ValidationMessages.Clear();
         }
 
-        // TODO: Remove outcommented code.
-        //private void DispatchOperatorPropertiesViewModel_ForResample(object viewModel2)
-        //{
-        //    var castedViewModel = (OperatorPropertiesViewModel_ForResample)viewModel2;
-
-        //    var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForResamples_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
-        //    int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
-        //    if (listIndex.HasValue)
-        //    {
-        //        list[listIndex.Value] = castedViewModel;
-        //    }
-        //    else
-        //    {
-        //        list.Add(castedViewModel);
-        //    }
-
-        //    if (castedViewModel.Visible)
-        //    {
-        //        HideAllPropertiesViewModels();
-        //        castedViewModel.Visible = true;
-        //    }
-
-        //    MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
-        //    castedViewModel.ValidationMessages.Clear();
-        //}
-
         private void DispatchOperatorPropertiesViewModel_ForSample(object viewModel2)
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForSample)viewModel2;

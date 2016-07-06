@@ -16,11 +16,6 @@ namespace JJ.Data.Synthesizer.SqlClient
             _sqlExecutor = sqlExecutor;
         }
 
-        public IList<int> Document_GetPageOfRootDocumentIDsOrderedByName(int firstIndex, int count)
-        {
-            return _sqlExecutor.ExecuteReader<int>(SqlEnum.Document_GetPageOfRootDocumentIDsOrderedByName, new { firstIndex, count }).ToArray();
-        }
-
         /// <summary>
         /// Beware that you could get null returned, which either means the database
         /// field is null or that the database record does not exist.

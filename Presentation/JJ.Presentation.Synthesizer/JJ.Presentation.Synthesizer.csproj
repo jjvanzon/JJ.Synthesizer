@@ -46,6 +46,7 @@
     <Compile Include="Helpers\MustNotConvertToOutletViewModelException.cs" />
     <Compile Include="Helpers\MustNotConvertToInletViewModelException.cs" />
     <Compile Include="Helpers\PresentationPropertyNames.cs" />
+    <Compile Include="Helpers\ViewModelNotFoundByIDException.cs" />
     <Compile Include="Presenters\AudioOutputPropertiesPresenter.cs" />
     <Compile Include="Presenters\CurrentPatchesPresenter.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenterBase.cs" />

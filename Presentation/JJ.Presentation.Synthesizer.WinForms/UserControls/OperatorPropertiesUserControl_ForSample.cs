@@ -10,14 +10,15 @@ using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Framework.Presentation.WinForms.Extensions;
 using JJ.Presentation.Synthesizer.Resources;
+using JJ.Presentation.Synthesizer.WinForms.EventArg;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class OperatorPropertiesUserControl_ForSample 
         : OperatorPropertiesUserControl_ForSample_NotDesignable
     {
-        public event EventHandler CloseRequested;
-        public event EventHandler LoseFocusRequested;
+        public event EventHandler<Int32EventArgs> CloseRequested;
+        public event EventHandler<Int32EventArgs> LoseFocusRequested;
 
         public OperatorPropertiesUserControl_ForSample()
         {
@@ -113,20 +114,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void Close()
         {
-            if (CloseRequested != null)
-            {
-                ApplyControlsToViewModel();
-                CloseRequested(this, EventArgs.Empty);
-            }
+            if (ViewModel == null) return;
+            ApplyControlsToViewModel();
+            CloseRequested?.Invoke(this, new Int32EventArgs(ViewModel.ID));
         }
 
         private void LoseFocus()
         {
-            if (LoseFocusRequested != null)
-            {
-                ApplyControlsToViewModel();
-                LoseFocusRequested(this, EventArgs.Empty);
-            }
+            if (ViewModel == null) return;
+            ApplyControlsToViewModel();
+            LoseFocusRequested?.Invoke(this, new Int32EventArgs(ViewModel.ID));
         }
 
         // Events
