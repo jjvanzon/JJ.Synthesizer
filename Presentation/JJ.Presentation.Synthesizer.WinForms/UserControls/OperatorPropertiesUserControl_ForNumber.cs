@@ -5,9 +5,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
-using JJ.Framework.Presentation.WinForms.Extensions;
 using JJ.Presentation.Synthesizer.Resources;
-using JJ.Presentation.Synthesizer.WinForms.EventArg;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -17,13 +15,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public OperatorPropertiesUserControl_ForNumber()
         {
             InitializeComponent();
-
-            SetTitles();
         }
 
         // Gui
 
-        private void SetTitles()
+        protected override void SetTitles()
         {
             TitleBarText = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Operator);
             labelName.Text = CommonTitles.Name;
@@ -67,15 +63,5 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     /// <summary> The WinForms designer does not work when deriving directly from a generic class. </summary>
     internal class OperatorPropertiesUserControl_ForNumber_NotDesignable
         : OperatorPropertiesUserControlBase<OperatorPropertiesViewModel_ForNumber>
-    {
-        protected override void ApplyControlsToViewModel()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void ApplyViewModelToControls()
-        {
-            throw new NotImplementedException();
-        }
-    }
+    { }
 }

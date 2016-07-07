@@ -47,6 +47,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             this.AutomaticallyAssignTabIndexes();
 
+            SetTitles();
             ApplyStyling();
             PositionControls();
         }
@@ -82,6 +83,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             get { return DEFAULT_TITLE_BAR_HEIGHT; }
         }
 
+        protected virtual void SetTitles()
+        { }
+
         protected virtual void ApplyStyling()
         {
             AutoScaleDimensions = new SizeF(6F, 13F);
@@ -95,7 +99,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             _titleBarUserControl.Width = Width;
         }
 
-        protected abstract void ApplyControlsToViewModel();
+        protected virtual void ApplyControlsToViewModel()
+        { }
 
         // Actions
 

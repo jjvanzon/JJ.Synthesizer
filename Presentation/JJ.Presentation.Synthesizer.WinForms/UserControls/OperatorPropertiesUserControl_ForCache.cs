@@ -18,13 +18,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public OperatorPropertiesUserControl_ForCache()
         {
             InitializeComponent();
-
-            SetTitles();
         }
 
         // Gui
 
-        private void SetTitles()
+        protected override void SetTitles()
         {
             TitleBarText = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Operator);
             labelName.Text = CommonTitles.Name;
@@ -121,15 +119,5 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     /// <summary> The WinForms designer does not work when deriving directly from a generic class. </summary>
     internal class OperatorPropertiesUserControl_ForCache_NotDesignable
         : OperatorPropertiesUserControlBase<OperatorPropertiesViewModel_ForCache>
-    {
-        protected override void ApplyControlsToViewModel()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void ApplyViewModelToControls()
-        {
-            throw new NotImplementedException();
-        }
-    }
+    { }
 }

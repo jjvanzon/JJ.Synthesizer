@@ -6,9 +6,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
-using JJ.Framework.Presentation.WinForms.Extensions;
 using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 
@@ -20,8 +18,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public OperatorPropertiesUserControl_ForCustomOperator()
         {
             InitializeComponent();
-
-            SetTitles();
         }
 
         private void OperatorPropertiesUserControl_ForCustomOperator_Load(object sender, EventArgs e)
@@ -31,7 +27,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Gui
 
-        private void SetTitles()
+        protected override void SetTitles()
         {
             TitleBarText = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Operator);
             labelName.Text = CommonTitles.Name;
@@ -108,15 +104,5 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     /// <summary> The WinForms designer does not work when deriving directly from a generic class. </summary>
     internal class OperatorPropertiesUserControl_ForCustomOperator_NotDesignable
         : OperatorPropertiesUserControlBase<OperatorPropertiesViewModel_ForCustomOperator>
-    {
-        protected override void ApplyControlsToViewModel()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void ApplyViewModelToControls()
-        {
-            throw new NotImplementedException();
-        }
-    }
+    { }
 }

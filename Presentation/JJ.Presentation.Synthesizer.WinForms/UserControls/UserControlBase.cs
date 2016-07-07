@@ -39,6 +39,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
-        protected abstract void ApplyViewModelToControls();
+        protected virtual void ApplyViewModelToControls()
+        { }
     }
 }
