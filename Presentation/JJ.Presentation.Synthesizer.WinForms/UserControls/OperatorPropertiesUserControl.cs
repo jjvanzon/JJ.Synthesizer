@@ -5,7 +5,6 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
-using JJ.Framework.Presentation.WinForms.Extensions;
 using JJ.Presentation.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
@@ -17,8 +16,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             InitializeComponent();
 
             SetTitles();
-
-            this.AutomaticallyAssignTabIndexes();
         }
 
         // Gui

@@ -5,6 +5,7 @@ using System.Drawing;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Partials;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
+using JJ.Framework.Presentation.WinForms.Extensions;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -42,6 +43,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
+        private void Base_Load(object sender, EventArgs e)
+        {
+            this.AutomaticallyAssignTabIndexes();
+
+            ApplyStyling();
+            PositionControls();
+        }
+
         private TitleBarUserControl CreateTitleBarUserControl()
         {
             var control = new TitleBarUserControl
@@ -58,12 +67,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             };
 
             return control;
-        }
-
-        private void Base_Load(object sender, EventArgs e)
-        {
-            ApplyStyling();
-            PositionControls();
         }
 
         // Gui

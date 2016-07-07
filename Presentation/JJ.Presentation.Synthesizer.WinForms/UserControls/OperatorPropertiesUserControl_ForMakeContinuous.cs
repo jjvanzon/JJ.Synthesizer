@@ -21,8 +21,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             InitializeComponent();
 
             SetTitles();
-
-            this.AutomaticallyAssignTabIndexes();
         }
 
         // Gui

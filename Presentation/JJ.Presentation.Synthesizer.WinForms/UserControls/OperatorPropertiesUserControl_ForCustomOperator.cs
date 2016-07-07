@@ -22,8 +22,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             InitializeComponent();
 
             SetTitles();
-
-            this.AutomaticallyAssignTabIndexes();
         }
 
         private void OperatorPropertiesUserControl_ForCustomOperator_Load(object sender, EventArgs e)
