@@ -9,16 +9,12 @@ using JJ.Framework.Presentation.WinForms.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.Resources;
-using JJ.Presentation.Synthesizer.WinForms.EventArg;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class OperatorPropertiesUserControl_WithDimension
         : NotDesignable_OperatorPropertiesUserControl_WithDimension
     {
-        public event EventHandler<Int32EventArgs> CloseRequested;
-        public event EventHandler<Int32EventArgs> LoseFocusRequested;
-
         public OperatorPropertiesUserControl_WithDimension()
         {
             InitializeComponent();
@@ -28,23 +24,27 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.AutomaticallyAssignTabIndexes();
         }
 
-        private void OperatorPropertiesUserControl_WithDimension_Load(object sender, EventArgs e)
-        {
-            ApplyStyling();
-        }
-
         // Gui
 
         private void SetTitles()
         {
-            titleBarUserControl.Text = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Operator);
-
+            TitleBarText = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Operator);
             labelName.Text = CommonTitles.Name;
             labelOperatorTypeTitle.Text = Titles.Type + ":";
             labelDimension.Text = PropertyDisplayNames.Dimension;
         }
 
-        private void ApplyStyling()
+        protected override void PositionControls()
+        {
+            base.PositionControls();
+
+            tableLayoutPanelProperties.Left = 0;
+            tableLayoutPanelProperties.Top = TitleBarHeight;
+            tableLayoutPanelProperties.Width = Width;
+            tableLayoutPanelProperties.Height = Height - TitleBarHeight;
+        }
+
+        protected override void ApplyStyling()
         {
             StyleHelper.SetPropertyLabelColumnSize(tableLayoutPanelProperties);
         }
@@ -75,54 +75,24 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
-        private void ApplyControlsToViewModel()
+        protected override void ApplyControlsToViewModel()
         {
             if (ViewModel == null) return;
 
             ViewModel.Name = textBoxName.Text;
             ViewModel.Dimension = (IDAndName)comboBoxDimension.SelectedItem;
         }
-
-        // Actions
-
-        private void Close()
-        {
-            if (ViewModel == null) return;
-            ApplyControlsToViewModel();
-            CloseRequested?.Invoke(this, new Int32EventArgs(ViewModel.ID));
-        }
-
-        private void LoseFocus()
-        {
-            if (ViewModel == null) return;
-            ApplyControlsToViewModel();
-            LoseFocusRequested?.Invoke(this, new Int32EventArgs(ViewModel.ID));
-        }
-
-        // Events
-
-        private void titleBarUserControl_CloseClicked(object sender, EventArgs e)
-        {
-            Close();
-        }
-
-        // This event does not go off, if not clicked on a control that according to WinForms can get focus.
-        private void OperatorPropertiesUserControl_WithDimension_Leave(object sender, EventArgs e)
-        {
-            // This Visible check is there because the leave event (lose focus) goes off after I closed, 
-            // making it want to save again, even though view model is empty
-            // which makes it say that now clear fields are required.
-            if (Visible)
-            {
-                LoseFocus();
-            }
-        }
     }
 
     /// <summary> The WinForms designer does not work when deriving directly from a generic class. </summary>
     internal class NotDesignable_OperatorPropertiesUserControl_WithDimension
-        : UserControlBase<OperatorPropertiesViewModel_WithDimension>
+        : OperatorPropertiesUserControlBase<OperatorPropertiesViewModel_WithDimension>
     {
+        protected override void ApplyControlsToViewModel()
+        {
+            throw new NotImplementedException();
+        }
+
         protected override void ApplyViewModelToControls()
         {
             throw new NotImplementedException();

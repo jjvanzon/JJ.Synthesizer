@@ -30,7 +30,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         /// </summary>
         private void InitializeComponent()
         {
-            this.tableLayoutPanelMain = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanelProperties = new System.Windows.Forms.TableLayoutPanel();
             this.labelName = new System.Windows.Forms.Label();
             this.textBoxName = new System.Windows.Forms.TextBox();
@@ -38,26 +37,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelOperatorTypeValue = new System.Windows.Forms.Label();
             this.labelDimension = new System.Windows.Forms.Label();
             this.comboBoxDimension = new System.Windows.Forms.ComboBox();
-            this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
-            this.tableLayoutPanelMain.SuspendLayout();
             this.tableLayoutPanelProperties.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // tableLayoutPanelMain
-            // 
-            this.tableLayoutPanelMain.ColumnCount = 1;
-            this.tableLayoutPanelMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanelMain.Controls.Add(this.tableLayoutPanelProperties, 0, 1);
-            this.tableLayoutPanelMain.Controls.Add(this.titleBarUserControl, 0, 0);
-            this.tableLayoutPanelMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanelMain.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanelMain.Margin = new System.Windows.Forms.Padding(4);
-            this.tableLayoutPanelMain.Name = "tableLayoutPanelMain";
-            this.tableLayoutPanelMain.RowCount = 2;
-            this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
-            this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelMain.Size = new System.Drawing.Size(10, 10);
-            this.tableLayoutPanelMain.TabIndex = 8;
             // 
             // tableLayoutPanelProperties
             // 
@@ -70,7 +51,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.tableLayoutPanelProperties.Controls.Add(this.labelOperatorTypeValue, 1, 0);
             this.tableLayoutPanelProperties.Controls.Add(this.labelDimension, 0, 2);
             this.tableLayoutPanelProperties.Controls.Add(this.comboBoxDimension, 1, 2);
-            this.tableLayoutPanelProperties.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelProperties.Location = new System.Drawing.Point(4, 30);
             this.tableLayoutPanelProperties.Margin = new System.Windows.Forms.Padding(4);
             this.tableLayoutPanelProperties.Name = "tableLayoutPanelProperties";
@@ -148,33 +128,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.comboBoxDimension.Size = new System.Drawing.Size(10, 24);
             this.comboBoxDimension.TabIndex = 21;
             // 
-            // titleBarUserControl
-            // 
-            this.titleBarUserControl.AddButtonVisible = false;
-            this.titleBarUserControl.BackColor = System.Drawing.SystemColors.Control;
-            this.titleBarUserControl.CloseButtonVisible = true;
-            this.titleBarUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.titleBarUserControl.Location = new System.Drawing.Point(0, 0);
-            this.titleBarUserControl.Margin = new System.Windows.Forms.Padding(0);
-            this.titleBarUserControl.Name = "titleBarUserControl";
-            this.titleBarUserControl.RemoveButtonVisible = false;
-            this.titleBarUserControl.Size = new System.Drawing.Size(18, 26);
-            this.titleBarUserControl.TabIndex = 7;
-            this.titleBarUserControl.CloseClicked += new System.EventHandler(this.titleBarUserControl_CloseClicked);
-            // 
             // OperatorPropertiesUserControl_WithDimension
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.Controls.Add(this.tableLayoutPanelMain);
+            this.Controls.Add(this.tableLayoutPanelProperties);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "OperatorPropertiesUserControl_WithDimension";
             this.Size = new System.Drawing.Size(10, 10);
-            this.Load += new System.EventHandler(this.OperatorPropertiesUserControl_WithDimension_Load);
-            this.Leave += new System.EventHandler(this.OperatorPropertiesUserControl_WithDimension_Leave);
-            this.tableLayoutPanelMain.ResumeLayout(false);
             this.tableLayoutPanelProperties.ResumeLayout(false);
             this.tableLayoutPanelProperties.PerformLayout();
             this.ResumeLayout(false);
@@ -183,8 +146,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanelMain;
-        private TitleBarUserControl titleBarUserControl;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelProperties;
         private System.Windows.Forms.Label labelName;
         private System.Windows.Forms.TextBox textBoxName;

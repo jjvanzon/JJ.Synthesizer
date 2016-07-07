@@ -29,7 +29,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         /// </summary>
         private void InitializeComponent()
         {
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanelProperties = new System.Windows.Forms.TableLayoutPanel();
             this.labelName = new System.Windows.Forms.Label();
             this.textBoxName = new System.Windows.Forms.TextBox();
@@ -37,30 +36,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelOperatorTypeValue = new System.Windows.Forms.Label();
             this.labelNumber = new System.Windows.Forms.Label();
             this.textBoxNumber = new System.Windows.Forms.TextBox();
-            this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
-            this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanelProperties.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // tableLayoutPanel2
-            // 
-            this.tableLayoutPanel2.ColumnCount = 1;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanelProperties, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this.titleBarUserControl, 0, 0);
-            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 2;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 21F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(10, 10);
-            this.tableLayoutPanel2.TabIndex = 8;
             // 
             // tableLayoutPanelProperties
             // 
             this.tableLayoutPanelProperties.ColumnCount = 2;
-            this.tableLayoutPanelProperties.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 110F));
+            this.tableLayoutPanelProperties.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 147F));
             this.tableLayoutPanelProperties.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelProperties.Controls.Add(this.labelName, 0, 1);
             this.tableLayoutPanelProperties.Controls.Add(this.textBoxName, 1, 1);
@@ -68,24 +50,24 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.tableLayoutPanelProperties.Controls.Add(this.labelOperatorTypeValue, 1, 0);
             this.tableLayoutPanelProperties.Controls.Add(this.labelNumber, 0, 2);
             this.tableLayoutPanelProperties.Controls.Add(this.textBoxNumber, 1, 2);
-            this.tableLayoutPanelProperties.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanelProperties.Location = new System.Drawing.Point(3, 24);
+            this.tableLayoutPanelProperties.Location = new System.Drawing.Point(68, 85);
+            this.tableLayoutPanelProperties.Margin = new System.Windows.Forms.Padding(4);
             this.tableLayoutPanelProperties.Name = "tableLayoutPanelProperties";
             this.tableLayoutPanelProperties.RowCount = 4;
-            this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelProperties.Size = new System.Drawing.Size(10, 10);
-            this.tableLayoutPanelProperties.TabIndex = 8;
+            this.tableLayoutPanelProperties.Size = new System.Drawing.Size(404, 300);
+            this.tableLayoutPanelProperties.TabIndex = 9;
             // 
             // labelName
             // 
             this.labelName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelName.Location = new System.Drawing.Point(0, 24);
+            this.labelName.Location = new System.Drawing.Point(0, 30);
             this.labelName.Margin = new System.Windows.Forms.Padding(0);
             this.labelName.Name = "labelName";
-            this.labelName.Size = new System.Drawing.Size(110, 24);
+            this.labelName.Size = new System.Drawing.Size(147, 30);
             this.labelName.TabIndex = 2;
             this.labelName.Text = "labelName";
             this.labelName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -93,10 +75,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // textBoxName
             // 
             this.textBoxName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxName.Location = new System.Drawing.Point(110, 24);
+            this.textBoxName.Location = new System.Drawing.Point(147, 30);
             this.textBoxName.Margin = new System.Windows.Forms.Padding(0);
             this.textBoxName.Name = "textBoxName";
-            this.textBoxName.Size = new System.Drawing.Size(10, 20);
+            this.textBoxName.Size = new System.Drawing.Size(549, 22);
             this.textBoxName.TabIndex = 11;
             // 
             // labelOperatorTypeTitle
@@ -105,7 +87,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelOperatorTypeTitle.Location = new System.Drawing.Point(0, 0);
             this.labelOperatorTypeTitle.Margin = new System.Windows.Forms.Padding(0);
             this.labelOperatorTypeTitle.Name = "labelOperatorTypeTitle";
-            this.labelOperatorTypeTitle.Size = new System.Drawing.Size(110, 24);
+            this.labelOperatorTypeTitle.Size = new System.Drawing.Size(147, 30);
             this.labelOperatorTypeTitle.TabIndex = 12;
             this.labelOperatorTypeTitle.Text = "labelOperatorTypeTitle";
             this.labelOperatorTypeTitle.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -113,10 +95,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // labelOperatorTypeValue
             // 
             this.labelOperatorTypeValue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelOperatorTypeValue.Location = new System.Drawing.Point(110, 0);
+            this.labelOperatorTypeValue.Location = new System.Drawing.Point(147, 0);
             this.labelOperatorTypeValue.Margin = new System.Windows.Forms.Padding(0);
             this.labelOperatorTypeValue.Name = "labelOperatorTypeValue";
-            this.labelOperatorTypeValue.Size = new System.Drawing.Size(10, 24);
+            this.labelOperatorTypeValue.Size = new System.Drawing.Size(549, 30);
             this.labelOperatorTypeValue.TabIndex = 13;
             this.labelOperatorTypeValue.Text = "labelOperatorTypeValue";
             this.labelOperatorTypeValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -124,10 +106,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // labelNumber
             // 
             this.labelNumber.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelNumber.Location = new System.Drawing.Point(0, 48);
+            this.labelNumber.Location = new System.Drawing.Point(0, 60);
             this.labelNumber.Margin = new System.Windows.Forms.Padding(0);
             this.labelNumber.Name = "labelNumber";
-            this.labelNumber.Size = new System.Drawing.Size(110, 24);
+            this.labelNumber.Size = new System.Drawing.Size(147, 30);
             this.labelNumber.TabIndex = 14;
             this.labelNumber.Text = "labelNumber";
             this.labelNumber.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -135,38 +117,23 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // textBoxNumber
             // 
             this.textBoxNumber.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxNumber.Location = new System.Drawing.Point(110, 48);
+            this.textBoxNumber.Location = new System.Drawing.Point(147, 60);
             this.textBoxNumber.Margin = new System.Windows.Forms.Padding(0);
             this.textBoxNumber.Name = "textBoxNumber";
-            this.textBoxNumber.Size = new System.Drawing.Size(10, 20);
+            this.textBoxNumber.Size = new System.Drawing.Size(549, 22);
             this.textBoxNumber.TabIndex = 15;
-            // 
-            // titleBarUserControl
-            // 
-            this.titleBarUserControl.AddButtonVisible = false;
-            this.titleBarUserControl.BackColor = System.Drawing.SystemColors.Control;
-            this.titleBarUserControl.CloseButtonVisible = true;
-            this.titleBarUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.titleBarUserControl.Location = new System.Drawing.Point(0, 0);
-            this.titleBarUserControl.Margin = new System.Windows.Forms.Padding(0);
-            this.titleBarUserControl.Name = "titleBarUserControl";
-            this.titleBarUserControl.RemoveButtonVisible = false;
-            this.titleBarUserControl.Size = new System.Drawing.Size(16, 21);
-            this.titleBarUserControl.TabIndex = 7;
-            this.titleBarUserControl.CloseClicked += new System.EventHandler(this.titleBarUserControl_CloseClicked);
             // 
             // OperatorPropertiesUserControl_ForNumber
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.Controls.Add(this.tableLayoutPanel2);
+            this.Controls.Add(this.tableLayoutPanelProperties);
+            this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "OperatorPropertiesUserControl_ForNumber";
-            this.Size = new System.Drawing.Size(10, 10);
-            this.Load += new System.EventHandler(this.OperatorPropertiesUserControl_ForNumber_Load);
-            this.Leave += new System.EventHandler(this.OperatorPropertiesUserControl_ForNumber_Leave);
-            this.tableLayoutPanel2.ResumeLayout(false);
+            this.Size = new System.Drawing.Size(663, 451);
+            this.Controls.SetChildIndex(this.tableLayoutPanelProperties, 0);
             this.tableLayoutPanelProperties.ResumeLayout(false);
             this.tableLayoutPanelProperties.PerformLayout();
             this.ResumeLayout(false);
@@ -175,8 +142,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private TitleBarUserControl titleBarUserControl;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelProperties;
         private System.Windows.Forms.Label labelName;
         private System.Windows.Forms.TextBox textBoxName;

@@ -29,7 +29,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         /// </summary>
         private void InitializeComponent()
         {
-            this.tableLayoutPanelMain = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanelProperties = new System.Windows.Forms.TableLayoutPanel();
             this.labelName = new System.Windows.Forms.Label();
             this.textBoxName = new System.Windows.Forms.TextBox();
@@ -41,27 +40,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelNumber = new System.Windows.Forms.Label();
             this.comboBoxDimension = new System.Windows.Forms.ComboBox();
             this.textBoxDefaultValue = new System.Windows.Forms.TextBox();
-            this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
-            this.tableLayoutPanelMain.SuspendLayout();
             this.tableLayoutPanelProperties.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNumber)).BeginInit();
             this.SuspendLayout();
-            // 
-            // tableLayoutPanelMain
-            // 
-            this.tableLayoutPanelMain.ColumnCount = 1;
-            this.tableLayoutPanelMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanelMain.Controls.Add(this.tableLayoutPanelProperties, 0, 1);
-            this.tableLayoutPanelMain.Controls.Add(this.titleBarUserControl, 0, 0);
-            this.tableLayoutPanelMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanelMain.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanelMain.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tableLayoutPanelMain.Name = "tableLayoutPanelMain";
-            this.tableLayoutPanelMain.RowCount = 2;
-            this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
-            this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelMain.Size = new System.Drawing.Size(10, 10);
-            this.tableLayoutPanelMain.TabIndex = 8;
             // 
             // tableLayoutPanelProperties
             // 
@@ -78,9 +59,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.tableLayoutPanelProperties.Controls.Add(this.labelNumber, 0, 2);
             this.tableLayoutPanelProperties.Controls.Add(this.comboBoxDimension, 1, 3);
             this.tableLayoutPanelProperties.Controls.Add(this.textBoxDefaultValue, 1, 4);
-            this.tableLayoutPanelProperties.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelProperties.Location = new System.Drawing.Point(4, 30);
-            this.tableLayoutPanelProperties.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tableLayoutPanelProperties.Margin = new System.Windows.Forms.Padding(4);
             this.tableLayoutPanelProperties.Name = "tableLayoutPanelProperties";
             this.tableLayoutPanelProperties.RowCount = 6;
             this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
@@ -89,7 +69,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelProperties.Size = new System.Drawing.Size(10, 10);
+            this.tableLayoutPanelProperties.Size = new System.Drawing.Size(290, 200);
             this.tableLayoutPanelProperties.TabIndex = 8;
             // 
             // labelName
@@ -109,7 +89,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.textBoxName.Location = new System.Drawing.Point(147, 30);
             this.textBoxName.Margin = new System.Windows.Forms.Padding(0);
             this.textBoxName.Name = "textBoxName";
-            this.textBoxName.Size = new System.Drawing.Size(10, 22);
+            this.textBoxName.Size = new System.Drawing.Size(143, 22);
             this.textBoxName.TabIndex = 11;
             // 
             // labelOperatorTypeTitle
@@ -129,7 +109,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelOperatorTypeValue.Location = new System.Drawing.Point(147, 0);
             this.labelOperatorTypeValue.Margin = new System.Windows.Forms.Padding(0);
             this.labelOperatorTypeValue.Name = "labelOperatorTypeValue";
-            this.labelOperatorTypeValue.Size = new System.Drawing.Size(10, 30);
+            this.labelOperatorTypeValue.Size = new System.Drawing.Size(143, 30);
             this.labelOperatorTypeValue.TabIndex = 13;
             this.labelOperatorTypeValue.Text = "labelOperatorTypeValue";
             this.labelOperatorTypeValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -150,7 +130,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             0,
             0});
             this.numericUpDownNumber.Name = "numericUpDownNumber";
-            this.numericUpDownNumber.Size = new System.Drawing.Size(10, 22);
+            this.numericUpDownNumber.Size = new System.Drawing.Size(143, 22);
             this.numericUpDownNumber.TabIndex = 18;
             this.numericUpDownNumber.Value = new decimal(new int[] {
             1,
@@ -199,7 +179,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.comboBoxDimension.Location = new System.Drawing.Point(147, 90);
             this.comboBoxDimension.Margin = new System.Windows.Forms.Padding(0);
             this.comboBoxDimension.Name = "comboBoxDimension";
-            this.comboBoxDimension.Size = new System.Drawing.Size(10, 24);
+            this.comboBoxDimension.Size = new System.Drawing.Size(143, 24);
             this.comboBoxDimension.TabIndex = 21;
             // 
             // textBoxDefaultValue
@@ -208,22 +188,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.textBoxDefaultValue.Location = new System.Drawing.Point(147, 120);
             this.textBoxDefaultValue.Margin = new System.Windows.Forms.Padding(0);
             this.textBoxDefaultValue.Name = "textBoxDefaultValue";
-            this.textBoxDefaultValue.Size = new System.Drawing.Size(10, 22);
+            this.textBoxDefaultValue.Size = new System.Drawing.Size(143, 22);
             this.textBoxDefaultValue.TabIndex = 22;
-            // 
-            // titleBarUserControl
-            // 
-            this.titleBarUserControl.AddButtonVisible = false;
-            this.titleBarUserControl.BackColor = System.Drawing.SystemColors.Control;
-            this.titleBarUserControl.CloseButtonVisible = true;
-            this.titleBarUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.titleBarUserControl.Location = new System.Drawing.Point(0, 0);
-            this.titleBarUserControl.Margin = new System.Windows.Forms.Padding(0);
-            this.titleBarUserControl.Name = "titleBarUserControl";
-            this.titleBarUserControl.RemoveButtonVisible = false;
-            this.titleBarUserControl.Size = new System.Drawing.Size(18, 26);
-            this.titleBarUserControl.TabIndex = 7;
-            this.titleBarUserControl.CloseClicked += new System.EventHandler(this.titleBarUserControl_CloseClicked);
             // 
             // OperatorPropertiesUserControl_ForPatchInlet
             // 
@@ -231,13 +197,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.Controls.Add(this.tableLayoutPanelMain);
+            this.Controls.Add(this.tableLayoutPanelProperties);
             this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "OperatorPropertiesUserControl_ForPatchInlet";
-            this.Size = new System.Drawing.Size(10, 10);
-            this.Load += new System.EventHandler(this.OperatorPropertiesUserControl_ForPatchInlet_Load);
-            this.Leave += new System.EventHandler(this.OperatorPropertiesUserControl_ForPatchInlet_Leave);
-            this.tableLayoutPanelMain.ResumeLayout(false);
+            this.Size = new System.Drawing.Size(358, 306);
+            this.Controls.SetChildIndex(this.tableLayoutPanelProperties, 0);
             this.tableLayoutPanelProperties.ResumeLayout(false);
             this.tableLayoutPanelProperties.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNumber)).EndInit();
@@ -247,8 +211,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanelMain;
-        private TitleBarUserControl titleBarUserControl;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelProperties;
         private System.Windows.Forms.Label labelName;
         private System.Windows.Forms.TextBox textBoxName;

@@ -10,16 +10,12 @@ using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Framework.Presentation.WinForms.Extensions;
 using JJ.Presentation.Synthesizer.Resources;
-using JJ.Presentation.Synthesizer.WinForms.EventArg;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class OperatorPropertiesUserControl_ForSample 
         : OperatorPropertiesUserControl_ForSample_NotDesignable
     {
-        public event EventHandler<Int32EventArgs> CloseRequested;
-        public event EventHandler<Int32EventArgs> LoseFocusRequested;
-
         public OperatorPropertiesUserControl_ForSample()
         {
             InitializeComponent();
@@ -29,17 +25,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.AutomaticallyAssignTabIndexes();
         }
 
-        private void OperatorPropertiesUserControl_ForSample_Load(object sender, EventArgs e)
-        {
-            ApplyStyling();
-        }
-
         // Gui
 
         private void SetTitles()
         {
-            titleBarUserControl.Text = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Operator);
-
+            TitleBarText = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Operator);
             labelName.Text = CommonTitles.Name;
             labelOperatorTypeTitle.Text = Titles.Type + ":";
             labelOperatorTypeValue.Text = PropertyDisplayNames.Sample;
@@ -47,7 +37,17 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelDimension.Text = PropertyDisplayNames.Dimension;
         }
 
-        private void ApplyStyling()
+        protected override void PositionControls()
+        {
+            base.PositionControls();
+
+            tableLayoutPanelProperties.Left = 0;
+            tableLayoutPanelProperties.Top = TitleBarHeight;
+            tableLayoutPanelProperties.Width = Width;
+            tableLayoutPanelProperties.Height = Height - TitleBarHeight;
+        }
+
+        protected override void ApplyStyling()
         {
             StyleHelper.SetPropertyLabelColumnSize(tableLayoutPanelProperties);
         }
@@ -101,48 +101,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
-        private void ApplyControlsToViewModel()
+        protected override void ApplyControlsToViewModel()
         {
             if (ViewModel == null) return;
 
             ViewModel.Name = textBoxName.Text;
             ViewModel.Sample = (IDAndName)comboBoxSample.SelectedItem;
             ViewModel.Dimension = (IDAndName)comboBoxDimension.SelectedItem;
-        }
-
-        // Actions
-
-        private void Close()
-        {
-            if (ViewModel == null) return;
-            ApplyControlsToViewModel();
-            CloseRequested?.Invoke(this, new Int32EventArgs(ViewModel.ID));
-        }
-
-        private void LoseFocus()
-        {
-            if (ViewModel == null) return;
-            ApplyControlsToViewModel();
-            LoseFocusRequested?.Invoke(this, new Int32EventArgs(ViewModel.ID));
-        }
-
-        // Events
-
-        private void titleBarUserControl_CloseClicked(object sender, EventArgs e)
-        {
-            Close();
-        }
-
-        // This event does not go off, if not clicked on a control that according to WinForms can get focus.
-        private void OperatorPropertiesUserControl_ForSample_Leave(object sender, EventArgs e)
-        {
-            // This Visible check is there because the leave event (lose focus) goes off after I closed, 
-            // making it want to save again, even though view model is empty
-            // which makes it say that now clear fields are required.
-            if (Visible) 
-            {
-                LoseFocus();
-            }
         }
 
         // Helpers
@@ -158,8 +123,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
     /// <summary> The WinForms designer does not work when deriving directly from a generic class. </summary>
     internal class OperatorPropertiesUserControl_ForSample_NotDesignable
-        : UserControlBase<OperatorPropertiesViewModel_ForSample>
+        : OperatorPropertiesUserControlBase<OperatorPropertiesViewModel_ForSample>
     {
+        protected override void ApplyControlsToViewModel()
+        {
+            throw new NotImplementedException();
+        }
+
         protected override void ApplyViewModelToControls()
         {
             throw new NotImplementedException();
