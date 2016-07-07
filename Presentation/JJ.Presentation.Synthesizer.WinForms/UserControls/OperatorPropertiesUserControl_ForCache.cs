@@ -52,8 +52,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            if (ViewModel == null) return;
-
             textBoxName.Text = ViewModel.Name;
 
             // Interpolation
@@ -107,8 +105,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyControlsToViewModel()
         {
-            if (ViewModel == null) return;
-
             ViewModel.Name = textBoxName.Text;
             ViewModel.Interpolation = (IDAndName)comboBoxInterpolation.SelectedItem;
             ViewModel.SpeakerSetup = (IDAndName)comboBoxSpeakerSetup.SelectedItem;

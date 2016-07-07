@@ -49,8 +49,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            if (ViewModel == null) return;
-
             textBoxName.Text = ViewModel.Name;
             numericUpDownOutletCount.Value = ViewModel.OutletCount;
             labelOperatorTypeValue.Text = ViewModel.OperatorType.Name;
@@ -74,8 +72,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyControlsToViewModel()
         {
-            if (ViewModel == null) return;
-
             ViewModel.Name = textBoxName.Text;
             ViewModel.OutletCount = (int)numericUpDownOutletCount.Value;
             ViewModel.Dimension = (IDAndName)comboBoxDimension.SelectedItem;

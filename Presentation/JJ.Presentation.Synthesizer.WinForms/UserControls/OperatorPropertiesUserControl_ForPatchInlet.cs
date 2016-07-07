@@ -51,8 +51,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            if (ViewModel == null) return;
-
             textBoxName.Text = ViewModel.Name;
             numericUpDownNumber.Value = ViewModel.Number;
             textBoxDefaultValue.Text = ViewModel.DefaultValue;
@@ -76,8 +74,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyControlsToViewModel()
         {
-            if (ViewModel == null) return;
-
             ViewModel.Name = textBoxName.Text;
             ViewModel.Number = (int)numericUpDownNumber.Value;
             ViewModel.DefaultValue = textBoxDefaultValue.Text;

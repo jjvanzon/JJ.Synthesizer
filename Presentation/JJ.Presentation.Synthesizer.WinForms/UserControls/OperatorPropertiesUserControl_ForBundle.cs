@@ -51,8 +51,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            if (ViewModel == null) return;
-
             textBoxName.Text = ViewModel.Name;
             numericUpDownInletCount.Value = ViewModel.InletCount;
 
@@ -75,8 +73,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyControlsToViewModel()
         {
-            if (ViewModel == null) return;
-
             ViewModel.Name = textBoxName.Text;
             ViewModel.InletCount = (int)numericUpDownInletCount.Value;
             ViewModel.Dimension = (IDAndName)comboBoxDimension.SelectedItem;
