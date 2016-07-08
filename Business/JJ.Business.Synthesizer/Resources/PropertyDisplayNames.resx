@@ -169,12 +169,6 @@
   <data name="Delay" xml:space="preserve">
     <value>Delay</value>
   </data>
-  <data name="SpeedUp" xml:space="preserve">
-    <value>Speed Up</value>
-  </data>
-  <data name="SlowDown" xml:space="preserve">
-    <value>Slow Down</value>
-  </data>
   <data name="TimePower" xml:space="preserve">
     <value>Time Exponent</value>
   </data>

@@ -51,7 +51,7 @@ namespace JJ.Business.Synthesizer.Tests
                 double duration = sample.GetDuration(stream.Length);
 
                 PatchManager x = new PatchManager(new PatchRepositories(repositories));
-                Outlet outlet = x.SlowDown(x.Sample(sample), x.Number(timeMultiplier));
+                Outlet outlet = x.Stretch(x.Sample(sample), x.Number(timeMultiplier));
                 IPatchCalculator patchCalculator = x.CreateCalculator(outlet, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
 
                 AudioFileOutputManager audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));

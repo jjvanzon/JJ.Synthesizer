@@ -1906,15 +1906,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Slow Down.
-        /// </summary>
-        public static string SlowDown {
-            get {
-                return ResourceManager.GetString("SlowDown", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Sort.
         /// </summary>
         public static string Sort {
@@ -1974,15 +1965,6 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Speed {
             get {
                 return ResourceManager.GetString("Speed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Speed Up.
-        /// </summary>
-        public static string SpeedUp {
-            get {
-                return ResourceManager.GetString("SpeedUp", resourceCulture);
             }
         }
         

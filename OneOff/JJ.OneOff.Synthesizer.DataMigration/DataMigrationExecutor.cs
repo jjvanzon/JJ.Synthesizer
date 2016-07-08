@@ -1660,6 +1660,92 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
         }
 
+        //public static void Migrate_Operator_SpeedUp_ToSquash(Action<string> progressCallback)
+        //{
+        //    if (progressCallback == null) throw new NullException(() => progressCallback);
+
+        //    progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+
+        //    using (IContext context = PersistenceHelper.CreateContext())
+        //    {
+        //        RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+        //        var patchManager = new PatchManager(new PatchRepositories(repositories));
+
+        //        IList<Operator> operators = repositories.OperatorRepository
+        //                                                .GetAll()
+        //                                                .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.SpeedUp)
+        //                                                .ToArray();
+
+        //        for (int i = 0; i < operators.Count; i++)
+        //        {
+        //            Operator op = operators[i];
+
+        //            op.SetOperatorTypeEnum(OperatorTypeEnum.Squash, repositories.OperatorTypeRepository);
+
+        //            Inlet originInlet = patchManager.CreateInlet(op);
+        //            originInlet.ListIndex = 2;
+
+        //            patchManager.Patch = op.Patch;
+        //            VoidResult result = patchManager.SaveOperator(op);
+        //            ResultHelper.Assert(result);
+
+        //            string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
+        //            progressCallback(progressMessage);
+        //        }
+
+        //        AssertDocuments(repositories, progressCallback);
+
+        //        //throw new Exception("Temporarily not committing, for debugging.");
+        //        context.Commit();
+        //    }
+
+        //    progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        //}
+
+        //public static void Migrate_Operator_SlowDown_ToStretch(Action<string> progressCallback)
+        //{
+        //    if (progressCallback == null) throw new NullException(() => progressCallback);
+
+        //    progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+
+        //    using (IContext context = PersistenceHelper.CreateContext())
+        //    {
+        //        RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+        //        var patchManager = new PatchManager(new PatchRepositories(repositories));
+
+        //        IList<Operator> operators = repositories.OperatorRepository
+        //                                                .GetAll()
+        //                                                .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.SlowDown)
+        //                                                .ToArray();
+
+        //        for (int i = 0; i < operators.Count; i++)
+        //        {
+        //            Operator op = operators[i];
+
+        //            op.SetOperatorTypeEnum(OperatorTypeEnum.Stretch, repositories.OperatorTypeRepository);
+
+        //            Inlet originInlet = patchManager.CreateInlet(op);
+        //            originInlet.ListIndex = 2;
+
+        //            patchManager.Patch = op.Patch;
+        //            VoidResult result = patchManager.SaveOperator(op);
+        //            ResultHelper.Assert(result);
+
+        //            string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
+        //            progressCallback(progressMessage);
+        //        }
+
+        //        AssertDocuments(repositories, progressCallback);
+
+        //        //throw new Exception("Temporarily not committing, for debugging.");
+        //        context.Commit();
+        //    }
+
+        //    progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        //}
+
         // Helpers
 
         private static void AssertDocuments(RepositoryWrapper repositories, Action<string> progressCallback)

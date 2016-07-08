@@ -13,8 +13,8 @@
         Sine = 8,
         Subtract = 9,
         Delay = 10,
-        SpeedUp = 11,
-        SlowDown = 12,
+        //SpeedUp = 11,
+        //SlowDown = 12,
         TimePower = 13,
         Earlier = 14,
         Number = 15,
@@ -38,19 +38,7 @@
         Select = 26,
         Bundle = 27,
         Unbundle = 28,
-
-        /// <summary>
-        /// Almost an alias for SlowDown, except that Stretch does not track phase and has an origin parameter.
-        /// It is more appropriate when you are e.g. stretching curves for filters.
-        /// It makes more sense when the x-axis is not used as time.
-        /// </summary>
         Stretch = 29,
-
-        /// <summary>
-        /// Almost an alias for SpeedUp, except that Squash does not track phase and has an origin parameter.
-        /// It is more appropriate when you are e.g. stretching curves for filters.
-        /// It makes more sense when the x-axis is not used as time.
-        /// </summary>
         Squash = 30,
 
         /// <summary>

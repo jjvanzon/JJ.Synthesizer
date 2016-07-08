@@ -96,6 +96,8 @@
     <Content Include="2015-11-07 030 SynthesizerDB rename OperatorType TimeSubtract to Earlier - Copy.sql" />
     <Content Include="2016-06-23 040 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2016-07-02 080 SynthesizerDB OperatorType delete record 59 - Filter.sql" />
+    <Content Include="2016-07-08 030 SynthesizerDB OperatorType 12 - SlowDown delete row.sql" />
+    <Content Include="2016-07-08 020 SynthesizerDB OperatorType 11 - SpeedUp delete row.sql" />
     <Content Include="2016-07-08 010 SynthesizerDB OperatorType 30 - Squash rename from Narrower.sql" />
     <Content Include="2016-07-03 010 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2016-07-02 080 SynthesizerDB OperatorType rename 84 from BandPassFilterConstantSkirtGain to BandPassFilterConstantTransitionGain.sql" />

@@ -31,50 +31,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
     /// </summary>
     internal partial class OptimizedPatchCalculatorVisitor : OperatorVisitorBase
     {
-        public class Result
-        {
-            public Result(
-                DimensionStackCollection dimensionStackCollection,
-                OperatorCalculatorBase output_OperatorCalculator,
-                IList<VariableInput_OperatorCalculator> input_OperatorCalculators,
-                IList<ResettableOperatorTuple> resettableOperatorTuples)
-            {
-                DimensionStackCollection = dimensionStackCollection;
-                Output_OperatorCalculator = output_OperatorCalculator;
-                Input_OperatorCalculators = input_OperatorCalculators;
-                ResettableOperatorTuples = resettableOperatorTuples;
-            }
-
-            public DimensionStackCollection DimensionStackCollection { get; }
-            public OperatorCalculatorBase Output_OperatorCalculator { get; }
-            public IList<VariableInput_OperatorCalculator> Input_OperatorCalculators { get; }
-            public IList<ResettableOperatorTuple> ResettableOperatorTuples { get; }
-        }
-
-        public class ResettableOperatorTuple
-        {
-            public ResettableOperatorTuple(OperatorCalculatorBase operatorCalculator, string name, int? listIndex)
-            {
-                if (operatorCalculator == null) throw new NullException(() => operatorCalculator);
-                // Name is optional.
-
-                Name = name;
-                ListIndex = listIndex;
-                OperatorCalculator = operatorCalculator;
-            }
-
-            public OperatorCalculatorBase OperatorCalculator { get; }
-            public string Name { get; }
-            public int? ListIndex { get; }
-        }
-
         /// <summary>
         /// Feature switch: not being able to vary bundle dimension values
         /// during the calculation is faster, but would not give the expected behavior.
         /// However, we keep the code alive, to be able to experiment with the performance impact.
         /// </summary>
         private const bool BUNDLE_POSITIONS_ARE_INVARIANT = false;
-
         private const double DEFAULT_PULSE_WIDTH = 0.5;
         private const double DEFAULT_DIMENSION_VALUE = 0.0;
 
@@ -135,7 +97,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         }
 
         /// <param name="channelCount">Used for e.g. mixing channels of samples into one channel.</param>
-        public Result Execute()
+        public OptimizedPatchCalculatorVisitorResult Execute()
         {
             IValidator validator = new Recursive_OperatorValidator(
                 _outlet.Operator,
@@ -168,7 +130,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 }
             }
 
-            return new Result(
+            return new OptimizedPatchCalculatorVisitorResult(
                 _dimensionStackCollection,
                 outputOperatorCalculator,
                 _patchInlet_Calculator_Dictionary.Values.ToArray(),
@@ -2809,102 +2771,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitSquash(Operator op)
-        {
-            var wrapper = new Squash_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
-            dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
-
-            base.VisitSquash(op);
-
-            OperatorCalculatorBase calculator;
-
-            OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase factorCalculator = _stack.Pop();
-            OperatorCalculatorBase originCalculator = _stack.Pop();
-
-            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
-            factorCalculator = factorCalculator ?? new One_OperatorCalculator();
-            originCalculator = originCalculator ?? new Zero_OperatorCalculator();
-
-            double signal = signalCalculator.Calculate();
-            double factor = factorCalculator.Calculate();
-            double origin = originCalculator.Calculate();
-
-            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
-            bool factorIsConst = factorCalculator is Number_OperatorCalculator;
-            bool originIsConst = originCalculator is Number_OperatorCalculator;
-
-            bool signalIsConstZero = signalIsConst && signal == 0;
-            bool factorIsConstZero = factorIsConst && factor == 0;
-            bool originIsConstZero = originIsConst && origin == 0;
-
-            bool factorIsConstOne = factorIsConst && factor == 1;
-
-            bool signalIsConstSpecialNumber = signalIsConst && DoubleHelper.IsSpecialNumber(signal);
-            bool factorIsConstSpecialNumber = factorIsConst && DoubleHelper.IsSpecialNumber(factor);
-            bool originIsConstSpecialNumber = originIsConst && DoubleHelper.IsSpecialNumber(origin);
-
-            dimensionStack.Pop();
-
-            if (signalIsConstSpecialNumber || factorIsConstSpecialNumber || originIsConstSpecialNumber)
-            {
-                // Wierd number
-                calculator = new Number_OperatorCalculator(Double.NaN);
-            }
-            else if (factorIsConstZero)
-            {
-                // Special number
-                // I cannot hack this one other than to return NaN.
-                // Slow down of 0 means speed up to infinity, wich only renders a number if the signal time = origin,
-                // which is very rare.
-                calculator = new Number_OperatorCalculator(Double.NaN);
-            }
-            else if (signalIsConstZero)
-            {
-                calculator = new Zero_OperatorCalculator();
-            }
-            else if (factorIsConstOne)
-            {
-                calculator = signalCalculator;
-            }
-            else if (signalIsConst)
-            {
-                calculator = signalCalculator;
-            }
-            else if (!signalIsConst && factorIsConst && originIsConstZero)
-            {
-                calculator = new Squash_OperatorCalculator_VarSignal_ConstFactor_ZeroOrigin(signalCalculator, factor, dimensionStack);
-            }
-            else if (!signalIsConst && !factorIsConst && originIsConstZero)
-            {
-                calculator = new Squash_OperatorCalculator_VarSignal_VarFactor_ZeroOrigin(signalCalculator, factorCalculator, dimensionStack);
-            }
-            else if (!signalIsConst && factorIsConst && originIsConst)
-            {
-                calculator = new Squash_OperatorCalculator_VarSignal_ConstFactor_ConstOrigin(signalCalculator, factor, origin, dimensionStack);
-            }
-            else if (!signalIsConst && factorIsConst && !originIsConst)
-            {
-                calculator = new Squash_OperatorCalculator_VarSignal_ConstFactor_VarOrigin(signalCalculator, factor, originCalculator, dimensionStack);
-            }
-            else if (!signalIsConst && !factorIsConst && originIsConst)
-            {
-                calculator = new Squash_OperatorCalculator_VarSignal_VarFactor_ConstOrigin(signalCalculator, factorCalculator, origin, dimensionStack);
-            }
-            else if (!signalIsConst && !factorIsConst && !originIsConst)
-            {
-                calculator = new Squash_OperatorCalculator_VarSignal_VarFactor_VarOrigin(signalCalculator, factorCalculator, originCalculator, dimensionStack);
-            }
-            else
-            {
-                throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
-            }
-
-            _stack.Push(calculator);
-        }
-
         protected override void VisitNegative(Operator op)
         {
             base.VisitNegative(op);
@@ -4311,92 +4177,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitSlowDown(Operator op)
-        {
-            var wrapper = new SlowDown_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
-            dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
-
-            base.VisitSlowDown(op);
-
-            OperatorCalculatorBase calculator;
-
-            OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase factorCalculator = _stack.Pop();
-
-            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
-            factorCalculator = factorCalculator ?? new One_OperatorCalculator();
-
-            double signal = signalCalculator.Calculate();
-            double factor = factorCalculator.Calculate();
-
-            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
-            bool factorIsConst = factorCalculator is Number_OperatorCalculator;
-
-            bool signalIsConstZero = signalIsConst && signal == 0;
-            bool factorIsConstZero = factorIsConst && factor == 0;
-
-            bool factorIsConstOne = factorIsConst && factor == 1;
-
-            bool signalIsConstSpecialNumber = signalIsConst && DoubleHelper.IsSpecialNumber(signal);
-            bool factorIsConstSpecialNumber = factorIsConst && DoubleHelper.IsSpecialNumber(factor);
-
-            dimensionStack.Pop();
-
-            if (factorIsConstSpecialNumber)
-            {
-                // Special number
-                // Slow down to inifinity, means time stands still. (Consider: 2x as slow, 100x as slow, inifity as slow...)
-                calculator = new Number_OperatorCalculator(signal);
-            }
-            if (signalIsConstSpecialNumber)
-            {
-                // Special number
-                calculator = new Number_OperatorCalculator(signal);
-            }
-            else if (factorIsConstZero)
-            {
-                // Special number
-                // Slow down 0 times, means speed up to infinity, equals undefined.
-                calculator = new Number_OperatorCalculator(Double.NaN);
-            }
-            else if (signalIsConstZero)
-            {
-                calculator = new Zero_OperatorCalculator();
-            }
-            else if (factorIsConstOne)
-            {
-                calculator = signalCalculator;
-            }
-            else if (signalIsConst)
-            {
-                calculator = signalCalculator;
-            }
-            else if (factorIsConst && dimensionEnum == DimensionEnum.Time)
-            {
-                calculator = new SlowDown_OperatorCalculator_ConstFactor_WithOriginShifting(signalCalculator, factor, dimensionStack);
-            }
-            else if (factorIsConst && dimensionEnum != DimensionEnum.Time)
-            {
-                calculator = new SlowDown_OperatorCalculator_ConstFactor_NoOriginShifting(signalCalculator, factor, dimensionStack);
-            }
-            else if (!factorIsConst && dimensionEnum == DimensionEnum.Time)
-            {
-                calculator = new SlowDown_OperatorCalculator_VarFactor_WithPhaseTracking(signalCalculator, factorCalculator, dimensionStack);
-            }
-            else if (!factorIsConst && dimensionEnum != DimensionEnum.Time)
-            {
-                calculator = new SlowDown_OperatorCalculator_VarFactor_NoPhaseTracking(signalCalculator, factorCalculator, dimensionStack);
-            }
-            else
-            {
-                throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
-            }
-
-            _stack.Push(calculator);
-        }
-
         protected override void VisitSort(Operator op)
         {
             //var wrapper = new Sort_OperatorWrapper(op);
@@ -4571,91 +4351,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitSpeedUp(Operator op)
-        {
-            var wrapper = new SpeedUp_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
-            dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
-
-            base.VisitSpeedUp(op);
-
-            OperatorCalculatorBase calculator;
-
-            OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase factorCalculator = _stack.Pop();
-
-            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
-            factorCalculator = factorCalculator ?? new One_OperatorCalculator();
-
-            double signal = signalCalculator.Calculate();
-            double factor = factorCalculator.Calculate();
-
-            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
-            bool factorIsConst = factorCalculator is Number_OperatorCalculator;
-
-            bool signalIsConstZero = signalIsConst && signal == 0;
-            bool factorIsConstZero = factorIsConst && factor == 0;
-
-            bool factorIsConstOne = factorIsConst && factor == 1;
-
-            bool signalIsConstSpecialNumber = signalIsConst && DoubleHelper.IsSpecialNumber(signal);
-            bool factorIsConstSpecialNumber = factorIsConst && DoubleHelper.IsSpecialNumber(factor);
-
-            dimensionStack.Pop();
-
-            if (factorIsConstSpecialNumber)
-            {
-                // Special number
-                calculator = new Number_OperatorCalculator(Double.NaN);
-            }
-            else if (signalIsConstSpecialNumber)
-            {
-                // Special number
-                calculator = new Number_OperatorCalculator(signal);
-            }
-            else if (factorIsConstZero)
-            {
-                // Special number
-                // Speed-up of 0 means time stands still.
-                calculator = new Number_OperatorCalculator(signal);
-            }
-            else if (signalIsConstZero)
-            {
-                calculator = new Zero_OperatorCalculator();
-            }
-            else if (factorIsConstOne)
-            {
-                calculator = signalCalculator;
-            }
-            else if (signalIsConst)
-            {
-                calculator = signalCalculator;
-            }
-            else if (factorIsConst && dimensionEnum == DimensionEnum.Time)
-            {
-                calculator = new SpeedUp_OperatorCalculator_ConstFactor_WithOriginShifting(signalCalculator, factor, dimensionStack);
-            }
-            else if (factorIsConst && dimensionEnum != DimensionEnum.Time)
-            {
-                calculator = new SpeedUp_OperatorCalculator_ConstFactor_NoOriginShifting(signalCalculator, factor, dimensionStack);
-            }
-            else if (!factorIsConst && dimensionEnum == DimensionEnum.Time)
-            {
-                calculator = new SpeedUp_OperatorCalculator_VarFactor_WithPhaseTracking(signalCalculator, factorCalculator, dimensionStack);
-            }
-            else if (!factorIsConst && dimensionEnum != DimensionEnum.Time)
-            {
-                calculator = new SpeedUp_OperatorCalculator_VarFactor_NoPhaseTracking(signalCalculator, factorCalculator, dimensionStack);
-            }
-            else
-            {
-                throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
-            }
-
-            _stack.Push(calculator);
-        }
-
         protected override void VisitSquare(Operator op)
         {
             var wrapper = new Square_OperatorWrapper(op);
@@ -4733,16 +4428,16 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitStretch(Operator op)
+        protected override void VisitSquash(Operator op)
         {
-            var wrapper = new Stretch_OperatorWrapper(op);
+            var wrapper = new Squash_OperatorWrapper(op);
             DimensionEnum dimensionEnum = wrapper.Dimension;
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
             dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
 
-            base.VisitStretch(op);
+            base.VisitSquash(op);
 
-            OperatorCalculatorBase calculator;
+            OperatorCalculatorBase calculator = null;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
             OperatorCalculatorBase factorCalculator = _stack.Pop();
@@ -4752,13 +4447,122 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             factorCalculator = factorCalculator ?? new One_OperatorCalculator();
             originCalculator = originCalculator ?? new Zero_OperatorCalculator();
 
-            double signal = signalCalculator.Calculate();
-            double factor = factorCalculator.Calculate();
-            double origin = originCalculator.Calculate();
+            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+            bool factorIsConst = factorCalculator is Number_OperatorCalculator;
+            bool originIsConst = originCalculator is Number_OperatorCalculator;
+
+            double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
+            double factor = factorIsConst ? factorCalculator.Calculate() : 0.0;
+            double origin = originIsConst ? originCalculator.Calculate() : 0.0;
+
+            bool signalIsConstZero = signalIsConst && signal == 0.0;
+            bool factorIsConstZero = factorIsConst && factor == 0.0;
+            bool originIsConstZero = originIsConst && origin == 0.0;
+
+            bool factorIsConstOne = factorIsConst && factor == 1.0;
+
+            bool signalIsConstSpecialNumber = signalIsConst && DoubleHelper.IsSpecialNumber(signal);
+            bool factorIsConstSpecialNumber = factorIsConst && DoubleHelper.IsSpecialNumber(factor);
+            bool originIsConstSpecialNumber = originIsConst && DoubleHelper.IsSpecialNumber(origin);
+
+            dimensionStack.Pop();
+
+            if (signalIsConstSpecialNumber || factorIsConstSpecialNumber || originIsConstSpecialNumber)
+            {
+                // Special number
+                calculator = new Number_OperatorCalculator(Double.NaN);
+            }
+            else if (factorIsConstZero)
+            {
+                // Special number
+                // Speed-up of 0 means time stands still.
+                calculator = new Number_OperatorCalculator(signal);
+            }
+            else if (signalIsConstZero)
+            {
+                calculator = new Zero_OperatorCalculator();
+            }
+            else if (factorIsConstOne)
+            {
+                calculator = signalCalculator;
+            }
+            else if (signalIsConst)
+            {
+                calculator = signalCalculator;
+            }
+            else if (dimensionEnum == DimensionEnum.Time)
+            {
+                if (!signalIsConst && factorIsConst)
+                {
+                    calculator = new Squash_OperatorCalculator_VarSignal_ConstFactor_WithOriginShifting(signalCalculator, factor, dimensionStack);
+                }
+                else if (!signalIsConst && !factorIsConst)
+                {
+                    calculator = new Squash_OperatorCalculator_VarSignal_VarFactor_WithPhaseTracking(signalCalculator, factorCalculator, dimensionStack);
+                }
+            }
+            else
+            {
+                if (!signalIsConst && factorIsConst && originIsConstZero)
+                {
+                    calculator = new Squash_OperatorCalculator_VarSignal_ConstFactor_ZeroOrigin(signalCalculator, factor, dimensionStack);
+                }
+                else if (!signalIsConst && !factorIsConst && originIsConstZero)
+                {
+                    calculator = new Squash_OperatorCalculator_VarSignal_VarFactor_ZeroOrigin(signalCalculator, factorCalculator, dimensionStack);
+                }
+                else if (!signalIsConst && factorIsConst && originIsConst)
+                {
+                    calculator = new Squash_OperatorCalculator_VarSignal_ConstFactor_ConstOrigin(signalCalculator, factor, origin, dimensionStack);
+                }
+                else if (!signalIsConst && factorIsConst && !originIsConst)
+                {
+                    calculator = new Squash_OperatorCalculator_VarSignal_ConstFactor_VarOrigin(signalCalculator, factor, originCalculator, dimensionStack);
+                }
+                else if (!signalIsConst && !factorIsConst && originIsConst)
+                {
+                    calculator = new Squash_OperatorCalculator_VarSignal_VarFactor_ConstOrigin(signalCalculator, factorCalculator, origin, dimensionStack);
+                }
+                else if (!signalIsConst && !factorIsConst && !originIsConst)
+                {
+                    calculator = new Squash_OperatorCalculator_VarSignal_VarFactor_VarOrigin(signalCalculator, factorCalculator, originCalculator, dimensionStack);
+                }
+            }
+
+            if (calculator == null)
+            {
+                throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
+            }
+
+            _stack.Push(calculator);
+        }
+
+        protected override void VisitStretch(Operator op)
+        {
+            var wrapper = new Stretch_OperatorWrapper(op);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
+
+            base.VisitStretch(op);
+
+            OperatorCalculatorBase calculator = null;
+
+            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase factorCalculator = _stack.Pop();
+            OperatorCalculatorBase originCalculator = _stack.Pop();
+
+            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
+            factorCalculator = factorCalculator ?? new One_OperatorCalculator();
+            originCalculator = originCalculator ?? new Zero_OperatorCalculator();
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool factorIsConst = factorCalculator is Number_OperatorCalculator;
             bool originIsConst = originCalculator is Number_OperatorCalculator;
+
+            double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
+            double factor = factorIsConst ? factorCalculator.Calculate() : 0.0;
+            double origin = originIsConst ? originCalculator.Calculate() : 0.0;
 
             bool signalIsConstZero = signalIsConst && signal == 0;
             bool factorIsConstZero = factorIsConst && factor == 0;
@@ -4766,13 +4570,23 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             bool factorIsConstOne = factorIsConst && factor == 1;
 
+            bool signalIsConstSpecialNumber = signalIsConst && DoubleHelper.IsSpecialNumber(signal);
+            bool factorIsConstSpecialNumber = factorIsConst && DoubleHelper.IsSpecialNumber(factor);
+            bool originIsConstSpecialNumber = originIsConst && DoubleHelper.IsSpecialNumber(origin);
+
             // TODO: Handle const special numbers.
 
             dimensionStack.Pop();
 
+            if (factorIsConstSpecialNumber || signalIsConstSpecialNumber || originIsConstSpecialNumber)
+            {
+                // Special number
+                calculator = new Number_OperatorCalculator(Double.NaN);
+            }
             if (factorIsConstZero)
             {
                 // Special number
+                // Slow down 0 times, means speed up to infinity, equals undefined.
                 calculator = new Number_OperatorCalculator(Double.NaN);
             }
             else if (signalIsConstZero)
@@ -4787,31 +4601,46 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = signalCalculator;
             }
-            else if (!signalIsConst && factorIsConst && originIsConstZero)
+            else if (dimensionEnum == DimensionEnum.Time)
             {
-                calculator = new Stretch_OperatorCalculator_VarSignal_ConstFactor_ZeroOrigin(signalCalculator, factor, dimensionStack);
-            }
-            else if (!signalIsConst && !factorIsConst && originIsConstZero)
-            {
-                calculator = new Stretch_OperatorCalculator_VarSignal_VarFactor_ZeroOrigin(signalCalculator, factorCalculator, dimensionStack);
-            }
-            else if (!signalIsConst && factorIsConst && originIsConst)
-            {
-                calculator = new Stretch_OperatorCalculator_VarSignal_ConstFactor_ConstOrigin(signalCalculator, factor, origin, dimensionStack);
-            }
-            else if (!signalIsConst && factorIsConst && !originIsConst)
-            {
-                calculator = new Stretch_OperatorCalculator_VarSignal_ConstFactor_VarOrigin(signalCalculator, factor, originCalculator, dimensionStack);
-            }
-            else if (!signalIsConst && !factorIsConst && originIsConst)
-            {
-                calculator = new Stretch_OperatorCalculator_VarSignal_VarFactor_ConstOrigin(signalCalculator, factorCalculator, origin, dimensionStack);
-            }
-            else if (!signalIsConst && !factorIsConst && !originIsConst)
-            {
-                calculator = new Stretch_OperatorCalculator_VarSignal_VarFactor_VarOrigin(signalCalculator, factorCalculator, originCalculator, dimensionStack);
+                if (!signalIsConst && factorIsConst)
+                {
+                    calculator = new Stretch_OperatorCalculator_VarSignal_ConstFactor_WithOriginShifting(signalCalculator, factor, dimensionStack);
+                }
+                else if (!signalIsConst && !factorIsConst)
+                {
+                    calculator = new Stretch_OperatorCalculator_VarSignal_VarFactor_WithPhaseTracking(signalCalculator, factorCalculator, dimensionStack);
+                }
             }
             else
+            {
+                if (!signalIsConst && factorIsConst && originIsConstZero)
+                {
+                    calculator = new Stretch_OperatorCalculator_VarSignal_ConstFactor_ZeroOrigin(signalCalculator, factor, dimensionStack);
+                }
+                else if (!signalIsConst && !factorIsConst && originIsConstZero)
+                {
+                    calculator = new Stretch_OperatorCalculator_VarSignal_VarFactor_ZeroOrigin(signalCalculator, factorCalculator, dimensionStack);
+                }
+                else if (!signalIsConst && factorIsConst && originIsConst)
+                {
+                    calculator = new Stretch_OperatorCalculator_VarSignal_ConstFactor_ConstOrigin(signalCalculator, factor, origin, dimensionStack);
+                }
+                else if (!signalIsConst && factorIsConst && !originIsConst)
+                {
+                    calculator = new Stretch_OperatorCalculator_VarSignal_ConstFactor_VarOrigin(signalCalculator, factor, originCalculator, dimensionStack);
+                }
+                else if (!signalIsConst && !factorIsConst && originIsConst)
+                {
+                    calculator = new Stretch_OperatorCalculator_VarSignal_VarFactor_ConstOrigin(signalCalculator, factorCalculator, origin, dimensionStack);
+                }
+                else if (!signalIsConst && !factorIsConst && !originIsConst)
+                {
+                    calculator = new Stretch_OperatorCalculator_VarSignal_VarFactor_VarOrigin(signalCalculator, factorCalculator, originCalculator, dimensionStack);
+                }
+            }
+
+            if (calculator == null)
             {
                 throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }

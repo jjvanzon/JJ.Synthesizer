@@ -17,8 +17,6 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             RepositoryHelper.EnsureEnumEntity(this, 8, "Sine");
             RepositoryHelper.EnsureEnumEntity(this, 9, "Subtract");
             RepositoryHelper.EnsureEnumEntity(this, 10, "Delay");
-            RepositoryHelper.EnsureEnumEntity(this, 11, "SpeedUp");
-            RepositoryHelper.EnsureEnumEntity(this, 12, "SlowDown");
             RepositoryHelper.EnsureEnumEntity(this, 13, "TimePower");
             RepositoryHelper.EnsureEnumEntity(this, 14, "Earlier");
             RepositoryHelper.EnsureEnumEntity(this, 15, "Number");

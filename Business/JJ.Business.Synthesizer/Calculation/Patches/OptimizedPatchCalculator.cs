@@ -57,7 +57,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 patchRepository, 
                 speakerSetupRepository);
 
-            OptimizedPatchCalculatorVisitor.Result result = visitor.Execute();
+            OptimizedPatchCalculatorVisitorResult result = visitor.Execute();
 
             _dimensionStackCollection = result.DimensionStackCollection;
             _outputOperatorCalculator = result.Output_OperatorCalculator;

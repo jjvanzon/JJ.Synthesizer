@@ -688,14 +688,6 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Sine(frequency, phaseShift, dimension);
         }
 
-        public SlowDown_OperatorWrapper SlowDown(
-            Outlet signal = null, 
-            Outlet factor = null,
-            DimensionEnum dimension = DimensionEnum.Time)
-        {
-            return _patchManager.SlowDown(signal, factor, dimension);
-        }
-
         public Sort_OperatorWrapper Sort(params Outlet[] operands)
         {
             return _patchManager.Sort(operands);
@@ -724,14 +716,6 @@ namespace JJ.Business.Synthesizer.Api
             Outlet samplingRate = null)
         {
             return _patchManager.Spectrum(signal, startTime, endTime, samplingRate);
-        }
-
-        public SpeedUp_OperatorWrapper SpeedUp(
-            Outlet signal = null, 
-            Outlet factor = null,
-            DimensionEnum dimension = DimensionEnum.Time)
-        {
-            return _patchManager.SpeedUp(signal, factor, dimension);
         }
 
         public Square_OperatorWrapper Square(

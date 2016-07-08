@@ -90,11 +90,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.SetDimension, VisitSetDimension },
                 { OperatorTypeEnum.Shift, VisitShift },
                 { OperatorTypeEnum.Sine, VisitSine },
-                { OperatorTypeEnum.SlowDown, VisitSlowDown },
                 { OperatorTypeEnum.Sort, VisitSort },
                 { OperatorTypeEnum.SortOverDimension, VisitSortOverDimension },
                 { OperatorTypeEnum.Spectrum, VisitSpectrum },
-                { OperatorTypeEnum.SpeedUp, VisitSpeedUp },
                 { OperatorTypeEnum.Square, VisitSquare },
                 { OperatorTypeEnum.Squash, VisitSquash },
                 { OperatorTypeEnum.Stretch, VisitStretch },
@@ -604,12 +602,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         }
 
         [DebuggerHidden]
-        protected virtual void VisitSlowDown(Operator op)
-        {
-            VisitOperatorBase(op);
-        }
-
-        [DebuggerHidden]
         protected virtual void VisitSort(Operator op)
         {
             VisitOperatorBase(op);
@@ -623,12 +615,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         [DebuggerHidden]
         protected virtual void VisitSpectrum(Operator op)
-        {
-            VisitOperatorBase(op);
-        }
-
-        [DebuggerHidden]
-        protected virtual void VisitSpeedUp(Operator op)
         {
             VisitOperatorBase(op);
         }

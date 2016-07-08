@@ -21,8 +21,6 @@ namespace JJ.Business.Synthesizer.Extensions
             { typeof(Sine_OperatorWrapper), OperatorTypeEnum.Sine },
             { typeof(Subtract_OperatorWrapper), OperatorTypeEnum.Subtract },
             { typeof(Delay_OperatorWrapper), OperatorTypeEnum.Delay },
-            { typeof(SpeedUp_OperatorWrapper), OperatorTypeEnum.SpeedUp },
-            { typeof(SlowDown_OperatorWrapper), OperatorTypeEnum.SlowDown },
             { typeof(TimePower_OperatorWrapper), OperatorTypeEnum.TimePower },
             { typeof(Earlier_OperatorWrapper), OperatorTypeEnum.Earlier },
             { typeof(Number_OperatorWrapper), OperatorTypeEnum.Number },

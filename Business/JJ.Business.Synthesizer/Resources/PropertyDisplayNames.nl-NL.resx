@@ -168,12 +168,6 @@
   <data name="Delay" xml:space="preserve">
     <value>Uitstellen</value>
   </data>
-  <data name="SpeedUp" xml:space="preserve">
-    <value>Versnellen</value>
-  </data>
-  <data name="SlowDown" xml:space="preserve">
-    <value>Vertragen</value>
-  </data>
   <data name="TimePower" xml:space="preserve">
     <value>Tijd exponent</value>
   </data>

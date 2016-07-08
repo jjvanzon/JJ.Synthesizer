@@ -213,8 +213,8 @@
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_LineRememberT0.cs" />
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_LineWithVaryingAlignment.cs" />
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_LineWithConstSamplingRate.cs" />
-    <Compile Include="Calculation\Operators\SlowDown OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\SpeedUp OperatorCalculator Classes.cs" />
+    <Compile Include="Calculation\Operators\2016-07-09 Backup of SlowDown OperatorCalculator Classes.cs" />
+    <Compile Include="Calculation\Operators\2016-07-09 Backup of SpeedUp OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Pulse OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Subtract OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\TimePower OperatorCalculator Classes.cs" />
@@ -231,6 +231,8 @@
     <Compile Include="Calculation\Operators\OperatorCalculatorBase.cs" />
     <Compile Include="Calculation\Operators\Delay OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Number_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Patches\OptimizedPatchCalculatorVisitorResult.cs" />
+    <Compile Include="Calculation\Patches\ResettableOperatorTuple.cs" />
     <Compile Include="Helpers\BiQuadFilter.cs" />
     <Compile Include="CopiedCode\FromFramework\CollectionHelper.cs" />
     <Compile Include="CopiedCode\FromFramework\Geometry.cs" />
@@ -403,9 +405,9 @@
     <Compile Include="EntityWrappers\Add_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Curve_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Earlier_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\SlowDown_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\2016-07-09 Backup of SlowDown_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\TimePower_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\SpeedUp_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\2016-07-09 Backup of SpeedUp_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Delay_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Sine_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Power_OperatorWrapper.cs" />
@@ -685,10 +687,10 @@
     <Compile Include="Warnings\Operators\OperatorWarningValidator_Base.cs" />
     <Compile Include="Warnings\Operators\Sample_OperatorWarningValidator.cs" />
     <Compile Include="Validation\NodeValidator_WithoutParent.cs" />
-    <Compile Include="Validation\Operators\SlowDown_OperatorValidator.cs" />
+    <Compile Include="Validation\Operators\2016-07-09 Backup of SlowDown_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Earlier_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\TimePower_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\SpeedUp_OperatorValidator.cs" />
+    <Compile Include="Validation\Operators\2016-07-09 Backup of SpeedUp_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Delay_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Sine_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Power_OperatorValidator.cs" />
@@ -717,8 +719,8 @@
     <Compile Include="Warnings\Operators\Add_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Earlier_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\TimePower_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\SlowDown_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\SpeedUp_OperatorWarningValidator.cs" />
+    <Compile Include="Warnings\Operators\2016-07-09 Backup of SlowDown_OperatorWarningValidator.cs" />
+    <Compile Include="Warnings\Operators\2016-07-09 Backup of SpeedUp_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Delay_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Sine_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Power_OperatorWarningValidator.cs" />

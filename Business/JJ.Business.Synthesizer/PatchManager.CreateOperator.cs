@@ -1705,25 +1705,6 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public SlowDown_OperatorWrapper SlowDown(Outlet signal = null, Outlet factor = null, DimensionEnum dimension = DimensionEnum.Time)
-        {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.SlowDown, inletCount: 2, outletCount: 1);
-
-            var wrapper = new SlowDown_OperatorWrapper(op)
-            {
-                Signal = signal,
-                Factor = factor,
-                Dimension = dimension
-            };
-
-            wrapper.FactorInlet.DefaultValue = DEFAULT_FACTOR;
-
-            VoidResult result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
-
-            return wrapper;
-        }
-
         public Sort_OperatorWrapper Sort(params Outlet[] operands)
         {
             return Sort((IList<Outlet>)operands);
@@ -1787,25 +1768,6 @@ namespace JJ.Business.Synthesizer
             wrapper.StartTimeInlet.DefaultValue = DEFAULT_START_TIME;
             wrapper.EndTimeInlet.DefaultValue = DEFAULT_END_TIME;
             wrapper.FrequencyCountInlet.DefaultValue = DEFAULT_SPECTRUM_FREQUENCY_COUNT;
-
-            VoidResult result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
-
-            return wrapper;
-        }
-
-        public SpeedUp_OperatorWrapper SpeedUp(Outlet signal = null, Outlet factor = null, DimensionEnum dimension = DimensionEnum.Time)
-        {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.SpeedUp, inletCount: 2, outletCount: 1);
-
-            var wrapper = new SpeedUp_OperatorWrapper(op)
-            {
-                Signal = signal,
-                Factor = factor,
-                Dimension = dimension
-            };
-
-            wrapper.FactorInlet.DefaultValue = DEFAULT_FACTOR;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -2173,11 +2135,9 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.SetDimension: return SetDimension();
                 case OperatorTypeEnum.Shift: return Shift();
                 case OperatorTypeEnum.Sine: return Sine();
-                case OperatorTypeEnum.SlowDown: return SlowDown();
                 case OperatorTypeEnum.Sort: return Sort(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.SortOverDimension: return SortOverDimension();
                 case OperatorTypeEnum.Spectrum: return Spectrum();
-                case OperatorTypeEnum.SpeedUp: return SpeedUp();
                 case OperatorTypeEnum.Square: return Square();
                 case OperatorTypeEnum.Squash: return Squash();
                 case OperatorTypeEnum.Stretch: return Stretch();

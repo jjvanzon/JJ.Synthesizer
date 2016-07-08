@@ -85,11 +85,9 @@ namespace JJ.Business.Synthesizer.Helpers
             { OperatorTypeEnum.SetDimension, Create_SetDimension_OperatorWrapper },
             { OperatorTypeEnum.Shift, Create_Shift_OperatorWrapper },
             { OperatorTypeEnum.Sine , Create_Sine_OperatorWrapper },
-            { OperatorTypeEnum.SlowDown , Create_SlowDown_OperatorWrapper },
             { OperatorTypeEnum.Sort, Create_Sort_OperatorWrapper },
             { OperatorTypeEnum.SortOverDimension, Create_SortOverDimension_OperatorWrapper },
             { OperatorTypeEnum.Spectrum, Create_Spectrum_OperatorWrapper },
-            { OperatorTypeEnum.SpeedUp , Create_SpeedUp_OperatorWrapper },
             { OperatorTypeEnum.Square, Create_Square_OperatorWrapper },
             { OperatorTypeEnum.Squash, Create_Squash_OperatorWrapper },
             { OperatorTypeEnum.Stretch, Create_Stretch_OperatorWrapper },
@@ -220,11 +218,9 @@ namespace JJ.Business.Synthesizer.Helpers
         private static SetDimension_OperatorWrapper Create_SetDimension_OperatorWrapper(Operator op) { return new SetDimension_OperatorWrapper(op); }
         private static Shift_OperatorWrapper Create_Shift_OperatorWrapper(Operator op) { return new Shift_OperatorWrapper(op); }
         private static Sine_OperatorWrapper Create_Sine_OperatorWrapper(Operator op) { return new Sine_OperatorWrapper(op); }
-        private static SlowDown_OperatorWrapper Create_SlowDown_OperatorWrapper(Operator op) { return new SlowDown_OperatorWrapper(op); }
         private static Sort_OperatorWrapper Create_Sort_OperatorWrapper(Operator op) { return new Sort_OperatorWrapper(op); }
         private static SortOverDimension_OperatorWrapper Create_SortOverDimension_OperatorWrapper(Operator op) { return new SortOverDimension_OperatorWrapper(op); }
         private static Spectrum_OperatorWrapper Create_Spectrum_OperatorWrapper(Operator op) { return new Spectrum_OperatorWrapper(op); }
-        private static SpeedUp_OperatorWrapper Create_SpeedUp_OperatorWrapper(Operator op) { return new SpeedUp_OperatorWrapper(op); }
         private static Square_OperatorWrapper Create_Square_OperatorWrapper(Operator op) { return new Square_OperatorWrapper(op); }
         private static Stretch_OperatorWrapper Create_Stretch_OperatorWrapper(Operator op) { return new Stretch_OperatorWrapper(op); }
         private static Subtract_OperatorWrapper Create_Subtract_OperatorWrapper(Operator op) { return new Subtract_OperatorWrapper(op); }
