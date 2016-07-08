@@ -236,19 +236,19 @@ namespace JJ.Presentation.Synthesizer.WinForms
                                                                                     .FirstOrDefault();
 
             // Applying Visible = true first and then Visible = false prevents flickering.
-            foreach (UserControlTuple tuple in _userControlTuples)
+            foreach (UserControlBase userControl in _userControls)
             {
-                if (MustBecomeVisible(tuple.UserControl))
+                if (MustBecomeVisible(userControl))
                 {
-                    tuple.UserControl.Visible = true;
+                    userControl.Visible = true;
                 }
             }
 
-            foreach (UserControlTuple tuple in _userControlTuples)
+            foreach (UserControlBase userControl in _userControls)
             {
-                if (!MustBecomeVisible(tuple.UserControl))
+                if (!MustBecomeVisible(userControl))
                 {
-                    tuple.UserControl.Visible = false;
+                    userControl.Visible = false;
                 }
             }
 
@@ -256,7 +256,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             bool treePanelMustBeVisible = MustBecomeVisible(documentTreeUserControl);
             SetTreePanelVisible(treePanelMustBeVisible);
 
-            bool propertiesPanelMustBeVisible = _userControlTuples.Where(x => MustBecomeVisible(x.UserControl) && x.IsPropertiesView).Any();
+            bool propertiesPanelMustBeVisible = _userControls.Where(x => MustBecomeVisible(x) && x is PropertiesUserControlBase).Any();
             SetPropertiesPanelVisible(propertiesPanelMustBeVisible);
 
             if (_presenter.MainViewModel.DocumentDelete.Visible)
@@ -295,13 +295,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
             }
 
             // Focus control if not valid.
-            foreach (UserControlTuple tuple in _userControlTuples)
+            foreach (UserControlBase userControl in _userControls)
             {
-                bool mustFocus = MustBecomeVisible(tuple.UserControl) &&
-                                 !tuple.UserControl.ViewModel.Successful; // TODO: ViewModel is not null coincidentally.
+                bool successful = userControl.ViewModel?.Successful ?? true;
+                bool mustFocus = MustBecomeVisible(userControl) && !successful;
                 if (mustFocus)
                 {
-                    tuple.UserControl.Focus();
+                    userControl.Focus();
                     break;
                 }
             }
@@ -309,8 +309,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private bool MustBecomeVisible(UserControlBase userControl)
         {
-            return userControl.ViewModel != null &&
-                   userControl.ViewModel.Visible;
+            return userControl.ViewModel?.Visible ?? false;
         }
     }
 }

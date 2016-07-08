@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
-using JJ.Framework.Configuration;
 using JJ.Framework.Data;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.Presenters;
@@ -16,6 +15,7 @@ using System.Collections.Generic;
 using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.WinForms.UserControls;
 using JJ.Presentation.Synthesizer.ViewModels;
+using JJ.Framework.Presentation.WinForms.Extensions;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
@@ -32,7 +32,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
         {
             InitializeComponent();
 
-            _userControlTuples = CreateUserControlTuples();
+            _userControls = CreateUserControlsCollection();
 
             _context = PersistenceHelper.CreateContext();
             _repositories = PersistenceHelper.CreateRepositoryWrapper(_context);
@@ -161,60 +161,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
             return x.Patch;
         }
 
-        private UserControlTuple[] _userControlTuples;
+        private IList<UserControlBase> _userControls;
 
-        private class UserControlTuple
+        private IList<UserControlBase> CreateUserControlsCollection()
         {
-            public UserControlTuple(UserControlBase userControl, bool isPropertiesView = false)
-            {
-                UserControl = userControl;
-                IsPropertiesView = isPropertiesView;
-            }
-
-            public UserControlBase UserControl { get; private set; }
-            public bool IsPropertiesView { get; private set; }
-        }
-
-        // TODO: Refactor out these tuples, after making a PropertiesViewModel base class.
-        private UserControlTuple[] CreateUserControlTuples()
-        {
-            return new UserControlTuple[]
-            {
-                new UserControlTuple(audioFileOutputGridUserControl),
-                new UserControlTuple(audioFileOutputPropertiesUserControl, isPropertiesView: true),
-                new UserControlTuple(audioOutputPropertiesUserControl, isPropertiesView: true),
-                new UserControlTuple(curveDetailsUserControl),
-                new UserControlTuple(curveGridUserControl),
-                new UserControlTuple(curvePropertiesUserControl, isPropertiesView: true),
-                new UserControlTuple(documentDetailsUserControl),
-                new UserControlTuple(documentGridUserControl),
-                new UserControlTuple(documentPropertiesUserControl, isPropertiesView: true),
-                new UserControlTuple(documentTreeUserControl),
-                new UserControlTuple(nodePropertiesUserControl, isPropertiesView: true),
-                new UserControlTuple(operatorPropertiesUserControl, isPropertiesView: true),
-                new UserControlTuple(operatorPropertiesUserControl_ForBundle, isPropertiesView: true),
-                new UserControlTuple(operatorPropertiesUserControl_ForCache, isPropertiesView: true),
-                new UserControlTuple(operatorPropertiesUserControl_ForCurve, isPropertiesView: true),
-                new UserControlTuple(operatorPropertiesUserControl_ForCustomOperator, isPropertiesView: true),
-                new UserControlTuple(operatorPropertiesUserControl_ForMakeContinuous, isPropertiesView: true),
-                new UserControlTuple(operatorPropertiesUserControl_ForNumber, isPropertiesView: true),
-                new UserControlTuple(operatorPropertiesUserControl_ForPatchInlet, isPropertiesView: true),
-                new UserControlTuple(operatorPropertiesUserControl_ForPatchOutlet, isPropertiesView: true),
-                new UserControlTuple(operatorPropertiesUserControl_ForSample, isPropertiesView: true),
-                new UserControlTuple(operatorPropertiesUserControl_WithDimension, isPropertiesView: true),
-                new UserControlTuple(operatorPropertiesUserControl_WithDimensionAndInterpolation, isPropertiesView: true),
-                new UserControlTuple(operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation, isPropertiesView: true),
-                new UserControlTuple(operatorPropertiesUserControl_WithDimensionAndOutletCount, isPropertiesView: true),
-                new UserControlTuple(operatorPropertiesUserControl_WithInletCount, isPropertiesView: true),
-                new UserControlTuple(patchGridUserControl),
-                new UserControlTuple(patchDetailsUserControl),
-                new UserControlTuple(patchPropertiesUserControl, isPropertiesView: true),
-                new UserControlTuple(sampleGridUserControl),
-                new UserControlTuple(samplePropertiesUserControl, isPropertiesView: true),
-                new UserControlTuple(scaleGridUserControl),
-                new UserControlTuple(toneGridEditUserControl),
-                new UserControlTuple(scalePropertiesUserControl, isPropertiesView: true)
-            };
+            IList<UserControlBase> userControls = this.GetDescendantsOfType<UserControlBase>();
+            return userControls;
         }
     }
 }
