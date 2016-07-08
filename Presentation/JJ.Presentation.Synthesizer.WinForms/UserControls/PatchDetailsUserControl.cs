@@ -171,10 +171,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void titleBarUserControl_CloseClicked(object sender, EventArgs e)
         {
-            if (CloseRequested != null)
-            {
-                CloseRequested(this, EventArgs.Empty);
-            }
+            CloseRequested?.Invoke(this, EventArgs.Empty);
         }
 
         private void DropLineGesture_Dropped(object sender, DroppedEventArgs e)
@@ -182,11 +179,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             int inletID =  VectorGraphicsTagHelper.GetInletID(e.DroppedOnElement.Tag);
             int outletID = VectorGraphicsTagHelper.GetOutletID(e.DraggedElement.Tag);
 
-            if (ChangeInputOutletRequested != null)
-            {
-                var e2 = new ChangeInputOutletEventArgs(inletID, outletID);
-                ChangeInputOutletRequested(this, e2);
-            }
+            ChangeInputOutletRequested?.Invoke(this, new ChangeInputOutletEventArgs(inletID, outletID));
         }
 
         private void MoveGesture_Moving(object sender, ElementEventArgs e)
@@ -213,11 +206,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void MoveOperator(int operatorID, float centerX, float centerY)
         {
-            if (MoveOperatorRequested != null)
-            {
-                var e = new MoveEntityEventArgs(operatorID, centerX, centerY);
-                MoveOperatorRequested(this, e);
-            }
+            MoveOperatorRequested?.Invoke(this, new MoveEntityEventArgs(operatorID, centerX, centerY));
         }
 
         private void toolStripLabel_Click(object sender, EventArgs e)
@@ -225,41 +214,26 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ToolStripItem control = (ToolStripItem)sender;
             int operatorTypeID = (int)control.Tag;
 
-            if (CreateOperatorRequested != null)
-            {
-                var e2 = new CreateOperatorEventArgs(operatorTypeID);
-                CreateOperatorRequested(this, e2);
-            }
+            CreateOperatorRequested?.Invoke(this, new CreateOperatorEventArgs(operatorTypeID));
         }
 
         private void SelectOperatorGesture_OperatorSelected(object sender, ElementEventArgs e)
         {
             int operatorID = VectorGraphicsTagHelper.GetOperatorID(e.Element.Tag);
 
-            if (SelectOperatorRequested != null)
-            {
-                var e2 = new Int32EventArgs(operatorID);
-                SelectOperatorRequested(this, e2);
-            }
+            SelectOperatorRequested?.Invoke(this, new Int32EventArgs(operatorID));
         }
 
         private void DeleteOperatorGesture_DeleteRequested(object sender, EventArgs e)
         {
-            if (DeleteOperatorRequested != null)
-            {
-                DeleteOperatorRequested(this, EventArgs.Empty);
-            }
+            DeleteOperatorRequested?.Invoke(this, EventArgs.Empty);
         }
 
         private void DoubleClickOperatorGesture_DoubleClick(object sender, ElementEventArgs e)
         {
             int operatorID = VectorGraphicsTagHelper.GetOperatorID(e.Element.Tag);
 
-            if (OperatorPropertiesRequested != null)
-            {
-                var e2 = new Int32EventArgs(operatorID);
-                OperatorPropertiesRequested(this, e2);
-            }
+            OperatorPropertiesRequested?.Invoke(this, new Int32EventArgs(operatorID));
         }
 
         private void OperatorEnterKeyGesture_EnterKeyPressed(object sender, EventArgs e)
@@ -269,10 +243,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void buttonPlay_Click(object sender, EventArgs e)
         {
-            if (PlayRequested != null)
-            {
-                PlayRequested(this, EventArgs.Empty);
-            }
+            PlayRequested?.Invoke(this, EventArgs.Empty);
         }
 
         // TODO: Lower priority: You might want to use the presenter for the the following 3 things.
@@ -309,10 +280,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // which makes it say that now clear fields are required.
             if (Visible)
             {
-                if (LoseFocusRequested != null)
-                {
-                    LoseFocusRequested(this, EventArgs.Empty);
-                }
+                LoseFocusRequested?.Invoke(this, EventArgs.Empty);
             }
         }
 

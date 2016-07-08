@@ -1249,15 +1249,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Narrower.
-        /// </summary>
-        public static string Narrower {
-            get {
-                return ResourceManager.GetString("Narrower", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Negative.
         /// </summary>
         public static string Negative {
@@ -2001,6 +1992,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Square {
             get {
                 return ResourceManager.GetString("Square", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Squash.
+        /// </summary>
+        public static string Squash {
+            get {
+                return ResourceManager.GetString("Squash", resourceCulture);
             }
         }
         

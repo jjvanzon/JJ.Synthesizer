@@ -184,7 +184,7 @@
     <Compile Include="Calculation\Operators\LowPassFilter OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\MultiplyWithOrigin OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\OperatorCalculatorBase_WithChildCalculators.cs" />
-    <Compile Include="Calculation\Operators\Narrower OperatorCalculator Classes.cs" />
+    <Compile Include="Calculation\Operators\Squash OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\OperatorCalculatorHelper.cs" />
     <Compile Include="Calculation\Operators\ChangeTrigger_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\PulseTrigger_OperatorCalculator.cs" />
@@ -352,7 +352,7 @@
     <Compile Include="EntityWrappers\Spectrum_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Reset_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Shift_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\Narrower_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\Squash_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Pulse_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Reverse_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Stretch_OperatorWrapper.cs" />
@@ -507,7 +507,7 @@
     <Compile Include="Validation\Operators\Random_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Reset_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Shift_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\Narrower_OperatorValidator.cs" />
+    <Compile Include="Validation\Operators\Squash_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\MinFollower_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Cache_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\ChangeTrigger_OperatorValidator.cs" />
@@ -586,7 +586,7 @@
     <Compile Include="Warnings\Operators\Random_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Reset_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Shift_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\Narrower_OperatorWarningValidator.cs" />
+    <Compile Include="Warnings\Operators\Squash_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Cache_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\ChangeTrigger_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\PulseTrigger_OperatorWarningValidator.cs" />

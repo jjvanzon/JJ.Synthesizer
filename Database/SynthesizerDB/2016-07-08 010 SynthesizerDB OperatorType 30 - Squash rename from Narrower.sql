@@ -1,0 +1,1 @@
+update OperatorType set Name = 'Squash' where ID = 30;

@@ -473,13 +473,13 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.MultiplyWithOrigin(a, b, origin);
         }
 
-        public Narrower_OperatorWrapper Narrower(
+        public Squash_OperatorWrapper Squash(
             Outlet signal = null, 
             Outlet factor = null, 
             Outlet origin = null,
             DimensionEnum dimension = DimensionEnum.Time)
         {
-            return _patchManager.Narrower(signal, factor, origin, dimension);
+            return _patchManager.Squash(signal, factor, origin, dimension);
         }
 
         public Negative_OperatorWrapper Negative(Outlet x = null)

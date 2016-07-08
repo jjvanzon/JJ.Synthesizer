@@ -1111,30 +1111,6 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Narrower_OperatorWrapper Narrower(
-            Outlet signal = null, 
-            Outlet factor = null, 
-            Outlet origin = null, 
-            DimensionEnum dimension = DimensionEnum.Time)
-        {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.Narrower, inletCount: 3, outletCount: 1);
-
-            var wrapper = new Narrower_OperatorWrapper(op)
-            {
-                Signal = signal,
-                Factor = factor,
-                Origin = origin,
-                Dimension = dimension
-            };
-
-            wrapper.FactorInlet.DefaultValue = DEFAULT_FACTOR;
-
-            VoidResult result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
-
-            return wrapper;
-        }
-
         public Negative_OperatorWrapper Negative(Outlet x = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Negative, inletCount: 1, outletCount: 1);
@@ -1856,6 +1832,30 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        public Squash_OperatorWrapper Squash(
+            Outlet signal = null,
+            Outlet factor = null,
+            Outlet origin = null,
+            DimensionEnum dimension = DimensionEnum.Time)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Squash, inletCount: 3, outletCount: 1);
+
+            var wrapper = new Squash_OperatorWrapper(op)
+            {
+                Signal = signal,
+                Factor = factor,
+                Origin = origin,
+                Dimension = dimension
+            };
+
+            wrapper.FactorInlet.DefaultValue = DEFAULT_FACTOR;
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
         public Stretch_OperatorWrapper Stretch(Outlet signal = null, Outlet factor = null, Outlet origin = null, DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Stretch, inletCount: 3, outletCount: 1);
@@ -2145,7 +2145,6 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.MinFollower: return MinFollower();
                 case OperatorTypeEnum.Multiply: return Multiply(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.MultiplyWithOrigin: return MultiplyWithOrigin();
-                case OperatorTypeEnum.Narrower: return Narrower();
                 case OperatorTypeEnum.Noise: return Noise();
                 case OperatorTypeEnum.Not: return Not();
                 case OperatorTypeEnum.NotchFilter: return NotchFilter();
@@ -2180,6 +2179,7 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.Spectrum: return Spectrum();
                 case OperatorTypeEnum.SpeedUp: return SpeedUp();
                 case OperatorTypeEnum.Square: return Square();
+                case OperatorTypeEnum.Squash: return Squash();
                 case OperatorTypeEnum.Stretch: return Stretch();
                 case OperatorTypeEnum.Subtract: return Subtract();
                 case OperatorTypeEnum.SumOverDimension: return SumOverDimension();

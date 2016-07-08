@@ -39,7 +39,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (ViewModel == null) return;
 
-            specializedDataGridView.DataSource = ((PatchGridViewModel)ViewModel).List;
+            specializedDataGridView.DataSource = ViewModel.List;
         }
 
         // Actions

@@ -47,11 +47,11 @@
         Stretch = 29,
 
         /// <summary>
-        /// Almost an alias for SpeedUp, except that Narrower does not track phase and has an origin parameter.
+        /// Almost an alias for SpeedUp, except that Squash does not track phase and has an origin parameter.
         /// It is more appropriate when you are e.g. stretching curves for filters.
         /// It makes more sense when the x-axis is not used as time.
         /// </summary>
-        Narrower = 30,
+        Squash = 30,
 
         /// <summary>
         /// A synonym to Delay. The word 'Shift' makes more sense when the x-axis is not used as time.

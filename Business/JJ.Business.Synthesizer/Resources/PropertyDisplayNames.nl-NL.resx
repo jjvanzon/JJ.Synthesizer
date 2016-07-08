@@ -486,8 +486,8 @@
   <data name="Stretch" xml:space="preserve">
     <value>Uitrekken</value>
   </data>
-  <data name="Narrower" xml:space="preserve">
-    <value>Inkrimpen</value>
+  <data name="Squash" xml:space="preserve">
+    <value>Samenpersen</value>
   </data>
   <data name="Shift" xml:space="preserve">
     <value>Schuiven</value>

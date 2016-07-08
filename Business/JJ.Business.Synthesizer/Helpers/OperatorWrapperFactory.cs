@@ -58,7 +58,6 @@ namespace JJ.Business.Synthesizer.Helpers
             { OperatorTypeEnum.MinFollower, Create_MinFollower_OperatorWrapper },
             { OperatorTypeEnum.Multiply, Create_Multiply_OperatorWrapper },
             { OperatorTypeEnum.MultiplyWithOrigin , Create_MultiplyWithOrigin_OperatorWrapper },
-            { OperatorTypeEnum.Narrower, Create_Narrower_OperatorWrapper },
             { OperatorTypeEnum.Negative, Create_Negative_OperatorWrapper },
             { OperatorTypeEnum.Noise, Create_Noise_OperatorWrapper },
             { OperatorTypeEnum.Not, Create_Not_OperatorWrapper },
@@ -92,6 +91,7 @@ namespace JJ.Business.Synthesizer.Helpers
             { OperatorTypeEnum.Spectrum, Create_Spectrum_OperatorWrapper },
             { OperatorTypeEnum.SpeedUp , Create_SpeedUp_OperatorWrapper },
             { OperatorTypeEnum.Square, Create_Square_OperatorWrapper },
+            { OperatorTypeEnum.Squash, Create_Squash_OperatorWrapper },
             { OperatorTypeEnum.Stretch, Create_Stretch_OperatorWrapper },
             { OperatorTypeEnum.Subtract, Create_Subtract_OperatorWrapper },
             { OperatorTypeEnum.SumOverDimension, Create_SumOverDimension_OperatorWrapper },
@@ -192,7 +192,7 @@ namespace JJ.Business.Synthesizer.Helpers
         private static MinFollower_OperatorWrapper Create_MinFollower_OperatorWrapper(Operator op) { return new MinFollower_OperatorWrapper(op); }
         private static Multiply_OperatorWrapper Create_Multiply_OperatorWrapper(Operator op) { return new Multiply_OperatorWrapper(op); }
         private static MultiplyWithOrigin_OperatorWrapper Create_MultiplyWithOrigin_OperatorWrapper(Operator op) { return new MultiplyWithOrigin_OperatorWrapper(op); }
-        private static Narrower_OperatorWrapper Create_Narrower_OperatorWrapper(Operator op) { return new Narrower_OperatorWrapper(op); }
+        private static Squash_OperatorWrapper Create_Squash_OperatorWrapper(Operator op) { return new Squash_OperatorWrapper(op); }
         private static Negative_OperatorWrapper Create_Negative_OperatorWrapper(Operator op) { return new Negative_OperatorWrapper(op); }
         private static Noise_OperatorWrapper Create_Noise_OperatorWrapper(Operator op) { return new Noise_OperatorWrapper(op); }
         private static Not_OperatorWrapper Create_Not_OperatorWrapper(Operator op) { return new Not_OperatorWrapper(op); }

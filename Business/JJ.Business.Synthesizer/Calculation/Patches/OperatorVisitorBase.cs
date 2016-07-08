@@ -62,7 +62,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.MinOverDimension, VisitMinOverDimension },
                 { OperatorTypeEnum.Multiply, VisitMultiply },
                 { OperatorTypeEnum.MultiplyWithOrigin, VisitMultiplyWithOrigin },
-                { OperatorTypeEnum.Narrower, VisitNarrower },
                 { OperatorTypeEnum.Negative, VisitNegative },
                 { OperatorTypeEnum.Noise, VisitNoise },
                 { OperatorTypeEnum.Not, VisitNot },
@@ -97,6 +96,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.Spectrum, VisitSpectrum },
                 { OperatorTypeEnum.SpeedUp, VisitSpeedUp },
                 { OperatorTypeEnum.Square, VisitSquare },
+                { OperatorTypeEnum.Squash, VisitSquash },
                 { OperatorTypeEnum.Stretch, VisitStretch },
                 { OperatorTypeEnum.Subtract, VisitSubtract },
                 { OperatorTypeEnum.SumOverDimension, VisitSumOverDimension },
@@ -430,7 +430,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         }
 
         [DebuggerHidden]
-        protected virtual void VisitNarrower(Operator op)
+        protected virtual void VisitSquash(Operator op)
         {
             VisitOperatorBase(op);
         }

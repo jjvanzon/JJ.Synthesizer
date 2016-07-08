@@ -1199,7 +1199,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
         //        OperatorTypeEnum.SlowDown,
         //        OperatorTypeEnum.TimePower,
         //        OperatorTypeEnum.Earlier,
-        //        OperatorTypeEnum.Narrower,
+        //        OperatorTypeEnum.Squash,
         //        OperatorTypeEnum.Shift,
         //        OperatorTypeEnum.Loop,
         //        OperatorTypeEnum.Reverse,

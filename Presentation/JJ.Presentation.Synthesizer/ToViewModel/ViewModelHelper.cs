@@ -62,7 +62,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.Loop,
             OperatorTypeEnum.MaxFollower,
             OperatorTypeEnum.MinFollower,
-            OperatorTypeEnum.Narrower,
+            OperatorTypeEnum.Squash,
             OperatorTypeEnum.Noise,
             OperatorTypeEnum.Pulse,
             OperatorTypeEnum.Range,
