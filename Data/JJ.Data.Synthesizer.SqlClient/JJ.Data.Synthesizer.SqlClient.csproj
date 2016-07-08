@@ -60,9 +60,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="2016-07-06 Backup of Document_GetPageOfRootDocumentIDsOrderedByName.sql" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="GetID.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

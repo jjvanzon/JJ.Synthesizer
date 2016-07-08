@@ -97,8 +97,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Calculation\Operators\2016-07-05 Backup of OperatorCalculatorBase_Filter_ConstFrequency_ConstBandWidth.cs" />
-    <Compile Include="Calculation\Operators\2016-07-05 Backup of OperatorCalculatorBase_Filter_VarFrequency_VarBandWidth.cs" />
     <Compile Include="Calculation\Operators\PeakingEQFilter OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\LowShelfFilter OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\HighShelfFilter OperatorCalculator Classes.cs" />
@@ -156,7 +154,6 @@
     <Compile Include="Calculation\Operators\Loop_OperatorCalculator_Base.cs" />
     <Compile Include="Calculation\Operators\GetDimension_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\ToggleTrigger_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\2016-07-05 Backup of Filter_ManyConstants_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Loop_OperatorCalculator_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration.cs" />
     <Compile Include="Calculation\Operators\Loop_OperatorCalculator_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration.cs" />
     <Compile Include="Calculation\Operators\Loop_OperatorCalculator_ManyConstants.cs" />
@@ -213,8 +210,6 @@
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_LineRememberT0.cs" />
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_LineWithVaryingAlignment.cs" />
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_LineWithConstSamplingRate.cs" />
-    <Compile Include="Calculation\Operators\2016-07-09 Backup of SlowDown OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\2016-07-09 Backup of SpeedUp OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Pulse OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Subtract OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\TimePower OperatorCalculator Classes.cs" />
@@ -250,7 +245,6 @@
     <Compile Include="EntityWrappers\ClosestOverDimensionExp_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Closest_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\ClosestOverDimension_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\2016-07-04 Backup of OperatorWrapperBase_FilterWithFrequencyAndBandWidth.cs" />
     <Compile Include="EntityWrappers\Sort_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\SortOverDimension_OperatorWrapper.cs" />
     <Compile Include="Helpers\OperatorCalculatorFactory.CreateAddCalculatorOnlyVars.cs">
@@ -313,11 +307,9 @@
     <Compile Include="EntityWrappers\Max_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\MakeContinuous_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Cache_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\2016-07-05 Backup of Filter_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Hold_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\OneOverX_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Negative_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\2016-06-24 Backup of OperatorWrapperBase_WithDimensionAndResampleInterpolationType.cs" />
     <Compile Include="EntityWrappers\MaxOverDimension_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Range_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\MakeDiscrete_OperatorWrapper.cs" />
@@ -347,7 +339,6 @@
     <Compile Include="EntityWrappers\MinFollower_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\ChangeTrigger_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\GetDimension_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\2016-06-24 Backup of OperatorWrapperBase_WithDimension.cs" />
     <Compile Include="EntityWrappers\SetDimension_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\ToggleTrigger_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\PulseTrigger_OperatorWrapper.cs" />
@@ -369,7 +360,6 @@
     <Compile Include="EntityWrappers\Triangle_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Square_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\SawUp_OperatorWrapper.cs" />
-    <Compile Include="Enums\2016-07-05 Backup of FilterTypeEnum.cs" />
     <Compile Include="Enums\DimensionEnum.cs" />
     <Compile Include="Enums\ResampleInterpolationTypeEnum.cs" />
     <Compile Include="Enums\ScaleTypeEnum.cs" />
@@ -405,9 +395,7 @@
     <Compile Include="EntityWrappers\Add_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Curve_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Earlier_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\2016-07-09 Backup of SlowDown_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\TimePower_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\2016-07-09 Backup of SpeedUp_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Delay_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Sine_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Power_OperatorWrapper.cs" />
@@ -433,7 +421,6 @@
     <Compile Include="CurveManager.cs" />
     <Compile Include="DocumentManager.cs" />
     <Compile Include="EntityPositionManager.cs" />
-    <Compile Include="CopiedCode\FromNAudio\2016-07-03 Backup of BiQuadFilter.cs" />
     <Compile Include="CopiedCode\FromNAudio\Complex.cs" />
     <Compile Include="CopiedCode\FromNAudio\FastFourierTransform.cs" />
     <Compile Include="PatchManager.AutoPatch.cs" />
@@ -448,7 +435,6 @@
     <Compile Include="Validation\DataProperty\CollectionRecalculation_DataProperty_Validator.cs" />
     <Compile Include="Validation\DataProperty\ResampleInterpolationType_DataProperty_Validator.cs" />
     <Compile Include="Validation\DataProperty\ListIndex_DataProperty_Validator.cs" />
-    <Compile Include="Validation\DataProperty\2016-07-05 Backup of FilterType_OperatorData_Validator.cs" />
     <Compile Include="Validation\DataProperty\SpeakerSetup_DataProperty_Validator.cs" />
     <Compile Include="Validation\DataProperty\InterpolationType_DataProperty_Validator.cs" />
     <Compile Include="Validation\DataProperty\Dimension_DataProperty_Validator.cs" />
@@ -464,7 +450,6 @@
     <Compile Include="Validation\Operators\Closest_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\LowShelfFilter_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\PeakingEQFilter_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\2016-07-02 Backup of OperatorValidator_Base_FilterWithFrequencyAndBandWidth.cs" />
     <Compile Include="Validation\Operators\SortOverDimension_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Sort_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_Base_AggregateOverDimension.cs" />
@@ -488,7 +473,6 @@
     <Compile Include="Validation\DataProperty\DataPropertyValidator.cs" />
     <Compile Include="Validation\Operators\OneOverX_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Negative_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\2016-07-05 Backup of Filter_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Round_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\SawDown_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Scaler_OperatorValidator.cs" />
@@ -560,13 +544,10 @@
     <Compile Include="Warnings\Operators\OperatorWarningValidator_Base_SpecificInletsFilledInOrHaveDefaults.cs" />
     <Compile Include="Warnings\Operators\MaxOverDimension_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Range_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\2016-06-25 Backup of SetDimension_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\2016-06-25 Backup of GetDimension_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\ToggleTrigger_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\OneOverX_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Negative_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Round_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\2016-07-05 Backup of Filter_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\SawDown_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Scaler_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\MaxFollower_OperatorWarningValidator.cs" />
@@ -687,10 +668,8 @@
     <Compile Include="Warnings\Operators\OperatorWarningValidator_Base.cs" />
     <Compile Include="Warnings\Operators\Sample_OperatorWarningValidator.cs" />
     <Compile Include="Validation\NodeValidator_WithoutParent.cs" />
-    <Compile Include="Validation\Operators\2016-07-09 Backup of SlowDown_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Earlier_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\TimePower_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\2016-07-09 Backup of SpeedUp_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Delay_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Sine_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Power_OperatorValidator.cs" />
@@ -719,8 +698,6 @@
     <Compile Include="Warnings\Operators\Add_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Earlier_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\TimePower_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\2016-07-09 Backup of SlowDown_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\2016-07-09 Backup of SpeedUp_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Delay_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Sine_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Power_OperatorWarningValidator.cs" />
