@@ -120,6 +120,9 @@
     <Compile Include="UserControls\OperatorPropertiesUserControlBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="UserControls\PropertiesUserControlBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_WithDimensionAndCollectionRecalculation.cs">
       <SubType>UserControl</SubType>
     </Compile>

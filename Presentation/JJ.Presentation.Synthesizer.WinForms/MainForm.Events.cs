@@ -175,7 +175,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // AudioOutput
 
-        private void audioOutputPropertiesUserControl_CloseRequested(object sender, EventArgs e)
+        private void audioOutputPropertiesUserControl_CloseRequested(object sender, Int32EventArgs e)
         {
             TemplateEventHandler(() =>
             {
@@ -184,7 +184,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             });
         }
 
-        private void audioOutputPropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
+        private void audioOutputPropertiesUserControl_LoseFocusRequested(object sender, Int32EventArgs e)
         {
             TemplateEventHandler(() =>
             {

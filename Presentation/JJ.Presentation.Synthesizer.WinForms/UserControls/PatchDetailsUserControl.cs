@@ -327,7 +327,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         }
     }
 
-    /// <summary> The WinForms designer does not work when deriving directly from a generic class. </summary>
+    /// <summary> 
+    /// The WinForms designer does not work when deriving directly from a generic class.
+    /// And also not when you make this class abstract.
+    /// </summary>
     internal class PatchDetailsUserControl_NotDesignable : UserControlBase<PatchDetailsViewModel>
     {
         protected override void ApplyViewModelToControls()

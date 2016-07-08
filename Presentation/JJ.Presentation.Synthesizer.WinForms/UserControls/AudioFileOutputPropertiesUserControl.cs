@@ -33,22 +33,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ApplyStyling();
         }
 
-
-        ///// <summary> virtually not nullable </summary>
-        //private IList<IDAndName> _outletLookup;
-
-        //[Browsable(false)]
-        //[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        //public IList<IDAndName> OutletLookup
-        //{
-        //    get { return _outletLookup; }
-        //    set
-        //    {
-        //        _outletLookup = value;
-        //        ApplyOutletLookupToControls();
-        //    }
-        //}
-
         // Gui
 
         private void SetTitles()
@@ -107,10 +91,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             numericUpDownTimeMultiplier.Value = (decimal)ViewModel.Entity.TimeMultiplier;
 
             textBoxFilePath.Text = ViewModel.Entity.FilePath;
-
-            //comboBoxOutlet.ValueMember = PropertyNames.ID;
-            //comboBoxOutlet.DisplayMember = PropertyNames.Name;
-            //comboBoxOutlet.DataSource = _outletLookup;
         }
 
         private void ApplyControlsToViewModel()
@@ -173,7 +153,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         }
     }
 
-    /// <summary> The WinForms designer does not work when deriving directly from a generic class. </summary>
+    /// <summary> 
+    /// The WinForms designer does not work when deriving directly from a generic class.
+    /// And also not when you make this class abstract.
+    /// </summary>
     internal class AudioFileOutputPropertiesUserControl_NotDesignable
         : UserControlBase<AudioFileOutputPropertiesViewModel>
     {

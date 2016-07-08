@@ -98,12 +98,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         }
     }
 
-    /// <summary> The WinForms designer does not work when deriving directly from a generic class. </summary>
-    internal class CurvePropertiesUserControl_NotDesignable : UserControlBase<CurvePropertiesViewModel>
-    {
-        protected override void ApplyViewModelToControls()
-        {
-            throw new NotImplementedException();
-        }
-    }
+    /// <summary> 
+    /// The WinForms designer does not work when deriving directly from a generic class.
+    /// And also not when you make this class abstract.
+    /// </summary>
+    internal class CurvePropertiesUserControl_NotDesignable 
+        : PropertiesUserControlBase<CurvePropertiesViewModel>
+    { }
 }

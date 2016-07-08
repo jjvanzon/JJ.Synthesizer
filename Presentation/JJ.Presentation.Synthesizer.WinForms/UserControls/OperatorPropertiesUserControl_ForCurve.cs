@@ -100,8 +100,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ViewModel.Dimension = (IDAndName)comboBoxDimension.SelectedItem;
         }
     }
-    
-    /// <summary> The WinForms designer does not work when deriving directly from a generic class. </summary>
+
+    /// <summary> 
+    /// The WinForms designer does not work when deriving directly from a generic class.
+    /// And also not when you make this class abstract.
+    /// </summary>
     internal class OperatorPropertiesUserControl_ForCurve_NotDesignable
         : OperatorPropertiesUserControlBase<OperatorPropertiesViewModel_ForCurve>
     { }
