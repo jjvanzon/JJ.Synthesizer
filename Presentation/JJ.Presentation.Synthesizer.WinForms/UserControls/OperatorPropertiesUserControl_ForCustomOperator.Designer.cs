@@ -39,7 +39,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // labelUnderlyingPatch
             // 
-            this.labelUnderlyingPatch.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelUnderlyingPatch.Location = new System.Drawing.Point(0, 48);
             this.labelUnderlyingPatch.Margin = new System.Windows.Forms.Padding(0);
             this.labelUnderlyingPatch.Name = "labelUnderlyingPatch";
@@ -50,7 +49,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // comboBoxUnderlyingPatch
             // 
-            this.comboBoxUnderlyingPatch.Dock = System.Windows.Forms.DockStyle.Fill;
             this.comboBoxUnderlyingPatch.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxUnderlyingPatch.FormattingEnabled = true;
             this.comboBoxUnderlyingPatch.Location = new System.Drawing.Point(120, 48);
@@ -61,7 +59,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // labelName
             // 
-            this.labelName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelName.Location = new System.Drawing.Point(0, 24);
             this.labelName.Margin = new System.Windows.Forms.Padding(0);
             this.labelName.Name = "labelName";
@@ -72,7 +69,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // textBoxName
             // 
-            this.textBoxName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxName.Location = new System.Drawing.Point(120, 24);
             this.textBoxName.Margin = new System.Windows.Forms.Padding(0);
             this.textBoxName.Name = "textBoxName";
@@ -81,7 +77,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // labelOperatorTypeTitle
             // 
-            this.labelOperatorTypeTitle.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelOperatorTypeTitle.Location = new System.Drawing.Point(0, 0);
             this.labelOperatorTypeTitle.Margin = new System.Windows.Forms.Padding(0);
             this.labelOperatorTypeTitle.Name = "labelOperatorTypeTitle";
@@ -92,7 +87,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // labelOperatorTypeValue
             // 
-            this.labelOperatorTypeValue.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelOperatorTypeValue.Location = new System.Drawing.Point(120, 0);
             this.labelOperatorTypeValue.Margin = new System.Windows.Forms.Padding(0);
             this.labelOperatorTypeValue.Name = "labelOperatorTypeValue";

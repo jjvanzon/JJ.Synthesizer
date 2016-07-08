@@ -45,7 +45,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelName.Location = new System.Drawing.Point(45, 73);
             this.labelName.Margin = new System.Windows.Forms.Padding(0);
             this.labelName.Name = "labelName";
-            this.labelName.Size = new System.Drawing.Size(177, 31);
+            this.labelName.Size = new System.Drawing.Size(10, 10);
             this.labelName.TabIndex = 2;
             this.labelName.Text = "labelName";
             this.labelName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -55,7 +55,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.textBoxName.Location = new System.Drawing.Point(232, 73);
             this.textBoxName.Margin = new System.Windows.Forms.Padding(0);
             this.textBoxName.Name = "textBoxName";
-            this.textBoxName.Size = new System.Drawing.Size(92, 22);
+            this.textBoxName.Size = new System.Drawing.Size(10, 22);
             this.textBoxName.TabIndex = 11;
             // 
             // labelOperatorTypeTitle
@@ -63,7 +63,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelOperatorTypeTitle.Location = new System.Drawing.Point(64, 42);
             this.labelOperatorTypeTitle.Margin = new System.Windows.Forms.Padding(0);
             this.labelOperatorTypeTitle.Name = "labelOperatorTypeTitle";
-            this.labelOperatorTypeTitle.Size = new System.Drawing.Size(165, 31);
+            this.labelOperatorTypeTitle.Size = new System.Drawing.Size(10, 10);
             this.labelOperatorTypeTitle.TabIndex = 12;
             this.labelOperatorTypeTitle.Text = "labelOperatorTypeTitle";
             this.labelOperatorTypeTitle.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -73,7 +73,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelOperatorTypeValue.Location = new System.Drawing.Point(229, 42);
             this.labelOperatorTypeValue.Margin = new System.Windows.Forms.Padding(0);
             this.labelOperatorTypeValue.Name = "labelOperatorTypeValue";
-            this.labelOperatorTypeValue.Size = new System.Drawing.Size(169, 31);
+            this.labelOperatorTypeValue.Size = new System.Drawing.Size(10, 10);
             this.labelOperatorTypeValue.TabIndex = 13;
             this.labelOperatorTypeValue.Text = "labelOperatorTypeValue";
             this.labelOperatorTypeValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -83,7 +83,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelInletCount.Location = new System.Drawing.Point(67, 120);
             this.labelInletCount.Margin = new System.Windows.Forms.Padding(0);
             this.labelInletCount.Name = "labelInletCount";
-            this.labelInletCount.Size = new System.Drawing.Size(134, 31);
+            this.labelInletCount.Size = new System.Drawing.Size(10, 10);
             this.labelInletCount.TabIndex = 14;
             this.labelInletCount.Text = "labelInletCount";
             this.labelInletCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -103,7 +103,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             0,
             0});
             this.numericUpDownInletCount.Name = "numericUpDownInletCount";
-            this.numericUpDownInletCount.Size = new System.Drawing.Size(92, 22);
+            this.numericUpDownInletCount.Size = new System.Drawing.Size(10, 22);
             this.numericUpDownInletCount.TabIndex = 15;
             this.numericUpDownInletCount.Value = new decimal(new int[] {
             1,
@@ -116,7 +116,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelDimension.Location = new System.Drawing.Point(109, 151);
             this.labelDimension.Margin = new System.Windows.Forms.Padding(0);
             this.labelDimension.Name = "labelDimension";
-            this.labelDimension.Size = new System.Drawing.Size(92, 31);
+            this.labelDimension.Size = new System.Drawing.Size(10, 10);
             this.labelDimension.TabIndex = 22;
             this.labelDimension.Text = "labelDimension";
             this.labelDimension.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -128,7 +128,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.comboBoxDimension.Location = new System.Drawing.Point(232, 155);
             this.comboBoxDimension.Margin = new System.Windows.Forms.Padding(0);
             this.comboBoxDimension.Name = "comboBoxDimension";
-            this.comboBoxDimension.Size = new System.Drawing.Size(92, 24);
+            this.comboBoxDimension.Size = new System.Drawing.Size(10, 24);
             this.comboBoxDimension.TabIndex = 23;
             // 
             // OperatorPropertiesUserControl_ForBundle
@@ -147,7 +147,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.Controls.Add(this.comboBoxDimension);
             this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "OperatorPropertiesUserControl_ForBundle";
-            this.Size = new System.Drawing.Size(551, 378);
             this.Controls.SetChildIndex(this.comboBoxDimension, 0);
             this.Controls.SetChildIndex(this.labelDimension, 0);
             this.Controls.SetChildIndex(this.numericUpDownInletCount, 0);

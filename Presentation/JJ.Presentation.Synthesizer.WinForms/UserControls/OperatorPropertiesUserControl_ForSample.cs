@@ -26,8 +26,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             AddProperty(labelOperatorTypeTitle, labelOperatorTypeValue);
             AddProperty(labelSample, comboBoxSample);
-            AddProperty(labelName, textBoxName);
             AddProperty(labelDimension, comboBoxDimension);
+            AddProperty(labelName, textBoxName);
         }
 
         protected override void SetTitles()

@@ -44,7 +44,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // labelName
             // 
-            this.labelName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelName.Location = new System.Drawing.Point(0, 30);
             this.labelName.Margin = new System.Windows.Forms.Padding(0);
             this.labelName.Name = "labelName";
@@ -55,7 +54,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // textBoxName
             // 
-            this.textBoxName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxName.Location = new System.Drawing.Point(147, 30);
             this.textBoxName.Margin = new System.Windows.Forms.Padding(0);
             this.textBoxName.Name = "textBoxName";
@@ -64,7 +62,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // labelOperatorTypeTitle
             // 
-            this.labelOperatorTypeTitle.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelOperatorTypeTitle.Location = new System.Drawing.Point(0, 0);
             this.labelOperatorTypeTitle.Margin = new System.Windows.Forms.Padding(0);
             this.labelOperatorTypeTitle.Name = "labelOperatorTypeTitle";
@@ -75,7 +72,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // labelOperatorTypeValue
             // 
-            this.labelOperatorTypeValue.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelOperatorTypeValue.Location = new System.Drawing.Point(147, 0);
             this.labelOperatorTypeValue.Margin = new System.Windows.Forms.Padding(0);
             this.labelOperatorTypeValue.Name = "labelOperatorTypeValue";
@@ -86,7 +82,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // labelInletCount
             // 
-            this.labelInletCount.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelInletCount.Location = new System.Drawing.Point(0, 60);
             this.labelInletCount.Margin = new System.Windows.Forms.Padding(0);
             this.labelInletCount.Name = "labelInletCount";
@@ -97,7 +92,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // numericUpDownInletCount
             // 
-            this.numericUpDownInletCount.Dock = System.Windows.Forms.DockStyle.Fill;
             this.numericUpDownInletCount.Location = new System.Drawing.Point(147, 60);
             this.numericUpDownInletCount.Margin = new System.Windows.Forms.Padding(0);
             this.numericUpDownInletCount.Maximum = new decimal(new int[] {
@@ -121,7 +115,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // comboBoxDimension
             // 
-            this.comboBoxDimension.Dock = System.Windows.Forms.DockStyle.Fill;
             this.comboBoxDimension.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxDimension.FormattingEnabled = true;
             this.comboBoxDimension.Location = new System.Drawing.Point(147, 120);
@@ -132,7 +125,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // labelDimension
             // 
-            this.labelDimension.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelDimension.Location = new System.Drawing.Point(0, 120);
             this.labelDimension.Margin = new System.Windows.Forms.Padding(0);
             this.labelDimension.Name = "labelDimension";
@@ -143,7 +135,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // labelInterpolation
             // 
-            this.labelInterpolation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelInterpolation.Location = new System.Drawing.Point(0, 90);
             this.labelInterpolation.Margin = new System.Windows.Forms.Padding(0);
             this.labelInterpolation.Name = "labelInterpolation";
@@ -154,7 +145,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // comboBoxInterpolation
             // 
-            this.comboBoxInterpolation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.comboBoxInterpolation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxInterpolation.FormattingEnabled = true;
             this.comboBoxInterpolation.Location = new System.Drawing.Point(147, 90);

@@ -41,19 +41,17 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // labelName
             // 
-            this.labelName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelName.Location = new System.Drawing.Point(0, 30);
+            this.labelName.Location = new System.Drawing.Point(0, 0);
             this.labelName.Margin = new System.Windows.Forms.Padding(0);
             this.labelName.Name = "labelName";
-            this.labelName.Size = new System.Drawing.Size(147, 30);
+            this.labelName.Size = new System.Drawing.Size(10, 10);
             this.labelName.TabIndex = 2;
             this.labelName.Text = "labelName";
             this.labelName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // textBoxName
             // 
-            this.textBoxName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxName.Location = new System.Drawing.Point(147, 30);
+            this.textBoxName.Location = new System.Drawing.Point(0, 0);
             this.textBoxName.Margin = new System.Windows.Forms.Padding(0);
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.Size = new System.Drawing.Size(10, 22);
@@ -61,43 +59,39 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // labelOperatorTypeTitle
             // 
-            this.labelOperatorTypeTitle.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelOperatorTypeTitle.Location = new System.Drawing.Point(0, 0);
             this.labelOperatorTypeTitle.Margin = new System.Windows.Forms.Padding(0);
             this.labelOperatorTypeTitle.Name = "labelOperatorTypeTitle";
-            this.labelOperatorTypeTitle.Size = new System.Drawing.Size(147, 30);
+            this.labelOperatorTypeTitle.Size = new System.Drawing.Size(10, 10);
             this.labelOperatorTypeTitle.TabIndex = 12;
             this.labelOperatorTypeTitle.Text = "labelOperatorTypeTitle";
             this.labelOperatorTypeTitle.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // labelOperatorTypeValue
             // 
-            this.labelOperatorTypeValue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelOperatorTypeValue.Location = new System.Drawing.Point(147, 0);
+            this.labelOperatorTypeValue.Location = new System.Drawing.Point(0, 0);
             this.labelOperatorTypeValue.Margin = new System.Windows.Forms.Padding(0);
             this.labelOperatorTypeValue.Name = "labelOperatorTypeValue";
-            this.labelOperatorTypeValue.Size = new System.Drawing.Size(10, 30);
+            this.labelOperatorTypeValue.Size = new System.Drawing.Size(10, 10);
             this.labelOperatorTypeValue.TabIndex = 13;
             this.labelOperatorTypeValue.Text = "labelOperatorTypeValue";
             this.labelOperatorTypeValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // labelRecalculation
             // 
-            this.labelRecalculation.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelRecalculation.Location = new System.Drawing.Point(0, 60);
+            this.labelRecalculation.Location = new System.Drawing.Point(0, 0);
             this.labelRecalculation.Margin = new System.Windows.Forms.Padding(0);
             this.labelRecalculation.Name = "labelRecalculation";
-            this.labelRecalculation.Size = new System.Drawing.Size(147, 30);
+            this.labelRecalculation.Size = new System.Drawing.Size(10, 10);
             this.labelRecalculation.TabIndex = 20;
             this.labelRecalculation.Text = "labelRecalculation";
             this.labelRecalculation.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // comboBoxCollectionRecalculation
             // 
-            this.comboBoxCollectionRecalculation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.comboBoxCollectionRecalculation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxCollectionRecalculation.FormattingEnabled = true;
-            this.comboBoxCollectionRecalculation.Location = new System.Drawing.Point(147, 60);
+            this.comboBoxCollectionRecalculation.Location = new System.Drawing.Point(0, 0);
             this.comboBoxCollectionRecalculation.Margin = new System.Windows.Forms.Padding(0);
             this.comboBoxCollectionRecalculation.Name = "comboBoxCollectionRecalculation";
             this.comboBoxCollectionRecalculation.Size = new System.Drawing.Size(10, 24);
@@ -105,21 +99,19 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // labelDimension
             // 
-            this.labelDimension.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelDimension.Location = new System.Drawing.Point(0, 90);
+            this.labelDimension.Location = new System.Drawing.Point(0, 0);
             this.labelDimension.Margin = new System.Windows.Forms.Padding(0);
             this.labelDimension.Name = "labelDimension";
-            this.labelDimension.Size = new System.Drawing.Size(147, 30);
+            this.labelDimension.Size = new System.Drawing.Size(10, 10);
             this.labelDimension.TabIndex = 30;
             this.labelDimension.Text = "labelDimension";
             this.labelDimension.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // comboBoxDimension
             // 
-            this.comboBoxDimension.Dock = System.Windows.Forms.DockStyle.Fill;
             this.comboBoxDimension.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxDimension.FormattingEnabled = true;
-            this.comboBoxDimension.Location = new System.Drawing.Point(147, 90);
+            this.comboBoxDimension.Location = new System.Drawing.Point(0, 0);
             this.comboBoxDimension.Margin = new System.Windows.Forms.Padding(0);
             this.comboBoxDimension.Name = "comboBoxDimension";
             this.comboBoxDimension.Size = new System.Drawing.Size(10, 24);
@@ -130,6 +122,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.Controls.Add(this.labelName);
             this.Controls.Add(this.textBoxName);
             this.Controls.Add(this.labelOperatorTypeTitle);
@@ -138,11 +131,19 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.Controls.Add(this.comboBoxCollectionRecalculation);
             this.Controls.Add(this.labelDimension);
             this.Controls.Add(this.comboBoxDimension);
-            this.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.Margin = new System.Windows.Forms.Padding(4);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "OperatorPropertiesUserControl_WithDimensionAndCollectionRecalculation";
             this.Size = new System.Drawing.Size(10, 10);
+            this.Controls.SetChildIndex(this.comboBoxDimension, 0);
+            this.Controls.SetChildIndex(this.labelDimension, 0);
+            this.Controls.SetChildIndex(this.comboBoxCollectionRecalculation, 0);
+            this.Controls.SetChildIndex(this.labelRecalculation, 0);
+            this.Controls.SetChildIndex(this.labelOperatorTypeValue, 0);
+            this.Controls.SetChildIndex(this.labelOperatorTypeTitle, 0);
+            this.Controls.SetChildIndex(this.textBoxName, 0);
+            this.Controls.SetChildIndex(this.labelName, 0);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

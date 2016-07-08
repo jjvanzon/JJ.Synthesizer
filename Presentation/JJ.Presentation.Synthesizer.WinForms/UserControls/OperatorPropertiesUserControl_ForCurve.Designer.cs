@@ -41,18 +41,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // labelCurve
             // 
-            this.labelCurve.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelCurve.Location = new System.Drawing.Point(0, 0);
             this.labelCurve.Margin = new System.Windows.Forms.Padding(0);
             this.labelCurve.Name = "labelCurve";
-            this.labelCurve.Size = new System.Drawing.Size(421, 333);
+            this.labelCurve.Size = new System.Drawing.Size(10, 10);
             this.labelCurve.TabIndex = 15;
             this.labelCurve.Text = "labelCurve";
             this.labelCurve.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // comboBoxCurve
             // 
-            this.comboBoxCurve.Dock = System.Windows.Forms.DockStyle.Fill;
             this.comboBoxCurve.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxCurve.FormattingEnabled = true;
             this.comboBoxCurve.Location = new System.Drawing.Point(0, 0);
@@ -63,18 +61,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // labelName
             // 
-            this.labelName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelName.Location = new System.Drawing.Point(0, 0);
             this.labelName.Margin = new System.Windows.Forms.Padding(0);
             this.labelName.Name = "labelName";
-            this.labelName.Size = new System.Drawing.Size(421, 333);
+            this.labelName.Size = new System.Drawing.Size(10, 10);
             this.labelName.TabIndex = 2;
             this.labelName.Text = "labelName";
             this.labelName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // textBoxName
             // 
-            this.textBoxName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxName.Location = new System.Drawing.Point(0, 0);
             this.textBoxName.Margin = new System.Windows.Forms.Padding(0);
             this.textBoxName.Name = "textBoxName";
@@ -83,40 +79,36 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // labelOperatorTypeTitle
             // 
-            this.labelOperatorTypeTitle.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelOperatorTypeTitle.Location = new System.Drawing.Point(0, 0);
             this.labelOperatorTypeTitle.Margin = new System.Windows.Forms.Padding(0);
             this.labelOperatorTypeTitle.Name = "labelOperatorTypeTitle";
-            this.labelOperatorTypeTitle.Size = new System.Drawing.Size(421, 333);
+            this.labelOperatorTypeTitle.Size = new System.Drawing.Size(10, 10);
             this.labelOperatorTypeTitle.TabIndex = 17;
             this.labelOperatorTypeTitle.Text = "labelOperatorTypeTitle";
             this.labelOperatorTypeTitle.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // labelOperatorTypeValue
             // 
-            this.labelOperatorTypeValue.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelOperatorTypeValue.Location = new System.Drawing.Point(0, 0);
             this.labelOperatorTypeValue.Margin = new System.Windows.Forms.Padding(0);
             this.labelOperatorTypeValue.Name = "labelOperatorTypeValue";
-            this.labelOperatorTypeValue.Size = new System.Drawing.Size(421, 333);
+            this.labelOperatorTypeValue.Size = new System.Drawing.Size(10, 10);
             this.labelOperatorTypeValue.TabIndex = 18;
             this.labelOperatorTypeValue.Text = "labelOperatorTypeValue";
             this.labelOperatorTypeValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // labelDimension
             // 
-            this.labelDimension.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelDimension.Location = new System.Drawing.Point(0, 0);
             this.labelDimension.Margin = new System.Windows.Forms.Padding(0);
             this.labelDimension.Name = "labelDimension";
-            this.labelDimension.Size = new System.Drawing.Size(421, 333);
+            this.labelDimension.Size = new System.Drawing.Size(10, 10);
             this.labelDimension.TabIndex = 22;
             this.labelDimension.Text = "labelDimension";
             this.labelDimension.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // comboBoxDimension
             // 
-            this.comboBoxDimension.Dock = System.Windows.Forms.DockStyle.Fill;
             this.comboBoxDimension.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxDimension.FormattingEnabled = true;
             this.comboBoxDimension.Location = new System.Drawing.Point(0, 0);
@@ -141,7 +133,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.Controls.Add(this.comboBoxDimension);
             this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "OperatorPropertiesUserControl_ForCurve";
-            this.Size = new System.Drawing.Size(421, 333);
             this.Controls.SetChildIndex(this.comboBoxDimension, 0);
             this.Controls.SetChildIndex(this.labelDimension, 0);
             this.Controls.SetChildIndex(this.labelOperatorTypeValue, 0);

@@ -34,9 +34,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         protected override void AddProperties()
         {
             AddProperty(labelOperatorTypeTitle, labelOperatorTypeValue);
-            AddProperty(labelName, textBoxName);
             AddProperty(labelCurve, comboBoxCurve);
             AddProperty(labelDimension, comboBoxDimension);
+            AddProperty(labelName, textBoxName);
         }
 
         // Binding

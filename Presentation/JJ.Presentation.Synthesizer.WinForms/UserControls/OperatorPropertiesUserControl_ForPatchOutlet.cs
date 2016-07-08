@@ -24,9 +24,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         protected override void AddProperties()
         {
             AddProperty(labelOperatorTypeTitle, labelOperatorTypeValue);
-            AddProperty(labelNumber, numericUpDownNumber);
             AddProperty(labelDimension, comboBoxDimension);
             AddProperty(labelName, textBoxName);
+            AddProperty(labelNumber, numericUpDownNumber);
         }
 
 

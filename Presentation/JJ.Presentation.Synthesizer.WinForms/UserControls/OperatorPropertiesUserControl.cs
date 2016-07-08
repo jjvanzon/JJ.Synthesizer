@@ -26,8 +26,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void AddProperties()
         {
-            AddProperty(labelName, textBoxName);
             AddProperty(labelOperatorTypeTitle, labelOperatorTypeValue);
+            AddProperty(labelName, textBoxName);
         }
 
         // Binding

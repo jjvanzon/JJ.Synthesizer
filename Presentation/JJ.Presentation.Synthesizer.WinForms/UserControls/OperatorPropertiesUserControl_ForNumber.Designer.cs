@@ -39,7 +39,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // labelName
             // 
-            this.labelName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelName.Location = new System.Drawing.Point(0, 30);
             this.labelName.Margin = new System.Windows.Forms.Padding(0);
             this.labelName.Name = "labelName";
@@ -50,7 +49,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // textBoxName
             // 
-            this.textBoxName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxName.Location = new System.Drawing.Point(147, 30);
             this.textBoxName.Margin = new System.Windows.Forms.Padding(0);
             this.textBoxName.Name = "textBoxName";
@@ -59,7 +57,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // labelOperatorTypeTitle
             // 
-            this.labelOperatorTypeTitle.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelOperatorTypeTitle.Location = new System.Drawing.Point(0, 0);
             this.labelOperatorTypeTitle.Margin = new System.Windows.Forms.Padding(0);
             this.labelOperatorTypeTitle.Name = "labelOperatorTypeTitle";
@@ -70,7 +67,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // labelOperatorTypeValue
             // 
-            this.labelOperatorTypeValue.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelOperatorTypeValue.Location = new System.Drawing.Point(147, 0);
             this.labelOperatorTypeValue.Margin = new System.Windows.Forms.Padding(0);
             this.labelOperatorTypeValue.Name = "labelOperatorTypeValue";
@@ -81,7 +77,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // labelNumber
             // 
-            this.labelNumber.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelNumber.Location = new System.Drawing.Point(0, 60);
             this.labelNumber.Margin = new System.Windows.Forms.Padding(0);
             this.labelNumber.Name = "labelNumber";
@@ -92,7 +87,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // textBoxNumber
             // 
-            this.textBoxNumber.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxNumber.Location = new System.Drawing.Point(147, 60);
             this.textBoxNumber.Margin = new System.Windows.Forms.Padding(0);
             this.textBoxNumber.Name = "textBoxNumber";

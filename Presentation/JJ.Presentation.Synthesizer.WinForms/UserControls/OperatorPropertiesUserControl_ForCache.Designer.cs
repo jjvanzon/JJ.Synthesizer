@@ -43,7 +43,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // labelName
             // 
-            this.labelName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelName.Location = new System.Drawing.Point(0, 0);
             this.labelName.Margin = new System.Windows.Forms.Padding(0);
             this.labelName.Name = "labelName";
@@ -54,7 +53,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // textBoxName
             // 
-            this.textBoxName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxName.Location = new System.Drawing.Point(0, 0);
             this.textBoxName.Margin = new System.Windows.Forms.Padding(0);
             this.textBoxName.Name = "textBoxName";
@@ -63,7 +61,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // labelOperatorTypeTitle
             // 
-            this.labelOperatorTypeTitle.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelOperatorTypeTitle.Location = new System.Drawing.Point(0, 0);
             this.labelOperatorTypeTitle.Margin = new System.Windows.Forms.Padding(0);
             this.labelOperatorTypeTitle.Name = "labelOperatorTypeTitle";
@@ -74,7 +71,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // labelOperatorTypeValue
             // 
-            this.labelOperatorTypeValue.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelOperatorTypeValue.Location = new System.Drawing.Point(0, 0);
             this.labelOperatorTypeValue.Margin = new System.Windows.Forms.Padding(0);
             this.labelOperatorTypeValue.Name = "labelOperatorTypeValue";
@@ -85,7 +81,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // labelInterpolation
             // 
-            this.labelInterpolation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelInterpolation.Location = new System.Drawing.Point(0, 0);
             this.labelInterpolation.Margin = new System.Windows.Forms.Padding(0);
             this.labelInterpolation.Name = "labelInterpolation";
@@ -96,7 +91,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // comboBoxInterpolation
             // 
-            this.comboBoxInterpolation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.comboBoxInterpolation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxInterpolation.FormattingEnabled = true;
             this.comboBoxInterpolation.Location = new System.Drawing.Point(0, 0);
@@ -108,7 +102,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // labelSpeakerSetup
             // 
             this.labelSpeakerSetup.Cursor = System.Windows.Forms.Cursors.Default;
-            this.labelSpeakerSetup.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelSpeakerSetup.Location = new System.Drawing.Point(0, 0);
             this.labelSpeakerSetup.Margin = new System.Windows.Forms.Padding(0);
             this.labelSpeakerSetup.Name = "labelSpeakerSetup";
@@ -119,7 +112,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // comboBoxSpeakerSetup
             // 
-            this.comboBoxSpeakerSetup.Dock = System.Windows.Forms.DockStyle.Fill;
             this.comboBoxSpeakerSetup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxSpeakerSetup.FormattingEnabled = true;
             this.comboBoxSpeakerSetup.Location = new System.Drawing.Point(0, 0);
@@ -130,7 +122,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // labelDimension
             // 
-            this.labelDimension.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelDimension.Location = new System.Drawing.Point(0, 0);
             this.labelDimension.Margin = new System.Windows.Forms.Padding(0);
             this.labelDimension.Name = "labelDimension";
@@ -141,7 +132,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // comboBoxDimension
             // 
-            this.comboBoxDimension.Dock = System.Windows.Forms.DockStyle.Fill;
             this.comboBoxDimension.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxDimension.FormattingEnabled = true;
             this.comboBoxDimension.Location = new System.Drawing.Point(0, 0);
@@ -168,7 +158,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.Controls.Add(this.comboBoxDimension);
             this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "OperatorPropertiesUserControl_ForCache";
-            this.Size = new System.Drawing.Size(10, 10);
             this.Controls.SetChildIndex(this.comboBoxDimension, 0);
             this.Controls.SetChildIndex(this.labelDimension, 0);
             this.Controls.SetChildIndex(this.comboBoxSpeakerSetup, 0);

@@ -34,10 +34,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         protected override void AddProperties()
         {
             AddProperty(labelOperatorTypeTitle, labelOperatorTypeValue);
-            AddProperty(labelName, textBoxName);
             AddProperty(labelInterpolation, comboBoxInterpolation);
             AddProperty(labelSpeakerSetup, comboBoxSpeakerSetup);
             AddProperty(labelDimension, comboBoxDimension);
+            AddProperty(labelName, textBoxName);
         }
 
         // Binding

@@ -8,6 +8,9 @@ using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Framework.Presentation.WinForms.Extensions;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Framework.Reflection.Exceptions;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -18,6 +21,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private const float ROW_HEIGHT = 32F;
         private const int NAME_COLUMN = 0;
         private const int VALUE_COLUMN = 1;
+        private const int VERY_SMALL_LENGTH = 10;
 
         private readonly TitleBarUserControl _titleBarUserControl;
         private readonly TableLayoutPanel _tableLayoutPanel;
@@ -74,17 +78,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ApplyStyling()
         {
-            // TODO: Can I remove this line?
-            AutoScaleDimensions = new SizeF(6F, 13F);
-            AutoScaleMode = AutoScaleMode.Font;
-            AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BackColor = SystemColors.ButtonFace;
 
             for (int i = 0; i < _tableLayoutPanel.RowCount - 1; i++)
             {
                 _tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, ROW_HEIGHT));
             }
-            _tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.AutoSize)); // LastRow always is empty space at the end.
+            // LastRow always is empty space at the end.
+            _tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.AutoSize)); 
 
             StyleHelper.SetPropertyLabelColumnSize(_tableLayoutPanel);
         }
@@ -92,9 +93,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void PositionControls()
         {
             _titleBarUserControl.Width = Width;
-            _tableLayoutPanel.Width = Width;
+            _tableLayoutPanel.Width = Width - StyleHelper.DefaultSpacing; // Arbitraily take off spacing, because otherwise it is stuck at the left side.
             _tableLayoutPanel.Height = Height - TitleBarHeight;
-            _tableLayoutPanel.PerformLayout();
         }
 
         public string TitleBarText
@@ -181,7 +181,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private TitleBarUserControl CreateTitleBarUserControl()
         {
-            var control = new TitleBarUserControl
+            var titleBarUserControl = new TitleBarUserControl
             {
                 Name = nameof(_titleBarUserControl),
                 BackColor = SystemColors.Control,
@@ -194,26 +194,24 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 Top = 0
             };
 
-            return control;
+            return titleBarUserControl;
         }
 
         private TableLayoutPanel CreateTableLayoutPanel()
         {
-            var control = new TableLayoutPanel
+            var tableLayoutPanel = new TableLayoutPanel
             {
                 ColumnCount = 2,
                 Name = nameof(_tableLayoutPanel),
-                // TODO: Consider if this is needed, or can be applied by ApplyStyling.
-                Margin = new Padding(4),
                 Left = 0,
                 Top = TITLE_BAR_HEIGHT,
+                Size = new Size(VERY_SMALL_LENGTH, VERY_SMALL_LENGTH)
             };
 
-            // TODO: Make const of magic number.
-            control.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 147F));
-            control.ColumnStyles.Add(new ColumnStyle());
+            tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, VERY_SMALL_LENGTH));
+            tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100f));
 
-            return control;
+            return tableLayoutPanel;
         }
     }
 }
