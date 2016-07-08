@@ -5,9 +5,6 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Presentation.Synthesizer.WinForms.Helpers;
-using JJ.Framework.Presentation.WinForms.Extensions;
-using JJ.Data.Canonical;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,28 +13,29 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     internal partial class AudioFileOutputPropertiesUserControl 
         : AudioFileOutputPropertiesUserControl_NotDesignable
     {
-        public event EventHandler CloseRequested;
-        public event EventHandler LoseFocusRequested;
-
         public AudioFileOutputPropertiesUserControl()
         {
             InitializeComponent();
-
-            SetTitles();
-
-            this.AutomaticallyAssignTabIndexes();
-        }
-
-        private void AudioFileOutputPropertiesUserControl_Load(object sender, EventArgs e)
-        {
-            ApplyStyling();
         }
 
         // Gui
 
-        private void SetTitles()
+        protected override void AddProperties()
         {
-            titleBarUserControl.Text = PropertyDisplayNames.AudioFileOutput;
+            AddProperty(labelFilePath, textBoxFilePath);
+            AddProperty(labelName, textBoxName);
+            AddProperty(labelSamplingRate,numericUpDownSamplingRate);
+            AddProperty(labelSpeakerSetup, comboBoxSpeakerSetup);
+            AddProperty(labelSampleDataType, comboBoxSampleDataType);
+            AddProperty(labelAudioFileFormat, comboBoxAudioFileFormat);
+            AddProperty(labelStartTime, numericUpDownStartTime);
+            AddProperty(labelDuration, numericUpDownDuration);
+            AddProperty(labelAmplifier, numericUpDownAmplifier);
+            AddProperty(labelTimeMultiplier, numericUpDownTimeMultiplier);
+        }
+
+        protected override void SetTitles()
+        {
             labelName.Text = CommonTitles.Name;
             labelSamplingRate.Text = PropertyDisplayNames.SamplingRate;
             labelAudioFileFormat.Text = PropertyDisplayNames.AudioFileFormat;
@@ -50,10 +48,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelFilePath.Text = CommonTitles.FilePath;
         }
 
-        private void ApplyStyling()
+        // Binding
+
+        protected override int GetID()
         {
-            StyleHelper.SetPropertyLabelColumnSize(tableLayoutPanelGeneral);
-            StyleHelper.SetPropertyLabelColumnSize(tableLayoutPanelFilePath);
+            return ViewModel.Entity.ID;
         }
 
         protected override void ApplyViewModelToControls()
@@ -93,7 +92,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             textBoxFilePath.Text = ViewModel.Entity.FilePath;
         }
 
-        private void ApplyControlsToViewModel()
+        protected override void ApplyControlsToViewModel()
         {
             if (ViewModel == null) return;
 
@@ -112,45 +111,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             ViewModel.Entity.FilePath = textBoxFilePath.Text;
         }
-
-        // Actions
-
-        private void Close()
-        {
-            if (CloseRequested != null)
-            {
-                ApplyControlsToViewModel();
-                CloseRequested(this, EventArgs.Empty);
-            }
-        }
-
-        private void LoseFocus()
-        {
-            if (LoseFocusRequested != null)
-            {
-                ApplyControlsToViewModel();
-                LoseFocusRequested(this, EventArgs.Empty);
-            }
-        }
-
-        // Events
-
-        private void titleBarUserControl_CloseClicked(object sender, EventArgs e)
-        {
-            Close();
-        }
-
-        // This event does not go off, if not clicked on a control that according to WinForms can get focus.
-        private void AudioFileOutputPropertiesUserControl_Leave(object sender, EventArgs e)
-        {
-            // This Visible check is there because the leave event (lose focus) goes off after I closed, 
-            // making it want to save again, even though view model is empty
-            // which makes it say that now clear fields are required.
-            if (Visible)
-            {
-                LoseFocus();
-            }
-        }
     }
 
     /// <summary> 
@@ -158,11 +118,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     /// And also not when you make this class abstract.
     /// </summary>
     internal class AudioFileOutputPropertiesUserControl_NotDesignable
-        : UserControlBase<AudioFileOutputPropertiesViewModel>
-    {
-        protected override void ApplyViewModelToControls()
-        {
-            throw new NotImplementedException();
-        }
-    }
+        : PropertiesUserControlBase<AudioFileOutputPropertiesViewModel>
+    { }
 }
