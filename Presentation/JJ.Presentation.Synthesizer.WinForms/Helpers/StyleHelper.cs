@@ -4,11 +4,14 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using JJ.Framework.Presentation.WinForms.Helpers;
+using System.ComponentModel;
 
 namespace JJ.Presentation.Synthesizer.WinForms.Helpers
 {
     internal static class StyleHelper
     {
+        const int LABEL_COLUMN_INDEX = 0;
+
         public static Font DefaultFont { get; } = new Font("Verdana", 12);
         public static int DefaultSpacing { get; } = 4;
         public static int IconButtonSize { get; } = 24;
@@ -19,9 +22,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
         /// </summary>
         public static void SetPropertyLabelColumnSize(TableLayoutPanel tableLayoutPanel)
         {
-            if (tableLayoutPanel == null) throw new NullException(() => tableLayoutPanel);
+            if (LicenseManager.UsageMode != LicenseUsageMode.Runtime)
+            {
+                return;
+            }
 
-            const int LABEL_COLUMN_INDEX = 0;
+            if (tableLayoutPanel == null) throw new NullException(() => tableLayoutPanel);
 
             UserControl userControl = ControlHelper.GetAncestorUserControl(tableLayoutPanel);
             IList<Label> labels = ControlHelper.GetDescendantsOfType<Label>(tableLayoutPanel);
@@ -31,7 +37,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
 
             Graphics graphics = userControl.CreateGraphics();
 
-            float labelColumnWidth = labels.Max(x => graphics.MeasureString(x.Text, x.Font).Width);
+            float labelColumnWidth = 1f;
+
+            if (labels.Count > 0)
+            {
+                labelColumnWidth = labels.Max(x => graphics.MeasureString(x.Text, x.Font).Width);
+            }
 
             // Use Font scaling.
             // UserControl.AutoScaleFactor.Width does not work,

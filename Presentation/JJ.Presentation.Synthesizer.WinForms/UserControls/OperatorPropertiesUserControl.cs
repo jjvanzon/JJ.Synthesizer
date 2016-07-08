@@ -4,7 +4,6 @@ using System.Windows.Forms;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
@@ -25,19 +24,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelOperatorTypeTitle.Text = Titles.Type + ":";
         }
 
-        protected override void PositionControls()
+        protected override void AddProperties()
         {
-            base.PositionControls();
-
-            tableLayoutPanelProperties.Left = 0;
-            tableLayoutPanelProperties.Top = TitleBarHeight;
-            tableLayoutPanelProperties.Width = Width;
-            tableLayoutPanelProperties.Height = Height - TitleBarHeight;
-        }
-
-        protected override void ApplyStyling()
-        {
-            StyleHelper.SetPropertyLabelColumnSize(tableLayoutPanelProperties);
+            AddProperty(labelName, textBoxName);
+            AddProperty(labelOperatorTypeTitle, labelOperatorTypeValue);
         }
 
         // Binding

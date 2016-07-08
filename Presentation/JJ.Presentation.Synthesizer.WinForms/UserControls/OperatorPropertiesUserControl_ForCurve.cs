@@ -7,7 +7,6 @@ using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Canonical;
-using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
@@ -25,7 +24,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         protected override void SetTitles()
         {
             TitleBarText = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Operator);
-
             labelName.Text = CommonTitles.Name;
             labelOperatorTypeTitle.Text = Titles.Type + ":";
             labelCurve.Text = PropertyDisplayNames.Curve;
@@ -33,19 +31,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelOperatorTypeValue.Text = PropertyDisplayNames.Curve;
         }
 
-        protected override void PositionControls()
+        protected override void AddProperties()
         {
-            base.PositionControls();
-
-            tableLayoutPanelProperties.Left = 0;
-            tableLayoutPanelProperties.Top = TitleBarHeight;
-            tableLayoutPanelProperties.Width = Width;
-            tableLayoutPanelProperties.Height = Height - TitleBarHeight;
-        }
-
-        protected override void ApplyStyling()
-        {
-            StyleHelper.SetPropertyLabelColumnSize(tableLayoutPanelProperties);
+            AddProperty(labelOperatorTypeTitle, labelOperatorTypeValue);
+            AddProperty(labelName, textBoxName);
+            AddProperty(labelCurve, comboBoxCurve);
+            AddProperty(labelDimension, comboBoxDimension);
         }
 
         // Binding

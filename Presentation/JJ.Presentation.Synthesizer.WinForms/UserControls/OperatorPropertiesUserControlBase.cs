@@ -6,15 +6,21 @@ using JJ.Presentation.Synthesizer.WinForms.UserControls.Partials;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Framework.Presentation.WinForms.Extensions;
+using JJ.Presentation.Synthesizer.WinForms.Helpers;
+using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal abstract class OperatorPropertiesUserControlBase<TViewModel> : UserControlBase<TViewModel>
          where TViewModel : OperatorPropertiesViewModelBase
     {
-        private const int DEFAULT_TITLE_BAR_HEIGHT = 27;
+        private const int TITLE_BAR_HEIGHT = 27;
+        private const float ROW_HEIGHT = 32F;
+        private const int NAME_COLUMN = 0;
+        private const int VALUE_COLUMN = 1;
 
         private readonly TitleBarUserControl _titleBarUserControl;
+        private readonly TableLayoutPanel _tableLayoutPanel;
 
         public event EventHandler<Int32EventArgs> CloseRequested;
         public event EventHandler<Int32EventArgs> LoseFocusRequested;
@@ -28,8 +34,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             Resize += Base_Resize;
 
             _titleBarUserControl = CreateTitleBarUserControl();
-            _titleBarUserControl.CloseClicked += _titleBarUserControl_CloseClicked;
             Controls.Add(_titleBarUserControl);
+            _titleBarUserControl.CloseClicked += _titleBarUserControl_CloseClicked;
+
+            _tableLayoutPanel = CreateTableLayoutPanel();
+            Controls.Add(_tableLayoutPanel);
         }
 
         ~OperatorPropertiesUserControlBase()
@@ -45,32 +54,48 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void Base_Load(object sender, EventArgs e)
         {
-            this.AutomaticallyAssignTabIndexes();
-
             SetTitles();
+            AddProperties();
+
+            // Always add an empty row at the end, to fill up the space.
+            _tableLayoutPanel.RowCount++;
+
             ApplyStyling();
             PositionControls();
-        }
 
-        private TitleBarUserControl CreateTitleBarUserControl()
-        {
-            var control = new TitleBarUserControl
-            {
-                Name = nameof(_titleBarUserControl),
-                BackColor = SystemColors.Control,
-                CloseButtonVisible = true,
-                RemoveButtonVisible = false,
-                AddButtonVisible = false,
-                Margin = new Padding(0, 0, 0, 0),
-                Height = DEFAULT_TITLE_BAR_HEIGHT,
-                Left = 0,
-                Top = 0
-            };
-
-            return control;
+            this.AutomaticallyAssignTabIndexes();
         }
 
         // Gui
+
+        /// <summary> does nothing </summary>
+        protected virtual void SetTitles()
+        { }
+
+        private void ApplyStyling()
+        {
+            // TODO: Can I remove this line?
+            AutoScaleDimensions = new SizeF(6F, 13F);
+            AutoScaleMode = AutoScaleMode.Font;
+            AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            BackColor = SystemColors.ButtonFace;
+
+            for (int i = 0; i < _tableLayoutPanel.RowCount - 1; i++)
+            {
+                _tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, ROW_HEIGHT));
+            }
+            _tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.AutoSize)); // LastRow always is empty space at the end.
+
+            StyleHelper.SetPropertyLabelColumnSize(_tableLayoutPanel);
+        }
+
+        private void PositionControls()
+        {
+            _titleBarUserControl.Width = Width;
+            _tableLayoutPanel.Width = Width;
+            _tableLayoutPanel.Height = Height - TitleBarHeight;
+            _tableLayoutPanel.PerformLayout();
+        }
 
         public string TitleBarText
         {
@@ -80,25 +105,31 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         public int TitleBarHeight
         {
-            get { return DEFAULT_TITLE_BAR_HEIGHT; }
+            get { return TITLE_BAR_HEIGHT; }
         }
 
-        protected virtual void SetTitles()
+        /// <summary> does nothing </summary>
+        protected virtual void AddProperties()
         { }
 
-        protected virtual void ApplyStyling()
+        protected void AddProperty(Control nameControl, Control valueControl)
         {
-            AutoScaleDimensions = new SizeF(6F, 13F);
-            AutoScaleMode = AutoScaleMode.Font;
-            AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            BackColor = SystemColors.ButtonFace;
+            if (nameControl == null) throw new NullException(() => nameControl);
+            if (valueControl == null) throw new NullException(() => valueControl);
+
+            int rowIndex = _tableLayoutPanel.RowCount++;
+
+            _tableLayoutPanel.Controls.Add(nameControl, NAME_COLUMN, rowIndex);
+            nameControl.Dock = DockStyle.Fill;
+            Controls.Remove(nameControl);
+
+            _tableLayoutPanel.Controls.Add(valueControl, VALUE_COLUMN, rowIndex);
+            valueControl.Dock = DockStyle.Fill;
+            Controls.Remove(valueControl);
         }
 
-        protected virtual void PositionControls()
-        {
-            _titleBarUserControl.Width = Width;
-        }
-
+        // Binding
+        /// <summary> does nothing </summary>
         protected virtual void ApplyControlsToViewModel()
         { }
 
@@ -144,6 +175,45 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void Base_Resize(object sender, EventArgs e)
         {
             PositionControls();
+        }
+
+        // Create Controls
+
+        private TitleBarUserControl CreateTitleBarUserControl()
+        {
+            var control = new TitleBarUserControl
+            {
+                Name = nameof(_titleBarUserControl),
+                BackColor = SystemColors.Control,
+                CloseButtonVisible = true,
+                RemoveButtonVisible = false,
+                AddButtonVisible = false,
+                Margin = new Padding(0, 0, 0, 0),
+                Height = TITLE_BAR_HEIGHT,
+                Left = 0,
+                Top = 0
+            };
+
+            return control;
+        }
+
+        private TableLayoutPanel CreateTableLayoutPanel()
+        {
+            var control = new TableLayoutPanel
+            {
+                ColumnCount = 2,
+                Name = nameof(_tableLayoutPanel),
+                // TODO: Consider if this is needed, or can be applied by ApplyStyling.
+                Margin = new Padding(4),
+                Left = 0,
+                Top = TITLE_BAR_HEIGHT,
+            };
+
+            // TODO: Make const of magic number.
+            control.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 147F));
+            control.ColumnStyles.Add(new ColumnStyle());
+
+            return control;
         }
     }
 }

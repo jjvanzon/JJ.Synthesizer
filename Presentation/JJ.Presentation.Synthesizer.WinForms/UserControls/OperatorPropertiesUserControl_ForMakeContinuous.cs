@@ -21,31 +21,24 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Gui
 
+        protected override void AddProperties()
+        {
+            AddProperty(labelOperatorTypeTitle, labelOperatorTypeValue);
+            AddProperty(labelName, textBoxName);
+            AddProperty(labelInletCount, numericUpDownInletCount);
+            AddProperty(labelDimension, comboBoxDimension);
+            AddProperty(labelInterpolation, comboBoxInterpolation);
+        }
+
         protected override void SetTitles()
         {
             TitleBarText = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Operator);
-
             labelName.Text = CommonTitles.Name;
             labelOperatorTypeTitle.Text = Titles.Type + ":";
             labelOperatorTypeValue.Text = PropertyDisplayNames.MakeContinuous;
             labelInletCount.Text = CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Inlets);
             labelInterpolation.Text = PropertyDisplayNames.Interpolation;
             labelDimension.Text = PropertyDisplayNames.Dimension;
-        }
-
-        protected override void PositionControls()
-        {
-            base.PositionControls();
-
-            tableLayoutPanelProperties.Left = 0;
-            tableLayoutPanelProperties.Top = TitleBarHeight;
-            tableLayoutPanelProperties.Width = Width;
-            tableLayoutPanelProperties.Height = Height - TitleBarHeight;
-        }
-
-        protected override void ApplyStyling()
-        {
-            StyleHelper.SetPropertyLabelColumnSize(tableLayoutPanelProperties);
         }
 
         // Binding

@@ -22,6 +22,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Gui
 
+        protected override void AddProperties()
+        {
+            AddProperty(labelOperatorTypeTitle, labelOperatorTypeValue);
+            AddProperty(labelSample, comboBoxSample);
+            AddProperty(labelName, textBoxName);
+            AddProperty(labelDimension, comboBoxDimension);
+        }
+
         protected override void SetTitles()
         {
             TitleBarText = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Operator);
@@ -30,21 +38,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelOperatorTypeValue.Text = PropertyDisplayNames.Sample;
             labelSample.Text = PropertyDisplayNames.Sample;
             labelDimension.Text = PropertyDisplayNames.Dimension;
-        }
-
-        protected override void PositionControls()
-        {
-            base.PositionControls();
-
-            tableLayoutPanelProperties.Left = 0;
-            tableLayoutPanelProperties.Top = TitleBarHeight;
-            tableLayoutPanelProperties.Width = Width;
-            tableLayoutPanelProperties.Height = Height - TitleBarHeight;
-        }
-
-        protected override void ApplyStyling()
-        {
-            StyleHelper.SetPropertyLabelColumnSize(tableLayoutPanelProperties);
         }
 
         // Binding

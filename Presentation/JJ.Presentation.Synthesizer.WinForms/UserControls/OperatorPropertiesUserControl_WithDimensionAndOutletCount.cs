@@ -4,7 +4,6 @@ using System.Windows.Forms;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Canonical;
@@ -21,6 +20,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Gui
 
+        protected override void AddProperties()
+        {
+            AddProperty(labelOperatorTypeTitle, labelOperatorTypeValue);
+            AddProperty(labelOutletCount, numericUpDownOutletCount);
+            AddProperty(labelDimension, comboBoxDimension);
+            AddProperty(labelName, textBoxName);
+        }
+
         protected override void SetTitles()
         {
             TitleBarText = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Operator);
@@ -28,21 +35,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelOperatorTypeTitle.Text = Titles.Type + ":";
             labelOutletCount.Text = CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Outlets);
             labelDimension.Text = PropertyDisplayNames.Dimension;
-        }
-
-        protected override void PositionControls()
-        {
-            base.PositionControls();
-
-            tableLayoutPanelProperties.Left = 0;
-            tableLayoutPanelProperties.Top = TitleBarHeight;
-            tableLayoutPanelProperties.Width = Width;
-            tableLayoutPanelProperties.Height = Height - TitleBarHeight;
-        }
-
-        protected override void ApplyStyling()
-        {
-            StyleHelper.SetPropertyLabelColumnSize(tableLayoutPanelProperties);
         }
 
         // Binding

@@ -29,36 +29,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         /// </summary>
         private void InitializeComponent()
         {
-            this.tableLayoutPanelProperties = new System.Windows.Forms.TableLayoutPanel();
             this.labelUnderlyingPatch = new System.Windows.Forms.Label();
             this.comboBoxUnderlyingPatch = new System.Windows.Forms.ComboBox();
             this.labelName = new System.Windows.Forms.Label();
             this.textBoxName = new System.Windows.Forms.TextBox();
             this.labelOperatorTypeTitle = new System.Windows.Forms.Label();
             this.labelOperatorTypeValue = new System.Windows.Forms.Label();
-            this.tableLayoutPanelProperties.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // tableLayoutPanelProperties
-            // 
-            this.tableLayoutPanelProperties.ColumnCount = 2;
-            this.tableLayoutPanelProperties.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
-            this.tableLayoutPanelProperties.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanelProperties.Controls.Add(this.labelUnderlyingPatch, 0, 2);
-            this.tableLayoutPanelProperties.Controls.Add(this.comboBoxUnderlyingPatch, 1, 2);
-            this.tableLayoutPanelProperties.Controls.Add(this.labelName, 0, 1);
-            this.tableLayoutPanelProperties.Controls.Add(this.textBoxName, 1, 1);
-            this.tableLayoutPanelProperties.Controls.Add(this.labelOperatorTypeTitle, 0, 0);
-            this.tableLayoutPanelProperties.Controls.Add(this.labelOperatorTypeValue, 1, 0);
-            this.tableLayoutPanelProperties.Location = new System.Drawing.Point(3, 24);
-            this.tableLayoutPanelProperties.Name = "tableLayoutPanelProperties";
-            this.tableLayoutPanelProperties.RowCount = 4;
-            this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelProperties.Size = new System.Drawing.Size(10, 10);
-            this.tableLayoutPanelProperties.TabIndex = 8;
             // 
             // labelUnderlyingPatch
             // 
@@ -129,19 +106,21 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.Controls.Add(tableLayoutPanelProperties);
+            this.Controls.Add(this.labelUnderlyingPatch);
+            this.Controls.Add(this.comboBoxUnderlyingPatch);
+            this.Controls.Add(this.labelName);
+            this.Controls.Add(this.textBoxName);
+            this.Controls.Add(this.labelOperatorTypeTitle);
+            this.Controls.Add(this.labelOperatorTypeValue);
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.Name = "OperatorPropertiesUserControl_ForCustomOperator";
             this.Size = new System.Drawing.Size(10, 10);
-            this.tableLayoutPanelProperties.ResumeLayout(false);
-            this.tableLayoutPanelProperties.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanelProperties;
         private System.Windows.Forms.Label labelName;
         private System.Windows.Forms.TextBox textBoxName;
         private System.Windows.Forms.Label labelUnderlyingPatch;

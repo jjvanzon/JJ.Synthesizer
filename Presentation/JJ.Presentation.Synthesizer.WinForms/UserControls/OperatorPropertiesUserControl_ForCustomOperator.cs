@@ -6,7 +6,6 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 
@@ -20,11 +19,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             InitializeComponent();
         }
 
-        private void OperatorPropertiesUserControl_ForCustomOperator_Load(object sender, EventArgs e)
-        {
-            ApplyStyling();
-        }
-
         // Gui
 
         protected override void SetTitles()
@@ -36,19 +30,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelOperatorTypeValue.Text = PropertyDisplayNames.CustomOperator;
         }
 
-        protected override void PositionControls()
+        protected override void AddProperties()
         {
-            base.PositionControls();
-
-            tableLayoutPanelProperties.Left = 0;
-            tableLayoutPanelProperties.Top = TitleBarHeight;
-            tableLayoutPanelProperties.Width = Width;
-            tableLayoutPanelProperties.Height = Height - TitleBarHeight;
-        }
-
-        protected override void ApplyStyling()
-        {
-            StyleHelper.SetPropertyLabelColumnSize(tableLayoutPanelProperties);
+            AddProperty(labelOperatorTypeTitle, labelOperatorTypeValue);
+            AddProperty(labelName, textBoxName);
+            AddProperty(labelUnderlyingPatch, comboBoxUnderlyingPatch);
         }
 
         // Binding
