@@ -13,7 +13,7 @@ using JJ.Presentation.Synthesizer.WinForms.EventArg;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 {
-    internal partial class CurrentPatchesUserControl : CurrentPatchesUserControl_NotDesignable
+    internal partial class CurrentPatchesUserControl : UserControlBase
     {
         private const int BUTTON_COUNT = 3;
 
@@ -26,6 +26,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
         {
             InitializeComponent();
         }
+
+        // Binding
+
+        private new CurrentPatchesViewModel ViewModel => (CurrentPatchesViewModel)base.ViewModel;
 
         protected override void ApplyViewModelToControls()
         {
@@ -162,19 +166,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             {
                 PreviewAutoPatchPolyphonicRequested(sender, EventArgs.Empty);
             }
-        }
-    }
-
-    /// <summary> 
-    /// The WinForms designer does not work when deriving directly from a generic class.
-    /// And also not when you make this class abstract.
-    /// </summary>
-    internal class CurrentPatchesUserControl_NotDesignable
-        : UserControlBase<CurrentPatchesViewModel>
-    {
-        protected override void ApplyViewModelToControls()
-        {
-            throw new NotImplementedException();
         }
     }
 }

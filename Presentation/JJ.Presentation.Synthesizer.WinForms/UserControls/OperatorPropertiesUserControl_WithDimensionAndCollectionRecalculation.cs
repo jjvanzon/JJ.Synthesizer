@@ -11,7 +11,7 @@ using JJ.Presentation.Synthesizer.Resources;
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class OperatorPropertiesUserControl_WithDimensionAndCollectionRecalculation 
-        : OperatorPropertiesUserControl_WithDimensionAndCollectionRecalculation_NotDesignable
+        : OperatorPropertiesUserControlBase
     {
         public OperatorPropertiesUserControl_WithDimensionAndCollectionRecalculation()
         {
@@ -38,6 +38,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         }
 
         // Binding
+
+        private new OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation ViewModel =>
+                   (OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation)base.ViewModel;
 
         protected override void ApplyViewModelToControls()
         {
@@ -84,12 +87,4 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ViewModel.Dimension = (IDAndName)comboBoxDimension.SelectedItem;
         }
     }
-
-    /// <summary> 
-    /// The WinForms designer does not work when deriving directly from a generic class.
-    /// And also not when you make this class abstract.
-    /// </summary>
-    internal class OperatorPropertiesUserControl_WithDimensionAndCollectionRecalculation_NotDesignable
-        : OperatorPropertiesUserControlBase<OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation>
-    { }
 }

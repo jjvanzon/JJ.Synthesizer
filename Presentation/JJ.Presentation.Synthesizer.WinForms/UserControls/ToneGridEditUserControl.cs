@@ -9,7 +9,7 @@ using JJ.Presentation.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class ToneGridEditUserControl : ToneGridEditUserControl_NotDesignable
+    internal partial class ToneGridEditUserControl : UserControlBase
     {
         private const string ID_COLUMN_NAME = "IDColumn";
         private const int PLAY_COLUMN_INDEX = 3;
@@ -36,6 +36,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             PlayColumn.Text = Titles.Play;
             PlayColumn.UseColumnTextForButtonValue = true;
         }
+
+        // Binding
+
+        private new ToneGridEditViewModel ViewModel => (ToneGridEditViewModel)base.ViewModel;
 
         protected override void ApplyViewModelToControls()
         {
@@ -163,18 +167,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
 
             return null;
-        }
-    }
-
-    /// <summary> 
-    /// The WinForms designer does not work when deriving directly from a generic class.
-    /// And also not when you make this class abstract.
-    /// </summary>
-    internal class ToneGridEditUserControl_NotDesignable : UserControlBase<ToneGridEditViewModel>
-    {
-        protected override void ApplyViewModelToControls()
-        {
-            throw new NotImplementedException();
         }
     }
 }

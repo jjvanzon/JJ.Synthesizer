@@ -12,7 +12,7 @@ using JJ.Data.Canonical;
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class OperatorPropertiesUserControl_ForMakeContinuous 
-        : OperatorPropertiesUserControl_ForMakeContinuous_NotDesignable
+        : OperatorPropertiesUserControlBase
     {
         public OperatorPropertiesUserControl_ForMakeContinuous()
         {
@@ -42,6 +42,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         }
 
         // Binding
+
+        private new OperatorPropertiesViewModel_ForMakeContinuous ViewModel => (OperatorPropertiesViewModel_ForMakeContinuous)base.ViewModel;
 
         protected override void ApplyViewModelToControls()
         {
@@ -89,12 +91,4 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ViewModel.Dimension = (IDAndName)comboBoxDimension.SelectedItem;
         }
     }
-
-    /// <summary> 
-    /// The WinForms designer does not work when deriving directly from a generic class.
-    /// And also not when you make this class abstract.
-    /// </summary>
-    internal class OperatorPropertiesUserControl_ForMakeContinuous_NotDesignable
-        : OperatorPropertiesUserControlBase<OperatorPropertiesViewModel_ForMakeContinuous>
-    { }
 }

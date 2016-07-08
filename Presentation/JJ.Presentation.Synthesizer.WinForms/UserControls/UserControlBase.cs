@@ -7,7 +7,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal abstract class UserControlBase : UserControl
+    internal class UserControlBase : UserControl
     {
         private ViewModelBase _viewModel;
         private int _refreshCounter = -1;

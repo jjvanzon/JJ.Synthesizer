@@ -124,7 +124,7 @@
 
 //    /// <summary> The WinForms designer does not work when deriving directly from a generic class. </summary>
 //    internal class NotDesignable_OperatorPropertiesUserControl_ForFilter
-//        : UserControlBase<OperatorPropertiesViewModel_ForFilter>
+//        : UserControlBase
 //    {
 //        protected override void ApplyViewModelToControls()
 //        {

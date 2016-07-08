@@ -15,7 +15,7 @@ using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class SamplePropertiesUserControl : SamplePropertiesUserControl_NotDesignable
+    internal partial class SamplePropertiesUserControl : UserControlBase
     {
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
@@ -65,6 +65,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             StyleHelper.SetPropertyLabelColumnSize(tableLayoutPanelContent);
         }
+
+        // Binding
+
+        private new SamplePropertiesViewModel ViewModel => (SamplePropertiesViewModel)base.ViewModel;
 
         protected override void ApplyViewModelToControls()
         {
@@ -188,18 +192,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 LoseFocus();
             }
-        }
-    }
-
-    /// <summary> 
-    /// The WinForms designer does not work when deriving directly from a generic class.
-    /// And also not when you make this class abstract.
-    /// </summary>
-    internal class SamplePropertiesUserControl_NotDesignable : UserControlBase<SamplePropertiesViewModel>
-    {
-        protected override void ApplyViewModelToControls()
-        {
-            throw new NotImplementedException();
         }
     }
 }

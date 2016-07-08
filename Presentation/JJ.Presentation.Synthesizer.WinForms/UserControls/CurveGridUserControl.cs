@@ -8,7 +8,7 @@ using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class CurveGridUserControl : CurveGridUserControl_NotDesignable
+    internal partial class CurveGridUserControl : UserControlBase
     {
         private const string ID_COLUMN_NAME = "IDColumn";
 
@@ -29,6 +29,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             titleBarUserControl.Text = PropertyDisplayNames.Curves;
         }
+
+        // Binding
+
+        private new CurveGridViewModel ViewModel => (CurveGridViewModel)base.ViewModel;
 
         protected override void ApplyViewModelToControls()
         {
@@ -130,18 +134,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
 
             return null;
-        }
-    }
-
-    /// <summary> 
-    /// The WinForms designer does not work when deriving directly from a generic class.
-    /// And also not when you make this class abstract.
-    /// </summary>
-    internal class CurveGridUserControl_NotDesignable : UserControlBase<CurveGridViewModel>
-    {
-        protected override void ApplyViewModelToControls()
-        {
-            throw new NotImplementedException();
         }
     }
 }

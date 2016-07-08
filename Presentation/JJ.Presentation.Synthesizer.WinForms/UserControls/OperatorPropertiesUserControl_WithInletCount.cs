@@ -9,7 +9,7 @@ using JJ.Presentation.Synthesizer.Resources;
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class OperatorPropertiesUserControl_WithInletCount 
-        : OperatorPropertiesUserControl_WithInletCount_NotDesignable
+        : OperatorPropertiesUserControlBase
     {
         public OperatorPropertiesUserControl_WithInletCount()
         {
@@ -35,6 +35,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Binding
 
+        private new OperatorPropertiesViewModel_WithInletCount ViewModel => (OperatorPropertiesViewModel_WithInletCount)base.ViewModel;
+
         protected override void ApplyViewModelToControls()
         {
             textBoxName.Text = ViewModel.Name;
@@ -48,12 +50,4 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ViewModel.InletCount = (int)numericUpDownInletCount.Value;
         }
     }
-
-    /// <summary> 
-    /// The WinForms designer does not work when deriving directly from a generic class.
-    /// And also not when you make this class abstract.
-    /// </summary>
-    internal class OperatorPropertiesUserControl_WithInletCount_NotDesignable
-        : OperatorPropertiesUserControlBase<OperatorPropertiesViewModel_WithInletCount>
-    { }
 }

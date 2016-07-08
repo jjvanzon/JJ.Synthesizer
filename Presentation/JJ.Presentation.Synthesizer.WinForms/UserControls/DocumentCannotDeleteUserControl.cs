@@ -10,7 +10,7 @@ using JJ.Business.Canonical;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class DocumentCannotDeleteUserControl : DocumentCannotDeleteUserControl_NotDesignable
+    internal partial class DocumentCannotDeleteUserControl : UserControlBase
     {
         public event EventHandler CloseRequested;
 
@@ -25,11 +25,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Actions
 
-        public void Show(DocumentCannotDeleteViewModel viewModel)
+        public new void Show()
         {
-            if (viewModel == null) throw new NullException(() => viewModel);
+            if (ViewModel == null) throw new NullException(() => ViewModel);
 
-            ViewModel = viewModel;
             ApplyViewModelToControls();
 
             base.Show();
@@ -42,6 +41,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelMessagesTitle.Text = CommonTitles.Messages + ":";
             buttonOK.Text = CommonTitles.OK;
         }
+
+        // Binding
+
+        private new DocumentCannotDeleteViewModel ViewModel => (DocumentCannotDeleteViewModel)base.ViewModel;
 
         protected override void ApplyViewModelToControls()
         {
@@ -66,18 +69,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 CloseRequested(this, EventArgs.Empty);
             }
-        }
-    }
-
-    /// <summary> 
-    /// The WinForms designer does not work when deriving directly from a generic class.
-    /// And also not when you make this class abstract.
-    /// </summary>
-    internal class DocumentCannotDeleteUserControl_NotDesignable : UserControlBase<DocumentCannotDeleteViewModel>
-    {
-        protected override void ApplyViewModelToControls()
-        {
-            throw new NotImplementedException();
         }
     }
 }

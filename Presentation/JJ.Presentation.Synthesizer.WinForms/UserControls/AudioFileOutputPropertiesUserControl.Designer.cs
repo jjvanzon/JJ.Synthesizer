@@ -61,7 +61,7 @@
             this.labelFilePath.Location = new System.Drawing.Point(0, 0);
             this.labelFilePath.Margin = new System.Windows.Forms.Padding(0);
             this.labelFilePath.Name = "labelFilePath";
-            this.labelFilePath.Size = new System.Drawing.Size(133, 30);
+            this.labelFilePath.Size = new System.Drawing.Size(10, 10);
             this.labelFilePath.TabIndex = 6;
             this.labelFilePath.Text = "FilePath";
             this.labelFilePath.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -69,7 +69,7 @@
             // textBoxFilePath
             // 
             this.textBoxFilePath.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxFilePath.Location = new System.Drawing.Point(133, 0);
+            this.textBoxFilePath.Location = new System.Drawing.Point(0, 0);
             this.textBoxFilePath.Margin = new System.Windows.Forms.Padding(0);
             this.textBoxFilePath.Name = "textBoxFilePath";
             this.textBoxFilePath.Size = new System.Drawing.Size(10, 22);
@@ -84,7 +84,7 @@
             0,
             0,
             65536});
-            this.numericUpDownTimeMultiplier.Location = new System.Drawing.Point(133, 240);
+            this.numericUpDownTimeMultiplier.Location = new System.Drawing.Point(0, 0);
             this.numericUpDownTimeMultiplier.Margin = new System.Windows.Forms.Padding(0);
             this.numericUpDownTimeMultiplier.Maximum = new decimal(new int[] {
             1000000000,
@@ -104,7 +104,7 @@
             // 
             this.numericUpDownAmplifier.DecimalPlaces = 3;
             this.numericUpDownAmplifier.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.numericUpDownAmplifier.Location = new System.Drawing.Point(133, 210);
+            this.numericUpDownAmplifier.Location = new System.Drawing.Point(0, 0);
             this.numericUpDownAmplifier.Margin = new System.Windows.Forms.Padding(0);
             this.numericUpDownAmplifier.Maximum = new decimal(new int[] {
             1000000000,
@@ -119,7 +119,7 @@
             // 
             this.numericUpDownDuration.DecimalPlaces = 3;
             this.numericUpDownDuration.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.numericUpDownDuration.Location = new System.Drawing.Point(133, 180);
+            this.numericUpDownDuration.Location = new System.Drawing.Point(0, 0);
             this.numericUpDownDuration.Margin = new System.Windows.Forms.Padding(0);
             this.numericUpDownDuration.Maximum = new decimal(new int[] {
             1000000000,
@@ -136,7 +136,7 @@
             this.labelName.Location = new System.Drawing.Point(0, 0);
             this.labelName.Margin = new System.Windows.Forms.Padding(0);
             this.labelName.Name = "labelName";
-            this.labelName.Size = new System.Drawing.Size(133, 30);
+            this.labelName.Size = new System.Drawing.Size(10, 10);
             this.labelName.TabIndex = 2;
             this.labelName.Text = "Name";
             this.labelName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -145,10 +145,10 @@
             // 
             this.labelSamplingRate.Cursor = System.Windows.Forms.Cursors.Default;
             this.labelSamplingRate.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelSamplingRate.Location = new System.Drawing.Point(0, 30);
+            this.labelSamplingRate.Location = new System.Drawing.Point(0, 0);
             this.labelSamplingRate.Margin = new System.Windows.Forms.Padding(0);
             this.labelSamplingRate.Name = "labelSamplingRate";
-            this.labelSamplingRate.Size = new System.Drawing.Size(133, 30);
+            this.labelSamplingRate.Size = new System.Drawing.Size(10, 10);
             this.labelSamplingRate.TabIndex = 3;
             this.labelSamplingRate.Text = "SamplingRate";
             this.labelSamplingRate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -157,10 +157,10 @@
             // 
             this.labelAudioFileFormat.Cursor = System.Windows.Forms.Cursors.Default;
             this.labelAudioFileFormat.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelAudioFileFormat.Location = new System.Drawing.Point(0, 60);
+            this.labelAudioFileFormat.Location = new System.Drawing.Point(0, 0);
             this.labelAudioFileFormat.Margin = new System.Windows.Forms.Padding(0);
             this.labelAudioFileFormat.Name = "labelAudioFileFormat";
-            this.labelAudioFileFormat.Size = new System.Drawing.Size(133, 30);
+            this.labelAudioFileFormat.Size = new System.Drawing.Size(10, 10);
             this.labelAudioFileFormat.TabIndex = 4;
             this.labelAudioFileFormat.Text = "AudioFileFormat";
             this.labelAudioFileFormat.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -169,10 +169,10 @@
             // 
             this.labelSampleDataType.Cursor = System.Windows.Forms.Cursors.Default;
             this.labelSampleDataType.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelSampleDataType.Location = new System.Drawing.Point(0, 90);
+            this.labelSampleDataType.Location = new System.Drawing.Point(0, 0);
             this.labelSampleDataType.Margin = new System.Windows.Forms.Padding(0);
             this.labelSampleDataType.Name = "labelSampleDataType";
-            this.labelSampleDataType.Size = new System.Drawing.Size(133, 30);
+            this.labelSampleDataType.Size = new System.Drawing.Size(10, 10);
             this.labelSampleDataType.TabIndex = 5;
             this.labelSampleDataType.Text = "SampleDataType";
             this.labelSampleDataType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -181,10 +181,10 @@
             // 
             this.labelSpeakerSetup.Cursor = System.Windows.Forms.Cursors.Default;
             this.labelSpeakerSetup.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelSpeakerSetup.Location = new System.Drawing.Point(0, 120);
+            this.labelSpeakerSetup.Location = new System.Drawing.Point(0, 0);
             this.labelSpeakerSetup.Margin = new System.Windows.Forms.Padding(0);
             this.labelSpeakerSetup.Name = "labelSpeakerSetup";
-            this.labelSpeakerSetup.Size = new System.Drawing.Size(133, 30);
+            this.labelSpeakerSetup.Size = new System.Drawing.Size(10, 10);
             this.labelSpeakerSetup.TabIndex = 6;
             this.labelSpeakerSetup.Text = "SpeakerSetup";
             this.labelSpeakerSetup.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -193,10 +193,10 @@
             // 
             this.labelStartTime.Cursor = System.Windows.Forms.Cursors.Default;
             this.labelStartTime.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelStartTime.Location = new System.Drawing.Point(0, 150);
+            this.labelStartTime.Location = new System.Drawing.Point(0, 0);
             this.labelStartTime.Margin = new System.Windows.Forms.Padding(0);
             this.labelStartTime.Name = "labelStartTime";
-            this.labelStartTime.Size = new System.Drawing.Size(133, 30);
+            this.labelStartTime.Size = new System.Drawing.Size(10, 10);
             this.labelStartTime.TabIndex = 7;
             this.labelStartTime.Text = "StartTime";
             this.labelStartTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -205,10 +205,10 @@
             // 
             this.labelDuration.Cursor = System.Windows.Forms.Cursors.Default;
             this.labelDuration.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelDuration.Location = new System.Drawing.Point(0, 180);
+            this.labelDuration.Location = new System.Drawing.Point(0, 0);
             this.labelDuration.Margin = new System.Windows.Forms.Padding(0);
             this.labelDuration.Name = "labelDuration";
-            this.labelDuration.Size = new System.Drawing.Size(133, 30);
+            this.labelDuration.Size = new System.Drawing.Size(10, 10);
             this.labelDuration.TabIndex = 8;
             this.labelDuration.Text = "Duration";
             this.labelDuration.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -217,10 +217,10 @@
             // 
             this.labelAmplifier.Cursor = System.Windows.Forms.Cursors.Default;
             this.labelAmplifier.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelAmplifier.Location = new System.Drawing.Point(0, 210);
+            this.labelAmplifier.Location = new System.Drawing.Point(0, 0);
             this.labelAmplifier.Margin = new System.Windows.Forms.Padding(0);
             this.labelAmplifier.Name = "labelAmplifier";
-            this.labelAmplifier.Size = new System.Drawing.Size(133, 30);
+            this.labelAmplifier.Size = new System.Drawing.Size(10, 10);
             this.labelAmplifier.TabIndex = 9;
             this.labelAmplifier.Text = "Amplifier";
             this.labelAmplifier.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -229,10 +229,10 @@
             // 
             this.labelTimeMultiplier.Cursor = System.Windows.Forms.Cursors.Default;
             this.labelTimeMultiplier.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelTimeMultiplier.Location = new System.Drawing.Point(0, 240);
+            this.labelTimeMultiplier.Location = new System.Drawing.Point(0, 0);
             this.labelTimeMultiplier.Margin = new System.Windows.Forms.Padding(0);
             this.labelTimeMultiplier.Name = "labelTimeMultiplier";
-            this.labelTimeMultiplier.Size = new System.Drawing.Size(133, 30);
+            this.labelTimeMultiplier.Size = new System.Drawing.Size(10, 10);
             this.labelTimeMultiplier.TabIndex = 10;
             this.labelTimeMultiplier.Text = "TimeMultiplier";
             this.labelTimeMultiplier.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -240,7 +240,7 @@
             // textBoxName
             // 
             this.textBoxName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxName.Location = new System.Drawing.Point(133, 0);
+            this.textBoxName.Location = new System.Drawing.Point(0, 0);
             this.textBoxName.Margin = new System.Windows.Forms.Padding(0);
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.Size = new System.Drawing.Size(10, 22);
@@ -251,7 +251,7 @@
             this.comboBoxAudioFileFormat.Dock = System.Windows.Forms.DockStyle.Fill;
             this.comboBoxAudioFileFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxAudioFileFormat.FormattingEnabled = true;
-            this.comboBoxAudioFileFormat.Location = new System.Drawing.Point(133, 60);
+            this.comboBoxAudioFileFormat.Location = new System.Drawing.Point(0, 0);
             this.comboBoxAudioFileFormat.Margin = new System.Windows.Forms.Padding(0);
             this.comboBoxAudioFileFormat.Name = "comboBoxAudioFileFormat";
             this.comboBoxAudioFileFormat.Size = new System.Drawing.Size(10, 24);
@@ -262,7 +262,7 @@
             this.comboBoxSampleDataType.Dock = System.Windows.Forms.DockStyle.Fill;
             this.comboBoxSampleDataType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxSampleDataType.FormattingEnabled = true;
-            this.comboBoxSampleDataType.Location = new System.Drawing.Point(133, 90);
+            this.comboBoxSampleDataType.Location = new System.Drawing.Point(0, 0);
             this.comboBoxSampleDataType.Margin = new System.Windows.Forms.Padding(0);
             this.comboBoxSampleDataType.Name = "comboBoxSampleDataType";
             this.comboBoxSampleDataType.Size = new System.Drawing.Size(10, 24);
@@ -273,7 +273,7 @@
             this.comboBoxSpeakerSetup.Dock = System.Windows.Forms.DockStyle.Fill;
             this.comboBoxSpeakerSetup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxSpeakerSetup.FormattingEnabled = true;
-            this.comboBoxSpeakerSetup.Location = new System.Drawing.Point(133, 120);
+            this.comboBoxSpeakerSetup.Location = new System.Drawing.Point(0, 0);
             this.comboBoxSpeakerSetup.Margin = new System.Windows.Forms.Padding(0);
             this.comboBoxSpeakerSetup.Name = "comboBoxSpeakerSetup";
             this.comboBoxSpeakerSetup.Size = new System.Drawing.Size(10, 24);
@@ -288,7 +288,7 @@
             0,
             0,
             65536});
-            this.numericUpDownStartTime.Location = new System.Drawing.Point(133, 150);
+            this.numericUpDownStartTime.Location = new System.Drawing.Point(0, 0);
             this.numericUpDownStartTime.Margin = new System.Windows.Forms.Padding(0);
             this.numericUpDownStartTime.Maximum = new decimal(new int[] {
             1000000000,
@@ -312,7 +312,7 @@
             0,
             0,
             0});
-            this.numericUpDownSamplingRate.Location = new System.Drawing.Point(133, 30);
+            this.numericUpDownSamplingRate.Location = new System.Drawing.Point(0, 0);
             this.numericUpDownSamplingRate.Margin = new System.Windows.Forms.Padding(0);
             this.numericUpDownSamplingRate.Maximum = new decimal(new int[] {
             1000000000,
@@ -327,6 +327,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.Controls.Add(this.labelFilePath);
             this.Controls.Add(this.textBoxFilePath);
             this.Controls.Add(this.numericUpDownTimeMultiplier);
@@ -347,16 +348,36 @@
             this.Controls.Add(this.comboBoxSpeakerSetup);
             this.Controls.Add(this.numericUpDownStartTime);
             this.Controls.Add(this.numericUpDownSamplingRate);
-            this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "AudioFileOutputPropertiesUserControl";
             this.Size = new System.Drawing.Size(10, 10);
+            this.Controls.SetChildIndex(this.numericUpDownSamplingRate, 0);
+            this.Controls.SetChildIndex(this.numericUpDownStartTime, 0);
+            this.Controls.SetChildIndex(this.comboBoxSpeakerSetup, 0);
+            this.Controls.SetChildIndex(this.comboBoxSampleDataType, 0);
+            this.Controls.SetChildIndex(this.comboBoxAudioFileFormat, 0);
+            this.Controls.SetChildIndex(this.textBoxName, 0);
+            this.Controls.SetChildIndex(this.labelTimeMultiplier, 0);
+            this.Controls.SetChildIndex(this.labelAmplifier, 0);
+            this.Controls.SetChildIndex(this.labelDuration, 0);
+            this.Controls.SetChildIndex(this.labelStartTime, 0);
+            this.Controls.SetChildIndex(this.labelSpeakerSetup, 0);
+            this.Controls.SetChildIndex(this.labelSampleDataType, 0);
+            this.Controls.SetChildIndex(this.labelAudioFileFormat, 0);
+            this.Controls.SetChildIndex(this.labelSamplingRate, 0);
+            this.Controls.SetChildIndex(this.labelName, 0);
+            this.Controls.SetChildIndex(this.numericUpDownDuration, 0);
+            this.Controls.SetChildIndex(this.numericUpDownAmplifier, 0);
+            this.Controls.SetChildIndex(this.numericUpDownTimeMultiplier, 0);
+            this.Controls.SetChildIndex(this.textBoxFilePath, 0);
+            this.Controls.SetChildIndex(this.labelFilePath, 0);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTimeMultiplier)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownAmplifier)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDuration)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownStartTime)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSamplingRate)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

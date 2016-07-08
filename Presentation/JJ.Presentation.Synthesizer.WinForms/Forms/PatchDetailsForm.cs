@@ -16,7 +16,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
 
         public PatchDetailsViewModel ViewModel
         {
-            get { return patchDetailsUserControl.ViewModel; }
+            get { return (PatchDetailsViewModel) patchDetailsUserControl.ViewModel; }
             set { patchDetailsUserControl.ViewModel = value; }
         }
 

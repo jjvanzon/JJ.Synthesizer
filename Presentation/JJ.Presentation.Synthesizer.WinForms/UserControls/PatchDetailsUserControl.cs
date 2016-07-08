@@ -21,7 +21,7 @@ using JJ.Data.Canonical;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class PatchDetailsUserControl : PatchDetailsUserControl_NotDesignable
+    internal partial class PatchDetailsUserControl : UserControlBase
     {
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
@@ -56,6 +56,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             titleBarUserControl.Text = CommonTitleFormatter.ObjectDetails(PropertyDisplayNames.Patch);
             buttonPlay.Text = Titles.Play;
         }
+
+        // Binding
+
+        private new PatchDetailsViewModel ViewModel => (PatchDetailsViewModel)base.ViewModel;
 
         protected override void ApplyViewModelToControls()
         {
@@ -260,10 +264,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void OperatorEnterKeyGesture_EnterKeyPressed(object sender, EventArgs e)
         {
-            if (SelectedOperatorPropertiesRequested != null)
-            {
-                SelectedOperatorPropertiesRequested(this, EventArgs.Empty);
-            }
+            SelectedOperatorPropertiesRequested?.Invoke(this, EventArgs.Empty);
         }
 
         private void buttonPlay_Click(object sender, EventArgs e)
@@ -324,18 +325,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 return CustomConfigurationManager.GetSection<ConfigurationSection>().AlwaysRecreateDiagram;
             }
             return DEFAULT_ALWAYS_RECREATE_DIAGRAM;
-        }
-    }
-
-    /// <summary> 
-    /// The WinForms designer does not work when deriving directly from a generic class.
-    /// And also not when you make this class abstract.
-    /// </summary>
-    internal class PatchDetailsUserControl_NotDesignable : UserControlBase<PatchDetailsViewModel>
-    {
-        protected override void ApplyViewModelToControls()
-        {
-            throw new NotImplementedException();
         }
     }
 }

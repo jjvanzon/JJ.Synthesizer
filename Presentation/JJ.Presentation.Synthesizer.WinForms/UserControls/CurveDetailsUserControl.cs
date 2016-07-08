@@ -17,7 +17,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class CurveDetailsUserControl : CurveDetailsUserControl_NotDesignable
+    internal partial class CurveDetailsUserControl : UserControlBase
     {
         public event EventHandler CreateNodeRequested;
         public event EventHandler DeleteNodeRequested;
@@ -25,7 +25,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler LoseFocusRequested;
         public event EventHandler<Int32EventArgs> SelectNodeRequested;
         public event EventHandler<MoveEntityEventArgs> MoveNodeRequested;
-        public event EventHandler ShowCurvePropertiesRequested;
+        public event EventHandler<Int32EventArgs> ShowCurvePropertiesRequested;
         public event EventHandler ChangeNodeTypeRequested;
         public event EventHandler<Int32EventArgs> ShowNodePropertiesRequested;
         public event EventHandler ShowSelectedNodePropertiesRequested;
@@ -62,6 +62,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             titleBarUserControl.Text = PropertyDisplayNames.Curve;
         }
+
+        // Binding
+
+        private new CurveDetailsViewModel ViewModel => (CurveDetailsViewModel)base.ViewModel;
 
         protected override void ApplyViewModelToControls()
         {
@@ -158,7 +162,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (ShowCurvePropertiesRequested != null)
             {
-                ShowCurvePropertiesRequested(this, EventArgs.Empty);
+                ShowCurvePropertiesRequested(this, new Int32EventArgs(ViewModel.ID));
             }
         }
 
@@ -242,19 +246,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 LoseFocusRequested(this, EventArgs.Empty);
             }
-        }
-    }
-
-    /// <summary> 
-    /// The WinForms designer does not work when deriving directly from a generic class.
-    /// And also not when you make this class abstract.
-    /// </summary>
-    internal class CurveDetailsUserControl_NotDesignable
-        : UserControlBase<CurveDetailsViewModel>
-    {
-        protected override void ApplyViewModelToControls()
-        {
-            throw new NotImplementedException();
         }
     }
 }

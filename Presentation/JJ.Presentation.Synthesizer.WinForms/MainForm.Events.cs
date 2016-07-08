@@ -285,9 +285,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(_presenter.CurveDetailsLoseFocus);
         }
 
-        private void curveDetailsUserControl_ShowCurvePropertiesRequested(object sender, EventArgs e)
+        private void curveDetailsUserControl_ShowCurvePropertiesRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(() => _presenter.CurvePropertiesShow(curveDetailsUserControl.ViewModel.ID));
+            TemplateEventHandler(() => _presenter.CurvePropertiesShow(e.Value));
         }
 
         private void curveDetailsUserControl_ShowNodePropertiesRequested(object sender, Int32EventArgs e)

@@ -12,7 +12,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class OperatorPropertiesUserControl_ForCustomOperator
-        : OperatorPropertiesUserControl_ForCustomOperator_NotDesignable
+        : OperatorPropertiesUserControlBase
     {
         public OperatorPropertiesUserControl_ForCustomOperator()
         {
@@ -38,6 +38,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         }
 
         // Binding
+
+        private new OperatorPropertiesViewModel_ForCustomOperator ViewModel => (OperatorPropertiesViewModel_ForCustomOperator)base.ViewModel;
 
         protected override void ApplyViewModelToControls()
         {
@@ -82,12 +84,4 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ViewModel.UnderlyingPatch = (ChildDocumentIDAndNameViewModel)comboBoxUnderlyingPatch.SelectedItem;
         }
     }
-
-    /// <summary> 
-    /// The WinForms designer does not work when deriving directly from a generic class.
-    /// And also not when you make this class abstract.
-    /// </summary>
-    internal class OperatorPropertiesUserControl_ForCustomOperator_NotDesignable
-        : OperatorPropertiesUserControlBase<OperatorPropertiesViewModel_ForCustomOperator>
-    { }
 }

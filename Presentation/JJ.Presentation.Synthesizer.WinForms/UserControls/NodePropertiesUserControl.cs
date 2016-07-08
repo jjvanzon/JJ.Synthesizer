@@ -11,7 +11,7 @@ using JJ.Presentation.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class NodePropertiesUserControl : NodePropertiesUserControl_NotDesignable
+    internal partial class NodePropertiesUserControl : PropertiesUserControlBase
     {
         public NodePropertiesUserControl()
         {
@@ -36,6 +36,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         }
 
         // Binding
+
+        private new NodePropertiesViewModel ViewModel => (NodePropertiesViewModel)base.ViewModel;
 
         protected override int GetID()
         {
@@ -71,12 +73,4 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ViewModel.Entity.NodeType = (IDAndName)comboBoxNodeType.SelectedItem;
         }
     }
-
-    /// <summary> 
-    /// The WinForms designer does not work when deriving directly from a generic class.
-    /// And also not when you make this class abstract.
-    /// </summary>
-    internal class NodePropertiesUserControl_NotDesignable 
-        : PropertiesUserControlBase<NodePropertiesViewModel>
-    { }
 }

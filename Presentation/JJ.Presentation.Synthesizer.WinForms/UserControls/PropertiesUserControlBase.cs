@@ -14,8 +14,7 @@ using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal abstract class PropertiesUserControlBase<TViewModel> : UserControlBase<TViewModel>
-         where TViewModel : ViewModelBase
+    internal class PropertiesUserControlBase : UserControlBase
     {
         private const int TITLE_BAR_HEIGHT = 27;
         private const float ROW_HEIGHT = 32F;

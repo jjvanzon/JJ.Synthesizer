@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class CurvePropertiesUserControl : CurvePropertiesUserControl_NotDesignable
+    internal partial class CurvePropertiesUserControl : PropertiesUserControlBase
     {
         public CurvePropertiesUserControl()
         {
@@ -30,6 +30,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Binding
 
+        private new CurvePropertiesViewModel ViewModel => (CurvePropertiesViewModel)base.ViewModel;
+
         protected override int GetID()
         {
             return ViewModel.ID;
@@ -45,12 +47,4 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ViewModel.Name = textBoxName.Text;
         }
     }
-
-    /// <summary> 
-    /// The WinForms designer does not work when deriving directly from a generic class.
-    /// And also not when you make this class abstract.
-    /// </summary>
-    internal class CurvePropertiesUserControl_NotDesignable 
-        : PropertiesUserControlBase<CurvePropertiesViewModel>
-    { }
 }

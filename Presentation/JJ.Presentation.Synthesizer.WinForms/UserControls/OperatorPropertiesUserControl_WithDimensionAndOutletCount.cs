@@ -11,7 +11,7 @@ using JJ.Data.Canonical;
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class OperatorPropertiesUserControl_WithDimensionAndOutletCount 
-        : OperatorPropertiesUserControl_WithDimensionAndOutletCount_NotDesignable
+        : OperatorPropertiesUserControlBase
     {
         public OperatorPropertiesUserControl_WithDimensionAndOutletCount()
         {
@@ -38,6 +38,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         }
 
         // Binding
+
+        private new OperatorPropertiesViewModel_WithDimensionAndOutletCount ViewModel => 
+                   (OperatorPropertiesViewModel_WithDimensionAndOutletCount)base.ViewModel;
 
         protected override void ApplyViewModelToControls()
         {
@@ -69,12 +72,4 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ViewModel.Dimension = (IDAndName)comboBoxDimension.SelectedItem;
         }
     }
-
-    /// <summary> 
-    /// The WinForms designer does not work when deriving directly from a generic class.
-    /// And also not when you make this class abstract.
-    /// </summary>
-    internal class OperatorPropertiesUserControl_WithDimensionAndOutletCount_NotDesignable
-        : OperatorPropertiesUserControlBase<OperatorPropertiesViewModel_WithDimensionAndOutletCount>
-    { }
 }

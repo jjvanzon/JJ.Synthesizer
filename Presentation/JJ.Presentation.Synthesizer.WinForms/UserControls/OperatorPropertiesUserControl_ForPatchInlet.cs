@@ -4,7 +4,6 @@ using System.Windows.Forms;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Canonical;
@@ -12,7 +11,7 @@ using JJ.Data.Canonical;
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class OperatorPropertiesUserControl_ForPatchInlet 
-        : OperatorPropertiesUserControl_ForPatchInlet_NotDesignable
+        : OperatorPropertiesUserControlBase
     {
         public OperatorPropertiesUserControl_ForPatchInlet()
         {
@@ -42,6 +41,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         }
 
         // Binding
+
+        private new OperatorPropertiesViewModel_ForPatchInlet ViewModel => (OperatorPropertiesViewModel_ForPatchInlet)base.ViewModel;
 
         protected override void ApplyViewModelToControls()
         {
@@ -74,12 +75,4 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ViewModel.Dimension = (IDAndName)comboBoxDimension.SelectedItem;
         }
     }
-
-    /// <summary> 
-    /// The WinForms designer does not work when deriving directly from a generic class.
-    /// And also not when you make this class abstract.
-    /// </summary>
-    internal class OperatorPropertiesUserControl_ForPatchInlet_NotDesignable
-        : OperatorPropertiesUserControlBase<OperatorPropertiesViewModel_ForPatchInlet>
-    { }
 }

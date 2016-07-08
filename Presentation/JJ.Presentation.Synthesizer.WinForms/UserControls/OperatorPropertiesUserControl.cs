@@ -8,7 +8,7 @@ using JJ.Presentation.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class OperatorPropertiesUserControl : OperatorPropertiesUserControl_NotDesignable
+    internal partial class OperatorPropertiesUserControl : OperatorPropertiesUserControlBase
     {
         public OperatorPropertiesUserControl()
         {
@@ -32,6 +32,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Binding
 
+        private new OperatorPropertiesViewModel ViewModel => (OperatorPropertiesViewModel)base.ViewModel;
+
         protected override void ApplyViewModelToControls()
         {
             textBoxName.Text = ViewModel.Name;
@@ -43,12 +45,4 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ViewModel.Name = textBoxName.Text;
         }
     }
-
-    /// <summary> 
-    /// The WinForms designer does not work when deriving directly from a generic class.
-    /// And also not when you make this class abstract.
-    /// </summary>
-    internal class OperatorPropertiesUserControl_NotDesignable 
-        : OperatorPropertiesUserControlBase<OperatorPropertiesViewModel>
-    { }
 }

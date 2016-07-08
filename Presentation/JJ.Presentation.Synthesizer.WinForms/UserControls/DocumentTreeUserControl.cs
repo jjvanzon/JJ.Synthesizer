@@ -11,7 +11,7 @@ using JJ.Presentation.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class DocumentTreeUserControl : DocumentTreeUserControl_NotDesignable
+    internal partial class DocumentTreeUserControl : UserControlBase
     {
         public event EventHandler CloseRequested;
 
@@ -48,6 +48,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             titleBarUserControl.Text = Titles.DocumentTree;
         }
+
+        // Binding
+
+        private new DocumentTreeViewModel ViewModel => (DocumentTreeViewModel)base.ViewModel;
 
         private bool _applyViewModelIsBusy = false;
 
@@ -313,18 +317,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             int? childDocumentID = TagHelper.TryGetChildDocumentID(childDocumentTag);
             int documentID = childDocumentID ?? ViewModel.ID;
             return new Int32EventArgs(documentID);
-        }
-    }
-
-    /// <summary> 
-    /// The WinForms designer does not work when deriving directly from a generic class.
-    /// And also not when you make this class abstract.
-    /// </summary>
-    internal class DocumentTreeUserControl_NotDesignable : UserControlBase<DocumentTreeViewModel>
-    {
-        protected override void ApplyViewModelToControls()
-        {
-            throw new NotImplementedException();
         }
     }
 }

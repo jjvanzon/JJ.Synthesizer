@@ -9,7 +9,7 @@ using JJ.Framework.Presentation.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class AudioFileOutputGridUserControl : AudioFileOutputGridUserControl_NotDesignable
+    internal partial class AudioFileOutputGridUserControl : UserControlBase
     {
         private const string ID_COLUMN_NAME = "IDColumn";
 
@@ -36,10 +36,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             SamplingRateColumn.HeaderText = PropertyDisplayNames.SamplingRate;
         }
 
+        // Binding
+
         protected override void ApplyViewModelToControls()
         {
             specializedDataGridView.DataSource = ViewModel.List;
         }
+
+        private new AudioFileOutputGridViewModel ViewModel => (AudioFileOutputGridViewModel)base.ViewModel;
 
         // Events
 
@@ -121,19 +125,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
 
             return null;
-        }
-    }
-
-    /// <summary> 
-    /// The WinForms designer does not work when deriving directly from a generic class.
-    /// And also not when you make this class abstract.
-    /// </summary>
-    internal class AudioFileOutputGridUserControl_NotDesignable
-        : UserControlBase<AudioFileOutputGridViewModel>
-    {
-        protected override void ApplyViewModelToControls()
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -4,13 +4,12 @@ using System.Windows.Forms;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class OperatorPropertiesUserControl_ForNumber 
-        : OperatorPropertiesUserControl_ForNumber_NotDesignable
+        : OperatorPropertiesUserControlBase
     {
         public OperatorPropertiesUserControl_ForNumber()
         {
@@ -37,6 +36,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Binding
 
+        private new OperatorPropertiesViewModel_ForNumber ViewModel => (OperatorPropertiesViewModel_ForNumber)base.ViewModel;
+
         protected override void ApplyViewModelToControls()
         {
             textBoxName.Text = ViewModel.Name;
@@ -49,12 +50,4 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ViewModel.Number = textBoxNumber.Text;
         }
     }
-
-    /// <summary> 
-    /// The WinForms designer does not work when deriving directly from a generic class.
-    /// And also not when you make this class abstract.
-    /// </summary>
-    internal class OperatorPropertiesUserControl_ForNumber_NotDesignable
-        : OperatorPropertiesUserControlBase<OperatorPropertiesViewModel_ForNumber>
-    { }
 }

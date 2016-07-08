@@ -9,7 +9,7 @@ using JJ.Data.Canonical;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class AudioOutputPropertiesUserControl : AudioOutputPropertiesUserControl_NotDesignable
+    internal partial class AudioOutputPropertiesUserControl : PropertiesUserControlBase
     {
         public AudioOutputPropertiesUserControl()
         {
@@ -37,6 +37,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Binding
 
+        private new AudioOutputPropertiesViewModel ViewModel => (AudioOutputPropertiesViewModel)base.ViewModel;
+
         protected override void ApplyViewModelToControls()
         {
             numericUpDownSamplingRate.Value = ViewModel.Entity.SamplingRate;
@@ -61,12 +63,4 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ViewModel.Entity.DesiredBufferDuration = (double)numericUpDownDesiredBufferDuration.Value;
         }
     }
-
-    /// <summary> 
-    /// The WinForms designer does not work when deriving directly from a generic class.
-    /// And also not when you make this class abstract.
-    /// </summary>
-    internal class AudioOutputPropertiesUserControl_NotDesignable
-        : PropertiesUserControlBase<AudioOutputPropertiesViewModel>
-    { }
 }

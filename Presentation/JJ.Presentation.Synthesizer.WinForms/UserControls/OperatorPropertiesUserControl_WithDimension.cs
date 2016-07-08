@@ -38,6 +38,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Binding
 
+        private new OperatorPropertiesViewModel_WithDimension ViewModel => (OperatorPropertiesViewModel_WithDimension)base.ViewModel;
+
         protected override void ApplyViewModelToControls()
         {
             textBoxName.Text = ViewModel.Name;
@@ -72,6 +74,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     /// And also not when you make this class abstract.
     /// </summary>
     internal class NotDesignable_OperatorPropertiesUserControl_WithDimension
-        : OperatorPropertiesUserControlBase<OperatorPropertiesViewModel_WithDimension>
+        : OperatorPropertiesUserControlBase
     { }
 }

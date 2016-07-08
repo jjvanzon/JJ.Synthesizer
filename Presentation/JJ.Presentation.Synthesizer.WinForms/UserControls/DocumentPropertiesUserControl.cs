@@ -7,7 +7,7 @@ using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class DocumentPropertiesUserControl : DocumentPropertiesUserControl_NotDesignable
+    internal partial class DocumentPropertiesUserControl : PropertiesUserControlBase
     {
         public DocumentPropertiesUserControl()
         {
@@ -29,6 +29,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Binding
 
+        private new DocumentPropertiesViewModel ViewModel => (DocumentPropertiesViewModel)base.ViewModel;
+
         protected override int GetID()
         {
             return ViewModel.Entity.ID;
@@ -44,12 +46,4 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ViewModel.Entity.Name = textBoxName.Text;
         }
     }
-
-    /// <summary> 
-    /// The WinForms designer does not work when deriving directly from a generic class.
-    /// And also not when you make this class abstract.
-    /// </summary>
-    internal class DocumentPropertiesUserControl_NotDesignable 
-        : PropertiesUserControlBase<DocumentPropertiesViewModel>
-    { }
 }

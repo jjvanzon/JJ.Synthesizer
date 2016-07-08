@@ -4,7 +4,6 @@ using System.Windows.Forms;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.Resources;
@@ -12,7 +11,7 @@ using JJ.Presentation.Synthesizer.Resources;
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class OperatorPropertiesUserControl_WithDimensionAndInterpolation 
-        : OperatorPropertiesUserControl_WithDimensionAndInterpolation_NotDesignable
+        : OperatorPropertiesUserControlBase
     {
         public OperatorPropertiesUserControl_WithDimensionAndInterpolation()
         {
@@ -39,6 +38,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         }
 
         // Binding
+
+
+        private new OperatorPropertiesViewModel_WithDimensionAndInterpolation ViewModel =>
+                   (OperatorPropertiesViewModel_WithDimensionAndInterpolation)base.ViewModel;
 
         protected override void ApplyViewModelToControls()
         {
@@ -85,12 +88,4 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ViewModel.Dimension = (IDAndName)comboBoxDimension.SelectedItem;
         }
     }
-
-    /// <summary> 
-    /// The WinForms designer does not work when deriving directly from a generic class.
-    /// And also not when you make this class abstract.
-    /// </summary>
-    internal class OperatorPropertiesUserControl_WithDimensionAndInterpolation_NotDesignable
-        : OperatorPropertiesUserControlBase<OperatorPropertiesViewModel_WithDimensionAndInterpolation>
-    { }
 }

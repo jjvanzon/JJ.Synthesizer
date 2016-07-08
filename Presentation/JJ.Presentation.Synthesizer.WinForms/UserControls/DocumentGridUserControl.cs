@@ -7,7 +7,7 @@ using JJ.Presentation.Synthesizer.WinForms.EventArg;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class DocumentGridUserControl : DocumentGridUserControl_NotDesignable
+    internal partial class DocumentGridUserControl : UserControlBase
     {
         private const string ID_COLUMN_NAME = "IDColumn";
 
@@ -33,7 +33,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (ViewModel == null) return;
 
-            dataGridView.DataSource = ViewModel.List;
+            dataGridView.DataSource = ((DocumentGridViewModel)ViewModel).List;
         }
 
         // Actions
@@ -126,18 +126,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
 
             return null;
-        }
-    }
-
-    /// <summary> 
-    /// The WinForms designer does not work when deriving directly from a generic class.
-    /// And also not when you make this class abstract.
-    /// </summary>
-    internal class DocumentGridUserControl_NotDesignable : UserControlBase<DocumentGridViewModel>
-    {
-        protected override void ApplyViewModelToControls()
-        {
-            throw new NotImplementedException();
         }
     }
 }

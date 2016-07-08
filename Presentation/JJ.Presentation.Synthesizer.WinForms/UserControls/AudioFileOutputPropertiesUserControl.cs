@@ -11,7 +11,7 @@ using System.Linq;
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class AudioFileOutputPropertiesUserControl 
-        : AudioFileOutputPropertiesUserControl_NotDesignable
+        : PropertiesUserControlBase
     {
         public AudioFileOutputPropertiesUserControl()
         {
@@ -49,6 +49,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         }
 
         // Binding
+
+        private new AudioFileOutputPropertiesViewModel ViewModel => (AudioFileOutputPropertiesViewModel)base.ViewModel;
 
         protected override int GetID()
         {
@@ -112,12 +114,4 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ViewModel.Entity.FilePath = textBoxFilePath.Text;
         }
     }
-
-    /// <summary> 
-    /// The WinForms designer does not work when deriving directly from a generic class.
-    /// And also not when you make this class abstract.
-    /// </summary>
-    internal class AudioFileOutputPropertiesUserControl_NotDesignable
-        : PropertiesUserControlBase<AudioFileOutputPropertiesViewModel>
-    { }
 }
