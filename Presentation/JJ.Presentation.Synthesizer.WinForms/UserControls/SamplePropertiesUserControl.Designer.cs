@@ -28,8 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tableLayoutPanelMain = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanelContent = new System.Windows.Forms.TableLayoutPanel();
             this.labelOriginalLocation = new System.Windows.Forms.Label();
             this.comboBoxInterpolationType = new System.Windows.Forms.ComboBox();
             this.labelInterpolationType = new System.Windows.Forms.Label();
@@ -54,80 +52,11 @@
             this.filePathControlOriginalLocation = new JJ.Framework.Presentation.WinForms.Controls.FilePathControl();
             this.labelDurationTitle = new System.Windows.Forms.Label();
             this.labelDurationValue = new System.Windows.Forms.Label();
-            this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
-            this.tableLayoutPanelMain.SuspendLayout();
-            this.tableLayoutPanelContent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownBytesToSkip)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSamplingRate)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownAmplifier)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTimeMultiplier)).BeginInit();
             this.SuspendLayout();
-            // 
-            // tableLayoutPanelMain
-            // 
-            this.tableLayoutPanelMain.ColumnCount = 1;
-            this.tableLayoutPanelMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanelMain.Controls.Add(this.tableLayoutPanelContent, 0, 1);
-            this.tableLayoutPanelMain.Controls.Add(this.titleBarUserControl, 0, 0);
-            this.tableLayoutPanelMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanelMain.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanelMain.Margin = new System.Windows.Forms.Padding(4);
-            this.tableLayoutPanelMain.Name = "tableLayoutPanelMain";
-            this.tableLayoutPanelMain.RowCount = 2;
-            this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
-            this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelMain.Size = new System.Drawing.Size(10, 10);
-            this.tableLayoutPanelMain.TabIndex = 8;
-            // 
-            // tableLayoutPanelContent
-            // 
-            this.tableLayoutPanelContent.ColumnCount = 2;
-            this.tableLayoutPanelContent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 133F));
-            this.tableLayoutPanelContent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanelContent.Controls.Add(this.labelOriginalLocation, 0, 10);
-            this.tableLayoutPanelContent.Controls.Add(this.comboBoxInterpolationType, 1, 9);
-            this.tableLayoutPanelContent.Controls.Add(this.labelInterpolationType, 0, 9);
-            this.tableLayoutPanelContent.Controls.Add(this.numericUpDownBytesToSkip, 1, 8);
-            this.tableLayoutPanelContent.Controls.Add(this.labelBytesToSkip, 0, 8);
-            this.tableLayoutPanelContent.Controls.Add(this.labelName, 0, 0);
-            this.tableLayoutPanelContent.Controls.Add(this.labelSamplingRate, 0, 1);
-            this.tableLayoutPanelContent.Controls.Add(this.labelAudioFileFormat, 0, 2);
-            this.tableLayoutPanelContent.Controls.Add(this.labelSampleDataType, 0, 3);
-            this.tableLayoutPanelContent.Controls.Add(this.labelSpeakerSetup, 0, 4);
-            this.tableLayoutPanelContent.Controls.Add(this.textBoxName, 1, 0);
-            this.tableLayoutPanelContent.Controls.Add(this.comboBoxAudioFileFormat, 1, 2);
-            this.tableLayoutPanelContent.Controls.Add(this.comboBoxSampleDataType, 1, 3);
-            this.tableLayoutPanelContent.Controls.Add(this.comboBoxSpeakerSetup, 1, 4);
-            this.tableLayoutPanelContent.Controls.Add(this.numericUpDownSamplingRate, 1, 1);
-            this.tableLayoutPanelContent.Controls.Add(this.labelAmplifier, 0, 5);
-            this.tableLayoutPanelContent.Controls.Add(this.numericUpDownAmplifier, 1, 5);
-            this.tableLayoutPanelContent.Controls.Add(this.labelTimeMultiplier, 0, 6);
-            this.tableLayoutPanelContent.Controls.Add(this.numericUpDownTimeMultiplier, 1, 6);
-            this.tableLayoutPanelContent.Controls.Add(this.labelIsActive, 0, 7);
-            this.tableLayoutPanelContent.Controls.Add(this.checkBoxIsActive, 1, 7);
-            this.tableLayoutPanelContent.Controls.Add(this.filePathControlOriginalLocation, 1, 10);
-            this.tableLayoutPanelContent.Controls.Add(this.labelDurationTitle, 0, 11);
-            this.tableLayoutPanelContent.Controls.Add(this.labelDurationValue, 1, 11);
-            this.tableLayoutPanelContent.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanelContent.Location = new System.Drawing.Point(4, 30);
-            this.tableLayoutPanelContent.Margin = new System.Windows.Forms.Padding(4);
-            this.tableLayoutPanelContent.Name = "tableLayoutPanelContent";
-            this.tableLayoutPanelContent.RowCount = 13;
-            this.tableLayoutPanelContent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanelContent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanelContent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanelContent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanelContent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanelContent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanelContent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanelContent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanelContent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanelContent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanelContent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanelContent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanelContent.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelContent.Size = new System.Drawing.Size(10, 10);
-            this.tableLayoutPanelContent.TabIndex = 9;
             // 
             // labelOriginalLocation
             // 
@@ -438,47 +367,47 @@
             this.labelDurationValue.Text = "labelDurationValue";
             this.labelDurationValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // titleBarUserControl
-            // 
-            this.titleBarUserControl.AddButtonVisible = false;
-            this.titleBarUserControl.BackColor = System.Drawing.SystemColors.Control;
-            this.titleBarUserControl.CloseButtonVisible = true;
-            this.titleBarUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.titleBarUserControl.Location = new System.Drawing.Point(0, 0);
-            this.titleBarUserControl.Margin = new System.Windows.Forms.Padding(0);
-            this.titleBarUserControl.Name = "titleBarUserControl";
-            this.titleBarUserControl.RemoveButtonVisible = false;
-            this.titleBarUserControl.Size = new System.Drawing.Size(18, 26);
-            this.titleBarUserControl.TabIndex = 8;
-            this.titleBarUserControl.CloseClicked += new System.EventHandler(this.titleBarUserControl_CloseClicked);
-            // 
             // SamplePropertiesUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.Controls.Add(this.tableLayoutPanelMain);
+            this.Controls.Add(this.labelOriginalLocation);
+            this.Controls.Add(this.comboBoxInterpolationType);
+            this.Controls.Add(this.labelInterpolationType);
+            this.Controls.Add(this.numericUpDownBytesToSkip);
+            this.Controls.Add(this.labelBytesToSkip);
+            this.Controls.Add(this.labelName);
+            this.Controls.Add(this.labelSamplingRate);
+            this.Controls.Add(this.labelAudioFileFormat);
+            this.Controls.Add(this.labelSampleDataType);
+            this.Controls.Add(this.labelSpeakerSetup);
+            this.Controls.Add(this.textBoxName);
+            this.Controls.Add(this.comboBoxAudioFileFormat);
+            this.Controls.Add(this.comboBoxSampleDataType);
+            this.Controls.Add(this.comboBoxSpeakerSetup);
+            this.Controls.Add(this.numericUpDownSamplingRate);
+            this.Controls.Add(this.labelAmplifier);
+            this.Controls.Add(this.numericUpDownAmplifier);
+            this.Controls.Add(this.labelTimeMultiplier);
+            this.Controls.Add(this.numericUpDownTimeMultiplier);
+            this.Controls.Add(this.labelIsActive);
+            this.Controls.Add(this.checkBoxIsActive);
+            this.Controls.Add(this.filePathControlOriginalLocation);
+            this.Controls.Add(this.labelDurationTitle);
+            this.Controls.Add(this.labelDurationValue);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "SamplePropertiesUserControl";
             this.Size = new System.Drawing.Size(10, 10);
-            this.Load += new System.EventHandler(this.SamplePropertiesUserControl_Load);
-            this.Leave += new System.EventHandler(this.SamplePropertiesUserControl_Leave);
-            this.tableLayoutPanelMain.ResumeLayout(false);
-            this.tableLayoutPanelContent.ResumeLayout(false);
-            this.tableLayoutPanelContent.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownBytesToSkip)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSamplingRate)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownAmplifier)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTimeMultiplier)).EndInit();
             this.ResumeLayout(false);
-
         }
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanelMain;
-        private Partials.TitleBarUserControl titleBarUserControl;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanelContent;
         private System.Windows.Forms.Label labelOriginalLocation;
         private System.Windows.Forms.ComboBox comboBoxInterpolationType;
         private System.Windows.Forms.Label labelInterpolationType;

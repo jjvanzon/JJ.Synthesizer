@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.ComponentModel;
 using System.Windows.Forms;
 using JJ.Presentation.Synthesizer.ViewModels;
@@ -6,39 +7,41 @@ using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Framework.Presentation.WinForms.Extensions;
 using JJ.Framework.Presentation.WinForms.EventArg;
 using System.IO;
 using JJ.Framework.IO;
 using JJ.Framework.Reflection.Exceptions;
-using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class SamplePropertiesUserControl : UserControlBase
+    internal partial class SamplePropertiesUserControl : PropertiesUserControlBase
     {
-        public event EventHandler CloseRequested;
-        public event EventHandler LoseFocusRequested;
-
         public SamplePropertiesUserControl()
         {
             InitializeComponent();
-
-            SetTitles();
-
-            this.AutomaticallyAssignTabIndexes();
-        }
-
-        private void SamplePropertiesUserControl_Load(object sender, EventArgs e)
-        {
-            ApplyStyling();
         }
 
         // Gui
 
-        private void SetTitles()
+        protected override void AddProperties()
         {
-            titleBarUserControl.Text = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Sample);
+            AddProperty(labelName, textBoxName);
+            AddProperty(labelSamplingRate, numericUpDownSamplingRate);
+            AddProperty(labelAudioFileFormat, comboBoxAudioFileFormat);
+            AddProperty(labelSampleDataType, comboBoxSampleDataType);
+            AddProperty(labelSpeakerSetup, comboBoxSpeakerSetup);
+            AddProperty(labelAmplifier, numericUpDownAmplifier);
+            AddProperty(labelTimeMultiplier, numericUpDownTimeMultiplier);
+            AddProperty(labelIsActive, checkBoxIsActive);
+            AddProperty(labelBytesToSkip, numericUpDownBytesToSkip);
+            AddProperty(labelInterpolationType, comboBoxInterpolationType);
+            AddProperty(labelOriginalLocation, filePathControlOriginalLocation);
+            AddProperty(labelDurationTitle, labelDurationValue);
+        }
+
+        protected override void SetTitles()
+        {
+            TitleBarText = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Sample);
             labelName.Text = CommonTitles.Name;
             labelSamplingRate.Text = PropertyDisplayNames.SamplingRate;
             labelAudioFileFormat.Text = PropertyDisplayNames.AudioFileFormat;
@@ -53,17 +56,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelDurationTitle.Text = PropertyDisplayNames.Duration + ":";
         }
 
-        private void ApplyStyling()
+        protected override void ApplyStyling()
         {
-            tableLayoutPanelContent.Margin = new Padding(
-                StyleHelper.DefaultSpacing,
-                StyleHelper.DefaultSpacing,
-                StyleHelper.DefaultSpacing,
-                StyleHelper.DefaultSpacing);
+            base.ApplyStyling();
 
             filePathControlOriginalLocation.Spacing = StyleHelper.DefaultSpacing;
-
-            StyleHelper.SetPropertyLabelColumnSize(tableLayoutPanelContent);
         }
 
         // Binding
@@ -72,11 +69,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            if (ViewModel == null)
-            {
-                return;
-            }
-
             textBoxName.Text = ViewModel.Entity.Name;
             numericUpDownSamplingRate.Value = ViewModel.Entity.SamplingRate;
 
@@ -121,13 +113,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelDurationValue.Text = ViewModel.Entity.Duration.ToString("0.###");
         }
 
-        private void ApplyControlsToViewModel()
+        protected override void ApplyControlsToViewModel()
         {
-            if (ViewModel == null)
-            {
-                return;
-            }
-
             ViewModel.Entity.Name = textBoxName.Text;
             ViewModel.Entity.SamplingRate = (int)numericUpDownSamplingRate.Value;
 
@@ -145,32 +132,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ViewModel.Entity.OriginalLocation = filePathControlOriginalLocation.Text;
         }
 
-        // Actions
-
-        private void Close()
-        {
-            if (CloseRequested != null)
-            {
-                ApplyControlsToViewModel();
-                CloseRequested(this, EventArgs.Empty);
-            }
-        }
-
-        private void LoseFocus()
-        {
-            if (LoseFocusRequested != null)
-            {
-                ApplyControlsToViewModel();
-                LoseFocusRequested(this, EventArgs.Empty);
-            }
-        }
-
         // Events
-
-        private void titleBarUserControl_CloseClicked(object sender, EventArgs e)
-        {
-            Close();
-        }
 
         private void filePathControlOriginalLocation_Browsed(object sender, FilePathEventArgs e)
         {
@@ -179,18 +141,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             using (Stream stream = new FileStream(e.FilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 ViewModel.Entity.Bytes = StreamHelper.StreamToBytes(stream);
-            }
-        }
-
-        // This event does not go off, if not clicked on a control that according to WinForms can get focus.
-        private void SamplePropertiesUserControl_Leave(object sender, EventArgs e)
-        {
-            // This Visible check is there because the leave event (lose focus) goes off after I closed, 
-            // making it want to save again, even though view model is empty
-            // which makes it say that now clear fields are required.
-            if (Visible)
-            {
-                LoseFocus();
             }
         }
     }

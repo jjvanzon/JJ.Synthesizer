@@ -75,7 +75,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         protected virtual void SetTitles()
         { }
 
-        private void ApplyStyling()
+        protected virtual void ApplyStyling()
         {
             BackColor = SystemColors.ButtonFace;
 
@@ -113,18 +113,23 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected void AddProperty(Control nameControl, Control valueControl)
         {
-            if (nameControl == null) throw new NullException(() => nameControl);
-            if (valueControl == null) throw new NullException(() => valueControl);
+            if (nameControl == null && valueControl == null) throw new Exception(String.Format("{0} and {1] cannot both be null.", nameof(nameControl), nameof(valueControl)));
 
             int rowIndex = _tableLayoutPanel.RowCount++;
 
-            _tableLayoutPanel.Controls.Add(nameControl, NAME_COLUMN, rowIndex);
-            nameControl.Dock = DockStyle.Fill;
-            Controls.Remove(nameControl);
+            if (nameControl != null)
+            {
+                _tableLayoutPanel.Controls.Add(nameControl, NAME_COLUMN, rowIndex);
+                nameControl.Dock = DockStyle.Fill;
+                Controls.Remove(nameControl);
+            }
 
-            _tableLayoutPanel.Controls.Add(valueControl, VALUE_COLUMN, rowIndex);
-            valueControl.Dock = DockStyle.Fill;
-            Controls.Remove(valueControl);
+            if (valueControl != null)
+            {
+                _tableLayoutPanel.Controls.Add(valueControl, VALUE_COLUMN, rowIndex);
+                valueControl.Dock = DockStyle.Fill;
+                Controls.Remove(valueControl);
+            }
         }
 
         // Binding

@@ -355,9 +355,7 @@
     <Compile Include="UserControls\UserControlBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\UserControlBaseOfT.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="UserControls\2016-07-08 Backup of UserControlBaseOfT.cs" />
     <EmbeddedResource Include="Forms\DocumentCannotDeleteForm.resx">
       <DependentUpon>DocumentCannotDeleteForm.cs</DependentUpon>
     </EmbeddedResource>
