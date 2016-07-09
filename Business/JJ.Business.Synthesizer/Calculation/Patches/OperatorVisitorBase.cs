@@ -35,9 +35,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.ClosestOverDimensionExp, VisitClosestOverDimensionExp },
                 { OperatorTypeEnum.Curve, VisitCurveOperator },
                 { OperatorTypeEnum.CustomOperator, VisitCustomOperator },
-                { OperatorTypeEnum.Delay, VisitDelay },
                 { OperatorTypeEnum.Divide, VisitDivide },
-                { OperatorTypeEnum.Earlier, VisitEarlier },
                 { OperatorTypeEnum.Equal, VisitEqual },
                 { OperatorTypeEnum.Exponent, VisitExponent },
                 { OperatorTypeEnum.GetDimension, VisitGetDimension },
@@ -266,19 +264,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         }
 
         [DebuggerHidden]
-        protected virtual void VisitDelay(Operator op)
-        {
-            VisitOperatorBase(op);
-        }
-
-        [DebuggerHidden]
         protected virtual void VisitDivide(Operator op)
-        {
-            VisitOperatorBase(op);
-        }
-
-        [DebuggerHidden]
-        protected virtual void VisitEarlier(Operator op)
         {
             VisitOperatorBase(op);
         }

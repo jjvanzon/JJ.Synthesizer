@@ -9,6 +9,7 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             : base(context)
         {
             RepositoryHelper.EnsureEnumEntity(this, 1, "Add");
+            //RepositoryHelper.EnsureEnumEntity(this, 2, "Adder");
             RepositoryHelper.EnsureEnumEntity(this, 3, "Divide");
             RepositoryHelper.EnsureEnumEntity(this, 4, "MultiplyWithOrigin");
             RepositoryHelper.EnsureEnumEntity(this, 5, "PatchInlet");
@@ -16,9 +17,11 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             RepositoryHelper.EnsureEnumEntity(this, 7, "Power");
             RepositoryHelper.EnsureEnumEntity(this, 8, "Sine");
             RepositoryHelper.EnsureEnumEntity(this, 9, "Subtract");
-            RepositoryHelper.EnsureEnumEntity(this, 10, "Delay");
+            //RepositoryHelper.EnsureEnumEntity(this, 10, "Delay");
+            //RepositoryHelper.EnsureEnumEntity(this, 11, "SpeedUp");
+            //RepositoryHelper.EnsureEnumEntity(this, 12, "SlowDown");
             RepositoryHelper.EnsureEnumEntity(this, 13, "TimePower");
-            RepositoryHelper.EnsureEnumEntity(this, 14, "Earlier");
+            //RepositoryHelper.EnsureEnumEntity(this, 14, "Earlier");
             RepositoryHelper.EnsureEnumEntity(this, 15, "Number");
             RepositoryHelper.EnsureEnumEntity(this, 16, "Curve");
             RepositoryHelper.EnsureEnumEntity(this, 17, "Sample");
@@ -63,7 +66,7 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             RepositoryHelper.EnsureEnumEntity(this, 56, "Negative");
             RepositoryHelper.EnsureEnumEntity(this, 57, "OneOverX");
             RepositoryHelper.EnsureEnumEntity(this, 58, "Cache");
-            RepositoryHelper.EnsureEnumEntity(this, 59, "Filter");
+            //RepositoryHelper.EnsureEnumEntity(this, 59, "Filter");
             RepositoryHelper.EnsureEnumEntity(this, 60, "PulseTrigger");
             RepositoryHelper.EnsureEnumEntity(this, 61, "ChangeTrigger");
             RepositoryHelper.EnsureEnumEntity(this, 62, "ToggleTrigger");

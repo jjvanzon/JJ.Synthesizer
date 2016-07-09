@@ -1,0 +1,1 @@
+delete from OperatorType where ID = 14 /*Earlier*/

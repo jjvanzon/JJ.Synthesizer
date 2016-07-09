@@ -213,7 +213,7 @@
     <Compile Include="Calculation\Operators\Pulse OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Subtract OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\TimePower OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\Earlier OperatorCalculator Classes.cs" />
+    <Compile Include="Calculation\Operators\2016-07-09 Backup of Earlier OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Triangle OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Sine OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Noise_OperatorCalculator.cs" />
@@ -224,7 +224,7 @@
     <Compile Include="Calculation\Operators\Sample OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Curve OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\OperatorCalculatorBase.cs" />
-    <Compile Include="Calculation\Operators\Delay OperatorCalculator Classes.cs" />
+    <Compile Include="Calculation\Operators\Shift OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Number_OperatorCalculator.cs" />
     <Compile Include="Calculation\Patches\OptimizedPatchCalculatorVisitorResult.cs" />
     <Compile Include="Calculation\Patches\ResettableOperatorTuple.cs" />
@@ -394,9 +394,9 @@
     <Compile Include="Extensions\UnlinkRelatedEntitiesExtensions.cs" />
     <Compile Include="EntityWrappers\Add_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Curve_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\Earlier_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\2016-07-09 Backup of Earlier_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\TimePower_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\Delay_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\2016-07-09 Backup of Delay_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Sine_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Power_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\PatchOutlet_OperatorWrapper.cs" />
@@ -668,9 +668,9 @@
     <Compile Include="Warnings\Operators\OperatorWarningValidator_Base.cs" />
     <Compile Include="Warnings\Operators\Sample_OperatorWarningValidator.cs" />
     <Compile Include="Validation\NodeValidator_WithoutParent.cs" />
-    <Compile Include="Validation\Operators\Earlier_OperatorValidator.cs" />
+    <Compile Include="Validation\Operators\2016-07-09 Backup of Earlier_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\TimePower_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\Delay_OperatorValidator.cs" />
+    <Compile Include="Validation\Operators\2016-07-09 Backup of Delay_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Sine_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Power_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\PatchOutlet_OperatorValidator.cs" />
@@ -696,9 +696,9 @@
     <Compile Include="Warnings\DocumentWarningValidator_Recursive.cs" />
     <Compile Include="Warnings\Operators\Versatile_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Add_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\Earlier_OperatorWarningValidator.cs" />
+    <Compile Include="Warnings\Operators\2016-07-09 Backup of Earlier_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\TimePower_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\Delay_OperatorWarningValidator.cs" />
+    <Compile Include="Warnings\Operators\2016-07-09 Backup of Delay_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Sine_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Power_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\OperatorWarningValidator_Base_FirstXInletsFilledInOrHaveDefaults.cs" />

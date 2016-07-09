@@ -31,9 +31,7 @@ namespace JJ.Business.Synthesizer.Helpers
             { OperatorTypeEnum.ClosestExp, Create_ClosestExp_OperatorWrapper },
             { OperatorTypeEnum.ClosestOverDimension, Create_ClosestOverDimension_OperatorWrapper },
             { OperatorTypeEnum.ClosestOverDimensionExp, Create_ClosestOverDimensionExp_OperatorWrapper },
-            { OperatorTypeEnum.Delay , Create_Delay_OperatorWrapper },
             { OperatorTypeEnum.Divide , Create_Divide_OperatorWrapper },
-            { OperatorTypeEnum.Earlier , Create_Earlier_OperatorWrapper },
             { OperatorTypeEnum.Equal, Create_Equal_OperatorWrapper },
             { OperatorTypeEnum.Exponent, Create_Exponent_OperatorWrapper },
             { OperatorTypeEnum.GetDimension, Create_GetDimension_OperatorWrapper },
@@ -163,9 +161,7 @@ namespace JJ.Business.Synthesizer.Helpers
         private static ClosestExp_OperatorWrapper Create_ClosestExp_OperatorWrapper(Operator op) { return new ClosestExp_OperatorWrapper(op); }
         private static ClosestOverDimension_OperatorWrapper Create_ClosestOverDimension_OperatorWrapper(Operator op) { return new ClosestOverDimension_OperatorWrapper(op); }
         private static ClosestOverDimensionExp_OperatorWrapper Create_ClosestOverDimensionExp_OperatorWrapper(Operator op) { return new ClosestOverDimensionExp_OperatorWrapper(op); }
-        private static Delay_OperatorWrapper Create_Delay_OperatorWrapper(Operator op) { return new Delay_OperatorWrapper(op); }
         private static Divide_OperatorWrapper Create_Divide_OperatorWrapper(Operator op) { return new Divide_OperatorWrapper(op); }
-        private static Earlier_OperatorWrapper Create_Earlier_OperatorWrapper(Operator op) { return new Earlier_OperatorWrapper(op); }
         private static Equal_OperatorWrapper Create_Equal_OperatorWrapper(Operator op) { return new Equal_OperatorWrapper(op); }
         private static Exponent_OperatorWrapper Create_Exponent_OperatorWrapper(Operator op) { return new Exponent_OperatorWrapper(op); }
         private static GetDimension_OperatorWrapper Create_GetDimension_OperatorWrapper(Operator op) { return new GetDimension_OperatorWrapper(op); }

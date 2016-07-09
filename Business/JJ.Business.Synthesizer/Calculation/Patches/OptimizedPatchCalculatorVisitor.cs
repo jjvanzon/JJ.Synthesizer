@@ -1282,14 +1282,14 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitDelay(Operator op)
+        protected override void VisitShift(Operator op)
         {
-            var wrapper = new Delay_OperatorWrapper(op);
+            var wrapper = new Shift_OperatorWrapper(op);
             DimensionEnum dimensionEnum = wrapper.Dimension;
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
             dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
 
-            base.VisitDelay(op);
+            base.VisitShift(op);
 
             OperatorCalculatorBase calculator;
 
@@ -1323,11 +1323,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (timeDifferenceIsConst)
             {
-                calculator = new Delay_OperatorCalculator_VarSignal_ConstDistance(signalCalculator, timeDifference, dimensionStack);
+                calculator = new Shift_OperatorCalculator_VarSignal_ConstDifference(signalCalculator, timeDifference, dimensionStack);
             }
             else
             {
-                calculator = new Delay_OperatorCalculator_VarSignal_VarDistance(signalCalculator, timeDifferenceCalculator, dimensionStack);
+                calculator = new Shift_OperatorCalculator_VarSignal_VarDifference(signalCalculator, timeDifferenceCalculator, dimensionStack);
             }
 
             _stack.Push(calculator);
@@ -1426,57 +1426,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             else
             {
                 calculator = new Divide_WithOrigin_OperatorCalculator(numeratorCalculator, denominatorCalculator, originCalculator);
-            }
-
-            _stack.Push(calculator);
-        }
-
-        protected override void VisitEarlier(Operator op)
-        {
-            var wrapper = new Earlier_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
-            dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
-
-            base.VisitEarlier(op);
-
-            OperatorCalculatorBase calculator;
-
-            OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase timeDifferenceCalculator = _stack.Pop();
-
-            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
-            timeDifferenceCalculator = timeDifferenceCalculator ?? new Zero_OperatorCalculator();
-
-            double signal = signalCalculator.Calculate();
-            double timeDifference = timeDifferenceCalculator.Calculate();
-
-            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
-            bool timeDifferenceIsConst = timeDifferenceCalculator is Number_OperatorCalculator;
-            bool signalIsConstZero = signalIsConst && signal == 0;
-            bool timeDifferenceIsConstZero = timeDifferenceIsConst && signal == 0;
-
-            dimensionStack.Pop();
-
-            if (signalIsConstZero)
-            {
-                calculator = new Zero_OperatorCalculator();
-            }
-            else if (timeDifferenceIsConstZero)
-            {
-                calculator = signalCalculator;
-            }
-            else if (signalIsConst)
-            {
-                calculator = signalCalculator;
-            }
-            else if (timeDifferenceIsConst)
-            {
-                calculator = new Earlier_OperatorCalculator_VarSignal_ConstDistance(signalCalculator, timeDifference, dimensionStack);
-            }
-            else
-            {
-                calculator = new Earlier_OperatorCalculator_VarSignal_VarDistance(signalCalculator, timeDifferenceCalculator, dimensionStack);
             }
 
             _stack.Push(calculator);
@@ -4081,12 +4030,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
 
             _stack.Push(operatorCalculator);
-        }
-
-        protected override void VisitShift(Operator op)
-        {
-            // Shift is a synonym for Delay, that makes more sense in case the x-axis does not represent time.
-            VisitDelay(op);
         }
 
         protected override void VisitSine(Operator op)

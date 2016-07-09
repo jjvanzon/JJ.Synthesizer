@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Delay_OperatorCalculator_VarSignal_VarDistance : OperatorCalculatorBase_WithChildCalculators
+    internal class Shift_OperatorCalculator_VarSignal_VarDifference : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _distanceCalculator;
@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly int _nextDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
 
-        public Delay_OperatorCalculator_VarSignal_VarDistance(
+        public Shift_OperatorCalculator_VarSignal_VarDifference(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase distanceCalculator,
             DimensionStack dimensionStack)
@@ -93,7 +93,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Delay_OperatorCalculator_VarSignal_ConstDistance : OperatorCalculatorBase_WithChildCalculators
+    internal class Shift_OperatorCalculator_VarSignal_ConstDifference : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _distance;
@@ -101,7 +101,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly int _nextDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
 
-        public Delay_OperatorCalculator_VarSignal_ConstDistance(
+        public Shift_OperatorCalculator_VarSignal_ConstDifference(
             OperatorCalculatorBase signalCalculator,
             double distance,
             DimensionStack dimensionStack)

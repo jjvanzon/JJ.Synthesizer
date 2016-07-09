@@ -211,25 +211,9 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.CustomOperator(underlyingPatch, operands);
         }
 
-        public Delay_OperatorWrapper Delay(
-            Outlet signal = null,
-            Outlet timeDifference = null,
-            DimensionEnum dimension = DimensionEnum.Time)
-        {
-            return _patchManager.Delay(signal, timeDifference, dimension);
-        }
-
         public Divide_OperatorWrapper Divide(Outlet numerator = null, Outlet denominator = null, Outlet origin = null)
         {
             return _patchManager.Divide(numerator, denominator, origin);
-        }
-
-        public Earlier_OperatorWrapper Earlier(
-            Outlet signal = null, 
-            Outlet timeDifference = null,
-            DimensionEnum dimension = DimensionEnum.Time)
-        {
-            return _patchManager.Earlier(signal, timeDifference, dimension);
         }
 
         public Equal_OperatorWrapper Equal(Outlet a = null, Outlet b = null)

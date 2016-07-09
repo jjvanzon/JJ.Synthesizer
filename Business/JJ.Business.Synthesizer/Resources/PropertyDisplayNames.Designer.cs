@@ -601,15 +601,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delay.
-        /// </summary>
-        public static string Delay {
-            get {
-                return ResourceManager.GetString("Delay", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Denominator.
         /// </summary>
         public static string Denominator {
@@ -678,15 +669,6 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Duration {
             get {
                 return ResourceManager.GetString("Duration", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Earlier.
-        /// </summary>
-        public static string Earlier {
-            get {
-                return ResourceManager.GetString("Earlier", resourceCulture);
             }
         }
         
@@ -2109,15 +2091,6 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Time {
             get {
                 return ResourceManager.GetString("Time", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Time Difference.
-        /// </summary>
-        public static string TimeDifference {
-            get {
-                return ResourceManager.GetString("TimeDifference", resourceCulture);
             }
         }
         

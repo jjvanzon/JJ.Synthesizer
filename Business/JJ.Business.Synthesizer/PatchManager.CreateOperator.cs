@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer
     public partial class PatchManager
     {
         private const double DEFAULT_FILTER_FREQUENCY = 1760.0;
-        private const double DEFAULF_FREQUENCY = 440.0;
+        private const double DEFAULT_FREQUENCY = 440.0;
         private const double DEFAULT_AGGREGATE_FROM = 0.0;
         private const double DEFAULT_AGGREGATE_TILL = 15.0;
         private const double DEFAULT_BAND_WIDTH = 1.0;
@@ -483,25 +483,6 @@ namespace JJ.Business.Synthesizer
             return CustomOperator(underlyingPatch, (IList<Outlet>)operands);
         }
 
-        public Delay_OperatorWrapper Delay(Outlet signal = null, Outlet timeDifference = null, DimensionEnum dimension = DimensionEnum.Time)
-        {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.Delay, inletCount: 2, outletCount: 1);
-
-            var wrapper = new Delay_OperatorWrapper(op)
-            {
-                Signal = signal,
-                TimeDifference = timeDifference,
-                Dimension = dimension
-            };
-
-            wrapper.TimeDifferenceInlet.DefaultValue = DEFAULT_DIFFERENCE;
-
-            VoidResult result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
-
-            return wrapper;
-        }
-
         public Divide_OperatorWrapper Divide(Outlet numerator = null, Outlet denominator = null, Outlet origin = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Divide, inletCount: 3, outletCount: 1);
@@ -512,25 +493,6 @@ namespace JJ.Business.Synthesizer
                 Denominator = denominator,
                 Origin = origin
             };
-
-            VoidResult result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
-
-            return wrapper;
-        }
-
-        public Earlier_OperatorWrapper Earlier(Outlet signal = null, Outlet timeDifference = null, DimensionEnum dimension = DimensionEnum.Time)
-        {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.Earlier, inletCount: 2, outletCount: 1);
-
-            var wrapper = new Earlier_OperatorWrapper(op)
-            {
-                Signal = signal,
-                TimeDifference = timeDifference,
-                Dimension = dimension
-            };
-
-            wrapper.TimeDifferenceInlet.DefaultValue = DEFAULT_DIFFERENCE;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1399,7 +1361,7 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            wrapper.FrequencyInlet.DefaultValue = DEFAULF_FREQUENCY;
+            wrapper.FrequencyInlet.DefaultValue = DEFAULT_FREQUENCY;
             wrapper.WidthInlet.DefaultValue = DEFAULT_PULSE_WIDTH;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
@@ -1555,7 +1517,7 @@ namespace JJ.Business.Synthesizer
                 SampleID = sample?.ID
             };
 
-            wrapper.FrequencyInlet.DefaultValue = DEFAULF_FREQUENCY;
+            wrapper.FrequencyInlet.DefaultValue = DEFAULT_FREQUENCY;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1574,7 +1536,7 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            wrapper.FrequencyInlet.DefaultValue = DEFAULF_FREQUENCY;
+            wrapper.FrequencyInlet.DefaultValue = DEFAULT_FREQUENCY;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1593,7 +1555,7 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            wrapper.FrequencyInlet.DefaultValue = DEFAULF_FREQUENCY;
+            wrapper.FrequencyInlet.DefaultValue = DEFAULT_FREQUENCY;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1697,7 +1659,7 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            wrapper.FrequencyInlet.DefaultValue = DEFAULF_FREQUENCY;
+            wrapper.FrequencyInlet.DefaultValue = DEFAULT_FREQUENCY;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1786,7 +1748,7 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            wrapper.FrequencyInlet.DefaultValue = DEFAULF_FREQUENCY;
+            wrapper.FrequencyInlet.DefaultValue = DEFAULT_FREQUENCY;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1956,7 +1918,7 @@ namespace JJ.Business.Synthesizer
                 Dimension = dimension
             };
 
-            wrapper.FrequencyInlet.DefaultValue = DEFAULF_FREQUENCY;
+            wrapper.FrequencyInlet.DefaultValue = DEFAULT_FREQUENCY;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -2081,9 +2043,7 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.Curve: return Curve();
                 case OperatorTypeEnum.CustomOperator: return CustomOperator();
                 case OperatorTypeEnum.GetDimension: return GetDimension();
-                case OperatorTypeEnum.Delay: return Delay();
                 case OperatorTypeEnum.Divide: return Divide();
-                case OperatorTypeEnum.Earlier: return Earlier();
                 case OperatorTypeEnum.Equal: return Equal();
                 case OperatorTypeEnum.Exponent: return Exponent();
                 case OperatorTypeEnum.GreaterThan: return GreaterThan();

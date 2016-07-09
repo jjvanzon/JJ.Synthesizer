@@ -58,8 +58,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                   new HashSet<OperatorTypeEnum>
         {
             OperatorTypeEnum.AverageFollower,
-            OperatorTypeEnum.Delay,
-            OperatorTypeEnum.Earlier,
             OperatorTypeEnum.GetDimension,
             OperatorTypeEnum.Loop,
             OperatorTypeEnum.MaxFollower,

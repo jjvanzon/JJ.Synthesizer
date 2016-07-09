@@ -166,9 +166,6 @@
   <data name="Subtract" xml:space="preserve">
     <value>–</value>
   </data>
-  <data name="Delay" xml:space="preserve">
-    <value>Delay</value>
-  </data>
   <data name="TimePower" xml:space="preserve">
     <value>Time Exponent</value>
   </data>
@@ -210,9 +207,6 @@
   </data>
   <data name="Patch" xml:space="preserve">
     <value>Patch</value>
-  </data>
-  <data name="Earlier" xml:space="preserve">
-    <value>Earlier</value>
   </data>
   <data name="Data" xml:space="preserve">
     <value>Data</value>
@@ -724,9 +718,6 @@
   </data>
   <data name="Step" xml:space="preserve">
     <value>Step</value>
-  </data>
-  <data name="TimeDifference" xml:space="preserve">
-    <value>Time Difference</value>
   </data>
   <data name="DataKey" xml:space="preserve">
     <value>Data Key</value>
