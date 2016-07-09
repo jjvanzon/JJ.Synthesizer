@@ -1799,7 +1799,6 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
         }
 
-
         public static void Migrate_Operator_Delay_To_Shift(Action<string> progressCallback)
         {
             if (progressCallback == null) throw new NullException(() => progressCallback);
