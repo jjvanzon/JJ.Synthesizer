@@ -53,7 +53,16 @@ namespace JJ.Business.Synthesizer.Validation
                 string messagePrefix = ValidationHelper.GetMessagePrefix(op, _sampleRepository, _curveRepository, _patchRepository);
                 
                 Execute(new OperatorValidator_IsCircular(op, _patchRepository), messagePrefix);
-                Execute(new Recursive_OperatorValidator(op, _curveRepository, _sampleRepository, _patchRepository, _alreadyDone), messagePrefix);
+
+                // Message prefix not used here on purpose. 
+                // See Recursive_OperatorValidator.
+                // This to prevent long message prefixes due to recursive processing.
+                Execute(new Recursive_OperatorValidator(
+                    op, 
+                    _curveRepository, 
+                    _sampleRepository, 
+                    _patchRepository, 
+                    _alreadyDone));
             }
         }
 

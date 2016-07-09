@@ -61,7 +61,11 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             }
             _alreadyDone.Add(op);
 
-            Execute(new Versatile_OperatorValidator(op, _patchRepository));
+            // Message prefix pattern broken here on purpose.
+            // This to prevent long message prefixes due to recursive processing.
+            string operatorMessagePrefix = ValidationHelper.GetMessagePrefix(op, _sampleRepository, _curveRepository, _patchRepository);
+
+            Execute(new Versatile_OperatorValidator(op, _patchRepository), operatorMessagePrefix);
 
             OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
 
@@ -77,9 +81,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                         {
                             _alreadyDone.Add(curve);
 
-                            string messagePrefix = ValidationHelper.GetMessagePrefix(curve);
-                            Execute(new CurveValidator_WithoutNodes(curve), messagePrefix);
-                            Execute(new CurveValidator_Nodes(curve), messagePrefix);
+                            string curveMessagePrefix = ValidationHelper.GetMessagePrefix(curve);
+
+                            Execute(new CurveValidator_WithoutNodes(curve), curveMessagePrefix);
+                            Execute(new CurveValidator_Nodes(curve), curveMessagePrefix);
                         }
                     }
                 }
@@ -106,6 +111,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             {
                 if (inlet.InputOutlet != null)
                 {
+                    // Message prefix not used here on purpose. 
+                    // This to prevent long message prefixes due to recursive processing.
                     Execute(new Recursive_OperatorValidator(inlet.InputOutlet.Operator, _curveRepository, _sampleRepository, _patchRepository, _alreadyDone));
                 }
             }

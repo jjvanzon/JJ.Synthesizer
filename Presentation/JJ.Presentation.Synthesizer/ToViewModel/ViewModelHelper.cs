@@ -249,11 +249,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var inletViewModelsToKeep = new List<InletViewModel>(sourceInlets.Count);
             foreach (Inlet inlet in sourceInlets)
             {
-                //if (!GetInletVisible(inlet))
-                //{
-                //    continue;
-                //}
-
                 InletViewModel inletViewModel = destOperatorViewModel.Inlets.Where(x => x.ID == inlet.ID).FirstOrDefault();
                 if (inletViewModel == null)
                 {
