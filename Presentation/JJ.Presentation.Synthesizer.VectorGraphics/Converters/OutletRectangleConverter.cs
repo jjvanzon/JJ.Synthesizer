@@ -35,20 +35,25 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             if (sourceOperatorViewModel == null) throw new NullException(() => sourceOperatorViewModel);
             if (destOperatorRectangle == null) throw new NullException(() => destOperatorRectangle);
 
-            if (sourceOperatorViewModel.Outlets.Count == 0)
+            IList<OutletViewModel> sourceOutletViewModelsToConvert =
+                sourceOperatorViewModel.Outlets
+                                       .Where(outlet => outlet.Visible)
+                                       .ToArray();
+
+            if (sourceOutletViewModelsToConvert.Count == 0)
             {
                 return new Rectangle[0];
             }
 
-            IList<Rectangle> destOutletRectangles = new List<Rectangle>(sourceOperatorViewModel.Inlets.Count);
+            IList<Rectangle> destOutletRectangles = new List<Rectangle>(sourceOutletViewModelsToConvert.Count);
 
-            float outletWidth = destOperatorRectangle.Position.Width / sourceOperatorViewModel.Outlets.Count;
+            float outletWidth = destOperatorRectangle.Position.Width / sourceOutletViewModelsToConvert.Count;
             float rowHeight = destOperatorRectangle.Position.Height / 4;
             float heightOverflow = StyleHelper.INLET_OUTLET_RECTANGLE_HEIGHT_OVERFLOW_IN_PIXELS;
             float x = 0;
             float y = rowHeight * 3;
 
-            foreach (OutletViewModel sourceOutletViewModel in sourceOperatorViewModel.Outlets)
+            foreach (OutletViewModel sourceOutletViewModel in sourceOutletViewModelsToConvert)
             {
                 Rectangle destOutletRectangle = ConvertToOutletRectangle(sourceOutletViewModel, destOperatorRectangle);
 

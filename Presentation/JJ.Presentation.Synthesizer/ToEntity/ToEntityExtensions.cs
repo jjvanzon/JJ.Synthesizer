@@ -501,7 +501,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             var patchManager = new PatchManager(patchRepositories);
 
             // Inlets
-            IList<Inlet> inletsToKeep = new List<Inlet>(viewModel.Inlets.Count + 1);
+            IList<Inlet> inletsToKeep = new List<Inlet>(viewModel.Inlets.Count);
 
             foreach (InletViewModel inletViewModel in viewModel.Inlets)
             {
@@ -509,12 +509,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 inlet.LinkTo(op);
 
                 inletsToKeep.Add(inlet);
-            }
-
-            Inlet HACK_patchInletInlet = ToEntityHelper.HACK_CreatePatchInletInletIfNeeded(op, patchRepositories.InletRepository, patchRepositories.IDRepository);
-            if (HACK_patchInletInlet != null)
-            {
-                inletsToKeep.Add(HACK_patchInletInlet);
             }
 
             IList<Inlet> inletsToDelete = op.Inlets.Except(inletsToKeep).ToArray();
@@ -532,12 +526,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 outlet.LinkTo(op);
 
                 outletsToKeep.Add(outlet);
-            }
-
-            Outlet HACK_patchOutletOutlet = ToEntityHelper.HACK_CreatePatchOutletOutletIfNeeded(op, patchRepositories.OutletRepository, patchRepositories.IDRepository);
-            if (HACK_patchOutletOutlet != null)
-            {
-                outletsToKeep.Add(HACK_patchOutletOutlet);
             }
 
             IList<Outlet> outletsToDelete = op.Outlets.Except(outletsToKeep).ToArray();

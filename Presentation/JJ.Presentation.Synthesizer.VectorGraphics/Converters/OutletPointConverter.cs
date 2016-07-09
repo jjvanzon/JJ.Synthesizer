@@ -17,17 +17,22 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             if (sourceOperatorViewModel == null) throw new NullException(() => sourceOperatorViewModel);
             if (destOperatorRectangle == null) throw new NullException(() => destOperatorRectangle);
 
-            if (sourceOperatorViewModel.Outlets.Count == 0)
+            IList<OutletViewModel> sourceOutletViewModelsToConvert =
+                sourceOperatorViewModel.Outlets
+                                       .Where(outlet => outlet.Visible)
+                                       .ToArray();
+
+            if (sourceOutletViewModelsToConvert.Count == 0)
             {
                 return new Point[0];
             }
 
-            IList<Point> destOutletPoints = new List<Point>(sourceOperatorViewModel.Outlets.Count);
+            IList<Point> destOutletPoints = new List<Point>(sourceOutletViewModelsToConvert.Count);
 
-            float outletWidth = destOperatorRectangle.Position.Width / sourceOperatorViewModel.Outlets.Count;
+            float outletWidth = destOperatorRectangle.Position.Width / sourceOutletViewModelsToConvert.Count;
             float x = 0;
 
-            foreach (OutletViewModel sourceOutletViewModel in sourceOperatorViewModel.Outlets)
+            foreach (OutletViewModel sourceOutletViewModel in sourceOutletViewModelsToConvert)
             {
                 Point destOutletPoint = ConvertToOutletPoint(sourceOutletViewModel, destOperatorRectangle);
 

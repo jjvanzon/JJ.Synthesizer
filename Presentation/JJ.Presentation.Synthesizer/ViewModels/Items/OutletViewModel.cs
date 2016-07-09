@@ -15,6 +15,9 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public string Name { get; set; }
         public string Caption { get; set; }
 
+        /// <summary> Some inlets that have to be stored, might not have to be shown. </summary>
+        public bool Visible { get; set; }
+
         /// <summary> Does not necessarily need to be displayed, but does need to be passed around, so it is present when a new object is saved. </summary>
         public int ListIndex { get; set; }
 

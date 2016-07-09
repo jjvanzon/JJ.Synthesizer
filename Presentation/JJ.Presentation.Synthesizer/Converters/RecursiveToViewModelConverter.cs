@@ -101,8 +101,7 @@ namespace JJ.Presentation.Synthesizer.Converters
 
         private IList<InletViewModel> ConvertToViewModelsRecursive(IList<Inlet> entities)
         {
-            IList<InletViewModel> viewModels = entities.Where(x => ViewModelHelper.MustConvertToInletViewModel(x))
-                                                       .Select(x => ConvertToViewModelRecursive(x))
+            IList<InletViewModel> viewModels = entities.Select(x => ConvertToViewModelRecursive(x))
                                                        .OrderBy(x => x.ListIndex)
                                                        .ToList();
             return viewModels;
@@ -122,8 +121,7 @@ namespace JJ.Presentation.Synthesizer.Converters
 
         private IList<OutletViewModel> ConvertToViewModelsRecursive(IList<Outlet> entities)
         {
-            IList<OutletViewModel> viewModels = entities.Where(x => ViewModelHelper.MustConvertToOutletViewModel(x))
-                                                        .Select(x => ConvertToViewModelRecursive(x))
+            IList<OutletViewModel> viewModels = entities.Select(x => ConvertToViewModelRecursive(x))
                                                         .OrderBy(x => x.ListIndex)
                                                         .ToList();
             return viewModels;

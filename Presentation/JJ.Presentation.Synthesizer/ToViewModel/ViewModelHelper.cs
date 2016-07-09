@@ -24,6 +24,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
     /// <summary> Empty view models start out with Visible = false. </summary>
     internal static partial class ViewModelHelper
     {
+        private const int STRETCH_AND_SQUASH_ORIGIN_LIST_INDEX = 2;
+
         private static readonly bool _previewAutoPatchPolyphonicEnabled = GetPreviewAutoPatchPolyphonicEnabled();
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithDimensionAndCollectionRecalculationPropertyViews { get; } =
@@ -184,22 +186,50 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return ResourceHelper.GetScaleTypeDisplayNameSingular(entity);
         }
 
-        /// <summary> The inlet of a PatchInlet operator is never converted to view model. </summary>
-        public static bool MustConvertToInletViewModel(Inlet inlet)
+        public static bool GetInletVisible(Inlet inlet)
         {
             if (inlet == null) throw new NullException(() => inlet);
 
-            bool mustConvert = inlet.Operator.GetOperatorTypeEnum() != OperatorTypeEnum.PatchInlet;
-            return mustConvert;
+            if (inlet.InputOutlet != null)
+            {
+                return true;
+            }
+
+            OperatorTypeEnum operatorTypeEnum = inlet.Operator.GetOperatorTypeEnum();
+
+            switch (operatorTypeEnum)
+            {
+                case OperatorTypeEnum.PatchInlet:
+                    return false;
+
+                case OperatorTypeEnum.Stretch:
+                case OperatorTypeEnum.Squash:
+                    if (inlet.ListIndex == STRETCH_AND_SQUASH_ORIGIN_LIST_INDEX)
+                    {
+                        var wrapper = new Stretch_OperatorWrapper(inlet.Operator);
+                        if (wrapper.Dimension == DimensionEnum.Time)
+                        {
+                            return false;
+                        }
+                    }
+                    break;
+            }
+
+            return true;
         }
 
-        /// <summary> The outlet of a PatchOutlet operator is never converted to view model. </summary>
-        public static bool MustConvertToOutletViewModel(Outlet outlet)
+        public static bool GetOutletVisible(Outlet outlet)
         {
             if (outlet == null) throw new NullException(() => outlet);
 
-            bool mustConvert = outlet.Operator.GetOperatorTypeEnum() != OperatorTypeEnum.PatchOutlet;
-            return mustConvert;
+            OperatorTypeEnum operatorTypeEnum = outlet.Operator.GetOperatorTypeEnum();
+
+            if (operatorTypeEnum == OperatorTypeEnum.PatchOutlet)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -219,10 +249,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var inletViewModelsToKeep = new List<InletViewModel>(sourceInlets.Count);
             foreach (Inlet inlet in sourceInlets)
             {
-                if (!MustConvertToInletViewModel(inlet))
-                {
-                    continue;
-                }
+                //if (!GetInletVisible(inlet))
+                //{
+                //    continue;
+                //}
 
                 InletViewModel inletViewModel = destOperatorViewModel.Inlets.Where(x => x.ID == inlet.ID).FirstOrDefault();
                 if (inletViewModel == null)
@@ -264,11 +294,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var outletViewModelsToKeep = new List<OutletViewModel>(sourceOutlets.Count);
             foreach (Outlet outlet in sourceOutlets)
             {
-                if (!MustConvertToOutletViewModel(outlet))
-                {
-                    continue;
-                }
-
                 OutletViewModel outletViewModel = destOperatorViewModel.Outlets.Where(x => x.ID == outlet.ID).FirstOrDefault();
                 if (outletViewModel == null)
                 {

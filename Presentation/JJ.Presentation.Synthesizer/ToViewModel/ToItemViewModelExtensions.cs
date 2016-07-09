@@ -227,8 +227,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entities == null) throw new NullException(() => entities);
 
-            IList<InletViewModel> viewModels = entities.Where(x => ViewModelHelper.MustConvertToInletViewModel(x))
-                                                       .Select(x => x.ToViewModel(curveRepository, sampleRepository, patchRepository))
+            IList<InletViewModel> viewModels = entities.Select(x => x.ToViewModel(curveRepository, sampleRepository, patchRepository))
                                                        .OrderBy(x => x.ListIndex)
                                                        .ToList();
             return viewModels;
@@ -258,10 +257,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
             if (viewModel == null) throw new NullException(() => viewModel);
-            if (!ViewModelHelper.MustConvertToInletViewModel(entity)) throw new MustNotConvertToInletViewModelException(entity);
-
+            
             viewModel.ID = entity.ID;
             viewModel.Name = entity.Name;
+            viewModel.Visible = ViewModelHelper.GetInletVisible(entity);
             viewModel.ListIndex = entity.ListIndex;
             viewModel.DefaultValue = entity.DefaultValue;
             viewModel.Caption = ViewModelHelper.GetInletCaption(entity, sampleRepository, curveRepository, patchRepository);
@@ -284,8 +283,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entities == null) throw new NullException(() => entities);
 
-            IList<OutletViewModel> viewModels = entities.Where(x => ViewModelHelper.MustConvertToOutletViewModel(x))
-                                                        .Select(x => x.ToViewModel(curveRepository, sampleRepository, patchRepository))
+            IList<OutletViewModel> viewModels = entities.Select(x => x.ToViewModel(curveRepository, sampleRepository, patchRepository))
                                                         .OrderBy(x => x.ListIndex)
                                                         .ToList();
             return viewModels;
@@ -314,11 +312,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
             if (viewModel == null) throw new NullException(() => viewModel);
-            if (!ViewModelHelper.MustConvertToOutletViewModel(entity)) throw new MustNotConvertToOutletViewModelException(entity);
 
             viewModel.ID = entity.ID;
             viewModel.Name = entity.Name;
             viewModel.ListIndex = entity.ListIndex;
+            viewModel.Visible = ViewModelHelper.GetOutletVisible(entity);
 
             if (entity.Dimension != null)
             {

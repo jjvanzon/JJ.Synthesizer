@@ -68,13 +68,6 @@ namespace JJ.Presentation.Synthesizer.Converters
                 idsToKeep.Add(inlet.ID);
             }
 
-            Inlet patchInletInlet = ToEntityHelper.HACK_CreatePatchInletInletIfNeeded(
-                destOperator, _repositories.InletRepository, _repositories.IDRepository);
-            if (patchInletInlet != null)
-            {
-                idsToKeep.Add(patchInletInlet.ID);
-            }
-
             var patchManager = new PatchManager(_repositories);
 
             int[] existingIDs = destOperator.Inlets.Select(x => x.ID).ToArray();
@@ -95,13 +88,6 @@ namespace JJ.Presentation.Synthesizer.Converters
                 Outlet outlet = ToEntityRecursive(outletViewModel);
                 outlet.LinkTo(destOperator);
                 idsToKeep.Add(outlet.ID);
-            }
-
-            Outlet patchOutletOutlet = ToEntityHelper.HACK_CreatePatchOutletOutletIfNeeded(
-                destOperator, _repositories.OutletRepository, _repositories.IDRepository);
-            if (patchOutletOutlet != null)
-            {
-                idsToKeep.Add(patchOutletOutlet.ID);
             }
 
             var patchManager = new PatchManager(_repositories);
