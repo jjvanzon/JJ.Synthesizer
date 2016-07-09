@@ -89,5 +89,18 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
             return destPoint;
         }
+
+        public void TryRemove(int id)
+        {
+            Point destElement;
+            if (_destInletPointDictionary.TryGetValue(id, out destElement))
+            {
+                _destInletPointDictionary.Remove(id);
+
+                destElement.Children.Clear();
+                destElement.Parent = null;
+                destElement.Diagram = null;
+            }
+        }
     }
 }

@@ -16,10 +16,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
     {
         private static bool _toolTipFeatureEnabled = GetToolTipFeatureEnabled();
 
-        private Dictionary<int, Rectangle> _destInletRectangleDictionary = new Dictionary<int, Rectangle>();
-
-        private IGesture _dropLineGesture;
-        private IGesture _inletToolTipGesture;
+        private readonly Dictionary<int, Rectangle> _destInletRectangleDictionary = new Dictionary<int, Rectangle>();
+        private readonly IGesture _dropLineGesture;
+        private readonly IGesture _inletToolTipGesture;
 
         public InletRectangleConverter(DropLineGesture dropLineGesture, ToolTipGesture inletToolTipGesture)
         {
@@ -119,6 +118,19 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             }
 
             return destRectangle;
+        }
+
+        public void TryRemove(int id)
+        {
+            Rectangle destElement;
+            if (_destInletRectangleDictionary.TryGetValue(id, out destElement))
+            {
+                _destInletRectangleDictionary.Remove(id);
+
+                destElement.Children.Clear();
+                destElement.Parent = null;
+                destElement.Diagram = null;
+            }
         }
 
         // Helpers

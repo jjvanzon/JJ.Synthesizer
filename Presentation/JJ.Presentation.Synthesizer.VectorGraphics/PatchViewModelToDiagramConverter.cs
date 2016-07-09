@@ -115,6 +115,14 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     continue;
                 }
 
+                int inletID = VectorGraphicsTagHelper.TryGetInletID(tagString) ?? 0;
+                _inletPointConverter.TryRemove(inletID);
+                _inletRectangleConverter.TryRemove(inletID);
+
+                int outletID = VectorGraphicsTagHelper.TryGetOutletID(tagString) ?? 0;
+                _outletPointConverter.TryRemove(outletID);
+                _outletRectangleConverter.TryRemove(outletID);
+
                 elementToDelete.Children.Clear();
                 elementToDelete.Parent = null;
                 elementToDelete.Diagram = null;

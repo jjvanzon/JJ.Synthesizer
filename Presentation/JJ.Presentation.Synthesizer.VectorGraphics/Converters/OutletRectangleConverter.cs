@@ -16,10 +16,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
     {
         private static bool _toolTipFeatureEnabled = GetToolTipFeatureEnabled();
 
-        private Dictionary<int, Rectangle> _destOutletRectangleDictionary = new Dictionary<int, Rectangle>();
-
-        private IGesture _dragLineGesture;
-        private ToolTipGesture _outletToolTipGesture;
+        private readonly Dictionary<int, Rectangle> _destOutletRectangleDictionary = new Dictionary<int, Rectangle>();
+        private readonly IGesture _dragLineGesture;
+        private readonly ToolTipGesture _outletToolTipGesture;
 
         public OutletRectangleConverter(DragLineGesture dragLineGesture, ToolTipGesture outletToolTipGesture)
         {
@@ -118,6 +117,19 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             }
 
             return destRectangle;
+        }
+
+        public void TryRemove(int id)
+        {
+            Rectangle destElement;
+            if (_destOutletRectangleDictionary.TryGetValue(id, out destElement))
+            {
+                _destOutletRectangleDictionary.Remove(id);
+
+                destElement.Children.Clear();
+                destElement.Parent = null;
+                destElement.Diagram = null;
+            }
         }
 
         // Helpers

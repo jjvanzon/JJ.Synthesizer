@@ -10,7 +10,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 {
     internal class OutletPointConverter
     {
-        private Dictionary<int, Point> _destOutletPointDictionary = new Dictionary<int, Point>();
+        private readonly Dictionary<int, Point> _destOutletPointDictionary = new Dictionary<int, Point>();
 
         public IList<Point> ConvertToOutletPoints(OperatorViewModel sourceOperatorViewModel, Rectangle destOperatorRectangle)
         {
@@ -85,6 +85,19 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             }
 
             return destPoint;
+        }
+
+        public void TryRemove(int id)
+        {
+            Point destElement;
+            if (_destOutletPointDictionary.TryGetValue(id, out destElement))
+            {
+                _destOutletPointDictionary.Remove(id);
+
+                destElement.Children.Clear();
+                destElement.Parent = null;
+                destElement.Diagram = null;
+            }
         }
     }
 }
