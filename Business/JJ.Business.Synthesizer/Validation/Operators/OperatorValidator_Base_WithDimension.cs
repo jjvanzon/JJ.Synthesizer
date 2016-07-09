@@ -8,6 +8,11 @@ using JJ.Business.Synthesizer.Validation.DataProperty;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
+    /// <summary>
+    /// The reason for this class is that most operator validators only need to derive from this base class,
+    /// and you might forget validating the Dimension value, 
+    /// as opposed to just verifying that the key is present.
+    /// </summary>
     internal class OperatorValidator_Base_WithDimension : OperatorValidator_Base
     {
         /// <param name="allowedDataKeys"> 

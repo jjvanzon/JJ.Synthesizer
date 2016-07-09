@@ -21,8 +21,8 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             base.Execute();
 
             double? signal = null;
-            double? startTime = null;
-            double? endTime = null;
+            double? start = null;
+            double? end = null;
             double? frequencyCount = null;
 
             foreach (Inlet inlet in Object.Inlets)
@@ -35,12 +35,12 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                         signal = ValidationHelper.TryGetConstantNumberFromInlet(inlet);
                         break;
 
-                    case OperatorConstants.SPECTRUM_START_TIME_INDEX:
-                        startTime = ValidationHelper.TryGetConstantNumberFromInlet(inlet);
+                    case OperatorConstants.SPECTRUM_START_INDEX:
+                        start = ValidationHelper.TryGetConstantNumberFromInlet(inlet);
                         break;
 
-                    case OperatorConstants.SPECTRUM_END_TIME_INDEX:
-                        endTime = ValidationHelper.TryGetConstantNumberFromInlet(inlet);
+                    case OperatorConstants.SPECTRUM_END_INDEX:
+                        end = ValidationHelper.TryGetConstantNumberFromInlet(inlet);
                         break;
 
                     case OperatorConstants.SPECTRUM_FREQUENCY_COUNT_INDEX:
@@ -53,11 +53,11 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 .NotInfinity()
                 .NotNaN();
 
-            For(() => startTime, PropertyDisplayNames.StartTime)
+            For(() => start, PropertyDisplayNames.Start)
                 .NotInfinity()
                 .NotNaN();
 
-            For(() => endTime, PropertyDisplayNames.EndTime)
+            For(() => end, PropertyDisplayNames.End)
                 .NotInfinity()
                 .NotNaN();
 
@@ -65,12 +65,12 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 .IsInteger()
                 .GreaterThan(2.0);
 
-            if (startTime.HasValue && endTime.HasValue)
+            if (start.HasValue && end.HasValue)
             {
-                if (endTime.Value < startTime.Value)
+                if (end.Value < start.Value)
                 {
-                    ValidationMessages.AddLessThanMessage(PropertyNames.EndTime, PropertyDisplayNames.EndTime, PropertyDisplayNames.StartTime);
-                }
+                    ValidationMessages.AddLessThanMessage(PropertyNames.End, PropertyDisplayNames.End, PropertyDisplayNames.Start);
+                }   
             }
 
             if (frequencyCount.HasValue)
@@ -82,6 +82,5 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 }
             }
         }
-
     }
 }

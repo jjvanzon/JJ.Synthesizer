@@ -73,6 +73,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.SetDimension,
             OperatorTypeEnum.Shift,
             OperatorTypeEnum.Sine,
+            OperatorTypeEnum.Spectrum,
             OperatorTypeEnum.Square,
             OperatorTypeEnum.Stretch,
             OperatorTypeEnum.SumFollower,

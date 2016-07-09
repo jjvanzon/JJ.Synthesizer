@@ -33,6 +33,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public const string Document = "Document";
         public const string DocumentReference = "DocumentReference";
         public const string Documents = "Documents";
+        public const string End = "End";
         public const string EndTime = "EndTime";
         public const string Exponents = "Exponents";
         public const string Factors = "Factors";

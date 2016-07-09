@@ -4,6 +4,7 @@ using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
@@ -24,26 +25,26 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.SPECTRUM_SIGNAL_INDEX); }
         }
 
-        public Outlet StartTime
+        public Outlet Start
         {
-            get { return StartTimeInlet.InputOutlet; }
-            set { StartTimeInlet.LinkTo(value); }
+            get { return StartInlet.InputOutlet; }
+            set { StartInlet.LinkTo(value); }
         }
 
-        public Inlet StartTimeInlet
+        public Inlet StartInlet
         {
-            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.SPECTRUM_START_TIME_INDEX); }
+            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.SPECTRUM_START_INDEX); }
         }
 
-        public Outlet EndTime
+        public Outlet End
         {
-            get { return EndTimeInlet.InputOutlet; }
-            set { EndTimeInlet.LinkTo(value); }
+            get { return EndInlet.InputOutlet; }
+            set { EndInlet.LinkTo(value); }
         }
 
-        public Inlet EndTimeInlet
+        public Inlet EndInlet
         {
-            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.SPECTRUM_END_TIME_INDEX); }
+            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.SPECTRUM_END_INDEX); }
         }
 
         public Outlet FrequencyCount
@@ -62,6 +63,12 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return OperatorHelper.GetOutlet(WrappedOperator, OperatorConstants.SPECTRUM_RESULT_INDEX); }
         }
 
+        public DimensionEnum Dimension
+        {
+            get { return DataPropertyParser.GetEnum<DimensionEnum>(WrappedOperator, PropertyNames.Dimension); }
+            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.Dimension, value); }
+        }
+
         public override string GetInletDisplayName(int listIndex)
         {
             switch (listIndex)
@@ -72,15 +79,15 @@ namespace JJ.Business.Synthesizer.EntityWrappers
                         return name;
                     }
 
-                case OperatorConstants.SPECTRUM_START_TIME_INDEX:
+                case OperatorConstants.SPECTRUM_START_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => StartTime);
+                        string name = ResourceHelper.GetPropertyDisplayName(() => Start);
                         return name;
                     }
 
-                case OperatorConstants.SPECTRUM_END_TIME_INDEX:
+                case OperatorConstants.SPECTRUM_END_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => EndTime);
+                        string name = ResourceHelper.GetPropertyDisplayName(() => End);
                         return name;
                     }
 

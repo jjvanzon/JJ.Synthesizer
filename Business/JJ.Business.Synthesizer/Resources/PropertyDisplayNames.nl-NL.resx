@@ -872,4 +872,10 @@
   <data name="TransitionFrequency" xml:space="preserve">
     <value>Overgangsfrequentie</value>
   </data>
+  <data name="End" xml:space="preserve">
+    <value>Einde</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Start</value>
+  </data>
 </root>

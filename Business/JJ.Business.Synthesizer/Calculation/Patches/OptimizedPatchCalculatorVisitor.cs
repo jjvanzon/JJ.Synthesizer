@@ -4240,7 +4240,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitSpectrum(Operator op)
         {
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(DimensionEnum.Time);
+            var wrapper = new Spectrum_OperatorWrapper(op);
+            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
             dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
 
             base.VisitSpectrum(op);
@@ -4248,29 +4250,36 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase startTimeCalculator = _stack.Pop();
-            OperatorCalculatorBase endTimeCalculator = _stack.Pop();
+            OperatorCalculatorBase startCalculator = _stack.Pop();
+            OperatorCalculatorBase endCalculator = _stack.Pop();
             OperatorCalculatorBase frequencyCountCalculator = _stack.Pop();
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
-            startTimeCalculator = startTimeCalculator ?? new Zero_OperatorCalculator();
-            endTimeCalculator = endTimeCalculator ?? new One_OperatorCalculator();
+            startCalculator = startCalculator ?? new Zero_OperatorCalculator();
+            endCalculator = endCalculator ?? new One_OperatorCalculator();
             frequencyCountCalculator = frequencyCountCalculator ?? new Number_OperatorCalculator(2);
 
-            double signal = signalCalculator.Calculate();
-            double startTime = startTimeCalculator.Calculate();
-            double endTime = endTimeCalculator.Calculate();
-            double frequencyCount = frequencyCountCalculator.Calculate();
-
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+            bool startIsConst = startCalculator is Number_OperatorCalculator;
+            bool endIsConst = endCalculator is Number_OperatorCalculator;
+            bool frequencyCountIsConst = frequencyCountCalculator is Number_OperatorCalculator;
+
+            double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
+            double start = startIsConst ? startCalculator.Calculate() : 0.0;
+            double end = endIsConst ? endCalculator.Calculate() : 0.0;
+            double frequencyCount = frequencyCountIsConst ? frequencyCountCalculator.Calculate() : 0.0;
+
             bool signalIsConstZero = signalIsConst && signal == 0;
             bool signalIsConstSpecialNumber = signalIsConst && DoubleHelper.IsSpecialNumber(signal);
+            bool startIsConstSpecialNumber = startIsConst && DoubleHelper.IsSpecialNumber(start);
+            bool endIsConstSpecialNumber = endIsConst && DoubleHelper.IsSpecialNumber(end);
+            bool frequencyCountIsConstSpecialNumber = frequencyCountIsConst && DoubleHelper.IsSpecialNumber(frequencyCount);
 
             dimensionStack.Pop();
 
-            if (signalIsConstSpecialNumber)
+            if (signalIsConstSpecialNumber || startIsConstSpecialNumber || endIsConstSpecialNumber || frequencyCountIsConstSpecialNumber)
             {
-                // Special number
+                // Special Number
                 calculator = new Number_OperatorCalculator(Double.NaN);
             }
             else if (signalIsConstZero)
@@ -4279,14 +4288,15 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (signalIsConst)
             {
+                // Zero frequencies
                 calculator = new Zero_OperatorCalculator();
             }
             else
             {
                 calculator = new Spectrum_OperatorCalculator(
                     signalCalculator,
-                    startTimeCalculator,
-                    endTimeCalculator,
+                    startCalculator,
+                    endCalculator,
                     frequencyCountCalculator,
                     dimensionStack);
             }

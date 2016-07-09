@@ -695,11 +695,12 @@ namespace JJ.Business.Synthesizer.Api
 
         public Spectrum_OperatorWrapper Spectrum(
             Outlet signal = null,
-            Outlet startTime = null,
-            Outlet endTime = null,
-            Outlet samplingRate = null)
+            Outlet start = null,
+            Outlet end = null,
+            Outlet samplingRate = null,
+            DimensionEnum dimension = DimensionEnum.Time)
         {
-            return _patchManager.Spectrum(signal, startTime, endTime, samplingRate);
+            return _patchManager.Spectrum(signal, start, end, samplingRate, dimension);
         }
 
         public Square_OperatorWrapper Square(

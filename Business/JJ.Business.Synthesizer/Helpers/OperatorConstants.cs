@@ -30,8 +30,8 @@
         public const int RANGE_STEP_INDEX = 2;
         public const int RANGE_RESULT_INDEX = 0;
         public const int SPECTRUM_SIGNAL_INDEX = 0;
-        public const int SPECTRUM_START_TIME_INDEX = 1;
-        public const int SPECTRUM_END_TIME_INDEX = 2;
+        public const int SPECTRUM_START_INDEX = 1;
+        public const int SPECTRUM_END_INDEX = 2;
         public const int SPECTRUM_FREQUENCY_COUNT_INDEX = 3;
         public const int SPECTRUM_RESULT_INDEX = 0;
     }

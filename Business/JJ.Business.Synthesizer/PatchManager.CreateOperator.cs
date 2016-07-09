@@ -1715,20 +1715,26 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Spectrum_OperatorWrapper Spectrum(Outlet signal = null, Outlet startTime = null, Outlet endTime = null, Outlet frequencyCount = null)
+        public Spectrum_OperatorWrapper Spectrum(
+            Outlet signal = null, 
+            Outlet start = null, 
+            Outlet end = null, 
+            Outlet frequencyCount = null,
+            DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Spectrum, inletCount: 4, outletCount: 1);
 
             var wrapper = new Spectrum_OperatorWrapper(op)
             {
                 Signal = signal,
-                StartTime = startTime,
-                EndTime = endTime,
-                FrequencyCount = frequencyCount
+                Start = start,
+                End = end,
+                FrequencyCount = frequencyCount,
+                Dimension = dimension
             };
 
-            wrapper.StartTimeInlet.DefaultValue = DEFAULT_START_TIME;
-            wrapper.EndTimeInlet.DefaultValue = DEFAULT_END_TIME;
+            wrapper.StartInlet.DefaultValue = DEFAULT_START_TIME;
+            wrapper.EndInlet.DefaultValue = DEFAULT_END_TIME;
             wrapper.FrequencyCountInlet.DefaultValue = DEFAULT_SPECTRUM_FREQUENCY_COUNT;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
