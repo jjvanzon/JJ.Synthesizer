@@ -25,26 +25,26 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CACHE_SIGNAL_INDEX); }
         }
 
-        public Outlet StartTime
+        public Outlet Start
         {
-            get { return StartTimeInlet.InputOutlet; }
-            set { StartTimeInlet.LinkTo(value); }
+            get { return StartInlet.InputOutlet; }
+            set { StartInlet.LinkTo(value); }
         }
 
-        public Inlet StartTimeInlet
+        public Inlet StartInlet
         {
-            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CACHE_START_TIME_INDEX); }
+            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CACHE_START_INDEX); }
         }
 
-        public Outlet EndTime
+        public Outlet End
         {
-            get { return EndTimeInlet.InputOutlet; }
-            set { EndTimeInlet.LinkTo(value); }
+            get { return EndInlet.InputOutlet; }
+            set { EndInlet.LinkTo(value); }
         }
 
-        public Inlet EndTimeInlet
+        public Inlet EndInlet
         {
-            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CACHE_END_TIME_INDEX); }
+            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CACHE_END_INDEX); }
         }
 
         public Outlet SamplingRate
@@ -91,15 +91,15 @@ namespace JJ.Business.Synthesizer.EntityWrappers
                         return name;
                     }
 
-                case OperatorConstants.CACHE_START_TIME_INDEX:
+                case OperatorConstants.CACHE_START_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => StartTime);
+                        string name = ResourceHelper.GetPropertyDisplayName(() => Start);
                         return name;
                     }
 
-                case OperatorConstants.CACHE_END_TIME_INDEX:
+                case OperatorConstants.CACHE_END_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => EndTime);
+                        string name = ResourceHelper.GetPropertyDisplayName(() => End);
                         return name;
                     }
 

@@ -90,9 +90,11 @@ namespace JJ.Business.Synthesizer.Calculation
         internal IList<ArrayCalculatorBase> GetCacheArrayCalculators(
             Operator op, 
             OperatorCalculatorBase signalCalculator,
-            double startTime,
-            double endTime,
-            int samplingRate,
+            double start,
+            double end,
+            double samplingRate,
+            DimensionStack dimensionStack,
+            DimensionStack channelDimensionStack,
             ISpeakerSetupRepository speakerSetupRepository)
         {
             if (op == null) throw new NullException(() => op);
@@ -112,9 +114,11 @@ namespace JJ.Business.Synthesizer.Calculation
                     arrayCalculators = CreateCacheArrayCalculators(
                         signalCalculator,
                         channelCount,
-                        startTime,
-                        endTime,
+                        start,
+                        end,
                         samplingRate,
+                        dimensionStack,
+                        channelDimensionStack,
                         wrapper.InterpolationType);
 
                     _cacheOperatorID_To_ArrayCalculators_Dictionary.Add(op.ID, arrayCalculators);
@@ -124,33 +128,34 @@ namespace JJ.Business.Synthesizer.Calculation
             }
         }
 
-        // TODO: Low priorty: why is rate an int in GetCacheArrayCalculators, but a double in CreateCacheArrayCalculators?
-
         private IList<ArrayCalculatorBase> CreateCacheArrayCalculators(
             OperatorCalculatorBase signalCalculator,
-            int channelCount, double startTime, double endTime, double rate,
+            int channelCount,
+            double start, 
+            double end, 
+            double rate,
+            DimensionStack dimensionStack,
+            DimensionStack channelDimensionStack,
             InterpolationTypeEnum interpolationTypeEnum)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (channelCount < 1) throw new LessThanException(() => channelCount, 1);
-            if (Double.IsNaN(endTime)) throw new NaNException(() => endTime);
-            if (Double.IsInfinity(endTime)) throw new InfinityException(() => endTime);
-            if (Double.IsNaN(startTime)) throw new NaNException(() => startTime);
-            if (Double.IsInfinity(startTime)) throw new InfinityException(() => startTime);
+            if (Double.IsNaN(end)) throw new NaNException(() => end);
+            if (Double.IsInfinity(end)) throw new InfinityException(() => end);
+            if (Double.IsNaN(start)) throw new NaNException(() => start);
+            if (Double.IsInfinity(start)) throw new InfinityException(() => start);
             if (Double.IsNaN(rate)) throw new NaNException(() => rate);
             if (Double.IsInfinity(rate)) throw new InfinityException(() => rate);
             if (rate <= 0.0) throw new LessThanOrEqualException(() => rate, 0.0);
-            if (endTime <= startTime) throw new LessThanOrEqualException(() => endTime, () => startTime);
+            if (end <= start) throw new LessThanOrEqualException(() => end, () => start);
+            if (dimensionStack == null) throw new NullException(() => dimensionStack);
+            if (channelDimensionStack == null) throw new NullException(() => channelDimensionStack);
 
-            double duration = endTime - startTime;
-            int tickCount = (int)(duration * rate) + 1;
-            double tickDuration = 1.0 / rate;
+            double length = end - start;
+            int tickCount = (int)(length * rate) + 1;
+            double tickLength = 1.0 / rate;
 
             var arrayCalculators = new ArrayCalculatorBase[channelCount];
-
-            var dimensionStackCollection = new DimensionStackCollection();
-            DimensionStack timeDimensionStack = dimensionStackCollection.GetDimensionStack(DimensionEnum.Time);
-            DimensionStack channelDimensionStack = dimensionStackCollection.GetDimensionStack(DimensionEnum.Channel);
 
             for (int channelIndex = 0; channelIndex < channelCount; channelIndex++)
             {
@@ -161,30 +166,33 @@ namespace JJ.Business.Synthesizer.Calculation
 #endif
                 double[] samples = new double[tickCount];
 
-                double time = startTime;
+                double position = start;
 
 #if !USE_INVAR_INDICES
-                timeDimensionStack.Set(time);
+                dimensionStack.Set(position);
 #else
                 timeDimensionStack.Set(TOP_LEVEL_DIMENSION_STACK_INDEX, time);
 #endif
-
                 for (int i = 0; i < tickCount; i++)
                 {
                     double sample = signalCalculator.Calculate();
                     samples[i] = sample;
 
-                    time += tickDuration;
+                    position += tickLength;
 
 #if !USE_INVAR_INDICES
-                    timeDimensionStack.Set(time);
+                    dimensionStack.Set(position);
 #else
                     timeDimensionStack.Set(TOP_LEVEL_DIMENSION_STACK_INDEX, time);
 #endif
                 }
 
                 ArrayCalculatorBase arrayCalculator = ArrayCalculatorFactory.CreateArrayCalculator(
-                    samples, rate, startTime, interpolationTypeEnum);
+                    samples, 
+                    rate, 
+                    start, 
+                    interpolationTypeEnum);
+
                 arrayCalculators[channelIndex] = arrayCalculator;
             }
 

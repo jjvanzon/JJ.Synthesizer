@@ -3,8 +3,8 @@
     internal static class OperatorConstants
     {
         public const int CACHE_SIGNAL_INDEX = 0;
-        public const int CACHE_START_TIME_INDEX = 1;
-        public const int CACHE_END_TIME_INDEX = 2;
+        public const int CACHE_START_INDEX = 1;
+        public const int CACHE_END_INDEX = 2;
         public const int CACHE_SAMPLING_RATE_INDEX = 3;
         public const int CACHE_RESULT_INDEX = 0;
         public const int CLOSEST_OVER_DIMENSION_INPUT_INDEX = 0;

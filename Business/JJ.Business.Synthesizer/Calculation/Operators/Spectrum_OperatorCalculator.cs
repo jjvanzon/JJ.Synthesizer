@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Framework.Common;
 using JJ.Framework.Mathematics;
 using JJ.Framework.Reflection.Exceptions;
 using Lomont;
@@ -12,8 +13,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class Spectrum_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
-        private readonly OperatorCalculatorBase _startTimeCalculator;
-        private readonly OperatorCalculatorBase _endTimeCalculator;
+        private readonly OperatorCalculatorBase _startCalculator;
+        private readonly OperatorCalculatorBase _endCalculator;
         private readonly OperatorCalculatorBase _frequencyCountCalculator;
         private readonly DimensionStack _dimensionStack;
         private readonly int _nextDimensionStackIndex;
@@ -28,27 +29,27 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public Spectrum_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
-            OperatorCalculatorBase startTimeCalculator,
-            OperatorCalculatorBase endTimeCalculator,
+            OperatorCalculatorBase startCalculator,
+            OperatorCalculatorBase endCalculator,
             OperatorCalculatorBase frequencyCountCalculator,
             DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[]
             {
                 signalCalculator,
-                startTimeCalculator,
-                endTimeCalculator,
+                startCalculator,
+                endCalculator,
                 frequencyCountCalculator
             })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
-            OperatorCalculatorHelper.AssertChildOperatorCalculator_OnlyUsedUponResetState(startTimeCalculator, () => startTimeCalculator);
-            OperatorCalculatorHelper.AssertChildOperatorCalculator_OnlyUsedUponResetState(endTimeCalculator, () => endTimeCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator_OnlyUsedUponResetState(startCalculator, () => startCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator_OnlyUsedUponResetState(endCalculator, () => endCalculator);
             OperatorCalculatorHelper.AssertChildOperatorCalculator_OnlyUsedUponResetState(frequencyCountCalculator, () => frequencyCountCalculator);
             OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
 
             _signalCalculator = signalCalculator;
-            _startTimeCalculator = startTimeCalculator;
-            _endTimeCalculator = endTimeCalculator;
+            _startCalculator = startCalculator;
+            _endCalculator = endCalculator;
             _frequencyCountCalculator = frequencyCountCalculator;
             _dimensionStack = dimensionStack;
             _previousDimensionStackIndex = dimensionStack.CurrentIndex;
@@ -106,21 +107,21 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private double[] CreateHarmonicVolumes()
         {
-            double startTime = _startTimeCalculator.Calculate();
-            double endTime = _endTimeCalculator.Calculate();
+            double start = _startCalculator.Calculate();
+            double end = _endCalculator.Calculate();
             double frequencyCountDouble = _frequencyCountCalculator.Calculate();
 
             // We need a lot of lenience in this code, because validity is dependent on user input,
             // and we cannot obtrusively interrupt the user with validation messages, 
             // because he is busy making music and the show must go on.
-            bool startTimeIsValid = StartTimeIsValid(startTime);
-            bool endTimeIsValid = EndTimeIsValid(endTime);
+            bool startIsValid = StartIsValid(start);
+            bool endIsValid = EndIsValid(end);
             bool frequencyCountIsValid = FrequencyCountIsValid(frequencyCountDouble);
-            bool startTimeComparedToEndTimeIsValid = endTime > startTime;
-            bool allValuesAreValid = startTimeIsValid &&
-                                     endTimeIsValid &&
+            bool startComparedToEndIsValid = end > start;
+            bool allValuesAreValid = startIsValid &&
+                                     endIsValid &&
                                      frequencyCountIsValid &&
-                                     startTimeComparedToEndTimeIsValid;
+                                     startComparedToEndIsValid;
             if (!allValuesAreValid)
             {
                 return CreateNaNHarmonicVolumes();
@@ -132,9 +133,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             // FFT requires an array size twice as large as the number of frequencies I want.
             double[] data = new double[frequencyCountTimesTwo];
-            double dt = (endTime - startTime) / frequencyCountTimesTwo;
+            double dt = (end - start) / frequencyCountTimesTwo;
 
-            double t = startTime;
+            double t = start;
             for (int i = 0; i < frequencyCountTimesTwo; i++)
             {
 #if !USE_INVAR_INDICES
@@ -171,14 +172,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return harmonicVolumes;
         }
 
-        private static bool StartTimeIsValid(double startTime)
+        private static bool StartIsValid(double start)
         {
-            return !Double.IsNaN(startTime) && !Double.IsInfinity(startTime);
+            return !DoubleHelper.IsSpecialNumber(start);
         }
 
-        private static bool EndTimeIsValid(double endTime)
+        private static bool EndIsValid(double end)
         {
-            return !Double.IsNaN(endTime) && !Double.IsInfinity(endTime);
+            return !DoubleHelper.IsSpecialNumber(end);
         }
 
         private static bool FrequencyCountIsValid(double frequencyCount)

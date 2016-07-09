@@ -260,8 +260,8 @@ namespace JJ.Business.Synthesizer
 
         public Cache_OperatorWrapper Cache(
             Outlet signal = null,
-            Outlet startTime = null,
-            Outlet endTime = null,
+            Outlet start = null,
+            Outlet end = null,
             Outlet samplingRate = null, 
             InterpolationTypeEnum interpolationTypeEnum = InterpolationTypeEnum.Line,
             SpeakerSetupEnum speakerSetupEnum = SpeakerSetupEnum.Mono, 
@@ -272,16 +272,16 @@ namespace JJ.Business.Synthesizer
             var wrapper = new Cache_OperatorWrapper(op)
             {
                 Signal = signal,
-                StartTime = startTime,
-                EndTime = endTime,
+                Start = start,
+                End = end,
                 SamplingRate = samplingRate,
                 InterpolationType = interpolationTypeEnum,
                 SpeakerSetup = speakerSetupEnum,
                 Dimension = dimension
             };
 
-            wrapper.StartTimeInlet.DefaultValue = DEFAULT_START_TIME;
-            wrapper.EndTimeInlet.DefaultValue = DEFAULT_END_TIME;
+            wrapper.StartInlet.DefaultValue = DEFAULT_START_TIME;
+            wrapper.EndInlet.DefaultValue = DEFAULT_END_TIME;
             wrapper.SamplingRateInlet.DefaultValue = DEFAULT_SAMPLING_RATE;
 
             VoidResult result = ValidateOperatorNonRecursive(op);

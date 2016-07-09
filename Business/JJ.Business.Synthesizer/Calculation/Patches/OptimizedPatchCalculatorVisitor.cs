@@ -655,18 +655,18 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase calculator = null;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase startTimeCalculator = _stack.Pop();
-            OperatorCalculatorBase endTimeCalculator = _stack.Pop();
+            OperatorCalculatorBase startCalculator = _stack.Pop();
+            OperatorCalculatorBase endCalculator = _stack.Pop();
             OperatorCalculatorBase samplingRateCalculator = _stack.Pop();
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
-            startTimeCalculator = startTimeCalculator ?? new Zero_OperatorCalculator();
-            endTimeCalculator = endTimeCalculator ?? new One_OperatorCalculator();
+            startCalculator = startCalculator ?? new Zero_OperatorCalculator();
+            endCalculator = endCalculator ?? new One_OperatorCalculator();
             samplingRateCalculator = samplingRateCalculator ?? new One_OperatorCalculator();
 
             double signal = signalCalculator.Calculate();
-            double startTime = startTimeCalculator.Calculate();
-            double endTime = endTimeCalculator.Calculate();
+            double start = startCalculator.Calculate();
+            double end = endCalculator.Calculate();
             double samplingRate = samplingRateCalculator.Calculate();
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
@@ -676,14 +676,14 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             // In theory I could generate additional messages in the calculation optimization process,
             // but we should keep it possible to reoptimize in runtime, and we cannot obtrusively interrupt
             // the user with validation messages, because he is busy making music and the show must go on.
-            bool startTimeIsValid = !DoubleHelper.IsSpecialNumber(startTime);
-            bool endTimeIsValid = !DoubleHelper.IsSpecialNumber(endTime);
+            bool startIsValid = !DoubleHelper.IsSpecialNumber(start);
+            bool endIsValid = !DoubleHelper.IsSpecialNumber(end);
             bool samplingRateIsValid = ConversionHelper.CanCastToInt32(samplingRate) && (int)samplingRate > 0;
-            bool startTimeComparedToEndTimeIsValid = endTime > startTime;
-            bool valuesAreValid = startTimeIsValid &&
-                                  endTimeIsValid &&
+            bool startComparedToEndIsValid = end > start;
+            bool valuesAreValid = startIsValid &&
+                                  endIsValid &&
                                   samplingRateIsValid &&
-                                  startTimeComparedToEndTimeIsValid;
+                                  startComparedToEndIsValid;
             if (!valuesAreValid)
             {
                 calculator = new Number_OperatorCalculator(Double.NaN);
@@ -695,12 +695,19 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             else
             {
                 IList<ArrayCalculatorBase> arrayCalculators = _calculatorCache.GetCacheArrayCalculators(
-                    op, signalCalculator, startTime, endTime, (int)samplingRate, _speakerSetupRepository);
+                    op,
+                    signalCalculator,
+                    start,
+                    end,
+                    samplingRate,
+                    dimensionStack,
+                    channelDimensionStack,
+                    _speakerSetupRepository);
 
-                bool hasMinTime = startTime != 0.0;
+                bool hasMinPosition = start != 0.0;
                 InterpolationTypeEnum interpolationTypeEnum = wrapper.InterpolationType;
 
-                if (hasMinTime)
+                if (hasMinPosition)
                 {
                     if (arrayCalculators.Count == 1)
                     {
@@ -789,7 +796,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 }
                 else
                 {
-                    // !hasMinTime
+                    // !hasMinPosition
                     if (arrayCalculators.Count == 1)
                     {
                         ArrayCalculatorBase arrayCalculator = arrayCalculators[0];
@@ -1247,29 +1254,29 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 ICurveCalculator curveCalculator = _calculatorCache.GetCurveCalculator(curve);
 
-                var curveCalculator_MinTime = curveCalculator as CurveCalculator_MinX;
-                if (curveCalculator_MinTime != null)
+                var curveCalculator_MinPosition = curveCalculator as CurveCalculator_MinX;
+                if (curveCalculator_MinPosition != null)
                 {
                     if (dimensionEnum == DimensionEnum.Time)
                     {
-                        calculator = new Curve_OperatorCalculator_MinX_WithOriginShifting(curveCalculator_MinTime, dimensionStack);
+                        calculator = new Curve_OperatorCalculator_MinX_WithOriginShifting(curveCalculator_MinPosition, dimensionStack);
                     }
                     else
                     {
-                        calculator = new Curve_OperatorCalculator_MinX_NoOriginShifting(curveCalculator_MinTime, dimensionStack);
+                        calculator = new Curve_OperatorCalculator_MinX_NoOriginShifting(curveCalculator_MinPosition, dimensionStack);
                     }
                 }
 
-                var curveCalculator_MinTimeZero = curveCalculator as CurveCalculator_MinXZero;
-                if (curveCalculator_MinTimeZero != null)
+                var curveCalculator_MinPositionZero = curveCalculator as CurveCalculator_MinXZero;
+                if (curveCalculator_MinPositionZero != null)
                 {
                     if (dimensionEnum == DimensionEnum.Time)
                     {
-                        calculator = new Curve_OperatorCalculator_MinXZero_WithOriginShifting(curveCalculator_MinTimeZero, dimensionStack);
+                        calculator = new Curve_OperatorCalculator_MinXZero_WithOriginShifting(curveCalculator_MinPositionZero, dimensionStack);
                     }
                     else
                     {
-                        calculator = new Curve_OperatorCalculator_MinXZero_NoOriginShifting(curveCalculator_MinTimeZero, dimensionStack);
+                        calculator = new Curve_OperatorCalculator_MinXZero_NoOriginShifting(curveCalculator_MinPositionZero, dimensionStack);
                     }
                 }
             }
@@ -1294,18 +1301,18 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase timeDifferenceCalculator = _stack.Pop();
+            OperatorCalculatorBase differenceCalculator = _stack.Pop();
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
-            timeDifferenceCalculator = timeDifferenceCalculator ?? new Zero_OperatorCalculator();
+            differenceCalculator = differenceCalculator ?? new Zero_OperatorCalculator();
 
             double signal = signalCalculator.Calculate();
-            double timeDifference = timeDifferenceCalculator.Calculate();
+            double difference = differenceCalculator.Calculate();
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
-            bool timeDifferenceIsConst = timeDifferenceCalculator is Number_OperatorCalculator;
+            bool differenceIsConst = differenceCalculator is Number_OperatorCalculator;
             bool signalIsConstZero = signalIsConst && signal == 0;
-            bool timeDifferenceIsConstZero = timeDifferenceIsConst && timeDifference == 0;
+            bool differenceIsConstZero = differenceIsConst && difference == 0;
 
             dimensionStack.Pop();
 
@@ -1313,7 +1320,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = new Zero_OperatorCalculator();
             }
-            else if (timeDifferenceIsConstZero)
+            else if (differenceIsConstZero)
             {
                 calculator = signalCalculator;
             }
@@ -1321,13 +1328,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = signalCalculator;
             }
-            else if (timeDifferenceIsConst)
+            else if (differenceIsConst)
             {
-                calculator = new Shift_OperatorCalculator_VarSignal_ConstDifference(signalCalculator, timeDifference, dimensionStack);
+                calculator = new Shift_OperatorCalculator_VarSignal_ConstDifference(signalCalculator, difference, dimensionStack);
             }
             else
             {
-                calculator = new Shift_OperatorCalculator_VarSignal_VarDifference(signalCalculator, timeDifferenceCalculator, dimensionStack);
+                calculator = new Shift_OperatorCalculator_VarSignal_VarDifference(signalCalculator, differenceCalculator, dimensionStack);
             }
 
             _stack.Push(calculator);

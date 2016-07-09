@@ -118,8 +118,8 @@ namespace JJ.Business.Synthesizer.Api
 
         public Cache_OperatorWrapper Cache(
             Outlet signal = null,
-            Outlet startTime = null,
-            Outlet endTime = null,
+            Outlet start = null,
+            Outlet end = null,
             Outlet samplingRate = null,
             InterpolationTypeEnum interpolationType = InterpolationTypeEnum.Line,
             SpeakerSetupEnum speakerSetup = SpeakerSetupEnum.Mono,
@@ -127,8 +127,8 @@ namespace JJ.Business.Synthesizer.Api
         {
             return _patchManager.Cache(
                 signal, 
-                startTime, 
-                endTime, 
+                start, 
+                end, 
                 samplingRate, 
                 interpolationType, 
                 speakerSetup, 
