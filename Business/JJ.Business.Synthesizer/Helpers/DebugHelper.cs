@@ -2,17 +2,28 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Calculation.Operators;
+using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Framework.Reflection.Exceptions;
+using DebugHelper_Data = JJ.Data.Synthesizer.Helpers.DebugHelper;
 
 namespace JJ.Business.Synthesizer.Helpers
 {
     internal static class DebugHelper
     {
-        public static string GetDebuggerDisplay(OperatorCalculatorBase obj)
+        public static string GetDebuggerDisplay(OperatorCalculatorBase operatorCalculatorBase)
         {
-            if (obj == null) throw new NullException(() => obj);
+            if (operatorCalculatorBase == null) throw new NullException(() => operatorCalculatorBase);
 
-            return obj.GetType().Name;
+            return operatorCalculatorBase.GetType().Name;
+        }
+
+        internal static string GetDebuggerDisplay(OperatorWrapperBase operatorWrapperBase)
+        {
+            if (operatorWrapperBase == null) throw new NullException(() => operatorWrapperBase);
+
+            string debuggerDisplay = DebugHelper_Data.GetDebuggerDisplay(operatorWrapperBase.WrappedOperator);
+
+            return debuggerDisplay;
         }
     }
 }

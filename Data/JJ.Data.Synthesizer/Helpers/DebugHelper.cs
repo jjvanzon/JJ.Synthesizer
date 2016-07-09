@@ -4,7 +4,7 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Data.Synthesizer.Helpers
 {
-    internal static class DebugHelper
+    public static class DebugHelper
     {
         public static string GetDebuggerDisplay(Operator op)
         {

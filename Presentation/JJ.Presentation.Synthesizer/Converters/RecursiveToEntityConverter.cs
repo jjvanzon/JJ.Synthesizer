@@ -107,7 +107,7 @@ namespace JJ.Presentation.Synthesizer.Converters
 
             if (inletViewModel.InputOutlet == null)
             {
-                inlet.UnlinkOutlet();
+                inlet.UnlinkInputOutlet();
             }
             else
             {

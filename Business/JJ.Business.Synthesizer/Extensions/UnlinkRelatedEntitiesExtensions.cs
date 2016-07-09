@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Extensions
             if (inlet == null) throw new NullException(() => inlet);
 
             inlet.UnlinkDimension();
-            inlet.UnlinkOutlet();
+            inlet.UnlinkInputOutlet();
             inlet.UnlinkOperator();
         }
 
@@ -87,7 +87,7 @@ namespace JJ.Business.Synthesizer.Extensions
 
             foreach (Inlet connectedInlet in outlet.ConnectedInlets.ToArray())
             {
-                connectedInlet.UnlinkOutlet();
+                connectedInlet.UnlinkInputOutlet();
             }
 
             outlet.UnlinkDimension();

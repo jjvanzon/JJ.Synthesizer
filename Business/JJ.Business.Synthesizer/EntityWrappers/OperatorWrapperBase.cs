@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
+using System.Diagnostics;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
+    [DebuggerDisplay("{DebuggerDisplay}")]
     public abstract class OperatorWrapperBase
     {
         protected Operator _wrappedOperator;
@@ -34,6 +37,11 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             if (wrapper == null) return null;
 
             return wrapper.WrappedOperator;
+        }
+
+        private string DebuggerDisplay
+        {
+            get { return DebugHelper.GetDebuggerDisplay(this); }
         }
     }
 }

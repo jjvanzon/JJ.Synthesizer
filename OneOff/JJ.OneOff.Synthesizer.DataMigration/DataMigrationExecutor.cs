@@ -12,6 +12,7 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Business.Canonical;
+using JJ.Business.Synthesizer.LinkTo;
 
 namespace JJ.OneOff.Synthesizer.DataMigration
 {
@@ -1745,6 +1746,96 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
         //    progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
         //}
+
+        public static void Migrate_Operator_Earlier_ToShiftAndNegative(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                var x = new PatchManager(new PatchRepositories(repositories));
+
+                IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Earlier);
+
+                for (int i = 0; i < operators.Count; i++)
+                {
+                    Operator op = operators[i];
+
+                    x.Patch = op.Patch;
+
+                    var earlier = new Earlier_OperatorWrapper(op);
+
+                    // Insert number when TimeDifference not filled in.
+                    if (earlier.TimeDifference == null)
+                    {
+                        double defaultValue = earlier.TimeDifferenceInlet.DefaultValue ?? 0;
+                        earlier.TimeDifference = x.Number(defaultValue);
+                    }
+
+                    // Negate the time difference
+                    var negative = x.Negative(earlier.TimeDifference);
+                    earlier.TimeDifference = negative;
+
+                    // Change OperatorType
+                    op.SetOperatorTypeEnum(OperatorTypeEnum.Shift, repositories.OperatorTypeRepository);
+
+                    VoidResult result = x.SavePatch();
+                    ResultHelper.Assert(result);
+
+                    string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
+                    progressCallback(progressMessage);
+                }
+
+                AssertDocuments(repositories, progressCallback);
+
+                //throw new Exception("Temporarily not committing, for debugging.");
+                context.Commit();
+            }
+
+            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        }
+
+
+        public static void Migrate_Operator_Delay_To_Shift(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                var patchManager = new PatchManager(new PatchRepositories(repositories));
+
+                IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Delay);
+
+                for (int i = 0; i < operators.Count; i++)
+                {
+                    Operator op = operators[i];
+
+                    op.SetOperatorTypeEnum(OperatorTypeEnum.Shift, repositories.OperatorTypeRepository);
+
+                    patchManager.Patch = op.Patch;
+                    VoidResult result = patchManager.SavePatch();
+                    ResultHelper.Assert(result);
+
+                    string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
+                    progressCallback(progressMessage);
+                }
+
+                AssertDocuments(repositories, progressCallback);
+
+                //throw new Exception("Temporarily not committing, for debugging.");
+                context.Commit();
+            }
+
+            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        }
 
         // Helpers
 

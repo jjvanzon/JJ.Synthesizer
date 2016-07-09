@@ -89,7 +89,7 @@ namespace JJ.Business.Synthesizer.LinkTo
             outlet.LinkTo((Operator)null);
         }
 
-        public static void UnlinkOutlet(this Inlet inlet)
+        public static void UnlinkInputOutlet(this Inlet inlet)
         {
             if (inlet == null) throw new NullException(() => inlet);
 
