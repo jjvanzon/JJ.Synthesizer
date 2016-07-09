@@ -68,8 +68,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             }
             else
             {
-                destOperatorRectangle.Style.BackStyle = StyleHelper.BackStyle;
                 destOperatorRectangle.Style.LineStyle = StyleHelper.BorderStyle;
+                destOperatorRectangle.Style.BackStyle = StyleHelper.GetGradedBackStyle(sourceOperatorViewModel.StyleGrade);
             }
 
             destOperatorRectangle.Gestures.Clear();

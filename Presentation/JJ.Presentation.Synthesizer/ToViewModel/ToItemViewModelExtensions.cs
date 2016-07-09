@@ -200,8 +200,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         }
 
         public static OperatorViewModel ToViewModel(
-            this Operator entity, 
-            ISampleRepository sampleRepository, ICurveRepository curveRepository, IPatchRepository patchRepository, 
+            this Operator entity,
+            ISampleRepository sampleRepository,
+            ICurveRepository curveRepository,
+            IPatchRepository patchRepository,
             EntityPositionManager entityPositionManager)
         {
             if (entity == null) throw new NullException(() => entity);

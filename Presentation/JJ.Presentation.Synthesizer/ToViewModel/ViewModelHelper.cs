@@ -346,16 +346,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.Name = entity.Name;
             viewModel.ID = entity.ID;
             viewModel.Caption = GetOperatorCaption(entity, sampleRepository, curveRepository, patchRepository);
-
-            if (entity.OperatorType != null)
-            {
-                viewModel.OperatorType = entity.OperatorType.ToViewModel();
-            }
-            else
-            {
-                viewModel.OperatorType = null; // Should never happen.
-            }
-
+            viewModel.OperatorType = entity.OperatorType?.ToViewModel();
             viewModel.IsOwned = GetOperatorIsOwned(entity);
         }
 
@@ -590,6 +581,18 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             // Use OperatorType DisplayName
             string caption = operatorTypeDisplayName;
             return caption;
+        }
+
+        public static DimensionEnum GetDimensionEnum(Operator entity)
+        {
+            DimensionEnum dimensionEnum = DimensionEnum.Undefined;
+
+            if (DataPropertyParser.DataIsWellFormed(entity))
+            {
+                dimensionEnum = DataPropertyParser.GetEnum<DimensionEnum>(entity, PropertyNames.Dimension);
+            }
+
+            return dimensionEnum;
         }
 
         private static bool GetPreviewAutoPatchPolyphonicEnabled()

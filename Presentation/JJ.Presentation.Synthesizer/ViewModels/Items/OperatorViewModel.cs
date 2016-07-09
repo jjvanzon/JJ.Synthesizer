@@ -20,6 +20,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public float CenterX { get; set; }
         public float CenterY { get; set; }
         public bool IsSelected { get; set; }
+        public IDAndName Dimension { get; set; }
+        public StyleGradeEnum StyleGrade { get; set; }
 
         public IList<InletViewModel> Inlets { get; set; }
 

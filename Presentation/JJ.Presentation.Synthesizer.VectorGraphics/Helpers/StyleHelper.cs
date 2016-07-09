@@ -1,6 +1,11 @@
-﻿using JJ.Framework.Presentation.VectorGraphics.Enums;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using JJ.Framework.Common;
+using JJ.Framework.Presentation.VectorGraphics.Enums;
 using JJ.Framework.Presentation.VectorGraphics.Helpers;
 using JJ.Framework.Presentation.VectorGraphics.Models.Styling;
+using JJ.Presentation.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 {
@@ -194,6 +199,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
             {
                 Color = ColorHelper.GetColor(0xFF575757)
             };
+
+            _styleGradeEnum_BackStyle_Dictionary = Create_StyleGradeEnum_BackStyle_Dictionary();
         }
 
         public static TextStyle CreateTextStyleSmallerTransparent()
@@ -224,6 +231,38 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
             BorderStyleInvisible.Color = ColorHelper.GetColor(128, 40, 128, 192);
             BorderStyleInvisible.Width = 2;
             BorderStyleInvisible.DashStyleEnum = DashStyleEnum.Dotted;
+        }
+
+        private static readonly Dictionary<StyleGradeEnum, BackStyle> _styleGradeEnum_BackStyle_Dictionary;
+
+        private static Dictionary<StyleGradeEnum, BackStyle> Create_StyleGradeEnum_BackStyle_Dictionary()
+        {
+            var dictinary = new Dictionary<StyleGradeEnum, BackStyle>();
+
+            int gradeCount = (int)EnumHelper.GetValues<StyleGradeEnum>().Max();
+
+            double minBrightness = 0.8;
+            double deltaBrightness = 1.0 - minBrightness;
+
+            for (int i = 0; i < gradeCount; i++)
+            {
+                double ratio = (double)i / (double)(gradeCount - 1);
+                double grade = minBrightness + ratio * deltaBrightness;
+
+                int gradedColor = ColorHelper.SetBrightness(BackStyle.Color, grade);
+                var gradedBackStyle = new BackStyle { Color = gradedColor };
+
+                StyleGradeEnum styleGradeEnum = (StyleGradeEnum)i + 1;
+
+                dictinary.Add(styleGradeEnum, gradedBackStyle);
+            }
+
+            return dictinary;
+        }
+
+        public static BackStyle GetGradedBackStyle(StyleGradeEnum styleGradeEnum)
+        {
+            return _styleGradeEnum_BackStyle_Dictionary[styleGradeEnum];
         }
     }
 }
