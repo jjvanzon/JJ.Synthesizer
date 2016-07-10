@@ -1688,20 +1688,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
             PatchPropertiesShow(childDocumentID);
         }
 
-        public void PatchDetailsClose()
+        public void PatchDetailsClose(int patchID)
         {
-            PatchDetailsCloseOrLoseFocus(x => _patchDetailsPresenter.Close(x));
+            PatchDetailsCloseOrLoseFocus(_patchDetailsPresenter.Close, patchID);
         }
 
-        public void PatchDetailsLoseFocus()
+        public void PatchDetailsLoseFocus(int patchID)
         {
-            PatchDetailsCloseOrLoseFocus(x => _patchDetailsPresenter.LoseFocus(x));
+            PatchDetailsCloseOrLoseFocus(_patchDetailsPresenter.LoseFocus, patchID);
         }
 
-        private void PatchDetailsCloseOrLoseFocus(Func<PatchDetailsViewModel, PatchDetailsViewModel> partialAction)
+        private void PatchDetailsCloseOrLoseFocus(Func<PatchDetailsViewModel, PatchDetailsViewModel> partialAction, int patchID)
         {
             // GetViewModel
-            PatchDetailsViewModel userInput = DocumentViewModelHelper.GetVisiblePatchDetailsViewModel(MainViewModel.Document);
+            PatchDetailsViewModel userInput = DocumentViewModelHelper.GetPatchDetailsViewModel(MainViewModel.Document, patchID);
 
             // TemplateMethod
             TemplateActionMethod(userInput, () => partialAction(userInput));

@@ -690,14 +690,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(_presenter.OperatorDelete);
         }
 
-        private void patchDetailsUserControl_LoseFocusRequested(object sender, EventArgs e)
+        private void patchDetailsUserControl_LoseFocusRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.PatchDetailsLoseFocus);
+            TemplateEventHandler(() => _presenter.PatchDetailsLoseFocus(e.Value));
         }
 
-        private void patchDetailsUserControl_CloseRequested(object sender, EventArgs e)
+        private void patchDetailsUserControl_CloseRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.PatchDetailsClose);
+            TemplateEventHandler(() => _presenter.PatchDetailsClose(e.Value));
         }
 
         private void patchPropertiesUserControl_LoseFocusRequested(object sender, Int32EventArgs e)

@@ -43,7 +43,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             this.patchDetailsUserControl.Name = "patchDetailsUserControl";
             this.patchDetailsUserControl.Size = new System.Drawing.Size(1052, 610);
             this.patchDetailsUserControl.TabIndex = 1;
-            this.patchDetailsUserControl.CloseRequested += new System.EventHandler(this.patchDetailsUserControl_CloseRequested);
             // 
             // PatchDetailsForm
             // 

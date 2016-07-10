@@ -7,7 +7,6 @@ using System.Windows.Forms;
 using JJ.Framework.Configuration;
 using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Presentation.VectorGraphics.EventArg;
-using JJ.Framework.Presentation.WinForms.Extensions;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.VectorGraphics;
@@ -21,10 +20,8 @@ using JJ.Data.Canonical;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class PatchDetailsUserControl : UserControlBase
+    internal partial class PatchDetailsUserControl : DetailsOrPropertiesUserControlBase
     {
-        public event EventHandler CloseRequested;
-        public event EventHandler LoseFocusRequested;
         public event EventHandler DeleteOperatorRequested;
         public event EventHandler<CreateOperatorEventArgs> CreateOperatorRequested;
         public event EventHandler<MoveEntityEventArgs> MoveOperatorRequested;
@@ -34,26 +31,27 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<Int32EventArgs> OperatorPropertiesRequested;
         public event EventHandler SelectedOperatorPropertiesRequested;
 
+        private const bool DEFAULT_ALWAYS_RECREATE_DIAGRAM = false;
+
+        private static Size _defaultToolStripLabelSize = new Size(86, 22);
+        private static bool _alwaysRecreateDiagram = GetAlwaysRecreateDiagram();
+
         private PatchViewModelToDiagramConverter _converter;
         private PatchViewModelToDiagramConverterResult _vectorGraphics;
-        private static bool _alwaysRecreateDiagram = GetAlwaysRecreateDiagram();
+        private bool _operatorToolboxItemsViewModelIsApplied = false; // Dirty way to only apply it once.
 
         // Constructors
 
         public PatchDetailsUserControl()
         {
             InitializeComponent();
-
-            SetTitles();
-
-            this.AutomaticallyAssignTabIndexes();
         }
 
         // Gui
 
-        private void SetTitles()
+        protected override void SetTitles()
         {
-            titleBarUserControl.Text = CommonTitleFormatter.ObjectDetails(PropertyDisplayNames.Patch);
+            TitleBarText = CommonTitleFormatter.ObjectDetails(PropertyDisplayNames.Patch);
             buttonPlay.Text = Titles.Play;
         }
 
@@ -61,13 +59,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private new PatchDetailsViewModel ViewModel => (PatchDetailsViewModel)base.ViewModel;
 
+        protected override int GetID()
+        {
+            return ViewModel.Entity.PatchID;
+        }
+
         protected override void ApplyViewModelToControls()
         {
-            if (ViewModel == null)
-            {
-                return;
-            }
-
             UnbindVectorGraphicsEvents();
 
             if (_vectorGraphics == null || _alwaysRecreateDiagram)
@@ -133,10 +131,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
-        private static Size _defaultToolStripLabelSize = new Size(86, 22);
-
-        private bool _operatorToolboxItemsViewModelIsApplied = false; // Dirty way to only apply it once.
-
         private void ApplyOperatorToolboxItemsViewModel(IList<IDAndName> operatorTypeToolboxItems)
         {
             if (_operatorToolboxItemsViewModelIsApplied)
@@ -168,11 +162,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         }
 
         // Events
-
-        private void titleBarUserControl_CloseClicked(object sender, EventArgs e)
-        {
-            CloseRequested?.Invoke(this, EventArgs.Empty);
-        }
 
         private void DropLineGesture_Dropped(object sender, DroppedEventArgs e)
         {
@@ -272,19 +261,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             e.ToolTipText = outletViewModel.Caption;
         }
 
-        // This event does not go off, if not clicked on a control that according to WinForms can get focus.
-        private void PatchDetailsUserControl_Leave(object sender, EventArgs e)
-        {
-            // This Visible check is there because the leave event (lose focus) goes off after I closed, 
-            // making it want to save again, even though view model is empty
-            // which makes it say that now clear fields are required.
-            if (Visible)
-            {
-                LoseFocusRequested?.Invoke(this, EventArgs.Empty);
-            }
-        }
-
-        private const bool DEFAULT_ALWAYS_RECREATE_DIAGRAM = false;
+        // Helpers
 
         private static bool GetAlwaysRecreateDiagram()
         {
