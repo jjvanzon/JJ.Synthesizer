@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
                     return null;
                 }
 
-                return _curveRepository.TryGet(curveID.Value);
+                return _curveRepository.Get(curveID.Value);
             }
             set
             {

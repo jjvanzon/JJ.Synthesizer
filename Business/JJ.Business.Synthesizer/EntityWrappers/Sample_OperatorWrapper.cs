@@ -58,7 +58,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
                     return null;
                 }
 
-                return _sampleRepository.TryGet(sampleID.Value);
+                return _sampleRepository.Get(sampleID.Value);
             }
             set
             {

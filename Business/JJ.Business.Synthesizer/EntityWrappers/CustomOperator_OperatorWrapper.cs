@@ -48,7 +48,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
                     return null;
                 }
 
-                return _patchRepository.TryGet(id.Value);
+                return _patchRepository.Get(id.Value);
             }
             set
             {

@@ -114,11 +114,11 @@ namespace JJ.Presentation.Synthesizer.Converters
 
                 // Just do not use StyleGrade16 anymore here. That's the easiest.
                 int remainingGradeCount = 15;
-                int remaingDimensionCount = remainingDimensionIDsSorted.Count;
-                double step = (double)remainingGradeCount / (double)remaingDimensionCount;
+                int remainingDimensionCount = remainingDimensionIDsSorted.Count;
+                double step = (double)remainingGradeCount / (double)remainingDimensionCount;
 
-                var dimensionID_To_StyleGrade_Dictionary = new Dictionary<int, StyleGradeEnum>(remaingDimensionCount);
-                for (int i = 0; i < remaingDimensionCount; i++)
+                var dimensionID_To_StyleGrade_Dictionary = new Dictionary<int, StyleGradeEnum>(remainingDimensionCount);
+                for (int i = 0; i < remainingDimensionCount; i++)
                 {
                     int dimensionID = remainingDimensionIDsSorted[i];
                     StyleGradeEnum styleGradeEnum = (StyleGradeEnum)(i * step) + 1;
