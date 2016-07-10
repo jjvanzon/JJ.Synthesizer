@@ -117,6 +117,9 @@
     <Compile Include="UserControls\CurrentPatchesUserControl.Designer.cs">
       <DependentUpon>CurrentPatchesUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\DetailsOrPropertiesUserControlBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControlBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
