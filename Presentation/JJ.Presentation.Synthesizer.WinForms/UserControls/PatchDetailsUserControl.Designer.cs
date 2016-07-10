@@ -88,7 +88,6 @@
             this.tableLayoutPanelToolboxAndPatch.Controls.Add(this.buttonPlay, 0, 1);
             this.tableLayoutPanelToolboxAndPatch.Controls.Add(this.toolStrip1, 0, 0);
             this.tableLayoutPanelToolboxAndPatch.Controls.Add(this.diagramControl1, 1, 0);
-            this.tableLayoutPanelToolboxAndPatch.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelToolboxAndPatch.Location = new System.Drawing.Point(0, 26);
             this.tableLayoutPanelToolboxAndPatch.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanelToolboxAndPatch.Name = "tableLayoutPanelToolboxAndPatch";

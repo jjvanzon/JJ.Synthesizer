@@ -55,6 +55,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             buttonPlay.Text = Titles.Play;
         }
 
+        protected override void PositionControls()
+        {
+            base.PositionControls();
+
+            tableLayoutPanelToolboxAndPatch.Left = 0;
+            tableLayoutPanelToolboxAndPatch.Top = TitleBarHeight;
+            tableLayoutPanelToolboxAndPatch.Width = Width;
+            tableLayoutPanelToolboxAndPatch.Height = Height - TitleBarHeight;
+        }
+
         // Binding
 
         private new PatchDetailsViewModel ViewModel => (PatchDetailsViewModel)base.ViewModel;
