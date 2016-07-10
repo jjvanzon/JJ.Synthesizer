@@ -11,8 +11,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     {
         private ViewModelBase _viewModel;
         private int _refreshCounter = -1;
-        /// <summary> nullable </summary>
 
+        /// <summary> nullable </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public ViewModelBase ViewModel

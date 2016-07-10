@@ -66,6 +66,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             menuUserControl.DocumentSaveRequested += menuUserControl_DocumentSaveRequested;
             menuUserControl.DocumentCloseRequested += menuUserControl_DocumentCloseRequested;
             menuUserControl.ShowDocumentGridRequested += menuUserControl_ShowDocumentGridRequested;
+            menuUserControl.ShowDocumentPropertiesRequested += MenuUserControl_ShowDocumentPropertiesRequested;
             nodePropertiesUserControl.CloseRequested += nodePropertiesUserControl_CloseRequested;
             nodePropertiesUserControl.LoseFocusRequested += nodePropertiesUserControl_LoseFocusRequested;
             operatorPropertiesUserControl.CloseRequested += operatorPropertiesUserControl_CloseRequested;
@@ -458,6 +459,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void menuUserControl_ShowCurrentPatchesRequested(object sender, EventArgs e)
         {
             TemplateEventHandler(_presenter.CurrentPatchesShow);
+        }
+
+        private void MenuUserControl_ShowDocumentPropertiesRequested(object sender, EventArgs e)
+        {
+            TemplateEventHandler(_presenter.DocumentPropertiesShow);
         }
 
         // Node

@@ -2,6 +2,7 @@
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using System.Collections.Generic;
 using System;
+using JJ.Presentation.Synthesizer.ViewModels.Partials;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {

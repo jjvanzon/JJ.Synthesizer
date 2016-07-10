@@ -145,11 +145,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new MenuViewModel
             {
-                DocumentsMenuItem = new MenuItemViewModel { Visible = true },
-                DocumentTreeMenuItem = new MenuItemViewModel { Visible = documentIsOpen },
-                DocumentCloseMenuItem = new MenuItemViewModel { Visible = documentIsOpen },
-                DocumentSaveMenuItem = new MenuItemViewModel { Visible = documentIsOpen },
+                DocumentList = new MenuItemViewModel { Visible = true },
+                DocumentTree = new MenuItemViewModel { Visible = documentIsOpen },
+                DocumentClose = new MenuItemViewModel { Visible = documentIsOpen },
+                DocumentSave = new MenuItemViewModel { Visible = documentIsOpen },
                 CurrentPatches = new MenuItemViewModel { Visible = documentIsOpen },
+                DocumentProperties = new MenuItemViewModel { Visible = documentIsOpen },
                 ValidationMessages = new List<Message>()
             };
 

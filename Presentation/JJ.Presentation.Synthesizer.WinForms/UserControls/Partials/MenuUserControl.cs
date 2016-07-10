@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Windows.Forms;
-using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Presentation.Resources;
+using JJ.Presentation.Synthesizer.ViewModels.Partials;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 {
@@ -15,6 +15,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
         public event EventHandler DocumentCloseRequested;
         public event EventHandler DocumentSaveRequested;
         public event EventHandler ShowCurrentPatchesRequested;
+        public event EventHandler ShowDocumentPropertiesRequested;
 
         public MenuUserControl()
         {
@@ -59,7 +60,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             ToolStripMenuItem toolStripMenuItem;
 
             // DocumentTree
-            if (viewModel.DocumentTreeMenuItem.Visible)
+            if (viewModel.DocumentTree.Visible)
             {
                 toolStripMenuItem = CreateDocumentTreeToolStripMenuItem();
                 toolStripMenuItem.Click += documentTreeToolStripMenuItem_Click;
@@ -75,7 +76,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             }
 
             // DocumentSave
-            if (viewModel.DocumentSaveMenuItem.Visible)
+            if (viewModel.DocumentSave.Visible)
             {
                 toolStripMenuItem = CreateDocumentSaveToolStripMenuItem();
                 toolStripMenuItem.Click += documentSaveToolStripMenuItem_Click;
@@ -83,18 +84,26 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             }
 
             // DocumentClose
-            if (viewModel.DocumentCloseMenuItem.Visible)
+            if (viewModel.DocumentClose.Visible)
             {
                 toolStripMenuItem = CreateDocumentCloseToolStripMenuItem();
                 toolStripMenuItem.Click += documentCloseToolStripMenuItem_Click;
                 menuToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
             }
 
-            // Documents
-            if (viewModel.DocumentsMenuItem.Visible)
+            // DocumentList
+            if (viewModel.DocumentList.Visible)
             {
-                toolStripMenuItem = CreateDocumentsToolStripMenuItem();
-                toolStripMenuItem.Click += documentsToolStripMenuItem_Click;
+                toolStripMenuItem = CreateDocumentListToolStripMenuItem();
+                toolStripMenuItem.Click += documentListToolStripMenuItem_Click;
+                menuToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
+            }
+
+            // DocumentProperties
+            if (viewModel.DocumentProperties.Visible)
+            {
+                toolStripMenuItem = CreateDocumentPropertiesToolStripMenuItem();
+                toolStripMenuItem.Click += documentPropertiesToolStripMenuItem_Click;
                 menuToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
             }
         }
@@ -154,12 +163,23 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             return toolStripMenuItem;
         }
 
-        private ToolStripMenuItem CreateDocumentsToolStripMenuItem()
+        private ToolStripMenuItem CreateDocumentListToolStripMenuItem()
         {
             var toolStripMenuItem = new ToolStripMenuItem
             {
-                Name = "documentsToolStripMenuItem",
-                Text = "&" + PropertyDisplayNames.Documents
+                Name = "documentListToolStripMenuItem",
+                Text = "&" + Titles.DocumentList
+            };
+
+            return toolStripMenuItem;
+        }
+
+        private ToolStripMenuItem CreateDocumentPropertiesToolStripMenuItem()
+        {
+            var toolStripMenuItem = new ToolStripMenuItem
+            {
+                Name = "documentPropertiesToolStripMenuItem",
+                Text = "&" + CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Document)
             };
 
             return toolStripMenuItem;
@@ -169,42 +189,32 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
         private void documentTreeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (ShowDocumentTreeRequested != null)
-            {
-                ShowDocumentTreeRequested(sender, EventArgs.Empty);
-            }
+            ShowDocumentTreeRequested?.Invoke(sender, EventArgs.Empty);
         }
 
         private void currentPatchesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (ShowCurrentPatchesRequested != null)
-            {
-                ShowCurrentPatchesRequested(sender, EventArgs.Empty);
-            }
+            ShowCurrentPatchesRequested?.Invoke(sender, EventArgs.Empty);
         }
 
         private void documentSaveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (DocumentSaveRequested != null)
-            {
-                DocumentSaveRequested(sender, EventArgs.Empty);
-            }
+            DocumentSaveRequested?.Invoke(sender, EventArgs.Empty);
         }
 
         private void documentCloseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (DocumentCloseRequested != null)
-            {
-                DocumentCloseRequested(sender, EventArgs.Empty);
-            }
+            DocumentCloseRequested?.Invoke(sender, EventArgs.Empty);
         }
 
-        private void documentsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void documentListToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (ShowDocumentGridRequested != null)
-            {
-                ShowDocumentGridRequested(sender, EventArgs.Empty);
-            }
+            ShowDocumentGridRequested?.Invoke(sender, EventArgs.Empty);
+        }
+
+        private void documentPropertiesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowDocumentPropertiesRequested?.Invoke(sender, EventArgs.Empty);
         }
     }
 }

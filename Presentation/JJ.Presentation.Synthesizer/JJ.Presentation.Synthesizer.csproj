@@ -160,7 +160,7 @@
     <Compile Include="ViewModels\Items\PatchViewModel.cs" />
     <Compile Include="ViewModels\Items\SampleViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\MenuViewModel.cs" />
+    <Compile Include="ViewModels\Partials\MenuViewModel.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_WithDimensionAndOutletCount.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForCurve.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForBundle.cs" />

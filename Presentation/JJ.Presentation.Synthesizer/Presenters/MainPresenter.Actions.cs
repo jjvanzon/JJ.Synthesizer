@@ -21,6 +21,7 @@ using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.LinkTo;
+using JJ.Presentation.Synthesizer.ViewModels.Partials;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {

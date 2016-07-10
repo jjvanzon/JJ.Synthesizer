@@ -126,6 +126,9 @@
   <data name="CurrentPatches" xml:space="preserve">
     <value>Current Patches</value>
   </data>
+  <data name="DocumentList" xml:space="preserve">
+    <value>Document List</value>
+  </data>
   <data name="DocumentName" xml:space="preserve">
     <value>Document Name</value>
   </data>
