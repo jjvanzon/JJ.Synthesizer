@@ -265,9 +265,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(_presenter.NodeDelete);
         }
 
-        private void curveDetailsUserControl_CloseRequested(object sender, EventArgs e)
+        private void curveDetailsUserControl_CloseRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.CurveDetailsClose);
+            TemplateEventHandler(() => _presenter.CurveDetailsClose(e.Value));
         }
 
         private void curveDetailsUserControl_MoveNodeRequested(object sender, MoveEntityEventArgs e)
@@ -280,9 +280,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(_presenter.NodeChangeNodeType);
         }
 
-        private void curveDetailsUserControl_LoseFocusRequested(object sender, EventArgs e)
+        private void curveDetailsUserControl_LoseFocusRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.CurveDetailsLoseFocus);
+            TemplateEventHandler(() => _presenter.CurveDetailsLoseFocus(e.Value));
         }
 
         private void curveDetailsUserControl_ShowCurvePropertiesRequested(object sender, Int32EventArgs e)

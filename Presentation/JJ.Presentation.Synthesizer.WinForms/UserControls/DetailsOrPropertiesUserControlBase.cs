@@ -46,6 +46,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             PositionControls();
 
             this.AutomaticallyAssignTabIndexes();
+
+            base.OnLoad(e);
         }
 
         // Gui

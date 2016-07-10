@@ -461,19 +461,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _curveDetailsPresenter.Show(userInput));
         }
 
-        public void CurveDetailsClose()
+        public void CurveDetailsClose(int id)
         {
             // GetViewModel
-            CurveDetailsViewModel userInput = DocumentViewModelHelper.GetVisibleCurveDetailsViewModel(MainViewModel.Document);
+            CurveDetailsViewModel userInput = DocumentViewModelHelper.GetCurveDetailsViewModel(MainViewModel.Document, id);
 
             // TemplateMethod
             TemplateActionMethod(userInput, () => _curveDetailsPresenter.Close(userInput));
         }
 
-        public void CurveDetailsLoseFocus()
+        public void CurveDetailsLoseFocus(int id)
         {
             // GetViewModel
-            CurveDetailsViewModel userInput = DocumentViewModelHelper.GetVisibleCurveDetailsViewModel(MainViewModel.Document);
+            CurveDetailsViewModel userInput = DocumentViewModelHelper.GetCurveDetailsViewModel(MainViewModel.Document, id);
 
             // TemplateMethod
             TemplateActionMethod(userInput, () => _curveDetailsPresenter.LoseFocus(userInput));
@@ -906,7 +906,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void NodeSelect(int nodeID)
         {
             // GetViewModel
-            CurveDetailsViewModel userInput = DocumentViewModelHelper.GetVisibleCurveDetailsViewModel(MainViewModel.Document);
+            CurveDetailsViewModel userInput = DocumentViewModelHelper.GetCurveDetailsViewModel_ByNodeID(MainViewModel.Document, nodeID);
 
             // TemplateMethod
             TemplateActionMethod(userInput, () => _curveDetailsPresenter.SelectNode(userInput, nodeID));
@@ -1022,7 +1022,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // The overhead is mainly in the database queries.
 
             // GetViewModel
-            CurveDetailsViewModel userInput = DocumentViewModelHelper.GetVisibleCurveDetailsViewModel(MainViewModel.Document);
+            CurveDetailsViewModel userInput = DocumentViewModelHelper.GetCurveDetailsViewModel_ByNodeID(MainViewModel.Document, nodeID);
 
             // RefreshCounter
             userInput.RefreshCounter++;
