@@ -32,20 +32,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return viewModel;
         }
 
-        public static AudioFileOutputPropertiesViewModel GetVisibleAudioFileOutputPropertiesViewModel(DocumentViewModel rootDocumentViewModel)
-        {
-            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-            AudioFileOutputPropertiesViewModel viewModel = rootDocumentViewModel.AudioFileOutputPropertiesList.Where(x => x.Visible)
-                                                                                                              .FirstOrDefault();
-            if (viewModel == null)
-            {
-                throw new Exception("No visible AudioFileOutputPropertiesViewModel found in rootDocumentViewModel.");
-            }
-
-            return viewModel;
-        }
-
         // PatchDocument
 
         public static PatchDocumentViewModel TryGetPatchDocumentViewModel(DocumentViewModel rootDocumentViewModel, int childDocumentID)
@@ -299,20 +285,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
         }
 
-        public static CurvePropertiesViewModel GetVisibleCurvePropertiesViewModel(DocumentViewModel rootDocumentViewModel)
-        {
-            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-            CurvePropertiesViewModel viewModel = EnumerateCurvePropertiesViewModels(rootDocumentViewModel).Where(x => x.Visible)
-                                                                                                          .FirstOrDefault();
-            if (viewModel == null)
-            {
-                throw new Exception("No visible CurvePropertiesViewModel found in rootDocumentViewModel or any of its PatchDocumentViewModels.");
-            }
-
-            return viewModel;
-        }
-
         public static CurveGridViewModel GetVisibleCurveGridViewModel(DocumentViewModel rootDocumentViewModel)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
@@ -420,20 +392,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
 
             throw new Exception(String.Format("IList<NodePropertiesViewModel> for nodeID '{0}' not found in rootDocumentViewModel nor any of its PatchDocumentViewModels.", nodeID));
-        }
-
-        public static NodePropertiesViewModel GetVisibleNodePropertiesViewModel(DocumentViewModel rootDocumentViewModel)
-        {
-            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-            NodePropertiesViewModel viewModel = EnumerateNodePropertiesViewModels(rootDocumentViewModel).Where(x => x.Visible)
-                                                                                                        .FirstOrDefault();
-            if (viewModel == null)
-            {
-                throw new Exception("No visible NodePropertiesViewModel found in rootDocumentViewModel or any of its PatchDocumentViewModels.");
-            }
-
-            return viewModel;
         }
 
         // Operator
@@ -1137,19 +1095,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return viewModel;       
         }
 
-        public static PatchPropertiesViewModel GetVisiblePatchPropertiesViewModel(DocumentViewModel rootDocumentViewModel)
-        {
-            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-            PatchPropertiesViewModel viewModel = rootDocumentViewModel.PatchDocumentList.Select(x => x.PatchProperties).Where(x => x.Visible).FirstOrDefault();
-            if (viewModel == null)
-            {
-                throw new Exception("No visible PatchPropertiesViewModel found in the PatchDocumentViewModels.");
-            }
-
-            return viewModel;
-        }
-
         public static PatchGridViewModel GetVisiblePatchGridViewModel(DocumentViewModel rootDocumentViewModel)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
@@ -1179,21 +1124,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
         }
 
         // Sample
-
-        public static SamplePropertiesViewModel GetVisibleSamplePropertiesViewModel(DocumentViewModel rootDocumentViewModel)
-        {
-            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-            SamplePropertiesViewModel userInput = DocumentViewModelHelper.EnumerateSamplePropertiesViewModels(rootDocumentViewModel)
-                                                                         .Where(x => x.Visible)
-                                                                         .FirstOrDefault();
-            if (userInput == null)
-            {
-                throw new Exception("No Visible SamplePropertiesViewModel found in rootDocumentViewModel nor its PatchDocumentViewModels.");
-            }
-
-            return userInput;
-        }
 
         public static SampleGridViewModel GetVisibleSampleGridViewModel(DocumentViewModel rootDocumentViewModel)
         {
@@ -1323,19 +1253,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
         }
 
         // Scale
-
-        public static ScalePropertiesViewModel GetVisibleScalePropertiesViewModel(DocumentViewModel rootDocumentViewModel)
-        {
-            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-            ScalePropertiesViewModel userInput = rootDocumentViewModel.ScalePropertiesList.Where(x => x.Visible).FirstOrDefault();
-            if (userInput == null)
-            {
-                throw new Exception("No Visible ScalePropertiesViewModel found in rootDocumentViewModel.");
-            }
-
-            return userInput;
-        }
 
         public static ScalePropertiesViewModel TryGetScalePropertiesViewModel(DocumentViewModel rootDocumentViewModel, int scaleID)
         {

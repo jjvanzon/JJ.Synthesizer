@@ -303,6 +303,7 @@
     <Content Include="2016-06-10 010 SynthesizerDB OperatorType 67 - MakeDiscrete.sql" />
     <Content Include="2016-06-07 010 SynthesizerDB OperatorType 66 - Range.sql" />
     <Content Include="2016-06-19 050 SynthesizerDB OperatorType rename Multiply to MultiplyWithOrigin.sql" />
+    <Content Include="2016-07-10 010 SynthesizerDB AudioFileOutput.OutletID not null.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

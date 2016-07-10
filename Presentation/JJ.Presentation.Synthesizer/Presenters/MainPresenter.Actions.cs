@@ -151,20 +151,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _audioFileOutputPropertiesPresenter.Show(userInput));
         }
 
-        public void AudioFileOutputPropertiesClose()
+        public void AudioFileOutputPropertiesClose(int id)
         {
-            AudioFileOutputPropertiesCloseOrLoseFocus(_audioFileOutputPropertiesPresenter.Close);
+            AudioFileOutputPropertiesCloseOrLoseFocus(_audioFileOutputPropertiesPresenter.Close, id);
         }
 
-        public void AudioFileOutputPropertiesLoseFocus()
+        public void AudioFileOutputPropertiesLoseFocus(int id)
         {
-            AudioFileOutputPropertiesCloseOrLoseFocus(_audioFileOutputPropertiesPresenter.LoseFocus);
+            AudioFileOutputPropertiesCloseOrLoseFocus(_audioFileOutputPropertiesPresenter.LoseFocus, id);
         }
 
-        private void AudioFileOutputPropertiesCloseOrLoseFocus(Func<AudioFileOutputPropertiesViewModel, AudioFileOutputPropertiesViewModel> partialAction)
+        private void AudioFileOutputPropertiesCloseOrLoseFocus(Func<AudioFileOutputPropertiesViewModel, AudioFileOutputPropertiesViewModel> partialAction, int id)
         {
             // GetViewModel
-            AudioFileOutputPropertiesViewModel userInput = DocumentViewModelHelper.GetVisibleAudioFileOutputPropertiesViewModel(MainViewModel.Document);
+            AudioFileOutputPropertiesViewModel userInput = DocumentViewModelHelper.GetAudioFileOutputPropertiesViewModel(MainViewModel.Document, id);
 
             // TemplateMethod
             AudioFileOutputPropertiesViewModel viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
@@ -416,10 +416,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void CurveDelete(int curveID)
+        public void CurveDelete(int id)
         {
             // GetViewModel
-            CurveGridViewModel userInput = DocumentViewModelHelper.GetCurveGridViewModel_ByCurveID(MainViewModel.Document, curveID);
+            CurveGridViewModel userInput = DocumentViewModelHelper.GetCurveGridViewModel_ByCurveID(MainViewModel.Document, id);
 
             // Template Method
             CurveGridViewModel viewModel = TemplateActionMethod(userInput, () =>
@@ -431,7 +431,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 userInput.Successful = false;
 
                 // GetEntity
-                Curve curve = _repositories.CurveRepository.Get(curveID);
+                Curve curve = _repositories.CurveRepository.Get(id);
 
                 // Business
                 IResult result = _curveManager.DeleteWithRelatedEntities(curve);
@@ -452,10 +452,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void CurveDetailsShow(int curveID)
+        public void CurveDetailsShow(int id)
         {
             // GetViewModel
-            CurveDetailsViewModel userInput = DocumentViewModelHelper.GetCurveDetailsViewModel(MainViewModel.Document, curveID);
+            CurveDetailsViewModel userInput = DocumentViewModelHelper.GetCurveDetailsViewModel(MainViewModel.Document, id);
 
             // TemplateMethod
             TemplateActionMethod(userInput, () => _curveDetailsPresenter.Show(userInput));
@@ -479,29 +479,29 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _curveDetailsPresenter.LoseFocus(userInput));
         }
 
-        public void CurvePropertiesShow(int curveID)
+        public void CurvePropertiesShow(int id)
         {
             // GetViewModel
-            CurvePropertiesViewModel userInput = DocumentViewModelHelper.GetCurvePropertiesViewModel(MainViewModel.Document, curveID);
+            CurvePropertiesViewModel userInput = DocumentViewModelHelper.GetCurvePropertiesViewModel(MainViewModel.Document, id);
 
             // TemplateMethod
             TemplateActionMethod(userInput, () => _curvePropertiesPresenter.Show(userInput));
         }
 
-        public void CurvePropertiesClose()
+        public void CurvePropertiesClose(int id)
         {
-            CurvePropertiesCloseOrLoseFocus(x => _curvePropertiesPresenter.Close(x));
+            CurvePropertiesCloseOrLoseFocus(_curvePropertiesPresenter.Close, id);
         }
 
-        public void CurvePropertiesLoseFocus()
+        public void CurvePropertiesLoseFocus(int id)
         {
-            CurvePropertiesCloseOrLoseFocus(x => _curvePropertiesPresenter.LoseFocus(x));
+            CurvePropertiesCloseOrLoseFocus(_curvePropertiesPresenter.LoseFocus, id);
         }
 
-        private void CurvePropertiesCloseOrLoseFocus(Func<CurvePropertiesViewModel, CurvePropertiesViewModel> partialAction)
+        private void CurvePropertiesCloseOrLoseFocus(Func<CurvePropertiesViewModel, CurvePropertiesViewModel> partialAction, int id)
         {
             // GetViewModel
-            CurvePropertiesViewModel userInput = DocumentViewModelHelper.GetVisibleCurvePropertiesViewModel(MainViewModel.Document);
+            CurvePropertiesViewModel userInput = DocumentViewModelHelper.GetCurvePropertiesViewModel(MainViewModel.Document, id);
 
             // TemplateMethod
             CurvePropertiesViewModel viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
@@ -877,20 +877,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void NodePropertiesClose()
+        public void NodePropertiesClose(int id)
         {
-            NodePropertiesCloseOrLoseFocus(x => _nodePropertiesPresenter.Close(x));
+            NodePropertiesCloseOrLoseFocus(_nodePropertiesPresenter.Close, id);
         }
 
-        public void NodePropertiesLoseFocus()
+        public void NodePropertiesLoseFocus(int id)
         {
-            NodePropertiesCloseOrLoseFocus(x => _nodePropertiesPresenter.LoseFocus(x));
+            NodePropertiesCloseOrLoseFocus(_nodePropertiesPresenter.LoseFocus, id);
         }
 
-        public void NodePropertiesCloseOrLoseFocus(Func<NodePropertiesViewModel, NodePropertiesViewModel> partialAction)
+        public void NodePropertiesCloseOrLoseFocus(Func<NodePropertiesViewModel, NodePropertiesViewModel> partialAction, int id)
         {
             // GetViewModel
-            NodePropertiesViewModel userInput = DocumentViewModelHelper.GetVisibleNodePropertiesViewModel(MainViewModel.Document);
+            NodePropertiesViewModel userInput = DocumentViewModelHelper.GetNodePropertiesViewModel(MainViewModel.Document, id);
 
             // TemplateMethod
             NodePropertiesViewModel viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
@@ -1739,20 +1739,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _patchPropertiesPresenter.Show(userInput));
         }
 
-        public void PatchPropertiesClose()
+        public void PatchPropertiesClose(int childDocumentID)
         {
-            PatchPropertiesCloseOrLoseFocus(_patchPropertiesPresenter.Close);
+            PatchPropertiesCloseOrLoseFocus(_patchPropertiesPresenter.Close, childDocumentID);
         }
 
-        public void PatchPropertiesLoseFocus()
+        public void PatchPropertiesLoseFocus(int childDocumentID)
         {
-            PatchPropertiesCloseOrLoseFocus(_patchPropertiesPresenter.LoseFocus);
+            PatchPropertiesCloseOrLoseFocus(_patchPropertiesPresenter.LoseFocus, childDocumentID);
         }
 
-        private void PatchPropertiesCloseOrLoseFocus(Func<PatchPropertiesViewModel, PatchPropertiesViewModel> partialAction)
+        private void PatchPropertiesCloseOrLoseFocus(Func<PatchPropertiesViewModel, PatchPropertiesViewModel> partialAction, int childDocumentID)
         {
             // GetViewModel
-            PatchPropertiesViewModel userInput = DocumentViewModelHelper.GetVisiblePatchPropertiesViewModel(MainViewModel.Document);
+            PatchPropertiesViewModel userInput = DocumentViewModelHelper.GetPatchPropertiesViewModel_ByChildDocumentID(MainViewModel.Document, childDocumentID);
 
             // Template Method
             PatchPropertiesViewModel viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
@@ -1906,16 +1906,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void SampleDelete(int sampleID)
+        public void SampleDelete(int id)
         {
             // GetViewModel
-            SampleGridViewModel userInput = DocumentViewModelHelper.GetSampleGridViewModel_BySampleID(MainViewModel.Document, sampleID);
+            SampleGridViewModel userInput = DocumentViewModelHelper.GetSampleGridViewModel_BySampleID(MainViewModel.Document, id);
 
             // Template Method
             SampleGridViewModel viewModel = TemplateActionMethod(userInput, () =>
             {
                 // GetEntity
-                Sample sample = _repositories.SampleRepository.Get(sampleID);
+                Sample sample = _repositories.SampleRepository.Get(id);
 
                 // Business
                 IResult result = _sampleManager.Delete(sample);
@@ -1936,29 +1936,29 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void SamplePropertiesShow(int sampleID)
+        public void SamplePropertiesShow(int id)
         {
             // GetViewModel
-            SamplePropertiesViewModel userInput = DocumentViewModelHelper.GetSamplePropertiesViewModel(MainViewModel.Document, sampleID);
+            SamplePropertiesViewModel userInput = DocumentViewModelHelper.GetSamplePropertiesViewModel(MainViewModel.Document, id);
 
             // Template Method
             TemplateActionMethod(userInput, () => _samplePropertiesPresenter.Show(userInput));
         }
 
-        public void SamplePropertiesClose()
+        public void SamplePropertiesClose(int id)
         {
-            SamplePropertiesCloseOrLoseFocus(_samplePropertiesPresenter.Close);
+            SamplePropertiesCloseOrLoseFocus(_samplePropertiesPresenter.Close, id);
         }
 
-        public void SamplePropertiesLoseFocus()
+        public void SamplePropertiesLoseFocus(int id)
         {
-            SamplePropertiesCloseOrLoseFocus(_samplePropertiesPresenter.LoseFocus);
+            SamplePropertiesCloseOrLoseFocus(_samplePropertiesPresenter.LoseFocus, id);
         }
 
-        private void SamplePropertiesCloseOrLoseFocus(Func<SamplePropertiesViewModel, SamplePropertiesViewModel> partialAction)
+        private void SamplePropertiesCloseOrLoseFocus(Func<SamplePropertiesViewModel, SamplePropertiesViewModel> partialAction, int id)
         {
             // GetViewModel
-            SamplePropertiesViewModel userInput = DocumentViewModelHelper.GetVisibleSamplePropertiesViewModel(MainViewModel.Document);
+            SamplePropertiesViewModel userInput = DocumentViewModelHelper.GetSamplePropertiesViewModel(MainViewModel.Document, id);
 
             // TemplateMethod
             SamplePropertiesViewModel viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
@@ -2114,20 +2114,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(toneGridEditViewModel);
         }
 
-        public void ScalePropertiesClose()
+        public void ScalePropertiesClose(int id)
         {
-            ScalePropertiesCloseOrLoseFocus(_scalePropertiesPresenter.Close);
+            ScalePropertiesCloseOrLoseFocus(_scalePropertiesPresenter.Close, id);
         }
 
-        public void ScalePropertiesLoseFocus()
+        public void ScalePropertiesLoseFocus(int id)
         {
-            ScalePropertiesCloseOrLoseFocus(_scalePropertiesPresenter.LoseFocus);
+            ScalePropertiesCloseOrLoseFocus(_scalePropertiesPresenter.LoseFocus, id);
         }
 
-        private void ScalePropertiesCloseOrLoseFocus(Func<ScalePropertiesViewModel, ScalePropertiesViewModel> partialAction)
+        private void ScalePropertiesCloseOrLoseFocus(Func<ScalePropertiesViewModel, ScalePropertiesViewModel> partialAction, int id)
         {
             // Get ViewModel
-            ScalePropertiesViewModel userInput = DocumentViewModelHelper.GetVisibleScalePropertiesViewModel(MainViewModel.Document);
+            ScalePropertiesViewModel userInput = DocumentViewModelHelper.GetScalePropertiesViewModel(MainViewModel.Document, id);
 
             // Template Method
             ScalePropertiesViewModel viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));

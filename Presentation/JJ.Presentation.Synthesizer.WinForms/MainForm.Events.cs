@@ -163,14 +163,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(() => _presenter.AudioFileOutputPropertiesShow(e.Value));
         }
 
-        private void audioFileOutputPropertiesUserControl_CloseRequested(object sender, EventArgs e)
+        private void audioFileOutputPropertiesUserControl_CloseRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.AudioFileOutputPropertiesClose);
+            TemplateEventHandler(() => _presenter.AudioFileOutputPropertiesClose(e.Value));
         }
 
-        private void audioFileOutputPropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
+        private void audioFileOutputPropertiesUserControl_LoseFocusRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.AudioFileOutputPropertiesLoseFocus);
+            TemplateEventHandler(() => _presenter.AudioFileOutputPropertiesLoseFocus(e.Value));
         }
 
         // AudioOutput
@@ -300,14 +300,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(_presenter.SelectedNodePropertiesShow);
         }
 
-        private void curvePropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
+        private void curvePropertiesUserControl_LoseFocusRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.CurvePropertiesLoseFocus);
+            TemplateEventHandler(() => _presenter.CurvePropertiesLoseFocus(e.Value));
         }
 
-        private void curvePropertiesUserControl_CloseRequested(object sender, EventArgs e)
+        private void curvePropertiesUserControl_CloseRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.CurvePropertiesClose);
+            TemplateEventHandler(() => _presenter.CurvePropertiesClose(e.Value));
         }
 
         // Document Grid
@@ -462,14 +462,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Node
 
-        private void nodePropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
+        private void nodePropertiesUserControl_LoseFocusRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.NodePropertiesLoseFocus);
+            TemplateEventHandler(() => _presenter.NodePropertiesLoseFocus(e.Value));
         }
 
-        private void nodePropertiesUserControl_CloseRequested(object sender, EventArgs e)
+        private void nodePropertiesUserControl_CloseRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.NodePropertiesClose);
+            TemplateEventHandler(() => _presenter.NodePropertiesClose(e.Value));
         }
 
         // Operator
@@ -700,14 +700,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(_presenter.PatchDetailsClose);
         }
 
-        private void patchPropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
+        private void patchPropertiesUserControl_LoseFocusRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.PatchPropertiesLoseFocus);
+            TemplateEventHandler(() => _presenter.PatchPropertiesLoseFocus(e.Value));
         }
 
-        private void patchPropertiesUserControl_CloseRequested(object sender, EventArgs e)
+        private void patchPropertiesUserControl_CloseRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.PatchPropertiesClose);
+            TemplateEventHandler(() => _presenter.PatchPropertiesClose(e.Value));
         }
 
         private void patchDetailsUserControl_SelectedOperatorPropertiesRequested(object sender, EventArgs e)
@@ -737,14 +737,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(() => _presenter.SamplePropertiesShow(e.Value));
         }
 
-        private void samplePropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
+        private void samplePropertiesUserControl_LoseFocusRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.SamplePropertiesLoseFocus);
+            TemplateEventHandler(() => _presenter.SamplePropertiesLoseFocus(e.Value));
         }
 
-        private void samplePropertiesUserControl_CloseRequested(object sender, EventArgs e)
+        private void samplePropertiesUserControl_CloseRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.SamplePropertiesClose);
+            TemplateEventHandler(() => _presenter.SamplePropertiesClose(e.Value));
         }
 
         // Scale
@@ -803,14 +803,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
             });
         }
 
-        private void scalePropertiesUserControl_CloseRequested(object sender, EventArgs e)
+        private void scalePropertiesUserControl_CloseRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.ScalePropertiesClose);
+            TemplateEventHandler(() => _presenter.ScalePropertiesClose(e.Value));
         }
 
-        private void scalePropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
+        private void scalePropertiesUserControl_LoseFocusRequested(object sender, Int32EventArgs e)
         {
-            TemplateEventHandler(_presenter.ScalePropertiesLoseFocus);
+            TemplateEventHandler(() => _presenter.ScalePropertiesLoseFocus(e.Value));
         }
 
         // Message Boxes

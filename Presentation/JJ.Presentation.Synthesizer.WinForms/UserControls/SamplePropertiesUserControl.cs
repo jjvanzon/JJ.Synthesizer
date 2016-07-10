@@ -67,6 +67,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private new SamplePropertiesViewModel ViewModel => (SamplePropertiesViewModel)base.ViewModel;
 
+        protected override int GetID()
+        {
+            return ViewModel.Entity.ID;
+        }
+
         protected override void ApplyViewModelToControls()
         {
             textBoxName.Text = ViewModel.Entity.Name;

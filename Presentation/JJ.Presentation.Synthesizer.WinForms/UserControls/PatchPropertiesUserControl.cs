@@ -39,6 +39,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private new PatchPropertiesViewModel ViewModel => (PatchPropertiesViewModel)base.ViewModel;
 
+        protected override int GetID()
+        {
+            return ViewModel.ChildDocumentID;
+        }
+
         protected override void ApplyViewModelToControls()
         {
             textBoxName.Text = ViewModel.Name;
