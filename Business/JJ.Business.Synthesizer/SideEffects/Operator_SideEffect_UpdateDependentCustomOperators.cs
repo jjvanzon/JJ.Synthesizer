@@ -1,5 +1,6 @@
-﻿using JJ.Business.Synthesizer.Converters;
-using JJ.Business.Synthesizer.EntityWrappers;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
@@ -9,12 +10,12 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
-    internal class Operator_SideEffect_ApplyUnderlyingPatch : ISideEffect
+    internal class Operator_SideEffect_UpdateDependentCustomOperators : ISideEffect
     {
         private readonly Operator _entity;
         private readonly PatchRepositories _repositories;
 
-        public Operator_SideEffect_ApplyUnderlyingPatch(Operator entity, PatchRepositories repositories)
+        public Operator_SideEffect_UpdateDependentCustomOperators(Operator entity, PatchRepositories repositories)
         {
             if (entity == null) throw new NullException(() => entity);
             if (repositories == null) throw new NullException(() => repositories);
@@ -25,20 +26,21 @@ namespace JJ.Business.Synthesizer.SideEffects
 
         public void Execute()
         {
-            bool mustExecute = MustExecute();
-            if (mustExecute)
+            if (MustExecute())
             {
-                var wrapper = new CustomOperator_OperatorWrapper(_entity, _repositories.PatchRepository);
-                Patch sourceUnderlyingPatch = wrapper.UnderlyingPatch;
-
-                var converter = new PatchToOperatorConverter(_repositories);
-                converter.Convert(sourceUnderlyingPatch, _entity);
+                ISideEffect sideEffect2 = new Patch_SideEffect_UpdateDependentCustomOperators(_entity.Patch, _repositories);
+                sideEffect2.Execute();
             }
         }
 
         private bool MustExecute()
         {
-            return _entity.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator;
+            OperatorTypeEnum operatorTypeEnum = _entity.GetOperatorTypeEnum();
+
+            bool mustExecute = operatorTypeEnum == OperatorTypeEnum.PatchInlet ||
+                               operatorTypeEnum == OperatorTypeEnum.PatchOutlet;
+
+            return mustExecute;
         }
     }
 }

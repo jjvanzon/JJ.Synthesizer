@@ -243,7 +243,7 @@ namespace JJ.Business.Synthesizer
             }
 
             // This is sensitive, error prone code, so verify its result with the validators. 
-            VoidResult result = ValidatePatchRecursive();
+            VoidResult result = ValidatePatchWithRelatedEntities();
             ResultHelper.Assert(result);
         }
 

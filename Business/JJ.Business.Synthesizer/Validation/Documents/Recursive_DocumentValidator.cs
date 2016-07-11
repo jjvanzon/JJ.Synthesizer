@@ -86,7 +86,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             foreach (Patch patch in document.Patches)
             {
                 string messagePrefix = ValidationHelper.GetMessagePrefix(patch);
-                Execute(new PatchValidator_Recursive(patch, _curveRepository, _sampleRepository, _patchRepository, _alreadyDone), messagePrefix);
+                Execute(new PatchValidator_WithRelatedEntities(patch, _curveRepository, _sampleRepository, _patchRepository, _alreadyDone), messagePrefix);
                 Execute(new PatchValidator_InDocument(patch), messagePrefix);
             }
 

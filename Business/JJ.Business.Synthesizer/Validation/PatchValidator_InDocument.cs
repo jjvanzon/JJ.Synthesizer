@@ -12,9 +12,15 @@ namespace JJ.Business.Synthesizer.Validation
 
         protected override void Execute()
         {
-            For(() => Object.Document, PropertyDisplayNames.Document).NotNull();
+            if (MustValidate())
+            {
+                Execute(new NameValidator(Object.Name));
+            }
+        }
 
-            Execute(new NameValidator(Object.Name));
+        private bool MustValidate()
+        {
+            return Object.Document != null;
         }
     }
 }

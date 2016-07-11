@@ -228,6 +228,7 @@
     <Compile Include="Calculation\Operators\Number_OperatorCalculator.cs" />
     <Compile Include="Calculation\Patches\OptimizedPatchCalculatorVisitorResult.cs" />
     <Compile Include="Calculation\Patches\ResettableOperatorTuple.cs" />
+    <Compile Include="Extensions\OperatorExtensions.cs" />
     <Compile Include="Helpers\BiQuadFilter.cs" />
     <Compile Include="CopiedCode\FromFramework\CollectionHelper.cs" />
     <Compile Include="CopiedCode\FromFramework\Geometry.cs" />
@@ -428,6 +429,7 @@
     <Compile Include="SideEffects\Curve_SideEffect_SetDefaults_Nodes.cs" />
     <Compile Include="SideEffects\Document_SideEffect_AutoCreateAudioOutput.cs" />
     <Compile Include="SideEffects\Document_SideEffect_CreatePatch.cs" />
+    <Compile Include="SideEffects\Operator_SideEffect_UpdateDependentCustomOperators.cs" />
     <Compile Include="Validation\AudioOutputValidator.cs" />
     <Compile Include="Validation\Curves\CurveValidator_InDocument.cs" />
     <Compile Include="Validation\Curves\CurveValidator_Nodes.cs" />
@@ -633,7 +635,7 @@
     <Compile Include="Validation\SampleValidator.cs" />
     <Compile Include="Validation\AudioFileOutputValidator.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_Base_WithoutData.cs" />
-    <Compile Include="Validation\PatchValidator_Recursive.cs" />
+    <Compile Include="Validation\PatchValidator_WithRelatedEntities.cs" />
     <Compile Include="Validation\SampleValidator_Delete.cs" />
     <Compile Include="Validation\Scales\ScaleValidator_InDocument.cs" />
     <Compile Include="Validation\AudioFileOutputValidator_UniqueName.cs" />

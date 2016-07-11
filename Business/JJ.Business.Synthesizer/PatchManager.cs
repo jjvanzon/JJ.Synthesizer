@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer
     {
         private static readonly double _secondsBetweenApplyFilterVariables = ConfigurationHelper.GetSection<ConfigurationSection>().SecondsBetweenApplyFilterVariables;
 
-        private PatchRepositories _repositories;
+        private readonly PatchRepositories _repositories;
 
         /// <summary> nullable </summary>
         public Patch Patch { get; set; }
@@ -42,7 +42,6 @@ namespace JJ.Business.Synthesizer
             : this(repositories)
         {
             if (patch == null) throw new NullException(() => patch);
-
             Patch = patch;
         }
 
@@ -102,23 +101,26 @@ namespace JJ.Business.Synthesizer
 
         public VoidResult SavePatch()
         {
-            AssertPatch();
+            AssertPatchNotNull();
 
             // TODO: At one time, it said Patch.Operators collection was changed. That is what the ToArray is for. 
-            // I still do not know why the collection was changed, so that must be investigated. (It was when SaveOperator was called instead of EecuteSideEffects)
+            // I still do not know why the collection was changed, so that must be investigated.
+            // (It was when SaveOperator was called instead of ExecuteSideEffects.)
+
             foreach (Operator op in Patch.Operators.ToArray())
             {
-                ExecuteSideEffects(op);
+                ISideEffect sideEffect1 = new Operator_SideEffect_ApplyUnderlyingPatch(op, _repositories);
+                sideEffect1.Execute();
             }
 
-            VoidResult result = ValidatePatchRecursive();
+            VoidResult result = ValidatePatchWithRelatedEntities();
             if (!result.Successful)
             {
                 return result;
             }
 
-            ISideEffect sideEffect = new Patch_SideEffect_UpdateDependentCustomOperators(Patch, _repositories);
-            sideEffect.Execute();
+            ISideEffect sideEffect2 = new Patch_SideEffect_UpdateDependentCustomOperators(Patch, _repositories);
+            sideEffect2.Execute();
 
             return result;
         }
@@ -130,47 +132,27 @@ namespace JJ.Business.Synthesizer
         /// </summary>
         public VoidResult SaveOperator(Operator op)
         {
-            AssertPatch();
+            AssertPatchNotNull();
 
             if (op == null) throw new NullException(() => op);
 
-            VoidResult result = AddToPatchRecursive(op);
-            if (!result.Successful)
+            VoidResult result1 = AddToPatchRecursive(op);
+            if (!result1.Successful)
             {
-                return result;
+                return result1;
             }
 
-            OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
-            switch (operatorTypeEnum)
-            {
-                case OperatorTypeEnum.PatchInlet:
-                case OperatorTypeEnum.PatchOutlet:
-                    return SaveOperator_PatchInlet_OrPatchOutlet(op);
+            ISideEffect sideEffect1 = new Operator_SideEffect_ApplyUnderlyingPatch(op, _repositories);
+            sideEffect1.Execute();
 
-                default:
-                    return SaveOperator_Other(op);
-            }
-        }
+            ISideEffect sideEffect2 = new Operator_SideEffect_UpdateDependentCustomOperators(op, _repositories);
+            sideEffect2.Execute();
 
-        private VoidResult SaveOperator_PatchInlet_OrPatchOutlet(Operator op)
-        {
-            ExecuteSideEffects(op);
+            // Validate the whole patch, because side-effect can affect the whole patch.
+            // But also there are unique validations over e.g. ListIndexes of multiple PatchInlet Operators.
+            VoidResult result2 = ValidatePatchWithRelatedEntities();
 
-            // Side-effect can affect whole patch,
-            // but also there are unique validations over e.g. ListIndexes of multiple PatchInlet Operators.
-            // That is why the whole patch is validated.
-
-            VoidResult result = ValidatePatchRecursive();
-
-            return result;
-        }
-
-        private VoidResult SaveOperator_Other(Operator op)
-        {
-            ExecuteSideEffects(op);
-
-            VoidResult result = ValidateOperatorNonRecursive(op);
-            return result;
+            return result2;
         }
 
         /// <summary>
@@ -186,11 +168,7 @@ namespace JJ.Business.Synthesizer
             IValidator validator = new OperatorValidator_Recursive_IsOfSamePatchOrPatchIsNull(op, Patch);
             if (!validator.IsValid)
             {
-                return new VoidResult
-                {
-                    Successful = false,
-                    Messages = validator.ValidationMessages.ToCanonical()
-                };
+                validator.ToResult();
             }
 
             AddToPatchRecursive_WithoutValidation(op);
@@ -213,9 +191,9 @@ namespace JJ.Business.Synthesizer
 
         // Delete
 
-        public VoidResult DeleteWithRelatedEntities()
+        public VoidResult DeletePatchWithRelatedEntities()
         {
-            AssertPatch();
+            AssertPatchNotNull();
 
             Patch.DeleteRelatedEntities(_repositories.OperatorRepository, _repositories.InletRepository, _repositories.OutletRepository, _repositories.EntityPositionRepository);
             Patch.UnlinkRelatedEntities();
@@ -247,35 +225,32 @@ namespace JJ.Business.Synthesizer
         /// </summary>
         public void DeleteOperator(Operator op)
         {
-            AssertPatch();
+            AssertPatchNotNull();
 
             if (op == null) throw new NullException(() => op);
+            // TODO: Is this condition strictly necessary? If not, consider deleting this code line.
             if (op.Patch != Patch) throw new NotEqualException(() => op.Patch, Patch);
-
-            IList<Operator> connectedCustomOperators =
-                Enumerable.Union(
-                    op.Inlets.Where(x => x.InputOutlet != null).Select(x => x.InputOutlet.Operator),
-                    op.Outlets.SelectMany(x => x.ConnectedInlets).Select(x => x.Operator))
-                .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator)
-                .ToArray();
 
             op.UnlinkRelatedEntities();
             op.DeleteRelatedEntities(_repositories.InletRepository, _repositories.OutletRepository, _repositories.EntityPositionRepository);
             _repositories.OperatorRepository.Delete(op);
 
-            if (Patch.Document != null)
-            {
-                ISideEffect sideEffect = new Patch_SideEffect_UpdateDependentCustomOperators(Patch, _repositories);
-                sideEffect.Execute();
+            ISideEffect sideEffect1 = new Patch_SideEffect_UpdateDependentCustomOperators(Patch, _repositories);
+            sideEffect1.Execute();
 
-                // Clean up obsolete inlets and outlets.
-                // (Inlets and outlets that do not exist anymore in a CustomOperator's UnderlyingPatch
-                //  are kept alive by the system until it has no connections anymore, so that a user's does not lose data.)
-                foreach (Operator connectedCustomOperator in connectedCustomOperators)
-                {
-                    ISideEffect sideEffect2 = new Operator_SideEffect_ApplyUnderlyingPatch(connectedCustomOperator, _repositories);
-                    sideEffect2.Execute();
-                }
+            // Clean up obsolete inlets and outlets.
+            // (Inlets and outlets that do not exist anymore in a CustomOperator's UnderlyingPatch
+            //  are kept alive by the system until it has no connections anymore, so that a user's does not lose data.)
+
+            IList<Operator> connectedCustomOperators =
+                op.GetConnectedOperators()
+                  .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator)
+                  .ToArray();
+
+            foreach (Operator connectedCustomOperator in connectedCustomOperators)
+            {
+                ISideEffect sideEffect2 = new Operator_SideEffect_ApplyUnderlyingPatch(connectedCustomOperator, _repositories);
+                sideEffect2.Execute();
             }
         }
 
@@ -291,6 +266,10 @@ namespace JJ.Business.Synthesizer
 
             entity.UnlinkRelatedEntities();
             _repositories.InletRepository.Delete(entity);
+
+            // TODO:
+            // In theory, if obsolete outlets were connected to this inlet we delete here,
+            // we could clean up those obsolete outlets. Just like in DeleteOperator.
         }
 
         public void DeleteOutlet(int id)
@@ -305,28 +284,26 @@ namespace JJ.Business.Synthesizer
 
             entity.UnlinkRelatedEntities();
             _repositories.OutletRepository.Delete(entity);
+
+            // TODO:
+            // In theory if an outlet is connected to obsolete inlets,
+            // it might be possible to clean up those obsolete inlets here. Just like in DeleteOperator.
         }
 
         // Validate (Private)
 
-        private VoidResult ValidatePatchRecursive()
+        private VoidResult ValidatePatchWithRelatedEntities()
         {
-            // TODO: 'Recursive' suggests that you would also validate the UnderlyingPatches of CustomOperators.
-            // Make this distinctly clear. Perhaps use the term 'WithRelatedEntities' if that is clearer.        
             var validators = new List<IValidator>
             {
                 new PatchValidator_UniqueName(Patch),
-                new PatchValidator_Recursive(
+                new PatchValidator_InDocument(Patch),
+                new PatchValidator_WithRelatedEntities(
                     Patch,
                     _repositories.CurveRepository,
                     _repositories.SampleRepository,
                     _repositories.PatchRepository, new HashSet<object>())
             };
-
-            if (Patch.Document != null)
-            {
-                validators.Add(new PatchValidator_InDocument(Patch));
-            }
 
             var result = new VoidResult
             {
@@ -346,45 +323,6 @@ namespace JJ.Business.Synthesizer
                 Messages = validator.ValidationMessages.ToCanonical(),
                 Successful = validator.IsValid
             };
-        }
-
-        // ExecuteSideEffects (Private)
-
-        private void ExecuteSideEffects(Operator op)
-        {
-            OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
-            switch (operatorTypeEnum)
-            {
-                case OperatorTypeEnum.PatchInlet:
-                    ExecuteSideEffects_ForPatchInlet(op);
-                    break;
-
-                case OperatorTypeEnum.PatchOutlet:
-                    ExecuteSideEffects_ForPatchOutlet(op);
-                    break;
-
-                case OperatorTypeEnum.CustomOperator:
-                    ExecuteSideEffects_ForCustomOperator(op);
-                    break;
-            }
-        }
-
-        private void ExecuteSideEffects_ForPatchInlet(Operator op)
-        {
-            ISideEffect sideEffect = new Patch_SideEffect_UpdateDependentCustomOperators(op.Patch, _repositories);
-            sideEffect.Execute();
-        }
-
-        private void ExecuteSideEffects_ForPatchOutlet(Operator op)
-        {
-            ISideEffect sideEffect = new Patch_SideEffect_UpdateDependentCustomOperators(op.Patch, _repositories);
-            sideEffect.Execute();
-        }
-
-        private void ExecuteSideEffects_ForCustomOperator(Operator op)
-        {
-            ISideEffect sideEffect = new Operator_SideEffect_ApplyUnderlyingPatch(op, _repositories);
-            sideEffect.Execute();
         }
 
         // Misc
@@ -492,7 +430,7 @@ namespace JJ.Business.Synthesizer
 
         private void SubstituteSineForUnfilledInSignalPatchInlets()
         {
-            AssertPatch();
+            AssertPatchNotNull();
 
             IList<PatchInlet_OperatorWrapper> patchInletWrappers = Patch.EnumerateOperatorWrappersOfType<PatchInlet_OperatorWrapper>()
                                                                         .Where(x => x.Inlet.GetDimensionEnum() == DimensionEnum.Signal &&
@@ -507,7 +445,7 @@ namespace JJ.Business.Synthesizer
             }
         }
 
-        private void AssertPatch()
+        private void AssertPatchNotNull()
         {
             if (Patch == null) throw new NullException(() => Patch);
         }

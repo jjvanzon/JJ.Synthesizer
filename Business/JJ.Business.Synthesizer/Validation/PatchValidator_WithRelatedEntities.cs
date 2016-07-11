@@ -13,14 +13,14 @@ using JJ.Business.Synthesizer.Validation.Operators;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    internal class PatchValidator_Recursive : FluentValidator<Patch>
+    internal class PatchValidator_WithRelatedEntities : FluentValidator<Patch>
     {
         private ICurveRepository _curveRepository;
         private ISampleRepository _sampleRepository;
         private IPatchRepository _patchRepository;
         private HashSet<object> _alreadyDone;
 
-        public PatchValidator_Recursive(
+        public PatchValidator_WithRelatedEntities(
             Patch obj, 
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
