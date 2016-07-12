@@ -65,7 +65,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         public override string GetInletDisplayName(int listIndex)
         {
             if (listIndex < 0) throw new InvalidIndexException(() => listIndex, () => Inlets.Count);
-            if (listIndex >= Inlets.Count) throw new InvalidIndexException(() => listIndex, () => Inlets.Count);
 
             Inlet inlet = Inlets[listIndex];
 
@@ -90,7 +89,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         public override string GetOutletDisplayName(int listIndex)
         {
             if (listIndex < 0) throw new InvalidIndexException(() => listIndex, () => Outlets.Count);
-            if (listIndex >= Outlets.Count) throw new InvalidIndexException(() => listIndex, () => Outlets.Count);
 
             Outlet outlet = Outlets[listIndex];
 

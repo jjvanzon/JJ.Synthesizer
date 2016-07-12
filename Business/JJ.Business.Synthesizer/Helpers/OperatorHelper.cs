@@ -6,6 +6,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Synthesizer;
+using JJ.Framework.Common.Exceptions;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Helpers
@@ -44,24 +45,34 @@ namespace JJ.Business.Synthesizer.Helpers
 
         // Get Inlet
 
-        public static Inlet TryGetInlet(Operator op, int index)
+        /// <param name="listIndex">List indices are not necessarily consecutive.</param>
+        public static Inlet GetInlet(Operator op, int listIndex)
         {
-            IList<Inlet> sortedInlets = GetSortedInlets(op);
-
-            Inlet inlet = sortedInlets.Skip(index).FirstOrDefault();
-
+            Inlet inlet = TryGetInlet(op, listIndex);
+            if (inlet == null)
+            {
+                throw new EntityNotFoundException<Inlet>(new { listIndex });
+            }
             return inlet;
         }
 
-        /// <summary> Gets an item out of the sorted _operator.Inlets and verifies that the index is valid in the list. </summary>
-        public static Inlet GetInlet(Operator op, int index)
+        /// <param name="listIndex">List indices are not necessarily consecutive.</param>
+        public static Inlet TryGetInlet(Operator op, int listIndex)
         {
-            IList<Inlet> sortedInlets = GetSortedInlets(op);
-            if (index >= sortedInlets.Count)
+            if (op == null) throw new NullException(() => op);
+
+            IList<Inlet> inlets = op.Inlets.Where(x => x.ListIndex == listIndex).ToArray();
+            switch (inlets.Count)
             {
-                throw new Exception(String.Format("Sorted inlets does not have index [{0}].", index));
+                case 0:
+                    return null;
+
+                case 1:
+                    return inlets[0];
+
+                default:
+                    throw new NotUniqueException<Operator>(new { listIndex });
             }
-            return sortedInlets[index];
         }
 
         public static Inlet GetInlet(Operator op, string name)

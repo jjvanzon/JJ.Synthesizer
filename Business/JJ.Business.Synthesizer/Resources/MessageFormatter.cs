@@ -129,11 +129,6 @@ namespace JJ.Business.Synthesizer.Resources
             return String.Format(Messages.OperatorHasNoItemsFilledIn_WithOperatorName, name);
         }
 
-        public static string InletNotFoundInUnderlyingPatch(string inletName, string dimensionDisplayName, int? inletListIndex)
-        {
-            return String.Format(Messages.InletNotFoundInUnderlyingPatch, inletName, dimensionDisplayName, inletListIndex);
-        }
-
         public static string OperatorHasNoInletFilledIn_WithOperatorName(string name)
         {
             return String.Format(Messages.OperatorHasNoInletFilledIn_WithOperatorName, name);
@@ -156,11 +151,6 @@ namespace JJ.Business.Synthesizer.Resources
         public static string OutletPropertyDoesNotMatchWithUnderlyingPatch(string propertyDisplayName, string inletName, string dimensionDisplayName, int? inletListIndex)
         {
             return String.Format(Messages.OutletPropertyDoesNotMatchWithUnderlyingPatch, propertyDisplayName, inletName, dimensionDisplayName, inletListIndex);
-        }
-
-        public static string OutletNotFoundInUnderlyingPatch(string outletName, string dimensionDisplayName, int? outletListIndex)
-        {
-            return String.Format(Messages.OutletNotFoundInUnderlyingPatch, outletName, dimensionDisplayName, outletListIndex);
         }
     }
 }

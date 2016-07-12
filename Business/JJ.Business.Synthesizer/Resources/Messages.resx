@@ -223,12 +223,6 @@
     <value>{0} named '{1}' not found.</value>
     <comment>{0} = type of object, e.g. 'Recipe', {1} = name of object, e.g. 'eggs and bacon'</comment>
   </data>
-  <data name="InletNotFoundInUnderlyingPatch" xml:space="preserve">
-    <value>Inlet not found in the underlying patch. Inlet name: '{0}', inlet type: '{1}', inlet number: '{2}'.</value>
-  </data>
-  <data name="OutletNotFoundInUnderlyingPatch" xml:space="preserve">
-    <value>Outlet not found in the underlying patch. Outlet name: '{0}', outlet type: '{1}', outlet number: '{2}'.</value>
-  </data>
   <data name="OutletPropertyDoesNotMatchWithUnderlyingPatch" xml:space="preserve">
     <value>{0} of outlet does not match with underlying patch. Outlet name: '{1}', outlet type: '{2}', outlet number: '{3}'.</value>
     <comment>{0} = property name</comment>
