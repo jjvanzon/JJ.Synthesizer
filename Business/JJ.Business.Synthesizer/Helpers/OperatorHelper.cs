@@ -99,7 +99,7 @@ namespace JJ.Business.Synthesizer.Helpers
                     return inlets[0];
 
                 default:
-                    throw new Exception(String.Format("Inlet name '{0}' is not unique.", name));
+                    throw new NotUniqueException<Inlet>(new { name });
             }
         }
 
@@ -108,7 +108,7 @@ namespace JJ.Business.Synthesizer.Helpers
             Inlet inlet = TryGetInlet(op, dimensionEnum);
             if (inlet == null)
             {
-                throw new Exception(String.Format("Inlet with DimensionEnum '{0}' not found.", dimensionEnum));
+                throw new EntityNotFoundException<Inlet>(new { dimensionEnum });
             }
             return inlet;
         }
@@ -127,7 +127,7 @@ namespace JJ.Business.Synthesizer.Helpers
                     return inlets[0];
 
                 default:
-                    throw new Exception(String.Format("Inlet with DimensionEnum '{0}' is not unique.", dimensionEnum));
+                    throw new NotUniqueException<Inlet>(new { dimensionEnum });
             }
         }
 
@@ -141,15 +141,34 @@ namespace JJ.Business.Synthesizer.Helpers
 
         // Get Outlet
 
-        /// <summary> Gets an item out of the sorted _operator.Outlets and verifies that the index is valid in the list. </summary>
-        public static Outlet GetOutlet(Operator op, int index)
+        /// <param name="listIndex">List indices are not necessarily consecutive.</param>
+        public static Outlet GetOutlet(Operator op, int listIndex)
         {
-            IList<Outlet> sortedOutlets = GetSortedOutlets(op);
-            if (index >= sortedOutlets.Count)
+            Outlet inlet = TryGetOutlet(op, listIndex);
+            if (inlet == null)
             {
-                throw new Exception(String.Format("Sorted outlets does not have index [{0}].", index));
+                throw new EntityNotFoundException<Outlet>(new { listIndex });
             }
-            return sortedOutlets[index];
+            return inlet;
+        }
+
+        /// <param name="listIndex">List indices are not necessarily consecutive.</param>
+        public static Outlet TryGetOutlet(Operator op, int listIndex)
+        {
+            if (op == null) throw new NullException(() => op);
+
+            IList<Outlet> inlets = op.Outlets.Where(x => x.ListIndex == listIndex).ToArray();
+            switch (inlets.Count)
+            {
+                case 0:
+                    return null;
+
+                case 1:
+                    return inlets[0];
+
+                default:
+                    throw new NotUniqueException<Operator>(new { listIndex });
+            }
         }
 
         public static Outlet GetOutlet(Operator op, string name)
@@ -157,7 +176,7 @@ namespace JJ.Business.Synthesizer.Helpers
             Outlet outlet = TryGetOutlet(op, name);
             if (outlet == null)
             {
-                throw new Exception(String.Format("Outlet '{0}' not found.", name));
+                throw new EntityNotFoundException<Outlet>(new { name });
             }
             return outlet;
         }
@@ -176,7 +195,7 @@ namespace JJ.Business.Synthesizer.Helpers
                     return outlets[0];
 
                 default:
-                    throw new Exception(String.Format("Outlet name '{0}' is not unique.", name));
+                    throw new NotUniqueException<Outlet>(new { name });
             }
         }
 
@@ -185,7 +204,7 @@ namespace JJ.Business.Synthesizer.Helpers
             Outlet outlet = TryGetOutlet(op, dimensionEnum);
             if (outlet == null)
             {
-                throw new Exception(String.Format("Outlet with DimensionEnum '{0}' not found.", dimensionEnum));
+                throw new EntityNotFoundException<Outlet>(new { dimensionEnum });
             }
             return outlet;
         }
@@ -204,7 +223,7 @@ namespace JJ.Business.Synthesizer.Helpers
                     return outlets[0];
 
                 default:
-                    throw new Exception(String.Format("Outlet with DimensionEnum '{0}' is not unique.", dimensionEnum));
+                    throw new NotUniqueException<Outlet>(new { dimensionEnum });
             }
         }
 
@@ -213,6 +232,7 @@ namespace JJ.Business.Synthesizer.Helpers
             if (op == null) throw new NullException(() => op);
 
             IList<Outlet> outlets = op.Outlets.Where(x => x.GetDimensionEnum() == dimensionEnum).ToArray();
+
             return outlets;
         }
 

@@ -489,8 +489,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var wrapper = new PatchInlet_OperatorWrapper(op);
             Inlet inlet = wrapper.Inlet;
+            DimensionEnum dimensionEnum = inlet.GetDimensionEnum();
 
-            // Use Substitute OperatorType DisplayName
+            // Use OperatorType DisplayName
             sb.Append(PropertyDisplayNames.Inlet);
 
             // Try Use Operator Name
@@ -498,14 +499,15 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 sb.AppendFormat(": {0}", op.Name);
             }
+            // Try Use Dimension
+            else if (dimensionEnum != DimensionEnum.Undefined)
+            {
+                sb.AppendFormat(": {0}", ResourceHelper.GetDisplayName(dimensionEnum));
+            }
+            // Try Use List Index
             else
             {
-                // Try Use Dimension
-                DimensionEnum dimensionEnum = inlet.GetDimensionEnum();
-                if (dimensionEnum != DimensionEnum.Undefined)
-                {
-                    sb.AppendFormat(": {0}", ResourceHelper.GetDisplayName(dimensionEnum));
-                }
+                sb.AppendFormat(" {0}", wrapper.ListIndex + 1);
             }
 
             // Try Use DefaultValue
@@ -520,26 +522,32 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         private static string GetOperatorCaption_ForPatchOutlet(Operator op)
         {
-            string substituteOperatorTypeDisplayName = PropertyDisplayNames.Outlet;
+            var sb = new StringBuilder();
 
-            // Use Operator.Name
+            var wrapper = new PatchOutlet_OperatorWrapper(op);
+            Outlet outlet = wrapper.Result;
+            DimensionEnum dimensionEnum = outlet.GetDimensionEnum();
+
+            // Use OperatorType DisplayName
+            sb.Append(PropertyDisplayNames.Outlet);
+
+            // Try Use Operator Name
             if (!String.IsNullOrWhiteSpace(op.Name))
             {
-                return String.Format("{0}: {1}", substituteOperatorTypeDisplayName, op.Name);
+                sb.AppendFormat(": {0}", op.Name);
             }
-
-            // Use Dimension
-            var wrapper = new PatchOutlet_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Result.GetDimensionEnum();
-            if (dimensionEnum != DimensionEnum.Undefined)
+            // Try Use Dimension
+            else if (dimensionEnum != DimensionEnum.Undefined)
             {
-                string dimensionDisplayName = ResourceHelper.GetDisplayName(dimensionEnum);
-                return String.Format("{0}: {1}", substituteOperatorTypeDisplayName, dimensionDisplayName);
+                sb.AppendFormat(": {0}", ResourceHelper.GetDisplayName(dimensionEnum));
+            }
+            // Try Use List Index
+            else
+            {
+                sb.AppendFormat(" {0}", wrapper.ListIndex + 1);
             }
 
-            // Use Substitute OperatorType DisplayName
-            string caption = substituteOperatorTypeDisplayName;
-            return caption;
+            return sb.ToString(); ;
         }
 
         private static string GetOperatorCaption_ForSample(Operator op, ISampleRepository sampleRepository)
