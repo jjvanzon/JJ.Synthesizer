@@ -551,8 +551,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 operatorRepository.Insert(entity);
             }
 
-            entity.Name = viewModel.Name;
-
             bool operatorTypeIsFilledIn = viewModel.OperatorType != null && viewModel.OperatorType.ID != 0;
             if (operatorTypeIsFilledIn)
             {
@@ -1299,7 +1297,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return entity;
         }
 
-        public static Patch ToPatchWithRelatedEntities(this PatchViewModel viewModel, PatchRepositories repositories)
+        public static ToPatchWithRelatedEntitiesResult ToPatchWithRelatedEntities(this PatchViewModel viewModel, PatchRepositories repositories)
         {
             if (repositories == null) throw new NullException(() => repositories);
 
@@ -1316,15 +1314,15 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 convertedOperators.Add(op);
             }
 
-            var patchManager = new PatchManager(patch, repositories);
-
             IList<Operator> operatorsToDelete = patch.Operators.Except(convertedOperators).ToArray();
-            foreach (Operator op in operatorsToDelete)
-            {
-                patchManager.DeleteOperator(op);
-            }
 
-            return patch;
+            var result = new ToPatchWithRelatedEntitiesResult
+            {
+                Patch = patch,
+                OperatorsToDelete = operatorsToDelete
+            };
+
+            return result;
         }
 
         public static Document ToChildDocument(this PatchPropertiesViewModel viewModel, IDocumentRepository documentRepository)
@@ -1362,13 +1360,13 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return patch;
         }
 
-        public static Patch ToPatchWithRelatedEntities(this PatchDetailsViewModel viewModel, PatchRepositories patchRepositories)
+        public static ToPatchWithRelatedEntitiesResult ToPatchWithRelatedEntities(this PatchDetailsViewModel viewModel, PatchRepositories patchRepositories)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            Patch patch = viewModel.Entity.ToPatchWithRelatedEntities(patchRepositories);
+            ToPatchWithRelatedEntitiesResult result = viewModel.Entity.ToPatchWithRelatedEntities(patchRepositories);
 
-            return patch;
+            return result;
         }
 
         public static Document ToChildDocumentWithRelatedEntities(this PatchDocumentViewModel userInput, RepositoryWrapper repositories)
@@ -1390,8 +1388,16 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             userInput.NodePropertiesList.ForEach(x => x.ToEntity(repositories.NodeRepository, repositories.NodeTypeRepository));
             userInput.SamplePropertiesList.ToSamples(childDocument, new SampleRepositories(repositories));
 
+            ToPatchWithRelatedEntitiesResult result = userInput.PatchDetails.ToPatchWithRelatedEntities(patchRepositories);
+            Patch patch = result.Patch;
+            IList<Operator> operatorsToDelete = result.OperatorsToDelete;
+
+            userInput.PatchProperties.ToPatch(repositories.PatchRepository);
+            patch.LinkTo(childDocument);
+
             // Operator Properties
-            // (Operators are converted with the PatchDetails view models, but may not contain all properties.)
+            // (Operators are converted with the PatchDetails view models, 
+            //  but data the property boxes would be leading or missing from PatchDetails.)
             foreach (OperatorPropertiesViewModel propertiesViewModel in userInput.OperatorPropertiesList)
             {
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
@@ -1467,13 +1473,17 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
             }
 
-            // Order-Dependence: Converting PatchDetails may involve operator deletion,
-            // which has a side-effect of updating the dependent CustomOperators,
+            // Order-Dependence: 
+            // Deleting operators is deferred from converting PatchDetails to after converting operaor property boxes,
+            // because deleting an operator has the side-effect of updating the dependent CustomOperators,
             // which requires data from the PatchInlet and PatchOutlet PropertiesViewModels to be
             // converted first.
-            Patch patch = userInput.PatchDetails.ToPatchWithRelatedEntities(patchRepositories);
-            userInput.PatchProperties.ToPatch(repositories.PatchRepository);
-            patch.LinkTo(childDocument);
+            var patchManager = new PatchManager(patch, patchRepositories);
+
+            foreach (Operator op in operatorsToDelete)
+            {
+                patchManager.DeleteOperator(op);
+            }
 
             return childDocument;
         }

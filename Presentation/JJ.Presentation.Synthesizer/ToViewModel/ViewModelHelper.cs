@@ -344,7 +344,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (entity == null) throw new NullException(() => entity);
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            viewModel.Name = entity.Name;
             viewModel.ID = entity.ID;
             viewModel.Caption = GetOperatorCaption(entity, sampleRepository, curveRepository, patchRepository);
             viewModel.OperatorType = entity.OperatorType?.ToViewModel();

@@ -15,7 +15,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public int ID { get; set; }
         public int EntityPositionID { get; set; }
 
-        public string Name { get; set; }
         public string Caption { get; set; }
         public float CenterX { get; set; }
         public float CenterY { get; set; }
