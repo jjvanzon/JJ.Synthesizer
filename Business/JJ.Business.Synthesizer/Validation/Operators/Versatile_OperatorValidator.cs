@@ -110,7 +110,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         protected override void Execute()
         {
-            Execute<Basic_OperatorValidator>();
+            Execute(new Basic_OperatorValidator(Object));
 
             OperatorTypeEnum operatorTypeEnum = Object.GetOperatorTypeEnum();
 

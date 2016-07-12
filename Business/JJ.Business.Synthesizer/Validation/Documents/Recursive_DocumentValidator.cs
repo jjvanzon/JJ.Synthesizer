@@ -47,17 +47,17 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             }
             _alreadyDone.Add(document);
 
-            Execute<Basic_DocumentValidator>();
+            Execute(new Basic_DocumentValidator(document));
 
             bool isRootDocument = document.ParentDocument == null;
             if (isRootDocument)
             {
-                Execute<RootDocument_DocumentValidator>();
-                Execute<DocumentValidator_Unicity>();
+                Execute(new RootDocument_DocumentValidator(document));
+                Execute(new DocumentValidator_Unicity(document));
             }
             else
             {
-                Execute<ChildDocument_DocumentValidator>();
+                Execute(new ChildDocument_DocumentValidator(document));
             }
 
             foreach (AudioFileOutput audioFileOutput in document.AudioFileOutputs)
