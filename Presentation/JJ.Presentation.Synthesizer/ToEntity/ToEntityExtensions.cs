@@ -1390,10 +1390,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             userInput.NodePropertiesList.ForEach(x => x.ToEntity(repositories.NodeRepository, repositories.NodeTypeRepository));
             userInput.SamplePropertiesList.ToSamples(childDocument, new SampleRepositories(repositories));
 
-            Patch patch = userInput.PatchDetails.ToPatchWithRelatedEntities(patchRepositories);
-            userInput.PatchProperties.ToPatch(repositories.PatchRepository);
-            patch.LinkTo(childDocument);
-
             // Operator Properties
             // (Operators are converted with the PatchDetails view models, but may not contain all properties.)
             foreach (OperatorPropertiesViewModel propertiesViewModel in userInput.OperatorPropertiesList)
@@ -1471,6 +1467,14 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
             }
 
+            // Order-Dependence: Converting PatchDetails may involve operator deletion,
+            // which has a side-effect of updating the dependent CustomOperators,
+            // which requires data from the PatchInlet and PatchOutlet PropertiesViewModels to be
+            // converted first.
+            Patch patch = userInput.PatchDetails.ToPatchWithRelatedEntities(patchRepositories);
+            userInput.PatchProperties.ToPatch(repositories.PatchRepository);
+            patch.LinkTo(childDocument);
+
             return childDocument;
         }
 
@@ -1508,10 +1512,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
                 entity.LinkToParentDocument(destParentDocument);
 
-                if (!idsToKeep.Contains(entity.ID))
-                {
-                    idsToKeep.Add(entity.ID);
-                }
+                idsToKeep.Add(entity.ID);
             }
 
             DocumentManager documentManager = new DocumentManager(repositories);

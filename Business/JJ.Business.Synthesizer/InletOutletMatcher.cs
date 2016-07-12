@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer
                 }
             }
 
-            // Try match by type
+            // Try match by Dimension
             foreach (Inlet destCustomOperatorInlet in destCustomOperatorInlets)
             {
                 // TODO: I should really only match if it is unique.
@@ -87,7 +87,7 @@ namespace JJ.Business.Synthesizer
                 }
             }
 
-            // Try match by type
+            // Try match by Dimension
             foreach (Outlet destOutlet in destCustomOperatorOutlets)
             {
                 // TODO: I should really only match if it is unique.
@@ -166,7 +166,7 @@ namespace JJ.Business.Synthesizer
                 }
             }
 
-            // Try match by type
+            // Try match by Dimension
             foreach (Operator dest_UnderlyingPatch_PatchInlet in dest_UnderlyingPatch_PatchInlets)
             {
                 bool dimensionIsFilledIn = source_CustomOperator_Inlet.GetDimensionEnum() != DimensionEnum.Undefined;
@@ -242,7 +242,7 @@ namespace JJ.Business.Synthesizer
                 }
             }
 
-            // Try match by type
+            // Try match by Dimension
             foreach (Operator dest_UnderlyingPatch_PatchOutlet in dest_UnderlyingPatch_PatchOutlets)
             {
                 bool dimensionIsFilledIn = source_CustomOperator_Outlet.GetDimensionEnum() != DimensionEnum.Undefined;
@@ -278,17 +278,14 @@ namespace JJ.Business.Synthesizer
             if (outlet == null) throw new NullException(() => outlet);
             if (inlet == null) throw new NullException(() => inlet);
 
-            // First match by Dimension / Inlet Dimension.
-            DimensionEnum dimensionEnum = outlet.GetDimensionEnum();
-            if (dimensionEnum != DimensionEnum.Undefined)
+            // First match by Dimension
+            DimensionEnum outletDimensionEnum = outlet.GetDimensionEnum();
+            if (outletDimensionEnum != DimensionEnum.Undefined)
             {
                 DimensionEnum inletDimensionEnum = inlet.GetDimensionEnum();
                 if (inletDimensionEnum != DimensionEnum.Undefined)
                 {
-                    string outletDimensionString = dimensionEnum.ToString();
-                    string inletDimensionString = inletDimensionEnum.ToString();
-
-                    if (String.Equals(outletDimensionString, inletDimensionString))
+                    if (outletDimensionEnum == inletDimensionEnum)
                     {
                         return true;
                     }

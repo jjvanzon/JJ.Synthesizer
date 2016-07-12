@@ -142,12 +142,16 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
                 if (underlyingPatchInletOperator == null)
                 {
-                    string message = MessageFormatter.InletNotFoundInUnderlyingPatch(
-                        customOperatorInlet.Name,
-                        ResourceHelper.GetDisplayName(customOperatorInlet.GetDimensionEnum()),
-                        customOperatorInlet.ListIndex);
+                    // Obsolete CustomOperator Inlets are allowed.
+                    continue;
 
-                    ValidationMessages.Add(PropertyNames.Inlet, message);
+                    // TODO: Remove InletNotFoundInUnderlyingPatch message.
+                    //string message = MessageFormatter.InletNotFoundInUnderlyingPatch(
+                    //    customOperatorInlet.Name,
+                    //    ResourceHelper.GetDisplayName(customOperatorInlet.GetDimensionEnum()),
+                    //    customOperatorInlet.ListIndex);
+
+                    //ValidationMessages.Add(PropertyNames.Inlet, message);
                 }
                 else
                 {
@@ -195,12 +199,16 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 Operator underlyingPatchOutlet = InletOutletMatcher.TryGetPatchOutlet(customOperatorOutlet, _patchRepository);
                 if (underlyingPatchOutlet == null)
                 {
-                    string message = MessageFormatter.OutletNotFoundInUnderlyingPatch(
-                        customOperatorOutlet.Name,
-                        ResourceHelper.GetDisplayName(customOperatorOutlet.GetDimensionEnum()),
-                        customOperatorOutlet.ListIndex);
+                    continue;
 
-                    ValidationMessages.Add(PropertyNames.Outlet, message);
+                    // Obsolete CustomOperator Outlets are allowed.
+                    // TODO: Remove message OutletNotFoundInUnderlyingPatch.
+                    //string message = MessageFormatter.OutletNotFoundInUnderlyingPatch(
+                    //    customOperatorOutlet.Name,
+                    //    ResourceHelper.GetDisplayName(customOperatorOutlet.GetDimensionEnum()),
+                    //    customOperatorOutlet.ListIndex);
+
+                    //ValidationMessages.Add(PropertyNames.Outlet, message);
                 }
                 else
                 {
