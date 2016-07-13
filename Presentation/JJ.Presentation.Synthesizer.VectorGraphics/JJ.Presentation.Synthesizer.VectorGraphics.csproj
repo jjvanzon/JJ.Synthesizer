@@ -44,6 +44,7 @@
     <Compile Include="Converters\InletControlPointConverter.cs" />
     <Compile Include="Converters\InletPointConverter.cs" />
     <Compile Include="Converters\InletRectangleConverter.cs" />
+    <Compile Include="Converters\OperatorDimensionLabelConverter.cs" />
     <Compile Include="Converters\OperatorLabelConverter.cs" />
     <Compile Include="Converters\OperatorRectangleConverter.cs" />
     <Compile Include="Converters\OutletControlPointConverter.cs" />

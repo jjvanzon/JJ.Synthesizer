@@ -38,8 +38,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         /// <summary> Maintained to reuse the same vector graphics elements for an operator already visited. </summary>
         private Dictionary<int, OperatorElements> _operatorID_OperatorElements_Dictionary;
         private Dictionary<int, Curve> _inletID_Curve_Dictionary;
-        private OperatorRectangleConverter _operatorToRectangleConverter;
-        private OperatorLabelConverter _operatorToLabelConverter;
+        private OperatorRectangleConverter _operatorRectangleConverter;
+        private OperatorLabelConverter _operatorLabelConverter;
+        private OperatorDimensionLabelConverter _operatorDimensionLabelConverter;
         private InletRectangleConverter _inletRectangleConverter;
         private InletPointConverter _inletPointConverter;
         private InletControlPointConverter _inletControlPointConverter;
@@ -76,12 +77,13 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
                 _result = new PatchViewModelToDiagramConverterResult(_doubleClickSpeedInMilliseconds, _doubleClickDeltaInPixels);
 
-                _operatorToRectangleConverter = new OperatorRectangleConverter(
+                _operatorRectangleConverter = new OperatorRectangleConverter(
                     _result.Diagram,
                     _result.MoveGesture,
                     _result.SelectOperatorGesture,
                     _result.DoubleClickOperatorGesture);
-                _operatorToLabelConverter = new OperatorLabelConverter();
+                _operatorLabelConverter = new OperatorLabelConverter();
+                _operatorDimensionLabelConverter = new OperatorDimensionLabelConverter();
                 _inletRectangleConverter = new InletRectangleConverter(_result.DropLineGesture, _result.InletToolTipGesture);
                 _inletPointConverter = new InletPointConverter();
                 _inletControlPointConverter = new InletControlPointConverter();
@@ -141,8 +143,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 int? operatorID = VectorGraphicsTagHelper.TryGetOperatorID(tagString);
                 if (operatorID.HasValue)
                 {
-                    _operatorToLabelConverter.TryRemove(operatorID.Value);
-                    _operatorToRectangleConverter.TryRemove(operatorID.Value);
+                    _operatorLabelConverter.TryRemove(operatorID.Value);
+                    _operatorDimensionLabelConverter.TryRemove(operatorID.Value);
+                    _operatorRectangleConverter.TryRemove(operatorID.Value);
                 }
 
                 elementToDelete.Children.Clear();
@@ -264,8 +267,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         private OperatorElements ConvertToRectangle_WithRelatedObjects(OperatorViewModel sourceOperatorViewModel, Diagram destDiagram)
         {
-            Rectangle destOperatorRectangle = _operatorToRectangleConverter.ConvertToOperatorRectangle(sourceOperatorViewModel, destDiagram);
-            Label destLabel = _operatorToLabelConverter.ConvertToOperatorLabel(sourceOperatorViewModel, destOperatorRectangle);
+            Rectangle destOperatorRectangle = _operatorRectangleConverter.ConvertToOperatorRectangle(sourceOperatorViewModel, destDiagram);
+            Label destLabel = _operatorLabelConverter.ConvertToOperatorLabel(sourceOperatorViewModel, destOperatorRectangle);
+            Label destDimensionLabel = _operatorDimensionLabelConverter.TryConvertToDimensionLabel(sourceOperatorViewModel, destOperatorRectangle);
             IList<Rectangle> destInletRectangles = _inletRectangleConverter.ConvertToInletRectangles(sourceOperatorViewModel, destOperatorRectangle);
             IList<Point> destInletPoints = _inletPointConverter.ConvertToInletPoints(sourceOperatorViewModel, destOperatorRectangle);
             IList<Point> destInletControlPoints = _inletControlPointConverter.ConvertToInletControlPoints(destInletPoints);
@@ -281,6 +285,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             _convertedElements.AddRange(destOutletRectangles);
             _convertedElements.AddRange(destOutletPoints);
             _convertedElements.AddRange(destOutletControlPoints);
+            if (destDimensionLabel != null)
+            {
+                _convertedElements.Add(destDimensionLabel);
+            }
 
             return new OperatorElements
             {
@@ -293,7 +301,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         }
 
         // Helpers
-
 
         private static int GetLineSegmentCount()
         {

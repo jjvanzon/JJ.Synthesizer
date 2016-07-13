@@ -76,10 +76,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             Rectangle destInletRectangle = TryGetInletRectangle(destOperatorRectangle, id);
             if (destInletRectangle == null)
             {
-                destInletRectangle = new Rectangle();
-                destInletRectangle.Diagram = destOperatorRectangle.Diagram;
-                destInletRectangle.Parent = destOperatorRectangle;
-                destInletRectangle.Tag = VectorGraphicsTagHelper.GetInletTag(id);
+                destInletRectangle = new Rectangle
+                {
+                    Diagram = destOperatorRectangle.Diagram,
+                    Parent = destOperatorRectangle,
+                    Tag = VectorGraphicsTagHelper.GetInletTag(id)
+                };
 
                 _destInletRectangleDictionary.Add(id, destInletRectangle);
             }

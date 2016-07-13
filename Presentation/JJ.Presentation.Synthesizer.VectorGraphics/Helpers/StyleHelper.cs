@@ -14,12 +14,14 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
         private const float TOOL_TIP_FONT_SIZE = 8f;
         private const float OPERATOR_FONT_SIZE = 10.5f;
         private const float NUMBER_OPERATOR_FONT_SIZE = 9f;
+        private const float DIMENSION_FONT_SIZE = 9f;
 
         public const float OPERATOR_HEIGHT = 40f;
         public const float OPERATOR_MINIMUM_WIDTH = 40f;
         public const float NUMBER_OPERATOR_HEIGHT = 30f;
         public const float NUMBER_OPERATOR_MINIMUM_WIDTH = 30f;
         public const int DRAG_DROP_LINE_ZINDEX = 100;
+        public const float DEFAULT_SPACING = 4f;
 
         /// <summary>
         /// Tells us how much an inlet or outlet's clickable rectangle
@@ -30,8 +32,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 
         public static Font DefaultFont { get; private set; }
         public static Font NumberOperatorFont { get; private set; }
+        public static Font DimensionFont { get; private set; }
         public static TextStyle TextStyle { get; private set; }
         public static TextStyle NumberOperatorTextStyle { get; private set; }
+        public static TextStyle DimensionTextStyle { get; private set; }
         public static BackStyle BackStyle { get; private set; }
         public static BackStyle BackStyleSelected { get; private set; }
         public static BackStyle BackStyleInvisible { get; private set; }
@@ -136,13 +140,19 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
             DefaultFont = new Font
             {
                 Name = "Verdana",
-                Size = OPERATOR_FONT_SIZE,
+                Size = OPERATOR_FONT_SIZE
             };
 
             NumberOperatorFont = new Font
             {
                 Name = "Verdana",
-                Size = NUMBER_OPERATOR_FONT_SIZE,
+                Size = NUMBER_OPERATOR_FONT_SIZE
+            };
+
+            DimensionFont = new Font
+            {
+                Name = "Verdana",
+                Size = DIMENSION_FONT_SIZE
             };
 
             TextStyle = new TextStyle
@@ -158,6 +168,14 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
                 HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center,
                 VerticalAlignmentEnum = VerticalAlignmentEnum.Center,
                 Font = NumberOperatorFont,
+                Color = almostBlack
+            };
+
+            DimensionTextStyle = new TextStyle
+            {
+                HorizontalAlignmentEnum = HorizontalAlignmentEnum.Left,
+                VerticalAlignmentEnum = VerticalAlignmentEnum.Top,
+                Font = DimensionFont,
                 Color = almostBlack
             };
 
