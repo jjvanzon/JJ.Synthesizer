@@ -10,6 +10,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
     {
         private const float CONTROL_POINT_DISTANCE = 50;
 
+        private readonly Dictionary<int, Point> _destInletControlPointDictionary = new Dictionary<int, Point>();
+
         public IList<Point> ConvertToInletControlPoints(IList<Point> sourceInletPoints)
         {
             if (sourceInletPoints == null) throw new NullException(() => sourceInletPoints);
@@ -21,17 +23,39 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
         private Point ConvertPoint(Point sourceInletPoint)
         {
-            var destInletControlPoint = new Point
+            int inletID = VectorGraphicsTagHelper.GetInletID(sourceInletPoint.Tag);
+
+            Point destInletControlPoint;
+            if (!_destInletControlPointDictionary.TryGetValue(inletID, out destInletControlPoint))
             {
-                Diagram = sourceInletPoint.Diagram,
-                Parent = sourceInletPoint.Parent,
-                PointStyle = StyleHelper.PointStyleInvisible
-            };
+                destInletControlPoint = new Point
+                {
+                    Diagram = sourceInletPoint.Diagram,
+                    Parent = sourceInletPoint.Parent,
+                    PointStyle = StyleHelper.PointStyleInvisible,
+                    Tag = sourceInletPoint.Tag
+                };
+
+                _destInletControlPointDictionary.Add(inletID, destInletControlPoint);
+            }
 
             destInletControlPoint.Position.X = sourceInletPoint.Position.X;
             destInletControlPoint.Position.Y = sourceInletPoint.Position.Y - CONTROL_POINT_DISTANCE;
 
             return destInletControlPoint;
+        }
+
+        public void TryRemove(int inletID)
+        {
+            Point destElement;
+            if (_destInletControlPointDictionary.TryGetValue(inletID, out destElement))
+            {
+                _destInletControlPointDictionary.Remove(inletID);
+
+                destElement.Children.Clear();
+                destElement.Parent = null;
+                destElement.Diagram = null;
+            }
         }
     }
 }

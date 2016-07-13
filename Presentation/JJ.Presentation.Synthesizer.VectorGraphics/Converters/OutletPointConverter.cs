@@ -87,12 +87,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             return destPoint;
         }
 
-        public void TryRemove(int id)
+        public void TryRemove(int outletID)
         {
             Point destElement;
-            if (_destOutletPointDictionary.TryGetValue(id, out destElement))
+            if (_destOutletPointDictionary.TryGetValue(outletID, out destElement))
             {
-                _destOutletPointDictionary.Remove(id);
+                _destOutletPointDictionary.Remove(outletID);
 
                 destElement.Children.Clear();
                 destElement.Parent = null;

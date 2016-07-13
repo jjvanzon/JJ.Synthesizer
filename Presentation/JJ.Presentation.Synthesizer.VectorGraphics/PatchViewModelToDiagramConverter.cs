@@ -8,7 +8,6 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.VectorGraphics.Converters;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.VectorGraphics.Configuration;
-using JJ.Framework.Presentation.VectorGraphics.Helpers;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics
 {
@@ -23,17 +22,22 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             public IList<Point> OutletControlPoints { get; set; }
         }
 
-        private static int _lineSegmentCount = GetLineSegmentCount();
-        private static bool _mustShowInvisibleElements = GetMustShowInvisibleElements();
+        private const int DEFAULT_LINE_SEGMENT_COUNT = 15;
+        private const bool DEFAULT_MUST_SHOW_INVISIBLE_ELEMENTS = false;
+
+        private static readonly int _lineSegmentCount = GetLineSegmentCount();
+        private static readonly bool _mustShowInvisibleElements = GetMustShowInvisibleElements();
 
         private readonly int _doubleClickSpeedInMilliseconds;
         private readonly int _doubleClickDeltaInPixels;
 
         private PatchViewModelToDiagramConverterResult _result;
+
+        /// <summary> Maintained to later see which elements are obsolete and should be deleted. </summary>
         private HashSet<Element> _convertedElements;
+        /// <summary> Maintained to reuse the same vector graphics elements for an operator already visited. </summary>
         private Dictionary<int, OperatorElements> _operatorID_OperatorElements_Dictionary;
         private Dictionary<int, Curve> _inletID_Curve_Dictionary;
-
         private OperatorRectangleConverter _operatorToRectangleConverter;
         private OperatorLabelConverter _operatorToLabelConverter;
         private InletRectangleConverter _inletRectangleConverter;
@@ -57,7 +61,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         }
 
         /// <param name="result">Pass an existing result to update an existing diagram.</param>
-        public PatchViewModelToDiagramConverterResult Execute(PatchViewModel sourcePatchViewModel, PatchViewModelToDiagramConverterResult result = null)
+        public PatchViewModelToDiagramConverterResult Execute(
+            PatchViewModel sourcePatchViewModel, 
+            PatchViewModelToDiagramConverterResult result = null)
         {
             if (sourcePatchViewModel == null) throw new NullException(() => sourcePatchViewModel);
 
@@ -71,9 +77,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 _result = new PatchViewModelToDiagramConverterResult(_doubleClickSpeedInMilliseconds, _doubleClickDeltaInPixels);
 
                 _operatorToRectangleConverter = new OperatorRectangleConverter(
-                    _result.Diagram, 
-                    _result.MoveGesture, 
-                    _result.SelectOperatorGesture, 
+                    _result.Diagram,
+                    _result.MoveGesture,
+                    _result.SelectOperatorGesture,
                     _result.DoubleClickOperatorGesture);
                 _operatorToLabelConverter = new OperatorLabelConverter();
                 _inletRectangleConverter = new InletRectangleConverter(_result.DropLineGesture, _result.InletToolTipGesture);
@@ -116,13 +122,28 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     continue;
                 }
 
-                int inletID = VectorGraphicsTagHelper.TryGetInletID(tagString) ?? 0;
-                _inletPointConverter.TryRemove(inletID);
-                _inletRectangleConverter.TryRemove(inletID);
+                int? inletID = VectorGraphicsTagHelper.TryGetInletID(tagString);
+                if (inletID.HasValue)
+                {
+                    _inletRectangleConverter.TryRemove(inletID.Value);
+                    _inletPointConverter.TryRemove(inletID.Value);
+                    _inletControlPointConverter.TryRemove(inletID.Value);
+                }
 
-                int outletID = VectorGraphicsTagHelper.TryGetOutletID(tagString) ?? 0;
-                _outletPointConverter.TryRemove(outletID);
-                _outletRectangleConverter.TryRemove(outletID);
+                int? outletID = VectorGraphicsTagHelper.TryGetOutletID(tagString);
+                if (outletID.HasValue)
+                {
+                    _outletRectangleConverter.TryRemove(outletID.Value);
+                    _outletPointConverter.TryRemove(outletID.Value);
+                    _outletControlPointConverter.TryRemove(outletID.Value);
+                }
+
+                int? operatorID = VectorGraphicsTagHelper.TryGetOperatorID(tagString);
+                if (operatorID.HasValue)
+                {
+                    _operatorToLabelConverter.TryRemove(operatorID.Value);
+                    _operatorToRectangleConverter.TryRemove(operatorID.Value);
+                }
 
                 elementToDelete.Children.Clear();
                 elementToDelete.Parent = null;
@@ -158,11 +179,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     OperatorViewModel sourceOperatorViewModel2 = inletViewModel.InputOutlet.Operator;
 
                     // Recursive call
-                    OperatorElements operatorVectorGraphicsElements2 = 
+                    OperatorElements operatorVectorGraphicsElements2 =
                         ConvertToRectangles_WithRelatedObject_Recursive(sourceOperatorViewModel2, destDiagram);
 
                     int inletID = inletViewModel.ID;
-                    
+
                     Curve destCurve = TryGetInletCurve(inletID);
                     if (destCurve == null)
                     {
@@ -184,7 +205,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     destCurve.ControlPointA = operatorVectorGraphicsElements1.InletControlPoints[i];
 
                     int? outletIndex = operatorVectorGraphicsElements2.OutletPoints.TryGetIndexOf(x => VectorGraphicsTagHelper.GetOutletID(x.Tag) == inletViewModel.InputOutlet.ID);
-                    if (outletIndex.HasValue) 
+                    if (outletIndex.HasValue)
                     {
                         destCurve.PointB = operatorVectorGraphicsElements2.OutletPoints[outletIndex.Value];
                         destCurve.ControlPointB = operatorVectorGraphicsElements2.OutletControlPoints[outletIndex.Value];
@@ -212,7 +233,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                         //}
                         //else
                         //{
-                            operatorVectorGraphicsElements2.OperatorRectangle.Parent = destDiagram.Background;
+                        operatorVectorGraphicsElements2.OperatorRectangle.Parent = destDiagram.Background;
                         //}
                     }
                 }
@@ -273,7 +294,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         // Helpers
 
-        private const int DEFAULT_LINE_SEGMENT_COUNT = 15;
 
         private static int GetLineSegmentCount()
         {
@@ -281,8 +301,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             if (config == null) return DEFAULT_LINE_SEGMENT_COUNT;
             return config.PatchLineSegmentCount;
         }
-
-        private const bool DEFAULT_MUST_SHOW_INVISIBLE_ELEMENTS = false;
 
         private static bool GetMustShowInvisibleElements()
         {

@@ -113,12 +113,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             return destRectangle;
         }
 
-        public void TryRemove(int id)
+        public void TryRemove(int outletID)
         {
             Rectangle destElement;
-            if (_destOutletRectangleDictionary.TryGetValue(id, out destElement))
+            if (_destOutletRectangleDictionary.TryGetValue(outletID, out destElement))
             {
-                _destOutletRectangleDictionary.Remove(id);
+                _destOutletRectangleDictionary.Remove(outletID);
 
                 destElement.Children.Clear();
                 destElement.Parent = null;

@@ -10,7 +10,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 {
     internal class InletPointConverter
     {
-        private Dictionary<int, Point> _destInletPointDictionary = new Dictionary<int, Point>();
+        private readonly Dictionary<int, Point> _destInletPointDictionary = new Dictionary<int, Point>();
 
         public IList<Point> ConvertToInletPoints(OperatorViewModel sourceOperatorViewModel, Rectangle destOperatorRectangle)
         {
@@ -52,18 +52,18 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
         /// <summary> Converts everything but its coordinates. </summary>
         private Point ConvertToInletPoint(InletViewModel sourceInletViewModel, Rectangle destOperatorRectangle)
         {
-            int id = sourceInletViewModel.ID;
+            int inletID = sourceInletViewModel.ID;
 
-            Point destInletPoint = TryGetInletPoint(destOperatorRectangle, id);
+            Point destInletPoint = TryGetInletPoint(destOperatorRectangle, inletID);
 
             if (destInletPoint == null)
             {
                 destInletPoint = new Point();
                 destInletPoint.Diagram = destOperatorRectangle.Diagram;
                 destInletPoint.Parent = destOperatorRectangle;
-                destInletPoint.Tag = VectorGraphicsTagHelper.GetInletTag(id);
+                destInletPoint.Tag = VectorGraphicsTagHelper.GetInletTag(inletID);
 
-                _destInletPointDictionary.Add(id, destInletPoint);
+                _destInletPointDictionary.Add(inletID, destInletPoint);
             }
 
             destInletPoint.PointStyle = StyleHelper.PointStyle;
@@ -90,12 +90,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             return destPoint;
         }
 
-        public void TryRemove(int id)
+        public void TryRemove(int inletID)
         {
             Point destElement;
-            if (_destInletPointDictionary.TryGetValue(id, out destElement))
+            if (_destInletPointDictionary.TryGetValue(inletID, out destElement))
             {
-                _destInletPointDictionary.Remove(id);
+                _destInletPointDictionary.Remove(inletID);
 
                 destElement.Children.Clear();
                 destElement.Parent = null;

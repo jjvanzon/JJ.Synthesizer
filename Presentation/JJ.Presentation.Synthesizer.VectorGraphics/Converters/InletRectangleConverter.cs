@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using JJ.Framework.Common;
-using JJ.Presentation.Synthesizer.VectorGraphics.Configuration;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 {
@@ -40,7 +39,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
                 return new Rectangle[0];
             }
 
-            IList < Rectangle> destInletRectangles = new List<Rectangle>(sourceInletViewModelsToConvert.Count);
+            IList<Rectangle> destInletRectangles = new List<Rectangle>(sourceInletViewModelsToConvert.Count);
 
             float rowHeight = destOperatorRectangle.Position.Height / 4;
             float heightOverflow = StyleHelper.INLET_OUTLET_RECTANGLE_HEIGHT_OVERFLOW_IN_PIXELS;
@@ -114,12 +113,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             return destRectangle;
         }
 
-        public void TryRemove(int id)
+        public void TryRemove(int inletID)
         {
             Rectangle destElement;
-            if (_destInletRectangleDictionary.TryGetValue(id, out destElement))
+            if (_destInletRectangleDictionary.TryGetValue(inletID, out destElement))
             {
-                _destInletRectangleDictionary.Remove(id);
+                _destInletRectangleDictionary.Remove(inletID);
 
                 destElement.Children.Clear();
                 destElement.Parent = null;
