@@ -235,4 +235,7 @@
     <value>Operator '{0}' has no items filled in.</value>
     <comment>{0} = name or type of object</comment>
   </data>
+  <data name="OperatorIsInGraphButNotInList" xml:space="preserve">
+    <value>Operator '{0}' is present in the graph, but not in the flat list.</value>
+  </data>
 </root>

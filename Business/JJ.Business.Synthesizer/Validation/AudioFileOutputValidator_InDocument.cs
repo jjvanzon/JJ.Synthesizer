@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Validation
             For(() => Object.Document, PropertyDisplayNames.Document).NotNull();
             For(() => Object.FilePath, PropertyDisplayNames.FilePath).MaxLength(255);
 
-            Execute(new NameValidator(Object.Name));
+            ExecuteValidator(new NameValidator(Object.Name));
         }
     }
 }

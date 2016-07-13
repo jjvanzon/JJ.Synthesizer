@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Validation
         {
             Sample sample = Object;
 
-            Execute(new NameValidator(sample.Name, required: false));
+            ExecuteValidator(new NameValidator(sample.Name, required: false));
 
             For(() => sample.SamplingRate, PropertyDisplayNames.SamplingRate).GreaterThan(0);
             For(() => sample.Amplifier, PropertyDisplayNames.Amplifier).NotNaN().NotInfinity();

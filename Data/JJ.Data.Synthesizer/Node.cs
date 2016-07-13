@@ -11,7 +11,7 @@ namespace JJ.Data.Synthesizer
         public virtual double Y { get; set; }
 
         /// <summary> Currently not used. (2015-11-16) </summary>
-        public virtual double Direction { get; set; }
+        public virtual double Slope { get; set; }
         public virtual NodeType NodeType { get; set; }
 
         /// <summary> parent </summary>

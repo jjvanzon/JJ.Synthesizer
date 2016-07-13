@@ -65,7 +65,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             // This to prevent long message prefixes due to recursive processing.
             string operatorMessagePrefix = ValidationHelper.GetMessagePrefix(op, _sampleRepository, _curveRepository, _patchRepository);
 
-            Execute(new Versatile_OperatorValidator(op, _patchRepository), operatorMessagePrefix);
+            ExecuteValidator(new Versatile_OperatorValidator(op, _patchRepository), operatorMessagePrefix);
 
             OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
 
@@ -83,8 +83,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
                             string curveMessagePrefix = ValidationHelper.GetMessagePrefix(curve);
 
-                            Execute(new CurveValidator_WithoutNodes(curve), curveMessagePrefix);
-                            Execute(new CurveValidator_Nodes(curve), curveMessagePrefix);
+                            ExecuteValidator(new CurveValidator_WithoutNodes(curve), curveMessagePrefix);
+                            ExecuteValidator(new CurveValidator_Nodes(curve), curveMessagePrefix);
                         }
                     }
                 }
@@ -101,7 +101,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                         if (!_alreadyDone.Contains(sample))
                         {
                             _alreadyDone.Add(sample);
-                            Execute(new SampleValidator(sample), ValidationHelper.GetMessagePrefix(sample));
+                            ExecuteValidator(new SampleValidator(sample), ValidationHelper.GetMessagePrefix(sample));
                         }
                     }
                 }
@@ -113,7 +113,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 {
                     // Message prefix not used here on purpose. 
                     // This to prevent long message prefixes due to recursive processing.
-                    Execute(new Recursive_OperatorValidator(inlet.InputOutlet.Operator, _curveRepository, _sampleRepository, _patchRepository, _alreadyDone));
+                    ExecuteValidator(new Recursive_OperatorValidator(inlet.InputOutlet.Operator, _curveRepository, _sampleRepository, _patchRepository, _alreadyDone));
                 }
             }
         }

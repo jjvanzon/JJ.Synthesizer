@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Validation.Scales
             foreach (Tone tone in Object.Tones)
             {
                 string messagePrefix = ValidationHelper.GetMessagePrefix(tone);
-                Execute(new ToneValidator(tone), messagePrefix);
+                ExecuteValidator(new ToneValidator(tone), messagePrefix);
             }
         }
     }

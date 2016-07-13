@@ -7,7 +7,7 @@ using JJ.Data.Synthesizer;
 using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Validation;
 
-namespace JJ.Business.Synthesizer.Validation
+namespace JJ.Business.Synthesizer.Validation.Patches
 {
     internal class PatchValidator_UniqueName : FluentValidator<Patch>
     {

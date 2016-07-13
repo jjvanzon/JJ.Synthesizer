@@ -10,7 +10,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
             Id(x => x.ID).GeneratedBy.Assigned();
             Map(x => x.X);
             Map(x => x.Y);
-            Map(x => x.Direction);
+            Map(x => x.Slope);
 
             References(x => x.Curve, ColumnNames.CurveID);
             References(x => x.NodeType, ColumnNames.NodeTypeID);

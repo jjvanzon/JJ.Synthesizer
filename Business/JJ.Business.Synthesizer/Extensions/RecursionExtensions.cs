@@ -5,6 +5,7 @@ using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Reflection.Exceptions;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace JJ.Business.Synthesizer.Extensions
 {
@@ -209,6 +210,58 @@ namespace JJ.Business.Synthesizer.Extensions
             }
 
             return underlyingPatch2.ID == underlyingPatch.ID;
+        }
+
+        /// <summary>  Should be same as patch.Operators, but in case of an invalid entity structure it might not be. </summary>
+        public static IList<Operator> GetOperatorsRecursive(this Patch patch)
+        {
+            return EnumerateOperatorsRecursive(patch).ToArray();
+        }
+
+        /// <summary>  Should be same as patch.Operators, but in case of an invalid entity structure it might not be. </summary>
+        public static IEnumerable<Operator> EnumerateOperatorsRecursive(this Patch patch)
+        {
+            var hashSet = new HashSet<Operator>();
+
+            AddOperatorsInPatchRecursive(hashSet, patch);
+
+            return hashSet;
+        }
+
+        private static void AddOperatorsInPatchRecursive(HashSet<Operator> hashSet, Patch patch)
+        {
+            if (patch == null) throw new NullException(() => patch);
+
+            foreach (Operator op in patch.Operators)
+            {
+                AddOperatorsRecursive(hashSet, op);
+            }
+        }
+
+        private static void AddOperatorsRecursive(HashSet<Operator> hashSet, Operator op)
+        {
+            if (hashSet.Contains(op))
+            {
+                return;
+            }
+
+            hashSet.Add(op);
+
+            foreach (Inlet inlet in op.Inlets)
+            {
+                if (inlet.InputOutlet != null)
+                {
+                    AddOperatorsRecursive(hashSet, inlet.InputOutlet.Operator);
+                }
+            }
+
+            foreach (Outlet outlet in op.Outlets)
+            {
+                foreach (Inlet inlet in outlet.ConnectedInlets)
+                {
+                    AddOperatorsRecursive(hashSet, inlet.InputOutlet.Operator);
+                }
+            }
         }
     }
 }

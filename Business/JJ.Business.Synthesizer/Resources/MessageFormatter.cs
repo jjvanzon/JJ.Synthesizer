@@ -9,6 +9,46 @@ namespace JJ.Business.Synthesizer.Resources
 {
     public static class MessageFormatter
     {
+        public static string CannotChangeInletsBecauseOneIsStillFilledIn(int oneBasedInletNumber)
+        {
+            return String.Format(Messages.CannotChangeInletCountBecauseOneIsStillFilledIn, oneBasedInletNumber);
+        }
+
+        public static string CannotChangeOutletsBecauseOneIsStillFilledIn(int oneBasedOutletNumber)
+        {
+            return String.Format(Messages.CannotChangeOutletCountBecauseOneIsStillFilledIn, oneBasedOutletNumber);
+        }
+
+        public static string CannotDeleteBecauseHasReferences()
+        {
+            return Messages.CannotDeleteBecauseHasReferences;
+        }
+
+        public static string CannotDeleteCurveBecauseHasOperators(string name)
+        {
+            return String.Format(Messages.CannotDeleteCurveBecauseHasOperators, name);
+        }
+
+        public static string CannotDeleteSampleBecauseHasOperators(string name)
+        {
+            return String.Format(Messages.CannotDeleteSampleBecauseHasOperators, name);
+        }
+
+        public static string ChannelCountDoesNotMatchSpeakerSetup()
+        {
+            return Messages.ChannelCountDoesNotMatchSpeakerSetup;
+        }
+
+        public static string ChannelIndexNumberDoesNotMatchSpeakerSetup()
+        {
+            return Messages.ChannelIndexNumberDoesNotMatchSpeakerSetup;
+        }
+
+        public static string DocumentIsDependentOnDocument(string dependentDocumentName, string dependentOnDocumentName)
+        {
+            return String.Format(Messages.DocumentIsDependentOnDocument, dependentDocumentName, dependentOnDocumentName);
+        }
+
         /// <summary>
         /// Note:
         /// When OperatorTypeEnum equals Undefined it will return a text like:
@@ -24,24 +64,9 @@ namespace JJ.Business.Synthesizer.Resources
             return String.Format(Messages.InletNotSet, operatorTypeName, operatorName, operandName);
         }
 
-        public static string NumberIs0WithName(string name)
+        public static string InletPropertyDoesNotMatchWithUnderlyingPatch(string propertyDisplayName, string inletName, string dimensionDisplayName, int? inletListIndex)
         {
-            return String.Format(Messages.NumberIs0WithName, name);
-        }
-
-        public static string NameOrDimensionMustBeFilledIn()
-        {
-            return Messages.NameOrDimensionMustBeFilledIn;
-        }
-
-        public static string NotUnique_WithPropertyName_AndValue(string propertyDisplayName, object value)
-        {
-            return String.Format(Messages.NotUnique_WithPropertyName_AndValue, propertyDisplayName, value);
-        }
-
-        public static string SampleNotLoaded(string sampleName)
-        {
-            return String.Format(Messages.SampleNotLoaded, sampleName);
+            return String.Format(Messages.InletPropertyDoesNotMatchWithUnderlyingPatch, propertyDisplayName, inletName, dimensionDisplayName, inletListIndex);
         }
 
         public static string MustBePowerOf2(string frequencyCount)
@@ -49,64 +74,23 @@ namespace JJ.Business.Synthesizer.Resources
             return String.Format(Messages.MustBePowerOf2, frequencyCount);
         }
 
-        public static string CannotChangeInletsBecauseOneIsStillFilledIn(int oneBasedInletNumber)
+        public static string NameOrDimensionMustBeFilledIn()
         {
-            return String.Format(Messages.CannotChangeInletCountBecauseOneIsStillFilledIn, oneBasedInletNumber);
+            return Messages.NameOrDimensionMustBeFilledIn;
         }
 
-        public static string CannotChangeOutletsBecauseOneIsStillFilledIn(int oneBasedOutletNumber)
+        public static string NamesNotUnique_WithEntityTypeNameAndNames(string entityTypeDisplayName, IList<string> duplicateNames)
         {
-            return String.Format(Messages.CannotChangeOutletCountBecauseOneIsStillFilledIn, oneBasedOutletNumber);
+            if (duplicateNames == null) throw new NullException(() => duplicateNames);
+
+            string formattedDuplicateNames = String.Join(", ", duplicateNames.Select(x => String.Format("'{0}'", x)));
+
+            return String.Format(Messages.NamesNotUnique_WithEntityTypeNameAndNames, entityTypeDisplayName, formattedDuplicateNames);
         }
 
-        public static string SampleNotActive(string sampleName)
+        public static string NotFound_WithTypeName_AndName(string entityTypeDisplayName, string name)
         {
-            return String.Format(Messages.SampleNotActive, sampleName);
-        }
-
-        public static string SampleCount0(string sampleName)
-        {
-            return String.Format(Messages.SampleCount0, sampleName);
-        }
-
-        public static string ChannelCountDoesNotMatchSpeakerSetup()
-        {
-            return Messages.ChannelCountDoesNotMatchSpeakerSetup;
-        }
-
-        public static string CannotDeleteBecauseHasReferences()
-        {
-            return Messages.CannotDeleteBecauseHasReferences;
-        }
-
-        public static string ChannelIndexNumberDoesNotMatchSpeakerSetup()
-        {
-            return Messages.ChannelIndexNumberDoesNotMatchSpeakerSetup;
-        }
-
-        public static string OperatorPatchIsNotTheExpectedPatch(string operatorName, string expectedPatchName)
-        {
-            return String.Format(Messages.OperatorPatchIsNotTheExpectedPatch, operatorName, expectedPatchName);
-        }
-
-        public static string DocumentIsDependentOnDocument(string dependentDocumentName, string dependentOnDocumentName)
-        {
-            return String.Format(Messages.DocumentIsDependentOnDocument, dependentDocumentName, dependentOnDocumentName);
-        }
-
-        public static string CannotDeleteCurveBecauseHasOperators(string name)
-        {
-            return String.Format(Messages.CannotDeleteCurveBecauseHasOperators, name);
-        }
-
-        public static string CannotDeleteSampleBecauseHasOperators(string name)
-        {
-            return String.Format(Messages.CannotDeleteSampleBecauseHasOperators, name);
-        }
-
-        public static string OperatorIsCircularWithName(string name)
-        {
-            return String.Format(Messages.OperatorIsCircularWithName, name);
+            return String.Format(Messages.NotFound_WithTypeName_AndName, entityTypeDisplayName, name);
         }
 
         public static string NotFoundInList_WithItemName_ID_AndListName(string name, int documentID, string listName)
@@ -114,9 +98,19 @@ namespace JJ.Business.Synthesizer.Resources
             return String.Format(Messages.NotFoundInList_WithItemName_ID_AndListName, name, documentID, listName);
         }
 
-        public static string NotFound_WithTypeName_AndName(string entityTypeDisplayName, string name)
+        public static string NotUnique_WithPropertyName_AndValue(string propertyDisplayName, object value)
         {
-            return String.Format(Messages.NotFound_WithTypeName_AndName, entityTypeDisplayName, name);
+            return String.Format(Messages.NotUnique_WithPropertyName_AndValue, propertyDisplayName, value);
+        }
+
+        public static string NumberIs0WithName(string name)
+        {
+            return String.Format(Messages.NumberIs0WithName, name);
+        }
+
+        public static string OperatorHasNoInletFilledIn_WithOperatorName(string name)
+        {
+            return String.Format(Messages.OperatorHasNoInletFilledIn_WithOperatorName, name);
         }
 
         public static string OperatorHasNoInletsFilledIn_WithOperatorName(string name)
@@ -129,28 +123,39 @@ namespace JJ.Business.Synthesizer.Resources
             return String.Format(Messages.OperatorHasNoItemsFilledIn_WithOperatorName, name);
         }
 
-        public static string OperatorHasNoInletFilledIn_WithOperatorName(string name)
+        public static string OperatorIsCircularWithName(string name)
         {
-            return String.Format(Messages.OperatorHasNoInletFilledIn_WithOperatorName, name);
+            return String.Format(Messages.OperatorIsCircularWithName, name);
         }
 
-        public static string NamesNotUnique_WithEntityTypeNameAndNames(string entityTypeDisplayName, IList<string> duplicateNames)
+        public static string OperatorIsInGraphButNotInList(string operatorIdentifier)
         {
-            if (duplicateNames == null) throw new NullException(() => duplicateNames);
-
-            string formattedDuplicateNames = String.Join(", ", duplicateNames.Select(x => String.Format("'{0}'", x)));
-
-            return String.Format(Messages.NamesNotUnique_WithEntityTypeNameAndNames, entityTypeDisplayName, formattedDuplicateNames);
+            return String.Format(Messages.OperatorIsInGraphButNotInList, operatorIdentifier);
         }
 
-        public static string InletPropertyDoesNotMatchWithUnderlyingPatch(string propertyDisplayName, string inletName, string dimensionDisplayName, int? inletListIndex)
+        public static string OperatorPatchIsNotTheExpectedPatch(string operatorName, string expectedPatchName)
         {
-            return String.Format(Messages.InletPropertyDoesNotMatchWithUnderlyingPatch, propertyDisplayName, inletName, dimensionDisplayName, inletListIndex);
+            return String.Format(Messages.OperatorPatchIsNotTheExpectedPatch, operatorName, expectedPatchName);
         }
 
         public static string OutletPropertyDoesNotMatchWithUnderlyingPatch(string propertyDisplayName, string inletName, string dimensionDisplayName, int? inletListIndex)
         {
             return String.Format(Messages.OutletPropertyDoesNotMatchWithUnderlyingPatch, propertyDisplayName, inletName, dimensionDisplayName, inletListIndex);
+        }
+
+        public static string SampleCount0(string sampleName)
+        {
+            return String.Format(Messages.SampleCount0, sampleName);
+        }
+
+        public static string SampleNotActive(string sampleName)
+        {
+            return String.Format(Messages.SampleNotActive, sampleName);
+        }
+
+        public static string SampleNotLoaded(string sampleName)
+        {
+            return String.Format(Messages.SampleNotLoaded, sampleName);
         }
     }
 }

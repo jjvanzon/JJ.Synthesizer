@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             if (_alreadyDone.Contains(Object)) return;
             _alreadyDone.Add(Object);
 
-            Execute(new Versatile_OperatorWarningValidator(Object));
+            ExecuteValidator(new Versatile_OperatorWarningValidator(Object));
 
             if (Object.GetOperatorTypeEnum() == OperatorTypeEnum.Sample)
             {
@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                     if (sample != null)
                     {
                         byte[] bytes = _sampleRepository.TryGetBytes(sampleID);
-                        Execute(new SampleWarningValidator(sample, bytes, _alreadyDone));
+                        ExecuteValidator(new SampleWarningValidator(sample, bytes, _alreadyDone));
                     }
                 }
             }
@@ -50,7 +50,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             {
                 if (inlet.InputOutlet != null)
                 {
-                    Execute(new Recursive_OperatorWarningValidator(inlet.InputOutlet.Operator, _sampleRepository, _alreadyDone));
+                    ExecuteValidator(new Recursive_OperatorWarningValidator(inlet.InputOutlet.Operator, _sampleRepository, _alreadyDone));
                 }
             }
         }

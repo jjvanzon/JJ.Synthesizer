@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         protected override void Execute()
         {
-            Execute(new NameValidator(Object.Name, required: false));
+            ExecuteValidator(new NameValidator(Object.Name, required: false));
 
             For(() => Object.OperatorType, PropertyDisplayNames.OperatorType).NotNull();
             For(() => Object.GetOperatorTypeEnum(), PropertyDisplayNames.OperatorType).IsEnum<OperatorTypeEnum>();

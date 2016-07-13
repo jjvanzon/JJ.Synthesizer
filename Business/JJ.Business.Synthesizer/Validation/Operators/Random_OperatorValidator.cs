@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             base.Execute();
 
-            Execute(new ResampleInterpolationType_DataProperty_Validator(Object.Data));
+            ExecuteValidator(new ResampleInterpolationType_DataProperty_Validator(Object.Data));
         }
     }
 }

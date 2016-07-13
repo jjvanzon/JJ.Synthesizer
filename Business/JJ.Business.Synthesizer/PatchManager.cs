@@ -19,6 +19,7 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Validation.Operators;
 using JJ.Business.Synthesizer.Configuration;
 using JJ.Framework.Common;
+using JJ.Business.Synthesizer.Validation.Patches;
 
 namespace JJ.Business.Synthesizer
 {
@@ -294,22 +295,13 @@ namespace JJ.Business.Synthesizer
 
         private VoidResult ValidatePatchWithRelatedEntities()
         {
-            var validators = new List<IValidator>
-            {
-                new PatchValidator_UniqueName(Patch),
-                new PatchValidator_InDocument(Patch),
-                new PatchValidator_WithRelatedEntities(
-                    Patch,
-                    _repositories.CurveRepository,
-                    _repositories.SampleRepository,
-                    _repositories.PatchRepository, new HashSet<object>())
-            };
+            IValidator validator = new PatchValidator(
+                Patch,
+                _repositories.CurveRepository,
+                _repositories.SampleRepository,
+                _repositories.PatchRepository, new HashSet<object>());
 
-            var result = new VoidResult
-            {
-                Successful = validators.All(x => x.IsValid),
-                Messages = validators.SelectMany(x => x.ValidationMessages).ToCanonical()
-            };
+            VoidResult result = validator.ToResult();
 
             return result;
         }

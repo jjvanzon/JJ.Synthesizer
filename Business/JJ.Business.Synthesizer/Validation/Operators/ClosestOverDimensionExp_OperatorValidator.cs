@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             base.Execute();
 
-            Execute(new CollectionRecalculation_DataProperty_Validator(Object.Data));
+            ExecuteValidator(new CollectionRecalculation_DataProperty_Validator(Object.Data));
         }
     }
 }

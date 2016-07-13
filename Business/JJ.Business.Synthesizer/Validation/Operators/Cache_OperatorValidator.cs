@@ -27,8 +27,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             base.Execute();
 
-            Execute(new InterpolationType_DataProperty_Validator(Object.Data));
-            Execute(new SpeakerSetup_DataProperty_Validator(Object.Data));
+            ExecuteValidator(new InterpolationType_DataProperty_Validator(Object.Data));
+            ExecuteValidator(new SpeakerSetup_DataProperty_Validator(Object.Data));
         }
     }
 }

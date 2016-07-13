@@ -63,7 +63,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
             _result = result;
 
-            if (_result == null || sourcePatchViewModel.PatchID != _currentPatchID)
+            bool isDifferentPatch = _result == null || sourcePatchViewModel.PatchID != _currentPatchID;
+            if (isDifferentPatch)
             {
                 _currentPatchID = sourcePatchViewModel.PatchID;
 

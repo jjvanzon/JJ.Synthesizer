@@ -22,8 +22,8 @@ namespace JJ.Business.Synthesizer.Validation.Curves
             {
                 string messagePrefix = ValidationHelper.GetMessagePrefix(node, i);
 
-                Execute(new NodeValidator_WithoutParent(node), messagePrefix);
-                Execute(new NodeValidator_Parent(node), messagePrefix);
+                ExecuteValidator(new NodeValidator_WithoutParent(node), messagePrefix);
+                ExecuteValidator(new NodeValidator_Parent(node), messagePrefix);
 
                 i++;
             }

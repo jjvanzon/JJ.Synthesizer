@@ -47,6 +47,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public const string LiteralFrequencies = "LiteralFrequencies";
         public const string Name = "Name";
         public const string Number = "Number";
+        public const string Operators = "Operators";
         public const string Outlet = "Outlet";
         public const string OutletCount = "OutletCount";
         public const string Outlets = "Outlets";

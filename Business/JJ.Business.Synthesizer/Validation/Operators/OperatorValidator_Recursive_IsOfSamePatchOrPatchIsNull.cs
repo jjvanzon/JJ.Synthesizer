@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             {
                 if (inlet.InputOutlet != null)
                 {
-                    Execute(new OperatorValidator_Recursive_IsOfSamePatchOrPatchIsNull(inlet.InputOutlet.Operator, _patch));
+                    ExecuteValidator(new OperatorValidator_Recursive_IsOfSamePatchOrPatchIsNull(inlet.InputOutlet.Operator, _patch));
                 }
             }
         }

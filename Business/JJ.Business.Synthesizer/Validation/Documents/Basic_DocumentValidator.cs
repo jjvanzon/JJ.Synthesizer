@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
         {
             Document document = Object;
 
-            Execute(new NameValidator(document.Name), ValidationHelper.GetMessagePrefix(document));
+            ExecuteValidator(new NameValidator(document.Name), ValidationHelper.GetMessagePrefix(document));
         }
     }
 }

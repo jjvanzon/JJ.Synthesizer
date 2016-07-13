@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             base.Execute();
 
-            Execute(new ListIndex_DataProperty_Validator(Object.Data));
+            ExecuteValidator(new ListIndex_DataProperty_Validator(Object.Data));
         }
     }
 }

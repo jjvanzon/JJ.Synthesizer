@@ -2,11 +2,11 @@
 using JJ.Data.Synthesizer;
 using JJ.Framework.Validation;
 
-namespace JJ.Business.Synthesizer.Validation
+namespace JJ.Business.Synthesizer.Validation.Patches
 {
-    internal class PatchValidator_InDocument : FluentValidator<Patch>
+    internal class PatchValidator_Name : FluentValidator<Patch>
     {
-        public PatchValidator_InDocument(Patch obj)
+        public PatchValidator_Name(Patch obj)
             : base(obj)
         { }
 
@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (MustValidate())
             {
-                Execute(new NameValidator(Object.Name));
+                ExecuteValidator(new NameValidator(Object.Name));
             }
         }
 

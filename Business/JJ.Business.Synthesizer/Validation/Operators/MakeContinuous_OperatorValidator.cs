@@ -22,8 +22,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             Operator op = Object;
 
-            Execute(new Dimension_DataProperty_Validator(Object.Data));
-            Execute(new ResampleInterpolationType_DataProperty_Validator(Object.Data));
+            ExecuteValidator(new Dimension_DataProperty_Validator(Object.Data));
+            ExecuteValidator(new ResampleInterpolationType_DataProperty_Validator(Object.Data));
         }
     }
 }

@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             foreach (Inlet inlet in op.Inlets)
             {
                 string messagePrefix = ValidationHelper.GetMessagePrefix(inlet, i + 1);
-                Execute(new InletValidator_ForCustomOperator(inlet), messagePrefix);
+                ExecuteValidator(new InletValidator_ForCustomOperator(inlet), messagePrefix);
                 i++;
             }
 
@@ -45,14 +45,14 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             foreach (Outlet outlet in op.Outlets)
             {
                 string messagePrefix = ValidationHelper.GetMessagePrefix(outlet, i + 1);
-                Execute(new OutletValidator_ForCustomOperator(outlet), messagePrefix);
+                ExecuteValidator(new OutletValidator_ForCustomOperator(outlet), messagePrefix);
                 i++;
             }
 
             ValidateInletNamesUnique();
             ValidateOutletNamesUnique();
 
-            Execute(new DataPropertyValidator(op.Data, _allowedDataKeys));
+            ExecuteValidator(new DataPropertyValidator(op.Data, _allowedDataKeys));
 
             if (DataPropertyParser.DataIsWellFormed(op))
             {

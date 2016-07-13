@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Business.Synthesizer.Validation.Scales;
 using JJ.Business.Synthesizer.Validation.Curves;
+using JJ.Business.Synthesizer.Validation.Patches;
 
 namespace JJ.Business.Synthesizer.Validation.Documents
 {
@@ -47,27 +48,27 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             }
             _alreadyDone.Add(document);
 
-            Execute(new Basic_DocumentValidator(document));
+            ExecuteValidator(new Basic_DocumentValidator(document));
 
             bool isRootDocument = document.ParentDocument == null;
             if (isRootDocument)
             {
-                Execute(new RootDocument_DocumentValidator(document));
-                Execute(new DocumentValidator_Unicity(document));
+                ExecuteValidator(new RootDocument_DocumentValidator(document));
+                ExecuteValidator(new DocumentValidator_Unicity(document));
             }
             else
             {
-                Execute(new ChildDocument_DocumentValidator(document));
+                ExecuteValidator(new ChildDocument_DocumentValidator(document));
             }
 
             foreach (AudioFileOutput audioFileOutput in document.AudioFileOutputs)
             {
-                Execute(new AudioFileOutputValidator(audioFileOutput), ValidationHelper.GetMessagePrefix(audioFileOutput));
+                ExecuteValidator(new AudioFileOutputValidator(audioFileOutput), ValidationHelper.GetMessagePrefix(audioFileOutput));
             }
 
             if (document.AudioOutput != null)
             {
-                Execute(new AudioOutputValidator(document.AudioOutput), ValidationHelper.GetMessagePrefix(document.AudioOutput));
+                ExecuteValidator(new AudioOutputValidator(document.AudioOutput), ValidationHelper.GetMessagePrefix(document.AudioOutput));
             }
 
             foreach (Curve curve in document.Curves)
@@ -79,23 +80,22 @@ namespace JJ.Business.Synthesizer.Validation.Documents
                 _alreadyDone.Add(curve);
 
                 string messagePrefix = ValidationHelper.GetMessagePrefix(curve);
-                Execute(new CurveValidator_WithoutNodes(curve), messagePrefix);
-                Execute(new CurveValidator_Nodes(curve), messagePrefix);
+                ExecuteValidator(new CurveValidator_WithoutNodes(curve), messagePrefix);
+                ExecuteValidator(new CurveValidator_Nodes(curve), messagePrefix);
             }
 
             foreach (Patch patch in document.Patches)
             {
                 string messagePrefix = ValidationHelper.GetMessagePrefix(patch);
-                Execute(new PatchValidator_WithRelatedEntities(patch, _curveRepository, _sampleRepository, _patchRepository, _alreadyDone), messagePrefix);
-                Execute(new PatchValidator_InDocument(patch), messagePrefix);
+                ExecuteValidator(new PatchValidator(patch, _curveRepository, _sampleRepository, _patchRepository, _alreadyDone), messagePrefix);
             }
 
             foreach (Scale scale in document.Scales)
             {
                 string messagePrefix = ValidationHelper.GetMessagePrefix(scale);
-                Execute(new ScaleValidator_InDocument(scale), messagePrefix);
-                Execute(new Versatile_ScaleValidator_WithoutTones(scale), messagePrefix);
-                Execute(new ScaleValidator_Tones(scale), messagePrefix);
+                ExecuteValidator(new ScaleValidator_InDocument(scale), messagePrefix);
+                ExecuteValidator(new Versatile_ScaleValidator_WithoutTones(scale), messagePrefix);
+                ExecuteValidator(new ScaleValidator_Tones(scale), messagePrefix);
             }
 
             foreach (Sample sample in document.Samples)
@@ -106,12 +106,12 @@ namespace JJ.Business.Synthesizer.Validation.Documents
                 }
                 _alreadyDone.Add(sample);
 
-                Execute(new SampleValidator(sample), ValidationHelper.GetMessagePrefix(sample));
+                ExecuteValidator(new SampleValidator(sample), ValidationHelper.GetMessagePrefix(sample));
             }
 
             foreach (Document childDocument in document.ChildDocuments)
             {
-                Execute(new Recursive_DocumentValidator(childDocument, _curveRepository, _sampleRepository, _patchRepository, _alreadyDone), ValidationHelper.GetMessagePrefixForChildDocument(childDocument));
+                ExecuteValidator(new Recursive_DocumentValidator(childDocument, _curveRepository, _sampleRepository, _patchRepository, _alreadyDone), ValidationHelper.GetMessagePrefixForChildDocument(childDocument));
             }
 
             // TODO:

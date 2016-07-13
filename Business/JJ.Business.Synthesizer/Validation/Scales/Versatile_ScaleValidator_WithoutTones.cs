@@ -20,24 +20,24 @@ namespace JJ.Business.Synthesizer.Validation.Scales
         {
             ScaleTypeEnum scaleTypeEnum = Object.GetScaleTypeEnum();
 
-            Execute(new Basic_ScaleValidator(Object));
+            ExecuteValidator(new Basic_ScaleValidator(Object));
 
             switch (scaleTypeEnum)
             {
                 case ScaleTypeEnum.LiteralFrequency:
-                    Execute(new LiteralFrequency_ScaleValidator(Object));
+                    ExecuteValidator(new LiteralFrequency_ScaleValidator(Object));
                     break;
 
                 case ScaleTypeEnum.Factor:
-                    Execute(new Factor_ScaleValidator(Object));
+                    ExecuteValidator(new Factor_ScaleValidator(Object));
                     break;
 
                 case ScaleTypeEnum.Exponent:
-                    Execute(new Exponent_ScaleValidator(Object));
+                    ExecuteValidator(new Exponent_ScaleValidator(Object));
                     break;
 
                 case ScaleTypeEnum.SemiTone:
-                    Execute(new SemiTone_ScaleValidator(Object));
+                    ExecuteValidator(new SemiTone_ScaleValidator(Object));
                     break;
             }
         }

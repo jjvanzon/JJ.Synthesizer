@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Warnings
         {
             foreach (Operator op in Object.Operators)
             {
-                Execute(new Recursive_OperatorWarningValidator(op, _sampleRepository, _alreadyDone));
+                ExecuteValidator(new Recursive_OperatorWarningValidator(op, _sampleRepository, _alreadyDone));
             }
         }
     }

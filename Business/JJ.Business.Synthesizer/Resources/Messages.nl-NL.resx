@@ -230,4 +230,7 @@
     <value>{0} moet een macht van 2 zijn.</value>
     <comment>{0} = name of the value</comment>
   </data>
+  <data name="OperatorIsInGraphButNotInList" xml:space="preserve">
+    <value>Operator '{0}' is aanwezig in de graaf, but niet in de platte lijst.</value>
+  </data>
 </root>

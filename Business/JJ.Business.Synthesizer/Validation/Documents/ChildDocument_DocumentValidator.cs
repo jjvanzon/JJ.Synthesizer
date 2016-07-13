@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             For(() => document.ChildDocuments.Count, PropertyDisplayNames.ChildDocumentCount).Is(0);
 
             // TODO: Message prefix, or it will say 'Name is too long'.
-            Execute(new NameValidator(Object.GroupName, required: false));
+            ExecuteValidator(new NameValidator(Object.GroupName, required: false));
 
             // AudioOutput must be null for child documents.
             For(() => document.AudioOutput, PropertyDisplayNames.AudioOutput).IsNull();
@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             // Names are required in document, but not when using Synthesizer as an API.
             // However, child documents are always part of a document.
             // When using it as an API it would just be loose document.
-            Execute(new NameValidator(document.Name));
+            ExecuteValidator(new NameValidator(document.Name));
         }
     }
 }

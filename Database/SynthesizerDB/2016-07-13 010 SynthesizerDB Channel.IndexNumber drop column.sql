@@ -1,0 +1,1 @@
+alter table Channel drop column IndexNumber

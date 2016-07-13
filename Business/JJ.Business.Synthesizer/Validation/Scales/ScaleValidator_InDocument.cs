@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Validation.Scales
         {
             For(() => Object.Document, PropertyDisplayNames.Document).NotNull();
 
-            Execute(new NameValidator(Object.Name));
+            ExecuteValidator(new NameValidator(Object.Name));
         }
     }
 }

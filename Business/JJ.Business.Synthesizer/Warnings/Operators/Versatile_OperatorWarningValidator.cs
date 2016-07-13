@@ -114,7 +114,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             {
                 if (validatorType != null)
                 {
-                    Execute(validatorType);
+                    ExecuteValidator(validatorType);
                 }
             }
         }

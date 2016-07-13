@@ -110,13 +110,13 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         protected override void Execute()
         {
-            Execute(new Basic_OperatorValidator(Object));
+            ExecuteValidator(new Basic_OperatorValidator(Object));
 
             OperatorTypeEnum operatorTypeEnum = Object.GetOperatorTypeEnum();
 
             if (operatorTypeEnum == OperatorTypeEnum.CustomOperator)
             {
-                Execute(new CustomOperator_OperatorValidator(Object, _patchRepository));
+                ExecuteValidator(new CustomOperator_OperatorValidator(Object, _patchRepository));
                 return;
             }
 
@@ -129,7 +129,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             {
                 if (validatorType != null)
                 {
-                    Execute(validatorType);
+                    ExecuteValidator(validatorType);
                 }
             }
         }

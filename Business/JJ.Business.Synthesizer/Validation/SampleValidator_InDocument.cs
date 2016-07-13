@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Validation
         {
             For(() => Object.Document, PropertyDisplayNames.Document).NotNull();
 
-            Execute(new NameValidator(Object.Name));
+            ExecuteValidator(new NameValidator(Object.Name));
             
             // TODO: Consider if more additional constraints need to be enforced in a document e.g. reference constraints.
         }

@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             base.Execute();
 
-            Execute(new Dimension_DataProperty_Validator(Object.Data));
+            ExecuteValidator(new Dimension_DataProperty_Validator(Object.Data));
         }
     }
 }

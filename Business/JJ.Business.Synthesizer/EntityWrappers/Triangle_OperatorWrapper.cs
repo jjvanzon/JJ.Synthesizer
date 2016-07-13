@@ -39,7 +39,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return OperatorHelper.GetInlet(WrappedOperator, PHASE_SHIFT_INDEX); }
         }
 
-
         public Outlet Result
         {
             get { return OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX); }

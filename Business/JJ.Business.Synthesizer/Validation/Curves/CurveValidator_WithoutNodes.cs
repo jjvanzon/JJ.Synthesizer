@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Validation.Curves
         {
             Curve curve = Object;
 
-            Execute(new NameValidator(curve.Name, required: false));
+            ExecuteValidator(new NameValidator(curve.Name, required: false));
         }
     }
 }

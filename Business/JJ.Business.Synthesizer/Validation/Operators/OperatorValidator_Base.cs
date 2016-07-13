@@ -65,7 +65,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                     Inlet inlet = sortedInlets[i];
 
                     string messagePrefix = ValidationHelper.GetMessagePrefix(inlet, i + 1);
-                    Execute(new InletValidator_ForOtherOperator(inlet, i), messagePrefix);
+                    ExecuteValidator(new InletValidator_ForOtherOperator(inlet, i), messagePrefix);
                 }
             }
 
@@ -80,11 +80,11 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                     Outlet outlet = sortedOutlets[i];
 
                     string messagePrefix = ValidationHelper.GetMessagePrefix(outlet, i + 1);
-                    Execute(new OutletValidator_ForOtherOperator(outlet, i), messagePrefix);
+                    ExecuteValidator(new OutletValidator_ForOtherOperator(outlet, i), messagePrefix);
                 }
             }
 
-            Execute(new DataPropertyValidator(op.Data, _expectedDataKeys));
+            ExecuteValidator(new DataPropertyValidator(op.Data, _expectedDataKeys));
         }
 
         private string GetPropertyDisplayName_ForInletCount()

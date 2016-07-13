@@ -38,30 +38,30 @@ namespace JJ.Business.Synthesizer.Warnings
             foreach (AudioFileOutput audioFileOutput in document.AudioFileOutputs)
             {
                 string messagePrefix = ValidationHelper.GetMessagePrefix(audioFileOutput);
-                Execute(new AudioFileOutputWarningValidator(audioFileOutput), messagePrefix);
+                ExecuteValidator(new AudioFileOutputWarningValidator(audioFileOutput), messagePrefix);
             }
 
             if (document.AudioOutput != null)
             {
-                Execute(new AudioOutputWarningValidator(document.AudioOutput), ValidationHelper.GetMessagePrefix(document.AudioOutput));
+                ExecuteValidator(new AudioOutputWarningValidator(document.AudioOutput), ValidationHelper.GetMessagePrefix(document.AudioOutput));
             }
 
             foreach (Curve curve in document.Curves)
             {
                 string messagePrefix = ValidationHelper.GetMessagePrefix(curve);
-                Execute(new CurveWarningValidator(curve), messagePrefix);
+                ExecuteValidator(new CurveWarningValidator(curve), messagePrefix);
             }
 
             foreach (Document childDocument in document.ChildDocuments)
             {
                 string messagePrefix = ValidationHelper.GetMessagePrefixForChildDocument(childDocument);
-                Execute(new DocumentWarningValidator_Recursive(childDocument, _sampleRepository, _alreadyDone));
+                ExecuteValidator(new DocumentWarningValidator_Recursive(childDocument, _sampleRepository, _alreadyDone));
             }
 
             foreach (Patch patch in document.Patches)
             {
                 string messagePrefix = ValidationHelper.GetMessagePrefix(patch);
-                Execute(new PatchWarningValidator_Recursive(patch, _sampleRepository, _alreadyDone), messagePrefix);
+                ExecuteValidator(new PatchWarningValidator_Recursive(patch, _sampleRepository, _alreadyDone), messagePrefix);
             }
 
             foreach (Sample sample in document.Samples)
@@ -69,7 +69,7 @@ namespace JJ.Business.Synthesizer.Warnings
                 byte[] bytes = _sampleRepository.TryGetBytes(sample.ID);
 
                 string messagePrefix = ValidationHelper.GetMessagePrefix(sample);
-                Execute(new SampleWarningValidator(sample, bytes, _alreadyDone), messagePrefix);
+                ExecuteValidator(new SampleWarningValidator(sample, bytes, _alreadyDone), messagePrefix);
             }
 
             // TODO:
