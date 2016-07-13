@@ -14,8 +14,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 {
     internal class OutletRectangleConverter
     {
-        private static bool _toolTipFeatureEnabled = GetToolTipFeatureEnabled();
-
         private readonly Dictionary<int, Rectangle> _destOutletRectangleDictionary = new Dictionary<int, Rectangle>();
         private readonly IGesture _dragLineGesture;
         private readonly ToolTipGesture _outletToolTipGesture;
@@ -90,12 +88,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
             destOutletRectangle.Gestures.Clear();
             destOutletRectangle.Gestures.Add(_dragLineGesture);
+            destOutletRectangle.Gestures.Add(_outletToolTipGesture);
             destOutletRectangle.MustBubble = false; // So drag does not result in a move.
-
-            if (_toolTipFeatureEnabled)
-            {
-                destOutletRectangle.Gestures.Add(_outletToolTipGesture);
-            }
 
             return destOutletRectangle;
         }
@@ -130,17 +124,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
                 destElement.Parent = null;
                 destElement.Diagram = null;
             }
-        }
-
-        // Helpers
-
-        private const bool DEFAULT_TOOL_TIP_FEATURE_ENABLED = false;
-
-        private static bool GetToolTipFeatureEnabled()
-        {
-            var config = ConfigurationHelper.TryGetSection<ConfigurationSection>();
-            if (config == null) return DEFAULT_TOOL_TIP_FEATURE_ENABLED;
-            return config.ToolTipFeatureEnabled;
         }
     }
 }

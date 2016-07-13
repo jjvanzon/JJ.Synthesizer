@@ -14,8 +14,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 {
     internal class InletRectangleConverter
     {
-        private static bool _toolTipFeatureEnabled = GetToolTipFeatureEnabled();
-
         private readonly Dictionary<int, Rectangle> _destInletRectangleDictionary = new Dictionary<int, Rectangle>();
         private readonly IGesture _dropLineGesture;
         private readonly IGesture _inletToolTipGesture;
@@ -92,11 +90,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
             destInletRectangle.Gestures.Clear();
             destInletRectangle.Gestures.Add(_dropLineGesture);
-
-            if (_toolTipFeatureEnabled)
-            {
-                destInletRectangle.Gestures.Add(_inletToolTipGesture);
-            }
+            destInletRectangle.Gestures.Add(_inletToolTipGesture);
 
             return destInletRectangle;
         }
@@ -131,17 +125,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
                 destElement.Parent = null;
                 destElement.Diagram = null;
             }
-        }
-
-        // Helpers
-
-        private const bool DEFAULT_TOOL_TIP_FEATURE_ENABLED = false;
-
-        private static bool GetToolTipFeatureEnabled()
-        {
-            var config = ConfigurationHelper.TryGetSection<ConfigurationSection>();
-            if (config == null) return DEFAULT_TOOL_TIP_FEATURE_ENABLED;
-            return config.ToolTipFeatureEnabled;
         }
     }
 }

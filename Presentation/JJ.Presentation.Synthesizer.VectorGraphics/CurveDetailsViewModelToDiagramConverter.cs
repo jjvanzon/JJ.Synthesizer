@@ -32,8 +32,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             public Node MockNode { get; set; }
         }
 
-        private static bool _toolTipFeatureEnabled = GetToolTipFeatureEnabled();
-
         private static int _lineSegmentCount = GetLineSegmentCount();
         private static int _lineSegmentPointCount = GetLineSegmentCount() + 1;
         private static float _nodeClickableRegionSizeInPixels = GetNodeClickableRegionSizeInPixels();
@@ -172,14 +170,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     rectangle.Style.BackStyle = StyleHelper.BackStyleInvisible;
 
                     rectangle.Gestures.Add(
-                        Result.MoveNodeGesture, 
-                        Result.SelectNodeGesture, 
-                        Result.ShowNodePropertiesGesture);
-
-                    if (_toolTipFeatureEnabled)
-                    {
-                        rectangle.Gestures.Add(Result.NodeToolTipGesture);
-                    }
+                        Result.MoveNodeGesture,
+                        Result.SelectNodeGesture,
+                        Result.ShowNodePropertiesGesture,
+                        Result.NodeToolTipGesture);
 
                     _rectangleDictionary.Add(nodeViewModel.ID, rectangle);
                 }
@@ -669,15 +663,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             var config = ConfigurationHelper.TryGetSection<ConfigurationSection>();
             if (config == null) return DEFAULT_MUST_SHOW_INVISIBLE_ELEMENTS;
             return config.MustShowInvisibleElements;
-        }
-
-        private const bool DEFAULT_TOOL_TIP_FEATURE_ENABLED = false;
-
-        private static bool GetToolTipFeatureEnabled()
-        {
-            var config = ConfigurationHelper.TryGetSection<ConfigurationSection>();
-            if (config == null) return DEFAULT_TOOL_TIP_FEATURE_ENABLED;
-            return config.ToolTipFeatureEnabled;
         }
     }
 }

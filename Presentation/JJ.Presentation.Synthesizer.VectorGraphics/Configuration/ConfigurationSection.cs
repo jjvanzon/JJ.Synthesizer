@@ -11,9 +11,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Configuration
         public bool MustShowInvisibleElements { get; set; }
 
         [XmlAttribute]
-        public bool ToolTipFeatureEnabled { get; set; }
-
-        [XmlAttribute]
         public int NodeClickableRegionSizeInPixels { get; set; }
 
         [XmlAttribute]
