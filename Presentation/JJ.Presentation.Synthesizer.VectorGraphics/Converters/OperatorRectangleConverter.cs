@@ -15,6 +15,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
     internal class OperatorRectangleConverter
     {
         private readonly Dictionary<int, Rectangle> _destOperatorRectangleDictionary = new Dictionary<int, Rectangle>();
+        private readonly HashSet<Rectangle> _destOperatorRectangleHashSet = new HashSet<Rectangle>();
 
         private readonly Diagram _diagram;
         private readonly MoveGesture _moveGesture;
@@ -54,6 +55,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
                 };
 
                 _destOperatorRectangleDictionary.Add(sourceOperatorViewModel.ID, destOperatorRectangle);
+                _destOperatorRectangleHashSet.Add(destOperatorRectangle);
             }
 
             destOperatorRectangle.Position.Width = GetOperatorWidth(sourceOperatorViewModel);
@@ -170,6 +172,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
                 if (destRectangle != null)
                 {
                     _destOperatorRectangleDictionary.Add(id, destRectangle);
+                    _destOperatorRectangleHashSet.Add(destRectangle);
                 }
             }
 
@@ -178,30 +181,18 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
         public void TryRemove(Rectangle destElement)
         {
-            if (_destOperatorRectangleDictionary.ContainsValue(destElement))
+            if (_destOperatorRectangleHashSet.Contains(destElement))
             {
                 int operatorID = VectorGraphicsTagHelper.GetOperatorID(destElement.Tag);
 
                 _destOperatorRectangleDictionary.Remove(operatorID);
+                _destOperatorRectangleHashSet.Remove(destElement);
 
                 destElement.Children.Clear();
                 destElement.Parent = null;
                 destElement.Diagram = null;
             }
         }
-
-        //public void TryRemove(int operatorID)
-        //{
-        //    Rectangle destElement;
-        //    if (_destOperatorRectangleDictionary.TryGetValue(operatorID, out destElement))
-        //    {
-        //        _destOperatorRectangleDictionary.Remove(operatorID);
-
-        //        destElement.Children.Clear();
-        //        destElement.Parent = null;
-        //        destElement.Diagram = null;
-        //    }
-        //}
 
         private static bool IsNumberOperator(OperatorViewModel sourceOperatorViewModel)
         {

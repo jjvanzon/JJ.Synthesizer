@@ -14,6 +14,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
     internal class InletRectangleConverter
     {
         private readonly Dictionary<int, Rectangle> _destInletRectangleDictionary = new Dictionary<int, Rectangle>();
+        private readonly HashSet<Rectangle> _destInletRectangleHashSet = new HashSet<Rectangle>();
+
         private readonly IGesture _dropLineGesture;
         private readonly IGesture _inletToolTipGesture;
 
@@ -84,6 +86,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
                 };
 
                 _destInletRectangleDictionary.Add(id, destInletRectangle);
+                _destInletRectangleHashSet.Add(destInletRectangle);
             }
 
             destInletRectangle.Style.BackStyle = StyleHelper.BackStyleInvisible;
@@ -109,6 +112,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
                 if (destRectangle != null)
                 {
                     _destInletRectangleDictionary.Add(inletID, destRectangle);
+                    _destInletRectangleHashSet.Add(destRectangle);
                 }
             }
 
@@ -117,29 +121,17 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
         public void TryRemove(Rectangle destElement)
         {
-            if (_destInletRectangleDictionary.ContainsValue(destElement))
+            if (_destInletRectangleHashSet.Contains(destElement))
             {
                 int inletID = VectorGraphicsTagHelper.GetInletID(destElement.Tag);
 
                 _destInletRectangleDictionary.Remove(inletID);
+                _destInletRectangleHashSet.Remove(destElement);
 
                 destElement.Children.Clear();
                 destElement.Parent = null;
                 destElement.Diagram = null;
             }
         }
-
-        //public void TryRemove(int inletID)
-        //{
-        //    Rectangle destElement;
-        //    if (_destInletRectangleDictionary.TryGetValue(inletID, out destElement))
-        //    {
-        //        _destInletRectangleDictionary.Remove(inletID);
-
-        //        destElement.Children.Clear();
-        //        destElement.Parent = null;
-        //        destElement.Diagram = null;
-        //    }
-        //}
     }
 }

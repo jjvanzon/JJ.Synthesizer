@@ -11,6 +11,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
     internal class OutletPointConverter
     {
         private readonly Dictionary<int, Point> _destOutletPointDictionary = new Dictionary<int, Point>();
+        private readonly HashSet<Point> _destOutletPointHashSet = new HashSet<Point>();
 
         public IList<Point> ConvertToOutletPoints(OperatorViewModel sourceOperatorViewModel, Rectangle destOperatorRectangle)
         {
@@ -60,6 +61,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
                 destOutletPoint.Tag = VectorGraphicsTagHelper.GetOutletTag(id);
 
                 _destOutletPointDictionary.Add(id, destOutletPoint);
+                _destOutletPointHashSet.Add(destOutletPoint);
             }
 
             destOutletPoint.PointStyle = StyleHelper.PointStyle;
@@ -81,6 +83,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
                 if (destPoint != null)
                 {
                     _destOutletPointDictionary.Add(id, destPoint);
+                    _destOutletPointHashSet.Add(destPoint);
                 }
             }
 
@@ -89,29 +92,17 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
         public void TryRemove(Point destElement)
         {
-            if (_destOutletPointDictionary.ContainsValue(destElement))
+            if (_destOutletPointHashSet.Contains(destElement))
             {
                 int outletID = VectorGraphicsTagHelper.GetOutletID(destElement.Tag);
 
                 _destOutletPointDictionary.Remove(outletID);
+                _destOutletPointHashSet.Add(destElement);
 
                 destElement.Children.Clear();
                 destElement.Parent = null;
                 destElement.Diagram = null;
             }
         }
-
-        //public void TryRemove(int outletID)
-        //{
-        //    Point destElement;
-        //    if (_destOutletPointDictionary.TryGetValue(outletID, out destElement))
-        //    {
-        //        _destOutletPointDictionary.Remove(outletID);
-
-        //        destElement.Children.Clear();
-        //        destElement.Parent = null;
-        //        destElement.Diagram = null;
-        //    }
-        //}
     }
 }

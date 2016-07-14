@@ -11,6 +11,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
     internal class OperatorLabelConverter
     {
         private readonly Dictionary<int, Label> _destOperatorLabelDictionary = new Dictionary<int, Label>();
+        private readonly HashSet<Label> _destOperatorLabelHashSet = new HashSet<Label>();
 
         public Label ConvertToOperatorLabel(OperatorViewModel sourceOperatorViewModel, Rectangle destOperatorRectangle)
         {
@@ -30,6 +31,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
                 };
 
                 _destOperatorLabelDictionary.Add(operatorID, destLabel);
+                _destOperatorLabelHashSet.Add(destLabel);
             }
 
             destLabel.Text = sourceOperatorViewModel.Caption;
@@ -50,30 +52,18 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
         public void TryRemove(Label destElement)
         {
-            if (_destOperatorLabelDictionary.ContainsValue(destElement))
+            if (_destOperatorLabelHashSet.Contains(destElement))
             {
                 int operatorID = VectorGraphicsTagHelper.GetOperatorID(destElement.Tag);
 
                 _destOperatorLabelDictionary.Remove(operatorID);
+                _destOperatorLabelHashSet.Remove(destElement);
 
                 destElement.Children.Clear();
                 destElement.Parent = null;
                 destElement.Diagram = null;
             }
         }
-
-        //public void TryRemove(int operatorID)
-        //{
-        //    Label destElement;
-        //    if (_destOperatorLabelDictionary.TryGetValue(operatorID, out destElement))
-        //    {
-        //        _destOperatorLabelDictionary.Remove(operatorID);
-
-        //        destElement.Children.Clear();
-        //        destElement.Parent = null;
-        //        destElement.Diagram = null;
-        //    }
-        //}
 
         private static bool IsNumberOperator(OperatorViewModel sourceOperatorViewModel)
         {

@@ -11,6 +11,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
         private const float CONTROL_POINT_DISTANCE = 50;
 
         private readonly Dictionary<int, Point> _destInletControlPointDictionary = new Dictionary<int, Point>();
+        private readonly HashSet<Point> _destInletControlPointHashSet = new HashSet<Point>();
 
         public IList<Point> ConvertToInletControlPoints(IList<Point> sourceInletPoints)
         {
@@ -37,6 +38,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
                 };
 
                 _destInletControlPointDictionary.Add(inletID, destInletControlPoint);
+                _destInletControlPointHashSet.Add(destInletControlPoint);
             }
 
             destInletControlPoint.Position.X = sourceInletPoint.Position.X;
@@ -47,29 +49,17 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
         public void TryRemove(Point destElement)
         {
-            if (_destInletControlPointDictionary.ContainsValue(destElement))
+            if (_destInletControlPointHashSet.Contains(destElement))
             {
                 int inletID = VectorGraphicsTagHelper.GetInletID(destElement.Tag);
 
                 _destInletControlPointDictionary.Remove(inletID);
+                _destInletControlPointHashSet.Remove(destElement);
 
                 destElement.Children.Clear();
                 destElement.Parent = null;
                 destElement.Diagram = null;
             }
         }
-
-        //public void TryRemove(int inletID)
-        //{
-        //    Point destElement;
-        //    if (_destInletControlPointDictionary.TryGetValue(inletID, out destElement))
-        //    {
-        //        _destInletControlPointDictionary.Remove(inletID);
-
-        //        destElement.Children.Clear();
-        //        destElement.Parent = null;
-        //        destElement.Diagram = null;
-        //    }
-        //}
     }
 }

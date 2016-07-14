@@ -11,6 +11,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
     internal class InletPointConverter
     {
         private readonly Dictionary<int, Point> _destInletPointDictionary = new Dictionary<int, Point>();
+        private readonly HashSet<Point> _destInletPointHashSet = new HashSet<Point>();
 
         public IList<Point> ConvertToInletPoints(OperatorViewModel sourceOperatorViewModel, Rectangle destOperatorRectangle)
         {
@@ -64,6 +65,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
                 destInletPoint.Tag = VectorGraphicsTagHelper.GetInletTag(inletID);
 
                 _destInletPointDictionary.Add(inletID, destInletPoint);
+                _destInletPointHashSet.Add(destInletPoint);
             }
 
             destInletPoint.PointStyle = StyleHelper.PointStyle;
@@ -84,6 +86,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
                 if (destPoint != null)
                 {
                     _destInletPointDictionary.Add(id, destPoint);
+                    _destInletPointHashSet.Add(destPoint);
                 }
             }
 
@@ -92,29 +95,17 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
         public void TryRemove(Point destElement)
         {
-            if (_destInletPointDictionary.ContainsValue(destElement))
+            if (_destInletPointHashSet.Contains(destElement))
             {
                 int inletID = VectorGraphicsTagHelper.GetInletID(destElement.Tag);
 
                 _destInletPointDictionary.Remove(inletID);
+                _destInletPointHashSet.Remove(destElement);
 
                 destElement.Children.Clear();
                 destElement.Parent = null;
                 destElement.Diagram = null;
             }
         }
-
-        //public void TryRemove(int inletID)
-        //{
-        //    Point destElement;
-        //    if (_destInletPointDictionary.TryGetValue(inletID, out destElement))
-        //    {
-        //        _destInletPointDictionary.Remove(inletID);
-
-        //        destElement.Children.Clear();
-        //        destElement.Parent = null;
-        //        destElement.Diagram = null;
-        //    }
-        //}
     }
 }

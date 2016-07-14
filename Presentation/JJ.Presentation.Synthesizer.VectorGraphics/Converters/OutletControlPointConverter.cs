@@ -11,6 +11,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
         private const float CONTROL_POINT_DISTANCE = 50;
 
         private readonly Dictionary<int, Point> _destOutletControlPointDictionary = new Dictionary<int, Point>();
+        private readonly HashSet<Point> _destOutletControlPointHashSet = new HashSet<Point>();
 
         public IList<Point> ConvertToOutletControlPoints(IList<Point> sourceOutletPoints)
         {
@@ -37,6 +38,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
                 };
 
                 _destOutletControlPointDictionary.Add(outletID, destOutletControlPoint);
+                _destOutletControlPointHashSet.Add(destOutletControlPoint);
             }
 
             destOutletControlPoint.Position.X = sourceOutletPoint.Position.X;
@@ -47,29 +49,17 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
         public void TryRemove(Point destElement)
         {
-            if (_destOutletControlPointDictionary.ContainsValue(destElement))
+            if (_destOutletControlPointHashSet.Contains(destElement))
             {
                 int outletID = VectorGraphicsTagHelper.GetOutletID(destElement.Tag);
 
                 _destOutletControlPointDictionary.Remove(outletID);
+                _destOutletControlPointHashSet.Remove(destElement);
 
                 destElement.Children.Clear();
                 destElement.Parent = null;
                 destElement.Diagram = null;
             }
         }
-
-        //public void TryRemove(int operatorID)
-        //{
-        //    Point destElement;
-        //    if (_destOutletControlPointDictionary.TryGetValue(operatorID, out destElement))
-        //    {
-        //        _destOutletControlPointDictionary.Remove(operatorID);
-
-        //        destElement.Children.Clear();
-        //        destElement.Parent = null;
-        //        destElement.Diagram = null;
-        //    }
-        //}
     }
 }

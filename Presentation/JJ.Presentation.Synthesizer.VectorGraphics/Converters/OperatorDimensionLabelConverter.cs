@@ -10,6 +10,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
     internal class OperatorDimensionLabelConverter
     {
         private readonly Dictionary<int, Label> _destOperatorDimensionLabelDictionary = new Dictionary<int, Label>();
+        private readonly HashSet<Label> _destOperatorDimensionLabelHashSet = new HashSet<Label>();
 
         public Label TryConvertToDimensionLabel(OperatorViewModel sourceOperatorViewModel, Rectangle destOperatorRectangle)
         {
@@ -31,6 +32,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
                 };
 
                 _destOperatorDimensionLabelDictionary.Add(operatorID, destOperatorDimensionLabel);
+                _destOperatorDimensionLabelHashSet.Add(destOperatorDimensionLabel);
             }
 
             destOperatorDimensionLabel.Text = "→ " + sourceOperatorViewModel.Dimension.Name;
@@ -43,29 +45,17 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
         public void TryRemove(Label destElement)
         {
-            if (_destOperatorDimensionLabelDictionary.ContainsValue(destElement))
+            if (_destOperatorDimensionLabelHashSet.Contains(destElement))
             {
                 int operatorID = VectorGraphicsTagHelper.GetOperatorID(destElement.Tag);
 
                 _destOperatorDimensionLabelDictionary.Remove(operatorID);
+                _destOperatorDimensionLabelHashSet.Remove(destElement);
 
                 destElement.Children.Clear();
                 destElement.Parent = null;
                 destElement.Diagram = null;
             }
         }
-
-        //public void TryRemove(int operatorID)
-        //{
-        //    Label destElement;
-        //    if (_destOperatorDimensionLabelDictionary.TryGetValue(operatorID, out destElement))
-        //    {
-        //        _destOperatorDimensionLabelDictionary.Remove(operatorID);
-
-        //        destElement.Children.Clear();
-        //        destElement.Parent = null;
-        //        destElement.Diagram = null;
-        //    }
-        //}
     }
 }

@@ -124,55 +124,28 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     continue;
                 }
 
-                int? inletID = VectorGraphicsTagHelper.TryGetInletID(tagString);
-                if (inletID.HasValue)
+                var rectangleToDelete = elementToDelete as Rectangle;
+                if (rectangleToDelete != null)
                 {
-                    var rectangleToDelete = elementToDelete as Rectangle;
-                    if (rectangleToDelete != null)
-                    {
-                        _inletRectangleConverter.TryRemove(rectangleToDelete);
-                    }
-
-                    var pointToDelete = elementToDelete as Point;
-                    if (pointToDelete != null)
-                    {
-                        _inletPointConverter.TryRemove(pointToDelete);
-                        _inletControlPointConverter.TryRemove(pointToDelete);
-                    }
+                    _inletRectangleConverter.TryRemove(rectangleToDelete);
+                    _outletRectangleConverter.TryRemove(rectangleToDelete);
+                    _operatorRectangleConverter.TryRemove(rectangleToDelete);
                 }
 
-                int? outletID = VectorGraphicsTagHelper.TryGetOutletID(tagString);
-                if (outletID.HasValue)
+                var pointToDelete = elementToDelete as Point;
+                if (pointToDelete != null)
                 {
-                    var rectangleToDelete = elementToDelete as Rectangle;
-                    if (rectangleToDelete != null)
-                    {
-                        _outletRectangleConverter.TryRemove(rectangleToDelete);
-                    }
-
-                    var pointToDelete = elementToDelete as Point;
-                    if (pointToDelete != null)
-                    {
-                        _outletPointConverter.TryRemove(pointToDelete);
-                        _outletControlPointConverter.TryRemove(pointToDelete);
-                    }
+                    _inletPointConverter.TryRemove(pointToDelete);
+                    _inletControlPointConverter.TryRemove(pointToDelete);
+                    _outletPointConverter.TryRemove(pointToDelete);
+                    _outletControlPointConverter.TryRemove(pointToDelete);
                 }
 
-                int? operatorID = VectorGraphicsTagHelper.TryGetOperatorID(tagString);
-                if (operatorID.HasValue)
+                var labelToDelete = elementToDelete as Label;
+                if (labelToDelete != null)
                 {
-                    var labelToDelete = elementToDelete as Label;
-                    if (labelToDelete != null)
-                    {
-                        _operatorLabelConverter.TryRemove(labelToDelete);
-                        _operatorDimensionLabelConverter.TryRemove(labelToDelete);
-                    }
-
-                    var rectangleToDelete = elementToDelete as Rectangle;
-                    if (rectangleToDelete != null)
-                    {
-                        _operatorRectangleConverter.TryRemove(rectangleToDelete);
-                    }
+                    _operatorLabelConverter.TryRemove(labelToDelete);
+                    _operatorDimensionLabelConverter.TryRemove(labelToDelete);
                 }
 
                 elementToDelete.Children.Clear();

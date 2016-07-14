@@ -15,6 +15,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
     internal class OutletRectangleConverter
     {
         private readonly Dictionary<int, Rectangle> _destOutletRectangleDictionary = new Dictionary<int, Rectangle>();
+        private readonly HashSet<Rectangle> _destOutletRectangleHashSet = new HashSet<Rectangle>();
         private readonly IGesture _dragLineGesture;
         private readonly ToolTipGesture _outletToolTipGesture;
 
@@ -81,6 +82,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
                 destOutletRectangle.Tag = VectorGraphicsTagHelper.GetOutletTag(id);
 
                 _destOutletRectangleDictionary.Add(id, destOutletRectangle);
+                _destOutletRectangleHashSet.Add(destOutletRectangle);
             }
 
             destOutletRectangle.Style.BackStyle = StyleHelper.BackStyleInvisible;
@@ -107,6 +109,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
                 if (destRectangle != null)
                 {
                     _destOutletRectangleDictionary.Add(id, destRectangle);
+                    _destOutletRectangleHashSet.Add(destRectangle);
                 }
             }
 
@@ -115,29 +118,17 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
         public void TryRemove(Rectangle destElement)
         {
-            if (_destOutletRectangleDictionary.ContainsValue(destElement))
+            if (_destOutletRectangleHashSet.Contains(destElement))
             {
                 int outletID = VectorGraphicsTagHelper.GetOutletID(destElement.Tag);
 
                 _destOutletRectangleDictionary.Remove(outletID);
+                _destOutletRectangleHashSet.Remove(destElement);
 
                 destElement.Children.Clear();
                 destElement.Parent = null;
                 destElement.Diagram = null;
             }
         }
-
-        //public void TryRemove(int outletID)
-        //{
-        //    Rectangle destElement;
-        //    if (_destOutletRectangleDictionary.TryGetValue(outletID, out destElement))
-        //    {
-        //        _destOutletRectangleDictionary.Remove(outletID);
-
-        //        destElement.Children.Clear();
-        //        destElement.Parent = null;
-        //        destElement.Diagram = null;
-        //    }
-        //}
     }
 }
