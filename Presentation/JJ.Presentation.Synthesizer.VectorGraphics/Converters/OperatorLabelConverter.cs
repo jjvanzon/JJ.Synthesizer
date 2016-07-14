@@ -48,11 +48,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             return destLabel;
         }
 
-        public void TryRemove(int operatorID)
+        public void TryRemove(Label destElement)
         {
-            Label destElement;
-            if (_destOperatorLabelDictionary.TryGetValue(operatorID, out destElement))
+            if (_destOperatorLabelDictionary.ContainsValue(destElement))
             {
+                int operatorID = VectorGraphicsTagHelper.GetOperatorID(destElement.Tag);
+
                 _destOperatorLabelDictionary.Remove(operatorID);
 
                 destElement.Children.Clear();
@@ -60,6 +61,19 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
                 destElement.Diagram = null;
             }
         }
+
+        //public void TryRemove(int operatorID)
+        //{
+        //    Label destElement;
+        //    if (_destOperatorLabelDictionary.TryGetValue(operatorID, out destElement))
+        //    {
+        //        _destOperatorLabelDictionary.Remove(operatorID);
+
+        //        destElement.Children.Clear();
+        //        destElement.Parent = null;
+        //        destElement.Diagram = null;
+        //    }
+        //}
 
         private static bool IsNumberOperator(OperatorViewModel sourceOperatorViewModel)
         {

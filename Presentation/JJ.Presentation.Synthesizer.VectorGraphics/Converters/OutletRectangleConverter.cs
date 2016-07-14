@@ -113,11 +113,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             return destRectangle;
         }
 
-        public void TryRemove(int outletID)
+        public void TryRemove(Rectangle destElement)
         {
-            Rectangle destElement;
-            if (_destOutletRectangleDictionary.TryGetValue(outletID, out destElement))
+            if (_destOutletRectangleDictionary.ContainsValue(destElement))
             {
+                int outletID = VectorGraphicsTagHelper.GetOutletID(destElement.Tag);
+
                 _destOutletRectangleDictionary.Remove(outletID);
 
                 destElement.Children.Clear();
@@ -125,5 +126,18 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
                 destElement.Diagram = null;
             }
         }
+
+        //public void TryRemove(int outletID)
+        //{
+        //    Rectangle destElement;
+        //    if (_destOutletRectangleDictionary.TryGetValue(outletID, out destElement))
+        //    {
+        //        _destOutletRectangleDictionary.Remove(outletID);
+
+        //        destElement.Children.Clear();
+        //        destElement.Parent = null;
+        //        destElement.Diagram = null;
+        //    }
+        //}
     }
 }

@@ -45,11 +45,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             return destInletControlPoint;
         }
 
-        public void TryRemove(int inletID)
+        public void TryRemove(Point destElement)
         {
-            Point destElement;
-            if (_destInletControlPointDictionary.TryGetValue(inletID, out destElement))
+            if (_destInletControlPointDictionary.ContainsValue(destElement))
             {
+                int inletID = VectorGraphicsTagHelper.GetInletID(destElement.Tag);
+
                 _destInletControlPointDictionary.Remove(inletID);
 
                 destElement.Children.Clear();
@@ -57,5 +58,18 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
                 destElement.Diagram = null;
             }
         }
+
+        //public void TryRemove(int inletID)
+        //{
+        //    Point destElement;
+        //    if (_destInletControlPointDictionary.TryGetValue(inletID, out destElement))
+        //    {
+        //        _destInletControlPointDictionary.Remove(inletID);
+
+        //        destElement.Children.Clear();
+        //        destElement.Parent = null;
+        //        destElement.Diagram = null;
+        //    }
+        //}
     }
 }

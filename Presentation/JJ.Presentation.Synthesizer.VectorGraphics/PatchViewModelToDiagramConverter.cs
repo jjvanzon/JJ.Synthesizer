@@ -127,25 +127,52 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 int? inletID = VectorGraphicsTagHelper.TryGetInletID(tagString);
                 if (inletID.HasValue)
                 {
-                    _inletRectangleConverter.TryRemove(inletID.Value);
-                    _inletPointConverter.TryRemove(inletID.Value);
-                    _inletControlPointConverter.TryRemove(inletID.Value);
+                    var rectangleToDelete = elementToDelete as Rectangle;
+                    if (rectangleToDelete != null)
+                    {
+                        _inletRectangleConverter.TryRemove(rectangleToDelete);
+                    }
+
+                    var pointToDelete = elementToDelete as Point;
+                    if (pointToDelete != null)
+                    {
+                        _inletPointConverter.TryRemove(pointToDelete);
+                        _inletControlPointConverter.TryRemove(pointToDelete);
+                    }
                 }
 
                 int? outletID = VectorGraphicsTagHelper.TryGetOutletID(tagString);
                 if (outletID.HasValue)
                 {
-                    _outletRectangleConverter.TryRemove(outletID.Value);
-                    _outletPointConverter.TryRemove(outletID.Value);
-                    _outletControlPointConverter.TryRemove(outletID.Value);
+                    var rectangleToDelete = elementToDelete as Rectangle;
+                    if (rectangleToDelete != null)
+                    {
+                        _outletRectangleConverter.TryRemove(rectangleToDelete);
+                    }
+
+                    var pointToDelete = elementToDelete as Point;
+                    if (pointToDelete != null)
+                    {
+                        _outletPointConverter.TryRemove(pointToDelete);
+                        _outletControlPointConverter.TryRemove(pointToDelete);
+                    }
                 }
 
                 int? operatorID = VectorGraphicsTagHelper.TryGetOperatorID(tagString);
                 if (operatorID.HasValue)
                 {
-                    _operatorLabelConverter.TryRemove(operatorID.Value);
-                    _operatorDimensionLabelConverter.TryRemove(operatorID.Value);
-                    _operatorRectangleConverter.TryRemove(operatorID.Value);
+                    var labelToDelete = elementToDelete as Label;
+                    if (labelToDelete != null)
+                    {
+                        _operatorLabelConverter.TryRemove(labelToDelete);
+                        _operatorDimensionLabelConverter.TryRemove(labelToDelete);
+                    }
+
+                    var rectangleToDelete = elementToDelete as Rectangle;
+                    if (rectangleToDelete != null)
+                    {
+                        _operatorRectangleConverter.TryRemove(rectangleToDelete);
+                    }
                 }
 
                 elementToDelete.Children.Clear();

@@ -20,32 +20,33 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
             int operatorID = sourceOperatorViewModel.ID;
 
-            Label operatorDimensionLabel;
-            if (!_destOperatorDimensionLabelDictionary.TryGetValue(operatorID, out operatorDimensionLabel))
+            Label destOperatorDimensionLabel;
+            if (!_destOperatorDimensionLabelDictionary.TryGetValue(operatorID, out destOperatorDimensionLabel))
             {
-                operatorDimensionLabel = new Label
+                destOperatorDimensionLabel = new Label
                 {
                     Diagram = destOperatorRectangle.Diagram,
                     Parent = destOperatorRectangle,
                     Tag = VectorGraphicsTagHelper.GetOperatorTag(operatorID)
                 };
 
-                _destOperatorDimensionLabelDictionary.Add(operatorID, operatorDimensionLabel);
+                _destOperatorDimensionLabelDictionary.Add(operatorID, destOperatorDimensionLabel);
             }
 
-            operatorDimensionLabel.Text = "→ " + sourceOperatorViewModel.Dimension.Name;
-            operatorDimensionLabel.TextStyle = StyleHelper.DimensionTextStyle;
-            operatorDimensionLabel.Position.X = destOperatorRectangle.Position.Width / 2f + StyleHelper.DEFAULT_SPACING;
-            operatorDimensionLabel.Position.Y = destOperatorRectangle.Position.Height + StyleHelper.DEFAULT_SPACING;
+            destOperatorDimensionLabel.Text = "→ " + sourceOperatorViewModel.Dimension.Name;
+            destOperatorDimensionLabel.TextStyle = StyleHelper.DimensionTextStyle;
+            destOperatorDimensionLabel.Position.X = destOperatorRectangle.Position.Width / 2f + StyleHelper.DEFAULT_SPACING;
+            destOperatorDimensionLabel.Position.Y = destOperatorRectangle.Position.Height + StyleHelper.DEFAULT_SPACING;
 
-            return operatorDimensionLabel;
+            return destOperatorDimensionLabel;
         }
 
-        public void TryRemove(int operatorID)
+        public void TryRemove(Label destElement)
         {
-            Label destElement;
-            if (_destOperatorDimensionLabelDictionary.TryGetValue(operatorID, out destElement))
+            if (_destOperatorDimensionLabelDictionary.ContainsValue(destElement))
             {
+                int operatorID = VectorGraphicsTagHelper.GetOperatorID(destElement.Tag);
+
                 _destOperatorDimensionLabelDictionary.Remove(operatorID);
 
                 destElement.Children.Clear();
@@ -53,5 +54,18 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
                 destElement.Diagram = null;
             }
         }
+
+        //public void TryRemove(int operatorID)
+        //{
+        //    Label destElement;
+        //    if (_destOperatorDimensionLabelDictionary.TryGetValue(operatorID, out destElement))
+        //    {
+        //        _destOperatorDimensionLabelDictionary.Remove(operatorID);
+
+        //        destElement.Children.Clear();
+        //        destElement.Parent = null;
+        //        destElement.Diagram = null;
+        //    }
+        //}
     }
 }

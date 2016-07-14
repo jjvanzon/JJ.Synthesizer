@@ -45,17 +45,31 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             return destOutletControlPoint;
         }
 
-        public void TryRemove(int operatorID)
+        public void TryRemove(Point destElement)
         {
-            Point destElement;
-            if (_destOutletControlPointDictionary.TryGetValue(operatorID, out destElement))
+            if (_destOutletControlPointDictionary.ContainsValue(destElement))
             {
-                _destOutletControlPointDictionary.Remove(operatorID);
+                int outletID = VectorGraphicsTagHelper.GetOutletID(destElement.Tag);
+
+                _destOutletControlPointDictionary.Remove(outletID);
 
                 destElement.Children.Clear();
                 destElement.Parent = null;
                 destElement.Diagram = null;
             }
         }
+
+        //public void TryRemove(int operatorID)
+        //{
+        //    Point destElement;
+        //    if (_destOutletControlPointDictionary.TryGetValue(operatorID, out destElement))
+        //    {
+        //        _destOutletControlPointDictionary.Remove(operatorID);
+
+        //        destElement.Children.Clear();
+        //        destElement.Parent = null;
+        //        destElement.Diagram = null;
+        //    }
+        //}
     }
 }

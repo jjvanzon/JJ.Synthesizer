@@ -87,11 +87,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             return destPoint;
         }
 
-        public void TryRemove(int outletID)
+        public void TryRemove(Point destElement)
         {
-            Point destElement;
-            if (_destOutletPointDictionary.TryGetValue(outletID, out destElement))
+            if (_destOutletPointDictionary.ContainsValue(destElement))
             {
+                int outletID = VectorGraphicsTagHelper.GetOutletID(destElement.Tag);
+
                 _destOutletPointDictionary.Remove(outletID);
 
                 destElement.Children.Clear();
@@ -99,5 +100,18 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
                 destElement.Diagram = null;
             }
         }
+
+        //public void TryRemove(int outletID)
+        //{
+        //    Point destElement;
+        //    if (_destOutletPointDictionary.TryGetValue(outletID, out destElement))
+        //    {
+        //        _destOutletPointDictionary.Remove(outletID);
+
+        //        destElement.Children.Clear();
+        //        destElement.Parent = null;
+        //        destElement.Diagram = null;
+        //    }
+        //}
     }
 }
