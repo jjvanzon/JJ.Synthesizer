@@ -85,6 +85,12 @@ namespace JJ.Presentation.Synthesizer.Converters
                 DimensionEnum dimensionEnum = ViewModelHelper.GetDimensionEnum(op);
                 operatorViewModel.Dimension = dimensionEnum.ToIDAndDisplayName();
 
+                // DIRTY: Trick the Vector Graphics into showing an arrow, but no dimension name.
+                if (dimensionEnum == DimensionEnum.Undefined)
+                {
+                    operatorViewModel.Dimension.Name = " ";
+                }
+
                 dimensionIDs.Add(operatorViewModel.Dimension.ID);
 
                 operatorViewModels.Add(operatorViewModel);
