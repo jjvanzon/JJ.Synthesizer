@@ -350,35 +350,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.IsOwned = GetOperatorIsOwned(entity);
         }
 
-        public static string GetInletCaption(
-            Inlet inlet,
-            ISampleRepository sampleRepository,
-            ICurveRepository curveRepository,
-            IPatchRepository patchRepository)
-        {
-            var sb = new StringBuilder();
-
-            var wrapper = OperatorWrapperFactory.CreateOperatorWrapper(
-                inlet.Operator, 
-                curveRepository, 
-                sampleRepository, 
-                patchRepository);
-
-            string inletDisplayName = wrapper.GetInletDisplayName(inlet.ListIndex);
-
-            sb.Append(inletDisplayName);
-
-            if (inlet.InputOutlet == null)
-            {
-                if (inlet.DefaultValue.HasValue)
-                {
-                    sb.AppendFormat(" = {0:0.####}", inlet.DefaultValue.Value);
-                }
-            }
-
-            return sb.ToString();
-        }
-
         public static string GetOperatorCaption(
             Operator op, 
             ISampleRepository sampleRepository, 
@@ -411,6 +382,33 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
                 case OperatorTypeEnum.Sample:
                     return GetOperatorCaption_ForSample(op, sampleRepository);
+
+                case OperatorTypeEnum.GetDimension:
+                    return GetOperatorCaption_ForGetDimension(op);
+
+                case OperatorTypeEnum.SetDimension:
+                    return GetOperatorCaption_ForSetDimension(op);
+
+                case OperatorTypeEnum.MaxOverDimension:
+                    return GetOperatorCaption_ForMaxOverDimension(op);
+
+                case OperatorTypeEnum.MinOverDimension:
+                    return GetOperatorCaption_ForMinOverDimension(op);
+
+                case OperatorTypeEnum.AverageOverDimension:
+                    return GetOperatorCaption_ForAverageOverDimension(op);
+
+                case OperatorTypeEnum.SumOverDimension:
+                    return GetOperatorCaption_ForSumOverDimension(op);
+
+                case OperatorTypeEnum.ClosestOverDimension:
+                    return GetOperatorCaption_ForClosestOverDimension(op);
+
+                case OperatorTypeEnum.ClosestOverDimensionExp:
+                    return GetOperatorCaption_ForClosestOverDimensionExp(op);
+
+                case OperatorTypeEnum.SortOverDimension:
+                    return GetOperatorCaption_ForSortOverDimension(op);
 
                 default:
                     return GetOperatorCaption_ForOtherOperators(op);
@@ -576,6 +574,77 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return caption;
         }
 
+        private static string GetOperatorCaption_ForGetDimension(Operator op)
+        {
+            return GetOperatorCaption_WithDimensionPlaceholder(op, Titles.GetDimensionWithPlaceholder);
+        }
+
+        private static string GetOperatorCaption_ForSetDimension(Operator op)
+        {
+            return GetOperatorCaption_WithDimensionPlaceholder(op, Titles.SetDimensionWithPlaceholder);
+        }
+
+        private static string GetOperatorCaption_ForMaxOverDimension(Operator op)
+        {
+            return GetOperatorCaption_WithDimensionPlaceholder(op, Titles.MaxOverDimensionWithPlaceholder);
+        }
+
+        private static string GetOperatorCaption_ForMinOverDimension(Operator op)
+        {
+            return GetOperatorCaption_WithDimensionPlaceholder(op, Titles.MinOverDimensionWithPlaceholder);
+        }
+
+        private static string GetOperatorCaption_ForAverageOverDimension(Operator op)
+        {
+            return GetOperatorCaption_WithDimensionPlaceholder(op, Titles.AverageOverDimensionWithPlaceholder);
+        }
+
+        private static string GetOperatorCaption_ForSumOverDimension(Operator op)
+        {
+            return GetOperatorCaption_WithDimensionPlaceholder(op, Titles.SumOverDimensionWithPlaceholder);
+        }
+
+        private static string GetOperatorCaption_ForClosestOverDimension(Operator op)
+        {
+            return GetOperatorCaption_WithDimensionPlaceholder(op, Titles.ClosestOverDimensionWithPlaceholder);
+        }
+
+        private static string GetOperatorCaption_ForClosestOverDimensionExp(Operator op)
+        {
+            return GetOperatorCaption_WithDimensionPlaceholder(op, Titles.ClosestOverDimensionExpWithPlaceholder);
+        }
+
+        private static string GetOperatorCaption_ForSortOverDimension(Operator op)
+        {
+            return GetOperatorCaption_WithDimensionPlaceholder(op, Titles.SortOverDimensionWithPlaceholder);
+        }
+
+        private static string GetOperatorCaption_WithDimensionPlaceholder(Operator op, string operatorTypeDisplayNameWithPlaceholder)
+        {
+            DimensionEnum dimensionEnum = GetDimensionEnum(op);
+            string formattedOperatorTypeDisplayName;
+            if (dimensionEnum != DimensionEnum.Undefined)
+            {
+                string dimensionDisplayName = ResourceHelper.GetDisplayName(dimensionEnum);
+                formattedOperatorTypeDisplayName = String.Format(operatorTypeDisplayNameWithPlaceholder, dimensionDisplayName);
+            }
+            else
+            {
+                formattedOperatorTypeDisplayName = ResourceHelper.GetOperatorTypeDisplayName(op);
+            }
+
+            // Use Operator.Name
+            if (!String.IsNullOrWhiteSpace(op.Name))
+            {
+                return String.Format("{0}: {1}", formattedOperatorTypeDisplayName, op.Name);
+            }
+            // Use OperatorType DisplayName only.
+            else
+            {
+                return formattedOperatorTypeDisplayName;
+            }
+        }
+
         private static string GetOperatorCaption_ForOtherOperators(Operator op)
         {
             string operatorTypeDisplayName = ResourceHelper.GetDisplayName(op.GetOperatorTypeEnum());
@@ -589,6 +658,35 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             // Use OperatorType DisplayName
             string caption = operatorTypeDisplayName;
             return caption;
+        }
+
+        public static string GetInletCaption(
+            Inlet inlet,
+            ISampleRepository sampleRepository,
+            ICurveRepository curveRepository,
+            IPatchRepository patchRepository)
+        {
+            var sb = new StringBuilder();
+
+            var wrapper = OperatorWrapperFactory.CreateOperatorWrapper(
+                inlet.Operator,
+                curveRepository,
+                sampleRepository,
+                patchRepository);
+
+            string inletDisplayName = wrapper.GetInletDisplayName(inlet.ListIndex);
+
+            sb.Append(inletDisplayName);
+
+            if (inlet.InputOutlet == null)
+            {
+                if (inlet.DefaultValue.HasValue)
+                {
+                    sb.AppendFormat(" = {0:0.####}", inlet.DefaultValue.Value);
+                }
+            }
+
+            return sb.ToString();
         }
 
         public static DimensionEnum GetDimensionEnum(Operator entity)
