@@ -55,9 +55,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
         {
             int inletID = sourceInletViewModel.ID;
 
-            Point destInletPoint = TryGetInletPoint(destOperatorRectangle, inletID);
-
-            if (destInletPoint == null)
+            Point destInletPoint;
+            if (!_destInletPointDictionary.TryGetValue(inletID, out destInletPoint))
             {
                 destInletPoint = new Point();
                 destInletPoint.Diagram = destOperatorRectangle.Diagram;
@@ -71,26 +70,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             destInletPoint.PointStyle = StyleHelper.PointStyle;
 
             return destInletPoint;
-        }
-
-        private Point TryGetInletPoint(Element destParent, int id)
-        {
-            Point destPoint;
-            if (!_destInletPointDictionary.TryGetValue(id, out destPoint))
-            {
-                destPoint = destParent.Children
-                                      .OfType<Point>()
-                                      .Where(x => VectorGraphicsTagHelper.TryGetInletID(x.Tag) == id)
-                                      .FirstOrDefault(); // First instead of Single will make sure that excessive ones are cleaned up.
-
-                if (destPoint != null)
-                {
-                    _destInletPointDictionary.Add(id, destPoint);
-                    _destInletPointHashSet.Add(destPoint);
-                }
-            }
-
-            return destPoint;
         }
 
         public void TryRemove(Point destElement)

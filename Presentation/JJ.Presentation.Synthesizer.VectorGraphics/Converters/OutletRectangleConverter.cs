@@ -71,17 +71,17 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
         /// <summary> Converts everything but its coordinates. </summary>
         private Rectangle ConvertToOutletRectangle(OutletViewModel sourceOutletViewModel, Rectangle destOperatorRectangle)
         {
-            int id = sourceOutletViewModel.ID;
+            int outletID = sourceOutletViewModel.ID;
 
-            Rectangle destOutletRectangle = TryGetOutletRectangle(destOperatorRectangle, id);
-            if (destOutletRectangle == null)
+            Rectangle destOutletRectangle;
+            if (!_destOutletRectangleDictionary.TryGetValue(outletID, out destOutletRectangle))
             {
                 destOutletRectangle = new Rectangle();
                 destOutletRectangle.Diagram = destOperatorRectangle.Diagram;
                 destOutletRectangle.Parent = destOperatorRectangle;
-                destOutletRectangle.Tag = VectorGraphicsTagHelper.GetOutletTag(id);
+                destOutletRectangle.Tag = VectorGraphicsTagHelper.GetOutletTag(outletID);
 
-                _destOutletRectangleDictionary.Add(id, destOutletRectangle);
+                _destOutletRectangleDictionary.Add(outletID, destOutletRectangle);
                 _destOutletRectangleHashSet.Add(destOutletRectangle);
             }
 
@@ -94,26 +94,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             destOutletRectangle.MustBubble = false; // So drag does not result in a move.
 
             return destOutletRectangle;
-        }
-
-        private Rectangle TryGetOutletRectangle(Element destParent, int id)
-        {
-            Rectangle destRectangle;
-            if (!_destOutletRectangleDictionary.TryGetValue(id, out destRectangle))
-            {
-                destRectangle = destParent.Children
-                                          .OfType<Rectangle>()
-                                          .Where(x => VectorGraphicsTagHelper.TryGetOutletID(x.Tag) == id)
-                                          .FirstOrDefault(); // First instead of Single will result in excessive ones being cleaned up.
-
-                if (destRectangle != null)
-                {
-                    _destOutletRectangleDictionary.Add(id, destRectangle);
-                    _destOutletRectangleHashSet.Add(destRectangle);
-                }
-            }
-
-            return destRectangle;
         }
 
         public void TryRemove(Rectangle destElement)

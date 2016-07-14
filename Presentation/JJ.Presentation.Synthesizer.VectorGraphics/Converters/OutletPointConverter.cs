@@ -51,43 +51,23 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
         /// <summary> Converts everything but its coordinates. </summary>
         private Point ConvertToOutletPoint(OutletViewModel sourceOutletViewModel, Rectangle destOperatorRectangle)
         {
-            int id = sourceOutletViewModel.ID;
-            Point destOutletPoint = TryGetOutletPoint(destOperatorRectangle, id);
-            if (destOutletPoint == null)
+            int outletID = sourceOutletViewModel.ID;
+
+            Point destOutletPoint;
+            if (!_destOutletPointDictionary.TryGetValue(outletID, out destOutletPoint))
             {
                 destOutletPoint = new Point();
                 destOutletPoint.Diagram = destOperatorRectangle.Diagram;
                 destOutletPoint.Parent = destOperatorRectangle;
-                destOutletPoint.Tag = VectorGraphicsTagHelper.GetOutletTag(id);
+                destOutletPoint.Tag = VectorGraphicsTagHelper.GetOutletTag(outletID);
 
-                _destOutletPointDictionary.Add(id, destOutletPoint);
+                _destOutletPointDictionary.Add(outletID, destOutletPoint);
                 _destOutletPointHashSet.Add(destOutletPoint);
             }
 
             destOutletPoint.PointStyle = StyleHelper.PointStyle;
 
             return destOutletPoint;
-        }
-
-        private Point TryGetOutletPoint(Element destParent, int id)
-        {
-            Point destPoint;
-            if (!_destOutletPointDictionary.TryGetValue(id, out destPoint))
-            {
-                destPoint = destParent.Children
-                                      .OfType<Point>()
-                                      .Where(x => VectorGraphicsTagHelper.IsOutletTag(x.Tag) &&
-                                                  VectorGraphicsTagHelper.GetOutletID(x.Tag) == id)
-                                      .FirstOrDefault(); // First instead of Single will result in excessive ones being cleaned up.
-
-                if (destPoint != null)
-                {
-                    _destOutletPointDictionary.Add(id, destPoint);
-                    _destOutletPointHashSet.Add(destPoint);
-                }
-            }
-
-            return destPoint;
         }
 
         public void TryRemove(Point destElement)

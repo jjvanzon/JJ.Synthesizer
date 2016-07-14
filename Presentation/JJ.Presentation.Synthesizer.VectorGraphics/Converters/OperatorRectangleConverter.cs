@@ -44,17 +44,19 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             if (sourceOperatorViewModel == null) throw new NullException(() => sourceOperatorViewModel);
             if (destDiagram == null) throw new NullException(() => destDiagram);
 
-            Rectangle destOperatorRectangle = TryGetOperatorRectangle(sourceOperatorViewModel.ID);
-            if (destOperatorRectangle == null)
+            int operatorID = sourceOperatorViewModel.ID;
+
+            Rectangle destOperatorRectangle;
+            if (!_destOperatorRectangleDictionary.TryGetValue(operatorID, out destOperatorRectangle))
             {
                 destOperatorRectangle = new Rectangle
                 {
                     Diagram = destDiagram,
                     Parent = destDiagram.Background,
-                    Tag = VectorGraphicsTagHelper.GetOperatorTag(sourceOperatorViewModel.ID)
+                    Tag = VectorGraphicsTagHelper.GetOperatorTag(operatorID)
                 };
 
-                _destOperatorRectangleDictionary.Add(sourceOperatorViewModel.ID, destOperatorRectangle);
+                _destOperatorRectangleDictionary.Add(operatorID, destOperatorRectangle);
                 _destOperatorRectangleHashSet.Add(destOperatorRectangle);
             }
 
@@ -156,27 +158,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             }
 
             return width;
-        }
-
-        private Rectangle TryGetOperatorRectangle(int id)
-        {
-            Rectangle destRectangle;
-            if (!_destOperatorRectangleDictionary.TryGetValue(id, out destRectangle))
-            {
-                destRectangle = _diagram.Elements
-                                        .OfType<Rectangle>()
-                                        .Where(x => VectorGraphicsTagHelper.IsOperatorTag(x.Tag) &&
-                                                    VectorGraphicsTagHelper.GetOperatorID(x.Tag) == id)
-                                        .FirstOrDefault(); // First instead of Single will result in excessive ones being cleaned up.
-
-                if (destRectangle != null)
-                {
-                    _destOperatorRectangleDictionary.Add(id, destRectangle);
-                    _destOperatorRectangleHashSet.Add(destRectangle);
-                }
-            }
-
-            return destRectangle;
         }
 
         public void TryRemove(Rectangle destElement)

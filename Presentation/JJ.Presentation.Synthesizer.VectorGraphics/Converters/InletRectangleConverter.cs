@@ -73,19 +73,19 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
         /// <summary> Converts everything but its coordinates. </summary>
         private Rectangle ConvertToInletRectangle(InletViewModel sourceInletViewModel, Rectangle destOperatorRectangle)
         {
-            int id = sourceInletViewModel.ID;
+            int inletID = sourceInletViewModel.ID;
 
-            Rectangle destInletRectangle = TryGetInletRectangle(destOperatorRectangle, id);
-            if (destInletRectangle == null)
+            Rectangle destInletRectangle;
+            if (!_destInletRectangleDictionary.TryGetValue(inletID, out destInletRectangle))
             {
                 destInletRectangle = new Rectangle
                 {
                     Diagram = destOperatorRectangle.Diagram,
                     Parent = destOperatorRectangle,
-                    Tag = VectorGraphicsTagHelper.GetInletTag(id)
+                    Tag = VectorGraphicsTagHelper.GetInletTag(inletID)
                 };
 
-                _destInletRectangleDictionary.Add(id, destInletRectangle);
+                _destInletRectangleDictionary.Add(inletID, destInletRectangle);
                 _destInletRectangleHashSet.Add(destInletRectangle);
             }
 
@@ -97,26 +97,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             destInletRectangle.Gestures.Add(_inletToolTipGesture);
 
             return destInletRectangle;
-        }
-
-        private Rectangle TryGetInletRectangle(Element destParent, int inletID)
-        {
-            Rectangle destRectangle;
-            if (!_destInletRectangleDictionary.TryGetValue(inletID, out destRectangle))
-            {
-                destRectangle = destParent.Children
-                                          .OfType<Rectangle>()
-                                          .Where(x => VectorGraphicsTagHelper.TryGetInletID(x.Tag) == inletID)
-                                          .FirstOrDefault(); // First instead of Single will result in excessive ones being cleaned up.
-
-                if (destRectangle != null)
-                {
-                    _destInletRectangleDictionary.Add(inletID, destRectangle);
-                    _destInletRectangleHashSet.Add(destRectangle);
-                }
-            }
-
-            return destRectangle;
         }
 
         public void TryRemove(Rectangle destElement)
