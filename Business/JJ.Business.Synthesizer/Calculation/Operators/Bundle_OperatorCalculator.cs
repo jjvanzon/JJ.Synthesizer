@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Bundle_OperatorCalculator(IList<OperatorCalculatorBase> operandCalculators, DimensionStack dimensionStack)
             : base(operandCalculators)
         {
-            OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;

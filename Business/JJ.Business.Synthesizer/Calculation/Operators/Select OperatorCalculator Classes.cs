@@ -89,7 +89,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _signalCalculator = signalCalculator;
             _position = position;

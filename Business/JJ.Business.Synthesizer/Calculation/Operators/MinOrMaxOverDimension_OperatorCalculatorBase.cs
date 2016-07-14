@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[] { signalCalculator, fromCalculator, tillCalculator, stepCalculator })
         {
-            OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _signalCalculator = signalCalculator;
             _fromCalculator = fromCalculator;

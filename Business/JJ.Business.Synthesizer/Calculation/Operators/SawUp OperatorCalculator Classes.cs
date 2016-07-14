@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             OperatorCalculatorHelper.AssertFrequency(frequency);
             //OperatorCalculatorHelper.AssertPhaseShift(phaseShift);
-            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _frequency = frequency;
             _phaseShift = phaseShift;
@@ -80,7 +80,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             OperatorCalculatorHelper.AssertFrequency(frequency);
             OperatorCalculatorHelper.AssertChildOperatorCalculator(phaseShiftCalculator, () => phaseShiftCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _frequency = frequency;
             _phaseShiftCalculator = phaseShiftCalculator;
@@ -137,7 +137,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             OperatorCalculatorHelper.AssertFrequency(frequency);
             //OperatorCalculatorHelper.AssertPhaseShift(phaseShift);
-            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _frequency = frequency;
             _phaseShift = phaseShift;
@@ -179,7 +179,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             OperatorCalculatorHelper.AssertFrequency(frequency);
             OperatorCalculatorHelper.AssertChildOperatorCalculator(phaseShiftCalculator, () => phaseShiftCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _frequency = frequency;
             _phaseShiftCalculator = phaseShiftCalculator;
@@ -226,7 +226,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(frequencyCalculator, () => frequencyCalculator);
             //OperatorCalculatorHelper.AssertPhaseShift(phaseShift);
-            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _frequencyCalculator = frequencyCalculator;
             _dimensionStack = dimensionStack;
@@ -295,7 +295,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(frequencyCalculator, () => frequencyCalculator);
             OperatorCalculatorHelper.AssertChildOperatorCalculator(phaseShiftCalculator, () => phaseShiftCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _frequencyCalculator = frequencyCalculator;
             _phaseShiftCalculator = phaseShiftCalculator;
@@ -361,7 +361,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(frequencyCalculator, () => frequencyCalculator);
             //OperatorCalculatorHelper.AssertPhaseShift(phaseShift);
-            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _frequencyCalculator = frequencyCalculator;
             _phaseShift = phaseShift;
@@ -405,7 +405,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(frequencyCalculator, () => frequencyCalculator);
             OperatorCalculatorHelper.AssertChildOperatorCalculator(phaseShiftCalculator, () => phaseShiftCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _frequencyCalculator = frequencyCalculator;
             _phaseShiftCalculator = phaseShiftCalculator;

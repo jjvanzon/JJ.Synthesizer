@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[] { fromCalculator, tillCalculator, stepCalculator })
         {
-            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _fromCalculator = fromCalculator;
             _tillCalculator = tillCalculator;
@@ -80,7 +80,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double step,
             DimensionStack dimensionStack)
         {
-            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _from = from;
             _till = till;
@@ -135,7 +135,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double till,
             DimensionStack dimensionStack)
         {
-            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _from = from;
             _till = till;

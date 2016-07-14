@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (factor == 1) throw new ZeroException(() => factor);
             if (Double.IsNaN(factor)) throw new NaNException(() => factor);
             if (Double.IsInfinity(factor)) throw new InfinityException(() => factor);
-            OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _signalCalculator = signalCalculator;
             _factor = factor;
@@ -119,7 +119,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
             OperatorCalculatorHelper.AssertChildOperatorCalculator(factorCalculator, () => factorCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _signalCalculator = signalCalculator;
             _factorCalculator = factorCalculator;
@@ -222,7 +222,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (Double.IsNaN(factor)) throw new NaNException(() => factor);
             if (Double.IsInfinity(factor)) throw new InfinityException(() => factor);
             if (origin == 0) throw new ZeroException(() => origin);
-            OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _signalCalculator = signalCalculator;
             _factor = factor;
@@ -321,7 +321,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (Double.IsNaN(factor)) throw new NaNException(() => factor);
             if (Double.IsInfinity(factor)) throw new InfinityException(() => factor);
             OperatorCalculatorHelper.AssertChildOperatorCalculator(originCalculator, () => originCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _signalCalculator = signalCalculator;
             _factor = factor;
@@ -416,7 +416,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
             OperatorCalculatorHelper.AssertChildOperatorCalculator(factorCalculator, () => factorCalculator);
             if (origin == 0) throw new ZeroException(() => origin);
-            OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _signalCalculator = signalCalculator;
             _factorCalculator = factorCalculator;
@@ -515,7 +515,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
             OperatorCalculatorHelper.AssertChildOperatorCalculator(factorCalculator, () => factorCalculator);
             OperatorCalculatorHelper.AssertChildOperatorCalculator(originCalculator, () => originCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _signalCalculator = signalCalculator;
             _factorCalculator = factorCalculator;
@@ -613,7 +613,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
             OperatorCalculatorHelper.AssertChildOperatorCalculator(factorCalculator, () => factorCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _signalCalculator = signalCalculator;
             _factorCalculator = factorCalculator;
@@ -726,7 +726,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (factor == 1) throw new ZeroException(() => factor);
             if (Double.IsNaN(factor)) throw new NaNException(() => factor);
             if (Double.IsInfinity(factor)) throw new InfinityException(() => factor);
-            OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _signalCalculator = signalCalculator;
             _factor = factor;

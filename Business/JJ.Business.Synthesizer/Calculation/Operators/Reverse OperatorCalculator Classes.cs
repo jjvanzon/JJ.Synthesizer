@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
             OperatorCalculatorHelper.AssertChildOperatorCalculator(speedCalculator, () => speedCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _signalCalculator = signalCalculator;
             _speedCalculator = speedCalculator;
@@ -131,7 +131,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
             OperatorCalculatorHelper.AssertChildOperatorCalculator(speedCalculator, () => speedCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _signalCalculator = signalCalculator;
             _speedCalculator = speedCalculator;
@@ -228,7 +228,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (speed == 0) throw new ZeroException(() => speed);
             if (Double.IsNaN(speed)) throw new NaNException(() => speed);
             if (Double.IsInfinity(speed)) throw new InfinityException(() => speed);
-            OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _signalCalculator = signalCalculator;
             _speed = -speed;
@@ -326,7 +326,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (speed == 0) throw new ZeroException(() => speed);
             if (Double.IsNaN(speed)) throw new NaNException(() => speed);
             if (Double.IsInfinity(speed)) throw new InfinityException(() => speed);
-            OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _signalCalculator = signalCalculator;
             _speed = -speed;

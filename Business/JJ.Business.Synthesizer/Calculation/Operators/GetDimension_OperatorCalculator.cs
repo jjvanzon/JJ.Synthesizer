@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public GetDimension_OperatorCalculator(DimensionStack dimensionStack)
         {
-            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;

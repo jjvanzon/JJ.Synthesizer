@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             : base(new OperatorCalculatorBase[] { operandCalculator })
         {
             if (operandCalculator == null) throw new NullException(() => operandCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _operandCalculator = operandCalculator;
             _position = position;

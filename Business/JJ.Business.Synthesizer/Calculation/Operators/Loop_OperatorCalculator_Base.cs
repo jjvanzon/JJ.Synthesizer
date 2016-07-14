@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             : base(childOperatorCalculators)
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _signalCalculator = signalCalculator;
             _dimensionStack = dimensionStack;

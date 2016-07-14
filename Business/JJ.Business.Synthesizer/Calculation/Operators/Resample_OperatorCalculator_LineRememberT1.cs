@@ -1,6 +1,5 @@
 ﻿using JJ.Framework.Reflection.Exceptions;
 using System;
-using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -40,7 +39,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (samplingRateCalculator == null) throw new NullException(() => samplingRateCalculator);
             // TODO: Resample with constant sampling rate does not have specialized calculators yet. Reactivate code line after those specialized calculators have been programmed.
             //if (samplingRateCalculator is Number_OperatorCalculator) throw new IsNotTypeException<Number_OperatorCalculator>(() => samplingRateCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _signalCalculator = signalCalculator;
             _samplingRateCalculator = samplingRateCalculator;
@@ -61,7 +60,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
 #endif
-
             if (x > _x1)
             {
                 _x0 = _x1;

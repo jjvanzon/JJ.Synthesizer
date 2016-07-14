@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 stepCalculator
             })
         {
-            OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _inputCalculator = inputCalculator;
             _collectionCalculator = collectionCalculator;

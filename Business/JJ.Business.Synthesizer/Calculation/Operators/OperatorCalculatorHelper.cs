@@ -39,15 +39,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (Double.IsInfinity(width)) throw new InfinityException(() => width);
         }
 
-        // TODO: This variation is not necessary, now it does the same as AssertDimensionStack_ForReaders.
-        public static void AssertDimensionStack_ForWriters(DimensionStack dimensionStack)
-        {
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
-            if (dimensionStack.CurrentIndex < 0) throw new LessThanException(() => dimensionStack.CurrentIndex, 0);
-            //if (dimensionStack.CurrentIndex < 1) throw new Exception("dimensionStack.CurrentIndex cannot be less than 1, because a DimenionStack-writing OperatorCalculator must use the previous DimensionStack index too.");
-        }
-
-        public static void AssertDimensionStack_ForReaders(DimensionStack dimensionStack)
+        public static void AssertDimensionStack(DimensionStack dimensionStack)
         {
             if (dimensionStack == null) throw new NullException(() => dimensionStack);
             if (dimensionStack.CurrentIndex < 0) throw new LessThanException(() => dimensionStack.CurrentIndex, 0);

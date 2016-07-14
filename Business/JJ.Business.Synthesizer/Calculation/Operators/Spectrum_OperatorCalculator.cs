@@ -45,7 +45,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertChildOperatorCalculator_OnlyUsedUponResetState(startCalculator, () => startCalculator);
             OperatorCalculatorHelper.AssertChildOperatorCalculator_OnlyUsedUponResetState(endCalculator, () => endCalculator);
             OperatorCalculatorHelper.AssertChildOperatorCalculator_OnlyUsedUponResetState(frequencyCountCalculator, () => frequencyCountCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _signalCalculator = signalCalculator;
             _startCalculator = startCalculator;

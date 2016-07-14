@@ -34,8 +34,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
             if (sampleCalculator == null) throw new NullException(() => sampleCalculator);
 
-            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
-            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(channelDimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(channelDimensionStack);
 
             _frequencyCalculator = frequencyCalculator;
             _sampleCalculator = sampleCalculator;
@@ -124,8 +124,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionStack channelDimensionStack)
         {
             if (sampleCalculator == null) throw new NullException(() => sampleCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
-            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(channelDimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(channelDimensionStack);
 
             _sampleCalculator = sampleCalculator;
             _dimensionStack = dimensionStack;
@@ -203,7 +203,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
             if (sampleCalculator == null) throw new NullException(() => sampleCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _frequencyCalculator = frequencyCalculator;
             _sampleCalculator = sampleCalculator;
@@ -270,7 +270,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionStack dimensionStack)
         {
             if (sampleCalculator == null) throw new NullException(() => sampleCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _sampleCalculator = sampleCalculator;
             _dimensionStack = dimensionStack;
@@ -332,7 +332,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
             if (sampleCalculator == null) throw new NullException(() => sampleCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _frequencyCalculator = frequencyCalculator;
             _sampleCalculator = sampleCalculator;
@@ -399,7 +399,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionStack dimensionStack)
         {
             if (sampleCalculator == null) throw new NullException(() => sampleCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _sampleCalculator = sampleCalculator;
             _dimensionStack = dimensionStack;
@@ -464,8 +464,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
             if (sampleCalculator == null) throw new NullException(() => sampleCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
-            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(channelDimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(channelDimensionStack);
 
             _frequencyCalculator = frequencyCalculator;
             _sampleCalculator = sampleCalculator;
@@ -532,8 +532,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionStack channelDimensionStack)
         {
             if (sampleCalculator == null) throw new NullException(() => sampleCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
-            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(channelDimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(channelDimensionStack);
 
             _sampleCalculator = sampleCalculator;
             _dimensionStack = dimensionStack;
@@ -594,7 +594,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
             if (sampleCalculator == null) throw new NullException(() => sampleCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _frequencyCalculator = frequencyCalculator;
             _sampleCalculator = sampleCalculator;
@@ -639,7 +639,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionStack dimensionStack)
         {
             if (sampleCalculator == null) throw new NullException(() => sampleCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _sampleCalculator = sampleCalculator;
             _dimensionStack = dimensionStack;
@@ -684,7 +684,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
             if (sampleCalculator == null) throw new NullException(() => sampleCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _frequencyCalculator = frequencyCalculator;
             _sampleCalculator = sampleCalculator;
@@ -729,7 +729,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionStack dimensionStack)
         {
             if (sampleCalculator == null) throw new NullException(() => sampleCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _sampleCalculator = sampleCalculator;
             _dimensionStack = dimensionStack;

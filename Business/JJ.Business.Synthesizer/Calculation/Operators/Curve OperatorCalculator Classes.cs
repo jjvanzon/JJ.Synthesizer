@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Curve_OperatorCalculator_MinX_NoOriginShifting(CurveCalculator_MinX curveCalculator, DimensionStack dimensionStack)
         {
             if (curveCalculator == null) throw new NullException(() => curveCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _curveCalculator = curveCalculator;
             _dimensionStack = dimensionStack;
@@ -49,7 +49,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Curve_OperatorCalculator_MinX_WithOriginShifting(CurveCalculator_MinX curveCalculator, DimensionStack dimensionStack)
         {
             if (curveCalculator == null) throw new NullException(() => curveCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _curveCalculator = curveCalculator;
             _dimensionStack = dimensionStack;
@@ -101,7 +101,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Curve_OperatorCalculator_MinXZero_NoOriginShifting(CurveCalculator_MinXZero curveCalculator, DimensionStack dimensionStack)
         {
             if (curveCalculator == null) throw new NullException(() => curveCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _curveCalculator = curveCalculator;
             _dimensionStack = dimensionStack;
@@ -136,7 +136,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Curve_OperatorCalculator_MinXZero_WithOriginShifting(CurveCalculator_MinXZero curveCalculator, DimensionStack dimensionStack)
         {
             if (curveCalculator == null) throw new NullException(() => curveCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _curveCalculator = curveCalculator;
             _dimensionStack = dimensionStack;

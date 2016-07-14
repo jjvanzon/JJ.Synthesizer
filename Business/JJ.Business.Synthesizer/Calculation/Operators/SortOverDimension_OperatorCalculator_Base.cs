@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 stepCalculator
             })
         {
-            OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _signalCalculator = signalCalculator;
             _fromCalculator = fromCalculator;

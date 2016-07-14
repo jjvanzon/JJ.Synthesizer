@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionStack dimensionStack)
         {
             if (noiseCalculator == null) throw new NullException(() => noiseCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _noiseCalculator = noiseCalculator;
             _offset = offset;

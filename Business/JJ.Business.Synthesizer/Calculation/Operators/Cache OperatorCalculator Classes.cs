@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionStack dimensionStack)
         {
             if (arrayCalculator == null) throw new NullException(() => arrayCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _arrayCalculator = arrayCalculator;
             _dimensionStack = dimensionStack;
@@ -58,8 +58,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionStack channelDimensionStack)
         {
             if (arrayCalculators == null) throw new NullException(() => arrayCalculators);
-            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(dimensionStack);
-            OperatorCalculatorHelper.AssertDimensionStack_ForReaders(channelDimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(channelDimensionStack);
 
             _arrayCalculators = arrayCalculators.ToArray();
             _arrayCalculatorsMaxIndex = _arrayCalculators.Length - 1;

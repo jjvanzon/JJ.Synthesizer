@@ -205,10 +205,10 @@
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_Hermite.cs" />
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_CubicAbruptInclination.cs" />
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_CubicEquidistant.cs" />
-    <Compile Include="Calculation\Operators\Resample_OperatorCalculator_LineRememberT1_Org.cs" />
+    <Compile Include="Calculation\Operators\2016-07-14 Backup of Resample_OperatorCalculator_LineRememberT1_Org.cs" />
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_LineRememberT1.cs" />
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_LineRememberT0.cs" />
-    <Compile Include="Calculation\Operators\Resample_OperatorCalculator_LineWithVaryingAlignment.cs" />
+    <Compile Include="Calculation\Operators\2016-07-14 Backup of Resample_OperatorCalculator_LineWithVaryingAlignment.cs" />
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_LineWithConstSamplingRate.cs" />
     <Compile Include="Calculation\Operators\Pulse OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Subtract OperatorCalculator Classes.cs" />

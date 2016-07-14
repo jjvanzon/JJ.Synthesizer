@@ -67,7 +67,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(calculationCalculator, () => calculationCalculator);
             OperatorCalculatorHelper.AssertChildOperatorCalculator(valueCalculator, () => valueCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack_ForWriters(dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _calculationCalculator = calculationCalculator;
             _valueCalculator = valueCalculator;
