@@ -75,7 +75,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return viewModel;
         }
 
-
         public static PatchGridViewModel GetPatchGridViewModel_ByGroup(DocumentViewModel rootDocumentViewModel, string group)
         {
             PatchGridViewModel viewModel = TryGetPatchGridViewModel_ByGroup(rootDocumentViewModel, group);

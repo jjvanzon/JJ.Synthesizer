@@ -223,8 +223,8 @@
   <data name="Samples" xml:space="preserve">
     <value>Samples</value>
   </data>
-  <data name="AudioFileOutputs" xml:space="preserve">
-    <value>Audio File Outputs</value>
+  <data name="AudioFileOutputList" xml:space="preserve">
+    <value>Audio File Output List</value>
   </data>
   <data name="Patches" xml:space="preserve">
     <value>Patches</value>

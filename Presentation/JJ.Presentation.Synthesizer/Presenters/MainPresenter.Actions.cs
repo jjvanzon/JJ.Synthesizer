@@ -106,6 +106,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 DispatchViewModel(propertiesViewModel);
 
                 // Refresh
+                DocumentTreeRefresh();
                 AudioFileOutputGridRefresh();
             }
         }
@@ -139,6 +140,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.AudioFileOutputPropertiesList.RemoveFirst(x => x.Entity.ID == id);
 
                 // Refresh
+                DocumentTreeRefresh();
                 AudioFileOutputGridRefresh();
             }
         }
@@ -2059,6 +2061,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.ScaleGrid.List.RemoveFirst(x => x.ID == id);
                 MainViewModel.Document.ToneGridEditList.RemoveFirst(x => x.ScaleID == id);
                 MainViewModel.Document.ScalePropertiesList.RemoveFirst(x => x.Entity.ID == id);
+
+                // Refresh
+                DocumentTreeRefresh();
             }
         }
 

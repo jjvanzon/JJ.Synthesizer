@@ -200,7 +200,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             return Enumerable.Union(
                 documentTreeViewModel.PatchesNode.PatchNodes,
-                documentTreeViewModel.PatchesNode.PatchGroupNodes.SelectMany(x => x.Patches));
+                documentTreeViewModel.PatchesNode.PatchGroupNodes.SelectMany(x => x.PatchNodes));
         }
     }
 }

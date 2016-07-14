@@ -1,4 +1,4 @@
-﻿namespace JJ.Presentation.Synthesizer.ViewModels.Partials
+﻿namespace JJ.Presentation.Synthesizer.ViewModels.Items
 {
     public sealed class MenuItemViewModel
     {

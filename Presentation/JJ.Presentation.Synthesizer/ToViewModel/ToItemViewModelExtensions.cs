@@ -173,16 +173,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // Patch
 
-        public static PatchTreeNodeViewModel ToPatchTreeNodeViewModel(this Document document)
+        public static PatchTreeNodeViewModel ToPatchTreeNodeViewModel(this Document childDocument)
         {
-            if (document == null) throw new NullException(() => document);
+            if (childDocument == null) throw new NullException(() => childDocument);
 
             var viewModel = new PatchTreeNodeViewModel
             {
-                Name = document.Name,
-                CurvesNode = new DummyViewModel(),
-                SamplesNode = new DummyViewModel(),
-                ChildDocumentID = document.ID
+                Text = childDocument.Name,
+                CurvesNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.Curves, childDocument.Curves.Count),
+                SamplesNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.Samples, childDocument.Samples.Count),
+                ChildDocumentID = childDocument.ID
             };
 
             return viewModel;

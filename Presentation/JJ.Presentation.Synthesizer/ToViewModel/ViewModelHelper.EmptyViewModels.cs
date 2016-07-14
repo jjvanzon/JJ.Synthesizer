@@ -6,6 +6,7 @@ using JJ.Framework.Presentation;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
+using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -164,19 +165,22 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new DocumentTreeViewModel
             {
-                AudioFileOutputsNode = new DummyViewModel(),
-                CurvesNode = new DummyViewModel(),
-                SamplesNode = new DummyViewModel(),
                 PatchesNode = new PatchesTreeNodeViewModel
                 {
+                    Text = ViewModelHelper.GetTreeNodeText(PropertyDisplayNames.Patches, count: 0),
                     PatchNodes = new List<PatchTreeNodeViewModel>(),
                     PatchGroupNodes = new List<PatchGroupTreeNodeViewModel>()
                 },
-                ReferencedDocumentsNode = new ReferencedDocumentsTreeNodeViewModel
+                CurvesNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.Curves, count: 0),
+                SamplesNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.Samples, count: 0),
+                ScalesNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.Scales, count: 0),
+                AudioOutputNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.AudioOutput),
+                AudioFileOutputListNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.AudioFileOutput, count: 0),
+                ValidationMessages = new List<Message>(),
+                ReferencedDocumentNode = new ReferencedDocumentsTreeNodeViewModel
                 {
                     List = new List<ReferencedDocumentViewModel>()
-                },
-                ValidationMessages = new List<Message>()
+                }
             };
 
             return viewModel;

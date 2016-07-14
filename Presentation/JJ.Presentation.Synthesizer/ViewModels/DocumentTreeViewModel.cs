@@ -1,6 +1,7 @@
 ﻿using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using System.Collections.Generic;
 using System;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
@@ -9,12 +10,12 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public int ID { get; set; }
 
         public PatchesTreeNodeViewModel PatchesNode { get; set; }
-        public DummyViewModel CurvesNode { get; set; }
-        public DummyViewModel SamplesNode { get; set; }
-        public DummyViewModel ScalesNode { get; set; }
-        public DummyViewModel AudioOutputNode { get; set; }
-        public DummyViewModel AudioFileOutputsNode { get; set; }
+        public TreeLeafViewModel CurvesNode { get; set; }
+        public TreeLeafViewModel SamplesNode { get; set; }
+        public TreeLeafViewModel ScalesNode { get; set; }
+        public TreeLeafViewModel AudioOutputNode { get; set; }
+        public TreeLeafViewModel AudioFileOutputListNode { get; set; }
 
-        public ReferencedDocumentsTreeNodeViewModel ReferencedDocumentsNode { get; set; }
+        public ReferencedDocumentsTreeNodeViewModel ReferencedDocumentNode { get; set; }
     }
 }

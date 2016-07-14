@@ -14,6 +14,7 @@ using JJ.Presentation.Synthesizer.Converters;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
+using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -198,52 +199,58 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static DocumentTreeViewModel ToTreeViewModel(this Document document)
+        public static DocumentTreeViewModel ToTreeViewModel(this Document rootDocument)
         {
-            if (document == null) throw new NullException(() => document);
+            if (rootDocument == null) throw new NullException(() => rootDocument);
 
             var viewModel = new DocumentTreeViewModel
             {
-                ID = document.ID,
+                ID = rootDocument.ID,
                 PatchesNode = new PatchesTreeNodeViewModel
                 {
+                    Text = ViewModelHelper.GetTreeNodeText(PropertyDisplayNames.Patches, rootDocument.ChildDocuments.Count),
                     PatchGroupNodes = new List<PatchGroupTreeNodeViewModel>()
                 },
-                ReferencedDocumentsNode = new ReferencedDocumentsTreeNodeViewModel
+                CurvesNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.Curves, rootDocument.Curves.Count),
+                SamplesNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.Samples, rootDocument.Samples.Count),
+                ScalesNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.Scales, rootDocument.Scales.Count),
+                AudioOutputNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.AudioOutput),
+                AudioFileOutputListNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.AudioFileOutput, rootDocument.AudioFileOutputs.Count),
+                ValidationMessages = new List<Message>(),
+                ReferencedDocumentNode = new ReferencedDocumentsTreeNodeViewModel
                 {
                     List = new List<ReferencedDocumentViewModel>()
-                },
-                CurvesNode = new DummyViewModel(),
-                SamplesNode = new DummyViewModel(),
-                AudioOutputNode = new DummyViewModel(),
-                AudioFileOutputsNode = new DummyViewModel(),
-                ValidationMessages = new List<Message>()
+                }
             };
 
-            viewModel.ReferencedDocumentsNode.List = document.DependentOnDocuments.Select(x => x.DependentOnDocument)
+            viewModel.ReferencedDocumentNode.List = rootDocument.DependentOnDocuments.Select(x => x.DependentOnDocument)
                                                                                   .Select(x => x.ToReferencedDocumentViewModelWithRelatedEntities())
                                                                                   .OrderBy(x => x.Name)
                                                                                   .ToList();
             // Groupless Patches
-            IList<Document> grouplessChildDocuments = document.ChildDocuments.Where(x => String.IsNullOrWhiteSpace(x.GroupName)).ToArray();
+            IList<Document> grouplessChildDocuments = rootDocument.ChildDocuments.Where(x => String.IsNullOrWhiteSpace(x.GroupName)).ToArray();
             viewModel.PatchesNode.PatchNodes = grouplessChildDocuments.OrderBy(x => x.Name)
                                                                       .Select(x => x.ToPatchTreeNodeViewModel())
                                                                       .ToList();
 
             // Patch Groups
-            var childDocumentGroups = document.ChildDocuments.Where(x => !String.IsNullOrWhiteSpace(x.GroupName))
-                                                             .GroupBy(x => x.GroupName)
-                                                             .OrderBy(x => x.Key);
+            var childDocumentGroups = rootDocument.ChildDocuments.Where(x => !String.IsNullOrWhiteSpace(x.GroupName))
+                                                                 .GroupBy(x => x.GroupName)
+                                                                 .OrderBy(x => x.Key);
             foreach (var childDocumentGroup in childDocumentGroups)
             {
+                IList<Document> childDocumentsInGroup = childDocumentGroup.ToArray();
+
                 viewModel.PatchesNode.PatchGroupNodes.Add(new PatchGroupTreeNodeViewModel
                 {
-                    Name = childDocumentGroup.Key,
-                    Patches = childDocumentGroup.OrderBy(x => x.Name)
-                                                .Select(x => x.ToPatchTreeNodeViewModel())
-                                                .ToList()
+                    GroupName = childDocumentGroup.Key,
+                    Text = ViewModelHelper.GetTreeNodeText(childDocumentGroup.Key, childDocumentsInGroup.Count),
+                    PatchNodes = childDocumentsInGroup.OrderBy(x => x.Name)
+                                                      .Select(x => x.ToPatchTreeNodeViewModel())
+                                                      .ToList()
                 });
             }
+
             return viewModel;
         }
 

@@ -31,6 +31,21 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return idAndNames;
         }
 
+        // CollectionRecalculation
+
+        private static IList<IDAndName> _collectionRecalculationLookupViewModel = CreateCollectionRecalculationLookupViewModel();
+
+        public static IList<IDAndName> GetCollectionRecalculationLookupViewModel()
+        {
+            return _collectionRecalculationLookupViewModel;
+        }
+
+        private static IList<IDAndName> CreateCollectionRecalculationLookupViewModel()
+        {
+            IList<IDAndName> idAndNames = CreateEnumLookupViewModel<CollectionRecalculationEnum>(mustIncludeUndefined: false);
+            return idAndNames;
+        }
+
         // Curve
 
         public static IList<IDAndName> CreateCurveLookupViewModel(Document rootDocument, Document childDocument)
@@ -132,21 +147,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         private static IList<IDAndName> CreateResampleInterpolationLookupViewModel()
         {
             IList<IDAndName> idAndNames = CreateEnumLookupViewModel<ResampleInterpolationTypeEnum>(mustIncludeUndefined: true);
-            return idAndNames;
-        }
-
-        // CollectionRecalculation
-
-        private static IList<IDAndName> _collectionRecalculationLookupViewModel = CreateCollectionRecalculationLookupViewModel();
-
-        public static IList<IDAndName> GetCollectionRecalculationLookupViewModel()
-        {
-            return _collectionRecalculationLookupViewModel;
-        }
-
-        private static IList<IDAndName> CreateCollectionRecalculationLookupViewModel()
-        {
-            IList<IDAndName> idAndNames = CreateEnumLookupViewModel<CollectionRecalculationEnum>(mustIncludeUndefined: false);
             return idAndNames;
         }
 

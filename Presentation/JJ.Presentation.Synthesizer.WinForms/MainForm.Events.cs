@@ -56,7 +56,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.ShowAudioOutputRequested += documentTreeUserControl_ShowAudioOutputRequested;
             documentTreeUserControl.ShowAudioFileOutputsRequested += documentTreeUserControl_ShowAudioFileOutputsRequested;
             documentTreeUserControl.ShowCurvesRequested += documentTreeUserControl_ShowCurvesRequested;
-            documentTreeUserControl.ShowDocumentPropertiesRequested += documentTreeUserControl_ShowDocumentPropertiesRequested;
             documentTreeUserControl.ShowPatchDetailsRequested += documentTreeUserControl_ShowPatchDetailsRequested;
             documentTreeUserControl.ShowPatchGridRequested += documentTreeUserControl_ShowPatchGridRequested;
             documentTreeUserControl.ShowSamplesRequested += documentTreeUserControl_ShowSamplesRequested;
@@ -387,11 +386,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void documentTreeUserControl_ShowCurvesRequested(object sender, Int32EventArgs e)
         {
             TemplateEventHandler(() => _presenter.CurveGridShow(e.Value));
-        }
-
-        private void documentTreeUserControl_ShowDocumentPropertiesRequested(object sender, EventArgs e)
-        {
-            TemplateEventHandler(_presenter.DocumentPropertiesShow);
         }
 
         private void documentTreeUserControl_ShowPatchGridRequested(object sender, StringEventArgs e)

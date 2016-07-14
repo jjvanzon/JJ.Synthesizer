@@ -25,8 +25,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
     internal static partial class ViewModelHelper
     {
         private const int STRETCH_AND_SQUASH_ORIGIN_LIST_INDEX = 2;
-
         private static readonly bool _previewAutoPatchPolyphonicEnabled = GetPreviewAutoPatchPolyphonicEnabled();
+
+        // OperatorTypeEnum HashSets
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithDimensionAndCollectionRecalculationPropertyViews { get; } =
                   new HashSet<OperatorTypeEnum>
@@ -160,6 +161,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.SortOverDimension
         };
 
+        // CurrentPatches
+
         public static CurrentPatchesViewModel CreateCurrentPatchesViewModel(IList<Document> childDocuments)
         {
             if (childDocuments == null) throw new NullException(() => childDocuments);
@@ -174,6 +177,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
+        // Document
+
         public static DocumentDeletedViewModel CreateDocumentDeletedViewModel()
         {
             var viewModel = new DocumentDeletedViewModel
@@ -183,6 +188,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             return viewModel;
         }
+
+        // Menu
 
         public static MenuViewModel CreateMenuViewModel(bool documentIsOpen)
         {
@@ -200,27 +207,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        /// <summary>
-        /// A Number Operator can be considered 'owned' by another operator if
-        /// it is the only operator it is connected to.
-        /// In that case it is convenient that the Number Operator moves along
-        /// with the operator it is connected to.
-        /// In the Vector Graphics we accomplish this by making the Number Operator Rectangle a child of the owning Operator's Rectangle. 
-        /// But also in the MoveOperator action we must move the owned operators along with their owner.
-        /// </summary>
-        public static bool GetOperatorIsOwned(Operator entity)
-        {
-            if (entity.Outlets.Count > 0)
-            {
-                bool isOwned = entity.GetOperatorTypeEnum() == OperatorTypeEnum.Number &&
-                               // Make sure the connected inlets are all of the same operator.
-                               entity.Outlets[0].ConnectedInlets.Select(x => x.Operator).Distinct().Count() == 1;
-
-                return isOwned;
-            }
-
-            return false;
-        }
+        // Tone Grid
 
         public static string GetToneGridEditNumberTitle(Scale entity)
         {
@@ -228,6 +215,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             return ResourceHelper.GetScaleTypeDisplayNameSingular(entity);
         }
+
+        // Patch-Related
 
         public static bool GetInletVisible(Inlet inlet)
         {
@@ -273,6 +262,28 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// A Number Operator can be considered 'owned' by another operator if
+        /// it is the only operator it is connected to.
+        /// In that case it is convenient that the Number Operator moves along
+        /// with the operator it is connected to.
+        /// In the Vector Graphics we accomplish this by making the Number Operator Rectangle a child of the owning Operator's Rectangle. 
+        /// But also in the MoveOperator action we must move the owned operators along with their owner.
+        /// </summary>
+        public static bool GetOperatorIsOwned(Operator entity)
+        {
+            if (entity.Outlets.Count > 0)
+            {
+                bool isOwned = entity.GetOperatorTypeEnum() == OperatorTypeEnum.Number &&
+                               // Make sure the connected inlets are all of the same operator.
+                               entity.Outlets[0].ConnectedInlets.Select(x => x.Operator).Distinct().Count() == 1;
+
+                return isOwned;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -743,6 +754,42 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             return dimensionEnum;
         }
+
+        // TreeLeaf
+
+        public static TreeLeafViewModel CreateTreeLeafViewModel(string displayName)
+        {
+            var viewModel = new TreeLeafViewModel
+            {
+                Text = displayName
+            };
+
+            return viewModel;
+        }
+
+        public static TreeLeafViewModel CreateTreeLeafViewModel(string displayName, int count)
+        {
+            var viewModel = new TreeLeafViewModel
+            {
+                Text = GetTreeNodeText(displayName, count)
+            };
+
+            return viewModel;
+        }
+
+        public static string GetTreeNodeText(string displayName, int count)
+        {
+            string text = displayName;
+
+            if (count != 0)
+            {
+                text += String.Format(" ({0})", count);
+            }
+
+            return text;
+        }
+
+        // Helpers
 
         private static bool GetPreviewAutoPatchPolyphonicEnabled()
         {

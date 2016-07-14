@@ -142,11 +142,11 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Audio File Outputs.
+        ///   Looks up a localized string similar to Audio File Output List.
         /// </summary>
-        public static string AudioFileOutputs {
+        public static string AudioFileOutputList {
             get {
-                return ResourceManager.GetString("AudioFileOutputs", resourceCulture);
+                return ResourceManager.GetString("AudioFileOutputList", resourceCulture);
             }
         }
         

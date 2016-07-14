@@ -120,6 +120,7 @@
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForMakeContinuous.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_WithDimensionAndInterpolation.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForCache.cs" />
+    <Compile Include="ViewModels\Items\TreeLeafViewModel.cs" />
     <Compile Include="ViewModels\PatchPropertiesViewModel.cs" />
     <Compile Include="ViewModels\PatchGridViewModel.cs" />
     <Compile Include="ViewModels\DocumentCannotDeleteViewModel.cs" />
@@ -177,7 +178,7 @@
     <Compile Include="ViewModels\Partials\PatchGroupTreeNodeViewModel.cs" />
     <Compile Include="ViewModels\Partials\PatchTreeNodeViewModel.cs" />
     <Compile Include="ViewModels\Partials\DummyViewModel.cs" />
-    <Compile Include="ViewModels\Partials\MenuItemViewModel.cs" />
+    <Compile Include="ViewModels\Items\MenuItemViewModel.cs" />
     <Compile Include="ViewModels\Items\ReferencedDocumentViewModel.cs" />
     <Compile Include="ViewModels\Partials\ReferencedDocumentsTreeNodeViewModel.cs" />
     <Compile Include="ViewModels\PatchDetailsViewModel.cs" />
