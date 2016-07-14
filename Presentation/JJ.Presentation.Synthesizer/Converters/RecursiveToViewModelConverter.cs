@@ -83,13 +83,7 @@ namespace JJ.Presentation.Synthesizer.Converters
                 OperatorViewModel operatorViewModel = ConvertToViewModelRecursive(op);
 
                 DimensionEnum dimensionEnum = ViewModelHelper.GetDimensionEnum(op);
-                operatorViewModel.Dimension = dimensionEnum.ToIDAndDisplayName();
-
-                // DIRTY: Trick the Vector Graphics into showing an arrow, but no dimension name.
-                if (dimensionEnum == DimensionEnum.Undefined)
-                {
-                    operatorViewModel.Dimension.Name = " ";
-                }
+                operatorViewModel.Dimension = dimensionEnum.ToViewModel();
 
                 dimensionIDs.Add(operatorViewModel.Dimension.ID);
 
@@ -101,7 +95,7 @@ namespace JJ.Presentation.Synthesizer.Converters
             {
                 // Max 1 dimensions: display neutrally.
                 operatorViewModels.ForEach(x => x.StyleGrade = STYLE_GRADE_NEUTRAL);
-                operatorViewModels.ForEach(x => x.Dimension = ViewModelHelper.CreateEmptyIDAndName());
+                operatorViewModels.ForEach(x => x.Dimension.Visible = false);
             }
             else
             {
@@ -116,7 +110,7 @@ namespace JJ.Presentation.Synthesizer.Converters
                     operatorViewModels.Except(operatorViewModelsWithStyleGrades).ToArray();
 
                 operatorViewModelsWithNeutralStyleGrade.ForEach(x => x.StyleGrade = STYLE_GRADE_NEUTRAL);
-                operatorViewModelsWithNeutralStyleGrade.ForEach(x => x.Dimension = ViewModelHelper.CreateEmptyIDAndName());
+                operatorViewModelsWithNeutralStyleGrade.ForEach(x => x.Dimension.Visible = false);
 
                 // Rest should be displayed in equally spread grades,
                 // sorted by dimension ID (arbitrary, but at least consistent).

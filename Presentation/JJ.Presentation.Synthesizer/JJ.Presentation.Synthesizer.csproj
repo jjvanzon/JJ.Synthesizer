@@ -109,6 +109,7 @@
     <Compile Include="ViewModels\CurrentPatchesViewModel.cs" />
     <Compile Include="ViewModels\Items\AudioOutputViewModel.cs" />
     <Compile Include="ViewModels\Items\ChildDocumentIDAndNameViewModel.cs" />
+    <Compile Include="ViewModels\Items\DimensionViewModel.cs" />
     <Compile Include="ViewModels\Items\ScaleViewModel.cs" />
     <Compile Include="ViewModels\Items\ToneViewModel.cs" />
     <Compile Include="ViewModels\Items\PatchDocumentViewModel.cs" />

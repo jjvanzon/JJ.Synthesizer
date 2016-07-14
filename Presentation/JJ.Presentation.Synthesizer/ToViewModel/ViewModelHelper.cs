@@ -389,7 +389,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             viewModel.ID = entity.ID;
             viewModel.Caption = GetOperatorCaption(entity, sampleRepository, curveRepository, patchRepository);
-            viewModel.OperatorType = entity.OperatorType?.ToViewModel();
+            viewModel.OperatorType = entity.OperatorType?.ToIDAndDisplayName();
             viewModel.IsOwned = GetOperatorIsOwned(entity);
         }
 

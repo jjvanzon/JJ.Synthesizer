@@ -424,7 +424,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             if (entity.OperatorType != null)
             {
-                viewModel.OperatorType = entity.OperatorType.ToViewModel();
+                viewModel.OperatorType = entity.OperatorType.ToIDAndDisplayName();
             }
             else
             {

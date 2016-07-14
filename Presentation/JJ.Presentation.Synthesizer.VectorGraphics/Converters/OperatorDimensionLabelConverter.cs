@@ -14,7 +14,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
         public Label TryConvertToDimensionLabel(OperatorViewModel sourceOperatorViewModel, Rectangle destOperatorRectangle)
         {
-            if (String.IsNullOrEmpty(sourceOperatorViewModel.Dimension.Name))
+            if (!sourceOperatorViewModel.Dimension.Visible)
             {
                 return null;
             }

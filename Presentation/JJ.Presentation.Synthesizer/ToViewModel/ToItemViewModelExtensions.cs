@@ -12,6 +12,7 @@ using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -334,15 +335,22 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.Caption = wrapper.GetOutletDisplayName(entity.ListIndex);
         }
 
-        public static IDAndName ToViewModel(this OperatorType operatorType)
+        public static DimensionViewModel ToViewModel(this DimensionEnum dimensionEnum)
         {
-            if (operatorType == null) throw new NullException(() => operatorType);
-
-            var viewModel = new IDAndName
+            var viewModel = new DimensionViewModel
             {
-                ID = operatorType.ID,
-                Name = ResourceHelper.GetPropertyDisplayName(operatorType.Name)
+                ID = (int)dimensionEnum,
+                Visible = true
             };
+
+            if (dimensionEnum != DimensionEnum.Undefined)
+            {
+                viewModel.Name = ResourceHelper.GetPropertyDisplayName(dimensionEnum);
+            }
+            else
+            {
+                viewModel.Name = null;
+            }
 
             return viewModel;
         }

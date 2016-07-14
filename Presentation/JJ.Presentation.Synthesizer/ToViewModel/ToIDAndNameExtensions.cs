@@ -107,17 +107,17 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
         }
 
-        public static IDAndName ToIDAndDisplayName(this OperatorType entity)
+        public static IDAndName ToIDAndDisplayName(this OperatorType operatorType)
         {
-            if (entity == null) throw new NullException(() => entity);
+            if (operatorType == null) throw new NullException(() => operatorType);
 
-            string displayName = PropertyDisplayNames.ResourceManager.GetString(entity.Name);
-
-            return new IDAndName
+            var viewModel = new IDAndName
             {
-                ID = entity.ID,
-                Name = displayName
+                ID = operatorType.ID,
+                Name = ResourceHelper.GetPropertyDisplayName(operatorType.Name)
             };
+
+            return viewModel;
         }
 
         public static IDAndName ToIDAndName(this Outlet entity)
