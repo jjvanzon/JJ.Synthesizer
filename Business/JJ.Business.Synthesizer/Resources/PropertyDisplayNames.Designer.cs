@@ -826,11 +826,11 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Harmonic Number.
+        ///   Looks up a localized string similar to Harmonic.
         /// </summary>
-        public static string HarmonicNumber {
+        public static string Harmonic {
             get {
-                return ResourceManager.GetString("HarmonicNumber", resourceCulture);
+                return ResourceManager.GetString("Harmonic", resourceCulture);
             }
         }
         

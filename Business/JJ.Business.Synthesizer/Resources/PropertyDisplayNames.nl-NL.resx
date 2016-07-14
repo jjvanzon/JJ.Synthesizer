@@ -746,7 +746,7 @@
   <data name="Calculation" xml:space="preserve">
     <value>Berekening</value>
   </data>
-  <data name="HarmonicNumber" xml:space="preserve">
+  <data name="Harmonic" xml:space="preserve">
     <value>Harmonische</value>
   </data>
   <data name="GetDimension" xml:space="preserve">

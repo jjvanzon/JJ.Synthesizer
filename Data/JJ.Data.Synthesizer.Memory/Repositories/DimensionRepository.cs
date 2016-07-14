@@ -31,7 +31,7 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             RepositoryHelper.EnsureEnumEntity(this, 21, "SustainVolume");
             RepositoryHelper.EnsureEnumEntity(this, 22, "Time");
             RepositoryHelper.EnsureEnumEntity(this, 23, "Channel");
-            RepositoryHelper.EnsureEnumEntity(this, 24, "HarmonicNumber");
+            RepositoryHelper.EnsureEnumEntity(this, 24, "Harmonic");
             RepositoryHelper.EnsureEnumEntity(this, 25, "Balance");
         }
     }

@@ -1,0 +1,1 @@
+update Dimension set Name = 'Harmonic' where ID = 24

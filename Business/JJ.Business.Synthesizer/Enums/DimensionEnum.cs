@@ -26,7 +26,7 @@
         SustainVolume = 21,
         Time = 22,
         Channel = 23,
-        HarmonicNumber = 24,
+        Harmonic = 24,
         Balance = 25
     }
 }
