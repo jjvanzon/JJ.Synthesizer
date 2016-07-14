@@ -117,7 +117,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                                                     .Except(OperatorTypeEnums_WithInletCountPropertyViews)
                                                     .ToHashSet();
 
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithStyleGrade = new HashSet<OperatorTypeEnum>
+        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithStyledDimension { get; } = new HashSet<OperatorTypeEnum>
         {
             OperatorTypeEnum.Sine,
             OperatorTypeEnum.TimePower,

@@ -95,6 +95,7 @@ namespace JJ.Presentation.Synthesizer.Converters
             {
                 // Max 1 dimensions: display neutrally.
                 operatorViewModels.ForEach(x => x.StyleGrade = STYLE_GRADE_NEUTRAL);
+                operatorViewModels.ForEach(x => x.Dimension = ViewModelHelper.CreateEmptyIDAndName());
             }
             else
             {
@@ -102,13 +103,14 @@ namespace JJ.Presentation.Synthesizer.Converters
                     operatorViewModels.Where(x => // Time should be displayed neutrally.
                                                   x.Dimension.ID != (int)DimensionEnum.Time &&
                                                   // Only specific OperatorTypes need their dimensions indicated with a color grade.
-                                                  ViewModelHelper.OperatorTypeEnums_WithStyleGrade.Contains((OperatorTypeEnum)x.OperatorType.ID))
+                                                  ViewModelHelper.OperatorTypeEnums_WithStyledDimension.Contains((OperatorTypeEnum)x.OperatorType.ID))
                                       .ToArray();
 
                 IList<OperatorViewModel> operatorViewModelsWithNeutralStyleGrade =
                     operatorViewModels.Except(operatorViewModelsWithStyleGrades).ToArray();
 
                 operatorViewModelsWithNeutralStyleGrade.ForEach(x => x.StyleGrade = STYLE_GRADE_NEUTRAL);
+                operatorViewModelsWithNeutralStyleGrade.ForEach(x => x.Dimension = ViewModelHelper.CreateEmptyIDAndName());
 
                 // Rest should be displayed in equally spread grades,
                 // sorted by dimension ID (arbitrary, but at least consistent).
@@ -135,18 +137,6 @@ namespace JJ.Presentation.Synthesizer.Converters
                     int dimensionID = operatorViewModel.Dimension.ID;
                     StyleGradeEnum styleGradeEnum = dimensionID_To_StyleGrade_Dictionary[dimensionID];
                     operatorViewModel.StyleGrade = styleGradeEnum;
-                }
-            }
-
-            // Do not display text of Time or Undefined dimension
-            foreach (OperatorViewModel operatorViewModel in operatorViewModels)
-            {
-                DimensionEnum dimensionEnum = (DimensionEnum)operatorViewModel.Dimension.ID;
-
-                if (dimensionEnum == DimensionEnum.Undefined ||
-                    dimensionEnum == DimensionEnum.Time)
-                {
-                    operatorViewModel.Dimension = ViewModelHelper.CreateEmptyIDAndName();
                 }
             }
 
