@@ -177,9 +177,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (childDocument == null) throw new NullException(() => childDocument);
 
+            int underlyingEntitiesCount = childDocument.Samples.Count + childDocument.Curves.Count;
+
             var viewModel = new PatchTreeNodeViewModel
             {
-                Text = childDocument.Name,
+                Text = ViewModelHelper.GetTreeNodeText(childDocument.Name, underlyingEntitiesCount),
                 CurvesNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.Curves, childDocument.Curves.Count),
                 SamplesNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.Samples, childDocument.Samples.Count),
                 ChildDocumentID = childDocument.ID
