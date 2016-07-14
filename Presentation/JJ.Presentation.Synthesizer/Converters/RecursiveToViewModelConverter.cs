@@ -17,6 +17,7 @@ namespace JJ.Presentation.Synthesizer.Converters
 {
     internal class RecursiveToViewModelConverter
     {
+        private const StyleGradeEnum STYLE_GRADE_NEUTRAL = StyleGradeEnum.StyleGrade16;
         private readonly ISampleRepository _sampleRepository;
         private readonly ICurveRepository _curveRepository;
         private readonly IPatchRepository _patchRepository;
@@ -90,24 +91,27 @@ namespace JJ.Presentation.Synthesizer.Converters
             }
 
             // Assign style depending on Dimension.
-            if (dimensionIDs.Count < 2)
+            if (dimensionIDs.Count <= 1)
             {
-                // If less than 2 dimensions: display neutrally.
-                operatorViewModels.ForEach(x => x.StyleGrade = StyleGradeEnum.StyleGrade16);
+                // Max 1 dimensions: display neutrally.
+                operatorViewModels.ForEach(x => x.StyleGrade = STYLE_GRADE_NEUTRAL);
             }
             else
             {
-                IList<OperatorViewModel> operatorViewModelsWithNeutralDimension =
-                    operatorViewModels.Where(x => x.Dimension.ID == (int)DimensionEnum.Time ||
-                                                  x.Dimension.ID == (int)DimensionEnum.Undefined)
+                IList<OperatorViewModel> operatorViewModelsWithStyleGrades =
+                    operatorViewModels.Where(x => // Time should be displayed neutrally.
+                                                  x.Dimension.ID != (int)DimensionEnum.Time &&
+                                                  // Only specific OperatorTypes need their dimensions indicated with a color grade.
+                                                  ViewModelHelper.OperatorTypeEnums_WithStyleGrade.Contains((OperatorTypeEnum)x.OperatorType.ID))
                                       .ToArray();
 
-                // Time should be displayed neutrally.
-                operatorViewModelsWithNeutralDimension.ForEach(x => x.StyleGrade = StyleGradeEnum.StyleGrade16);
+                IList<OperatorViewModel> operatorViewModelsWithNeutralStyleGrade =
+                    operatorViewModels.Except(operatorViewModelsWithStyleGrades).ToArray();
 
-                // Rest should be displayed in equally spread grades, 
+                operatorViewModelsWithNeutralStyleGrade.ForEach(x => x.StyleGrade = STYLE_GRADE_NEUTRAL);
+
+                // Rest should be displayed in equally spread grades,
                 // sorted by dimension ID (arbitrary, but at least consistent).
-                IList<OperatorViewModel> remainingOperatorViewModelModels = operatorViewModels.Except(operatorViewModelsWithNeutralDimension).ToArray();
                 IList<int> remainingDimensionIDsSorted = dimensionIDs.Except((int)DimensionEnum.Time)
                                                                      .OrderBy(x => x)
                                                                      .ToArray();
@@ -126,7 +130,7 @@ namespace JJ.Presentation.Synthesizer.Converters
                     dimensionID_To_StyleGrade_Dictionary.Add(dimensionID, styleGradeEnum);
                 }
 
-                foreach (OperatorViewModel operatorViewModel in remainingOperatorViewModelModels)
+                foreach (OperatorViewModel operatorViewModel in operatorViewModelsWithStyleGrades)
                 {
                     int dimensionID = operatorViewModel.Dimension.ID;
                     StyleGradeEnum styleGradeEnum = dimensionID_To_StyleGrade_Dictionary[dimensionID];

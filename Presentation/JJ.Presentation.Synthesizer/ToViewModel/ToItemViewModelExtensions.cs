@@ -124,7 +124,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 NodeType = entity.NodeType.ToIDAndDisplayName(),
                 ID = entity.ID
             };
-            
+
             viewModel.Caption = String.Format("{0:0.####}, {1:0.####}", entity.X, entity.Y);
 
             return viewModel;
@@ -223,8 +223,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static IList<InletViewModel> ToViewModels(
             this IList<Inlet> entities,
-            ICurveRepository curveRepository, 
-            ISampleRepository sampleRepository, 
+            ICurveRepository curveRepository,
+            ISampleRepository sampleRepository,
             IPatchRepository patchRepository)
         {
             if (entities == null) throw new NullException(() => entities);
@@ -251,7 +251,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         /// <summary> Overload for in-place refreshing of a view model </summary>
         public static void ToViewModel(
-            this Inlet entity, 
+            this Inlet entity,
             InletViewModel viewModel,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
@@ -259,7 +259,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
             if (viewModel == null) throw new NullException(() => viewModel);
-            
+
             viewModel.ID = entity.ID;
             viewModel.Name = entity.Name;
             viewModel.Visible = ViewModelHelper.GetInletVisible(entity);
@@ -306,7 +306,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         /// <summary> Overload for in-place refreshing of a view model. </summary>
         public static void ToViewModel(
-            this Outlet entity, 
+            this Outlet entity,
             OutletViewModel viewModel,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
@@ -467,9 +467,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = new ToneViewModel
             {
-                 ID = entity.ID,
-                 Number = entity.Number.ToString(),
-                 Octave = entity.Octave.ToString()
+                ID = entity.ID,
+                Number = entity.Number.ToString(),
+                Octave = entity.Octave.ToString()
             };
 
             return viewModel;

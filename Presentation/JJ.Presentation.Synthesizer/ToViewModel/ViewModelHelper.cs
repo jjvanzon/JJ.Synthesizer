@@ -117,6 +117,49 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                                                     .Except(OperatorTypeEnums_WithInletCountPropertyViews)
                                                     .ToHashSet();
 
+        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithStyleGrade = new HashSet<OperatorTypeEnum>
+        {
+            OperatorTypeEnum.Sine,
+            OperatorTypeEnum.TimePower,
+            OperatorTypeEnum.Curve,
+            OperatorTypeEnum.Sample,
+            OperatorTypeEnum.Noise,
+            OperatorTypeEnum.Resample,
+            OperatorTypeEnum.SawUp,
+            OperatorTypeEnum.Square,
+            OperatorTypeEnum.Triangle,
+            OperatorTypeEnum.Loop,
+            OperatorTypeEnum.Select,
+            OperatorTypeEnum.Bundle,
+            OperatorTypeEnum.Unbundle,
+            OperatorTypeEnum.Stretch,
+            OperatorTypeEnum.Squash,
+            OperatorTypeEnum.Shift,
+            OperatorTypeEnum.Spectrum,
+            OperatorTypeEnum.Pulse,
+            OperatorTypeEnum.Random,
+            OperatorTypeEnum.MinFollower,
+            OperatorTypeEnum.MaxFollower,
+            OperatorTypeEnum.AverageFollower,
+            OperatorTypeEnum.SawDown,
+            OperatorTypeEnum.Reverse,
+            OperatorTypeEnum.Cache,
+            // Specifically not:
+            // OperatorTypeEnum.GetDimension
+            // OperatorTypeEnum.SetDimension
+            OperatorTypeEnum.Range,
+            OperatorTypeEnum.MakeDiscrete,
+            OperatorTypeEnum.MakeContinuous,
+            OperatorTypeEnum.MaxOverDimension,
+            OperatorTypeEnum.MinOverDimension,
+            OperatorTypeEnum.AverageOverDimension,
+            OperatorTypeEnum.SumOverDimension,
+            OperatorTypeEnum.SumFollower,
+            OperatorTypeEnum.ClosestOverDimension,
+            OperatorTypeEnum.ClosestOverDimensionExp,
+            OperatorTypeEnum.SortOverDimension
+        };
+
         public static CurrentPatchesViewModel CreateCurrentPatchesViewModel(IList<Document> childDocuments)
         {
             if (childDocuments == null) throw new NullException(() => childDocuments);

@@ -40,10 +40,6 @@
         Unbundle = 28,
         Stretch = 29,
         Squash = 30,
-
-        /// <summary>
-        /// A synonym to Delay. The word 'Shift' makes more sense when the x-axis is not used as time.
-        /// </summary>
         Shift = 31,
 
         /// <summary>
@@ -60,7 +56,6 @@
         LowPassFilter = 33,
         HighPassFilter = 34,
         Spectrum = 35,
-
         Pulse = 36,
 
         /// <summary>
