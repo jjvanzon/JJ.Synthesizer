@@ -991,6 +991,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
 
             HashSet<string> groups = document.ChildDocuments.Select(x => x.GroupName ?? "")
+                                                            // Always add nameless group even when there are no child documents in it.
+                                                            .Union("")
                                                             .Distinct()
                                                             .ToHashSet();
             foreach (string group in groups)
