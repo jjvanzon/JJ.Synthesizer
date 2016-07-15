@@ -9,12 +9,14 @@ namespace JJ.OneOff.Synthesizer.DataMigration
         public const string CollectionRecalculation = "CollectionRecalculation";
         public const string Continual = "Continual";
         public const string Continuous = "Continuous";
-        public const string SliceLength = "SliceLength";
+        public const string Dimension = "Dimension";
         public const string EndTime = "EndTime";
         public const string FrequencyCount = "FrequencyCount";
+        public const string HarmonicNumber = "HarmonicNumber";
         public const string Recalculation = "Recalculation";
         public const string SampleCount = "SampleCount";
         public const string SamplingRate = "SamplingRate";
+        public const string SliceLength = "SliceLength";
         public const string StartTime = "StartTime";
     }
 }
