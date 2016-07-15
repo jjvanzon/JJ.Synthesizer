@@ -45,11 +45,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void Create()
         {
-            if (CreateRequested != null)
-            {
-                var e = new Int32EventArgs(ViewModel.DocumentID);
-                CreateRequested(this, e);
-            }
+            CreateRequested?.Invoke(this, new Int32EventArgs(ViewModel.DocumentID));
         }
 
         private void Delete()
@@ -67,10 +63,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void Close()
         {
-            if (CloseRequested != null)
-            {
-                CloseRequested(this, EventArgs.Empty);
-            }
+            CloseRequested?.Invoke(this, EventArgs.Empty);
         }
 
         private void ShowDetails()

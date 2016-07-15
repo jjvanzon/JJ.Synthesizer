@@ -383,7 +383,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             CurveGridViewModel userInput = DocumentViewModelHelper.GetVisibleCurveGridViewModel(MainViewModel.Document);
 
             // TemplateMethod
-            TemplateActionMethod(userInput, () => _curveGridPresenter.Show(userInput));
+            TemplateActionMethod(userInput, () => _curveGridPresenter.Close(userInput));
         }
 
         public void CurveCreate(int documentID)
