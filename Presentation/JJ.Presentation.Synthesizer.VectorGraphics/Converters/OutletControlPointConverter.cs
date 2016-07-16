@@ -33,8 +33,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
                 {
                     Diagram = sourceOutletPoint.Diagram,
                     Parent = sourceOutletPoint,
-                    PointStyle = StyleHelper.PointStyleInvisible,
-                    Tag = sourceOutletPoint.Tag
+                    Tag = sourceOutletPoint.Tag,
+                    PointStyle = StyleHelper.PointStyleInvisible
                 };
 
                 destOutletControlPoint.Position.X = 0;

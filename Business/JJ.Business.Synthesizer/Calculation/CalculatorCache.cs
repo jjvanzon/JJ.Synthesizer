@@ -36,15 +36,6 @@ namespace JJ.Business.Synthesizer.Calculation
         private readonly Dictionary<int, IList<ArrayCalculatorBase>> _cacheOperatorID_To_ArrayCalculators_Dictionary = new Dictionary<int, IList<ArrayCalculatorBase>>();
         private readonly object _cacheOperatorID_To_ArrayCalculators_Dictionary_Lock = new object();
 
-        /// <summary> Caches several calculators for shared use between PatchCalculators, to save memory. </summary>
-        public CalculatorCache()
-        {
-            int assumedSamplingRate = 44100;
-            NoiseCalculator = new NoiseCalculator(assumedSamplingRate);
-        }
-
-        internal NoiseCalculator NoiseCalculator { get; private set; }
-
         internal ICurveCalculator GetCurveCalculator(Curve curve)
         {
             if (curve == null) throw new NullException(() => curve);

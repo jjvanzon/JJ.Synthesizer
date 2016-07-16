@@ -2762,11 +2762,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double offset;
             if (!_operator_NoiseOffsetInSeconds_Dictionary.TryGetValue(op, out offset))
             {
-                offset = _calculatorCache.NoiseCalculator.GetRandomOffset();
+                offset = NoiseCalculator.GetRandomOffset();
                 _operator_NoiseOffsetInSeconds_Dictionary.Add(op, offset);
             }
 
-            var calculator = new Noise_OperatorCalculator(_calculatorCache.NoiseCalculator, offset, dimensionStack);
+            var calculator = new Noise_OperatorCalculator(offset, dimensionStack);
             _stack.Push(calculator);
         }
 

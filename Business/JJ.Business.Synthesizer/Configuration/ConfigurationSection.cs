@@ -11,6 +11,13 @@ namespace JJ.Business.Synthesizer.Configuration
         [XmlAttribute]
         public int? OperatorDataMaxLength { get; set; }
 
+        /// <summary> The amount of pre-calculated noise seconds should be large enough not to hear artifacts. </summary>
+        [XmlAttribute]
+        public double CachedNoiseSeconds { get; set; }
+
+        [XmlAttribute]
+        public int CachedNoiseSamplingRate { get; set; }
+
         [XmlAttribute]
         public double SecondsBetweenApplyFilterVariables { get; set; }
     }

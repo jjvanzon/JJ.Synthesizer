@@ -17,9 +17,6 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 {
     internal abstract class AudioFileOutputCalculatorBase : IAudioFileOutputCalculator
     {
-        private const int TIME_DIMENSION_INDEX = (int)DimensionEnum.Time;
-        private const int CHANNEL_DIMENSION_INDEX = (int)DimensionEnum.Channel;
-
         private readonly IPatchCalculator[] _patchCalculators;
         private readonly IPatchCalculator _dimensionStack;
 
@@ -37,9 +34,6 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
             if (String.IsNullOrEmpty(audioFileOutput.FilePath)) throw new NullOrEmptyException(() => audioFileOutput.FilePath);
             IValidator validator = new AudioFileOutputValidator(audioFileOutput);
             validator.Assert();
-
-            // Prepare the calculators
-            var noiseCalculator = new NoiseCalculator(audioFileOutput.SamplingRate);
 
             // Calculate output and write file
             int channelCount = audioFileOutput.GetChannelCount();
