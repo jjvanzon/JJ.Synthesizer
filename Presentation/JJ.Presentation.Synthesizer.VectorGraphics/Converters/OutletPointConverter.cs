@@ -56,16 +56,17 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             Point destOutletPoint;
             if (!_destOutletPointDictionary.TryGetValue(outletID, out destOutletPoint))
             {
-                destOutletPoint = new Point();
-                destOutletPoint.Diagram = destOperatorRectangle.Diagram;
-                destOutletPoint.Parent = destOperatorRectangle;
-                destOutletPoint.Tag = VectorGraphicsTagHelper.GetOutletTag(outletID);
+                destOutletPoint = new Point
+                {
+                    Diagram = destOperatorRectangle.Diagram,
+                    Parent = destOperatorRectangle,
+                    Tag = VectorGraphicsTagHelper.GetOutletTag(outletID),
+                    PointStyle = StyleHelper.PointStyle
+                };
 
                 _destOutletPointDictionary.Add(outletID, destOutletPoint);
                 _destOutletPointHashSet.Add(destOutletPoint);
             }
-
-            destOutletPoint.PointStyle = StyleHelper.PointStyle;
 
             return destOutletPoint;
         }

@@ -58,16 +58,17 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             Point destInletPoint;
             if (!_destInletPointDictionary.TryGetValue(inletID, out destInletPoint))
             {
-                destInletPoint = new Point();
-                destInletPoint.Diagram = destOperatorRectangle.Diagram;
-                destInletPoint.Parent = destOperatorRectangle;
-                destInletPoint.Tag = VectorGraphicsTagHelper.GetInletTag(inletID);
+                destInletPoint = new Point
+                {
+                    Diagram = destOperatorRectangle.Diagram,
+                    Parent = destOperatorRectangle,
+                    Tag = VectorGraphicsTagHelper.GetInletTag(inletID),
+                    PointStyle = StyleHelper.PointStyle
+                };
 
                 _destInletPointDictionary.Add(inletID, destInletPoint);
                 _destInletPointHashSet.Add(destInletPoint);
             }
-
-            destInletPoint.PointStyle = StyleHelper.PointStyle;
 
             return destInletPoint;
         }

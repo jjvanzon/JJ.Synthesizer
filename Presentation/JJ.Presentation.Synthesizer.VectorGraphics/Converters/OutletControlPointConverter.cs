@@ -32,17 +32,17 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
                 destOutletControlPoint = new Point
                 {
                     Diagram = sourceOutletPoint.Diagram,
-                    Parent = sourceOutletPoint.Parent,
+                    Parent = sourceOutletPoint,
                     PointStyle = StyleHelper.PointStyleInvisible,
                     Tag = sourceOutletPoint.Tag
                 };
 
+                destOutletControlPoint.Position.X = 0;
+                destOutletControlPoint.Position.Y = CONTROL_POINT_DISTANCE;
+
                 _destOutletControlPointDictionary.Add(outletID, destOutletControlPoint);
                 _destOutletControlPointHashSet.Add(destOutletControlPoint);
             }
-
-            destOutletControlPoint.Position.X = sourceOutletPoint.Position.X;
-            destOutletControlPoint.Position.Y = sourceOutletPoint.Position.Y + CONTROL_POINT_DISTANCE;
 
             return destOutletControlPoint;
         }

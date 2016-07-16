@@ -32,17 +32,17 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
                 destInletControlPoint = new Point
                 {
                     Diagram = sourceInletPoint.Diagram,
-                    Parent = sourceInletPoint.Parent,
+                    Parent = sourceInletPoint,
                     PointStyle = StyleHelper.PointStyleInvisible,
                     Tag = sourceInletPoint.Tag
                 };
 
+                destInletControlPoint.Position.X = 0;
+                destInletControlPoint.Position.Y = -CONTROL_POINT_DISTANCE;
+
                 _destInletControlPointDictionary.Add(inletID, destInletControlPoint);
                 _destInletControlPointHashSet.Add(destInletControlPoint);
             }
-
-            destInletControlPoint.Position.X = sourceInletPoint.Position.X;
-            destInletControlPoint.Position.Y = sourceInletPoint.Position.Y - CONTROL_POINT_DISTANCE;
 
             return destInletControlPoint;
         }

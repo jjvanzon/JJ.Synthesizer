@@ -85,12 +85,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
                     Tag = VectorGraphicsTagHelper.GetInletTag(inletID)
                 };
 
+                destInletRectangle.Style.BackStyle = StyleHelper.BackStyleInvisible;
+                destInletRectangle.Style.LineStyle = StyleHelper.BorderStyleInvisible;
+
                 _destInletRectangleDictionary.Add(inletID, destInletRectangle);
                 _destInletRectangleHashSet.Add(destInletRectangle);
             }
-
-            destInletRectangle.Style.BackStyle = StyleHelper.BackStyleInvisible;
-            destInletRectangle.Style.LineStyle = StyleHelper.BorderStyleInvisible;
 
             destInletRectangle.Gestures.Clear();
             destInletRectangle.Gestures.Add(_dropLineGesture);

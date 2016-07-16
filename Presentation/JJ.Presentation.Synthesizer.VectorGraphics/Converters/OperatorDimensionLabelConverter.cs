@@ -28,7 +28,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
                 {
                     Diagram = destOperatorRectangle.Diagram,
                     Parent = destOperatorRectangle,
-                    Tag = VectorGraphicsTagHelper.GetOperatorTag(operatorID)
+                    Tag = VectorGraphicsTagHelper.GetOperatorTag(operatorID),
+                    TextStyle = StyleHelper.DimensionTextStyle
                 };
 
                 _destOperatorDimensionLabelDictionary.Add(operatorID, destOperatorDimensionLabel);
@@ -36,7 +37,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             }
 
             destOperatorDimensionLabel.Text = "→ " + sourceOperatorViewModel.Dimension.Name;
-            destOperatorDimensionLabel.TextStyle = StyleHelper.DimensionTextStyle;
             destOperatorDimensionLabel.Position.X = destOperatorRectangle.Position.Width / 2f + StyleHelper.DEFAULT_SPACING;
             destOperatorDimensionLabel.Position.Y = destOperatorRectangle.Position.Height + StyleHelper.DEFAULT_SPACING;
 

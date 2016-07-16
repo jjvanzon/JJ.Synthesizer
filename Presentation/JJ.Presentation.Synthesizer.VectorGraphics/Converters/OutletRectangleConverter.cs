@@ -76,17 +76,19 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             Rectangle destOutletRectangle;
             if (!_destOutletRectangleDictionary.TryGetValue(outletID, out destOutletRectangle))
             {
-                destOutletRectangle = new Rectangle();
-                destOutletRectangle.Diagram = destOperatorRectangle.Diagram;
-                destOutletRectangle.Parent = destOperatorRectangle;
-                destOutletRectangle.Tag = VectorGraphicsTagHelper.GetOutletTag(outletID);
+                destOutletRectangle = new Rectangle
+                {
+                    Diagram = destOperatorRectangle.Diagram,
+                    Parent = destOperatorRectangle,
+                    Tag = VectorGraphicsTagHelper.GetOutletTag(outletID)
+                };
+
+                destOutletRectangle.Style.BackStyle = StyleHelper.BackStyleInvisible;
+                destOutletRectangle.Style.LineStyle = StyleHelper.BorderStyleInvisible;
 
                 _destOutletRectangleDictionary.Add(outletID, destOutletRectangle);
                 _destOutletRectangleHashSet.Add(destOutletRectangle);
             }
-
-            destOutletRectangle.Style.BackStyle = StyleHelper.BackStyleInvisible;
-            destOutletRectangle.Style.LineStyle = StyleHelper.BorderStyleInvisible;
 
             destOutletRectangle.Gestures.Clear();
             destOutletRectangle.Gestures.Add(_dragLineGesture);
