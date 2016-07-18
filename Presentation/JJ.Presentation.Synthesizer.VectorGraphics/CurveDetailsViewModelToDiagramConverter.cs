@@ -32,8 +32,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             public Node MockNode { get; set; }
         }
 
-        private const float MINIMUM_TIME_RANGE = 1E-12f;
-        private const float MINIMUM_VALUE_RANGE = -1E-12f;
+        private const float MINIMUM_X_RANGE = 1E-12f;
+        private const float MINIMUM_Y_RANGE = -1E-12f;
         private const int MINIMUM_NODE_COUNT = 2;
         private const int DEFAULT_LINE_SEGMENT_COUNT = 10;
         private const float DEFAULT_CLICKABLE_REGION_SIZE_IN_PIXELS = 20;
@@ -108,30 +108,30 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             }
 
             IList<NodeViewModel> sortedNodeViewModels = curveDetailsViewModel.Nodes.OrderBy(x => x.X).ToArray();
-            float minTime = (float)sortedNodeViewModels.First().X;
-            float maxTime = (float)sortedNodeViewModels.Last().X;
-            float minValue = (float)sortedNodeViewModels.Select(x => x.Y).Min();
-            float maxValue = (float)sortedNodeViewModels.Select(x => x.Y).Max();
+            float minX = (float)sortedNodeViewModels.First().X;
+            float maxX = (float)sortedNodeViewModels.Last().X;
+            float minY = (float)sortedNodeViewModels.Select(x => x.Y).Min();
+            float maxY = (float)sortedNodeViewModels.Select(x => x.Y).Max();
 
-            float timeRange = maxTime - minTime;
-            if (timeRange < MINIMUM_TIME_RANGE)
+            float xRange = maxX - minX;
+            if (xRange < MINIMUM_X_RANGE)
             {
-                timeRange = MINIMUM_TIME_RANGE;
+                xRange = MINIMUM_X_RANGE;
             }
 
-            // NOTE: The direction of the y-axis is inverted, so range in negative.
-            float valueRange = minValue - maxValue;
-            if (valueRange > MINIMUM_VALUE_RANGE)
+            // NOTE: The direction of the y-axis is inverted, so range is negative.
+            float yRange = minY - maxY;
+            if (yRange > MINIMUM_Y_RANGE)
             {
-                valueRange = MINIMUM_VALUE_RANGE;
+                yRange = MINIMUM_Y_RANGE;
             }
 
             // Set Scaling
             Result.Diagram.Position.ScaleModeEnum = ScaleModeEnum.ViewPort;
-            Result.Diagram.Position.ScaledX = minTime;
-            Result.Diagram.Position.ScaledWidth = timeRange;
-            Result.Diagram.Position.ScaledY = maxValue;
-            Result.Diagram.Position.ScaledHeight = valueRange;
+            Result.Diagram.Position.ScaledX = minX;
+            Result.Diagram.Position.ScaledWidth = xRange;
+            Result.Diagram.Position.ScaledY = maxY;
+            Result.Diagram.Position.ScaledHeight = yRange;
 
             // Set Margin
             // (This is not full-proof, since margin is calculated based on the point's pixel width and scaling without margin,
@@ -153,10 +153,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             // Update Misc Elements
             UpdateXAxis();
             UpdateYAxis();
-            UpdateLeftBoundLabel(minTime);
-            UpdateRightBoundLabel(maxTime);
-            UpdateTopBoundLabel(maxValue);
-            UpdateBottomBoundLabel(minValue);
+            UpdateLeftBoundLabel(minX);
+            UpdateRightBoundLabel(maxX);
+            UpdateTopBoundLabel(maxY);
+            UpdateBottomBoundLabel(minY);
 
             // Points, Lines and Clickable Regions
             float scaledNodeRectangleWidth = Result.Diagram.Position.PixelsToWidth(_nodeClickableRegionSizeInPixels);
@@ -169,7 +169,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
             foreach (NodeViewModel nodeViewModel in sortedNodeViewModels)
             {
-                // Coordinates are always relative. (Lowest time translates to x = 0, relative to the background.)
+                // Coordinates are always relative. (Lowest x translates to x = 0, relative to the background.)
                 float x = Result.Diagram.Background.Position.AbsoluteToRelativeX((float)nodeViewModel.X);
                 float y = Result.Diagram.Background.Position.AbsoluteToRelativeY((float)nodeViewModel.Y);
 
@@ -367,10 +367,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             return label;
         }
 
-        private void UpdateLeftBoundLabel(float minTime)
+        private void UpdateLeftBoundLabel(float minX)
         {
             _leftBoundLabel.Position.Y = Result.Diagram.Background.Position.Height / 2;
-            _leftBoundLabel.Text = minTime.ToString("0.###");
+            _leftBoundLabel.Text = minX.ToString("0.###");
         }
 
         private Label CreateRightBoundLabel(Diagram diagram)
@@ -390,11 +390,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             return label;
         }
 
-        private void UpdateRightBoundLabel(float maxTime)
+        private void UpdateRightBoundLabel(float maxX)
         {
             _rightBoundLabel.Position.X = Result.Diagram.Background.Position.Width;
             _rightBoundLabel.Position.Y = Result.Diagram.Background.Position.Height / 2;
-            _rightBoundLabel.Text = maxTime.ToString("0.###");
+            _rightBoundLabel.Text = maxX.ToString("0.###");
         }
 
         private Label CreateTopBoundLabel(Diagram diagram)
@@ -414,10 +414,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             return label;
         }
 
-        private void UpdateTopBoundLabel(float maxValue)
+        private void UpdateTopBoundLabel(float maxY)
         {
             _topBoundLabel.Position.X = Result.Diagram.Background.Position.Width / 2;
-            _topBoundLabel.Text = maxValue.ToString("0.###");
+            _topBoundLabel.Text = maxY.ToString("0.###");
         }
 
         private Label CreateBottomBoundLabel(Diagram diagram)
@@ -437,11 +437,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             return label;
         }
 
-        private void UpdateBottomBoundLabel(float minValue)
+        private void UpdateBottomBoundLabel(float minY)
         {
             _bottomBoundLabel.Position.X = Result.Diagram.Background.Position.Width / 2;
             _bottomBoundLabel.Position.Y = Result.Diagram.Background.Position.Height;
-            _bottomBoundLabel.Text = minValue.ToString("0.###");
+            _bottomBoundLabel.Text = minY.ToString("0.###");
         }
 
         private void CreateLines_WithRelatedElements(Diagram diagram, Point previousPoint, Point nextPoint, NodeTypeEnum previousNodeTypeEnum)
@@ -571,24 +571,24 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         private void CreateLines_WithRelatedElements_ForNodeTypeCurve(Diagram diagram, Point previousPoint, Point nextPoint)
         {
             Node mockNode0 = _currentCurveInfo.NodeTuples
-                                       .Where(x => x.NodeViewModel.ID == (int)previousPoint.Tag)
-                                       .Select(x => x.MockNode)
-                                       .Single();
+                                              .Where(nt => nt.NodeViewModel.ID == (int)previousPoint.Tag)
+                                              .Select(nt => nt.MockNode)
+                                              .Single();
 
             Node mockNode1 = _currentCurveInfo.NodeTuples
-                                       .Where(x => x.NodeViewModel.ID == (int)nextPoint.Tag)
-                                       .Select(x => x.MockNode)
-                                       .Single();
+                                              .Where(nt => nt.NodeViewModel.ID == (int)nextPoint.Tag)
+                                              .Select(nt => nt.MockNode)
+                                              .Single();
 
             var destPoints = new List<Point>(_lineSegmentPointCount);
 
             destPoints.Add(previousPoint);
 
             double step = (mockNode1.X - mockNode0.X) / _lineSegmentCount;
-            double time = mockNode0.X + step;
+            double x = mockNode0.X + step;
             for (int i = 0; i < _lineSegmentPointCount - 2; i++)
             {
-                double value = _currentCurveCalculator.CalculateY(time);
+                double y = _currentCurveCalculator.CalculateY(x);
 
                 var destPoint = new Point
                 {
@@ -598,12 +598,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     Tag = HELPER_ELEMENT_TAG
                 };
 
-                destPoint.Position.X = destPoint.Parent.Position.AbsoluteToRelativeX((float)time);
-                destPoint.Position.Y = destPoint.Parent.Position.AbsoluteToRelativeY((float)value);
+                destPoint.Position.X = destPoint.Parent.Position.AbsoluteToRelativeX((float)x);
+                destPoint.Position.Y = destPoint.Parent.Position.AbsoluteToRelativeY((float)y);
 
                 destPoints.Add(destPoint);
 
-                time += step;
+                x += step;
             }
 
             destPoints.Add(nextPoint);
