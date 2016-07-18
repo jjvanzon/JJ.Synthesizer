@@ -7,6 +7,7 @@ using System;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Enums;
 using System.Linq;
+using JJ.Framework.Common.Exceptions;
 
 namespace JJ.Business.Synthesizer
 {
@@ -31,14 +32,25 @@ namespace JJ.Business.Synthesizer
             _idRepository = idRepository;
         }
 
-        public EntityPosition GetOrCreateOperatorPosition(Operator op)
-        {
-            if (op == null) throw new NullException(() => op);
+        // TODO: Remove outcommented code.
+        //public EntityPosition GetOrCreateOperatorPosition(Operator op)
+        //{
+        //    if (op == null) throw new NullException(() => op);
 
-            return GetOrCreateOperatorPosition(op.ID);
+        //    return GetOrCreateOperatorPosition(op.ID);
+        //}
+
+        public EntityPosition GetOperatorPosition(int operatorID)
+        {
+            EntityPosition entityPosition = TryGetOperatorPosition(operatorID);
+            if (entityPosition == null)
+            {
+                throw new EntityNotFoundException<EntityPosition>(new { operatorID });
+            }
+            return entityPosition;
         }
 
-        public EntityPosition GetOrCreateOperatorPosition(int operatorID)
+        public EntityPosition TryGetOperatorPosition(int operatorID)
         {
             EntityPosition entityPosition;
             if (!_operatorPositionDictionary.TryGetValue(operatorID, out entityPosition))
@@ -47,20 +59,36 @@ namespace JJ.Business.Synthesizer
                 int entityID = operatorID;
 
                 entityPosition = _entityPositionRepository.TryGetByEntityTypeNameAndEntityID(entityTypeName, entityID);
-                if (entityPosition == null)
+
+                if (entityPosition != null)
                 {
-                    entityPosition = new EntityPosition();
-                    entityPosition.ID = _idRepository.GetID();
-                    entityPosition.EntityTypeName = entityTypeName;
-                    entityPosition.EntityID = entityID;
-                    entityPosition.X = Randomizer.GetInt32(MIN_RANDOM_X, MAX_RANDOM_X);
-                    entityPosition.Y = Randomizer.GetInt32(MIN_RANDOM_Y, MAX_RANDOM_Y);
-                    _entityPositionRepository.Insert(entityPosition);
+                    _operatorPositionDictionary.Add(entityID, entityPosition);
                 }
+            }
+
+            return entityPosition;
+        }
+
+        public EntityPosition GetOrCreateOperatorPosition(int operatorID)
+        {
+            EntityPosition entityPosition = TryGetOperatorPosition(operatorID);
+
+            if (entityPosition == null)
+            {
+                string entityTypeName = typeof(Operator).Name;
+                int entityID = operatorID;
+
+                entityPosition = new EntityPosition();
+                entityPosition.ID = _idRepository.GetID();
+                entityPosition.EntityTypeName = entityTypeName;
+                entityPosition.EntityID = entityID;
+                entityPosition.X = Randomizer.GetInt32(MIN_RANDOM_X, MAX_RANDOM_X);
+                entityPosition.Y = Randomizer.GetInt32(MIN_RANDOM_Y, MAX_RANDOM_Y);
+                _entityPositionRepository.Insert(entityPosition);
 
                 _operatorPositionDictionary.Add(entityID, entityPosition);
             }
-            
+
             return entityPosition;
         }
 

@@ -34,6 +34,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         /// <summary> Read-only, nullable, not necessarily displayed. </summary>
         public IDAndName Dimension { get; set; }
 
+        public float? ConnectionDistance { get; set; }
+
         private string DebuggerDisplay
         {
             get { return DebugHelper.GetDebuggerDisplay(this); }

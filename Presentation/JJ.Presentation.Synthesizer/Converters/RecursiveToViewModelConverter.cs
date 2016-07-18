@@ -11,7 +11,6 @@ using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Common;
 using JJ.Presentation.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 
 namespace JJ.Presentation.Synthesizer.Converters
 {
@@ -171,7 +170,11 @@ namespace JJ.Presentation.Synthesizer.Converters
 
         private InletViewModel ConvertToViewModelRecursive(Inlet inlet)
         {
-            InletViewModel viewModel = inlet.ToViewModel(_curveRepository, _sampleRepository, _patchRepository);
+            InletViewModel viewModel = inlet.ToViewModel(
+                _curveRepository,
+                _sampleRepository,
+                _patchRepository,
+                _entityPositionManager);
 
             if (inlet.InputOutlet != null)
             {
@@ -191,9 +194,11 @@ namespace JJ.Presentation.Synthesizer.Converters
 
         private OutletViewModel ConvertToViewModelRecursive(Outlet outlet)
         {
-            OutletViewModel viewModel = outlet.ToViewModel(_curveRepository, _sampleRepository, _patchRepository);
+            OutletViewModel viewModel = outlet.ToViewModel(_curveRepository, _sampleRepository, _patchRepository, _entityPositionManager);
 
-            _entityPositionManager.GetOrCreateOperatorPosition(outlet.Operator);
+            // TODO: Remove outcommented code.
+            // Recently outcommented (2016-07-17) because entity position is created indirectly by the call above anyway.
+            //_entityPositionManager.GetOrCreateOperatorPosition(outlet.Operator);
 
             // Recursive call
             viewModel.Operator = ConvertToViewModelRecursive(outlet.Operator);

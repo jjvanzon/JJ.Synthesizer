@@ -270,12 +270,18 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             Rectangle destOperatorRectangle = _operatorRectangleConverter.ConvertToOperatorRectangle(sourceOperatorViewModel, destDiagram);
             Label destLabel = _operatorLabelConverter.ConvertToOperatorLabel(sourceOperatorViewModel, destOperatorRectangle);
             Label destDimensionLabel = _operatorDimensionLabelConverter.TryConvertToDimensionLabel(sourceOperatorViewModel, destOperatorRectangle);
+
+            IList<InletViewModel> sourceInletViewModels = sourceOperatorViewModel.Inlets.Where(x => x.Visible).ToArray();
+
             IList<Rectangle> destInletRectangles = _inletRectangleConverter.ConvertToInletRectangles(sourceOperatorViewModel, destOperatorRectangle);
             IList<Point> destInletPoints = _inletPointConverter.ConvertToInletPoints(sourceOperatorViewModel, destOperatorRectangle);
-            IList<Point> destInletControlPoints = _inletControlPointConverter.ConvertToInletControlPoints(destInletPoints);
+            IList<Point> destInletControlPoints = _inletControlPointConverter.ConvertToInletControlPoints(destInletPoints, sourceInletViewModels);
+
+            IList<OutletViewModel> sourceOutletViewModels = sourceOperatorViewModel.Outlets.Where(x => x.Visible).ToArray();
+
             IList<Rectangle> destOutletRectangles = _outletRectangleConverter.ConvertToOutletRectangles(sourceOperatorViewModel, destOperatorRectangle);
             IList<Point> destOutletPoints = _outletPointConverter.ConvertToOutletPoints(sourceOperatorViewModel, destOperatorRectangle);
-            IList<Point> destOutletControlPoints = _outletControlPointConverter.ConvertToOutletControlPoints(destOutletPoints);
+            IList<Point> destOutletControlPoints = _outletControlPointConverter.ConvertToOutletControlPoints(destOutletPoints, sourceOutletViewModels);
 
             _convertedElements.Add(destOperatorRectangle);
             _convertedElements.Add(destLabel);

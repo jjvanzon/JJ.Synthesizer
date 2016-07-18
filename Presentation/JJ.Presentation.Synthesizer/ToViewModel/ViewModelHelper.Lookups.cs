@@ -9,6 +9,7 @@ using System;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Common;
+using JJ.Business.Synthesizer;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {

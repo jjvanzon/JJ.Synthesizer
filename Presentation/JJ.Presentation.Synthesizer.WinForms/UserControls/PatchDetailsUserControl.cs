@@ -183,24 +183,23 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void MoveGesture_Moving(object sender, ElementEventArgs e)
         {
-            //int operatorIndexNumber = VectorGraphicsTagHelper.GetOperatorID(e.Element.Tag);
-
-            //float centerX = e.Element.AbsoluteX + e.Element.Width / 2f;
-            //float centerY = e.Element.AbsoluteY + e.Element.Height / 2f;
-
-            //MoveOperator(operatorIndexNumber, centerX, centerY);
-
-            //throw new NotImplementedException();
+            // TODO: Make feature switch for this.
+            //DoMoveOperator(e);
         }
 
         private void MoveGesture_Moved(object sender, ElementEventArgs e)
         {
-            int operatorIndexNumber = VectorGraphicsTagHelper.GetOperatorID(e.Element.Tag);
+            DoMoveOperator(e);
+        }
+
+        private void DoMoveOperator(ElementEventArgs e)
+        {
+            int operatorID = VectorGraphicsTagHelper.GetOperatorID(e.Element.Tag);
 
             float centerX = e.Element.Position.AbsoluteX + e.Element.Position.Width / 2f;
             float centerY = e.Element.Position.AbsoluteY + e.Element.Position.Height / 2f;
 
-            MoveOperator(operatorIndexNumber, centerX, centerY);
+            MoveOperator(operatorID, centerX, centerY);
         }
 
         private void MoveOperator(int operatorID, float centerX, float centerY)

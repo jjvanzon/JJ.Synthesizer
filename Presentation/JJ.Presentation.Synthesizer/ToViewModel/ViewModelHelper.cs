@@ -18,6 +18,8 @@ using JJ.Framework.Common;
 using JJ.Business.Synthesizer.Helpers;
 using System.Text;
 using JJ.Presentation.Synthesizer.Resources;
+using JJ.Business.Synthesizer;
+using JJ.Framework.Mathematics;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -291,11 +293,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         /// without having to re-establish the intricate relations with other operators.
         /// </summary>
         public static void RefreshInletViewModels(
-            IList<Inlet> sourceInlets, 
+            IList<Inlet> sourceInlets,
             OperatorViewModel destOperatorViewModel,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
-            IPatchRepository patchRepository)
+            IPatchRepository patchRepository,
+            EntityPositionManager entityPositionManager)
         {
             if (sourceInlets == null) throw new NullException(() => sourceInlets);
             if (destOperatorViewModel == null) throw new NullException(() => destOperatorViewModel);
@@ -310,7 +313,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                     destOperatorViewModel.Inlets.Add(inletViewModel);
                 }
 
-                inlet.ToViewModel(inletViewModel, curveRepository, sampleRepository, patchRepository);
+                inlet.ToViewModel(inletViewModel, curveRepository, sampleRepository, patchRepository, entityPositionManager);
 
                 inletViewModelsToKeep.Add(inletViewModel);
             }
@@ -331,11 +334,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         /// without having to re-establish the intricate relations with other operators.
         /// </summary>
         public static void RefreshOutletViewModels(
-            IList<Outlet> sourceOutlets, 
+            IList<Outlet> sourceOutlets,
             OperatorViewModel destOperatorViewModel,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
-            IPatchRepository patchRepository)
+            IPatchRepository patchRepository,
+            EntityPositionManager entityPositionManager)
         {
             if (sourceOutlets == null) throw new NullException(() => sourceOutlets);
             if (destOperatorViewModel == null) throw new NullException(() => destOperatorViewModel);
@@ -353,7 +357,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                     outletViewModel.Operator = destOperatorViewModel;
                 }
 
-                outlet.ToViewModel(outletViewModel, curveRepository, sampleRepository, patchRepository);
+                outlet.ToViewModel(outletViewModel, curveRepository, sampleRepository, patchRepository, entityPositionManager);
 
                 outletViewModelsToKeep.Add(outletViewModel);
             }
@@ -375,25 +379,30 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         /// Is used to be able to update an existing operator view model in-place
         /// without having to re-establish the intricate relations with other operators.
         /// </summary>
-        public static void RefreshViewModel_WithInletsAndOutlets_WithoutEntityPosition(
-            Operator entity, OperatorViewModel operatorViewModel,
-            ISampleRepository sampleRepository, ICurveRepository curveRepository, IPatchRepository patchRepository)
+        public static void RefreshViewModel_WithInletsAndOutlets(
+            Operator entity,
+            OperatorViewModel operatorViewModel,
+            ISampleRepository sampleRepository,
+            ICurveRepository curveRepository,
+            IPatchRepository patchRepository,
+            EntityPositionManager entityPositionManager)
         {
-            RefreshViewModel_WithoutEntityPosition(entity, operatorViewModel, sampleRepository, curveRepository, patchRepository);
-            RefreshInletViewModels(entity.Inlets, operatorViewModel, curveRepository, sampleRepository, patchRepository);
-            RefreshOutletViewModels(entity.Outlets, operatorViewModel, curveRepository, sampleRepository, patchRepository);
+            RefreshViewModel(entity, operatorViewModel, sampleRepository, curveRepository, patchRepository, entityPositionManager);
+            RefreshInletViewModels(entity.Inlets, operatorViewModel, curveRepository, sampleRepository, patchRepository, entityPositionManager);
+            RefreshOutletViewModels(entity.Outlets, operatorViewModel, curveRepository, sampleRepository, patchRepository, entityPositionManager);
         }
 
         /// <summary>
         /// Is used to be able to update an existing operator view model in-place
         /// without having to re-establish the intricate relations with other operators.
         /// </summary>
-        public static void RefreshViewModel_WithoutEntityPosition(
-            Operator entity, 
+        public static void RefreshViewModel(
+            Operator entity,
             OperatorViewModel viewModel,
-            ISampleRepository sampleRepository, 
-            ICurveRepository curveRepository, 
-            IPatchRepository patchRepository)
+            ISampleRepository sampleRepository,
+            ICurveRepository curveRepository,
+            IPatchRepository patchRepository,
+            EntityPositionManager entityPositionManager)
         {
             if (entity == null) throw new NullException(() => entity);
             if (viewModel == null) throw new NullException(() => viewModel);
@@ -402,12 +411,17 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.Caption = GetOperatorCaption(entity, sampleRepository, curveRepository, patchRepository);
             viewModel.OperatorType = entity.OperatorType?.ToIDAndDisplayName();
             viewModel.IsOwned = GetOperatorIsOwned(entity);
+
+            EntityPosition entityPosition = entityPositionManager.GetOrCreateOperatorPosition(entity.ID);
+            viewModel.EntityPositionID = entityPosition.ID;
+            viewModel.CenterX = entityPosition.X;
+            viewModel.CenterY = entityPosition.Y;
         }
 
         public static string GetOperatorCaption(
-            Operator op, 
-            ISampleRepository sampleRepository, 
-            ICurveRepository curveRepository, 
+            Operator op,
+            ISampleRepository sampleRepository,
+            ICurveRepository curveRepository,
             IPatchRepository patchRepository)
         {
             if (op == null) throw new NullException(() => op);
@@ -753,6 +767,66 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
 
             return dimensionEnum;
+        }
+
+        public static float? TryGetConnectionDistance(Inlet entity, EntityPositionManager entityPositionManager)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            if (entity.InputOutlet == null)
+            {
+                return null;
+            }
+
+            Operator operator1 = entity.Operator;
+            Operator operator2 = entity.InputOutlet.Operator;
+
+            EntityPosition entityPosition1 = entityPositionManager.GetOperatorPosition(operator1.ID);
+            EntityPosition entityPosition2 = entityPositionManager.GetOperatorPosition(operator2.ID);
+
+            float distance = Geometry.AbsoluteDistance(
+                entityPosition1.X,
+                entityPosition1.Y,
+                entityPosition2.X,
+                entityPosition2.Y);
+
+            return distance;
+        }
+
+        internal static float? TryGetAverageConnectionDistance(Outlet entity, EntityPositionManager entityPositionManager)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            int connectedInletCount = entity.ConnectedInlets.Count;
+
+            if (connectedInletCount == 0)
+            {
+                return null;
+            }
+
+            Operator operator1 = entity.Operator;
+
+            float aggregate = 0f;
+
+            foreach (Inlet connectedInlet in entity.ConnectedInlets)
+            {
+                Operator operator2 = connectedInlet.Operator;
+
+                EntityPosition entityPosition1 = entityPositionManager.GetOperatorPosition(operator1.ID);
+                EntityPosition entityPosition2 = entityPositionManager.GetOperatorPosition(operator2.ID);
+
+                float distance = Geometry.AbsoluteDistance(
+                    entityPosition1.X,
+                    entityPosition1.Y,
+                    entityPosition2.X,
+                    entityPosition2.Y);
+
+                aggregate += distance;
+            }
+
+            aggregate /= connectedInletCount;
+
+            return aggregate;
         }
 
         // TreeLeaf

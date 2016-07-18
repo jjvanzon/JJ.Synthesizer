@@ -42,6 +42,8 @@
   <ItemGroup>
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="Converters\InletControlPointConverter.cs" />
+    <Compile Include="Converters\2016-07-17 Backup of InletPointConverter.cs" />
+    <Compile Include="Converters\2016-07-17 Backup of InletPointConverter %282%29.cs" />
     <Compile Include="Converters\InletPointConverter.cs" />
     <Compile Include="Converters\InletRectangleConverter.cs" />
     <Compile Include="Converters\OperatorDimensionLabelConverter.cs" />

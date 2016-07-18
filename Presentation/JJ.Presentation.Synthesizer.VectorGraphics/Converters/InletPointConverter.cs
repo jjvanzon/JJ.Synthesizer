@@ -30,13 +30,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
             float inletWidth = destOperatorRectangle.Position.Width / sourceInletViewModelsToConvert.Count;
             float x = 0;
+
             foreach (InletViewModel sourceInletViewModel in sourceInletViewModelsToConvert)
             {
-                if (!sourceInletViewModel.Visible)
-                {
-                    continue;
-                }
-
                 Point destInletPoint = ConvertToInletPoint(sourceInletViewModel, destOperatorRectangle);
 
                 destInletPoint.Position.X = x + inletWidth / 2f;

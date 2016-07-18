@@ -974,10 +974,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void PatchDetails_RefreshOperator(Operator entity, OperatorViewModel operatorViewModel)
         {
-            // TODO: Not sure if I should also have a variation in which I call UpdateViewModel_WithoutEntityPosition instead.
-            ViewModelHelper.RefreshViewModel_WithInletsAndOutlets_WithoutEntityPosition(
-                entity, operatorViewModel,
-                _repositories.SampleRepository, _repositories.CurveRepository, _repositories.PatchRepository);
+            ViewModelHelper.RefreshViewModel_WithInletsAndOutlets(
+                entity,
+                operatorViewModel,
+                _repositories.SampleRepository,
+                _repositories.CurveRepository,
+                _repositories.PatchRepository,
+                _entityPositionManager);
         }
 
         private void PatchDetailsRefresh(PatchDetailsViewModel userInput)
