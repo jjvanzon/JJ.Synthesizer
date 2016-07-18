@@ -32,18 +32,20 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             public Node MockNode { get; set; }
         }
 
-        private static int _lineSegmentCount = GetLineSegmentCount();
-        private static int _lineSegmentPointCount = GetLineSegmentCount() + 1;
-        private static float _nodeClickableRegionSizeInPixels = GetNodeClickableRegionSizeInPixels();
-        private static bool _mustShowInvisibleElements = GetMustShowInvisibleElements();
-
+        private const float MINIMUM_TIME_RANGE = 1E-12f;
+        private const float MINIMUM_VALUE_RANGE = -1E-12f;
         private const int MINIMUM_NODE_COUNT = 2;
+        private const int DEFAULT_LINE_SEGMENT_COUNT = 10;
+        private const float DEFAULT_CLICKABLE_REGION_SIZE_IN_PIXELS = 20;
+        private const bool DEFAULT_MUST_SHOW_INVISIBLE_ELEMENTS = false;
 
         /// <summary> Elements with this tag are deleted and recreated upon each conversion. <summary>
         private const string HELPER_ELEMENT_TAG = "Helper Element";
 
-        /// <summary> Not nullable. Never replaced with a new instance. Neither are its properties. </summary>
-        public CurveDetailsViewModelToDiagramConverterResult Result { get; private set; }
+        private static int _lineSegmentCount = GetLineSegmentCount();
+        private static int _lineSegmentPointCount = GetLineSegmentCount() + 1;
+        private static float _nodeClickableRegionSizeInPixels = GetNodeClickableRegionSizeInPixels();
+        private static bool _mustShowInvisibleElements = GetMustShowInvisibleElements();
 
         private readonly Line _xAxis;
         private readonly Line _yAxis;
@@ -63,6 +65,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         /// </summary>
         private CurveInfo _currentCurveInfo;
         private ICurveCalculator _currentCurveCalculator;
+
+        /// <summary> Not nullable. Never replaced with a new instance. Neither are its properties. </summary>
+        public CurveDetailsViewModelToDiagramConverterResult Result { get; private set; }
 
         /// <param name="mustShowInvisibleElements">for debugging</param>
         public CurveDetailsViewModelToDiagramConverter(int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
@@ -108,13 +113,25 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             float minValue = (float)sortedNodeViewModels.Select(x => x.Y).Min();
             float maxValue = (float)sortedNodeViewModels.Select(x => x.Y).Max();
 
+            float timeRange = maxTime - minTime;
+            if (timeRange < MINIMUM_TIME_RANGE)
+            {
+                timeRange = MINIMUM_TIME_RANGE;
+            }
+
+            // NOTE: The direction of the y-axis is inverted, so range in negative.
+            float valueRange = minValue - maxValue;
+            if (valueRange > MINIMUM_VALUE_RANGE)
+            {
+                valueRange = MINIMUM_VALUE_RANGE;
+            }
+
             // Set Scaling
             Result.Diagram.Position.ScaleModeEnum = ScaleModeEnum.ViewPort;
             Result.Diagram.Position.ScaledX = minTime;
-            Result.Diagram.Position.ScaledWidth = maxTime - minTime;
-            // NOTE: The direction of the y-axis is inverted.
+            Result.Diagram.Position.ScaledWidth = timeRange;
             Result.Diagram.Position.ScaledY = maxValue;
-            Result.Diagram.Position.ScaledHeight = minValue - maxValue;
+            Result.Diagram.Position.ScaledHeight = valueRange;
 
             // Set Margin
             // (This is not full-proof, since margin is calculated based on the point's pixel width and scaling without margin,
@@ -638,8 +655,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         // Helpers
 
-        private const int DEFAULT_LINE_SEGMENT_COUNT = 10;
-
         private static int GetLineSegmentCount()
         {
             var config = ConfigurationHelper.TryGetSection<ConfigurationSection>();
@@ -647,16 +662,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             return config.CurveLineSegmentCount;
         }
 
-        private const float DEFAULT_CLICKABLE_REGION_SIZE_IN_PIXELS = 20;
-
         private static float GetNodeClickableRegionSizeInPixels()
         {
             var config = ConfigurationHelper.TryGetSection<ConfigurationSection>();
             if (config == null) return DEFAULT_CLICKABLE_REGION_SIZE_IN_PIXELS;
             return config.NodeClickableRegionSizeInPixels;
         }
-
-        private const bool DEFAULT_MUST_SHOW_INVISIBLE_ELEMENTS = false;
 
         private static bool GetMustShowInvisibleElements()
         {
