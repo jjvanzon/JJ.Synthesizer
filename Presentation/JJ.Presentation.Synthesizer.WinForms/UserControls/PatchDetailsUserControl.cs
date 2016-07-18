@@ -32,9 +32,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler SelectedOperatorPropertiesRequested;
 
         private const bool DEFAULT_ALWAYS_RECREATE_DIAGRAM = false;
+        private const bool DEFAULT_MUST_EXECUTE_MOVE_ACTION_WHILE_DRAGGING = false;
 
-        private static Size _defaultToolStripLabelSize = new Size(86, 22);
-        private static bool _alwaysRecreateDiagram = GetAlwaysRecreateDiagram();
+        private readonly static Size _defaultToolStripLabelSize = new Size(86, 22);
+        private readonly static bool _alwaysRecreateDiagram = GetAlwaysRecreateDiagram();
+        private readonly static bool _mustExecuteOperatorMoveActionWhileDragging = GetMustExecuteOperatorMoveActionWhileDragging();
 
         private PatchViewModelToDiagramConverter _converter;
         private PatchViewModelToDiagramConverterResult _vectorGraphics;
@@ -183,13 +185,18 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void MoveGesture_Moving(object sender, ElementEventArgs e)
         {
-            // TODO: Make feature switch for this.
-            //DoMoveOperator(e);
+            if (_mustExecuteOperatorMoveActionWhileDragging)
+            {
+                DoMoveOperator(e);
+            }
         }
 
         private void MoveGesture_Moved(object sender, ElementEventArgs e)
         {
-            DoMoveOperator(e);
+            if (!_mustExecuteOperatorMoveActionWhileDragging)
+            {
+                DoMoveOperator(e);
+            }
         }
 
         private void DoMoveOperator(ElementEventArgs e)
@@ -279,6 +286,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 return CustomConfigurationManager.GetSection<ConfigurationSection>().AlwaysRecreateDiagram;
             }
             return DEFAULT_ALWAYS_RECREATE_DIAGRAM;
+        }
+
+        private static bool GetMustExecuteOperatorMoveActionWhileDragging()
+        {
+            if (LicenseManager.UsageMode == LicenseUsageMode.Runtime)
+            {
+                return CustomConfigurationManager.GetSection<ConfigurationSection>().ExecuteOperatorMoveActionWhileDragging;
+            }
+
+            return DEFAULT_MUST_EXECUTE_MOVE_ACTION_WHILE_DRAGGING;
         }
     }
 }

@@ -18,5 +18,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.Configuration
 
         [XmlAttribute]
         public bool MidiInputEnabled { get; set; }
+
+        [XmlAttribute]
+        public bool ExecuteOperatorMoveActionWhileDragging { get; set; }
     }
 }
