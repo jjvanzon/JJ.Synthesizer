@@ -32,8 +32,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             public Node MockNode { get; set; }
         }
 
-        private const float MINIMUM_X_RANGE = 1E-12f;
-        private const float MINIMUM_Y_RANGE = -1E-12f;
+        private const float MINIMUM_X_RANGE = 1E-9f;
+        private const float MINIMUM_Y_RANGE = -1E-9f;
         private const int MINIMUM_NODE_COUNT = 2;
         private const int DEFAULT_LINE_SEGMENT_COUNT = 10;
         private const float DEFAULT_CLICKABLE_REGION_SIZE_IN_PIXELS = 20;
