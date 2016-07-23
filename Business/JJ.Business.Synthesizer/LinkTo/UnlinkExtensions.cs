@@ -168,6 +168,13 @@ namespace JJ.Business.Synthesizer.LinkTo
             op.LinkTo((OperatorType)null);
         }
 
+        public static void UnlinkDimension(this Operator op)
+        {
+            if (op == null) throw new NullException(() => op);
+
+            op.LinkTo((Dimension)null);
+        }
+
         public static void UnlinkDimension(this Outlet outlet)
         {
             if (outlet == null) throw new NullException(() => outlet);

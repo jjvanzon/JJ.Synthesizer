@@ -431,6 +431,15 @@ namespace JJ.Business.Synthesizer.LinkTo
             // No inverse property.
         }
 
+        public static void LinkTo(this Operator op, Dimension dimension)
+        {
+            if (op == null) throw new NullException(() => op);
+
+            op.Dimension = dimension;
+
+            // No inverse property.
+        }
+
         public static void LinkTo(this Outlet outlet, Dimension dimension)
         {
             if (outlet == null) throw new NullException(() => outlet);

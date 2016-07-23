@@ -63,12 +63,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return OperatorHelper.GetOutlet(WrappedOperator, OperatorConstants.SPECTRUM_RESULT_INDEX); }
         }
 
-        public DimensionEnum Dimension
-        {
-            get { return DataPropertyParser.GetEnum<DimensionEnum>(WrappedOperator, PropertyNames.Dimension); }
-            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.Dimension, value); }
-        }
-
         public override string GetInletDisplayName(int listIndex)
         {
             switch (listIndex)

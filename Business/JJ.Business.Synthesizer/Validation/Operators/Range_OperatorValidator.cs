@@ -4,10 +4,15 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class Range_OperatorValidator : OperatorValidator_Base_WithDimension
+    internal class Range_OperatorValidator : OperatorValidator_Base
     {
         public Range_OperatorValidator(Operator obj)
-            : base(obj, OperatorTypeEnum.Range, expectedInletCount: 3, expectedOutletCount: 1)
+            : base(
+                  obj,
+                  OperatorTypeEnum.Range,
+                  expectedInletCount: 3,
+                  expectedOutletCount: 1,
+                  expectedDataKeys: new string[0])
         { }
     }
 }

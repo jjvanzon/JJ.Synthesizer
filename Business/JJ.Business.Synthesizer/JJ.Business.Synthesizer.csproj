@@ -439,7 +439,7 @@
     <Compile Include="Validation\DataProperty\ListIndex_DataProperty_Validator.cs" />
     <Compile Include="Validation\DataProperty\SpeakerSetup_DataProperty_Validator.cs" />
     <Compile Include="Validation\DataProperty\InterpolationType_DataProperty_Validator.cs" />
-    <Compile Include="Validation\DataProperty\Dimension_DataProperty_Validator.cs" />
+    <Compile Include="Validation\DataProperty\2016-07-22 Backup of Dimension_DataProperty_Validator.cs" />
     <Compile Include="Validation\Operators\Absolute_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\AllPassFilter_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\HighShelfFilter_OperatorValidator.cs" />
@@ -470,7 +470,7 @@
     <Compile Include="Validation\Operators\Range_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\SetDimension_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\GetDimension_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\OperatorValidator_Base_WithDimension.cs" />
+    <Compile Include="Validation\Operators\2016-07-22 Backup of OperatorValidator_Base_WithDimension.cs" />
     <Compile Include="Validation\Operators\ToggleTrigger_OperatorValidator.cs" />
     <Compile Include="Validation\DataProperty\DataPropertyValidator.cs" />
     <Compile Include="Validation\Operators\OneOverX_OperatorValidator.cs" />

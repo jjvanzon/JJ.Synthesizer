@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             : base(
                   obj,
                   OperatorTypeEnum.MakeContinuous,
-                  allowedDataKeys: new string[] { PropertyNames.Dimension, PropertyNames.InterpolationType })
+                  expectedDataKeys: new string[] { PropertyNames.InterpolationType })
         { }
 
         protected override void Execute()
@@ -22,7 +22,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             Operator op = Object;
 
-            ExecuteValidator(new Dimension_DataProperty_Validator(Object.Data));
             ExecuteValidator(new ResampleInterpolationType_DataProperty_Validator(Object.Data));
         }
     }

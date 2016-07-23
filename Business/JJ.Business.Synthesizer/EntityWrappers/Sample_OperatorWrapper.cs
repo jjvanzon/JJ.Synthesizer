@@ -41,12 +41,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.SampleID, value); }
         }
 
-        public DimensionEnum Dimension
-        {
-            get { return DataPropertyParser.GetEnum<DimensionEnum>(WrappedOperator, PropertyNames.Dimension); }
-            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.Dimension, value); }
-        }
-
         /// <summary> nullable </summary>
         public Sample Sample
         {

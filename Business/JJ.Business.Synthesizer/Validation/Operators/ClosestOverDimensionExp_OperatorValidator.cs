@@ -5,7 +5,7 @@ using JJ.Business.Synthesizer.Validation.DataProperty;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class ClosestOverDimensionExp_OperatorValidator : OperatorValidator_Base_WithDimension
+    internal class ClosestOverDimensionExp_OperatorValidator : OperatorValidator_Base
     {
         public ClosestOverDimensionExp_OperatorValidator(Operator obj)
             : base(
@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                   OperatorTypeEnum.ClosestOverDimensionExp,
                   expectedInletCount: 5,
                   expectedOutletCount: 1,
-                  allowedDataKeys: new string[] { PropertyNames.Dimension, PropertyNames.CollectionRecalculation })
+                  expectedDataKeys: new string[] { PropertyNames.CollectionRecalculation })
         { }
 
         protected override void Execute()

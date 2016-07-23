@@ -81,7 +81,7 @@ namespace JJ.Business.Synthesizer.Extensions
                 entity.LinkTo(enumEntity);
             }
         }
-        
+
         // AudioOutput
 
         public static SpeakerSetupEnum GetSpeakerSetupEnum(this AudioOutput audioOutput)
@@ -161,6 +161,30 @@ namespace JJ.Business.Synthesizer.Extensions
         }
 
         // Operator
+
+        public static DimensionEnum GetDimensionEnum(this Operator entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            if (entity.Dimension == null) return DimensionEnum.Undefined;
+
+            return (DimensionEnum)entity.Dimension.ID;
+        }
+
+        public static void SetDimensionEnum(this Operator entity, DimensionEnum enumValue, IDimensionRepository repository)
+        {
+            if (repository == null) throw new NullException(() => repository);
+
+            if (enumValue == DimensionEnum.Undefined)
+            {
+                entity.UnlinkDimension();
+            }
+            else
+            {
+                Dimension enumEntity = repository.Get((int)enumValue);
+                entity.LinkTo(enumEntity);
+            }
+        }
 
         public static OperatorTypeEnum GetOperatorTypeEnum(this Operator op)
         {

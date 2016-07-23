@@ -7,14 +7,15 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class MakeDiscrete_OperatorValidator : OperatorValidator_Base_WithDimension
+    internal class MakeDiscrete_OperatorValidator : OperatorValidator_Base
     {
         public MakeDiscrete_OperatorValidator(Operator obj)
             : base(
                   obj,
                   OperatorTypeEnum.MakeDiscrete,
                   expectedInletCount: 1,
-                  expectedOutletCount: obj?.Outlets?.Count ?? 0)
+                  expectedOutletCount: obj?.Outlets?.Count ?? 0,
+                  expectedDataKeys: new string[0])
         { }
 
         protected override void Execute()

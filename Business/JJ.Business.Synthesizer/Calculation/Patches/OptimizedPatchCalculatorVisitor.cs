@@ -287,7 +287,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             base.VisitAnd(op);
 
-            OperatorCalculatorBase calculator = null;
+            OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase calculatorA = _stack.Pop();
             OperatorCalculatorBase calculatorB = _stack.Pop();
@@ -326,8 +326,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = calculatorA;
             }
-
-            if (calculator == null)
+            else
             {
                 throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
@@ -372,7 +371,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected override void VisitAverageOverDimension(Operator op)
         {
             var wrapper = new AverageOverDimension_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = op.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
             base.VisitAverageOverDimension(op);
@@ -455,7 +454,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected override void VisitAverageFollower(Operator op)
         {
             var wrapper = new AverageFollower_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = op.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
             base.VisitAverageFollower(op);
@@ -622,7 +621,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
 
             var wrapper = new Bundle_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = op.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
             // No pushing and popping from the dimension stack here.
@@ -648,7 +647,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected override void VisitCache(Operator op)
         {
             var wrapper = new Cache_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = op.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
             DimensionStack channelDimensionStack = _dimensionStackCollection.GetDimensionStack(DimensionEnum.Channel);
 
@@ -1048,7 +1047,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected override void VisitClosestOverDimension(Operator op)
         {
             var wrapper = new ClosestOverDimension_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = op.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
             base.VisitClosestOverDimension(op);
@@ -1144,7 +1143,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected override void VisitClosestOverDimensionExp(Operator op)
         {
             var wrapper = new ClosestOverDimensionExp_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = op.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
             base.VisitClosestOverDimensionExp(op);
@@ -1240,7 +1239,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected override void VisitCurveOperator(Operator op)
         {
             var wrapper = new Curve_OperatorWrapper(op, _curveRepository);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = op.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
             base.VisitCurveOperator(op);
@@ -1294,7 +1293,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected override void VisitShift(Operator op)
         {
             var wrapper = new Shift_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = op.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
             dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
 
@@ -1565,8 +1564,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitGetDimension(Operator op)
         {
-            var wrapper = new GetDimension_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = op.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
             base.VisitGetDimension(op);
@@ -1976,7 +1974,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected override void VisitLoop(Operator op)
         {
             var wrapper = new Loop_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = op.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
             dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
 
@@ -2223,7 +2221,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected override void VisitMakeContinuous(Operator op)
         {
             var wrapper = new MakeContinuous_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = op.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
             // No pushing and popping from the dimension stack here.
@@ -2295,7 +2293,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected override void VisitMaxFollower(Operator op)
         {
             var wrapper = new MaxFollower_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = op.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
             dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
 
@@ -2330,7 +2328,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected override void VisitMaxOverDimension(Operator op)
         {
             var wrapper = new MaxOverDimension_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = op.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
             base.VisitMaxOverDimension(op);
@@ -2453,7 +2451,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected override void VisitMinFollower(Operator op)
         {
             var wrapper = new MinFollower_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = op.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
             dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
 
@@ -2488,7 +2486,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected override void VisitMinOverDimension(Operator op)
         {
             var wrapper = new MinOverDimension_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = op.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
             base.VisitMinOverDimension(op);
@@ -2756,7 +2754,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected override void VisitNoise(Operator op)
         {
             var wrapper = new Noise_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = op.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
             base.VisitNoise(op);
@@ -2990,8 +2988,14 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 bool aIsTrue = a != 0.0;
                 bool bIsTrue = b != 0.0;
 
-                if (aIsTrue || bIsTrue) value = 1.0;
-                else value = 0.0;
+                if (aIsTrue || bIsTrue)
+                {
+                    value = 1.0;
+                }
+                else
+                {
+                    value = 0.0;
+                }
 
                 calculator = new Number_OperatorCalculator(value);
             }
@@ -3155,7 +3159,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected override void VisitPulse(Operator op)
         {
             var wrapper = new Pulse_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = op.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
             base.VisitPulse(op);
@@ -3307,7 +3311,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected override void VisitRandom(Operator op)
         {
             var wrapper = new Random_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = op.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
             base.VisitRandom(op);
@@ -3415,7 +3419,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected override void VisitRange(Operator op)
         {
             var wrapper = new Range_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = op.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
             base.VisitRange(op);
@@ -3476,7 +3480,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected override void VisitResample(Operator op)
         {
             var wrapper = new Resample_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = op.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
             dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
 
@@ -3534,7 +3538,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected override void VisitReverse(Operator op)
         {
             var wrapper = new Reverse_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = op.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
             dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
 
@@ -3687,7 +3691,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected override void VisitSampleOperator(Operator op)
         {
             var wrapper = new Sample_OperatorWrapper(op, _sampleRepository);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = op.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
             DimensionStack channelDimensionStack = _dimensionStackCollection.GetDimensionStack(DimensionEnum.Channel);
 
@@ -3788,7 +3792,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected override void VisitSawDown(Operator op)
         {
             var wrapper = new SawDown_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = op.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
             base.VisitSawDown(op);
@@ -3857,7 +3861,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected override void VisitSawUp(Operator op)
         {
             var wrapper = new SawUp_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = op.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
             base.VisitSawUp(op);
@@ -3964,7 +3968,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected override void VisitSelect(Operator op)
         {
             var wrapper = new Select_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = op.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
             dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
 
@@ -4004,7 +4008,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected override void VisitSetDimension(Operator op)
         {
             var wrapper = new SetDimension_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = op.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
             dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
 
@@ -4044,7 +4048,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected override void VisitSine(Operator op)
         {
             var wrapper = new Sine_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = op.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
             base.VisitSine(op);
@@ -4167,7 +4171,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected override void VisitSortOverDimension(Operator op)
         {
             var wrapper = new SortOverDimension_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = op.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
             base.VisitSortOverDimension(op);
@@ -4250,7 +4254,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected override void VisitSpectrum(Operator op)
         {
             var wrapper = new Spectrum_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = op.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
             dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
 
@@ -4316,7 +4320,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected override void VisitSquare(Operator op)
         {
             var wrapper = new Square_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = op.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
             base.VisitSquare(op);
@@ -4393,7 +4397,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected override void VisitSquash(Operator op)
         {
             var wrapper = new Squash_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = op.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
             dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
 
@@ -4502,7 +4506,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected override void VisitStretch(Operator op)
         {
             var wrapper = new Stretch_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = op.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
             dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
 
@@ -4660,7 +4664,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected override void VisitSumOverDimension(Operator op)
         {
             var wrapper = new SumOverDimension_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = op.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
             base.VisitSumOverDimension(op);
@@ -4755,7 +4759,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected override void VisitSumFollower(Operator op)
         {
             var wrapper = new SumFollower_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = op.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
             base.VisitSumFollower(op);
@@ -4787,7 +4791,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected override void VisitTimePower(Operator op)
         {
             var wrapper = new TimePower_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = op.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
             dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
 
@@ -4874,7 +4878,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected override void VisitTriangle(Operator op)
         {
             var wrapper = new Triangle_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = op.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
             base.VisitTriangle(op);
@@ -4948,7 +4952,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
 
             var wrapper = new Unbundle_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = op.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
             // NOTE: Pushing and popping from the dimension stack is done in VisitUnbundleOutlet_WithVariableBundlePositions.
@@ -5109,7 +5113,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private void VisitBundleOutlet_WithInvariantBundlePositions(Outlet outlet)
         {
             var wrapper = new Bundle_OperatorWrapper(outlet.Operator);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = outlet.Operator.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
             if (dimensionStack.Count == 0)
@@ -5117,7 +5121,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 throw new NotSupportedException(String.Format(
                     "Bundle Operator with ID '{0}' and Dimension '{1}' encountered without first encountering an Unbundle Operator. This is not yet supported.",
                     outlet.Operator.ID,
-                    wrapper.Dimension));
+                    outlet.Operator.GetDimensionEnum()));
             }
 
             double bundleIndexDouble = dimensionStack.PopAndGet();
@@ -5128,7 +5132,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     "Index '{0}' cannot be cast to non-negative Int32 for Bundle Operator with ID '{1}' and Dimension '{2}'.",
                     bundleIndexDouble,
                     outlet.Operator.ID,
-                    wrapper.Dimension));
+                    outlet.Operator.GetDimensionEnum()));
             }
 
             if (bundleIndexDouble >= outlet.Operator.Inlets.Count)
@@ -5137,7 +5141,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     "Index '{0}' does not exist in Bundle Operator with ID '{1}' and Dimension '{2}'.",
                     bundleIndexDouble,
                     outlet.Operator.ID,
-                    wrapper.Dimension));
+                    outlet.Operator.GetDimensionEnum()));
             }
 
             int bundleIndexInt32 = (int)bundleIndexDouble;
@@ -5188,8 +5192,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                                              .OrderBy(x => x.ListIndex)
                                              .IndexOf(x => x == outlet);
 
-            var wrapper = new Unbundle_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = op.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
             dimensionStack.Push(outletIndex);
@@ -5205,8 +5208,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                                              .OrderBy(x => x.ListIndex)
                                              .IndexOf(x => x == outlet);
 
-            var wrapper = new Unbundle_OperatorWrapper(outlet.Operator);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = outlet.Operator.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
             dimensionStack.Push(outletIndex);
@@ -5227,8 +5229,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                                              .OrderBy(x => x.ListIndex)
                                              .IndexOf(x => x == outlet);
 
-            var wrapper = new MakeDiscrete_OperatorWrapper(outlet.Operator);
-            DimensionEnum dimensionEnum = wrapper.Dimension;
+            DimensionEnum dimensionEnum = outlet.Operator.GetDimensionEnum();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
 
             dimensionStack.Push(outletIndex);

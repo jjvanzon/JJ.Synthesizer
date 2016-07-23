@@ -10,14 +10,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     internal class Bundle_OperatorValidator : OperatorValidator_Base_VariableInletCountOneOutlet
     {
         public Bundle_OperatorValidator(Operator obj)
-            : base(obj, OperatorTypeEnum.Bundle, allowedDataKeys: new string[] { PropertyNames.Dimension })
+            : base(obj, OperatorTypeEnum.Bundle, expectedDataKeys: new string[0])
         { }
-
-        protected override void Execute()
-        {
-            base.Execute();
-
-            ExecuteValidator(new Dimension_DataProperty_Validator(Object.Data));
-        }
     }
 }

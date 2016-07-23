@@ -5,7 +5,7 @@ using JJ.Business.Synthesizer.Validation.DataProperty;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class OperatorValidator_Base_AggregateOverDimension : OperatorValidator_Base_WithDimension
+    internal class OperatorValidator_Base_AggregateOverDimension : OperatorValidator_Base
     {
         public OperatorValidator_Base_AggregateOverDimension(Operator obj, OperatorTypeEnum operatorTypeEnum)
             : base(
@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                   operatorTypeEnum,
                   expectedInletCount: 4,
                   expectedOutletCount: 1,
-                  allowedDataKeys: new string[] { PropertyNames.Dimension, PropertyNames.CollectionRecalculation })
+                  expectedDataKeys: new string[] { PropertyNames.CollectionRecalculation })
         { }
 
         protected override void Execute()

@@ -7,7 +7,7 @@ using JJ.Business.Synthesizer.Validation.DataProperty;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class Cache_OperatorValidator : OperatorValidator_Base_WithDimension
+    internal class Cache_OperatorValidator : OperatorValidator_Base
     {
         public Cache_OperatorValidator(Operator obj)
             : base(
@@ -15,11 +15,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 OperatorTypeEnum.Cache,
                 expectedInletCount: 4,
                 expectedOutletCount: 1,
-                allowedDataKeys: new string[]
+                expectedDataKeys: new string[]
                 {
                     PropertyNames.InterpolationType,
-                    PropertyNames.SpeakerSetup,
-                    PropertyNames.Dimension
+                    PropertyNames.SpeakerSetup
                 })
         { }
 

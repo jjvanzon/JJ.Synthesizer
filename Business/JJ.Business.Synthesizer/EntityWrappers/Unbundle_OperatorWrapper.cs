@@ -41,13 +41,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             return name;
         }
 
-        /// <summary> Can be Undefined. </summary>
-        public DimensionEnum Dimension
-        {
-            get { return DataPropertyParser.GetEnum<DimensionEnum>(WrappedOperator, PropertyNames.Dimension); }
-            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.Dimension, value); }
-        }
-
         public IList<Outlet> Results
         {
             get { return WrappedOperator.Outlets; }

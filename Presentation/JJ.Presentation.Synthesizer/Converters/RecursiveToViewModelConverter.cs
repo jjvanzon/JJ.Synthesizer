@@ -11,6 +11,7 @@ using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Common;
 using JJ.Presentation.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Extensions;
 
 namespace JJ.Presentation.Synthesizer.Converters
 {
@@ -81,8 +82,7 @@ namespace JJ.Presentation.Synthesizer.Converters
             {
                 OperatorViewModel operatorViewModel = ConvertToViewModelRecursive(op);
 
-                DimensionEnum dimensionEnum = ViewModelHelper.GetDimensionEnum(op);
-                operatorViewModel.Dimension = dimensionEnum.ToViewModel();
+                operatorViewModel.Dimension = op.GetDimensionEnum().ToViewModel();
 
                 dimensionIDs.Add(operatorViewModel.Dimension.ID);
 

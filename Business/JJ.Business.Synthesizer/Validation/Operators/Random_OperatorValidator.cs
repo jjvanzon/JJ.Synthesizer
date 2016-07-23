@@ -6,7 +6,7 @@ using JJ.Business.Synthesizer.Validation.DataProperty;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class Random_OperatorValidator : OperatorValidator_Base_WithDimension
+    internal class Random_OperatorValidator : OperatorValidator_Base
     {
         public Random_OperatorValidator(Operator obj)
             : base(
@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                   OperatorTypeEnum.Random,
                   expectedInletCount: 2,
                   expectedOutletCount: 1,
-                  allowedDataKeys: new string[] { PropertyNames.InterpolationType, PropertyNames.Dimension })
+                  expectedDataKeys: new string[] { PropertyNames.InterpolationType })
         { }
 
         protected override void Execute()

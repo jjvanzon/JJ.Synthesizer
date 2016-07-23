@@ -3,6 +3,7 @@ using JJ.Business.Synthesizer.Enums;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
@@ -18,5 +19,12 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                   expectedOutletCount: 1,
                   expectedDataKeys: new string[0])
         { }
+
+        protected override void Execute()
+        {
+            For(() => Object.Dimension, PropertyDisplayNames.Dimension).IsNull();
+
+            base.Execute();
+        }
     }
 }

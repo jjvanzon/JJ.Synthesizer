@@ -33,15 +33,6 @@ namespace JJ.Business.Synthesizer.Extensions
             curve.UnlinkDocument();
         }
 
-        public static void UnlinkRelatedEntities(this Inlet inlet)
-        {
-            if (inlet == null) throw new NullException(() => inlet);
-
-            inlet.UnlinkDimension();
-            inlet.UnlinkInputOutlet();
-            inlet.UnlinkOperator();
-        }
-
         public static void UnlinkRelatedEntities(this Document document)
         {
             if (document == null) throw new NullException(() => document);
@@ -58,6 +49,15 @@ namespace JJ.Business.Synthesizer.Extensions
             // NOTE: Do not unlink DependentDocument: those should either be deleted first, or things should crash on reference constraint violations.
         }
 
+        public static void UnlinkRelatedEntities(this Inlet inlet)
+        {
+            if (inlet == null) throw new NullException(() => inlet);
+
+            inlet.UnlinkDimension();
+            inlet.UnlinkInputOutlet();
+            inlet.UnlinkOperator();
+        }
+
         public static void UnlinkRelatedEntities(this Node node)
         {
             if (node == null) throw new NullException(() => node);
@@ -72,13 +72,7 @@ namespace JJ.Business.Synthesizer.Extensions
 
             op.UnlinkPatch();
             op.UnlinkOperatorType();
-        }
-
-        public static void UnlinkRelatedEntities(this Patch patch)
-        {
-            if (patch == null) throw new NullException(() => patch);
-
-            patch.UnlinkDocument();
+            op.UnlinkDimension();
         }
 
         public static void UnlinkRelatedEntities(this Outlet outlet)
@@ -92,6 +86,13 @@ namespace JJ.Business.Synthesizer.Extensions
 
             outlet.UnlinkDimension();
             outlet.UnlinkOperator();
+        }
+
+        public static void UnlinkRelatedEntities(this Patch patch)
+        {
+            if (patch == null) throw new NullException(() => patch);
+
+            patch.UnlinkDocument();
         }
 
         public static void UnlinkRelatedEntities(this Sample sample)

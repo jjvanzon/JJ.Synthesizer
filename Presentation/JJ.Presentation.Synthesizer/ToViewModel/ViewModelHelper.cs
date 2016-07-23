@@ -229,7 +229,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 return true;
             }
 
-            OperatorTypeEnum operatorTypeEnum = inlet.Operator.GetOperatorTypeEnum();
+            Operator op = inlet.Operator;
+
+            OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
 
             switch (operatorTypeEnum)
             {
@@ -241,7 +243,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                     if (inlet.ListIndex == STRETCH_AND_SQUASH_ORIGIN_LIST_INDEX)
                     {
                         var wrapper = new Stretch_OperatorWrapper(inlet.Operator);
-                        if (wrapper.Dimension == DimensionEnum.Time)
+                        if (op.GetDimensionEnum() == DimensionEnum.Time)
                         {
                             return false;
                         }
@@ -689,7 +691,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         private static string GetOperatorCaption_WithDimensionPlaceholder(Operator op, string operatorTypeDisplayNameWithPlaceholder)
         {
-            DimensionEnum dimensionEnum = GetDimensionEnum(op);
+            DimensionEnum dimensionEnum = op.GetDimensionEnum();
             string formattedOperatorTypeDisplayName;
             if (dimensionEnum != DimensionEnum.Undefined)
             {
@@ -757,17 +759,18 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return sb.ToString();
         }
 
-        public static DimensionEnum GetDimensionEnum(Operator entity)
-        {
-            DimensionEnum dimensionEnum = DimensionEnum.Undefined;
+        // TODO: Remove outcommented code.
+        //public static DimensionEnum GetDimensionEnum(Operator entity)
+        //{
+        //    DimensionEnum dimensionEnum = DimensionEnum.Undefined;
 
-            if (DataPropertyParser.DataIsWellFormed(entity))
-            {
-                dimensionEnum = DataPropertyParser.GetEnum<DimensionEnum>(entity, PropertyNames.Dimension);
-            }
+        //    if (DataPropertyParser.DataIsWellFormed(entity))
+        //    {
+        //        dimensionEnum = DataPropertyParser.GetEnum<DimensionEnum>(entity, PropertyNames.Dimension);
+        //    }
 
-            return dimensionEnum;
-        }
+        //    return dimensionEnum;
+        //}
 
         public static float? TryGetConnectionDistance(Inlet entity, EntityPositionManager entityPositionManager)
         {

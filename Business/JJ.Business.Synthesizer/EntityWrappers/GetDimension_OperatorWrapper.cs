@@ -20,12 +20,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return OperatorHelper.GetOutlet(WrappedOperator, VALUE_INDEX); }
         }
 
-        public DimensionEnum Dimension
-        {
-            get { return DataPropertyParser.GetEnum<DimensionEnum>(WrappedOperator, PropertyNames.Dimension); }
-            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.Dimension, value); }
-        }
-
         public override string GetInletDisplayName(int listIndex)
         {
             throw new Exception("This operator does not have Inlets, so you cannot get an InletDisplayName.");

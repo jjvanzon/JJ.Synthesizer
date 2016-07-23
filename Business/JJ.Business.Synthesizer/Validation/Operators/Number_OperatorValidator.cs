@@ -9,24 +9,25 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     {
         public Number_OperatorValidator(Operator obj)
             : base(
-                  obj, 
-                  OperatorTypeEnum.Number, 
-                  expectedInletCount: 0, 
+                  obj,
+                  OperatorTypeEnum.Number,
+                  expectedInletCount: 0,
                   expectedOutletCount: 1,
                   expectedDataKeys: new string[] { PropertyNames.Number })
         { }
 
         protected override void Execute()
         {
-            base.Execute();
+            For(() => Object.Dimension, PropertyDisplayNames.Dimension).IsNull();
 
             string numberString = DataPropertyParser.TryGetString(Object, PropertyNames.Number);
-
             For(() => numberString, PropertyDisplayNames.Number, DataPropertyParser.FormattingCulture)
                 .NotNullOrEmpty()
                 .IsDouble()
                 .NotInfinity()
                 .NotNaN();
+
+            base.Execute();
         }
     }
 }

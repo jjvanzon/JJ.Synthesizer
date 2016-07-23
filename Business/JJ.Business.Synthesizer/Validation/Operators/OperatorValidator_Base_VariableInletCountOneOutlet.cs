@@ -14,13 +14,13 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         public OperatorValidator_Base_VariableInletCountOneOutlet(
             Operator obj, 
             OperatorTypeEnum expectedOperatorTypeEnum,
-            IList<string> allowedDataKeys)
+            IList<string> expectedDataKeys)
             : base(
                   obj,
                   expectedOperatorTypeEnum,
                   expectedInletCount: obj.Inlets.Count,
                   expectedOutletCount: 1,
-                  expectedDataKeys: allowedDataKeys)
+                  expectedDataKeys: expectedDataKeys)
         { }
 
         protected override void Execute()

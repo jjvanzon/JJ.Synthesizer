@@ -4,6 +4,7 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Business.Synthesizer.Enums;
+using System;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
@@ -60,12 +61,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         public Outlet Result
         {
             get { return OperatorHelper.GetOutlet(WrappedOperator, OperatorConstants.AGGREGATE_OVER_DIMENSION_RESULT_INDEX); }
-        }
-
-        public DimensionEnum Dimension
-        {
-            get { return DataPropertyParser.GetEnum<DimensionEnum>(WrappedOperator, PropertyNames.Dimension); }
-            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.Dimension, value); }
         }
 
         public CollectionRecalculationEnum CollectionRecalculation

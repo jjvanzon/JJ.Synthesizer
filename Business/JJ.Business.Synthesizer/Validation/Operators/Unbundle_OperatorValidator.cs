@@ -7,14 +7,15 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class Unbundle_OperatorValidator : OperatorValidator_Base_WithDimension
+    internal class Unbundle_OperatorValidator : OperatorValidator_Base
     {
         public Unbundle_OperatorValidator(Operator obj)
             : base(
                   obj,
                   OperatorTypeEnum.Unbundle,
                   expectedInletCount: 1,
-                  expectedOutletCount: obj?.Outlets?.Count ?? 0)
+                  expectedOutletCount: obj?.Outlets?.Count ?? 0,
+                  expectedDataKeys: new string[0])
         { }
 
         protected override void Execute()

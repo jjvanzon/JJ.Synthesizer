@@ -1836,48 +1836,48 @@ namespace JJ.OneOff.Synthesizer.DataMigration
         //    progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
         //}
 
-        public static void Migrate_Operator_Spectrum_AddDimensionDataKey(Action<string> progressCallback)
-        {
-            if (progressCallback == null) throw new NullException(() => progressCallback);
+        //public static void Migrate_Operator_Spectrum_AddDimensionDataKey(Action<string> progressCallback)
+        //{
+        //    if (progressCallback == null) throw new NullException(() => progressCallback);
 
-            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+        //    progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
 
-            using (IContext context = PersistenceHelper.CreateContext())
-            {
-                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+        //    using (IContext context = PersistenceHelper.CreateContext())
+        //    {
+        //        RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-                var patchManager = new PatchManager(new PatchRepositories(repositories));
+        //        var patchManager = new PatchManager(new PatchRepositories(repositories));
 
-                IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Spectrum);
+        //        IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Spectrum);
 
-                for (int i = 0; i < operators.Count; i++)
-                {
-                    Operator op = operators[i];
+        //        for (int i = 0; i < operators.Count; i++)
+        //        {
+        //            Operator op = operators[i];
 
-                    if (!String.IsNullOrEmpty(op.Data))
-                    {
-                        continue;
-                    }
+        //            if (!String.IsNullOrEmpty(op.Data))
+        //            {
+        //                continue;
+        //            }
 
-                    var wrapper = new Spectrum_OperatorWrapper(op);
-                    wrapper.Dimension = DimensionEnum.Time;
+        //            var wrapper = new Spectrum_OperatorWrapper(op);
+        //            wrapper.Dimension = DimensionEnum.Time;
 
-                    patchManager.Patch = op.Patch;
-                    VoidResult result = patchManager.SaveOperator(op);
-                    ResultHelper.Assert(result);
+        //            patchManager.Patch = op.Patch;
+        //            VoidResult result = patchManager.SaveOperator(op);
+        //            ResultHelper.Assert(result);
 
-                    string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
-                    progressCallback(progressMessage);
-                }
+        //            string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
+        //            progressCallback(progressMessage);
+        //        }
 
-                AssertDocuments(repositories, progressCallback);
+        //        AssertDocuments(repositories, progressCallback);
 
-                //throw new Exception("Temporarily not committing, for debugging.");
-                context.Commit();
-            }
+        //        //throw new Exception("Temporarily not committing, for debugging.");
+        //        context.Commit();
+        //    }
 
-            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
-        }
+        //    progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        //}
 
         public static void Migrate_OperatorData_RenameDimensionHarmonicNumberToHarmonic(Action<string> progressCallback)
         {
@@ -1903,6 +1903,44 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                     {
                         DataPropertyParser.SetValue(op, PropertyNames.Dimension, DimensionEnum.Harmonic);
                     }
+
+                    // Cannot validate the operator, because it will do a recursive validation,
+                    // validating not yet migrated operators.
+
+                    string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
+                    progressCallback(progressMessage);
+                }
+
+                AssertDocuments(repositories, progressCallback);
+
+                //throw new Exception("Temporarily not committing, for debugging.");
+                context.Commit();
+            }
+
+            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        }
+
+        public static void Migrate_OperatorDimension_FromDataProperty_ToEntityReference(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                var patchManager = new PatchManager(new PatchRepositories(repositories));
+
+                IList<Operator> operators = repositories.OperatorRepository.GetAll();
+
+                for (int i = 0; i < operators.Count; i++)
+                {
+                    Operator op = operators[i];
+
+                    DimensionEnum dimensionEnum = DataPropertyParser.GetEnum<DimensionEnum>(op, PropertyNames.Dimension);
+                    op.SetDimensionEnum(dimensionEnum, repositories.DimensionRepository);
+                    DataPropertyParser.RemoveKey(op, PropertyNames.Dimension);
 
                     // Cannot validate the operator, because it will do a recursive validation,
                     // validating not yet migrated operators.

@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class Curve_OperatorValidator : OperatorValidator_Base_WithDimension
+    internal class Curve_OperatorValidator : OperatorValidator_Base
     {
         public Curve_OperatorValidator(Operator op)
             : base(
@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                   OperatorTypeEnum.Curve,
                   expectedInletCount: 0,
                   expectedOutletCount: 1,
-                  allowedDataKeys: new string[] { PropertyNames.CurveID, PropertyNames.Dimension })
+                  expectedDataKeys: new string[] { PropertyNames.CurveID })
         { }
 
         protected override void Execute()

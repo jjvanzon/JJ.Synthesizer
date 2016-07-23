@@ -1,6 +1,7 @@
 ﻿using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
@@ -14,5 +15,12 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                   expectedOutletCount: 1, 
                   expectedDataKeys: new string[] { PropertyNames.ListIndex })
         { }
+
+        protected override void Execute()
+        {
+            For(() => Object.Dimension, PropertyDisplayNames.Dimension).IsNull();
+
+            base.Execute();
+        }
     }
 }

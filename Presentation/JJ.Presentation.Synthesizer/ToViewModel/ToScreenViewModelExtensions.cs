@@ -453,7 +453,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 PatchID = entity.Patch.ID,
                 Name = entity.Name,
                 InletCount = entity.Inlets.Count,
-                Dimension = wrapper.Dimension.ToIDAndDisplayName(),
+                Dimension = entity.GetDimensionEnum().ToIDAndDisplayName(),
                 DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel(),
                 ValidationMessages = new List<Message>()
             };
@@ -476,7 +476,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 InterpolationLookup = ViewModelHelper.GetInterpolationTypeLookupViewModel(interpolationTypeRepository),
                 SpeakerSetup = wrapper.SpeakerSetup.ToIDAndDisplayName(),
                 SpeakerSetupLookup = ViewModelHelper.GetSpeakerSetupLookupViewModel(),
-                Dimension = wrapper.Dimension.ToIDAndDisplayName(),
+                Dimension = entity.GetDimensionEnum().ToIDAndDisplayName(),
                 DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel(),
                 ValidationMessages = new List<Message>()
             };
@@ -497,7 +497,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
 
             var wrapper = new Curve_OperatorWrapper(entity, curveRepository);
-            viewModel.Dimension = wrapper.Dimension.ToIDAndDisplayName();
+            viewModel.Dimension = entity.GetDimensionEnum().ToIDAndDisplayName();
             viewModel.DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel();
 
             Curve curve = wrapper.Curve;
@@ -553,7 +553,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 PatchID = entity.Patch.ID,
                 Name = entity.Name,
                 InletCount = entity.Inlets.Count,
-                Dimension = wrapper.Dimension.ToIDAndDisplayName(),
+                Dimension = entity.GetDimensionEnum().ToIDAndDisplayName(),
                 DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel(),
                 Interpolation = wrapper.InterpolationType.ToIDAndDisplayName(),
                 InterpolationLookup = ViewModelHelper.GetResampleInterpolationLookupViewModel(),
@@ -659,7 +659,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ID = entity.ID,
                 PatchID = entity.Patch.ID,
                 Name = entity.Name,
-                Dimension = wrapper.Dimension.ToIDAndDisplayName(),
+                Dimension = entity.GetDimensionEnum().ToIDAndDisplayName(),
                 DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel(),
                 ValidationMessages = new List<Message>()
             };
@@ -689,7 +689,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 PatchID = entity.Patch.ID,
                 Name = entity.Name,
                 OperatorType = entity.OperatorType.ToIDAndDisplayName(),
-                Dimension = wrapper.Dimension.ToIDAndDisplayName(),
+                Dimension = entity.GetDimensionEnum().ToIDAndDisplayName(),
                 DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel(),
                 ValidationMessages = new List<Message>()
             };
@@ -711,7 +711,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorType = entity.OperatorType.ToIDAndDisplayName(),
                 Interpolation = wrapper.InterpolationType.ToIDAndDisplayName(),
                 InterpolationLookup = ViewModelHelper.GetResampleInterpolationLookupViewModel(),
-                Dimension = wrapper.Dimension.ToIDAndDisplayName(),
+                Dimension = entity.GetDimensionEnum().ToIDAndDisplayName(),
                 DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel(),
                 ValidationMessages = new List<Message>()
             };
@@ -733,7 +733,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorType = entity.OperatorType.ToIDAndDisplayName(),
                 CollectionRecalculation = wrapper.CollectionRecalculation.ToIDAndDisplayName(),
                 CollectionRecalculationLookup = ViewModelHelper.GetCollectionRecalculationLookupViewModel(),
-                Dimension = wrapper.Dimension.ToIDAndDisplayName(),
+                Dimension = entity.GetDimensionEnum().ToIDAndDisplayName(),
                 DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel(),
                 ValidationMessages = new List<Message>()
             };
@@ -754,7 +754,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Name = entity.Name,
                 OperatorType = entity.OperatorType.ToIDAndDisplayName(),
                 OutletCount = entity.Outlets.Count,
-                Dimension = wrapper.Dimension.ToIDAndDisplayName(),
+                Dimension = entity.GetDimensionEnum().ToIDAndDisplayName(),
                 DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel(),
                 ValidationMessages = new List<Message>()
             };

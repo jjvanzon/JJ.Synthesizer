@@ -21,9 +21,11 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         protected override void Execute()
         {
-            base.Execute();
+            For(() => Object.Dimension, PropertyDisplayNames.Dimension).IsNull();
 
             ExecuteValidator(new ListIndex_DataProperty_Validator(Object.Data));
+
+            base.Execute();
         }
     }
 }

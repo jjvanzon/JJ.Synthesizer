@@ -9,7 +9,7 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class Sample_OperatorValidator : OperatorValidator_Base_WithDimension
+    internal class Sample_OperatorValidator : OperatorValidator_Base
     {
         public Sample_OperatorValidator(Operator op)
             : base(
@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                   OperatorTypeEnum.Sample,
                   expectedInletCount: 1,
                   expectedOutletCount: 1,
-                  allowedDataKeys: new string[] { PropertyNames.Dimension, PropertyNames.SampleID })
+                  expectedDataKeys: new string[] { PropertyNames.SampleID })
         { }
 
         protected override void Execute()

@@ -1,0 +1,1 @@
+exec sp_rename 'Node.Direction', 'Slope', 'COLUMN';
