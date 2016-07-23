@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer
             _repositories.AudioFileOutputRepository.Insert(audioFileOutput);
 
             ISideEffect sideEffect1 = new AudioFileOutput_SideEffect_SetDefaults(
-                audioFileOutput, 
+                audioFileOutput,
                 _repositories.SampleDataTypeRepository, _repositories.SpeakerSetupRepository, _repositories.AudioFileFormatRepository);
             sideEffect1.Execute();
 
@@ -94,10 +94,10 @@ namespace JJ.Business.Synthesizer
         /// </summary>
         public void WriteFile(AudioFileOutput audioFileOutput, params IPatchCalculator[] patchCalculators)
         {
-            IAudioFileOutputCalculator audioFileOutputCalculator = 
+            IAudioFileOutputCalculator audioFileOutputCalculator =
                 AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(audioFileOutput, patchCalculators);
 
             audioFileOutputCalculator.Execute(audioFileOutput);
         }
-    }   
+    }
 }

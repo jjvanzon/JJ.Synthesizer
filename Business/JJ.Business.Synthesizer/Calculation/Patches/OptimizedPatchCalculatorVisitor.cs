@@ -287,7 +287,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             base.VisitAnd(op);
 
-            OperatorCalculatorBase calculator;
+            OperatorCalculatorBase calculator = null;
 
             OperatorCalculatorBase calculatorA = _stack.Pop();
             OperatorCalculatorBase calculatorB = _stack.Pop();
@@ -295,37 +295,54 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             calculatorA = calculatorA ?? new Zero_OperatorCalculator();
             calculatorB = calculatorB ?? new Zero_OperatorCalculator();
 
-            double a = calculatorA.Calculate();
-            double b = calculatorB.Calculate();
-
             bool aIsConst = calculatorA is Number_OperatorCalculator;
             bool bIsConst = calculatorB is Number_OperatorCalculator;
 
-            if (aIsConst && bIsConst)
+            double a = aIsConst ? calculatorA.Calculate() : 0.0;
+            double b = bIsConst ? calculatorB.Calculate() : 0.0;
+
+            bool aIsConstNonZero = aIsConst && a != 0.0;
+            bool bIsConstNonZero = bIsConst && b != 0.0;
+
+            if (!aIsConst && !bIsConst)
             {
-                double value;
-
-                bool aIsTrue = a != 0.0;
-                bool bIsTrue = b != 0.0;
-
-                if (aIsTrue && bIsTrue) value = 1.0;
-                else value = 0.0;
-
-                calculator = new Number_OperatorCalculator(value);
+                calculator = new And_OperatorCalculator_VarA_VarB(calculatorA, calculatorB);
             }
-            else if (!aIsConst && bIsConst)
+            else if (aIsConst && bIsConst)
             {
-                calculator = new And_VarA_ConstB_OperatorCalculator(calculatorA, b);
+                if (aIsConstNonZero && bIsConstNonZero)
+                {
+                    calculator = new One_OperatorCalculator();
+                }
+                else
+                {
+                    calculator = new Zero_OperatorCalculator();
+                }
             }
             else if (aIsConst && !bIsConst)
             {
-                calculator = new And_ConstA_VarB_OperatorCalculator(a, calculatorB);
+                if (aIsConstNonZero)
+                {
+                    calculator = calculatorB;
+                }
+                else
+                {
+                    calculator = new Zero_OperatorCalculator();
+                }
             }
-            else if (!aIsConst && !bIsConst)
+            else if (!aIsConst && bIsConst)
             {
-                calculator = new And_VarA_VarB_OperatorCalculator(calculatorA, calculatorB);
+                if (bIsConstNonZero)
+                {
+                    calculator = calculatorA;
+                }
+                else
+                {
+                    calculator = new Zero_OperatorCalculator();
+                }
             }
-            else
+
+            if (calculator == null)
             {
                 throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
