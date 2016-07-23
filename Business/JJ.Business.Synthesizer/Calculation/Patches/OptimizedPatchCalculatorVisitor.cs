@@ -301,6 +301,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double a = aIsConst ? calculatorA.Calculate() : 0.0;
             double b = bIsConst ? calculatorB.Calculate() : 0.0;
 
+            bool aIsConstZero = aIsConst && a == 0.0;
+            bool bIsConstZero = bIsConst && b == 0.0;
             bool aIsConstNonZero = aIsConst && a != 0.0;
             bool bIsConstNonZero = bIsConst && b != 0.0;
 
@@ -308,38 +310,21 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = new And_OperatorCalculator_VarA_VarB(calculatorA, calculatorB);
             }
-            else if (aIsConst && bIsConst)
+            else if (aIsConstNonZero && bIsConstNonZero)
             {
-                if (aIsConstNonZero && bIsConstNonZero)
-                {
-                    calculator = new One_OperatorCalculator();
-                }
-                else
-                {
-                    calculator = new Zero_OperatorCalculator();
-                }
+                calculator = new One_OperatorCalculator();
             }
-            else if (aIsConst && !bIsConst)
+            else if (aIsConstZero || bIsConstZero)
             {
-                if (aIsConstNonZero)
-                {
-                    calculator = calculatorB;
-                }
-                else
-                {
-                    calculator = new Zero_OperatorCalculator();
-                }
+                calculator = new Zero_OperatorCalculator();
             }
-            else if (!aIsConst && bIsConst)
+            else if (aIsConstNonZero && !bIsConst)
             {
-                if (bIsConstNonZero)
-                {
-                    calculator = calculatorA;
-                }
-                else
-                {
-                    calculator = new Zero_OperatorCalculator();
-                }
+                calculator = calculatorB;
+            }
+            else if (!aIsConst && bIsConstNonZero)
+            {
+                calculator = calculatorA;
             }
 
             if (calculator == null)
