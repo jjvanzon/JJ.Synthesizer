@@ -52,38 +52,14 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.SamplingRate = viewModel.SamplingRate;
             entity.FilePath = viewModel.FilePath;
 
-            bool audioFileFormatIsFilledIn = viewModel.AudioFileFormat != null && viewModel.AudioFileFormat.ID != 0;
-            if (audioFileFormatIsFilledIn)
-            {
-                AudioFileFormat audioFileFormat = repositories.AudioFileFormatRepository.Get(viewModel.AudioFileFormat.ID);
-                entity.LinkTo(audioFileFormat);
-            }
-            else
-            {
-                entity.UnlinkAudioFileFormat();
-            }
+            var audioFileFormatEnum = (AudioFileFormatEnum)(viewModel.AudioFileFormat?.ID ?? 0);
+            entity.SetAudioFileFormatEnum(audioFileFormatEnum, repositories.AudioFileFormatRepository);
 
-            bool sampleDataTypeIsFilledIn = viewModel.SampleDataType != null && viewModel.SampleDataType.ID != 0;
-            if (sampleDataTypeIsFilledIn)
-            {
-                SampleDataType sampleDataType = repositories.SampleDataTypeRepository.Get(viewModel.SampleDataType.ID);
-                entity.LinkTo(sampleDataType);
-            }
-            else
-            {
-                entity.UnlinkSampleDataType();
-            }
+            var sampleDataTypeEnum = (SampleDataTypeEnum)(viewModel.SampleDataType?.ID ?? 0);
+            entity.SetSampleDataTypeEnum(sampleDataTypeEnum, repositories.SampleDataTypeRepository);
 
-            bool speakerSetupIsFilledIn = viewModel.SpeakerSetup != null && viewModel.SpeakerSetup.ID != 0;
-            if (speakerSetupIsFilledIn)
-            {
-                SpeakerSetup speakerSetup = repositories.SpeakerSetupRepository.Get(viewModel.SpeakerSetup.ID);
-                entity.LinkTo(speakerSetup);
-            }
-            else
-            {
-                entity.UnlinkSpeakerSetup();
-            }
+            var speakerSetupEnum = (SpeakerSetupEnum)(viewModel.SpeakerSetup?.ID ?? 0);
+            entity.SetSpeakerSetupEnum(speakerSetupEnum, repositories.SpeakerSetupRepository);
 
             bool outletIsFilledIn = viewModel.Outlet != null && viewModel.Outlet.ID != 0;
             if (outletIsFilledIn)
@@ -169,16 +145,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.MaxConcurrentNotes = viewModel.MaxConcurrentNotes;
             entity.DesiredBufferDuration = viewModel.DesiredBufferDuration;
 
-            bool speakerSetupIsFilledIn = viewModel.SpeakerSetup != null && viewModel.SpeakerSetup.ID != 0;
-            if (speakerSetupIsFilledIn)
-            {
-                SpeakerSetup speakerSetup = speakerSetupRepository.Get(viewModel.SpeakerSetup.ID);
-                entity.LinkTo(speakerSetup);
-            }
-            else
-            {
-                entity.UnlinkSpeakerSetup();
-            }
+            var speakerSetupEnum = (SpeakerSetupEnum)(viewModel.SpeakerSetup?.ID ?? 0);
+            entity.SetSpeakerSetupEnum(speakerSetupEnum, speakerSetupRepository);
 
             return entity;
         }
@@ -465,16 +433,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.X = viewModel.X;
             entity.Y = viewModel.Y;
 
-            bool nodeTypeIsFilledIn = viewModel.NodeType != null && viewModel.NodeType.ID != 0;
-            if (nodeTypeIsFilledIn)
-            {
-                NodeType nodeType = nodeTypeRepository.Get(viewModel.NodeType.ID);
-                entity.LinkTo(nodeType);
-            }
-            else
-            {
-                entity.UnlinkNodeType();
-            }
+            NodeTypeEnum nodeTypeEnum = (NodeTypeEnum)(viewModel.NodeType?.ID ?? 0);
+            entity.SetNodeTypeEnum(nodeTypeEnum, nodeTypeRepository);
 
             return entity;
         }
@@ -551,16 +511,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 operatorRepository.Insert(entity);
             }
 
-            bool operatorTypeIsFilledIn = viewModel.OperatorType != null && viewModel.OperatorType.ID != 0;
-            if (operatorTypeIsFilledIn)
-            {
-                OperatorType operatorType = operatorTypeRepository.Get(viewModel.OperatorType.ID);
-                entity.LinkTo(operatorType);
-            }
-            else
-            {
-                entity.UnlinkOperatorType();
-            }
+            OperatorTypeEnum operatorTypeEnum = (OperatorTypeEnum)(viewModel.OperatorType?.ID ?? 0);
+            entity.SetOperatorTypeEnum(operatorTypeEnum, operatorTypeRepository);
 
             return entity;
         }
@@ -582,16 +534,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.Name = viewModel.Name;
             entity.DefaultValue = viewModel.DefaultValue;
 
-            bool dimensionIsFilledIn = viewModel.Dimension != null && viewModel.Dimension.ID != 0;
-            if (dimensionIsFilledIn)
-            {
-                Dimension dimension = dimensionRepository.Get(viewModel.Dimension.ID);
-                entity.LinkTo(dimension);
-            }
-            else
-            {
-                entity.UnlinkDimension();
-            }
+            DimensionEnum dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
+            entity.SetDimensionEnum(dimensionEnum, dimensionRepository);
 
             return entity;
         }
@@ -612,16 +556,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.ListIndex = viewModel.ListIndex;
             entity.Name = viewModel.Name;
 
-            bool dimensionIsFilledIn = viewModel.Dimension != null && viewModel.Dimension.ID != 0;
-            if (dimensionIsFilledIn)
-            {
-                Dimension dimension = dimensionRepository.Get(viewModel.Dimension.ID);
-                entity.LinkTo(dimension);
-            }
-            else
-            {
-                entity.UnlinkDimension();
-            }
+            DimensionEnum dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
+            entity.SetDimensionEnum(dimensionEnum, dimensionRepository);
 
             return entity;
         }
@@ -667,16 +603,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.Name = viewModel.Name;
 
             // Added this so operator properties lose focus on a new operator would be able to do some basic validation.
-            bool operatorTypeIsFilledIn = viewModel.OperatorType != null && viewModel.OperatorType.ID != 0;
-            if (operatorTypeIsFilledIn)
-            {
-                OperatorType operatorType = operatorTypeRepository.Get(viewModel.OperatorType.ID);
-                entity.LinkTo(operatorType);
-            }
-            else
-            {
-                entity.UnlinkOperatorType();
-            }
+            OperatorTypeEnum operatorTypeEnum = (OperatorTypeEnum)(viewModel.OperatorType?.ID ?? 0);
+            entity.SetOperatorTypeEnum(operatorTypeEnum, operatorTypeRepository);
 
             return entity;
         }
@@ -702,16 +630,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.Name = viewModel.Name;
             entity.SetOperatorTypeEnum(OperatorTypeEnum.Bundle, operatorTypeRepository);
 
-            bool dimensionIsFilledIn = viewModel.Dimension != null && viewModel.Dimension.ID != 0;
-            if (dimensionIsFilledIn)
-            {
-                Dimension dimension = dimensionRepository.Get(viewModel.Dimension.ID);
-                entity.LinkTo(dimension);
-            }
-            else
-            {
-                entity.UnlinkDimension();
-            }
+            DimensionEnum dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
+            entity.SetDimensionEnum(dimensionEnum, dimensionRepository);
 
             return entity;
         }
@@ -741,27 +661,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             var wrapper = new Cache_OperatorWrapper(entity);
 
-            // Interpolation
-            bool interpolationIsFilledIn = viewModel.Interpolation != null && viewModel.Interpolation.ID != 0;
-            if (interpolationIsFilledIn)
-            {
-                wrapper.InterpolationType = (InterpolationTypeEnum)viewModel.Interpolation.ID;
-            }
-            else
-            {
-                wrapper.InterpolationType = InterpolationTypeEnum.Undefined;
-            }
-
-            // SpeakerSetup
-            bool speakerSetupIsFilledIn = viewModel.SpeakerSetup != null && viewModel.SpeakerSetup.ID != 0;
-            if (speakerSetupIsFilledIn)
-            {
-                wrapper.SpeakerSetup = (SpeakerSetupEnum)viewModel.SpeakerSetup.ID;
-            }
-            else
-            {
-                wrapper.SpeakerSetup = SpeakerSetupEnum.Undefined;
-            }
+            wrapper.InterpolationType = (InterpolationTypeEnum)(viewModel.Interpolation?.ID ?? 0);
+            wrapper.SpeakerSetup = (SpeakerSetupEnum)(viewModel.SpeakerSetup?.ID ?? 0);
 
             return entity;
         }
@@ -869,16 +770,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             var wrapper = new MakeContinuous_OperatorWrapper(entity);
 
-            // Interpolation
-            bool interpolationIsFilledIn = viewModel.Interpolation != null && viewModel.Interpolation.ID != 0;
-            if (interpolationIsFilledIn)
-            {
-                wrapper.InterpolationType = (ResampleInterpolationTypeEnum)viewModel.Interpolation.ID;
-            }
-            else
-            {
-                wrapper.InterpolationType = ResampleInterpolationTypeEnum.Undefined;
-            }
+            wrapper.InterpolationType = (ResampleInterpolationTypeEnum)(viewModel.Interpolation?.ID ?? 0);
 
             return entity;
         }
@@ -955,16 +847,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 inlet.DefaultValue = null;
             }
 
-            bool dimensionIsFilledIn = viewModel.Dimension != null && viewModel.Dimension.ID != 0;
-            if (dimensionIsFilledIn)
-            {
-                DimensionEnum dimensionEnum = (DimensionEnum)viewModel.Dimension.ID;
-                inlet.SetDimensionEnum(dimensionEnum, repositories.DimensionRepository);
-            }
-            else
-            {
-                inlet.Dimension = null;
-            }
+            var dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
+            inlet.SetDimensionEnum(dimensionEnum, repositories.DimensionRepository);
 
             // Delete excessive inlets.
             var patchManager = new PatchManager(repositories);
@@ -1005,16 +889,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 repositories.OutletRepository.Insert(outlet);
             }
 
-            bool dimensionIsFilledIn = viewModel.Dimension != null && viewModel.Dimension.ID != 0;
-            if (dimensionIsFilledIn)
-            {
-                DimensionEnum dimensionEnum = (DimensionEnum)viewModel.Dimension.ID;
-                outlet.SetDimensionEnum(dimensionEnum, repositories.DimensionRepository);
-            }
-            else
-            {
-                outlet.Dimension = null;
-            }
+            var dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
+            outlet.SetDimensionEnum(dimensionEnum, repositories.DimensionRepository);
 
             // Delete excessive outlets.
             var patchManager = new PatchManager(repositories);
@@ -1469,25 +1345,25 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         // Sample
 
-        public static Sample ToEntity(this SamplePropertiesViewModel viewModel, SampleRepositories sampleRepositories)
+        public static Sample ToEntity(this SamplePropertiesViewModel viewModel, SampleRepositories repositories)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
-            if (sampleRepositories == null) throw new NullException(() => sampleRepositories);
+            if (repositories == null) throw new NullException(() => repositories);
 
-            return viewModel.Entity.ToEntity(sampleRepositories);
+            return viewModel.Entity.ToEntity(repositories);
         }
 
-        public static Sample ToEntity(this SampleViewModel viewModel, SampleRepositories sampleRepositories)
+        public static Sample ToEntity(this SampleViewModel viewModel, SampleRepositories repositories)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
-            if (sampleRepositories == null) throw new NullException(() => sampleRepositories);
+            if (repositories == null) throw new NullException(() => repositories);
 
-            Sample entity = sampleRepositories.SampleRepository.TryGet(viewModel.ID);
+            Sample entity = repositories.SampleRepository.TryGet(viewModel.ID);
             if (entity == null)
             {
                 entity = new Sample();
                 entity.ID = viewModel.ID;
-                sampleRepositories.SampleRepository.Insert(entity);
+                repositories.SampleRepository.Insert(entity);
             }
             entity.Name = viewModel.Name;
             entity.Amplifier = viewModel.Amplifier;
@@ -1497,55 +1373,19 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.BytesToSkip = viewModel.BytesToSkip;
             entity.OriginalLocation = viewModel.OriginalLocation;
 
-            // AudioFileFormat
-            bool audioFileFormatIsFilledIn = viewModel.AudioFileFormat != null && viewModel.AudioFileFormat.ID != 0;
-            if (audioFileFormatIsFilledIn)
-            {
-                AudioFileFormat audioFileFormat = sampleRepositories.AudioFileFormatRepository.Get(viewModel.AudioFileFormat.ID);
-                entity.LinkTo(audioFileFormat);
-            }
-            else
-            {
-                entity.UnlinkAudioFileFormat();
-            }
+            AudioFileFormatEnum audioFileFormatEnum = (AudioFileFormatEnum)(viewModel.AudioFileFormat?.ID ?? 0);
+            entity.SetAudioFileFormatEnum(audioFileFormatEnum, repositories.AudioFileFormatRepository);
 
-            // InterpolationType
-            bool interpolationTypeIsFilledIn = viewModel.InterpolationType != null && viewModel.InterpolationType.ID != 0;
-            if (interpolationTypeIsFilledIn)
-            {
-                InterpolationType interpolationType = sampleRepositories.InterpolationTypeRepository.Get(viewModel.InterpolationType.ID);
-                entity.LinkTo(interpolationType);
-            }
-            else
-            {
-                entity.UnlinkInterpolationType();
-            }
+            InterpolationTypeEnum interpolationTypeEnum = (InterpolationTypeEnum)(viewModel.InterpolationType?.ID ?? 0);
+            entity.SetInterpolationTypeEnum(interpolationTypeEnum, repositories.InterpolationTypeRepository);
 
-            // SampleDataType
-            bool sampleDataTypeIsFilledIn = viewModel.SampleDataType != null && viewModel.SampleDataType.ID != 0;
-            if (sampleDataTypeIsFilledIn)
-            {
-                SampleDataType sampleDataType = sampleRepositories.SampleDataTypeRepository.Get(viewModel.SampleDataType.ID);
-                entity.LinkTo(sampleDataType);
-            }
-            else
-            {
-                entity.UnlinkSampleDataType();
-            }
+            SampleDataTypeEnum sampleDataTypeEnum = (SampleDataTypeEnum)(viewModel.SampleDataType?.ID ?? 0);
+            entity.SetSampleDataTypeEnum(sampleDataTypeEnum, repositories.SampleDataTypeRepository);
 
-            // SpeakerSetup
-            bool speakerSetupIsFilledIn = viewModel.SpeakerSetup != null && viewModel.SpeakerSetup.ID != 0;
-            if (speakerSetupIsFilledIn)
-            {
-                SpeakerSetup speakerSetup = sampleRepositories.SpeakerSetupRepository.Get(viewModel.SpeakerSetup.ID);
-                entity.LinkTo(speakerSetup);
-            }
-            else
-            {
-                entity.UnlinkSpeakerSetup();
-            }
+            SpeakerSetupEnum speakerSetupEnum = (SpeakerSetupEnum)(viewModel.SpeakerSetup?.ID ?? 0);
+            entity.SetSpeakerSetupEnum(speakerSetupEnum, repositories.SpeakerSetupRepository);
 
-            sampleRepositories.SampleRepository.SetBytes(viewModel.ID, viewModel.Bytes);
+            repositories.SampleRepository.SetBytes(viewModel.ID, viewModel.Bytes);
 
             return entity;
         }
@@ -1665,16 +1505,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.Name = viewModel.Name;
             entity.BaseFrequency = viewModel.BaseFrequency;
 
-            bool scaleTypeIsFilledIn = viewModel.ScaleType != null && viewModel.ScaleType.ID != 0;
-            if (scaleTypeIsFilledIn)
-            {
-                ScaleType scaleType = scaleTypeRepository.Get(viewModel.ScaleType.ID);
-                entity.LinkTo(scaleType);
-            }
-            else
-            {
-                entity.UnlinkScaleType();
-            }
+            ScaleTypeEnum scaleTypeEnum = (ScaleTypeEnum)(viewModel.ScaleType?.ID ?? 0);
+            entity.SetScaleTypeEnum(scaleTypeEnum, scaleTypeRepository);
 
             return entity;
         }
