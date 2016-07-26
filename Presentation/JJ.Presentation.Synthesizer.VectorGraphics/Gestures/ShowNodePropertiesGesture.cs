@@ -11,7 +11,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
     {
         public event EventHandler<IDEventArgs> ShowNodePropertiesRequested;
 
-        private DoubleClickGesture _doubleClickGesture;
+        private readonly DoubleClickGesture _doubleClickGesture;
 
         internal ShowNodePropertiesGesture(int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
         {
@@ -29,26 +29,22 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 
         protected override void HandleMouseDown(object sender, MouseEventArgs e)
         {
-            ((IGesture)_doubleClickGesture).HandleMouseDown(sender, e);
+            _doubleClickGesture.Internals.HandleMouseDown(sender, e);
         }
 
         protected override void HandleMouseMove(object sender, MouseEventArgs e)
         {
-            ((IGesture)_doubleClickGesture).HandleMouseMove(sender, e);
+            _doubleClickGesture.Internals.HandleMouseMove(sender, e);
         }
 
         protected override void HandleMouseUp(object sender, MouseEventArgs e)
         {
-            ((IGesture)_doubleClickGesture).HandleMouseUp(sender, e);
+            _doubleClickGesture.Internals.HandleMouseUp(sender, e);
         }
 
         private void _doubleClickGesture_DoubleClick(object sender, ElementEventArgs e)
         {
-            if (ShowNodePropertiesRequested != null)
-            {
-                int nodeID = (int)e.Element.Tag;
-                ShowNodePropertiesRequested(this, new IDEventArgs(nodeID));
-            }
+            ShowNodePropertiesRequested?.Invoke(this, new IDEventArgs((int)e.Element.Tag));
         }
     }
 }

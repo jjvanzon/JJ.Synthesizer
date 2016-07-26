@@ -16,7 +16,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
     {
         private readonly Dictionary<int, Rectangle> _destOutletRectangleDictionary = new Dictionary<int, Rectangle>();
         private readonly HashSet<Rectangle> _destOutletRectangleHashSet = new HashSet<Rectangle>();
-        private readonly IGesture _dragLineGesture;
+        private readonly GestureBase _dragLineGesture;
         private readonly ToolTipGesture _outletToolTipGesture;
 
         public OutletRectangleConverter(DragLineGesture dragLineGesture, ToolTipGesture outletToolTipGesture)

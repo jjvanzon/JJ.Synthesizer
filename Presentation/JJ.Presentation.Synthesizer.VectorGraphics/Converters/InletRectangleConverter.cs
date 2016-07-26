@@ -16,8 +16,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
         private readonly Dictionary<int, Rectangle> _destInletRectangleDictionary = new Dictionary<int, Rectangle>();
         private readonly HashSet<Rectangle> _destInletRectangleHashSet = new HashSet<Rectangle>();
 
-        private readonly IGesture _dropLineGesture;
-        private readonly IGesture _inletToolTipGesture;
+        private readonly GestureBase _dropLineGesture;
+        private readonly GestureBase _inletToolTipGesture;
 
         public InletRectangleConverter(DropLineGesture dropLineGesture, ToolTipGesture inletToolTipGesture)
         {
