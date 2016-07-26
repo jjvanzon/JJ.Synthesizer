@@ -2173,7 +2173,7 @@ namespace JJ.Business.Synthesizer
                 _repositories.InletRepository.Insert(inlet);
 
                 Outlet operand = operands[i];
-                inlet.InputOutlet = operand;
+                inlet.LinkTo(operand);
             }
 
             var outlet = new Outlet();

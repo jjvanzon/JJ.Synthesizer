@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Reflection.Exceptions;
@@ -36,7 +37,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 Operator dest_UnderlyingPatch_PatchInlet = InletOutletMatcher.GetPatchInlet(source_CustomOperator_Inlet, patchRepository);
 
                 PatchInlet_OperatorWrapper dest_UnderlyingPatch_PatchInlet_Wrapper = new PatchInlet_OperatorWrapper(dest_UnderlyingPatch_PatchInlet);
-                dest_UnderlyingPatch_PatchInlet_Wrapper.Inlet.InputOutlet = source_CustomOperator_Inlet.InputOutlet;
+                dest_UnderlyingPatch_PatchInlet_Wrapper.Inlet.LinkTo(source_CustomOperator_Inlet.InputOutlet);
             }
 
             Operator dest_UnderlyingPatch_PatchOutlet = InletOutletMatcher.GetPatchOutlet(source_CustomOperator_Outlet, patchRepository);

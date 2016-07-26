@@ -98,7 +98,7 @@ namespace JJ.Business.Synthesizer
 
             foreach (Inlet frequencyInlet in frequencyInlets)
             {
-                frequencyInlet.InputOutlet = frequencyNumberOperatorWrapper;
+                frequencyInlet.LinkTo(frequencyNumberOperatorWrapper.Result);
             }
 
             IEnumerable<Outlet> signalOutlets = Patch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()

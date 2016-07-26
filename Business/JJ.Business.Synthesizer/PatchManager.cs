@@ -420,6 +420,43 @@ namespace JJ.Business.Synthesizer
             return calculator;
         }
 
+        public void CreateNumbersForEmptyInlets(
+            Operator op,
+            float estimatedOperatorWidth,
+            float operatorHeight,
+            EntityPositionManager entityPositionManager)
+        {
+            if (op == null) throw new NullException(() => op);
+            if (entityPositionManager == null) throw new NullException(() => entityPositionManager);
+
+            EntityPosition entityPosition = entityPositionManager.GetOrCreateOperatorPosition(op.ID);
+
+            int inletCount = op.Inlets.Count;
+            float spacingX = operatorHeight / 2f;
+            float spacingY = operatorHeight;
+            float fullWidth = estimatedOperatorWidth * inletCount + spacingX * (inletCount - 1);
+            float left = entityPosition.X - fullWidth / 2f;
+            float x = left + estimatedOperatorWidth / 2f; // Coordinates are the centers.
+            float y = entityPosition.Y - operatorHeight - spacingY;
+            float stepX = estimatedOperatorWidth + spacingX;
+
+            foreach (Inlet inlet in op.Inlets)
+            {
+                if (inlet.InputOutlet == null)
+                {
+                    var number = Number(inlet.DefaultValue ?? 0.0);
+
+                    inlet.LinkTo(number.Result);
+
+                    EntityPosition numberEntityPosition = entityPositionManager.GetOrCreateOperatorPosition(number.WrappedOperator.ID);
+                    numberEntityPosition.X = x;
+                    numberEntityPosition.Y = y;
+                }
+
+                x += stepX;
+            }
+        }
+
         private void SubstituteSineForUnfilledInSignalPatchInlets()
         {
             AssertPatchNotNull();

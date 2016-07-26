@@ -29,6 +29,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private const int DEFAULT_MULTIPLY_INLET_COUNT = 3;
         private const int DEFAULT_CLOSEST_ITEM_COUNT = 3;
         private const int DEFAULT_SORT_INLET_COUNT = 8;
+
+        // TODO: These two constants do not belong here, because they should be determined by the vector graphics.
+        private const float ESTIMATED_OPERATOR_WIDTH = 50f;
+        private const float OPERATOR_HEIGHT = 30f;
+
         private static double _patchPlayDuration = GetPatchPlayDuration();
         private static string _patchPlayOutputFilePath = GetPatchPlayOutputFilePath();
 
@@ -303,6 +308,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             var operatorTypeEnum = (OperatorTypeEnum)operatorTypeID;
             int variableInletOrOutletCount = GetVariableInletOrOutletCount(operatorTypeEnum);
             Operator op = patchManager.CreateOperator(operatorTypeEnum, variableInletOrOutletCount);
+
+            patchManager.CreateNumbersForEmptyInlets(op, ESTIMATED_OPERATOR_WIDTH, OPERATOR_HEIGHT, _entityPositionManager);
 
             // ToViewModel
             PatchDetailsViewModel viewModel = CreateViewModel(entity);
