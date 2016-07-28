@@ -22,10 +22,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
         // the move gesture does not work, because it tries to move the already disappeared element.
         protected override void HandleMouseUp(object sender, MouseEventArgs e)
         {
-            if (SelectNodeRequested != null)
-            {
-                SelectNodeRequested(sender, new ElementEventArgs(e.Element));
-            }
+            SelectNodeRequested?.Invoke(sender, new ElementEventArgs(e.Element));
         }
     }
 }

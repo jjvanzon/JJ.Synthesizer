@@ -59,8 +59,9 @@
     <Compile Include="Gestures\DropLineGesture.cs" />
     <Compile Include="Gestures\DragLineGesture.cs" />
     <Compile Include="Gestures\OperatorEnterKeyGesture.cs" />
-    <Compile Include="Gestures\ShowSelectedNodePropertiesGesture.cs" />
-    <Compile Include="Gestures\ShowNodePropertiesGesture.cs" />
+    <Compile Include="Gestures\2016-07-27 Backup of ShowNodePropertiesGesture.cs" />
+    <Compile Include="Gestures\ShowNodePropertiesKeyboardGesture.cs" />
+    <Compile Include="Gestures\ShowNodePropertiesMouseGesture.cs" />
     <Compile Include="Gestures\ShowCurvePropertiesGesture.cs" />
     <Compile Include="Helpers\LineGestureHelper.cs" />
     <Compile Include="Helpers\PositionHelper.cs" />

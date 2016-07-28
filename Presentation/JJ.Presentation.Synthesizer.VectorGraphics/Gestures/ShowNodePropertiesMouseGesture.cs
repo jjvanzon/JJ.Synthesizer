@@ -7,19 +7,23 @@ using JJ.Presentation.Synthesizer.VectorGraphics.EventArg;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 {
-    public class ShowNodePropertiesGesture : GestureBase
+    /// <summary>
+    /// What this class adds to the implementation of double click
+    /// is having an event that includes the ID of the entity.
+    /// </summary>
+    public class ShowNodePropertiesMouseGesture : GestureBase
     {
         public event EventHandler<IDEventArgs> ShowNodePropertiesRequested;
 
         private readonly DoubleClickGesture _doubleClickGesture;
 
-        internal ShowNodePropertiesGesture(int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
+        internal ShowNodePropertiesMouseGesture(int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
         {
             _doubleClickGesture = new DoubleClickGesture(doubleClickSpeedInMilliseconds, doubleClickDeltaInPixels);
             _doubleClickGesture.DoubleClick += _doubleClickGesture_DoubleClick;
         }
 
-        ~ShowNodePropertiesGesture()
+        ~ShowNodePropertiesMouseGesture()
         {
             if (_doubleClickGesture != null)
             {

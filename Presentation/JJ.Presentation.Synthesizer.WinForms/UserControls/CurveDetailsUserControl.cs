@@ -26,7 +26,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<Int32EventArgs> ShowCurvePropertiesRequested;
         public event EventHandler ChangeNodeTypeRequested;
         public event EventHandler<Int32EventArgs> ShowNodePropertiesRequested;
-        public event EventHandler ShowSelectedNodePropertiesRequested;
 
         private readonly CurveDetailsViewModelToDiagramConverter _converter;
 
@@ -41,8 +40,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             _converter.Result.MoveNodeGesture.Moving += MoveNodeGesture_Moving;
             _converter.Result.ShowCurvePropertiesGesture.ShowCurvePropertiesRequested += ShowCurvePropertiesGesture_ShowCurvePropertiesRequested;
             _converter.Result.ChangeNodeTypeGesture.ChangeNodeTypeRequested += ChangeNodeTypeGesture_ChangeNodeTypeRequested;
-            _converter.Result.ShowNodePropertiesGesture.ShowNodePropertiesRequested += ShowNodePropertiesGesture_ShowNodePropertiesRequested;
-            _converter.Result.ShowSelectedNodePropertiesGesture.ShowSelectedNodePropertiesRequested += ShowSelectedNodePropertiesGesture_ShowSelectedNodePropertiesRequested;
+            _converter.Result.ShowNodePropertiesMouseGesture.ShowNodePropertiesRequested += ShowNodePropertiesMouseGesture_ShowNodePropertiesRequested;
+            _converter.Result.ShowNodePropertiesKeyboardGesture.ShowNodePropertiesRequested += ShowNodePropertiesKeyboardGesture_ShowNodePropertiesRequested;
             _converter.Result.NodeToolTipGesture.ToolTipTextRequested += NodeToolTipGesture_ToolTipTextRequested;
 
             InitializeComponent();
@@ -126,16 +125,20 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                     DeleteNodeRequested?.Invoke(this, EventArgs.Empty);
                     break;
 
-                case KeyCodeEnum.Enter:
-                    ShowSelectedNodePropertiesRequested?.Invoke(this, EventArgs.Empty);
-                    break;
+                // TODO: Remove outcommented code.
+                //case KeyCodeEnum.Enter:
+                //    ShowSelectedNodePropertiesRequested?.Invoke(this, EventArgs.Empty);
+                //    break;
             }
         }
 
         private void SelectNodeGesture_NodeSelected(object sender, ElementEventArgs e)
         {
             int nodeID = (int)e.Element.Tag;
+
             SelectNodeRequested?.Invoke(this, new Int32EventArgs(nodeID));
+
+            _converter.Result.ShowNodePropertiesKeyboardGesture.SelectedNodeID = nodeID;
         }
 
         private void MoveNodeGesture_Moving(object sender, ElementEventArgs e)
@@ -170,15 +173,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ChangeNodeTypeRequested?.Invoke(this, EventArgs.Empty);
         }
 
-        private void ShowNodePropertiesGesture_ShowNodePropertiesRequested(object sender, IDEventArgs e)
+        private void ShowNodePropertiesMouseGesture_ShowNodePropertiesRequested(object sender, IDEventArgs e)
         {
             ShowNodePropertiesRequested?.Invoke(this, new Int32EventArgs(e.ID));
         }
 
-        private void ShowSelectedNodePropertiesGesture_ShowSelectedNodePropertiesRequested(object sender, EventArgs e)
+        private void ShowNodePropertiesKeyboardGesture_ShowNodePropertiesRequested(object sender, IDEventArgs e)
         {
-            int nodeID = ViewModel?.SelectedNodeID ?? 0;
-            ShowNodePropertiesRequested?.Invoke(this, new Int32EventArgs(nodeID));
+            ShowNodePropertiesRequested?.Invoke(this, new Int32EventArgs(e.ID));
         }
 
         // TODO: This logic should be in the presenter.

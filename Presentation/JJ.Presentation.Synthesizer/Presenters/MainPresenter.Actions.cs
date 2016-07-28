@@ -868,18 +868,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _nodePropertiesPresenter.Show(userInput));
         }
 
-        public void SelectedNodePropertiesShow()
-        {
-            // GetViewModel
-            CurveDetailsViewModel userInput = DocumentViewModelHelper.GetVisibleCurveDetailsViewModel(MainViewModel.Document);
-
-            // Delegate to Other Action
-            if (userInput.SelectedNodeID.HasValue)
-            {
-                NodePropertiesShow(userInput.SelectedNodeID.Value);
-            }
-        }
-
         public void NodePropertiesClose(int id)
         {
             NodePropertiesCloseOrLoseFocus(_nodePropertiesPresenter.Close, id);

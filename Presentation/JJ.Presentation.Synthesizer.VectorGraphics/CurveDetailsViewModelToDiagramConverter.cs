@@ -189,7 +189,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     rectangle.Gestures.Add(
                         Result.MoveNodeGesture,
                         Result.SelectNodeGesture,
-                        Result.ShowNodePropertiesGesture,
+                        Result.ShowNodePropertiesMouseGesture,
                         Result.NodeToolTipGesture);
 
                     _rectangleDictionary.Add(nodeViewModel.ID, rectangle);
