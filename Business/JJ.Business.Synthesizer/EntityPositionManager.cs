@@ -32,14 +32,6 @@ namespace JJ.Business.Synthesizer
             _idRepository = idRepository;
         }
 
-        // TODO: Remove outcommented code.
-        //public EntityPosition GetOrCreateOperatorPosition(Operator op)
-        //{
-        //    if (op == null) throw new NullException(() => op);
-
-        //    return GetOrCreateOperatorPosition(op.ID);
-        //}
-
         public EntityPosition GetOperatorPosition(int operatorID)
         {
             EntityPosition entityPosition = TryGetOperatorPosition(operatorID);

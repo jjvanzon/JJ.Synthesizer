@@ -170,7 +170,7 @@
     <Compile Include="Calculation\Operators\Not_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Or OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Divide OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\And OperatorCalculator Classes.cs" />
+    <Compile Include="Calculation\Operators\And_OperatorCalculator_VarA_VarB.cs" />
     <Compile Include="Calculation\Operators\GreaterThanOrEqual OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\GreaterThan OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\LessThanOrEqual OperatorCalculator Classes.cs" />

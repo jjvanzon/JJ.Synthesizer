@@ -759,19 +759,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return sb.ToString();
         }
 
-        // TODO: Remove outcommented code.
-        //public static DimensionEnum GetDimensionEnum(Operator entity)
-        //{
-        //    DimensionEnum dimensionEnum = DimensionEnum.Undefined;
-
-        //    if (DataPropertyParser.DataIsWellFormed(entity))
-        //    {
-        //        dimensionEnum = DataPropertyParser.GetEnum<DimensionEnum>(entity, PropertyNames.Dimension);
-        //    }
-
-        //    return dimensionEnum;
-        //}
-
         public static float? TryGetConnectionDistance(Inlet entity, EntityPositionManager entityPositionManager)
         {
             if (entity == null) throw new NullException(() => entity);

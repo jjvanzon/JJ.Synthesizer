@@ -124,11 +124,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 case KeyCodeEnum.Delete:
                     DeleteNodeRequested?.Invoke(this, EventArgs.Empty);
                     break;
-
-                // TODO: Remove outcommented code.
-                //case KeyCodeEnum.Enter:
-                //    ShowSelectedNodePropertiesRequested?.Invoke(this, EventArgs.Empty);
-                //    break;
             }
         }
 

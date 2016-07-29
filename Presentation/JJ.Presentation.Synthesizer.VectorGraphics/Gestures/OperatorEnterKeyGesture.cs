@@ -13,10 +13,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
         {
             if (e.KeyCode == KeyCodeEnum.Enter)
             {
-                if (EnterKeyPressed != null)
-                {
-                    EnterKeyPressed(sender, EventArgs.Empty);
-                }
+                EnterKeyPressed?.Invoke(sender, EventArgs.Empty);
             }
         }
     }
