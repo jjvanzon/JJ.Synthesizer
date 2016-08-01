@@ -7,7 +7,11 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     internal class ChangeTrigger_OperatorValidator : OperatorValidator_Base_WithoutData
     {
         public ChangeTrigger_OperatorValidator(Operator obj)
-            : base(obj, OperatorTypeEnum.ChangeTrigger, expectedInletCount: 2, expectedOutletCount: 1)
+            : base(
+                  obj, 
+                  OperatorTypeEnum.ChangeTrigger,
+                  new DimensionEnum[] { DimensionEnum.Undefined, DimensionEnum.Undefined },
+                  new DimensionEnum[] { DimensionEnum.Undefined })
         { }
 
         protected override void Execute()

@@ -11,11 +11,11 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     {
         public BandPassFilterConstantTransitionGain_OperatorValidator(Operator obj)
             : base(
-                  obj,
+                obj,
                 OperatorTypeEnum.BandPassFilterConstantTransitionGain,
-                expectedDataKeys: new string[0],
-                expectedInletCount: 3,
-                expectedOutletCount: 1)
+                new DimensionEnum[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined },
+                new DimensionEnum[] { DimensionEnum.Signal },
+                expectedDataKeys: new string[0])
         { }
 
         protected override void Execute()

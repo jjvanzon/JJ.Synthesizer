@@ -9,11 +9,11 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     {
         public ClosestOverDimensionExp_OperatorValidator(Operator obj)
             : base(
-                  obj,
+                obj,
                 OperatorTypeEnum.ClosestOverDimensionExp,
-                expectedDataKeys: new string[] { PropertyNames.CollectionRecalculation },
-                expectedInletCount: 5,
-                expectedOutletCount: 1)
+                new DimensionEnum[] { DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined },
+                new DimensionEnum[] { DimensionEnum.Undefined },
+                expectedDataKeys: new string[] { PropertyNames.CollectionRecalculation })
         { }
 
         protected override void Execute()

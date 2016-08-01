@@ -96,6 +96,8 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             { OperatorTypeEnum.ToggleTrigger, typeof(ToggleTrigger_OperatorWarningValidator) },
             { OperatorTypeEnum.Triangle, typeof(Triangle_OperatorWarningValidator) },
             { OperatorTypeEnum.Unbundle, typeof(Unbundle_OperatorWarningValidator) },
+            // Temporary (2016-08-01). Remove code line later.
+            { (OperatorTypeEnum)59, null }
         };
 
         public Versatile_OperatorWarningValidator(Operator obj)

@@ -8,7 +8,11 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     internal class Exponent_OperatorValidator : OperatorValidator_Base_WithoutData
     {
         public Exponent_OperatorValidator(Operator obj)
-            : base(obj, OperatorTypeEnum.Exponent, expectedInletCount: 3, expectedOutletCount: 1)
+            : base(
+                  obj, 
+                  OperatorTypeEnum.Exponent,
+                  new DimensionEnum[] { DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined },
+                  new DimensionEnum[] { DimensionEnum.Undefined })
         { }
 
         protected override void Execute()

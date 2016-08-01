@@ -2,7 +2,6 @@
 using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Validation.DataProperty;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
@@ -13,13 +12,13 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             : base(
                 obj,
                 OperatorTypeEnum.Cache,
+                new DimensionEnum[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined },
+                new DimensionEnum[] { DimensionEnum.Signal },
                 expectedDataKeys: new string[]
                 {
                     PropertyNames.InterpolationType,
                     PropertyNames.SpeakerSetup
-                },
-                expectedInletCount: 4,
-                expectedOutletCount: 1)
+                })
         { }
 
         protected override void Execute()

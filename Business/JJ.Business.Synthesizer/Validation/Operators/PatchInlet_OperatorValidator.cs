@@ -1,11 +1,11 @@
 ﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Extensions;
 using System;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Validation.DataProperty;
 using System.Linq;
+using JJ.Business.Synthesizer.Extensions;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
@@ -13,11 +13,11 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     {
         public PatchInlet_OperatorValidator(Operator obj)
             : base(
-                  obj,
+                obj,
                 OperatorTypeEnum.PatchInlet,
-                expectedDataKeys: new string[] { PropertyNames.ListIndex },
-                expectedInletCount: 1,
-                expectedOutletCount: 1)
+                new DimensionEnum[] { obj?.Inlets.FirstOrDefault()?.GetDimensionEnum() ?? DimensionEnum.Undefined },
+                new DimensionEnum[] { DimensionEnum.Undefined },
+                expectedDataKeys: new string[] { PropertyNames.ListIndex })
         { }
 
         protected override void Execute()

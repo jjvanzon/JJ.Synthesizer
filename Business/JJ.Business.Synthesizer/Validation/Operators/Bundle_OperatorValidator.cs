@@ -1,9 +1,7 @@
 ﻿using JJ.Data.Synthesizer;
 using System;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Helpers;
 using System.Linq;
-using JJ.Business.Synthesizer.Validation.DataProperty;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {

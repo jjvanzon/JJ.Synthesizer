@@ -3,15 +3,14 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class GetDimension_OperatorValidator : OperatorValidator_Base
+    internal class GetDimension_OperatorValidator : OperatorValidator_Base_WithoutData
     {
         public GetDimension_OperatorValidator(Operator obj)
             : base(
-                  obj,
+                obj,
                 OperatorTypeEnum.GetDimension,
-                expectedDataKeys: new string[0],
-                expectedInletCount: 0,
-                expectedOutletCount: 1)
+                new DimensionEnum[0],
+                new DimensionEnum[] { DimensionEnum.Undefined })
         { }
     }
 }

@@ -9,11 +9,11 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     {
         public Reset_OperatorValidator(Operator obj)
             : base(
-                  obj,
+                obj,
                 OperatorTypeEnum.Reset,
-                expectedDataKeys: new string[] { PropertyNames.ListIndex },
-                expectedInletCount: 1,
-                expectedOutletCount: 1)
+                new DimensionEnum[] { DimensionEnum.Undefined },
+                new DimensionEnum[] { DimensionEnum.Undefined },
+                expectedDataKeys: new string[] { PropertyNames.ListIndex })
         { }
 
         protected override void Execute()

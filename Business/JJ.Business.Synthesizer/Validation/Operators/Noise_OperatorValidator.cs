@@ -3,15 +3,14 @@ using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class Noise_OperatorValidator : OperatorValidator_Base
+    internal class Noise_OperatorValidator : OperatorValidator_Base_WithoutData
     {
         public Noise_OperatorValidator(Operator obj)
             : base(
-                  obj,
+                obj,
                 OperatorTypeEnum.Noise,
-                expectedDataKeys: new string[0],
-                expectedInletCount: 0,
-                expectedOutletCount: 1)
+                new DimensionEnum[0],
+                new DimensionEnum[] { DimensionEnum.Undefined })
         { }
     }
 }

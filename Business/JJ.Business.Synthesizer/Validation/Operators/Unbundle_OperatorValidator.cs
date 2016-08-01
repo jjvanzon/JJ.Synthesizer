@@ -4,27 +4,25 @@ using JJ.Framework.Presentation.Resources;
 using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
+using System.Linq;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class Unbundle_OperatorValidator : OperatorValidator_Base
+    internal class Unbundle_OperatorValidator : OperatorValidator_Base_WithoutData
     {
         public Unbundle_OperatorValidator(Operator obj)
             : base(
-                  obj,
+                obj,
                 OperatorTypeEnum.Unbundle,
-                expectedDataKeys: new string[0],
-                expectedInletCount: 1,
-                expectedOutletCount: obj?.Outlets?.Count ?? 0)
+                new DimensionEnum[] { DimensionEnum.Undefined },
+                Enumerable.Repeat(DimensionEnum.Undefined, obj?.Outlets.Count ?? 0).ToArray())
         { }
 
         protected override void Execute()
         {
             base.Execute();
 
-            Operator op = Object;
-
-            For(() => op.Outlets.Count, CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Outlets)).GreaterThan(0);
+            For(() => Object.Outlets.Count, CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Outlets)).GreaterThan(0);
         }
     }
 }

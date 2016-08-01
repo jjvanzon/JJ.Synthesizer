@@ -9,11 +9,11 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     {
         public OperatorValidator_Base_AggregateOverDimension(Operator obj, OperatorTypeEnum operatorTypeEnum)
             : base(
-                  obj,
+                obj,
                 operatorTypeEnum,
-                expectedDataKeys: new string[] { PropertyNames.CollectionRecalculation },
-                expectedInletCount: 4,
-                expectedOutletCount: 1)
+                new DimensionEnum[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined },
+                new DimensionEnum[] { DimensionEnum.Undefined },
+                expectedDataKeys: new string[] { PropertyNames.CollectionRecalculation })
         { }
 
         protected override void Execute()

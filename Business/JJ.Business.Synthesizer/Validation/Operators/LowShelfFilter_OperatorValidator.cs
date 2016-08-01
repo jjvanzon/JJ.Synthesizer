@@ -4,15 +4,14 @@ using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class LowShelfFilter_OperatorValidator : OperatorValidator_Base
+    internal class LowShelfFilter_OperatorValidator : OperatorValidator_Base_WithoutData
     {
         public LowShelfFilter_OperatorValidator(Operator obj)
             : base(
-                  obj,
+                obj,
                 OperatorTypeEnum.LowShelfFilter,
-                expectedDataKeys: new string[0],
-                expectedInletCount: 4,
-                expectedOutletCount: 1)
+                new DimensionEnum[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined },
+                new DimensionEnum[] { DimensionEnum.Signal })
         { }
 
         protected override void Execute()

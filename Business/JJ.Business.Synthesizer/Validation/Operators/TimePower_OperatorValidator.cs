@@ -3,15 +3,14 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class TimePower_OperatorValidator : OperatorValidator_Base
+    internal class TimePower_OperatorValidator : OperatorValidator_Base_WithoutData
     {
         public TimePower_OperatorValidator(Operator obj)
             : base(
-                  obj,
+                obj,
                 OperatorTypeEnum.TimePower,
-                expectedDataKeys: new string[0],
-                expectedInletCount: 3,
-                expectedOutletCount: 1)
+                new DimensionEnum[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined },
+                new DimensionEnum[] { DimensionEnum.Signal })
         { }
     }
 }

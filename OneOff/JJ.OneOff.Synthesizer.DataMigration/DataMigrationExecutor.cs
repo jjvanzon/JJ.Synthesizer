@@ -13,6 +13,7 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.LinkTo;
+using JJ.Framework.Common;
 
 namespace JJ.OneOff.Synthesizer.DataMigration
 {
@@ -1911,7 +1912,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                     progressCallback(progressMessage);
                 }
 
-                AssertDocuments(repositories, progressCallback);
+                //AssertDocuments(repositories, progressCallback);
 
                 //throw new Exception("Temporarily not committing, for debugging.");
                 context.Commit();
@@ -1952,6 +1953,191 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                 AssertDocuments(repositories, progressCallback);
 
                 //throw new Exception("Temporarily not committing, for debugging.");
+                context.Commit();
+            }
+
+            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        }
+
+        private class InletOrOutletDimensionTuple
+        {
+            public InletOrOutletDimensionTuple(
+                OperatorTypeEnum operatorTypeEnum,
+                int listIndex,
+                DimensionEnum dimensionEnum)
+            {
+                OperatorTypeEnum = operatorTypeEnum;
+                ListIndex = listIndex;
+                DimensionEnum = dimensionEnum;
+            }
+
+            public OperatorTypeEnum OperatorTypeEnum { get; }
+            public int ListIndex { get; }
+            public DimensionEnum DimensionEnum { get; }
+        }
+
+        public static void Migrate_SetDimension_OfStandardOperators_InletsAndOutlets(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                var inletTuples = new List<InletOrOutletDimensionTuple>();
+                var outletTuples = new List<InletOrOutletDimensionTuple>();
+
+                inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.AllPassFilter, 0, DimensionEnum.Signal));
+                outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.AllPassFilter, 0, DimensionEnum.Signal));
+
+                inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.AverageFollower, 0, DimensionEnum.Signal));
+
+                inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.AverageOverDimension, 0, DimensionEnum.Signal));
+
+                inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.BandPassFilterConstantPeakGain, 0, DimensionEnum.Signal));
+                outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.BandPassFilterConstantPeakGain, 0, DimensionEnum.Signal));
+
+                inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.BandPassFilterConstantTransitionGain, 0, DimensionEnum.Signal));
+                outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.BandPassFilterConstantTransitionGain, 0, DimensionEnum.Signal));
+
+                inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Cache, 0, DimensionEnum.Signal));
+                outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Cache, 0, DimensionEnum.Signal));
+
+                inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.HighPassFilter, 0, DimensionEnum.Signal));
+                outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.HighPassFilter, 0, DimensionEnum.Signal));
+
+                inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.HighShelfFilter, 0, DimensionEnum.Signal));
+                outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.HighShelfFilter, 0, DimensionEnum.Signal));
+
+                inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Loop, 0, DimensionEnum.Signal));
+                outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Loop, 0, DimensionEnum.Signal));
+
+                inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.LowPassFilter, 0, DimensionEnum.Signal));
+                outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.LowPassFilter, 0, DimensionEnum.Signal));
+
+                inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.LowShelfFilter, 0, DimensionEnum.Signal));
+                outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.LowShelfFilter, 0, DimensionEnum.Signal));
+
+                inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.MaxFollower, 0, DimensionEnum.Signal));
+
+                inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.MaxOverDimension, 0, DimensionEnum.Signal));
+
+                inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.MinFollower, 0, DimensionEnum.Signal));
+
+                inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.MinOverDimension, 0, DimensionEnum.Signal));
+
+                inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.NotchFilter, 0, DimensionEnum.Signal));
+                outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.NotchFilter, 0, DimensionEnum.Signal));
+
+                inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.PeakingEQFilter, 0, DimensionEnum.Signal));
+                outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.PeakingEQFilter, 0, DimensionEnum.Signal));
+
+                inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Pulse, 0, DimensionEnum.Frequency));
+                outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Pulse, 0, DimensionEnum.Signal));
+
+                inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Resample, 0, DimensionEnum.Signal));
+                outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Resample, 0, DimensionEnum.Signal));
+
+                inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Reverse, 0, DimensionEnum.Signal));
+                outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Reverse, 0, DimensionEnum.Signal));
+
+                inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Round, 0, DimensionEnum.Signal));
+                outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Round, 0, DimensionEnum.Signal));
+
+                inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Sample, 0, DimensionEnum.Frequency));
+                outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Sample, 0, DimensionEnum.Signal));
+
+                inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.SawDown, 0, DimensionEnum.Frequency));
+                outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.SawDown, 0, DimensionEnum.Signal));
+
+                inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.SawUp, 0, DimensionEnum.Frequency));
+                outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.SawUp, 0, DimensionEnum.Signal));
+
+                inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Scaler, 0, DimensionEnum.Signal));
+                outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Scaler, 0, DimensionEnum.Signal));
+
+                inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Select, 0, DimensionEnum.Signal));
+
+                inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Shift, 0, DimensionEnum.Signal));
+                outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Shift, 0, DimensionEnum.Signal));
+
+                inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Sine, 0, DimensionEnum.Frequency));
+                outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Sine, 0, DimensionEnum.Signal));
+
+                inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.SortOverDimension, 0, DimensionEnum.Signal));
+                outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.SortOverDimension, 0, DimensionEnum.Signal));
+
+                inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Spectrum, 0, DimensionEnum.Signal));
+                outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Spectrum, 0, DimensionEnum.Volume));
+
+                inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Square, 0, DimensionEnum.Frequency));
+                outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Square, 0, DimensionEnum.Signal));
+
+                inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Squash, 0, DimensionEnum.Signal));
+                outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Squash, 0, DimensionEnum.Signal));
+
+                inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Stretch, 0, DimensionEnum.Signal));
+                outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Stretch, 0, DimensionEnum.Signal));
+
+                inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.SumFollower, 0, DimensionEnum.Signal));
+
+                inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.SumOverDimension, 0, DimensionEnum.Signal));
+
+                inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.TimePower, 0, DimensionEnum.Signal));
+                outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.TimePower, 0, DimensionEnum.Signal));
+
+                inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Triangle, 0, DimensionEnum.Frequency));
+                outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Triangle, 0, DimensionEnum.Signal));
+
+                Dictionary<OperatorTypeEnum, IList<InletOrOutletDimensionTuple>> inletTupleDictionary = 
+                    inletTuples.ToNonUniqueDictionary(x => x.OperatorTypeEnum);
+
+                Dictionary<OperatorTypeEnum, IList<InletOrOutletDimensionTuple>> outletTupleDictionary = 
+                    outletTuples.ToNonUniqueDictionary(x => x.OperatorTypeEnum);
+
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                var patchManager = new PatchManager(new PatchRepositories(repositories));
+
+                IList<Operator> operators = repositories.OperatorRepository.GetAll();
+
+                for (int i = 0; i < operators.Count; i++)
+                {
+                    Operator op = operators[i];
+
+                    OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
+
+                    IList<InletOrOutletDimensionTuple> inletTuples2;
+                    if (inletTupleDictionary.TryGetValue(operatorTypeEnum, out inletTuples2))
+                    {
+                        foreach (InletOrOutletDimensionTuple inletTuple in inletTuples2)
+                        {
+                            Inlet inlet = op.Inlets.Where(x => x.ListIndex == inletTuple.ListIndex).Single();
+                            inlet.SetDimensionEnum(inletTuple.DimensionEnum, repositories.DimensionRepository);
+                        }
+                    }
+
+                    IList<InletOrOutletDimensionTuple> outletTuples2;
+                    if (outletTupleDictionary.TryGetValue(operatorTypeEnum, out outletTuples2))
+                    {
+                        foreach (InletOrOutletDimensionTuple outletTuple in outletTuples2)
+                        {
+                            Outlet outlet = op.Outlets.Where(x => x.ListIndex == outletTuple.ListIndex).Single();
+                            outlet.SetDimensionEnum(outletTuple.DimensionEnum, repositories.DimensionRepository);
+                        }
+                    }
+
+                    // Cannot validate the operator, because it will do a recursive validation,
+                    // validating not yet migrated operators.
+
+                    string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
+                    progressCallback(progressMessage);
+                }
+
+                AssertDocuments(repositories, progressCallback);
+
+                //throw new Exception("Temporarily not committing, for debugging.");
+
                 context.Commit();
             }
 

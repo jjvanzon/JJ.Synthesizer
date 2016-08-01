@@ -33,22 +33,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             Operator op = Object;
 
-            int i = 0;
-            foreach (Inlet inlet in op.Inlets)
-            {
-                string messagePrefix = ValidationHelper.GetMessagePrefix(inlet, i + 1);
-                ExecuteValidator(new InletValidator_ForCustomOperator(inlet), messagePrefix);
-                i++;
-            }
-
-            i = 0;
-            foreach (Outlet outlet in op.Outlets)
-            {
-                string messagePrefix = ValidationHelper.GetMessagePrefix(outlet, i + 1);
-                ExecuteValidator(new OutletValidator_ForCustomOperator(outlet), messagePrefix);
-                i++;
-            }
-
             ValidateInletNamesUnique();
             ValidateOutletNamesUnique();
 

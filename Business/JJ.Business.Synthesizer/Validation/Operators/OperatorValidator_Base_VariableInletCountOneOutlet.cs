@@ -16,11 +16,11 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             OperatorTypeEnum expectedOperatorTypeEnum,
             IList<string> expectedDataKeys)
             : base(
-                  obj,
+                obj,
                 expectedOperatorTypeEnum,
-                expectedDataKeys: expectedDataKeys,
-                expectedInletCount: obj.Inlets.Count,
-                expectedOutletCount: 1)
+                Enumerable.Repeat(DimensionEnum.Undefined, obj.Inlets.Count).ToArray(),
+                new DimensionEnum[] { DimensionEnum.Undefined },
+                expectedDataKeys)
         { }
 
         protected override void Execute()

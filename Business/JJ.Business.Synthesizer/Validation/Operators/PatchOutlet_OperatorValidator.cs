@@ -2,9 +2,9 @@
 using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Validation.DataProperty;
 using System.Linq;
+using JJ.Business.Synthesizer.Extensions;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
@@ -12,11 +12,11 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     {
         public PatchOutlet_OperatorValidator(Operator obj)
             : base(
-                  obj,
+                obj,
                 OperatorTypeEnum.PatchOutlet,
-                expectedDataKeys: new string[] { PropertyNames.ListIndex },
-                expectedInletCount: 1,
-                expectedOutletCount: 1)
+                new DimensionEnum[] { DimensionEnum.Undefined },
+                new DimensionEnum[] { obj?.Outlets.FirstOrDefault()?.GetDimensionEnum() ?? DimensionEnum.Undefined },
+                expectedDataKeys: new string[] { PropertyNames.ListIndex })
         { }
 
         protected override void Execute()

@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Framework.Presentation.Resources;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
@@ -13,16 +14,17 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         public ClosestExp_OperatorValidator(Operator obj)
             : base(
-                  obj,
+                obj,
                 OperatorTypeEnum.ClosestExp,
-                expectedDataKeys: new string[0],
-                expectedInletCount: Math.Max(obj.Inlets.Count, MINIMUM_INLET_COUNT),
-                expectedOutletCount: 1)
+                Enumerable.Repeat(DimensionEnum.Undefined, obj.Inlets.Count).ToArray(),
+                new DimensionEnum[] { DimensionEnum.Undefined },
+                expectedDataKeys: new string[0])
         { }
 
         protected override void Execute()
         {
             For(() => Object.Dimension, PropertyDisplayNames.Dimension).IsNull();
+            For(() => Object.Inlets.Count, CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Inlets)).GreaterThan(MINIMUM_INLET_COUNT);
 
             base.Execute();
         }

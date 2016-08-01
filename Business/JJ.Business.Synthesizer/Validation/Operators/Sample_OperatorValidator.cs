@@ -13,11 +13,11 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     {
         public Sample_OperatorValidator(Operator op)
             : base(
-                  op,
+                op,
                 OperatorTypeEnum.Sample,
-                expectedDataKeys: new string[] { PropertyNames.SampleID },
-                expectedInletCount: 1,
-                expectedOutletCount: 1)
+                new DimensionEnum[] { DimensionEnum.Frequency },
+                new DimensionEnum[] { DimensionEnum.Signal },
+                expectedDataKeys: new string[] { PropertyNames.SampleID })
         { }
 
         protected override void Execute()

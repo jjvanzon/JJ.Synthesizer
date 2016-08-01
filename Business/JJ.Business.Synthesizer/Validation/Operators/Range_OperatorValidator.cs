@@ -1,18 +1,16 @@
 ﻿using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class Range_OperatorValidator : OperatorValidator_Base
+    internal class Range_OperatorValidator : OperatorValidator_Base_WithoutData
     {
         public Range_OperatorValidator(Operator obj)
             : base(
-                  obj,
+                obj,
                 OperatorTypeEnum.Range,
-                expectedDataKeys: new string[0],
-                expectedInletCount: 3,
-                expectedOutletCount: 1)
+                new DimensionEnum[] { DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined },
+                new DimensionEnum[] { DimensionEnum.Undefined })
         { }
     }
 }

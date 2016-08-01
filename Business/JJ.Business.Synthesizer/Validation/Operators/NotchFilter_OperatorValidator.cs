@@ -7,15 +7,14 @@ using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class NotchFilter_OperatorValidator : OperatorValidator_Base
+    internal class NotchFilter_OperatorValidator : OperatorValidator_Base_WithoutData
     {
         public NotchFilter_OperatorValidator(Operator obj)
             : base(
-                  obj,
+                obj,
                 OperatorTypeEnum.NotchFilter,
-                expectedDataKeys: new string[0],
-                expectedInletCount: 3,
-                expectedOutletCount: 1)
+                new DimensionEnum[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined },
+                new DimensionEnum[] { DimensionEnum.Signal })
         { }
 
 

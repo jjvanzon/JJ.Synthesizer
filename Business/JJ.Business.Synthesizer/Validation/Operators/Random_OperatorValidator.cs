@@ -1,7 +1,6 @@
 ﻿using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Validation.DataProperty;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
@@ -10,11 +9,11 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     {
         public Random_OperatorValidator(Operator obj)
             : base(
-                  obj,
+                obj,
                 OperatorTypeEnum.Random,
-                expectedDataKeys: new string[] { PropertyNames.InterpolationType },
-                expectedInletCount: 2,
-                expectedOutletCount: 1)
+                new DimensionEnum[] { DimensionEnum.Undefined, DimensionEnum.Undefined },
+                new DimensionEnum[] { DimensionEnum.Undefined },
+                expectedDataKeys: new string[] { PropertyNames.InterpolationType })
         { }
 
         protected override void Execute()

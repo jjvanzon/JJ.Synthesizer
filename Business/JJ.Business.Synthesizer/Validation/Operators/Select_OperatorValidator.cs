@@ -3,10 +3,14 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class Select_OperatorValidator : OperatorValidator_Base
+    internal class Select_OperatorValidator : OperatorValidator_Base_WithoutData
     {
         public Select_OperatorValidator(Operator obj)
-            : base(obj, OperatorTypeEnum.Select, expectedDataKeys: new string[0], expectedInletCount: 2, expectedOutletCount: 1)
+            : base(
+                obj,
+                OperatorTypeEnum.Select,
+                new DimensionEnum[] { DimensionEnum.Signal, DimensionEnum.Undefined },
+                new DimensionEnum[] { DimensionEnum.Undefined })
         { }
     }
 }

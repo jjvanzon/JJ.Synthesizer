@@ -7,11 +7,11 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     {
         public AverageFollower_OperatorValidator(Operator obj)
             : base(
-                  obj,
+                obj,
                 OperatorTypeEnum.AverageFollower,
-                expectedDataKeys: new string[0],
-                expectedInletCount: 3,
-                expectedOutletCount: 1)
+                new DimensionEnum[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined },
+                new DimensionEnum[] { DimensionEnum.Undefined },
+                expectedDataKeys: new string[0])
         { }
     }
 }

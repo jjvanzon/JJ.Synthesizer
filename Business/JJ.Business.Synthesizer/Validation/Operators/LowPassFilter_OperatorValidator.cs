@@ -8,7 +8,11 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     internal class LowPassFilter_OperatorValidator : OperatorValidator_Base_WithoutData
     {
         public LowPassFilter_OperatorValidator(Operator obj)
-            : base(obj, OperatorTypeEnum.LowPassFilter, expectedInletCount: 3, expectedOutletCount: 1)
+            : base(
+                obj,
+                OperatorTypeEnum.LowPassFilter,
+                new DimensionEnum[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined },
+                new DimensionEnum[] { DimensionEnum.Signal })
         { }
 
         protected override void Execute()

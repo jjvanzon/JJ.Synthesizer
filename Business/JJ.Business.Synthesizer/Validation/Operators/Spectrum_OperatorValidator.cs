@@ -4,15 +4,14 @@ using System;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class Spectrum_OperatorValidator : OperatorValidator_Base
+    internal class Spectrum_OperatorValidator : OperatorValidator_Base_WithoutData
     {
         public Spectrum_OperatorValidator(Operator obj)
             : base(
-                  obj,
+                obj,
                 OperatorTypeEnum.Spectrum,
-                expectedDataKeys: new string[0],
-                expectedInletCount: 4,
-                expectedOutletCount: 1)
+                new DimensionEnum[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined },
+                new DimensionEnum[] { DimensionEnum.Volume })
         { }
     }
 }

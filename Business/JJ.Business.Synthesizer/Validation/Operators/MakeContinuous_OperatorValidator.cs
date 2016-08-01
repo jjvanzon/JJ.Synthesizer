@@ -11,16 +11,14 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     {
         public MakeContinuous_OperatorValidator(Operator obj)
             : base(
-                  obj,
-                  OperatorTypeEnum.MakeContinuous,
-                  expectedDataKeys: new string[] { PropertyNames.InterpolationType })
+                obj,
+                OperatorTypeEnum.MakeContinuous,
+                expectedDataKeys: new string[] { PropertyNames.InterpolationType })
         { }
 
         protected override void Execute()
         {
             base.Execute();
-
-            Operator op = Object;
 
             ExecuteValidator(new ResampleInterpolationType_DataProperty_Validator(Object.Data));
         }

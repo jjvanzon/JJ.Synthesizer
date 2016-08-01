@@ -9,11 +9,11 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     {
         public Number_OperatorValidator(Operator obj)
             : base(
-                  obj,
+                obj,
                 OperatorTypeEnum.Number,
-                expectedDataKeys: new string[] { PropertyNames.Number },
-                expectedInletCount: 0,
-                expectedOutletCount: 1)
+                new DimensionEnum[0],
+                new DimensionEnum[] { DimensionEnum.Undefined },
+                expectedDataKeys: new string[] { PropertyNames.Number })
         { }
 
         protected override void Execute()

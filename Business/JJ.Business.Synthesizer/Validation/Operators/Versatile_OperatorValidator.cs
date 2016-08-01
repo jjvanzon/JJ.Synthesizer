@@ -97,7 +97,9 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             { OperatorTypeEnum.ToggleTrigger, typeof(ToggleTrigger_OperatorValidator) },
             { OperatorTypeEnum.Triangle, typeof(Triangle_OperatorValidator) },
             { OperatorTypeEnum.PulseTrigger, typeof(PulseTrigger_OperatorValidator) },
-            { OperatorTypeEnum.Unbundle, typeof(Unbundle_OperatorValidator) }
+            { OperatorTypeEnum.Unbundle, typeof(Unbundle_OperatorValidator) },
+            // Temporary (2016-08-01). Remove code line later.
+            { (OperatorTypeEnum)59, null }
         };
 
         public Versatile_OperatorValidator(Operator obj, IPatchRepository patchRepository)
