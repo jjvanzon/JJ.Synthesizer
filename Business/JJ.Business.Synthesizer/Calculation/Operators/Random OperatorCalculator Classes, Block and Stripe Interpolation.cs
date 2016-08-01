@@ -38,7 +38,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionStackIndex = dimensionStack.CurrentIndex;
 
             // TODO: Make sure you assert this strictly, so it does not become NaN.
+            // This is not done in Reset so that it always begins at a different 'random' point each time.
             _phase = _randomCalculatorOffset;
+
+            ResetNonRecursive();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -52,7 +55,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
 #endif
-
             double rate = _rateCalculator.Calculate();
 
             double positionChange = position - _previousPosition;
@@ -67,6 +69,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
+            ResetNonRecursive();
+
+            base.Reset();
+        }
+
+        private void ResetNonRecursive()
+        {
 #if !USE_INVAR_INDICES
             _previousPosition = _dimensionStack.Get();
 #else
@@ -75,8 +84,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
 #endif
-
-            base.Reset();
         }
     }
 }

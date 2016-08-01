@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using JJ.Framework.Mathematics;
 
 namespace JJ.Business.Synthesizer.Calculation
@@ -34,6 +35,7 @@ namespace JJ.Business.Synthesizer.Calculation
         }
 
         /// <param name="positionInCycle">From 0 to 1 is one cycle.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double Sin(double positionInCycle)
         {
             int i = (int)(positionInCycle * SAMPLES_PER_CYCLE);

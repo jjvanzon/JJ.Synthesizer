@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
-using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -26,6 +25,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _width = width;
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
+
+            ResetNonRecursive();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -53,6 +54,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
+            ResetNonRecursive();
+
+            base.Reset();
+        }
+
+        private void ResetNonRecursive()
+        {
 #if !USE_INVAR_INDICES
             _origin = _dimensionStack.Get();
 #else
@@ -61,8 +69,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
 #endif
-
-            base.Reset();
         }
     }
 
@@ -89,6 +95,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _widthCalculator = widthCalculator;
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
+
+            ResetNonRecursive();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -118,6 +126,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
+            ResetNonRecursive();
+
+            base.Reset();
+        }
+
+        private void ResetNonRecursive()
+        {
 #if !USE_INVAR_INDICES
             _origin = _dimensionStack.Get();
 #else
@@ -126,8 +141,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
 #endif
-
-            base.Reset();
         }
     }
 
@@ -170,7 +183,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
 #endif
-
             double frequency = _frequencyCalculator.Calculate();
 
             double positionChange = position - _previousPosition;
@@ -209,7 +221,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
 #endif
-
             _previousPosition = position;
             _phase = 0.0;
         }
@@ -254,7 +265,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
 #endif
-
             double frequency = _frequencyCalculator.Calculate();
             double width = _widthCalculator.Calculate();
 
@@ -430,23 +440,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
 #endif
-
             double frequency = _frequencyCalculator.Calculate();
 
             double phase = position * frequency;
-
-            double value;
             double relativePhase = phase % 1.0;
             if (relativePhase < _width)
             {
-                value = -1.0;
+                return -1.0;
             }
             else
             {
-                value = 1.0;
+                return 1.0;
             }
-
-            return value;
         }
     }
 
@@ -488,20 +493,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double width = _widthCalculator.Calculate();
 
             double phase = position * frequency;
-
-            double value;
             double relativePhase = phase % 1.0;
-
             if (relativePhase < width)
             {
-                value = -1.0;
+                return -1.0;
             }
             else
             {
-                value = 1.0;
+                return 1.0;
             }
-
-            return value;
         }
     }
 }

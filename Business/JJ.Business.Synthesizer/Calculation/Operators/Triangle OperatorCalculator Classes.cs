@@ -19,6 +19,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _frequency = frequency;
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
+
+            ResetNonRecursive();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -53,9 +55,21 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
-            _origin = _dimensionStack.Get();
+            ResetNonRecursive();
 
             base.Reset();
+        }
+
+        private void ResetNonRecursive()
+        {
+#if !USE_INVAR_INDICES
+            _origin = _dimensionStack.Get();
+#else
+            _origin = _dimensionStack.Get(_dimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
         }
     }
 
@@ -127,8 +141,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
 
-            // Correct the phase with 0.25, because our calculation starts with value -1, but in practice you want to start at value 0 going up.
-            _phasePlusQuarter = 0.25;
+            ResetNonRecursive();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -167,6 +180,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
+            ResetNonRecursive();
+
+            base.Reset();
+        }
+
+        private void ResetNonRecursive()
+        {
 #if !USE_INVAR_INDICES
             double position = _dimensionStack.Get();
 #else
@@ -178,8 +198,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _previousPosition = position;
             // Correct the phase with 0.25, because our calculation starts with value -1, but in practice you want to start at value 0 going up.
             _phasePlusQuarter = 0.25;
-
-            base.Reset();
         }
     }
 

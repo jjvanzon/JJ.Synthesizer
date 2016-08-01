@@ -82,7 +82,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
-				return _constValue *
+				return _constValue +
 <#
 					for (int j = 1; j <= i; j++)
 					{

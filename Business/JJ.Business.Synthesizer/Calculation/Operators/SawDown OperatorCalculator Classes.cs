@@ -21,6 +21,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _frequency = frequency;
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
+
+            ResetNonRecursive();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -41,6 +43,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
+            ResetNonRecursive();
+
+            base.Reset();
+        }
+
+        private void ResetNonRecursive()
+        {
 #if !USE_INVAR_INDICES
             _origin = _dimensionStack.Get();
 #else
@@ -49,8 +58,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
 #endif
-
-            base.Reset();
         }
     }
 
@@ -110,7 +117,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
 
-            _phase = 0.0;
+            ResetNonRecursive();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -124,7 +131,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
 #endif
-
             double frequency = _frequencyCalculator.Calculate();
 
             double positionChange = position - _previousPosition;
@@ -139,6 +145,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
+            ResetNonRecursive();
+
+            base.Reset();
+        }
+
+        private void ResetNonRecursive()
+        {
 #if !USE_INVAR_INDICES
             double position = _dimensionStack.Get();
 #else
@@ -147,11 +160,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
 #endif
-
             _previousPosition = position;
             _phase = 0;
-
-            base.Reset();
         }
     }
 

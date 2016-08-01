@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
-				return _constValue *
+				return _constValue +
 						_operandCalculator1.Calculate()
 ;			}
 		}
@@ -59,7 +59,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
-				return _constValue *
+				return _constValue +
 						_operandCalculator1.Calculate()
 +						_operandCalculator2.Calculate()
 ;			}
@@ -94,7 +94,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
-				return _constValue *
+				return _constValue +
 						_operandCalculator1.Calculate()
 +						_operandCalculator2.Calculate()
 +						_operandCalculator3.Calculate()
@@ -135,7 +135,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
-				return _constValue *
+				return _constValue +
 						_operandCalculator1.Calculate()
 +						_operandCalculator2.Calculate()
 +						_operandCalculator3.Calculate()
@@ -182,7 +182,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
-				return _constValue *
+				return _constValue +
 						_operandCalculator1.Calculate()
 +						_operandCalculator2.Calculate()
 +						_operandCalculator3.Calculate()
@@ -235,7 +235,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
-				return _constValue *
+				return _constValue +
 						_operandCalculator1.Calculate()
 +						_operandCalculator2.Calculate()
 +						_operandCalculator3.Calculate()
@@ -294,7 +294,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
-				return _constValue *
+				return _constValue +
 						_operandCalculator1.Calculate()
 +						_operandCalculator2.Calculate()
 +						_operandCalculator3.Calculate()
@@ -359,7 +359,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
-				return _constValue *
+				return _constValue +
 						_operandCalculator1.Calculate()
 +						_operandCalculator2.Calculate()
 +						_operandCalculator3.Calculate()
@@ -430,7 +430,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
-				return _constValue *
+				return _constValue +
 						_operandCalculator1.Calculate()
 +						_operandCalculator2.Calculate()
 +						_operandCalculator3.Calculate()
@@ -507,7 +507,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
-				return _constValue *
+				return _constValue +
 						_operandCalculator1.Calculate()
 +						_operandCalculator2.Calculate()
 +						_operandCalculator3.Calculate()
@@ -590,7 +590,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
-				return _constValue *
+				return _constValue +
 						_operandCalculator1.Calculate()
 +						_operandCalculator2.Calculate()
 +						_operandCalculator3.Calculate()
@@ -679,7 +679,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
-				return _constValue *
+				return _constValue +
 						_operandCalculator1.Calculate()
 +						_operandCalculator2.Calculate()
 +						_operandCalculator3.Calculate()
@@ -774,7 +774,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
-				return _constValue *
+				return _constValue +
 						_operandCalculator1.Calculate()
 +						_operandCalculator2.Calculate()
 +						_operandCalculator3.Calculate()
@@ -875,7 +875,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
-				return _constValue *
+				return _constValue +
 						_operandCalculator1.Calculate()
 +						_operandCalculator2.Calculate()
 +						_operandCalculator3.Calculate()
@@ -982,7 +982,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
-				return _constValue *
+				return _constValue +
 						_operandCalculator1.Calculate()
 +						_operandCalculator2.Calculate()
 +						_operandCalculator3.Calculate()
@@ -1095,7 +1095,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
-				return _constValue *
+				return _constValue +
 						_operandCalculator1.Calculate()
 +						_operandCalculator2.Calculate()
 +						_operandCalculator3.Calculate()
@@ -1214,7 +1214,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
-				return _constValue *
+				return _constValue +
 						_operandCalculator1.Calculate()
 +						_operandCalculator2.Calculate()
 +						_operandCalculator3.Calculate()
@@ -1339,7 +1339,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
-				return _constValue *
+				return _constValue +
 						_operandCalculator1.Calculate()
 +						_operandCalculator2.Calculate()
 +						_operandCalculator3.Calculate()
@@ -1470,7 +1470,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
-				return _constValue *
+				return _constValue +
 						_operandCalculator1.Calculate()
 +						_operandCalculator2.Calculate()
 +						_operandCalculator3.Calculate()
@@ -1607,7 +1607,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
-				return _constValue *
+				return _constValue +
 						_operandCalculator1.Calculate()
 +						_operandCalculator2.Calculate()
 +						_operandCalculator3.Calculate()
@@ -1750,7 +1750,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
-				return _constValue *
+				return _constValue +
 						_operandCalculator1.Calculate()
 +						_operandCalculator2.Calculate()
 +						_operandCalculator3.Calculate()
@@ -1899,7 +1899,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
-				return _constValue *
+				return _constValue +
 						_operandCalculator1.Calculate()
 +						_operandCalculator2.Calculate()
 +						_operandCalculator3.Calculate()
@@ -2054,7 +2054,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
-				return _constValue *
+				return _constValue +
 						_operandCalculator1.Calculate()
 +						_operandCalculator2.Calculate()
 +						_operandCalculator3.Calculate()
@@ -2215,7 +2215,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
-				return _constValue *
+				return _constValue +
 						_operandCalculator1.Calculate()
 +						_operandCalculator2.Calculate()
 +						_operandCalculator3.Calculate()
@@ -2382,7 +2382,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
-				return _constValue *
+				return _constValue +
 						_operandCalculator1.Calculate()
 +						_operandCalculator2.Calculate()
 +						_operandCalculator3.Calculate()
@@ -2555,7 +2555,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
-				return _constValue *
+				return _constValue +
 						_operandCalculator1.Calculate()
 +						_operandCalculator2.Calculate()
 +						_operandCalculator3.Calculate()
@@ -2734,7 +2734,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
-				return _constValue *
+				return _constValue +
 						_operandCalculator1.Calculate()
 +						_operandCalculator2.Calculate()
 +						_operandCalculator3.Calculate()
@@ -2919,7 +2919,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
-				return _constValue *
+				return _constValue +
 						_operandCalculator1.Calculate()
 +						_operandCalculator2.Calculate()
 +						_operandCalculator3.Calculate()
@@ -3110,7 +3110,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
-				return _constValue *
+				return _constValue +
 						_operandCalculator1.Calculate()
 +						_operandCalculator2.Calculate()
 +						_operandCalculator3.Calculate()
@@ -3307,7 +3307,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
-				return _constValue *
+				return _constValue +
 						_operandCalculator1.Calculate()
 +						_operandCalculator2.Calculate()
 +						_operandCalculator3.Calculate()
@@ -3510,7 +3510,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
-				return _constValue *
+				return _constValue +
 						_operandCalculator1.Calculate()
 +						_operandCalculator2.Calculate()
 +						_operandCalculator3.Calculate()

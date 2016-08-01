@@ -24,6 +24,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _frequencyCalculator = frequencyCalculator;
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
+
+            ResetNonRecursive();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -50,6 +52,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
+            ResetNonRecursive();
+
+            base.Reset();
+        }
+
+        private void ResetNonRecursive()
+        {
 #if !USE_INVAR_INDICES
             double position = _dimensionStack.Get();
 #else
@@ -58,11 +67,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
 #endif
-
             _previousPosition = position;
             _phase = 0.0;
-
-            base.Reset();
         }
     }
 
@@ -84,6 +90,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _frequency = frequency;
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
+
+            ResetNonRecursive();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -105,6 +113,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
+            ResetNonRecursive();
+
+            base.Reset();
+        }
+
+        private void ResetNonRecursive()
+        {
 #if !USE_INVAR_INDICES
             _origin = _dimensionStack.Get();
 #else
@@ -113,11 +128,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
 #endif
-            base.Reset();
         }
     }
-
-    // No Phase Tracking or Origin Shifting
 
     internal class Sine_OperatorCalculator_VarFrequency_NoPhaseTracking : OperatorCalculatorBase_WithChildCalculators
     {
