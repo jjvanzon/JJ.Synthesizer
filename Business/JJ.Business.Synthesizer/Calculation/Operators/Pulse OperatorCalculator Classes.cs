@@ -44,11 +44,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double relativePhase = phase % 1.0;
             if (relativePhase < _width)
             {
-                return -1.0;
+                return 1.0;
             }
             else
             {
-                return 1.0;
+                return -1.0;
             }
         }
 
@@ -116,11 +116,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double relativePhase = phase % 1.0;
             if (relativePhase < width)
             {
-                return -1.0;
+                return 1.0;
             }
             else
             {
-                return 1.0;
+                return -1.0;
             }
         }
 
@@ -192,11 +192,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double relativePhase = _phase % 1.0;
             if (relativePhase < _width)
             {
-                value = -1.0;
+                value = 1.0;
             }
             else
             {
-                value = 1.0;
+                value = -1.0;
             }
 
             _previousPosition = position;
@@ -275,11 +275,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double relativePhase = _phase % 1.0;
             if (relativePhase < width)
             {
-                value = -1.0;
+                value = 1.0;
             }
             else
             {
-                value = 1.0;
+                value = -1.0;
             }
 
             _previousPosition = position;
@@ -348,11 +348,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double relativePhase = phase % 1.0;
             if (relativePhase < _width)
             {
-                return -1.0;
+                return 1.0;
             }
             else
             {
-                return 1.0;
+                return -1.0;
             }
         }
     }
@@ -397,11 +397,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double relativePhase = phase % 1.0;
             if (relativePhase < width)
             {
-                return -1.0;
+                return 1.0;
             }
             else
             {
-                return 1.0;
+                return -1.0;
             }
         }
     }
@@ -446,11 +446,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double relativePhase = phase % 1.0;
             if (relativePhase < _width)
             {
-                return -1.0;
+                return 1.0;
             }
             else
             {
-                return 1.0;
+                return -1.0;
             }
         }
     }
@@ -496,11 +496,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double relativePhase = phase % 1.0;
             if (relativePhase < width)
             {
-                return -1.0;
+                return 1.0;
             }
             else
             {
-                return 1.0;
+                return -1.0;
             }
         }
     }
