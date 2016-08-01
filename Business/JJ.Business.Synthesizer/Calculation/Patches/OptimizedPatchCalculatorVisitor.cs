@@ -246,15 +246,15 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double centerFrequency = centerFrequencyIsConst ? centerFrequencyCalculator.Calculate() : 0.0;
             double bandWidth = bandWidthIsConst ? bandWidthCalculator.Calculate() : 0.0;
 
-            bool signalIsConstSpecialNumber = signalIsConst && DoubleHelper.IsSpecialNumber(signal);
-            bool centerFrequencyIsConstSpecialNumber = centerFrequencyIsConst && DoubleHelper.IsSpecialNumber(centerFrequency);
-            bool bandWidthIsConstSpecialNumber = bandWidthIsConst && DoubleHelper.IsSpecialNumber(bandWidth);
+            bool signalIsConstSpecialValue = signalIsConst && DoubleHelper.IsSpecialValue(signal);
+            bool centerFrequencyIsConstSpecialValue = centerFrequencyIsConst && DoubleHelper.IsSpecialValue(centerFrequency);
+            bool bandWidthIsConstSpecialValue = bandWidthIsConst && DoubleHelper.IsSpecialValue(bandWidth);
 
             if (centerFrequency > _nyquistFrequency) centerFrequency = _nyquistFrequency;
 
-            if (signalIsConstSpecialNumber || centerFrequencyIsConstSpecialNumber || bandWidthIsConstSpecialNumber)
+            if (signalIsConstSpecialValue || centerFrequencyIsConstSpecialValue || bandWidthIsConstSpecialValue)
             {
-                // Special Number
+                // Special Value
                 calculator = new Number_OperatorCalculator(Double.NaN);
             }
             else if (signalIsConst)
@@ -399,9 +399,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             bool stepIsConstZero = stepIsConst && step == 0.0;
             bool stepIsConstNegative = stepIsConst && step < 0.0;
-            bool fromIsConstSpecialNumber = fromIsConst && DoubleHelper.IsSpecialNumber(from);
-            bool tillIsConstSpecialNumber = tillIsConst && DoubleHelper.IsSpecialNumber(till);
-            bool stepIsConstSpecialNumber = stepIsConst && DoubleHelper.IsSpecialNumber(step);
+            bool fromIsConstSpecialValue = fromIsConst && DoubleHelper.IsSpecialValue(from);
+            bool tillIsConstSpecialValue = tillIsConst && DoubleHelper.IsSpecialValue(till);
+            bool stepIsConstSpecialValue = stepIsConst && DoubleHelper.IsSpecialValue(step);
 
             if (signalIsConst)
             {
@@ -415,7 +415,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 operatorCalculator = new Zero_OperatorCalculator();
             }
-            else if (fromIsConstSpecialNumber || tillIsConstSpecialNumber || stepIsConstSpecialNumber)
+            else if (fromIsConstSpecialValue || tillIsConstSpecialValue || stepIsConstSpecialValue)
             {
                 operatorCalculator = new Number_OperatorCalculator(Double.NaN);
             }
@@ -504,16 +504,16 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double centerFrequency = centerFrequencyIsConst ? centerFrequencyCalculator.Calculate() : 0.0;
             double bandWidth = bandWidthIsConst ? bandWidthCalculator.Calculate() : 0.0;
 
-            bool signalIsConstSpecialNumber = signalIsConst && DoubleHelper.IsSpecialNumber(signal);
+            bool signalIsConstSpecialValue = signalIsConst && DoubleHelper.IsSpecialValue(signal);
             bool centerFrequencyIsConstZero = centerFrequencyIsConst && centerFrequency == 0.0;
-            bool centerFrequencyIsConstSpecialNumber = centerFrequencyIsConst && DoubleHelper.IsSpecialNumber(centerFrequency);
-            bool bandWidthIsConstSpecialNumber = bandWidthIsConst && DoubleHelper.IsSpecialNumber(bandWidth);
+            bool centerFrequencyIsConstSpecialValue = centerFrequencyIsConst && DoubleHelper.IsSpecialValue(centerFrequency);
+            bool bandWidthIsConstSpecialValue = bandWidthIsConst && DoubleHelper.IsSpecialValue(bandWidth);
 
             if (centerFrequency > _nyquistFrequency) centerFrequency = _nyquistFrequency;
 
-            if (signalIsConstSpecialNumber || centerFrequencyIsConstSpecialNumber || bandWidthIsConstSpecialNumber)
+            if (signalIsConstSpecialValue || centerFrequencyIsConstSpecialValue || bandWidthIsConstSpecialValue)
             {
-                // Special Number
+                // Special Value
                 calculator = new Number_OperatorCalculator(Double.NaN);
             }
             else if (signalIsConst)
@@ -569,16 +569,16 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double centerFrequency = centerFrequencyIsConst ? centerFrequencyCalculator.Calculate() : 0.0;
             double bandWidth = bandWidthIsConst ? bandWidthCalculator.Calculate() : 0.0;
 
-            bool signalIsConstSpecialNumber = signalIsConst && DoubleHelper.IsSpecialNumber(signal);
+            bool signalIsConstSpecialValue = signalIsConst && DoubleHelper.IsSpecialValue(signal);
             bool centerFrequencyIsConstZero = centerFrequencyIsConst && centerFrequency == 0.0;
-            bool centerFrequencyIsConstSpecialNumber = centerFrequencyIsConst && DoubleHelper.IsSpecialNumber(centerFrequency);
-            bool bandWidthIsConstSpecialNumber = bandWidthIsConst && DoubleHelper.IsSpecialNumber(bandWidth);
+            bool centerFrequencyIsConstSpecialValue = centerFrequencyIsConst && DoubleHelper.IsSpecialValue(centerFrequency);
+            bool bandWidthIsConstSpecialValue = bandWidthIsConst && DoubleHelper.IsSpecialValue(bandWidth);
 
             if (centerFrequency > _nyquistFrequency) centerFrequency = _nyquistFrequency;
 
-            if (signalIsConstSpecialNumber || centerFrequencyIsConstSpecialNumber || bandWidthIsConstSpecialNumber)
+            if (signalIsConstSpecialValue || centerFrequencyIsConstSpecialValue || bandWidthIsConstSpecialValue)
             {
-                // Special Number
+                // Special Value
                 calculator = new Number_OperatorCalculator(Double.NaN);
             }
             else if (signalIsConst)
@@ -674,8 +674,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             // In theory I could generate additional messages in the calculation optimization process,
             // but we should keep it possible to reoptimize in runtime, and we cannot obtrusively interrupt
             // the user with validation messages, because he is busy making music and the show must go on.
-            bool startIsValid = !DoubleHelper.IsSpecialNumber(start);
-            bool endIsValid = !DoubleHelper.IsSpecialNumber(end);
+            bool startIsValid = !DoubleHelper.IsSpecialValue(start);
+            bool endIsValid = !DoubleHelper.IsSpecialValue(end);
             bool samplingRateIsValid = ConversionHelper.CanCastToInt32(samplingRate) && (int)samplingRate > 0;
             bool startComparedToEndIsValid = end > start;
             bool valuesAreValid = startIsValid &&
@@ -1074,17 +1074,17 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool stepIsConstZero = stepIsConst && step == 0.0;
             bool collectionIsConstZero = collectionIsConst && collection == 0.0;
             bool stepIsConstNegative = stepIsConst && step < 0.0;
-            bool inputIsConstSpecialNumber = inputIsConst && DoubleHelper.IsSpecialNumber(input);
-            bool collectionIsConstSpecialNumber = collectionIsConst && DoubleHelper.IsSpecialNumber(collection);
-            bool fromIsConstSpecialNumber = fromIsConst && DoubleHelper.IsSpecialNumber(from);
-            bool tillIsConstSpecialNumber = tillIsConst && DoubleHelper.IsSpecialNumber(till);
-            bool stepIsConstSpecialNumber = stepIsConst && DoubleHelper.IsSpecialNumber(step);
+            bool inputIsConstSpecialValue = inputIsConst && DoubleHelper.IsSpecialValue(input);
+            bool collectionIsConstSpecialValue = collectionIsConst && DoubleHelper.IsSpecialValue(collection);
+            bool fromIsConstSpecialValue = fromIsConst && DoubleHelper.IsSpecialValue(from);
+            bool tillIsConstSpecialValue = tillIsConst && DoubleHelper.IsSpecialValue(till);
+            bool stepIsConstSpecialValue = stepIsConst && DoubleHelper.IsSpecialValue(step);
 
-            if (inputIsConstSpecialNumber ||
-                collectionIsConstSpecialNumber ||
-                fromIsConstSpecialNumber ||
-                tillIsConstSpecialNumber ||
-                stepIsConstSpecialNumber)
+            if (inputIsConstSpecialValue ||
+                collectionIsConstSpecialValue ||
+                fromIsConstSpecialValue ||
+                tillIsConstSpecialValue ||
+                stepIsConstSpecialValue)
             {
                 calculator = new Number_OperatorCalculator(Double.NaN);
             }
@@ -1170,17 +1170,17 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool stepIsConstZero = stepIsConst && step == 0.0;
             bool collectionIsConstZero = collectionIsConst && collection == 0.0;
             bool stepIsConstNegative = stepIsConst && step < 0.0;
-            bool inputIsConstSpecialNumber = inputIsConst && DoubleHelper.IsSpecialNumber(input);
-            bool collectionIsConstSpecialNumber = collectionIsConst && DoubleHelper.IsSpecialNumber(collection);
-            bool fromIsConstSpecialNumber = fromIsConst && DoubleHelper.IsSpecialNumber(from);
-            bool tillIsConstSpecialNumber = tillIsConst && DoubleHelper.IsSpecialNumber(till);
-            bool stepIsConstSpecialNumber = stepIsConst && DoubleHelper.IsSpecialNumber(step);
+            bool inputIsConstSpecialValue = inputIsConst && DoubleHelper.IsSpecialValue(input);
+            bool collectionIsConstSpecialValue = collectionIsConst && DoubleHelper.IsSpecialValue(collection);
+            bool fromIsConstSpecialValue = fromIsConst && DoubleHelper.IsSpecialValue(from);
+            bool tillIsConstSpecialValue = tillIsConst && DoubleHelper.IsSpecialValue(till);
+            bool stepIsConstSpecialValue = stepIsConst && DoubleHelper.IsSpecialValue(step);
 
-            if (inputIsConstSpecialNumber ||
-                collectionIsConstSpecialNumber ||
-                fromIsConstSpecialNumber ||
-                tillIsConstSpecialNumber ||
-                stepIsConstSpecialNumber)
+            if (inputIsConstSpecialValue ||
+                collectionIsConstSpecialValue ||
+                fromIsConstSpecialValue ||
+                tillIsConstSpecialValue ||
+                stepIsConstSpecialValue)
             {
                 calculator = new Number_OperatorCalculator(Double.NaN);
             }
@@ -1368,7 +1368,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             if (denominatorIsConstZero)
             {
-                // Special number
+                // Special Value
                 calculator = new Zero_OperatorCalculator();
             }
             else if (numeratorIsConstZero)
@@ -1510,7 +1510,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             if (lowIsConstZero)
             {
-                // Special number.
+                // Special Value
                 calculator = new Zero_OperatorCalculator();
             }
             else if (highIsConstZero)
@@ -1682,16 +1682,16 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double minFrequency = minFrequencyIsConst ? minFrequencyCalculator.Calculate() : 0.0;
             double bandWidth = bandWidthIsConst ? bandWidthCalculator.Calculate() : 0.0;
 
-            bool signalIsConstSpecialNumber = signalIsConst && DoubleHelper.IsSpecialNumber(signal);
+            bool signalIsConstSpecialValue = signalIsConst && DoubleHelper.IsSpecialValue(signal);
             bool minFrequencyIsConstZero = minFrequencyIsConst && minFrequency == 0.0;
-            bool minFrequencyIsConstSpecialNumber = minFrequencyIsConst && DoubleHelper.IsSpecialNumber(minFrequency);
-            bool bandWidthIsConstSpecialNumber = bandWidthIsConst && DoubleHelper.IsSpecialNumber(bandWidth);
+            bool minFrequencyIsConstSpecialValue = minFrequencyIsConst && DoubleHelper.IsSpecialValue(minFrequency);
+            bool bandWidthIsConstSpecialValue = bandWidthIsConst && DoubleHelper.IsSpecialValue(bandWidth);
 
             if (minFrequency > _nyquistFrequency) minFrequency = _nyquistFrequency;
 
-            if (signalIsConstSpecialNumber || minFrequencyIsConstSpecialNumber || bandWidthIsConstSpecialNumber)
+            if (signalIsConstSpecialValue || minFrequencyIsConstSpecialValue || bandWidthIsConstSpecialValue)
             {
-                // Special Number
+                // Special Value
                 calculator = new Number_OperatorCalculator(Double.NaN);
             }
             else if (signalIsConst)
@@ -1750,16 +1750,16 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double transitionSlope = transitionSlopeIsConst ? transitionSlopeCalculator.Calculate() : 0.0;
             double dbGain = dbGainIsConst ? dbGainCalculator.Calculate() : 0.0;
 
-            bool signalIsConstSpecialNumber = signalIsConst && DoubleHelper.IsSpecialNumber(signal);
-            bool transitionFrequencyIsConstSpecialNumber = transitionFrequencyIsConst && DoubleHelper.IsSpecialNumber(transitionFrequency);
-            bool transitionSlopeIsConstSpecialNumber = transitionSlopeIsConst && DoubleHelper.IsSpecialNumber(transitionSlope);
-            bool dbGainIsConstSpecialNumber = dbGainIsConst && DoubleHelper.IsSpecialNumber(dbGain);
+            bool signalIsConstSpecialValue = signalIsConst && DoubleHelper.IsSpecialValue(signal);
+            bool transitionFrequencyIsConstSpecialValue = transitionFrequencyIsConst && DoubleHelper.IsSpecialValue(transitionFrequency);
+            bool transitionSlopeIsConstSpecialValue = transitionSlopeIsConst && DoubleHelper.IsSpecialValue(transitionSlope);
+            bool dbGainIsConstSpecialValue = dbGainIsConst && DoubleHelper.IsSpecialValue(dbGain);
 
             if (transitionFrequency > _nyquistFrequency) transitionFrequency = _nyquistFrequency;
 
-            if (signalIsConstSpecialNumber || transitionFrequencyIsConstSpecialNumber || transitionSlopeIsConstSpecialNumber || dbGainIsConstSpecialNumber)
+            if (signalIsConstSpecialValue || transitionFrequencyIsConstSpecialValue || transitionSlopeIsConstSpecialValue || dbGainIsConstSpecialValue)
             {
-                // Special Number
+                // Special Value
                 calculator = new Number_OperatorCalculator(Double.NaN);
             }
             else if (signalIsConst)
@@ -2102,16 +2102,16 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double maxFrequency = maxFrequencyIsConst ? maxFrequencyCalculator.Calculate() : 0.0;
             double bandWidth = bandWidthIsConst ? bandWidthCalculator.Calculate() : 0.0;
 
-            bool signalIsConstSpecialNumber = signalIsConst && DoubleHelper.IsSpecialNumber(signal);
+            bool signalIsConstSpecialValue = signalIsConst && DoubleHelper.IsSpecialValue(signal);
             bool maxFrequencyIsConstZero = maxFrequencyIsConst && maxFrequency == 0.0;
-            bool maxFrequencyIsConstSpecialNumber = maxFrequencyIsConst && DoubleHelper.IsSpecialNumber(maxFrequency);
-            bool bandWidthIsConstSpecialNumber = bandWidthIsConst && DoubleHelper.IsSpecialNumber(bandWidth);
+            bool maxFrequencyIsConstSpecialValue = maxFrequencyIsConst && DoubleHelper.IsSpecialValue(maxFrequency);
+            bool bandWidthIsConstSpecialValue = bandWidthIsConst && DoubleHelper.IsSpecialValue(bandWidth);
 
             if (maxFrequency > _nyquistFrequency) maxFrequency = _nyquistFrequency;
 
-            if (signalIsConstSpecialNumber || maxFrequencyIsConstSpecialNumber || bandWidthIsConstSpecialNumber)
+            if (signalIsConstSpecialValue || maxFrequencyIsConstSpecialValue || bandWidthIsConstSpecialValue)
             {
-                // Special Number
+                // Special Value
                 calculator = new Number_OperatorCalculator(Double.NaN);
             }
             else if (signalIsConst)
@@ -2120,7 +2120,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (maxFrequencyIsConstZero)
             {
-                // Special number: time stands still.
+                // Special Value: time stands still.
                 calculator = new Number_OperatorCalculator(signal);
             }
             else if (maxFrequencyIsConst && bandWidthIsConst)
@@ -2170,16 +2170,16 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double transitionSlope = transitionSlopeIsConst ? transitionSlopeCalculator.Calculate() : 0.0;
             double dbGain = dbGainIsConst ? dbGainCalculator.Calculate() : 0.0;
 
-            bool signalIsConstSpecialNumber = signalIsConst && DoubleHelper.IsSpecialNumber(signal);
-            bool transitionFrequencyIsConstSpecialNumber = transitionFrequencyIsConst && DoubleHelper.IsSpecialNumber(transitionFrequency);
-            bool transitionSlopeIsConstSpecialNumber = transitionSlopeIsConst && DoubleHelper.IsSpecialNumber(transitionSlope);
-            bool dbGainIsConstSpecialNumber = dbGainIsConst && DoubleHelper.IsSpecialNumber(dbGain);
+            bool signalIsConstSpecialValue = signalIsConst && DoubleHelper.IsSpecialValue(signal);
+            bool transitionFrequencyIsConstSpecialValue = transitionFrequencyIsConst && DoubleHelper.IsSpecialValue(transitionFrequency);
+            bool transitionSlopeIsConstSpecialValue = transitionSlopeIsConst && DoubleHelper.IsSpecialValue(transitionSlope);
+            bool dbGainIsConstSpecialValue = dbGainIsConst && DoubleHelper.IsSpecialValue(dbGain);
 
             if (transitionFrequency > _nyquistFrequency) transitionFrequency = _nyquistFrequency;
 
-            if (signalIsConstSpecialNumber || transitionFrequencyIsConstSpecialNumber || transitionSlopeIsConstSpecialNumber || dbGainIsConstSpecialNumber)
+            if (signalIsConstSpecialValue || transitionFrequencyIsConstSpecialValue || transitionSlopeIsConstSpecialValue || dbGainIsConstSpecialValue)
             {
-                // Special Number
+                // Special Value
                 calculator = new Number_OperatorCalculator(Double.NaN);
             }
             else if (signalIsConst)
@@ -2347,9 +2347,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             bool stepIsConstZero = stepIsConst && step == 0.0;
             bool stepIsConstNegative = stepIsConst && step < 0.0;
-            bool fromIsConstSpecialNumber = fromIsConst && DoubleHelper.IsSpecialNumber(from);
-            bool tillIsConstSpecialNumber = tillIsConst && DoubleHelper.IsSpecialNumber(till);
-            bool stepIsConstSpecialNumber = stepIsConst && DoubleHelper.IsSpecialNumber(step);
+            bool fromIsConstSpecialValue = fromIsConst && DoubleHelper.IsSpecialValue(from);
+            bool tillIsConstSpecialValue = tillIsConst && DoubleHelper.IsSpecialValue(till);
+            bool stepIsConstSpecialValue = stepIsConst && DoubleHelper.IsSpecialValue(step);
 
             if (signalIsConst)
             {
@@ -2363,7 +2363,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 operatorCalculator = new Zero_OperatorCalculator();
             }
-            else if (fromIsConstSpecialNumber || tillIsConstSpecialNumber || stepIsConstSpecialNumber)
+            else if (fromIsConstSpecialValue || tillIsConstSpecialValue || stepIsConstSpecialValue)
             {
                 operatorCalculator = new Number_OperatorCalculator(Double.NaN);
             }
@@ -2504,9 +2504,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             bool stepIsConstZero = stepIsConst && step == 0.0;
             bool stepIsConstNegative = stepIsConst && step < 0.0;
-            bool fromIsConstSpecialNumber = fromIsConst && DoubleHelper.IsSpecialNumber(from);
-            bool tillIsConstSpecialNumber = tillIsConst && DoubleHelper.IsSpecialNumber(till);
-            bool stepIsConstSpecialNumber = stepIsConst && DoubleHelper.IsSpecialNumber(step);
+            bool fromIsConstSpecialValue = fromIsConst && DoubleHelper.IsSpecialValue(from);
+            bool tillIsConstSpecialValue = tillIsConst && DoubleHelper.IsSpecialValue(till);
+            bool stepIsConstSpecialValue = stepIsConst && DoubleHelper.IsSpecialValue(step);
 
             if (signalIsConst)
             {
@@ -2520,7 +2520,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 operatorCalculator = new Zero_OperatorCalculator();
             }
-            else if (fromIsConstSpecialNumber || tillIsConstSpecialNumber || stepIsConstSpecialNumber)
+            else if (fromIsConstSpecialValue || tillIsConstSpecialValue || stepIsConstSpecialValue)
             {
                 operatorCalculator = new Number_OperatorCalculator(Double.NaN);
             }
@@ -2818,16 +2818,16 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double centerFrequency = centerFrequencyIsConst ? centerFrequencyCalculator.Calculate() : 0.0;
             double bandWidth = bandWidthIsConst ? bandWidthCalculator.Calculate() : 0.0;
 
-            bool signalIsConstSpecialNumber = signalIsConst && DoubleHelper.IsSpecialNumber(signal);
+            bool signalIsConstSpecialValue = signalIsConst && DoubleHelper.IsSpecialValue(signal);
             bool centerFrequencyIsConstZero = centerFrequencyIsConst && centerFrequency == 0.0;
-            bool centerFrequencyIsConstSpecialNumber = centerFrequencyIsConst && DoubleHelper.IsSpecialNumber(centerFrequency);
-            bool bandWidthIsConstSpecialNumber = bandWidthIsConst && DoubleHelper.IsSpecialNumber(bandWidth);
+            bool centerFrequencyIsConstSpecialValue = centerFrequencyIsConst && DoubleHelper.IsSpecialValue(centerFrequency);
+            bool bandWidthIsConstSpecialValue = bandWidthIsConst && DoubleHelper.IsSpecialValue(bandWidth);
 
             if (centerFrequency > _nyquistFrequency) centerFrequency = _nyquistFrequency;
 
-            if (signalIsConstSpecialNumber || centerFrequencyIsConstSpecialNumber || bandWidthIsConstSpecialNumber)
+            if (signalIsConstSpecialValue || centerFrequencyIsConstSpecialValue || bandWidthIsConstSpecialValue)
             {
-                // Special Number
+                // Special Value
                 calculator = new Number_OperatorCalculator(Double.NaN);
             }
             else if (signalIsConst)
@@ -3034,17 +3034,17 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double bandWidth = bandWidthIsConst ? bandWidthCalculator.Calculate() : 0.0;
             double dbGain = dbGainIsConst ? dbGainCalculator.Calculate() : 0.0;
 
-            bool signalIsConstSpecialNumber = signalIsConst && DoubleHelper.IsSpecialNumber(signal);
+            bool signalIsConstSpecialValue = signalIsConst && DoubleHelper.IsSpecialValue(signal);
             bool centerFrequencyIsConstZero = centerFrequencyIsConst && centerFrequency == 0.0;
-            bool centerFrequencyIsConstSpecialNumber = centerFrequencyIsConst && DoubleHelper.IsSpecialNumber(centerFrequency);
-            bool bandWidthIsConstSpecialNumber = bandWidthIsConst && DoubleHelper.IsSpecialNumber(bandWidth);
-            bool dbGainIsConstSpecialNumber = dbGainIsConst && DoubleHelper.IsSpecialNumber(dbGain);
+            bool centerFrequencyIsConstSpecialValue = centerFrequencyIsConst && DoubleHelper.IsSpecialValue(centerFrequency);
+            bool bandWidthIsConstSpecialValue = bandWidthIsConst && DoubleHelper.IsSpecialValue(bandWidth);
+            bool dbGainIsConstSpecialValue = dbGainIsConst && DoubleHelper.IsSpecialValue(dbGain);
 
             if (centerFrequency > _nyquistFrequency) centerFrequency = _nyquistFrequency;
 
-            if (signalIsConstSpecialNumber || centerFrequencyIsConstSpecialNumber || bandWidthIsConstSpecialNumber || dbGainIsConstSpecialNumber)
+            if (signalIsConstSpecialValue || centerFrequencyIsConstSpecialValue || bandWidthIsConstSpecialValue || dbGainIsConstSpecialValue)
             {
-                // Special Number
+                // Special Value
                 calculator = new Number_OperatorCalculator(Double.NaN);
             }
             else if (signalIsConst)
@@ -3156,106 +3156,69 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             OperatorCalculatorBase frequencyCalculator = _stack.Pop();
             OperatorCalculatorBase widthCalculator = _stack.Pop();
-            OperatorCalculatorBase phaseShiftCalculator = _stack.Pop();
 
             frequencyCalculator = frequencyCalculator ?? new Zero_OperatorCalculator();
             widthCalculator = widthCalculator ?? new Number_OperatorCalculator(0.5);
-            phaseShiftCalculator = phaseShiftCalculator ?? new Zero_OperatorCalculator();
 
             double frequency = frequencyCalculator.Calculate();
             double width = widthCalculator.Calculate() % 1.0;
-            double phaseShift = phaseShiftCalculator.Calculate() % 1.0;
 
             bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
             bool widthIsConst = widthCalculator is Number_OperatorCalculator;
-            bool phaseShiftIsConst = phaseShiftCalculator is Number_OperatorCalculator;
 
             bool frequencyIsConstZero = frequencyIsConst && frequency == 0.0;
             bool widthIsConstZero = widthIsConst && width == 0.0;
 
-            bool frequencyIsConstSpecialNumber = frequencyIsConst && DoubleHelper.IsSpecialNumber(frequency);
-            bool widthIsConstSpecialNumber = widthIsConst && DoubleHelper.IsSpecialNumber(width);
-            bool phaseShiftIsConstSpecialNumber = phaseShiftIsConst && DoubleHelper.IsSpecialNumber(phaseShift);
+            bool frequencyIsConstSpecialValue = frequencyIsConst && DoubleHelper.IsSpecialValue(frequency);
+            bool widthIsConstSpecialValue = widthIsConst && DoubleHelper.IsSpecialValue(width);
 
-            if (frequencyIsConstSpecialNumber || widthIsConstSpecialNumber || phaseShiftIsConstSpecialNumber)
+            if (frequencyIsConstSpecialValue || widthIsConstSpecialValue)
             {
-                // Special number
+                // Special Value
                 calculator = new Number_OperatorCalculator(Double.NaN);
             }
             else if (frequencyIsConstZero)
             {
-                // Special number
+                // Special Value
                 // (Frequency 0 means time stands still. In theory this could produce a different value than 0.
-                //  but I feel I would have to make disproportionate effort to take phase shift and width into account.)
+                //  but I feel I would have to make disproportionate effort to take that into account.)
                 calculator = new Zero_OperatorCalculator();
             }
             else if (widthIsConstZero)
             {
                 calculator = new Zero_OperatorCalculator();
             }
-            else if (frequencyIsConst && widthIsConst && phaseShiftIsConst && dimensionEnum == DimensionEnum.Time)
+            else if (frequencyIsConst && widthIsConst && dimensionEnum == DimensionEnum.Time)
             {
-                calculator = new Pulse_OperatorCalculator_ConstFrequency_ConstWidth_ConstPhaseShift_WithOriginShifting(frequency, width, phaseShift, dimensionStack);
+                calculator = new Pulse_OperatorCalculator_ConstFrequency_ConstWidth_WithOriginShifting(frequency, width, dimensionStack);
             }
-            else if (frequencyIsConst && widthIsConst && phaseShiftIsConst && dimensionEnum != DimensionEnum.Time)
+            else if (frequencyIsConst && widthIsConst && dimensionEnum != DimensionEnum.Time)
             {
-                calculator = new Pulse_OperatorCalculator_ConstFrequency_ConstWidth_ConstPhaseShift_NoOriginShifting(frequency, width, phaseShift, dimensionStack);
+                calculator = new Pulse_OperatorCalculator_ConstFrequency_ConstWidth_NoOriginShifting(frequency, width, dimensionStack);
             }
-            else if (frequencyIsConst && widthIsConst && !phaseShiftIsConst && dimensionEnum == DimensionEnum.Time)
+            else if (frequencyIsConst && !widthIsConst && dimensionEnum == DimensionEnum.Time)
             {
-                calculator = new Pulse_OperatorCalculator_ConstFrequency_ConstWidth_VarPhaseShift_WithOriginShifting(frequency, width, phaseShiftCalculator, dimensionStack);
+                calculator = new Pulse_OperatorCalculator_ConstFrequency_VarWidth_WithOriginShifting(frequency, widthCalculator, dimensionStack);
             }
-            else if (frequencyIsConst && widthIsConst && !phaseShiftIsConst && dimensionEnum != DimensionEnum.Time)
+            else if (frequencyIsConst && !widthIsConst && dimensionEnum != DimensionEnum.Time)
             {
-                calculator = new Pulse_OperatorCalculator_ConstFrequency_ConstWidth_VarPhaseShift_NoOriginShifting(frequency, width, phaseShiftCalculator, dimensionStack);
+                calculator = new Pulse_OperatorCalculator_ConstFrequency_VarWidth_NoOriginShifting(frequency, widthCalculator,dimensionStack);
             }
-            else if (frequencyIsConst && !widthIsConst && phaseShiftIsConst && dimensionEnum == DimensionEnum.Time)
+            else if (!frequencyIsConst && widthIsConst && dimensionEnum == DimensionEnum.Time)
             {
-                calculator = new Pulse_OperatorCalculator_ConstFrequency_VarWidth_ConstPhaseShift_WithOriginShifting(frequency, widthCalculator, phaseShift, dimensionStack);
+                calculator = new Pulse_OperatorCalculator_VarFrequency_ConstWidth_WithPhaseTracking(frequencyCalculator, width, dimensionStack);
             }
-            else if (frequencyIsConst && !widthIsConst && phaseShiftIsConst && dimensionEnum != DimensionEnum.Time)
+            else if (!frequencyIsConst && widthIsConst && dimensionEnum != DimensionEnum.Time)
             {
-                calculator = new Pulse_OperatorCalculator_ConstFrequency_VarWidth_ConstPhaseShift_NoOriginShifting(frequency, widthCalculator, phaseShift, dimensionStack);
+                calculator = new Pulse_OperatorCalculator_VarFrequency_ConstWidth_NoPhaseTracking(frequencyCalculator, width, dimensionStack);
             }
-            else if (frequencyIsConst && !widthIsConst && !phaseShiftIsConst && dimensionEnum == DimensionEnum.Time)
+            else if (!frequencyIsConst && !widthIsConst && dimensionEnum == DimensionEnum.Time)
             {
-                calculator = new Pulse_OperatorCalculator_ConstFrequency_VarWidth_VarPhaseShift_WithOriginShifting(frequency, widthCalculator, phaseShiftCalculator, dimensionStack);
+                calculator = new Pulse_OperatorCalculator_VarFrequency_VarWidth_WithPhaseTracking(frequencyCalculator, widthCalculator, dimensionStack);
             }
-            else if (frequencyIsConst && !widthIsConst && !phaseShiftIsConst && dimensionEnum != DimensionEnum.Time)
+            else if (!frequencyIsConst && !widthIsConst && dimensionEnum != DimensionEnum.Time)
             {
-                calculator = new Pulse_OperatorCalculator_ConstFrequency_VarWidth_VarPhaseShift_NoOriginShifting(frequency, widthCalculator, phaseShiftCalculator, dimensionStack);
-            }
-            else if (!frequencyIsConst && widthIsConst && phaseShiftIsConst && dimensionEnum == DimensionEnum.Time)
-            {
-                calculator = new Pulse_OperatorCalculator_VarFrequency_ConstWidth_ConstPhaseShift_WithPhaseTracking(frequencyCalculator, width, phaseShift, dimensionStack);
-            }
-            else if (!frequencyIsConst && widthIsConst && phaseShiftIsConst && dimensionEnum != DimensionEnum.Time)
-            {
-                calculator = new Pulse_OperatorCalculator_VarFrequency_ConstWidth_ConstPhaseShift_NoPhaseTracking(frequencyCalculator, width, phaseShift, dimensionStack);
-            }
-            else if (!frequencyIsConst && widthIsConst && !phaseShiftIsConst && dimensionEnum == DimensionEnum.Time)
-            {
-                calculator = new Pulse_OperatorCalculator_VarFrequency_ConstWidth_VarPhaseShift_WithPhaseTracking(frequencyCalculator, width, phaseShiftCalculator, dimensionStack);
-            }
-            else if (!frequencyIsConst && widthIsConst && !phaseShiftIsConst && dimensionEnum != DimensionEnum.Time)
-            {
-                calculator = new Pulse_OperatorCalculator_VarFrequency_ConstWidth_VarPhaseShift_NoPhaseTracking(frequencyCalculator, width, phaseShiftCalculator, dimensionStack);
-            }
-            else if (!frequencyIsConst && !widthIsConst && phaseShiftIsConst && dimensionEnum == DimensionEnum.Time)
-            {
-                calculator = new Pulse_OperatorCalculator_VarFrequency_VarWidth_ConstPhaseShift_WithPhaseTracking(frequencyCalculator, widthCalculator, phaseShift, dimensionStack);
-            }
-            else if (!frequencyIsConst && !widthIsConst && phaseShiftIsConst && dimensionEnum != DimensionEnum.Time)
-            {
-                calculator = new Pulse_OperatorCalculator_VarFrequency_VarWidth_ConstPhaseShift_NoPhaseTracking(frequencyCalculator, widthCalculator, phaseShift, dimensionStack);
-            }
-            else if (!frequencyIsConst && !widthIsConst && !phaseShiftIsConst && dimensionEnum == DimensionEnum.Time)
-            {
-                calculator = new Pulse_OperatorCalculator_VarFrequency_VarWidth_VarPhaseShift_WithPhaseTracking(frequencyCalculator, widthCalculator, phaseShiftCalculator, dimensionStack);
-            }
-            else if (!frequencyIsConst && !widthIsConst && !phaseShiftIsConst && dimensionEnum != DimensionEnum.Time)
-            {
-                calculator = new Pulse_OperatorCalculator_VarFrequency_VarWidth_VarPhaseShift_NoPhaseTracking(frequencyCalculator, widthCalculator, phaseShiftCalculator, dimensionStack);
+                calculator = new Pulse_OperatorCalculator_VarFrequency_VarWidth_NoPhaseTracking(frequencyCalculator, widthCalculator, dimensionStack);
             }
             else
             {
@@ -3313,31 +3276,25 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase rateCalculator = _stack.Pop();
-            OperatorCalculatorBase phaseShiftCalculator = _stack.Pop();
 
             rateCalculator = rateCalculator ?? new Zero_OperatorCalculator();
-            phaseShiftCalculator = phaseShiftCalculator ?? new Zero_OperatorCalculator();
 
             double rate = rateCalculator.Calculate();
-            double phaseShift = phaseShiftCalculator.Calculate();
 
             bool rateIsConst = rateCalculator is Number_OperatorCalculator;
-            bool phaseShiftIsConst = phaseShiftCalculator is Number_OperatorCalculator;
 
             bool rateIsConstZero = rateIsConst && rate == 0;
-            bool phaseShiftIsConstZero = phaseShiftIsConst && phaseShift == 0;
 
-            bool rateIsConstSpecialNumber = rateIsConst && DoubleHelper.IsSpecialNumber(rate);
-            bool phaseShiftIsConstSpecialNumber = phaseShiftIsConst && DoubleHelper.IsSpecialNumber(phaseShift);
+            bool rateIsConstSpecialValue = rateIsConst && DoubleHelper.IsSpecialValue(rate);
 
-            if (rateIsConstSpecialNumber || phaseShiftIsConstSpecialNumber)
+            if (rateIsConstSpecialValue)
             {
-                // Special number
+                // Special Value
                 calculator = new Number_OperatorCalculator(Double.NaN);
             }
             else if (rateIsConstZero)
             {
-                // Special number
+                // Special Value
                 calculator = new Zero_OperatorCalculator();
             }
             // TODO: Add more variations.
@@ -3352,11 +3309,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                         {
                             var randomCalculator = new RandomCalculator_BlockInterpolation();
 
-                            calculator = new Random_OperatorCalculator_BlockAndStripe_VarFrequency_VarPhaseShift(
+                            calculator = new Random_OperatorCalculator_BlockAndStripe_VarFrequency(
                                 randomCalculator,
                                 randomCalculatorOffset,
                                 rateCalculator,
-                                phaseShiftCalculator,
                                 dimensionStack);
 
                             break;
@@ -3366,11 +3322,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                         {
                             var randomCalculator = new RandomCalculator_StripeInterpolation();
 
-                            calculator = new Random_OperatorCalculator_BlockAndStripe_VarFrequency_VarPhaseShift(
+                            calculator = new Random_OperatorCalculator_BlockAndStripe_VarFrequency(
                                 randomCalculator,
                                 randomCalculatorOffset,
                                 rateCalculator,
-                                phaseShiftCalculator,
                                 dimensionStack);
 
                             break;
@@ -3389,7 +3344,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                                 randomCalculator,
                                 randomCalculatorOffset,
                                 rateCalculator,
-                                phaseShiftCalculator,
                                 resampleInterpolationTypeEnum,
                                 dimensionStack);
 
@@ -3431,16 +3385,16 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             bool stepIsConstZero = stepIsConst && step == 0.0;
             bool stepIsConstOne = stepIsConst && step == 1.0;
-            bool fromIsConstSpecialNumber = fromIsConst && DoubleHelper.IsSpecialNumber(from);
-            bool tillIsConstSpecialNumber = tillIsConst && DoubleHelper.IsSpecialNumber(till);
-            bool stepIsConstSpecialNumber = stepIsConst && DoubleHelper.IsSpecialNumber(step);
+            bool fromIsConstSpecialValue = fromIsConst && DoubleHelper.IsSpecialValue(from);
+            bool tillIsConstSpecialValue = tillIsConst && DoubleHelper.IsSpecialValue(till);
+            bool stepIsConstSpecialValue = stepIsConst && DoubleHelper.IsSpecialValue(step);
 
             if (stepIsConstZero)
             {
                 // Would eventually lead to divide by zero and an infinite amount of index positions.
                 operatorCalculator = new Number_OperatorCalculator(Double.NaN);
             }
-            if (fromIsConstSpecialNumber || tillIsConstSpecialNumber || stepIsConstSpecialNumber)
+            if (fromIsConstSpecialValue || tillIsConstSpecialValue || stepIsConstSpecialValue)
             {
                 operatorCalculator = new Number_OperatorCalculator(Double.NaN);
             }
@@ -3489,8 +3443,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool signalIsConstZero = signalIsConst && signal == 0;
             bool samplingRateIsConstZero = samplingRateIsConst && samplingRate == 0;
 
-            bool signalIsConstSpecialNumber = signalIsConst && DoubleHelper.IsSpecialNumber(signal);
-            bool samplingRateIsConstSpecialNumber = samplingRateIsConst && DoubleHelper.IsSpecialNumber(samplingRate);
+            bool signalIsConstSpecialValue = signalIsConst && DoubleHelper.IsSpecialValue(signal);
+            bool samplingRateIsConstSpecialValue = samplingRateIsConst && DoubleHelper.IsSpecialValue(samplingRate);
 
             dimensionStack.Pop();
 
@@ -3501,10 +3455,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (samplingRateIsConstZero)
             {
-                // Special number: Time stands still.
+                // Special Value: Time stands still.
                 calculator = new Number_OperatorCalculator(signal);
             }
-            else if (samplingRateIsConstSpecialNumber)
+            else if (samplingRateIsConstSpecialValue)
             {
                 // Wierd number
                 // Note that if signal is const,
@@ -3546,24 +3500,24 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             bool speedIsConstZero = speedIsConst && speed == 0;
 
-            bool signalIsConstSpecialNumber = signalIsConst && DoubleHelper.IsSpecialNumber(signal);
-            bool speedIsConstSpecialNumber = speedIsConst && DoubleHelper.IsSpecialNumber(speed);
+            bool signalIsConstSpecialValue = signalIsConst && DoubleHelper.IsSpecialValue(signal);
+            bool speedIsConstSpecialValue = speedIsConst && DoubleHelper.IsSpecialValue(speed);
 
             dimensionStack.Pop();
 
-            if (speedIsConstSpecialNumber)
+            if (speedIsConstSpecialValue)
             {
-                // Special number
+                // Special Value
                 calculator = new Number_OperatorCalculator(Double.NaN);
             }
-            else if (signalIsConstSpecialNumber)
+            else if (signalIsConstSpecialValue)
             {
-                // Special number
+                // Special Value
                 calculator = new Number_OperatorCalculator(signal);
             }
             else if (speedIsConstZero)
             {
-                // Special number
+                // Special Value
                 // Speed-up of 0 means time stands still.
                 calculator = new Number_OperatorCalculator(signal);
             }
@@ -3623,11 +3577,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             bool stepIsConstOne = stepIsConst && step == 1;
 
-            bool signalIsConstSpecialNumber = signalIsConst && DoubleHelper.IsSpecialNumber(signal);
-            bool stepIsConstSpecialNumber = stepIsConst && DoubleHelper.IsSpecialNumber(step);
-            bool offsetIsConstSpecialNumber = offsetIsConst && DoubleHelper.IsSpecialNumber(offset);
+            bool signalIsConstSpecialValue = signalIsConst && DoubleHelper.IsSpecialValue(signal);
+            bool stepIsConstSpecialValue = stepIsConst && DoubleHelper.IsSpecialValue(step);
+            bool offsetIsConstSpecialValue = offsetIsConst && DoubleHelper.IsSpecialValue(offset);
 
-            if (signalIsConstSpecialNumber || stepIsConstSpecialNumber || offsetIsConstSpecialNumber)
+            if (signalIsConstSpecialValue || stepIsConstSpecialValue || offsetIsConstSpecialValue)
             {
                 calculator = new Number_OperatorCalculator(Double.NaN);
             }
@@ -3699,7 +3653,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (frequencyIsConstZero)
             {
-                // Special number
+                // Special Value
                 calculator = new Zero_OperatorCalculator();
             }
             else
@@ -3785,55 +3739,34 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase frequencyCalculator = _stack.Pop();
-            OperatorCalculatorBase phaseShiftCalculator = _stack.Pop();
 
             frequencyCalculator = frequencyCalculator ?? new Zero_OperatorCalculator();
-            phaseShiftCalculator = phaseShiftCalculator ?? new Zero_OperatorCalculator();
 
             double frequency = frequencyCalculator.Calculate();
-            double phaseShift = phaseShiftCalculator.Calculate();
 
             bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
-            bool phaseShiftIsConst = phaseShiftCalculator is Number_OperatorCalculator;
             bool frequencyIsConstZero = frequencyIsConst && frequency == 0;
-            bool phaseShiftIsConstZero = phaseShiftIsConst && phaseShift % 1 == 0;
 
             if (frequencyIsConstZero)
             {
-                // Special number
+                // Special Value
                 calculator = new Zero_OperatorCalculator();
             }
-            else if (frequencyIsConst && phaseShiftIsConst && dimensionEnum == DimensionEnum.Time)
+            else if (frequencyIsConst && dimensionEnum == DimensionEnum.Time)
             {
-                calculator = new SawDown_OperatorCalculator_ConstFrequency_ConstPhaseShift_WithOriginShifting(frequency, phaseShift, dimensionStack);
+                calculator = new SawDown_OperatorCalculator_ConstFrequency_WithOriginShifting(frequency, dimensionStack);
             }
-            else if (frequencyIsConst && phaseShiftIsConst && dimensionEnum != DimensionEnum.Time)
+            else if (frequencyIsConst && dimensionEnum != DimensionEnum.Time)
             {
-                calculator = new SawDown_OperatorCalculator_ConstFrequency_ConstPhaseShift_NoOriginShifting(frequency, phaseShift, dimensionStack);
+                calculator = new SawDown_OperatorCalculator_ConstFrequency_NoOriginShifting(frequency, dimensionStack);
             }
-            else if (!frequencyIsConst && phaseShiftIsConst && dimensionEnum == DimensionEnum.Time)
+            else if (!frequencyIsConst && dimensionEnum == DimensionEnum.Time)
             {
-                calculator = new SawDown_OperatorCalculator_VarFrequency_ConstPhaseShift_WithPhaseTracking(frequencyCalculator, phaseShift, dimensionStack);
+                calculator = new SawDown_OperatorCalculator_VarFrequency_WithPhaseTracking(frequencyCalculator, dimensionStack);
             }
-            else if (!frequencyIsConst && phaseShiftIsConst && dimensionEnum != DimensionEnum.Time)
+            else if (!frequencyIsConst && dimensionEnum != DimensionEnum.Time)
             {
-                calculator = new SawDown_OperatorCalculator_VarFrequency_ConstPhaseShift_NoPhaseTracking(frequencyCalculator, phaseShift, dimensionStack);
-            }
-            else if (frequencyIsConst && !phaseShiftIsConst && dimensionEnum == DimensionEnum.Time)
-            {
-                calculator = new SawDown_OperatorCalculator_ConstFrequency_VarPhaseShift_WithOriginShifting(frequency, phaseShiftCalculator, dimensionStack);
-            }
-            else if (frequencyIsConst && !phaseShiftIsConst && dimensionEnum != DimensionEnum.Time)
-            {
-                calculator = new SawDown_OperatorCalculator_ConstFrequency_VarPhaseShift_NoOriginShifting(frequency, phaseShiftCalculator, dimensionStack);
-            }
-            else if (!frequencyIsConst && !phaseShiftIsConst && dimensionEnum == DimensionEnum.Time)
-            {
-                calculator = new SawDown_OperatorCalculator_VarFrequency_VarPhaseShift_WithPhaseTracking(frequencyCalculator, phaseShiftCalculator, dimensionStack);
-            }
-            else if (!frequencyIsConst && !phaseShiftIsConst && dimensionEnum != DimensionEnum.Time)
-            {
-                calculator = new SawDown_OperatorCalculator_VarFrequency_VarPhaseShift_NoPhaseTracking(frequencyCalculator, phaseShiftCalculator, dimensionStack);
+                calculator = new SawDown_OperatorCalculator_VarFrequency_NoPhaseTracking(frequencyCalculator, dimensionStack);
             }
             else
             {
@@ -3853,53 +3786,48 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase frequencyCalculator = _stack.Pop();
-            OperatorCalculatorBase phaseShiftCalculator = _stack.Pop();
 
             frequencyCalculator = frequencyCalculator ?? new Zero_OperatorCalculator();
-            phaseShiftCalculator = phaseShiftCalculator ?? new Zero_OperatorCalculator();
             double frequency = frequencyCalculator.Calculate();
-            double phaseShift = phaseShiftCalculator.Calculate();
             bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
-            bool phaseShiftIsConst = phaseShiftCalculator is Number_OperatorCalculator;
             bool frequencyIsConstZero = frequencyIsConst && frequency == 0;
-            bool phaseShiftIsConstZero = phaseShiftIsConst && phaseShift % 1 == 0;
 
             if (frequencyIsConstZero)
             {
-                // Special number
+                // Special Value
                 calculator = new Zero_OperatorCalculator();
             }
-            else if (frequencyIsConst && phaseShiftIsConst && dimensionEnum == DimensionEnum.Time)
+            else if (frequencyIsConst && dimensionEnum == DimensionEnum.Time)
             {
-                calculator = new SawUp_OperatorCalculator_ConstFrequency_ConstPhaseShift_WithOriginShifting(frequency, phaseShift, dimensionStack);
+                calculator = new SawUp_OperatorCalculator_ConstFrequency_WithOriginShifting(frequency, dimensionStack);
             }
-            else if (frequencyIsConst && phaseShiftIsConst && dimensionEnum != DimensionEnum.Time)
+            else if (frequencyIsConst && dimensionEnum != DimensionEnum.Time)
             {
-                calculator = new SawUp_OperatorCalculator_ConstFrequency_ConstPhaseShift_NoOriginShifting(frequency, phaseShift, dimensionStack);
+                calculator = new SawUp_OperatorCalculator_ConstFrequency_NoOriginShifting(frequency, dimensionStack);
             }
-            else if (!frequencyIsConst && phaseShiftIsConst && dimensionEnum == DimensionEnum.Time)
+            else if (!frequencyIsConst && dimensionEnum == DimensionEnum.Time)
             {
-                calculator = new SawUp_OperatorCalculator_VarFrequency_ConstPhaseShift_WithPhaseTracking(frequencyCalculator, phaseShift, dimensionStack);
+                calculator = new SawUp_OperatorCalculator_VarFrequency_WithPhaseTracking(frequencyCalculator, dimensionStack);
             }
-            else if (!frequencyIsConst && phaseShiftIsConst && dimensionEnum != DimensionEnum.Time)
+            else if (!frequencyIsConst && dimensionEnum != DimensionEnum.Time)
             {
-                calculator = new SawUp_OperatorCalculator_VarFrequency_ConstPhaseShift_NoPhaseTracking(frequencyCalculator, phaseShift, dimensionStack);
+                calculator = new SawUp_OperatorCalculator_VarFrequency_NoPhaseTracking(frequencyCalculator, dimensionStack);
             }
-            else if (frequencyIsConst && !phaseShiftIsConst && dimensionEnum == DimensionEnum.Time)
+            else if (frequencyIsConst && dimensionEnum == DimensionEnum.Time)
             {
-                calculator = new SawUp_OperatorCalculator_ConstFrequency_VarPhaseShift_WithOriginShifting(frequency, phaseShiftCalculator, dimensionStack);
+                calculator = new SawUp_OperatorCalculator_ConstFrequency_WithOriginShifting(frequency, dimensionStack);
             }
-            else if (frequencyIsConst && !phaseShiftIsConst && dimensionEnum != DimensionEnum.Time)
+            else if (frequencyIsConst && dimensionEnum != DimensionEnum.Time)
             {
-                calculator = new SawUp_OperatorCalculator_ConstFrequency_VarPhaseShift_NoOriginShifting(frequency, phaseShiftCalculator, dimensionStack);
+                calculator = new SawUp_OperatorCalculator_ConstFrequency_NoOriginShifting(frequency, dimensionStack);
             }
-            else if (!frequencyIsConst && !phaseShiftIsConst && dimensionEnum == DimensionEnum.Time)
+            else if (!frequencyIsConst && dimensionEnum == DimensionEnum.Time)
             {
-                calculator = new SawUp_OperatorCalculator_VarFrequency_VarPhaseShift_WithPhaseTracking(frequencyCalculator, phaseShiftCalculator, dimensionStack);
+                calculator = new SawUp_OperatorCalculator_VarFrequency_WithPhaseTracking(frequencyCalculator, dimensionStack);
             }
-            else if (!frequencyIsConst && !phaseShiftIsConst && dimensionEnum != DimensionEnum.Time)
+            else if (!frequencyIsConst && dimensionEnum != DimensionEnum.Time)
             {
-                calculator = new SawUp_OperatorCalculator_VarFrequency_VarPhaseShift_NoPhaseTracking(frequencyCalculator, phaseShiftCalculator, dimensionStack);
+                calculator = new SawUp_OperatorCalculator_VarFrequency_NoPhaseTracking(frequencyCalculator, dimensionStack);
             }
             else
             {
@@ -4037,74 +3965,33 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase frequencyCalculator = _stack.Pop();
-            OperatorCalculatorBase phaseShiftCalculator = _stack.Pop();
-
             frequencyCalculator = frequencyCalculator ?? new Zero_OperatorCalculator();
-            phaseShiftCalculator = phaseShiftCalculator ?? new Zero_OperatorCalculator();
-
             double frequency = frequencyCalculator.Calculate();
-            double phaseShift = phaseShiftCalculator.Calculate();
-
             bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
-            bool phaseShiftIsConst = phaseShiftCalculator is Number_OperatorCalculator;
-
             bool frequencyIsConstZero = frequencyIsConst && frequency == 0.0;
-            bool phaseShiftIsConstZero = phaseShiftIsConst && phaseShift % 1.0 == 0.0;
+            bool frequencyIsConstSpecialValue = frequencyIsConst && DoubleHelper.IsSpecialValue(frequency);
 
             if (frequencyIsConstZero)
             {
-                // Special number
+                // Special value
                 // Frequency 0 means time stands still.
-                double value = SineCalculator.Sin(phaseShift);
-                calculator = new Number_OperatorCalculator(value);
+                calculator = new Zero_OperatorCalculator();
             }
-            else if (frequencyIsConst && phaseShiftIsConstZero && dimensionEnum == DimensionEnum.Time)
+            else if (frequencyIsConst && dimensionEnum == DimensionEnum.Time)
             {
-                calculator = new Sine_OperatorCalculator_ConstFrequency_PhaseShiftZero_WithOriginShifting(frequency, dimensionStack);
+                calculator = new Sine_OperatorCalculator_ConstFrequency_WithOriginShifting(frequency, dimensionStack);
             }
-            else if (frequencyIsConst && phaseShiftIsConstZero && dimensionEnum != DimensionEnum.Time)
+            else if (frequencyIsConst && dimensionEnum != DimensionEnum.Time)
             {
-                calculator = new Sine_OperatorCalculator_ConstFrequency_PhaseShiftZero_NoOriginShifting(frequency, dimensionStack);
+                calculator = new Sine_OperatorCalculator_ConstFrequency_NoOriginShifting(frequency, dimensionStack);
             }
-            else if (frequencyIsConst && phaseShiftIsConst && dimensionEnum == DimensionEnum.Time)
+            else if (!frequencyIsConst && dimensionEnum == DimensionEnum.Time)
             {
-                calculator = new Sine_OperatorCalculator_ConstFrequency_ConstPhaseShift_WithOriginShifting(frequency, phaseShift, dimensionStack);
+                calculator = new Sine_OperatorCalculator_VarFrequency_WithPhaseTracking(frequencyCalculator, dimensionStack);
             }
-            else if (frequencyIsConst && phaseShiftIsConst && dimensionEnum != DimensionEnum.Time)
+            else if (!frequencyIsConst && dimensionEnum != DimensionEnum.Time)
             {
-                calculator = new Sine_OperatorCalculator_ConstFrequency_ConstPhaseShift_NoOriginShifting(frequency, phaseShift, dimensionStack);
-            }
-            else if (frequencyIsConst && !phaseShiftIsConst && dimensionEnum == DimensionEnum.Time)
-            {
-                calculator = new Sine_OperatorCalculator_ConstFrequency_VarPhaseShift_WithOriginShifting(frequency, phaseShiftCalculator, dimensionStack);
-            }
-            else if (frequencyIsConst && !phaseShiftIsConst && dimensionEnum != DimensionEnum.Time)
-            {
-                calculator = new Sine_OperatorCalculator_ConstFrequency_VarPhaseShift_NoOriginShifting(frequency, phaseShiftCalculator, dimensionStack);
-            }
-            else if (!frequencyIsConst && phaseShiftIsConstZero && dimensionEnum == DimensionEnum.Time)
-            {
-                calculator = new Sine_OperatorCalculator_VarFrequency_PhaseShiftZero_WithPhaseTracking(frequencyCalculator, dimensionStack);
-            }
-            else if (!frequencyIsConst && phaseShiftIsConstZero && dimensionEnum != DimensionEnum.Time)
-            {
-                calculator = new Sine_OperatorCalculator_VarFrequency_PhaseShiftZero_NoPhaseTracking(frequencyCalculator, dimensionStack);
-            }
-            else if (!frequencyIsConst && phaseShiftIsConst && dimensionEnum == DimensionEnum.Time)
-            {
-                calculator = new Sine_OperatorCalculator_VarFrequency_ConstPhaseShift_WithPhaseTracking(frequencyCalculator, phaseShift, dimensionStack);
-            }
-            else if (!frequencyIsConst && phaseShiftIsConst && dimensionEnum != DimensionEnum.Time)
-            {
-                calculator = new Sine_OperatorCalculator_VarFrequency_ConstPhaseShift_NoPhaseTracking(frequencyCalculator, phaseShift, dimensionStack);
-            }
-            else if (!frequencyIsConst && !phaseShiftIsConst && dimensionEnum == DimensionEnum.Time)
-            {
-                calculator = new Sine_OperatorCalculator_VarFrequency_VarPhaseShift_WithPhaseTracking(frequencyCalculator, phaseShiftCalculator, dimensionStack);
-            }
-            else if (!frequencyIsConst && !phaseShiftIsConst && dimensionEnum != DimensionEnum.Time)
-            {
-                calculator = new Sine_OperatorCalculator_VarFrequency_VarPhaseShift_NoPhaseTracking(frequencyCalculator, phaseShiftCalculator, dimensionStack);
+                calculator = new Sine_OperatorCalculator_VarFrequency_NoPhaseTracking(frequencyCalculator, dimensionStack);
             }
             else
             {
@@ -4179,9 +4066,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             bool stepIsConstZero = stepIsConst && step == 0.0;
             bool stepIsConstNegative = stepIsConst && step < 0.0;
-            bool fromIsConstSpecialNumber = fromIsConst && DoubleHelper.IsSpecialNumber(from);
-            bool tillIsConstSpecialNumber = tillIsConst && DoubleHelper.IsSpecialNumber(till);
-            bool stepIsConstSpecialNumber = stepIsConst && DoubleHelper.IsSpecialNumber(step);
+            bool fromIsConstSpecialValue = fromIsConst && DoubleHelper.IsSpecialValue(from);
+            bool tillIsConstSpecialValue = tillIsConst && DoubleHelper.IsSpecialValue(till);
+            bool stepIsConstSpecialValue = stepIsConst && DoubleHelper.IsSpecialValue(step);
 
             if (signalIsConst)
             {
@@ -4195,7 +4082,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 operatorCalculator = new Zero_OperatorCalculator();
             }
-            else if (fromIsConstSpecialNumber || tillIsConstSpecialNumber || stepIsConstSpecialNumber)
+            else if (fromIsConstSpecialValue || tillIsConstSpecialValue || stepIsConstSpecialValue)
             {
                 operatorCalculator = new Number_OperatorCalculator(Double.NaN);
             }
@@ -4262,16 +4149,16 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double frequencyCount = frequencyCountIsConst ? frequencyCountCalculator.Calculate() : 0.0;
 
             bool signalIsConstZero = signalIsConst && signal == 0;
-            bool signalIsConstSpecialNumber = signalIsConst && DoubleHelper.IsSpecialNumber(signal);
-            bool startIsConstSpecialNumber = startIsConst && DoubleHelper.IsSpecialNumber(start);
-            bool endIsConstSpecialNumber = endIsConst && DoubleHelper.IsSpecialNumber(end);
-            bool frequencyCountIsConstSpecialNumber = frequencyCountIsConst && DoubleHelper.IsSpecialNumber(frequencyCount);
+            bool signalIsConstSpecialValue = signalIsConst && DoubleHelper.IsSpecialValue(signal);
+            bool startIsConstSpecialValue = startIsConst && DoubleHelper.IsSpecialValue(start);
+            bool endIsConstSpecialValue = endIsConst && DoubleHelper.IsSpecialValue(end);
+            bool frequencyCountIsConstSpecialValue = frequencyCountIsConst && DoubleHelper.IsSpecialValue(frequencyCount);
 
             dimensionStack.Pop();
 
-            if (signalIsConstSpecialNumber || startIsConstSpecialNumber || endIsConstSpecialNumber || frequencyCountIsConstSpecialNumber)
+            if (signalIsConstSpecialValue || startIsConstSpecialValue || endIsConstSpecialValue || frequencyCountIsConstSpecialValue)
             {
-                // Special Number
+                // Special Value
                 calculator = new Number_OperatorCalculator(Double.NaN);
             }
             else if (signalIsConstZero)
@@ -4306,63 +4193,37 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase frequencyCalculator = _stack.Pop();
-            OperatorCalculatorBase phaseShiftCalculator = _stack.Pop();
-
             frequencyCalculator = frequencyCalculator ?? new Zero_OperatorCalculator();
-            phaseShiftCalculator = phaseShiftCalculator ?? new Zero_OperatorCalculator();
-
             double frequency = frequencyCalculator.Calculate();
-            double phaseShift = phaseShiftCalculator.Calculate() % 1;
-
             bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
-            bool phaseShiftIsConst = phaseShiftCalculator is Number_OperatorCalculator;
-
             bool frequencyIsConstZero = frequencyIsConst && frequency == 0;
+            bool frequencyIsConstSpecialValue = frequencyIsConst && DoubleHelper.IsSpecialValue(frequency);
 
-            bool frequencyIsConstSpecialNumber = frequencyIsConst && DoubleHelper.IsSpecialNumber(frequency);
-            bool phaseShiftIsConstSpecialNumber = phaseShiftIsConst && DoubleHelper.IsSpecialNumber(phaseShift);
-
-            if (frequencyIsConstSpecialNumber || phaseShiftIsConstSpecialNumber)
+            if (frequencyIsConstSpecialValue)
             {
-                // Special number
+                // Special Value
                 calculator = new Number_OperatorCalculator(Double.NaN);
             }
             if (frequencyIsConstZero)
             {
-                // Special number
+                // Special Value
                 calculator = new Zero_OperatorCalculator();
             }
-            else if (frequencyIsConst && phaseShiftIsConst && dimensionEnum == DimensionEnum.Time)
+            else if (frequencyIsConst && dimensionEnum == DimensionEnum.Time)
             {
-                calculator = new Pulse_OperatorCalculator_ConstFrequency_ConstWidth_ConstPhaseShift_WithOriginShifting(frequency, DEFAULT_PULSE_WIDTH, phaseShift, dimensionStack);
+                calculator = new Pulse_OperatorCalculator_ConstFrequency_ConstWidth_WithOriginShifting(frequency, DEFAULT_PULSE_WIDTH, dimensionStack);
             }
-            else if (frequencyIsConst && phaseShiftIsConst && dimensionEnum != DimensionEnum.Time)
+            else if (frequencyIsConst && dimensionEnum != DimensionEnum.Time)
             {
-                calculator = new Pulse_OperatorCalculator_ConstFrequency_ConstWidth_ConstPhaseShift_NoOriginShifting(frequency, DEFAULT_PULSE_WIDTH, phaseShift, dimensionStack);
+                calculator = new Pulse_OperatorCalculator_ConstFrequency_ConstWidth_NoOriginShifting(frequency, DEFAULT_PULSE_WIDTH, dimensionStack);
             }
-            else if (!frequencyIsConst && phaseShiftIsConst && dimensionEnum == DimensionEnum.Time)
+            else if (!frequencyIsConst && dimensionEnum == DimensionEnum.Time)
             {
-                calculator = new Pulse_OperatorCalculator_VarFrequency_ConstWidth_ConstPhaseShift_WithPhaseTracking(frequencyCalculator, DEFAULT_PULSE_WIDTH, phaseShift, dimensionStack);
+                calculator = new Pulse_OperatorCalculator_VarFrequency_ConstWidth_WithPhaseTracking(frequencyCalculator, DEFAULT_PULSE_WIDTH, dimensionStack);
             }
-            else if (!frequencyIsConst && phaseShiftIsConst && dimensionEnum != DimensionEnum.Time)
+            else if (!frequencyIsConst && dimensionEnum != DimensionEnum.Time)
             {
-                calculator = new Pulse_OperatorCalculator_VarFrequency_ConstWidth_ConstPhaseShift_NoPhaseTracking(frequencyCalculator, DEFAULT_PULSE_WIDTH, phaseShift, dimensionStack);
-            }
-            else if (frequencyIsConst && !phaseShiftIsConst && dimensionEnum == DimensionEnum.Time)
-            {
-                calculator = new Pulse_OperatorCalculator_ConstFrequency_ConstWidth_VarPhaseShift_WithOriginShifting(frequency, DEFAULT_PULSE_WIDTH, phaseShiftCalculator, dimensionStack);
-            }
-            else if (frequencyIsConst && !phaseShiftIsConst && dimensionEnum != DimensionEnum.Time)
-            {
-                calculator = new Pulse_OperatorCalculator_ConstFrequency_ConstWidth_VarPhaseShift_NoOriginShifting(frequency, DEFAULT_PULSE_WIDTH, phaseShiftCalculator, dimensionStack);
-            }
-            else if (!frequencyIsConst && !phaseShiftIsConst && dimensionEnum == DimensionEnum.Time)
-            {
-                calculator = new Pulse_OperatorCalculator_VarFrequency_ConstWidth_VarPhaseShift_WithPhaseTracking(frequencyCalculator, DEFAULT_PULSE_WIDTH, phaseShiftCalculator, dimensionStack);
-            }
-            else if (!frequencyIsConst && !phaseShiftIsConst && dimensionEnum != DimensionEnum.Time)
-            {
-                calculator = new Pulse_OperatorCalculator_VarFrequency_ConstWidth_VarPhaseShift_NoPhaseTracking(frequencyCalculator, DEFAULT_PULSE_WIDTH, phaseShiftCalculator, dimensionStack);
+                calculator = new Pulse_OperatorCalculator_VarFrequency_ConstWidth_NoPhaseTracking(frequencyCalculator, DEFAULT_PULSE_WIDTH, dimensionStack);
             }
             else
             {
@@ -4404,20 +4265,20 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             bool factorIsConstOne = factorIsConst && factor == 1.0;
 
-            bool signalIsConstSpecialNumber = signalIsConst && DoubleHelper.IsSpecialNumber(signal);
-            bool factorIsConstSpecialNumber = factorIsConst && DoubleHelper.IsSpecialNumber(factor);
-            bool originIsConstSpecialNumber = originIsConst && DoubleHelper.IsSpecialNumber(origin);
+            bool signalIsConstSpecialValue = signalIsConst && DoubleHelper.IsSpecialValue(signal);
+            bool factorIsConstSpecialValue = factorIsConst && DoubleHelper.IsSpecialValue(factor);
+            bool originIsConstSpecialValue = originIsConst && DoubleHelper.IsSpecialValue(origin);
 
             dimensionStack.Pop();
 
-            if (signalIsConstSpecialNumber || factorIsConstSpecialNumber || originIsConstSpecialNumber)
+            if (signalIsConstSpecialValue || factorIsConstSpecialValue || originIsConstSpecialValue)
             {
-                // Special number
+                // Special Value
                 calculator = new Number_OperatorCalculator(Double.NaN);
             }
             else if (factorIsConstZero)
             {
-                // Special number
+                // Special Value
                 // Speed-up of 0 means time stands still.
                 calculator = new Number_OperatorCalculator(signal);
             }
@@ -4512,22 +4373,20 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             bool factorIsConstOne = factorIsConst && factor == 1;
 
-            bool signalIsConstSpecialNumber = signalIsConst && DoubleHelper.IsSpecialNumber(signal);
-            bool factorIsConstSpecialNumber = factorIsConst && DoubleHelper.IsSpecialNumber(factor);
-            bool originIsConstSpecialNumber = originIsConst && DoubleHelper.IsSpecialNumber(origin);
-
-            // TODO: Handle const special numbers.
+            bool signalIsConstSpecialValue = signalIsConst && DoubleHelper.IsSpecialValue(signal);
+            bool factorIsConstSpecialValue = factorIsConst && DoubleHelper.IsSpecialValue(factor);
+            bool originIsConstSpecialValue = originIsConst && DoubleHelper.IsSpecialValue(origin);
 
             dimensionStack.Pop();
 
-            if (factorIsConstSpecialNumber || signalIsConstSpecialNumber || originIsConstSpecialNumber)
+            if (factorIsConstSpecialValue || signalIsConstSpecialValue || originIsConstSpecialValue)
             {
-                // Special number
+                // Special Value
                 calculator = new Number_OperatorCalculator(Double.NaN);
             }
             if (factorIsConstZero)
             {
-                // Special number
+                // Special Value
                 // Slow down 0 times, means speed up to infinity, equals undefined.
                 calculator = new Number_OperatorCalculator(Double.NaN);
             }
@@ -4670,9 +4529,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool stepIsConstOne = stepIsConst && step == 1.0;
             bool stepIsConstNegative = stepIsConst && step < 0.0;
             bool fromIsConstZero = fromIsConst && from == 0.0;
-            bool fromIsConstSpecialNumber = fromIsConst && DoubleHelper.IsSpecialNumber(from);
-            bool tillIsConstSpecialNumber = tillIsConst && DoubleHelper.IsSpecialNumber(till);
-            bool stepIsConstSpecialNumber = stepIsConst && DoubleHelper.IsSpecialNumber(step);
+            bool fromIsConstSpecialValue = fromIsConst && DoubleHelper.IsSpecialValue(from);
+            bool tillIsConstSpecialValue = tillIsConst && DoubleHelper.IsSpecialValue(till);
+            bool stepIsConstSpecialValue = stepIsConst && DoubleHelper.IsSpecialValue(step);
 
             if (signalIsConst)
             {
@@ -4686,7 +4545,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 operatorCalculator = new Zero_OperatorCalculator();
             }
-            else if (fromIsConstSpecialNumber || tillIsConstSpecialNumber || stepIsConstSpecialNumber)
+            else if (fromIsConstSpecialValue || tillIsConstSpecialValue || stepIsConstSpecialValue)
             {
                 operatorCalculator = new Number_OperatorCalculator(Double.NaN);
             }
@@ -4859,55 +4718,37 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase frequencyCalculator = _stack.Pop();
-            OperatorCalculatorBase phaseShiftCalculator = _stack.Pop();
-
             frequencyCalculator = frequencyCalculator ?? new Zero_OperatorCalculator();
-            phaseShiftCalculator = phaseShiftCalculator ?? new Zero_OperatorCalculator();
-
             double frequency = frequencyCalculator.Calculate();
-            double phaseShift = phaseShiftCalculator.Calculate();
-
             bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
-            bool phaseShiftIsConst = phaseShiftCalculator is Number_OperatorCalculator;
             bool frequencyIsConstZero = frequencyIsConst && frequency == 0.0;
+            bool frequencyIsConstSpecialValue = frequencyIsConst && DoubleHelper.IsSpecialValue(frequency);
 
+            if (frequencyIsConstSpecialValue)
+            {
+                // Special Value
+                calculator = new Number_OperatorCalculator(Double.NaN);
+            }
             if (frequencyIsConstZero)
             {
-                // Special number
-                // Frequency 0 means time stands still.
-                calculator = new Number_OperatorCalculator(phaseShift);
+                // Special Value
+                calculator = new Zero_OperatorCalculator();
             }
-            else if (frequencyIsConst && phaseShiftIsConst && dimensionEnum == DimensionEnum.Time)
+            else if (frequencyIsConst && dimensionEnum == DimensionEnum.Time)
             {
-                calculator = new Triangle_OperatorCalculator_ConstFrequency_ConstPhaseShift_WithOriginShifting(frequency, phaseShift, dimensionStack);
+                calculator = new Triangle_OperatorCalculator_ConstFrequency_WithOriginShifting(frequency, dimensionStack);
             }
-            else if (frequencyIsConst && phaseShiftIsConst && dimensionEnum != DimensionEnum.Time)
+            else if (frequencyIsConst && dimensionEnum != DimensionEnum.Time)
             {
-                calculator = new Triangle_OperatorCalculator_ConstFrequency_ConstPhaseShift_NoOriginShifting(frequency, phaseShift, dimensionStack);
+                calculator = new Triangle_OperatorCalculator_ConstFrequency_NoOriginShifting(frequency, dimensionStack);
             }
-            else if (!frequencyIsConst && phaseShiftIsConst && dimensionEnum == DimensionEnum.Time)
+            else if (!frequencyIsConst && dimensionEnum == DimensionEnum.Time)
             {
-                calculator = new Triangle_OperatorCalculator_VarFrequency_ConstPhaseShift_WithPhaseTracking(frequencyCalculator, phaseShift, dimensionStack);
+                calculator = new Triangle_OperatorCalculator_VarFrequency_WithPhaseTracking(frequencyCalculator, dimensionStack);
             }
-            else if (!frequencyIsConst && phaseShiftIsConst && dimensionEnum != DimensionEnum.Time)
+            else if (!frequencyIsConst && dimensionEnum != DimensionEnum.Time)
             {
-                calculator = new Triangle_OperatorCalculator_VarFrequency_ConstPhaseShift_NoPhaseTracking(frequencyCalculator, phaseShift, dimensionStack);
-            }
-            else if (frequencyIsConst && !phaseShiftIsConst && dimensionEnum == DimensionEnum.Time)
-            {
-                calculator = new Triangle_OperatorCalculator_ConstFrequency_VarPhaseShift_WithOriginShifting(frequency, phaseShiftCalculator, dimensionStack);
-            }
-            else if (frequencyIsConst && !phaseShiftIsConst && dimensionEnum != DimensionEnum.Time)
-            {
-                calculator = new Triangle_OperatorCalculator_ConstFrequency_VarPhaseShift_NoOriginShifting(frequency, phaseShiftCalculator, dimensionStack);
-            }
-            else if (!frequencyIsConst && !phaseShiftIsConst && dimensionEnum == DimensionEnum.Time)
-            {
-                calculator = new Triangle_OperatorCalculator_VarFrequency_VarPhaseShift_WithPhaseTracking(frequencyCalculator, phaseShiftCalculator, dimensionStack);
-            }
-            else if (!frequencyIsConst && !phaseShiftIsConst && dimensionEnum != DimensionEnum.Time)
-            {
-                calculator = new Triangle_OperatorCalculator_VarFrequency_VarPhaseShift_NoPhaseTracking(frequencyCalculator, phaseShiftCalculator, dimensionStack);
+                calculator = new Triangle_OperatorCalculator_VarFrequency_NoPhaseTracking(frequencyCalculator, dimensionStack);
             }
             else
             {

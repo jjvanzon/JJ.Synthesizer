@@ -830,9 +830,7 @@ namespace JJ.Business.Synthesizer.Tests
 
                 double volume = 1;
                 double frequency = 1.0;
-                //double phase = 0.128;
-                double phase = 0;
-                Outlet sine = x.MultiplyWithOrigin(x.Number(volume), x.Sine(x.Number(frequency), x.Number(phase)));
+                Outlet sine = x.Multiply(x.Number(volume), x.Sine(x.Number(frequency)));
 
                 double newSamplingRate = 4;
                 Outlet resampled = x.Resample(sine, x.Number(newSamplingRate));
@@ -954,42 +952,6 @@ namespace JJ.Business.Synthesizer.Tests
             foreach (double time in times)
             {
                 double value = patchCalculator.Calculate(0,0);
-                values.Add(value);
-            }
-        }
-
-        [TestMethod]
-        public void Test_Synthesizer_SawUp_WithPhaseShift()
-        {
-            // With a phase shift of 0.25 I would expect it to start counting at -0.5
-            var x = new PatchApi();
-            var saw = x.SawUp(x.Number(1), x.Number(0.25));
-
-            IPatchCalculator patchCalculator = x.CreateCalculator(
-                saw, 
-                DEFAULT_SAMPLING_RATE,
-                DEFAULT_CHANNEL_COUNT, 
-                DEFAULT_CHANNEL_INDEX, 
-                new CalculatorCache());
-
-            var times = new double[]
-            {
-                0.00,
-                0.25,
-                0.50,
-                0.75,
-                1.00,
-                1.25,
-                1.50,
-                1.75,
-                2.00
-            };
-
-            var values = new List<double>(times.Length);
-
-            foreach (double time in times)
-            {
-                double value = patchCalculator.Calculate(time, 0);
                 values.Add(value);
             }
         }

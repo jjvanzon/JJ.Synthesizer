@@ -19,6 +19,23 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 {
     internal class DataMigrationExecutor
     {
+        private class InletOrOutletDimensionTuple
+        {
+            public InletOrOutletDimensionTuple(
+                OperatorTypeEnum operatorTypeEnum,
+                int listIndex,
+                DimensionEnum dimensionEnum)
+            {
+                OperatorTypeEnum = operatorTypeEnum;
+                ListIndex = listIndex;
+                DimensionEnum = dimensionEnum;
+            }
+
+            public OperatorTypeEnum OperatorTypeEnum { get; }
+            public int ListIndex { get; }
+            public DimensionEnum DimensionEnum { get; }
+        }
+
         private const int DEFAULT_FREQUENCY = 440;
 
         public static void AssertAllDocuments(Action<string> progressCallback)
@@ -1959,23 +1976,6 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
         }
 
-        private class InletOrOutletDimensionTuple
-        {
-            public InletOrOutletDimensionTuple(
-                OperatorTypeEnum operatorTypeEnum,
-                int listIndex,
-                DimensionEnum dimensionEnum)
-            {
-                OperatorTypeEnum = operatorTypeEnum;
-                ListIndex = listIndex;
-                DimensionEnum = dimensionEnum;
-            }
-
-            public OperatorTypeEnum OperatorTypeEnum { get; }
-            public int ListIndex { get; }
-            public DimensionEnum DimensionEnum { get; }
-        }
-
         public static void Migrate_SetDimension_OfStandardOperators_InletsAndOutlets(Action<string> progressCallback)
         {
             if (progressCallback == null) throw new NullException(() => progressCallback);
@@ -2125,6 +2125,65 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                             Outlet outlet = op.Outlets.Where(x => x.ListIndex == outletTuple.ListIndex).Single();
                             outlet.SetDimensionEnum(outletTuple.DimensionEnum, repositories.DimensionRepository);
                         }
+                    }
+
+                    // Cannot validate the operator, because it will do a recursive validation,
+                    // validating not yet migrated operators.
+
+                    string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
+                    progressCallback(progressMessage);
+                }
+
+                AssertDocuments(repositories, progressCallback);
+
+                //throw new Exception("Temporarily not committing, for debugging.");
+
+                context.Commit();
+            }
+
+            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        }
+
+        public static void Migrate_DeletePhaseShiftInlets(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                var patchManager = new PatchManager(new PatchRepositories(repositories));
+
+                IList<Operator> operators = repositories.OperatorRepository.GetAll();
+
+                for (int i = 0; i < operators.Count; i++)
+                {
+                    Operator op = operators[i];
+
+                    OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
+
+                    switch (operatorTypeEnum)
+                    {
+                        case OperatorTypeEnum.Random:
+                        case OperatorTypeEnum.SawDown:
+                        case OperatorTypeEnum.SawUp:
+                        case OperatorTypeEnum.Sine:
+                        case OperatorTypeEnum.Square:
+                        case OperatorTypeEnum.Triangle:
+                            {
+                                Inlet inlet = op.Inlets.Single(x => x.ListIndex == 1);
+                                patchManager.DeleteInlet(inlet);
+                                break;
+                            }
+
+                        case OperatorTypeEnum.Pulse:
+                            {
+                                Inlet inlet = op.Inlets.Single(x => x.ListIndex == 2);
+                                patchManager.DeleteInlet(inlet);
+                                break;
+                            }
                     }
 
                     // Cannot validate the operator, because it will do a recursive validation,

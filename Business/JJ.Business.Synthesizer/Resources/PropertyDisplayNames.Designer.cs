@@ -1528,15 +1528,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Phase Shift.
-        /// </summary>
-        public static string PhaseShift {
-            get {
-                return ResourceManager.GetString("PhaseShift", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Position.
         /// </summary>
         public static string Position {

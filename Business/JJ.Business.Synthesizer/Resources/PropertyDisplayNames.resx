@@ -677,9 +677,6 @@
   <data name="Result" xml:space="preserve">
     <value>Result</value>
   </data>
-  <data name="PhaseShift" xml:space="preserve">
-    <value>Phase Shift</value>
-  </data>
   <data name="Base" xml:space="preserve">
     <value>Base</value>
   </data>

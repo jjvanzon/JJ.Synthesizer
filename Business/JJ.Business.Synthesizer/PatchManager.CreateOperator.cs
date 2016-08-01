@@ -1510,12 +1510,11 @@ namespace JJ.Business.Synthesizer
         public Pulse_OperatorWrapper Pulse(
             Outlet frequency = null, 
             Outlet width = null, 
-            Outlet phaseShift = null, 
             DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Pulse,
-                new DimensionEnum[] { DimensionEnum.Frequency, DimensionEnum.Undefined, DimensionEnum.Undefined },
+                new DimensionEnum[] { DimensionEnum.Frequency, DimensionEnum.Undefined },
                 new DimensionEnum[] { DimensionEnum.Signal });
 
             op.SetDimensionEnum(dimension, _repositories.DimensionRepository);
@@ -1524,7 +1523,6 @@ namespace JJ.Business.Synthesizer
             {
                 Frequency = frequency,
                 Width = width,
-                PhaseShift = phaseShift
             };
 
             wrapper.FrequencyInlet.DefaultValue = DEFAULT_FREQUENCY;
@@ -1555,11 +1553,11 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Random_OperatorWrapper Random(Outlet rate = null, Outlet phaseShift = null, DimensionEnum dimension = DimensionEnum.Time)
+        public Random_OperatorWrapper Random(Outlet rate = null, DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Random,
-                new DimensionEnum[] { DimensionEnum.Undefined, DimensionEnum.Undefined },
+                new DimensionEnum[] { DimensionEnum.Undefined },
                 new DimensionEnum[] { DimensionEnum.Undefined });
 
             op.SetDimensionEnum(dimension, _repositories.DimensionRepository);
@@ -1567,7 +1565,6 @@ namespace JJ.Business.Synthesizer
             var wrapper = new Random_OperatorWrapper(op)
             {
                 Rate = rate,
-                PhaseShift = phaseShift,
                 InterpolationType = ResampleInterpolationTypeEnum.Block
             };
 
@@ -1724,19 +1721,18 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public SawDown_OperatorWrapper SawDown(Outlet frequency = null, Outlet phaseShift = null, DimensionEnum dimension = DimensionEnum.Time)
+        public SawDown_OperatorWrapper SawDown(Outlet frequency = null, DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.SawDown,
-                new DimensionEnum[] { DimensionEnum.Frequency, DimensionEnum.Undefined },
+                new DimensionEnum[] { DimensionEnum.Frequency },
                 new DimensionEnum[] { DimensionEnum.Signal });
 
             op.SetDimensionEnum(dimension, _repositories.DimensionRepository);
 
             var wrapper = new SawDown_OperatorWrapper(op)
             {
-                Frequency = frequency,
-                PhaseShift = phaseShift
+                Frequency = frequency
             };
 
             wrapper.FrequencyInlet.DefaultValue = DEFAULT_FREQUENCY;
@@ -1747,11 +1743,11 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public SawUp_OperatorWrapper SawUp(Outlet frequency = null, Outlet phaseShift = null, DimensionEnum dimension = DimensionEnum.Time)
+        public SawUp_OperatorWrapper SawUp(Outlet frequency = null, DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.SawUp,
-                new DimensionEnum[] { DimensionEnum.Frequency, DimensionEnum.Undefined },
+                new DimensionEnum[] { DimensionEnum.Frequency },
                 new DimensionEnum[] { DimensionEnum.Signal });
 
             op.SetDimensionEnum(dimension, _repositories.DimensionRepository);
@@ -1759,7 +1755,6 @@ namespace JJ.Business.Synthesizer
             var wrapper = new SawUp_OperatorWrapper(op)
             {
                 Frequency = frequency,
-                PhaseShift = phaseShift
             };
 
             wrapper.FrequencyInlet.DefaultValue = DEFAULT_FREQUENCY;
@@ -1873,19 +1868,18 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Sine_OperatorWrapper Sine(Outlet frequency = null, Outlet phaseShift = null, DimensionEnum dimension = DimensionEnum.Time)
+        public Sine_OperatorWrapper Sine(Outlet frequency = null, DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Sine,
-                new DimensionEnum[] { DimensionEnum.Frequency, DimensionEnum.Undefined },
+                new DimensionEnum[] { DimensionEnum.Frequency},
                 new DimensionEnum[] { DimensionEnum.Signal });
 
             op.SetDimensionEnum(dimension, _repositories.DimensionRepository);
 
             var wrapper = new Sine_OperatorWrapper(op)
             {
-                Frequency = frequency,
-                PhaseShift = phaseShift
+                Frequency = frequency
             };
 
             wrapper.FrequencyInlet.DefaultValue = DEFAULT_FREQUENCY;
@@ -1980,11 +1974,11 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Square_OperatorWrapper Square(Outlet frequency = null, Outlet phaseShift = null, DimensionEnum dimension = DimensionEnum.Time)
+        public Square_OperatorWrapper Square(Outlet frequency = null, DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Square,
-                new DimensionEnum[] { DimensionEnum.Frequency, DimensionEnum.Undefined },
+                new DimensionEnum[] { DimensionEnum.Frequency },
                 new DimensionEnum[] { DimensionEnum.Signal });
 
             op.SetDimensionEnum(dimension, _repositories.DimensionRepository);
@@ -1992,7 +1986,6 @@ namespace JJ.Business.Synthesizer
             var wrapper = new Square_OperatorWrapper(op)
             {
                 Frequency = frequency,
-                PhaseShift = phaseShift
             };
 
             wrapper.FrequencyInlet.DefaultValue = DEFAULT_FREQUENCY;
@@ -2188,19 +2181,18 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Triangle_OperatorWrapper Triangle(Outlet frequency = null, Outlet phaseShift = null, DimensionEnum dimension = DimensionEnum.Time)
+        public Triangle_OperatorWrapper Triangle(Outlet frequency = null, DimensionEnum dimension = DimensionEnum.Time)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Triangle,
-                new DimensionEnum[] { DimensionEnum.Frequency, DimensionEnum.Undefined },
+                new DimensionEnum[] { DimensionEnum.Frequency },
                 new DimensionEnum[] { DimensionEnum.Signal });
 
             op.SetDimensionEnum(dimension, _repositories.DimensionRepository);
 
             var wrapper = new Triangle_OperatorWrapper(op)
             {
-                Frequency = frequency,
-                PhaseShift = phaseShift
+                Frequency = frequency
             };
 
             wrapper.FrequencyInlet.DefaultValue = DEFAULT_FREQUENCY;

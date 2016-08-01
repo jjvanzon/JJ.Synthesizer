@@ -566,10 +566,9 @@ namespace JJ.Business.Synthesizer.Api
         public Pulse_OperatorWrapper Pulse(
             Outlet frequency = null, 
             Outlet width = null, 
-            Outlet phaseShift = null,
             DimensionEnum dimension = DimensionEnum.Time)
         {
-            return _patchManager.Pulse(frequency, width, phaseShift, dimension);
+            return _patchManager.Pulse(frequency, width, dimension);
         }
 
         public PulseTrigger_OperatorWrapper PulseTrigger(Outlet calculation, Outlet reset)
@@ -577,12 +576,9 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.PulseTrigger(calculation, reset);
         }
 
-        public Random_OperatorWrapper Random(
-            Outlet rate = null, 
-            Outlet phaseShift = null,
-            DimensionEnum dimension = DimensionEnum.Time)
+        public Random_OperatorWrapper Random(Outlet rate = null, DimensionEnum dimension = DimensionEnum.Time)
         {
-            return _patchManager.Random(rate, phaseShift, dimension);
+            return _patchManager.Random(rate, dimension);
         }
 
         public Resample_OperatorWrapper Resample(
@@ -617,20 +613,14 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Sample(sample, frequency, dimension);
         }
 
-        public SawDown_OperatorWrapper SawDown(
-            Outlet frequency = null, 
-            Outlet phaseShift = null,
-            DimensionEnum dimension = DimensionEnum.Time)
+        public SawDown_OperatorWrapper SawDown(Outlet frequency = null, DimensionEnum dimension = DimensionEnum.Time)
         {
-            return _patchManager.SawDown(frequency, phaseShift, dimension);
+            return _patchManager.SawDown(frequency, dimension);
         }
 
-        public SawUp_OperatorWrapper SawUp(
-            Outlet frequency = null, 
-            Outlet phaseShift = null, 
-            DimensionEnum dimension = DimensionEnum.Time)
+        public SawUp_OperatorWrapper SawUp(Outlet frequency = null, DimensionEnum dimension = DimensionEnum.Time)
         {
-            return _patchManager.SawUp(frequency, phaseShift, dimension);
+            return _patchManager.SawUp(frequency, dimension);
         }
 
         public Scaler_OperatorWrapper Scaler(
@@ -664,12 +654,9 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Shift(signal, difference, dimension);
         }
 
-        public Sine_OperatorWrapper Sine(
-            Outlet frequency = null, 
-            Outlet phaseShift = null, 
-            DimensionEnum dimension = DimensionEnum.Time)
+        public Sine_OperatorWrapper Sine(Outlet frequency = null, DimensionEnum dimension = DimensionEnum.Time)
         {
-            return _patchManager.Sine(frequency, phaseShift, dimension);
+            return _patchManager.Sine(frequency, dimension);
         }
 
         public Sort_OperatorWrapper Sort(params Outlet[] operands)
@@ -703,12 +690,9 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Spectrum(signal, start, end, samplingRate, dimension);
         }
 
-        public Square_OperatorWrapper Square(
-            Outlet frequency = null, 
-            Outlet phaseShift = null,
-            DimensionEnum dimension = DimensionEnum.Time)
+        public Square_OperatorWrapper Square(Outlet frequency = null, DimensionEnum dimension = DimensionEnum.Time)
         {
-            return _patchManager.Square(frequency, phaseShift, dimension);
+            return _patchManager.Square(frequency, dimension);
         }
 
         public Stretch_OperatorWrapper Stretch(
@@ -759,12 +743,9 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.ToggleTrigger(calculation, reset);
         }
 
-        public Triangle_OperatorWrapper Triangle(
-            Outlet frequency = null, 
-            Outlet phaseShift = null,
-            DimensionEnum dimension = DimensionEnum.Time)
+        public Triangle_OperatorWrapper Triangle(Outlet frequency = null, DimensionEnum dimension = DimensionEnum.Time)
         {
-            return _patchManager.Triangle(frequency, phaseShift, dimension);
+            return _patchManager.Triangle(frequency, dimension);
         }
 
         public Unbundle_OperatorWrapper Unbundle(Outlet operand, DimensionEnum dimension, int outletCount)

@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             : base(
                 obj,
                 OperatorTypeEnum.Random,
-                new DimensionEnum[] { DimensionEnum.Undefined, DimensionEnum.Undefined },
+                new DimensionEnum[] { DimensionEnum.Undefined },
                 new DimensionEnum[] { DimensionEnum.Undefined },
                 expectedDataKeys: new string[] { PropertyNames.InterpolationType })
         { }

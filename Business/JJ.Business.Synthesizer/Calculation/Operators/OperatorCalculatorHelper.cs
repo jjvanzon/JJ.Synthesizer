@@ -45,14 +45,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (dimensionStack.CurrentIndex < 0) throw new LessThanException(() => dimensionStack.CurrentIndex, 0);
         }
 
-        public static void AssertPhaseShift(double phaseShift)
-        {
-            if (phaseShift >= 1.0) throw new GreaterThanOrEqualException(() => phaseShift, 1.0);
-            if (Double.IsNaN(phaseShift)) throw new NaNException(() => phaseShift);
-            if (Double.IsInfinity(phaseShift)) throw new InfinityException(() => phaseShift);
-            if (phaseShift % 1.0 == 0.0) throw new Exception("phaseShift cannot be a multiple of 1.");
-        }
-
         public static void AssertDimensionEnum(DimensionEnum dimensionEnum)
         {
             if (!EnumHelper.IsValidEnum(dimensionEnum)) throw new InvalidValueException(dimensionEnum);

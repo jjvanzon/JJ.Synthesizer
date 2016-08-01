@@ -174,12 +174,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private static bool StartIsValid(double start)
         {
-            return !DoubleHelper.IsSpecialNumber(start);
+            return !DoubleHelper.IsSpecialValue(start);
         }
 
         private static bool EndIsValid(double end)
         {
-            return !DoubleHelper.IsSpecialNumber(end);
+            return !DoubleHelper.IsSpecialValue(end);
         }
 
         private static bool FrequencyCountIsValid(double frequencyCount)

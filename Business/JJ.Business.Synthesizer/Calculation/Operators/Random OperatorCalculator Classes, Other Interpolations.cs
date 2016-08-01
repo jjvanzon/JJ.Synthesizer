@@ -18,17 +18,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             RandomCalculatorBase randomCalculator,
             double randomCalculatorOffset,
             OperatorCalculatorBase rateCalculator,
-            OperatorCalculatorBase phaseShiftCalculator,
             ResampleInterpolationTypeEnum resampleInterpolationTypeEnum,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] { rateCalculator, phaseShiftCalculator })
+            : base(new OperatorCalculatorBase[] { rateCalculator })
         {
             // HACK in a piece of patch, to reuse the Resample_OperatorCalculator's capability of
             // handling many types of interpolation.
 
             // Create a second Random operator calculator.
-            var randomCalculator2 = new Random_OperatorCalculator_BlockAndStripe_VarFrequency_VarPhaseShift(
-                randomCalculator, randomCalculatorOffset, rateCalculator, phaseShiftCalculator, dimensionStack);
+            var randomCalculator2 = new Random_OperatorCalculator_BlockAndStripe_VarFrequency(
+                randomCalculator, randomCalculatorOffset, rateCalculator, dimensionStack);
 
             // Lead their outputs to a Resample operator calculator
             _resampleOperator = OperatorCalculatorFactory.CreateResample_OperatorCalculator(

@@ -7,37 +7,33 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    // Right now there aren't any other variations than VarFrequency and VarPhaseShift.
-    internal class Random_OperatorCalculator_BlockAndStripe_VarFrequency_VarPhaseShift : OperatorCalculatorBase_WithChildCalculators
+    // Right now there aren't any other variations than VarFrequency.
+    internal class Random_OperatorCalculator_BlockAndStripe_VarFrequency : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly RandomCalculatorBase _randomCalculator;
         private readonly double _randomCalculatorOffset;
         private readonly OperatorCalculatorBase _rateCalculator;
-        private readonly OperatorCalculatorBase _phaseShiftCalculator;
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
         private double _phase;
         private double _previousPosition;
 
-        public Random_OperatorCalculator_BlockAndStripe_VarFrequency_VarPhaseShift(
+        public Random_OperatorCalculator_BlockAndStripe_VarFrequency(
             RandomCalculatorBase randomCalculator,
             double randomCalculatorOffset,
             OperatorCalculatorBase rateCalculator,
-            OperatorCalculatorBase phaseShiftCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] { rateCalculator, phaseShiftCalculator })
+            : base(new OperatorCalculatorBase[] { rateCalculator })
         {
             if (randomCalculator == null) throw new NullException(() => randomCalculator);
             // TODO: Make assertion strict again, once you have more calculator variations.
             //OperatorCalculatorHelper.AssertOperatorCalculatorBase(frequencyCalculator, () => frequencyCalculator);
-            //OperatorCalculatorHelper.AssertOperatorCalculatorBase(phaseShiftCalculator, () => phaseShiftCalculator);
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _randomCalculator = randomCalculator;
             _randomCalculatorOffset = randomCalculatorOffset;
             _rateCalculator = rateCalculator;
-            _phaseShiftCalculator = phaseShiftCalculator;
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
 
@@ -58,14 +54,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #endif
 
             double rate = _rateCalculator.Calculate();
-            double phaseShift = _phaseShiftCalculator.Calculate();
 
             double positionChange = position - _previousPosition;
-            double phase = _phase + positionChange * rate;
-
-            _phase = phase;
-
-            double shiftedPhase = _phase + phaseShift;
+            _phase = _phase + positionChange * rate;
 
             double value = _randomCalculator.GetValue(_phase);
 

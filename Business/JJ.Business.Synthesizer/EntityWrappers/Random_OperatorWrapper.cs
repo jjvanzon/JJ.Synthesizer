@@ -29,17 +29,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return OperatorHelper.GetInlet(WrappedOperator, RATE_INDEX); }
         }
 
-        public Outlet PhaseShift
-        {
-            get { return PhaseShiftInlet.InputOutlet; }
-            set { PhaseShiftInlet.LinkTo(value); }
-        }
-
-        public Inlet PhaseShiftInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, PHASE_SHIFT_INDEX); }
-        }
-
         public Outlet Result
         {
             get { return OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX); }
@@ -58,12 +47,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
                 case RATE_INDEX:
                     {
                         string name = ResourceHelper.GetPropertyDisplayName(() => Rate);
-                        return name;
-                    }
-
-                case PHASE_SHIFT_INDEX:
-                    {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => PhaseShift);
                         return name;
                     }
 
