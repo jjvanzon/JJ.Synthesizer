@@ -16,23 +16,24 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     /// <summary> Validates the inlet and outlet ListIndexes and that the inlet names are NOT filled in. </summary>
     public abstract class OperatorValidator_Base : FluentValidator<Operator>
     {
-        private OperatorTypeEnum _expectedOperatorTypeEnum;
-        private int _expectedInletCount;
-        private int _expectedOutletCount;
-
-        private IList<string> _expectedDataKeys;
+        private readonly OperatorTypeEnum _expectedOperatorTypeEnum;
+        private readonly int _expectedInletCount;
+        private readonly int _expectedOutletCount;
+        private readonly IList<string> _expectedDataKeys;
+        private readonly IList<DimensionEnum> _expectedInletDimensionEnums;
+        private readonly IList<DimensionEnum> _expectedOutletDimensionEnums;
 
         public OperatorValidator_Base(
             Operator obj,
             OperatorTypeEnum expectedOperatorTypeEnum,
-            int expectedInletCount,
-            int expectedOutletCount,
+            IList<DimensionEnum> expectedInletDimensionEnums,
+            IList<DimensionEnum> expectedOutletDimensionEnums,
             IList<string> expectedDataKeys)
             : base(obj, postponeExecute: true)
         {
-            if (expectedInletCount < 0) throw new LessThanException(() => expectedInletCount, 0);
-            if (expectedOutletCount < 0) throw new LessThanException(() => expectedOutletCount, 0);
             if (expectedDataKeys == null) throw new NullException(() => expectedDataKeys);
+            if (expectedInletDimensionEnums == null) throw new NullException(() => expectedInletDimensionEnums);
+            if (expectedOutletDimensionEnums == null) throw new NullException(() => expectedOutletDimensionEnums);
 
             int uniqueExpectedDataPropertyKeyCount = expectedDataKeys.Distinct().Count();
             if (uniqueExpectedDataPropertyKeyCount != expectedDataKeys.Count)
@@ -41,9 +42,11 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             }
 
             _expectedOperatorTypeEnum = expectedOperatorTypeEnum;
-            _expectedInletCount = expectedInletCount;
-            _expectedOutletCount = expectedOutletCount;
+            _expectedInletDimensionEnums = expectedInletDimensionEnums;
+            _expectedOutletDimensionEnums = expectedOutletDimensionEnums;
             _expectedDataKeys = expectedDataKeys;
+            _expectedInletCount = _expectedInletDimensionEnums.Count;
+            _expectedOutletCount = _expectedOutletDimensionEnums.Count;
 
             Execute();
         }
@@ -63,9 +66,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 for (int i = 0; i < sortedInlets.Count; i++)
                 {
                     Inlet inlet = sortedInlets[i];
+                    DimensionEnum expectedDimensionEnum = _expectedInletDimensionEnums[i];
 
                     string messagePrefix = ValidationHelper.GetMessagePrefix(inlet, i + 1);
-                    ExecuteValidator(new InletValidator_ForOtherOperator(inlet, i), messagePrefix);
+                    ExecuteValidator(new InletValidator_NotForCustomOperator(inlet, i, expectedDimensionEnum), messagePrefix);
                 }
             }
 
@@ -78,9 +82,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 for (int i = 0; i < sortedOutlets.Count; i++)
                 {
                     Outlet outlet = sortedOutlets[i];
+                    DimensionEnum expectedDimensionEnum = _expectedOutletDimensionEnums[i];
 
                     string messagePrefix = ValidationHelper.GetMessagePrefix(outlet, i + 1);
-                    ExecuteValidator(new OutletValidator_ForOtherOperator(outlet, i), messagePrefix);
+                    ExecuteValidator(new OutletValidator_NotForCustomOperator(outlet, i, expectedDimensionEnum), messagePrefix);
                 }
             }
 

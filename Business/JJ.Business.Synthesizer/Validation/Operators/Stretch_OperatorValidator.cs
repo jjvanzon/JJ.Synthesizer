@@ -7,7 +7,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     internal class Stretch_OperatorValidator : OperatorValidator_Base
     {
         public Stretch_OperatorValidator(Operator obj)
-            : base(obj, OperatorTypeEnum.Stretch, expectedInletCount: 3, expectedOutletCount: 1, expectedDataKeys: new string[0])
+            : base(obj, OperatorTypeEnum.Stretch, expectedDataKeys: new string[0], expectedInletCount: 3, expectedOutletCount: 1)
         { }
     }
 }

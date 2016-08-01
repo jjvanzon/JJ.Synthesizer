@@ -8,10 +8,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         public TimePower_OperatorValidator(Operator obj)
             : base(
                   obj,
-                  OperatorTypeEnum.TimePower,
-                  expectedInletCount: 3,
-                  expectedOutletCount: 1,
-                  expectedDataKeys: new string[0])
+                OperatorTypeEnum.TimePower,
+                expectedDataKeys: new string[0],
+                expectedInletCount: 3,
+                expectedOutletCount: 1)
         { }
     }
 }

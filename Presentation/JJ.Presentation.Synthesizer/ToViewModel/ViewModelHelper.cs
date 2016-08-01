@@ -771,8 +771,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             Operator operator1 = entity.Operator;
             Operator operator2 = entity.InputOutlet.Operator;
 
-            EntityPosition entityPosition1 = entityPositionManager.GetOperatorPosition(operator1.ID);
-            EntityPosition entityPosition2 = entityPositionManager.GetOperatorPosition(operator2.ID);
+            EntityPosition entityPosition1 = entityPositionManager.GetOrCreateOperatorPosition(operator1.ID);
+            EntityPosition entityPosition2 = entityPositionManager.GetOrCreateOperatorPosition(operator2.ID);
 
             float distance = Geometry.AbsoluteDistance(
                 entityPosition1.X,
@@ -802,8 +802,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 Operator operator2 = connectedInlet.Operator;
 
-                EntityPosition entityPosition1 = entityPositionManager.GetOperatorPosition(operator1.ID);
-                EntityPosition entityPosition2 = entityPositionManager.GetOperatorPosition(operator2.ID);
+                EntityPosition entityPosition1 = entityPositionManager.GetOrCreateOperatorPosition(operator1.ID);
+                EntityPosition entityPosition2 = entityPositionManager.GetOrCreateOperatorPosition(operator2.ID);
 
                 float distance = Geometry.AbsoluteDistance(
                     entityPosition1.X,

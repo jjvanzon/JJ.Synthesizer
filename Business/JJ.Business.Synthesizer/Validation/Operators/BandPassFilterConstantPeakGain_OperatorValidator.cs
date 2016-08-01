@@ -12,10 +12,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         public BandPassFilterConstantPeakGain_OperatorValidator(Operator obj)
             : base(
                   obj,
-                  OperatorTypeEnum.BandPassFilterConstantPeakGain,
-                  expectedInletCount: 3,
-                  expectedOutletCount: 1,
-                  expectedDataKeys: new string[0])
+                OperatorTypeEnum.BandPassFilterConstantPeakGain,
+                expectedDataKeys: new string[0],
+                expectedInletCount: 3,
+                expectedOutletCount: 1)
         { }
 
         protected override void Execute()

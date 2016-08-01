@@ -12,11 +12,11 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     {
         public PatchOutlet_OperatorValidator(Operator obj)
             : base(
-                  obj, 
-                  OperatorTypeEnum.PatchOutlet, 
-                  expectedInletCount: 1, 
-                  expectedOutletCount: 1,
-                  expectedDataKeys: new string[] { PropertyNames.ListIndex })
+                  obj,
+                OperatorTypeEnum.PatchOutlet,
+                expectedDataKeys: new string[] { PropertyNames.ListIndex },
+                expectedInletCount: 1,
+                expectedOutletCount: 1)
         { }
 
         protected override void Execute()

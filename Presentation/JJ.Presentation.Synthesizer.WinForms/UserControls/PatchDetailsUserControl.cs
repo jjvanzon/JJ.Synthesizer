@@ -28,8 +28,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<ChangeInputOutletEventArgs> ChangeInputOutletRequested;
         public event EventHandler<Int32EventArgs> SelectOperatorRequested;
         public event EventHandler PlayRequested;
-        public event EventHandler<Int32EventArgs> OperatorPropertiesRequested;
-        public event EventHandler SelectedOperatorPropertiesRequested;
+        public event EventHandler<Int32EventArgs> ShowOperatorPropertiesRequested;
+        public event EventHandler<Int32EventArgs> ShowPatchPropertiesRequested;
 
         private const bool DEFAULT_ALWAYS_RECREATE_DIAGRAM = false;
         private const bool DEFAULT_MUST_EXECUTE_MOVE_ACTION_WHILE_DRAGGING = false;
@@ -39,7 +39,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private readonly static bool _mustExecuteOperatorMoveActionWhileDragging = GetMustExecuteOperatorMoveActionWhileDragging();
 
         private PatchViewModelToDiagramConverter _converter;
-        private PatchViewModelToDiagramConverterResult _vectorGraphics;
+        private PatchViewModelToDiagramConverterResult _converterResult;
         private bool _operatorToolboxItemsViewModelIsApplied = false; // Dirty way to only apply it once.
 
         // Constructors
@@ -80,66 +80,59 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             UnbindVectorGraphicsEvents();
 
-            if (_vectorGraphics == null || _alwaysRecreateDiagram)
+            if (_converterResult == null || _alwaysRecreateDiagram)
             {
                 _converter = new PatchViewModelToDiagramConverter(
                     SystemInformation.DoubleClickTime,
                     SystemInformation.DoubleClickSize.Width);
 
-                _vectorGraphics = _converter.Execute(ViewModel.Entity);
+                _converterResult = _converter.Execute(ViewModel.Entity);
             }
             else
             {
-                _vectorGraphics = _converter.Execute(ViewModel.Entity, _vectorGraphics);
+                _converterResult = _converter.Execute(ViewModel.Entity, _converterResult);
             }
 
             BindVectorGraphicsEvents();
 
-            diagramControl1.Diagram = _vectorGraphics.Diagram;
+            diagramControl1.Diagram = _converterResult.Diagram;
 
             ApplyOperatorToolboxItemsViewModel(ViewModel.OperatorToolboxItems);
         }
 
         private void BindVectorGraphicsEvents()
         {
-            _vectorGraphics.SelectOperatorGesture.OperatorSelected += SelectOperatorGesture_OperatorSelected;
-            _vectorGraphics.MoveGesture.Moving += MoveGesture_Moving;
-            _vectorGraphics.MoveGesture.Moved += MoveGesture_Moved;
-            _vectorGraphics.DropLineGesture.Dropped += DropLineGesture_Dropped;
-            _vectorGraphics.DeleteOperatorGesture.DeleteRequested += DeleteOperatorGesture_DeleteRequested;
-            _vectorGraphics.DoubleClickOperatorGesture.DoubleClick += DoubleClickOperatorGesture_DoubleClick;
-            _vectorGraphics.OperatorEnterKeyGesture.EnterKeyPressed += OperatorEnterKeyGesture_EnterKeyPressed;
+            _converterResult.SelectOperatorGesture.OperatorSelected += SelectOperatorGesture_OperatorSelected;
+            _converterResult.MoveGesture.Moving += MoveGesture_Moving;
+            _converterResult.MoveGesture.Moved += MoveGesture_Moved;
+            _converterResult.DropLineGesture.Dropped += DropLineGesture_Dropped;
+            _converterResult.DeleteOperatorGesture.DeleteRequested += DeleteOperatorGesture_DeleteRequested;
+            _converterResult.ShowOperatorPropertiesMouseGesture.ShowOperatorPropertiesRequested += ShowOperatorPropertiesMouseGesture_ShowOperatorPropertiesRequested;
+            _converterResult.ShowOperatorPropertiesKeyboardGesture.ShowOperatorPropertiesRequested += ShowOperatorPropertiesKeyboardGesture_ShowOperatorPropertiesRequested;
+            _converterResult.ShowPatchPropertiesGesture.ShowPatchPropertiesRequested += ShowPatchPropertiesGesture_ShowPatchPropertiesRequested;
+            _converterResult.InletToolTipGesture.ToolTipTextRequested += InletToolTipGesture_ToolTipTextRequested;
+            _converterResult.OutletToolTipGesture.ToolTipTextRequested += OutletToolTipGesture_ToolTipTextRequested;
+        }
 
-            if (_vectorGraphics.InletToolTipGesture != null)
-            {
-                _vectorGraphics.InletToolTipGesture.ToolTipTextRequested += InletToolTipGesture_ToolTipTextRequested;
-            }
-            if (_vectorGraphics.OutletToolTipGesture != null)
-            {
-                _vectorGraphics.OutletToolTipGesture.ToolTipTextRequested += OutletToolTipGesture_ToolTipTextRequested;
-            }
+        private void ShowPatchPropertiesGesture_ShowPatchPropertiesRequested(object sender, EventArgs e)
+        {
+            ShowPatchPropertiesRequested?.Invoke(this, new Int32EventArgs(ViewModel.Entity.ChildDocumentID));
         }
 
         private void UnbindVectorGraphicsEvents()
         {
-            if (_vectorGraphics != null)
+            if (_converterResult != null)
             {
-                _vectorGraphics.SelectOperatorGesture.OperatorSelected -= SelectOperatorGesture_OperatorSelected;
-                _vectorGraphics.MoveGesture.Moving -= MoveGesture_Moving;
-                _vectorGraphics.MoveGesture.Moved -= MoveGesture_Moved;
-                _vectorGraphics.DropLineGesture.Dropped -= DropLineGesture_Dropped;
-                _vectorGraphics.DeleteOperatorGesture.DeleteRequested -= DeleteOperatorGesture_DeleteRequested;
-                _vectorGraphics.DoubleClickOperatorGesture.DoubleClick -= DoubleClickOperatorGesture_DoubleClick;
-                _vectorGraphics.OperatorEnterKeyGesture.EnterKeyPressed -= OperatorEnterKeyGesture_EnterKeyPressed;
-                
-                if (_vectorGraphics.InletToolTipGesture != null)
-                {
-                    _vectorGraphics.InletToolTipGesture.ToolTipTextRequested -= InletToolTipGesture_ToolTipTextRequested;
-                }
-                if (_vectorGraphics.OutletToolTipGesture != null)
-                {
-                    _vectorGraphics.OutletToolTipGesture.ToolTipTextRequested -= OutletToolTipGesture_ToolTipTextRequested;
-                }
+                _converterResult.SelectOperatorGesture.OperatorSelected -= SelectOperatorGesture_OperatorSelected;
+                _converterResult.MoveGesture.Moving -= MoveGesture_Moving;
+                _converterResult.MoveGesture.Moved -= MoveGesture_Moved;
+                _converterResult.DropLineGesture.Dropped -= DropLineGesture_Dropped;
+                _converterResult.DeleteOperatorGesture.DeleteRequested -= DeleteOperatorGesture_DeleteRequested;
+                _converterResult.ShowOperatorPropertiesMouseGesture.ShowOperatorPropertiesRequested -= ShowOperatorPropertiesMouseGesture_ShowOperatorPropertiesRequested;
+                _converterResult.ShowOperatorPropertiesKeyboardGesture.ShowOperatorPropertiesRequested -= ShowOperatorPropertiesKeyboardGesture_ShowOperatorPropertiesRequested;
+                _converterResult.ShowPatchPropertiesGesture.ShowPatchPropertiesRequested -= ShowPatchPropertiesGesture_ShowPatchPropertiesRequested;
+                _converterResult.InletToolTipGesture.ToolTipTextRequested -= InletToolTipGesture_ToolTipTextRequested;
+                _converterResult.OutletToolTipGesture.ToolTipTextRequested -= OutletToolTipGesture_ToolTipTextRequested;
             }
         }
 
@@ -227,6 +220,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             int operatorID = VectorGraphicsTagHelper.GetOperatorID(e.Element.Tag);
 
             SelectOperatorRequested?.Invoke(this, new Int32EventArgs(operatorID));
+
+            _converterResult.ShowOperatorPropertiesKeyboardGesture.SelectedOperatorID = operatorID;
         }
 
         private void DeleteOperatorGesture_DeleteRequested(object sender, EventArgs e)
@@ -234,16 +229,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             DeleteOperatorRequested?.Invoke(this, EventArgs.Empty);
         }
 
-        private void DoubleClickOperatorGesture_DoubleClick(object sender, ElementEventArgs e)
+        private void ShowOperatorPropertiesMouseGesture_ShowOperatorPropertiesRequested(object sender, IDEventArgs e)
         {
-            int operatorID = VectorGraphicsTagHelper.GetOperatorID(e.Element.Tag);
-
-            OperatorPropertiesRequested?.Invoke(this, new Int32EventArgs(operatorID));
+            ShowOperatorPropertiesRequested?.Invoke(this, new Int32EventArgs(e.ID));
         }
 
-        private void OperatorEnterKeyGesture_EnterKeyPressed(object sender, EventArgs e)
+        private void ShowOperatorPropertiesKeyboardGesture_ShowOperatorPropertiesRequested(object sender, IDEventArgs e)
         {
-            SelectedOperatorPropertiesRequested?.Invoke(this, EventArgs.Empty);
+            ShowOperatorPropertiesRequested?.Invoke(this, new Int32EventArgs(e.ID));
         }
 
         private void buttonPlay_Click(object sender, EventArgs e)

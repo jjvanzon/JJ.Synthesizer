@@ -1217,19 +1217,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             throw new Exception(String.Format("Properties ViewModel not found for Operator with ID '{0}'.", id));
         }
 
-        public void SelectedOperatorPropertiesShow()
-        {
-            // GetViewModel
-            PatchDetailsViewModel userInput = DocumentViewModelHelper.GetVisiblePatchDetailsViewModel(MainViewModel.Document);
-
-            // Delegate to other action
-            if (userInput.SelectedOperator != null &&
-                userInput.SelectedOperator.ID != 0)
-            {
-                OperatorPropertiesShow(userInput.SelectedOperator.ID);
-            }
-        }
-
         public void OperatorPropertiesClose(int id)
         {
             OperatorPropertiesCloseOrLoseFocus(_operatorPropertiesPresenter.Close, id);
@@ -1674,9 +1661,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // TemplateMethod
             TemplateActionMethod(userInput, () => _patchDetailsPresenter.Show(userInput));
-
-            // TODO: Change to permanent solution. (Double click on empty area in PatchDetails should show PatchProperties.)
-            PatchPropertiesShow(childDocumentID);
         }
 
         public void PatchDetailsClose(int patchID)

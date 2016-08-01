@@ -8,16 +8,19 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    /// <summary> For operators other than CustomOperator. </summary>
-    internal class OutletValidator_ForOtherOperator : FluentValidator<Outlet>
+    internal class InletValidator_NotForCustomOperator : FluentValidator<Inlet>
     {
         private readonly int _expectedListIndex;
+        private readonly DimensionEnum _expectedDimensionEnum;
 
-        /// <summary> For operators other than CustomOperator. </summary>
-        public OutletValidator_ForOtherOperator(Outlet obj, int expectedListIndex)
+        public InletValidator_NotForCustomOperator(
+            Inlet obj, 
+            int expectedListIndex,
+            DimensionEnum expectedDimensionEnum)
             : base(obj, postponeExecute: true)
         {
             _expectedListIndex = expectedListIndex;
+            _expectedDimensionEnum = expectedDimensionEnum;
 
             Execute();
         }
@@ -30,7 +33,7 @@ namespace JJ.Business.Synthesizer.Validation
             // because those need to be more flexible or it would become unmanageable for the user.
             For(() => Object.ListIndex, PropertyDisplayNames.ListIndex).Is(_expectedListIndex);
 
-            For(() => Object.GetDimensionEnum(), PropertyDisplayNames.Dimension).IsEnum<DimensionEnum>();
+            For(() => Object.GetDimensionEnum(), PropertyDisplayNames.Dimension).Is(_expectedDimensionEnum);
         }
     }
 }

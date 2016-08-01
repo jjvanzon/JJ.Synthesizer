@@ -45,7 +45,7 @@ namespace JJ.Data.Synthesizer.Helpers
 
             if (entity.Operator != null)
             {
-                sb.Append(" - ");
+                sb.Append(" for ");
                 string operatorDebuggerDisplay = GetDebuggerDisplay(entity.Operator);
                 sb.Append(operatorDebuggerDisplay);
             }
@@ -132,11 +132,16 @@ namespace JJ.Data.Synthesizer.Helpers
                 sb.AppendFormat("'{0}' ", entity.Name);
             }
 
+            if (entity.Dimension != null)
+            {
+                sb.AppendFormat("Dimension={0} ", entity.Dimension.Name);
+            }
+
             sb.AppendFormat("({0})", entity.ID);
 
             if (entity.Operator != null)
             {
-                sb.Append(" - ");
+                sb.Append(" for ");
                 string operatorDebuggerDisplay = GetDebuggerDisplay(entity.Operator);
                 sb.Append(operatorDebuggerDisplay);
             }

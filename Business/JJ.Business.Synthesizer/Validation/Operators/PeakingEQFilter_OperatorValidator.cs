@@ -9,10 +9,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         public PeakingEQFilter_OperatorValidator(Operator obj)
             : base(
                   obj,
-                  OperatorTypeEnum.PeakingEQFilter,
-                  expectedInletCount: 4,
-                  expectedOutletCount: 1,
-                  expectedDataKeys: new string[0])
+                OperatorTypeEnum.PeakingEQFilter,
+                expectedDataKeys: new string[0],
+                expectedInletCount: 4,
+                expectedOutletCount: 1)
         { }
 
         protected override void Execute()

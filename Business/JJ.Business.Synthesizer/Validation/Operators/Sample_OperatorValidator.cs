@@ -14,10 +14,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         public Sample_OperatorValidator(Operator op)
             : base(
                   op,
-                  OperatorTypeEnum.Sample,
-                  expectedInletCount: 1,
-                  expectedOutletCount: 1,
-                  expectedDataKeys: new string[] { PropertyNames.SampleID })
+                OperatorTypeEnum.Sample,
+                expectedDataKeys: new string[] { PropertyNames.SampleID },
+                expectedInletCount: 1,
+                expectedOutletCount: 1)
         { }
 
         protected override void Execute()

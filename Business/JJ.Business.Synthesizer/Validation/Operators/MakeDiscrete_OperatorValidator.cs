@@ -12,10 +12,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         public MakeDiscrete_OperatorValidator(Operator obj)
             : base(
                   obj,
-                  OperatorTypeEnum.MakeDiscrete,
-                  expectedInletCount: 1,
-                  expectedOutletCount: obj?.Outlets?.Count ?? 0,
-                  expectedDataKeys: new string[0])
+                OperatorTypeEnum.MakeDiscrete,
+                expectedDataKeys: new string[0],
+                expectedInletCount: 1,
+                expectedOutletCount: obj?.Outlets?.Count ?? 0)
         { }
 
         protected override void Execute()

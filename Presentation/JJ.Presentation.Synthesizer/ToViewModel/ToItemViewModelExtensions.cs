@@ -197,7 +197,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = new PatchViewModel
             {
-                PatchID = entity.ID
+                PatchID = entity.ID,
+                ChildDocumentID = entity.Document.ID
             };
 
             return viewModel;

@@ -10,10 +10,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         public ClosestOverDimensionExp_OperatorValidator(Operator obj)
             : base(
                   obj,
-                  OperatorTypeEnum.ClosestOverDimensionExp,
-                  expectedInletCount: 5,
-                  expectedOutletCount: 1,
-                  expectedDataKeys: new string[] { PropertyNames.CollectionRecalculation })
+                OperatorTypeEnum.ClosestOverDimensionExp,
+                expectedDataKeys: new string[] { PropertyNames.CollectionRecalculation },
+                expectedInletCount: 5,
+                expectedOutletCount: 1)
         { }
 
         protected override void Execute()

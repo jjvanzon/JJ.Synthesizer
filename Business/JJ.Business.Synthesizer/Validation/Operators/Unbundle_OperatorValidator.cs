@@ -12,10 +12,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         public Unbundle_OperatorValidator(Operator obj)
             : base(
                   obj,
-                  OperatorTypeEnum.Unbundle,
-                  expectedInletCount: 1,
-                  expectedOutletCount: obj?.Outlets?.Count ?? 0,
-                  expectedDataKeys: new string[0])
+                OperatorTypeEnum.Unbundle,
+                expectedDataKeys: new string[0],
+                expectedInletCount: 1,
+                expectedOutletCount: obj?.Outlets?.Count ?? 0)
         { }
 
         protected override void Execute()

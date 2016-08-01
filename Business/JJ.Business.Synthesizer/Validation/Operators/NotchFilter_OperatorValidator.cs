@@ -12,10 +12,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         public NotchFilter_OperatorValidator(Operator obj)
             : base(
                   obj,
-                  OperatorTypeEnum.NotchFilter,
-                  expectedInletCount: 3,
-                  expectedOutletCount: 1,
-                  expectedDataKeys: new string[0])
+                OperatorTypeEnum.NotchFilter,
+                expectedDataKeys: new string[0],
+                expectedInletCount: 3,
+                expectedOutletCount: 1)
         { }
 
 

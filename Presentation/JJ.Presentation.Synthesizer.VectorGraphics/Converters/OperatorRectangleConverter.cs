@@ -20,23 +20,23 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
         private readonly Diagram _diagram;
         private readonly MoveGesture _moveGesture;
         private readonly SelectOperatorGesture _selectOperatorGesture;
-        private readonly DoubleClickGesture _doubleClickOperatorGesture;
+        private readonly ShowOperatorPropertiesMouseGesture _showOperatorPropertiesMouseGesture;
 
         public OperatorRectangleConverter(
             Diagram diagram,
             MoveGesture moveGesture,
             SelectOperatorGesture selectOperatorGesture,
-            DoubleClickGesture doubleClickOperatorGesture)
+            ShowOperatorPropertiesMouseGesture showOperatorPropertiesMouseGesture)
         {
             if (diagram == null) throw new NullException(() => diagram);
             if (moveGesture == null) throw new NullException(() => moveGesture);
             if (selectOperatorGesture == null) throw new NullException(() => selectOperatorGesture);
-            if (doubleClickOperatorGesture == null) throw new NullException(() => doubleClickOperatorGesture);
+            if (showOperatorPropertiesMouseGesture == null) throw new NullException(() => showOperatorPropertiesMouseGesture);
 
             _diagram = diagram;
             _moveGesture = moveGesture;
             _selectOperatorGesture = selectOperatorGesture;
-            _doubleClickOperatorGesture = doubleClickOperatorGesture;
+            _showOperatorPropertiesMouseGesture = showOperatorPropertiesMouseGesture;
         }
 
         public Rectangle ConvertToOperatorRectangle(OperatorViewModel sourceOperatorViewModel, Diagram destDiagram)
@@ -79,7 +79,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             destOperatorRectangle.Gestures.Clear();
             destOperatorRectangle.Gestures.Add(_moveGesture);
             destOperatorRectangle.Gestures.Add(_selectOperatorGesture);
-            destOperatorRectangle.Gestures.Add(_doubleClickOperatorGesture);
+            destOperatorRectangle.Gestures.Add(_showOperatorPropertiesMouseGesture);
 
             return destOperatorRectangle;
         }

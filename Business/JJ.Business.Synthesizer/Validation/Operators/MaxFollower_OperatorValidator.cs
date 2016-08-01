@@ -8,10 +8,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         public MaxFollower_OperatorValidator(Operator obj)
             : base(
                   obj,
-                  OperatorTypeEnum.MaxFollower,
-                  expectedInletCount: 3,
-                  expectedOutletCount: 1,
-                  expectedDataKeys: new string[0])
+                OperatorTypeEnum.MaxFollower,
+                expectedDataKeys: new string[0],
+                expectedInletCount: 3,
+                expectedOutletCount: 1)
         { }
     }
 }

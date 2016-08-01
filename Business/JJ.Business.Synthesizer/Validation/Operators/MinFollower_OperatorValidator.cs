@@ -8,10 +8,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         public MinFollower_OperatorValidator(Operator obj)
             : base(
                   obj,
-                  OperatorTypeEnum.MinFollower,
-                  expectedInletCount: 3,
-                  expectedOutletCount: 1,
-                  expectedDataKeys: new string[0])
+                OperatorTypeEnum.MinFollower,
+                expectedDataKeys: new string[0],
+                expectedInletCount: 3,
+                expectedOutletCount: 1)
         { }
     }
 }

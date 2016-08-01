@@ -8,10 +8,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         public SawUp_OperatorValidator(Operator obj)
             : base(
                   obj,
-                  OperatorTypeEnum.SawUp,
-                  expectedInletCount: 2,
-                  expectedOutletCount: 1,
-                  expectedDataKeys: new string[0])
+                OperatorTypeEnum.SawUp,
+                expectedDataKeys: new string[0],
+                expectedInletCount: 2,
+                expectedOutletCount: 1)
         { }
     }
 }

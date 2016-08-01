@@ -11,10 +11,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         public Resample_OperatorValidator(Operator obj)
             : base(
                   obj,
-                  OperatorTypeEnum.Resample,
-                  expectedInletCount: 2,
-                  expectedOutletCount: 1,
-                  expectedDataKeys: new string[] { PropertyNames.InterpolationType })
+                OperatorTypeEnum.Resample,
+                expectedDataKeys: new string[] { PropertyNames.InterpolationType },
+                expectedInletCount: 2,
+                expectedOutletCount: 1)
         { }
 
         protected override void Execute()

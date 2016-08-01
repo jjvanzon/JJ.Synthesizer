@@ -14,10 +14,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         public Curve_OperatorValidator(Operator op)
             : base(
                   op,
-                  OperatorTypeEnum.Curve,
-                  expectedInletCount: 0,
-                  expectedOutletCount: 1,
-                  expectedDataKeys: new string[] { PropertyNames.CurveID })
+                OperatorTypeEnum.Curve,
+                expectedDataKeys: new string[] { PropertyNames.CurveID },
+                expectedInletCount: 0,
+                expectedOutletCount: 1)
         { }
 
         protected override void Execute()

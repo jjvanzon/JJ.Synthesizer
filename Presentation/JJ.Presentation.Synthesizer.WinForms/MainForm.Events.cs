@@ -103,10 +103,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
             patchDetailsUserControl.DeleteOperatorRequested += patchDetailsUserControl_DeleteOperatorRequested;
             patchDetailsUserControl.LoseFocusRequested += patchDetailsUserControl_LoseFocusRequested;
             patchDetailsUserControl.MoveOperatorRequested += patchDetailsUserControl_MoveOperatorRequested;
-            patchDetailsUserControl.OperatorPropertiesRequested += patchDetailsUserControl_OperatorPropertiesRequested;
             patchDetailsUserControl.PlayRequested += patchDetailsUserControl_PlayRequested;
             patchDetailsUserControl.SelectOperatorRequested += patchDetailsUserControl_SelectOperatorRequested;
-            patchDetailsUserControl.SelectedOperatorPropertiesRequested += patchDetailsUserControl_SelectedOperatorPropertiesRequested;
+            patchDetailsUserControl.ShowOperatorPropertiesRequested += patchDetailsUserControl_ShowOperatorPropertiesRequested;
+            patchDetailsUserControl.ShowPatchPropertiesRequested += patchDetailsUserControl_ShowPatchPropertiesRequested;
             patchGridUserControl.CloseRequested += patchGridUserControl_CloseRequested;
             patchGridUserControl.CreateRequested += patchGridUserControl_CreateRequested;
             patchGridUserControl.DeleteRequested += patchGridUserControl_DeleteRequested;
@@ -659,11 +659,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(() => _presenter.OperatorSelect(e.Value));
         }
 
-        private void patchDetailsUserControl_OperatorPropertiesRequested(object sender, Int32EventArgs e)
-        {
-            TemplateEventHandler(() => _presenter.OperatorPropertiesShow(e.Value));
-        }
-
         private void patchDetailsUserControl_ChangeInputOutletRequested(object sender, ChangeInputOutletEventArgs e)
         {
             TemplateEventHandler(() => _presenter.OperatorChangeInputOutlet(e.InletID, e.InputOutletID));
@@ -689,6 +684,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(() => _presenter.PatchDetailsLoseFocus(e.Value));
         }
 
+        private void patchDetailsUserControl_ShowOperatorPropertiesRequested(object sender, Int32EventArgs e)
+        {
+            TemplateEventHandler(() => _presenter.OperatorPropertiesShow(e.Value));
+        }
+
+        private void patchDetailsUserControl_ShowPatchPropertiesRequested(object sender, Int32EventArgs e)
+        {
+            TemplateEventHandler(() => _presenter.PatchPropertiesShow(e.Value));
+        }
+
         private void patchDetailsUserControl_CloseRequested(object sender, Int32EventArgs e)
         {
             TemplateEventHandler(() => _presenter.PatchDetailsClose(e.Value));
@@ -702,11 +707,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void patchPropertiesUserControl_CloseRequested(object sender, Int32EventArgs e)
         {
             TemplateEventHandler(() => _presenter.PatchPropertiesClose(e.Value));
-        }
-
-        private void patchDetailsUserControl_SelectedOperatorPropertiesRequested(object sender, EventArgs e)
-        {
-            TemplateEventHandler(_presenter.SelectedOperatorPropertiesShow);
         }
 
         // Sample

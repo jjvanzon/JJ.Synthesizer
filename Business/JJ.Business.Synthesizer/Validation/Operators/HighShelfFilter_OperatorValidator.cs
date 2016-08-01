@@ -9,10 +9,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         public HighShelfFilter_OperatorValidator(Operator obj)
             : base(
                   obj,
-                  OperatorTypeEnum.HighShelfFilter,
-                  expectedInletCount: 4,
-                  expectedOutletCount: 1,
-                  expectedDataKeys: new string[0])
+                OperatorTypeEnum.HighShelfFilter,
+                expectedDataKeys: new string[0],
+                expectedInletCount: 4,
+                expectedOutletCount: 1)
         { }
 
         protected override void Execute()

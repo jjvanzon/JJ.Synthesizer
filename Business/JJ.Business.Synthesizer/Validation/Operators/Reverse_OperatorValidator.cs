@@ -8,10 +8,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         public Reverse_OperatorValidator(Operator obj)
             : base(
                   obj,
-                  OperatorTypeEnum.Reverse,
-                  expectedInletCount: 2,
-                  expectedOutletCount: 1,
-                  expectedDataKeys: new string[0])
+                OperatorTypeEnum.Reverse,
+                expectedDataKeys: new string[0],
+                expectedInletCount: 2,
+                expectedOutletCount: 1)
         { }
     }
 }

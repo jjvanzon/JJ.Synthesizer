@@ -9,10 +9,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         public Range_OperatorValidator(Operator obj)
             : base(
                   obj,
-                  OperatorTypeEnum.Range,
-                  expectedInletCount: 3,
-                  expectedOutletCount: 1,
-                  expectedDataKeys: new string[0])
+                OperatorTypeEnum.Range,
+                expectedDataKeys: new string[0],
+                expectedInletCount: 3,
+                expectedOutletCount: 1)
         { }
     }
 }

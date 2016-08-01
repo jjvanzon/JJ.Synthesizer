@@ -11,10 +11,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         public Random_OperatorValidator(Operator obj)
             : base(
                   obj,
-                  OperatorTypeEnum.Random,
-                  expectedInletCount: 2,
-                  expectedOutletCount: 1,
-                  expectedDataKeys: new string[] { PropertyNames.InterpolationType })
+                OperatorTypeEnum.Random,
+                expectedDataKeys: new string[] { PropertyNames.InterpolationType },
+                expectedInletCount: 2,
+                expectedOutletCount: 1)
         { }
 
         protected override void Execute()

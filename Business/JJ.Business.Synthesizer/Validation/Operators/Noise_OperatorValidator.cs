@@ -8,10 +8,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         public Noise_OperatorValidator(Operator obj)
             : base(
                   obj,
-                  OperatorTypeEnum.Noise,
-                  expectedInletCount: 0,
-                  expectedOutletCount: 1,
-                  expectedDataKeys: new string[0])
+                OperatorTypeEnum.Noise,
+                expectedDataKeys: new string[0],
+                expectedInletCount: 0,
+                expectedOutletCount: 1)
         { }
     }
 }

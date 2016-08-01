@@ -17,10 +17,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             IList<string> expectedDataKeys)
             : base(
                   obj,
-                  expectedOperatorTypeEnum,
-                  expectedInletCount: obj.Inlets.Count,
-                  expectedOutletCount: 1,
-                  expectedDataKeys: expectedDataKeys)
+                expectedOperatorTypeEnum,
+                expectedDataKeys: expectedDataKeys,
+                expectedInletCount: obj.Inlets.Count,
+                expectedOutletCount: 1)
         { }
 
         protected override void Execute()

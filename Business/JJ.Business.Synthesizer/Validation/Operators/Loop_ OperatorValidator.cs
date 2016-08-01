@@ -8,10 +8,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         public OperatorValidator_Loop(Operator obj)
             : base(
                   obj,
-                  OperatorTypeEnum.Loop,
-                  expectedInletCount: 6,
-                  expectedOutletCount: 1,
-                  expectedDataKeys: new string[0])
+                OperatorTypeEnum.Loop,
+                expectedDataKeys: new string[0],
+                expectedInletCount: 6,
+                expectedOutletCount: 1)
         { }
     }
 }

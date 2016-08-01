@@ -7,7 +7,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     internal class Shift_OperatorValidator : OperatorValidator_Base
     {
         public Shift_OperatorValidator(Operator obj)
-            : base(obj, OperatorTypeEnum.Shift, expectedInletCount: 2, expectedOutletCount: 1, expectedDataKeys: new string[0])
+            : base(obj, OperatorTypeEnum.Shift, expectedDataKeys: new string[0], expectedInletCount: 2, expectedOutletCount: 1)
         { }
     }
 }

@@ -8,10 +8,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         public AverageFollower_OperatorValidator(Operator obj)
             : base(
                   obj,
-                  OperatorTypeEnum.AverageFollower,
-                  expectedInletCount: 3,
-                  expectedOutletCount: 1,
-                  expectedDataKeys: new string[0])
+                OperatorTypeEnum.AverageFollower,
+                expectedDataKeys: new string[0],
+                expectedInletCount: 3,
+                expectedOutletCount: 1)
         { }
     }
 }

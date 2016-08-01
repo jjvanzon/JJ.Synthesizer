@@ -81,7 +81,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     _result.Diagram,
                     _result.MoveGesture,
                     _result.SelectOperatorGesture,
-                    _result.DoubleClickOperatorGesture);
+                    _result.ShowOperatorPropertiesMouseGesture);
                 _operatorLabelConverter = new OperatorLabelConverter();
                 _operatorDimensionLabelConverter = new OperatorDimensionLabelConverter();
                 _inletRectangleConverter = new InletRectangleConverter(_result.DropLineGesture, _result.InletToolTipGesture);
@@ -100,7 +100,16 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             if (!_result.Diagram.Background.Gestures.Contains(_result.DeleteOperatorGesture))
             {
                 _result.Diagram.Background.Gestures.Add(_result.DeleteOperatorGesture);
-                _result.Diagram.Background.Gestures.Add(_result.OperatorEnterKeyGesture);
+            }
+
+            if (!_result.Diagram.Background.Gestures.Contains(_result.ShowOperatorPropertiesKeyboardGesture))
+            {
+                _result.Diagram.Background.Gestures.Add(_result.ShowOperatorPropertiesKeyboardGesture);
+            }
+
+            if (!_result.Diagram.Background.Gestures.Contains(_result.ShowPatchPropertiesGesture))
+            {
+                _result.Diagram.Background.Gestures.Add(_result.ShowPatchPropertiesGesture);
             }
 
             foreach (OperatorViewModel sourceOperatorViewModel in sourcePatchViewModel.Operators)

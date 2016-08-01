@@ -13,13 +13,13 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             : base(
                 obj,
                 OperatorTypeEnum.Cache,
-                expectedInletCount: 4,
-                expectedOutletCount: 1,
                 expectedDataKeys: new string[]
                 {
                     PropertyNames.InterpolationType,
                     PropertyNames.SpeakerSetup
-                })
+                },
+                expectedInletCount: 4,
+                expectedOutletCount: 1)
         { }
 
         protected override void Execute()

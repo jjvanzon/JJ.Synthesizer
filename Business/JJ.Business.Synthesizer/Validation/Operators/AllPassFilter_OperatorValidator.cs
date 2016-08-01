@@ -11,11 +11,11 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     {
         public AllPassFilter_OperatorValidator(Operator obj)
             : base(
-                  obj,
-                  OperatorTypeEnum.AllPassFilter, 
-                  expectedInletCount: 3, 
-                  expectedOutletCount: 1,
-                  expectedDataKeys: new string[0])
+                obj,
+                OperatorTypeEnum.AllPassFilter,
+                new DimensionEnum[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined },
+                new DimensionEnum[] { DimensionEnum.Signal },
+                expectedDataKeys: new string[0])
         { }
 
         protected override void Execute()

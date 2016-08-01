@@ -9,10 +9,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         public Spectrum_OperatorValidator(Operator obj)
             : base(
                   obj,
-                  OperatorTypeEnum.Spectrum,
-                  expectedInletCount: 4,
-                  expectedOutletCount: 1,
-                  expectedDataKeys: new string[0])
+                OperatorTypeEnum.Spectrum,
+                expectedDataKeys: new string[0],
+                expectedInletCount: 4,
+                expectedOutletCount: 1)
         { }
     }
 }

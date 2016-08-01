@@ -10,10 +10,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         public OperatorValidator_Base_AggregateOverDimension(Operator obj, OperatorTypeEnum operatorTypeEnum)
             : base(
                   obj,
-                  operatorTypeEnum,
-                  expectedInletCount: 4,
-                  expectedOutletCount: 1,
-                  expectedDataKeys: new string[] { PropertyNames.CollectionRecalculation })
+                operatorTypeEnum,
+                expectedDataKeys: new string[] { PropertyNames.CollectionRecalculation },
+                expectedInletCount: 4,
+                expectedOutletCount: 1)
         { }
 
         protected override void Execute()

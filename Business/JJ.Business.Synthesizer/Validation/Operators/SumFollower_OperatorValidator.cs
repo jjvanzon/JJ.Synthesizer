@@ -6,7 +6,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     internal class SumFollower_OperatorValidator : OperatorValidator_Base
     {
         public SumFollower_OperatorValidator(Operator obj)
-            : base(obj, OperatorTypeEnum.SumFollower, expectedInletCount: 3, expectedOutletCount: 1, expectedDataKeys: new string[0])
+            : base(obj, OperatorTypeEnum.SumFollower, expectedDataKeys: new string[0], expectedInletCount: 3, expectedOutletCount: 1)
         { }
     }
 }

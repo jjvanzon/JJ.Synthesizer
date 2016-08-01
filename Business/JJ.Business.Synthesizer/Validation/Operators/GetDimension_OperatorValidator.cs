@@ -8,10 +8,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         public GetDimension_OperatorValidator(Operator obj)
             : base(
                   obj,
-                  OperatorTypeEnum.GetDimension,
-                  expectedInletCount: 0,
-                  expectedOutletCount: 1,
-                  expectedDataKeys: new string[0])
+                OperatorTypeEnum.GetDimension,
+                expectedDataKeys: new string[0],
+                expectedInletCount: 0,
+                expectedOutletCount: 1)
         { }
     }
 }

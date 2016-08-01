@@ -14,10 +14,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         public ClosestExp_OperatorValidator(Operator obj)
             : base(
                   obj,
-                  OperatorTypeEnum.ClosestExp,
-                  expectedInletCount: Math.Max(obj.Inlets.Count, MINIMUM_INLET_COUNT),
-                  expectedOutletCount: 1,
-                  expectedDataKeys: new string[0])
+                OperatorTypeEnum.ClosestExp,
+                expectedDataKeys: new string[0],
+                expectedInletCount: Math.Max(obj.Inlets.Count, MINIMUM_INLET_COUNT),
+                expectedOutletCount: 1)
         { }
 
         protected override void Execute()
