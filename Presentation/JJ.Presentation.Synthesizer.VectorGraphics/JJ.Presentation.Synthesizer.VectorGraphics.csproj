@@ -42,8 +42,6 @@
   <ItemGroup>
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="Converters\InletControlPointConverter.cs" />
-    <Compile Include="Converters\2016-07-17 Backup of InletPointConverter.cs" />
-    <Compile Include="Converters\2016-07-17 Backup of InletPointConverter %282%29.cs" />
     <Compile Include="Converters\InletPointConverter.cs" />
     <Compile Include="Converters\InletRectangleConverter.cs" />
     <Compile Include="Converters\OperatorDimensionLabelConverter.cs" />
@@ -61,7 +59,6 @@
     <Compile Include="Gestures\ShowPatchPropertiesGesture.cs" />
     <Compile Include="Gestures\ShowOperatorPropertiesMouseGesture.cs" />
     <Compile Include="Gestures\ShowOperatorPropertiesKeyboardGesture.cs" />
-    <Compile Include="Gestures\2016-07-27 Backup of ShowNodePropertiesGesture.cs" />
     <Compile Include="Gestures\ShowNodePropertiesKeyboardGesture.cs" />
     <Compile Include="Gestures\ShowNodePropertiesMouseGesture.cs" />
     <Compile Include="Gestures\ShowCurvePropertiesGesture.cs" />

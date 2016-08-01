@@ -93,8 +93,6 @@
     <Compile Include="Presenters\DocumentPropertiesPresenter.cs" />
     <Compile Include="Presenters\DocumentTreePresenter.cs" />
     <Compile Include="Presenters\MainPresenter.General.cs" />
-    <Compile Include="Resources\2016-07-14 Backup of TitlesFormatter.cs" />
-    <Compile Include="ToEntity\2016-07-09 Backup of ToEntityHelper.cs" />
     <Compile Include="ToViewModel\ToDocumentViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToListItemViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToScreenViewModelExtensions.cs" />

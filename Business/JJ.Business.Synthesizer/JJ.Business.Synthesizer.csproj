@@ -205,15 +205,12 @@
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_Hermite.cs" />
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_CubicAbruptInclination.cs" />
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_CubicEquidistant.cs" />
-    <Compile Include="Calculation\Operators\2016-07-14 Backup of Resample_OperatorCalculator_LineRememberT1_Org.cs" />
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_LineRememberT1.cs" />
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_LineRememberT0.cs" />
-    <Compile Include="Calculation\Operators\2016-07-14 Backup of Resample_OperatorCalculator_LineWithVaryingAlignment.cs" />
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_LineWithConstSamplingRate.cs" />
     <Compile Include="Calculation\Operators\Pulse OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Subtract OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\TimePower OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\2016-07-09 Backup of Earlier OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Triangle OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Sine OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Noise_OperatorCalculator.cs" />
@@ -395,9 +392,7 @@
     <Compile Include="Extensions\UnlinkRelatedEntitiesExtensions.cs" />
     <Compile Include="EntityWrappers\Add_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Curve_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\2016-07-09 Backup of Earlier_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\TimePower_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\2016-07-09 Backup of Delay_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Sine_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Power_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\PatchOutlet_OperatorWrapper.cs" />
@@ -425,8 +420,6 @@
     <Compile Include="CopiedCode\FromNAudio\Complex.cs" />
     <Compile Include="CopiedCode\FromNAudio\FastFourierTransform.cs" />
     <Compile Include="PatchManager.AutoPatch.cs" />
-    <Compile Include="2016-07-31 Backup of PatchManager.CreateOperator %281%29.cs" />
-    <Compile Include="2016-07-31 Backup of PatchManager.CreateOperator %282%29.cs" />
     <Compile Include="SideEffects\AudioOutput_SideEffect_SetDefaults.cs" />
     <Compile Include="SideEffects\Curve_SideEffect_SetDefaults_Nodes.cs" />
     <Compile Include="SideEffects\Document_SideEffect_AutoCreateAudioOutput.cs" />
@@ -441,7 +434,6 @@
     <Compile Include="Validation\DataProperty\ListIndex_DataProperty_Validator.cs" />
     <Compile Include="Validation\DataProperty\SpeakerSetup_DataProperty_Validator.cs" />
     <Compile Include="Validation\DataProperty\InterpolationType_DataProperty_Validator.cs" />
-    <Compile Include="Validation\DataProperty\2016-07-22 Backup of Dimension_DataProperty_Validator.cs" />
     <Compile Include="Validation\Operators\Absolute_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\AllPassFilter_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\HighShelfFilter_OperatorValidator.cs" />
@@ -453,9 +445,7 @@
     <Compile Include="Validation\Operators\ClosestExp_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Closest_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\LowShelfFilter_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\2016-07-30 Backup of OperatorValidator_Base.cs" />
     <Compile Include="Validation\Operators\PeakingEQFilter_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\2016-07-30 Backup of Sine_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\SortOverDimension_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Sort_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_Base_AggregateOverDimension.cs" />
@@ -474,7 +464,6 @@
     <Compile Include="Validation\Operators\Range_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\SetDimension_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\GetDimension_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\2016-07-22 Backup of OperatorValidator_Base_WithDimension.cs" />
     <Compile Include="Validation\Operators\ToggleTrigger_OperatorValidator.cs" />
     <Compile Include="Validation\DataProperty\DataPropertyValidator.cs" />
     <Compile Include="Validation\Operators\OneOverX_OperatorValidator.cs" />
@@ -615,7 +604,6 @@
     <Compile Include="Validation\Documents\ChildDocument_DocumentValidator.cs" />
     <Compile Include="Validation\AudioFileOutputValidator_InDocument.cs" />
     <Compile Include="Validation\Curves\CurveValidator_WithoutNodes.cs" />
-    <Compile Include="Validation\2016-07-30 Backup of InletValidator_ForCustomOperator.cs" />
     <Compile Include="Validation\NodeValidator_Parent.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_SetOutletCount.cs" />
     <Compile Include="Validation\Operators\Unbundle_OperatorValidator.cs" />
@@ -626,7 +614,6 @@
     <Compile Include="Validation\Operators\Triangle_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Square_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\SawUp_OperatorValidator.cs" />
-    <Compile Include="Validation\2016-07-30 Backup of OutletValidator_ForCustomOperator.cs" />
     <Compile Include="Validation\Operators\CustomOperator_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Resample_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Noise_OperatorValidator.cs" />
@@ -679,9 +666,7 @@
     <Compile Include="Warnings\Operators\OperatorWarningValidator_Base.cs" />
     <Compile Include="Warnings\Operators\Sample_OperatorWarningValidator.cs" />
     <Compile Include="Validation\NodeValidator_WithoutParent.cs" />
-    <Compile Include="Validation\Operators\2016-07-09 Backup of Earlier_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\TimePower_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\2016-07-09 Backup of Delay_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Sine_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Power_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\PatchOutlet_OperatorValidator.cs" />
@@ -707,9 +692,7 @@
     <Compile Include="Warnings\DocumentWarningValidator_Recursive.cs" />
     <Compile Include="Warnings\Operators\Versatile_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Add_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\2016-07-09 Backup of Earlier_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\TimePower_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\2016-07-09 Backup of Delay_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Sine_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Power_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\OperatorWarningValidator_Base_FirstXInletsFilledInOrHaveDefaults.cs" />
