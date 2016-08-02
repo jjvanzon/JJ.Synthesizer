@@ -33,30 +33,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class NotEqual_VarA_ConstB_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
-    {
-        private readonly OperatorCalculatorBase _calculatorA;
-        private readonly double _b;
-
-        public NotEqual_VarA_ConstB_OperatorCalculator(OperatorCalculatorBase calculatorA, double b)
-            : base(new OperatorCalculatorBase[] { calculatorA })
-        {
-            OperatorCalculatorHelper.AssertChildOperatorCalculator(calculatorA, () => calculatorA);
-
-            _calculatorA = calculatorA;
-            _b = b;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate()
-        {
-            double a = _calculatorA.Calculate();
-
-            if (a != _b) return 1.0;
-            else return 0.0;
-        }
-    }
-
     internal class NotEqual_ConstA_VarB_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly double _a;

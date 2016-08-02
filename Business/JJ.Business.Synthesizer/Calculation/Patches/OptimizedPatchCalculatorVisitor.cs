@@ -1461,7 +1461,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (!aIsConst && bIsConst)
             {
-                calculator = new Equal_VarA_ConstB_OperatorCalculator(calculatorA, b);
+                calculator = new Equal_ConstA_VarB_OperatorCalculator(b, calculatorA);
             }
             else if (aIsConst && !bIsConst)
             {
@@ -2885,7 +2885,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (!aIsConst && bIsConst)
             {
-                calculator = new NotEqual_VarA_ConstB_OperatorCalculator(calculatorA, b);
+                calculator = new NotEqual_ConstA_VarB_OperatorCalculator(b, calculatorA);
             }
             else if (aIsConst && !bIsConst)
             {
