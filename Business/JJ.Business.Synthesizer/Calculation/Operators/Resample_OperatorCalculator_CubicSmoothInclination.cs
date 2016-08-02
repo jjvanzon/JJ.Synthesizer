@@ -128,9 +128,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
-            ResetNonRecursive();
-
             base.Reset();
+
+            ResetNonRecursive();
         }
 
         private void ResetNonRecursive()
@@ -143,7 +143,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
 #endif
-
             _xMinus1 = CalculationHelper.VERY_LOW_VALUE;
             _x0 = position - CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
             _x1 = position;

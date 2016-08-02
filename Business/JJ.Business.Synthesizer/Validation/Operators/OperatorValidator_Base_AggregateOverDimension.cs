@@ -7,12 +7,16 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 {
     internal class OperatorValidator_Base_AggregateOverDimension : OperatorValidator_Base
     {
-        public OperatorValidator_Base_AggregateOverDimension(Operator obj, OperatorTypeEnum operatorTypeEnum)
+        /// <param name="outletDimensionEnum">
+        /// Inlets have dimensions Signal, Undefined, Undefined and Undefined,
+        /// Outlet usually has dimension Undefined, but in an exceptional case it might have a different dimension, like Signal.
+        /// </param>
+        public OperatorValidator_Base_AggregateOverDimension(Operator obj, OperatorTypeEnum operatorTypeEnum, DimensionEnum outletDimensionEnum = DimensionEnum.Undefined)
             : base(
                 obj,
                 operatorTypeEnum,
                 new DimensionEnum[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new DimensionEnum[] { DimensionEnum.Undefined },
+                new DimensionEnum[] { outletDimensionEnum },
                 expectedDataKeys: new string[] { PropertyNames.CollectionRecalculation })
         { }
 

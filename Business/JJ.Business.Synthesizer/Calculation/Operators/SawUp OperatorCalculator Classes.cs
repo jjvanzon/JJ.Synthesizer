@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
 
-            ResetNonRecursive();
+            ResetPrivate();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -44,12 +44,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
-            ResetNonRecursive();
-
-            base.Reset();
+            ResetPrivate();
         }
 
-        private void ResetNonRecursive()
+        private void ResetPrivate()
         {
 #if !USE_INVAR_INDICES
             _origin = _dimensionStack.Get();
@@ -146,9 +144,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
-            ResetNonRecursive();
-
             base.Reset();
+
+            ResetNonRecursive();
         }
 
         private void ResetNonRecursive()

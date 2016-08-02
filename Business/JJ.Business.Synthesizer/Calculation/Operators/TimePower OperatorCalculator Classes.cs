@@ -68,7 +68,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
 #endif
-
             base.Reset();
 
 #if !USE_INVAR_INDICES
@@ -174,8 +173,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
 #endif
-
             base.Reset();
+
 #if !USE_INVAR_INDICES
             _dimensionStack.Pop();
 #endif

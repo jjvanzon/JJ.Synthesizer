@@ -156,9 +156,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
-            ResetNonRecursive();
-
             base.Reset();
+
+            ResetNonRecursive();
         }
 
         private void ResetNonRecursive()

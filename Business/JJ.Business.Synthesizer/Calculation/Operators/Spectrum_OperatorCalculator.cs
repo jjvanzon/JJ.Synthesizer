@@ -57,7 +57,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             _lomontFFT = new LomontFFT();
 
-            Reset();
+            ResetPrivate();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -86,6 +86,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
+            ResetPrivate();
+
+            // NOTE: Do not call base.
+            // The Spectrum Operator is an exception to the rule.
+            // Reset for spectrum means NOT resetting the signal,
+            // but just recalculating the spectrum.
+        }
+
+        private void ResetPrivate()
+        {
 #if !USE_INVAR_INDICES
             double time = _dimensionStack.Get();
 #else
@@ -98,11 +108,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _previousTime = time;
             _harmonicVolumes = CreateHarmonicVolumes();
             _harmonicVolumesCount = _harmonicVolumes.Length;
-
-            // NOTE: Do not call base.
-            // The Spectrum Operator is an exception to the rule.
-            // Reset for spectrum means NOT resetting the signal,
-            // but just recalculating the spectrum.
         }
 
         private double[] CreateHarmonicVolumes()

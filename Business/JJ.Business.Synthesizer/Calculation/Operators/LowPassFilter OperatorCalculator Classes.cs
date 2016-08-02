@@ -70,6 +70,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override void Reset()
         {
             base.Reset();
+
             ResetNonRecursive();
         }
 
@@ -131,6 +132,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override void Reset()
         {
             base.Reset();
+
             ResetNonRecursive();
         }
 

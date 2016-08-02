@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         protected override void Execute()
         {
             For(() => Object.Dimension, PropertyDisplayNames.Dimension).IsNull();
-            For(() => Object.Inlets.Count, CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Inlets)).GreaterThan(MINIMUM_INLET_COUNT);
+            For(() => Object.Inlets.Count, CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Inlets)).GreaterThanOrEqual(MINIMUM_INLET_COUNT);
 
             base.Execute();
         }

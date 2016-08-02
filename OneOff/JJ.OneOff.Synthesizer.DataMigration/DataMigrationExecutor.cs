@@ -1976,7 +1976,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
         }
 
-        public static void Migrate_SetDimension_OfStandardOperators_InletsAndOutlets(Action<string> progressCallback)
+        public static void Migrate_SetDimension_OfInletsAndOutlets_OfStandardOperators(Action<string> progressCallback)
         {
             if (progressCallback == null) throw new NullException(() => progressCallback);
 

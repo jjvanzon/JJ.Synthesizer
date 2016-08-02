@@ -34,6 +34,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionStack = dimensionStack;
             _previousDimensionStackIndex = dimensionStack.CurrentIndex;
             _nextDimensionStackIndex = dimensionStack.CurrentIndex + 1;
+
+            ResetNonRecursive();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -69,19 +71,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
-#if !USE_INVAR_INDICES
-            double position = _dimensionStack.Get();
-#else
-            double position = _dimensionStack.Get(_previousDimensionStackIndex);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
-#endif
+            // First reset parent, then children,
+            // because unlike some other operators,
+            // child state is dependent transformed position,
+            // which is dependent on parent state.
+            ResetNonRecursive();
 
-            _previousPosition = position;
-            _phase = 0.0;
-
+            // Dimension Transformation
+            double position = GetPosition();
             double transformedPosition = GetTransformedPosition(position);
+
 #if !USE_INVAR_INDICES
             _dimensionStack.Push(transformedPosition);
 #else
@@ -90,10 +89,29 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
 #endif
-
             base.Reset();
+
 #if !USE_INVAR_INDICES
             _dimensionStack.Pop();
+#endif
+        }
+
+        private void ResetNonRecursive()
+        {
+            // Phase Tracking
+            _previousPosition = GetPosition();
+            _phase = 0.0;
+        }
+
+        private double GetPosition()
+        {
+#if !USE_INVAR_INDICES
+            return _dimensionStack.Get();
+#else
+            double position = _dimensionStack.Get(_previousDimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
 #endif
         }
 
@@ -189,8 +207,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
 #endif
-
             base.Reset();
+
 #if !USE_INVAR_INDICES
             _dimensionStack.Pop();
 #endif
@@ -225,9 +243,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             : base(new OperatorCalculatorBase[] { signalCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
-            if (speed == 0) throw new ZeroException(() => speed);
-            if (Double.IsNaN(speed)) throw new NaNException(() => speed);
-            if (Double.IsInfinity(speed)) throw new InfinityException(() => speed);
+            OperatorCalculatorHelper.AssertReverseSpeed(speed);
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _signalCalculator = signalCalculator;
@@ -235,6 +251,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionStack = dimensionStack;
             _previousDimensionStackIndex = dimensionStack.CurrentIndex;
             _nextDimensionStackIndex = dimensionStack.CurrentIndex + 1;
+
+            ResetNonRecursive();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -269,20 +287,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
-#if !USE_INVAR_INDICES
-            double position = _dimensionStack.Get();
-#else
-            double position = _dimensionStack.Get(_previousDimensionStackIndex);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
-#endif
-
-            // Origin Shifting
-            _origin = position;
+            // First reset parent, then children,
+            // because unlike some other operators,
+            // child state is dependent transformed position,
+            // which is dependent on parent state.
+            ResetNonRecursive();
 
             // Dimension Transformation
+            double position = GetPosition();
             double tranformedPosition = GetTransformedPosition(position);
+
 #if !USE_INVAR_INDICES
             _dimensionStack.Push(tranformedPosition);
 #else
@@ -291,10 +305,28 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
 #endif
-
             base.Reset();
+
 #if !USE_INVAR_INDICES
             _dimensionStack.Pop();
+#endif
+        }
+
+        private void ResetNonRecursive()
+        {
+            // Origin Shifting
+            _origin = GetPosition();
+        }
+
+        private double GetPosition()
+        {
+#if !USE_INVAR_INDICES
+            return _dimensionStack.Get();
+#else
+            double position = _dimensionStack.Get(_previousDimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
 #endif
         }
 
@@ -323,9 +355,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             : base(new OperatorCalculatorBase[] { signalCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
-            if (speed == 0) throw new ZeroException(() => speed);
-            if (Double.IsNaN(speed)) throw new NaNException(() => speed);
-            if (Double.IsInfinity(speed)) throw new InfinityException(() => speed);
+            OperatorCalculatorHelper.AssertReverseSpeed(speed);
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _signalCalculator = signalCalculator;
@@ -358,6 +388,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override void Reset()
         {
             double tranformedPosition = GetTransformedPosition();
+
 #if !USE_INVAR_INDICES
             _dimensionStack.Push(tranformedPosition);
 #else
@@ -366,8 +397,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
 #endif
-
             base.Reset();
+
 #if !USE_INVAR_INDICES
             _dimensionStack.Pop();
 #endif

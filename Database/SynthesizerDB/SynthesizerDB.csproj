@@ -97,6 +97,7 @@
     <Content Include="2016-06-23 040 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2016-07-02 080 SynthesizerDB OperatorType delete record 59 - Filter.sql" />
     <Content Include="2016-07-03 015 SynthesizerDB RUN UTILITY.sql" />
+    <Content Include="2016-08-02 010 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2016-08-01 030 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2016-08-01 020 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2016-08-01 010 SynthesizerDB RUN UTILITY.sql" />

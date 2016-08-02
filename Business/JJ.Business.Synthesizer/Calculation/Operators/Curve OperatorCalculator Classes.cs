@@ -54,6 +54,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _curveCalculator = curveCalculator;
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
+
+            ResetPrivate();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -78,17 +80,19 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
+            ResetPrivate();
+        }
+
+        private void ResetPrivate()
+        {
 #if !USE_INVAR_INDICES
             _origin = _dimensionStack.Get();
 #else
             _origin = _dimensionStack.Get(_dimensionStackIndex);
 #endif
-
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
 #endif
-
-            base.Reset();
         }
     }
 
@@ -141,6 +145,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _curveCalculator = curveCalculator;
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
+
+            Reset();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -164,6 +170,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
+            ResetPrivate();
+        }
+
+        private void ResetPrivate()
+        {
 #if !USE_INVAR_INDICES
             _origin = _dimensionStack.Get();
 #else
@@ -172,8 +183,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
 #endif
-
-            base.Reset();
         }
     }
 }

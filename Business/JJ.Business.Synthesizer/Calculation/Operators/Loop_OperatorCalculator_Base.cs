@@ -28,6 +28,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionStack = dimensionStack;
             _previousDimensionStackIndex = dimensionStack.CurrentIndex;
             _nextDimensionStackIndex = dimensionStack.CurrentIndex + 1;
+
+            ResetNonRecursive();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -50,8 +52,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
 #endif
-
             double value = _signalCalculator.Calculate();
+
 #if !USE_INVAR_INDICES
             _dimensionStack.Pop();
 #endif
@@ -60,17 +62,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
-#if !USE_INVAR_INDICES
-            double position = _dimensionStack.Get();
-#else
-            double position = _dimensionStack.Get(_previousDimensionStackIndex);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
-#endif
-
-            // Origin Shifting
-            _origin = position;
+            // First reset parent, then children,
+            // because unlike some other operators,
+            // child state is dependent transformed position,
+            // which is dependent on parent state.
+            ResetNonRecursive();
 
             // Dimension Transformation
             double? transformedPosition = GetTransformedPosition();
@@ -78,7 +74,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             {
                 // TODO: There is no meaningful value to fall back to.
                 // What to do?
-                transformedPosition = position;
+                transformedPosition = _origin;
             }
 
 #if !USE_INVAR_INDICES
@@ -89,12 +85,24 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
 #endif
-
             base.Reset();
 
 #if !USE_INVAR_INDICES
             _dimensionStack.Pop();
 #endif
+        }
+
+        private void ResetNonRecursive()
+        {
+#if !USE_INVAR_INDICES
+            double position = _dimensionStack.Get();
+#else
+            double position = _dimensionStack.Get(_previousDimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
+#endif
+            _origin = position;
         }
     }
 }

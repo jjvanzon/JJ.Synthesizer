@@ -65,7 +65,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (Double.IsInfinity(step)) throw new InfinityException(() => step);
         }
 
-        internal static void AssertFilterFrequency(double filterFrequency, double samplingRate)
+        public static void AssertFilterFrequency(double filterFrequency, double samplingRate)
         {
             if (filterFrequency == 0.0) throw new ZeroException(() => filterFrequency);
             if (Double.IsNaN(filterFrequency)) throw new NaNException(() => filterFrequency);
@@ -80,6 +80,21 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             {
                 throw new GreaterThanException(() => filterFrequency, () => nyquistFrequency);
             }
+        }
+
+        public static void AssertFactor(double factor)
+        {
+            if (factor == 0) throw new ZeroException(() => factor);
+            if (factor == 1) throw new ZeroException(() => factor);
+            if (Double.IsNaN(factor)) throw new NaNException(() => factor);
+            if (Double.IsInfinity(factor)) throw new InfinityException(() => factor);
+        }
+
+        public static void AssertReverseSpeed(double speed)
+        {
+            if (speed == 0) throw new ZeroException(() => speed);
+            if (Double.IsNaN(speed)) throw new NaNException(() => speed);
+            if (Double.IsInfinity(speed)) throw new InfinityException(() => speed);
         }
 
         /// <summary> Asserts that the calculator is not null and not a Number_OperatorCalculator.</summary>
@@ -99,7 +114,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void AssertStackIndex(DimensionStack dimensionStack, int dimensionStackIndex)
+        public static void AssertStackIndex(DimensionStack dimensionStack, int dimensionStackIndex)
         {
             if (dimensionStack.CurrentIndex != dimensionStackIndex)
             {
