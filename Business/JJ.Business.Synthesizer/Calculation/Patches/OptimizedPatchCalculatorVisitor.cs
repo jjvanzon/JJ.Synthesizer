@@ -2964,41 +2964,40 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             calculatorA = calculatorA ?? new Zero_OperatorCalculator();
             calculatorB = calculatorB ?? new Zero_OperatorCalculator();
 
-            double a = calculatorA.Calculate();
-            double b = calculatorB.Calculate();
-
             bool aIsConst = calculatorA is Number_OperatorCalculator;
             bool bIsConst = calculatorB is Number_OperatorCalculator;
 
-            if (aIsConst && bIsConst)
-            {
-                double value;
+            double a = aIsConst ? calculatorA.Calculate() : 0.0;
+            double b = bIsConst ? calculatorB.Calculate() : 0.0;
 
-                bool aIsTrue = a != 0.0;
-                bool bIsTrue = b != 0.0;
+            bool aIsConstZero = aIsConst && a == 0.0;
+            bool bIsConstZero = bIsConst && b == 0.0;
+            bool aIsConstNonZero = aIsConst && a != 0.0;
+            bool bIsConstNonZero = bIsConst && b != 0.0;
 
-                if (aIsTrue || bIsTrue)
-                {
-                    value = 1.0;
-                }
-                else
-                {
-                    value = 0.0;
-                }
-
-                calculator = new Number_OperatorCalculator(value);
-            }
-            else if (!aIsConst && bIsConst)
-            {
-                calculator = new Or_VarA_ConstB_OperatorCalculator(calculatorA, b);
-            }
-            else if (aIsConst && !bIsConst)
-            {
-                calculator = new Or_ConstA_VarB_OperatorCalculator(a, calculatorB);
-            }
-            else if (!aIsConst && !bIsConst)
+            if (!aIsConst && !bIsConst)
             {
                 calculator = new Or_VarA_VarB_OperatorCalculator(calculatorA, calculatorB);
+            }
+            else if (aIsConstNonZero)
+            {
+                calculator = new One_OperatorCalculator();
+            }
+            else if (bIsConstNonZero)
+            {
+                calculator = new One_OperatorCalculator();
+            }
+            else if (aIsConstZero && bIsConstZero)
+            {
+                calculator = new Zero_OperatorCalculator();
+            }
+            else if (aIsConstZero && !bIsConst)
+            {
+                calculator = calculatorB;
+            }
+            else if (bIsConstZero && !aIsConst)
+            {
+                calculator = calculatorA;
             }
             else
             {
