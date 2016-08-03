@@ -11,6 +11,7 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Validation.DataProperty;
+using JJ.Framework.Validation.Resources;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
@@ -126,8 +127,24 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
                 if (underlyingPatchInletOperator == null)
                 {
+                    if (!customOperatorInlet.IsObsolete)
+                    {
+                        string messagePrefix = ValidationHelper.GetMessagePrefix(customOperatorInlet);
+                        string message = ValidationMessageFormatter.NotEqual(PropertyDisplayNames.IsObsolete, CommonTitles.True);
+                        ValidationMessages.Add(PropertyNames.IsObsolete, messagePrefix + message);
+                    }
+
                     // Obsolete CustomOperator Inlets are allowed.
                     continue;
+                }
+                else
+                {
+                    if (customOperatorInlet.IsObsolete)
+                    {
+                        string messagePrefix = ValidationHelper.GetMessagePrefix(customOperatorInlet);
+                        string message = ValidationMessageFormatter.NotEqual(PropertyDisplayNames.IsObsolete, CommonTitles.False);
+                        ValidationMessages.Add(PropertyNames.IsObsolete, messagePrefix + message);
+                    }
                 }
 
                 int? underlyingPatchInlet_ListIndex = TryGetListIndex(underlyingPatchInletOperator);
@@ -173,8 +190,24 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 Operator underlyingPatchOutlet = InletOutletMatcher.TryGetPatchOutlet(customOperatorOutlet, _patchRepository);
                 if (underlyingPatchOutlet == null)
                 {
+                    if (!customOperatorOutlet.IsObsolete)
+                    {
+                        string messagePrefix = ValidationHelper.GetMessagePrefix(customOperatorOutlet);
+                        string message = ValidationMessageFormatter.NotEqual(PropertyDisplayNames.IsObsolete, CommonTitles.True);
+                        ValidationMessages.Add(PropertyNames.IsObsolete, messagePrefix + message);
+                    }
+
                     // Obsolete CustomOperator Outlets are allowed.
                     continue;
+                }
+                else
+                {
+                    if (customOperatorOutlet.IsObsolete)
+                    {
+                        string messagePrefix = ValidationHelper.GetMessagePrefix(customOperatorOutlet);
+                        string message = ValidationMessageFormatter.NotEqual(PropertyDisplayNames.IsObsolete, CommonTitles.False);
+                        ValidationMessages.Add(PropertyNames.IsObsolete, messagePrefix + message);
+                    }
                 }
 
                 int? underlyingPatchOutlet_ListIndex = TryGetListIndex(underlyingPatchOutlet);
@@ -202,7 +235,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 }
             }
         }
-    
+
         // Helpers
 
         private static int? TryGetListIndex(Operator patchInletOrPatchOutletOperator)

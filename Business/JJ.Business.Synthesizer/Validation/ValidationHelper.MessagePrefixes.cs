@@ -53,7 +53,12 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (entity == null) throw new NullException(() => entity);
 
-            if (number.HasValue)
+            if (!String.IsNullOrEmpty(entity.Name))
+            {
+                string messagePrefix = String.Format("{0} '{1}': ", PropertyDisplayNames.Inlet, entity.Name);
+                return messagePrefix;
+            }
+            else if (number.HasValue)
             {
                 string messagePrefix = String.Format("{0} {1}: ", PropertyDisplayNames.Inlet, number);
                 return messagePrefix;
@@ -257,6 +262,28 @@ namespace JJ.Business.Synthesizer.Validation
 
             string messagePrefix = String.Format("{0} {1}: ", PropertyDisplayNames.Outlet, number);
             return messagePrefix;
+        }
+
+        /// <param name="number">1-based</param>
+        public static string GetMessagePrefix(Outlet entity, int? number = null)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            if (!String.IsNullOrEmpty(entity.Name))
+            {
+                string messagePrefix = String.Format("{0} '{1}': ", PropertyDisplayNames.Outlet, entity.Name);
+                return messagePrefix;
+            }
+            else if (number.HasValue)
+            {
+                string messagePrefix = String.Format("{0} {1}: ", PropertyDisplayNames.Outlet, number);
+                return messagePrefix;
+            }
+            else
+            {
+                string messagePrefix = PropertyDisplayNames.Outlet + ": ";
+                return messagePrefix;
+            }
         }
 
         public static string GetMessagePrefix(Patch entity)

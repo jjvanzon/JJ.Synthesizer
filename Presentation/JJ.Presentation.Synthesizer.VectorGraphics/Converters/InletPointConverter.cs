@@ -58,12 +58,20 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
                 {
                     Diagram = destOperatorRectangle.Diagram,
                     Parent = destOperatorRectangle,
-                    Tag = VectorGraphicsTagHelper.GetInletTag(inletID),
-                    PointStyle = StyleHelper.PointStyle
+                    Tag = VectorGraphicsTagHelper.GetInletTag(inletID)
                 };
 
                 _destInletPointDictionary.Add(inletID, destInletPoint);
                 _destInletPointHashSet.Add(destInletPoint);
+            }
+
+            if (sourceInletViewModel.HasWarningAppearance)
+            {
+                destInletPoint.PointStyle = StyleHelper.PointStyleWarning;
+            }
+            else
+            {
+                destInletPoint.PointStyle = StyleHelper.PointStyle;
             }
 
             return destInletPoint;

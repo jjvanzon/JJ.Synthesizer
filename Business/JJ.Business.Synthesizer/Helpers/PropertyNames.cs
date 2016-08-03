@@ -29,8 +29,6 @@ namespace JJ.Business.Synthesizer.Helpers
         public const string Curves = "Curves";
         public const string DataKey = "DataKey";
         public const string DataKeys = "DataKeys";
-        [Obsolete("", true)]
-        public const string Dimension = "Dimension";
         public const string Document = "Document";
         public const string DocumentReference = "DocumentReference";
         public const string Documents = "Documents";
@@ -44,6 +42,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public const string InletCount = "InletCount";
         public const string Inlets = "Inlets";
         public const string InterpolationType = "InterpolationType";
+        public const string IsObsolete = "IsObsolete";
         public const string ListIndex = "ListIndex";
         public const string LiteralFrequencies = "LiteralFrequencies";
         public const string Name = "Name";

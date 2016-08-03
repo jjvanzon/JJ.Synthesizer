@@ -743,9 +743,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 curveRepository,
                 sampleRepository,
                 patchRepository);
-
             string inletDisplayName = wrapper.GetInletDisplayName(inlet.ListIndex);
-
             sb.Append(inletDisplayName);
 
             if (inlet.InputOutlet == null)
@@ -754,6 +752,37 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 {
                     sb.AppendFormat(" = {0:0.####}", inlet.DefaultValue.Value);
                 }
+            }
+
+            if (inlet.IsObsolete)
+            {
+                sb.AppendFormat(" ({0})", PropertyDisplayNames.IsObsolete);
+            }
+
+            return sb.ToString();
+        }
+
+        public static string GetOutletCaption(
+            Outlet outlet,
+            ISampleRepository sampleRepository,
+            ICurveRepository curveRepository,
+            IPatchRepository patchRepository)
+        {
+            if (outlet == null) throw new NullException(() => outlet);
+
+            var sb = new StringBuilder();
+
+            var wrapper = OperatorWrapperFactory.CreateOperatorWrapper(
+                outlet.Operator,
+                curveRepository,
+                sampleRepository,
+                patchRepository);
+            string inletDisplayName = wrapper.GetOutletDisplayName(outlet.ListIndex);
+            sb.Append(inletDisplayName);
+
+            if (outlet.IsObsolete)
+            {
+                sb.AppendFormat(" ({0})", PropertyDisplayNames.IsObsolete);
             }
 
             return sb.ToString();

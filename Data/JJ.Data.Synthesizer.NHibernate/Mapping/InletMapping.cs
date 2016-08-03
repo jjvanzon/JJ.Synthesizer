@@ -11,6 +11,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
             Map(x => x.Name);
             Map(x => x.ListIndex);
             Map(x => x.DefaultValue);
+            Map(x => x.IsObsolete);
             References(x => x.Operator, ColumnNames.OperatorID);
             References(x => x.InputOutlet, ColumnNames.InputOutletID);
             References(x => x.Dimension, ColumnNames.DimensionID);

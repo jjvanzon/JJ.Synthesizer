@@ -60,12 +60,20 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
                 {
                     Diagram = destOperatorRectangle.Diagram,
                     Parent = destOperatorRectangle,
-                    Tag = VectorGraphicsTagHelper.GetOutletTag(outletID),
-                    PointStyle = StyleHelper.PointStyle
+                    Tag = VectorGraphicsTagHelper.GetOutletTag(outletID)
                 };
 
                 _destOutletPointDictionary.Add(outletID, destOutletPoint);
                 _destOutletPointHashSet.Add(destOutletPoint);
+            }
+
+            if (sourceOutletViewModel.HasWarningAppearance)
+            {
+                destOutletPoint.PointStyle = StyleHelper.PointStyleWarning;
+            }
+            else
+            {
+                destOutletPoint.PointStyle = StyleHelper.PointStyle;
             }
 
             return destOutletPoint;

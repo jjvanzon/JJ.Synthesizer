@@ -979,6 +979,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Obsolete.
+        /// </summary>
+        public static string IsObsolete {
+            get {
+                return ResourceManager.GetString("IsObsolete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Left.
         /// </summary>
         public static string Left {

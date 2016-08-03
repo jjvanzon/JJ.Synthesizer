@@ -24,6 +24,13 @@ namespace JJ.Data.Synthesizer
         /// <summary> This number is often used as a key to a specific outlet within an operator. 'Name' is another alternative key. </summary>
         public virtual int ListIndex { get; set; }
 
+        /// <summary>
+        /// If a custom operator's underlying Patch is changed,
+        /// obsolete outlets that still have connections are kept alive,
+        /// but marked as obsolete.
+        /// </summary>
+        public virtual bool IsObsolete { get; set; }
+
         /// <summary> parent </summary>
         public virtual Operator Operator { get; set; }
 

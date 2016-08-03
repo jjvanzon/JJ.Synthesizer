@@ -279,6 +279,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.ListIndex = entity.ListIndex;
             viewModel.DefaultValue = entity.DefaultValue;
             viewModel.Caption = ViewModelHelper.GetInletCaption(entity, sampleRepository, curveRepository, patchRepository);
+            viewModel.HasWarningAppearance = entity.IsObsolete;
             viewModel.ConnectionDistance = ViewModelHelper.TryGetConnectionDistance(entity, entityPositionManager);
 
             if (entity.Dimension != null)
@@ -335,7 +336,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.ID = entity.ID;
             viewModel.Name = entity.Name;
             viewModel.ListIndex = entity.ListIndex;
+            viewModel.HasWarningAppearance = entity.IsObsolete;
             viewModel.Visible = ViewModelHelper.GetOutletVisible(entity);
+            viewModel.Caption = ViewModelHelper.GetOutletCaption(entity, sampleRepository, curveRepository, patchRepository);
             viewModel.AverageConnectionDistance = ViewModelHelper.TryGetAverageConnectionDistance(entity, entityPositionManager);
 
             if (entity.Dimension != null)
@@ -346,10 +349,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 viewModel.Dimension = ViewModelHelper.CreateEmptyIDAndName();
             }
-
-            // TODO: Not a great plan to use a wrapper, since it is strict and ToViewModel might have to be lenient?
-            var wrapper = OperatorWrapperFactory.CreateOperatorWrapper(entity.Operator, curveRepository, sampleRepository, patchRepository);
-            viewModel.Caption = wrapper.GetOutletDisplayName(entity.ListIndex);
         }
 
         public static DimensionViewModel ToViewModel(this DimensionEnum dimensionEnum)

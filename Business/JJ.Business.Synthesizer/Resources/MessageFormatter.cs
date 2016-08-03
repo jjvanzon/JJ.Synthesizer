@@ -138,9 +138,9 @@ namespace JJ.Business.Synthesizer.Resources
             return String.Format(Messages.OperatorPatchIsNotTheExpectedPatch, operatorName, expectedPatchName);
         }
 
-        public static string OutletPropertyDoesNotMatchWithUnderlyingPatch(string propertyDisplayName, string inletName, string dimensionDisplayName, int? inletListIndex)
+        public static string OutletPropertyDoesNotMatchWithUnderlyingPatch(string propertyDisplayName, string outletName, string dimensionDisplayName, int? inletListIndex)
         {
-            return String.Format(Messages.OutletPropertyDoesNotMatchWithUnderlyingPatch, propertyDisplayName, inletName, dimensionDisplayName, inletListIndex);
+            return String.Format(Messages.OutletPropertyDoesNotMatchWithUnderlyingPatch, propertyDisplayName, outletName, dimensionDisplayName, inletListIndex);
         }
 
         public static string SampleCount0(string sampleName)

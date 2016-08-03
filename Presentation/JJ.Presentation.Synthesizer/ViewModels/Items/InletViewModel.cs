@@ -14,11 +14,11 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         /// <summary> Some inlets that have to be stored, might not have to be shown. </summary>
         public bool Visible { get; set; }
 
-        /// <summary> Does not necessarily need to be displayed, but does need to be passed around, so it is present when a new object is saved. </summary>
-        public int ListIndex { get; set; }
-
         /// <summary> nullable </summary>
         public OutletViewModel InputOutlet { get; set; }
+
+        public float? ConnectionDistance { get; set; }
+        public bool HasWarningAppearance { get; set; }
 
         // NOTE:
         // The following properties are not displayed (as of 2015-12-11)
@@ -28,13 +28,15 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         // but side-effects also cannot go off upon PatchDetails.LoseFocus, because there is no way of knowing it should go off.
         // According to the application, state is committed entity state + view model data and it has to be somewhere in there.
 
+        /// <summary> Does not necessarily need to be displayed, but does need to be passed around, so it is present when a new object is saved. </summary>
+        public int ListIndex { get; set; }
+
         /// <summary> Read-only, not necessarily displayed. </summary>
         public double? DefaultValue { get; set; }
 
         /// <summary> Read-only, nullable, not necessarily displayed. </summary>
         public IDAndName Dimension { get; set; }
 
-        public float? ConnectionDistance { get; set; }
 
         private string DebuggerDisplay
         {

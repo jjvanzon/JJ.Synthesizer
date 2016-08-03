@@ -30,33 +30,34 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
         public const float INLET_OUTLET_RECTANGLE_HEIGHT_OVERFLOW_IN_PIXELS = 10;
         public const float MINIMUM_INLET_OR_OUTLET_WIDTH_IN_PIXELS = 12;
 
-        public static Font DefaultFont { get; private set; }
-        public static Font NumberOperatorFont { get; private set; }
-        public static Font DimensionFont { get; private set; }
-        public static TextStyle TextStyle { get; private set; }
-        public static TextStyle NumberOperatorTextStyle { get; private set; }
-        public static TextStyle DimensionTextStyle { get; private set; }
-        public static BackStyle BackStyle { get; private set; }
-        public static BackStyle BackStyleSelected { get; private set; }
-        public static BackStyle BackStyleInvisible { get; private set; }
-        public static LineStyle BorderStyle { get; private set; }
-        public static LineStyle BorderStyleSelected { get; private set; }
-        public static LineStyle BorderStyleInvisible { get; private set; }
-        public static LineStyle LineStyleDashed { get; private set; }
-        public static LineStyle LineStyle { get; private set; }
-        public static LineStyle LineStyleTransparent { get; private set; }
-        public static LineStyle LineStyleThick { get; private set; }
-        public static PointStyle PointStyle { get; private set; }
-        public static PointStyle PointStyleThick { get; private set; }
-        public static PointStyle PointStyleThickSelected { get; private set; }
-        public static PointStyle PointStyleInvisible { get; private set; }
+        public static Font DefaultFont { get; }
+        public static Font NumberOperatorFont { get; }
+        public static Font DimensionFont { get; }
+        public static TextStyle TextStyle { get; }
+        public static TextStyle NumberOperatorTextStyle { get; }
+        public static TextStyle DimensionTextStyle { get; }
+        public static BackStyle BackStyle { get; }
+        public static BackStyle BackStyleSelected { get; }
+        public static BackStyle BackStyleInvisible { get; }
+        public static LineStyle BorderStyle { get; }
+        public static LineStyle BorderStyleSelected { get; }
+        public static LineStyle BorderStyleInvisible { get; }
+        public static LineStyle LineStyleDashed { get; }
+        public static LineStyle LineStyle { get; }
+        public static LineStyle LineStyleTransparent { get; }
+        public static LineStyle LineStyleThick { get; }
+        public static PointStyle PointStyle { get; }
+        public static PointStyle PointStyleWarning { get; }
+        public static PointStyle PointStyleThick { get; }
+        public static PointStyle PointStyleThickSelected { get; }
+        public static PointStyle PointStyleInvisible { get; }
 
-        public static BackStyle ToolTipBackStyle { get; private set; }
-        public static LineStyle ToolTipLineStyle { get; private set; }
-        public static TextStyle ToolTipTextStyle { get; private set; }
+        public static BackStyle ToolTipBackStyle { get; }
+        public static LineStyle ToolTipLineStyle { get; }
+        public static TextStyle ToolTipTextStyle { get; }
 
-        public static float Spacing { get; private set; }
-        public static float SpacingTimes2 { get; private set; }
+        public static float Spacing { get; }
+        public static float SpacingTimes2 { get; }
 
         static StyleHelper()
         {
@@ -71,6 +72,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
             int transparentGrey = ColorHelper.GetColor(128, 45, 45, 45);
             int blue = ColorHelper.GetColor(122, 189, 254);
             int darkerBlue = ColorHelper.SetBrightness(blue, 0.8);
+            int orange = ColorHelper.GetColor(0xFFDB8E00);
 
             PointStyle = new PointStyle
             {
@@ -89,6 +91,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
                 Color = darkerBlue,
                 Width = 10
             };
+
+            PointStyleWarning = PointStyle.Clone();
+            PointStyleWarning.Color = orange;
 
             BackStyle = new BackStyle
             {

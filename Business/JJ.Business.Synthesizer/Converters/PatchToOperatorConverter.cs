@@ -74,27 +74,7 @@ namespace JJ.Business.Synthesizer.Converters
 
             foreach (Operator sourcePatchInlet in sourcePatchInlets)
             {
-                var sourcePatchInletWrapper = new PatchInlet_OperatorWrapper(sourcePatchInlet);
-                Inlet sourcePatchInletInlet = sourcePatchInletWrapper.Inlet;
-
-                Inlet destCustomOperatorInlet = InletOutletMatcher.TryGetCustomOperatorInlet(destCustomOperator.Inlets, sourcePatchInlet);
-                if (destCustomOperatorInlet == null)
-                {
-                    destCustomOperatorInlet = new Inlet();
-                    destCustomOperatorInlet.ID = _repositories.IDRepository.GetID();
-                    _repositories.InletRepository.Insert(destCustomOperatorInlet);
-                    destCustomOperatorInlet.LinkTo(destCustomOperator);
-                }
-
-                destCustomOperatorInlet.Name = sourcePatchInlet.Name;
-                destCustomOperatorInlet.DefaultValue = sourcePatchInletInlet.DefaultValue;
-                destCustomOperatorInlet.Dimension = sourcePatchInletInlet.Dimension;
-
-                if (!sourcePatchInletWrapper.ListIndex.HasValue)
-                {
-                    throw new NullException(() => sourcePatchInletWrapper.ListIndex);
-                }
-                destCustomOperatorInlet.ListIndex = sourcePatchInletWrapper.ListIndex.Value;
+                Inlet destCustomOperatorInlet = ConvertInlet(destCustomOperator, sourcePatchInlet);
 
                 idsToKeep.Add(destCustomOperatorInlet.ID);
             }
@@ -106,12 +86,44 @@ namespace JJ.Business.Synthesizer.Converters
             {
                 Inlet entityToDeleteIfNotInUse = _repositories.InletRepository.Get(idToDeleteIfNotInUse);
                 bool isInUse = entityToDeleteIfNotInUse.InputOutlet != null;
-                if (!isInUse)
+                if (isInUse)
+                {
+                    entityToDeleteIfNotInUse.IsObsolete = true;
+                }
+                else
                 {
                     entityToDeleteIfNotInUse.UnlinkRelatedEntities();
                     _repositories.InletRepository.Delete(entityToDeleteIfNotInUse);
                 }
             }
+        }
+
+        private Inlet ConvertInlet(Operator destCustomOperator, Operator sourcePatchInlet)
+        {
+            var sourcePatchInletWrapper = new PatchInlet_OperatorWrapper(sourcePatchInlet);
+            Inlet sourcePatchInletInlet = sourcePatchInletWrapper.Inlet;
+
+            Inlet destCustomOperatorInlet = InletOutletMatcher.TryGetCustomOperatorInlet(destCustomOperator.Inlets, sourcePatchInlet);
+            if (destCustomOperatorInlet == null)
+            {
+                destCustomOperatorInlet = new Inlet();
+                destCustomOperatorInlet.ID = _repositories.IDRepository.GetID();
+                _repositories.InletRepository.Insert(destCustomOperatorInlet);
+                destCustomOperatorInlet.LinkTo(destCustomOperator);
+            }
+
+            destCustomOperatorInlet.Name = sourcePatchInlet.Name;
+            destCustomOperatorInlet.DefaultValue = sourcePatchInletInlet.DefaultValue;
+            destCustomOperatorInlet.Dimension = sourcePatchInletInlet.Dimension;
+            destCustomOperatorInlet.IsObsolete = false;
+
+            if (!sourcePatchInletWrapper.ListIndex.HasValue)
+            {
+                throw new NullException(() => sourcePatchInletWrapper.ListIndex);
+            }
+            destCustomOperatorInlet.ListIndex = sourcePatchInletWrapper.ListIndex.Value;
+
+            return destCustomOperatorInlet;
         }
 
         private void ConvertOutlets(IList<Operator> sourcePatchOutlets, Operator destCustomOperator)
@@ -120,26 +132,7 @@ namespace JJ.Business.Synthesizer.Converters
 
             foreach (Operator sourcePatchOutlet in sourcePatchOutlets)
             {
-                var sourcePatchOutletWrapper = new PatchOutlet_OperatorWrapper(sourcePatchOutlet);
-                Outlet sourcePatchOutletOutlet = sourcePatchOutletWrapper.Result;
-
-                Outlet destCustomOperatorOutlet = InletOutletMatcher.TryGetCustomOperatorOutlet(destCustomOperator.Outlets, sourcePatchOutlet);
-                if (destCustomOperatorOutlet == null)
-                {
-                    destCustomOperatorOutlet = new Outlet();
-                    destCustomOperatorOutlet.ID = _repositories.IDRepository.GetID();
-                    destCustomOperatorOutlet.LinkTo(destCustomOperator);
-                    _repositories.OutletRepository.Insert(destCustomOperatorOutlet);
-                }
-
-                destCustomOperatorOutlet.Name = sourcePatchOutlet.Name;
-                destCustomOperatorOutlet.Dimension = sourcePatchOutletOutlet.Dimension;
-
-                if (!sourcePatchOutletWrapper.ListIndex.HasValue)
-                {
-                    throw new NullException(() => sourcePatchOutletWrapper.ListIndex);
-                }
-                destCustomOperatorOutlet.ListIndex = sourcePatchOutletWrapper.ListIndex.Value;
+                Outlet destCustomOperatorOutlet = ConvertOutlet(destCustomOperator, sourcePatchOutlet);
 
                 idsToKeep.Add(destCustomOperatorOutlet.ID);
             }
@@ -151,12 +144,42 @@ namespace JJ.Business.Synthesizer.Converters
             {
                 Outlet entityToDeleteIfNotInUse = _repositories.OutletRepository.Get(idToDeleteIfNotInUse);
                 bool isInUse = entityToDeleteIfNotInUse.ConnectedInlets.Count != 0;
-                if (!isInUse)
+                if (isInUse)
+                {
+                    entityToDeleteIfNotInUse.IsObsolete = true;
+                }
+                else
                 {
                     entityToDeleteIfNotInUse.UnlinkRelatedEntities();
                     _repositories.OutletRepository.Delete(entityToDeleteIfNotInUse);
                 }
             }
+        }
+
+        private Outlet ConvertOutlet(Operator destCustomOperator, Operator sourcePatchOutlet)
+        {
+            var sourcePatchOutletWrapper = new PatchOutlet_OperatorWrapper(sourcePatchOutlet);
+            Outlet sourcePatchOutletOutlet = sourcePatchOutletWrapper.Result;
+
+            Outlet destCustomOperatorOutlet = InletOutletMatcher.TryGetCustomOperatorOutlet(destCustomOperator.Outlets, sourcePatchOutlet);
+            if (destCustomOperatorOutlet == null)
+            {
+                destCustomOperatorOutlet = new Outlet();
+                destCustomOperatorOutlet.ID = _repositories.IDRepository.GetID();
+                destCustomOperatorOutlet.LinkTo(destCustomOperator);
+                _repositories.OutletRepository.Insert(destCustomOperatorOutlet);
+            }
+
+            destCustomOperatorOutlet.Name = sourcePatchOutlet.Name;
+            destCustomOperatorOutlet.Dimension = sourcePatchOutletOutlet.Dimension;
+            destCustomOperatorOutlet.IsObsolete = false;
+
+            if (!sourcePatchOutletWrapper.ListIndex.HasValue)
+            {
+                throw new NullException(() => sourcePatchOutletWrapper.ListIndex);
+            }
+            destCustomOperatorOutlet.ListIndex = sourcePatchOutletWrapper.ListIndex.Value;
+            return destCustomOperatorOutlet;
         }
     }
 }

@@ -875,4 +875,7 @@
   <data name="Start" xml:space="preserve">
     <value>Start</value>
   </data>
+  <data name="IsObsolete" xml:space="preserve">
+    <value>Verouderd</value>
+  </data>
 </root>
