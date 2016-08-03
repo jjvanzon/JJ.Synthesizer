@@ -44,6 +44,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
         public static LineStyle BorderStyleInvisible { get; }
         public static LineStyle LineStyleDashed { get; }
         public static LineStyle LineStyle { get; }
+        public static LineStyle LineStyleWarning { get; }
         public static LineStyle LineStyleTransparent { get; }
         public static LineStyle LineStyleThick { get; }
         public static PointStyle PointStyle { get; }
@@ -121,6 +122,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
             {
                 Width = 1,
                 Color = mediumGrey
+            };
+
+            LineStyleWarning = new LineStyle
+            {
+                Width = 1,
+                Color = orange
             };
 
             LineStyleTransparent = new LineStyle

@@ -202,7 +202,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                         destCurve = new Curve
                         {
                             SegmentCount = _lineSegmentCount,
-                            LineStyle = StyleHelper.LineStyle,
                             ZIndex = -1,
                             Tag = VectorGraphicsTagHelper.GetInletTag(inletID),
                             Diagram = destDiagram,
@@ -212,6 +211,18 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     }
 
                     _convertedElements.Add(destCurve);
+
+                    bool mustHaveWarningAppearance = inletViewModel.HasWarningAppearance ||
+                                                    (inletViewModel.InputOutlet?.HasWarningAppearance ?? false);
+                    if (mustHaveWarningAppearance)
+                    {
+                        destCurve.LineStyle = StyleHelper.LineStyleWarning;
+                    }
+                    else
+                    {
+                        destCurve.LineStyle = StyleHelper.LineStyle;
+                    }
+
 
                     destCurve.PointA = operatorVectorGraphicsElements1.InletPoints[i];
                     destCurve.ControlPointA = operatorVectorGraphicsElements1.InletControlPoints[i];

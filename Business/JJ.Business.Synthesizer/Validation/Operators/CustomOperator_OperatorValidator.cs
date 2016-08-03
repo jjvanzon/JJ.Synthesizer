@@ -12,6 +12,7 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Validation.DataProperty;
 using JJ.Framework.Validation.Resources;
+using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
@@ -125,26 +126,12 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             {
                 Operator underlyingPatchInletOperator = InletOutletMatcher.TryGetPatchInlet(customOperatorInlet, _patchRepository);
 
+                ValidateIsObsolete(customOperatorInlet, underlyingPatchInletOperator);
+
                 if (underlyingPatchInletOperator == null)
                 {
-                    if (!customOperatorInlet.IsObsolete)
-                    {
-                        string messagePrefix = ValidationHelper.GetMessagePrefix(customOperatorInlet);
-                        string message = ValidationMessageFormatter.NotEqual(PropertyDisplayNames.IsObsolete, CommonTitles.True);
-                        ValidationMessages.Add(PropertyNames.IsObsolete, messagePrefix + message);
-                    }
-
                     // Obsolete CustomOperator Inlets are allowed.
                     continue;
-                }
-                else
-                {
-                    if (customOperatorInlet.IsObsolete)
-                    {
-                        string messagePrefix = ValidationHelper.GetMessagePrefix(customOperatorInlet);
-                        string message = ValidationMessageFormatter.NotEqual(PropertyDisplayNames.IsObsolete, CommonTitles.False);
-                        ValidationMessages.Add(PropertyNames.IsObsolete, messagePrefix + message);
-                    }
                 }
 
                 int? underlyingPatchInlet_ListIndex = TryGetListIndex(underlyingPatchInletOperator);
@@ -179,6 +166,31 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             }
         }
 
+        /// <param name="underlyingPatchInletOperator">nullable</param>
+        private void ValidateIsObsolete(Inlet customOperatorInlet, Operator underlyingPatchInletOperator)
+        {
+            if (customOperatorInlet == null) throw new NullException(() => customOperatorInlet);
+
+            if (underlyingPatchInletOperator == null)
+            {
+                if (!customOperatorInlet.IsObsolete)
+                {
+                    string messagePrefix = ValidationHelper.GetMessagePrefix(customOperatorInlet);
+                    string message = ValidationMessageFormatter.NotEqual(PropertyDisplayNames.IsObsolete, CommonTitles.True);
+                    ValidationMessages.Add(PropertyNames.IsObsolete, messagePrefix + message);
+                }
+            }
+            else
+            {
+                if (customOperatorInlet.IsObsolete)
+                {
+                    string messagePrefix = ValidationHelper.GetMessagePrefix(customOperatorInlet);
+                    string message = ValidationMessageFormatter.NotEqual(PropertyDisplayNames.IsObsolete, CommonTitles.False);
+                    ValidationMessages.Add(PropertyNames.IsObsolete, messagePrefix + message);
+                }
+            }
+        }
+
         private void ValidateOutletsAgainstUnderlyingPatch(Patch underlyingPatch)
         {
             Operator customOperator = Object;
@@ -188,26 +200,13 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             foreach (Outlet customOperatorOutlet in customOperator.Outlets)
             {
                 Operator underlyingPatchOutlet = InletOutletMatcher.TryGetPatchOutlet(customOperatorOutlet, _patchRepository);
+
+                ValidateIsObsolete(customOperatorOutlet, underlyingPatchOutlet);
+
                 if (underlyingPatchOutlet == null)
                 {
-                    if (!customOperatorOutlet.IsObsolete)
-                    {
-                        string messagePrefix = ValidationHelper.GetMessagePrefix(customOperatorOutlet);
-                        string message = ValidationMessageFormatter.NotEqual(PropertyDisplayNames.IsObsolete, CommonTitles.True);
-                        ValidationMessages.Add(PropertyNames.IsObsolete, messagePrefix + message);
-                    }
-
                     // Obsolete CustomOperator Outlets are allowed.
                     continue;
-                }
-                else
-                {
-                    if (customOperatorOutlet.IsObsolete)
-                    {
-                        string messagePrefix = ValidationHelper.GetMessagePrefix(customOperatorOutlet);
-                        string message = ValidationMessageFormatter.NotEqual(PropertyDisplayNames.IsObsolete, CommonTitles.False);
-                        ValidationMessages.Add(PropertyNames.IsObsolete, messagePrefix + message);
-                    }
                 }
 
                 int? underlyingPatchOutlet_ListIndex = TryGetListIndex(underlyingPatchOutlet);
@@ -232,6 +231,31 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                         string message = GetOutletPropertyDoesNotMatchMessage(customOperatorOutlet, PropertyDisplayNames.Dimension);
                         ValidationMessages.Add(PropertyNames.Outlet, message);
                     }
+                }
+            }
+        }
+
+        /// <param name="underlyingPatchOutlet">nullable</param>
+        private void ValidateIsObsolete(Outlet customOperatorOutlet, Operator underlyingPatchOutlet)
+        {
+            if (customOperatorOutlet == null) throw new NullException(() => customOperatorOutlet);
+
+            if (underlyingPatchOutlet == null)
+            {
+                if (!customOperatorOutlet.IsObsolete)
+                {
+                    string messagePrefix = ValidationHelper.GetMessagePrefix(customOperatorOutlet);
+                    string message = ValidationMessageFormatter.NotEqual(PropertyDisplayNames.IsObsolete, CommonTitles.True);
+                    ValidationMessages.Add(PropertyNames.IsObsolete, messagePrefix + message);
+                }
+            }
+            else
+            {
+                if (customOperatorOutlet.IsObsolete)
+                {
+                    string messagePrefix = ValidationHelper.GetMessagePrefix(customOperatorOutlet);
+                    string message = ValidationMessageFormatter.NotEqual(PropertyDisplayNames.IsObsolete, CommonTitles.False);
+                    ValidationMessages.Add(PropertyNames.IsObsolete, messagePrefix + message);
                 }
             }
         }
