@@ -81,6 +81,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             destOperatorRectangle.Gestures.Add(_selectOperatorGesture);
             destOperatorRectangle.Gestures.Add(_showOperatorPropertiesMouseGesture);
 
+            destOperatorRectangle.MustBubble = false; // So double click does not bubble to BackGround and cause PatchProperties to show instead of OperatorProperties.
+
             return destOperatorRectangle;
         }
 
