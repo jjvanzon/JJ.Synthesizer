@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 obj,
                 OperatorTypeEnum.PatchOutlet,
                 new DimensionEnum[] { DimensionEnum.Undefined },
-                new DimensionEnum[] { obj?.Outlets.FirstOrDefault()?.GetDimensionEnum() ?? DimensionEnum.Undefined },
+                new DimensionEnum[] { GetOutletDimensionEnum(obj) },
                 expectedDataKeys: new string[] { PropertyNames.ListIndex })
         { }
 
@@ -26,6 +26,13 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             ExecuteValidator(new ListIndex_DataProperty_Validator(Object.Data));
 
             base.Execute();
+        }
+
+        // Helpers
+
+        private static DimensionEnum GetOutletDimensionEnum(Operator obj)
+        {
+            return obj?.Outlets.FirstOrDefault()?.GetDimensionEnum() ?? DimensionEnum.Undefined;
         }
     }
 }

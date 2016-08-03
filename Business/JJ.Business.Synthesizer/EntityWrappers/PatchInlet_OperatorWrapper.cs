@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         private const int RESULT_INDEX = 0;
 
         public PatchInlet_OperatorWrapper(Operator op)
-            :base(op)
+            : base(op)
         { }
 
         public Outlet Input

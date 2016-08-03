@@ -213,7 +213,7 @@
     <comment>{0} = property, {1} = value</comment>
   </data>
   <data name="InletPropertyDoesNotMatchWithUnderlyingPatch" xml:space="preserve">
-    <value>{0} of inlet does not match with underlying patch. Inlet name: '{1}', inlet type: '{2}', inlet number: '{3}'.</value>
+    <value>{0} of inlet does not match with underlying patch.</value>
     <comment>{0} = property name</comment>
   </data>
   <data name="NameOrDimensionMustBeFilledIn" xml:space="preserve">
@@ -224,7 +224,7 @@
     <comment>{0} = type of object, e.g. 'Recipe', {1} = name of object, e.g. 'eggs and bacon'</comment>
   </data>
   <data name="OutletPropertyDoesNotMatchWithUnderlyingPatch" xml:space="preserve">
-    <value>{0} of outlet does not match with underlying patch. Outlet name: '{1}', outlet type: '{2}', outlet number: '{3}'.</value>
+    <value>{0} of outlet does not match with underlying patch.</value>
     <comment>{0} = property name</comment>
   </data>
   <data name="MustBePowerOf2" xml:space="preserve">

@@ -160,7 +160,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} of inlet does not match with underlying patch. Inlet name: &apos;{1}&apos;, inlet type: &apos;{2}&apos;, inlet number: &apos;{3}&apos;..
+        ///   Looks up a localized string similar to {0} of inlet does not match with underlying patch..
         /// </summary>
         internal static string InletPropertyDoesNotMatchWithUnderlyingPatch {
             get {
@@ -304,7 +304,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} of outlet does not match with underlying patch. Outlet name: &apos;{1}&apos;, outlet type: &apos;{2}&apos;, outlet number: &apos;{3}&apos;..
+        ///   Looks up a localized string similar to {0} of outlet does not match with underlying patch..
         /// </summary>
         internal static string OutletPropertyDoesNotMatchWithUnderlyingPatch {
             get {

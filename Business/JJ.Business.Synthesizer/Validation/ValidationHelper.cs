@@ -54,6 +54,30 @@ namespace JJ.Business.Synthesizer.Validation
             return inletIdentifier;
         }
 
+        public static string GetOutletIdentifier(Outlet outlet)
+        {
+            if (outlet == null) throw new NullException(() => outlet);
+
+            // Use Name
+            if (!String.IsNullOrEmpty(outlet.Name))
+            {
+                return outlet.Name;
+            }
+
+            // Use Dimension
+            DimensionEnum dimensionEnum = outlet.GetDimensionEnum();
+            if (dimensionEnum != DimensionEnum.Undefined)
+            {
+                // Downside: Dimension might not be unique among an operator's outlets.
+                string dimensionDisplayName = ResourceHelper.GetDisplayName(dimensionEnum);
+                return dimensionDisplayName;
+            }
+
+            // Use ListIndex
+            string outletIdentifier = String.Format("{0} {1}", PropertyDisplayNames.Outlet, outlet.ListIndex);
+            return outletIdentifier;
+        }
+
         public static double? TryGetConstantNumberFromInlet(Inlet inlet)
         {
             if (inlet == null) throw new NullException(() => inlet);

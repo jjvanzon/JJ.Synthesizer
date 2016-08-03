@@ -64,9 +64,9 @@ namespace JJ.Business.Synthesizer.Resources
             return String.Format(Messages.InletNotSet, operatorTypeName, operatorName, operandName);
         }
 
-        public static string InletPropertyDoesNotMatchWithUnderlyingPatch(string propertyDisplayName, string inletName, string dimensionDisplayName, int? inletListIndex)
+        public static string InletPropertyDoesNotMatchWithUnderlyingPatch(string propertyDisplayName)
         {
-            return String.Format(Messages.InletPropertyDoesNotMatchWithUnderlyingPatch, propertyDisplayName, inletName, dimensionDisplayName, inletListIndex);
+            return String.Format(Messages.InletPropertyDoesNotMatchWithUnderlyingPatch, propertyDisplayName);
         }
 
         public static string MustBePowerOf2(string frequencyCount)
@@ -138,9 +138,9 @@ namespace JJ.Business.Synthesizer.Resources
             return String.Format(Messages.OperatorPatchIsNotTheExpectedPatch, operatorName, expectedPatchName);
         }
 
-        public static string OutletPropertyDoesNotMatchWithUnderlyingPatch(string propertyDisplayName, string outletName, string dimensionDisplayName, int? inletListIndex)
+        public static string OutletPropertyDoesNotMatchWithUnderlyingPatch(string propertyDisplayName)
         {
-            return String.Format(Messages.OutletPropertyDoesNotMatchWithUnderlyingPatch, propertyDisplayName, outletName, dimensionDisplayName, inletListIndex);
+            return String.Format(Messages.OutletPropertyDoesNotMatchWithUnderlyingPatch, propertyDisplayName);
         }
 
         public static string SampleCount0(string sampleName)

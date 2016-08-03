@@ -13,6 +13,7 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Validation.DataProperty;
 using JJ.Framework.Validation.Resources;
 using JJ.Framework.Reflection.Exceptions;
+using System.Text;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
@@ -138,13 +139,23 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
                 if (customOperatorInlet.ListIndex != underlyingPatchInlet_ListIndex)
                 {
-                    string message = GetInletPropertyDoesNotMatchMessage(customOperatorInlet, PropertyDisplayNames.ListIndex);
+                    string message = GetInletPropertyDoesNotMatchMessage(
+                        PropertyDisplayNames.ListIndex,
+                        customOperatorInlet,
+                        underlyingPatchInletOperator,
+                        customOperatorInlet.ListIndex,
+                        underlyingPatchInlet_ListIndex);
                     ValidationMessages.Add(PropertyNames.Inlet, message);
                 }
 
                 if (!String.Equals(customOperatorInlet.Name, underlyingPatchInletOperator.Name))
                 {
-                    string message = GetInletPropertyDoesNotMatchMessage(customOperatorInlet, CommonTitles.Name);
+                    string message = GetInletPropertyDoesNotMatchMessage(
+                        CommonTitles.Name,
+                        customOperatorInlet,
+                        underlyingPatchInletOperator,
+                        customOperatorInlet.Name,
+                        underlyingPatchInletOperator.Name);
                     ValidationMessages.Add(PropertyNames.Inlet, message);
                 }
 
@@ -153,13 +164,23 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 {
                     if (customOperatorInlet.GetDimensionEnum() != underlyingPatchInlet_Inlet.GetDimensionEnum())
                     {
-                        string message = GetInletPropertyDoesNotMatchMessage(customOperatorInlet, PropertyDisplayNames.Dimension);
+                        string message = GetInletPropertyDoesNotMatchMessage(
+                            PropertyDisplayNames.Dimension,
+                            customOperatorInlet,
+                            underlyingPatchInletOperator,
+                            customOperatorInlet.GetDimensionEnum(),
+                            underlyingPatchInlet_Inlet.GetDimensionEnum());
                         ValidationMessages.Add(PropertyNames.Inlet, message);
                     }
 
                     if (customOperatorInlet.DefaultValue != underlyingPatchInlet_Inlet.DefaultValue)
                     {
-                        string message = GetInletPropertyDoesNotMatchMessage(customOperatorInlet, PropertyDisplayNames.DefaultValue);
+                        string message = GetInletPropertyDoesNotMatchMessage(
+                            PropertyDisplayNames.DefaultValue,
+                            customOperatorInlet,
+                            underlyingPatchInletOperator,
+                            customOperatorInlet.DefaultValue,
+                            underlyingPatchInlet_Inlet.DefaultValue);
                         ValidationMessages.Add(PropertyNames.Inlet, message);
                     }
                 }
@@ -213,13 +234,23 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
                 if (customOperatorOutlet.ListIndex != underlyingPatchOutlet_ListIndex)
                 {
-                    string message = GetOutletPropertyDoesNotMatchMessage(customOperatorOutlet, PropertyDisplayNames.ListIndex);
+                    string message = GetOutletPropertyDoesNotMatchMessage(
+                        PropertyDisplayNames.ListIndex,
+                        customOperatorOutlet,
+                        underlyingPatchOutlet,
+                        customOperatorOutlet.ListIndex,
+                        underlyingPatchOutlet_ListIndex);
                     ValidationMessages.Add(PropertyNames.Outlet, message);
                 }
 
                 if (!String.Equals(customOperatorOutlet.Name, underlyingPatchOutlet.Name))
                 {
-                    string message = GetOutletPropertyDoesNotMatchMessage(customOperatorOutlet, CommonTitles.Name);
+                    string message = GetOutletPropertyDoesNotMatchMessage(
+                        CommonTitles.Name,
+                        customOperatorOutlet,
+                        underlyingPatchOutlet,
+                        customOperatorOutlet.Name,
+                        underlyingPatchOutlet.Name);
                     ValidationMessages.Add(PropertyNames.Outlet, message);
                 }
 
@@ -228,7 +259,12 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 {
                     if (customOperatorOutlet.GetDimensionEnum() != underlyingPatchOutlet_Outlet.GetDimensionEnum())
                     {
-                        string message = GetOutletPropertyDoesNotMatchMessage(customOperatorOutlet, PropertyDisplayNames.Dimension);
+                        string message = GetOutletPropertyDoesNotMatchMessage(
+                            PropertyDisplayNames.Dimension,
+                            customOperatorOutlet,
+                            underlyingPatchOutlet,
+                            customOperatorOutlet.GetDimensionEnum(),
+                            underlyingPatchOutlet_Outlet.GetDimensionEnum());
                         ValidationMessages.Add(PropertyNames.Outlet, message);
                     }
                 }
@@ -283,22 +319,77 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             return op.Outlets.FirstOrDefault();
         }
 
-        private static string GetInletPropertyDoesNotMatchMessage(Inlet customOperatorInlet, string propertyDisplayName)
+        private static string GetInletPropertyDoesNotMatchMessage(
+            string propertyDisplayName,
+            Inlet customOperatorInlet,
+            Operator patchInlet,
+            object customOperatorInletPropertyValue,
+            object patchInletPropertyValue)
         {
-            return MessageFormatter.InletPropertyDoesNotMatchWithUnderlyingPatch(
+            // Number (0-based) of inlet does not match with underlying patch.
+            // Custom Operator: Inlet 'Signal': Number (0-based) = '0'.
+            // Underlying Patch: Inlet 'Signal': Number (0-based) = '1'.
+
+            var sb = new StringBuilder();
+
+            sb.Append(MessageFormatter.InletPropertyDoesNotMatchWithUnderlyingPatch(propertyDisplayName));
+
+            string customOperatorInletIdentifier = ValidationHelper.GetInletIdentifier(customOperatorInlet);
+            sb.AppendFormat(
+                " {0}: {1} '{2}': {3} = '{4}'.",
+                PropertyDisplayNames.CustomOperator,
+                PropertyDisplayNames.Inlet,
+                customOperatorInletIdentifier,
                 propertyDisplayName,
-                customOperatorInlet.Name,
-                ResourceHelper.GetDisplayName(customOperatorInlet.Dimension),
-                customOperatorInlet.ListIndex);
+                customOperatorInletPropertyValue);
+
+            string patchInletIdentifier = ValidationHelper.GetOperatorIdentifier(patchInlet);
+
+            sb.AppendFormat(
+                "{0}: {1} '{2}': {3} = '{4}'.",
+                PropertyDisplayNames.UnderlyingPatch,
+                PropertyDisplayNames.PatchInlet,
+                patchInletIdentifier,
+                propertyDisplayName,
+                patchInletPropertyValue);
+
+            return sb.ToString();
         }
 
-        private static string GetOutletPropertyDoesNotMatchMessage(Outlet customOperatorOutlet, string propertyDisplayName)
+        private static string GetOutletPropertyDoesNotMatchMessage(
+            string propertyDisplayName,
+            Outlet customOperatorOutlet,
+            Operator patchOutlet,
+            object customOperatorOutletPropertyValue,
+            object patchOutletPropertyValue)
         {
-            return MessageFormatter.OutletPropertyDoesNotMatchWithUnderlyingPatch(
+            // Number (0-based) of outlet does not match with underlying patch.
+            // Custom Operator: Outlet 'Signal': Number (0-based) = '0'.
+            // Underlying Patch: Outlet 'Signal': Number (0-based) = '1'.
+
+            var sb = new StringBuilder();
+
+            sb.Append(MessageFormatter.OutletPropertyDoesNotMatchWithUnderlyingPatch(propertyDisplayName));
+
+            string customOperatorOutletIdentifier = ValidationHelper.GetOutletIdentifier(customOperatorOutlet);
+            sb.AppendFormat(
+                " {0}: {1} '{2}': {3} = '{4}'.",
+                PropertyDisplayNames.CustomOperator,
+                PropertyDisplayNames.Outlet,
+                customOperatorOutletIdentifier,
                 propertyDisplayName,
-                customOperatorOutlet.Name,
-                ResourceHelper.GetDisplayName(customOperatorOutlet.Dimension),
-                customOperatorOutlet.ListIndex);
+                customOperatorOutletPropertyValue);
+
+            string patchOutletIdentifier = ValidationHelper.GetOperatorIdentifier(patchOutlet);
+            sb.AppendFormat(
+                "{0}: {1} '{2}': {3} = '{4}'.",
+                PropertyDisplayNames.UnderlyingPatch,
+                PropertyDisplayNames.PatchOutlet,
+                patchOutletIdentifier,
+                propertyDisplayName,
+                patchOutletPropertyValue);
+
+            return sb.ToString();
         }
     }
 }

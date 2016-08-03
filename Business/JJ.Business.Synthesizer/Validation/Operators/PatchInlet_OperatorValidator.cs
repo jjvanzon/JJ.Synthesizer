@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             : base(
                 obj,
                 OperatorTypeEnum.PatchInlet,
-                new DimensionEnum[] { obj?.Inlets.FirstOrDefault()?.GetDimensionEnum() ?? DimensionEnum.Undefined },
+                new DimensionEnum[] { GetInletDimensionEnum(obj) },
                 new DimensionEnum[] { DimensionEnum.Undefined },
                 expectedDataKeys: new string[] { PropertyNames.ListIndex })
         { }
@@ -27,6 +27,13 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             ExecuteValidator(new ListIndex_DataProperty_Validator(Object.Data));
 
             base.Execute();
+        }
+
+        // Helpers
+
+        private static DimensionEnum GetInletDimensionEnum(Operator obj)
+        {
+            return obj?.Inlets.FirstOrDefault()?.GetDimensionEnum() ?? DimensionEnum.Undefined;
         }
     }
 }

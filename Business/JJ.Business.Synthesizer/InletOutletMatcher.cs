@@ -12,52 +12,45 @@ namespace JJ.Business.Synthesizer
 {
     internal static class InletOutletMatcher
     {
-        public static Inlet TryGetCustomOperatorInlet(IList<Inlet> destCustomOperatorInlets, Operator sourcePatchInlet)
+        public static Inlet TryGetCustomOperatorInlet(Operator sourcePatchInlet, IList<Inlet> destCustomOperatorInlets)
         {
             if (destCustomOperatorInlets == null) throw new NullException(() => destCustomOperatorInlets);
             if (sourcePatchInlet == null) throw new NullException(() => sourcePatchInlet);
 
-            // Try match by name
-            foreach (Inlet destCustomOperatorInlet in destCustomOperatorInlets)
-            {
-                bool nameIsFilledIn = !String.IsNullOrEmpty(destCustomOperatorInlet.Name);
-                if (!nameIsFilledIn)
-                {
-                    continue;
-                }
+            var sourcePatchInletWrapper = new PatchInlet_OperatorWrapper(sourcePatchInlet);
 
-                bool namesAreEqual = String.Equals(destCustomOperatorInlet.Name, sourcePatchInlet.Name);
-                if (namesAreEqual)
+            // Try match by name
+            bool nameIsFilledIn = !String.IsNullOrEmpty(sourcePatchInlet.Name);
+            if (nameIsFilledIn)
+            {
+                foreach (Inlet destCustomOperatorInlet in destCustomOperatorInlets)
                 {
-                    return destCustomOperatorInlet;
+                    bool namesAreEqual = String.Equals(destCustomOperatorInlet.Name, sourcePatchInlet.Name);
+                    if (namesAreEqual)
+                    {
+                        return destCustomOperatorInlet;
+                    }
                 }
             }
 
-            // Try match by Dimension
-            foreach (Inlet destCustomOperatorInlet in destCustomOperatorInlets)
+            // Try match by Dimension (if unique)
+            DimensionEnum sourceDimensionEnum = sourcePatchInletWrapper.Inlet.GetDimensionEnum();
+
+            if (sourceDimensionEnum != DimensionEnum.Undefined)
             {
-                // TODO: I should really only match if it is unique.
+                IList<Inlet> destCustomOperatorInlets_WithMatchingDimension =
+                    destCustomOperatorInlets.Where(x => x.GetDimensionEnum() == sourceDimensionEnum).ToArray();
 
-                bool dimensionIsFilledIn = destCustomOperatorInlet.GetDimensionEnum() != DimensionEnum.Undefined;
-                if (!dimensionIsFilledIn)
+                if (destCustomOperatorInlets_WithMatchingDimension.Count == 1)
                 {
-                    continue;
-                }
-
-                var sourcePatchInletWrapper = new PatchInlet_OperatorWrapper(sourcePatchInlet);
-
-                bool dimensionsAreEqual = destCustomOperatorInlet.GetDimensionEnum() == sourcePatchInletWrapper.Inlet.GetDimensionEnum();
-                if (dimensionsAreEqual)
-                {
-                    return destCustomOperatorInlet;
+                    return destCustomOperatorInlets_WithMatchingDimension[0];
                 }
             }
 
             // Try match by list index
             foreach (Inlet destInlet in destCustomOperatorInlets)
             {
-                var wrapper = new PatchInlet_OperatorWrapper(sourcePatchInlet);
-                if (destInlet.ListIndex == wrapper.ListIndex)
+                if (destInlet.ListIndex == sourcePatchInletWrapper.ListIndex)
                 {
                     return destInlet;
                 }
@@ -66,52 +59,45 @@ namespace JJ.Business.Synthesizer
             return null;
         }
 
-        public static Outlet TryGetCustomOperatorOutlet(IList<Outlet> destCustomOperatorOutlets, Operator sourcePatchOutlet)
+        public static Outlet TryGetCustomOperatorOutlet(Operator sourcePatchOutlet, IList<Outlet> destCustomOperatorOutlets)
         {
             if (destCustomOperatorOutlets == null) throw new NullException(() => destCustomOperatorOutlets);
             if (sourcePatchOutlet == null) throw new NullException(() => sourcePatchOutlet);
 
-            // Try match by name
-            foreach (Outlet destCustomOperatorOutlet in destCustomOperatorOutlets)
-            {
-                bool nameIsFilledIn = !String.IsNullOrEmpty(destCustomOperatorOutlet.Name);
-                if (!nameIsFilledIn)
-                {
-                    continue;
-                }
+            var sourcePatchOutletWrapper = new PatchOutlet_OperatorWrapper(sourcePatchOutlet);
 
-                bool namesAreEqual = String.Equals(destCustomOperatorOutlet.Name, sourcePatchOutlet.Name);
-                if (namesAreEqual)
+            // Try match by name
+            bool nameIsFilledIn = !String.IsNullOrEmpty(sourcePatchOutlet.Name);
+            if (nameIsFilledIn)
+            {
+                foreach (Outlet destCustomOperatorOutlet in destCustomOperatorOutlets)
                 {
-                    return destCustomOperatorOutlet;
+                    bool namesAreEqual = String.Equals(destCustomOperatorOutlet.Name, sourcePatchOutlet.Name);
+                    if (namesAreEqual)
+                    {
+                        return destCustomOperatorOutlet;
+                    }
                 }
             }
 
-            // Try match by Dimension
-            foreach (Outlet destOutlet in destCustomOperatorOutlets)
+            // Try match by Dimension (if unique)
+            DimensionEnum sourceDimensionEnum = sourcePatchOutletWrapper.Result.GetDimensionEnum();
+
+            if (sourceDimensionEnum != DimensionEnum.Undefined)
             {
-                // TODO: I should really only match if it is unique.
+                IList<Outlet> destCustomOperatorOutlets_WithMatchingDimension =
+                    destCustomOperatorOutlets.Where(x => x.GetDimensionEnum() == sourceDimensionEnum).ToArray();
 
-                bool dimensionIsFilledIn = destOutlet.GetDimensionEnum() != DimensionEnum.Undefined;
-                if (!dimensionIsFilledIn)
+                if (destCustomOperatorOutlets_WithMatchingDimension.Count == 1)
                 {
-                    continue;
-                }
-
-                var wrapper = new PatchOutlet_OperatorWrapper(sourcePatchOutlet);
-
-                bool dimensionsAreEqual = destOutlet.GetDimensionEnum() == wrapper.Result.GetDimensionEnum();
-                if (dimensionsAreEqual)
-                {
-                    return destOutlet;
+                    return destCustomOperatorOutlets_WithMatchingDimension[0];
                 }
             }
 
             // Try match by list index
             foreach (Outlet destOutlet in destCustomOperatorOutlets)
             {
-                var wrapper = new PatchOutlet_OperatorWrapper(sourcePatchOutlet);
-                if (destOutlet.ListIndex == wrapper.ListIndex)
+                if (destOutlet.ListIndex == sourcePatchOutletWrapper.ListIndex)
                 {
                     return destOutlet;
                 }
@@ -143,52 +129,58 @@ namespace JJ.Business.Synthesizer
             if (source_CustomOperator_Inlet == null) throw new NullException(() => source_CustomOperator_Inlet);
             if (patchRepository == null) throw new NullException(() => patchRepository);
 
-            Operator source_CustomOperator = source_CustomOperator_Inlet.Operator;
-            CustomOperator_OperatorWrapper source_CustomOperator_Wrapper = new CustomOperator_OperatorWrapper(source_CustomOperator, patchRepository);
-            Patch dest_UnderlyingPatch = source_CustomOperator_Wrapper.UnderlyingPatch;
-
-            IList<Operator> dest_UnderlyingPatch_PatchInlets = dest_UnderlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet);
+            IList<Operator> dest_UnderlyingPatch_PatchInlets;
+            {
+                Operator source_CustomOperator = source_CustomOperator_Inlet.Operator;
+                CustomOperator_OperatorWrapper source_CustomOperator_Wrapper = new CustomOperator_OperatorWrapper(source_CustomOperator, patchRepository);
+                Patch dest_UnderlyingPatch = source_CustomOperator_Wrapper.UnderlyingPatch;
+                dest_UnderlyingPatch_PatchInlets = dest_UnderlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet);
+            }
 
             // Try match by name
-            foreach (Operator dest_UnderlyingPatch_PatchInlet in dest_UnderlyingPatch_PatchInlets)
+            bool nameIsFilledIn = !String.IsNullOrEmpty(source_CustomOperator_Inlet.Name);
+            if (nameIsFilledIn)
             {
-                bool nameIsFilledIn = !String.IsNullOrEmpty(dest_UnderlyingPatch_PatchInlet.Name);
-                if (!nameIsFilledIn)
+                foreach (Operator dest_UnderlyingPatch_PatchInlet in dest_UnderlyingPatch_PatchInlets)
                 {
-                    continue;
-                }
-
-                bool namesAreEqual = !String.IsNullOrEmpty(source_CustomOperator_Inlet.Name) &&
-                                      String.Equals(dest_UnderlyingPatch_PatchInlet.Name, source_CustomOperator_Inlet.Name);
-                if (namesAreEqual)
-                {
-                    return dest_UnderlyingPatch_PatchInlet;
+                    bool namesAreEqual = String.Equals(dest_UnderlyingPatch_PatchInlet.Name, source_CustomOperator_Inlet.Name);
+                    if (namesAreEqual)
+                    {
+                        return dest_UnderlyingPatch_PatchInlet;
+                    }
                 }
             }
 
-            // Try match by Dimension
-            foreach (Operator dest_UnderlyingPatch_PatchInlet in dest_UnderlyingPatch_PatchInlets)
+            // Try match by Dimension (if unique)
+            DimensionEnum sourceDimensionEnum = source_CustomOperator_Inlet.GetDimensionEnum();
+
+            bool dimensionIsFilledIn = sourceDimensionEnum != DimensionEnum.Undefined;
+            if (dimensionIsFilledIn)
             {
-                bool dimensionIsFilledIn = source_CustomOperator_Inlet.GetDimensionEnum() != DimensionEnum.Undefined;
-                if (!dimensionIsFilledIn)
+                var dest_Underlying_PatchInlets_WithMatchingDimension = new List<Operator>();
+
+                foreach (Operator dest_UnderlyingPatch_PatchInlet in dest_UnderlyingPatch_PatchInlets)
                 {
-                    continue;
+                    var destWrapper = new PatchInlet_OperatorWrapper(dest_UnderlyingPatch_PatchInlet);
+
+                    bool dimensionsAreEqual = destWrapper.Inlet.GetDimensionEnum() == sourceDimensionEnum;
+                    if (dimensionsAreEqual)
+                    {
+                        dest_Underlying_PatchInlets_WithMatchingDimension.Add(dest_UnderlyingPatch_PatchInlet);
+                    }
                 }
 
-                var dest_UnderlyingPatch_PatchInlet_Wrapper = new PatchInlet_OperatorWrapper(dest_UnderlyingPatch_PatchInlet);
-
-                bool dimensionsAreEqual = dest_UnderlyingPatch_PatchInlet_Wrapper.Inlet.GetDimensionEnum() == source_CustomOperator_Inlet.GetDimensionEnum();
-                if (dimensionsAreEqual)
+                if (dest_Underlying_PatchInlets_WithMatchingDimension.Count == 1)
                 {
-                    return dest_UnderlyingPatch_PatchInlet;
+                    return dest_Underlying_PatchInlets_WithMatchingDimension[0];
                 }
             }
 
             // Try match by list index
             foreach (Operator dest_UnderlyingPatch_PatchInlet in dest_UnderlyingPatch_PatchInlets)
             {
-                var dest_UnderlyingPatch_PatchInlet_Wrapper = new PatchInlet_OperatorWrapper(dest_UnderlyingPatch_PatchInlet);
-                if (dest_UnderlyingPatch_PatchInlet_Wrapper.ListIndex == source_CustomOperator_Inlet.ListIndex)
+                var destWrapper = new PatchInlet_OperatorWrapper(dest_UnderlyingPatch_PatchInlet);
+                if (destWrapper.ListIndex == source_CustomOperator_Inlet.ListIndex)
                 {
                     return dest_UnderlyingPatch_PatchInlet;
                 }
@@ -220,51 +212,58 @@ namespace JJ.Business.Synthesizer
             if (source_CustomOperator_Outlet == null) throw new NullException(() => source_CustomOperator_Outlet);
             if (patchRepository == null) throw new NullException(() => patchRepository);
 
-            Operator source_CustomOperator = source_CustomOperator_Outlet.Operator;
-            CustomOperator_OperatorWrapper source_CustomOperator_Wrapper = new CustomOperator_OperatorWrapper(source_CustomOperator, patchRepository);
-            Patch dest_UnderlyingPatch = source_CustomOperator_Wrapper.UnderlyingPatch;
-
-            IList<Operator> dest_UnderlyingPatch_PatchOutlets = dest_UnderlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet);
+            IList<Operator> dest_UnderlyingPatch_PatchOutlets;
+            {
+                Operator source_CustomOperator = source_CustomOperator_Outlet.Operator;
+                CustomOperator_OperatorWrapper source_CustomOperator_Wrapper = new CustomOperator_OperatorWrapper(source_CustomOperator, patchRepository);
+                Patch dest_UnderlyingPatch = source_CustomOperator_Wrapper.UnderlyingPatch;
+                dest_UnderlyingPatch_PatchOutlets = dest_UnderlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet);
+            }
 
             // Try match by name
-            foreach (Operator dest_UnderlyingPatch_PatchOutlet in dest_UnderlyingPatch_PatchOutlets)
+            bool nameIsFilledIn = !String.IsNullOrEmpty(source_CustomOperator_Outlet.Name);
+            if (nameIsFilledIn)
             {
-                bool nameIsFilledIn = !String.IsNullOrEmpty(dest_UnderlyingPatch_PatchOutlet.Name);
-                if (!nameIsFilledIn)
+                foreach (Operator dest_UnderlyingPatch_PatchOutlet in dest_UnderlyingPatch_PatchOutlets)
                 {
-                    continue;
-                }
-
-                bool namesAreEqual = String.Equals(dest_UnderlyingPatch_PatchOutlet.Name, source_CustomOperator_Outlet.Name);
-                if (namesAreEqual)
-                {
-                    return dest_UnderlyingPatch_PatchOutlet;
+                    bool namesAreEqual = String.Equals(dest_UnderlyingPatch_PatchOutlet.Name, source_CustomOperator_Outlet.Name);
+                    if (namesAreEqual)
+                    {
+                        return dest_UnderlyingPatch_PatchOutlet;
+                    }
                 }
             }
 
-            // Try match by Dimension
-            foreach (Operator dest_UnderlyingPatch_PatchOutlet in dest_UnderlyingPatch_PatchOutlets)
+            // Try match by Dimension (if unique)
+            DimensionEnum sourceDimensionEnum = source_CustomOperator_Outlet.GetDimensionEnum();
+
+            bool dimensionIsFilledIn = sourceDimensionEnum != DimensionEnum.Undefined;
+            if (dimensionIsFilledIn)
             {
-                bool dimensionIsFilledIn = source_CustomOperator_Outlet.GetDimensionEnum() != DimensionEnum.Undefined;
-                if (!dimensionIsFilledIn)
+                var dest_UnderlyingPatch_PatchOutlets_WithMatchingDimension = new List<Operator>();
+
+                foreach (Operator dest_UnderlyingPatch_PatchOutlet in dest_UnderlyingPatch_PatchOutlets)
                 {
-                    continue;
+                    var destWrapper = new PatchOutlet_OperatorWrapper(dest_UnderlyingPatch_PatchOutlet);
+
+                    bool dimensionsAreEqual = destWrapper.Result.GetDimensionEnum() == sourceDimensionEnum;
+                    if (dimensionsAreEqual)
+                    {
+                        dest_UnderlyingPatch_PatchOutlets_WithMatchingDimension.Add(dest_UnderlyingPatch_PatchOutlet);
+                    }
                 }
 
-                var dest_UnderlyingPatch_PatchOutlet_Wrapper = new PatchOutlet_OperatorWrapper(dest_UnderlyingPatch_PatchOutlet);
-
-                bool dimensionsAreEqual = dest_UnderlyingPatch_PatchOutlet_Wrapper.Result.GetDimensionEnum() == source_CustomOperator_Outlet.GetDimensionEnum();
-                if (dimensionsAreEqual)
+                if (dest_UnderlyingPatch_PatchOutlets_WithMatchingDimension.Count == 1)
                 {
-                    return dest_UnderlyingPatch_PatchOutlet;
+                    return dest_UnderlyingPatch_PatchOutlets_WithMatchingDimension[0];
                 }
             }
 
             // Try match by list index
             foreach (Operator dest_UnderlyingPatch_PatchOutlet in dest_UnderlyingPatch_PatchOutlets)
             {
-                var dest_UnderlyingPatch_PatchOutlet_Wrapper = new PatchOutlet_OperatorWrapper(dest_UnderlyingPatch_PatchOutlet);
-                if (dest_UnderlyingPatch_PatchOutlet_Wrapper.ListIndex == source_CustomOperator_Outlet.ListIndex)
+                var destWrapper = new PatchOutlet_OperatorWrapper(dest_UnderlyingPatch_PatchOutlet);
+                if (destWrapper.ListIndex == source_CustomOperator_Outlet.ListIndex)
                 {
                     return dest_UnderlyingPatch_PatchOutlet;
                 }
@@ -278,7 +277,18 @@ namespace JJ.Business.Synthesizer
             if (outlet == null) throw new NullException(() => outlet);
             if (inlet == null) throw new NullException(() => inlet);
 
-            // First match by Dimension
+            // Try match by name
+            bool nameIsfilledIn = !String.IsNullOrEmpty(outlet.Name);
+            if (nameIsfilledIn)
+            {
+                bool namesAreEqual = String.Equals(outlet.Name, inlet.Name);
+                if (namesAreEqual)
+                {
+                    return true;
+                }
+            }
+
+            // Try match by Dimension (be tollerant towards non-unicity, for more chance to get a match).
             DimensionEnum outletDimensionEnum = outlet.GetDimensionEnum();
             if (outletDimensionEnum != DimensionEnum.Undefined)
             {
@@ -289,17 +299,6 @@ namespace JJ.Business.Synthesizer
                     {
                         return true;
                     }
-                }
-            }
-
-            // Then match by name
-            bool nameIsfilledIn = !String.IsNullOrEmpty(outlet.Name);
-            if (nameIsfilledIn)
-            {
-                bool namesAreEqual = String.Equals(outlet.Name, inlet.Name);
-                if (namesAreEqual)
-                {
-                    return true;
                 }
             }
 

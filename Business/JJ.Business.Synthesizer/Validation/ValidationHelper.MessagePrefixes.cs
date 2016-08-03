@@ -100,6 +100,12 @@ namespace JJ.Business.Synthesizer.Validation
                 case OperatorTypeEnum.Number:
                     return GetMessagePrefix_ForNumberOperator(entity);
 
+                case OperatorTypeEnum.PatchInlet:
+                    return GetMessagePrefix_ForPatchInlet(entity);
+
+                case OperatorTypeEnum.PatchOutlet:
+                    return GetMessagePrefix_ForPatchOutlet(entity);
+
                 case OperatorTypeEnum.Sample:
                     return GetMessagePrefix_ForSampleOperator(entity, sampleRepository);
 
@@ -196,6 +202,60 @@ namespace JJ.Business.Synthesizer.Validation
                     string formattedValue = number.Value.ToString("0.######");
                     string messagePrefix = String.Format("{0} '{1}': ", operatorTypeDisplayName, formattedValue);
                     return messagePrefix;
+                }
+            }
+
+            // Use OperatorTypeDisplayName
+            return operatorTypeDisplayName + ": ";
+        }
+
+        private static string GetMessagePrefix_ForPatchInlet(Operator entity)
+        {
+            string operatorTypeDisplayName = ResourceHelper.GetOperatorTypeDisplayName(entity);
+
+            // Use Name
+            if (!String.IsNullOrEmpty(entity.Name))
+            {
+                string messagePrefix = GetMessagePrefix(operatorTypeDisplayName, entity.Name);
+                return messagePrefix;
+            }
+
+            // Use Dimension
+            if (entity.Inlets.Count == 1)
+            {
+                Inlet inlet = entity.Inlets[0];
+                DimensionEnum dimensionEnum = inlet.GetDimensionEnum();
+                if (dimensionEnum != DimensionEnum.Undefined)
+                {
+                    string dimensionDisplayName = ResourceHelper.GetDisplayName(dimensionEnum);
+                    string messagePrefix = GetMessagePrefix(operatorTypeDisplayName, dimensionDisplayName);
+                }
+            }
+
+            // Use OperatorTypeDisplayName
+            return operatorTypeDisplayName + ": ";
+        }
+
+        private static string GetMessagePrefix_ForPatchOutlet(Operator entity)
+        {
+            string operatorTypeDisplayName = ResourceHelper.GetOperatorTypeDisplayName(entity);
+
+            // Use Name
+            if (!String.IsNullOrEmpty(entity.Name))
+            {
+                string messagePrefix = GetMessagePrefix(operatorTypeDisplayName, entity.Name);
+                return messagePrefix;
+            }
+
+            // Use Dimension
+            if (entity.Outlets.Count == 1)
+            {
+                Outlet outlet = entity.Outlets[0];
+                DimensionEnum dimensionEnum = outlet.GetDimensionEnum();
+                if (dimensionEnum != DimensionEnum.Undefined)
+                {
+                    string dimensionDisplayName = ResourceHelper.GetDisplayName(dimensionEnum);
+                    string messagePrefix = GetMessagePrefix(operatorTypeDisplayName, dimensionDisplayName);
                 }
             }
 
