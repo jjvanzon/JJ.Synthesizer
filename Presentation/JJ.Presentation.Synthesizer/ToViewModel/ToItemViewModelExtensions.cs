@@ -198,7 +198,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new PatchViewModel
             {
                 PatchID = entity.ID,
-                ChildDocumentID = entity.Document.ID
+                ChildDocumentID = entity.Document?.ID ?? 0 // Patch can be documentless, if it is the result of AutoPatch.
             };
 
             return viewModel;

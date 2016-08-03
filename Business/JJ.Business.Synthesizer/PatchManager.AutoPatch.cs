@@ -32,40 +32,36 @@ namespace JJ.Business.Synthesizer
             Patch.Name = "Auto-Generated Polyphonic Patch";
             Patch polyphonicAutoPatch = Patch;
 
+            int inletListIndex = 0;
+            int resetListIndex = 0;
             var monophonicOutlets = new List<Outlet>(maxConcurrentNotes);
 
             for (int i = 0; i < maxConcurrentNotes; i++)
             {
-                CustomOperator_OperatorWrapper customOperatorWrapper = CustomOperator(monophonicAutoPatch);
+                CustomOperator_OperatorWrapper intermediateCustomOperatorWrapper = CustomOperator(monophonicAutoPatch);
 
-                foreach (Inlet inlet in customOperatorWrapper.Inlets)
+                foreach (Inlet intermediateCustomOperatorInlet in intermediateCustomOperatorWrapper.Inlets)
                 {
-                    DimensionEnum inletDimensionEnum = inlet.GetDimensionEnum();
-                    if (inletDimensionEnum != DimensionEnum.Undefined)
+                    DimensionEnum intermediateCustomOperatorInletDimensionEnum = intermediateCustomOperatorInlet.GetDimensionEnum();
+                    if (intermediateCustomOperatorInletDimensionEnum != DimensionEnum.Undefined)
                     {
-                        PatchInlet_OperatorWrapper patchInletWrapper = ConvertToPatchInlet(inlet);
-                        patchInletWrapper.Name = String.Format("{0} {1}", inletDimensionEnum, i);
+                        PatchInlet_OperatorWrapper destPatchInletWrapper = ConvertToPatchInlet(intermediateCustomOperatorInlet);
+                        destPatchInletWrapper.Name = String.Format("{0} {1}", intermediateCustomOperatorInletDimensionEnum, i);
+                        destPatchInletWrapper.ListIndex = inletListIndex++;
 
-                        inlet.LinkTo((Outlet)patchInletWrapper);
+                        intermediateCustomOperatorInlet.LinkTo(destPatchInletWrapper.Result);
                     }
                 }
 
-                Outlet signalOutlet = customOperatorWrapper.Outlets.Where(x => x.GetDimensionEnum() == DimensionEnum.Signal).SingleOrDefault();
-                if (signalOutlet != null)
+                Outlet intermediateSignalOutlet = intermediateCustomOperatorWrapper.Outlets.Where(x => x.GetDimensionEnum() == DimensionEnum.Signal)
+                                                                                           .SingleOrDefault();
+                if (intermediateSignalOutlet != null)
                 {
-                    monophonicOutlets.Add(signalOutlet);
+                    // Add Reset operator in between.
+                    Reset_OperatorWrapper resetWrapper = Reset(intermediateSignalOutlet, resetListIndex++);
+
+                    monophonicOutlets.Add(resetWrapper.Result);
                 }
-            }
-
-            // Add Reset operators in between.
-            // TODO: Low priority: I have the feeling that this code belongs in the previous loop.
-            for (int i = 0; i < monophonicOutlets.Count; i++)
-            {
-                Outlet monophonicOutlet = monophonicOutlets[i];
-
-                Reset_OperatorWrapper resetWrapper = Reset(monophonicOutlet, i);
-
-                monophonicOutlets[i] = resetWrapper;
             }
 
             Add_OperatorWrapper addWrapper = Add(monophonicOutlets);
@@ -74,7 +70,7 @@ namespace JJ.Business.Synthesizer
             // This makes side-effects go off.
             VoidResult savePatchResult = SavePatch();
 
-            // This is sensitive, error prone code, so assert its result 
+            // This is sensitive, error prone code, so assert its result.
             ResultHelper.Assert(savePatchResult);
 
             return polyphonicOutlet;
@@ -92,22 +88,36 @@ namespace JJ.Business.Synthesizer
             double frequency = tone.GetFrequency();
             Number_OperatorWrapper frequencyNumberOperatorWrapper = Number(frequency);
 
-            IEnumerable<Inlet> frequencyInlets = Patch.EnumerateOperatorWrappersOfType<PatchInlet_OperatorWrapper>()
-                                                      .Where(x => x.Inlet.GetDimensionEnum() == DimensionEnum.Frequency)
-                                                      .Select(x => x.Inlet);
+            IList<Inlet> frequencyInlets = Patch.EnumerateOperatorWrappersOfType<PatchInlet_OperatorWrapper>()
+                                                .Where(x => x.Inlet.GetDimensionEnum() == DimensionEnum.Frequency)
+                                                .Select(x => x.Inlet)
+                                                .ToArray();
+            if (frequencyInlets.Count == 0)
+            {
+                return null;
+            }
 
             foreach (Inlet frequencyInlet in frequencyInlets)
             {
                 frequencyInlet.LinkTo(frequencyNumberOperatorWrapper.Result);
             }
 
-            IEnumerable<Outlet> signalOutlets = Patch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
-                                                     .Where(x => x.Result.GetDimensionEnum() == DimensionEnum.Signal)
-                                                     .Select(x => x.Result);
+            IList<Outlet> signalOutlets = Patch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
+                                               .Where(x => x.Result.GetDimensionEnum() == DimensionEnum.Signal)
+                                               .Select(x => x.Result)
+                                               .ToArray();
+            switch (signalOutlets.Count)
+            {
+                case 0:
+                    return null;
 
-            // TODO: Add up the signals instead of taking the first one.
-            Outlet outlet = signalOutlets.First();
-            return outlet;
+                case 1:
+                    return signalOutlets[0];
+
+                default:
+                    var add = Add(signalOutlets);
+                    return add;
+            }
         }
 
         /// <summary>
@@ -122,185 +132,173 @@ namespace JJ.Business.Synthesizer
         /// This causes ambiguity in DefaultValue, ListIndex or Name, 
         /// which is 'resolved' by taking the properties of the first one in the group.
         /// </summary>
-        public void AutoPatch(IList<Patch> underlyingPatches)
+        public void AutoPatch(IList<Patch> sourceUnderlyingPatches)
         {
-            if (underlyingPatches == null) throw new NullException(() => underlyingPatches);
+            if (sourceUnderlyingPatches == null) throw new NullException(() => sourceUnderlyingPatches);
 
             CreatePatch();
             Patch.Name = "Auto-Generated Patch";
-            
-            var customOperators = new List<Operator>(underlyingPatches.Count);
 
-            foreach (Patch underlyingPatch in underlyingPatches)
+            var intermediateCustomOperators = new List<Operator>(sourceUnderlyingPatches.Count);
+
+            foreach (Patch sourceUnderlyingPatch in sourceUnderlyingPatches)
             {
-                CustomOperator_OperatorWrapper customOperatorWrapper = CustomOperator(underlyingPatch);
-                customOperatorWrapper.Name = String.Format("{0}", underlyingPatch.Name);
+                CustomOperator_OperatorWrapper intermediateCustomOperatorWrapper = CustomOperator(sourceUnderlyingPatch);
+                intermediateCustomOperatorWrapper.Name = String.Format("{0}", sourceUnderlyingPatch.Name);
 
-                customOperators.Add(customOperatorWrapper);
+                intermediateCustomOperators.Add(intermediateCustomOperatorWrapper);
             }
 
-            var matchedOutlets = new List<Outlet>();
-            var matchedInlets = new List<Inlet>();
+            var intermediateMatchedOutlets = new List<Outlet>();
+            var intermediateMatchedInlets = new List<Inlet>();
 
-            for (int i = 0; i < customOperators.Count; i++)
+            for (int i = 0; i < intermediateCustomOperators.Count; i++)
             {
-                for (int j = i + 1; j < customOperators.Count; j++)
+                for (int j = i + 1; j < intermediateCustomOperators.Count; j++)
                 {
-                    Operator customOperator1 = customOperators[i];
-                    Operator customOperator2 = customOperators[j];
+                    Operator intermediateCustomOperator1 = intermediateCustomOperators[i];
+                    Operator intermediateCustomOperator2 = intermediateCustomOperators[j];
 
-                    foreach (Outlet outlet in customOperator1.Outlets)
+                    foreach (Outlet intermediateOutlet in intermediateCustomOperator1.Outlets)
                     {
-                        foreach (Inlet inlet in customOperator2.Inlets)
+                        foreach (Inlet intermediateInlet in intermediateCustomOperator2.Inlets)
                         {
-                            if (InletOutletMatcher.AreMatch(outlet, inlet))
+                            if (InletOutletMatcher.AreMatch(intermediateOutlet, intermediateInlet))
                             {
-                                inlet.LinkTo(outlet);
+                                intermediateInlet.LinkTo(intermediateOutlet);
 
-                                matchedOutlets.Add(outlet);
-                                matchedInlets.Add(inlet);
+                                intermediateMatchedOutlets.Add(intermediateOutlet);
+                                intermediateMatchedInlets.Add(intermediateInlet);
                             }
                         }
                     }
                 }
             }
 
+            // Renumber dest patch inlets and outlets as you create them.
+            // The numbering is arbitrary, but ListIndexes have to be unique.
+            int listIndex = 0;
+
             // Unmatched inlets of the custom operators become inlets of the new patch.
-            IList<Inlet> unmatchedInlets = customOperators.SelectMany(x => x.Inlets)
-                                                          .Except(matchedInlets)
-                                                          .ToArray();
+            IList<Inlet> intermediateUnmatchedInlets = intermediateCustomOperators.SelectMany(x => x.Inlets)
+                                                                                  .Except(intermediateMatchedInlets)
+                                                                                  .ToArray();
 
             // If there is overlap in Inlet Dimension, they will merge to a single PatchInlet.
-            var unmatchedInlets_GroupedByDimension = unmatchedInlets.Where(x => x.Dimension != null)
-                                                                    .GroupBy(x => x.GetDimensionEnum());
-            foreach (var unmatchedInletGroup in unmatchedInlets_GroupedByDimension)
+            var intermediateUnmatchedInlets_GroupedByDimension = intermediateUnmatchedInlets.Where(x => x.Dimension != null)
+                                                                                            .GroupBy(x => x.GetDimensionEnum());
+            foreach (var intermediateUnmatchedInletGroup in intermediateUnmatchedInlets_GroupedByDimension)
             {
-                PatchInlet_OperatorWrapper patchInletWrapper = ConvertToPatchInlet(unmatchedInletGroup.ToArray());
+                PatchInlet_OperatorWrapper patchInletOperatorWrapper = ConvertToPatchInlet(intermediateUnmatchedInletGroup.ToArray());
+                patchInletOperatorWrapper.ListIndex = listIndex++;
             }
 
             // If there is overlap in name, they will merge to a single PatchInlet.
-            var unmatchedInlets_WithoutDimension_GroupedByName = unmatchedInlets.Where(x => x.Dimension == null && !String.IsNullOrEmpty(x.Name))
-                                                                                .GroupBy(x => x.Name);
-            foreach (var unmatchedInletGroup in unmatchedInlets_WithoutDimension_GroupedByName)
+            var intermediateUnmatchedInlets_WithoutDimension_GroupedByName = intermediateUnmatchedInlets.Where(x => x.Dimension == null && !String.IsNullOrEmpty(x.Name))
+                                                                                                        .GroupBy(x => x.Name);
+            foreach (var intermediateUnmatchedInletGroup in intermediateUnmatchedInlets_WithoutDimension_GroupedByName)
             {
-                PatchInlet_OperatorWrapper patchInletWrapper = ConvertToPatchInlet(unmatchedInletGroup.ToArray());
+                PatchInlet_OperatorWrapper patchInletOperatorWrapper = ConvertToPatchInlet(intermediateUnmatchedInletGroup.ToArray());
+                patchInletOperatorWrapper.ListIndex = listIndex++;
             }
 
             // If there is no Inlet Dimension or name, unmatched Inlets will convert to individual PatchInlets.
-            var unmatchedInlets_WithoutDimensionOrName = unmatchedInlets.Where(x => x.Dimension == null && String.IsNullOrEmpty(x.Name));
-            foreach (Inlet unmatchedInlet in unmatchedInlets_WithoutDimensionOrName)
+            var intermediateUnmatchedInlets_WithoutDimensionOrName = intermediateUnmatchedInlets.Where(x => x.Dimension == null && String.IsNullOrEmpty(x.Name));
+            foreach (Inlet unmatchedInlet in intermediateUnmatchedInlets_WithoutDimensionOrName)
             {
-                PatchInlet_OperatorWrapper patchInletWrapper = ConvertToPatchInlet(unmatchedInlet);
+                PatchInlet_OperatorWrapper patchInletOperatorWrapper = ConvertToPatchInlet(unmatchedInlet);
+                patchInletOperatorWrapper.ListIndex = listIndex++;
             }
 
             // Unmatched outlets of the custom operators become outlets of the new patch.
-            IList<Outlet> unmatchedOutlets = customOperators.SelectMany(x => x.Outlets)
-                                                            .Except(matchedOutlets)
-                                                            .ToArray();
+            IList<Outlet> intermediateUnmatchedOutlets = intermediateCustomOperators.SelectMany(x => x.Outlets)
+                                                                                    .Except(intermediateMatchedOutlets)
+                                                                                    .ToArray();
 
             // If there is overlap in Dimension, they will merge to a single PatchOutlet.
-            var unmatchedOutlets_GroupedByDimension = unmatchedOutlets.Where(x => x.Dimension != null)
-                                                                       .GroupBy(x => x.GetDimensionEnum());
-            foreach (var unmatchedOutletGroup in unmatchedOutlets_GroupedByDimension)
+            var intermediateUnmatchedOutlets_GroupedByDimension = intermediateUnmatchedOutlets.Where(x => x.Dimension != null)
+                                                                                              .GroupBy(x => x.GetDimensionEnum());
+            foreach (var intermediateUnmatchedOutletGroup in intermediateUnmatchedOutlets_GroupedByDimension)
             {
-                PatchOutlet_OperatorWrapper patchOutletWrapper = ConvertToPatchOutlet(unmatchedOutletGroup.ToArray());
+                PatchOutlet_OperatorWrapper patchOutlet_OperatorWrapper = ConvertToPatchOutlet(intermediateUnmatchedOutletGroup.ToArray());
+                patchOutlet_OperatorWrapper.ListIndex = listIndex++;
             }
 
             // If there is overlap in name, they will merge to a single PatchOutlet.
-            var unmatchedOutlets_WithoutDimension_GroupedByName = unmatchedOutlets.Where(x => x.Dimension == null && !String.IsNullOrEmpty(x.Name))
-                                                                                   .GroupBy(x => x.Name);
-            foreach (var unmatchedOutletGroup in unmatchedOutlets_WithoutDimension_GroupedByName)
+            var intermediateUnmatchedOutlets_WithoutDimension_GroupedByName = intermediateUnmatchedOutlets.Where(x => x.Dimension == null && !String.IsNullOrEmpty(x.Name))
+                                                                                                          .GroupBy(x => x.Name);
+            foreach (var intermediateUnmatchedOutletGroup in intermediateUnmatchedOutlets_WithoutDimension_GroupedByName)
             {
-                PatchOutlet_OperatorWrapper patchOutletWrapper = ConvertToPatchOutlet(unmatchedOutletGroup.ToArray());
+                PatchOutlet_OperatorWrapper patchOutlet_OperatorWrapper = ConvertToPatchOutlet(intermediateUnmatchedOutletGroup.ToArray());
+                patchOutlet_OperatorWrapper.ListIndex = listIndex++;
             }
 
             // If there is no Dimension or name, unmatched Outlets will convert to individual PatchOutlets.
-            var unmatchedOutlets_WithoutDimensionOrName = unmatchedOutlets.Where(x => x.Dimension == null && String.IsNullOrEmpty(x.Name));
-            foreach (Outlet unmatchedOutlet in unmatchedOutlets_WithoutDimensionOrName)
+            var intermediateUnmatchedOutlets_WithoutDimensionOrName = intermediateUnmatchedOutlets.Where(x => x.Dimension == null && String.IsNullOrEmpty(x.Name));
+            foreach (Outlet intermediateUnmatchedOutlet in intermediateUnmatchedOutlets_WithoutDimensionOrName)
             {
-                PatchOutlet_OperatorWrapper patchOutletWrapper = ConvertToPatchOutlet(unmatchedOutlet);
+                PatchOutlet_OperatorWrapper destPatchOutletOperatorWrapper = ConvertToPatchOutlet(intermediateUnmatchedOutlet);
+                destPatchOutletOperatorWrapper.ListIndex = listIndex++;
             }
 
-            // Renumber the patch inlets and outlets
-            // TODO: This numbering seems arbitrary.
-            IList<PatchInlet_OperatorWrapper> patchInletOperatorWrappers = Patch.EnumerateOperatorWrappersOfType<PatchInlet_OperatorWrapper>()
-                                                                                .OrderBy(x => x.ListIndex)
-                                                                                .ToArray();
-            for (int i = 0; i < patchInletOperatorWrappers.Count; i++)
-            {
-                PatchInlet_OperatorWrapper patchInletOperatorWrapper = patchInletOperatorWrappers[i];
-                patchInletOperatorWrapper.ListIndex = i;
-            }
-
-            IList<PatchOutlet_OperatorWrapper> patchOutletOperatorWrappers = Patch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
-                                                                    .OrderBy(x => x.ListIndex)
-                                                                    .ToArray();
-
-            for (int i = 0; i < patchOutletOperatorWrappers.Count; i++)
-            {
-                PatchOutlet_OperatorWrapper patchOutletOperatorWrapper = patchOutletOperatorWrappers[i];
-                patchOutletOperatorWrapper.ListIndex = i;
-            }
-
-            // This is sensitive, error prone code, so verify its result with the validators. 
+            // This is sensitive, error prone code, so verify its result with the validators.
             VoidResult result = ValidatePatchWithRelatedEntities();
             ResultHelper.Assert(result);
         }
 
-        private PatchInlet_OperatorWrapper ConvertToPatchInlet(Inlet sourceInlet)
+        private PatchInlet_OperatorWrapper ConvertToPatchInlet(Inlet intermediateInlet)
         {
             PatchInlet_OperatorWrapper destPatchInletWrapper = PatchInlet();
-            destPatchInletWrapper.Name = sourceInlet.Name;
+            destPatchInletWrapper.Name = intermediateInlet.Name;
+            destPatchInletWrapper.ListIndex = intermediateInlet.ListIndex;
 
-            // TODO: You might want to do this by calling shared business logic instead of reprogramming it here.
             Inlet destPatchInletInlet = destPatchInletWrapper.Inlet;
-            destPatchInletInlet.Dimension = sourceInlet.Dimension;
-            destPatchInletInlet.DefaultValue = sourceInlet.DefaultValue;
+            destPatchInletInlet.Dimension = intermediateInlet.Dimension;
+            destPatchInletInlet.DefaultValue = intermediateInlet.DefaultValue;
 
-            sourceInlet.LinkTo(destPatchInletWrapper.Result);
+            intermediateInlet.LinkTo(destPatchInletWrapper.Result);
 
             return destPatchInletWrapper;
         }
 
-        private PatchInlet_OperatorWrapper ConvertToPatchInlet(IList<Inlet> unmatchedInlets)
+        private PatchInlet_OperatorWrapper ConvertToPatchInlet(IList<Inlet> intermediateUnmatchedInlets)
         {
-            Inlet firstUnmatchedInlet = unmatchedInlets.First();
+            Inlet intermediateFirstUnmatchedInlet = intermediateUnmatchedInlets.First();
 
-            PatchInlet_OperatorWrapper patchInletWrapper = ConvertToPatchInlet(firstUnmatchedInlet);
+            PatchInlet_OperatorWrapper destPatchInletWrapper = ConvertToPatchInlet(intermediateFirstUnmatchedInlet);
 
-            foreach (Inlet unmatchedInlet in unmatchedInlets)
+            foreach (Inlet intermediateUnmatchedInlet in intermediateUnmatchedInlets)
             {
-                unmatchedInlet.LinkTo((Outlet)patchInletWrapper);
+                intermediateUnmatchedInlet.LinkTo((Outlet)destPatchInletWrapper);
             }
 
-            return patchInletWrapper;
+            return destPatchInletWrapper;
         }
 
-        private PatchOutlet_OperatorWrapper ConvertToPatchOutlet(IList<Outlet> unmatchedOutlets)
+        private PatchOutlet_OperatorWrapper ConvertToPatchOutlet(IList<Outlet> intermediateUnmatchedOutlets)
         {
-            Outlet firstUnmatchedOutlet = unmatchedOutlets.First();
-            PatchOutlet_OperatorWrapper patchOutletWrapper = ConvertToPatchOutlet(firstUnmatchedOutlet);
+            Outlet intermediateFirstUnmatchedOutlet = intermediateUnmatchedOutlets.First();
+            PatchOutlet_OperatorWrapper destPatchOutletWrapper = ConvertToPatchOutlet(intermediateFirstUnmatchedOutlet);
 
-            Outlet patchOutletInput = firstUnmatchedOutlet;
-            if (unmatchedOutlets.Count > 1)
+            Outlet intermediatePatchOutletInput = intermediateFirstUnmatchedOutlet;
+            if (intermediateUnmatchedOutlets.Count > 1)
             {
                 // You only need an adder, when there is more than 1 unmatchedOutlet.
-                patchOutletInput = Add(unmatchedOutlets);
+                intermediatePatchOutletInput = Add(intermediateUnmatchedOutlets);
             }
 
-            patchOutletWrapper.Input = patchOutletInput;
+            destPatchOutletWrapper.Input = intermediatePatchOutletInput;
 
-            return patchOutletWrapper;
+            return destPatchOutletWrapper;
         }
 
-        private PatchOutlet_OperatorWrapper ConvertToPatchOutlet(Outlet sourceOutlet)
+        private PatchOutlet_OperatorWrapper ConvertToPatchOutlet(Outlet intermediateUnmatchedOutlet)
         {
             PatchOutlet_OperatorWrapper destPatchOutletWrapper = PatchOutlet();
-            destPatchOutletWrapper.Name = sourceOutlet.Name;
-            destPatchOutletWrapper.ListIndex = sourceOutlet.ListIndex;
-            destPatchOutletWrapper.Result.Dimension = sourceOutlet.Dimension;
-
-            destPatchOutletWrapper.Input = sourceOutlet;
+            destPatchOutletWrapper.Name = intermediateUnmatchedOutlet.Name;
+            destPatchOutletWrapper.ListIndex = intermediateUnmatchedOutlet.ListIndex;
+            destPatchOutletWrapper.Input = intermediateUnmatchedOutlet;
+            destPatchOutletWrapper.Result.Dimension = intermediateUnmatchedOutlet.Dimension;
 
             return destPatchOutletWrapper;
         }
