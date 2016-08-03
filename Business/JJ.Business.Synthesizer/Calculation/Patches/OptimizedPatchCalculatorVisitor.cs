@@ -37,7 +37,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         /// However, we keep the code alive, to be able to experiment with the performance impact.
         /// </summary>
         private const bool BUNDLE_POSITIONS_ARE_INVARIANT = false;
-        private const double DEFAULT_PULSE_WIDTH = 0.5;
         private const double DEFAULT_DIMENSION_VALUE = 0.0;
 
         private readonly Outlet _outlet;
@@ -3171,6 +3170,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool frequencyIsConstSpecialValue = frequencyIsConst && DoubleHelper.IsSpecialValue(frequency);
             bool widthIsConstSpecialValue = widthIsConst && DoubleHelper.IsSpecialValue(width);
 
+            bool widthIsConstHalf = widthIsConst && width == 0.5;
+
             if (frequencyIsConstSpecialValue || widthIsConstSpecialValue)
             {
                 // Special Value
@@ -3187,6 +3188,14 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = new Zero_OperatorCalculator();
             }
+            else if (frequencyIsConst && widthIsConstHalf && dimensionEnum == DimensionEnum.Time)
+            {
+                calculator = new Pulse_OperatorCalculator_ConstFrequency_HalfWidth_WithOriginShifting(frequency, dimensionStack);
+            }
+            else if (frequencyIsConst && widthIsConstHalf && dimensionEnum != DimensionEnum.Time)
+            {
+                calculator = new Pulse_OperatorCalculator_ConstFrequency_HalfWidth_NoOriginShifting(frequency, dimensionStack);
+            }
             else if (frequencyIsConst && widthIsConst && dimensionEnum == DimensionEnum.Time)
             {
                 calculator = new Pulse_OperatorCalculator_ConstFrequency_ConstWidth_WithOriginShifting(frequency, width, dimensionStack);
@@ -3202,6 +3211,14 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             else if (frequencyIsConst && !widthIsConst && dimensionEnum != DimensionEnum.Time)
             {
                 calculator = new Pulse_OperatorCalculator_ConstFrequency_VarWidth_NoOriginShifting(frequency, widthCalculator,dimensionStack);
+            }
+            else if (!frequencyIsConst && widthIsConstHalf && dimensionEnum == DimensionEnum.Time)
+            {
+                calculator = new Pulse_OperatorCalculator_VarFrequency_HalfWidth_WithPhaseTracking(frequencyCalculator, dimensionStack);
+            }
+            else if (!frequencyIsConst && widthIsConstHalf && dimensionEnum != DimensionEnum.Time)
+            {
+                calculator = new Pulse_OperatorCalculator_VarFrequency_HalfWidth_NoPhaseTracking(frequencyCalculator, dimensionStack);
             }
             else if (!frequencyIsConst && widthIsConst && dimensionEnum == DimensionEnum.Time)
             {
@@ -4210,19 +4227,19 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (frequencyIsConst && dimensionEnum == DimensionEnum.Time)
             {
-                calculator = new Pulse_OperatorCalculator_ConstFrequency_ConstWidth_WithOriginShifting(frequency, DEFAULT_PULSE_WIDTH, dimensionStack);
+                calculator = new Pulse_OperatorCalculator_ConstFrequency_HalfWidth_WithOriginShifting(frequency, dimensionStack);
             }
             else if (frequencyIsConst && dimensionEnum != DimensionEnum.Time)
             {
-                calculator = new Pulse_OperatorCalculator_ConstFrequency_ConstWidth_NoOriginShifting(frequency, DEFAULT_PULSE_WIDTH, dimensionStack);
+                calculator = new Pulse_OperatorCalculator_ConstFrequency_HalfWidth_NoOriginShifting(frequency, dimensionStack);
             }
             else if (!frequencyIsConst && dimensionEnum == DimensionEnum.Time)
             {
-                calculator = new Pulse_OperatorCalculator_VarFrequency_ConstWidth_WithPhaseTracking(frequencyCalculator, DEFAULT_PULSE_WIDTH, dimensionStack);
+                calculator = new Pulse_OperatorCalculator_VarFrequency_HalfWidth_WithPhaseTracking(frequencyCalculator, dimensionStack);
             }
             else if (!frequencyIsConst && dimensionEnum != DimensionEnum.Time)
             {
-                calculator = new Pulse_OperatorCalculator_VarFrequency_ConstWidth_NoPhaseTracking(frequencyCalculator, DEFAULT_PULSE_WIDTH, dimensionStack);
+                calculator = new Pulse_OperatorCalculator_VarFrequency_HalfWidth_NoPhaseTracking(frequencyCalculator, dimensionStack);
             }
             else
             {
