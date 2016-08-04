@@ -26,7 +26,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             TitleBarText = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Operator);
             labelName.Text = CommonTitles.Name;
             labelOperatorTypeTitle.Text = Titles.Type + ":";
-            labelUnderlyingPatch.Text = Titles.UnderlyingPatch;
+            labelUnderlyingPatch.Text = PropertyDisplayNames.UnderlyingPatch;
             labelOperatorTypeValue.Text = PropertyDisplayNames.CustomOperator;
         }
 

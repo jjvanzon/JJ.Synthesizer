@@ -656,37 +656,37 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         private static string GetOperatorCaption_ForMaxOverDimension(Operator op)
         {
-            return GetOperatorCaption_WithDimensionPlaceholder(op, Titles.MaxOverDimensionWithPlaceholder);
+            return PropertyDisplayNames.Max;
         }
 
         private static string GetOperatorCaption_ForMinOverDimension(Operator op)
         {
-            return GetOperatorCaption_WithDimensionPlaceholder(op, Titles.MinOverDimensionWithPlaceholder);
+            return PropertyDisplayNames.Min;
         }
 
         private static string GetOperatorCaption_ForAverageOverDimension(Operator op)
         {
-            return GetOperatorCaption_WithDimensionPlaceholder(op, Titles.AverageOverDimensionWithPlaceholder);
+            return PropertyDisplayNames.Average;
         }
 
         private static string GetOperatorCaption_ForSumOverDimension(Operator op)
         {
-            return GetOperatorCaption_WithDimensionPlaceholder(op, Titles.SumOverDimensionWithPlaceholder);
+            return Titles.Sum;
         }
 
         private static string GetOperatorCaption_ForClosestOverDimension(Operator op)
         {
-            return GetOperatorCaption_WithDimensionPlaceholder(op, Titles.ClosestOverDimensionWithPlaceholder);
+            return PropertyDisplayNames.Closest;
         }
 
         private static string GetOperatorCaption_ForClosestOverDimensionExp(Operator op)
         {
-            return GetOperatorCaption_WithDimensionPlaceholder(op, Titles.ClosestOverDimensionExpWithPlaceholder);
+            return PropertyDisplayNames.ClosestExp;
         }
 
         private static string GetOperatorCaption_ForSortOverDimension(Operator op)
         {
-            return GetOperatorCaption_WithDimensionPlaceholder(op, Titles.SortOverDimensionWithPlaceholder);
+            return PropertyDisplayNames.Sort;
         }
 
         private static string GetOperatorCaption_WithDimensionPlaceholder(Operator op, string operatorTypeDisplayNameWithPlaceholder)

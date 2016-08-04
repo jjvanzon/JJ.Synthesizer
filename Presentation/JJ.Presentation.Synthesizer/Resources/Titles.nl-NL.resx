@@ -123,18 +123,6 @@
   <data name="ApplicationName" xml:space="preserve">
     <value>Synthesizer</value>
   </data>
-  <data name="AverageOverDimensionWithPlaceholder" xml:space="preserve">
-    <value>Gemiddeld over {0}</value>
-    <comment>{0} = dimension, example: Average over Time</comment>
-  </data>
-  <data name="ClosestOverDimensionExpWithPlaceholder" xml:space="preserve">
-    <value>Dichtstbijzijnd over {0} exp</value>
-    <comment>{0} = dimension, example: Closest over Time Exp</comment>
-  </data>
-  <data name="ClosestOverDimensionWithPlaceholder" xml:space="preserve">
-    <value>Dichtstbijzijnd over {0}</value>
-    <comment>{0} = dimension, example: Closest over Time</comment>
-  </data>
   <data name="CurrentPatches" xml:space="preserve">
     <value>Huidige schakelingen</value>
   </data>
@@ -154,14 +142,6 @@
   <data name="Group" xml:space="preserve">
     <value>Groep</value>
   </data>
-  <data name="MaxOverDimensionWithPlaceholder" xml:space="preserve">
-    <value>Max over {0}</value>
-    <comment>{0} = dimension, example: Max over Time</comment>
-  </data>
-  <data name="MinOverDimensionWithPlaceholder" xml:space="preserve">
-    <value>Minimum over {0}</value>
-    <comment>{0} = dimension, example: Min over Time</comment>
-  </data>
   <data name="Number" xml:space="preserve">
     <value>Nummer</value>
   </data>
@@ -172,18 +152,10 @@
     <value>{0} instellen</value>
     <comment>{0} = dimension, example: Set Time</comment>
   </data>
-  <data name="SortOverDimensionWithPlaceholder" xml:space="preserve">
-    <value>Sorteren over {0}</value>
-    <comment>{0} = dimension, example: Sort over Time</comment>
-  </data>
-  <data name="SumOverDimensionWithPlaceholder" xml:space="preserve">
-    <value>Som over {0}</value>
-    <comment>{0} = dimension, example: Sum over Time</comment>
+  <data name="Sum" xml:space="preserve">
+    <value>Som</value>
   </data>
   <data name="Type" xml:space="preserve">
     <value>Soort</value>
-  </data>
-  <data name="UnderlyingPatch" xml:space="preserve">
-    <value>Onderliggende schakeling</value>
   </data>
 </root>

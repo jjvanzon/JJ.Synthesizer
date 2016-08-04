@@ -322,15 +322,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Calculation.
-        /// </summary>
-        public static string Calculation {
-            get {
-                return ResourceManager.GetString("Calculation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Cent.
         /// </summary>
         public static string Cent {
@@ -1488,6 +1479,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string ParentDocument {
             get {
                 return ResourceManager.GetString("ParentDocument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Passthrough.
+        /// </summary>
+        public static string PassThrough {
+            get {
+                return ResourceManager.GetString("PassThrough", resourceCulture);
             }
         }
         

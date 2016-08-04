@@ -79,33 +79,6 @@ namespace JJ.Presentation.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Average over {0}.
-        /// </summary>
-        public static string AverageOverDimensionWithPlaceholder {
-            get {
-                return ResourceManager.GetString("AverageOverDimensionWithPlaceholder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Closest over {0} Exp.
-        /// </summary>
-        public static string ClosestOverDimensionExpWithPlaceholder {
-            get {
-                return ResourceManager.GetString("ClosestOverDimensionExpWithPlaceholder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Closest over {0}.
-        /// </summary>
-        public static string ClosestOverDimensionWithPlaceholder {
-            get {
-                return ResourceManager.GetString("ClosestOverDimensionWithPlaceholder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Current Patches.
         /// </summary>
         public static string CurrentPatches {
@@ -160,24 +133,6 @@ namespace JJ.Presentation.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Max over {0}.
-        /// </summary>
-        public static string MaxOverDimensionWithPlaceholder {
-            get {
-                return ResourceManager.GetString("MaxOverDimensionWithPlaceholder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Min over {0}.
-        /// </summary>
-        public static string MinOverDimensionWithPlaceholder {
-            get {
-                return ResourceManager.GetString("MinOverDimensionWithPlaceholder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Number.
         /// </summary>
         public static string Number {
@@ -205,20 +160,11 @@ namespace JJ.Presentation.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sort over {0}.
+        ///   Looks up a localized string similar to Sum.
         /// </summary>
-        public static string SortOverDimensionWithPlaceholder {
+        public static string Sum {
             get {
-                return ResourceManager.GetString("SortOverDimensionWithPlaceholder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sum over {0}.
-        /// </summary>
-        public static string SumOverDimensionWithPlaceholder {
-            get {
-                return ResourceManager.GetString("SumOverDimensionWithPlaceholder", resourceCulture);
+                return ResourceManager.GetString("Sum", resourceCulture);
             }
         }
         
@@ -228,15 +174,6 @@ namespace JJ.Presentation.Synthesizer.Resources {
         public static string Type {
             get {
                 return ResourceManager.GetString("Type", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Underlying Patch.
-        /// </summary>
-        public static string UnderlyingPatch {
-            get {
-                return ResourceManager.GetString("UnderlyingPatch", resourceCulture);
             }
         }
     }

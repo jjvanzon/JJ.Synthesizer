@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public class ChangeTrigger_OperatorWrapper : OperatorWrapperBase
     {
-        private const int CALCULATION_INDEX = 0;
+        private const int PASS_THROUGH_INDEX = 0;
         private const int RESET_INDEX = 1;
         private const int RESULT_INDEX = 0;
 
@@ -16,13 +16,13 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             : base(op)
         { }
 
-        public Outlet Calculation
+        public Outlet PassThrough
         {
-            get { return CalculationInlet.InputOutlet; }
-            set { CalculationInlet.LinkTo(value); }
+            get { return PassThroughInlet.InputOutlet; }
+            set { PassThroughInlet.LinkTo(value); }
         }
 
-        public Inlet CalculationInlet => OperatorHelper.GetInlet(WrappedOperator, CALCULATION_INDEX);
+        public Inlet PassThroughInlet => OperatorHelper.GetInlet(WrappedOperator, PASS_THROUGH_INDEX);
 
         public Outlet Reset
         {
@@ -38,9 +38,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         {
             switch (listIndex)
             {
-                case CALCULATION_INDEX:
+                case PASS_THROUGH_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => Calculation);
+                        string name = ResourceHelper.GetPropertyDisplayName(() => PassThrough);
                         return name;
                     }
 

@@ -740,9 +740,6 @@
   <data name="PulseTrigger" xml:space="preserve">
     <value>Afgaan op impuls</value>
   </data>
-  <data name="Calculation" xml:space="preserve">
-    <value>Berekening</value>
-  </data>
   <data name="Harmonic" xml:space="preserve">
     <value>Harmonische</value>
   </data>
@@ -877,5 +874,8 @@
   </data>
   <data name="IsObsolete" xml:space="preserve">
     <value>Verouderd</value>
+  </data>
+  <data name="PassThrough" xml:space="preserve">
+    <value>Doorgang</value>
   </data>
 </root>

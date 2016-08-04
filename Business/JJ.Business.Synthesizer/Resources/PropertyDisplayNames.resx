@@ -740,9 +740,6 @@
   <data name="PulseTrigger" xml:space="preserve">
     <value>Pulse Trigger</value>
   </data>
-  <data name="Calculation" xml:space="preserve">
-    <value>Calculation</value>
-  </data>
   <data name="Harmonic" xml:space="preserve">
     <value>Harmonic</value>
   </data>
@@ -879,5 +876,8 @@
   </data>
   <data name="IsObsolete" xml:space="preserve">
     <value>Obsolete</value>
+  </data>
+  <data name="PassThrough" xml:space="preserve">
+    <value>Passthrough</value>
   </data>
 </root>
