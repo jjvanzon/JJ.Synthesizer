@@ -232,6 +232,12 @@ namespace JJ.Business.Synthesizer
             // TODO: Is this condition strictly necessary? If not, consider deleting this code line.
             if (op.Patch != Patch) throw new NotEqualException(() => op.Patch, Patch);
 
+            // Get this list before deleting and unlinking things.
+            IList<Operator> connectedCustomOperators =
+                op.GetConnectedOperators()
+                  .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator)
+                  .ToArray();
+
             op.UnlinkRelatedEntities();
             op.DeleteRelatedEntities(_repositories.InletRepository, _repositories.OutletRepository, _repositories.EntityPositionRepository);
             _repositories.OperatorRepository.Delete(op);
@@ -242,11 +248,6 @@ namespace JJ.Business.Synthesizer
             // Clean up obsolete inlets and outlets.
             // (Inlets and outlets that do not exist anymore in a CustomOperator's UnderlyingPatch
             //  are kept alive by the system until it has no connections anymore, so that a user's does not lose data.)
-
-            IList<Operator> connectedCustomOperators =
-                op.GetConnectedOperators()
-                  .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator)
-                  .ToArray();
 
             foreach (Operator connectedCustomOperator in connectedCustomOperators)
             {
