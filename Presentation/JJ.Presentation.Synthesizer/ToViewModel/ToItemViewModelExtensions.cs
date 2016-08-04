@@ -355,8 +355,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new DimensionViewModel
             {
-                ID = (int)dimensionEnum,
-                Visible = true
+                ID = (int)dimensionEnum
             };
 
             if (dimensionEnum != DimensionEnum.Undefined)
