@@ -5,15 +5,18 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public class CustomOperator_OperatorWrapper_Outlets : IEnumerable<Outlet>
     {
-        private Operator _operator;
+        private readonly Operator _operator;
 
         internal CustomOperator_OperatorWrapper_Outlets(Operator op)
         {
+            if (op == null) throw new NullException(() => op);
+
             _operator = op;
         }
 
@@ -33,10 +36,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return OperatorHelper.GetOutlet(_operator, dimensionEnum); }
         }
 
-        public int Count
-        {
-            get { return _operator.Outlets.Count; }
-        }
+        public int Count => _operator.Outlets.Count;
 
         public IEnumerator<Outlet> GetEnumerator()
         {

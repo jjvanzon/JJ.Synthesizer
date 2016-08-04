@@ -3,7 +3,6 @@ using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Business.Synthesizer.Enums;
 using System;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
@@ -24,15 +23,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { FrequencyInlet.LinkTo(value); }
         }
 
-        public Inlet FrequencyInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, FREQUENCY_INDEX); }
-        }
+        public Inlet FrequencyInlet => OperatorHelper.GetInlet(WrappedOperator, FREQUENCY_INDEX);
 
-        public Outlet Result
-        {
-            get { return OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX); }
-        }
+        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX);
 
         public override string GetInletDisplayName(int listIndex)
         {

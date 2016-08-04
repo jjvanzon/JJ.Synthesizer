@@ -17,14 +17,13 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Signal
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, SIGNAL_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX).LinkTo(value); }
+            get { return SignalInlet.InputOutlet; }
+            set { SignalInlet.LinkTo(value); }
         }
 
-        public Outlet Result
-        {
-            get { return OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX); }
-        }
+        public Inlet SignalInlet => OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX);
+
+        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX);
 
         public override string GetInletDisplayName(int listIndex)
         {

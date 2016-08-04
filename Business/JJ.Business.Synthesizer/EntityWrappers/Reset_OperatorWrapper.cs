@@ -18,14 +18,13 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Operand
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, OPERAND_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, OPERAND_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInlet(WrappedOperator, OPERAND_INDEX).InputOutlet; }
+            set { Inlet.LinkTo(value); }
         }
 
-        public Outlet Result
-        {
-            get { return OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX); }
-        }
+        public Inlet Inlet => OperatorHelper.GetInlet(WrappedOperator, OPERAND_INDEX);
+
+        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX);
 
         public int? ListIndex
         {

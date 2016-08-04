@@ -21,11 +21,13 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Input
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, INPUT_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, INPUT_INDEX).LinkTo(value); }
+            get { return InputInlet.InputOutlet; }
+            set { InputInlet.LinkTo(value); }
         }
 
-        /// <summary> Executes a loop, so prevent calling it multiple times. summary>
+        public Inlet InputInlet => OperatorHelper.GetInlet(WrappedOperator, INPUT_INDEX);
+
+        /// <summary> Executes a loop, so prevent calling it multiple times. </summary>
         public IList<Outlet> Items
         {
             get
@@ -37,10 +39,19 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             }
         }
 
-        public Outlet Result
+        /// <summary> Executes a loop, so prevent calling it multiple times. </summary>
+        public IList<Inlet> ItemInlets
         {
-            get { return OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX); }
+            get
+            {
+                IList<Inlet> inlets = OperatorHelper.EnumerateSortedInlets(WrappedOperator)
+                                                    .Skip(1)
+                                                    .ToArray();
+                return inlets;
+            }
         }
+
+        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX);
 
         public override string GetInletDisplayName(int listIndex)
         {

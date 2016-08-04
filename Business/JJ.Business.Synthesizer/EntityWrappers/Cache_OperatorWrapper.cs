@@ -20,10 +20,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { SignalInlet.LinkTo(value); }
         }
 
-        public Inlet SignalInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CACHE_SIGNAL_INDEX); }
-        }
+        public Inlet SignalInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CACHE_SIGNAL_INDEX);
 
         public Outlet Start
         {
@@ -31,10 +28,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { StartInlet.LinkTo(value); }
         }
 
-        public Inlet StartInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CACHE_START_INDEX); }
-        }
+        public Inlet StartInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CACHE_START_INDEX);
 
         public Outlet End
         {
@@ -42,10 +36,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { EndInlet.LinkTo(value); }
         }
 
-        public Inlet EndInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CACHE_END_INDEX); }
-        }
+        public Inlet EndInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CACHE_END_INDEX);
 
         public Outlet SamplingRate
         {
@@ -53,15 +44,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { SamplingRateInlet.LinkTo(value); }
         }
 
-        public Inlet SamplingRateInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CACHE_SAMPLING_RATE_INDEX); }
-        }
+        public Inlet SamplingRateInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CACHE_SAMPLING_RATE_INDEX);
 
-        public Outlet Result
-        {
-            get { return OperatorHelper.GetOutlet(WrappedOperator, OperatorConstants.CACHE_RESULT_INDEX); }
-        }
+        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, OperatorConstants.CACHE_RESULT_INDEX);
 
         public InterpolationTypeEnum InterpolationType
         {

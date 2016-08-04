@@ -20,10 +20,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { InputInlet.LinkTo(value); }
         }
 
-        public Inlet InputInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CLOSEST_OVER_DIMENSION_INPUT_INDEX); }
-        }
+        public Inlet InputInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CLOSEST_OVER_DIMENSION_INPUT_INDEX);
 
         public Outlet Collection
         {
@@ -42,10 +39,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { FromInlet.LinkTo(value); }
         }
 
-        public Inlet FromInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CLOSEST_OVER_DIMENSION_FROM_INDEX); }
-        }
+        public Inlet FromInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CLOSEST_OVER_DIMENSION_FROM_INDEX);
 
         public Outlet Till
         {
@@ -53,10 +47,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { TillInlet.LinkTo(value); }
         }
 
-        public Inlet TillInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CLOSEST_OVER_DIMENSION_TILL_INDEX); }
-        }
+        public Inlet TillInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CLOSEST_OVER_DIMENSION_TILL_INDEX);
 
         public Outlet Step
         {
@@ -64,15 +55,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { StepInlet.LinkTo(value); }
         }
 
-        public Inlet StepInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CLOSEST_OVER_DIMENSION_STEP_INDEX); }
-        }
+        public Inlet StepInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CLOSEST_OVER_DIMENSION_STEP_INDEX);
 
-        public Outlet Result
-        {
-            get { return OperatorHelper.GetOutlet(WrappedOperator, OperatorConstants.CLOSEST_OVER_DIMENSION_RESULT_INDEX); }
-        }
+        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, OperatorConstants.CLOSEST_OVER_DIMENSION_RESULT_INDEX);
 
         public CollectionRecalculationEnum CollectionRecalculation
         {

@@ -17,10 +17,16 @@ namespace JJ.Business.Synthesizer.Helpers
 
         public static IList<Inlet> GetSortedInlets(Operator op)
         {
+            IList<Inlet> sortedInlets = EnumerateSortedInlets(op).ToArray();
+            return sortedInlets;
+        }
+
+        public static IEnumerable<Inlet> EnumerateSortedInlets(Operator op)
+        {
             if (op == null) throw new NullException(() => op);
 
-            IList<Inlet> sortedInlets = op.Inlets.OrderBy(x => x.ListIndex).ToArray();
-            return sortedInlets;
+            IEnumerable<Inlet> enumerable = op.Inlets.OrderBy(x => x.ListIndex);
+            return enumerable;
         }
 
         public static IList<Outlet> GetSortedOutlets(Operator op)

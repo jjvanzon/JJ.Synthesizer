@@ -19,26 +19,29 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Condition
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, CONDITION_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, CONDITION_INDEX).LinkTo(value); }
+            get { return ConditionInlet.InputOutlet; }
+            set { ConditionInlet.LinkTo(value); }
         }
+
+        public Inlet ConditionInlet => OperatorHelper.GetInlet(WrappedOperator, CONDITION_INDEX);
 
         public Outlet Then
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, THEN_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, THEN_INDEX).LinkTo(value); }
+            get { return ThenInlet.InputOutlet; }
+            set { ThenInlet.LinkTo(value); }
         }
+
+        public Inlet ThenInlet => OperatorHelper.GetInlet(WrappedOperator, THEN_INDEX);
 
         public Outlet Else
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, ELSE_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, ELSE_INDEX).LinkTo(value); }
+            get { return ElseInlet.InputOutlet; }
+            set { ElseInlet.LinkTo(value); }
         }
 
-        public Outlet Result
-        {
-            get { return OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX); }
-        }
+        public Inlet ElseInlet => OperatorHelper.GetInlet(WrappedOperator, ELSE_INDEX);
+
+        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX);
 
         public override string GetInletDisplayName(int listIndex)
         {

@@ -2,7 +2,6 @@
 using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Business.Synthesizer.Resources;
 
@@ -19,14 +18,13 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Input
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, INPUT_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, INPUT_INDEX).LinkTo(value); }
+            get { return Inlet.InputOutlet; }
+            set { Inlet.LinkTo(value); }
         }
 
-        public Outlet Result
-        {
-            get { return OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX); }
-        }
+        public Inlet Inlet => OperatorHelper.GetInlet(WrappedOperator, INPUT_INDEX);
+
+        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX);
 
         public int? ListIndex
         {

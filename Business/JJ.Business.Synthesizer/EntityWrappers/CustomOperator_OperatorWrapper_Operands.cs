@@ -6,15 +6,17 @@ using System.Linq;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public class CustomOperator_OperatorWrapper_Operands : IEnumerable<Outlet>
     {
-        private Operator _operator;
+        private readonly Operator _operator;
 
         internal CustomOperator_OperatorWrapper_Operands(Operator op)
         {
+            if (op == null) throw new NullException(() => op);
             _operator = op;
         }
 

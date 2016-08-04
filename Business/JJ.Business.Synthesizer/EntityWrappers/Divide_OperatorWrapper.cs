@@ -19,26 +19,29 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Numerator
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, NUMERATOR_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, NUMERATOR_INDEX).LinkTo(value); }
+            get { return NumeratorInlet.InputOutlet; }
+            set { NumeratorInlet.LinkTo(value); }
         }
+
+        public Inlet NumeratorInlet => OperatorHelper.GetInlet(WrappedOperator, NUMERATOR_INDEX);
 
         public Outlet Denominator
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, DENOMINATOR_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, DENOMINATOR_INDEX).LinkTo(value); }
+            get { return DenomimatorInlet.InputOutlet; }
+            set { DenomimatorInlet.LinkTo(value); }
         }
+
+        public Inlet DenomimatorInlet => OperatorHelper.GetInlet(WrappedOperator, DENOMINATOR_INDEX);
 
         public Outlet Origin
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, ORIGIN_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, ORIGIN_INDEX).LinkTo(value); }
+            get { return OriginInlet.InputOutlet; }
+            set { OriginInlet.LinkTo(value); }
         }
 
-        public Outlet Result
-        {
-            get { return OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX); }
-        }
+        public Inlet OriginInlet => OperatorHelper.GetInlet(WrappedOperator, ORIGIN_INDEX);
+
+        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX);
 
         public override string GetInletDisplayName(int listIndex)
         {

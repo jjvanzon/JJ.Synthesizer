@@ -24,15 +24,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { FrequencyInlet.LinkTo(value); }
         }
 
-        public Inlet FrequencyInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, FREQUENCY_INDEX); }
-        }
+        public Inlet FrequencyInlet => OperatorHelper.GetInlet(WrappedOperator, FREQUENCY_INDEX);
 
-        public Outlet Result
-        {
-            get { return OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX); }
-        }
+        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX);
 
         public override string GetInletDisplayName(int listIndex)
         {

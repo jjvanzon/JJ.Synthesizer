@@ -25,10 +25,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { SignalInlet.LinkTo(value); }
         }
 
-        public Inlet SignalInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX); }
-        }
+        public Inlet SignalInlet => OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX);
 
         public Outlet SliceLength
         {
@@ -36,10 +33,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { SliceLengthInlet.LinkTo(value); }
         }
 
-        public Inlet SliceLengthInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, SLICE_LENGTH_INDEX); }
-        }
+        public Inlet SliceLengthInlet => OperatorHelper.GetInlet(WrappedOperator, SLICE_LENGTH_INDEX);
 
         public Outlet SampleCount
         {
@@ -47,15 +41,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { SampleCountInlet.LinkTo(value); }
         }
 
-        public Inlet SampleCountInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, SAMPLE_COUNT_INDEX); }
-        }
+        public Inlet SampleCountInlet => OperatorHelper.GetInlet(WrappedOperator, SAMPLE_COUNT_INDEX); 
 
-        public Outlet Result
-        {
-            get { return OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX); }
-        }
+        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX);
 
         public override string GetInletDisplayName(int listIndex)
         {

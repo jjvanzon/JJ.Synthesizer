@@ -4,7 +4,6 @@ using JJ.Business.Synthesizer.Helpers;
 using System;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
@@ -20,10 +19,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { SignalInlet.LinkTo(value); }
         }
 
-        public Inlet SignalInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.LOOP_SIGNAL_INDEX); }
-        }
+        public Inlet SignalInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.LOOP_SIGNAL_INDEX);
 
         public Outlet Skip
         {
@@ -31,10 +27,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { SkipInlet.LinkTo(value); }
         }
 
-        public Inlet SkipInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.LOOP_SKIP_INDEX); }
-        }
+        public Inlet SkipInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.LOOP_SKIP_INDEX);
 
         public Outlet LoopStartMarker
         {
@@ -42,10 +35,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { LoopStartMarkerInlet.LinkTo(value); }
         }
 
-        public Inlet LoopStartMarkerInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.LOOP_LOOP_START_MARKER_INDEX); }
-        }
+        public Inlet LoopStartMarkerInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.LOOP_LOOP_START_MARKER_INDEX);
 
         public Outlet LoopEndMarker
         {
@@ -53,10 +43,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { LoopEndMarkerInlet.LinkTo(value); }
         }
 
-        public Inlet LoopEndMarkerInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.LOOP_LOOP_END_MARKER_INDEX); }
-        }
+        public Inlet LoopEndMarkerInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.LOOP_LOOP_END_MARKER_INDEX);
 
         public Outlet ReleaseEndMarker
         {
@@ -64,10 +51,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { ReleaseEndMarkerInlet.LinkTo(value); }
         }
 
-        public Inlet ReleaseEndMarkerInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.LOOP_RELEASE_END_MARKER_INDEX); }
-        }
+        public Inlet ReleaseEndMarkerInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.LOOP_RELEASE_END_MARKER_INDEX);
 
         public Outlet NoteDuration
         {
@@ -75,15 +59,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { NoteDurationInlet.LinkTo(value); }
         }
 
-        public Inlet NoteDurationInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.LOOP_NOTE_DURATION_INDEX); }
-        }
+        public Inlet NoteDurationInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.LOOP_NOTE_DURATION_INDEX);
 
-        public Outlet Result
-        {
-            get { return OperatorHelper.GetOutlet(WrappedOperator, OperatorConstants.LOOP_RESULT_INDEX); }
-        }
+        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, OperatorConstants.LOOP_RESULT_INDEX);
 
         public override string GetInletDisplayName(int listIndex)
         {

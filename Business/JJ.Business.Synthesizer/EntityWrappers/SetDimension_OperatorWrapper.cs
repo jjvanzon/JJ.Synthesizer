@@ -3,7 +3,6 @@ using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Business.Synthesizer.Enums;
 using System;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
@@ -20,20 +19,21 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Calculation
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, CALCULATION_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, CALCULATION_INDEX).LinkTo(value); }
+            get { return CalculationInlet.InputOutlet; }
+            set { CalculationInlet.LinkTo(value); }
         }
+
+        public Inlet CalculationInlet => OperatorHelper.GetInlet(WrappedOperator, CALCULATION_INDEX);
 
         public Outlet Value
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, VALUE_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, VALUE_INDEX).LinkTo(value); }
+            get { return ValueInlet.InputOutlet; }
+            set { ValueInlet.LinkTo(value); }
         }
 
-        public Outlet Outlet
-        {
-            get { return OperatorHelper.GetOutlet(WrappedOperator, OUTLET_INDEX); }
-        }
+        public Inlet ValueInlet => OperatorHelper.GetInlet(WrappedOperator, VALUE_INDEX);
+
+        public Outlet Outlet => OperatorHelper.GetOutlet(WrappedOperator, OUTLET_INDEX);
 
         public override string GetInletDisplayName(int listIndex)
         {

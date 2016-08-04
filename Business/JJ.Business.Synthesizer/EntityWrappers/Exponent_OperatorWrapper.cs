@@ -8,8 +8,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public class Exponent_OperatorWrapper : OperatorWrapperBase
     {
-        private const int HIGH_INDEX = 1;
         private const int LOW_INDEX = 0;
+        private const int HIGH_INDEX = 1;
         private const int RATIO_INDEX = 2;
         private const int RESULT_INDEX = 0;
 
@@ -19,26 +19,29 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Low
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, LOW_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, LOW_INDEX).LinkTo(value); }
+            get { return LowInlet.InputOutlet; }
+            set { LowInlet.LinkTo(value); }
         }
+
+        public Inlet LowInlet => OperatorHelper.GetInlet(WrappedOperator, LOW_INDEX);
 
         public Outlet High
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, HIGH_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, HIGH_INDEX).LinkTo(value); }
+            get { return HighInlet.InputOutlet; }
+            set { HighInlet.LinkTo(value); }
         }
+
+        public Inlet HighInlet => OperatorHelper.GetInlet(WrappedOperator, HIGH_INDEX);
 
         public Outlet Ratio
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, RATIO_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, RATIO_INDEX).LinkTo(value); }
+            get { return RatioInlet.InputOutlet; }
+            set { RatioInlet.LinkTo(value); }
         }
 
-        public Outlet Result
-        {
-            get { return OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX); }
-        }
+        public Inlet RatioInlet => OperatorHelper.GetInlet(WrappedOperator, RATIO_INDEX);
+
+        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX);
 
         public override string GetInletDisplayName(int listIndex)
         {

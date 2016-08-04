@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         private const int FREQUENCY_INDEX = 0;
         private const int RESULT_INDEX = 0;
 
-        private ISampleRepository _sampleRepository;
+        private readonly ISampleRepository _sampleRepository;
 
         public Sample_OperatorWrapper(Operator op, ISampleRepository sampleRepository)
             : base(op)
@@ -30,10 +30,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { FrequencyInlet.LinkTo(value); }
         }
 
-        public Inlet FrequencyInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, FREQUENCY_INDEX); }
-        }
+        public Inlet FrequencyInlet => OperatorHelper.GetInlet(WrappedOperator, FREQUENCY_INDEX);
 
         public int? SampleID
         {
@@ -94,10 +91,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             }
         }
 
-        public Outlet Result
-        {
-            get { return OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX); }
-        }
+        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX);
 
         public override string GetInletDisplayName(int listIndex)
         {

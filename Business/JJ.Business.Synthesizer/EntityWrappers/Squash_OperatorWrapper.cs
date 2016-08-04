@@ -3,7 +3,6 @@ using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Business.Synthesizer.Enums;
 using System;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
@@ -25,10 +24,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { SignalInlet.LinkTo(value); }
         }
 
-        public Inlet SignalInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX); }
-        }
+        public Inlet SignalInlet => OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX);
 
         public Outlet Factor
         {
@@ -36,10 +32,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { FactorInlet.LinkTo(value); }
         }
 
-        public Inlet FactorInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, FACTOR_INDEX); }
-        }
+        public Inlet FactorInlet => OperatorHelper.GetInlet(WrappedOperator, FACTOR_INDEX);
 
         public Outlet Origin
         {
@@ -47,15 +40,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { OriginInlet.LinkTo(value); }
         }
 
-        public Inlet OriginInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, ORIGIN_INDEX); }
-        }
+        public Inlet OriginInlet => OperatorHelper.GetInlet(WrappedOperator, ORIGIN_INDEX);
 
-        public Outlet Result
-        {
-            get { return OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX); }
-        }
+        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX);
 
         public override string GetInletDisplayName(int listIndex)
         {

@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public class CustomOperator_OperatorWrapper : OperatorWrapperBase
     {
-        private IPatchRepository _patchRepository;
+        private readonly IPatchRepository _patchRepository;
 
         public CustomOperator_OperatorWrapper(Operator op, IPatchRepository patchRepository)
             : base(op)
@@ -25,11 +25,11 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             Outlets = new CustomOperator_OperatorWrapper_Outlets(op);
         }
 
-        public CustomOperator_OperatorWrapper_Operands Operands { get; private set; }
+        public CustomOperator_OperatorWrapper_Operands Operands { get; }
 
-        public CustomOperator_OperatorWrapper_Inlets Inlets { get; private set; }
+        public CustomOperator_OperatorWrapper_Inlets Inlets { get; }
 
-        public CustomOperator_OperatorWrapper_Outlets Outlets { get; private set; }
+        public CustomOperator_OperatorWrapper_Outlets Outlets { get; }
 
         public int? UnderlyingPatchID
         {

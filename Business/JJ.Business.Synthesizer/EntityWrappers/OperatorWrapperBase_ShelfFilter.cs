@@ -25,10 +25,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { SignalInlet.LinkTo(value); }
         }
 
-        public Inlet SignalInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX); }
-        }
+        public Inlet SignalInlet => OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX);
 
         public Outlet TransitionFrequency
         {
@@ -36,10 +33,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { TransitionFrequencyInlet.LinkTo(value); }
         }
 
-        public Inlet TransitionFrequencyInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, TRANSITION_FREQUENCY_INDEX); }
-        }
+        public Inlet TransitionFrequencyInlet => OperatorHelper.GetInlet(WrappedOperator, TRANSITION_FREQUENCY_INDEX);
 
         public Outlet TransitionSlope
         {
@@ -47,10 +41,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { TransitionSlopeInlet.LinkTo(value); }
         }
 
-        public Inlet TransitionSlopeInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, TRANSITION_SLOPE_INDEX); }
-        }
+        public Inlet TransitionSlopeInlet => OperatorHelper.GetInlet(WrappedOperator, TRANSITION_SLOPE_INDEX);
 
         public Outlet DBGain
         {
@@ -58,15 +49,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { DBGainInlet.LinkTo(value); }
         }
 
-        public Inlet DBGainInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, DB_GAIN_INDEX); }
-        }
+        public Inlet DBGainInlet => OperatorHelper.GetInlet(WrappedOperator, DB_GAIN_INDEX);
 
-        public Outlet Result
-        {
-            get { return OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX); }
-        }
+        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX);
 
         public override string GetInletDisplayName(int listIndex)
         {

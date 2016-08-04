@@ -15,10 +15,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             : base(op)
         { }
 
-        public Outlet Value
-        {
-            get { return OperatorHelper.GetOutlet(WrappedOperator, VALUE_INDEX); }
-        }
+        public Outlet Value => OperatorHelper.GetOutlet(WrappedOperator, VALUE_INDEX);
 
         public override string GetInletDisplayName(int listIndex)
         {

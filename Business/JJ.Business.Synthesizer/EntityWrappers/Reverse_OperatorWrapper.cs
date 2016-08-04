@@ -3,7 +3,6 @@ using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Business.Synthesizer.Enums;
 using System;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
@@ -24,10 +23,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { SignalInlet.LinkTo(value); }
         }
 
-        public Inlet SignalInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX); }
-        }
+        public Inlet SignalInlet => OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX);
 
         public Outlet Speed
         {
@@ -35,15 +31,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { SpeedInlet.LinkTo(value); }
         }
 
-        public Inlet SpeedInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, SPEED_INDEX); }
-        }
+        public Inlet SpeedInlet => OperatorHelper.GetInlet(WrappedOperator, SPEED_INDEX);
 
-        public Outlet Result
-        {
-            get { return OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX); }
-        }
+        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX);
 
         public override string GetInletDisplayName(int listIndex)
         {

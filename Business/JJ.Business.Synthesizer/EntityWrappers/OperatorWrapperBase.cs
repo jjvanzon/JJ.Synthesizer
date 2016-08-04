@@ -11,37 +11,27 @@ namespace JJ.Business.Synthesizer.EntityWrappers
     [DebuggerDisplay("{DebuggerDisplay}")]
     public abstract class OperatorWrapperBase
     {
-        protected Operator _wrappedOperator;
-
         public OperatorWrapperBase(Operator wrappedOperator)
         {
             if (wrappedOperator == null) throw new NullException(() => wrappedOperator);
 
-            _wrappedOperator = wrappedOperator;
+            WrappedOperator = wrappedOperator;
         }
 
-        public Operator WrappedOperator { get { return _wrappedOperator; } }
+        public Operator WrappedOperator { get; }
 
         public string Name
         {
-            get { return _wrappedOperator.Name; }
-            set { _wrappedOperator.Name = value; }
+            get { return WrappedOperator.Name; }
+            set { WrappedOperator.Name = value; }
         }
 
         public abstract string GetInletDisplayName(int listIndex);
 
         public abstract string GetOutletDisplayName(int listIndex);
 
-        public static implicit operator Operator(OperatorWrapperBase wrapper)
-        {
-            if (wrapper == null) return null;
+        public static implicit operator Operator(OperatorWrapperBase wrapper) => wrapper?.WrappedOperator;
 
-            return wrapper.WrappedOperator;
-        }
-
-        private string DebuggerDisplay
-        {
-            get { return DebugHelper.GetDebuggerDisplay(this); }
-        }
+        private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
     }
 }

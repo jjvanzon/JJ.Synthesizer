@@ -26,10 +26,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { SignalInlet.LinkTo(value); }
         }
 
-        public Inlet SignalInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX); }
-        }
+        public Inlet SignalInlet => OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX);
 
         public Outlet SourceValueA
         {
@@ -37,10 +34,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { SourceValueAInlet.LinkTo(value); }
         }
 
-        public Inlet SourceValueAInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, SOURCE_VALUE_A_INDEX); }
-        }
+        public Inlet SourceValueAInlet => OperatorHelper.GetInlet(WrappedOperator, SOURCE_VALUE_A_INDEX);
 
         public Outlet SourceValueB
         {
@@ -48,10 +42,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { SourceValueBInlet.LinkTo(value); }
         }
 
-        public Inlet SourceValueBInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, SOURCE_VALUE_B_INDEX); }
-        }
+        public Inlet SourceValueBInlet => OperatorHelper.GetInlet(WrappedOperator, SOURCE_VALUE_B_INDEX);
 
         public Outlet TargetValueA
         {
@@ -59,10 +50,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { TargetValueAInlet.LinkTo(value); }
         }
 
-        public Inlet TargetValueAInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, TARGET_VALUE_A_INDEX); }
-        }
+        public Inlet TargetValueAInlet => OperatorHelper.GetInlet(WrappedOperator, TARGET_VALUE_A_INDEX);
 
         public Outlet TargetValueB
         {
@@ -70,15 +58,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { TargetValueBInlet.LinkTo(value); }
         }
 
-        public Inlet TargetValueBInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, TARGET_VALUE_B_INDEX); }
-        }
+        public Inlet TargetValueBInlet => OperatorHelper.GetInlet(WrappedOperator, TARGET_VALUE_B_INDEX);
 
-        public Outlet Result
-        {
-            get { return OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX); }
-        }
+        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX);
 
         public override string GetInletDisplayName(int listIndex)
         {

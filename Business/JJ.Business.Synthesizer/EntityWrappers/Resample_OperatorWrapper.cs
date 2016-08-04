@@ -24,10 +24,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { SignalInlet.LinkTo(value); }
         }
 
-        public Inlet SignalInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX); }
-        }
+        public Inlet SignalInlet => OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX);
 
         public Outlet SamplingRate
         {
@@ -35,15 +32,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { SamplingRateInlet.LinkTo(value); }
         }
 
-        public Inlet SamplingRateInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, SAMPLING_RATE_INDEX); }
-        }
+        public Inlet SamplingRateInlet => OperatorHelper.GetInlet(WrappedOperator, SAMPLING_RATE_INDEX);
 
-        public Outlet Result
-        {
-            get { return OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX); }
-        }
+        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX);
 
         public ResampleInterpolationTypeEnum InterpolationType
         {

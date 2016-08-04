@@ -13,25 +13,26 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         private const int RESULT_INDEX = 0;
 
         public Power_OperatorWrapper(Operator op)
-            :base(op)
+            : base(op)
         { }
 
         public Outlet Base
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, BASE_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, BASE_INDEX).LinkTo(value); }
+            get { return BaseInlet.InputOutlet; }
+            set { BaseInlet.LinkTo(value); }
         }
+
+        public Inlet BaseInlet => OperatorHelper.GetInlet(WrappedOperator, BASE_INDEX);
 
         public Outlet Exponent
         {
-            get { return OperatorHelper.GetInputOutlet(WrappedOperator, EXPONENT_INDEX); }
-            set { OperatorHelper.GetInlet(WrappedOperator, EXPONENT_INDEX).LinkTo(value); }
+            get { return ExponentInlet.InputOutlet; }
+            set { ExponentInlet.LinkTo(value); }
         }
 
-        public Outlet Result
-        {
-            get { return OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX); }
-        }
+        public Inlet ExponentInlet => OperatorHelper.GetInlet(WrappedOperator, EXPONENT_INDEX);
+
+        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX);
 
         public override string GetInletDisplayName(int listIndex)
         {

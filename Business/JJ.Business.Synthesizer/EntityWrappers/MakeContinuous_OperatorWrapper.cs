@@ -17,15 +17,12 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         { }
 
         /// <summary> Executes a loop, so prevent calling it multiple times. summary>
-        public IList<Outlet> Operands
-        {
-            get { return OperatorHelper.GetSortedInputOutlets(WrappedOperator); }
-        }
+        public IList<Outlet> Operands => OperatorHelper.GetSortedInputOutlets(WrappedOperator);
 
-        public Outlet Result
-        {
-            get { return OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX); }
-        }
+        /// <summary> Executes a loop, so prevent calling it multiple times. summary>
+        public IList<Inlet> Inlets => OperatorHelper.GetSortedInlets(WrappedOperator);
+
+        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX);
 
         public ResampleInterpolationTypeEnum InterpolationType
         {

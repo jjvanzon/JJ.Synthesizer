@@ -24,15 +24,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { RateInlet.LinkTo(value); }
         }
 
-        public Inlet RateInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, RATE_INDEX); }
-        }
+        public Inlet RateInlet => OperatorHelper.GetInlet(WrappedOperator, RATE_INDEX);
 
-        public Outlet Result
-        {
-            get { return OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX); }
-        }
+        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX);
 
         public ResampleInterpolationTypeEnum InterpolationType
         {

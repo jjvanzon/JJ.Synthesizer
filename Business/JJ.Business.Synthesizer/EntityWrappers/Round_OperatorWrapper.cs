@@ -23,10 +23,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { SignalInlet.LinkTo(value); }
         }
 
-        public Inlet SignalInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX); }
-        }
+        public Inlet SignalInlet => OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX);
 
         public Outlet Step
         {
@@ -34,10 +31,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { StepInlet.LinkTo(value); }
         }
 
-        public Inlet StepInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, STEP_INDEX); }
-        }
+        public Inlet StepInlet => OperatorHelper.GetInlet(WrappedOperator, STEP_INDEX);
 
         public Outlet Offset
         {
@@ -45,15 +39,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { OffsetInlet.LinkTo(value); }
         }
 
-        public Inlet OffsetInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, OFFSET_INDEX); }
-        }
+        public Inlet OffsetInlet => OperatorHelper.GetInlet(WrappedOperator, OFFSET_INDEX);
 
-        public Outlet Result
-        {
-            get { return OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX); }
-        }
+        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX);
 
         public override string GetInletDisplayName(int listIndex)
         {

@@ -4,7 +4,6 @@ using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
@@ -20,10 +19,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { SignalInlet.LinkTo(value); }
         }
 
-        public Inlet SignalInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.SPECTRUM_SIGNAL_INDEX); }
-        }
+        public Inlet SignalInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.SPECTRUM_SIGNAL_INDEX);
 
         public Outlet Start
         {
@@ -31,10 +27,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { StartInlet.LinkTo(value); }
         }
 
-        public Inlet StartInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.SPECTRUM_START_INDEX); }
-        }
+        public Inlet StartInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.SPECTRUM_START_INDEX);
 
         public Outlet End
         {
@@ -42,10 +35,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { EndInlet.LinkTo(value); }
         }
 
-        public Inlet EndInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.SPECTRUM_END_INDEX); }
-        }
+        public Inlet EndInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.SPECTRUM_END_INDEX);
 
         public Outlet FrequencyCount
         {
@@ -53,15 +43,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { FrequencyCountInlet.LinkTo(value); }
         }
 
-        public Inlet FrequencyCountInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.SPECTRUM_FREQUENCY_COUNT_INDEX); }
-        }
+        public Inlet FrequencyCountInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.SPECTRUM_FREQUENCY_COUNT_INDEX);
 
-        public Outlet Result
-        {
-            get { return OperatorHelper.GetOutlet(WrappedOperator, OperatorConstants.SPECTRUM_RESULT_INDEX); }
-        }
+        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, OperatorConstants.SPECTRUM_RESULT_INDEX);
 
         public override string GetInletDisplayName(int listIndex)
         {

@@ -4,7 +4,6 @@ using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using System;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
@@ -12,7 +11,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
     {
         private const int RESULT_INDEX = 0;
 
-        private ICurveRepository _curveRepository;
+        private readonly ICurveRepository _curveRepository;
 
         public Curve_OperatorWrapper(Operator op, ICurveRepository curveRepository)
             : base(op)
@@ -52,10 +51,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             }
         }
 
-        public Outlet Result
-        {
-            get { return OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX); }
-        }
+        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX);
 
         public override string GetInletDisplayName(int listIndex)
         {
