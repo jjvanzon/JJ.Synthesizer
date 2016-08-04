@@ -11,11 +11,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             : base(op)
         { }
 
-        public static implicit operator Outlet(Bundle_OperatorWrapper wrapper)
-        {
-            if (wrapper == null) return null;
-            
-            return wrapper.Result;
-        }
+        public static implicit operator Outlet(Bundle_OperatorWrapper wrapper) => wrapper?.Result;
     }
 }

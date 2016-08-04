@@ -64,11 +64,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             return name;
         }
 
-        public static implicit operator Outlet(SetDimension_OperatorWrapper wrapper)
-        {
-            if (wrapper == null) return null;
-
-            return wrapper.Outlet;
-        }
+        public static implicit operator Outlet(SetDimension_OperatorWrapper wrapper) => wrapper?.Value;
     }
 }

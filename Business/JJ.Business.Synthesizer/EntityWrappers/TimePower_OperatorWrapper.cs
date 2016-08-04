@@ -92,11 +92,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             return name;
         }
 
-        public static implicit operator Outlet(TimePower_OperatorWrapper wrapper)
-        {
-            if (wrapper == null) return null;
-
-            return wrapper.Result;
-        }
+        public static implicit operator Outlet(TimePower_OperatorWrapper wrapper) => wrapper?.Result;
     }
 }

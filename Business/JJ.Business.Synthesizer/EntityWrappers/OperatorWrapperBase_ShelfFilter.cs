@@ -109,11 +109,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             return name;
         }
 
-        public static implicit operator Outlet(OperatorWrapperBase_ShelfFilter wrapper)
-        {
-            if (wrapper == null) return null;
-
-            return wrapper.Result;
-        }
+        public static implicit operator Outlet(OperatorWrapperBase_ShelfFilter wrapper) => wrapper?.Result;
     }
 }

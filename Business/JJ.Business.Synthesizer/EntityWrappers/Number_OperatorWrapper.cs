@@ -26,13 +26,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.Number, value); }
         }
 
-        public static implicit operator Outlet(Number_OperatorWrapper wrapper)
-        {
-            if (wrapper == null) return null;
-
-            return wrapper.Result;
-        }
-
         public override string GetInletDisplayName(int listIndex)
         {
             throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Inlets.Count);
@@ -45,6 +38,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             string name = ResourceHelper.GetPropertyDisplayName(() => Result);
             return name;
         }
+
+        public static implicit operator Outlet(Number_OperatorWrapper wrapper) => wrapper?.Result;
 
         public static implicit operator double(Number_OperatorWrapper wrapper)
         {

@@ -23,10 +23,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { SignalInlet.LinkTo(value); }
         }
 
-        public Inlet SignalInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX); }
-        }
+        public Inlet SignalInlet => OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX);
 
         public Outlet CenterFrequency
         {
@@ -34,10 +31,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { CenterFrequencyInlet.LinkTo(value); }
         }
 
-        public Inlet CenterFrequencyInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, CENTER_FREQUENCY_INDEX); }
-        }
+        public Inlet CenterFrequencyInlet => OperatorHelper.GetInlet(WrappedOperator, CENTER_FREQUENCY_INDEX);
 
         public Outlet BandWidth
         {
@@ -45,15 +39,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { BandWidthInlet.LinkTo(value); }
         }
 
-        public Inlet BandWidthInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, BAND_WIDTH_INDEX); }
-        }
+        public Inlet BandWidthInlet => OperatorHelper.GetInlet(WrappedOperator, BAND_WIDTH_INDEX);
 
-        public Outlet Result
-        {
-            get { return OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX); }
-        }
+        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX);
 
         public override string GetInletDisplayName(int listIndex)
         {
@@ -90,11 +78,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             return name;
         }
 
-        public static implicit operator Outlet(AllPassFilter_OperatorWrapper wrapper)
-        {
-            if (wrapper == null) return null;
-
-            return wrapper.Result;
-        }
+        public static implicit operator Outlet(AllPassFilter_OperatorWrapper wrapper) => wrapper?.Result;
     }
 }

@@ -50,11 +50,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             return name;
         }
 
-        public static implicit operator Outlet(PatchOutlet_OperatorWrapper wrapper)
-        {
-            if (wrapper == null) return null;
-
-            return wrapper.Result;
-        }
+        public static implicit operator Outlet(PatchOutlet_OperatorWrapper wrapper) => wrapper?.Result;
     }
 }

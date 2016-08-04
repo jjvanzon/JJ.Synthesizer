@@ -772,7 +772,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var sb = new StringBuilder();
 
-            // Only one outlet? Then inlet name unnecessary.
+            // Only one outlet? Then inlet name not necessary.
             bool isSingleOutlet = outlet.Operator.Outlets.Count == 1;
             if (!isSingleOutlet)
             {
