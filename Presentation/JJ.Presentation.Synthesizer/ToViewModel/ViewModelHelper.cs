@@ -772,17 +772,28 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var sb = new StringBuilder();
 
-            var wrapper = OperatorWrapperFactory.CreateOperatorWrapper(
-                outlet.Operator,
-                curveRepository,
-                sampleRepository,
-                patchRepository);
-            string inletDisplayName = wrapper.GetOutletDisplayName(outlet.ListIndex);
-            sb.Append(inletDisplayName);
+            // Only one outlet? Then inlet name unnecessary.
+            bool isSingleOutlet = outlet.Operator.Outlets.Count == 1;
+            if (!isSingleOutlet)
+            {
+                var wrapper = OperatorWrapperFactory.CreateOperatorWrapper(
+                    outlet.Operator,
+                    curveRepository,
+                    sampleRepository,
+                    patchRepository);
+
+                string inletDisplayName = wrapper.GetOutletDisplayName(outlet.ListIndex);
+                sb.Append(inletDisplayName);
+            }
+
+            if (sb.Length != 0)
+            {
+                sb.Append(' ');
+            }
 
             if (outlet.IsObsolete)
             {
-                sb.AppendFormat(" ({0})", PropertyDisplayNames.IsObsolete);
+                sb.AppendFormat("({0})", PropertyDisplayNames.IsObsolete);
             }
 
             return sb.ToString();
