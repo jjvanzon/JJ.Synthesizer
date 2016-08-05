@@ -970,6 +970,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             OperatorViewModel viewModel = DocumentViewModelHelper.GetOperatorViewModel(MainViewModel.Document, operatorID);
             PatchDetails_RefreshOperator(viewModel);
+
+            // TODO: Replace this with moving RefreshOperator to the PatchDetail presenter?
+            PatchDetailsViewModel detailsViewModel = DocumentViewModelHelper.GetPatchDetailsViewModel_ByOperatorID(MainViewModel.Document, operatorID);
+            detailsViewModel.RefreshCounter++;
         }
 
         private void PatchDetails_RefreshOperator(Operator entity, OperatorViewModel operatorViewModel)
