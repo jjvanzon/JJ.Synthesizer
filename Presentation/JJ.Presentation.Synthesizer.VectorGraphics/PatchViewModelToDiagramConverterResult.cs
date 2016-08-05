@@ -58,6 +58,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 StyleHelper.ToolTipBackStyle,
                 StyleHelper.ToolTipLineStyle,
                 StyleHelper.ToolTipTextStyle,
+                preferShowOnBottom: true,
                 zIndex: 2);
         }
     }

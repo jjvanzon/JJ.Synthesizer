@@ -26,11 +26,18 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
         private readonly LineStyle _lineStyle;
         private readonly TextStyle _textStyle;
         private readonly int _zIndex;
+        private readonly bool _preferShowOnBottom;
         private readonly MouseLeaveGesture _mouseLeaveGesture;
 
         private Element _previousElement;
 
-        public ToolTipGesture(Diagram diagram, BackStyle backStyle, LineStyle lineStyle, TextStyle textStyle, int zIndex = Int32.MaxValue / 2)
+        public ToolTipGesture(
+            Diagram diagram,
+            BackStyle backStyle,
+            LineStyle lineStyle,
+            TextStyle textStyle,
+            bool preferShowOnBottom = false,
+            int zIndex = Int32.MaxValue / 2)
         {
             if (diagram == null) throw new NullException(() => diagram);
 
@@ -38,6 +45,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
             _backStyle = backStyle;
             _lineStyle = lineStyle;
             _textStyle = textStyle;
+            _preferShowOnBottom = preferShowOnBottom;
             _zIndex = zIndex;
 
             _mouseLeaveGesture = new MouseLeaveGesture();
@@ -153,8 +161,17 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
             _toolTipRectangle.Position.Height = scaledHeight;
             _toolTipLabel.Position.Height = scaledHeight;
 
+            // Set X and Y
             _toolTipRectangle.Position.X = element.Position.Width / 2f;
-            _toolTipRectangle.Position.Y = -_toolTipRectangle.Position.Height;
+            if (_preferShowOnBottom)
+            {
+                _toolTipRectangle.Position.Y = element.Position.Height + _toolTipRectangle.Position.Height;
+                //_toolTipRectangle.Position.RelativeBottom = _toolTipRectangle.Position.Height;
+            }
+            else
+            {
+                _toolTipRectangle.Position.Y = -_toolTipRectangle.Position.Height;
+            }
 
             // Correct position if out of diagram bounds.
             bool rightBoundIsExceeded;
@@ -172,6 +189,21 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
                 _toolTipRectangle.Position.X -= _toolTipRectangle.Position.Width;
             }
 
+            bool leftBoundIsExceeded;
+            if (!_diagram.Position.XAxisIsFlipped)
+            {
+                leftBoundIsExceeded = _toolTipRectangle.Position.AbsoluteX < _diagram.Position.ScaledX;
+            }
+            else
+            {
+                leftBoundIsExceeded = _toolTipRectangle.Position.AbsoluteX > _diagram.Position.ScaledX;
+            }
+
+            if (leftBoundIsExceeded)
+            {
+                _toolTipRectangle.Position.X += _toolTipRectangle.Position.Width;
+            }
+
             bool topBoundIsExceeded;
             if (!_diagram.Position.YAxisIsFlipped)
             {
@@ -185,6 +217,24 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
             if (topBoundIsExceeded)
             {
                 _toolTipRectangle.Position.Y = element.Position.Height + _toolTipRectangle.Position.Height; // Note it is an assumption that the tool tip height will be similar to the mouse arrow height.
+            }
+
+            bool bottomBoundIsExceeded;
+            if (!_diagram.Position.YAxisIsFlipped)
+            {
+                bottomBoundIsExceeded = _toolTipRectangle.Position.AbsoluteBottom > _diagram.Position.ScaledBottom;
+            }
+            else
+            {
+                bottomBoundIsExceeded = _toolTipRectangle.Position.AbsoluteBottom < _diagram.Position.ScaledBottom;
+            }
+
+            if (bottomBoundIsExceeded)
+            {
+                _toolTipRectangle.Position.Y = -_toolTipRectangle.Position.Height;
+
+                //_toolTipRectangle.Position.Y -= element.Position.Height;
+                //_toolTipRectangle.Position.Y -= _toolTipRectangle.Position.Height;
             }
 
             // Add _mouseLeaveGesture.
