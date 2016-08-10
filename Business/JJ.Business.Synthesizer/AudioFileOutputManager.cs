@@ -97,7 +97,7 @@ namespace JJ.Business.Synthesizer
             IAudioFileOutputCalculator audioFileOutputCalculator =
                 AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(audioFileOutput, patchCalculators);
 
-            audioFileOutputCalculator.Execute(audioFileOutput);
+            audioFileOutputCalculator.WriteFile(audioFileOutput);
         }
     }
 }

@@ -27,16 +27,18 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
             _patchCalculators = patchCalculators.ToArray();
         }
 
-        public void Execute(AudioFileOutput audioFileOutput)
+        public void WriteFile(AudioFileOutput audioFileOutput)
         {
             // Assert
             if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
             if (String.IsNullOrEmpty(audioFileOutput.FilePath)) throw new NullOrEmptyException(() => audioFileOutput.FilePath);
+            int channelCount = audioFileOutput.GetChannelCount();
+            if (_patchCalculators.Length != channelCount) throw new NotEqualException(() => _patchCalculators.Length, audioFileOutput.GetChannelCount());
+
             IValidator validator = new AudioFileOutputValidator(audioFileOutput);
             validator.Assert();
 
             // Calculate output and write file
-            int channelCount = audioFileOutput.GetChannelCount();
 
             double dt = 1.0 / audioFileOutput.SamplingRate / audioFileOutput.TimeMultiplier;
             double endTime = audioFileOutput.GetEndTime();
