@@ -24,27 +24,6 @@ namespace JJ.Business.Synthesizer.Validation
             For(() => sample.SampleDataType, PropertyDisplayNames.SampleDataType).NotNull();
             For(() => sample.InterpolationType, PropertyDisplayNames.InterpolationType).NotNull();
             For(() => sample.SpeakerSetup, PropertyDisplayNames.SpeakerSetup).NotNull();
-
-            if (sample.AudioFileFormat != null)
-            {
-                For(() => sample.AudioFileFormat.ID, PropertyDisplayNames.AudioFileFormat)
-                    .IsEnum<AudioFileFormatEnum>()
-                    .IsNot(AudioFileFormatEnum.Undefined);
-            }
-
-            if (sample.SampleDataType != null)
-            {
-                For(() => sample.SampleDataType.ID, PropertyDisplayNames.SampleDataType)
-                    .IsEnum<SampleDataTypeEnum>()
-                    .IsNot(SampleDataTypeEnum.Undefined);
-            }
-
-            if (sample.InterpolationType != null)
-            {
-                For(() => sample.InterpolationType.ID, PropertyDisplayNames.InterpolationType)
-                    .IsEnum<InterpolationTypeEnum>()
-                    .IsNot(InterpolationTypeEnum.Undefined);
-            }
         }
     }
 }

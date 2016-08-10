@@ -18,10 +18,7 @@ namespace JJ.Business.Synthesizer.Validation
 
         protected override void Execute()
         {
-            For(Object.GetSpeakerSetupEnum(), PropertyNames.SpeakerSetup, PropertyDisplayNames.SpeakerSetup)
-                .IsEnum<SpeakerSetupEnum>()
-                .IsNot(SpeakerSetupEnum.Undefined);
-
+            For(() => Object.SpeakerSetup, PropertyDisplayNames.SpeakerSetup).NotNull();
             For(() => Object.SamplingRate, PropertyDisplayNames.SamplingRate).GreaterThan(0);
             For(() => Object.MaxConcurrentNotes, PropertyDisplayNames.MaxConcurrentNotes).GreaterThan(0);
 

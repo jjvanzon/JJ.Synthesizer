@@ -22,9 +22,7 @@ namespace JJ.Business.Synthesizer.Validation.Scales
                 For(() => Object.BaseFrequency, PropertyDisplayNames.BaseFrequency).NotNaN().NotInfinity().GreaterThan(0);
             }
 
-            For(() => Object.GetScaleTypeEnum(), PropertyDisplayNames.ScaleType)
-                .IsEnum<ScaleTypeEnum>()
-                .IsNot(ScaleTypeEnum.Undefined);
+            For(() => Object.ScaleType, PropertyDisplayNames.ScaleType).NotNull();
         }
     }
 }

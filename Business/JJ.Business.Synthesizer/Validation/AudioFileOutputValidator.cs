@@ -43,18 +43,6 @@ namespace JJ.Business.Synthesizer.Validation
             For(() => audioFileOutput.SampleDataType, PropertyDisplayNames.SampleDataType).NotNull();
             For(() => audioFileOutput.SpeakerSetup, PropertyDisplayNames.SpeakerSetup).NotNull();
 
-            For(() => audioFileOutput.GetAudioFileFormatEnum(), PropertyDisplayNames.AudioFileFormat)
-                .IsEnum<AudioFileFormatEnum>()
-                .IsNot(AudioFileFormatEnum.Undefined);
-
-            For(() => audioFileOutput.GetSampleDataTypeEnum(), PropertyDisplayNames.SampleDataType)
-                .IsEnum<SampleDataTypeEnum>()
-                .IsNot(SampleDataTypeEnum.Undefined);
-
-            For(() => audioFileOutput.GetSpeakerSetupEnum(), PropertyDisplayNames.SpeakerSetup)
-                .IsEnum<SpeakerSetupEnum>()
-                .IsNot(SpeakerSetupEnum.Undefined);
-
             TryValidateOutletReference();
         }
 

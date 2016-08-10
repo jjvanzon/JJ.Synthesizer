@@ -17,7 +17,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             ExecuteValidator(new NameValidator(Object.Name, required: false));
 
             For(() => Object.OperatorType, PropertyDisplayNames.OperatorType).NotNull();
-            For(() => Object.GetOperatorTypeEnum(), PropertyDisplayNames.OperatorType).IsEnum<OperatorTypeEnum>();
         }
     }
 }
