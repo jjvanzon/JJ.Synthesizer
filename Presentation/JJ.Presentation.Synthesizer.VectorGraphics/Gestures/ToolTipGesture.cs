@@ -142,11 +142,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
             _toolTipRectangle.Style.BackStyle = _backStyle;
             _toolTipRectangle.Style.LineStyle = _lineStyle;
             _toolTipRectangle.ZIndex = _zIndex;
+
             _toolTipLabel.Diagram = _diagram;
             _toolTipLabel.Parent = _toolTipRectangle;
             _toolTipLabel.TextStyle = _textStyle;
             _toolTipLabel.ZIndex = _zIndex;
-
             _toolTipLabel.Text = text;
 
             // Set text width
@@ -162,79 +162,39 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
             _toolTipLabel.Position.Height = scaledHeight;
 
             // Set X and Y
-            _toolTipRectangle.Position.X = element.Position.Width / 2f;
+            PositionOnTheRight(_toolTipRectangle);
             if (_preferShowOnBottom)
             {
-                _toolTipRectangle.Position.Y = element.Position.Height + _toolTipRectangle.Position.Height;
-                //_toolTipRectangle.Position.RelativeBottom = _toolTipRectangle.Position.Height;
+                PositionOnBottom(_toolTipRectangle);
             }
             else
             {
-                _toolTipRectangle.Position.Y = -_toolTipRectangle.Position.Height;
+                PositionOnTop(_toolTipRectangle);
             }
 
             // Correct position if out of diagram bounds.
-            bool rightBoundIsExceeded;
-            if (!_diagram.Position.XAxisIsFlipped)
-            {
-                rightBoundIsExceeded = _toolTipRectangle.Position.AbsoluteRight > _diagram.Position.ScaledRight;
-            }
-            else
-            {
-                rightBoundIsExceeded = _toolTipRectangle.Position.AbsoluteRight < _diagram.Position.ScaledRight;
-            }
-
+            bool rightBoundIsExceeded = RightBoundIsExceeded(_toolTipRectangle);
             if (rightBoundIsExceeded)
             {
-                _toolTipRectangle.Position.X -= _toolTipRectangle.Position.Width;
+                PositionOnTheLeft(_toolTipRectangle);
             }
 
-            bool leftBoundIsExceeded;
-            if (!_diagram.Position.XAxisIsFlipped)
-            {
-                leftBoundIsExceeded = _toolTipRectangle.Position.AbsoluteX < _diagram.Position.ScaledX;
-            }
-            else
-            {
-                leftBoundIsExceeded = _toolTipRectangle.Position.AbsoluteX > _diagram.Position.ScaledX;
-            }
-
+            bool leftBoundIsExceeded = LeftBoundIsExceeded(_toolTipRectangle);
             if (leftBoundIsExceeded)
             {
-                _toolTipRectangle.Position.X += _toolTipRectangle.Position.Width;
+                PositionOnTheRight(element);
             }
 
-            bool topBoundIsExceeded;
-            if (!_diagram.Position.YAxisIsFlipped)
-            {
-                topBoundIsExceeded = _toolTipRectangle.Position.AbsoluteY < _diagram.Position.ScaledY;
-            }
-            else
-            {
-                topBoundIsExceeded = _toolTipRectangle.Position.AbsoluteY > _diagram.Position.ScaledY;
-            }
-
+            bool topBoundIsExceeded = TopBoundIsExceeded(_toolTipRectangle);
             if (topBoundIsExceeded)
             {
-                _toolTipRectangle.Position.Y = element.Position.Height + _toolTipRectangle.Position.Height; // Note it is an assumption that the tool tip height will be similar to the mouse arrow height.
+                PositionOnBottom(_toolTipRectangle);
             }
 
-            bool bottomBoundIsExceeded;
-            if (!_diagram.Position.YAxisIsFlipped)
-            {
-                bottomBoundIsExceeded = _toolTipRectangle.Position.AbsoluteBottom > _diagram.Position.ScaledBottom;
-            }
-            else
-            {
-                bottomBoundIsExceeded = _toolTipRectangle.Position.AbsoluteBottom < _diagram.Position.ScaledBottom;
-            }
-
+            bool bottomBoundIsExceeded = BottomBoundIsExceeded(_toolTipRectangle);
             if (bottomBoundIsExceeded)
             {
-                _toolTipRectangle.Position.Y = -_toolTipRectangle.Position.Height;
-
-                //_toolTipRectangle.Position.Y -= element.Position.Height;
-                //_toolTipRectangle.Position.Y -= _toolTipRectangle.Position.Height;
+                PositionOnTop(_toolTipRectangle);
             }
 
             // Add _mouseLeaveGesture.
@@ -244,9 +204,91 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
             }
         }
 
-        private void HideToolTip(Element element)
+        private bool BottomBoundIsExceeded(Element toolTipElement)
         {
-            if (element == null) throw new NullException(() => element);
+            bool bottomBoundIsExceeded;
+            if (!_diagram.Position.YAxisIsFlipped)
+            {
+                bottomBoundIsExceeded = toolTipElement.Position.AbsoluteBottom > toolTipElement.Diagram.Position.ScaledBottom;
+            }
+            else
+            {
+                bottomBoundIsExceeded = toolTipElement.Position.AbsoluteBottom < toolTipElement.Diagram.Position.ScaledBottom;
+            }
+
+            return bottomBoundIsExceeded;
+        }
+
+        private bool TopBoundIsExceeded(Element toolTipElement)
+        {
+            bool topBoundIsExceeded;
+            if (!_diagram.Position.YAxisIsFlipped)
+            {
+                topBoundIsExceeded = toolTipElement.Position.AbsoluteY < toolTipElement.Diagram.Position.ScaledY;
+            }
+            else
+            {
+                topBoundIsExceeded = toolTipElement.Position.AbsoluteY > toolTipElement.Diagram.Position.ScaledY;
+            }
+
+            return topBoundIsExceeded;
+        }
+
+        private bool RightBoundIsExceeded(Element toolTipElement)
+        {
+            bool rightBoundIsExceeded;
+            if (!_diagram.Position.XAxisIsFlipped)
+            {
+                rightBoundIsExceeded = toolTipElement.Position.AbsoluteRight > toolTipElement.Diagram.Position.ScaledRight;
+            }
+            else
+            {
+                rightBoundIsExceeded = toolTipElement.Position.AbsoluteRight < toolTipElement.Diagram.Position.ScaledRight;
+            }
+
+            return rightBoundIsExceeded;
+        }
+
+        private bool LeftBoundIsExceeded(Element element)
+        {
+            bool leftBoundIsExceeded;
+            if (!element.Diagram.Position.XAxisIsFlipped)
+            {
+                leftBoundIsExceeded = element.Position.AbsoluteX < element.Diagram.Position.ScaledX;
+            }
+            else
+            {
+                leftBoundIsExceeded = element.Position.AbsoluteX > element.Diagram.Position.ScaledX;
+            }
+
+            return leftBoundIsExceeded;
+        }
+
+        // Note it is an assumption that the tool tip height will be similar to the mouse arrow height.
+
+        private static void PositionOnTheLeft(Element toolTipElement)
+        {
+            toolTipElement.Position.X = toolTipElement.Parent.Position.Width / 2f - toolTipElement.Position.Width;
+        }
+
+        private static void PositionOnTheRight(Element toolTipElement)
+        {
+            toolTipElement.Position.X = toolTipElement.Parent.Position.Width / 2f;
+        }
+
+        private static void PositionOnTop(Element toolTipElement)
+        {
+            toolTipElement.Position.Y = -toolTipElement.Position.Height;
+        }
+
+        private static void PositionOnBottom(Element toolTipElement)
+        {
+            toolTipElement.Position.Y = toolTipElement.Position.Height + toolTipElement.Position.Height;
+        }
+
+        private void HideToolTip(Element parentElement)
+        {
+            if (parentElement == null) throw new NullException(() => parentElement);
 
             _toolTipLabel.Parent = null;
             _toolTipRectangle.Parent = null;
@@ -257,7 +299,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
             _toolTipLabel.Diagram = null;
             _toolTipRectangle.Diagram = null;
 
-            element.Gestures.Remove(_mouseLeaveGesture);
+            parentElement.Gestures.Remove(_mouseLeaveGesture);
 
             if (_previousElement != null)
             {
