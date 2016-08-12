@@ -274,6 +274,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 // Business
                 var patchManager = new PatchManager(entity, _repositories);
+                patchManager.DeleteOwnedNumberOperators(userInput.SelectedOperator.ID);
                 patchManager.DeleteOperator(userInput.SelectedOperator.ID);
 
                 // ToViewModel

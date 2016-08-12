@@ -229,7 +229,6 @@ namespace JJ.Business.Synthesizer
             AssertPatchNotNull();
 
             if (op == null) throw new NullException(() => op);
-            // TODO: Is this condition strictly necessary? If not, consider deleting this code line.
             if (op.Patch != Patch) throw new NotEqualException(() => op.Patch, Patch);
 
             // Get this list before deleting and unlinking things.
@@ -455,6 +454,34 @@ namespace JJ.Business.Synthesizer
                 }
 
                 x += stepX;
+            }
+        }
+
+
+        public void DeleteOwnedNumberOperators(int id)
+        {
+            Operator op = _repositories.OperatorRepository.Get(id);
+            DeleteOwnedNumberOperators(op);
+        }
+
+        /// <summary> If op is the sole referrer to a number operator, the number operator will be deleted. </summary>
+        public void DeleteOwnedNumberOperators(Operator op)
+        {
+            if (op == null) throw new NullException(() => op);
+
+            IEnumerable<Operator> inputNumberOperators =
+                op.Inlets.Select(x => x.InputOutlet?.Operator)
+                         .Where(x => x != null)
+                         .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.Number);
+
+            foreach (Operator numberOperator in inputNumberOperators)
+            {
+                Outlet numberOutlet = numberOperator.Outlets.Single();
+                bool isSoleReference = numberOutlet.ConnectedInlets.Count == 1;
+                if (isSoleReference)
+                {
+                    DeleteOperator(numberOperator);
+                }
             }
         }
 
