@@ -229,7 +229,7 @@ namespace JJ.Business.Synthesizer
             AssertPatchNotNull();
 
             if (op == null) throw new NullException(() => op);
-            if (op.Patch != Patch) throw new NotEqualException(() => op.Patch, Patch);
+            if (op.Patch != Patch) throw new NotEqualException(() => op.Patch, () => Patch);
 
             // Get this list before deleting and unlinking things.
             IList<Operator> connectedCustomOperators =
@@ -420,13 +420,14 @@ namespace JJ.Business.Synthesizer
             return calculator;
         }
 
-        public void CreateNumbersForEmptyInlets(
+        public void CreateNumbersForEmptyInletsWithDefaultValues(
             Operator op,
             float estimatedOperatorWidth,
             float operatorHeight,
             EntityPositionManager entityPositionManager)
         {
             if (op == null) throw new NullException(() => op);
+            if (op.Patch != Patch) throw new NotEqualException(() => op.Patch, () => Patch);
             if (entityPositionManager == null) throw new NullException(() => entityPositionManager);
 
             EntityPosition entityPosition = entityPositionManager.GetOrCreateOperatorPosition(op.ID);
@@ -444,13 +445,16 @@ namespace JJ.Business.Synthesizer
             {
                 if (inlet.InputOutlet == null)
                 {
-                    var number = Number(inlet.DefaultValue ?? 0.0);
+                    if (inlet.DefaultValue.HasValue)
+                    {
+                        var number = Number(inlet.DefaultValue.Value);
 
-                    inlet.LinkTo(number.Result);
+                        inlet.LinkTo(number.Result);
 
-                    EntityPosition numberEntityPosition = entityPositionManager.GetOrCreateOperatorPosition(number.WrappedOperator.ID);
-                    numberEntityPosition.X = x;
-                    numberEntityPosition.Y = y;
+                        EntityPosition numberEntityPosition = entityPositionManager.GetOrCreateOperatorPosition(number.WrappedOperator.ID);
+                        numberEntityPosition.X = x;
+                        numberEntityPosition.Y = y;
+                    }
                 }
 
                 x += stepX;

@@ -309,11 +309,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             var operatorTypeEnum = (OperatorTypeEnum)operatorTypeID;
             int variableInletOrOutletCount = GetVariableInletOrOutletCount(operatorTypeEnum);
             Operator op = patchManager.CreateOperator(operatorTypeEnum, variableInletOrOutletCount);
-
-            if (MustCreateNumbersForEmptyInlets(op))
-            {
-                patchManager.CreateNumbersForEmptyInlets(op, ESTIMATED_OPERATOR_WIDTH, OPERATOR_HEIGHT, _entityPositionManager);
-            }
+            patchManager.CreateNumbersForEmptyInletsWithDefaultValues(op, ESTIMATED_OPERATOR_WIDTH, OPERATOR_HEIGHT, _entityPositionManager);
 
             // ToViewModel
             PatchDetailsViewModel viewModel = CreateViewModel(entity);
@@ -325,21 +321,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             viewModel.Successful = true;
 
             return viewModel;
-        }
-
-        private bool MustCreateNumbersForEmptyInlets(Operator op)
-        {
-            if (op == null) throw new NullException(() => op);
-
-            switch (op.GetOperatorTypeEnum())
-            {
-                case OperatorTypeEnum.PatchInlet:
-                case OperatorTypeEnum.PatchOutlet:
-                    return false;
-
-                default:
-                    return true;
-            }
         }
 
         /// <summary>
