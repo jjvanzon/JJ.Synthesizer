@@ -457,28 +457,27 @@ namespace JJ.Business.Synthesizer
             }
         }
 
-
         public void DeleteOwnedNumberOperators(int id)
         {
             Operator op = _repositories.OperatorRepository.Get(id);
             DeleteOwnedNumberOperators(op);
         }
 
-        /// <summary> If op is the sole referrer to a number operator, the number operator will be deleted. </summary>
-        public void DeleteOwnedNumberOperators(Operator op)
+        /// <summary> If ownerOperator is the sole referrer to a number operator, the number operator will be deleted. </summary>
+        public void DeleteOwnedNumberOperators(Operator ownerOperator)
         {
-            if (op == null) throw new NullException(() => op);
+            if (ownerOperator == null) throw new NullException(() => ownerOperator);
 
             IEnumerable<Operator> inputNumberOperators =
-                op.Inlets.Select(x => x.InputOutlet?.Operator)
-                         .Where(x => x != null)
-                         .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.Number);
+                ownerOperator.Inlets.Select(x => x.InputOutlet?.Operator)
+                                    .Where(x => x != null)
+                                    .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.Number);
 
             foreach (Operator numberOperator in inputNumberOperators)
             {
                 Outlet numberOutlet = numberOperator.Outlets.Single();
-                bool isSoleReference = numberOutlet.ConnectedInlets.Count == 1;
-                if (isSoleReference)
+                bool isOwned = numberOutlet.ConnectedInlets.Count == 1;
+                if (isOwned)
                 {
                     DeleteOperator(numberOperator);
                 }
