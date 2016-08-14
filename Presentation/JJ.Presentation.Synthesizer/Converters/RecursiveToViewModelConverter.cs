@@ -191,10 +191,6 @@ namespace JJ.Presentation.Synthesizer.Converters
         {
             OutletViewModel viewModel = outlet.ToViewModel(_curveRepository, _sampleRepository, _patchRepository, _entityPositionManager);
 
-            // TODO: Remove outcommented code.
-            // Recently outcommented (2016-07-17) because entity position is created indirectly by the call above anyway.
-            //_entityPositionManager.GetOrCreateOperatorPosition(outlet.Operator);
-
             // Recursive call
             viewModel.Operator = ConvertToViewModelRecursive(outlet.Operator);
 

@@ -43,8 +43,6 @@
     <Compile Include="Helpers\OperatorEntityAndViewModel.cs" />
     <Compile Include="Helpers\ConfigurationSection.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
-    <Compile Include="Helpers\2016-08-03 Backup of MustNotConvertToOutletViewModelException.cs" />
-    <Compile Include="Helpers\2016-08-03 Backup of MustNotConvertToInletViewModelException.cs" />
     <Compile Include="Helpers\PresentationPropertyNames.cs" />
     <Compile Include="Helpers\StyleGradeEnum.cs" />
     <Compile Include="Helpers\ToPatchWithRelatedEntitiesResult.cs" />
