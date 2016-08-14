@@ -62,14 +62,14 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
             PatchGridViewModel viewModel;
 
-            bool isGroupless = String.IsNullOrEmpty(group);
+            bool isGroupless = String.IsNullOrWhiteSpace(group);
             if (isGroupless)
             {
-                viewModel = rootDocumentViewModel.PatchGridList.Where(x => String.IsNullOrEmpty(x.Group)).FirstOrDefault();
+                viewModel = rootDocumentViewModel.PatchGridList.Where(x => String.IsNullOrWhiteSpace(x.Group)).FirstOrDefault();
             }
             else
             {
-                viewModel = rootDocumentViewModel.PatchGridList.Where(x => String.Equals(x.Group, group)).FirstOrDefault();
+                viewModel = rootDocumentViewModel.PatchGridList.Where(x => String.Equals(x.Group, group, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
             }
 
             return viewModel;

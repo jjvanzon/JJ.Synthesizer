@@ -235,16 +235,20 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             // Patch Groups
             var childDocumentGroups = rootDocument.ChildDocuments.Where(x => !String.IsNullOrWhiteSpace(x.GroupName))
-                                                                 .GroupBy(x => x.GroupName)
+                                                                 .GroupBy(x => x.GroupName.ToLower())
                                                                  .OrderBy(x => x.Key);
+
             foreach (var childDocumentGroup in childDocumentGroups)
             {
                 IList<Document> childDocumentsInGroup = childDocumentGroup.ToArray();
 
+                // Don't use Key for the group name, because Key was converted to lower case for case-insensitive grouping.
+                string groupName = childDocumentGroup.First().GroupName;
+
                 viewModel.PatchesNode.PatchGroupNodes.Add(new PatchGroupTreeNodeViewModel
                 {
-                    GroupName = childDocumentGroup.Key,
-                    Text = ViewModelHelper.GetTreeNodeText(childDocumentGroup.Key, childDocumentsInGroup.Count),
+                    GroupName = groupName,
+                    Text = ViewModelHelper.GetTreeNodeText(groupName, childDocumentsInGroup.Count),
                     PatchNodes = childDocumentsInGroup.OrderBy(x => x.Name)
                                                       .Select(x => x.ToPatchTreeNodeViewModel())
                                                       .ToList()
@@ -823,10 +827,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             PatchGridViewModel grouplessPatchGridViewModel = grouplessChildDocuments.ToPatchGridViewModel(rootDocument.ID, null);
             list.Add(grouplessPatchGridViewModel);
 
-            var groups = rootDocument.ChildDocuments.Where(x => !String.IsNullOrWhiteSpace(x.GroupName)).GroupBy(x => x.GroupName);
+            var groups = rootDocument.ChildDocuments.Where(x => !String.IsNullOrWhiteSpace(x.GroupName)).GroupBy(x => x.GroupName.ToLower());
             foreach (var group in groups)
             {
-                PatchGridViewModel patchGridViewModel = group.ToPatchGridViewModel(rootDocument.ID, group.Key);
+                // Don't use Key for the group name, because Key was converted to lower case for case-insensitive grouping.
+                string groupName = group.First().GroupName;
+
+                PatchGridViewModel patchGridViewModel = group.ToPatchGridViewModel(rootDocument.ID, groupName);
                 list.Add(patchGridViewModel);
             }
 
@@ -848,7 +855,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             else
             {
                 childDocuments = rootDocument.ChildDocuments
-                                             .Where(x => String.Equals(x.GroupName, group))
+                                             .Where(x => String.Equals(x.GroupName, group, StringComparison.OrdinalIgnoreCase))
                                              .ToList();
             }
 

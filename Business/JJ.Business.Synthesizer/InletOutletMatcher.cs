@@ -25,7 +25,11 @@ namespace JJ.Business.Synthesizer
             {
                 foreach (Inlet destCustomOperatorInlet in destCustomOperatorInlets)
                 {
-                    bool namesAreEqual = String.Equals(destCustomOperatorInlet.Name, sourcePatchInlet.Name);
+                    bool namesAreEqual = String.Equals(
+                        destCustomOperatorInlet.Name,
+                        sourcePatchInlet.Name,
+                        StringComparison.OrdinalIgnoreCase);
+
                     if (namesAreEqual)
                     {
                         return destCustomOperatorInlet;
@@ -72,7 +76,11 @@ namespace JJ.Business.Synthesizer
             {
                 foreach (Outlet destCustomOperatorOutlet in destCustomOperatorOutlets)
                 {
-                    bool namesAreEqual = String.Equals(destCustomOperatorOutlet.Name, sourcePatchOutlet.Name);
+                    bool namesAreEqual = String.Equals(
+                        destCustomOperatorOutlet.Name,
+                        sourcePatchOutlet.Name,
+                        StringComparison.OrdinalIgnoreCase);
+
                     if (namesAreEqual)
                     {
                         return destCustomOperatorOutlet;
@@ -143,7 +151,11 @@ namespace JJ.Business.Synthesizer
             {
                 foreach (Operator dest_UnderlyingPatch_PatchInlet in dest_UnderlyingPatch_PatchInlets)
                 {
-                    bool namesAreEqual = String.Equals(dest_UnderlyingPatch_PatchInlet.Name, source_CustomOperator_Inlet.Name);
+                    bool namesAreEqual = String.Equals(
+                        dest_UnderlyingPatch_PatchInlet.Name,
+                        source_CustomOperator_Inlet.Name,
+                        StringComparison.OrdinalIgnoreCase);
+
                     if (namesAreEqual)
                     {
                         return dest_UnderlyingPatch_PatchInlet;
@@ -226,7 +238,11 @@ namespace JJ.Business.Synthesizer
             {
                 foreach (Operator dest_UnderlyingPatch_PatchOutlet in dest_UnderlyingPatch_PatchOutlets)
                 {
-                    bool namesAreEqual = String.Equals(dest_UnderlyingPatch_PatchOutlet.Name, source_CustomOperator_Outlet.Name);
+                    bool namesAreEqual = String.Equals(
+                        dest_UnderlyingPatch_PatchOutlet.Name,
+                        source_CustomOperator_Outlet.Name,
+                        StringComparison.OrdinalIgnoreCase);
+
                     if (namesAreEqual)
                     {
                         return dest_UnderlyingPatch_PatchOutlet;
@@ -281,7 +297,7 @@ namespace JJ.Business.Synthesizer
             bool nameIsfilledIn = !String.IsNullOrEmpty(outlet.Name);
             if (nameIsfilledIn)
             {
-                bool namesAreEqual = String.Equals(outlet.Name, inlet.Name);
+                bool namesAreEqual = String.Equals(outlet.Name, inlet.Name, StringComparison.OrdinalIgnoreCase);
                 if (namesAreEqual)
                 {
                     return true;
