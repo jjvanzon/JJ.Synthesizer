@@ -2256,6 +2256,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             operandCalculators = TruncateOperandCalculatorList(operandCalculators, x => x.Max());
 
+            OperatorCalculatorBase constOperandCalculator = operandCalculators.Where(x => x is Number_OperatorCalculator)
+                                                                              .SingleOrDefault();
             switch (operandCalculators.Count)
             {
                 case 0:
@@ -2268,13 +2270,33 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     break;
 
                 case 2:
-                    OperatorCalculatorBase aCalculator = operandCalculators[0];
-                    OperatorCalculatorBase bCalculator = operandCalculators[1];
-                    calculator = new Max_OperatorCalculator_TwoOperands(aCalculator, bCalculator);
+                    if (constOperandCalculator == null)
+                    {
+                        OperatorCalculatorBase aCalculator = operandCalculators[0];
+                        OperatorCalculatorBase bCalculator = operandCalculators[1];
+                        calculator = new Max_OperatorCalculator_TwoVars(aCalculator, bCalculator);
+                    }
+                    else
+                    {
+                        double constValue = constOperandCalculator.Calculate();
+                        OperatorCalculatorBase varCalculator = operandCalculators.Except(constOperandCalculator).Single();
+                        calculator = new Max_OperatorCalculator_OneConst_OneVar(constValue, varCalculator);
+                    }
                     break;
 
                 default:
-                    calculator = new Max_OperatorCalculator_MoreThanTwoOperands(operandCalculators);
+
+                    if (constOperandCalculator == null)
+                    {
+                        calculator = new Max_OperatorCalculator_AllVars(operandCalculators);
+                    }
+                    else
+                    {
+                        IList<OperatorCalculatorBase> varOperandCalculators = operandCalculators.Except(constOperandCalculator).ToArray();
+                        double constValue = constOperandCalculator.Calculate();
+
+                        calculator =  new Max_OperatorCalculator_WithConst_AndVarArray(constValue, varOperandCalculators);
+                    }
                     break;
             }
 
@@ -2413,6 +2435,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             operandCalculators = TruncateOperandCalculatorList(operandCalculators, x => x.Min());
 
+            OperatorCalculatorBase constOperandCalculator = operandCalculators.Where(x => x is Number_OperatorCalculator)
+                                                                              .SingleOrDefault();
             switch (operandCalculators.Count)
             {
                 case 0:
@@ -2425,13 +2449,33 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     break;
 
                 case 2:
-                    OperatorCalculatorBase aCalculator = operandCalculators[0];
-                    OperatorCalculatorBase bCalculator = operandCalculators[1];
-                    calculator = new Min_OperatorCalculator_TwoOperands(aCalculator, bCalculator);
+                    if (constOperandCalculator == null)
+                    {
+                        OperatorCalculatorBase aCalculator = operandCalculators[0];
+                        OperatorCalculatorBase bCalculator = operandCalculators[1];
+                        calculator = new Min_OperatorCalculator_TwoVars(aCalculator, bCalculator);
+                    }
+                    else
+                    {
+                        double constValue = constOperandCalculator.Calculate();
+                        OperatorCalculatorBase varCalculator = operandCalculators.Except(constOperandCalculator).Single();
+                        calculator = new Min_OperatorCalculator_OneConst_OneVar(constValue, varCalculator);
+                    }
                     break;
 
                 default:
-                    calculator = new Min_OperatorCalculator_MoreThanTwoOperands(operandCalculators);
+                    if (constOperandCalculator == null)
+                    {
+                        calculator = new Min_OperatorCalculator_AllVars(operandCalculators);
+                    }
+                    else
+                    {
+                        IList<OperatorCalculatorBase> varOperandCalculators = operandCalculators.Except(constOperandCalculator).ToArray();
+                        double constValue = constOperandCalculator.Calculate();
+
+                        calculator = new Min_OperatorCalculator_WithConst_AndVarArray(constValue, varOperandCalculators);
+                    }
+
                     break;
             }
 
