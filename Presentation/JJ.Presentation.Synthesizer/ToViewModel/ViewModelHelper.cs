@@ -27,7 +27,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
     internal static partial class ViewModelHelper
     {
         private const int STRETCH_AND_SQUASH_ORIGIN_LIST_INDEX = 2;
-        private static readonly bool _previewAutoPatchPolyphonicEnabled = GetPreviewAutoPatchPolyphonicEnabled();
+        private static readonly bool _showAutoPatchPolyphonicEnabled = CustomConfigurationManager.GetSection<ConfigurationSection>().ShowAutoPatchPolyphonicEnabled;
 
         // OperatorTypeEnum HashSets
 
@@ -172,7 +172,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new CurrentPatchesViewModel
             {
                 List = childDocuments.Select(x => x.ToCurrentPatchViewModel()).ToList(),
-                CanPreviewAutoPatchPolyphonic = _previewAutoPatchPolyphonicEnabled,
+                CanShowAutoPatchPolyphonic = _showAutoPatchPolyphonicEnabled,
                 ValidationMessages = new List<Message>()
             };
 
@@ -892,12 +892,5 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             return text;
         }
-
-        // Helpers
-
-        private static bool GetPreviewAutoPatchPolyphonicEnabled()
-        {
-            return CustomConfigurationManager.GetSection<ConfigurationSection>().PreviewAutoPatchPolyphonicEnabled;
-        }
-    }
+   }
 }

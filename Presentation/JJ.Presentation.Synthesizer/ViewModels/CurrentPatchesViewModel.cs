@@ -7,7 +7,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 {
     public sealed class CurrentPatchesViewModel : ViewModelBase
     {
-        public bool CanPreviewAutoPatchPolyphonic { get; set; }
+        public bool CanShowAutoPatchPolyphonic { get; set; }
         public IList<CurrentPatchItemViewModel> List { get; set; }
     }
 }

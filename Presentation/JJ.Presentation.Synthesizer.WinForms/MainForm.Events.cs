@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Media;
-using JJ.Data.Synthesizer;
-using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 
@@ -23,8 +21,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             audioOutputPropertiesUserControl.LoseFocusRequested += audioOutputPropertiesUserControl_LoseFocusRequested;
             currentPatchesUserControl.CloseRequested += currentPatchesUserControl_CloseRequested;
             currentPatchesUserControl.RemoveRequested += currentPatchesUserControl_RemoveRequested;
-            currentPatchesUserControl.PreviewAutoPatchRequested += currentPatchesUserControl_PreviewAutoPatchRequested;
-            currentPatchesUserControl.PreviewAutoPatchPolyphonicRequested += currentPatchesUserControl_PreviewAutoPatchPolyphonicRequested;
+            currentPatchesUserControl.ShowAutoPatchRequested += currentPatchesUserControl_ShowAutoPatchRequested;
+            currentPatchesUserControl.ShowAutoPatchPolyphonicRequested += currentPatchesUserControl_ShowAutoPatchPolyphonicRequested;
             curveDetailsUserControl.ChangeNodeTypeRequested += curveDetailsUserControl_ChangeNodeTypeRequested;
             curveDetailsUserControl.CloseRequested += curveDetailsUserControl_CloseRequested;
             curveDetailsUserControl.CreateNodeRequested += curveDetailsUserControl_CreateNodeRequested;
@@ -133,6 +131,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             toneGridEditUserControl.PlayToneRequested += toneGridEditUserControl_PlayToneRequested;
 
             _documentCannotDeleteForm.OKClicked += _documentCannotDeleteForm_OKClicked;
+            _autoPatchDetailsForm.CloseRequested += _autoPatchDetailsForm_CloseRequested;
 
             MessageBoxHelper.DocumentDeleteConfirmed += MessageBoxHelper_DocumentDeleteConfirmed;
             MessageBoxHelper.DocumentDeleteCanceled += MessageBoxHelper_DocumentDeleteCanceled;
@@ -217,14 +216,19 @@ namespace JJ.Presentation.Synthesizer.WinForms
             });
         }
 
-        private void currentPatchesUserControl_PreviewAutoPatchRequested(object sender, EventArgs e)
+        private void currentPatchesUserControl_ShowAutoPatchRequested(object sender, EventArgs e)
         {
-            TemplateEventHandler(_presenter.CurrentPatchesPreviewAutoPatch);
+            TemplateEventHandler(_presenter.CurrentPatchesShowAutoPatch);
         }
 
-        private void currentPatchesUserControl_PreviewAutoPatchPolyphonicRequested(object sender, EventArgs e)
+        private void currentPatchesUserControl_ShowAutoPatchPolyphonicRequested(object sender, EventArgs e)
         {
-            TemplateEventHandler(_presenter.CurrentPatchesPreviewAutoPatchPolyphonic);
+            TemplateEventHandler(_presenter.CurrentPatchesShowAutoPatchPolyphonic);
+        }
+
+        private void _autoPatchDetailsForm_CloseRequested(object sender, EventArgs e)
+        {
+            TemplateEventHandler(_presenter.AutoPatchDetailsClose);
         }
 
         // Curve

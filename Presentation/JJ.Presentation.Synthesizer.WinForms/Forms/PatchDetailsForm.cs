@@ -44,10 +44,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
         {
             e.Cancel = true;
 
-            if (CloseRequested != null)
-            {
-                CloseRequested(this, EventArgs.Empty);
-            }
+            CloseRequested?.Invoke(this, EventArgs.Empty);
         }
     }
 }

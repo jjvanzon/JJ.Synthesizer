@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.flowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
-            this.buttonPreviewAutoPatch = new System.Windows.Forms.Button();
+            this.buttonShowAutoPatch = new System.Windows.Forms.Button();
             this.buttonClose = new System.Windows.Forms.Button();
-            this.buttonPreviewAutoPatchPolyphonic = new System.Windows.Forms.Button();
+            this.buttonShowAutoPatchPolyphonic = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // flowLayoutPanel
@@ -42,18 +42,18 @@
             this.flowLayoutPanel.Size = new System.Drawing.Size(205, 165);
             this.flowLayoutPanel.TabIndex = 0;
             // 
-            // buttonPreviewAutoPatch
+            // buttonShowAutoPatch
             // 
-            this.buttonPreviewAutoPatch.FlatAppearance.BorderSize = 0;
-            this.buttonPreviewAutoPatch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonPreviewAutoPatch.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.OpenWindowIconThinner;
-            this.buttonPreviewAutoPatch.Location = new System.Drawing.Point(254, 7);
-            this.buttonPreviewAutoPatch.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonPreviewAutoPatch.Name = "buttonPreviewAutoPatch";
-            this.buttonPreviewAutoPatch.Size = new System.Drawing.Size(32, 30);
-            this.buttonPreviewAutoPatch.TabIndex = 3;
-            this.buttonPreviewAutoPatch.UseVisualStyleBackColor = true;
-            this.buttonPreviewAutoPatch.Click += new System.EventHandler(this.buttonPreviewAutoPatch_Click);
+            this.buttonShowAutoPatch.FlatAppearance.BorderSize = 0;
+            this.buttonShowAutoPatch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonShowAutoPatch.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.OpenWindowIconThinner;
+            this.buttonShowAutoPatch.Location = new System.Drawing.Point(254, 7);
+            this.buttonShowAutoPatch.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonShowAutoPatch.Name = "buttonShowAutoPatch";
+            this.buttonShowAutoPatch.Size = new System.Drawing.Size(32, 30);
+            this.buttonShowAutoPatch.TabIndex = 3;
+            this.buttonShowAutoPatch.UseVisualStyleBackColor = true;
+            this.buttonShowAutoPatch.Click += new System.EventHandler(this.buttonShowAutoPatch_Click);
             // 
             // buttonClose
             // 
@@ -68,25 +68,25 @@
             this.buttonClose.UseVisualStyleBackColor = true;
             this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
             // 
-            // buttonPreviewAutoPatchPolyphonic
+            // buttonShowAutoPatchPolyphonic
             // 
-            this.buttonPreviewAutoPatchPolyphonic.FlatAppearance.BorderSize = 0;
-            this.buttonPreviewAutoPatchPolyphonic.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonPreviewAutoPatchPolyphonic.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.OpenWindowIconThinner;
-            this.buttonPreviewAutoPatchPolyphonic.Location = new System.Drawing.Point(213, 7);
-            this.buttonPreviewAutoPatchPolyphonic.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonPreviewAutoPatchPolyphonic.Name = "buttonPreviewAutoPatchPolyphonic";
-            this.buttonPreviewAutoPatchPolyphonic.Size = new System.Drawing.Size(32, 30);
-            this.buttonPreviewAutoPatchPolyphonic.TabIndex = 4;
-            this.buttonPreviewAutoPatchPolyphonic.UseVisualStyleBackColor = true;
-            this.buttonPreviewAutoPatchPolyphonic.Click += new System.EventHandler(this.buttonPreviewAutoPatchPolyphonic_Click);
+            this.buttonShowAutoPatchPolyphonic.FlatAppearance.BorderSize = 0;
+            this.buttonShowAutoPatchPolyphonic.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonShowAutoPatchPolyphonic.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.OpenWindowIconThinner;
+            this.buttonShowAutoPatchPolyphonic.Location = new System.Drawing.Point(213, 7);
+            this.buttonShowAutoPatchPolyphonic.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonShowAutoPatchPolyphonic.Name = "buttonShowAutoPatchPolyphonic";
+            this.buttonShowAutoPatchPolyphonic.Size = new System.Drawing.Size(32, 30);
+            this.buttonShowAutoPatchPolyphonic.TabIndex = 4;
+            this.buttonShowAutoPatchPolyphonic.UseVisualStyleBackColor = true;
+            this.buttonShowAutoPatchPolyphonic.Click += new System.EventHandler(this.buttonShowAutoPatchPolyphonic_Click);
             // 
             // CurrentPatchesUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.buttonPreviewAutoPatchPolyphonic);
-            this.Controls.Add(this.buttonPreviewAutoPatch);
+            this.Controls.Add(this.buttonShowAutoPatchPolyphonic);
+            this.Controls.Add(this.buttonShowAutoPatch);
             this.Controls.Add(this.buttonClose);
             this.Controls.Add(this.flowLayoutPanel);
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -101,7 +101,7 @@
 
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel;
         private System.Windows.Forms.Button buttonClose;
-        private System.Windows.Forms.Button buttonPreviewAutoPatch;
-        private System.Windows.Forms.Button buttonPreviewAutoPatchPolyphonic;
+        private System.Windows.Forms.Button buttonShowAutoPatch;
+        private System.Windows.Forms.Button buttonShowAutoPatchPolyphonic;
     }
 }

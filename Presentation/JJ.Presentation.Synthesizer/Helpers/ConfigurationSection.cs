@@ -14,6 +14,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
         public string TitleBarExtraText { get; set; }
 
         [XmlAttribute]
-        public bool PreviewAutoPatchPolyphonicEnabled { get; set; }
+        public bool ShowAutoPatchPolyphonicEnabled { get; set; }
     }
 }

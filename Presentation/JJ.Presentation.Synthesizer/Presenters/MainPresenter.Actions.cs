@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Business.Canonical;
+using JJ.Business.Synthesizer;
+using JJ.Business.Synthesizer.Api;
+using JJ.Business.Synthesizer.Calculation;
+using JJ.Business.Synthesizer.Calculation.Patches;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.LinkTo;
+using JJ.Data.Canonical;
+using JJ.Data.Synthesizer;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
-using JJ.Data.Synthesizer;
-using JJ.Data.Canonical;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer;
-using JJ.Business.Synthesizer.Api;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.ToEntity;
@@ -17,10 +21,6 @@ using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.Validators;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
-using JJ.Business.Canonical;
-using JJ.Business.Synthesizer.Calculation.Patches;
-using JJ.Business.Synthesizer.Calculation;
-using JJ.Business.Synthesizer.LinkTo;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 
 namespace JJ.Presentation.Synthesizer.Presenters
@@ -256,9 +256,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _currentPatchesPresenter.Move(userInput, childDocumentID, newPosition));
         }
 
-        public void CurrentPatchesPreviewAutoPatchPolyphonic()
+        public void CurrentPatchesShowAutoPatchPolyphonic()
         {
-            // NOTE: Almost a copy of CurrentPatchesPreviewAutoPatch, except for the business method call.
+            // NOTE: Almost a copy of CurrentPatchesShowAutoPatch, except for the business method call.
 
             // GetViewModel
             CurrentPatchesViewModel currentPatchesViewModel = MainViewModel.Document.CurrentPatches;
@@ -311,9 +311,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchAutoPatchDetailsViewModel(detailsViewModel);
         }
 
-        public void CurrentPatchesPreviewAutoPatch()
+        public void CurrentPatchesShowAutoPatch()
         {
-            // NOTE: Almost a copy of CurrentPatchesPreviewAutoPatchPolyphonic, except for the business method call.
+            // NOTE: Almost a copy of CurrentPatchesShowAutoPatchPolyphonic, except for the business method call.
 
             // GetViewModel
             CurrentPatchesViewModel currentPatchesViewModel = MainViewModel.Document.CurrentPatches;
@@ -364,6 +364,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // DispatchViewModel
             DispatchAutoPatchDetailsViewModel(detailsViewModel);
+        }
+
+        public void AutoPatchDetailsClose()
+        {
+            MainViewModel.Document.AutoPatchDetails.Visible = false;
         }
 
         // Curve
