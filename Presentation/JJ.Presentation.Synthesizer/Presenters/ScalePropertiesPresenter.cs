@@ -104,7 +104,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Scale entity = _repositories.ScaleRepository.Get(userInput.Entity.ID);
 
             // Business
-            VoidResult result = _scaleManager.ValidateWithoutTones(entity);
+            VoidResult result = _scaleManager.SaveWithoutTones(entity);
 
             // ToViewModel
             ScalePropertiesViewModel viewModel = entity.ToPropertiesViewModel();

@@ -219,7 +219,7 @@ namespace JJ.Business.Synthesizer
 
         // Validate
 
-        public VoidResult Validate(Curve entity)
+        public VoidResult SaveCurveWithRelatedEntities(Curve entity)
         {
             var validators = new List<IValidator>
             {
@@ -242,7 +242,7 @@ namespace JJ.Business.Synthesizer
             return result;
         }
 
-        public VoidResult ValidateNode(Node entity)
+        public VoidResult SaveNode(Node entity)
         {
             var validators = new IValidator[]
             {
@@ -308,7 +308,7 @@ namespace JJ.Business.Synthesizer
             node.UnlinkRelatedEntities();
             _repositories.NodeRepository.Delete(node);
 
-            return Validate(curve);
+            return SaveCurveWithRelatedEntities(curve);
         }
 
         // Misc

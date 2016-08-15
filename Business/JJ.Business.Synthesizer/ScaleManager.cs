@@ -80,7 +80,7 @@ namespace JJ.Business.Synthesizer
             if (scale == null) throw new NullException(() => scale);
             if (scale.ID == 0) throw new ZeroException(() => scale.ID);
 
-            VoidResult result = ValidateWithoutTones(scale);
+            VoidResult result = SaveWithoutTones(scale);
 
             IValidator validator = new ScaleValidator_Tones(scale);
             result.Successful &= validator.IsValid;
@@ -89,7 +89,7 @@ namespace JJ.Business.Synthesizer
             return result;
         }
 
-        public VoidResult ValidateWithoutTones(Scale scale)
+        public VoidResult SaveWithoutTones(Scale scale)
         {
             if (scale == null) throw new NullException(() => scale);
             if (scale.ID == 0) throw new ZeroException(() => scale.ID);

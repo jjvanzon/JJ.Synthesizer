@@ -104,7 +104,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Sample entity = _repositories.SampleRepository.Get(userInput.Entity.ID);
 
             // Business
-            VoidResult result = _sampleManager.Validate(entity);
+            VoidResult result = _sampleManager.Save(entity);
 
             // ToViewModel
             SamplePropertiesViewModel viewModel = entity.ToPropertiesViewModel(_repositories);

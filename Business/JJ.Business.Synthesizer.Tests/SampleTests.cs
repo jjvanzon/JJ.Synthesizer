@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Sample sample = sampleInfo.Sample;
 
                 {
-                    VoidResult validationResult = sampleManager.Validate(sample);
+                    VoidResult validationResult = sampleManager.Save(sample);
                     if (!validationResult.Successful)
                     {
                         throw new Exception(String.Join(Environment.NewLine, validationResult.Messages));

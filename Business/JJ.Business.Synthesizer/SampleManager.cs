@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer
 
         // Validate
 
-        public VoidResult Validate(Sample entity)
+        public VoidResult Save(Sample entity)
         {
             var validators = new List<IValidator>
             {

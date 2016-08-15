@@ -34,9 +34,9 @@ using System;
 using System.Runtime.CompilerServices;
 using JJ.Framework.Mathematics;
 
-namespace JJ.Business.Synthesizer.Helpers
+namespace JJ.Business.Synthesizer.Calculation
 {
-    public class BiQuadFilter
+    internal class BiQuadFilter
     {
         // coefficients
         private double _a0;

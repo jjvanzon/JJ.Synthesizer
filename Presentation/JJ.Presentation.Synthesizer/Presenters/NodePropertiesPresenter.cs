@@ -113,7 +113,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Node entity = _repositories.NodeRepository.Get(userInput.Entity.ID);
 
             // Business
-            VoidResult result = _curveManager.ValidateNode(entity);
+            VoidResult result = _curveManager.SaveNode(entity);
 
             // ToViewModel
             NodePropertiesViewModel viewModel = entity.ToPropertiesViewModel();

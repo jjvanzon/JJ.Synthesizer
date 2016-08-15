@@ -166,7 +166,7 @@ namespace JJ.Business.Synthesizer.Tests
                 //};
                 //validators.ForEach(y => y.Verify());
 
-                VoidResult result = curveManager.Validate(curve);
+                VoidResult result = curveManager.SaveCurveWithRelatedEntities(curve);
                 if (!result.Successful)
                 {
                     string messages = String.Join(", ", result.Messages.Select(y => y.Text));

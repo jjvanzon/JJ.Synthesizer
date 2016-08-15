@@ -1,19 +1,17 @@
-﻿using JJ.Data.Canonical;
-using JJ.Business.Synthesizer.Validation;
-using JJ.Business.Synthesizer.Extensions;
-using JJ.Data.Synthesizer;
-using JJ.Framework.Reflection.Exceptions;
-using JJ.Framework.Validation;
-using JJ.Business.Synthesizer.Helpers;
-using System;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.LinkTo;
-using JJ.Business.Synthesizer.SideEffects;
-using JJ.Framework.Business;
+﻿using System;
 using System.Collections.Generic;
 using JJ.Business.Canonical;
-using JJ.Business.Synthesizer.Warnings;
+using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.LinkTo;
+using JJ.Business.Synthesizer.SideEffects;
 using JJ.Business.Synthesizer.Validation.Documents;
+using JJ.Business.Synthesizer.Warnings;
+using JJ.Data.Canonical;
+using JJ.Data.Synthesizer;
+using JJ.Framework.Business;
+using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer
 {

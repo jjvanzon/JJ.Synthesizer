@@ -226,7 +226,7 @@
     <Compile Include="Calculation\Patches\OptimizedPatchCalculatorVisitorResult.cs" />
     <Compile Include="Calculation\Patches\ResettableOperatorTuple.cs" />
     <Compile Include="Extensions\OperatorExtensions.cs" />
-    <Compile Include="Helpers\BiQuadFilter.cs" />
+    <Compile Include="Calculation\BiQuadFilter.cs" />
     <Compile Include="CopiedCode\FromFramework\CollectionHelper.cs" />
     <Compile Include="CopiedCode\FromFramework\Geometry.cs" />
     <Compile Include="CopiedCode\FromFramework\Interpolator.cs" />
