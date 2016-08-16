@@ -37,9 +37,6 @@ namespace JJ.Data.Synthesizer
         public virtual IList<Inlet> ConnectedInlets { get; set; }
         public virtual IList<AudioFileOutput> InAudioFileOutputs { get; set; }
 
-        private string DebuggerDisplay
-        {
-            get { return DebugHelper.GetDebuggerDisplay(this); }
-        }
+        private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
     }
 }

@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
+using JJ.Data.Synthesizer.Helpers;
 
 namespace JJ.Data.Synthesizer
 {
+    [DebuggerDisplay("{DebuggerDisplay}")]
     public class AudioFileOutput
     {
         public virtual int ID { get; set; }
@@ -21,5 +24,7 @@ namespace JJ.Data.Synthesizer
 
         /// <summary> parent, nullable </summary>
         public virtual Document Document { get; set; }
+
+        private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
     }
 }

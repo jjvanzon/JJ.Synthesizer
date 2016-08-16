@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using JJ.Data.Synthesizer.Helpers;
 
 namespace JJ.Data.Synthesizer
 {
-    /// <summary>
-    /// Does not have much functional use yet.
-    /// </summary>
+    [DebuggerDisplay("{DebuggerDisplay}")]
     public class Patch
     {
         public Patch()
@@ -19,5 +19,7 @@ namespace JJ.Data.Synthesizer
 
         /// <summary> nullable </summary>
         public virtual Document Document { get; set; }
+
+        private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
     }
 }

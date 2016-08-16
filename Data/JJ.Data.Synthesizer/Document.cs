@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using JJ.Data.Synthesizer.Helpers;
 
 namespace JJ.Data.Synthesizer
 {
+    [DebuggerDisplay("{DebuggerDisplay}")]
     public class Document
     {
         public Document()
@@ -37,5 +40,7 @@ namespace JJ.Data.Synthesizer
 
         public virtual IList<DocumentReference> DependentOnDocuments { get; set; }
         public virtual IList<DocumentReference> DependentDocuments { get; set; }
+
+        private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
     }
 }

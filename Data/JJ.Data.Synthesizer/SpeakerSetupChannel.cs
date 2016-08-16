@@ -1,8 +1,6 @@
 ﻿namespace JJ.Data.Synthesizer
 {
-    /// <summary>
-    /// bridge entity
-    /// </summary>
+    /// <summary> bridge entity </summary>
     public class SpeakerSetupChannel
     {
         public virtual int ID { get; set; }

@@ -16,7 +16,7 @@ namespace JJ.Data.Synthesizer
         /// that could be adapted to the audio device's capabilities.
         /// </summary>
         public virtual double DesiredBufferDuration { get; set; }
-        
+
         // No parent reference to document, 
         // because 1-to-1 inverse property are a disaster in NHibernate.
     }

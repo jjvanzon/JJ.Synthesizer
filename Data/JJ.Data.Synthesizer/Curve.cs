@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
+using JJ.Data.Synthesizer.Helpers;
 
 namespace JJ.Data.Synthesizer
 {
+    [DebuggerDisplay("{DebuggerDisplay}")]
     public class Curve
     {
         public Curve()
@@ -15,5 +18,7 @@ namespace JJ.Data.Synthesizer
 
         /// <summary> nullable </summary>
         public virtual Document Document { get; set; }
+
+        private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
     }
 }

@@ -1,5 +1,9 @@
-﻿namespace JJ.Data.Synthesizer
+﻿using System.Diagnostics;
+using JJ.Data.Synthesizer.Helpers;
+
+namespace JJ.Data.Synthesizer
 {
+    [DebuggerDisplay("{DebuggerDisplay}")]
     public class Sample
     {
         public virtual int ID { get; set; }
@@ -32,5 +36,7 @@
         public virtual SpeakerSetup SpeakerSetup { get; set; }
         /// <summary> parent, nullable </summary>
         public virtual Document Document { get; set; }
+
+        private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
     }
 }
