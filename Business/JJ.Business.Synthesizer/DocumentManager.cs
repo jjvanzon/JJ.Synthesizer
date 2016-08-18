@@ -179,8 +179,11 @@ namespace JJ.Business.Synthesizer
         {
             if (rootDocument == null) throw new NullException(() => rootDocument);
 
-            // TODO: This reuses the logic in the other methods, so there can be no inconsistencies,
+            // TODO: Low Priority:
+            // This reuses the logic in the other methods, so there can be no inconsistencies,
             // but it would be faster to put all the code here.
+            // Perhaps you can group in one method and delegate the rest of the methods to
+            // the grouping method.
 
             var dtos = new List<ChildDocumentGroupDto>();
 

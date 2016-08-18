@@ -315,6 +315,10 @@
     <Content Include="2016-07-22 010 SynthesizerDB Operator.DimensionID.sql" />
     <Content Include="2016-07-22 020 SynthesizerDB FK_Operator_Dimension.sql" />
     <Content Include="2016-07-22 030 SynthesizerDB IX_Operator_DimensionID.sql" />
+    <Content Include="2016-08-03 010 SynthesizerDB Inlet.IsObsolete.sql" />
+    <Content Include="2016-08-03 020 SynthesizerDB Inlet.IsObsolete not null.sql" />
+    <Content Include="2016-08-03 030 SynthesizerDB Outlet.IsObsolete.sql" />
+    <Content Include="2016-08-03 040 SynthesizerDB Outlet.IsObsolete not null.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

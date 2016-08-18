@@ -1,0 +1,1 @@
+alter table Outlet add IsObsolete bit null;
