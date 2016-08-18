@@ -81,7 +81,7 @@
       <DependentUpon>PresentationMessages.resx</DependentUpon>
     </Compile>
     <Compile Include="Converters\RecursiveToEntityConverter.cs" />
-    <Compile Include="Helpers\DocumentViewModelHelper.cs" />
+    <Compile Include="Helpers\ViewModelSelector.cs" />
     <Compile Include="Presenters\AudioFileOutputPropertiesPresenter.cs" />
     <Compile Include="Presenters\AudioFileOutputGridPresenter.cs" />
     <Compile Include="Presenters\PatchPropertiesPresenter.cs" />
@@ -91,6 +91,7 @@
     <Compile Include="Presenters\DocumentPropertiesPresenter.cs" />
     <Compile Include="Presenters\DocumentTreePresenter.cs" />
     <Compile Include="Presenters\MainPresenter.General.cs" />
+    <Compile Include="ToViewModel\ViewModelHelper.Document.cs" />
     <Compile Include="ToViewModel\ToDocumentViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToListItemViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToScreenViewModelExtensions.cs" />

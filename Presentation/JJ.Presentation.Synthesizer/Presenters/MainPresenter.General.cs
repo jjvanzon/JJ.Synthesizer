@@ -127,7 +127,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentDetailsPresenter = new DocumentDetailsPresenter(_repositories);
             _documentGridPresenter = new DocumentGridPresenter(_repositories.DocumentRepository);
             _documentPropertiesPresenter = new DocumentPropertiesPresenter(_repositories);
-            _documentTreePresenter = new DocumentTreePresenter(_repositories.DocumentRepository);
+            _documentTreePresenter = new DocumentTreePresenter(_repositories);
             _menuPresenter = new MenuPresenter();
             _nodePropertiesPresenter = new NodePropertiesPresenter(_curveRepositories);
             _operatorPropertiesPresenter = new OperatorPropertiesPresenter(_patchRepositories);
@@ -146,7 +146,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _operatorPropertiesPresenter_WithDimensionAndOutletCount = new OperatorPropertiesPresenter_WithDimensionAndOutletCount(_patchRepositories);
             _operatorPropertiesPresenter_WithInletCount = new OperatorPropertiesPresenter_WithInletCount(_patchRepositories);
             _patchDetailsPresenter = new PatchDetailsPresenter(_patchRepositories, _entityPositionManager);
-            _patchGridPresenter = new PatchGridPresenter(_repositories.DocumentRepository);
+            _patchGridPresenter = new PatchGridPresenter(_repositories);
             _patchPropertiesPresenter = new PatchPropertiesPresenter(_repositories);
             _sampleGridPresenter = new SampleGridPresenter(_repositories.DocumentRepository, _repositories.SampleRepository);
             _samplePropertiesPresenter = new SamplePropertiesPresenter(_sampleRepositories);

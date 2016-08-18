@@ -225,6 +225,7 @@
     <Compile Include="Calculation\Operators\Number_OperatorCalculator.cs" />
     <Compile Include="Calculation\Patches\OptimizedPatchCalculatorVisitorResult.cs" />
     <Compile Include="Calculation\Patches\ResettableOperatorTuple.cs" />
+    <Compile Include="Dto\ChildDocumentGroupDto.cs" />
     <Compile Include="Extensions\OperatorExtensions.cs" />
     <Compile Include="Calculation\BiQuadFilter.cs" />
     <Compile Include="CopiedCode\FromFramework\CollectionHelper.cs" />

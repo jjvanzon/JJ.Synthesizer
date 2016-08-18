@@ -9,7 +9,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
 {
     // TODO: Low priority. A lot of sequential lookups are done here. In the future it might be an idea to use Dictionaries instead
     // of Lists in these view models, to make it O(1) instead of O(n)
-    internal static class DocumentViewModelHelper
+    internal static class ViewModelSelector
     {
         // AudioFileOutput
 
@@ -60,18 +60,9 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            PatchGridViewModel viewModel;
-
-            bool isGroupless = String.IsNullOrWhiteSpace(group);
-            if (isGroupless)
-            {
-                viewModel = rootDocumentViewModel.PatchGridList.Where(x => String.IsNullOrWhiteSpace(x.Group)).FirstOrDefault();
-            }
-            else
-            {
-                viewModel = rootDocumentViewModel.PatchGridList.Where(x => String.Equals(x.Group, group, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
-            }
-
+            PatchGridViewModel viewModel = rootDocumentViewModel.PatchGridList
+                                                                .Where(x => String.Equals(x.Group, group, StringComparison.OrdinalIgnoreCase))
+                                                                .FirstOrDefault();
             return viewModel;
         }
 
@@ -93,7 +84,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            CurveDetailsViewModel viewModel = DocumentViewModelHelper.EnumerateCurveDetailsViewModels(rootDocumentViewModel)
+            CurveDetailsViewModel viewModel = ViewModelSelector.EnumerateCurveDetailsViewModels(rootDocumentViewModel)
                                                                      .FirstOrDefault(x => x.ID == curveID);
             return viewModel;
         }
@@ -114,7 +105,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            CurvePropertiesViewModel viewModel = DocumentViewModelHelper.EnumerateCurvePropertiesViewModels(rootDocumentViewModel)
+            CurvePropertiesViewModel viewModel = ViewModelSelector.EnumerateCurvePropertiesViewModels(rootDocumentViewModel)
                                                                         .FirstOrDefault(x => x.ID == curveID); // First for performance.
             return viewModel;
         }
@@ -135,7 +126,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            CurveDetailsViewModel detailsViewModel = DocumentViewModelHelper.EnumerateCurveDetailsViewModels(rootDocumentViewModel)
+            CurveDetailsViewModel detailsViewModel = ViewModelSelector.EnumerateCurveDetailsViewModels(rootDocumentViewModel)
                                                                             .Where(x => x.Nodes.Any(y => y.ID == nodeID))
                                                                             .First();
             return detailsViewModel;
@@ -215,7 +206,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            CurveGridViewModel gridViewModel = DocumentViewModelHelper.EnumerateCurveGridViewModels(rootDocumentViewModel)
+            CurveGridViewModel gridViewModel = ViewModelSelector.EnumerateCurveGridViewModels(rootDocumentViewModel)
                                                                       .Where(x => x.List.Any(y => y.ID == curveID))
                                                                       .First();
             return gridViewModel;
@@ -318,7 +309,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            NodePropertiesViewModel viewModel = DocumentViewModelHelper.EnumerateNodePropertiesViewModels(rootDocumentViewModel)
+            NodePropertiesViewModel viewModel = ViewModelSelector.EnumerateNodePropertiesViewModels(rootDocumentViewModel)
                                                                        .FirstOrDefault(x => x.Entity.ID == nodeID); // First for performance.
             return viewModel;
         }
@@ -399,7 +390,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            OperatorViewModel viewModel = DocumentViewModelHelper.EnumerateOperatorViewModels(rootDocumentViewModel)
+            OperatorViewModel viewModel = ViewModelSelector.EnumerateOperatorViewModels(rootDocumentViewModel)
                                                                  .FirstOrDefault(x => x.ID == operatorID);
             if (viewModel == null)
             {
@@ -420,7 +411,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            OperatorPropertiesViewModel viewModel = DocumentViewModelHelper.EnumerateOperatorPropertiesViewModels(rootDocumentViewModel)
+            OperatorPropertiesViewModel viewModel = ViewModelSelector.EnumerateOperatorPropertiesViewModels(rootDocumentViewModel)
                                                                        .FirstOrDefault(x => x.ID == operatorID); // First for performance.
             return viewModel;
         }
@@ -439,7 +430,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            OperatorPropertiesViewModel_ForBundle viewModel = DocumentViewModelHelper.EnumerateOperatorPropertiesViewModels_ForBundles(rootDocumentViewModel)
+            OperatorPropertiesViewModel_ForBundle viewModel = ViewModelSelector.EnumerateOperatorPropertiesViewModels_ForBundles(rootDocumentViewModel)
                                                                                  .FirstOrDefault(x => x.ID == operatorID); // First for performance.
             return viewModel;
         }
@@ -458,7 +449,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            OperatorPropertiesViewModel_ForCache viewModel = DocumentViewModelHelper.EnumerateOperatorPropertiesViewModels_ForCaches(rootDocumentViewModel)
+            OperatorPropertiesViewModel_ForCache viewModel = ViewModelSelector.EnumerateOperatorPropertiesViewModels_ForCaches(rootDocumentViewModel)
                                                                                     .FirstOrDefault(x => x.ID == operatorID); // First for performance.
             return viewModel;
         }
@@ -477,7 +468,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            OperatorPropertiesViewModel_ForCurve viewModel = DocumentViewModelHelper.EnumerateOperatorPropertiesViewModels_ForCurves(rootDocumentViewModel)
+            OperatorPropertiesViewModel_ForCurve viewModel = ViewModelSelector.EnumerateOperatorPropertiesViewModels_ForCurves(rootDocumentViewModel)
                                                                                     .FirstOrDefault(x => x.ID == operatorID); // First for performance.
             return viewModel;
         }
@@ -496,7 +487,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            OperatorPropertiesViewModel_ForCustomOperator viewModel = DocumentViewModelHelper.EnumerateOperatorPropertiesViewModels_ForCustomOperators(rootDocumentViewModel)
+            OperatorPropertiesViewModel_ForCustomOperator viewModel = ViewModelSelector.EnumerateOperatorPropertiesViewModels_ForCustomOperators(rootDocumentViewModel)
                                                                                          .FirstOrDefault(x => x.ID == operatorID); // First for performance.
             return viewModel;
         }
@@ -515,7 +506,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            OperatorPropertiesViewModel_ForMakeContinuous viewModel = DocumentViewModelHelper.EnumerateOperatorPropertiesViewModels_ForMakeContinuous(rootDocumentViewModel)
+            OperatorPropertiesViewModel_ForMakeContinuous viewModel = ViewModelSelector.EnumerateOperatorPropertiesViewModels_ForMakeContinuous(rootDocumentViewModel)
                                                                                              .FirstOrDefault(x => x.ID == operatorID); // First for performance.
             return viewModel;
         }
@@ -534,7 +525,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            OperatorPropertiesViewModel_ForNumber viewModel = DocumentViewModelHelper.EnumerateOperatorPropertiesViewModels_ForNumbers(rootDocumentViewModel)
+            OperatorPropertiesViewModel_ForNumber viewModel = ViewModelSelector.EnumerateOperatorPropertiesViewModels_ForNumbers(rootDocumentViewModel)
                                                                                      .FirstOrDefault(x => x.ID == operatorID); // First for performance.
             return viewModel;
         }
@@ -553,7 +544,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            OperatorPropertiesViewModel_ForPatchInlet viewModel = DocumentViewModelHelper.EnumerateOperatorPropertiesViewModels_ForPatchInlets(rootDocumentViewModel)
+            OperatorPropertiesViewModel_ForPatchInlet viewModel = ViewModelSelector.EnumerateOperatorPropertiesViewModels_ForPatchInlets(rootDocumentViewModel)
                                                                                      .FirstOrDefault(x => x.ID == operatorID); // First for performance.
             return viewModel;
         }
@@ -572,7 +563,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            OperatorPropertiesViewModel_ForPatchOutlet viewModel = DocumentViewModelHelper.EnumerateOperatorPropertiesViewModels_ForPatchOutlets(rootDocumentViewModel)
+            OperatorPropertiesViewModel_ForPatchOutlet viewModel = ViewModelSelector.EnumerateOperatorPropertiesViewModels_ForPatchOutlets(rootDocumentViewModel)
                                                                                       .FirstOrDefault(x => x.ID == operatorID); // First for performance.
             return viewModel;
         }
@@ -591,7 +582,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            OperatorPropertiesViewModel_ForSample viewModel = DocumentViewModelHelper.EnumerateOperatorPropertiesViewModels_ForSamples(rootDocumentViewModel)
+            OperatorPropertiesViewModel_ForSample viewModel = ViewModelSelector.EnumerateOperatorPropertiesViewModels_ForSamples(rootDocumentViewModel)
                                                                                      .FirstOrDefault(x => x.ID == operatorID); // First for performance.
             return viewModel;
         }
@@ -610,7 +601,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            OperatorPropertiesViewModel_WithDimension viewModel = DocumentViewModelHelper.EnumerateOperatorPropertiesViewModels_WithDimension(rootDocumentViewModel)
+            OperatorPropertiesViewModel_WithDimension viewModel = ViewModelSelector.EnumerateOperatorPropertiesViewModels_WithDimension(rootDocumentViewModel)
                                                                                          .FirstOrDefault(x => x.ID == operatorID); // First for performance.
             return viewModel;
         }
@@ -629,7 +620,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            OperatorPropertiesViewModel_WithDimensionAndInterpolation viewModel = DocumentViewModelHelper.EnumerateOperatorPropertiesViewModels_WithDimensionAndInterpolation(rootDocumentViewModel)
+            OperatorPropertiesViewModel_WithDimensionAndInterpolation viewModel = ViewModelSelector.EnumerateOperatorPropertiesViewModels_WithDimensionAndInterpolation(rootDocumentViewModel)
                                                                                      .FirstOrDefault(x => x.ID == operatorID); // First for performance.
             return viewModel;
         }
@@ -648,7 +639,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation viewModel = DocumentViewModelHelper.EnumerateOperatorPropertiesViewModels_WithDimensionAndCollectionRecalculation(rootDocumentViewModel)
+            OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation viewModel = ViewModelSelector.EnumerateOperatorPropertiesViewModels_WithDimensionAndCollectionRecalculation(rootDocumentViewModel)
                                                                                      .FirstOrDefault(x => x.ID == operatorID); // First for performance.
             return viewModel;
         }
@@ -667,7 +658,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            OperatorPropertiesViewModel_WithDimensionAndOutletCount viewModel = DocumentViewModelHelper.EnumerateOperatorPropertiesViewModels_WithDimensionAndOutletCount(rootDocumentViewModel)
+            OperatorPropertiesViewModel_WithDimensionAndOutletCount viewModel = ViewModelSelector.EnumerateOperatorPropertiesViewModels_WithDimensionAndOutletCount(rootDocumentViewModel)
                                                                                    .FirstOrDefault(x => x.ID == operatorID); // First for performance.
             return viewModel;
         }
@@ -686,7 +677,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            OperatorPropertiesViewModel_WithInletCount viewModel = DocumentViewModelHelper.EnumerateOperatorPropertiesViewModels_WithInletCount(rootDocumentViewModel)
+            OperatorPropertiesViewModel_WithInletCount viewModel = ViewModelSelector.EnumerateOperatorPropertiesViewModels_WithInletCount(rootDocumentViewModel)
                                                                                    .FirstOrDefault(x => x.ID == operatorID); // First for performance.
             return viewModel;
         }
@@ -1037,7 +1028,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            PatchDetailsViewModel detailsViewModel = DocumentViewModelHelper.EnumeratePatchDetailsViewModels(rootDocumentViewModel)
+            PatchDetailsViewModel detailsViewModel = ViewModelSelector.EnumeratePatchDetailsViewModels(rootDocumentViewModel)
                                                                         .FirstOrDefault(x => x.Entity.PatchID == patchID); // First for performance.
             if (detailsViewModel == null)
             {
@@ -1060,7 +1051,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            PatchDetailsViewModel detailsViewModel = DocumentViewModelHelper.EnumeratePatchDetailsViewModels(rootDocumentViewModel)
+            PatchDetailsViewModel detailsViewModel = ViewModelSelector.EnumeratePatchDetailsViewModels(rootDocumentViewModel)
                                                                         .Where(x => x.Entity.Operators.Any(y => y.ID == operatorID))
                                                                         .First();
             return detailsViewModel;
@@ -1128,7 +1119,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            SampleGridViewModel userInput = DocumentViewModelHelper.EnumerateSampleGridViewModels(rootDocumentViewModel)
+            SampleGridViewModel userInput = ViewModelSelector.EnumerateSampleGridViewModels(rootDocumentViewModel)
                                                                    .Where(x => x.Visible)
                                                                    .FirstOrDefault();
             if (userInput == null)
@@ -1143,7 +1134,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            SamplePropertiesViewModel viewModel = DocumentViewModelHelper.EnumerateSamplePropertiesViewModels(rootDocumentViewModel)
+            SamplePropertiesViewModel viewModel = ViewModelSelector.EnumerateSamplePropertiesViewModels(rootDocumentViewModel)
                                                                          .FirstOrDefault(x => x.Entity.ID == sampleID); // First for performance.
 
             return viewModel;
@@ -1200,7 +1191,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            SampleGridViewModel gridViewModel = DocumentViewModelHelper.EnumerateSampleGridViewModels(rootDocumentViewModel)
+            SampleGridViewModel gridViewModel = ViewModelSelector.EnumerateSampleGridViewModels(rootDocumentViewModel)
                                                                    .Where(x => x.List.Any(y => y.ID == sampleID))
                                                                    .First();
             return gridViewModel;

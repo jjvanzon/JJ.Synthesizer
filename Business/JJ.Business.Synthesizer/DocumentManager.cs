@@ -1,17 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using JJ.Business.Canonical;
+﻿using JJ.Data.Canonical;
+using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.LinkTo;
-using JJ.Business.Synthesizer.SideEffects;
-using JJ.Business.Synthesizer.Validation.Documents;
-using JJ.Business.Synthesizer.Warnings;
-using JJ.Data.Canonical;
 using JJ.Data.Synthesizer;
-using JJ.Framework.Business;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
+using JJ.Business.Synthesizer.Helpers;
+using System;
+using JJ.Business.Synthesizer.LinkTo;
+using JJ.Business.Synthesizer.SideEffects;
+using JJ.Framework.Business;
+using System.Collections.Generic;
+using JJ.Business.Canonical;
+using JJ.Business.Synthesizer.Warnings;
+using JJ.Business.Synthesizer.Validation.Documents;
+using System.Linq;
+using JJ.Framework.Common;
+using JJ.Business.Synthesizer.Dto;
 
 namespace JJ.Business.Synthesizer
 {
@@ -153,6 +157,89 @@ namespace JJ.Business.Synthesizer
             {
                 return new VoidResult { Successful = true };
             }
+        }
+
+        // Grouping 
+
+        public IList<ChildDocumentGroupDto> GetChildDocumentGroupDtos_IncludingGroupless(Document rootDocument)
+        {
+            if (rootDocument == null) throw new NullException(() => rootDocument);
+
+            var dtos = new List<ChildDocumentGroupDto>();
+
+            IList<Document> grouplessChildDocuments = GetGrouplessChildDocuments(rootDocument);
+            dtos.Add(new ChildDocumentGroupDto { GroupName = null, Documents = grouplessChildDocuments });
+
+            dtos.AddRange(GetChildDocumentGroupDtos(rootDocument));
+
+            return dtos;
+        }
+
+        public IList<ChildDocumentGroupDto> GetChildDocumentGroupDtos(Document rootDocument)
+        {
+            if (rootDocument == null) throw new NullException(() => rootDocument);
+
+            // TODO: This reuses the logic in the other methods, so there can be no inconsistencies,
+            // but it would be faster to put all the code here.
+
+            var dtos = new List<ChildDocumentGroupDto>();
+
+            IList<string> groupNames = GetChildDocumentGroupNames(rootDocument);
+
+            foreach (string groupName in groupNames)
+            {
+                IList<Document> documentsInGroup = GetChildDocumentsInGroup(rootDocument, groupName);
+                dtos.Add(new ChildDocumentGroupDto { GroupName = groupName, Documents = documentsInGroup });
+            }
+
+            return dtos;
+        }
+
+        public IList<string> GetChildDocumentGroupNames(Document rootDocument)
+        {
+            if (rootDocument == null) throw new NullException(() => rootDocument);
+
+            IList<string> groupNames = rootDocument.ChildDocuments
+                                                   .Where(x => !String.IsNullOrWhiteSpace(x.GroupName))
+                                                   .Distinct(x => x.GroupName.ToLower())
+                                                   .Select(x => x.GroupName)
+                                                   .ToList();
+            return groupNames;
+        }
+
+        public IList<Document> GetChildDocumentsInGroup_IncludingGroupless(Document rootDocument, string groupName)
+        {
+            if (rootDocument == null) throw new NullException(() => rootDocument);
+
+            if (String.IsNullOrWhiteSpace(groupName))
+            {
+                return GetGrouplessChildDocuments(rootDocument);
+            }
+            else
+            {
+                return GetChildDocumentsInGroup(rootDocument, groupName);
+            }
+        }
+
+        public IList<Document> GetGrouplessChildDocuments(Document rootDocument)
+        {
+            if (rootDocument == null) throw new NullException(() => rootDocument);
+
+            IList<Document> list = rootDocument.ChildDocuments.Where(x => String.IsNullOrWhiteSpace(x.GroupName)).ToArray();
+
+            return list;
+        }
+
+        public IList<Document> GetChildDocumentsInGroup(Document rootDocument, string groupName)
+        {
+            if (rootDocument == null) throw new NullException(() => rootDocument);
+            if (String.IsNullOrWhiteSpace(groupName)) throw new NullOrWhiteSpaceException(() => groupName);
+
+            IList<Document> documentsInGroup = rootDocument.ChildDocuments
+                                                           .Where(x => !String.IsNullOrWhiteSpace(x.GroupName))
+                                                           .Where(x => String.Equals(x.GroupName, groupName, StringComparison.OrdinalIgnoreCase))
+                                                           .ToArray();
+            return documentsInGroup;
         }
 
         // Other

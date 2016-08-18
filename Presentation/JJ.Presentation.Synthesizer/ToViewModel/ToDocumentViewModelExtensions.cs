@@ -5,13 +5,16 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using System.Collections.Generic;
+using JJ.Business.Synthesizer.Dto;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
     internal static class ToDocumentViewModelExtensions
     {
         public static DocumentViewModel ToViewModel(
-            this Document document, 
+            this Document document,
+            IList<Document> grouplessChildDocuments,
+            IList<ChildDocumentGroupDto> childDocumentGroupDtos,
             RepositoryWrapper repositories, 
             EntityPositionManager entityPositionManager)
         {
@@ -29,8 +32,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 CurveGrid = document.Curves.ToGridViewModel(document.ID),
                 CurvePropertiesList = document.Curves.Select(x => x.ToPropertiesViewModel()).ToList(),
                 DocumentProperties = document.ToPropertiesViewModel(),
-                DocumentTree = document.ToTreeViewModel(),
-                PatchGridList = document.ToPatchGridViewModelList(),
+                DocumentTree = document.ToTreeViewModel(grouplessChildDocuments, childDocumentGroupDtos),
+                PatchGridList = ViewModelHelper.CreatePatchGridViewModelList(grouplessChildDocuments, childDocumentGroupDtos, document.ID),
                 NodePropertiesList = document.Curves.SelectMany(x => x.Nodes).Select(x => x.ToPropertiesViewModel()).ToList(),
                 SampleGrid = document.Samples.ToGridViewModel(document.ID),
                 SamplePropertiesList = document.Samples.Select(x => x.ToPropertiesViewModel(new SampleRepositories(repositories))).ToList(),

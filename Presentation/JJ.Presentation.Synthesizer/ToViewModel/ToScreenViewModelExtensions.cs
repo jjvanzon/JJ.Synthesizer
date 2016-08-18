@@ -15,6 +15,8 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.Dto;
+using JJ.Framework.Common;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -199,24 +201,29 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static DocumentTreeViewModel ToTreeViewModel(this Document rootDocument)
+        public static DocumentTreeViewModel ToTreeViewModel(
+            this Document rootDocument, 
+            IList<Document> grouplessChildDocuments,
+            IList<ChildDocumentGroupDto> childDocumentGroupDtos)
         {
             if (rootDocument == null) throw new NullException(() => rootDocument);
+            if (grouplessChildDocuments == null) throw new NullException(() => grouplessChildDocuments);
+            if (childDocumentGroupDtos == null) throw new NullException(() => childDocumentGroupDtos);
 
             var viewModel = new DocumentTreeViewModel
             {
                 ID = rootDocument.ID,
-                PatchesNode = new PatchesTreeNodeViewModel
-                {
-                    Text = ViewModelHelper.GetTreeNodeText(PropertyDisplayNames.Patches, rootDocument.ChildDocuments.Count),
-                    PatchGroupNodes = new List<PatchGroupTreeNodeViewModel>()
-                },
                 CurvesNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.Curves, rootDocument.Curves.Count),
                 SamplesNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.Samples, rootDocument.Samples.Count),
                 ScalesNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.Scales, rootDocument.Scales.Count),
                 AudioOutputNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.AudioOutput),
                 AudioFileOutputListNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.AudioFileOutput, rootDocument.AudioFileOutputs.Count),
                 ValidationMessages = new List<Message>(),
+                PatchesNode = new PatchesTreeNodeViewModel
+                {
+                    Text = ViewModelHelper.GetTreeNodeText(PropertyDisplayNames.Patches, rootDocument.ChildDocuments.Count),
+                    PatchGroupNodes = new List<PatchGroupTreeNodeViewModel>()
+                },
                 ReferencedDocumentNode = new ReferencedDocumentsTreeNodeViewModel
                 {
                     List = new List<ReferencedDocumentViewModel>()
@@ -227,35 +234,27 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                                                                                   .Select(x => x.ToReferencedDocumentViewModelWithRelatedEntities())
                                                                                   .OrderBy(x => x.Name)
                                                                                   .ToList();
-            // Groupless Patches
-            IList<Document> grouplessChildDocuments = rootDocument.ChildDocuments.Where(x => String.IsNullOrWhiteSpace(x.GroupName)).ToArray();
+
             viewModel.PatchesNode.PatchNodes = grouplessChildDocuments.OrderBy(x => x.Name)
                                                                       .Select(x => x.ToPatchTreeNodeViewModel())
                                                                       .ToList();
 
-            // Patch Groups
-            var childDocumentGroups = rootDocument.ChildDocuments.Where(x => !String.IsNullOrWhiteSpace(x.GroupName))
-                                                                 .GroupBy(x => x.GroupName.ToLower())
-                                                                 .OrderBy(x => x.Key);
-
-            foreach (var childDocumentGroup in childDocumentGroups)
-            {
-                IList<Document> childDocumentsInGroup = childDocumentGroup.ToArray();
-
-                // Don't use Key for the group name, because Key was converted to lower case for case-insensitive grouping.
-                string groupName = childDocumentGroup.First().GroupName;
-
-                viewModel.PatchesNode.PatchGroupNodes.Add(new PatchGroupTreeNodeViewModel
-                {
-                    GroupName = groupName,
-                    Text = ViewModelHelper.GetTreeNodeText(groupName, childDocumentsInGroup.Count),
-                    PatchNodes = childDocumentsInGroup.OrderBy(x => x.Name)
-                                                      .Select(x => x.ToPatchTreeNodeViewModel())
-                                                      .ToList()
-                });
-            }
-
+            viewModel.PatchesNode.PatchGroupNodes = childDocumentGroupDtos.OrderBy(x => x.GroupName)
+                                                                          .Select(x => x.ToTreeNodeViewModel())
+                                                                          .ToList();
             return viewModel;
+        }
+
+        private static PatchGroupTreeNodeViewModel ToTreeNodeViewModel(this ChildDocumentGroupDto childDocumentGroup)
+        {
+            return new PatchGroupTreeNodeViewModel
+            {
+                GroupName = childDocumentGroup.GroupName,
+                Text = ViewModelHelper.GetTreeNodeText(childDocumentGroup.GroupName, childDocumentGroup.Documents.Count),
+                PatchNodes = childDocumentGroup.Documents.OrderBy(x => x.Name)
+                                                         .Select(x => x.ToPatchTreeNodeViewModel())
+                                                         .ToList()
+            };
         }
 
         public static DocumentGridViewModel ToGridViewModel(this IList<Document> entities)
@@ -817,54 +816,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static IList<PatchGridViewModel> ToPatchGridViewModelList(this Document rootDocument)
-        {
-            var list = new List<PatchGridViewModel>();
-
-            IList<Document> grouplessChildDocuments = rootDocument.ChildDocuments
-                                                                  .Where(x => String.IsNullOrWhiteSpace(x.GroupName))
-                                                                  .ToArray();
-            PatchGridViewModel grouplessPatchGridViewModel = grouplessChildDocuments.ToPatchGridViewModel(rootDocument.ID, null);
-            list.Add(grouplessPatchGridViewModel);
-
-            var groups = rootDocument.ChildDocuments.Where(x => !String.IsNullOrWhiteSpace(x.GroupName)).GroupBy(x => x.GroupName.ToLower());
-            foreach (var group in groups)
-            {
-                // Don't use Key for the group name, because Key was converted to lower case for case-insensitive grouping.
-                string groupName = group.First().GroupName;
-
-                PatchGridViewModel patchGridViewModel = group.ToPatchGridViewModel(rootDocument.ID, groupName);
-                list.Add(patchGridViewModel);
-            }
-
-            return list;
-        }
-
-        public static PatchGridViewModel ToPatchGridViewModel(this Document rootDocument, string group)
-        {
-            if (rootDocument == null) throw new NullException(() => rootDocument);
-
-            IList<Document> childDocuments;
-
-            if (String.IsNullOrWhiteSpace(group))
-            {
-                childDocuments = rootDocument.ChildDocuments
-                                             .Where(x => String.IsNullOrWhiteSpace(x.GroupName))
-                                             .ToList();
-            }
-            else
-            {
-                childDocuments = rootDocument.ChildDocuments
-                                             .Where(x => String.Equals(x.GroupName, group, StringComparison.OrdinalIgnoreCase))
-                                             .ToList();
-            }
-
-            PatchGridViewModel viewModel = childDocuments.ToPatchGridViewModel(rootDocument.ID, group);
-            return viewModel;
-        }
-
         public static PatchGridViewModel ToPatchGridViewModel(
-            this IEnumerable<Document> childDocumentsInGroup,
+            this IList<Document> childDocumentsInGroup,
             int rootDocumentID,
             string group)
         {
@@ -872,12 +825,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = new PatchGridViewModel
             {
-                List = childDocumentsInGroup.OrderBy(x => x.Name)
-                                            .Select(x => x.ToChildDocumentIDAndNameViewModel())
-                                            .ToList(),
                 RootDocumentID = rootDocumentID,
                 Group = group,
-                ValidationMessages = new List<Message>()
+                ValidationMessages = new List<Message>(),
+                List = childDocumentsInGroup.OrderBy(x => x.Name)
+                                            .Select(x => x.ToChildDocumentIDAndNameViewModel())
+                                            .ToList()
             };
 
             return viewModel;

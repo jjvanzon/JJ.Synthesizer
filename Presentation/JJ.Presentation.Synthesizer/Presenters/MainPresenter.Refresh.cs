@@ -11,6 +11,7 @@ using JJ.Presentation.Synthesizer.ToViewModel;
 using System;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Dto;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -35,7 +36,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             foreach (AudioFileOutput entity in entities)
             {
-                AudioFileOutputPropertiesViewModel viewModel = DocumentViewModelHelper.TryGetAudioFileOutputPropertiesViewModel(MainViewModel.Document, entity.ID);
+                AudioFileOutputPropertiesViewModel viewModel = ViewModelSelector.TryGetAudioFileOutputPropertiesViewModel(MainViewModel.Document, entity.ID);
                 if (viewModel == null)
                 {
                     viewModel = entity.ToPropertiesViewModel();
@@ -94,7 +95,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             foreach (Curve curve in curves)
             {
-                CurveDetailsViewModel curveDetailsViewModel = DocumentViewModelHelper.TryGetCurveDetailsViewModel(MainViewModel.Document, curve.ID);
+                CurveDetailsViewModel curveDetailsViewModel = ViewModelSelector.TryGetCurveDetailsViewModel(MainViewModel.Document, curve.ID);
                 if (curveDetailsViewModel == null)
                 {
                     curveDetailsViewModel = curve.ToDetailsViewModel();
@@ -120,7 +121,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             foreach (Curve entity in entities)
             {
-                CurveDetailsViewModel viewModel = DocumentViewModelHelper.TryGetCurveDetailsViewModel(documentViewModel, entity.ID);
+                CurveDetailsViewModel viewModel = ViewModelSelector.TryGetCurveDetailsViewModel(documentViewModel, entity.ID);
                 if (viewModel == null)
                 {
                     viewModel = entity.ToDetailsViewModel();
@@ -142,7 +143,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void CurveDetailsNodeRefresh(int nodeID)
         {
             // TODO: This is not very fast.
-            CurveDetailsViewModel detailsViewModel = DocumentViewModelHelper.GetCurveDetailsViewModel_ByNodeID(MainViewModel.Document, nodeID);
+            CurveDetailsViewModel detailsViewModel = ViewModelSelector.GetCurveDetailsViewModel_ByNodeID(MainViewModel.Document, nodeID);
 
             // Remove original node
             detailsViewModel.Nodes.RemoveFirst(x => x.ID == nodeID);
@@ -194,7 +195,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Document rootDocument = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
             foreach (Document childDocument in rootDocument.ChildDocuments)
             {
-                PatchDocumentViewModel patchDocumentViewModel = DocumentViewModelHelper.GetPatchDocumentViewModel(MainViewModel.Document, childDocument.ID);
+                PatchDocumentViewModel patchDocumentViewModel = ViewModelSelector.GetPatchDocumentViewModel(MainViewModel.Document, childDocument.ID);
                 patchDocumentViewModel.CurveLookup = ViewModelHelper.CreateCurveLookupViewModel(rootDocument, childDocument);
             }
         }
@@ -206,7 +207,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             foreach (Curve curve in curves)
             {
-                CurvePropertiesViewModel curvePropertiesViewModel = DocumentViewModelHelper.TryGetCurvePropertiesViewModel(MainViewModel.Document, curve.ID);
+                CurvePropertiesViewModel curvePropertiesViewModel = ViewModelSelector.TryGetCurvePropertiesViewModel(MainViewModel.Document, curve.ID);
                 if (curvePropertiesViewModel == null)
                 {
                     curvePropertiesViewModel = curve.ToPropertiesViewModel();
@@ -232,7 +233,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             foreach (Curve entity in entities)
             {
-                CurvePropertiesViewModel viewModel = DocumentViewModelHelper.TryGetCurvePropertiesViewModel(documentViewModel, entity.ID);
+                CurvePropertiesViewModel viewModel = ViewModelSelector.TryGetCurvePropertiesViewModel(documentViewModel, entity.ID);
                 if (viewModel == null)
                 {
                     viewModel = entity.ToPropertiesViewModel();
@@ -314,7 +315,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Document rootDocument = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
             foreach (Document childDocument in rootDocument.ChildDocuments)
             {
-                PatchDocumentViewModel patchDocumentViewModel = DocumentViewModelHelper.TryGetPatchDocumentViewModel(MainViewModel.Document, childDocument.ID);
+                PatchDocumentViewModel patchDocumentViewModel = ViewModelSelector.TryGetPatchDocumentViewModel(MainViewModel.Document, childDocument.ID);
 
                 if (patchDocumentViewModel == null)
                 {
@@ -366,7 +367,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             foreach (Node node in nodes)
             {
-                NodePropertiesViewModel nodePropertiesViewModel = DocumentViewModelHelper.TryGetNodePropertiesViewModel(MainViewModel.Document, node.ID);
+                NodePropertiesViewModel nodePropertiesViewModel = ViewModelSelector.TryGetNodePropertiesViewModel(MainViewModel.Document, node.ID);
                 if (nodePropertiesViewModel == null)
                 {
                     nodePropertiesViewModel = node.ToPropertiesViewModel();
@@ -392,7 +393,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             foreach (Node entity in entities)
             {
-                NodePropertiesViewModel viewModel = DocumentViewModelHelper.TryGetNodePropertiesViewModel(documentViewModel, entity.ID);
+                NodePropertiesViewModel viewModel = ViewModelSelector.TryGetNodePropertiesViewModel(documentViewModel, entity.ID);
                 if (viewModel == null)
                 {
                     viewModel = entity.ToPropertiesViewModel();
@@ -413,7 +414,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void NodePropertiesRefresh(int nodeID)
         {
-            NodePropertiesViewModel userInput = DocumentViewModelHelper.GetNodePropertiesViewModel(MainViewModel.Document, nodeID);
+            NodePropertiesViewModel userInput = ViewModelSelector.GetNodePropertiesViewModel(MainViewModel.Document, nodeID);
             NodePropertiesRefresh(userInput);
         }
 
@@ -532,7 +533,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             foreach (Operator op in operators)
             {
-                OperatorPropertiesViewModel_ForBundle viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForBundle(MainViewModel.Document, op.ID);
+                OperatorPropertiesViewModel_ForBundle viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForBundle(MainViewModel.Document, op.ID);
                 if (viewModel == null)
                 {
                     viewModel = op.ToPropertiesViewModel_ForBundle();
@@ -558,7 +559,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             foreach (Operator op in operators)
             {
-                OperatorPropertiesViewModel_ForCache viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForCache(MainViewModel.Document, op.ID);
+                OperatorPropertiesViewModel_ForCache viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForCache(MainViewModel.Document, op.ID);
                 if (viewModel == null)
                 {
                     viewModel = op.ToPropertiesViewModel_ForCache(_repositories.InterpolationTypeRepository);
@@ -584,7 +585,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             foreach (Operator op in operators)
             {
-                OperatorPropertiesViewModel_ForCurve viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForCurve(MainViewModel.Document, op.ID);
+                OperatorPropertiesViewModel_ForCurve viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForCurve(MainViewModel.Document, op.ID);
                 if (viewModel == null)
                 {
                     viewModel = op.ToPropertiesViewModel_ForCurve(_repositories.CurveRepository);
@@ -610,7 +611,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             foreach (Operator op in operators)
             {
-                OperatorPropertiesViewModel_ForCustomOperator viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForCustomOperator(MainViewModel.Document, op.ID);
+                OperatorPropertiesViewModel_ForCustomOperator viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForCustomOperator(MainViewModel.Document, op.ID);
                 if (viewModel == null)
                 {
                     viewModel = op.ToPropertiesViewModel_ForCustomOperator(_repositories.PatchRepository);
@@ -636,7 +637,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             foreach (Operator op in operators)
             {
-                OperatorPropertiesViewModel_ForMakeContinuous viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForMakeContinuous(MainViewModel.Document, op.ID);
+                OperatorPropertiesViewModel_ForMakeContinuous viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForMakeContinuous(MainViewModel.Document, op.ID);
                 if (viewModel == null)
                 {
                     viewModel = op.ToPropertiesViewModel_ForMakeContinuous();
@@ -662,7 +663,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             foreach (Operator op in operators)
             {
-                OperatorPropertiesViewModel_ForNumber viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForNumber(MainViewModel.Document, op.ID);
+                OperatorPropertiesViewModel_ForNumber viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForNumber(MainViewModel.Document, op.ID);
                 if (viewModel == null)
                 {
                     viewModel = op.ToPropertiesViewModel_ForNumber();
@@ -688,7 +689,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             foreach (Operator op in operators)
             {
-                OperatorPropertiesViewModel_ForPatchInlet viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForPatchInlet(MainViewModel.Document, op.ID);
+                OperatorPropertiesViewModel_ForPatchInlet viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForPatchInlet(MainViewModel.Document, op.ID);
                 if (viewModel == null)
                 {
                     viewModel = op.ToPropertiesViewModel_ForPatchInlet();
@@ -714,7 +715,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             foreach (Operator op in operators)
             {
-                OperatorPropertiesViewModel_ForPatchOutlet viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForPatchOutlet(MainViewModel.Document, op.ID);
+                OperatorPropertiesViewModel_ForPatchOutlet viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForPatchOutlet(MainViewModel.Document, op.ID);
                 if (viewModel == null)
                 {
                     viewModel = op.ToPropertiesViewModel_ForPatchOutlet();
@@ -740,7 +741,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             foreach (Operator op in operators)
             {
-                OperatorPropertiesViewModel_ForSample viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForSample(MainViewModel.Document, op.ID);
+                OperatorPropertiesViewModel_ForSample viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForSample(MainViewModel.Document, op.ID);
                 if (viewModel == null)
                 {
                     viewModel = op.ToPropertiesViewModel_ForSample(_repositories.SampleRepository);
@@ -768,7 +769,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                                                                 .ToArray();
             foreach (Operator op in operators)
             {
-                OperatorPropertiesViewModel_WithDimension viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_WithDimension(MainViewModel.Document, op.ID);
+                OperatorPropertiesViewModel_WithDimension viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_WithDimension(MainViewModel.Document, op.ID);
                 if (viewModel == null)
                 {
                     viewModel = op.ToPropertiesViewModel_WithDimension();
@@ -797,7 +798,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             foreach (Operator op in operators)
             {
                 OperatorPropertiesViewModel_WithDimensionAndInterpolation viewModel = 
-                    DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_WithDimensionAndInterpolation(MainViewModel.Document, op.ID);
+                    ViewModelSelector.TryGetOperatorPropertiesViewModel_WithDimensionAndInterpolation(MainViewModel.Document, op.ID);
 
                 if (viewModel == null)
                 {
@@ -827,7 +828,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             foreach (Operator op in operators)
             {
                 OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation viewModel =
-                    DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation(MainViewModel.Document, op.ID);
+                    ViewModelSelector.TryGetOperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation(MainViewModel.Document, op.ID);
 
                 if (viewModel == null)
                 {
@@ -856,7 +857,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             foreach (Operator op in operators)
             {
-                OperatorPropertiesViewModel_WithDimensionAndOutletCount viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_WithDimensionAndOutletCount(MainViewModel.Document, op.ID);
+                OperatorPropertiesViewModel_WithDimensionAndOutletCount viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_WithDimensionAndOutletCount(MainViewModel.Document, op.ID);
                 if (viewModel == null)
                 {
                     viewModel = op.ToPropertiesViewModel_WithDimensionAndOutletCount();
@@ -884,7 +885,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             foreach (Operator op in operators)
             {
-                OperatorPropertiesViewModel_WithInletCount viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_WithInletCount(MainViewModel.Document, op.ID);
+                OperatorPropertiesViewModel_WithInletCount viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_WithInletCount(MainViewModel.Document, op.ID);
                 if (viewModel == null)
                 {
                     viewModel = op.ToPropertiesViewModel_WithInletCount();
@@ -911,7 +912,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                                                                 .ToArray();
             foreach (Operator op in operators)
             {
-                OperatorPropertiesViewModel viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel(MainViewModel.Document, op.ID);
+                OperatorPropertiesViewModel viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel(MainViewModel.Document, op.ID);
                 if (viewModel == null)
                 {
                     viewModel = op.ToPropertiesViewModel();
@@ -968,11 +969,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void PatchDetails_RefreshOperator(int operatorID)
         {
-            OperatorViewModel viewModel = DocumentViewModelHelper.GetOperatorViewModel(MainViewModel.Document, operatorID);
+            OperatorViewModel viewModel = ViewModelSelector.GetOperatorViewModel(MainViewModel.Document, operatorID);
             PatchDetails_RefreshOperator(viewModel);
 
             // TODO: Replace this with moving RefreshOperator to the PatchDetail presenter?
-            PatchDetailsViewModel detailsViewModel = DocumentViewModelHelper.GetPatchDetailsViewModel_ByOperatorID(MainViewModel.Document, operatorID);
+            PatchDetailsViewModel detailsViewModel = ViewModelSelector.GetPatchDetailsViewModel_ByOperatorID(MainViewModel.Document, operatorID);
             detailsViewModel.RefreshCounter++;
         }
 
@@ -995,19 +996,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void PatchGridListsRefresh()
         {
-            Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
+            Document rootDocument = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
 
-            HashSet<string> groups = document.ChildDocuments.Select(x => x.GroupName ?? "")
-                                                            // Always add nameless group even when there are no child documents in it.
-                                                            .Union("")
-                                                            .Distinct()
-                                                            .ToHashSet();
+            IList<string> groups = _documentManager.GetChildDocumentGroupNames(rootDocument);
+
+            // Always add nameless group even when there are no child documents in it.
+            groups.Add(null);
+
             foreach (string group in groups)
             {
-                PatchGridViewModel viewModel = DocumentViewModelHelper.TryGetPatchGridViewModel_ByGroup(MainViewModel.Document, group);
+                PatchGridViewModel viewModel = ViewModelSelector.TryGetPatchGridViewModel_ByGroup(MainViewModel.Document, group);
                 if (viewModel == null)
                 {
-                    viewModel = document.ToPatchGridViewModel(group);
+                    IList<Document> childDocumentsInGroup = _documentManager.GetChildDocumentsInGroup_IncludingGroupless(rootDocument, group);
+                    viewModel = childDocumentsInGroup.ToPatchGridViewModel(rootDocument.ID, group);
                     viewModel.Successful = true;
                     MainViewModel.Document.PatchGridList.Add(viewModel);
                 }
@@ -1017,14 +1019,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
 
+            // Delete operations
             MainViewModel.Document.PatchGridList = MainViewModel.Document.PatchGridList
-                                                                         .Where(x => groups.Contains(x.Group ?? ""))
+                                                                         .Where(x => groups.Contains(x.Group))
                                                                          .ToList();
         }
 
         private void PatchGridRefresh(string group)
         {
-            PatchGridViewModel viewModel2 = DocumentViewModelHelper.GetPatchGridViewModel_ByGroup(MainViewModel.Document, group);
+            PatchGridViewModel viewModel2 = ViewModelSelector.GetPatchGridViewModel_ByGroup(MainViewModel.Document, group);
 
             PatchGridRefresh(viewModel2);
         }
@@ -1038,11 +1041,22 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void PatchGridsRefresh()
         {
-            // Patch grids can be updated, created and deleted as group names are changed.
-            // All the logic in ToPatchGridViewModelList is required for this.
-            Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-            MainViewModel.Document.PatchGridList = document.ToPatchGridViewModelList();
+            // GetEntity
+            Document rootDocument = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
 
+            // Business
+            IList<Document> grouplessChildDocuments = _documentManager.GetGrouplessChildDocuments(rootDocument);
+            IList<ChildDocumentGroupDto> childDocumentGroupDtos = _documentManager.GetChildDocumentGroupDtos(rootDocument);
+
+            // ToViewModel
+            // Patch grids can be updated, created and deleted as group names are changed.
+            // All the logic in CreatePatchGridViewModelList is required for this.
+            MainViewModel.Document.PatchGridList = ViewModelHelper.CreatePatchGridViewModelList(
+                grouplessChildDocuments,
+                childDocumentGroupDtos,
+                rootDocument.ID);
+
+            // DispatchViewModel
             foreach (PatchGridViewModel gridViewModel in MainViewModel.Document.PatchGridList.ToArray())
             {
                 DispatchViewModel(gridViewModel);
@@ -1101,7 +1115,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// <summary> Will update the SampleGrid that the sample with sampleID is part of. </summary>
         private void SampleGridRefresh(int sampleID)
         {
-            SampleGridViewModel userInput = DocumentViewModelHelper.GetSampleGridViewModel_BySampleID(MainViewModel.Document, sampleID);
+            SampleGridViewModel userInput = ViewModelSelector.GetSampleGridViewModel_BySampleID(MainViewModel.Document, sampleID);
             SampleGridViewModel viewModel = _sampleGridPresenter.Refresh(userInput);
             DispatchViewModel(viewModel);
         }
@@ -1135,7 +1149,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             foreach (Sample sample in samples)
             {
-                SamplePropertiesViewModel samplePropertiesViewModel = DocumentViewModelHelper.TryGetSamplePropertiesViewModel(MainViewModel.Document, sample.ID);
+                SamplePropertiesViewModel samplePropertiesViewModel = ViewModelSelector.TryGetSamplePropertiesViewModel(MainViewModel.Document, sample.ID);
                 if (samplePropertiesViewModel == null)
                 {
                     samplePropertiesViewModel = sample.ToPropertiesViewModel(_sampleRepositories);
@@ -1161,7 +1175,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             foreach (Sample entity in entities)
             {
-                SamplePropertiesViewModel viewModel = DocumentViewModelHelper.TryGetSamplePropertiesViewModel(documentViewModel, entity.ID);
+                SamplePropertiesViewModel viewModel = ViewModelSelector.TryGetSamplePropertiesViewModel(documentViewModel, entity.ID);
                 if (viewModel == null)
                 {
                     viewModel = entity.ToPropertiesViewModel(_sampleRepositories);
@@ -1205,7 +1219,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             foreach (Scale entity in entities)
             {
-                ScalePropertiesViewModel viewModel = DocumentViewModelHelper.TryGetScalePropertiesViewModel(MainViewModel.Document, entity.ID);
+                ScalePropertiesViewModel viewModel = ViewModelSelector.TryGetScalePropertiesViewModel(MainViewModel.Document, entity.ID);
                 if (viewModel == null)
                 {
                     viewModel = entity.ToPropertiesViewModel();
@@ -1245,7 +1259,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             foreach (Scale entity in entities)
             {
-                ToneGridEditViewModel viewModel = DocumentViewModelHelper.TryGetToneGridEditViewModel(MainViewModel.Document, entity.ID);
+                ToneGridEditViewModel viewModel = ViewModelSelector.TryGetToneGridEditViewModel(MainViewModel.Document, entity.ID);
                 if (viewModel == null)
                 {
                     viewModel = entity.ToToneGridEditViewModel();
@@ -1272,7 +1286,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void ToneGridEditRefresh(int scaleID)
         {
-            ToneGridEditViewModel viewModel = DocumentViewModelHelper.GetToneGridEditViewModel(MainViewModel.Document, scaleID);
+            ToneGridEditViewModel viewModel = ViewModelSelector.GetToneGridEditViewModel(MainViewModel.Document, scaleID);
             ToneGridEditRefresh(viewModel);
         }
 
