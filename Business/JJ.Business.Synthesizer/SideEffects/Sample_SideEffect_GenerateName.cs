@@ -1,45 +1,32 @@
-﻿using JJ.Business.Synthesizer.Resources;
-using JJ.Data.Synthesizer;
+﻿using JJ.Data.Synthesizer;
 using JJ.Framework.Business;
 using JJ.Framework.Reflection.Exceptions;
 using System;
 using System.Linq;
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
     internal class Sample_SideEffect_GenerateName : ISideEffect
     {
-        private Sample _entity;
+        private readonly Sample _entity;
 
         public Sample_SideEffect_GenerateName(Sample entity)
         {
             if (entity == null) throw new NullException(() => entity);
+            if (entity.Document == null) throw new NullException(() => entity.Document);
+
             _entity = entity;
         }
 
         public void Execute()
         {
-            if (_entity.Document == null) throw new NullException(() => _entity.Document);
+            IEnumerable<string> existingNames = _entity.Document.EnumerateSelfAndParentAndTheirChildren()
+                                                                .SelectMany(x => x.Samples)
+                                                                .Select(x => x.Name);
 
-            HashSet<string> existingNamesLowerCase = _entity.Document.EnumerateSelfAndParentAndTheirChildren()
-                                                                     .SelectMany(x => x.Samples)
-                                                                     .Select(x => x.Name?.ToLower())
-                                                                     .ToHashSet();
-            int number = 1;
-            string suggestedName;
-            bool nameExists;
-
-            do
-            {
-                suggestedName = String.Format("{0} {1}", PropertyDisplayNames.Sample, number++);
-                nameExists = existingNamesLowerCase.Contains(suggestedName.ToLower());
-            }
-            while (nameExists);
-
-            _entity.Name = suggestedName;
+            _entity.Name = SideEffectHelper.GenerateName<Sample>(existingNames);
         }
     }
 }

@@ -426,6 +426,8 @@
     <Compile Include="SideEffects\Document_SideEffect_AutoCreateAudioOutput.cs" />
     <Compile Include="SideEffects\Document_SideEffect_CreatePatch.cs" />
     <Compile Include="SideEffects\Operator_SideEffect_UpdateDependentCustomOperators.cs" />
+    <Compile Include="SideEffects\2016-08-19 Backup of Generic_SideEffect_GenerateNameBase.cs" />
+    <Compile Include="SideEffects\SideEffectHelper.cs" />
     <Compile Include="Validation\AudioOutputValidator.cs" />
     <Compile Include="Validation\Curves\CurveValidator_InDocument.cs" />
     <Compile Include="Validation\Curves\CurveValidator_Nodes.cs" />
