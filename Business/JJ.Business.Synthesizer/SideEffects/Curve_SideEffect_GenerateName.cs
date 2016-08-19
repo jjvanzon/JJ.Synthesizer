@@ -24,10 +24,10 @@ namespace JJ.Business.Synthesizer.SideEffects
         {
             if (_entity.Document == null) throw new NullException(() => _entity.Document);
 
-            HashSet<string> existingNames = _entity.Document.EnumerateSelfAndParentAndTheirChildren()
-                                                            .SelectMany(x => x.Curves)
-                                                            .Select(x => x.Name)
-                                                            .ToHashSet();
+            HashSet<string> existingNamesLowerCase = _entity.Document.EnumerateSelfAndParentAndTheirChildren()
+                                                                     .SelectMany(x => x.Curves)
+                                                                     .Select(x => x.Name?.ToLower())
+                                                                     .ToHashSet();
             int number = 1;
             string suggestedName;
             bool nameExists;
@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.SideEffects
             do
             {
                 suggestedName = String.Format("{0} {1}", PropertyDisplayNames.Curve, number++);
-                nameExists = existingNames.Contains(suggestedName);
+                nameExists = existingNamesLowerCase.Contains(suggestedName.ToLower());
             }
             while (nameExists);
 
