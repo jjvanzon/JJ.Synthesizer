@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer;
@@ -18,12 +16,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
 
         protected override void Execute()
         {
-            IList<string> names = Object.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
-                                        .Where(x => !String.IsNullOrEmpty(x.Name))
-                                        .Select(x => x.Name)
-                                        .ToArray();
-
-            bool namesAreUnique = names.Distinct().Count() == names.Count;
+            bool namesAreUnique = ValidationHelper.PatchInletNamesAreUniqueWithinPatch(Object);
             if (!namesAreUnique)
             {
                 ValidationMessages.Add(PropertyNames.PatchInlet, Messages.InletNamesAreNotUnique);

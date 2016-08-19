@@ -18,14 +18,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
 
         protected override void Execute()
         {
-            IList<int> listIndexes = Object.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
-                                           .Where(x => DataPropertyParser.DataIsWellFormed(x))
-                                           .Select(x => DataPropertyParser.TryParseInt32(x, PropertyNames.ListIndex))
-                                           .Where(x => x.HasValue)
-                                           .Select(x => x.Value)
-                                           .ToArray();
-
-            bool listIndexesAreUnique = listIndexes.Distinct().Count() == listIndexes.Count;
+            bool listIndexesAreUnique = ValidationHelper.PatchOutletListIndexesAreUniqueWithinPatch(Object);
             if (!listIndexesAreUnique)
             {
                 ValidationMessages.Add(PropertyNames.PatchOutlet, Messages.OutletListIndexesAreNotUnique);

@@ -6,6 +6,7 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer;
+using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Patches
@@ -18,12 +19,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
 
         protected override void Execute()
         {
-            IList<string> names = Object.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
-                                        .Where(x => !String.IsNullOrEmpty(x.Name))
-                                        .Select(x => x.Name)
-                                        .ToArray();
-
-            bool namesAreUnique = names.Distinct().Count() == names.Count;
+            bool namesAreUnique = ValidationHelper.PatchOutletNamesAreUniqueWithinPatch(Object);
             if (!namesAreUnique)
             {
                 ValidationMessages.Add(PropertyNames.PatchOutlet, Messages.OutletNamesAreNotUnique);

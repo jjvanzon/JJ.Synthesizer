@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
 
@@ -25,7 +27,7 @@ namespace JJ.Business.Synthesizer.Validation
 
             int nameCount = document.EnumerateSelfAndParentAndTheirChildren()
                                     .SelectMany(x => x.AudioFileOutputs)
-                                    .Where(x => String.Equals(x.Name, name))
+                                    .Where(x => String.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase))
                                     .Count();
 
             return nameCount <= 1;
@@ -37,7 +39,7 @@ namespace JJ.Business.Synthesizer.Validation
 
             IList<string> duplicateNames = document.EnumerateSelfAndParentAndTheirChildren()
                                                    .SelectMany(x => x.AudioFileOutputs)
-                                                   .GroupBy(x => x.Name)
+                                                   .GroupBy(x => x.Name?.ToLower())
                                                    .Where(x => x.Count() > 1)
                                                    .Select(x => x.Key)
                                                    .ToArray();
@@ -60,7 +62,7 @@ namespace JJ.Business.Synthesizer.Validation
 
             int nameCount = document.EnumerateSelfAndParentAndTheirChildren()
                                     .SelectMany(x => x.Curves)
-                                    .Where(x => String.Equals(x.Name, name))
+                                    .Where(x => String.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase))
                                     .Count();
 
             return nameCount <= 1;
@@ -72,13 +74,12 @@ namespace JJ.Business.Synthesizer.Validation
 
             IList<string> duplicateNames = document.EnumerateSelfAndParentAndTheirChildren()
                                                    .SelectMany(x => x.Curves)
-                                                   .GroupBy(x => x.Name)
+                                                   .GroupBy(x => x.Name?.ToLower())
                                                    .Where(x => x.Count() > 1)
                                                    .Select(x => x.Key)
                                                    .ToArray();
             return duplicateNames;
         }
-
 
         // Document
 
@@ -87,7 +88,7 @@ namespace JJ.Business.Synthesizer.Validation
             if (document == null) throw new NullException(() => document);
 
             int nameCount = document.EnumerateSelfAndParentAndTheirChildren()
-                                    .Where(x => String.Equals(x.Name, document.Name))
+                                    .Where(x => String.Equals(x.Name, document.Name, StringComparison.OrdinalIgnoreCase))
                                     .Count();
 
             return nameCount <= 1;
@@ -98,11 +99,69 @@ namespace JJ.Business.Synthesizer.Validation
             if (document == null) throw new NullException(() => document);
 
             IList<string> duplicateNames = document.EnumerateSelfAndParentAndTheirChildren()
-                                                   .GroupBy(x => x.Name)
+                                                   .GroupBy(x => x.Name?.ToLower())
                                                    .Where(x => x.Count() > 1)
                                                    .Select(x => x.Key)
                                                    .ToArray();
             return duplicateNames;
+        }
+
+        // Operator
+
+        public static bool PatchInletNamesAreUniqueWithinPatch(Patch patch)
+        {
+            if (patch == null) throw new NullException(() => patch);
+
+            IList<string> names = patch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
+                                       .Where(x => !String.IsNullOrEmpty(x.Name))
+                                       .Select(x => x.Name.ToLower())
+                                       .ToArray();
+
+            bool namesAreUnique = names.Distinct().Count() == names.Count;
+            return namesAreUnique;
+        }
+
+        public static bool PatchInletListIndexesAreUniqueWithinPatch(Patch patch)
+        {
+            if (patch == null) throw new NullException(() => patch);
+
+            IList<int> listIndexes = patch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
+                                          .Where(x => DataPropertyParser.DataIsWellFormed(x))
+                                          .Select(x => DataPropertyParser.TryParseInt32(x, PropertyNames.ListIndex))
+                                          .Where(x => x.HasValue)
+                                          .Select(x => x.Value)
+                                          .ToArray();
+
+            bool listIndexesAreUnique = listIndexes.Distinct().Count() == listIndexes.Count;
+            return listIndexesAreUnique;
+        }
+
+        public static bool PatchOutletListIndexesAreUniqueWithinPatch(Patch patch)
+        {
+            if (patch == null) throw new NullException(() => patch);
+
+            IList<int> listIndexes = patch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
+                                          .Where(x => DataPropertyParser.DataIsWellFormed(x))
+                                          .Select(x => DataPropertyParser.TryParseInt32(x, PropertyNames.ListIndex))
+                                          .Where(x => x.HasValue)
+                                          .Select(x => x.Value)
+                                          .ToArray();
+
+            bool listIndexesAreUnique = listIndexes.Distinct().Count() == listIndexes.Count;
+            return listIndexesAreUnique;
+        }
+
+        public static bool PatchOutletNamesAreUniqueWithinPatch(Patch patch)
+        {
+            if (patch == null) throw new NullException(() => patch);
+
+            IList<string> names = patch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
+                                       .Where(x => !String.IsNullOrEmpty(x.Name))
+                                       .Select(x => x.Name.ToLower())
+                                       .ToArray();
+
+            bool namesAreUnique = names.Distinct().Count() == names.Count;
+            return namesAreUnique;
         }
 
         // Patch
@@ -121,7 +180,7 @@ namespace JJ.Business.Synthesizer.Validation
 
             int nameCount = document.EnumerateSelfAndParentAndTheirChildren()
                                     .SelectMany(x => x.Patches)
-                                    .Where(x => String.Equals(x.Name, name))
+                                    .Where(x => String.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase))
                                     .Count();
 
             return nameCount <= 1;
@@ -133,7 +192,7 @@ namespace JJ.Business.Synthesizer.Validation
 
             IList<string> duplicateNames = document.EnumerateSelfAndParentAndTheirChildren()
                                                    .SelectMany(x => x.Patches)
-                                                   .GroupBy(x => x.Name)
+                                                   .GroupBy(x => x.Name?.ToLower())
                                                    .Where(x => x.Count() > 1)
                                                    .Select(x => x.Key)
                                                    .ToArray();
@@ -156,7 +215,7 @@ namespace JJ.Business.Synthesizer.Validation
 
             int nameCount = document.EnumerateSelfAndParentAndTheirChildren()
                                     .SelectMany(x => x.Samples)
-                                    .Where(x => String.Equals(x.Name, name))
+                                    .Where(x => String.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase))
                                     .Count();
 
             return nameCount <= 1;
@@ -168,7 +227,7 @@ namespace JJ.Business.Synthesizer.Validation
 
             IList<string> duplicateNames = document.EnumerateSelfAndParentAndTheirChildren()
                                                    .SelectMany(x => x.Samples)
-                                                   .GroupBy(x => x.Name)
+                                                   .GroupBy(x => x.Name?.ToLower())
                                                    .Where(x => x.Count() > 1)
                                                    .Select(x => x.Key)
                                                    .ToArray();
@@ -191,7 +250,7 @@ namespace JJ.Business.Synthesizer.Validation
 
             int nameCount = document.EnumerateSelfAndParentAndTheirChildren()
                                     .SelectMany(x => x.Scales)
-                                    .Where(x => String.Equals(x.Name, name))
+                                    .Where(x => String.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase))
                                     .Count();
 
             return nameCount <= 1;
@@ -203,7 +262,7 @@ namespace JJ.Business.Synthesizer.Validation
 
             IList<string> duplicateNames = document.EnumerateSelfAndParentAndTheirChildren()
                                                    .SelectMany(x => x.Scales)
-                                                   .GroupBy(x => x.Name)
+                                                   .GroupBy(x => x.Name?.ToLower())
                                                    .Where(x => x.Count() > 1)
                                                    .Select(x => x.Key)
                                                    .ToArray();
