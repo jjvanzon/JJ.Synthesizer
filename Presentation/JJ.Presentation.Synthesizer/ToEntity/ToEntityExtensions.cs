@@ -76,7 +76,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         }
 
         public static void ToAudioFileOutputs(
-            this IList<AudioFileOutputPropertiesViewModel> viewModelList,
+            this IEnumerable<AudioFileOutputPropertiesViewModel> viewModelList,
             Document destDocument,
             AudioFileOutputRepositories repositories)
         {
@@ -176,7 +176,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         // Curve
 
         public static void ToEntitiesWithNodes(
-            this IList<CurveDetailsViewModel> viewModelList, 
+            this IEnumerable<CurveDetailsViewModel> viewModelList, 
             Document destDocument, 
             CurveRepositories repositories)
         {
@@ -210,7 +210,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         }
 
         public static void ToEntitiesWithDimension(
-            this IList<CurvePropertiesViewModel> viewModelList, 
+            this IEnumerable<CurvePropertiesViewModel> viewModelList, 
             Document destDocument, 
             CurveRepositories repositories)
         {
@@ -304,18 +304,18 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             destDocument = userInput.ToEntity(repositories.DocumentRepository);
 
-            userInput.PatchDocumentList.ToChildDocumentsWithRelatedEntities(destDocument, repositories);
-            userInput.AudioFileOutputPropertiesList.ToAudioFileOutputs(destDocument, new AudioFileOutputRepositories(repositories));
+            userInput.PatchDocumentDictionary.Values.ToChildDocumentsWithRelatedEntities(destDocument, repositories);
+            userInput.AudioFileOutputPropertiesDictionary.Values.ToAudioFileOutputs(destDocument, new AudioFileOutputRepositories(repositories));
             userInput.AudioOutputProperties.ToEntity(repositories.AudioOutputRepository, repositories.SpeakerSetupRepository, repositories.IDRepository);
-            userInput.CurvePropertiesList.ToEntitiesWithDimension(destDocument, curveRepositories);
+            userInput.CurvePropertiesDictionary.Values.ToEntitiesWithDimension(destDocument, curveRepositories);
             // Order-Dependence: NodeProperties are leading over the CurveDetails Nodes.
-            userInput.CurveDetailsList.ToEntitiesWithNodes(destDocument, curveRepositories);
+            userInput.CurveDetailsDictionary.Values.ToEntitiesWithNodes(destDocument, curveRepositories);
             // TODO: Low priority: It is not tidy to not have a plural variation that also does the delete operations,
             // even though the CurveDetailsList ToEntity already covers deletion.
-            userInput.NodePropertiesList.ForEach(x => x.ToEntity(repositories.NodeRepository, repositories.NodeTypeRepository));
-            userInput.SamplePropertiesList.ToSamples(destDocument, new SampleRepositories(repositories));
+            userInput.NodePropertiesDictionary.Values.ForEach(x => x.ToEntity(repositories.NodeRepository, repositories.NodeTypeRepository));
+            userInput.SamplePropertiesDictionary.Values.ToSamples(destDocument, new SampleRepositories(repositories));
             userInput.ScalePropertiesList.ToEntities(scaleRepositories, destDocument);
-            userInput.ToneGridEditList.ForEach(x => x.ToEntityWithRelatedEntities(scaleRepositories));
+            userInput.ToneGridEditDictionary.Values.ForEach(x => x.ToEntityWithRelatedEntities(scaleRepositories));
 
             return destDocument;
         }
@@ -1188,13 +1188,13 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             userInput.PatchProperties.ToChildDocument(repositories.DocumentRepository);
 
             var curveRepositories = new CurveRepositories(repositories);
-            userInput.CurvePropertiesList.ToEntitiesWithDimension(childDocument, curveRepositories);
+            userInput.CurvePropertiesDictionary.Values.ToEntitiesWithDimension(childDocument, curveRepositories);
             // Order-Dependence: NodeProperties are leading over the CurveDetails Nodes.
-            userInput.CurveDetailsList.ToEntitiesWithNodes(childDocument, curveRepositories);
+            userInput.CurveDetailsDictionary.Values.ToEntitiesWithNodes(childDocument, curveRepositories);
             // TODO: Low priority: It is not tidy to not have a plural variation that also does the delete operations,
             // even though the CurveDetailsList ToEntity already covers deletion.
-            userInput.NodePropertiesList.ForEach(x => x.ToEntity(repositories.NodeRepository, repositories.NodeTypeRepository));
-            userInput.SamplePropertiesList.ToSamples(childDocument, new SampleRepositories(repositories));
+            userInput.NodePropertiesDictionary.Values.ForEach(x => x.ToEntity(repositories.NodeRepository, repositories.NodeTypeRepository));
+            userInput.SamplePropertiesDictionary.Values.ToSamples(childDocument, new SampleRepositories(repositories));
 
             ToPatchWithRelatedEntitiesResult result = userInput.PatchDetails.ToPatchWithRelatedEntities(patchRepositories);
             Patch patch = result.Patch;
@@ -1206,77 +1206,77 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             // Operator Properties
             // (Operators are converted with the PatchDetails view models, 
             //  but data the property boxes would be leading or missing from PatchDetails.)
-            foreach (OperatorPropertiesViewModel propertiesViewModel in userInput.OperatorPropertiesList)
+            foreach (OperatorPropertiesViewModel propertiesViewModel in userInput.OperatorPropertiesDictionary.Values)
             {
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
             }
 
-            foreach (OperatorPropertiesViewModel_ForBundle propertiesViewModel in userInput.OperatorPropertiesList_ForBundles)
+            foreach (OperatorPropertiesViewModel_ForBundle propertiesViewModel in userInput.OperatorPropertiesDictionary_ForBundles.Values)
             {
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository);
             }
 
-            foreach (OperatorPropertiesViewModel_ForCache propertiesViewModel in userInput.OperatorPropertiesList_ForCaches)
+            foreach (OperatorPropertiesViewModel_ForCache propertiesViewModel in userInput.OperatorPropertiesDictionary_ForCaches.Values)
             {
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository);
             }
 
-            foreach (OperatorPropertiesViewModel_ForCurve propertiesViewModel in userInput.OperatorPropertiesList_ForCurves)
+            foreach (OperatorPropertiesViewModel_ForCurve propertiesViewModel in userInput.OperatorPropertiesDictionary_ForCurves.Values)
             {
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.CurveRepository, repositories.DimensionRepository);
             }
 
-            foreach (OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel in userInput.OperatorPropertiesList_ForCustomOperators)
+            foreach (OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel in userInput.OperatorPropertiesDictionary_ForCustomOperators.Values)
             {
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.PatchRepository, repositories.DocumentRepository);
             }
 
-            foreach (OperatorPropertiesViewModel_ForMakeContinuous propertiesViewModel in userInput.OperatorPropertiesList_ForMakeContinuous)
+            foreach (OperatorPropertiesViewModel_ForMakeContinuous propertiesViewModel in userInput.OperatorPropertiesDictionary_ForMakeContinuous.Values)
             {
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository);
             }
 
-            foreach (OperatorPropertiesViewModel_ForNumber propertiesViewModel in userInput.OperatorPropertiesList_ForNumbers)
+            foreach (OperatorPropertiesViewModel_ForNumber propertiesViewModel in userInput.OperatorPropertiesDictionary_ForNumbers.Values)
             {
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
             }
 
-            foreach (OperatorPropertiesViewModel_ForPatchInlet propertiesViewModel in userInput.OperatorPropertiesList_ForPatchInlets)
+            foreach (OperatorPropertiesViewModel_ForPatchInlet propertiesViewModel in userInput.OperatorPropertiesDictionary_ForPatchInlets.Values)
             {
                 propertiesViewModel.ToOperatorWithInlet(patchRepositories);
             }
 
-            foreach (OperatorPropertiesViewModel_ForPatchOutlet propertiesViewModel in userInput.OperatorPropertiesList_ForPatchOutlets)
+            foreach (OperatorPropertiesViewModel_ForPatchOutlet propertiesViewModel in userInput.OperatorPropertiesDictionary_ForPatchOutlets.Values)
             {
                 propertiesViewModel.ToOperatorWithOutlet(patchRepositories);
             }
 
-            foreach (OperatorPropertiesViewModel_ForSample propertiesViewModel in userInput.OperatorPropertiesList_ForSamples)
+            foreach (OperatorPropertiesViewModel_ForSample propertiesViewModel in userInput.OperatorPropertiesDictionary_ForSamples.Values)
             {
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.SampleRepository, repositories.DimensionRepository);
             }
 
-            foreach (OperatorPropertiesViewModel_WithDimension propertiesViewModel in userInput.OperatorPropertiesList_WithDimension)
+            foreach (OperatorPropertiesViewModel_WithDimension propertiesViewModel in userInput.OperatorPropertiesDictionary_WithDimension.Values)
             {
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository);
             }
 
-            foreach (OperatorPropertiesViewModel_WithDimensionAndInterpolation propertiesViewModel in userInput.OperatorPropertiesList_WithDimensionAndInterpolation)
+            foreach (OperatorPropertiesViewModel_WithDimensionAndInterpolation propertiesViewModel in userInput.OperatorPropertiesDictionary_WithDimensionAndInterpolation.Values)
             {
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository);
             }
 
-            foreach (OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation propertiesViewModel in userInput.OperatorPropertiesList_WithDimensionAndCollectionRecalculation)
+            foreach (OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation propertiesViewModel in userInput.OperatorPropertiesDictionary_WithDimensionAndCollectionRecalculation.Values)
             {
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository);
             }
 
-            foreach (OperatorPropertiesViewModel_WithDimensionAndOutletCount propertiesViewModel in userInput.OperatorPropertiesList_WithDimensionAndOutletCount)
+            foreach (OperatorPropertiesViewModel_WithDimensionAndOutletCount propertiesViewModel in userInput.OperatorPropertiesDictionary_WithDimensionAndOutletCount.Values)
             {
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository);
             }
 
-            foreach (OperatorPropertiesViewModel_WithInletCount propertiesViewModel in userInput.OperatorPropertiesList_WithInletCount)
+            foreach (OperatorPropertiesViewModel_WithInletCount propertiesViewModel in userInput.OperatorPropertiesDictionary_WithInletCount.Values)
             {
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
             }
@@ -1314,7 +1314,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         /// <summary> Leading for saving child entities, not leading for saving the simple properties. </summary>
         public static void ToChildDocumentsWithRelatedEntities(
-            this IList<PatchDocumentViewModel> sourceViewModelList,
+            this IEnumerable<PatchDocumentViewModel> sourceViewModelList,
             Document destParentDocument,
             RepositoryWrapper repositories)
         {
@@ -1407,7 +1407,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return sample;
         }
 
-        public static void ToSamples(this IList<SamplePropertiesViewModel> viewModelList, Document destDocument, SampleRepositories repositories)
+        public static void ToSamples(this IEnumerable<SamplePropertiesViewModel> viewModelList, Document destDocument, SampleRepositories repositories)
         {
             if (viewModelList == null) throw new NullException(() => viewModelList);
             if (destDocument == null) throw new NullException(() => destDocument);

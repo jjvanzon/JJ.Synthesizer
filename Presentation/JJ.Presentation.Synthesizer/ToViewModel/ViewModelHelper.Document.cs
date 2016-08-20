@@ -10,7 +10,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 {
     internal static partial class ViewModelHelper
     {
-        public static IList<PatchGridViewModel> CreatePatchGridViewModelList(
+        public static Dictionary<string, PatchGridViewModel> CreatePatchGridViewModelDictionary(
             IList<Document> grouplessChildDocuments,
             IList<ChildDocumentGroupDto> childDocumentGroupDtos,
             int rootDocumentID)
@@ -23,7 +23,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             list.Add(grouplessChildDocuments.ToPatchGridViewModel(rootDocumentID, null));
             list.AddRange(childDocumentGroupDtos.Select(x => x.Documents.ToPatchGridViewModel(rootDocumentID, x.GroupName)));
 
-            return list;
+            return list.ToDictionary(x => x.Group?.ToLower() ?? "");
         }
     }
 }

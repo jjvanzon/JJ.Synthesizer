@@ -41,7 +41,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     viewModel = entity.ToPropertiesViewModel();
                     viewModel.Successful = true;
-                    MainViewModel.Document.AudioFileOutputPropertiesList.Add(viewModel);
+                    MainViewModel.Document.AudioFileOutputPropertiesDictionary[entity.ID] = viewModel;
                 }
                 else
                 {
@@ -49,10 +49,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
 
-            HashSet<int> idsToKeep = entities.Select(x => x.ID).ToHashSet();
-            MainViewModel.Document.AudioFileOutputPropertiesList = MainViewModel.Document.AudioFileOutputPropertiesList
-                                                                                         .Where(x => idsToKeep.Contains(x.Entity.ID))
-                                                                                         .ToList();
+            IEnumerable<int> existingIDs = MainViewModel.Document.AudioFileOutputPropertiesDictionary.Keys;
+            IEnumerable<int> idsToKeep = entities.Select(x => x.ID);
+            IEnumerable<int> idsToDelete = existingIDs.Except(idsToKeep);
+
+            foreach (int idToDelete in idsToDelete.ToArray())
+            {
+                MainViewModel.Document.AudioFileOutputPropertiesDictionary.Remove(idToDelete);
+            }
         }
 
         private void AudioFileOutputPropertiesRefresh(AudioFileOutputPropertiesViewModel userInput)
@@ -88,7 +92,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(viewModel);
         }
 
-        private void CurveDetailsListRefresh(PatchDocumentViewModel patchDocumentViewModel)
+        private void CurveDetailsDictionaryRefresh(PatchDocumentViewModel patchDocumentViewModel)
         {
             Document childDocument = _repositories.DocumentRepository.Get(patchDocumentViewModel.ChildDocumentID);
             IList<Curve> curves = childDocument.Curves;
@@ -100,7 +104,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     curveDetailsViewModel = curve.ToDetailsViewModel();
                     curveDetailsViewModel.Successful = true;
-                    patchDocumentViewModel.CurveDetailsList.Add(curveDetailsViewModel);
+                    patchDocumentViewModel.CurveDetailsDictionary[curve.ID] = curveDetailsViewModel;
                 }
                 else
                 {
@@ -108,13 +112,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
 
-            HashSet<int> idsToKeep = curves.Select(x => x.ID).ToHashSet();
-            patchDocumentViewModel.CurveDetailsList = patchDocumentViewModel.CurveDetailsList
-                                                                            .Where(x => idsToKeep.Contains(x.ID))
-                                                                            .ToList();
+            IEnumerable<int> existingIDs = patchDocumentViewModel.CurveDetailsDictionary.Keys;
+            IEnumerable<int> idsToKeep = curves.Select(x => x.ID);
+            IEnumerable<int> idsToDelete = existingIDs.Except(idsToKeep);
+
+            foreach (int idToDelete in idsToDelete.ToArray())
+            {
+                patchDocumentViewModel.CurveDetailsDictionary.Remove(idToDelete);
+            }
         }
 
-        private void CurveDetailsListRefresh(DocumentViewModel documentViewModel)
+        private void CurveDetailsDictionaryRefresh(DocumentViewModel documentViewModel)
         {
             Document document = _repositories.DocumentRepository.Get(documentViewModel.ID);
             IList<Curve> entities = document.Curves;
@@ -126,7 +134,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     viewModel = entity.ToDetailsViewModel();
                     viewModel.Successful = true;
-                    documentViewModel.CurveDetailsList.Add(viewModel);
+                    documentViewModel.CurveDetailsDictionary[entity.ID] = viewModel;
                 }
                 else
                 {
@@ -134,10 +142,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
 
-            HashSet<int> idsToKeep = entities.Select(x => x.ID).ToHashSet();
-            documentViewModel.CurveDetailsList = documentViewModel.CurveDetailsList
-                                                                  .Where(x => idsToKeep.Contains(x.ID))
-                                                                  .ToList();
+            IEnumerable<int> existingIDs = documentViewModel.CurveDetailsDictionary.Keys;
+            IEnumerable<int> idsToKeep = entities.Select(x => x.ID);
+            IEnumerable<int> idsToDelete = existingIDs.Except(idsToKeep);
+
+            foreach (int idToDelete in idsToDelete.ToArray())
+            {
+                documentViewModel.CurveDetailsDictionary.Remove(idToDelete);
+            }
         }
 
         private void CurveDetailsNodeRefresh(int nodeID)
@@ -179,7 +191,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             Curve curve = _repositories.CurveRepository.Get(curveID);
 
-            foreach (PatchDocumentViewModel patchDocumentViewModel in MainViewModel.Document.PatchDocumentList)
+            foreach (PatchDocumentViewModel patchDocumentViewModel in MainViewModel.Document.PatchDocumentDictionary.Values)
             {
                 IDAndName idAndName2 = patchDocumentViewModel.CurveLookup.Where(x => x.ID == curve.ID).FirstOrDefault();
                 if (idAndName2 != null)
@@ -200,7 +212,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        private void CurvePropertiesListRefresh(PatchDocumentViewModel patchDocumentViewModel)
+        private void CurvePropertiesDictionaryRefresh(PatchDocumentViewModel patchDocumentViewModel)
         {
             Document childDocument = _repositories.DocumentRepository.Get(patchDocumentViewModel.ChildDocumentID);
             IList<Curve> curves = childDocument.Curves;
@@ -212,7 +224,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     curvePropertiesViewModel = curve.ToPropertiesViewModel();
                     curvePropertiesViewModel.Successful = true;
-                    patchDocumentViewModel.CurvePropertiesList.Add(curvePropertiesViewModel);
+                    patchDocumentViewModel.CurvePropertiesDictionary[curve.ID] = curvePropertiesViewModel;
                 }
                 else
                 {
@@ -220,13 +232,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
 
-            HashSet<int> idsToKeep = curves.Select(x => x.ID).ToHashSet();
-            patchDocumentViewModel.CurvePropertiesList = patchDocumentViewModel.CurvePropertiesList
-                                                                               .Where(x => idsToKeep.Contains(x.ID))
-                                                                               .ToList();
+            IEnumerable<int> existingIDs = patchDocumentViewModel.CurvePropertiesDictionary.Keys;
+            IEnumerable<int> idsToKeep = curves.Select(x => x.ID);
+            IEnumerable<int> idsToDelete = existingIDs.Except(idsToKeep);
+
+            foreach (int idToDelete in idsToDelete.ToArray())
+            {
+                patchDocumentViewModel.CurvePropertiesDictionary.Remove(idToDelete);
+            }
         }
 
-        private void CurvePropertiesListRefresh(DocumentViewModel documentViewModel)
+        private void CurvePropertiesDictionaryRefresh(DocumentViewModel documentViewModel)
         {
             Document document = _repositories.DocumentRepository.Get(documentViewModel.ID);
             IList<Curve> entities = document.Curves;
@@ -238,7 +254,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     viewModel = entity.ToPropertiesViewModel();
                     viewModel.Successful = true;
-                    documentViewModel.CurvePropertiesList.Add(viewModel);
+                    documentViewModel.CurvePropertiesDictionary[entity.ID] = viewModel;
                 }
                 else
                 {
@@ -246,10 +262,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
 
-            HashSet<int> idsToKeep = entities.Select(x => x.ID).ToHashSet();
-            documentViewModel.CurvePropertiesList = documentViewModel.CurvePropertiesList
-                                                                     .Where(x => idsToKeep.Contains(x.ID))
-                                                                     .ToList();
+            IEnumerable<int> existingIDs = documentViewModel.CurvePropertiesDictionary.Keys;
+            IEnumerable<int> idsToKeep = entities.Select(x => x.ID);
+            IEnumerable<int> idsToDelete = existingIDs.Except(idsToKeep);
+
+            foreach (int idToDelete in idsToDelete.ToArray())
+            {
+                documentViewModel.CurvePropertiesDictionary.Remove(idToDelete);
+            }
         }
 
         private void CurvePropertiesRefresh(CurvePropertiesViewModel userInput)
@@ -301,11 +321,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             AudioOutputPropertiesRefresh();
             AudioFileOutputPropertiesRefresh();
             AudioOutputPropertiesRefresh();
-            CurveDetailsListRefresh(MainViewModel.Document);
-            CurvePropertiesListRefresh(MainViewModel.Document);
+            CurveDetailsDictionaryRefresh(MainViewModel.Document);
+            CurvePropertiesDictionaryRefresh(MainViewModel.Document);
             NodePropertiesListRefresh(MainViewModel.Document);
             PatchGridListsRefresh();
-            SamplePropertiesListRefresh(MainViewModel.Document);
+            SamplePropertiesDictionaryRefresh(MainViewModel.Document);
             ScalePropertiesListRefresh();
             ToneGridEditListRefresh();
             UnderylingPatchLookupRefresh();
@@ -321,31 +341,31 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     patchDocumentViewModel = childDocument.ToPatchDocumentViewModel(_repositories, _entityPositionManager);
 
-                    patchDocumentViewModel.CurveDetailsList.ForEach(x => x.Successful = true);
+                    patchDocumentViewModel.CurveDetailsDictionary.Values.ForEach(x => x.Successful = true);
                     patchDocumentViewModel.CurveGrid.Successful = true;
-                    patchDocumentViewModel.CurvePropertiesList.ForEach(x => x.Successful = true);
-                    patchDocumentViewModel.NodePropertiesList.ForEach(x => x.Successful = true);
-                    patchDocumentViewModel.OperatorPropertiesList.ForEach(x => x.Successful = true);
-                    patchDocumentViewModel.OperatorPropertiesList_ForBundles.ForEach(x => x.Successful = true);
-                    patchDocumentViewModel.OperatorPropertiesList_ForCaches.ForEach(x => x.Successful = true);
-                    patchDocumentViewModel.OperatorPropertiesList_ForCurves.ForEach(x => x.Successful = true);
-                    patchDocumentViewModel.OperatorPropertiesList_ForCustomOperators.ForEach(x => x.Successful = true);
-                    patchDocumentViewModel.OperatorPropertiesList_ForMakeContinuous.ForEach(x => x.Successful = true);
-                    patchDocumentViewModel.OperatorPropertiesList_ForNumbers.ForEach(x => x.Successful = true);
-                    patchDocumentViewModel.OperatorPropertiesList_ForPatchInlets.ForEach(x => x.Successful = true);
-                    patchDocumentViewModel.OperatorPropertiesList_ForPatchOutlets.ForEach(x => x.Successful = true);
-                    patchDocumentViewModel.OperatorPropertiesList_ForSamples.ForEach(x => x.Successful = true);
-                    patchDocumentViewModel.OperatorPropertiesList_WithDimension.ForEach(x => x.Successful = true);
-                    patchDocumentViewModel.OperatorPropertiesList_WithDimensionAndInterpolation.ForEach(x => x.Successful = true);
-                    patchDocumentViewModel.OperatorPropertiesList_WithDimensionAndCollectionRecalculation.ForEach(x => x.Successful = true);
-                    patchDocumentViewModel.OperatorPropertiesList_WithDimensionAndOutletCount.ForEach(x => x.Successful = true);
-                    patchDocumentViewModel.OperatorPropertiesList_WithInletCount.ForEach(x => x.Successful = true);
+                    patchDocumentViewModel.CurvePropertiesDictionary.Values.ForEach(x => x.Successful = true);
+                    patchDocumentViewModel.NodePropertiesDictionary.Values.ForEach(x => x.Successful = true);
+                    patchDocumentViewModel.OperatorPropertiesDictionary.Values.ForEach(x => x.Successful = true);
+                    patchDocumentViewModel.OperatorPropertiesDictionary_ForBundles.Values.ForEach(x => x.Successful = true);
+                    patchDocumentViewModel.OperatorPropertiesDictionary_ForCaches.Values.ForEach(x => x.Successful = true);
+                    patchDocumentViewModel.OperatorPropertiesDictionary_ForCurves.Values.ForEach(x => x.Successful = true);
+                    patchDocumentViewModel.OperatorPropertiesDictionary_ForCustomOperators.Values.ForEach(x => x.Successful = true);
+                    patchDocumentViewModel.OperatorPropertiesDictionary_ForMakeContinuous.Values.ForEach(x => x.Successful = true);
+                    patchDocumentViewModel.OperatorPropertiesDictionary_ForNumbers.Values.ForEach(x => x.Successful = true);
+                    patchDocumentViewModel.OperatorPropertiesDictionary_ForPatchInlets.Values.ForEach(x => x.Successful = true);
+                    patchDocumentViewModel.OperatorPropertiesDictionary_ForPatchOutlets.Values.ForEach(x => x.Successful = true);
+                    patchDocumentViewModel.OperatorPropertiesDictionary_ForSamples.Values.ForEach(x => x.Successful = true);
+                    patchDocumentViewModel.OperatorPropertiesDictionary_WithDimension.Values.ForEach(x => x.Successful = true);
+                    patchDocumentViewModel.OperatorPropertiesDictionary_WithDimensionAndInterpolation.Values.ForEach(x => x.Successful = true);
+                    patchDocumentViewModel.OperatorPropertiesDictionary_WithDimensionAndCollectionRecalculation.Values.ForEach(x => x.Successful = true);
+                    patchDocumentViewModel.OperatorPropertiesDictionary_WithDimensionAndOutletCount.Values.ForEach(x => x.Successful = true);
+                    patchDocumentViewModel.OperatorPropertiesDictionary_WithInletCount.Values.ForEach(x => x.Successful = true);
                     patchDocumentViewModel.PatchDetails.Successful = true;
                     patchDocumentViewModel.PatchProperties.Successful = true;
                     patchDocumentViewModel.SampleGrid.Successful = true;
-                    patchDocumentViewModel.SamplePropertiesList.Select(x => x.Successful = true);
+                    patchDocumentViewModel.SamplePropertiesDictionary.Values.Select(x => x.Successful = true);
 
-                    MainViewModel.Document.PatchDocumentList.Add(patchDocumentViewModel);
+                    MainViewModel.Document.PatchDocumentDictionary[patchDocumentViewModel.ChildDocumentID] = patchDocumentViewModel;
                 }
                 else
                 {
@@ -353,11 +373,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
 
-            // Delete PatchDocumentViewModels
-            HashSet<int> childDocumentIDsToKeep = rootDocument.ChildDocuments.Select(x => x.ID).ToHashSet();
-            MainViewModel.Document.PatchDocumentList = MainViewModel.Document.PatchDocumentList
-                                                                             .Where(x => childDocumentIDsToKeep.Contains(x.ChildDocumentID))
-                                                                             .ToList();
+            // Delete Operations
+            IEnumerable<int> existingChildDocumentIDs = MainViewModel.Document.PatchDocumentDictionary.Keys;
+            IEnumerable<int> childDocumentIDsToKeep = rootDocument.ChildDocuments.Select(x => x.ID);
+            IEnumerable<int> childDocumentIDsToDelete = existingChildDocumentIDs.Except(childDocumentIDsToKeep);
+
+            foreach (int childDocumentIDToDelete in childDocumentIDsToDelete)
+            {
+                MainViewModel.Document.PatchDocumentDictionary.Remove(childDocumentIDToDelete);
+            }
         }
 
         private void NodePropertiesListRefresh(PatchDocumentViewModel patchDocumentViewModel)
@@ -372,7 +396,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     nodePropertiesViewModel = node.ToPropertiesViewModel();
                     nodePropertiesViewModel.Successful = true;
-                    patchDocumentViewModel.NodePropertiesList.Add(nodePropertiesViewModel);
+                    patchDocumentViewModel.NodePropertiesDictionary[node.ID] = nodePropertiesViewModel;
                 }
                 else
                 {
@@ -380,10 +404,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
 
-            HashSet<int> idsToKeep = nodes.Select(x => x.ID).ToHashSet();
-            patchDocumentViewModel.NodePropertiesList = patchDocumentViewModel.NodePropertiesList
-                                                                              .Where(x => idsToKeep.Contains(x.Entity.ID))
-                                                                              .ToList();
+            IEnumerable<int> existingIDs = patchDocumentViewModel.NodePropertiesDictionary.Keys;
+            IEnumerable<int> idsToKeep = nodes.Select(x => x.ID);
+            IEnumerable<int> idsToDelete = existingIDs.Except(idsToKeep);
+
+            foreach (int idToDelete in idsToDelete.ToArray())
+            {
+                patchDocumentViewModel.NodePropertiesDictionary.Remove(idToDelete);
+            }
         }
 
         private void NodePropertiesListRefresh(DocumentViewModel documentViewModel)
@@ -398,7 +426,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     viewModel = entity.ToPropertiesViewModel();
                     viewModel.Successful = true;
-                    documentViewModel.NodePropertiesList.Add(viewModel);
+                    documentViewModel.NodePropertiesDictionary[entity.ID] = viewModel;
                 }
                 else
                 {
@@ -406,10 +434,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
 
-            HashSet<int> idsToKeep = entities.Select(x => x.ID).ToHashSet();
-            documentViewModel.NodePropertiesList = documentViewModel.NodePropertiesList
-                                                                    .Where(x => idsToKeep.Contains(x.Entity.ID))
-                                                                    .ToList();
+            IEnumerable<int> existingIDs = documentViewModel.NodePropertiesDictionary.Keys;
+            IEnumerable<int> idsToKeep = entities.Select(x => x.ID);
+            IEnumerable<int> idsToDelete = existingIDs.Except(idsToKeep);
+
+            foreach (int idToDelete in idsToDelete.ToArray())
+            {
+                documentViewModel.NodePropertiesDictionary.Remove(idToDelete);
+            }
         }
 
         private void NodePropertiesRefresh(int nodeID)
@@ -458,7 +490,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void OperatorProperties_ForCustomOperatorViewModels_Refresh(int underlyingPatchID)
         {
             IList<OperatorPropertiesViewModel_ForCustomOperator> propertiesViewModelList = 
-                MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForCustomOperators).ToArray();
+                MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.OperatorPropertiesDictionary_ForCustomOperators.Values).ToArray();
 
             foreach (OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel in propertiesViewModelList)
             {
@@ -538,7 +570,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     viewModel = op.ToPropertiesViewModel_ForBundle();
                     viewModel.Successful = true;
-                    patchDocumentViewModel.OperatorPropertiesList_ForBundles.Add(viewModel);
+                    patchDocumentViewModel.OperatorPropertiesDictionary_ForBundles[op.ID] = viewModel;
                 }
                 else
                 {
@@ -546,10 +578,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
 
-            HashSet<int> idsToKeep = operators.Select(x => x.ID).ToHashSet();
-            patchDocumentViewModel.OperatorPropertiesList_ForBundles = patchDocumentViewModel.OperatorPropertiesList_ForBundles
-                                                                                             .Where(x => idsToKeep.Contains(x.ID))
-                                                                                             .ToList();
+            DeleteOperatorViewModels(patchDocumentViewModel.OperatorPropertiesDictionary_ForBundles, operators);
         }
 
         private void OperatorPropertiesList_ForCaches_Refresh(PatchDocumentViewModel patchDocumentViewModel)
@@ -564,7 +593,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     viewModel = op.ToPropertiesViewModel_ForCache(_repositories.InterpolationTypeRepository);
                     viewModel.Successful = true;
-                    patchDocumentViewModel.OperatorPropertiesList_ForCaches.Add(viewModel);
+                    patchDocumentViewModel.OperatorPropertiesDictionary_ForCaches[op.ID] = viewModel;
                 }
                 else
                 {
@@ -572,10 +601,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
 
-            HashSet<int> idsToKeep = operators.Select(x => x.ID).ToHashSet();
-            patchDocumentViewModel.OperatorPropertiesList_ForCaches = patchDocumentViewModel.OperatorPropertiesList_ForCaches
-                                                                                             .Where(x => idsToKeep.Contains(x.ID))
-                                                                                             .ToList();
+            DeleteOperatorViewModels(patchDocumentViewModel.OperatorPropertiesDictionary_ForCaches, operators);
         }
 
         private void OperatorPropertiesList_ForCurves_Refresh(PatchDocumentViewModel patchDocumentViewModel)
@@ -590,7 +616,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     viewModel = op.ToPropertiesViewModel_ForCurve(_repositories.CurveRepository);
                     viewModel.Successful = true;
-                    patchDocumentViewModel.OperatorPropertiesList_ForCurves.Add(viewModel);
+                    patchDocumentViewModel.OperatorPropertiesDictionary_ForCurves[op.ID] = viewModel;
                 }
                 else
                 {
@@ -598,10 +624,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
 
-            HashSet<int> idsToKeep = operators.Select(x => x.ID).ToHashSet();
-            patchDocumentViewModel.OperatorPropertiesList_ForCurves = patchDocumentViewModel.OperatorPropertiesList_ForCurves
-                                                                                             .Where(x => idsToKeep.Contains(x.ID))
-                                                                                             .ToList();
+            DeleteOperatorViewModels(patchDocumentViewModel.OperatorPropertiesDictionary_ForCurves, operators);
         }
 
         private void OperatorPropertiesList_ForCustomOperators_Refresh(PatchDocumentViewModel patchDocumentViewModel)
@@ -616,7 +639,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     viewModel = op.ToPropertiesViewModel_ForCustomOperator(_repositories.PatchRepository);
                     viewModel.Successful = true;
-                    patchDocumentViewModel.OperatorPropertiesList_ForCustomOperators.Add(viewModel);
+                    patchDocumentViewModel.OperatorPropertiesDictionary_ForCustomOperators[op.ID] = viewModel;
                 }
                 else
                 {
@@ -624,10 +647,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
 
-            HashSet<int> idsToKeep = operators.Select(x => x.ID).ToHashSet();
-            patchDocumentViewModel.OperatorPropertiesList_ForCustomOperators = patchDocumentViewModel.OperatorPropertiesList_ForCustomOperators
-                                                                                                     .Where(x => idsToKeep.Contains(x.ID))
-                                                                                                     .ToList();
+            DeleteOperatorViewModels(patchDocumentViewModel.OperatorPropertiesDictionary_ForCustomOperators, operators);
         }
 
         private void OperatorPropertiesList_ForMakeContinuous_Refresh(PatchDocumentViewModel patchDocumentViewModel)
@@ -642,7 +662,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     viewModel = op.ToPropertiesViewModel_ForMakeContinuous();
                     viewModel.Successful = true;
-                    patchDocumentViewModel.OperatorPropertiesList_ForMakeContinuous.Add(viewModel);
+                    patchDocumentViewModel.OperatorPropertiesDictionary_ForMakeContinuous[op.ID] = viewModel;
                 }
                 else
                 {
@@ -650,10 +670,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
 
-            HashSet<int> idsToKeep = operators.Select(x => x.ID).ToHashSet();
-            patchDocumentViewModel.OperatorPropertiesList_ForMakeContinuous = patchDocumentViewModel.OperatorPropertiesList_ForMakeContinuous
-                                                                                             .Where(x => idsToKeep.Contains(x.ID))
-                                                                                             .ToList();
+            DeleteOperatorViewModels(patchDocumentViewModel.OperatorPropertiesDictionary_ForMakeContinuous, operators);
         }
 
         private void OperatorPropertiesList_ForNumbers_Refresh(PatchDocumentViewModel patchDocumentViewModel)
@@ -668,7 +685,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     viewModel = op.ToPropertiesViewModel_ForNumber();
                     viewModel.Successful = true;
-                    patchDocumentViewModel.OperatorPropertiesList_ForNumbers.Add(viewModel);
+                    patchDocumentViewModel.OperatorPropertiesDictionary_ForNumbers[op.ID] = viewModel;
                 }
                 else
                 {
@@ -676,10 +693,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
 
-            HashSet<int> idsToKeep = operators.Select(x => x.ID).ToHashSet();
-            patchDocumentViewModel.OperatorPropertiesList_ForNumbers = patchDocumentViewModel.OperatorPropertiesList_ForNumbers
-                                                                                             .Where(x => idsToKeep.Contains(x.ID))
-                                                                                             .ToList();
+            DeleteOperatorViewModels(patchDocumentViewModel.OperatorPropertiesDictionary_ForNumbers, operators);
         }
 
         private void OperatorPropertiesList_ForPatchInlets_Refresh(PatchDocumentViewModel patchDocumentViewModel)
@@ -694,7 +708,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     viewModel = op.ToPropertiesViewModel_ForPatchInlet();
                     viewModel.Successful = true;
-                    patchDocumentViewModel.OperatorPropertiesList_ForPatchInlets.Add(viewModel);
+                    patchDocumentViewModel.OperatorPropertiesDictionary_ForPatchInlets[op.ID] = viewModel;
                 }
                 else
                 {
@@ -702,10 +716,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
 
-            HashSet<int> idsToKeep = operators.Select(x => x.ID).ToHashSet();
-            patchDocumentViewModel.OperatorPropertiesList_ForPatchInlets = patchDocumentViewModel.OperatorPropertiesList_ForPatchInlets
-                                                                                                 .Where(x => idsToKeep.Contains(x.ID))
-                                                                                                 .ToList();
+            DeleteOperatorViewModels(patchDocumentViewModel.OperatorPropertiesDictionary_ForPatchInlets, operators);
         }
 
         private void OperatorPropertiesList_ForPatchOutlets_Refresh(PatchDocumentViewModel patchDocumentViewModel)
@@ -720,7 +731,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     viewModel = op.ToPropertiesViewModel_ForPatchOutlet();
                     viewModel.Successful = true;
-                    patchDocumentViewModel.OperatorPropertiesList_ForPatchOutlets.Add(viewModel);
+                    patchDocumentViewModel.OperatorPropertiesDictionary_ForPatchOutlets[op.ID] = viewModel;
                 }
                 else
                 {
@@ -728,10 +739,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
 
-            HashSet<int> idsToKeep = operators.Select(x => x.ID).ToHashSet();
-            patchDocumentViewModel.OperatorPropertiesList_ForPatchOutlets = patchDocumentViewModel.OperatorPropertiesList_ForPatchOutlets
-                                                                                                  .Where(x => idsToKeep.Contains(x.ID))
-                                                                                                  .ToList();
+            DeleteOperatorViewModels(patchDocumentViewModel.OperatorPropertiesDictionary_ForPatchOutlets, operators);
         }
 
         private void OperatorPropertiesList_ForSamples_Refresh(PatchDocumentViewModel patchDocumentViewModel)
@@ -746,7 +754,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     viewModel = op.ToPropertiesViewModel_ForSample(_repositories.SampleRepository);
                     viewModel.Successful = true;
-                    patchDocumentViewModel.OperatorPropertiesList_ForSamples.Add(viewModel);
+                    patchDocumentViewModel.OperatorPropertiesDictionary_ForSamples[op.ID] = viewModel;
                 }
                 else
                 {
@@ -754,10 +762,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
 
-            HashSet<int> idsToKeep = operators.Select(x => x.ID).ToHashSet();
-            patchDocumentViewModel.OperatorPropertiesList_ForSamples = patchDocumentViewModel.OperatorPropertiesList_ForSamples
-                                                                                             .Where(x => idsToKeep.Contains(x.ID))
-                                                                                             .ToList();
+            DeleteOperatorViewModels(patchDocumentViewModel.OperatorPropertiesDictionary_ForSamples, operators);
         }
 
         private void OperatorPropertiesList_WithDimension_Refresh(PatchDocumentViewModel patchDocumentViewModel)
@@ -774,7 +779,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     viewModel = op.ToPropertiesViewModel_WithDimension();
                     viewModel.Successful = true;
-                    patchDocumentViewModel.OperatorPropertiesList_WithDimension.Add(viewModel);
+                    patchDocumentViewModel.OperatorPropertiesDictionary_WithDimension[op.ID] = viewModel;
                 }
                 else
                 {
@@ -782,10 +787,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
 
-            HashSet<int> idsToKeep = operators.Select(x => x.ID).ToHashSet();
-            patchDocumentViewModel.OperatorPropertiesList_WithDimension = patchDocumentViewModel.OperatorPropertiesList_WithDimension
-                                                                                               .Where(x => idsToKeep.Contains(x.ID))
-                                                                                               .ToList();
+            DeleteOperatorViewModels(patchDocumentViewModel.OperatorPropertiesDictionary_WithDimension, operators);
         }
 
         private void OperatorPropertiesList_WithDimensionAndInterpolation_Refresh(PatchDocumentViewModel patchDocumentViewModel)
@@ -804,7 +806,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     viewModel = op.ToPropertiesViewModel_WithDimensionAndInterpolation();
                     viewModel.Successful = true;
-                    patchDocumentViewModel.OperatorPropertiesList_WithDimensionAndInterpolation.Add(viewModel);
+                    patchDocumentViewModel.OperatorPropertiesDictionary_WithDimensionAndInterpolation[op.ID] = viewModel;
                 }
                 else
                 {
@@ -812,10 +814,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
 
-            HashSet<int> idsToKeep = operators.Select(x => x.ID).ToHashSet();
-            patchDocumentViewModel.OperatorPropertiesList_WithDimensionAndInterpolation = patchDocumentViewModel.OperatorPropertiesList_WithDimensionAndInterpolation
-                                                                                                                .Where(x => idsToKeep.Contains(x.ID))
-                                                                                                                .ToList();
+            DeleteOperatorViewModels(patchDocumentViewModel.OperatorPropertiesDictionary_WithDimensionAndInterpolation, operators);
         }
 
         private void OperatorPropertiesList_WithDimensionAndCollectionRecalculation_Refresh(PatchDocumentViewModel patchDocumentViewModel)
@@ -834,7 +833,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     viewModel = op.ToPropertiesViewModel_WithDimensionAndCollectionRecalculation();
                     viewModel.Successful = true;
-                    patchDocumentViewModel.OperatorPropertiesList_WithDimensionAndCollectionRecalculation.Add(viewModel);
+                    patchDocumentViewModel.OperatorPropertiesDictionary_WithDimensionAndCollectionRecalculation[op.ID] = viewModel;
                 }
                 else
                 {
@@ -842,10 +841,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
 
-            HashSet<int> idsToKeep = operators.Select(x => x.ID).ToHashSet();
-            patchDocumentViewModel.OperatorPropertiesList_WithDimensionAndCollectionRecalculation = patchDocumentViewModel.OperatorPropertiesList_WithDimensionAndCollectionRecalculation
-                                                                                                                .Where(x => idsToKeep.Contains(x.ID))
-                                                                                                                .ToList();
+            DeleteOperatorViewModels(patchDocumentViewModel.OperatorPropertiesDictionary_WithDimensionAndCollectionRecalculation, operators);
         }
 
         private void OperatorPropertiesList_WithDimensionAndOutletCount_Refresh(PatchDocumentViewModel patchDocumentViewModel)
@@ -862,7 +858,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     viewModel = op.ToPropertiesViewModel_WithDimensionAndOutletCount();
                     viewModel.Successful = true;
-                    patchDocumentViewModel.OperatorPropertiesList_WithDimensionAndOutletCount.Add(viewModel);
+                    patchDocumentViewModel.OperatorPropertiesDictionary_WithDimensionAndOutletCount[op.ID] = viewModel;
                 }
                 else
                 {
@@ -870,10 +866,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
 
-            HashSet<int> idsToKeep = operators.Select(x => x.ID).ToHashSet();
-            patchDocumentViewModel.OperatorPropertiesList_WithDimensionAndOutletCount = patchDocumentViewModel.OperatorPropertiesList_WithDimensionAndOutletCount
-                                                                                                              .Where(x => idsToKeep.Contains(x.ID))
-                                                                                                              .ToList();
+            DeleteOperatorViewModels(patchDocumentViewModel.OperatorPropertiesDictionary_WithDimensionAndOutletCount, operators);
         }
 
         private void OperatorPropertiesList_WithInletCount_Refresh(PatchDocumentViewModel patchDocumentViewModel)
@@ -890,7 +883,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     viewModel = op.ToPropertiesViewModel_WithInletCount();
                     viewModel.Successful = true;
-                    patchDocumentViewModel.OperatorPropertiesList_WithInletCount.Add(viewModel);
+                    patchDocumentViewModel.OperatorPropertiesDictionary_WithInletCount[op.ID] = viewModel;
                 }
                 else
                 {
@@ -898,10 +891,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
 
-            HashSet<int> idsToKeep = operators.Select(x => x.ID).ToHashSet();
-            patchDocumentViewModel.OperatorPropertiesList_WithInletCount = patchDocumentViewModel.OperatorPropertiesList_WithInletCount
-                                                                                                              .Where(x => idsToKeep.Contains(x.ID))
-                                                                                                              .ToList();
+            DeleteOperatorViewModels(patchDocumentViewModel.OperatorPropertiesDictionary_WithInletCount, operators);
         }
 
         private void OperatorPropertiesListRefresh(PatchDocumentViewModel patchDocumentViewModel)
@@ -917,7 +907,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     viewModel = op.ToPropertiesViewModel();
                     viewModel.Successful = true;
-                    patchDocumentViewModel.OperatorPropertiesList.Add(viewModel);
+                    patchDocumentViewModel.OperatorPropertiesDictionary[op.ID] = viewModel;
                 }
                 else
                 {
@@ -925,10 +915,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
 
-            HashSet<int> idsToKeep = operators.Select(x => x.ID).ToHashSet();
-            patchDocumentViewModel.OperatorPropertiesList = patchDocumentViewModel.OperatorPropertiesList
-                                                                                  .Where(x => idsToKeep.Contains(x.ID))
-                                                                                  .ToList();
+            DeleteOperatorViewModels(patchDocumentViewModel.OperatorPropertiesDictionary, operators);
         }
 
         private void OperatorPropertiesRefresh(OperatorPropertiesViewModel userInput)
@@ -940,15 +927,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// <summary>
         /// When an underlying document of a custom operator is changed,
         /// we do not know which PatchDetails OperatorViewModels are affected,
-        /// because no OperatorViewModel has as property saying what UnderlyingPatch it is. 
+        /// because no OperatorViewModel has as property saying what UnderlyingPatch it is.
         /// Therefore we refresh all CustomOperators.
-        /// 
+        ///
         /// But also, a custom operator would need to be updated if something connected to it is deleted,
         /// because then the obsolete inlets and outlets might be cleaned up.
         /// </summary>
         private void OperatorViewModels_OfType_Refresh(OperatorTypeEnum operatorTypeEnum)
         {
-            IList<PatchDetailsViewModel> patchDetailsViewModels = MainViewModel.Document.PatchDocumentList.Select(x => x.PatchDetails).ToArray();
+            IList<PatchDetailsViewModel> patchDetailsViewModels = MainViewModel.Document.PatchDocumentDictionary.Values.Select(x => x.PatchDetails).ToArray();
 
             IList<OperatorViewModel> operatorViewModels =
                 patchDetailsViewModels.SelectMany(x => x.Entity.Operators)
@@ -1011,7 +998,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     IList<Document> childDocumentsInGroup = _documentManager.GetChildDocumentsInGroup_IncludingGroupless(rootDocument, group);
                     viewModel = childDocumentsInGroup.ToPatchGridViewModel(rootDocument.ID, group);
                     viewModel.Successful = true;
-                    MainViewModel.Document.PatchGridList.Add(viewModel);
+                    MainViewModel.Document.PatchGridDictionary[group] = viewModel;
                 }
                 else
                 {
@@ -1020,9 +1007,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             // Delete operations
-            MainViewModel.Document.PatchGridList = MainViewModel.Document.PatchGridList
-                                                                         .Where(x => groups.Contains(x.Group))
-                                                                         .ToList();
+            IEnumerable<string> existingGroups = MainViewModel.Document.PatchGridDictionary.Keys;
+            IEnumerable<string> groupsToDelete = groups.Select(x => x?.ToLower() ?? "").Except(existingGroups);
+
+            foreach (string groupToDelete in groupsToDelete)
+            {
+                MainViewModel.Document.PatchGridDictionary.Remove(groupToDelete);
+            }
         }
 
         private void PatchGridRefresh(string group)
@@ -1051,13 +1042,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // ToViewModel
             // Patch grids can be updated, created and deleted as group names are changed.
             // All the logic in CreatePatchGridViewModelList is required for this.
-            MainViewModel.Document.PatchGridList = ViewModelHelper.CreatePatchGridViewModelList(
+            MainViewModel.Document.PatchGridDictionary = ViewModelHelper.CreatePatchGridViewModelDictionary(
                 grouplessChildDocuments,
                 childDocumentGroupDtos,
                 rootDocument.ID);
 
             // DispatchViewModel
-            foreach (PatchGridViewModel gridViewModel in MainViewModel.Document.PatchGridList.ToArray())
+            foreach (PatchGridViewModel gridViewModel in MainViewModel.Document.PatchGridDictionary.Values.ToArray())
             {
                 DispatchViewModel(gridViewModel);
             }
@@ -1074,8 +1065,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             CurveGridRefresh(patchDocumentViewModel.CurveGrid);
             CurveLookupRefresh(patchDocumentViewModel);
             PatchDetailsRefresh(patchDocumentViewModel.PatchDetails);
-            CurveDetailsListRefresh(patchDocumentViewModel);
-            CurvePropertiesListRefresh(patchDocumentViewModel);
+            CurveDetailsDictionaryRefresh(patchDocumentViewModel);
+            CurvePropertiesDictionaryRefresh(patchDocumentViewModel);
             NodePropertiesListRefresh(patchDocumentViewModel);
 
             OperatorPropertiesListRefresh(patchDocumentViewModel);
@@ -1094,7 +1085,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesList_WithDimensionAndOutletCount_Refresh(patchDocumentViewModel);
             OperatorPropertiesList_WithInletCount_Refresh(patchDocumentViewModel);
 
-            SamplePropertiesListRefresh(patchDocumentViewModel);
+            SamplePropertiesDictionaryRefresh(patchDocumentViewModel);
 
             PatchPropertiesRefresh(patchDocumentViewModel.PatchProperties);
             SampleGridRefresh(patchDocumentViewModel.SampleGrid);
@@ -1131,7 +1122,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             Sample sample = _repositories.SampleRepository.Get(sampleID);
 
-            foreach (PatchDocumentViewModel patchDocumentViewModel in MainViewModel.Document.PatchDocumentList)
+            foreach (PatchDocumentViewModel patchDocumentViewModel in MainViewModel.Document.PatchDocumentDictionary.Values)
             {
                 IDAndName idAndName2 = patchDocumentViewModel.SampleLookup.Where(x => x.ID == sample.ID).FirstOrDefault();
                 if (idAndName2 != null)
@@ -1142,7 +1133,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        private void SamplePropertiesListRefresh(PatchDocumentViewModel patchDocumentViewModel)
+        private void SamplePropertiesDictionaryRefresh(PatchDocumentViewModel patchDocumentViewModel)
         {
             Document childDocument = _repositories.DocumentRepository.Get(patchDocumentViewModel.ChildDocumentID);
             IList<Sample> samples = childDocument.Samples;
@@ -1154,7 +1145,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     samplePropertiesViewModel = sample.ToPropertiesViewModel(_sampleRepositories);
                     samplePropertiesViewModel.Successful = true;
-                    patchDocumentViewModel.SamplePropertiesList.Add(samplePropertiesViewModel);
+                    patchDocumentViewModel.SamplePropertiesDictionary[sample.ID] = samplePropertiesViewModel;
                 }
                 else
                 {
@@ -1162,13 +1153,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
 
-            HashSet<int> idsToKeep = samples.Select(x => x.ID).ToHashSet();
-            patchDocumentViewModel.SamplePropertiesList = patchDocumentViewModel.SamplePropertiesList
-                                                                               .Where(x => idsToKeep.Contains(x.Entity.ID))
-                                                                               .ToList();
+            IEnumerable<int> existingIDs = patchDocumentViewModel.SamplePropertiesDictionary.Keys;
+            IEnumerable<int> idsToKeep = samples.Select(x => x.ID);
+            IEnumerable<int> idsToDelete = existingIDs.Except(idsToKeep);
+
+            foreach (int idToDelete in idsToDelete.ToArray())
+            {
+                patchDocumentViewModel.SamplePropertiesDictionary.Remove(idToDelete);
+            }
         }
 
-        private void SamplePropertiesListRefresh(DocumentViewModel documentViewModel)
+        private void SamplePropertiesDictionaryRefresh(DocumentViewModel documentViewModel)
         {
             Document document = _repositories.DocumentRepository.Get(documentViewModel.ID);
             IList<Sample> entities = document.Samples;
@@ -1180,7 +1175,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     viewModel = entity.ToPropertiesViewModel(_sampleRepositories);
                     viewModel.Successful = true;
-                    documentViewModel.SamplePropertiesList.Add(viewModel);
+                    documentViewModel.SamplePropertiesDictionary[entity.ID] = viewModel;
                 }
                 else
                 {
@@ -1188,10 +1183,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
 
-            HashSet<int> idsToKeep = entities.Select(x => x.ID).ToHashSet();
-            documentViewModel.SamplePropertiesList = documentViewModel.SamplePropertiesList
-                                                                      .Where(x => idsToKeep.Contains(x.Entity.ID))
-                                                                      .ToList();
+            IEnumerable<int> existingIDs = documentViewModel.SamplePropertiesDictionary.Keys;
+            IEnumerable<int> idsToKeep = entities.Select(x => x.ID);
+            IEnumerable<int> idsToDelete = existingIDs.Except(idsToKeep);
+
+            foreach (int idToDelete in idsToDelete.ToArray())
+            {
+                documentViewModel.SamplePropertiesDictionary.Remove(idToDelete);
+            }
         }
 
         private void SamplePropertiesRefresh(SamplePropertiesViewModel userInput)
@@ -1264,7 +1263,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     viewModel = entity.ToToneGridEditViewModel();
                     viewModel.Successful = true;
-                    MainViewModel.Document.ToneGridEditList.Add(viewModel);
+                    MainViewModel.Document.ToneGridEditDictionary[entity.ID] = viewModel;
                 }
                 else
                 {
@@ -1272,10 +1271,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
 
-            HashSet<int> idsToKeep = entities.Select(x => x.ID).ToHashSet();
-            MainViewModel.Document.ToneGridEditList = MainViewModel.Document.ToneGridEditList
-                                                                            .Where(x => idsToKeep.Contains(x.ScaleID))
-                                                                            .ToList();
+            IEnumerable<int> existingIDs = MainViewModel.Document.ToneGridEditDictionary.Keys;
+            IEnumerable<int> idsToKeep = entities.Select(x => x.ID);
+            IEnumerable<int> idsToDelete = existingIDs.Except(idsToKeep);
+
+            foreach (int idToDelete in idsToDelete.ToArray())
+            {
+                MainViewModel.Document.ToneGridEditDictionary.Remove(idToDelete);
+            }
         }
 
         private void ToneGridEditRefresh(ToneGridEditViewModel userInput)
@@ -1295,6 +1298,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Document rootDocument = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
             IList<Patch> patches = rootDocument.ChildDocuments.SelectMany(x => x.Patches).ToArray();
             MainViewModel.Document.UnderlyingPatchLookup = ViewModelHelper.CreateUnderlyingPatchLookupViewModel(patches);
+        }
+
+        // Helpers
+
+        private static void DeleteOperatorViewModels<TViewModel>(Dictionary<int, TViewModel> viewModelDictionary, IList<Operator> operators)
+        {
+            IEnumerable<int> existingIDs = viewModelDictionary.Keys;
+            IEnumerable<int> idsToKeep = operators.Select(x => x.ID);
+            IEnumerable<int> idsToDelete = existingIDs.Except(idsToKeep);
+
+            foreach (int idToDelete in idsToDelete.ToArray())
+            {
+                viewModelDictionary.Remove(idToDelete);
+            }
         }
     }
 }

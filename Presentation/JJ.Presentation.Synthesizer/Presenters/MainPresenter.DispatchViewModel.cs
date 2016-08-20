@@ -103,16 +103,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (AudioFileOutputPropertiesViewModel)viewModel2;
 
-            var list = MainViewModel.Document.AudioFileOutputPropertiesList;
-            int? listIndex = list.TryGetIndexOf(x => x.Entity.ID == castedViewModel.Entity.ID);
-            if (listIndex.HasValue)
-            {
-                list[listIndex.Value] = castedViewModel;
-            }
-            else
-            {
-                list.Add(castedViewModel);
-            }
+            var dictionary = MainViewModel.Document.AudioFileOutputPropertiesDictionary;
+            int id = castedViewModel.Entity.ID;
+
+            dictionary[id] = castedViewModel;
 
             if (castedViewModel.Visible)
             {
@@ -163,16 +157,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (CurveDetailsViewModel)viewModel2;
 
-            var list = ViewModelSelector.GetCurveDetailsViewModelList_ByDocumentID(MainViewModel.Document, castedViewModel.DocumentID);
-            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
-            if (listIndex.HasValue)
-            {
-                list[listIndex.Value] = castedViewModel;
-            }
-            else
-            {
-                list.Add(castedViewModel);
-            }
+            var dictionary = ViewModelSelector.GetCurveDetailsViewModelDictionary_ByDocumentID(MainViewModel.Document, castedViewModel.DocumentID);
+            dictionary[castedViewModel.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
             {
@@ -210,16 +196,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (CurvePropertiesViewModel)viewModel2;
 
-            var list = ViewModelSelector.GetCurvePropertiesViewModelList_ByDocumentID(MainViewModel.Document, castedViewModel.DocumentID);
-            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
-            if (listIndex.HasValue)
-            {
-                list[listIndex.Value] = castedViewModel;
-            }
-            else
-            {
-                list.Add(castedViewModel);
-            }
+            var dictionary = ViewModelSelector.GetCurvePropertiesViewModelDictionary_ByDocumentID(MainViewModel.Document, castedViewModel.DocumentID);
+            dictionary[castedViewModel.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
             {
@@ -322,16 +300,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (NodePropertiesViewModel)viewModel2;
 
-            var list = ViewModelSelector.GetNodePropertiesViewModelList_ByCurveID(MainViewModel.Document, castedViewModel.CurveID);
-            int? listIndex = list.TryGetIndexOf(x => x.Entity.ID == castedViewModel.Entity.ID);
-            if (listIndex.HasValue)
-            {
-                list[listIndex.Value] = castedViewModel;
-            }
-            else
-            {
-                list.Add(castedViewModel);
-            }
+            var list = ViewModelSelector.GetNodePropertiesViewModelDictionary_ByCurveID(MainViewModel.Document, castedViewModel.CurveID);
+            list[castedViewModel.Entity.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
             {
@@ -347,16 +317,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel)viewModel2;
 
-            var list = ViewModelSelector.GetOperatorPropertiesViewModelList_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
-            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
-            if (listIndex.HasValue)
-            {
-                list[listIndex.Value] = castedViewModel;
-            }
-            else
-            {
-                list.Add(castedViewModel);
-            }
+            var dictionary = ViewModelSelector.GetOperatorPropertiesViewModelDictionary_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
+            dictionary[castedViewModel.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
             {
@@ -372,16 +334,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForBundle)viewModel2;
 
-            var list = ViewModelSelector.GetOperatorPropertiesViewModelList_ForBundles_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
-            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
-            if (listIndex.HasValue)
-            {
-                list[listIndex.Value] = castedViewModel;
-            }
-            else
-            {
-                list.Add(castedViewModel);
-            }
+            var dictionary = ViewModelSelector.GetOperatorPropertiesViewModelDictionary_ForBundles_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
+            dictionary[castedViewModel.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
             {
@@ -397,16 +351,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForCache)viewModel2;
 
-            var list = ViewModelSelector.GetOperatorPropertiesViewModelList_ForCaches_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
-            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
-            if (listIndex.HasValue)
-            {
-                list[listIndex.Value] = castedViewModel;
-            }
-            else
-            {
-                list.Add(castedViewModel);
-            }
+            var dictionary = ViewModelSelector.GetOperatorPropertiesViewModelDictionary_ForCaches_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
+            dictionary[castedViewModel.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
             {
@@ -422,16 +368,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForCurve)viewModel2;
 
-            var list = ViewModelSelector.GetOperatorPropertiesViewModelList_ForCurves_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
-            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
-            if (listIndex.HasValue)
-            {
-                list[listIndex.Value] = castedViewModel;
-            }
-            else
-            {
-                list.Add(castedViewModel);
-            }
+            var dictionary = ViewModelSelector.GetOperatorPropertiesViewModelDictionary_ForCurves_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
+            dictionary[castedViewModel.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
             {
@@ -447,16 +385,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForCustomOperator)viewModel2;
 
-            var list = ViewModelSelector.GetOperatorPropertiesViewModelList_ForCustomOperators_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
-            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
-            if (listIndex.HasValue)
-            {
-                list[listIndex.Value] = castedViewModel;
-            }
-            else
-            {
-                list.Add(castedViewModel);
-            }
+            var dictionary = ViewModelSelector.GetOperatorPropertiesViewModelDictionary_ForCustomOperators_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
+            dictionary[castedViewModel.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
             {
@@ -472,16 +402,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForMakeContinuous)viewModel2;
 
-            var list = ViewModelSelector.GetOperatorPropertiesViewModelList_ForMakeContinuous_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
-            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
-            if (listIndex.HasValue)
-            {
-                list[listIndex.Value] = castedViewModel;
-            }
-            else
-            {
-                list.Add(castedViewModel);
-            }
+            var dictionary = ViewModelSelector.GetOperatorPropertiesViewModelDictionary_ForMakeContinuous_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
+            dictionary[castedViewModel.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
             {
@@ -497,16 +419,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForNumber)viewModel2;
 
-            var list = ViewModelSelector.GetOperatorPropertiesViewModelList_ForNumbers_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
-            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
-            if (listIndex.HasValue)
-            {
-                list[listIndex.Value] = castedViewModel;
-            }
-            else
-            {
-                list.Add(castedViewModel);
-            }
+            var dictionary = ViewModelSelector.GetOperatorPropertiesViewModelDictionary_ForNumbers_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
+            dictionary[castedViewModel.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
             {
@@ -522,16 +436,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForPatchInlet)viewModel2;
 
-            var list = ViewModelSelector.GetOperatorPropertiesViewModelList_ForPatchInlets_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
-            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
-            if (listIndex.HasValue)
-            {
-                list[listIndex.Value] = castedViewModel;
-            }
-            else
-            {
-                list.Add(castedViewModel);
-            }
+            var dictionary = ViewModelSelector.GetOperatorPropertiesViewModelDictionary_ForPatchInlets_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
+            dictionary[castedViewModel.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
             {
@@ -547,16 +453,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForPatchOutlet)viewModel2;
 
-            var list = ViewModelSelector.GetOperatorPropertiesViewModelList_ForPatchOutlets_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
-            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
-            if (listIndex.HasValue)
-            {
-                list[listIndex.Value] = castedViewModel;
-            }
-            else
-            {
-                list.Add(castedViewModel);
-            }
+            var dictionary = ViewModelSelector.GetOperatorPropertiesViewModelDictionary_ForPatchOutlets_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
+            dictionary[castedViewModel.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
             {
@@ -572,16 +470,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForSample)viewModel2;
 
-            var list = ViewModelSelector.GetOperatorPropertiesViewModelList_ForSamples_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
-            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
-            if (listIndex.HasValue)
-            {
-                list[listIndex.Value] = castedViewModel;
-            }
-            else
-            {
-                list.Add(castedViewModel);
-            }
+            var dictionary = ViewModelSelector.GetOperatorPropertiesViewModelDictionary_ForSamples_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
+            dictionary[castedViewModel.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
             {
@@ -597,16 +487,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_WithDimension)viewModel2;
 
-            var list = ViewModelSelector.GetOperatorPropertiesViewModelList_WithDimension_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
-            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
-            if (listIndex.HasValue)
-            {
-                list[listIndex.Value] = castedViewModel;
-            }
-            else
-            {
-                list.Add(castedViewModel);
-            }
+            var dictionary = ViewModelSelector.GetOperatorPropertiesViewModelDictionary_WithDimension_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
+            dictionary[castedViewModel.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
             {
@@ -622,16 +504,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_WithDimensionAndInterpolation)viewModel2;
 
-            var list = ViewModelSelector.GetOperatorPropertiesViewModelList_WithDimensionAndInterpolation_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
-            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
-            if (listIndex.HasValue)
-            {
-                list[listIndex.Value] = castedViewModel;
-            }
-            else
-            {
-                list.Add(castedViewModel);
-            }
+            var dictionary = ViewModelSelector.GetOperatorPropertiesViewModelDictionary_WithDimensionAndInterpolation_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
+            dictionary[castedViewModel.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
             {
@@ -647,16 +521,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation)viewModel2;
 
-            var list = ViewModelSelector.GetOperatorPropertiesViewModelList_WithDimensionAndCollectionRecalculation_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
-            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
-            if (listIndex.HasValue)
-            {
-                list[listIndex.Value] = castedViewModel;
-            }
-            else
-            {
-                list.Add(castedViewModel);
-            }
+            var dictionary = ViewModelSelector.GetOperatorPropertiesViewModelDictionary_WithDimensionAndCollectionRecalculation_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
+            dictionary[castedViewModel.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
             {
@@ -672,16 +538,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_WithDimensionAndOutletCount)viewModel2;
 
-            var list = ViewModelSelector.GetOperatorPropertiesViewModelList_WithDimensionAndOutletCount_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
-            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
-            if (listIndex.HasValue)
-            {
-                list[listIndex.Value] = castedViewModel;
-            }
-            else
-            {
-                list.Add(castedViewModel);
-            }
+            var dictionary = ViewModelSelector.GetOperatorPropertiesViewModelDictionary_WithDimensionAndOutletCount_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
+            dictionary[castedViewModel.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
             {
@@ -697,16 +555,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_WithInletCount)viewModel2;
 
-            var list = ViewModelSelector.GetOperatorPropertiesViewModelList_WithInletCount_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
-            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
-            if (listIndex.HasValue)
-            {
-                list[listIndex.Value] = castedViewModel;
-            }
-            else
-            {
-                list.Add(castedViewModel);
-            }
+            var dictionary = ViewModelSelector.GetOperatorPropertiesViewModelDictionary_WithInletCount_ByPatchID(MainViewModel.Document, castedViewModel.PatchID);
+            dictionary[castedViewModel.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
             {
@@ -722,9 +572,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (PatchDetailsViewModel)viewModel2;
 
-            var list = MainViewModel.Document.PatchDocumentList;
-            int listIndex = MainViewModel.Document.PatchDocumentList.IndexOf(x => x.PatchDetails.Entity.PatchID == castedViewModel.Entity.PatchID);
-            list[listIndex].PatchDetails = castedViewModel;
+            var dictionary = MainViewModel.Document.PatchDocumentDictionary;
+            // Dictionary key is ChildDocumentID.
+            int listIndex = MainViewModel.Document.PatchDocumentDictionary.Values.IndexOf(x => x.PatchDetails.Entity.PatchID == castedViewModel.Entity.PatchID);
+            dictionary[castedViewModel.Entity.ChildDocumentID].PatchDetails = castedViewModel;
 
             if (castedViewModel.Visible)
             {
@@ -740,8 +591,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (PatchGridViewModel)viewModel2;
 
-            MainViewModel.Document.PatchGridList.TryRemoveFirst(x => String.Equals(x.Group, castedViewModel.Group));
-            MainViewModel.Document.PatchGridList.Add(castedViewModel);
+            string key = (castedViewModel.Group ?? "").ToLower();
+
+            MainViewModel.Document.PatchGridDictionary[key] = castedViewModel;
 
             if (castedViewModel.Visible)
             {
@@ -757,9 +609,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (PatchPropertiesViewModel)viewModel2;
 
-            var list = MainViewModel.Document.PatchDocumentList;
-            int listIndex = MainViewModel.Document.PatchDocumentList.IndexOf(x => x.PatchProperties.PatchID == castedViewModel.PatchID);
-            list[listIndex].PatchProperties = castedViewModel;
+            var dictionary = MainViewModel.Document.PatchDocumentDictionary;
+
+            // Dictionary key is ChildDocumentID.
+            int key = MainViewModel.Document.PatchDocumentDictionary
+                                            .Where(x => x.Value.PatchProperties.PatchID == castedViewModel.PatchID)
+                                            .Select(x => x.Key)
+                                            .Single();
+
+            dictionary[key].PatchProperties = castedViewModel;
 
             if (castedViewModel.Visible)
             {
@@ -797,16 +655,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (SamplePropertiesViewModel)viewModel2;
 
-            var list = ViewModelSelector.GetSamplePropertiesViewModelList_ByDocumentID(MainViewModel.Document, castedViewModel.DocumentID);
-            int? listIndex = list.TryGetIndexOf(x => x.Entity.ID == castedViewModel.Entity.ID);
-            if (listIndex.HasValue)
-            {
-                list[listIndex.Value] = castedViewModel;
-            }
-            else
-            {
-                list.Add(castedViewModel);
-            }
+            var dictionary = ViewModelSelector.GetSamplePropertiesViewModelDictionary_ByDocumentID(MainViewModel.Document, castedViewModel.DocumentID);
+            dictionary[castedViewModel.Entity.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
             {
@@ -860,16 +710,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (ToneGridEditViewModel)viewModel2;
 
-            var list = MainViewModel.Document.ToneGridEditList;
-            int? listIndex = list.TryGetIndexOf(x => x.ScaleID == castedViewModel.ScaleID);
-            if (listIndex.HasValue)
-            {
-                list[listIndex.Value] = castedViewModel;
-            }
-            else
-            {
-                list.Add(castedViewModel);
-            }
+            var dictionary = MainViewModel.Document.ToneGridEditDictionary;
+            dictionary[castedViewModel.ScaleID] = castedViewModel;
 
             if (castedViewModel.Visible)
             {

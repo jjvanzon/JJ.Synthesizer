@@ -73,23 +73,23 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new DocumentViewModel
             {
                 AudioFileOutputGrid = CreateEmptyAudioFileOutputGridViewModel(),
-                AudioFileOutputPropertiesList = new List<AudioFileOutputPropertiesViewModel>(),
+                AudioFileOutputPropertiesDictionary = new Dictionary<int, AudioFileOutputPropertiesViewModel>(),
                 AudioOutputProperties = CreateEmptyAudioOutputPropertiesViewModel(),
                 AutoPatchDetails = CreateEmptyPatchDetailsViewModel(),
                 CurrentPatches = CreateEmptyCurrentPatchesViewModel(),
-                CurveDetailsList = new List<CurveDetailsViewModel>(),
+                CurveDetailsDictionary = new Dictionary<int, CurveDetailsViewModel>(),
                 CurveGrid = CreateEmptyCurveGridViewModel(),
-                CurvePropertiesList = new List<CurvePropertiesViewModel>(),
+                CurvePropertiesDictionary = new Dictionary<int, CurvePropertiesViewModel>(),
                 DocumentProperties = CreateEmptyDocumentPropertiesViewModel(),
                 DocumentTree = CreateEmptyDocumentTreeViewModel(),
-                NodePropertiesList = new List<NodePropertiesViewModel>(),
-                PatchGridList = new List<PatchGridViewModel>(),
-                PatchDocumentList = new List<PatchDocumentViewModel>(),
+                NodePropertiesDictionary = new Dictionary<int, NodePropertiesViewModel>(),
+                PatchGridDictionary = new Dictionary<string, PatchGridViewModel>(),
+                PatchDocumentDictionary = new Dictionary<int, PatchDocumentViewModel>(),
                 SampleGrid = CreateEmptySampleGridViewModel(),
-                SamplePropertiesList = new List<SamplePropertiesViewModel>(),
+                SamplePropertiesDictionary = new Dictionary<int, SamplePropertiesViewModel>(),
                 ScaleGrid = CreateEmptyScaleGridViewModel(),
                 ScalePropertiesList = new List<ScalePropertiesViewModel>(),
-                ToneGridEditList = new List<ToneGridEditViewModel>(),
+                ToneGridEditDictionary = new Dictionary<int, ToneGridEditViewModel>(),
                 UnderlyingPatchLookup = new List<ChildDocumentIDAndNameViewModel>()
             };
 

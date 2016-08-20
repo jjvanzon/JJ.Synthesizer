@@ -138,7 +138,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (viewModel.Successful)
             {
                 // ToViewModel
-                MainViewModel.Document.AudioFileOutputPropertiesList.RemoveFirst(x => x.Entity.ID == id);
+                MainViewModel.Document.AudioFileOutputPropertiesDictionary.Remove(id);
 
                 // Refresh
                 DocumentTreeRefresh();
@@ -706,48 +706,48 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Set everything to successful.
             viewModel.AudioFileOutputGrid.Successful = true;
-            viewModel.AudioFileOutputPropertiesList.ForEach(x => x.Successful = true);
+            viewModel.AudioFileOutputPropertiesDictionary.Values.ForEach(x => x.Successful = true);
             viewModel.AudioOutputProperties.Successful = true;
             viewModel.AutoPatchDetails.Successful = true;
             viewModel.CurrentPatches.Successful = true;
-            viewModel.CurveDetailsList.ForEach(x => x.Successful = true);
+            viewModel.CurveDetailsDictionary.Values.ForEach(x => x.Successful = true);
             viewModel.CurveGrid.Successful = true;
-            viewModel.CurvePropertiesList.ForEach(x => x.Successful = true);
+            viewModel.CurvePropertiesDictionary.Values.ForEach(x => x.Successful = true);
             viewModel.DocumentProperties.Successful = true;
             viewModel.DocumentTree.Successful = true;
-            viewModel.PatchGridList.ForEach(x => x.Successful = true);
-            viewModel.NodePropertiesList.ForEach(x => x.Successful = true);
+            viewModel.PatchGridDictionary.Values.ForEach(x => x.Successful = true);
+            viewModel.NodePropertiesDictionary.Values.ForEach(x => x.Successful = true);
             viewModel.SampleGrid.Successful = true;
-            viewModel.SamplePropertiesList.ForEach(x => x.Successful = true);
+            viewModel.SamplePropertiesDictionary.Values.ForEach(x => x.Successful = true);
             viewModel.ScaleGrid.Successful = true;
             viewModel.ScalePropertiesList.ForEach(x => x.Successful = true);
-            viewModel.ToneGridEditList.ForEach(x => x.Successful = true);
+            viewModel.ToneGridEditDictionary.Values.ForEach(x => x.Successful = true);
 
-            foreach (PatchDocumentViewModel patchDocumentViewModel in viewModel.PatchDocumentList)
+            foreach (PatchDocumentViewModel patchDocumentViewModel in viewModel.PatchDocumentDictionary.Values)
             {
-                patchDocumentViewModel.CurveDetailsList.ForEach(x => x.Successful = true);
+                patchDocumentViewModel.CurveDetailsDictionary.Values.ForEach(x => x.Successful = true);
                 patchDocumentViewModel.CurveGrid.Successful = true;
-                patchDocumentViewModel.CurvePropertiesList.ForEach(x => x.Successful = true);
-                patchDocumentViewModel.NodePropertiesList.ForEach(x => x.Successful = true);
-                patchDocumentViewModel.OperatorPropertiesList.ForEach(x => x.Successful = true);
-                patchDocumentViewModel.OperatorPropertiesList_ForBundles.ForEach(x => x.Successful = true);
-                patchDocumentViewModel.OperatorPropertiesList_ForCaches.ForEach(x => x.Successful = true);
-                patchDocumentViewModel.OperatorPropertiesList_ForCurves.ForEach(x => x.Successful = true);
-                patchDocumentViewModel.OperatorPropertiesList_ForCustomOperators.ForEach(x => x.Successful = true);
-                patchDocumentViewModel.OperatorPropertiesList_ForMakeContinuous.ForEach(x => x.Successful = true);
-                patchDocumentViewModel.OperatorPropertiesList_ForNumbers.ForEach(x => x.Successful = true);
-                patchDocumentViewModel.OperatorPropertiesList_ForPatchInlets.ForEach(x => x.Successful = true);
-                patchDocumentViewModel.OperatorPropertiesList_ForPatchOutlets.ForEach(x => x.Successful = true);
-                patchDocumentViewModel.OperatorPropertiesList_ForSamples.ForEach(x => x.Successful = true);
-                patchDocumentViewModel.OperatorPropertiesList_WithDimension.ForEach(x => x.Successful = true);
-                patchDocumentViewModel.OperatorPropertiesList_WithDimensionAndInterpolation.ForEach(x => x.Successful = true);
-                patchDocumentViewModel.OperatorPropertiesList_WithDimensionAndCollectionRecalculation.ForEach(x => x.Successful = true);
-                patchDocumentViewModel.OperatorPropertiesList_WithDimensionAndOutletCount.ForEach(x => x.Successful = true);
-                patchDocumentViewModel.OperatorPropertiesList_WithInletCount.ForEach(x => x.Successful = true);
+                patchDocumentViewModel.CurvePropertiesDictionary.Values.ForEach(x => x.Successful = true);
+                patchDocumentViewModel.NodePropertiesDictionary.Values.ForEach(x => x.Successful = true);
+                patchDocumentViewModel.OperatorPropertiesDictionary.Values.ForEach(x => x.Successful = true);
+                patchDocumentViewModel.OperatorPropertiesDictionary_ForBundles.Values.ForEach(x => x.Successful = true);
+                patchDocumentViewModel.OperatorPropertiesDictionary_ForCaches.Values.ForEach(x => x.Successful = true);
+                patchDocumentViewModel.OperatorPropertiesDictionary_ForCurves.Values.ForEach(x => x.Successful = true);
+                patchDocumentViewModel.OperatorPropertiesDictionary_ForCustomOperators.Values.ForEach(x => x.Successful = true);
+                patchDocumentViewModel.OperatorPropertiesDictionary_ForMakeContinuous.Values.ForEach(x => x.Successful = true);
+                patchDocumentViewModel.OperatorPropertiesDictionary_ForNumbers.Values.ForEach(x => x.Successful = true);
+                patchDocumentViewModel.OperatorPropertiesDictionary_ForPatchInlets.Values.ForEach(x => x.Successful = true);
+                patchDocumentViewModel.OperatorPropertiesDictionary_ForPatchOutlets.Values.ForEach(x => x.Successful = true);
+                patchDocumentViewModel.OperatorPropertiesDictionary_ForSamples.Values.ForEach(x => x.Successful = true);
+                patchDocumentViewModel.OperatorPropertiesDictionary_WithDimension.Values.ForEach(x => x.Successful = true);
+                patchDocumentViewModel.OperatorPropertiesDictionary_WithDimensionAndInterpolation.Values.ForEach(x => x.Successful = true);
+                patchDocumentViewModel.OperatorPropertiesDictionary_WithDimensionAndCollectionRecalculation.Values.ForEach(x => x.Successful = true);
+                patchDocumentViewModel.OperatorPropertiesDictionary_WithDimensionAndOutletCount.Values.ForEach(x => x.Successful = true);
+                patchDocumentViewModel.OperatorPropertiesDictionary_WithInletCount.Values.ForEach(x => x.Successful = true);
                 patchDocumentViewModel.PatchDetails.Successful = true;
                 patchDocumentViewModel.PatchProperties.Successful = true;
                 patchDocumentViewModel.SampleGrid.Successful = true;
-                patchDocumentViewModel.SamplePropertiesList.Select(x => x.Successful = true);
+                patchDocumentViewModel.SamplePropertiesDictionary.Values.Select(x => x.Successful = true);
             }
 
             string titleBar = _titleBarPresenter.Show(rootDocument);
@@ -2047,7 +2047,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 // ToViewModel
                 MainViewModel.Document.ScaleGrid.List.RemoveFirst(x => x.ID == id);
-                MainViewModel.Document.ToneGridEditList.RemoveFirst(x => x.ScaleID == id);
+                MainViewModel.Document.ToneGridEditDictionary.Remove(id);
                 MainViewModel.Document.ScalePropertiesList.RemoveFirst(x => x.Entity.ID == id);
 
                 // Refresh

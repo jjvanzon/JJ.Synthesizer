@@ -25,21 +25,21 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 ID = document.ID,
                 AudioFileOutputGrid = document.ToAudioFileOutputGridViewModel(),
-                AudioFileOutputPropertiesList = document.AudioFileOutputs.Select(x => x.ToPropertiesViewModel()).ToList(),
-                PatchDocumentList = document.ChildDocuments.Select(x => x.ToPatchDocumentViewModel(repositories, entityPositionManager)).ToList(),
+                AudioFileOutputPropertiesDictionary = document.AudioFileOutputs.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.Entity.ID),
+                PatchDocumentDictionary = document.ChildDocuments.Select(x => x.ToPatchDocumentViewModel(repositories, entityPositionManager)).ToDictionary(x => x.ChildDocumentID),
                 CurrentPatches = ViewModelHelper.CreateEmptyCurrentPatchesViewModel(),
-                CurveDetailsList = document.Curves.Select(x => x.ToDetailsViewModel()).ToList(),
+                CurveDetailsDictionary = document.Curves.Select(x => x.ToDetailsViewModel()).ToDictionary(x => x.ID),
                 CurveGrid = document.Curves.ToGridViewModel(document.ID),
-                CurvePropertiesList = document.Curves.Select(x => x.ToPropertiesViewModel()).ToList(),
+                CurvePropertiesDictionary = document.Curves.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.ID),
                 DocumentProperties = document.ToPropertiesViewModel(),
                 DocumentTree = document.ToTreeViewModel(grouplessChildDocuments, childDocumentGroupDtos),
-                PatchGridList = ViewModelHelper.CreatePatchGridViewModelList(grouplessChildDocuments, childDocumentGroupDtos, document.ID),
-                NodePropertiesList = document.Curves.SelectMany(x => x.Nodes).Select(x => x.ToPropertiesViewModel()).ToList(),
+                PatchGridDictionary = ViewModelHelper.CreatePatchGridViewModelDictionary(grouplessChildDocuments, childDocumentGroupDtos, document.ID),
+                NodePropertiesDictionary = document.Curves.SelectMany(x => x.Nodes).Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.Entity.ID),
                 SampleGrid = document.Samples.ToGridViewModel(document.ID),
-                SamplePropertiesList = document.Samples.Select(x => x.ToPropertiesViewModel(new SampleRepositories(repositories))).ToList(),
+                SamplePropertiesDictionary = document.Samples.Select(x => x.ToPropertiesViewModel(new SampleRepositories(repositories))).ToDictionary(x => x.Entity.ID),
                 ScaleGrid = document.Scales.ToGridViewModel(document.ID),
                 ScalePropertiesList = document.Scales.Select(x => x.ToPropertiesViewModel()).ToList(),
-                ToneGridEditList = document.Scales.Select(x => x.ToToneGridEditViewModel()).ToList(),
+                ToneGridEditDictionary = document.Scales.Select(x => x.ToToneGridEditViewModel()).ToDictionary(x => x.ScaleID),
                 AutoPatchDetails = ViewModelHelper.CreateEmptyPatchDetailsViewModel()
             };
 
@@ -68,34 +68,36 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (childDocument.ParentDocument == null) throw new NullException(() => childDocument);
             if (childDocument.Patches.Count < 1) throw new LessThanException(() => childDocument.Patches.Count, 1);
 
+            var sampleRepositories = new SampleRepositories(repositories);
+
             var viewModel = new PatchDocumentViewModel
             {
                 ChildDocumentID = childDocument.ID,
-                CurveDetailsList = childDocument.Curves.Select(x => x.ToDetailsViewModel()).ToList(),
+                CurveDetailsDictionary = childDocument.Curves.Select(x => x.ToDetailsViewModel()).ToDictionary(x => x.ID),
                 CurveGrid = childDocument.Curves.ToGridViewModel(childDocument.ID),
                 CurveLookup = ViewModelHelper.CreateCurveLookupViewModel(childDocument.ParentDocument, childDocument),
-                CurvePropertiesList = childDocument.Curves.Select(x => x.ToPropertiesViewModel()).ToList(),
-                NodePropertiesList = childDocument.Curves.SelectMany(x => x.Nodes).Select(x => x.ToPropertiesViewModel()).ToList(),
-                OperatorPropertiesList = childDocument.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList_WithoutAlternativePropertiesView()).ToList(),
-                OperatorPropertiesList_ForBundles = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForBundles()).ToList(),
-                OperatorPropertiesList_ForCaches = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForCaches(repositories.InterpolationTypeRepository)).ToList(),
-                OperatorPropertiesList_ForCurves = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForCurves(repositories.CurveRepository)).ToList(),
-                OperatorPropertiesList_ForCustomOperators = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForCustomOperators(repositories.PatchRepository)).ToList(),
-                OperatorPropertiesList_ForMakeContinuous = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForMakeContinuous()).ToList(),
-                OperatorPropertiesList_ForNumbers = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForNumbers()).ToList(),
-                OperatorPropertiesList_ForPatchInlets = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForPatchInlets()).ToList(),
-                OperatorPropertiesList_ForPatchOutlets = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForPatchOutlets()).ToList(),
-                OperatorPropertiesList_ForSamples = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForSamples(repositories.SampleRepository)).ToList(),
-                OperatorPropertiesList_WithDimension = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithDimension()).ToList(),
-                OperatorPropertiesList_WithDimensionAndCollectionRecalculation = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithDimensionAndCollectionRecalculation()).ToList(),
-                OperatorPropertiesList_WithDimensionAndInterpolation = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithDimensionAndInterpolation()).ToList(),
-                OperatorPropertiesList_WithDimensionAndOutletCount = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithDimensionAndOutletCount()).ToList(),
-                OperatorPropertiesList_WithInletCount = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithInletCount()).ToList(),
+                CurvePropertiesDictionary = childDocument.Curves.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.ID),
+                NodePropertiesDictionary = childDocument.Curves.SelectMany(x => x.Nodes).Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.Entity.ID),
+                OperatorPropertiesDictionary = childDocument.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList_WithoutAlternativePropertiesView()).ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_ForBundles = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForBundles()).ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_ForCaches = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForCaches(repositories.InterpolationTypeRepository)).ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_ForCurves = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForCurves(repositories.CurveRepository)).ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_ForCustomOperators = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForCustomOperators(repositories.PatchRepository)).ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_ForMakeContinuous = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForMakeContinuous()).ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_ForNumbers = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForNumbers()).ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_ForPatchInlets = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForPatchInlets()).ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_ForPatchOutlets = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForPatchOutlets()).ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_ForSamples = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForSamples(repositories.SampleRepository)).ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_WithDimension = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithDimension()).ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_WithDimensionAndCollectionRecalculation = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithDimensionAndCollectionRecalculation()).ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_WithDimensionAndInterpolation = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithDimensionAndInterpolation()).ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_WithDimensionAndOutletCount = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithDimensionAndOutletCount()).ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_WithInletCount = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithInletCount()).ToDictionary(x => x.ID),
                 PatchDetails = childDocument.Patches[0].ToDetailsViewModel(repositories.OperatorTypeRepository, repositories.SampleRepository, repositories.CurveRepository, repositories.PatchRepository, entityPositionManager),
                 PatchProperties = childDocument.ToPatchPropertiesViewModel(),
                 SampleGrid = childDocument.Samples.ToGridViewModel(childDocument.ID),
                 SampleLookup = ViewModelHelper.CreateSampleLookupViewModel(childDocument.ParentDocument, childDocument),
-                SamplePropertiesList = childDocument.Samples.Select(x => x.ToPropertiesViewModel(new SampleRepositories(repositories))).ToList()
+                SamplePropertiesDictionary = childDocument.Samples.Select(x => x.ToPropertiesViewModel(sampleRepositories)).ToDictionary(x => x.Entity.ID)
             };
 
             return viewModel;
