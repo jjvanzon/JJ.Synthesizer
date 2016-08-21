@@ -274,11 +274,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             viewModel.ID = entity.ID;
             viewModel.Name = entity.Name;
-            viewModel.Visible = ViewModelHelper.GetInletVisible(entity);
             viewModel.ListIndex = entity.ListIndex;
             viewModel.DefaultValue = entity.DefaultValue;
-            viewModel.Caption = ViewModelHelper.GetInletCaption(entity, sampleRepository, curveRepository, patchRepository);
             viewModel.HasWarningAppearance = entity.IsObsolete;
+            viewModel.Visible = ViewModelHelper.GetInletVisible(entity);
+            viewModel.Caption = ViewModelHelper.GetInletCaption(entity, sampleRepository, curveRepository, patchRepository);
             viewModel.ConnectionDistance = ViewModelHelper.TryGetConnectionDistance(entity, entityPositionManager);
 
             if (entity.Dimension != null)

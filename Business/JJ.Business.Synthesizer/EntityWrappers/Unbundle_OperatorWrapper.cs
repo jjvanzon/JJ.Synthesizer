@@ -42,9 +42,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             return name;
         }
 
-        public IList<Outlet> Results
-        {
-            get { return WrappedOperator.Outlets; }
-        }
+        public IList<Outlet> Results => WrappedOperator.Outlets;
     }
 }

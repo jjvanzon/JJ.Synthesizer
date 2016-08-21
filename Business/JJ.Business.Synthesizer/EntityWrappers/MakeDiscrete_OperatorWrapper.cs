@@ -6,7 +6,6 @@ using JJ.Business.Synthesizer.LinkTo;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Business.Synthesizer.Resources;
 using System;
-using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {

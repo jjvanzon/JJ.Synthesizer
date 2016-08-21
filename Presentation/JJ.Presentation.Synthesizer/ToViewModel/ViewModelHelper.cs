@@ -44,11 +44,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         };
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithDimensionAndInterpolationPropertyViews { get; } =
-          new HashSet<OperatorTypeEnum>
-{
+                  new HashSet<OperatorTypeEnum>
+        {
             OperatorTypeEnum.Random,
             OperatorTypeEnum.Resample,
-};
+        };
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithDimensionAndOutletCountPropertyViews { get; } =
                   new HashSet<OperatorTypeEnum>
@@ -120,7 +120,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                                                     .Except(OperatorTypeEnums_WithInletCountPropertyViews)
                                                     .ToHashSet();
 
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithStyledDimension { get; } = new HashSet<OperatorTypeEnum>
+        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithStyledDimension { get; } =
+                  new HashSet<OperatorTypeEnum>
         {
             OperatorTypeEnum.Sine,
             OperatorTypeEnum.TimePower,
@@ -161,6 +162,95 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.ClosestOverDimension,
             OperatorTypeEnum.ClosestOverDimensionExp,
             OperatorTypeEnum.SortOverDimension
+        };
+
+        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithInletCaptions { get; } =
+                  new HashSet<OperatorTypeEnum>
+        {
+            //OperatorTypeEnum.Add,
+            OperatorTypeEnum.Divide,
+            OperatorTypeEnum.MultiplyWithOrigin,
+            //OperatorTypeEnum.PatchInlet,
+            //OperatorTypeEnum.PatchOutlet,
+            OperatorTypeEnum.Power,
+            OperatorTypeEnum.Sine,
+            //OperatorTypeEnum.Subtract,
+            OperatorTypeEnum.TimePower,
+            //OperatorTypeEnum.Number,
+            //OperatorTypeEnum.Curve,
+            OperatorTypeEnum.Sample,
+            //OperatorTypeEnum.Noise,
+            OperatorTypeEnum.Resample,
+            OperatorTypeEnum.CustomOperator,
+            OperatorTypeEnum.SawUp,
+            OperatorTypeEnum.Square,
+            OperatorTypeEnum.Triangle,
+            OperatorTypeEnum.Exponent,
+            OperatorTypeEnum.Loop,
+            OperatorTypeEnum.Select,
+            //OperatorTypeEnum.Bundle,
+            //OperatorTypeEnum.Unbundle,
+            OperatorTypeEnum.Stretch,
+            OperatorTypeEnum.Squash,
+            OperatorTypeEnum.Shift,
+            OperatorTypeEnum.Reset,
+            OperatorTypeEnum.LowPassFilter,
+            OperatorTypeEnum.HighPassFilter,
+            OperatorTypeEnum.Spectrum,
+            OperatorTypeEnum.Pulse,
+            OperatorTypeEnum.Random,
+            //OperatorTypeEnum.Equal,
+            //OperatorTypeEnum.NotEqual,
+            //OperatorTypeEnum.LessThan,
+            //OperatorTypeEnum.GreaterThan,
+            //OperatorTypeEnum.LessThanOrEqual,
+            //OperatorTypeEnum.GreaterThanOrEqual,
+            //OperatorTypeEnum.And,
+            //OperatorTypeEnum.Or,
+            //OperatorTypeEnum.Not,
+            OperatorTypeEnum.If,
+            OperatorTypeEnum.MinFollower,
+            OperatorTypeEnum.MaxFollower,
+            OperatorTypeEnum.AverageFollower,
+            OperatorTypeEnum.Scaler,
+            OperatorTypeEnum.SawDown,
+            //OperatorTypeEnum.Absolute,
+            OperatorTypeEnum.Reverse,
+            OperatorTypeEnum.Round,
+            //OperatorTypeEnum.Negative,
+            //OperatorTypeEnum.OneOverX,
+            OperatorTypeEnum.Cache,
+            OperatorTypeEnum.PulseTrigger,
+            OperatorTypeEnum.ChangeTrigger,
+            OperatorTypeEnum.ToggleTrigger,
+            //OperatorTypeEnum.GetDimension,
+            OperatorTypeEnum.SetDimension,
+            //OperatorTypeEnum.Hold,
+            OperatorTypeEnum.Range,
+            //OperatorTypeEnum.MakeDiscrete,
+            //OperatorTypeEnum.MakeContinuous,
+            //OperatorTypeEnum.Max,
+            //OperatorTypeEnum.Min,
+            //OperatorTypeEnum.Average,
+            OperatorTypeEnum.MaxOverDimension,
+            OperatorTypeEnum.MinOverDimension,
+            OperatorTypeEnum.AverageOverDimension,
+            OperatorTypeEnum.SumOverDimension,
+            OperatorTypeEnum.SumFollower,
+            //OperatorTypeEnum.Multiply,
+            OperatorTypeEnum.Closest,
+            OperatorTypeEnum.ClosestOverDimension,
+            OperatorTypeEnum.ClosestExp,
+            OperatorTypeEnum.ClosestOverDimensionExp,
+            OperatorTypeEnum.Sort,
+            OperatorTypeEnum.SortOverDimension,
+            OperatorTypeEnum.BandPassFilterConstantTransitionGain,
+            OperatorTypeEnum.BandPassFilterConstantPeakGain,
+            OperatorTypeEnum.NotchFilter,
+            OperatorTypeEnum.AllPassFilter,
+            OperatorTypeEnum.PeakingEQFilter,
+            OperatorTypeEnum.LowShelfFilter,
+            OperatorTypeEnum.HighShelfFilter
         };
 
         // CurrentPatches
@@ -736,6 +826,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             ICurveRepository curveRepository,
             IPatchRepository patchRepository)
         {
+            OperatorTypeEnum operatorTypeEnum = inlet.Operator.GetOperatorTypeEnum();
+
+            if (!OperatorTypeEnums_WithInletCaptions.Contains(operatorTypeEnum))
+            {
+                return null;
+            }
+
             var sb = new StringBuilder();
 
             var wrapper = OperatorWrapperFactory.CreateOperatorWrapper(
@@ -892,5 +989,5 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             return text;
         }
-   }
+    }
 }
