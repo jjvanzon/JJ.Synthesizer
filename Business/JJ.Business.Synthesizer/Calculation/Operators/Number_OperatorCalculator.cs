@@ -26,9 +26,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return _number;
         }
 
-        private string DebuggerDisplay
-        {
-            get { return _number.ToString(); }
-        }
+        private string DebuggerDisplay => _number.ToString();
     }
 }

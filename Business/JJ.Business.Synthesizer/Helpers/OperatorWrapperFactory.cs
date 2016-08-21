@@ -98,19 +98,6 @@ namespace JJ.Business.Synthesizer.Helpers
             { OperatorTypeEnum.Unbundle, Create_Unbundle_OperatorWrapper },
         };
 
-        public static Dictionary<OperatorTypeEnum, Func<Operator, OperatorWrapperBase>> CreateOperatorWrapperDelegateDictionary
-        {
-            get
-            {
-                return _createOperatorWrapperDelegateDictionary;
-            }
-
-            set
-            {
-                _createOperatorWrapperDelegateDictionary = value;
-            }
-        }
-
         public static OperatorWrapperBase CreateOperatorWrapper(
             Operator op,
             ICurveRepository curveRepository,

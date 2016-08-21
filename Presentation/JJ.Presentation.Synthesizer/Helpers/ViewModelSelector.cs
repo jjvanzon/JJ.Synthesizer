@@ -322,7 +322,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
             CurveDetailsViewModel viewModel = EnumerateCurveDetailsViewModels(rootDocumentViewModel).Where(x => x.Visible)
-                                                                                              .FirstOrDefault();
+                                                                                                    .FirstOrDefault();
             if (viewModel == null)
             {
                 throw new Exception("No visible CurveDetailsViewModel found in rootDocumentViewModel or any of its PatchDocumentViewModels.");
@@ -1134,7 +1134,10 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            PatchDetailsViewModel viewModel = rootDocumentViewModel.PatchDocumentDictionary.Values.Select(x => x.PatchDetails).Where(x => x.Visible).FirstOrDefault();
+            PatchDetailsViewModel viewModel = rootDocumentViewModel.PatchDocumentDictionary.Values
+                                                                   .Select(x => x.PatchDetails)
+                                                                   .Where(x => x.Visible)
+                                                                   .FirstOrDefault();
             if (viewModel == null)
             {
                 throw new Exception("No visible PatchDetailsViewModel found in the PatchDocumentViewModels.");
@@ -1150,8 +1153,8 @@ namespace JJ.Presentation.Synthesizer.Helpers
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
             SampleGridViewModel userInput = ViewModelSelector.EnumerateSampleGridViewModels(rootDocumentViewModel)
-                                                                   .Where(x => x.Visible)
-                                                                   .FirstOrDefault();
+                                                             .Where(x => x.Visible)
+                                                             .FirstOrDefault();
             if (userInput == null)
             {
                 throw new Exception("No Visible SampleGridViewModel found in rootDocumentViewModel nor its PatchDocumentViewModels.");
@@ -1234,8 +1237,8 @@ namespace JJ.Presentation.Synthesizer.Helpers
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
             SampleGridViewModel gridViewModel = ViewModelSelector.EnumerateSampleGridViewModels(rootDocumentViewModel)
-                                                                   .Where(x => x.List.Any(y => y.ID == sampleID))
-                                                                   .First();
+                                                                 .Where(x => x.List.Any(y => y.ID == sampleID))
+                                                                 .First();
             return gridViewModel;
         }
 

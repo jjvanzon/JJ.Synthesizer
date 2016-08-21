@@ -157,6 +157,8 @@ namespace JJ.Business.Synthesizer
         /// </summary>
         public static bool GetOperatorIsOwned(Operator entity)
         {
+            if (entity == null) throw new NullException(() => entity);
+
             if (entity.Outlets.Count > 0)
             {
                 bool isOwned = entity.GetOperatorTypeEnum() == OperatorTypeEnum.Number &&

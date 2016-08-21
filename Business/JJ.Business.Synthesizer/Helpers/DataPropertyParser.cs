@@ -10,7 +10,7 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Helpers
 {
-    public class DataPropertyParser
+    public static class DataPropertyParser
     {
         private class ParsedKeyValuePair
         {
@@ -370,8 +370,6 @@ namespace JJ.Business.Synthesizer.Helpers
 
         private static string Format(IList<ParsedKeyValuePair> parsedKeyValuePairs)
         {
-            var sb = new StringBuilder();
-
             for (int i = 0; i < parsedKeyValuePairs.Count; i++)
             {
                 ParsedKeyValuePair parsedKeyValuePair = parsedKeyValuePairs[i];

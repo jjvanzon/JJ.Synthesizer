@@ -591,7 +591,7 @@
     <Compile Include="Resources\ResourceHelper.cs" />
     <Compile Include="SideEffects\AudioFileOutput_SideEffect_SetDefaults.cs" />
     <Compile Include="SideEffects\AudioFileOutput_SideEffect_GenerateName.cs" />
-    <Compile Include="SideEffects\Curve_SideEffect_SetDefaults_Basic.cs" />
+    <Compile Include="SideEffects\2016-08-21 Backup of Curve_SideEffect_SetDefaults_Basic.cs" />
     <Compile Include="SideEffects\Scale_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Operator_SideEffect_GeneratePatchOutletListIndex.cs" />
     <Compile Include="SideEffects\Operator_SideEffect_GeneratePatchInletListIndex.cs" />

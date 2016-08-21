@@ -16,6 +16,8 @@ namespace JJ.Business.Synthesizer.Helpers
 
         public CurveRepositories(RepositoryWrapper repositories)
         {
+            if (repositories == null) throw new NullException(() => repositories);
+
             CurveRepository = repositories.CurveRepository;
             NodeRepository = repositories.NodeRepository;
             NodeTypeRepository = repositories.NodeTypeRepository;

@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Resources
         /// <summary> You can use this overload if the object resourceName's ToString converts it to the resource key. </summary>
         public static string GetPropertyDisplayName(object resourceName)
         {
-            return GetPropertyDisplayName(resourceName.ToString());
+            return GetPropertyDisplayName(Convert.ToString(resourceName));
         }
 
         public static string GetPropertyDisplayName(string resourceName)

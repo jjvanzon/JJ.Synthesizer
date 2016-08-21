@@ -43,12 +43,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         // HACK: These defaults are hacks that are meaningless in practice.
-        private double _xMinus1 = -0.2;
         private double _x0 = 0;
         private double _x1 = 0.2;
         private double _x2 = 0.4;
 
-        private double _yMinus1 = 0;
         private double _y0 = 0;
         private double _y1 = 12000;
         private double _y2 = -24000;
@@ -72,11 +70,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double x = position;
             if (x > _x1)
             {
-                _xMinus1 = _x0;
                 _x0 = _x1;
                 _x1 = _x2;
 
-                _yMinus1 = _y0;
                 _y0 = _y1;
                 _y1 = _y2;
 

@@ -5,7 +5,6 @@ using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Common;
 using JJ.Framework.Mathematics;
-using JJ.Framework.Reflection.Exceptions;
 using Lomont;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -23,9 +22,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly LomontFFT _lomontFFT;
 
         private double[] _harmonicVolumes;
-        private int _harmonicVolumesCount;
-
-        private double _previousTime;
+        private int _maxPosition;
 
         public Spectrum_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
@@ -64,7 +61,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate()
         {
 #if !USE_INVAR_INDICES
-            double time = _dimensionStack.Get();
+            double position = _dimensionStack.Get();
 #else
             double time = _dimensionStack.Get(_previousDimensionStackIndex);
 #endif
@@ -72,14 +69,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
 #endif
 
-            if (time < 0) time = 0;
-            if (time > _harmonicVolumes.Length - 1) time = _harmonicVolumes.Length - 1;
+            if (position < 0) position = 0;
+            if (position > _maxPosition) position = _maxPosition;
 
-            int i = (int)time;
+            int i = (int)position;
 
             double frequency = _harmonicVolumes[i];
-
-            _previousTime = time;
 
             return frequency;
         }
@@ -104,10 +99,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
 #endif
-
-            _previousTime = time;
             _harmonicVolumes = CreateHarmonicVolumes();
-            _harmonicVolumesCount = _harmonicVolumes.Length;
+            _maxPosition = _harmonicVolumes.Length - 1;
         }
 
         private double[] CreateHarmonicVolumes()

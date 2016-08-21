@@ -53,10 +53,6 @@ namespace JJ.Business.Synthesizer
             var curve = new Curve();
             curve.ID = _repositories.IDRepository.GetID();
             _repositories.CurveRepository.Insert(curve);
-
-            ISideEffect sideEffect = new Curve_SideEffect_SetDefaults_Basic(curve, _repositories.DimensionRepository);
-            sideEffect.Execute();
-
             return curve;
         }
 
@@ -221,6 +217,8 @@ namespace JJ.Business.Synthesizer
 
         public VoidResult SaveCurveWithRelatedEntities(Curve entity)
         {
+            if (entity == null) throw new NullException(() => entity);
+
             var validators = new List<IValidator>
             {
                 new CurveValidator_WithoutNodes(entity),
@@ -360,8 +358,8 @@ namespace JJ.Business.Synthesizer
 
         private double[] GetEquidistantPointsOverX(double xSpan, int pointCount)
         {
-            if (xSpan <= 0) throw new Exception("xSpan must be greater than 0.");
-            if (pointCount < 2) throw new Exception("pointCount must be at least 2.");
+            if (xSpan <= 0) throw new LessThanOrEqualException(() => xSpan, 0);
+            if (pointCount < 2) throw new LessThanException(() => pointCount, 2);
 
             double[] xValues = new double[pointCount];
             double x = 0;

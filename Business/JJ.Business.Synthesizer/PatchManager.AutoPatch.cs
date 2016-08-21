@@ -30,7 +30,6 @@ namespace JJ.Business.Synthesizer
 
             CreatePatch();
             Patch.Name = "Auto-Generated Polyphonic Patch";
-            Patch polyphonicAutoPatch = Patch;
 
             int inletListIndex = 0;
             int resetListIndex = 0;

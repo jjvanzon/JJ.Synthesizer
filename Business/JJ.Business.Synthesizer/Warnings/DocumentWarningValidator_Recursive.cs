@@ -55,7 +55,7 @@ namespace JJ.Business.Synthesizer.Warnings
             foreach (Document childDocument in document.ChildDocuments)
             {
                 string messagePrefix = ValidationHelper.GetMessagePrefixForChildDocument(childDocument);
-                ExecuteValidator(new DocumentWarningValidator_Recursive(childDocument, _sampleRepository, _alreadyDone));
+                ExecuteValidator(new DocumentWarningValidator_Recursive(childDocument, _sampleRepository, _alreadyDone), messagePrefix);
             }
 
             foreach (Patch patch in document.Patches)

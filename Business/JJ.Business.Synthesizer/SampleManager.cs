@@ -36,6 +36,8 @@ namespace JJ.Business.Synthesizer
 
         public VoidResult Save(Sample entity)
         {
+            if (entity == null) throw new NullException(() => entity);
+
             var validators = new List<IValidator>
             {
                 new SampleValidator(entity),
@@ -122,6 +124,8 @@ namespace JJ.Business.Synthesizer
 
         public SampleInfo CreateSample(Stream stream, AudioFileFormatEnum audioFileFormatEnum)
         {
+            if (stream == null) throw new NullException(() => stream);
+
             stream.Position = 0;
             byte[] bytes = StreamHelper.StreamToBytes(stream);
             return CreateSample(stream, bytes, audioFileFormatEnum);
@@ -165,7 +169,7 @@ namespace JJ.Business.Synthesizer
                     return CreateWavSample(stream, bytes);
 
                 case AudioFileFormatEnum.Raw:
-                    return CreateRawSample(stream, bytes);
+                    return CreateRawSample(bytes);
 
                 default:
                     throw new ValueNotSupportedException(audioFileFormatEnum);
@@ -248,7 +252,7 @@ namespace JJ.Business.Synthesizer
                     break;
 
                 default:
-                    throw new Exception(String.Format("audioFile.ChannelCount value '{0}' not supported.", audioFileInfo.ChannelCount));
+                    throw new Exception(String.Format("audioFileInfo.ChannelCount value '{0}' not supported.", audioFileInfo.ChannelCount));
             }
 
             switch (audioFileInfo.BytesPerValue)
@@ -262,13 +266,13 @@ namespace JJ.Business.Synthesizer
                     break;
 
                 default:
-                    throw new Exception(String.Format("audioFile.BytesPerValue value '{0}' not supported.", audioFileInfo.BytesPerValue));
+                    throw new Exception(String.Format("audioFileInfo.BytesPerValue value '{0}' not supported.", audioFileInfo.BytesPerValue));
             }
 
             return sample;
         }
 
-        private SampleInfo CreateRawSample(Stream stream, byte[] bytes)
+        private SampleInfo CreateRawSample(byte[] bytes)
         {
             Sample sample = CreateSample();
             sample.SetAudioFileFormatEnum(AudioFileFormatEnum.Raw, _repositories.AudioFileFormatRepository);

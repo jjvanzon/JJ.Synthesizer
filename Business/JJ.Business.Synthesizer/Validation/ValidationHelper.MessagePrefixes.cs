@@ -229,6 +229,7 @@ namespace JJ.Business.Synthesizer.Validation
                 {
                     string dimensionDisplayName = ResourceHelper.GetDisplayName(dimensionEnum);
                     string messagePrefix = GetMessagePrefix(operatorTypeDisplayName, dimensionDisplayName);
+                    return messagePrefix;
                 }
             }
 
@@ -256,6 +257,7 @@ namespace JJ.Business.Synthesizer.Validation
                 {
                     string dimensionDisplayName = ResourceHelper.GetDisplayName(dimensionEnum);
                     string messagePrefix = GetMessagePrefix(operatorTypeDisplayName, dimensionDisplayName);
+                    return messagePrefix;
                 }
             }
 

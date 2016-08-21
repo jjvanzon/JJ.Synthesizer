@@ -28,19 +28,19 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 switch (inlet.ListIndex)
                 {
                     case OperatorConstants.CACHE_SIGNAL_INDEX:
-                        signal = ValidationHelper.TryGetConstantNumberFromInlet(inlet);
+                        signal = number;
                         break;
 
                     case OperatorConstants.CACHE_START_INDEX:
-                        start = ValidationHelper.TryGetConstantNumberFromInlet(inlet);
+                        start = number;
                         break;
 
                     case OperatorConstants.CACHE_END_INDEX:
-                        end = ValidationHelper.TryGetConstantNumberFromInlet(inlet);
+                        end = number;
                         break;
 
                     case OperatorConstants.CACHE_SAMPLING_RATE_INDEX:
-                        samplingRate = ValidationHelper.TryGetConstantNumberFromInlet(inlet);
+                        samplingRate = number;
                         break;
                 }
             }

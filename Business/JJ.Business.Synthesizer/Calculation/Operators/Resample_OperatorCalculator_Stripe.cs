@@ -8,7 +8,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Resample_OperatorCalculator_Stripe : Resample_OperatorCalculator_Block
     {
-        private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _samplingRateCalculator;
         private readonly DimensionStack _dimensionStack;
         private readonly int _nextDimensionStackIndex;
@@ -26,7 +25,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             //if (samplingRateCalculator is Number_OperatorCalculator) throw new IsNotTypeException<Number_OperatorCalculator>(() => samplingRateCalculator);
             if (dimensionStack == null) throw new NullException(() => dimensionStack);
 
-            _signalCalculator = signalCalculator;
             _samplingRateCalculator = samplingRateCalculator;
             _dimensionStack = dimensionStack;
             _previousDimensionStackIndex = dimensionStack.CurrentIndex;

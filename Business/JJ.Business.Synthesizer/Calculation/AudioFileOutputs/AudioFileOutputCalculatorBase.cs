@@ -18,7 +18,6 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
     internal abstract class AudioFileOutputCalculatorBase : IAudioFileOutputCalculator
     {
         private readonly IPatchCalculator[] _patchCalculators;
-        private readonly IPatchCalculator _dimensionStack;
 
         public AudioFileOutputCalculatorBase(IList<IPatchCalculator> patchCalculators)
         {

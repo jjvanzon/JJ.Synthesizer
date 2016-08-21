@@ -121,6 +121,9 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             Operator customOperator = Object;
 
+            // TODO:
+            // Warning CA1804  'CustomOperator_OperatorValidator.ValidateInletsAgainstUnderlyingPatch(Patch)' declares a variable, 'underlyingPatchInletOperators', of type 'IList<Operator>', which is never used or is only assigned to. Use this variable or remove it.
+            // You could make things faster by using this collection with InletOutletMatcher.TryGetPatchInlet.
             IList<Operator> underlyingPatchInletOperators = underlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet);
 
             foreach (Inlet customOperatorInlet in customOperator.Inlets)
@@ -216,6 +219,9 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             Operator customOperator = Object;
 
+            // TODO:
+            // Warning CA1804  'CustomOperator_OperatorValidator.ValidateOutletsAgainstUnderlyingPatch(Patch)' declares a variable, 'underlyingPatchOutletOperators', of type 'IList<Operator>', which is never used or is only assigned to. Use this variable or remove it.
+            // You could make things faster by using this collection with InletOutletMatcher.TryGetPatchInlet.
             IList<Operator> underlyingPatchOutletOperators = underlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet);
 
             foreach (Outlet customOperatorOutlet in customOperator.Outlets)

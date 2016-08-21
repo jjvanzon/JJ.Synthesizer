@@ -32,19 +32,19 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 switch (inlet.ListIndex)
                 {
                     case OperatorConstants.SPECTRUM_SIGNAL_INDEX:
-                        signal = ValidationHelper.TryGetConstantNumberFromInlet(inlet);
+                        signal = number;
                         break;
 
                     case OperatorConstants.SPECTRUM_START_INDEX:
-                        start = ValidationHelper.TryGetConstantNumberFromInlet(inlet);
+                        start = number;
                         break;
 
                     case OperatorConstants.SPECTRUM_END_INDEX:
-                        end = ValidationHelper.TryGetConstantNumberFromInlet(inlet);
+                        end = number;
                         break;
 
                     case OperatorConstants.SPECTRUM_FREQUENCY_COUNT_INDEX:
-                        frequencyCount = ValidationHelper.TryGetConstantNumberFromInlet(inlet);
+                        frequencyCount = number;
                         break;
                 }
             }

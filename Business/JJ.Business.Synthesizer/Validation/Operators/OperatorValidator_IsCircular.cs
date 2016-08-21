@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 {
     internal class OperatorValidator_IsCircular : FluentValidator<Operator>
     {
-        private IPatchRepository _patchRepository;
+        private readonly IPatchRepository _patchRepository;
 
         public OperatorValidator_IsCircular(Operator op, IPatchRepository patchRepository)
             : base(op, postponeExecute: true)

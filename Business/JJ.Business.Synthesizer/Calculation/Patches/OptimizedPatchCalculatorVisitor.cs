@@ -391,7 +391,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool tillIsConst = tillCalculator is Number_OperatorCalculator;
             bool stepIsConst = stepCalculator is Number_OperatorCalculator;
 
-            double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
             double from = fromIsConst ? fromCalculator.Calculate() : 0.0;
             double till = tillIsConst ? tillCalculator.Calculate() : 0.0;
             double step = stepIsConst ? stepCalculator.Calculate() : 0.0;
@@ -661,7 +660,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             endCalculator = endCalculator ?? new One_OperatorCalculator();
             samplingRateCalculator = samplingRateCalculator ?? new One_OperatorCalculator();
 
-            double signal = signalCalculator.Calculate();
             double start = startCalculator.Calculate();
             double end = endCalculator.Calculate();
             double samplingRate = samplingRateCalculator.Calculate();
@@ -1071,7 +1069,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double step = stepIsConst ? stepCalculator.Calculate() : 0.0;
 
             bool stepIsConstZero = stepIsConst && step == 0.0;
-            bool collectionIsConstZero = collectionIsConst && collection == 0.0;
             bool stepIsConstNegative = stepIsConst && step < 0.0;
             bool inputIsConstSpecialValue = inputIsConst && DoubleHelper.IsSpecialValue(input);
             bool collectionIsConstSpecialValue = collectionIsConst && DoubleHelper.IsSpecialValue(collection);
@@ -1167,7 +1164,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double step = stepIsConst ? stepCalculator.Calculate() : 0.0;
 
             bool stepIsConstZero = stepIsConst && step == 0.0;
-            bool collectionIsConstZero = collectionIsConst && collection == 0.0;
             bool stepIsConstNegative = stepIsConst && step < 0.0;
             bool inputIsConstSpecialValue = inputIsConst && DoubleHelper.IsSpecialValue(input);
             bool collectionIsConstSpecialValue = collectionIsConst && DoubleHelper.IsSpecialValue(collection);
@@ -2001,10 +1997,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double releaseEndMarker = releaseEndMarkerCalculator.Calculate();
             double noteDuration = noteDurationCalculator.Calculate();
 
-            bool signalConstZero = signalIsConst && signal == 0.0;
             bool skipIsConstZero = skipIsConst && skip == 0.0;
-            bool loopStartMarkerIsConstZero = loopStartMarkerIsConst && loopStartMarker == 0.0;
-            bool loopEndMarkerIsConstZero = loopEndMarkerIsConst && loopEndMarker == 0.0;
             bool noteDurationIsConstVeryHighValue = noteDurationIsConst && noteDuration == CalculationHelper.VERY_HIGH_VALUE;
             bool releaseEndMarkerIsConstVeryHighValue = releaseEndMarkerIsConst && releaseEndMarker == CalculationHelper.VERY_HIGH_VALUE;
 
@@ -2361,7 +2354,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool tillIsConst = tillCalculator is Number_OperatorCalculator;
             bool stepIsConst = stepCalculator is Number_OperatorCalculator;
 
-            double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
             double from = fromIsConst ? fromCalculator.Calculate() : 0.0;
             double till = tillIsConst ? tillCalculator.Calculate() : 0.0;
             double step = stepIsConst ? stepCalculator.Calculate() : 0.0;
@@ -2540,7 +2532,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool tillIsConst = tillCalculator is Number_OperatorCalculator;
             bool stepIsConst = stepCalculator is Number_OperatorCalculator;
 
-            double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
             double from = fromIsConst ? fromCalculator.Calculate() : 0.0;
             double till = tillIsConst ? tillCalculator.Calculate() : 0.0;
             double step = stepIsConst ? stepCalculator.Calculate() : 0.0;
@@ -2862,7 +2853,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double bandWidth = bandWidthIsConst ? bandWidthCalculator.Calculate() : 0.0;
 
             bool signalIsConstSpecialValue = signalIsConst && DoubleHelper.IsSpecialValue(signal);
-            bool centerFrequencyIsConstZero = centerFrequencyIsConst && centerFrequency == 0.0;
             bool centerFrequencyIsConstSpecialValue = centerFrequencyIsConst && DoubleHelper.IsSpecialValue(centerFrequency);
             bool bandWidthIsConstSpecialValue = bandWidthIsConst && DoubleHelper.IsSpecialValue(bandWidth);
 
@@ -3500,10 +3490,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool samplingRateIsConst = samplingRateCalculator is Number_OperatorCalculator;
 
-            bool signalIsConstZero = signalIsConst && signal == 0;
             bool samplingRateIsConstZero = samplingRateIsConst && samplingRate == 0;
 
-            bool signalIsConstSpecialValue = signalIsConst && DoubleHelper.IsSpecialValue(signal);
             bool samplingRateIsConstSpecialValue = samplingRateIsConst && DoubleHelper.IsSpecialValue(samplingRate);
 
             dimensionStack.Pop();
@@ -3631,8 +3619,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool stepIsConst = stepCalculator is Number_OperatorCalculator;
             bool offsetIsConst = offsetCalculator is Number_OperatorCalculator;
 
-            bool signalIsConstZero = signalIsConst && signal == 0;
-            bool stepIsConstZero = stepIsConst && step == 0;
             bool offsetIsConstZero = offsetIsConst && offset % 1.0 == 0;
 
             bool stepIsConstOne = stepIsConst && step == 1;
@@ -4031,6 +4017,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool frequencyIsConstZero = frequencyIsConst && frequency == 0.0;
             bool frequencyIsConstSpecialValue = frequencyIsConst && DoubleHelper.IsSpecialValue(frequency);
 
+            if (frequencyIsConstSpecialValue)
+            {
+                calculator = new Number_OperatorCalculator(Double.NaN);
+            }
             if (frequencyIsConstZero)
             {
                 // Special value
@@ -4119,7 +4109,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool tillIsConst = tillCalculator is Number_OperatorCalculator;
             bool stepIsConst = stepCalculator is Number_OperatorCalculator;
 
-            double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
             double from = fromIsConst ? fromCalculator.Calculate() : 0.0;
             double till = tillIsConst ? tillCalculator.Calculate() : 0.0;
             double step = stepIsConst ? stepCalculator.Calculate() : 0.0;
@@ -4580,7 +4569,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool tillIsConst = tillCalculator is Number_OperatorCalculator;
             bool stepIsConst = stepCalculator is Number_OperatorCalculator;
 
-            double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
             double from = fromIsConst ? fromCalculator.Calculate() : 0.0;
             double till = tillIsConst ? tillCalculator.Calculate() : 0.0;
             double step = stepIsConst ? stepCalculator.Calculate() : 0.0;
