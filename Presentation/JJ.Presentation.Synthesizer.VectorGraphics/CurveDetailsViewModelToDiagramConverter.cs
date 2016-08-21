@@ -92,7 +92,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             if (curveDetailsViewModel == null) throw new NullException(() => curveDetailsViewModel);
             if (curveDetailsViewModel.Nodes.Count < MINIMUM_NODE_COUNT) throw new LessThanException(() => curveDetailsViewModel.Nodes.Count, MINIMUM_NODE_COUNT);
 
-            _currentCurveInfo = CreateCurveInfo(curveDetailsViewModel.Nodes);
+            _currentCurveInfo = CreateCurveInfo(curveDetailsViewModel.Nodes.Values.ToArray());
             _currentCurveCalculator = CurveApi.CreateInterpretedCalculator(_currentCurveInfo.MockCurve);
 
             // Delete All Lines
@@ -107,7 +107,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 elementToDelete.Diagram = null;
             }
 
-            IList<NodeViewModel> sortedNodeViewModels = curveDetailsViewModel.Nodes.OrderBy(x => x.X).ToArray();
+            IList<NodeViewModel> sortedNodeViewModels = curveDetailsViewModel.Nodes.Values.OrderBy(x => x.X).ToArray();
             float minX = (float)sortedNodeViewModels.First().X;
             float maxX = (float)sortedNodeViewModels.Last().X;
             float minY = (float)sortedNodeViewModels.Select(x => x.Y).Min();
@@ -241,7 +241,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
             // Delete accessory points and rectangles.
             IEnumerable<int> existingIDs = Result.Diagram.Elements.Select(x => x.Tag).OfType<int>();
-            IEnumerable<int> idsToKeep = curveDetailsViewModel.Nodes.Select(x => x.ID);
+            IEnumerable<int> idsToKeep = curveDetailsViewModel.Nodes.Keys;
             IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
 
             foreach (int idToDelete in idsToDelete)
@@ -631,13 +631,13 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         private CurveInfo CreateCurveInfo(IList<NodeViewModel> nodeViewModels)
         {
-            IList<NodeInfo> nodeInfoList = nodeViewModels.Select(x => new NodeInfo(x.X, x.Y, (NodeTypeEnum)x.NodeType.ID)).ToArray();
+            IList<NodeInfo> nodeInfoList = nodeViewModels.Select(x => CreateNodeInfo(x)).ToArray();
 
             JJ.Data.Synthesizer.Curve mockCurve = CurveApi.Create(nodeInfoList);
 
-            IList<NodeTuple> nodeTuples = new List<NodeTuple>(nodeViewModels.Count);
+            IList<NodeTuple> nodeTuples = new List<NodeTuple>();
 
-            for (int i = 0; i < nodeViewModels.Count; i++)
+            for (int i = 0; i < nodeInfoList.Count; i++)
             {
                 nodeTuples.Add(new NodeTuple
                 {
@@ -674,6 +674,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             var config = ConfigurationHelper.TryGetSection<ConfigurationSection>();
             if (config == null) return DEFAULT_MUST_SHOW_INVISIBLE_ELEMENTS;
             return config.MustShowInvisibleElements;
+        }
+
+        private static NodeInfo CreateNodeInfo(NodeViewModel x)
+        {
+            return new NodeInfo(x.X, x.Y, (NodeTypeEnum)x.NodeType.ID);
         }
     }
 }

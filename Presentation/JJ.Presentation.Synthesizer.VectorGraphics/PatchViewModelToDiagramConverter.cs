@@ -112,7 +112,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 _result.Diagram.Background.Gestures.Add(_result.ShowPatchPropertiesGesture);
             }
 
-            foreach (OperatorViewModel sourceOperatorViewModel in sourcePatchViewModel.Operators)
+            foreach (OperatorViewModel sourceOperatorViewModel in sourcePatchViewModel.OperatorDictionary.Values)
             {
                 ConvertToRectangles_WithRelatedObject_Recursive(sourceOperatorViewModel, _result.Diagram);
             }
@@ -182,6 +182,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             _operatorID_OperatorElements_Dictionary.Add(sourceOperatorViewModel1.ID, operatorVectorGraphicsElements1);
 
             // Go recursive and tie operators together with curves.
+
             for (int i = 0; i < sourceOperatorViewModel1.Inlets.Count; i++)
             {
                 InletViewModel inletViewModel = sourceOperatorViewModel1.Inlets[i];

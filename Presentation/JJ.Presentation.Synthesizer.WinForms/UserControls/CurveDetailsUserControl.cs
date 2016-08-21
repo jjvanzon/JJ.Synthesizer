@@ -153,7 +153,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
                 // TODO: This kind of seems to belong in the ApplyViewModelToControls().
                 // Refresh ToolTip Text
-                NodeViewModel nodeViewModel = ViewModel.Nodes.Where(v => v.ID == nodeID).Single();
+                NodeViewModel nodeViewModel = ViewModel.Nodes[nodeID];
                 _converter.Result.NodeToolTipGesture.SetToolTipText(nodeViewModel.Caption);
             }
         }
@@ -185,9 +185,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             int nodeID = VectorGraphicsTagHelper.GetNodeID(e.Element.Tag);
 
-            NodeViewModel nodeViewModel = ViewModel.Nodes
-                                                   .Where(x => x.ID == nodeID)
-                                                   .Single();
+            NodeViewModel nodeViewModel = ViewModel.Nodes[nodeID];
 
             e.ToolTipText = nodeViewModel.Caption;
         }

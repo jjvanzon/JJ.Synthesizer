@@ -92,7 +92,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 ID = entity.ID,
                 DocumentID = entity.Document.ID,
-                Nodes = entity.Nodes.ToViewModels(),
+                Nodes = entity.Nodes.ToViewModelDictionary(),
                 NodeTypeLookup = ViewModelHelper.GetNodeTypeLookupViewModel(),
                 ValidationMessages = new List<Message>()
             };

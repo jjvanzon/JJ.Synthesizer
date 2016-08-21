@@ -275,7 +275,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 repositories.CurveRepository.Insert(curve);
             }
 
-            viewModel.Nodes.ToEntities(curve, repositories);
+            viewModel.Nodes.Values.ToEntities(curve, repositories);
 
             return curve;
         }
@@ -388,7 +388,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         // Nodes
 
-        public static void ToEntities(this IList<NodeViewModel> viewModelList, Curve destCurve, CurveRepositories repositories)
+        public static void ToEntities(this IEnumerable<NodeViewModel> viewModelList, Curve destCurve, CurveRepositories repositories)
         {
             if (viewModelList == null) throw new NullException(() => viewModelList);
             if (destCurve == null) throw new NullException(() => destCurve);
@@ -1114,7 +1114,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             Patch patch = viewModel.ToPatch(repositories.PatchRepository);
 
-            foreach (OperatorViewModel operatorViewModel in viewModel.Operators)
+            foreach (OperatorViewModel operatorViewModel in viewModel.OperatorDictionary.Values)
             {
                 Operator op = converter.Convert(operatorViewModel);
                 op.LinkTo(patch);

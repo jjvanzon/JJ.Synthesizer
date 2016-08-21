@@ -251,10 +251,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (ViewModel == null) return;
 
             int inletID = VectorGraphicsTagHelper.GetInletID(e.Element.Tag);
-            
-            InletViewModel inletViewModel = ViewModel.Entity.Operators.SelectMany(x => x.Inlets)
-                                                                       .Where(x => x.ID == inletID)
-                                                                       .Single();
+
+            InletViewModel inletViewModel = ViewModel.Entity.OperatorDictionary.Values.SelectMany(x => x.Inlets)
+                                                                               .Where(x => x.ID == inletID)
+                                                                               .Single();
             e.ToolTipText = inletViewModel.Caption;
         }
 
@@ -264,9 +264,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             int id = VectorGraphicsTagHelper.GetOutletID(e.Element.Tag);
 
-            OutletViewModel outletViewModel = ViewModel.Entity.Operators.SelectMany(x => x.Outlets)
-                                                                         .Where(x => x.ID == id)
-                                                                         .Single();
+            OutletViewModel outletViewModel = ViewModel.Entity.OperatorDictionary.Values.SelectMany(x => x.Outlets)
+                                                                                        .Where(x => x.ID == id)
+                                                                                        .Single();
             e.ToolTipText = outletViewModel.Caption;
         }
 

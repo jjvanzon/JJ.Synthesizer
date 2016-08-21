@@ -105,13 +105,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // Curve
 
-        public static IList<NodeViewModel> ToViewModels(this IList<Node> entities)
+        public static Dictionary<int, NodeViewModel> ToViewModelDictionary(this IList<Node> entities)
         {
             if (entities == null) throw new NullException(() => entities);
 
-            IList<NodeViewModel> viewModels = entities.OrderBy(x => x.X)
-                                                      .Select(x => x.ToViewModel())
-                                                      .ToList();
+            Dictionary<int, NodeViewModel> viewModels = entities.Select(x => x.ToViewModel()).ToDictionary(x => x.ID);
+
             return viewModels;
         }
 

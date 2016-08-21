@@ -55,7 +55,7 @@ namespace JJ.Presentation.Synthesizer.Converters
 
             viewModel.OperatorToolboxItems = ViewModelHelper.GetOperatorTypesViewModel();
 
-            foreach (OperatorViewModel operatorViewModel in viewModel.Entity.Operators)
+            foreach (OperatorViewModel operatorViewModel in viewModel.Entity.OperatorDictionary.Values)
             {
                 SetViewModelPosition(operatorViewModel);
             }
@@ -67,13 +67,13 @@ namespace JJ.Presentation.Synthesizer.Converters
         {
             PatchViewModel viewModel = patch.ToViewModel();
 
-            viewModel.Operators = ConvertToViewModelsRecursive(patch.Operators);
+            viewModel.OperatorDictionary = ConvertToViewModelDictionaryRecursive(patch.Operators);
 
             return viewModel;
         }
 
         /// <summary> Does a ton of specific things regarding the display of dimensions. </summary>
-        private IList<OperatorViewModel> ConvertToViewModelsRecursive(IList<Operator> operators)
+        private Dictionary<int, OperatorViewModel> ConvertToViewModelDictionaryRecursive(IList<Operator> operators)
         {
             var operatorViewModels = new List<OperatorViewModel>(operators.Count);
             var dimensionIDs = new HashSet<int>();
@@ -134,7 +134,9 @@ namespace JJ.Presentation.Synthesizer.Converters
                 }
             }
 
-            return operatorViewModels;
+            Dictionary<int, OperatorViewModel> dictionary = operatorViewModels.ToDictionary(x => x.ID);
+
+            return dictionary;
         }
 
         private OperatorViewModel ConvertToViewModelRecursive(Operator op)

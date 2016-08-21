@@ -6,6 +6,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
     {
         public int PatchID { get; set; }
         public int ChildDocumentID { get; set; }
-        public IList<OperatorViewModel> Operators { get; set; }
+        public Dictionary<int, OperatorViewModel> OperatorDictionary { get; set; }
     }
 }

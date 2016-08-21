@@ -155,7 +155,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
             CurveDetailsViewModel detailsViewModel = ViewModelSelector.EnumerateCurveDetailsViewModels(rootDocumentViewModel)
-                                                                      .Where(x => x.Nodes.Any(y => y.ID == nodeID))
+                                                                      .Where(x => x.Nodes.ContainsKey(nodeID))
                                                                       .First();
             return detailsViewModel;
         }
@@ -235,8 +235,8 @@ namespace JJ.Presentation.Synthesizer.Helpers
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
             CurveGridViewModel gridViewModel = ViewModelSelector.EnumerateCurveGridViewModels(rootDocumentViewModel)
-                                                                      .Where(x => x.List.Any(y => y.ID == curveID))
-                                                                      .First();
+                                                                .Where(x => x.List.Any(y => y.ID == curveID))
+                                                                .First();
             return gridViewModel;
         }
 
@@ -432,7 +432,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            return rootDocumentViewModel.PatchDocumentDictionary.Values.SelectMany(x => x.PatchDetails.Entity.Operators);
+            return rootDocumentViewModel.PatchDocumentDictionary.Values.SelectMany(x => x.PatchDetails.Entity.OperatorDictionary.Values);
         }
 
         public static OperatorPropertiesViewModel TryGetOperatorPropertiesViewModel(DocumentViewModel rootDocumentViewModel, int operatorID)
@@ -1081,8 +1081,8 @@ namespace JJ.Presentation.Synthesizer.Helpers
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
             PatchDetailsViewModel detailsViewModel = ViewModelSelector.EnumeratePatchDetailsViewModels(rootDocumentViewModel)
-                                                                        .Where(x => x.Entity.Operators.Any(y => y.ID == operatorID))
-                                                                        .First();
+                                                                      .Where(x => x.Entity.OperatorDictionary.ContainsKey(operatorID))
+                                                                      .First();
             return detailsViewModel;
         }
 

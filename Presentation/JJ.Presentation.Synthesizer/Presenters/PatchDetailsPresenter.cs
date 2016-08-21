@@ -411,7 +411,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             viewModel.SelectedOperator = null;
 
-            foreach (OperatorViewModel operatorViewModel in viewModel.Entity.Operators)
+            foreach (OperatorViewModel operatorViewModel in viewModel.Entity.OperatorDictionary.Values)
             {
                 if (operatorViewModel.ID == operatorID)
                 {

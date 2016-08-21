@@ -268,7 +268,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new PatchViewModel
             {
-                Operators = new List<OperatorViewModel>()
+                OperatorDictionary = new Dictionary<int, OperatorViewModel>()
             };
 
             return viewModel;

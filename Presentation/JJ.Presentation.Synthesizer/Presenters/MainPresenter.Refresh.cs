@@ -158,12 +158,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             CurveDetailsViewModel detailsViewModel = ViewModelSelector.GetCurveDetailsViewModel_ByNodeID(MainViewModel.Document, nodeID);
 
             // Remove original node
-            detailsViewModel.Nodes.RemoveFirst(x => x.ID == nodeID);
+            detailsViewModel.Nodes.Remove(nodeID);
 
             // Add new version of the node
             Node node = _repositories.NodeRepository.Get(nodeID);
             NodeViewModel nodeViewModel = node.ToViewModel();
-            detailsViewModel.Nodes.Add(nodeViewModel);
+            detailsViewModel.Nodes[nodeID] = nodeViewModel;
 
             detailsViewModel.RefreshCounter++;
         }
@@ -938,7 +938,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IList<PatchDetailsViewModel> patchDetailsViewModels = MainViewModel.Document.PatchDocumentDictionary.Values.Select(x => x.PatchDetails).ToArray();
 
             IList<OperatorViewModel> operatorViewModels =
-                patchDetailsViewModels.SelectMany(x => x.Entity.Operators)
+                patchDetailsViewModels.SelectMany(x => x.Entity.OperatorDictionary.Values)
                                       .Where(x => x.OperatorType.ID == (int)operatorTypeEnum)
                                       .ToArray();
 
