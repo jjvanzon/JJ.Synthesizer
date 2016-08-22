@@ -9,21 +9,21 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public class SetDimension_OperatorWrapper : OperatorWrapperBase
     {
-        private const int PASS_THROUGH_INDEX = 0;
+        private const int PASS_THROUGH_INLET_INDEX = 0;
         private const int VALUE_INDEX = 1;
-        private const int OUTLET_INDEX = 0;
+        private const int PASS_THROUGH_OUTLET_INDEX = 0;
 
         public SetDimension_OperatorWrapper(Operator op)
             : base(op)
         { }
 
-        public Outlet PassThrough
+        public Outlet PassThroughInput
         {
             get { return PassThroughInlet.InputOutlet; }
             set { PassThroughInlet.LinkTo(value); }
         }
 
-        public Inlet PassThroughInlet => OperatorHelper.GetInlet(WrappedOperator, PASS_THROUGH_INDEX);
+        public Inlet PassThroughInlet => OperatorHelper.GetInlet(WrappedOperator, PASS_THROUGH_INLET_INDEX);
 
         public Outlet Value
         {
@@ -33,15 +33,15 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Inlet ValueInlet => OperatorHelper.GetInlet(WrappedOperator, VALUE_INDEX);
 
-        public Outlet Outlet => OperatorHelper.GetOutlet(WrappedOperator, OUTLET_INDEX);
+        public Outlet PassThroughOutlet => OperatorHelper.GetOutlet(WrappedOperator, PASS_THROUGH_OUTLET_INDEX);
 
         public override string GetInletDisplayName(int listIndex)
         {
             switch (listIndex)
             {
-                case PASS_THROUGH_INDEX:
+                case PASS_THROUGH_INLET_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => PassThrough);
+                        string name = ResourceHelper.GetPropertyDisplayName(PropertyNames.PassThrough);
                         return name;
                     }
 
@@ -60,7 +60,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         {
             if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
 
-            string name = ResourceHelper.GetPropertyDisplayName(() => Outlet);
+            string name = ResourceHelper.GetPropertyDisplayName(PropertyNames.PassThrough);
             return name;
         }
 

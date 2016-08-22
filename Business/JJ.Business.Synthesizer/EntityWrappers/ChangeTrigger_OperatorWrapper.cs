@@ -8,21 +8,21 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public class ChangeTrigger_OperatorWrapper : OperatorWrapperBase
     {
-        private const int PASS_THROUGH_INDEX = 0;
+        private const int PASS_THROUGH_INLET_INDEX = 0;
         private const int RESET_INDEX = 1;
-        private const int RESULT_INDEX = 0;
+        private const int PASS_THROUGH_OUTLET_INDEX = 0;
 
         public ChangeTrigger_OperatorWrapper(Operator op)
             : base(op)
         { }
 
-        public Outlet PassThrough
+        public Outlet PassThroughInput
         {
             get { return PassThroughInlet.InputOutlet; }
             set { PassThroughInlet.LinkTo(value); }
         }
 
-        public Inlet PassThroughInlet => OperatorHelper.GetInlet(WrappedOperator, PASS_THROUGH_INDEX);
+        public Inlet PassThroughInlet => OperatorHelper.GetInlet(WrappedOperator, PASS_THROUGH_INLET_INDEX);
 
         public Outlet Reset
         {
@@ -32,15 +32,15 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Inlet ResetInlet => OperatorHelper.GetInlet(WrappedOperator, RESET_INDEX);
 
-        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX);
+        public Outlet PassThroughOutlet => OperatorHelper.GetOutlet(WrappedOperator, PASS_THROUGH_OUTLET_INDEX);
 
         public override string GetInletDisplayName(int listIndex)
         {
             switch (listIndex)
             {
-                case PASS_THROUGH_INDEX:
+                case PASS_THROUGH_INLET_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => PassThrough);
+                        string name = ResourceHelper.GetPropertyDisplayName(PropertyNames.PassThrough);
                         return name;
                     }
 
@@ -59,10 +59,10 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         {
             if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
 
-            string name = ResourceHelper.GetPropertyDisplayName(() => Result);
+            string name = ResourceHelper.GetPropertyDisplayName(PropertyNames.PassThrough);
             return name;
         }
 
-        public static implicit operator Outlet(ChangeTrigger_OperatorWrapper wrapper) => wrapper?.Result;
+        public static implicit operator Outlet(ChangeTrigger_OperatorWrapper wrapper) => wrapper?.PassThroughOutlet;
     }
 }

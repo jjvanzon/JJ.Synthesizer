@@ -327,7 +327,7 @@ namespace JJ.Business.Synthesizer
 
             var wrapper = new ChangeTrigger_OperatorWrapper(op)
             {
-                PassThrough = calculation,
+                PassThroughInput = calculation,
                 Reset = reset
             };
 
@@ -1543,7 +1543,7 @@ namespace JJ.Business.Synthesizer
 
             var wrapper = new PulseTrigger_OperatorWrapper(op)
             {
-                PassThrough = calculation,
+                PassThroughInput = calculation,
                 Reset = reset
             };
 
@@ -1643,7 +1643,7 @@ namespace JJ.Business.Synthesizer
 
             var wrapper = new Reset_OperatorWrapper(op)
             {
-                PassThrough = operand,
+                PassThroughInput = operand,
                 ListIndex = listIndex
             };
 
@@ -1835,7 +1835,7 @@ namespace JJ.Business.Synthesizer
 
             var wrapper = new SetDimension_OperatorWrapper(op)
             {
-                PassThrough = calculation,
+                PassThroughInput = calculation,
                 Value = value
             };
 
@@ -2171,7 +2171,7 @@ namespace JJ.Business.Synthesizer
 
             var wrapper = new ToggleTrigger_OperatorWrapper(op)
             {
-                PassThrough = calculation,
+                PassThroughInput = calculation,
                 Reset = reset
             };
 

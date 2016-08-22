@@ -51,6 +51,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public const string Outlet = "Outlet";
         public const string OutletCount = "OutletCount";
         public const string Outlets = "Outlets";
+        public const string PassThrough = "PassThrough";
         public const string Patch = "Patch";
         public const string Patches = "Patches";
         public const string PatchInlet = "PatchInlet";

@@ -9,22 +9,22 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public class Reset_OperatorWrapper : OperatorWrapperBase
     {
-        private const int PASS_THROUGH_INDEX = 0;
-        private const int RESULT_INDEX = 0;
+        private const int PASS_THROUGH_INLET_INDEX = 0;
+        private const int PASS_THROUGH_OUTLET_INDEX = 0;
 
         public Reset_OperatorWrapper(Operator op)
             : base(op)
         { }
 
-        public Outlet PassThrough
+        public Outlet PassThroughInput
         {
-            get { return OperatorHelper.GetInlet(WrappedOperator, PASS_THROUGH_INDEX).InputOutlet; }
+            get { return OperatorHelper.GetInlet(WrappedOperator, PASS_THROUGH_INLET_INDEX).InputOutlet; }
             set { PassThroughInlet.LinkTo(value); }
         }
 
-        public Inlet PassThroughInlet => OperatorHelper.GetInlet(WrappedOperator, PASS_THROUGH_INDEX);
+        public Inlet PassThroughInlet => OperatorHelper.GetInlet(WrappedOperator, PASS_THROUGH_INLET_INDEX);
 
-        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX);
+        public Outlet PassThroughOutlet => OperatorHelper.GetOutlet(WrappedOperator, PASS_THROUGH_OUTLET_INDEX);
 
         public int? ListIndex
         {
@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         {
             if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
 
-            string name = ResourceHelper.GetPropertyDisplayName(() => PassThrough);
+            string name = ResourceHelper.GetPropertyDisplayName(PropertyNames.PassThrough);
             return name;
         }
 
@@ -44,10 +44,10 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         {
             if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
 
-            string name = ResourceHelper.GetPropertyDisplayName(() => Result);
+            string name = ResourceHelper.GetPropertyDisplayName(PropertyNames.PassThrough);
             return name;
         }
 
-        public static implicit operator Outlet(Reset_OperatorWrapper wrapper) => wrapper?.Result;
+        public static implicit operator Outlet(Reset_OperatorWrapper wrapper) => wrapper?.PassThroughOutlet;
     }
 }

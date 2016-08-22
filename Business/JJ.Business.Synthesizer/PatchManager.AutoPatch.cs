@@ -59,7 +59,7 @@ namespace JJ.Business.Synthesizer
                     // Add Reset operator in between.
                     Reset_OperatorWrapper resetWrapper = Reset(intermediateSignalOutlet, resetListIndex++);
 
-                    monophonicOutlets.Add(resetWrapper.Result);
+                    monophonicOutlets.Add(resetWrapper.PassThroughOutlet);
                 }
             }
 
