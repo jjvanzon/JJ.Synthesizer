@@ -94,8 +94,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
             foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentDictionary.Values)
             {
-                CurveDetailsViewModel curveDetailsViewModel2;
-                if (patchDocumentViewModel.CurveDetailsDictionary.TryGetValue(curveID, out curveDetailsViewModel2))
+                if (patchDocumentViewModel.CurveDetailsDictionary.TryGetValue(curveID, out curveDetailsViewModel))
                 {
                     return curveDetailsViewModel;
                 }
@@ -128,8 +127,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
             foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentDictionary.Values)
             {
-                CurvePropertiesViewModel curvePropertiesViewModel2;
-                if (patchDocumentViewModel.CurvePropertiesDictionary.TryGetValue(curveID, out curvePropertiesViewModel2))
+                if (patchDocumentViewModel.CurvePropertiesDictionary.TryGetValue(curveID, out curvePropertiesViewModel))
                 {
                     return curvePropertiesViewModel;
                 }
@@ -1175,8 +1173,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
             foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentDictionary.Values)
             {
-                SamplePropertiesViewModel samplePropertiesViewModel2;
-                if (patchDocumentViewModel.SamplePropertiesDictionary.TryGetValue(sampleID, out samplePropertiesViewModel2))
+                if (patchDocumentViewModel.SamplePropertiesDictionary.TryGetValue(sampleID, out samplePropertiesViewModel))
                 {
                     return samplePropertiesViewModel;
                 }
