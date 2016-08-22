@@ -164,93 +164,93 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.SortOverDimension
         };
 
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithInletCaptions { get; } =
+        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithHiddenInletNames { get; } =
                   new HashSet<OperatorTypeEnum>
         {
-            //OperatorTypeEnum.Add,
-            OperatorTypeEnum.Divide,
-            OperatorTypeEnum.MultiplyWithOrigin,
-            //OperatorTypeEnum.PatchInlet,
-            //OperatorTypeEnum.PatchOutlet,
-            OperatorTypeEnum.Power,
-            OperatorTypeEnum.Sine,
-            //OperatorTypeEnum.Subtract,
-            OperatorTypeEnum.TimePower,
-            //OperatorTypeEnum.Number,
-            //OperatorTypeEnum.Curve,
-            OperatorTypeEnum.Sample,
-            //OperatorTypeEnum.Noise,
-            OperatorTypeEnum.Resample,
-            OperatorTypeEnum.CustomOperator,
-            OperatorTypeEnum.SawUp,
-            OperatorTypeEnum.Square,
-            OperatorTypeEnum.Triangle,
-            OperatorTypeEnum.Exponent,
-            OperatorTypeEnum.Loop,
-            OperatorTypeEnum.Select,
-            //OperatorTypeEnum.Bundle,
-            //OperatorTypeEnum.Unbundle,
-            OperatorTypeEnum.Stretch,
-            OperatorTypeEnum.Squash,
-            OperatorTypeEnum.Shift,
-            OperatorTypeEnum.Reset,
-            OperatorTypeEnum.LowPassFilter,
-            OperatorTypeEnum.HighPassFilter,
-            OperatorTypeEnum.Spectrum,
-            OperatorTypeEnum.Pulse,
-            OperatorTypeEnum.Random,
-            //OperatorTypeEnum.Equal,
-            //OperatorTypeEnum.NotEqual,
-            //OperatorTypeEnum.LessThan,
-            //OperatorTypeEnum.GreaterThan,
-            //OperatorTypeEnum.LessThanOrEqual,
-            //OperatorTypeEnum.GreaterThanOrEqual,
-            //OperatorTypeEnum.And,
-            //OperatorTypeEnum.Or,
-            //OperatorTypeEnum.Not,
-            OperatorTypeEnum.If,
-            OperatorTypeEnum.MinFollower,
-            OperatorTypeEnum.MaxFollower,
-            OperatorTypeEnum.AverageFollower,
-            OperatorTypeEnum.Scaler,
-            OperatorTypeEnum.SawDown,
-            //OperatorTypeEnum.Absolute,
-            OperatorTypeEnum.Reverse,
-            OperatorTypeEnum.Round,
-            //OperatorTypeEnum.Negative,
-            //OperatorTypeEnum.OneOverX,
-            OperatorTypeEnum.Cache,
-            OperatorTypeEnum.PulseTrigger,
-            OperatorTypeEnum.ChangeTrigger,
-            OperatorTypeEnum.ToggleTrigger,
-            //OperatorTypeEnum.GetDimension,
-            OperatorTypeEnum.SetDimension,
-            //OperatorTypeEnum.Hold,
-            OperatorTypeEnum.Range,
-            //OperatorTypeEnum.MakeDiscrete,
-            //OperatorTypeEnum.MakeContinuous,
-            //OperatorTypeEnum.Max,
-            //OperatorTypeEnum.Min,
-            //OperatorTypeEnum.Average,
-            OperatorTypeEnum.MaxOverDimension,
-            OperatorTypeEnum.MinOverDimension,
-            OperatorTypeEnum.AverageOverDimension,
-            OperatorTypeEnum.SumOverDimension,
-            OperatorTypeEnum.SumFollower,
-            //OperatorTypeEnum.Multiply,
-            OperatorTypeEnum.Closest,
-            OperatorTypeEnum.ClosestOverDimension,
-            OperatorTypeEnum.ClosestExp,
-            OperatorTypeEnum.ClosestOverDimensionExp,
-            OperatorTypeEnum.Sort,
-            OperatorTypeEnum.SortOverDimension,
-            OperatorTypeEnum.BandPassFilterConstantTransitionGain,
-            OperatorTypeEnum.BandPassFilterConstantPeakGain,
-            OperatorTypeEnum.NotchFilter,
-            OperatorTypeEnum.AllPassFilter,
-            OperatorTypeEnum.PeakingEQFilter,
-            OperatorTypeEnum.LowShelfFilter,
-            OperatorTypeEnum.HighShelfFilter
+            OperatorTypeEnum.Add,
+            //OperatorTypeEnum.Divide,
+            //OperatorTypeEnum.MultiplyWithOrigin,
+            OperatorTypeEnum.PatchInlet,
+            OperatorTypeEnum.PatchOutlet,
+            //OperatorTypeEnum.Power,
+            //OperatorTypeEnum.Sine,
+            OperatorTypeEnum.Subtract,
+            //OperatorTypeEnum.TimePower,
+            OperatorTypeEnum.Number,
+            OperatorTypeEnum.Curve,
+            //OperatorTypeEnum.Sample,
+            OperatorTypeEnum.Noise,
+            //OperatorTypeEnum.Resample,
+            //OperatorTypeEnum.CustomOperator,
+            //OperatorTypeEnum.SawUp,
+            //OperatorTypeEnum.Square,
+            //OperatorTypeEnum.Triangle,
+            //OperatorTypeEnum.Exponent,
+            //OperatorTypeEnum.Loop,
+            //OperatorTypeEnum.Select,
+            OperatorTypeEnum.Bundle,
+            OperatorTypeEnum.Unbundle,
+            //OperatorTypeEnum.Stretch,
+            //OperatorTypeEnum.Squash,
+            //OperatorTypeEnum.Shift,
+            //OperatorTypeEnum.Reset,
+            //OperatorTypeEnum.LowPassFilter,
+            //OperatorTypeEnum.HighPassFilter,
+            //OperatorTypeEnum.Spectrum,
+            //OperatorTypeEnum.Pulse,
+            //OperatorTypeEnum.Random,
+            OperatorTypeEnum.Equal,
+            OperatorTypeEnum.NotEqual,
+            OperatorTypeEnum.LessThan,
+            OperatorTypeEnum.GreaterThan,
+            OperatorTypeEnum.LessThanOrEqual,
+            OperatorTypeEnum.GreaterThanOrEqual,
+            OperatorTypeEnum.And,
+            OperatorTypeEnum.Or,
+            OperatorTypeEnum.Not,
+            //OperatorTypeEnum.If,
+            //OperatorTypeEnum.MinFollower,
+            //OperatorTypeEnum.MaxFollower,
+            //OperatorTypeEnum.AverageFollower,
+            //OperatorTypeEnum.Scaler,
+            //OperatorTypeEnum.SawDown,
+            OperatorTypeEnum.Absolute,
+            //OperatorTypeEnum.Reverse,
+            //OperatorTypeEnum.Round,
+            OperatorTypeEnum.Negative,
+            OperatorTypeEnum.OneOverX,
+            //OperatorTypeEnum.Cache,
+            //OperatorTypeEnum.PulseTrigger,
+            //OperatorTypeEnum.ChangeTrigger,
+            //OperatorTypeEnum.ToggleTrigger,
+            OperatorTypeEnum.GetDimension,
+            //OperatorTypeEnum.SetDimension,
+            OperatorTypeEnum.Hold,
+            //OperatorTypeEnum.Range,
+            OperatorTypeEnum.MakeDiscrete,
+            OperatorTypeEnum.MakeContinuous,
+            OperatorTypeEnum.Max,
+            OperatorTypeEnum.Min,
+            OperatorTypeEnum.Average,
+            //OperatorTypeEnum.MaxOverDimension,
+            //OperatorTypeEnum.MinOverDimension,
+            //OperatorTypeEnum.AverageOverDimension,
+            //OperatorTypeEnum.SumOverDimension,
+            //OperatorTypeEnum.SumFollower,
+            OperatorTypeEnum.Multiply,
+            //OperatorTypeEnum.Closest,
+            //OperatorTypeEnum.ClosestOverDimension,
+            //OperatorTypeEnum.ClosestExp,
+            //OperatorTypeEnum.ClosestOverDimensionExp,
+            //OperatorTypeEnum.Sort,
+            //OperatorTypeEnum.SortOverDimension,
+            //OperatorTypeEnum.BandPassFilterConstantTransitionGain,
+            //OperatorTypeEnum.BandPassFilterConstantPeakGain,
+            //OperatorTypeEnum.NotchFilter,
+            //OperatorTypeEnum.AllPassFilter,
+            //OperatorTypeEnum.PeakingEQFilter,
+            //OperatorTypeEnum.LowShelfFilter,
+            //OperatorTypeEnum.HighShelfFilter
         };
 
         // CurrentPatches
@@ -826,34 +826,39 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             ICurveRepository curveRepository,
             IPatchRepository patchRepository)
         {
-            OperatorTypeEnum operatorTypeEnum = inlet.Operator.GetOperatorTypeEnum();
-
-            if (!OperatorTypeEnums_WithInletCaptions.Contains(operatorTypeEnum))
-            {
-                return null;
-            }
-
             var sb = new StringBuilder();
 
-            var wrapper = OperatorWrapperFactory.CreateOperatorWrapper(
-                inlet.Operator,
-                curveRepository,
-                sampleRepository,
-                patchRepository);
-            string inletDisplayName = wrapper.GetInletDisplayName(inlet.ListIndex);
-            sb.Append(inletDisplayName);
+            OperatorTypeEnum operatorTypeEnum = inlet.Operator.GetOperatorTypeEnum();
+            if (!OperatorTypeEnums_WithHiddenInletNames.Contains(operatorTypeEnum))
+            {
+                var wrapper = OperatorWrapperFactory.CreateOperatorWrapper(
+                    inlet.Operator,
+                    curveRepository,
+                    sampleRepository,
+                    patchRepository);
+                string inletDisplayName = wrapper.GetInletDisplayName(inlet.ListIndex);
+                sb.Append(inletDisplayName);
+            }
 
             if (inlet.InputOutlet == null)
             {
                 if (inlet.DefaultValue.HasValue)
                 {
-                    sb.AppendFormat(" = {0:0.####}", inlet.DefaultValue.Value);
+                    if (sb.Length != 0)
+                    {
+                        sb.Append(' ');
+                    }
+                    sb.AppendFormat("= {0:0.####}", inlet.DefaultValue.Value);
                 }
             }
 
             if (inlet.IsObsolete)
             {
-                sb.AppendFormat(" ({0})", PropertyDisplayNames.IsObsolete);
+                if (sb.Length != 0)
+                {
+                    sb.Append(' ');
+                }
+                sb.AppendFormat("({0})", PropertyDisplayNames.IsObsolete);
             }
 
             return sb.ToString();
@@ -883,13 +888,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 sb.Append(inletDisplayName);
             }
 
-            if (sb.Length != 0)
-            {
-                sb.Append(' ');
-            }
-
             if (outlet.IsObsolete)
             {
+                if (sb.Length != 0)
+                {
+                    sb.Append(' ');
+                }
+
                 sb.AppendFormat("({0})", PropertyDisplayNames.IsObsolete);
             }
 
