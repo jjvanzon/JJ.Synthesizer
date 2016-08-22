@@ -9,20 +9,20 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public class Reset_OperatorWrapper : OperatorWrapperBase
     {
-        private const int OPERAND_INDEX = 0;
+        private const int PASS_THROUGH_INDEX = 0;
         private const int RESULT_INDEX = 0;
 
         public Reset_OperatorWrapper(Operator op)
             : base(op)
         { }
 
-        public Outlet Operand
+        public Outlet PassThrough
         {
-            get { return OperatorHelper.GetInlet(WrappedOperator, OPERAND_INDEX).InputOutlet; }
-            set { Inlet.LinkTo(value); }
+            get { return OperatorHelper.GetInlet(WrappedOperator, PASS_THROUGH_INDEX).InputOutlet; }
+            set { PassThroughInlet.LinkTo(value); }
         }
 
-        public Inlet Inlet => OperatorHelper.GetInlet(WrappedOperator, OPERAND_INDEX);
+        public Inlet PassThroughInlet => OperatorHelper.GetInlet(WrappedOperator, PASS_THROUGH_INDEX);
 
         public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX);
 
@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         {
             if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
 
-            string name = ResourceHelper.GetPropertyDisplayName(() => Operand);
+            string name = ResourceHelper.GetPropertyDisplayName(() => PassThrough);
             return name;
         }
 

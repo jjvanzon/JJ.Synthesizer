@@ -2,7 +2,6 @@
 using JJ.Business.Synthesizer.LinkTo;
 using System;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Business.Synthesizer.Resources;
 

@@ -1643,7 +1643,7 @@ namespace JJ.Business.Synthesizer
 
             var wrapper = new Reset_OperatorWrapper(op)
             {
-                Operand = operand,
+                PassThrough = operand,
                 ListIndex = listIndex
             };
 

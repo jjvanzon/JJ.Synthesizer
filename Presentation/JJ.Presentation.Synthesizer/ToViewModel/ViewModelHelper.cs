@@ -253,6 +253,96 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             //OperatorTypeEnum.HighShelfFilter
         };
 
+        // A list until it will have more items.
+        public static List<OperatorTypeEnum> OperatorTypeEnums_WithVisibleOutletNames { get; } =
+                  new List<OperatorTypeEnum>
+        {
+            //OperatorTypeEnum.Absolute,
+            //OperatorTypeEnum.Add,
+            //OperatorTypeEnum.AllPassFilter,
+            //OperatorTypeEnum.And,
+            //OperatorTypeEnum.Average,
+            //OperatorTypeEnum.AverageFollower,
+            //OperatorTypeEnum.AverageOverDimension,
+            //OperatorTypeEnum.BandPassFilterConstantPeakGain,
+            //OperatorTypeEnum.BandPassFilterConstantTransitionGain,
+            //OperatorTypeEnum.Bundle,
+            //OperatorTypeEnum.Cache,
+            OperatorTypeEnum.ChangeTrigger,
+            //OperatorTypeEnum.Closest,
+            //OperatorTypeEnum.ClosestExp,
+            //OperatorTypeEnum.ClosestOverDimension,
+            //OperatorTypeEnum.ClosestOverDimensionExp,
+            //OperatorTypeEnum.Curve,
+            OperatorTypeEnum.CustomOperator,
+            //OperatorTypeEnum.Divide,
+            //OperatorTypeEnum.Equal,
+            //OperatorTypeEnum.Exponent,
+            //OperatorTypeEnum.GetDimension,
+            //OperatorTypeEnum.GreaterThan,
+            //OperatorTypeEnum.GreaterThanOrEqual,
+            //OperatorTypeEnum.HighPassFilter,
+            //OperatorTypeEnum.HighShelfFilter,
+            //OperatorTypeEnum.Hold,
+            //OperatorTypeEnum.If,
+            //OperatorTypeEnum.LessThan,
+            //OperatorTypeEnum.LessThanOrEqual,
+            //OperatorTypeEnum.Loop,
+            //OperatorTypeEnum.LowPassFilter,
+            //OperatorTypeEnum.LowShelfFilter,
+            //OperatorTypeEnum.MakeContinuous,
+            //OperatorTypeEnum.MakeDiscrete,
+            //OperatorTypeEnum.Max,
+            //OperatorTypeEnum.MaxFollower,
+            //OperatorTypeEnum.MaxOverDimension,
+            //OperatorTypeEnum.Min,
+            //OperatorTypeEnum.MinFollower,
+            //OperatorTypeEnum.MinOverDimension,
+            //OperatorTypeEnum.Multiply,
+            //OperatorTypeEnum.MultiplyWithOrigin,
+            //OperatorTypeEnum.Negative,
+            //OperatorTypeEnum.Noise,
+            //OperatorTypeEnum.Not,
+            //OperatorTypeEnum.NotchFilter,
+            //OperatorTypeEnum.NotEqual,
+            //OperatorTypeEnum.Number,
+            //OperatorTypeEnum.OneOverX,
+            //OperatorTypeEnum.Or,
+            //OperatorTypeEnum.PatchInlet,
+            //OperatorTypeEnum.PatchOutlet,
+            //OperatorTypeEnum.PeakingEQFilter,
+            //OperatorTypeEnum.Power,
+            //OperatorTypeEnum.Pulse,
+            OperatorTypeEnum.PulseTrigger,
+            //OperatorTypeEnum.Random,
+            //OperatorTypeEnum.Range,
+            //OperatorTypeEnum.Resample,
+            OperatorTypeEnum.Reset,
+            //OperatorTypeEnum.Reverse,
+            //OperatorTypeEnum.Round,
+            //OperatorTypeEnum.Sample,
+            //OperatorTypeEnum.SawDown,
+            //OperatorTypeEnum.SawUp,
+            //OperatorTypeEnum.Scaler,
+            //OperatorTypeEnum.Select,
+            OperatorTypeEnum.SetDimension,
+            //OperatorTypeEnum.Shift,
+            //OperatorTypeEnum.Sine,
+            //OperatorTypeEnum.Sort,
+            //OperatorTypeEnum.SortOverDimension,
+            //OperatorTypeEnum.Spectrum,
+            //OperatorTypeEnum.Square,
+            //OperatorTypeEnum.Squash,
+            //OperatorTypeEnum.Stretch,
+            //OperatorTypeEnum.Subtract,
+            //OperatorTypeEnum.SumFollower,
+            //OperatorTypeEnum.SumOverDimension,
+            //OperatorTypeEnum.TimePower,
+            OperatorTypeEnum.ToggleTrigger,
+            //OperatorTypeEnum.Triangle,
+            //OperatorTypeEnum.Unbundle
+        };
+
         // CurrentPatches
 
         public static CurrentPatchesViewModel CreateCurrentPatchesViewModel(IList<Document> childDocuments)
@@ -874,18 +964,22 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var sb = new StringBuilder();
 
-            // Only one outlet? Then inlet name not necessary.
-            bool isSingleOutlet = outlet.Operator.Outlets.Count == 1;
-            if (!isSingleOutlet)
+            OperatorTypeEnum operatorTypeEnum = outlet.Operator.GetOperatorTypeEnum();
+            if (OperatorTypeEnums_WithVisibleOutletNames.Contains(operatorTypeEnum))
             {
-                var wrapper = OperatorWrapperFactory.CreateOperatorWrapper(
-                    outlet.Operator,
-                    curveRepository,
-                    sampleRepository,
-                    patchRepository);
+                bool isCustomOperatorWithSingleOutlet = operatorTypeEnum == OperatorTypeEnum.CustomOperator &&
+                                                        outlet.Operator.Outlets.Count == 1;
+                if (!isCustomOperatorWithSingleOutlet)
+                {
+                    var wrapper = OperatorWrapperFactory.CreateOperatorWrapper(
+                        outlet.Operator,
+                        curveRepository,
+                        sampleRepository,
+                        patchRepository);
 
-                string inletDisplayName = wrapper.GetOutletDisplayName(outlet.ListIndex);
-                sb.Append(inletDisplayName);
+                    string inletDisplayName = wrapper.GetOutletDisplayName(outlet.ListIndex);
+                    sb.Append(inletDisplayName);
+                }
             }
 
             if (outlet.IsObsolete)
