@@ -127,6 +127,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             toneGridEditUserControl.CloseRequested += toneGridEditUserControl_CloseRequested;
             toneGridEditUserControl.CreateToneRequested += toneGridEditUserControl_CreateToneRequested;
             toneGridEditUserControl.DeleteToneRequested += toneGridEditUserControl_DeleteToneRequested;
+            toneGridEditUserControl.Edited += toneGridEditUserControl_Edited;
             toneGridEditUserControl.LoseFocusRequested += toneGridEditUserControl_LoseFocusRequested;
             toneGridEditUserControl.PlayToneRequested += toneGridEditUserControl_PlayToneRequested;
 
@@ -770,6 +771,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void toneGridEditUserControl_CloseRequested(object sender, EventArgs e)
         {
             TemplateEventHandler(_presenter.ToneGridEditClose);
+        }
+
+        private void toneGridEditUserControl_Edited(object sender, Int32EventArgs e)
+        {
+            TemplateEventHandler(() => _presenter.ToneGridEditEdit(e.Value));
         }
 
         private void toneGridEditUserControl_LoseFocusRequested(object sender, EventArgs e)

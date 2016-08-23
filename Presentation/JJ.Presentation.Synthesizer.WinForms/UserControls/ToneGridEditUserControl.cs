@@ -12,13 +12,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     internal partial class ToneGridEditUserControl : UserControlBase
     {
         private const string ID_COLUMN_NAME = "IDColumn";
-        private const int PLAY_COLUMN_INDEX = 3;
+        private const int PLAY_COLUMN_INDEX = 1;
 
         public event EventHandler<Int32EventArgs> CreateToneRequested;
         public event EventHandler<Int32EventArgs> DeleteToneRequested;
         public event EventHandler<Int32EventArgs> PlayToneRequested;
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
+        public event EventHandler<Int32EventArgs> Edited;
 
         public ToneGridEditUserControl()
         {
@@ -31,10 +32,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void SetTitles()
         {
             titleBarUserControl.Text = PropertyDisplayNames.Tones;
-            OctaveColumn.HeaderText = PropertyDisplayNames.Octave;
             PlayColumn.HeaderText = Titles.Play;
             PlayColumn.Text = Titles.Play;
             PlayColumn.UseColumnTextForButtonValue = true;
+            OctaveColumn.HeaderText = PropertyDisplayNames.Octave;
+            FrequencyColumn.HeaderText = PropertyDisplayNames.Frequency;
         }
 
         // Binding
@@ -46,6 +48,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (ViewModel == null) return;
 
             NumberColumn.HeaderText = ViewModel.NumberTitle;
+            FrequencyColumn.Visible = ViewModel.FrequencyVisible;
 
             specializedDataGridView.DataSource = ViewModel.Tones;
         }
@@ -54,23 +57,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void CreateTone()
         {
-            if (CreateToneRequested != null)
-            {
-                var e = new Int32EventArgs(ViewModel.ScaleID);
-                CreateToneRequested(this, e);
-            }
+            CreateToneRequested?.Invoke(this, new Int32EventArgs(ViewModel.ScaleID));
         }
 
         private void DeleteTone()
         {
-            if (DeleteToneRequested != null)
+            int? id = TryGetSelectedID();
+            if (id.HasValue)
             {
-                int? id = TryGetSelectedID();
-                if (id.HasValue)
-                {
-                    var e = new Int32EventArgs(id.Value);
-                    DeleteToneRequested(this, e);
-                }
+                DeleteToneRequested?.Invoke(this, new Int32EventArgs(id.Value));
             }
         }
 
@@ -78,20 +73,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             specializedDataGridView.EndEdit();
 
-            if (CloseRequested != null)
-            {
-                CloseRequested(this, EventArgs.Empty);
-            }
+            CloseRequested?.Invoke(this, EventArgs.Empty);
         }
 
         private void LoseFocus()
         {
             specializedDataGridView.EndEdit();
 
-            if (LoseFocusRequested != null)
-            {
-                LoseFocusRequested(this, EventArgs.Empty);
-            }
+            LoseFocusRequested?.Invoke(this, EventArgs.Empty);
         }
 
         // Events
@@ -109,6 +98,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void titleBarUserControl_CloseClicked(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void specializedDataGridView_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            // Without an Invoke, WinForms will complain with
+            // 'Operation is not valid because it results in a reentrant call to the SetCurrentCellAddressCore function.'
+            // when we try to reassign the data source.
+
+            BeginInvoke(new Action(() => Edited?.Invoke(this, new Int32EventArgs(ViewModel.ScaleID))));
         }
 
         private void specializedDataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -139,6 +137,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 case Keys.Delete:
                     DeleteTone();
+                    break;
+
+                case Keys.Insert:
+                    CreateTone();
                     break;
             }
         }

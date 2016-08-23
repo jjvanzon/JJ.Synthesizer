@@ -2187,7 +2187,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void ToneDelete(int id)
+        public void ToneDelete(int toneID)
         {
             // GetViewModel
             ToneGridEditViewModel userInput = ViewModelSelector.GetVisibleToneGridEditViewModel(MainViewModel.Document);
@@ -2217,7 +2217,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 userInput.Successful = false;
 
                 // GetEntity
-                Tone tone = _repositories.ToneRepository.Get(id);
+                Tone tone = _repositories.ToneRepository.Get(toneID);
                 Scale scale = tone.Scale;
 
                 // Business
@@ -2252,6 +2252,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Template Method
             TemplateActionMethod(userInput, () => _toneGridEditPresenter.LoseFocus(userInput));
+        }
+
+        public void ToneGridEditEdit(int scaleID)
+        {
+            // GetViewModel
+            ToneGridEditViewModel userInput = ViewModelSelector.GetToneGridEditViewModel(MainViewModel.Document, scaleID);
+
+            // Template Method
+            TemplateActionMethod(userInput, () => _toneGridEditPresenter.Edit(userInput));
         }
 
         /// <summary>

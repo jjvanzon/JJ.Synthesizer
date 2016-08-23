@@ -30,13 +30,15 @@
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tableLayoutPanelMain = new System.Windows.Forms.TableLayoutPanel();
             this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
             this.specializedDataGridView = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.SpecializedDataGridView();
             this.IDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PlayColumn = new System.Windows.Forms.DataGridViewButtonColumn();
             this.OctaveColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NumberColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PlayColumn = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.FrequencyColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanelMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.specializedDataGridView)).BeginInit();
             this.SuspendLayout();
@@ -49,11 +51,12 @@
             this.tableLayoutPanelMain.Controls.Add(this.specializedDataGridView, 0, 1);
             this.tableLayoutPanelMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelMain.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanelMain.Margin = new System.Windows.Forms.Padding(4);
             this.tableLayoutPanelMain.Name = "tableLayoutPanelMain";
             this.tableLayoutPanelMain.RowCount = 2;
-            this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 21F));
-            this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 242F));
-            this.tableLayoutPanelMain.Size = new System.Drawing.Size(467, 495);
+            this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
+            this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 298F));
+            this.tableLayoutPanelMain.Size = new System.Drawing.Size(623, 609);
             this.tableLayoutPanelMain.TabIndex = 8;
             // 
             // titleBarUserControl
@@ -66,7 +69,7 @@
             this.titleBarUserControl.Margin = new System.Windows.Forms.Padding(0);
             this.titleBarUserControl.Name = "titleBarUserControl";
             this.titleBarUserControl.RemoveButtonVisible = true;
-            this.titleBarUserControl.Size = new System.Drawing.Size(467, 21);
+            this.titleBarUserControl.Size = new System.Drawing.Size(623, 26);
             this.titleBarUserControl.TabIndex = 8;
             this.titleBarUserControl.CloseClicked += new System.EventHandler(this.titleBarUserControl_CloseClicked);
             this.titleBarUserControl.RemoveClicked += new System.EventHandler(this.titleBarUserControl_RemoveClicked);
@@ -86,16 +89,18 @@
             this.specializedDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.specializedDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.IDColumn,
+            this.PlayColumn,
             this.OctaveColumn,
             this.NumberColumn,
-            this.PlayColumn});
-            this.specializedDataGridView.Location = new System.Drawing.Point(0, 21);
+            this.FrequencyColumn});
+            this.specializedDataGridView.Location = new System.Drawing.Point(0, 26);
             this.specializedDataGridView.Margin = new System.Windows.Forms.Padding(0);
             this.specializedDataGridView.Name = "specializedDataGridView";
             this.specializedDataGridView.RowHeadersVisible = false;
-            this.specializedDataGridView.Size = new System.Drawing.Size(467, 474);
+            this.specializedDataGridView.Size = new System.Drawing.Size(623, 583);
             this.specializedDataGridView.TabIndex = 9;
             this.specializedDataGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.specializedDataGridView_CellClick);
+            this.specializedDataGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.specializedDataGridView_CellEndEdit);
             this.specializedDataGridView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.specializedDataGridView_KeyDown);
             // 
             // IDColumn
@@ -106,6 +111,11 @@
             this.IDColumn.ReadOnly = true;
             this.IDColumn.Visible = false;
             this.IDColumn.Width = 80;
+            // 
+            // PlayColumn
+            // 
+            this.PlayColumn.HeaderText = "Play";
+            this.PlayColumn.Name = "PlayColumn";
             // 
             // OctaveColumn
             // 
@@ -128,19 +138,25 @@
             this.NumberColumn.Name = "NumberColumn";
             this.NumberColumn.Width = 200;
             // 
-            // PlayColumn
+            // FrequencyColumn
             // 
-            this.PlayColumn.HeaderText = "Play";
-            this.PlayColumn.Name = "PlayColumn";
+            this.FrequencyColumn.DataPropertyName = "Frequency";
+            dataGridViewCellStyle3.Format = "0.##";
+            this.FrequencyColumn.DefaultCellStyle = dataGridViewCellStyle3;
+            this.FrequencyColumn.HeaderText = "Frequency";
+            this.FrequencyColumn.Name = "FrequencyColumn";
+            this.FrequencyColumn.ReadOnly = true;
+            this.FrequencyColumn.Width = 200;
             // 
             // ToneGridEditUserControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.Controls.Add(this.tableLayoutPanelMain);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "ToneGridEditUserControl";
-            this.Size = new System.Drawing.Size(467, 495);
+            this.Size = new System.Drawing.Size(623, 609);
             this.Leave += new System.EventHandler(this.ToneGridEditUserControl_Leave);
             this.tableLayoutPanelMain.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.specializedDataGridView)).EndInit();
@@ -153,8 +169,9 @@
         private Partials.TitleBarUserControl titleBarUserControl;
         private Partials.SpecializedDataGridView specializedDataGridView;
         private System.Windows.Forms.DataGridViewTextBoxColumn IDColumn;
+        private System.Windows.Forms.DataGridViewButtonColumn PlayColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn OctaveColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn NumberColumn;
-        private System.Windows.Forms.DataGridViewButtonColumn PlayColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FrequencyColumn;
     }
 }

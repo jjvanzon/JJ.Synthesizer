@@ -7,5 +7,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public int ID { get; set; }
         public string Octave { get; set; }
         public string Number { get; set; }
+        /// <summary> not editable </summary>
+        public double Frequency { get; set; }
     }
 }

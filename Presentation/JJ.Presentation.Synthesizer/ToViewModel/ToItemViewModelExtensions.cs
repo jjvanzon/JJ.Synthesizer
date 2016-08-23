@@ -493,7 +493,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 ID = entity.ID,
                 Number = entity.Number.ToString(),
-                Octave = entity.Octave.ToString()
+                Octave = entity.Octave.ToString(),
+                Frequency = entity.GetFrequency()
             };
 
             return viewModel;

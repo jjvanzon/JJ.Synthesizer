@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
@@ -13,5 +12,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 
         /// <summary> The title of the number column might vary with the ScaleType. </summary>
         public string NumberTitle { get; set; }
+        public bool FrequencyVisible { get; set; }
     }
 }

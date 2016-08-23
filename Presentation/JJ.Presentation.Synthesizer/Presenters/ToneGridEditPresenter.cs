@@ -11,6 +11,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Validation;
 using JJ.Presentation.Synthesizer.Validators;
 using JJ.Business.Canonical;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -92,6 +93,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public ToneGridEditViewModel LoseFocus(ToneGridEditViewModel userInput)
         {
             ToneGridEditViewModel viewModel = Update(userInput);
+            return viewModel;
+        }
+
+        public ToneGridEditViewModel Edit(ToneGridEditViewModel userInput)
+        {
+            // Refreshing upon edit is required to update the Frequency values.
+            ToneGridEditViewModel viewModel = Refresh(userInput);
+
             return viewModel;
         }
 
