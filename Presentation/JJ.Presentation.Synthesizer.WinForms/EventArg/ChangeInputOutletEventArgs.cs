@@ -4,11 +4,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.EventArg
 {
     internal class ChangeInputOutletEventArgs : EventArgs
     {
-        public int InletID { get; private set; }
-        public int InputOutletID { get; private set; }
+        public int ChildDocumentID { get; }
+        public int InletID { get; }
+        public int InputOutletID { get; }
 
-        public ChangeInputOutletEventArgs(int inletID, int inputOutletID)
+        public ChangeInputOutletEventArgs(int childDocumentID, int inletID, int inputOutletID)
         {
+            ChildDocumentID = childDocumentID;
             InletID = inletID;
             InputOutletID = inputOutletID;
         }

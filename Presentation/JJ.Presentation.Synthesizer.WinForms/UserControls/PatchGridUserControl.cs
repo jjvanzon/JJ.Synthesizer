@@ -14,7 +14,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         public event EventHandler<StringEventArgs> CreateRequested;
         public event EventHandler<Int32EventArgs> DeleteRequested;
-        public event EventHandler CloseRequested;
+        public event EventHandler<StringEventArgs> CloseRequested;
         public event EventHandler<Int32EventArgs> ShowDetailsRequested;
 
         public PatchGridUserControl()
@@ -67,10 +67,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void Close()
         {
-            if (CloseRequested != null)
-            {
-                CloseRequested(this, EventArgs.Empty);
-            }
+            CloseRequested?.Invoke(this, new StringEventArgs(ViewModel.Group));
         }
 
         private void ShowProperties()

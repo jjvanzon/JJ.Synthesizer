@@ -383,10 +383,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _curveGridPresenter.Show(userInput));
         }
 
-        public void CurveGridClose()
+        public void CurveGridClose(int documentID)
         {
             // GetViewModel
-            CurveGridViewModel userInput = ViewModelSelector.GetVisibleCurveGridViewModel(MainViewModel.Document);
+            CurveGridViewModel userInput = ViewModelSelector.GetCurveGridViewModel_ByDocumentID(MainViewModel.Document, documentID);
 
             // TemplateMethod
             TemplateActionMethod(userInput, () => _curveGridPresenter.Close(userInput));
@@ -919,10 +919,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _curveDetailsPresenter.SelectNode(userInput, nodeID));
         }
 
-        public void NodeCreate()
+        public void NodeCreate(int curveID)
         {
             // GetViewModel
-            CurveDetailsViewModel userInput = ViewModelSelector.GetVisibleCurveDetailsViewModel(MainViewModel.Document);
+            CurveDetailsViewModel userInput = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, curveID);
 
             // Template Method
             CurveDetailsViewModel viewModel = TemplateActionMethod(userInput, () =>
@@ -934,7 +934,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 userInput.Successful = false;
 
                 // GetEntity
-                Curve curve = _repositories.CurveRepository.Get(userInput.ID);
+                Curve curve = _repositories.CurveRepository.Get(userInput.CurveID);
 
                 // Business
                 // TODO: This kind of stuff belongs in the business layer.
@@ -965,10 +965,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void NodeDelete()
+        public void NodeDeleteSelected(int curveID)
         {
             // GetViewModel
-            CurveDetailsViewModel userInput = ViewModelSelector.GetVisibleCurveDetailsViewModel(MainViewModel.Document);
+            CurveDetailsViewModel userInput = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, curveID);
 
             // RefreshCounter
             userInput.RefreshCounter++;
@@ -1057,10 +1057,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// Rotates between node types for the selected node.
         /// If no node is selected, nothing happens.
         /// </summary>
-        public void NodeChangeNodeType()
+        public void NodeChangeSelectedNodeType(int curveID)
         {
             // GetViewModel
-            CurveDetailsViewModel userInput = ViewModelSelector.GetVisibleCurveDetailsViewModel(MainViewModel.Document);
+            CurveDetailsViewModel userInput = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, curveID);
 
             // RefreshCounter
             userInput.RefreshCounter++;
@@ -1610,10 +1610,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void OperatorCreate(int operatorTypeID)
+        public void OperatorCreate(int childDocumentID, int operatorTypeID)
         {
             // GetViewModel
-            PatchDetailsViewModel userInput = ViewModelSelector.GetVisiblePatchDetailsViewModel(MainViewModel.Document);
+            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel_ByChildDocumentID(MainViewModel.Document, childDocumentID);
 
             // TemplateMethod
             PatchDetailsViewModel viewModel = TemplateActionMethod(userInput, () => _patchDetailsPresenter.CreateOperator(userInput, operatorTypeID));
@@ -1626,10 +1626,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
         }
 
         /// <summary> Deletes the operator selected in PatchDetails. </summary>
-        public void OperatorDelete()
+        public void OperatorDelete(int childDocumentID)
         {
             // GetViewModel
-            PatchDetailsViewModel userInput = ViewModelSelector.GetVisiblePatchDetailsViewModel(MainViewModel.Document);
+            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel_ByChildDocumentID(MainViewModel.Document, childDocumentID);
 
             // Template Method
             PatchDetailsViewModel viewModel = TemplateActionMethod(userInput, () => _patchDetailsPresenter.DeleteOperator(userInput));
@@ -1641,28 +1641,28 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void OperatorMove(int operatorID, float centerX, float centerY)
+        public void OperatorMove(int childDocumentID, int operatorID, float centerX, float centerY)
         {
             // GetViewModel
-            PatchDetailsViewModel userInput = ViewModelSelector.GetVisiblePatchDetailsViewModel(MainViewModel.Document);
+            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel_ByChildDocumentID(MainViewModel.Document, childDocumentID);
 
             // TemplateMethod
             TemplateActionMethod(userInput, () => _patchDetailsPresenter.MoveOperator(userInput, operatorID, centerX, centerY));
         }
 
-        public void OperatorChangeInputOutlet(int inletID, int inputOutletID)
+        public void OperatorChangeInputOutlet(int childDocumentID, int inletID, int inputOutletID)
         {
             // GetViewModel
-            PatchDetailsViewModel userInput = ViewModelSelector.GetVisiblePatchDetailsViewModel(MainViewModel.Document);
+            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel_ByChildDocumentID(MainViewModel.Document, childDocumentID);
 
             // TemplateMethod
             TemplateActionMethod(userInput, () => _patchDetailsPresenter.ChangeInputOutlet(userInput, inletID, inputOutletID));
         }
 
-        public void OperatorSelect(int operatorID)
+        public void OperatorSelect(int childDocumentID, int operatorID)
         {
             // GetViewModel
-            PatchDetailsViewModel userInput = ViewModelSelector.GetVisiblePatchDetailsViewModel(MainViewModel.Document);
+            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel_ByChildDocumentID(MainViewModel.Document, childDocumentID);
 
             // Partial Action
             TemplateActionMethod(userInput, () => _patchDetailsPresenter.SelectOperator(userInput, operatorID));
@@ -1673,7 +1673,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void PatchDetailsShow(int childDocumentID)
         {
             // GetViewModel
-            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel_ByDocumentID(MainViewModel.Document, childDocumentID);
+            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel_ByChildDocumentID(MainViewModel.Document, childDocumentID);
 
             // TemplateMethod
             TemplateActionMethod(userInput, () => _patchDetailsPresenter.Show(userInput));
@@ -1692,17 +1692,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void PatchDetailsCloseOrLoseFocus(Func<PatchDetailsViewModel, PatchDetailsViewModel> partialAction, int patchID)
         {
             // GetViewModel
-            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, patchID);
+            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel_ByPatchID(MainViewModel.Document, patchID);
 
             // TemplateMethod
             TemplateActionMethod(userInput, () => partialAction(userInput));
         }
 
         /// <summary> Returns output file path if ViewModel.Successful. <summary>
-        public string PatchPlay()
+        public string PatchPlay(int childDocumentID)
         {
             // GetViewModel
-            PatchDetailsViewModel userInput = ViewModelSelector.GetVisiblePatchDetailsViewModel(MainViewModel.Document);
+            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel_ByChildDocumentID(MainViewModel.Document, childDocumentID);
 
             // TemplateMethod
             string outputFilePath = null;
@@ -1764,10 +1764,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _patchGridPresenter.Show(userInput));
         }
 
-        public void PatchGridClose()
+        public void PatchGridClose(string group)
         {
             // GetViewModel
-            PatchGridViewModel userInput = ViewModelSelector.GetVisiblePatchGridViewModel(MainViewModel.Document);
+            PatchGridViewModel userInput = ViewModelSelector.GetPatchGridViewModel_ByGroup(MainViewModel.Document, group);
 
             // Template Method
             TemplateActionMethod(userInput, () => _patchGridPresenter.Close(userInput));
@@ -1777,7 +1777,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void PatchCreate(string group)
         {
             // GetViewModel
-            PatchGridViewModel userInput = ViewModelSelector.GetVisiblePatchGridViewModel(MainViewModel.Document);
+            PatchGridViewModel userInput = ViewModelSelector.GetPatchGridViewModel_ByGroup(MainViewModel.Document, group);
 
             // Template Method
             PatchGridViewModel viewModel = TemplateActionMethod(userInput, () =>
@@ -1811,7 +1811,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void PatchDelete(int childDocumentID)
         {
             // GetViewModel
-            PatchGridViewModel userInput = ViewModelSelector.GetVisiblePatchGridViewModel(MainViewModel.Document);
+            PatchGridViewModel userInput = ViewModelSelector.GetPatchGridViewModel_ByChildDocumentID(MainViewModel.Document, childDocumentID);
 
             // Template Method
             PatchGridViewModel viewModel = TemplateActionMethod(userInput, () =>
@@ -1855,10 +1855,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _sampleGridPresenter.Show(userInput));
         }
 
-        public void SampleGridClose()
+        public void SampleGridClose(int documentID)
         {
             // GetViewModel
-            SampleGridViewModel userInput = ViewModelSelector.GetVisibleSampleGridViewModel(MainViewModel.Document);
+            SampleGridViewModel userInput = ViewModelSelector.GetSampleGridViewModel_ByDocumentID(MainViewModel.Document, documentID);
 
             // Template Method
             TemplateActionMethod(userInput, () => _sampleGridPresenter.Close(userInput));
@@ -2139,7 +2139,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void ToneCreate(int scaleID)
         {
             // GetViewModel
-            ToneGridEditViewModel userInput = ViewModelSelector.GetVisibleToneGridEditViewModel(MainViewModel.Document);
+            ToneGridEditViewModel userInput = ViewModelSelector.GetToneGridEditViewModel(MainViewModel.Document, scaleID);
 
             // RefreshCounter
             userInput.RefreshCounter++;
@@ -2190,7 +2190,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void ToneDelete(int toneID)
         {
             // GetViewModel
-            ToneGridEditViewModel userInput = ViewModelSelector.GetVisibleToneGridEditViewModel(MainViewModel.Document);
+            ToneGridEditViewModel userInput = ViewModelSelector.GetToneGridEditViewModel_ByToneID(MainViewModel.Document, toneID);
 
             // RefreshCounter
             userInput.RefreshCounter++;
@@ -2236,19 +2236,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
             });
         }
 
-        public void ToneGridEditClose()
+        public void ToneGridEditClose(int scaleID)
         {
             // GetViewModel
-            ToneGridEditViewModel userInput = ViewModelSelector.GetVisibleToneGridEditViewModel(MainViewModel.Document);
+            ToneGridEditViewModel userInput = ViewModelSelector.GetToneGridEditViewModel(MainViewModel.Document, scaleID);
 
             // Template Method
             TemplateActionMethod(userInput, () => _toneGridEditPresenter.Close(userInput));
         }
 
-        public void ToneGridEditLoseFocus()
+        public void ToneGridEditLoseFocus(int scaleID)
         {
             // GetViewModel
-            ToneGridEditViewModel userInput = ViewModelSelector.GetVisibleToneGridEditViewModel(MainViewModel.Document);
+            ToneGridEditViewModel userInput = ViewModelSelector.GetToneGridEditViewModel(MainViewModel.Document, scaleID);
 
             // Template Method
             TemplateActionMethod(userInput, () => _toneGridEditPresenter.LoseFocus(userInput));
@@ -2276,7 +2276,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // ToneGridEditViewModel and CurrentPatches view model.
 
             // GetEntity
-            ToneGridEditViewModel userInput = ViewModelSelector.GetVisibleToneGridEditViewModel(MainViewModel.Document);
+            ToneGridEditViewModel userInput = ViewModelSelector.GetToneGridEditViewModel_ByToneID(MainViewModel.Document, id);
 
             // RefreshCounter
             userInput.RefreshCounter++;

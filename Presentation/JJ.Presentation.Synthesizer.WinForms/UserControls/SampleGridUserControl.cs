@@ -15,7 +15,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         public event EventHandler<Int32EventArgs> CreateRequested;
         public event EventHandler<Int32EventArgs> DeleteRequested;
-        public event EventHandler CloseRequested;
+        public event EventHandler<Int32EventArgs> CloseRequested;
         public event EventHandler<Int32EventArgs> ShowPropertiesRequested;
 
         public SampleGridUserControl()
@@ -81,7 +81,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void Close()
         {
-            CloseRequested?.Invoke(this, EventArgs.Empty);
+            if (ViewModel == null) return;
+            CloseRequested?.Invoke(this, new Int32EventArgs(ViewModel.DocumentID));
         }
 
         private void ShowProperties()

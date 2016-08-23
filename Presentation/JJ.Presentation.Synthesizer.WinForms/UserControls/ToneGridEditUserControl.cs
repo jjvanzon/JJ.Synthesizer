@@ -17,8 +17,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<Int32EventArgs> CreateToneRequested;
         public event EventHandler<Int32EventArgs> DeleteToneRequested;
         public event EventHandler<Int32EventArgs> PlayToneRequested;
-        public event EventHandler CloseRequested;
-        public event EventHandler LoseFocusRequested;
+        public event EventHandler<Int32EventArgs> CloseRequested;
+        public event EventHandler<Int32EventArgs> LoseFocusRequested;
         public event EventHandler<Int32EventArgs> Edited;
 
         public ToneGridEditUserControl()
@@ -71,16 +71,20 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void Close()
         {
+            if (ViewModel == null) return;
+
             specializedDataGridView.EndEdit();
 
-            CloseRequested?.Invoke(this, EventArgs.Empty);
+            CloseRequested?.Invoke(this, new Int32EventArgs(ViewModel.ScaleID));
         }
 
         private void LoseFocus()
         {
+            if (ViewModel == null) return;
+
             specializedDataGridView.EndEdit();
 
-            LoseFocusRequested?.Invoke(this, EventArgs.Empty);
+            LoseFocusRequested?.Invoke(this, new Int32EventArgs(ViewModel.ScaleID));
         }
 
         // Events

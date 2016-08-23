@@ -19,12 +19,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class CurveDetailsUserControl : DetailsOrPropertiesUserControlBase
     {
-        public event EventHandler CreateNodeRequested;
-        public event EventHandler DeleteNodeRequested;
+        public event EventHandler<Int32EventArgs> CreateNodeRequested;
+        /// <summary> Parameter is CurveID, not NodeID </summary>
+        public event EventHandler<Int32EventArgs> DeleteSelectedNodeRequested;
         public event EventHandler<Int32EventArgs> SelectNodeRequested;
         public event EventHandler<MoveEntityEventArgs> MoveNodeRequested;
         public event EventHandler<Int32EventArgs> ShowCurvePropertiesRequested;
-        public event EventHandler ChangeNodeTypeRequested;
+        public event EventHandler<Int32EventArgs> ChangeSelectedNodeTypeRequested;
         public event EventHandler<Int32EventArgs> ShowNodePropertiesRequested;
 
         private readonly CurveDetailsViewModelToDiagramConverter _converter;
@@ -75,7 +76,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override int GetID()
         {
-            return ViewModel.ID;
+            return ViewModel.CurveID;
         }
 
         protected override void ApplyViewModelToControls()
@@ -105,12 +106,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void titleBarUserControl_AddClicked(object sender, EventArgs e)
         {
-            CreateNodeRequested?.Invoke(this, EventArgs.Empty);
+            CreateNode();
         }
 
         private void titleBarUserControl_RemoveClicked(object sender, EventArgs e)
         {
-            DeleteNodeRequested?.Invoke(this, EventArgs.Empty);
+            DeleteSelectedNode();
         }
 
         private void Diagram_KeyDown(object sender, JJ.Framework.Presentation.VectorGraphics.EventArg.KeyEventArgs e)
@@ -118,11 +119,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             switch (e.KeyCode)
             {
                 case KeyCodeEnum.Insert:
-                    CreateNodeRequested?.Invoke(this, EventArgs.Empty);
+                    CreateNode();
                     break;
 
                 case KeyCodeEnum.Delete:
-                    DeleteNodeRequested?.Invoke(this, EventArgs.Empty);
+                    DeleteSelectedNode();
                     break;
             }
         }
@@ -160,12 +161,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ShowCurvePropertiesGesture_ShowCurvePropertiesRequested(object sender, EventArgs e)
         {
-            ShowCurvePropertiesRequested?.Invoke(this, new Int32EventArgs(ViewModel.ID));
+            ShowCurvePropertiesRequested?.Invoke(this, new Int32EventArgs(ViewModel.CurveID));
         }
 
         private void ChangeNodeTypeGesture_ChangeNodeTypeRequested(object sender, EventArgs e)
         {
-            ChangeNodeTypeRequested?.Invoke(this, EventArgs.Empty);
+            if (ViewModel == null) return;
+            ChangeSelectedNodeTypeRequested?.Invoke(this, new Int32EventArgs(ViewModel.CurveID));
         }
 
         private void ShowNodePropertiesMouseGesture_ShowNodePropertiesRequested(object sender, IDEventArgs e)
@@ -188,6 +190,18 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             NodeViewModel nodeViewModel = ViewModel.Nodes[nodeID];
 
             e.ToolTipText = nodeViewModel.Caption;
+        }
+
+        private void DeleteSelectedNode()
+        {
+            if (ViewModel == null) return;
+            DeleteSelectedNodeRequested?.Invoke(this, new Int32EventArgs(ViewModel.CurveID));
+        }
+
+        private void CreateNode()
+        {
+            if (ViewModel == null) return;
+            CreateNodeRequested?.Invoke(this, new Int32EventArgs(ViewModel.CurveID));
         }
     }
 }

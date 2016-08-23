@@ -22,12 +22,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class PatchDetailsUserControl : DetailsOrPropertiesUserControlBase
     {
-        public event EventHandler DeleteOperatorRequested;
+        /// <summary> Parameter is ChildDocumentID </summary>
+        public event EventHandler<Int32EventArgs> DeleteOperatorRequested;
         public event EventHandler<CreateOperatorEventArgs> CreateOperatorRequested;
-        public event EventHandler<MoveEntityEventArgs> MoveOperatorRequested;
+        public event EventHandler<MoveOperatorEventArgs> MoveOperatorRequested;
         public event EventHandler<ChangeInputOutletEventArgs> ChangeInputOutletRequested;
-        public event EventHandler<Int32EventArgs> SelectOperatorRequested;
-        public event EventHandler PlayRequested;
+        public event EventHandler<SelectOperatorEventArgs> SelectOperatorRequested;
+        /// <summary> Parameter is ChildDocumentID </summary>
+        public event EventHandler<Int32EventArgs> PlayRequested;
         public event EventHandler<Int32EventArgs> ShowOperatorPropertiesRequested;
         public event EventHandler<Int32EventArgs> ShowPatchPropertiesRequested;
 
@@ -170,10 +172,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void DropLineGesture_Dropped(object sender, DroppedEventArgs e)
         {
+            if (ViewModel == null) return;
+
             int inletID =  VectorGraphicsTagHelper.GetInletID(e.DroppedOnElement.Tag);
             int outletID = VectorGraphicsTagHelper.GetOutletID(e.DraggedElement.Tag);
 
-            ChangeInputOutletRequested?.Invoke(this, new ChangeInputOutletEventArgs(inletID, outletID));
+            ChangeInputOutletRequested?.Invoke(this, new ChangeInputOutletEventArgs(
+                ViewModel.Entity.ChildDocumentID,
+                inletID,
+                outletID));
         }
 
         private void MoveGesture_Moving(object sender, ElementEventArgs e)
@@ -204,29 +211,40 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void MoveOperator(int operatorID, float centerX, float centerY)
         {
-            MoveOperatorRequested?.Invoke(this, new MoveEntityEventArgs(operatorID, centerX, centerY));
+            if (ViewModel == null) return;
+
+            MoveOperatorRequested?.Invoke(this, new MoveOperatorEventArgs(
+                ViewModel.Entity.ChildDocumentID,
+                operatorID,
+                centerX,
+                centerY));
         }
 
         private void toolStripLabel_Click(object sender, EventArgs e)
         {
+            if (ViewModel == null) return;
+
             ToolStripItem control = (ToolStripItem)sender;
             int operatorTypeID = (int)control.Tag;
 
-            CreateOperatorRequested?.Invoke(this, new CreateOperatorEventArgs(operatorTypeID));
+            CreateOperatorRequested?.Invoke(this, new CreateOperatorEventArgs(ViewModel.Entity.ChildDocumentID, operatorTypeID));
         }
 
         private void SelectOperatorGesture_OperatorSelected(object sender, ElementEventArgs e)
         {
+            if (ViewModel == null) return;
+
             int operatorID = VectorGraphicsTagHelper.GetOperatorID(e.Element.Tag);
 
-            SelectOperatorRequested?.Invoke(this, new Int32EventArgs(operatorID));
+            SelectOperatorRequested?.Invoke(this, new SelectOperatorEventArgs(ViewModel.Entity.ChildDocumentID, operatorID));
 
             _converterResult.ShowOperatorPropertiesKeyboardGesture.SelectedOperatorID = operatorID;
         }
 
         private void DeleteOperatorGesture_DeleteRequested(object sender, EventArgs e)
         {
-            DeleteOperatorRequested?.Invoke(this, EventArgs.Empty);
+            if (ViewModel == null) return;
+            DeleteOperatorRequested?.Invoke(this, new Int32EventArgs(ViewModel.Entity.ChildDocumentID));
         }
 
         private void ShowOperatorPropertiesMouseGesture_ShowOperatorPropertiesRequested(object sender, IDEventArgs e)
@@ -241,7 +259,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void buttonPlay_Click(object sender, EventArgs e)
         {
-            PlayRequested?.Invoke(this, EventArgs.Empty);
+            if (ViewModel == null) return;
+            PlayRequested?.Invoke(this, new Int32EventArgs(ViewModel.Entity.ChildDocumentID));
         }
 
         // TODO: Lower priority: You might want to use the presenter for the the following 3 things.

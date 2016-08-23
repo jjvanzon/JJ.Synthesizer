@@ -158,7 +158,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             var castedViewModel = (CurveDetailsViewModel)viewModel2;
 
             var dictionary = ViewModelSelector.GetCurveDetailsViewModelDictionary_ByDocumentID(MainViewModel.Document, castedViewModel.DocumentID);
-            dictionary[castedViewModel.ID] = castedViewModel;
+            dictionary[castedViewModel.CurveID] = castedViewModel;
 
             if (castedViewModel.Visible)
             {
@@ -181,7 +181,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
             else
             {
-                PatchDocumentViewModel patchDocumentViewModel = ViewModelSelector.GetPatchDocumentViewModel(MainViewModel.Document, castedViewModel.DocumentID);
+                PatchDocumentViewModel patchDocumentViewModel = ViewModelSelector.GetPatchDocumentViewModel_ByChildDocumentID(MainViewModel.Document, castedViewModel.DocumentID);
                 patchDocumentViewModel.CurveGrid = castedViewModel;
             }
 
@@ -640,7 +640,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
             else
             {
-                PatchDocumentViewModel patchDocumentViewModel = ViewModelSelector.GetPatchDocumentViewModel(MainViewModel.Document, castedViewModel.DocumentID);
+                PatchDocumentViewModel patchDocumentViewModel = ViewModelSelector.GetPatchDocumentViewModel_ByChildDocumentID(MainViewModel.Document, castedViewModel.DocumentID);
                 patchDocumentViewModel.SampleGrid = castedViewModel;
             }
 

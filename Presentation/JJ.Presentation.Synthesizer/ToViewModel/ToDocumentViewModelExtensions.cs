@@ -28,7 +28,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 AudioFileOutputPropertiesDictionary = document.AudioFileOutputs.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.Entity.ID),
                 PatchDocumentDictionary = document.ChildDocuments.Select(x => x.ToPatchDocumentViewModel(repositories, entityPositionManager)).ToDictionary(x => x.ChildDocumentID),
                 CurrentPatches = ViewModelHelper.CreateEmptyCurrentPatchesViewModel(),
-                CurveDetailsDictionary = document.Curves.Select(x => x.ToDetailsViewModel()).ToDictionary(x => x.ID),
+                CurveDetailsDictionary = document.Curves.Select(x => x.ToDetailsViewModel()).ToDictionary(x => x.CurveID),
                 CurveGrid = document.Curves.ToGridViewModel(document.ID),
                 CurvePropertiesDictionary = document.Curves.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.ID),
                 DocumentProperties = document.ToPropertiesViewModel(),
@@ -73,7 +73,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new PatchDocumentViewModel
             {
                 ChildDocumentID = childDocument.ID,
-                CurveDetailsDictionary = childDocument.Curves.Select(x => x.ToDetailsViewModel()).ToDictionary(x => x.ID),
+                CurveDetailsDictionary = childDocument.Curves.Select(x => x.ToDetailsViewModel()).ToDictionary(x => x.CurveID),
                 CurveGrid = childDocument.Curves.ToGridViewModel(childDocument.ID),
                 CurveLookup = ViewModelHelper.CreateCurveLookupViewModel(childDocument.ParentDocument, childDocument),
                 CurvePropertiesDictionary = childDocument.Curves.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.ID),

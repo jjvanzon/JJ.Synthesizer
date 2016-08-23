@@ -90,7 +90,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = new CurveDetailsViewModel
             {
-                ID = entity.ID,
+                CurveID = entity.ID,
                 DocumentID = entity.Document.ID,
                 Nodes = entity.Nodes.ToViewModelDictionary(),
                 NodeTypeLookup = ViewModelHelper.GetNodeTypeLookupViewModel(),

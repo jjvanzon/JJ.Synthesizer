@@ -6,7 +6,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 {
     public sealed class CurveDetailsViewModel : ViewModelBase
     {
-        public int ID { get; set; }
+        public int CurveID { get; set; }
         public int DocumentID { get; set; }
         public Dictionary<int, NodeViewModel> Nodes { get; set; }
         public int? SelectedNodeID { get; set; }

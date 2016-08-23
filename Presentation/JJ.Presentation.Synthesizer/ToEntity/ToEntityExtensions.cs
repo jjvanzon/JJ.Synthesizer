@@ -267,11 +267,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (viewModel == null) throw new NullException(() => viewModel);
             if (repositories == null) throw new NullException(() => repositories);
 
-            Curve curve = repositories.CurveRepository.TryGet(viewModel.ID);
+            Curve curve = repositories.CurveRepository.TryGet(viewModel.CurveID);
             if (curve == null)
             {
                 curve = new Curve();
-                curve.ID = viewModel.ID;
+                curve.ID = viewModel.CurveID;
                 repositories.CurveRepository.Insert(curve);
             }
 

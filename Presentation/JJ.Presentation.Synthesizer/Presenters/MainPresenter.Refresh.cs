@@ -207,7 +207,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Document rootDocument = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
             foreach (Document childDocument in rootDocument.ChildDocuments)
             {
-                PatchDocumentViewModel patchDocumentViewModel = ViewModelSelector.GetPatchDocumentViewModel(MainViewModel.Document, childDocument.ID);
+                PatchDocumentViewModel patchDocumentViewModel = ViewModelSelector.GetPatchDocumentViewModel_ByChildDocumentID(MainViewModel.Document, childDocument.ID);
                 patchDocumentViewModel.CurveLookup = ViewModelHelper.CreateCurveLookupViewModel(rootDocument, childDocument);
             }
         }
@@ -335,7 +335,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Document rootDocument = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
             foreach (Document childDocument in rootDocument.ChildDocuments)
             {
-                PatchDocumentViewModel patchDocumentViewModel = ViewModelSelector.TryGetPatchDocumentViewModel(MainViewModel.Document, childDocument.ID);
+                PatchDocumentViewModel patchDocumentViewModel = ViewModelSelector.TryGetPatchDocumentViewModel_ByChildDocumentID(MainViewModel.Document, childDocument.ID);
 
                 if (patchDocumentViewModel == null)
                 {
@@ -378,7 +378,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IEnumerable<int> childDocumentIDsToKeep = rootDocument.ChildDocuments.Select(x => x.ID);
             IEnumerable<int> childDocumentIDsToDelete = existingChildDocumentIDs.Except(childDocumentIDsToKeep);
 
-            foreach (int childDocumentIDToDelete in childDocumentIDsToDelete)
+            foreach (int childDocumentIDToDelete in childDocumentIDsToDelete.ToArray())
             {
                 MainViewModel.Document.PatchDocumentDictionary.Remove(childDocumentIDToDelete);
             }
