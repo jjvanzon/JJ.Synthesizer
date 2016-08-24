@@ -684,10 +684,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Document
 
-        public void DocumentOpen(int documentID)
+        public void DocumentOpen(int id)
         {
             // GetEntity
-            Document rootDocument = _repositories.DocumentRepository.GetComplete(documentID);
+            Document rootDocument = _repositories.DocumentRepository.GetComplete(id);
 
             // Business
             IList<Document> grouplessChildDocuments = _documentManager.GetGrouplessChildDocuments(rootDocument);
@@ -819,8 +819,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DocumentPropertiesCloseOrLoseFocus(_documentPropertiesPresenter.LoseFocus);
         }
 
-        private void DocumentPropertiesCloseOrLoseFocus(
-            Func<DocumentPropertiesViewModel, DocumentPropertiesViewModel> partialAction)
+        private void DocumentPropertiesCloseOrLoseFocus(Func<DocumentPropertiesViewModel, DocumentPropertiesViewModel> partialAction)
         {
             // GetViewModel
             DocumentPropertiesViewModel userInput = MainViewModel.Document.DocumentProperties;
@@ -875,29 +874,29 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Node
 
-        public void NodePropertiesShow(int nodeID)
+        public void NodePropertiesShow(int id)
         {
             // GetViewModel
-            NodePropertiesViewModel userInput = ViewModelSelector.GetNodePropertiesViewModel(MainViewModel.Document, nodeID);
+            NodePropertiesViewModel userInput = ViewModelSelector.GetNodePropertiesViewModel(MainViewModel.Document, id);
 
             // Template Method
             TemplateActionMethod(userInput, () => _nodePropertiesPresenter.Show(userInput));
         }
 
-        public void NodePropertiesClose(int nodeID)
+        public void NodePropertiesClose(int id)
         {
-            NodePropertiesCloseOrLoseFocus(_nodePropertiesPresenter.Close, nodeID);
+            NodePropertiesCloseOrLoseFocus(_nodePropertiesPresenter.Close, id);
         }
 
-        public void NodePropertiesLoseFocus(int nodeID)
+        public void NodePropertiesLoseFocus(int id)
         {
-            NodePropertiesCloseOrLoseFocus(_nodePropertiesPresenter.LoseFocus, nodeID);
+            NodePropertiesCloseOrLoseFocus(_nodePropertiesPresenter.LoseFocus, id);
         }
 
-        public void NodePropertiesCloseOrLoseFocus(Func<NodePropertiesViewModel, NodePropertiesViewModel> partialAction, int nodeID)
+        public void NodePropertiesCloseOrLoseFocus(Func<NodePropertiesViewModel, NodePropertiesViewModel> partialAction, int id)
         {
             // GetViewModel
-            NodePropertiesViewModel userInput = ViewModelSelector.GetNodePropertiesViewModel(MainViewModel.Document, nodeID);
+            NodePropertiesViewModel userInput = ViewModelSelector.GetNodePropertiesViewModel(MainViewModel.Document, id);
 
             // TemplateMethod
             NodePropertiesViewModel viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
@@ -905,8 +904,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Refresh
             if (viewModel.Successful)
             {
-                Node node = _repositories.NodeRepository.Get(nodeID);
-                CurveDetailsNodeRefresh(node.Curve.ID, nodeID);
+                Node node = _repositories.NodeRepository.Get(id);
+                CurveDetailsNodeRefresh(node.Curve.ID, id);
             }
         }
 

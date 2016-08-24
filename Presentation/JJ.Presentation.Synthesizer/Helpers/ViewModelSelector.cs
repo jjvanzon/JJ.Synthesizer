@@ -716,230 +716,79 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return viewModel;
         }
 
-        public static Dictionary<int, OperatorPropertiesViewModel> GetOperatorPropertiesViewModelDictionary_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
+        public static Dictionary<int, OperatorPropertiesViewModel> GetOperatorPropertiesViewModelDictionary_ByChildDocumentID(DocumentViewModel rootDocumentViewModel, int childDocumentID)
         {
-            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-            foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentDictionary.Values)
-            {
-                // The key of the dictionary is ChildDocumentID.
-                if (patchDocumentViewModel.PatchDetails.Entity.PatchID == patchID)
-                {
-                    return patchDocumentViewModel.OperatorPropertiesDictionary;
-                }
-            }
-
-            throw new Exception(String.Format("OperatorPropertiesViewModel collection for Patch ID '{0}' not found in any of the PatchDocumentViewModels.", patchID));
+            return Base_GetOperatorPropertiesViewModelDictionary_ByChildDocumentID(x => x.OperatorPropertiesDictionary, rootDocumentViewModel, childDocumentID);
         }
 
-        public static Dictionary<int, OperatorPropertiesViewModel_ForBundle> GetOperatorPropertiesViewModelDictionary_ForBundles_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
+        public static Dictionary<int, OperatorPropertiesViewModel_ForBundle> GetOperatorPropertiesViewModelDictionary_ForBundles_ByChildDocumentID(DocumentViewModel rootDocumentViewModel, int childDocumentID)
         {
-            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-            foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentDictionary.Values)
-            {
-                if (patchDocumentViewModel.PatchDetails.Entity.PatchID == patchID)
-                {
-                    return patchDocumentViewModel.OperatorPropertiesDictionary_ForBundles;
-                }
-            }
-
-            throw new Exception(String.Format("OperatorPropertiesViewModel_ForBundle collection for Patch ID '{0}' not found in any of the PatchDocumentViewModels.", patchID));
+            return Base_GetOperatorPropertiesViewModelDictionary_ByChildDocumentID(x => x.OperatorPropertiesDictionary_ForBundles, rootDocumentViewModel, childDocumentID);
         }
 
-        public static Dictionary<int, OperatorPropertiesViewModel_ForCache> GetOperatorPropertiesViewModelDictionary_ForCaches_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
+        public static Dictionary<int, OperatorPropertiesViewModel_ForCache> GetOperatorPropertiesViewModelDictionary_ForCaches_ByChildDocumentID(DocumentViewModel rootDocumentViewModel, int childDocumentID)
         {
-            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-            foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentDictionary.Values)
-            {
-                if (patchDocumentViewModel.PatchDetails.Entity.PatchID == patchID)
-                {
-                    return patchDocumentViewModel.OperatorPropertiesDictionary_ForCaches;
-                }
-            }
-
-            throw new Exception(String.Format("OperatorPropertiesViewModel_ForCache collection for Patch ID '{0}' not found in any of the PatchDocumentViewModels.", patchID));
+            return Base_GetOperatorPropertiesViewModelDictionary_ByChildDocumentID(x => x.OperatorPropertiesDictionary_ForCaches, rootDocumentViewModel, childDocumentID);
         }
 
-        public static Dictionary<int, OperatorPropertiesViewModel_ForCurve> GetOperatorPropertiesViewModelDictionary_ForCurves_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
+        public static Dictionary<int, OperatorPropertiesViewModel_ForCurve> GetOperatorPropertiesViewModelDictionary_ForCurves_ByChildDocumentID(DocumentViewModel rootDocumentViewModel, int childDocumentID)
         {
-            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-            foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentDictionary.Values)
-            {
-                if (patchDocumentViewModel.PatchDetails.Entity.PatchID == patchID)
-                {
-                    return patchDocumentViewModel.OperatorPropertiesDictionary_ForCurves;
-                }
-            }
-
-            throw new Exception(String.Format("OperatorPropertiesViewModel_ForCurve collection for Patch ID '{0}' not found in any of the PatchDocumentViewModels.", patchID));
+            return Base_GetOperatorPropertiesViewModelDictionary_ByChildDocumentID(x => x.OperatorPropertiesDictionary_ForCurves, rootDocumentViewModel, childDocumentID);
         }
 
-        public static Dictionary<int, OperatorPropertiesViewModel_ForCustomOperator> GetOperatorPropertiesViewModelDictionary_ForCustomOperators_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
+        public static Dictionary<int, OperatorPropertiesViewModel_ForCustomOperator> GetOperatorPropertiesViewModelDictionary_ForCustomOperators_ByChildDocumentID(DocumentViewModel rootDocumentViewModel, int childDocumentID)
         {
-            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-            foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentDictionary.Values)
-            {
-                if (patchDocumentViewModel.PatchDetails.Entity.PatchID == patchID)
-                {
-                    return patchDocumentViewModel.OperatorPropertiesDictionary_ForCustomOperators;
-                }
-            }
-
-            throw new Exception(String.Format("OperatorPropertiesViewModel_ForCustomOperator collection for Patch ID '{0}' not found in any of the PatchDocumentViewModels.", patchID));
+            return Base_GetOperatorPropertiesViewModelDictionary_ByChildDocumentID(x => x.OperatorPropertiesDictionary_ForCustomOperators, rootDocumentViewModel, childDocumentID);
         }
 
-        public static Dictionary<int, OperatorPropertiesViewModel_ForMakeContinuous> GetOperatorPropertiesViewModelDictionary_ForMakeContinuous_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
+        public static Dictionary<int, OperatorPropertiesViewModel_ForMakeContinuous> GetOperatorPropertiesViewModelDictionary_ForMakeContinuous_ByChildDocumentID(DocumentViewModel rootDocumentViewModel, int childDocumentID)
         {
-            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-            foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentDictionary.Values)
-            {
-                if (patchDocumentViewModel.PatchDetails.Entity.PatchID == patchID)
-                {
-                    return patchDocumentViewModel.OperatorPropertiesDictionary_ForMakeContinuous;
-                }
-            }
-
-            throw new Exception(String.Format("OperatorPropertiesViewModel_ForMakeContinuous collection with Patch ID '{0}' not found in any of the PatchDocumentViewModels.", patchID));
+            return Base_GetOperatorPropertiesViewModelDictionary_ByChildDocumentID(x => x.OperatorPropertiesDictionary_ForMakeContinuous, rootDocumentViewModel, childDocumentID);
         }
 
-        public static Dictionary<int, OperatorPropertiesViewModel_ForNumber> GetOperatorPropertiesViewModelDictionary_ForNumbers_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
+        public static Dictionary<int, OperatorPropertiesViewModel_ForNumber> GetOperatorPropertiesViewModelDictionary_ForNumbers_ByChildDocumentID(DocumentViewModel rootDocumentViewModel, int childDocumentID)
         {
-            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-            foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentDictionary.Values)
-            {
-                if (patchDocumentViewModel.PatchDetails.Entity.PatchID == patchID)
-                {
-                    return patchDocumentViewModel.OperatorPropertiesDictionary_ForNumbers;
-                }
-            }
-
-            throw new Exception(String.Format("OperatorPropertiesViewModel_ForNumber collection for Patch ID '{0}' not found any of the PatchDocumentViewModels.", patchID));
+            return Base_GetOperatorPropertiesViewModelDictionary_ByChildDocumentID(x => x.OperatorPropertiesDictionary_ForNumbers, rootDocumentViewModel, childDocumentID);
         }
 
-        public static Dictionary<int, OperatorPropertiesViewModel_ForPatchInlet> GetOperatorPropertiesViewModelDictionary_ForPatchInlets_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
+        public static Dictionary<int, OperatorPropertiesViewModel_ForPatchInlet> GetOperatorPropertiesViewModelDictionary_ForPatchInlets_ByChildDocumentID(DocumentViewModel rootDocumentViewModel, int childDocumentID)
         {
-            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-            foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentDictionary.Values)
-            {
-                if (patchDocumentViewModel.PatchDetails.Entity.PatchID == patchID)
-                {
-                    return patchDocumentViewModel.OperatorPropertiesDictionary_ForPatchInlets;
-                }
-            }
-
-            throw new Exception(String.Format("OperatorPropertiesViewModel_ForPatchInlet collection for Patch ID '{0}' not found in any of the PatchDocumentViewModels.", patchID));
+            return Base_GetOperatorPropertiesViewModelDictionary_ByChildDocumentID(x => x.OperatorPropertiesDictionary_ForPatchInlets, rootDocumentViewModel, childDocumentID);
         }
 
-        public static Dictionary<int, OperatorPropertiesViewModel_ForPatchOutlet> GetOperatorPropertiesViewModelDictionary_ForPatchOutlets_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
+        public static Dictionary<int, OperatorPropertiesViewModel_ForPatchOutlet> GetOperatorPropertiesViewModelDictionary_ForPatchOutlets_ByChildDocumentID(DocumentViewModel rootDocumentViewModel, int childDocumentID)
         {
-            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-            foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentDictionary.Values)
-            {
-                if (patchDocumentViewModel.PatchDetails.Entity.PatchID == patchID)
-                {
-                    return patchDocumentViewModel.OperatorPropertiesDictionary_ForPatchOutlets;
-                }
-            }
-
-            throw new Exception(String.Format("OperatorPropertiesViewModel_ForPatchOutlet collection for Patch ID '{0}' not found in any of the PatchDocumentViewModels.", patchID));
+            return Base_GetOperatorPropertiesViewModelDictionary_ByChildDocumentID(x => x.OperatorPropertiesDictionary_ForPatchOutlets, rootDocumentViewModel, childDocumentID);
         }
 
-        public static Dictionary<int, OperatorPropertiesViewModel_ForSample> GetOperatorPropertiesViewModelDictionary_ForSamples_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
+        public static Dictionary<int, OperatorPropertiesViewModel_ForSample> GetOperatorPropertiesViewModelDictionary_ForSamples_ByChildDocumentID(DocumentViewModel rootDocumentViewModel, int childDocumentID)
         {
-            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-            foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentDictionary.Values)
-            {
-                if (patchDocumentViewModel.PatchDetails.Entity.PatchID == patchID)
-                {
-                    return patchDocumentViewModel.OperatorPropertiesDictionary_ForSamples;
-                }
-            }
-
-            throw new Exception(String.Format("OperatorPropertiesViewModel_ForSample collection with Patch ID '{0}' not found in any of the PatchDocumentViewModels.", patchID));
+            return Base_GetOperatorPropertiesViewModelDictionary_ByChildDocumentID(x => x.OperatorPropertiesDictionary_ForSamples, rootDocumentViewModel, childDocumentID);
         }
 
-        public static Dictionary<int, OperatorPropertiesViewModel_WithDimension> GetOperatorPropertiesViewModelDictionary_WithDimension_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
+        public static Dictionary<int, OperatorPropertiesViewModel_WithDimension> GetOperatorPropertiesViewModelDictionary_WithDimension_ByChildDocumentID(DocumentViewModel rootDocumentViewModel, int childDocumentID)
         {
-            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-            foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentDictionary.Values)
-            {
-                if (patchDocumentViewModel.PatchDetails.Entity.PatchID == patchID)
-                {
-                    return patchDocumentViewModel.OperatorPropertiesDictionary_WithDimension;
-                }
-            }
-
-            throw new Exception(String.Format("OperatorPropertiesViewModel_WithDimension collection with Patch ID '{0}' not found in any of the PatchDocumentViewModels.", patchID));
+            return Base_GetOperatorPropertiesViewModelDictionary_ByChildDocumentID(x => x.OperatorPropertiesDictionary_WithDimension, rootDocumentViewModel, childDocumentID);
         }
 
-        public static Dictionary<int, OperatorPropertiesViewModel_WithDimensionAndInterpolation> GetOperatorPropertiesViewModelDictionary_WithDimensionAndInterpolation_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
+        public static Dictionary<int, OperatorPropertiesViewModel_WithDimensionAndInterpolation> GetOperatorPropertiesViewModelDictionary_WithDimensionAndInterpolation_ByChildDocumentID(DocumentViewModel rootDocumentViewModel, int childDocumentID)
         {
-            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-            foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentDictionary.Values)
-            {
-                if (patchDocumentViewModel.PatchDetails.Entity.PatchID == patchID)
-                {
-                    return patchDocumentViewModel.OperatorPropertiesDictionary_WithDimensionAndInterpolation;
-                }
-            }
-
-            throw new Exception(String.Format("OperatorPropertiesViewModel_WithDimensionAndInterpolation collection with Patch ID '{0}' not found in any of the PatchDocumentViewModels.", patchID));
+            return Base_GetOperatorPropertiesViewModelDictionary_ByChildDocumentID(x => x.OperatorPropertiesDictionary_WithDimensionAndInterpolation, rootDocumentViewModel, childDocumentID);
         }
 
-        public static Dictionary<int, OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation> GetOperatorPropertiesViewModelDictionary_WithDimensionAndCollectionRecalculation_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
+        public static Dictionary<int, OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation> GetOperatorPropertiesViewModelDictionary_WithDimensionAndCollectionRecalculation_ByChildDocumentID(DocumentViewModel rootDocumentViewModel, int childDocumentID)
         {
-            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-            foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentDictionary.Values)
-            {
-                if (patchDocumentViewModel.PatchDetails.Entity.PatchID == patchID)
-                {
-                    return patchDocumentViewModel.OperatorPropertiesDictionary_WithDimensionAndCollectionRecalculation;
-                }
-            }
-
-            throw new Exception(String.Format("OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation collection with Patch ID '{0}' not found in any of the PatchDocumentViewModels.", patchID));
+            return Base_GetOperatorPropertiesViewModelDictionary_ByChildDocumentID(x => x.OperatorPropertiesDictionary_WithDimensionAndCollectionRecalculation, rootDocumentViewModel, childDocumentID);
         }
 
-        public static Dictionary<int, OperatorPropertiesViewModel_WithDimensionAndOutletCount> GetOperatorPropertiesViewModelDictionary_WithDimensionAndOutletCount_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
+        public static Dictionary<int, OperatorPropertiesViewModel_WithDimensionAndOutletCount> GetOperatorPropertiesViewModelDictionary_WithDimensionAndOutletCount_ByChildDocumentID(DocumentViewModel rootDocumentViewModel, int childDocumentID)
         {
-            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-            foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentDictionary.Values)
-            {
-                if (patchDocumentViewModel.PatchDetails.Entity.PatchID == patchID)
-                {
-                    return patchDocumentViewModel.OperatorPropertiesDictionary_WithDimensionAndOutletCount;
-                }
-            }
-
-            throw new Exception(String.Format("OperatorPropertiesViewModel_WithDimensionAndOutletCount collection for Patch ID '{0}' not found in any of the PatchDocumentViewModels.", patchID));
+            return Base_GetOperatorPropertiesViewModelDictionary_ByChildDocumentID(x => x.OperatorPropertiesDictionary_WithDimensionAndOutletCount, rootDocumentViewModel, childDocumentID);
         }
 
-        public static Dictionary<int, OperatorPropertiesViewModel_WithInletCount> GetOperatorPropertiesViewModelDictionary_WithInletCount_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
+        public static Dictionary<int, OperatorPropertiesViewModel_WithInletCount> GetOperatorPropertiesViewModelDictionary_WithInletCount_ByChildDocumentID(DocumentViewModel rootDocumentViewModel, int childDocumentID)
         {
-            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-            foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentDictionary.Values)
-            {
-                if (patchDocumentViewModel.PatchDetails.Entity.PatchID == patchID)
-                {
-                    return patchDocumentViewModel.OperatorPropertiesDictionary_WithInletCount;
-                }
-            }
-
-            throw new Exception(String.Format("OperatorPropertiesViewModel_WithInletCount collection for Patch ID '{0}' not found in any of the PatchDocumentViewModels.", patchID));
+            return Base_GetOperatorPropertiesViewModelDictionary_ByChildDocumentID(x => x.OperatorPropertiesDictionary_WithInletCount, rootDocumentViewModel, childDocumentID);
         }
 
         // Patch
@@ -986,6 +835,27 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
 
             throw new Exception($"{nameof(PatchGridViewModel)} for group '{group}' not found");
+        }
+
+        /// <summary> This terrible delegitis code prevents a whole bunch of code repetition. </summary>
+        private static Dictionary<int, TOperatorPropertiesViewModel> Base_GetOperatorPropertiesViewModelDictionary_ByChildDocumentID<TOperatorPropertiesViewModel>(
+            Func<PatchDocumentViewModel, Dictionary<int, TOperatorPropertiesViewModel>> getOperatorPropertiesDictionaryDelegate,
+            DocumentViewModel rootDocumentViewModel,
+            int childDocumentID)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            PatchDocumentViewModel patchDocumentViewModel = TryGetPatchDocumentViewModel_ByChildDocumentID(rootDocumentViewModel, childDocumentID);
+
+            if (patchDocumentViewModel != null)
+            {
+                return getOperatorPropertiesDictionaryDelegate(patchDocumentViewModel);
+            }
+
+            throw new Exception(String.Format(
+                "{0} for childDocumentID '{1}' not found in any of the PatchDocumentViewModels.",
+                typeof(TOperatorPropertiesViewModel).Name,
+                childDocumentID));
         }
 
         // Sample
