@@ -10,6 +10,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
+using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 {
@@ -17,7 +18,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
     {
         private const int BUTTON_COUNT = 3;
 
-        public event EventHandler<Int32EventArgs> RemoveRequested;
+        public event EventHandler<EventArgs<int>> RemoveRequested;
         public event EventHandler CloseRequested;
         public event EventHandler ShowAutoPatchRequested;
         public event EventHandler ShowAutoPatchPolyphonicRequested;
@@ -136,7 +137,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             PositionControls(buttonShowAutoPatchPolyphonicVisible);
         }
 
-        private void ItemUserControl_RemoveRequested(object sender, Int32EventArgs e)
+        private void ItemUserControl_RemoveRequested(object sender, EventArgs<int> e)
         {
             RemoveRequested?.Invoke(sender, e);
         }

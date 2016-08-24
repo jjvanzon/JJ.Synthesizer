@@ -147,7 +147,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(_presenter.AudioFileOutputCreate);
         }
 
-        private void audioFileOutputGridUserControl_DeleteRequested(object sender, Int32EventArgs e)
+        private void audioFileOutputGridUserControl_DeleteRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.AudioFileOutputDelete(e.Value));
         }
@@ -157,24 +157,24 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(_presenter.AudioFileOutputGridClose);
         }
 
-        private void audioFileOutputGridUserControl_ShowPropertiesRequested(object sender, Int32EventArgs e)
+        private void audioFileOutputGridUserControl_ShowPropertiesRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.AudioFileOutputPropertiesShow(e.Value));
         }
 
-        private void audioFileOutputPropertiesUserControl_CloseRequested(object sender, Int32EventArgs e)
+        private void audioFileOutputPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.AudioFileOutputPropertiesClose(e.Value));
         }
 
-        private void audioFileOutputPropertiesUserControl_LoseFocusRequested(object sender, Int32EventArgs e)
+        private void audioFileOutputPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.AudioFileOutputPropertiesLoseFocus(e.Value));
         }
 
         // AudioOutput
 
-        private void audioOutputPropertiesUserControl_CloseRequested(object sender, Int32EventArgs e)
+        private void audioOutputPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() =>
             {
@@ -183,7 +183,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             });
         }
 
-        private void audioOutputPropertiesUserControl_LoseFocusRequested(object sender, Int32EventArgs e)
+        private void audioOutputPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() =>
             {
@@ -194,7 +194,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // CurrentPatches
 
-        private void patchPropertiesUserControl_AddCurrentPatchRequested(object sender, Int32EventArgs e)
+        private void patchPropertiesUserControl_AddCurrentPatchRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() =>
             {
@@ -208,7 +208,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(_presenter.CurrentPatchesClose);
         }
 
-        private void currentPatchesUserControl_RemoveRequested(object sender, Int32EventArgs e)
+        private void currentPatchesUserControl_RemoveRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() =>
             {
@@ -234,7 +234,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Curve
 
-        private void curveGridUserControl_CreateRequested(object sender, Int32EventArgs e)
+        private void curveGridUserControl_CreateRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.CurveCreate(e.Value));
         }
@@ -244,12 +244,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(() => _presenter.CurveDelete(e.DocumentID, e.ChildEntityID));
         }
 
-        private void curveGridUserControl_CloseRequested(object sender, Int32EventArgs e)
+        private void curveGridUserControl_CloseRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.CurveGridClose(e.Value));
         }
 
-        private void curveGridUserControl_ShowDetailsRequested(object sender, Int32EventArgs e)
+        private void curveGridUserControl_ShowDetailsRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.CurveDetailsShow(e.Value));
         }
@@ -259,17 +259,17 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(() => _presenter.NodeSelect(e.CurveID, e.NodeID));
         }
 
-        private void curveDetailsUserControl_CreateNodeRequested(object sender, Int32EventArgs e)
+        private void curveDetailsUserControl_CreateNodeRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.NodeCreate(e.Value));
         }
 
-        private void curveDetailsUserControl_DeleteSelectedNodeRequested(object sender, Int32EventArgs e)
+        private void curveDetailsUserControl_DeleteSelectedNodeRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.NodeDeleteSelected(e.Value));
         }
 
-        private void curveDetailsUserControl_CloseRequested(object sender, Int32EventArgs e)
+        private void curveDetailsUserControl_CloseRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.CurveDetailsClose(e.Value));
         }
@@ -279,32 +279,32 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(() => _presenter.NodeMove(e.CurveID, e.NodeID, e.X, e.Y));
         }
 
-        private void curveDetailsUserControl_ChangeSelectedNodeTypeRequested(object sender, Int32EventArgs e)
+        private void curveDetailsUserControl_ChangeSelectedNodeTypeRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.NodeChangeSelectedNodeType(e.Value));
         }
 
-        private void curveDetailsUserControl_LoseFocusRequested(object sender, Int32EventArgs e)
+        private void curveDetailsUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.CurveDetailsLoseFocus(e.Value));
         }
 
-        private void curveDetailsUserControl_ShowCurvePropertiesRequested(object sender, Int32EventArgs e)
+        private void curveDetailsUserControl_ShowCurvePropertiesRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.CurvePropertiesShow(e.Value));
         }
 
-        private void curveDetailsUserControl_ShowNodePropertiesRequested(object sender, Int32EventArgs e)
+        private void curveDetailsUserControl_ShowNodePropertiesRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.NodePropertiesShow(e.Value));
         }
 
-        private void curvePropertiesUserControl_LoseFocusRequested(object sender, Int32EventArgs e)
+        private void curvePropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.CurvePropertiesLoseFocus(e.Value));
         }
 
-        private void curvePropertiesUserControl_CloseRequested(object sender, Int32EventArgs e)
+        private void curvePropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.CurvePropertiesClose(e.Value));
         }
@@ -316,7 +316,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(_presenter.DocumentDetailsCreate);
         }
 
-        private void documentGridUserControl_OpenRequested(object sender, Int32EventArgs e)
+        private void documentGridUserControl_OpenRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() =>
             {
@@ -328,7 +328,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             });
         }
 
-        private void documentGridUserControl_DeleteRequested(object sender, Int32EventArgs e)
+        private void documentGridUserControl_DeleteRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.DocumentDeleteShow(e.Value));
         }
@@ -345,7 +345,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(_presenter.DocumentDetailsSave);
         }
 
-        private void documentDetailsUserControl_DeleteRequested(object sender, Int32EventArgs e)
+        private void documentDetailsUserControl_DeleteRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.DocumentDeleteShow(e.Value));
         }
@@ -362,12 +362,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(_presenter.DocumentTreeClose);
         }
 
-        private void documentTreeUserControl_CollapseNodeRequested(object sender, Int32EventArgs e)
+        private void documentTreeUserControl_CollapseNodeRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.DocumentTreeCollapseNode(e.Value));
         }
 
-        private void documentTreeUserControl_ExpandNodeRequested(object sender, Int32EventArgs e)
+        private void documentTreeUserControl_ExpandNodeRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.DocumentTreeExpandNode(e.Value));
         }
@@ -382,22 +382,22 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(_presenter.AudioOutputPropertiesShow);
         }
 
-        private void documentTreeUserControl_ShowCurvesRequested(object sender, Int32EventArgs e)
+        private void documentTreeUserControl_ShowCurvesRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.CurveGridShow(e.Value));
         }
 
-        private void documentTreeUserControl_ShowPatchGridRequested(object sender, StringEventArgs e)
+        private void documentTreeUserControl_ShowPatchGridRequested(object sender, EventArgs<string> e)
         {
             TemplateEventHandler(() => _presenter.PatchGridShow(e.Value));
         }
 
-        private void documentTreeUserControl_ShowPatchDetailsRequested(object sender, Int32EventArgs e)
+        private void documentTreeUserControl_ShowPatchDetailsRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.PatchDetailsShow(e.Value));
         }
 
-        private void documentTreeUserControl_ShowSamplesRequested(object sender, Int32EventArgs e)
+        private void documentTreeUserControl_ShowSamplesRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.SampleGridShow(e.Value));
         }
@@ -461,171 +461,171 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Node
 
-        private void nodePropertiesUserControl_LoseFocusRequested(object sender, Int32EventArgs e)
+        private void nodePropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.NodePropertiesLoseFocus(e.Value));
         }
 
-        private void nodePropertiesUserControl_CloseRequested(object sender, Int32EventArgs e)
+        private void nodePropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.NodePropertiesClose(e.Value));
         }
 
         // Operator
 
-        private void operatorPropertiesUserControl_LoseFocusRequested(object sender, Int32EventArgs e)
+        private void operatorPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus(e.Value));
         }
 
-        private void operatorPropertiesUserControl_CloseRequested(object sender, Int32EventArgs e)
+        private void operatorPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.OperatorPropertiesClose(e.Value));
         }
 
-        private void operatorPropertiesUserControl_ForBundle_LoseFocusRequested(object sender, Int32EventArgs e)
+        private void operatorPropertiesUserControl_ForBundle_LoseFocusRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus_ForBundle(e.Value));
         }
 
-        private void operatorPropertiesUserControl_ForBundle_CloseRequested(object sender, Int32EventArgs e)
+        private void operatorPropertiesUserControl_ForBundle_CloseRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.OperatorPropertiesClose_ForBundle(e.Value));
         }
 
-        private void operatorPropertiesUserControl_ForCache_LoseFocusRequested(object sender, Int32EventArgs e)
+        private void operatorPropertiesUserControl_ForCache_LoseFocusRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus_ForCache(e.Value));
         }
 
-        private void operatorPropertiesUserControl_ForCache_CloseRequested(object sender, Int32EventArgs e)
+        private void operatorPropertiesUserControl_ForCache_CloseRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.OperatorPropertiesClose_ForCache(e.Value));
         }
 
-        private void operatorPropertiesUserControl_ForCurve_LoseFocusRequested(object sender, Int32EventArgs e)
+        private void operatorPropertiesUserControl_ForCurve_LoseFocusRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus_ForCurve(e.Value));
         }
 
-        private void operatorPropertiesUserControl_ForCurve_CloseRequested(object sender, Int32EventArgs e)
+        private void operatorPropertiesUserControl_ForCurve_CloseRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.OperatorPropertiesClose_ForCurve(e.Value));
         }
 
-        private void operatorPropertiesUserControl_ForCustomOperator_LoseFocusRequested(object sender, Int32EventArgs e)
+        private void operatorPropertiesUserControl_ForCustomOperator_LoseFocusRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus_ForCustomOperator(e.Value));
         }
 
-        private void operatorPropertiesUserControl_ForCustomOperator_CloseRequested(object sender, Int32EventArgs e)
+        private void operatorPropertiesUserControl_ForCustomOperator_CloseRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.OperatorPropertiesClose_ForCustomOperator(e.Value));
         }
 
-        private void operatorPropertiesUserControl_ForMakeContinuous_LoseFocusRequested(object sender, Int32EventArgs e)
+        private void operatorPropertiesUserControl_ForMakeContinuous_LoseFocusRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus_ForMakeContinuous(e.Value));
         }
 
-        private void operatorPropertiesUserControl_ForMakeContinuous_CloseRequested(object sender, Int32EventArgs e)
+        private void operatorPropertiesUserControl_ForMakeContinuous_CloseRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.OperatorPropertiesClose_ForMakeContinuous(e.Value));
         }
 
-        private void operatorPropertiesUserControl_ForNumber_LoseFocusRequested(object sender, Int32EventArgs e)
+        private void operatorPropertiesUserControl_ForNumber_LoseFocusRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus_ForNumber(e.Value));
         }
 
-        private void operatorPropertiesUserControl_ForNumber_CloseRequested(object sender, Int32EventArgs e)
+        private void operatorPropertiesUserControl_ForNumber_CloseRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.OperatorPropertiesClose_ForNumber(e.Value));
         }
 
-        private void operatorPropertiesUserControl_ForPatchInlet_LoseFocusRequested(object sender, Int32EventArgs e)
+        private void operatorPropertiesUserControl_ForPatchInlet_LoseFocusRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus_ForPatchInlet(e.Value));
         }
 
-        private void operatorPropertiesUserControl_ForPatchInlet_CloseRequested(object sender, Int32EventArgs e)
+        private void operatorPropertiesUserControl_ForPatchInlet_CloseRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.OperatorPropertiesClose_ForPatchInlet(e.Value));
         }
 
-        private void operatorPropertiesUserControl_ForPatchOutlet_LoseFocusRequested(object sender, Int32EventArgs e)
+        private void operatorPropertiesUserControl_ForPatchOutlet_LoseFocusRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus_ForPatchOutlet(e.Value));
         }
 
-        private void operatorPropertiesUserControl_ForPatchOutlet_CloseRequested(object sender, Int32EventArgs e)
+        private void operatorPropertiesUserControl_ForPatchOutlet_CloseRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.OperatorPropertiesClose_ForPatchOutlet(e.Value));
         }
 
-        private void operatorPropertiesUserControl_ForSample_LoseFocusRequested(object sender, Int32EventArgs e)
+        private void operatorPropertiesUserControl_ForSample_LoseFocusRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus_ForSample(e.Value));
         }
 
-        private void operatorPropertiesUserControl_ForSample_CloseRequested(object sender, Int32EventArgs e)
+        private void operatorPropertiesUserControl_ForSample_CloseRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.OperatorPropertiesClose_ForSample(e.Value));
         }
 
-        private void operatorPropertiesUserControl_WithDimension_LoseFocusRequested(object sender, Int32EventArgs e)
+        private void operatorPropertiesUserControl_WithDimension_LoseFocusRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus_WithDimension(e.Value));
         }
 
-        private void operatorPropertiesUserControl_WithDimension_CloseRequested(object sender, Int32EventArgs e)
+        private void operatorPropertiesUserControl_WithDimension_CloseRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.OperatorPropertiesClose_WithDimension(e.Value));
         }
 
-        private void operatorPropertiesUserControl_WithDimensionAndInterpolation_LoseFocusRequested(object sender, Int32EventArgs e)
+        private void operatorPropertiesUserControl_WithDimensionAndInterpolation_LoseFocusRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus_WithDimensionAndInterpolation(e.Value));
         }
 
-        private void operatorPropertiesUserControl_WithDimensionAndInterpolation_CloseRequested(object sender, Int32EventArgs e)
+        private void operatorPropertiesUserControl_WithDimensionAndInterpolation_CloseRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.OperatorPropertiesClose_WithDimensionAndInterpolation(e.Value));
         }
 
-        private void operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation_LoseFocusRequested(object sender, Int32EventArgs e)
+        private void operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation_LoseFocusRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus_WithDimensionAndCollectionRecalculation(e.Value));
         }
 
-        private void operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation_CloseRequested(object sender, Int32EventArgs e)
+        private void operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation_CloseRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.OperatorPropertiesClose_WithDimensionAndCollectionRecalculation(e.Value));
         }
 
-        private void operatorPropertiesUserControl_WithDimensionAndOutletCount_LoseFocusRequested(object sender, Int32EventArgs e)
+        private void operatorPropertiesUserControl_WithDimensionAndOutletCount_LoseFocusRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus_WithDimensionAndOutletCount(e.Value));
         }
 
-        private void operatorPropertiesUserControl_WithDimensionAndOutletCount_CloseRequested(object sender, Int32EventArgs e)
+        private void operatorPropertiesUserControl_WithDimensionAndOutletCount_CloseRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.OperatorPropertiesClose_WithDimensionAndOutletCount(e.Value));
         }
 
-        private void operatorPropertiesUserControl_WithInletCount_LoseFocusRequested(object sender, Int32EventArgs e)
+        private void operatorPropertiesUserControl_WithInletCount_LoseFocusRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus_WithInletCount(e.Value));
         }
 
-        private void operatorPropertiesUserControl_WithInletCount_CloseRequested(object sender, Int32EventArgs e)
+        private void operatorPropertiesUserControl_WithInletCount_CloseRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.OperatorPropertiesClose_WithInletCount(e.Value));
         }
 
         // Patch
 
-        private void patchGridUserControl_CreateRequested(object sender, StringEventArgs e)
+        private void patchGridUserControl_CreateRequested(object sender, EventArgs<string> e)
         {
             TemplateEventHandler(() => _presenter.PatchCreate(e.Value));
         }
@@ -635,17 +635,17 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(() => _presenter.PatchDelete(e.Group, e.ChildDocumentID));
         }
 
-        private void patchGridUserControl_CloseRequested(object sender, StringEventArgs e)
+        private void patchGridUserControl_CloseRequested(object sender, EventArgs<string> e)
         {
             TemplateEventHandler(() => _presenter.PatchGridClose(e.Value));
         }
 
-        private void patchGridUserControl_ShowDetailsRequested(object sender, Int32EventArgs e)
+        private void patchGridUserControl_ShowDetailsRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.PatchDetailsShow(e.Value));
         }
 
-        private void patchDetailsUserControl_PlayRequested(object sender, Int32EventArgs e)
+        private void patchDetailsUserControl_PlayRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() =>
             {
@@ -679,44 +679,44 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(() => _presenter.OperatorCreate(e.ChildDocumentID, e.OperatorTypeID));
         }
 
-        private void patchDetailsUserControl_DeleteOperatorRequested(object sender, Int32EventArgs e)
+        private void patchDetailsUserControl_DeleteOperatorRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.OperatorDelete(e.Value));
         }
 
-        private void patchDetailsUserControl_LoseFocusRequested(object sender, Int32EventArgs e)
+        private void patchDetailsUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.PatchDetailsLoseFocus(e.Value));
         }
 
-        private void patchDetailsUserControl_ShowOperatorPropertiesRequested(object sender, Int32EventArgs e)
+        private void patchDetailsUserControl_ShowOperatorPropertiesRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.OperatorPropertiesShow(e.Value));
         }
 
-        private void patchDetailsUserControl_ShowPatchPropertiesRequested(object sender, Int32EventArgs e)
+        private void patchDetailsUserControl_ShowPatchPropertiesRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.PatchPropertiesShow(e.Value));
         }
 
-        private void patchDetailsUserControl_CloseRequested(object sender, Int32EventArgs e)
+        private void patchDetailsUserControl_CloseRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.PatchDetailsClose(e.Value));
         }
 
-        private void patchPropertiesUserControl_LoseFocusRequested(object sender, Int32EventArgs e)
+        private void patchPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.PatchPropertiesLoseFocus(e.Value));
         }
 
-        private void patchPropertiesUserControl_CloseRequested(object sender, Int32EventArgs e)
+        private void patchPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.PatchPropertiesClose(e.Value));
         }
 
         // Sample
 
-        private void sampleGridUserControl_CreateRequested(object sender, Int32EventArgs e)
+        private void sampleGridUserControl_CreateRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.SampleCreate(e.Value));
         }
@@ -726,22 +726,22 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(() => _presenter.SampleDelete(e.DocumentID, e.ChildEntityID));
         }
 
-        private void sampleGridUserControl_CloseRequested(object sender, Int32EventArgs e)
+        private void sampleGridUserControl_CloseRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.SampleGridClose(e.Value));
         }
 
-        private void sampleGridUserControl_ShowPropertiesRequested(object sender, Int32EventArgs e)
+        private void sampleGridUserControl_ShowPropertiesRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.SamplePropertiesShow(e.Value));
         }
 
-        private void samplePropertiesUserControl_LoseFocusRequested(object sender, Int32EventArgs e)
+        private void samplePropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.SamplePropertiesLoseFocus(e.Value));
         }
 
-        private void samplePropertiesUserControl_CloseRequested(object sender, Int32EventArgs e)
+        private void samplePropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.SamplePropertiesClose(e.Value));
         }
@@ -753,7 +753,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(_presenter.ScaleCreate);
         }
 
-        private void scaleGridUserControl_DeleteRequested(object sender, Int32EventArgs e)
+        private void scaleGridUserControl_DeleteRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.ScaleDelete(e.Value));
         }
@@ -763,27 +763,27 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(_presenter.ScaleGridClose);
         }
 
-        private void scaleGridUserControl_ShowDetailsRequested(object sender, Int32EventArgs e)
+        private void scaleGridUserControl_ShowDetailsRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.ScaleShow(e.Value));
         }
 
-        private void toneGridEditUserControl_CloseRequested(object sender, Int32EventArgs e)
+        private void toneGridEditUserControl_CloseRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.ToneGridEditClose(e.Value));
         }
 
-        private void toneGridEditUserControl_Edited(object sender, Int32EventArgs e)
+        private void toneGridEditUserControl_Edited(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.ToneGridEditEdit(e.Value));
         }
 
-        private void toneGridEditUserControl_LoseFocusRequested(object sender, Int32EventArgs e)
+        private void toneGridEditUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.ToneGridEditLoseFocus(e.Value));
         }
 
-        private void toneGridEditUserControl_CreateToneRequested(object sender, Int32EventArgs e)
+        private void toneGridEditUserControl_CreateToneRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.ToneCreate(e.Value));
         }
@@ -807,12 +807,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
             });
         }
 
-        private void scalePropertiesUserControl_CloseRequested(object sender, Int32EventArgs e)
+        private void scalePropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.ScalePropertiesClose(e.Value));
         }
 
-        private void scalePropertiesUserControl_LoseFocusRequested(object sender, Int32EventArgs e)
+        private void scalePropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.ScalePropertiesLoseFocus(e.Value));
         }
@@ -824,7 +824,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(_presenter.DocumentDeleteCancel);
         }
 
-        private void MessageBoxHelper_DocumentDeleteConfirmed(object sender, Int32EventArgs e)
+        private void MessageBoxHelper_DocumentDeleteConfirmed(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.DocumentDeleteConfirm(e.Value));
         }

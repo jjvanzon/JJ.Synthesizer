@@ -6,12 +6,13 @@ using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
+using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class PatchPropertiesUserControl : PropertiesUserControlBase
     {
-        public event EventHandler<Int32EventArgs> AddCurrentPatchRequested;
+        public event EventHandler<EventArgs<int>> AddCurrentPatchRequested;
 
         public PatchPropertiesUserControl()
         {
@@ -39,7 +40,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private new PatchPropertiesViewModel ViewModel => (PatchPropertiesViewModel)base.ViewModel;
 
-        protected override int GetID()
+        protected override int GetKey()
         {
             return ViewModel.ChildDocumentID;
         }
@@ -62,7 +63,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void buttonAddToCurentPatches_Click(object sender, EventArgs e)
         {
-            AddCurrentPatchRequested?.Invoke(this, new Int32EventArgs(ViewModel.ChildDocumentID));
+            AddCurrentPatchRequested?.Invoke(this, new EventArgs<int>(ViewModel.ChildDocumentID));
         }
     }
 }

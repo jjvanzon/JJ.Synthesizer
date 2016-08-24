@@ -14,7 +14,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
     {
         private const int SPACING = 1;
 
-        public event EventHandler<Int32EventArgs> RemoveRequested;
+        public event EventHandler<EventArgs<int>> RemoveRequested;
 
         private CurrentPatchItemViewModel _viewModel;
 
@@ -70,7 +70,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
         {
             if (RemoveRequested != null)
             {
-                var e2 = new Int32EventArgs(_viewModel.ChildDocumentID);
+                var e2 = new EventArgs<int>(_viewModel.ChildDocumentID);
                 RemoveRequested(this, e2);
             }
         }

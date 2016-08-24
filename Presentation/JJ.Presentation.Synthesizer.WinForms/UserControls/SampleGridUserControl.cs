@@ -6,6 +6,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Presentation.Resources;
+using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -13,10 +14,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     {
         private const string ID_COLUMN_NAME = "IDColumn";
 
-        public event EventHandler<Int32EventArgs> CreateRequested;
+        public event EventHandler<EventArgs<int>> CreateRequested;
         public event EventHandler<DocumentAndChildEntityEventArgs> DeleteRequested;
-        public event EventHandler<Int32EventArgs> CloseRequested;
-        public event EventHandler<Int32EventArgs> ShowPropertiesRequested;
+        public event EventHandler<EventArgs<int>> CloseRequested;
+        public event EventHandler<EventArgs<int>> ShowPropertiesRequested;
 
         public SampleGridUserControl()
         {
@@ -59,7 +60,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void Create()
         {
-            CreateRequested?.Invoke(this, new Int32EventArgs(ViewModel.DocumentID));
+            CreateRequested?.Invoke(this, new EventArgs<int>(ViewModel.DocumentID));
         }
 
         private void Delete()
@@ -76,7 +77,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void Close()
         {
             if (ViewModel == null) return;
-            CloseRequested?.Invoke(this, new Int32EventArgs(ViewModel.DocumentID));
+            CloseRequested?.Invoke(this, new EventArgs<int>(ViewModel.DocumentID));
         }
 
         private void ShowProperties()
@@ -86,7 +87,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 int? id = TryGetSelectedID();
                 if (id.HasValue)
                 {
-                    var e = new Int32EventArgs(id.Value);
+                    var e = new EventArgs<int>(id.Value);
                     ShowPropertiesRequested(this, e);
                 }
             }

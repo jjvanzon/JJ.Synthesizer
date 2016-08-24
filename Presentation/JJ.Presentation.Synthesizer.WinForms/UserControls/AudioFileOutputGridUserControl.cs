@@ -6,6 +6,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Presentation.Resources;
+using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -14,9 +15,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private const string ID_COLUMN_NAME = "IDColumn";
 
         public event EventHandler CreateRequested;
-        public event EventHandler<Int32EventArgs> DeleteRequested;
+        public event EventHandler<EventArgs<int>> DeleteRequested;
         public event EventHandler CloseRequested;
-        public event EventHandler<Int32EventArgs> ShowPropertiesRequested;
+        public event EventHandler<EventArgs<int>> ShowPropertiesRequested;
 
         public AudioFileOutputGridUserControl()
         {
@@ -96,7 +97,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 int? id = TryGetSelectedID();
                 if (id.HasValue)
                 {
-                    DeleteRequested(this, new Int32EventArgs(id.Value));
+                    DeleteRequested(this, new EventArgs<int>(id.Value));
                 }
             }
         }
@@ -108,7 +109,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 int? id = TryGetSelectedID();
                 if (id.HasValue)
                 {
-                    ShowPropertiesRequested(this, new Int32EventArgs(id.Value));
+                    ShowPropertiesRequested(this, new EventArgs<int>(id.Value));
                 }
             }
         }

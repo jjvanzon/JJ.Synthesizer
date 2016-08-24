@@ -6,13 +6,14 @@ using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Framework.Presentation.WinForms.Extensions;
+using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class DocumentDetailsUserControl : UserControlBase
     {
         public event EventHandler SaveRequested;
-        public event EventHandler<Int32EventArgs> DeleteRequested;
+        public event EventHandler<EventArgs<int>> DeleteRequested;
         public event EventHandler CloseRequested;
 
         public DocumentDetailsUserControl()
@@ -79,7 +80,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 if (ViewModel == null) return;
 
-                var e = new Int32EventArgs(ViewModel.Document.ID);
+                var e = new EventArgs<int>(ViewModel.Document.ID);
                 DeleteRequested(this, e);
             }
         }

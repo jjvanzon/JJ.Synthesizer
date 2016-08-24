@@ -7,6 +7,7 @@ using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Helpers;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -52,7 +53,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private new AudioFileOutputPropertiesViewModel ViewModel => (AudioFileOutputPropertiesViewModel)base.ViewModel;
 
-        protected override int GetID()
+        protected override int GetKey()
         {
             return ViewModel.Entity.ID;
         }

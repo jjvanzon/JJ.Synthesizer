@@ -11,6 +11,7 @@ using JJ.Framework.Presentation.WinForms.EventArg;
 using System.IO;
 using JJ.Framework.IO;
 using JJ.Framework.Reflection.Exceptions;
+using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -67,7 +68,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private new SamplePropertiesViewModel ViewModel => (SamplePropertiesViewModel)base.ViewModel;
 
-        protected override int GetID()
+        protected override int GetKey()
         {
             return ViewModel.Entity.ID;
         }

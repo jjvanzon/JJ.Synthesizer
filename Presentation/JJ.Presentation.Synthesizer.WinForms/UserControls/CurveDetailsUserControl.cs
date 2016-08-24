@@ -14,19 +14,20 @@ using JJ.Presentation.Synthesizer.VectorGraphics.EventArg;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Framework.Presentation.Resources;
+using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class CurveDetailsUserControl : DetailsOrPropertiesUserControlBase
     {
-        public event EventHandler<Int32EventArgs> CreateNodeRequested;
+        public event EventHandler<EventArgs<int>> CreateNodeRequested;
         /// <summary> Parameter is CurveID, not NodeID </summary>
-        public event EventHandler<Int32EventArgs> DeleteSelectedNodeRequested;
+        public event EventHandler<EventArgs<int>> DeleteSelectedNodeRequested;
         public event EventHandler<NodeEventArgs> SelectNodeRequested;
         public event EventHandler<MoveNodeEventArgs> MoveNodeRequested;
-        public event EventHandler<Int32EventArgs> ShowCurvePropertiesRequested;
-        public event EventHandler<Int32EventArgs> ChangeSelectedNodeTypeRequested;
-        public event EventHandler<Int32EventArgs> ShowNodePropertiesRequested;
+        public event EventHandler<EventArgs<int>> ShowCurvePropertiesRequested;
+        public event EventHandler<EventArgs<int>> ChangeSelectedNodeTypeRequested;
+        public event EventHandler<EventArgs<int>> ShowNodePropertiesRequested;
 
         private readonly CurveDetailsViewModelToDiagramConverter _converter;
 
@@ -74,7 +75,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private new CurveDetailsViewModel ViewModel => (CurveDetailsViewModel)base.ViewModel;
 
-        protected override int GetID()
+        protected override int GetKey()
         {
             return ViewModel.CurveID;
         }
@@ -163,23 +164,23 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ShowCurvePropertiesGesture_ShowCurvePropertiesRequested(object sender, EventArgs e)
         {
-            ShowCurvePropertiesRequested?.Invoke(this, new Int32EventArgs(ViewModel.CurveID));
+            ShowCurvePropertiesRequested?.Invoke(this, new EventArgs<int>(ViewModel.CurveID));
         }
 
         private void ChangeNodeTypeGesture_ChangeNodeTypeRequested(object sender, EventArgs e)
         {
             if (ViewModel == null) return;
-            ChangeSelectedNodeTypeRequested?.Invoke(this, new Int32EventArgs(ViewModel.CurveID));
+            ChangeSelectedNodeTypeRequested?.Invoke(this, new EventArgs<int>(ViewModel.CurveID));
         }
 
         private void ShowNodePropertiesMouseGesture_ShowNodePropertiesRequested(object sender, IDEventArgs e)
         {
-            ShowNodePropertiesRequested?.Invoke(this, new Int32EventArgs(e.ID));
+            ShowNodePropertiesRequested?.Invoke(this, new EventArgs<int>(e.ID));
         }
 
         private void ShowNodePropertiesKeyboardGesture_ShowNodePropertiesRequested(object sender, IDEventArgs e)
         {
-            ShowNodePropertiesRequested?.Invoke(this, new Int32EventArgs(e.ID));
+            ShowNodePropertiesRequested?.Invoke(this, new EventArgs<int>(e.ID));
         }
 
         // TODO: This logic should be in the presenter.
@@ -197,13 +198,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void DeleteSelectedNode()
         {
             if (ViewModel == null) return;
-            DeleteSelectedNodeRequested?.Invoke(this, new Int32EventArgs(ViewModel.CurveID));
+            DeleteSelectedNodeRequested?.Invoke(this, new EventArgs<int>(ViewModel.CurveID));
         }
 
         private void CreateNode()
         {
             if (ViewModel == null) return;
-            CreateNodeRequested?.Invoke(this, new Int32EventArgs(ViewModel.CurveID));
+            CreateNodeRequested?.Invoke(this, new EventArgs<int>(ViewModel.CurveID));
         }
     }
 }

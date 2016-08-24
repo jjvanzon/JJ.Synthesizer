@@ -7,16 +7,16 @@ using JJ.Framework.Presentation.WinForms.Extensions;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Partials;
 
-namespace JJ.Presentation.Synthesizer.WinForms.UserControls
+namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 {
-    internal class DetailsOrPropertiesUserControlBase : UserControlBase
+    internal class DetailsOrPropertiesUserControlBase<TKey> : UserControlBase
     {
         private const int TITLE_BAR_HEIGHT = 27;
 
         private readonly TitleBarUserControl _titleBarUserControl;
 
-        public event EventHandler<Int32EventArgs> CloseRequested;
-        public event EventHandler<Int32EventArgs> LoseFocusRequested;
+        public event EventHandler<EventArgs<TKey>> CloseRequested;
+        public event EventHandler<EventArgs<TKey>> LoseFocusRequested;
 
         public DetailsOrPropertiesUserControlBase()
         {
@@ -85,9 +85,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         // Binding
 
         /// <summary> does nothing </summary>
-        protected virtual int GetID()
+        protected virtual TKey GetKey()
         {
-            return default(int);
+            return default(TKey);
         }
 
         /// <summary> does nothing </summary>
@@ -102,7 +102,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             ApplyControlsToViewModel();
 
-            CloseRequested?.Invoke(this, new Int32EventArgs(GetID()));
+            CloseRequested?.Invoke(this, new EventArgs<TKey>(GetKey()));
         }
 
         private void LoseFocus()
@@ -111,7 +111,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             ApplyControlsToViewModel();
 
-            LoseFocusRequested?.Invoke(this, new Int32EventArgs(GetID()));
+            LoseFocusRequested?.Invoke(this, new EventArgs<TKey>(GetKey()));
         }
 
         // Events

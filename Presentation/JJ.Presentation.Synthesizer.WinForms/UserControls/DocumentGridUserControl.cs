@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
+using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -12,8 +13,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private const string ID_COLUMN_NAME = "IDColumn";
 
         public event EventHandler CreateRequested;
-        public event EventHandler<Int32EventArgs> OpenRequested;
-        public event EventHandler<Int32EventArgs> DeleteRequested;
+        public event EventHandler<EventArgs<int>> OpenRequested;
+        public event EventHandler<EventArgs<int>> DeleteRequested;
         public event EventHandler CloseRequested;
 
         public DocumentGridUserControl()
@@ -53,7 +54,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 int? id = TryGetSelectedID();
                 if (id.HasValue)
                 {
-                    OpenRequested(this, new Int32EventArgs(id.Value));
+                    OpenRequested(this, new EventArgs<int>(id.Value));
                 }
             }
         }
@@ -65,7 +66,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 int? id = TryGetSelectedID();
                 if (id.HasValue)
                 {
-                    DeleteRequested(this, new Int32EventArgs(id.Value));
+                    DeleteRequested(this, new EventArgs<int>(id.Value));
                 }
             }
         }

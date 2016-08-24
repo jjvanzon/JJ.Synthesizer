@@ -6,6 +6,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.Resources;
+using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -14,12 +15,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private const string ID_COLUMN_NAME = "IDColumn";
         private const int PLAY_COLUMN_INDEX = 1;
 
-        public event EventHandler<Int32EventArgs> CreateToneRequested;
+        public event EventHandler<EventArgs<int>> CreateToneRequested;
         public event EventHandler<ScaleAndToneEventArgs> DeleteToneRequested;
         public event EventHandler<ScaleAndToneEventArgs> PlayToneRequested;
-        public event EventHandler<Int32EventArgs> CloseRequested;
-        public event EventHandler<Int32EventArgs> LoseFocusRequested;
-        public event EventHandler<Int32EventArgs> Edited;
+        public event EventHandler<EventArgs<int>> CloseRequested;
+        public event EventHandler<EventArgs<int>> LoseFocusRequested;
+        public event EventHandler<EventArgs<int>> Edited;
 
         public ToneGridEditUserControl()
         {
@@ -57,7 +58,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void CreateTone()
         {
-            CreateToneRequested?.Invoke(this, new Int32EventArgs(ViewModel.ScaleID));
+            CreateToneRequested?.Invoke(this, new EventArgs<int>(ViewModel.ScaleID));
         }
 
         private void DeleteTone()
@@ -77,7 +78,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             specializedDataGridView.EndEdit();
 
-            CloseRequested?.Invoke(this, new Int32EventArgs(ViewModel.ScaleID));
+            CloseRequested?.Invoke(this, new EventArgs<int>(ViewModel.ScaleID));
         }
 
         private void LoseFocus()
@@ -86,7 +87,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             specializedDataGridView.EndEdit();
 
-            LoseFocusRequested?.Invoke(this, new Int32EventArgs(ViewModel.ScaleID));
+            LoseFocusRequested?.Invoke(this, new EventArgs<int>(ViewModel.ScaleID));
         }
 
         // Events
@@ -112,7 +113,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 'Operation is not valid because it results in a reentrant call to the SetCurrentCellAddressCore function.'
             // when we try to reassign the data source.
 
-            BeginInvoke(new Action(() => Edited?.Invoke(this, new Int32EventArgs(ViewModel.ScaleID))));
+            BeginInvoke(new Action(() => Edited?.Invoke(this, new EventArgs<int>(ViewModel.ScaleID))));
         }
 
         private void specializedDataGridView_CellClick(object sender, DataGridViewCellEventArgs e)

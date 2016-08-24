@@ -6,6 +6,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.UserControls;
+using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 using Message = JJ.Data.Canonical.Message;
 
 namespace JJ.Presentation.Synthesizer.WinForms

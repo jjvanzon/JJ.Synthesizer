@@ -8,6 +8,7 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Presentation.Synthesizer.Resources;
+using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -15,13 +16,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     {
         public event EventHandler CloseRequested;
 
-        public event EventHandler<Int32EventArgs> ExpandNodeRequested;
-        public event EventHandler<Int32EventArgs> CollapseNodeRequested;
+        public event EventHandler<EventArgs<int>> ExpandNodeRequested;
+        public event EventHandler<EventArgs<int>> CollapseNodeRequested;
 
-        public event EventHandler<StringEventArgs> ShowPatchGridRequested;
-        public event EventHandler<Int32EventArgs> ShowPatchDetailsRequested;
-        public event EventHandler<Int32EventArgs> ShowCurvesRequested;
-        public event EventHandler<Int32EventArgs> ShowSamplesRequested;
+        public event EventHandler<EventArgs<string>> ShowPatchGridRequested;
+        public event EventHandler<EventArgs<int>> ShowPatchDetailsRequested;
+        public event EventHandler<EventArgs<int>> ShowCurvesRequested;
+        public event EventHandler<EventArgs<int>> ShowSamplesRequested;
         public event EventHandler ShowAudioOutputRequested;
         public event EventHandler ShowAudioFileOutputsRequested;
         public event EventHandler ShowScalesRequested;
@@ -223,7 +224,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (_patchTreeNodes.Contains(e.Node))
             {
                 int id = (int)e.Node.Tag;
-                ExpandNodeRequested?.Invoke(this, new Int32EventArgs(id));
+                ExpandNodeRequested?.Invoke(this, new EventArgs<int>(id));
             }
         }
 
@@ -237,7 +238,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (_patchTreeNodes.Contains(e.Node))
             {
                 int id = (int)e.Node.Tag;
-                CollapseNodeRequested?.Invoke(this, new Int32EventArgs(id));
+                CollapseNodeRequested?.Invoke(this, new EventArgs<int>(id));
             }
         }
 
@@ -285,13 +286,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             if (_patchesTreeNodes.Contains(node))
             {
-                ShowPatchGridRequested?.Invoke(this, new StringEventArgs((string)node.Tag));
+                ShowPatchGridRequested?.Invoke(this, new EventArgs<string>((string)node.Tag));
             }
 
             if (_patchTreeNodes.Contains(node))
             {
                 int id = (int)node.Tag;
-                ShowPatchDetailsRequested?.Invoke(this, new Int32EventArgs(id));
+                ShowPatchDetailsRequested?.Invoke(this, new EventArgs<int>(id));
             }
 
             if (_samplesTreeNodes.Contains(node))
@@ -305,11 +306,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
-        private Int32EventArgs GetChildDocumentEventArgs(object childDocumentTag)
+        private EventArgs<int> GetChildDocumentEventArgs(object childDocumentTag)
         {
             int? childDocumentID = TagHelper.TryGetChildDocumentID(childDocumentTag);
             int documentID = childDocumentID ?? ViewModel.ID;
-            return new Int32EventArgs(documentID);
+            return new EventArgs<int>(documentID);
         }
     }
 }

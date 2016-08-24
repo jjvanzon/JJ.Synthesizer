@@ -7,6 +7,7 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Canonical;
+using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {

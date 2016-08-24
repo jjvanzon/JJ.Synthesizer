@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 
-namespace JJ.Presentation.Synthesizer.WinForms.UserControls
+namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 {
     internal class PropertiesUserControlBase : DetailsOrPropertiesUserControlBase
     {

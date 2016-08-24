@@ -17,21 +17,22 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.Configuration;
 using JJ.Data.Canonical;
+using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class PatchDetailsUserControl : DetailsOrPropertiesUserControlBase
     {
         /// <summary> Parameter is ChildDocumentID </summary>
-        public event EventHandler<Int32EventArgs> DeleteOperatorRequested;
+        public event EventHandler<EventArgs<int>> DeleteOperatorRequested;
         public event EventHandler<CreateOperatorEventArgs> CreateOperatorRequested;
         public event EventHandler<MoveOperatorEventArgs> MoveOperatorRequested;
         public event EventHandler<ChangeInputOutletEventArgs> ChangeInputOutletRequested;
         public event EventHandler<SelectOperatorEventArgs> SelectOperatorRequested;
         /// <summary> Parameter is ChildDocumentID </summary>
-        public event EventHandler<Int32EventArgs> PlayRequested;
-        public event EventHandler<Int32EventArgs> ShowOperatorPropertiesRequested;
-        public event EventHandler<Int32EventArgs> ShowPatchPropertiesRequested;
+        public event EventHandler<EventArgs<int>> PlayRequested;
+        public event EventHandler<EventArgs<int>> ShowOperatorPropertiesRequested;
+        public event EventHandler<EventArgs<int>> ShowPatchPropertiesRequested;
 
         private const bool DEFAULT_ALWAYS_RECREATE_DIAGRAM = false;
         private const bool DEFAULT_MUST_EXECUTE_MOVE_ACTION_WHILE_DRAGGING = false;
@@ -73,7 +74,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private new PatchDetailsViewModel ViewModel => (PatchDetailsViewModel)base.ViewModel;
 
-        protected override int GetID()
+        protected override int GetKey()
         {
             return ViewModel.Entity.ChildDocumentID;
         }
@@ -118,7 +119,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ShowPatchPropertiesGesture_ShowPatchPropertiesRequested(object sender, EventArgs e)
         {
-            ShowPatchPropertiesRequested?.Invoke(this, new Int32EventArgs(ViewModel.Entity.ChildDocumentID));
+            ShowPatchPropertiesRequested?.Invoke(this, new EventArgs<int>(ViewModel.Entity.ChildDocumentID));
         }
 
         private void UnbindVectorGraphicsEvents()
@@ -244,23 +245,23 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void DeleteOperatorGesture_DeleteRequested(object sender, EventArgs e)
         {
             if (ViewModel == null) return;
-            DeleteOperatorRequested?.Invoke(this, new Int32EventArgs(ViewModel.Entity.ChildDocumentID));
+            DeleteOperatorRequested?.Invoke(this, new EventArgs<int>(ViewModel.Entity.ChildDocumentID));
         }
 
         private void ShowOperatorPropertiesMouseGesture_ShowOperatorPropertiesRequested(object sender, IDEventArgs e)
         {
-            ShowOperatorPropertiesRequested?.Invoke(this, new Int32EventArgs(e.ID));
+            ShowOperatorPropertiesRequested?.Invoke(this, new EventArgs<int>(e.ID));
         }
 
         private void ShowOperatorPropertiesKeyboardGesture_ShowOperatorPropertiesRequested(object sender, IDEventArgs e)
         {
-            ShowOperatorPropertiesRequested?.Invoke(this, new Int32EventArgs(e.ID));
+            ShowOperatorPropertiesRequested?.Invoke(this, new EventArgs<int>(e.ID));
         }
 
         private void buttonPlay_Click(object sender, EventArgs e)
         {
             if (ViewModel == null) return;
-            PlayRequested?.Invoke(this, new Int32EventArgs(ViewModel.Entity.ChildDocumentID));
+            PlayRequested?.Invoke(this, new EventArgs<int>(ViewModel.Entity.ChildDocumentID));
         }
 
         // TODO: Lower priority: You might want to use the presenter for the the following 3 things.

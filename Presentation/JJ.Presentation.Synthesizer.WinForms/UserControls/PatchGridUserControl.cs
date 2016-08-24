@@ -6,6 +6,7 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
+using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -13,10 +14,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     {
         private const string CHILD_DOCUMENT_ID_COLUMN_NAME = "ChildDocumentIDColumn";
 
-        public event EventHandler<StringEventArgs> CreateRequested;
+        public event EventHandler<EventArgs<string>> CreateRequested;
         public event EventHandler<GroupAndChildDocumentIDEventArgs> DeleteRequested;
-        public event EventHandler<StringEventArgs> CloseRequested;
-        public event EventHandler<Int32EventArgs> ShowDetailsRequested;
+        public event EventHandler<EventArgs<string>> CloseRequested;
+        public event EventHandler<EventArgs<int>> ShowDetailsRequested;
 
         public PatchGridUserControl()
         {
@@ -47,7 +48,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void Create()
         {
-            CreateRequested?.Invoke(this, new StringEventArgs(ViewModel.Group));
+            CreateRequested?.Invoke(this, new EventArgs<string>(ViewModel.Group));
         }
 
         private void Delete()
@@ -63,7 +64,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void Close()
         {
-            CloseRequested?.Invoke(this, new StringEventArgs(ViewModel.Group));
+            CloseRequested?.Invoke(this, new EventArgs<string>(ViewModel.Group));
         }
 
         private void ShowProperties()
@@ -71,7 +72,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             int? id = TryGetSelectedChildDocumentID();
             if (id.HasValue)
             {
-                var e = new Int32EventArgs(id.Value);
+                var e = new EventArgs<int>(id.Value);
                 ShowDetailsRequested?.Invoke(this, e);
             }
         }

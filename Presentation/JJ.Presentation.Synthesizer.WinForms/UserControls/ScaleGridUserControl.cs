@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -12,10 +13,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     {
         private const string ID_COLUMN_NAME = "IDColumn";
 
-        public event EventHandler<Int32EventArgs> CreateRequested;
-        public event EventHandler<Int32EventArgs> DeleteRequested;
+        public event EventHandler<EventArgs<int>> CreateRequested;
+        public event EventHandler<EventArgs<int>> DeleteRequested;
         public event EventHandler CloseRequested;
-        public event EventHandler<Int32EventArgs> ShowDetailsRequested;
+        public event EventHandler<EventArgs<int>> ShowDetailsRequested;
 
         public ScaleGridUserControl()
         {
@@ -50,7 +51,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (CreateRequested != null)
             {
-                var e = new Int32EventArgs(ViewModel.DocumentID);
+                var e = new EventArgs<int>(ViewModel.DocumentID);
                 CreateRequested(this, e);
             }
         }
@@ -62,7 +63,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 int? id = TryGetSelectedID();
                 if (id.HasValue)
                 {
-                    var e = new Int32EventArgs(id.Value);
+                    var e = new EventArgs<int>(id.Value);
                     DeleteRequested(this, e);
                 }
             }
@@ -83,7 +84,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 int? id = TryGetSelectedID();
                 if (id.HasValue)
                 {
-                    var e = new Int32EventArgs(id.Value);
+                    var e = new EventArgs<int>(id.Value);
                     ShowDetailsRequested(this, e);
                 }
             }

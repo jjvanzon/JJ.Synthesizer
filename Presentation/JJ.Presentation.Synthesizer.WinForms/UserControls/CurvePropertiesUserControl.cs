@@ -5,6 +5,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Resources;
 using System.Linq;
+using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -32,7 +33,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private new CurvePropertiesViewModel ViewModel => (CurvePropertiesViewModel)base.ViewModel;
 
-        protected override int GetID()
+        protected override int GetKey()
         {
             return ViewModel.ID;
         }

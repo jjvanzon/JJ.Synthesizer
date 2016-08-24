@@ -9,6 +9,7 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Canonical;
 using JJ.Framework.Presentation.WinForms.Extensions;
 using JJ.Presentation.Synthesizer.Resources;
+using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -40,7 +41,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private new ScalePropertiesViewModel ViewModel => (ScalePropertiesViewModel)base.ViewModel;
 
-        protected override int GetID()
+        protected override int GetKey()
         {
             return ViewModel.Entity.ID;
         }

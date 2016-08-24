@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\ConfigurationSection.cs" />
+    <Compile Include="EventArg\EventArgsOfT.cs" />
     <Compile Include="EventArg\ScaleAndToneEventArgs.cs" />
     <Compile Include="EventArg\DocumentAndChildEntityEventArgs.cs" />
     <Compile Include="EventArg\GroupAndChildDocumentIDEventArgs.cs" />
@@ -73,9 +74,9 @@
     <Compile Include="EventArg\CreateOperatorEventArgs.cs" />
     <Compile Include="EventArg\ChangeInputOutletEventArgs.cs" />
     <Compile Include="EventArg\MoveOperatorEventArgs.cs" />
-    <Compile Include="EventArg\StringEventArgs.cs" />
+    <Compile Include="EventArg\2016-08-24 Backup of StringEventArgs.cs" />
     <Compile Include="EventArg\MoveNodeEventArgs.cs" />
-    <Compile Include="EventArg\Int32EventArgs.cs" />
+    <Compile Include="EventArg\2016-08-24 Backup of Int32EventArgs.cs" />
     <Compile Include="Forms\DocumentCannotDeleteForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -117,19 +118,22 @@
     <Compile Include="UserControls\AudioFileOutputGridUserControl.Designer.cs">
       <DependentUpon>AudioFileOutputGridUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Bases\DetailsOrPropertiesUserControlBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UserControls\CurrentPatchesUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UserControls\CurrentPatchesUserControl.Designer.cs">
       <DependentUpon>CurrentPatchesUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\DetailsOrPropertiesUserControlBase.cs">
+    <Compile Include="UserControls\Bases\DetailsOrPropertiesUserControlBaseOfTKey.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\OperatorPropertiesUserControlBase.cs">
+    <Compile Include="UserControls\Bases\OperatorPropertiesUserControlBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\PropertiesUserControlBase.cs">
+    <Compile Include="UserControls\Bases\PropertiesUserControlBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_WithDimensionAndCollectionRecalculation.cs">
@@ -357,7 +361,7 @@
     <Compile Include="UserControls\PatchDetailsUserControl.Designer.cs">
       <DependentUpon>PatchDetailsUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\UserControlBase.cs">
+    <Compile Include="UserControls\Bases\UserControlBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <EmbeddedResource Include="Forms\DocumentCannotDeleteForm.resx">

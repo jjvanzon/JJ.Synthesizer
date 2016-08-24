@@ -31,7 +31,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
     {
         private static object _dummySender = new object();
 
-        public static event EventHandler<Int32EventArgs> DocumentDeleteConfirmed;
+        public static event EventHandler<EventArgs<int>> DocumentDeleteConfirmed;
         public static event EventHandler DocumentDeleteCanceled;
         public static event EventHandler DocumentDeletedOK;
         public static event EventHandler PopupMessagesOK;
@@ -52,7 +52,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
                     case DialogResult.Yes:
                         if (DocumentDeleteConfirmed != null)
                         {
-                            var e = new Int32EventArgs(viewModel.Document.ID);
+                            var e = new EventArgs<int>(viewModel.Document.ID);
                             DocumentDeleteConfirmed(_dummySender, e);
                         }
                         break;

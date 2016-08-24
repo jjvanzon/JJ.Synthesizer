@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Presentation.Synthesizer.ViewModels;
 
-namespace JJ.Presentation.Synthesizer.WinForms.UserControls
+namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 {
     internal class OperatorPropertiesUserControlBase : PropertiesUserControlBase
     {
         private new OperatorPropertiesViewModelBase ViewModel => (OperatorPropertiesViewModelBase)base.ViewModel;
 
-        protected override int GetID()
+        protected override int GetKey()
         {
             return ViewModel.ID;
         }

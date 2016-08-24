@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using JJ.Presentation.Synthesizer.ViewModels;
 
-namespace JJ.Presentation.Synthesizer.WinForms.UserControls
+namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 {
     internal class UserControlBase : UserControl
     {
