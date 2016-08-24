@@ -88,7 +88,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 SampleGrid = CreateEmptySampleGridViewModel(),
                 SamplePropertiesDictionary = new Dictionary<int, SamplePropertiesViewModel>(),
                 ScaleGrid = CreateEmptyScaleGridViewModel(),
-                ScalePropertiesList = new List<ScalePropertiesViewModel>(),
+                ScalePropertiesDictionary = new Dictionary<int, ScalePropertiesViewModel>(),
                 ToneGridEditDictionary = new Dictionary<int, ToneGridEditViewModel>(),
                 UnderlyingPatchLookup = new List<ChildDocumentIDAndNameViewModel>()
             };

@@ -314,7 +314,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             // even though the CurveDetailsList ToEntity already covers deletion.
             userInput.NodePropertiesDictionary.Values.ForEach(x => x.ToEntity(repositories.NodeRepository, repositories.NodeTypeRepository));
             userInput.SamplePropertiesDictionary.Values.ToSamples(destDocument, new SampleRepositories(repositories));
-            userInput.ScalePropertiesList.ToEntities(scaleRepositories, destDocument);
+            userInput.ScalePropertiesDictionary.Values.ToEntities(scaleRepositories, destDocument);
             userInput.ToneGridEditDictionary.Values.ForEach(x => x.ToEntityWithRelatedEntities(scaleRepositories));
 
             return destDocument;
@@ -1449,15 +1449,15 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return scale;
         }
 
-        public static void ToEntities(this IList<ScalePropertiesViewModel> viewModelList, ScaleRepositories repositories, Document destDocument)
+        public static void ToEntities(this IEnumerable<ScalePropertiesViewModel> viewModels, ScaleRepositories repositories, Document destDocument)
         {
-            if (viewModelList == null) throw new NullException(() => viewModelList);
+            if (viewModels == null) throw new NullException(() => viewModels);
             if (destDocument == null) throw new NullException(() => destDocument);
             if (repositories == null) throw new NullException(() => repositories);
 
             var idsToKeep = new HashSet<int>();
 
-            foreach (ScalePropertiesViewModel viewModel in viewModelList)
+            foreach (ScalePropertiesViewModel viewModel in viewModels)
             {
                 Scale entity = viewModel.Entity.ToEntity(repositories.ScaleRepository, repositories.ScaleTypeRepository);
                 entity.LinkTo(destDocument);

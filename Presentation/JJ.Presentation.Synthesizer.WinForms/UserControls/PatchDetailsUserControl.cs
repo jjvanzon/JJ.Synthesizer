@@ -75,7 +75,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override int GetID()
         {
-            return ViewModel.Entity.PatchID;
+            return ViewModel.Entity.ChildDocumentID;
         }
 
         protected override void ApplyViewModelToControls()

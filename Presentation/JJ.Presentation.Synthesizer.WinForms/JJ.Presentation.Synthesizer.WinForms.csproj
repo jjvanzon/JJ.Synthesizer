@@ -65,12 +65,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\ConfigurationSection.cs" />
+    <Compile Include="EventArg\ScaleAndToneEventArgs.cs" />
+    <Compile Include="EventArg\DocumentAndChildEntityEventArgs.cs" />
+    <Compile Include="EventArg\GroupAndChildDocumentIDEventArgs.cs" />
+    <Compile Include="EventArg\NodeEventArgs.cs" />
     <Compile Include="EventArg\SelectOperatorEventArgs.cs" />
     <Compile Include="EventArg\CreateOperatorEventArgs.cs" />
     <Compile Include="EventArg\ChangeInputOutletEventArgs.cs" />
     <Compile Include="EventArg\MoveOperatorEventArgs.cs" />
     <Compile Include="EventArg\StringEventArgs.cs" />
-    <Compile Include="EventArg\MoveEntityEventArgs.cs" />
+    <Compile Include="EventArg\MoveNodeEventArgs.cs" />
     <Compile Include="EventArg\Int32EventArgs.cs" />
     <Compile Include="Forms\DocumentCannotDeleteForm.cs">
       <SubType>Form</SubType>

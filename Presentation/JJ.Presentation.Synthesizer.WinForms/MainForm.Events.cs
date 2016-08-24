@@ -239,9 +239,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(() => _presenter.CurveCreate(e.Value));
         }
 
-        private void curveGridUserControl_DeleteRequested(object sender, Int32EventArgs e)
+        private void curveGridUserControl_DeleteRequested(object sender, DocumentAndChildEntityEventArgs e)
         {
-            TemplateEventHandler(() => _presenter.CurveDelete(e.Value));
+            TemplateEventHandler(() => _presenter.CurveDelete(e.DocumentID, e.ChildEntityID));
         }
 
         private void curveGridUserControl_CloseRequested(object sender, Int32EventArgs e)
@@ -254,9 +254,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(() => _presenter.CurveDetailsShow(e.Value));
         }
 
-        private void curveDetailsUserControl_SelectNodeRequested(object sender, Int32EventArgs e)
+        private void curveDetailsUserControl_SelectNodeRequested(object sender, NodeEventArgs e)
         {
-            TemplateEventHandler(() => _presenter.NodeSelect(e.Value));
+            TemplateEventHandler(() => _presenter.NodeSelect(e.CurveID, e.NodeID));
         }
 
         private void curveDetailsUserControl_CreateNodeRequested(object sender, Int32EventArgs e)
@@ -274,9 +274,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(() => _presenter.CurveDetailsClose(e.Value));
         }
 
-        private void curveDetailsUserControl_MoveNodeRequested(object sender, MoveEntityEventArgs e)
+        private void curveDetailsUserControl_MoveNodeRequested(object sender, MoveNodeEventArgs e)
         {
-            TemplateEventHandler(() => _presenter.NodeMove(e.EntityID, e.X, e.Y));
+            TemplateEventHandler(() => _presenter.NodeMove(e.CurveID, e.NodeID, e.X, e.Y));
         }
 
         private void curveDetailsUserControl_ChangeSelectedNodeTypeRequested(object sender, Int32EventArgs e)
@@ -630,9 +630,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(() => _presenter.PatchCreate(e.Value));
         }
 
-        private void patchGridUserControl_DeleteRequested(object sender, Int32EventArgs e)
+        private void patchGridUserControl_DeleteRequested(object sender, GroupAndChildDocumentIDEventArgs e)
         {
-            TemplateEventHandler(() => _presenter.PatchDelete(e.Value));
+            TemplateEventHandler(() => _presenter.PatchDelete(e.Group, e.ChildDocumentID));
         }
 
         private void patchGridUserControl_CloseRequested(object sender, StringEventArgs e)
@@ -721,9 +721,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(() => _presenter.SampleCreate(e.Value));
         }
 
-        private void sampleGridUserControl_DeleteRequested(object sender, Int32EventArgs e)
+        private void sampleGridUserControl_DeleteRequested(object sender, DocumentAndChildEntityEventArgs e)
         {
-            TemplateEventHandler(() => _presenter.SampleDelete(e.Value));
+            TemplateEventHandler(() => _presenter.SampleDelete(e.DocumentID, e.ChildEntityID));
         }
 
         private void sampleGridUserControl_CloseRequested(object sender, Int32EventArgs e)
@@ -788,16 +788,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(() => _presenter.ToneCreate(e.Value));
         }
 
-        private void toneGridEditUserControl_DeleteToneRequested(object sender, Int32EventArgs e)
+        private void toneGridEditUserControl_DeleteToneRequested(object sender, ScaleAndToneEventArgs e)
         {
-            TemplateEventHandler(() => _presenter.ToneDelete(e.Value));
+            TemplateEventHandler(() => _presenter.ToneDelete(e.ScaleID, e.ToneID));
         }
 
-        private void toneGridEditUserControl_PlayToneRequested(object sender, Int32EventArgs e)
+        private void toneGridEditUserControl_PlayToneRequested(object sender, ScaleAndToneEventArgs e)
         {
             TemplateEventHandler(() =>
             {
-                string outputFilePath = _presenter.TonePlay(e.Value);
+                string outputFilePath = _presenter.TonePlay(e.ScaleID, e.ToneID);
 
                 if (!String.IsNullOrEmpty(outputFilePath))
                 {

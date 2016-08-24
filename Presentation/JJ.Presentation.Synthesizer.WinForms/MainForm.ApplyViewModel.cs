@@ -231,7 +231,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             toneGridEditUserControl.ViewModel = _presenter.MainViewModel.Document.ToneGridEditDictionary.Values
                                                                                  .Where(x => x.Visible)
                                                                                  .FirstOrDefault();
-            scalePropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.ScalePropertiesList
+            scalePropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.ScalePropertiesDictionary.Values
                                                                                     .Where(x => x.Visible)
                                                                                     .FirstOrDefault();
 

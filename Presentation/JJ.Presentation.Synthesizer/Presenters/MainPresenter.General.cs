@@ -192,7 +192,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MainViewModel.Document.DocumentProperties.Visible = false;
             MainViewModel.Document.NodePropertiesDictionary.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.SamplePropertiesDictionary.Values.ForEach(x => x.Visible = false);
-            MainViewModel.Document.ScalePropertiesList.ForEach(x => x.Visible = false);
+            MainViewModel.Document.ScalePropertiesDictionary.Values.ForEach(x => x.Visible = false);
 
             // Note that the not all entity types have Properties view inside the child documents.
             MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.CurvePropertiesDictionary.Values).ForEach(x => x.Visible = false);

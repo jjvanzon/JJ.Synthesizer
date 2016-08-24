@@ -152,10 +152,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        private void CurveDetailsNodeRefresh(int nodeID)
+        private void CurveDetailsNodeRefresh(int curveID, int nodeID)
         {
             // TODO: This is not very fast.
-            CurveDetailsViewModel detailsViewModel = ViewModelSelector.GetCurveDetailsViewModel_ByNodeID(MainViewModel.Document, nodeID);
+            CurveDetailsViewModel detailsViewModel = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, curveID);
 
             // Remove original node
             detailsViewModel.Nodes.Remove(nodeID);
@@ -956,11 +956,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void PatchDetails_RefreshOperator(int operatorID)
         {
-            OperatorViewModel viewModel = ViewModelSelector.GetOperatorViewModel(MainViewModel.Document, operatorID);
+            Operator op = _repositories.OperatorRepository.Get(operatorID);
+            int childDocumentID = op.Patch.Document.ID;
+
+            OperatorViewModel viewModel = ViewModelSelector.GetOperatorViewModel(MainViewModel.Document, childDocumentID, operatorID);
             PatchDetails_RefreshOperator(viewModel);
 
             // TODO: Replace this with moving RefreshOperator to the PatchDetail presenter?
-            PatchDetailsViewModel detailsViewModel = ViewModelSelector.GetPatchDetailsViewModel_ByOperatorID(MainViewModel.Document, operatorID);
+            PatchDetailsViewModel detailsViewModel = ViewModelSelector.GetPatchDetailsViewModel_ByChildDocumentID(MainViewModel.Document, childDocumentID);
             detailsViewModel.RefreshCounter++;
         }
 
@@ -1103,10 +1106,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(viewModel);
         }
 
-        /// <summary> Will update the SampleGrid that the sample with sampleID is part of. </summary>
-        private void SampleGridRefresh(int sampleID)
+        private void SampleGridRefresh(int documentID)
         {
-            SampleGridViewModel userInput = ViewModelSelector.GetSampleGridViewModel_BySampleID(MainViewModel.Document, sampleID);
+            SampleGridViewModel userInput = ViewModelSelector.GetSampleGridViewModel(MainViewModel.Document, documentID);
             SampleGridViewModel viewModel = _sampleGridPresenter.Refresh(userInput);
             DispatchViewModel(viewModel);
         }
@@ -1223,7 +1225,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     viewModel = entity.ToPropertiesViewModel();
                     viewModel.Successful = true;
-                    MainViewModel.Document.ScalePropertiesList.Add(viewModel);
+                    MainViewModel.Document.ScalePropertiesDictionary[entity.ID] = viewModel;
                 }
                 else
                 {
@@ -1231,10 +1233,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
 
-            HashSet<int> idsToKeep = entities.Select(x => x.ID).ToHashSet();
-            MainViewModel.Document.ScalePropertiesList = MainViewModel.Document.ScalePropertiesList
-                                                                               .Where(x => idsToKeep.Contains(x.Entity.ID))
-                                                                               .ToList();
+            IEnumerable<int> existingIDs = MainViewModel.Document.ScalePropertiesDictionary.Keys;
+            IEnumerable<int> idsToKeep = entities.Select(x => x.ID);
+            IEnumerable<int> idsToDelete = existingIDs.Except(idsToKeep);
+
+            foreach (int idToDelete in idsToDelete.ToArray())
+            {
+                MainViewModel.Document.ScalePropertiesDictionary.Remove(idToDelete);
+            }
         }
 
         private void ScalePropertiesRefresh(ScalePropertiesViewModel userInput)

@@ -15,8 +15,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private const int PLAY_COLUMN_INDEX = 1;
 
         public event EventHandler<Int32EventArgs> CreateToneRequested;
-        public event EventHandler<Int32EventArgs> DeleteToneRequested;
-        public event EventHandler<Int32EventArgs> PlayToneRequested;
+        public event EventHandler<ScaleAndToneEventArgs> DeleteToneRequested;
+        public event EventHandler<ScaleAndToneEventArgs> PlayToneRequested;
         public event EventHandler<Int32EventArgs> CloseRequested;
         public event EventHandler<Int32EventArgs> LoseFocusRequested;
         public event EventHandler<Int32EventArgs> Edited;
@@ -62,10 +62,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void DeleteTone()
         {
-            int? id = TryGetSelectedID();
-            if (id.HasValue)
+            if (ViewModel == null) return;
+
+            int? toneID = TryGetSelectedID();
+            if (toneID.HasValue)
             {
-                DeleteToneRequested?.Invoke(this, new Int32EventArgs(id.Value));
+                DeleteToneRequested?.Invoke(this, new ScaleAndToneEventArgs(ViewModel.ScaleID, toneID.Value));
             }
         }
 
@@ -115,10 +117,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void specializedDataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (PlayToneRequested == null)
-            {
-                return;
-            }
+            if (ViewModel == null) return;
 
             if (e.RowIndex == -1)
             {
@@ -131,8 +130,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
 
             int toneID = (int)specializedDataGridView.Rows[e.RowIndex].Cells[ID_COLUMN_NAME].Value;
-            var e2 = new Int32EventArgs(toneID);
-            PlayToneRequested(this, e2);
+            PlayToneRequested?.Invoke(this, new ScaleAndToneEventArgs(ViewModel.ScaleID, toneID));
         }
 
         private void specializedDataGridView_KeyDown(object sender, KeyEventArgs e)

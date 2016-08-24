@@ -22,8 +22,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<Int32EventArgs> CreateNodeRequested;
         /// <summary> Parameter is CurveID, not NodeID </summary>
         public event EventHandler<Int32EventArgs> DeleteSelectedNodeRequested;
-        public event EventHandler<Int32EventArgs> SelectNodeRequested;
-        public event EventHandler<MoveEntityEventArgs> MoveNodeRequested;
+        public event EventHandler<NodeEventArgs> SelectNodeRequested;
+        public event EventHandler<MoveNodeEventArgs> MoveNodeRequested;
         public event EventHandler<Int32EventArgs> ShowCurvePropertiesRequested;
         public event EventHandler<Int32EventArgs> ChangeSelectedNodeTypeRequested;
         public event EventHandler<Int32EventArgs> ShowNodePropertiesRequested;
@@ -130,33 +130,35 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void SelectNodeGesture_NodeSelected(object sender, ElementEventArgs e)
         {
+            if (ViewModel == null) return;
+
             int nodeID = (int)e.Element.Tag;
 
-            SelectNodeRequested?.Invoke(this, new Int32EventArgs(nodeID));
+            SelectNodeRequested?.Invoke(this, new NodeEventArgs(ViewModel.CurveID, nodeID));
 
             _converter.Result.ShowNodePropertiesKeyboardGesture.SelectedNodeID = nodeID;
         }
 
         private void MoveNodeGesture_Moving(object sender, ElementEventArgs e)
         {
-            if (MoveNodeRequested != null)
-            {
-                int nodeID = (int)e.Element.Tag;
+            if (ViewModel == null) return;
+            if (MoveNodeRequested == null) return;
 
-                Rectangle rectangle = (Rectangle)e.Element;
+            int nodeID = (int)e.Element.Tag;
 
-                float x = rectangle.Position.AbsoluteX + rectangle.Position.Width / 2;
-                float y = rectangle.Position.AbsoluteY + rectangle.Position.Height / 2;
+            Rectangle rectangle = (Rectangle)e.Element;
 
-                MoveNodeRequested(this, new MoveEntityEventArgs(nodeID, x, y));
+            float x = rectangle.Position.AbsoluteX + rectangle.Position.Width / 2;
+            float y = rectangle.Position.AbsoluteY + rectangle.Position.Height / 2;
 
-                ApplyViewModelToControls();
+            MoveNodeRequested(this, new MoveNodeEventArgs(ViewModel.CurveID, nodeID, x, y));
 
-                // TODO: This kind of seems to belong in the ApplyViewModelToControls().
-                // Refresh ToolTip Text
-                NodeViewModel nodeViewModel = ViewModel.Nodes[nodeID];
-                _converter.Result.NodeToolTipGesture.SetToolTipText(nodeViewModel.Caption);
-            }
+            ApplyViewModelToControls();
+
+            // TODO: This kind of seems to belong in the ApplyViewModelToControls().
+            // Refresh ToolTip Text
+            NodeViewModel nodeViewModel = ViewModel.Nodes[nodeID];
+            _converter.Result.NodeToolTipGesture.SetToolTipText(nodeViewModel.Caption);
         }
 
         private void ShowCurvePropertiesGesture_ShowCurvePropertiesRequested(object sender, EventArgs e)

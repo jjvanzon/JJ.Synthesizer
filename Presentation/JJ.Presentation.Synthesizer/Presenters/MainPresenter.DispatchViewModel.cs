@@ -655,7 +655,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (SamplePropertiesViewModel)viewModel2;
 
-            var dictionary = ViewModelSelector.GetSamplePropertiesViewModelDictionary_ByDocumentID(MainViewModel.Document, castedViewModel.DocumentID);
+            var dictionary = ViewModelSelector.GetSamplePropertiesViewModelDictionary(MainViewModel.Document, castedViewModel.DocumentID);
             dictionary[castedViewModel.Entity.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
@@ -685,16 +685,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (ScalePropertiesViewModel)viewModel2;
 
-            var list = MainViewModel.Document.ScalePropertiesList;
-            int? listIndex = list.TryGetIndexOf(x => x.Entity.ID == castedViewModel.Entity.ID);
-            if (listIndex.HasValue)
-            {
-                list[listIndex.Value] = castedViewModel;
-            }
-            else
-            {
-                list.Add(castedViewModel);
-            }
+            var dictionary = MainViewModel.Document.ScalePropertiesDictionary;
+            dictionary[castedViewModel.Entity.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
             {

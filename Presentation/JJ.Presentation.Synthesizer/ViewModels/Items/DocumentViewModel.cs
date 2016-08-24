@@ -27,7 +27,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public SampleGridViewModel SampleGrid { get; set; }
         public Dictionary<int, SamplePropertiesViewModel> SamplePropertiesDictionary { get; set; }
         public ScaleGridViewModel ScaleGrid { get; set; }
-        public List<ScalePropertiesViewModel> ScalePropertiesList { get; internal set; }
+        public Dictionary<int, ScalePropertiesViewModel> ScalePropertiesDictionary { get; set; }
         /// <summary> Key is Scale ID. </summary>
         public Dictionary<int, ToneGridEditViewModel> ToneGridEditDictionary { get; set; }
         /// <summary> This lookup is used by OperatorProperties_ForCustomOperators in all PatchDocuments. </summary>

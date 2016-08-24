@@ -13,7 +13,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private const string ID_COLUMN_NAME = "IDColumn";
 
         public event EventHandler<Int32EventArgs> CreateRequested;
-        public event EventHandler<Int32EventArgs> DeleteRequested;
+        public event EventHandler<DocumentAndChildEntityEventArgs> DeleteRequested;
         public event EventHandler<Int32EventArgs> CloseRequested;
         public event EventHandler<Int32EventArgs> ShowDetailsRequested;
 
@@ -50,14 +50,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void Delete()
         {
-            if (DeleteRequested != null)
+            if (ViewModel == null) return;
+
+            int? id = TryGetSelectedID();
+            if (id.HasValue)
             {
-                int? id = TryGetSelectedID();
-                if (id.HasValue)
-                {
-                    var e = new Int32EventArgs(id.Value);
-                    DeleteRequested(this, e);
-                }
+                DeleteRequested?.Invoke(this, new DocumentAndChildEntityEventArgs(ViewModel.DocumentID, id.Value));
             }
         }
 

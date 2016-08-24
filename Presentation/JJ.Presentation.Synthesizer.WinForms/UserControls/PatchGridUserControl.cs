@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 
@@ -13,7 +14,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private const string CHILD_DOCUMENT_ID_COLUMN_NAME = "ChildDocumentIDColumn";
 
         public event EventHandler<StringEventArgs> CreateRequested;
-        public event EventHandler<Int32EventArgs> DeleteRequested;
+        public event EventHandler<GroupAndChildDocumentIDEventArgs> DeleteRequested;
         public event EventHandler<StringEventArgs> CloseRequested;
         public event EventHandler<Int32EventArgs> ShowDetailsRequested;
 
@@ -46,22 +47,17 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void Create()
         {
-            if (CreateRequested != null)
-            {
-                var e = new StringEventArgs(ViewModel.Group);
-                CreateRequested(this, e);
-            }
+            CreateRequested?.Invoke(this, new StringEventArgs(ViewModel.Group));
         }
 
         private void Delete()
         {
-            if (DeleteRequested != null)
+            if (ViewModel == null) return;
+
+            int? id = TryGetSelectedChildDocumentID();
+            if (id.HasValue)
             {
-                int? id = TryGetSelectedChildDocumentID();
-                if (id.HasValue)
-                {
-                    DeleteRequested(this, new Int32EventArgs(id.Value));
-                }
+                DeleteRequested?.Invoke(this, new GroupAndChildDocumentIDEventArgs(ViewModel.Group, id.Value));
             }
         }
 
@@ -72,14 +68,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ShowProperties()
         {
-            if (ShowDetailsRequested != null)
+            int? id = TryGetSelectedChildDocumentID();
+            if (id.HasValue)
             {
-                int? id = TryGetSelectedChildDocumentID();
-                if (id.HasValue)
-                {
-                    var e = new Int32EventArgs(id.Value);
-                    ShowDetailsRequested(this, e);
-                }
+                var e = new Int32EventArgs(id.Value);
+                ShowDetailsRequested?.Invoke(this, e);
             }
         }
 
