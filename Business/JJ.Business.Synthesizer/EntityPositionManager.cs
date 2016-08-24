@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer
             EntityPosition entityPosition = TryGetOperatorPosition(operatorID);
             if (entityPosition == null)
             {
-                throw new EntityNotFoundException<EntityPosition>(new { operatorID });
+                throw new NotFoundException<EntityPosition>(new { operatorID });
             }
             return entityPosition;
         }

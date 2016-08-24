@@ -57,7 +57,7 @@ namespace JJ.Business.Synthesizer.Helpers
             Inlet inlet = TryGetInlet(op, listIndex);
             if (inlet == null)
             {
-                throw new EntityNotFoundException<Inlet>(new { listIndex });
+                throw new NotFoundException<Inlet>(new { listIndex });
             }
             return inlet;
         }
@@ -114,7 +114,7 @@ namespace JJ.Business.Synthesizer.Helpers
             Inlet inlet = TryGetInlet(op, dimensionEnum);
             if (inlet == null)
             {
-                throw new EntityNotFoundException<Inlet>(new { dimensionEnum });
+                throw new NotFoundException<Inlet>(new { dimensionEnum });
             }
             return inlet;
         }
@@ -153,7 +153,7 @@ namespace JJ.Business.Synthesizer.Helpers
             Outlet inlet = TryGetOutlet(op, listIndex);
             if (inlet == null)
             {
-                throw new EntityNotFoundException<Outlet>(new { listIndex });
+                throw new NotFoundException<Outlet>(new { listIndex });
             }
             return inlet;
         }
@@ -182,7 +182,7 @@ namespace JJ.Business.Synthesizer.Helpers
             Outlet outlet = TryGetOutlet(op, name);
             if (outlet == null)
             {
-                throw new EntityNotFoundException<Outlet>(new { name });
+                throw new NotFoundException<Outlet>(new { name });
             }
             return outlet;
         }
@@ -210,7 +210,7 @@ namespace JJ.Business.Synthesizer.Helpers
             Outlet outlet = TryGetOutlet(op, dimensionEnum);
             if (outlet == null)
             {
-                throw new EntityNotFoundException<Outlet>(new { dimensionEnum });
+                throw new NotFoundException<Outlet>(new { dimensionEnum });
             }
             return outlet;
         }

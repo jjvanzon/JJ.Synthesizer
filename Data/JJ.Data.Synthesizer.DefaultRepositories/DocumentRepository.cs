@@ -33,7 +33,7 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
             Document document = TryGetComplete(id);
             if (document == null)
             {
-                throw new EntityNotFoundException<Document>(id);
+                throw new NotFoundException<Document>(id);
             }
             return Get(id);
         }
