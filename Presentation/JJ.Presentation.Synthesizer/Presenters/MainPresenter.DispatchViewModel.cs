@@ -318,7 +318,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel)viewModel2;
 
-            var dictionary = ViewModelSelector.GetOperatorPropertiesViewModelDictionary_ByChildDocumentID(MainViewModel.Document, castedViewModel.ChildDocumentID);
+            var dictionary = MainViewModel.Document.OperatorPropertiesDictionary;
             dictionary[castedViewModel.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
@@ -335,7 +335,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForBundle)viewModel2;
 
-            var dictionary = ViewModelSelector.GetOperatorPropertiesViewModelDictionary_ForBundles_ByChildDocumentID(MainViewModel.Document, castedViewModel.ChildDocumentID);
+            var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForBundles;
             dictionary[castedViewModel.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
@@ -352,7 +352,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForCache)viewModel2;
 
-            var dictionary = ViewModelSelector.GetOperatorPropertiesViewModelDictionary_ForCaches_ByChildDocumentID(MainViewModel.Document, castedViewModel.ChildDocumentID);
+            var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForCaches;
             dictionary[castedViewModel.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
@@ -369,7 +369,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForCurve)viewModel2;
 
-            var dictionary = ViewModelSelector.GetOperatorPropertiesViewModelDictionary_ForCurves_ByChildDocumentID(MainViewModel.Document, castedViewModel.ChildDocumentID);
+            var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForCurves;
             dictionary[castedViewModel.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
@@ -386,7 +386,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForCustomOperator)viewModel2;
 
-            var dictionary = ViewModelSelector.GetOperatorPropertiesViewModelDictionary_ForCustomOperators_ByChildDocumentID(MainViewModel.Document, castedViewModel.ChildDocumentID);
+            var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForCustomOperators;
             dictionary[castedViewModel.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
@@ -403,7 +403,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForMakeContinuous)viewModel2;
 
-            var dictionary = ViewModelSelector.GetOperatorPropertiesViewModelDictionary_ForMakeContinuous_ByChildDocumentID(MainViewModel.Document, castedViewModel.ChildDocumentID);
+            var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForMakeContinuous;
             dictionary[castedViewModel.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
@@ -420,7 +420,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForNumber)viewModel2;
 
-            var dictionary = ViewModelSelector.GetOperatorPropertiesViewModelDictionary_ForNumbers_ByChildDocumentID(MainViewModel.Document, castedViewModel.ChildDocumentID);
+            var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForNumbers;
             dictionary[castedViewModel.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
@@ -437,7 +437,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForPatchInlet)viewModel2;
 
-            var dictionary = ViewModelSelector.GetOperatorPropertiesViewModelDictionary_ForPatchInlets_ByChildDocumentID(MainViewModel.Document, castedViewModel.ChildDocumentID);
+            var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForPatchInlets;
             dictionary[castedViewModel.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
@@ -454,7 +454,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForPatchOutlet)viewModel2;
 
-            var dictionary = ViewModelSelector.GetOperatorPropertiesViewModelDictionary_ForPatchOutlets_ByChildDocumentID(MainViewModel.Document, castedViewModel.ChildDocumentID);
+            var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForPatchOutlets;
             dictionary[castedViewModel.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
@@ -471,7 +471,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForSample)viewModel2;
 
-            var dictionary = ViewModelSelector.GetOperatorPropertiesViewModelDictionary_ForSamples_ByChildDocumentID(MainViewModel.Document, castedViewModel.ChildDocumentID);
+            var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForSamples;
             dictionary[castedViewModel.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
@@ -488,7 +488,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_WithDimension)viewModel2;
 
-            var dictionary = ViewModelSelector.GetOperatorPropertiesViewModelDictionary_WithDimension_ByChildDocumentID(MainViewModel.Document, castedViewModel.ChildDocumentID);
+            var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_WithDimension;
             dictionary[castedViewModel.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
@@ -505,7 +505,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_WithDimensionAndInterpolation)viewModel2;
 
-            var dictionary = ViewModelSelector.GetOperatorPropertiesViewModelDictionary_WithDimensionAndInterpolation_ByChildDocumentID(MainViewModel.Document, castedViewModel.ChildDocumentID);
+            var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_WithDimensionAndInterpolation;
             dictionary[castedViewModel.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
@@ -522,7 +522,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation)viewModel2;
 
-            var dictionary = ViewModelSelector.GetOperatorPropertiesViewModelDictionary_WithDimensionAndCollectionRecalculation_ByChildDocumentID(MainViewModel.Document, castedViewModel.ChildDocumentID);
+            var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_WithDimensionAndCollectionRecalculation;
             dictionary[castedViewModel.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
@@ -539,7 +539,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_WithDimensionAndOutletCount)viewModel2;
 
-            var dictionary = ViewModelSelector.GetOperatorPropertiesViewModelDictionary_WithDimensionAndOutletCount_ByChildDocumentID(MainViewModel.Document, castedViewModel.ChildDocumentID);
+            var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_WithDimensionAndOutletCount;
             dictionary[castedViewModel.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
@@ -556,7 +556,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_WithInletCount)viewModel2;
 
-            var dictionary = ViewModelSelector.GetOperatorPropertiesViewModelDictionary_WithInletCount_ByChildDocumentID(MainViewModel.Document, castedViewModel.ChildDocumentID);
+            var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_WithInletCount;
             dictionary[castedViewModel.ID] = castedViewModel;
 
             if (castedViewModel.Visible)

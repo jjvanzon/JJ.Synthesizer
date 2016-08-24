@@ -20,6 +20,21 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public DocumentPropertiesViewModel DocumentProperties { get; set; }
         public DocumentTreeViewModel DocumentTree { get; set; }
         public Dictionary<int, NodePropertiesViewModel> NodePropertiesDictionary { get; set; }
+        public Dictionary<int, OperatorPropertiesViewModel> OperatorPropertiesDictionary { get; set; }
+        public Dictionary<int, OperatorPropertiesViewModel_ForBundle> OperatorPropertiesDictionary_ForBundles { get; set; }
+        public Dictionary<int, OperatorPropertiesViewModel_ForCache> OperatorPropertiesDictionary_ForCaches { get; set; }
+        public Dictionary<int, OperatorPropertiesViewModel_ForCurve> OperatorPropertiesDictionary_ForCurves { get; set; }
+        public Dictionary<int, OperatorPropertiesViewModel_ForCustomOperator> OperatorPropertiesDictionary_ForCustomOperators { get; set; }
+        public Dictionary<int, OperatorPropertiesViewModel_ForMakeContinuous> OperatorPropertiesDictionary_ForMakeContinuous { get; set; }
+        public Dictionary<int, OperatorPropertiesViewModel_ForNumber> OperatorPropertiesDictionary_ForNumbers { get; set; }
+        public Dictionary<int, OperatorPropertiesViewModel_ForPatchInlet> OperatorPropertiesDictionary_ForPatchInlets { get; set; }
+        public Dictionary<int, OperatorPropertiesViewModel_ForPatchOutlet> OperatorPropertiesDictionary_ForPatchOutlets { get; set; }
+        public Dictionary<int, OperatorPropertiesViewModel_ForSample> OperatorPropertiesDictionary_ForSamples { get; set; }
+        public Dictionary<int, OperatorPropertiesViewModel_WithDimension> OperatorPropertiesDictionary_WithDimension { get; set; }
+        public Dictionary<int, OperatorPropertiesViewModel_WithDimensionAndInterpolation> OperatorPropertiesDictionary_WithDimensionAndInterpolation { get; set; }
+        public Dictionary<int, OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation> OperatorPropertiesDictionary_WithDimensionAndCollectionRecalculation { get; set; }
+        public Dictionary<int, OperatorPropertiesViewModel_WithDimensionAndOutletCount> OperatorPropertiesDictionary_WithDimensionAndOutletCount { get; set; }
+        public Dictionary<int, OperatorPropertiesViewModel_WithInletCount> OperatorPropertiesDictionary_WithInletCount { get; set; }
         /// <summary> Key is GroupName lower case. Groupless patches have key "". </summary>
         public Dictionary<string, PatchGridViewModel> PatchGridDictionary { get; set; }
         /// <summary> Key is ChildDocument ID. </summary>

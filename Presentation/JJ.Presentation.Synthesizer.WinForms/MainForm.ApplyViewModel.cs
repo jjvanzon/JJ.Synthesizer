@@ -83,110 +83,112 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             // OperatorProperties
             operatorPropertiesUserControl.ViewModel =
-                _presenter.MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.OperatorPropertiesDictionary.Values)
+                _presenter.MainViewModel.Document.OperatorPropertiesDictionary.Values
                 .Where(x => x.Visible)
                 .FirstOrDefault();
 
             // OperatorProperties_ForBundle
             operatorPropertiesUserControl_ForBundle.ViewModel =
-                _presenter.MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.OperatorPropertiesDictionary_ForBundles.Values)
+                _presenter.MainViewModel.Document.OperatorPropertiesDictionary_ForBundles.Values
                 .Where(x => x.Visible)
                 .FirstOrDefault();
 
             // OperatorProperties_ForCache
             operatorPropertiesUserControl_ForCache.ViewModel =
-                _presenter.MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.OperatorPropertiesDictionary_ForCaches.Values)
+                _presenter.MainViewModel.Document.OperatorPropertiesDictionary_ForCaches.Values
                 .Where(x => x.Visible)
                 .FirstOrDefault();
 
             // OperatorProperties_ForCurve
             // (Needs slightly different code, because the CurveLookup is different for root documents and child documents.
-            operatorPropertiesUserControl_ForCurve.ViewModel = null;
-            OperatorPropertiesViewModel_ForCurve visibleOperatorPropertiesViewModel_ForCurve = null;
-            foreach (PatchDocumentViewModel patchDocumentViewModel in _presenter.MainViewModel.Document.PatchDocumentDictionary.Values)
+            OperatorPropertiesViewModel_ForCurve visibleOperatorPropertiesViewModel_ForCurve = 
+                _presenter.MainViewModel.Document.OperatorPropertiesDictionary_ForCurves.Values
+                .Where(x => x.Visible)
+                .FirstOrDefault();
+            if (visibleOperatorPropertiesViewModel_ForCurve != null)
             {
-                visibleOperatorPropertiesViewModel_ForCurve = patchDocumentViewModel.OperatorPropertiesDictionary_ForCurves.Values.Where(x => x.Visible).FirstOrDefault();
-                if (visibleOperatorPropertiesViewModel_ForCurve != null)
-                {
-                    operatorPropertiesUserControl_ForCurve.SetCurveLookup(patchDocumentViewModel.CurveLookup);
-                    operatorPropertiesUserControl_ForCurve.ViewModel = visibleOperatorPropertiesViewModel_ForCurve;
-                    break;
-                }
+                operatorPropertiesUserControl_ForCurve.ViewModel = visibleOperatorPropertiesViewModel_ForCurve;
+
+                // Set Curve Lookup
+                int childDocumentID = visibleOperatorPropertiesViewModel_ForCurve.ChildDocumentID;
+                PatchDocumentViewModel patchDocumentViewModel = _presenter.MainViewModel.Document.PatchDocumentDictionary[childDocumentID];
+                operatorPropertiesUserControl_ForCurve.SetCurveLookup(patchDocumentViewModel.CurveLookup);
             }
 
             // OperatorProperties_ForCustomOperator
             operatorPropertiesUserControl_ForCustomOperator.ViewModel =
-                _presenter.MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.OperatorPropertiesDictionary_ForCustomOperators.Values)
+                _presenter.MainViewModel.Document.OperatorPropertiesDictionary_ForCustomOperators.Values
                 .Where(x => x.Visible)
                 .FirstOrDefault();
             operatorPropertiesUserControl_ForCustomOperator.SetUnderlyingPatchLookup(_presenter.MainViewModel.Document.UnderlyingPatchLookup);
 
             // OperatorProperties_ForMakeContinuous
             operatorPropertiesUserControl_ForMakeContinuous.ViewModel =
-                _presenter.MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.OperatorPropertiesDictionary_ForMakeContinuous.Values)
+                _presenter.MainViewModel.Document.OperatorPropertiesDictionary_ForMakeContinuous.Values
                 .Where(x => x.Visible)
                 .FirstOrDefault();
 
             // OperatorProperties_ForNumber
             operatorPropertiesUserControl_ForNumber.ViewModel =
-                _presenter.MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.OperatorPropertiesDictionary_ForNumbers.Values)
+                _presenter.MainViewModel.Document.OperatorPropertiesDictionary_ForNumbers.Values
                 .Where(x => x.Visible)
                 .FirstOrDefault();
 
             // OperatorProperties_ForPatchInlet
             operatorPropertiesUserControl_ForPatchInlet.ViewModel =
-                _presenter.MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.OperatorPropertiesDictionary_ForPatchInlets.Values)
+                _presenter.MainViewModel.Document.OperatorPropertiesDictionary_ForPatchInlets.Values
                 .Where(x => x.Visible)
                 .FirstOrDefault();
 
             // OperatorProperties_ForPatchOutlet
             operatorPropertiesUserControl_ForPatchOutlet.ViewModel =
-                _presenter.MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.OperatorPropertiesDictionary_ForPatchOutlets.Values)
+                _presenter.MainViewModel.Document.OperatorPropertiesDictionary_ForPatchOutlets.Values
                 .Where(x => x.Visible)
                 .FirstOrDefault();
 
             // OperatorProperties_ForSample
             // (Needs slightly different code, because the SampleLookup is different for root documents and child documents.
             operatorPropertiesUserControl_ForSample.ViewModel = null;
-            OperatorPropertiesViewModel_ForSample visibleOperatorPropertiesViewModel_ForSample = null;
-            foreach (PatchDocumentViewModel patchDocumentViewModel in _presenter.MainViewModel.Document.PatchDocumentDictionary.Values)
+            OperatorPropertiesViewModel_ForSample visibleOperatorPropertiesViewModel_ForSample =
+                _presenter.MainViewModel.Document.OperatorPropertiesDictionary_ForSamples.Values
+                .Where(x => x.Visible)
+                .FirstOrDefault();
+            if (visibleOperatorPropertiesViewModel_ForSample != null)
             {
-                visibleOperatorPropertiesViewModel_ForSample = patchDocumentViewModel.OperatorPropertiesDictionary_ForSamples.Values.Where(x => x.Visible).FirstOrDefault();
-                if (visibleOperatorPropertiesViewModel_ForSample != null)
-                {
-                    operatorPropertiesUserControl_ForSample.SetSampleLookup(patchDocumentViewModel.SampleLookup);
-                    operatorPropertiesUserControl_ForSample.ViewModel = visibleOperatorPropertiesViewModel_ForSample;
-                    break;
-                }
+                operatorPropertiesUserControl_ForSample.ViewModel = visibleOperatorPropertiesViewModel_ForSample;
+
+                int childDocumentID = visibleOperatorPropertiesViewModel_ForSample.ChildDocumentID;
+                PatchDocumentViewModel patchDocumentViewModel = _presenter.MainViewModel.Document.PatchDocumentDictionary[childDocumentID];
+                operatorPropertiesUserControl_ForSample.SetSampleLookup(patchDocumentViewModel.SampleLookup);
             }
 
             // OperatorProperties_WithDimension
             operatorPropertiesUserControl_WithDimension.ViewModel =
-                _presenter.MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.OperatorPropertiesDictionary_WithDimension.Values)
+                _presenter.MainViewModel.Document.OperatorPropertiesDictionary_WithDimension.Values
                 .Where(x => x.Visible)
                 .FirstOrDefault();
 
             // OperatorProperties_WithDimensionAndInterpolation
             operatorPropertiesUserControl_WithDimensionAndInterpolation.ViewModel =
-                _presenter.MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.OperatorPropertiesDictionary_WithDimensionAndInterpolation.Values)
+                _presenter.MainViewModel.Document.OperatorPropertiesDictionary_WithDimensionAndInterpolation.Values
                 .Where(x => x.Visible)
                 .FirstOrDefault();
 
             // OperatorProperties_WithDimensionAndCollectionRecalculation
             operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation.ViewModel =
-                _presenter.MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.OperatorPropertiesDictionary_WithDimensionAndCollectionRecalculation.Values)
+                _presenter.MainViewModel.Document.OperatorPropertiesDictionary_WithDimensionAndCollectionRecalculation.Values
                 .Where(x => x.Visible)
                 .FirstOrDefault();
 
             // OperatorProperties_WithDimensionAndOutletCount
             operatorPropertiesUserControl_WithDimensionAndOutletCount.ViewModel =
-                _presenter.MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.OperatorPropertiesDictionary_WithDimensionAndOutletCount.Values)
+                _presenter.MainViewModel.Document.OperatorPropertiesDictionary_WithDimensionAndOutletCount.Values
                 .Where(x => x.Visible)
                 .FirstOrDefault();
 
             // OperatorProperties_WithInletCount
             operatorPropertiesUserControl_WithInletCount.ViewModel =
-                _presenter.MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.OperatorPropertiesDictionary_WithInletCount.Values)
+                _presenter.MainViewModel.Document.OperatorPropertiesDictionary_WithInletCount.Values
                 .Where(x => x.Visible)
                 .FirstOrDefault();
 

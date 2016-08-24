@@ -191,27 +191,27 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MainViewModel.Document.CurvePropertiesDictionary.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.DocumentProperties.Visible = false;
             MainViewModel.Document.NodePropertiesDictionary.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.OperatorPropertiesDictionary.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.OperatorPropertiesDictionary_ForBundles.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.OperatorPropertiesDictionary_ForCaches.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.OperatorPropertiesDictionary_ForCurves.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.OperatorPropertiesDictionary_ForCustomOperators.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.OperatorPropertiesDictionary_ForMakeContinuous.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.OperatorPropertiesDictionary_ForNumbers.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.OperatorPropertiesDictionary_ForPatchInlets.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.OperatorPropertiesDictionary_ForPatchOutlets.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.OperatorPropertiesDictionary_ForSamples.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.OperatorPropertiesDictionary_WithDimension.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.OperatorPropertiesDictionary_WithDimensionAndCollectionRecalculation.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.OperatorPropertiesDictionary_WithDimensionAndInterpolation.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.OperatorPropertiesDictionary_WithDimensionAndOutletCount.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.OperatorPropertiesDictionary_WithInletCount.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.SamplePropertiesDictionary.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.ScalePropertiesDictionary.Values.ForEach(x => x.Visible = false);
 
             // Note that the not all entity types have Properties view inside the child documents.
             MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.CurvePropertiesDictionary.Values).ForEach(x => x.Visible = false);
             MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.NodePropertiesDictionary.Values).ForEach(x => x.Visible = false);
-            MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.OperatorPropertiesDictionary.Values).ForEach(x => x.Visible = false);
-            MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.OperatorPropertiesDictionary_ForBundles.Values).ForEach(x => x.Visible = false);
-            MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.OperatorPropertiesDictionary_ForCaches.Values).ForEach(x => x.Visible = false);
-            MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.OperatorPropertiesDictionary_ForCurves.Values).ForEach(x => x.Visible = false);
-            MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.OperatorPropertiesDictionary_ForCustomOperators.Values).ForEach(x => x.Visible = false);
-            MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.OperatorPropertiesDictionary_ForMakeContinuous.Values).ForEach(x => x.Visible = false);
-            MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.OperatorPropertiesDictionary_ForNumbers.Values).ForEach(x => x.Visible = false);
-            MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.OperatorPropertiesDictionary_ForPatchInlets.Values).ForEach(x => x.Visible = false);
-            MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.OperatorPropertiesDictionary_ForPatchOutlets.Values).ForEach(x => x.Visible = false);
-            MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.OperatorPropertiesDictionary_ForSamples.Values).ForEach(x => x.Visible = false);
-            MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.OperatorPropertiesDictionary_WithDimension.Values).ForEach(x => x.Visible = false);
-            MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.OperatorPropertiesDictionary_WithDimensionAndCollectionRecalculation.Values).ForEach(x => x.Visible = false);
-            MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.OperatorPropertiesDictionary_WithDimensionAndInterpolation.Values).ForEach(x => x.Visible = false);
-            MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.OperatorPropertiesDictionary_WithDimensionAndOutletCount.Values).ForEach(x => x.Visible = false);
-            MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.OperatorPropertiesDictionary_WithInletCount.Values).ForEach(x => x.Visible = false);
             MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.SamplePropertiesDictionary.Values).ForEach(x => x.Visible = false);
             MainViewModel.Document.PatchDocumentDictionary.Values.ForEach(x => x.PatchProperties.Visible = false);
         }
