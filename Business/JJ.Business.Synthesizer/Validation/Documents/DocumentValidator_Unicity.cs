@@ -17,7 +17,6 @@ namespace JJ.Business.Synthesizer.Validation.Documents
         protected override void Execute()
         {
             ValidateAudioFileOutputNamesUnique();
-            ValidateCurveNamesUnique();
             ValidateDocumentNamesUniqueWithinRootDocument();
             ValidatePatchNamesUnique();
             ValidateSampleNamesUnique();
@@ -35,16 +34,17 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             }
         }
 
-        private void ValidateCurveNamesUnique()
-        {
-            IList<string> duplicateNames = ValidationHelper.GetDuplicateCurveNames(Object);
+        // TODO: Remove outcommented code.
+        //private void ValidateCurveNamesUnique()
+        //{
+        //    IList<string> duplicateNames = ValidationHelper.GetDuplicateCurveNames(Object);
 
-            if (duplicateNames.Count > 0)
-            {
-                string message = MessageFormatter.NamesNotUnique_WithEntityTypeNameAndNames(PropertyDisplayNames.Curve, duplicateNames);
-                ValidationMessages.Add(PropertyNames.Curves, message);
-            }
-        }
+        //    if (duplicateNames.Count > 0)
+        //    {
+        //        string message = MessageFormatter.NamesNotUnique_WithEntityTypeNameAndNames(PropertyDisplayNames.Curve, duplicateNames);
+        //        ValidationMessages.Add(PropertyNames.Curves, message);
+        //    }
+        //}
 
         private void ValidateDocumentNamesUniqueWithinRootDocument()
         {

@@ -1243,6 +1243,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 patchRepository.Insert(patch);
             }
             patch.Name = viewModel.Name;
+            patch.GroupName = viewModel.Group;
 
             return patch;
         }

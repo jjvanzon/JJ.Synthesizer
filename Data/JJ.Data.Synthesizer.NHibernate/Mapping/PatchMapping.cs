@@ -9,6 +9,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
         {
             Id(x => x.ID).GeneratedBy.Assigned();
             Map(x => x.Name);
+            Map(x => x.GroupName);
             HasMany(x => x.Operators).KeyColumn(ColumnNames.PatchID).Inverse();
             References(x => x.Document, ColumnNames.DocumentID);
         }

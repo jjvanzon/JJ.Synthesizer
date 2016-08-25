@@ -222,7 +222,6 @@ namespace JJ.Business.Synthesizer
             var validators = new List<IValidator>
             {
                 new CurveValidator_WithoutNodes(entity),
-                new CurveValidator_UniqueName(entity),
                 new CurveValidator_Nodes(entity)
             };
 

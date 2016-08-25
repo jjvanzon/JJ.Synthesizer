@@ -1,0 +1,1 @@
+alter table Patch add GroupName nvarchar(256) null;

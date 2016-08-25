@@ -1421,263 +1421,263 @@ namespace JJ.OneOff.Synthesizer.DataMigration
         //    progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
         //}
 
-        public static void Migrate_RenameContinualToContinuous(Action<string> progressCallback)
-        {
-            if (progressCallback == null) throw new NullException(() => progressCallback);
+        //public static void Migrate_RenameContinualToContinuous(Action<string> progressCallback)
+        //{
+        //    if (progressCallback == null) throw new NullException(() => progressCallback);
 
-            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+        //    progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
 
-            var operatorTypeEnumHashSet = new HashSet<OperatorTypeEnum>
-            {
-                OperatorTypeEnum.AverageOverDimension,
-                OperatorTypeEnum.MaxOverDimension,
-                OperatorTypeEnum.MinOverDimension,
-                OperatorTypeEnum.SumOverDimension
-            };
+        //    var operatorTypeEnumHashSet = new HashSet<OperatorTypeEnum>
+        //    {
+        //        OperatorTypeEnum.AverageOverDimension,
+        //        OperatorTypeEnum.MaxOverDimension,
+        //        OperatorTypeEnum.MinOverDimension,
+        //        OperatorTypeEnum.SumOverDimension
+        //    };
 
-            using (IContext context = PersistenceHelper.CreateContext())
-            {
-                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+        //    using (IContext context = PersistenceHelper.CreateContext())
+        //    {
+        //        RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-                var patchManager = new PatchManager(new PatchRepositories(repositories));
+        //        var patchManager = new PatchManager(new PatchRepositories(repositories));
 
-                IList<Operator> operators = repositories.OperatorRepository
-                                                        .GetAll().ToArray();
+        //        IList<Operator> operators = repositories.OperatorRepository
+        //                                                .GetAll().ToArray();
 
-                for (int i = 0; i < operators.Count; i++)
-                {
-                    Operator op = operators[i];
+        //        for (int i = 0; i < operators.Count; i++)
+        //        {
+        //            Operator op = operators[i];
 
-                    OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
-                    if (!operatorTypeEnumHashSet.Contains(operatorTypeEnum))
-                    {
-                        continue;
-                    }
+        //            OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
+        //            if (!operatorTypeEnumHashSet.Contains(operatorTypeEnum))
+        //            {
+        //                continue;
+        //            }
 
-                    string value = DataPropertyParser.TryGetString(op, PropertyNames.Recalculation);
-                    if (String.Equals(value, PropertyNames.Continual))
-                    {
-                        DataPropertyParser.SetValue(op, PropertyNames.Recalculation, PropertyNames.Continuous);
-                    }
+        //            string value = DataPropertyParser.TryGetString(op, PropertyNames.Recalculation);
+        //            if (String.Equals(value, PropertyNames.Continual))
+        //            {
+        //                DataPropertyParser.SetValue(op, PropertyNames.Recalculation, PropertyNames.Continuous);
+        //            }
 
-                    patchManager.Patch = op.Patch;
-                    VoidResult result = patchManager.SaveOperator(op);
-                    ResultHelper.Assert(result);
+        //            patchManager.Patch = op.Patch;
+        //            VoidResult result = patchManager.SaveOperator(op);
+        //            ResultHelper.Assert(result);
 
-                    string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
-                    progressCallback(progressMessage);
-                }
+        //            string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
+        //            progressCallback(progressMessage);
+        //        }
 
-                AssertDocuments(repositories, progressCallback);
+        //        AssertDocuments(repositories, progressCallback);
 
-                context.Commit();
-            }
+        //        context.Commit();
+        //    }
 
-            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
-        }
+        //    progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        //}
 
-        public static void Migrate_RenameRecalculation_To_CollectionRecalculation(Action<string> progressCallback)
-        {
-            if (progressCallback == null) throw new NullException(() => progressCallback);
+        //public static void Migrate_RenameRecalculation_To_CollectionRecalculation(Action<string> progressCallback)
+        //{
+        //    if (progressCallback == null) throw new NullException(() => progressCallback);
 
-            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+        //    progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
 
-            var operatorTypeEnumHashSet = new HashSet<OperatorTypeEnum>
-            {
-                OperatorTypeEnum.AverageOverDimension,
-                OperatorTypeEnum.ClosestOverDimension,
-                OperatorTypeEnum.MaxOverDimension,
-                OperatorTypeEnum.MinOverDimension,
-                OperatorTypeEnum.SumOverDimension
-            };
+        //    var operatorTypeEnumHashSet = new HashSet<OperatorTypeEnum>
+        //    {
+        //        OperatorTypeEnum.AverageOverDimension,
+        //        OperatorTypeEnum.ClosestOverDimension,
+        //        OperatorTypeEnum.MaxOverDimension,
+        //        OperatorTypeEnum.MinOverDimension,
+        //        OperatorTypeEnum.SumOverDimension
+        //    };
 
-            using (IContext context = PersistenceHelper.CreateContext())
-            {
-                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+        //    using (IContext context = PersistenceHelper.CreateContext())
+        //    {
+        //        RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-                var patchManager = new PatchManager(new PatchRepositories(repositories));
+        //        var patchManager = new PatchManager(new PatchRepositories(repositories));
 
-                IList<Operator> operators = repositories.OperatorRepository
-                                                        .GetAll().ToArray();
+        //        IList<Operator> operators = repositories.OperatorRepository
+        //                                                .GetAll().ToArray();
 
-                for (int i = 0; i < operators.Count; i++)
-                {
-                    Operator op = operators[i];
+        //        for (int i = 0; i < operators.Count; i++)
+        //        {
+        //            Operator op = operators[i];
 
-                    OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
-                    if (!operatorTypeEnumHashSet.Contains(operatorTypeEnum))
-                    {
-                        continue;
-                    }
+        //            OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
+        //            if (!operatorTypeEnumHashSet.Contains(operatorTypeEnum))
+        //            {
+        //                continue;
+        //            }
 
-                    string value = DataPropertyParser.TryGetString(op, PropertyNames.Recalculation);
-                    DataPropertyParser.SetValue(op, PropertyNames.CollectionRecalculation, value);
-                    DataPropertyParser.RemoveKey(op, PropertyNames.Recalculation);
+        //            string value = DataPropertyParser.TryGetString(op, PropertyNames.Recalculation);
+        //            DataPropertyParser.SetValue(op, PropertyNames.CollectionRecalculation, value);
+        //            DataPropertyParser.RemoveKey(op, PropertyNames.Recalculation);
 
-                    patchManager.Patch = op.Patch;
-                    VoidResult result = patchManager.SaveOperator(op);
-                    ResultHelper.Assert(result);
+        //            patchManager.Patch = op.Patch;
+        //            VoidResult result = patchManager.SaveOperator(op);
+        //            ResultHelper.Assert(result);
 
-                    string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
-                    progressCallback(progressMessage);
-                }
+        //            string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
+        //            progressCallback(progressMessage);
+        //        }
 
-                AssertDocuments(repositories, progressCallback);
+        //        AssertDocuments(repositories, progressCallback);
 
-                //throw new Exception("Temporarily do not commit, for debugging.");
+        //        //throw new Exception("Temporarily do not commit, for debugging.");
 
-                context.Commit();
-            }
+        //        context.Commit();
+        //    }
 
-            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
-        }
+        //    progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        //}
 
-        public static void Migrate_MultiplyWithOrigin_ToMultiply(Action<string> progressCallback)
-        {
-            if (progressCallback == null) throw new NullException(() => progressCallback);
+        //public static void Migrate_MultiplyWithOrigin_ToMultiply(Action<string> progressCallback)
+        //{
+        //    if (progressCallback == null) throw new NullException(() => progressCallback);
 
-            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+        //    progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
 
-            using (IContext context = PersistenceHelper.CreateContext())
-            {
-                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+        //    using (IContext context = PersistenceHelper.CreateContext())
+        //    {
+        //        RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-                var patchManager = new PatchManager(new PatchRepositories(repositories));
+        //        var patchManager = new PatchManager(new PatchRepositories(repositories));
 
-                IList<Operator> operators = repositories.OperatorRepository
-                                                        .GetAll()
-                                                        .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.MultiplyWithOrigin)
-                                                        .ToArray();
+        //        IList<Operator> operators = repositories.OperatorRepository
+        //                                                .GetAll()
+        //                                                .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.MultiplyWithOrigin)
+        //                                                .ToArray();
 
-                for (int i = 0; i < operators.Count; i++)
-                {
-                    Operator op = operators[i];
-                    var wrapper = new MultiplyWithOrigin_OperatorWrapper(op);
+        //        for (int i = 0; i < operators.Count; i++)
+        //        {
+        //            Operator op = operators[i];
+        //            var wrapper = new MultiplyWithOrigin_OperatorWrapper(op);
 
-                    if (wrapper.Origin != null)
-                    {
-                        continue;
-                    }
+        //            if (wrapper.Origin != null)
+        //            {
+        //                continue;
+        //            }
 
-                    op.SetOperatorTypeEnum(OperatorTypeEnum.Multiply, repositories.OperatorTypeRepository);
+        //            op.SetOperatorTypeEnum(OperatorTypeEnum.Multiply, repositories.OperatorTypeRepository);
 
-                    Inlet originInlet = op.Inlets
-                                          .OrderBy(x => x.ListIndex)
-                                          .ElementAt(2);
+        //            Inlet originInlet = op.Inlets
+        //                                  .OrderBy(x => x.ListIndex)
+        //                                  .ElementAt(2);
 
-                    patchManager.DeleteInlet(originInlet);
+        //            patchManager.DeleteInlet(originInlet);
 
-                    patchManager.Patch = op.Patch;
-                    VoidResult result = patchManager.SaveOperator(op);
-                    ResultHelper.Assert(result);
+        //            patchManager.Patch = op.Patch;
+        //            VoidResult result = patchManager.SaveOperator(op);
+        //            ResultHelper.Assert(result);
 
-                    string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
-                    progressCallback(progressMessage);
-                }
+        //            string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
+        //            progressCallback(progressMessage);
+        //        }
 
-                AssertDocuments(repositories, progressCallback);
+        //        AssertDocuments(repositories, progressCallback);
 
-                context.Commit();
-            }
+        //        context.Commit();
+        //    }
 
-            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
-        }
+        //    progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        //}
 
-        public static void Migrate_ResetOperators_AddListIndexDataKey(Action<string> progressCallback)
-        {
-            if (progressCallback == null) throw new NullException(() => progressCallback);
+        //public static void Migrate_ResetOperators_AddListIndexDataKey(Action<string> progressCallback)
+        //{
+        //    if (progressCallback == null) throw new NullException(() => progressCallback);
 
-            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+        //    progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
 
-            using (IContext context = PersistenceHelper.CreateContext())
-            {
-                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+        //    using (IContext context = PersistenceHelper.CreateContext())
+        //    {
+        //        RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-                var patchManager = new PatchManager(new PatchRepositories(repositories));
+        //        var patchManager = new PatchManager(new PatchRepositories(repositories));
 
-                IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Reset);
+        //        IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Reset);
 
-                for (int i = 0; i < operators.Count; i++)
-                {
-                    Operator op = operators[i];
-                    var wrapper = new Reset_OperatorWrapper(op);
+        //        for (int i = 0; i < operators.Count; i++)
+        //        {
+        //            Operator op = operators[i];
+        //            var wrapper = new Reset_OperatorWrapper(op);
 
-                    if (wrapper.ListIndex.HasValue)
-                    {
-                        continue;
-                    }
+        //            if (wrapper.ListIndex.HasValue)
+        //            {
+        //                continue;
+        //            }
 
-                    // Adds data key if it is not present yet.
-                    wrapper.ListIndex = null;
+        //            // Adds data key if it is not present yet.
+        //            wrapper.ListIndex = null;
 
-                    patchManager.Patch = op.Patch;
-                    VoidResult result = patchManager.SaveOperator(op);
-                    ResultHelper.Assert(result);
+        //            patchManager.Patch = op.Patch;
+        //            VoidResult result = patchManager.SaveOperator(op);
+        //            ResultHelper.Assert(result);
 
-                    string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
-                    progressCallback(progressMessage);
-                }
+        //            string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
+        //            progressCallback(progressMessage);
+        //        }
 
-                AssertDocuments(repositories, progressCallback);
+        //        AssertDocuments(repositories, progressCallback);
 
-                //throw new Exception("Temporarily do not commit, for debugging.");
-                context.Commit();
-            }
+        //        //throw new Exception("Temporarily do not commit, for debugging.");
+        //        context.Commit();
+        //    }
 
-            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
-        }
+        //    progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        //}
 
-        public static void Migrate_LowPassFilter_HighPassFilter_AddBandWidthInlet(Action<string> progressCallback)
-        {
-            if (progressCallback == null) throw new NullException(() => progressCallback);
+        //public static void Migrate_LowPassFilter_HighPassFilter_AddBandWidthInlet(Action<string> progressCallback)
+        //{
+        //    if (progressCallback == null) throw new NullException(() => progressCallback);
 
-            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+        //    progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
 
-            using (IContext context = PersistenceHelper.CreateContext())
-            {
-                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+        //    using (IContext context = PersistenceHelper.CreateContext())
+        //    {
+        //        RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-                var patchManager = new PatchManager(new PatchRepositories(repositories));
+        //        var patchManager = new PatchManager(new PatchRepositories(repositories));
 
-                IList<Operator> operators1 = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.HighPassFilter);
-                IList<Operator> operators2 = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.LowPassFilter);
-                IList<Operator> operators = Enumerable.Union(operators1, operators2).ToArray();
+        //        IList<Operator> operators1 = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.HighPassFilter);
+        //        IList<Operator> operators2 = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.LowPassFilter);
+        //        IList<Operator> operators = Enumerable.Union(operators1, operators2).ToArray();
 
-                for (int i = 0; i < operators.Count; i++)
-                {
-                    Operator op = operators[i];
+        //        for (int i = 0; i < operators.Count; i++)
+        //        {
+        //            Operator op = operators[i];
 
-                    switch (op.Inlets.Count)
-                    {
-                        case 3:
-                            continue;
+        //            switch (op.Inlets.Count)
+        //            {
+        //                case 3:
+        //                    continue;
 
-                        case 2:
-                            break;
+        //                case 2:
+        //                    break;
 
-                        default:
-                            throw new EqualException(() => op.Inlets.Count, op.Inlets.Count);
-                    }
+        //                default:
+        //                    throw new EqualException(() => op.Inlets.Count, op.Inlets.Count);
+        //            }
 
-                    Inlet bandWidthInlet = patchManager.CreateInlet(op);
-                    bandWidthInlet.ListIndex = 2;
-                    bandWidthInlet.DefaultValue = 1.0;
+        //            Inlet bandWidthInlet = patchManager.CreateInlet(op);
+        //            bandWidthInlet.ListIndex = 2;
+        //            bandWidthInlet.DefaultValue = 1.0;
 
-                    patchManager.Patch = op.Patch;
-                    VoidResult result = patchManager.SaveOperator(op);
-                    ResultHelper.Assert(result);
+        //            patchManager.Patch = op.Patch;
+        //            VoidResult result = patchManager.SaveOperator(op);
+        //            ResultHelper.Assert(result);
 
-                    string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
-                    progressCallback(progressMessage);
-                }
+        //            string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
+        //            progressCallback(progressMessage);
+        //        }
 
-                AssertDocuments(repositories, progressCallback);
+        //        AssertDocuments(repositories, progressCallback);
 
-                context.Commit();
-            }
+        //        context.Commit();
+        //    }
 
-            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
-        }
+        //    progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        //}
 
         //public static void Migrate_Operator_SpeedUp_ToSquash(Action<string> progressCallback)
         //{
@@ -2240,15 +2240,89 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
         }
 
+        public static void Migrate_Move_CurvesSamplesAndPatch_FromChildDocuments_ToRootDocuments(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                IList<Document> rootDocuments = repositories.DocumentRepository.GetRootDocumentsOrderedByName();
+
+                for (int i = 0; i < rootDocuments.Count; i++)
+                {
+                    Document rootDocument = rootDocuments[i];
+
+                    var documentManager = new DocumentManager(repositories);
+
+                    HashSet<string> existingSampleNamesLowerCase = rootDocument.Samples
+                                                                               .Select(x => x.Name.ToLower())
+                                                                               .ToHashSet();
+
+                    foreach (Document childDocument in rootDocument.ChildDocuments.ToArray())
+                    {
+                        foreach (Curve curve in childDocument.Curves.ToArray())
+                        {
+                            curve.LinkTo(rootDocument);
+                        }
+
+                        foreach (Sample sample in childDocument.Samples.ToArray())
+                        {
+                            string newSampleName = sample.Name;
+                            int number = 2;
+                            while (existingSampleNamesLowerCase.Contains(newSampleName.ToLower()))
+                            {
+                                newSampleName = $"{sample.Name} ({number})";
+                                number++;
+                            }
+                            existingSampleNamesLowerCase.Add(newSampleName.ToLower());
+
+                            sample.Name = newSampleName;
+                            sample.LinkTo(rootDocument);
+                        }
+
+                        Patch patch = childDocument.Patches.Single();
+                        patch.LinkTo(rootDocument);
+
+                        //repositories.DocumentRepository.Delete(childDocument);
+
+                        VoidResult result = documentManager.DeleteWithRelatedEntities(childDocument);
+                        result.Assert();
+                    }
+
+                    string progressMessage = String.Format("Migrated Document {0}/{1}.", i + 1, rootDocuments.Count);
+                    progressCallback(progressMessage);
+                }
+
+                // Flush to make NHibernate not accidently mistake the deleted child documents for root documents.
+                // (for some reason that happens).
+                context.Flush();
+
+                AssertDocuments(repositories, progressCallback);
+
+                //throw new Exception("Temporarily not committing, for debugging.");
+
+                context.Commit();
+            }
+
+            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        }
+
         // Helpers
 
         private static void AssertDocuments(RepositoryWrapper repositories, Action<string> progressCallback)
         {
-            var documentManager = new DocumentManager(repositories);
-
-            IResult totalResult = new VoidResult { Successful = true };
-
             IList<Document> rootDocuments = repositories.DocumentRepository.GetAll().Where(x => x.ParentDocument == null).ToArray();
+
+            AssertDocuments(rootDocuments, repositories, progressCallback);
+        }
+
+        private static void AssertDocuments(IList<Document> rootDocuments, RepositoryWrapper repositories, Action<string> progressCallback)
+        {
+            IResult totalResult = new VoidResult { Successful = true };
             for (int i = 0; i < rootDocuments.Count; i++)
             {
                 Document rootDocument = rootDocuments[i];
@@ -2257,6 +2331,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                 progressCallback(progressMessage);
 
                 // Validate
+                var documentManager = new DocumentManager(repositories);
                 VoidResult result = documentManager.Save(rootDocument);
                 totalResult.Combine(result);
             }

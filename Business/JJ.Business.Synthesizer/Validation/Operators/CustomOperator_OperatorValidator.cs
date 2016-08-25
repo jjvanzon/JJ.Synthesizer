@@ -99,17 +99,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             bool mustCheckReference = op.Patch != null && op.Patch.Document != null;
             if (mustCheckReference)
             {
-                IList<Document> documents;
-                if (op.Patch.Document.ParentDocument != null)
-                {
-                    documents = op.Patch.Document.ParentDocument.ChildDocuments;
-                }
-                else
-                {
-                    documents = op.Patch.Document.ChildDocuments;
-                }
-
-                bool isInList = documents.SelectMany(x => x.Patches).Any(x => x.ID == underlyingPatch.ID);
+                bool isInList = op.Patch.Document.Patches.Any(x => x.ID == underlyingPatch.ID);
                 if (!isInList)
                 {
                     ValidationMessages.AddNotInListMessage(PropertyNames.UnderlyingPatch, PropertyDisplayNames.UnderlyingPatch, underlyingPatch.ID);

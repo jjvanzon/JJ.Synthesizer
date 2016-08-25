@@ -48,7 +48,7 @@ namespace JJ.Business.Synthesizer
             return document;
         }
 
-        public Document CreateChildDocument(Document parentDocument, bool mustGenerateName = false)
+        public Document CreateChildDocumentWithPatch(Document parentDocument, bool mustGenerateName = false)
         {
             if (parentDocument == null) throw new NullException(() => parentDocument);
 
@@ -99,8 +99,7 @@ namespace JJ.Business.Synthesizer
 
         public VoidResult SaveChildDocument(Document entity)
         {
-            // TODO: I doubt that this validator is enough for a certain level of robustness.
-            IValidator validator = new ChildDocument_DocumentValidator(entity);
+            IValidator validator = new DocumentValidator_Basic(entity);
             if (!validator.IsValid)
             {
                 return new VoidResult

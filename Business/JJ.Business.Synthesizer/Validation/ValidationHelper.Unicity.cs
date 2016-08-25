@@ -46,40 +46,41 @@ namespace JJ.Business.Synthesizer.Validation
             return duplicateNames;
         }
 
-        // Curve
+        // TODO: Remove outcommented code.
+        //// Curve
 
-        public static bool CurveNameIsUnique(Curve curve)
-        {
-            if (curve == null) throw new NullException(() => curve);
+        //public static bool CurveNameIsUnique(Curve curve)
+        //{
+        //    if (curve == null) throw new NullException(() => curve);
 
-            bool isUnique = CurveNameIsUnique(curve.Document, curve.Name);
-            return isUnique;
-        }
+        //    bool isUnique = CurveNameIsUnique(curve.Document, curve.Name);
+        //    return isUnique;
+        //}
 
-        public static bool CurveNameIsUnique(Document document, string name)
-        {
-            if (document == null) throw new NullException(() => document);
+        //public static bool CurveNameIsUnique(Document document, string name)
+        //{
+        //    if (document == null) throw new NullException(() => document);
 
-            int nameCount = document.EnumerateSelfAndParentAndTheirChildren()
-                                    .SelectMany(x => x.Curves)
-                                    .Where(x => String.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase))
-                                    .Count();
+        //    int nameCount = document.EnumerateSelfAndParentAndTheirChildren()
+        //                            .SelectMany(x => x.Curves)
+        //                            .Where(x => String.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase))
+        //                            .Count();
 
-            return nameCount <= 1;
-        }
+        //    return nameCount <= 1;
+        //}
 
-        public static IList<string> GetDuplicateCurveNames(Document document)
-        {
-            if (document == null) throw new NullException(() => document);
+        //public static IList<string> GetDuplicateCurveNames(Document document)
+        //{
+        //    if (document == null) throw new NullException(() => document);
 
-            IList<string> duplicateNames = document.EnumerateSelfAndParentAndTheirChildren()
-                                                   .SelectMany(x => x.Curves)
-                                                   .GroupBy(x => x.Name?.ToLower())
-                                                   .Where(x => x.Count() > 1)
-                                                   .Select(x => x.Key)
-                                                   .ToArray();
-            return duplicateNames;
-        }
+        //    IList<string> duplicateNames = document.EnumerateSelfAndParentAndTheirChildren()
+        //                                           .SelectMany(x => x.Curves)
+        //                                           .GroupBy(x => x.Name?.ToLower())
+        //                                           .Where(x => x.Count() > 1)
+        //                                           .Select(x => x.Key)
+        //                                           .ToArray();
+        //    return duplicateNames;
+        //}
 
         // Document
 

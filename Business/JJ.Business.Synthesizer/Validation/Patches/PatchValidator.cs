@@ -40,6 +40,9 @@ namespace JJ.Business.Synthesizer.Validation.Patches
 
         protected override void Execute()
         {
+            // TODO: Message prefix, or it will say 'Name is too long'.
+            ExecuteValidator(new NameValidator(Object.GroupName, required: false));
+
             ExecuteValidator(new PatchValidator_Name(Object));
             ExecuteValidator(new PatchValidator_UniqueName(Object));
             ExecuteValidator(new PatchValidator_UniqueInletNames(Object));

@@ -97,6 +97,7 @@
     <Content Include="2016-06-23 040 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2016-07-02 080 SynthesizerDB OperatorType delete record 59 - Filter.sql" />
     <Content Include="2016-07-03 015 SynthesizerDB RUN UTILITY.sql" />
+    <Content Include="2016-08-25 040 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2016-08-02 010 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2016-08-01 030 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2016-08-01 020 SynthesizerDB RUN UTILITY.sql" />
@@ -319,6 +320,9 @@
     <Content Include="2016-08-03 020 SynthesizerDB Inlet.IsObsolete not null.sql" />
     <Content Include="2016-08-03 030 SynthesizerDB Outlet.IsObsolete.sql" />
     <Content Include="2016-08-03 040 SynthesizerDB Outlet.IsObsolete not null.sql" />
+    <Content Include="2016-08-25 010 SynthesizerDB Patch.GroupName.sql" />
+    <Content Include="2016-08-25 020 SynthesizerDB Patch.GroupName migrate from Document.GroupName.sql" />
+    <Content Include="2016-08-25 030 SynthesizerDB Document.GroupName drop column.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

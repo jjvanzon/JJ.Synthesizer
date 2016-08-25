@@ -431,7 +431,7 @@
     <Compile Include="Validation\AudioOutputValidator.cs" />
     <Compile Include="Validation\Curves\CurveValidator_InDocument.cs" />
     <Compile Include="Validation\Curves\CurveValidator_Nodes.cs" />
-    <Compile Include="Validation\Documents\RootDocument_DocumentValidator.cs" />
+    <Compile Include="Validation\Documents\2016-08-25 Backup of RootDocument_DocumentValidator.cs" />
     <Compile Include="Validation\DataProperty\CollectionRecalculation_DataProperty_Validator.cs" />
     <Compile Include="Validation\DataProperty\ResampleInterpolationType_DataProperty_Validator.cs" />
     <Compile Include="Validation\DataProperty\ListIndex_DataProperty_Validator.cs" />
@@ -510,7 +510,7 @@
     <Compile Include="Validation\Patches\PatchValidator_UniqueInletNames.cs" />
     <Compile Include="Validation\SampleValidator_UniqueName.cs" />
     <Compile Include="Validation\Patches\PatchValidator_UniqueName.cs" />
-    <Compile Include="Validation\Curves\CurveValidator_UniqueName.cs" />
+    <Compile Include="Validation\Curves\2016-08-25 Backup of CurveValidator_UniqueName.cs" />
     <Compile Include="Validation\Documents\DocumentValidator_Unicity.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_SetInletCount.cs" />
     <Compile Include="PatchManager.CreateOperator.cs" />
@@ -604,7 +604,7 @@
     <Compile Include="SideEffects\Sample_SideEffect_SetDefaults.cs" />
     <Compile Include="Helpers\WavHeaderStruct.cs" />
     <Compile Include="SideEffects\Scale_SideEffect_SetDefaults.cs" />
-    <Compile Include="Validation\Documents\ChildDocument_DocumentValidator.cs" />
+    <Compile Include="Validation\Documents\2016-08-25 Backup of ChildDocument_DocumentValidator.cs" />
     <Compile Include="Validation\AudioFileOutputValidator_InDocument.cs" />
     <Compile Include="Validation\Curves\CurveValidator_WithoutNodes.cs" />
     <Compile Include="Validation\NodeValidator_Parent.cs" />
@@ -623,7 +623,7 @@
     <Compile Include="Validation\SampleValidator_InDocument.cs" />
     <Compile Include="Validation\Curves\CurveValidator_Delete.cs" />
     <Compile Include="Validation\Documents\DocumentValidator_Delete.cs" />
-    <Compile Include="Validation\Documents\Basic_DocumentValidator.cs" />
+    <Compile Include="Validation\Documents\DocumentValidator_Basic.cs" />
     <Compile Include="Validation\NameValidator.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_IsCircular.cs" />
     <Compile Include="Validation\Patches\PatchValidator_Name.cs" />

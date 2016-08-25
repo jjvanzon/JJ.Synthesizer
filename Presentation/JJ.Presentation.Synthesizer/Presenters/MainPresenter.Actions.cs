@@ -1791,8 +1791,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Document rootDocument = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
 
                 // Business
-                Document childDocument = _documentManager.CreateChildDocument(rootDocument, mustGenerateName: true);
+                Document childDocument = _documentManager.CreateChildDocumentWithPatch(rootDocument, mustGenerateName: true);
                 childDocument.GroupName = group;
+
+                Patch patch = childDocument.Patches.Single();
+                patch.GroupName = group;
 
                 // Successful
                 userInput.Successful = true;
