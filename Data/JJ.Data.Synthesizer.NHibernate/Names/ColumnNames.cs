@@ -17,7 +17,6 @@
         public const string OperatorID = "OperatorID";
         public const string OperatorTypeID = "OperatorTypeID";
         public const string OutletID = "OutletID";
-        public const string ParentDocumentID = "ParentDocumentID";
         public const string PatchID = "PatchID";
         public const string SampleDataTypeID = "SampleDataTypeID";
         public const string ScaleID = "ScaleID";

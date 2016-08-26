@@ -33,6 +33,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ID = entity.ID
             };
 
+            // TODO: Do this with Enums.
             if (entity.AudioFileFormat != null)
             {
                 viewModel.AudioFileFormat = PropertyDisplayNames.ResourceManager.GetString(entity.AudioFileFormat.Name);
@@ -75,6 +76,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ID = entity.ID
             };
 
+            // TODO: Do this with enums.
             if (entity.SampleDataType != null)
             {
                 viewModel.SampleDataType = PropertyDisplayNames.ResourceManager.GetString(entity.SampleDataType.Name);

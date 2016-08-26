@@ -40,9 +40,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private new PatchPropertiesViewModel ViewModel => (PatchPropertiesViewModel)base.ViewModel;
 
-        protected override int GetKey()
+        protected override int GetID()
         {
-            return ViewModel.ChildDocumentID;
+            return ViewModel.ID;
         }
 
         protected override void ApplyViewModelToControls()
@@ -63,7 +63,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void buttonAddToCurentPatches_Click(object sender, EventArgs e)
         {
-            AddCurrentPatchRequested?.Invoke(this, new EventArgs<int>(ViewModel.ChildDocumentID));
+            AddCurrentPatchRequested?.Invoke(this, new EventArgs<int>(ViewModel.ID));
         }
     }
 }

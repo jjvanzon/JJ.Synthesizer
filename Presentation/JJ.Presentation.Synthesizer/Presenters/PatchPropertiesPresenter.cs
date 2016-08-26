@@ -5,26 +5,21 @@ using JJ.Data.Canonical;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Framework.Common;
+using JJ.Presentation.Synthesizer.ToViewModel;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class PatchPropertiesPresenter : PresenterBase<PatchPropertiesViewModel>
     {
-        private RepositoryWrapper _repositories;
+        private readonly PatchRepositories _repositories;
 
-        private DocumentManager _documentManager;
-        private PatchManager _patchManager;
-
-        public PatchPropertiesPresenter(RepositoryWrapper repositories)
+        public PatchPropertiesPresenter(PatchRepositories repositories)
         {
             if (repositories == null) throw new NullException(() => repositories);
 
             _repositories = repositories;
 
-            _documentManager = new DocumentManager(_repositories);
-            _patchManager = new PatchManager(new PatchRepositories(_repositories));
         }
 
         public PatchPropertiesViewModel Show(PatchPropertiesViewModel userInput)
@@ -37,11 +32,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Set !Successful
             userInput.Successful = false;
 
-            // GetEntity
-            Document childDocument = _repositories.DocumentRepository.Get(userInput.ChildDocumentID);
-
-            // ToViewModel
-            PatchPropertiesViewModel viewModel = childDocument.ToPatchPropertiesViewModel();
+            // CreateViewModel
+            PatchPropertiesViewModel viewModel = CreateViewModel(userInput);
 
             // Non-Persisted
             viewModel.Visible = true;
@@ -62,14 +54,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Set !Successful
             userInput.Successful = false;
 
-            // GetEntity
-            Document childDocument = _repositories.DocumentRepository.Get(userInput.ChildDocumentID);
-
-            // ToViewModel
-            PatchPropertiesViewModel viewModel = childDocument.ToPatchPropertiesViewModel();
-
-            // Non-Persisted
-            viewModel.Visible = userInput.Visible;
+            // CreateViewModel
+            PatchPropertiesViewModel viewModel = CreateViewModel(userInput);
 
             // Successful
             viewModel.Successful = true;
@@ -111,32 +97,33 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntity
-            Document childDocument =_repositories.DocumentRepository.Get(userInput.ChildDocumentID);
+            Patch patch =_repositories.PatchRepository.Get(userInput.ID);
 
             // Business
-            VoidResult result = _documentManager.SaveChildDocument(childDocument);
+            var patchManager = new PatchManager(patch, _repositories);
+            VoidResult result = patchManager.SavePatch();
 
             // ToViewModel
-            PatchPropertiesViewModel viewModel = childDocument.ToPatchPropertiesViewModel();
+            PatchPropertiesViewModel viewModel = patch.ToPropertiesViewModel();
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
             viewModel.ValidationMessages = result.Messages;
             viewModel.Successful = result.Successful;
-            if (!result.Successful)
-            {
-                return viewModel;
-            }
 
-            // Business
-            _patchManager.Patch = childDocument.Patches[0];
-            VoidResult result2 = _patchManager.SavePatch();
+            return viewModel;
+        }
+
+        private PatchPropertiesViewModel CreateViewModel(PatchPropertiesViewModel userInput)
+        {
+            // GetEntity
+            Patch patch = _repositories.PatchRepository.Get(userInput.ID);
+
+            // ToViewModel
+            PatchPropertiesViewModel viewModel = patch.ToPropertiesViewModel();
 
             // Non-Persisted
-            viewModel.ValidationMessages.AddRange(result2.Messages);
-
-            // Successful
-            viewModel.Successful = result2.Successful;
+            viewModel.Visible = userInput.Visible;
 
             return viewModel;
         }

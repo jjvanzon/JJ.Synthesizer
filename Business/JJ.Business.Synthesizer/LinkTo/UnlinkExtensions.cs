@@ -26,13 +26,6 @@ namespace JJ.Business.Synthesizer.LinkTo
             curve.LinkTo((Document)null);
         }
 
-        public static void UnlinkParentDocument(this Document childDocument)
-        {
-            if (childDocument == null) throw new NullException(() => childDocument);
-
-            childDocument.LinkToParentDocument((Document)null);
-        }
-
         public static void UnlinkAudioOutput(this Document document)
         {
             if (document == null) throw new NullException(() => document);

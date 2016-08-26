@@ -5,9 +5,10 @@ using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    public class ChildDocumentGroupDto
+    // TODO: Move to Helpers namespace.
+    public class PatchGroupDto
     {
         public string GroupName { get; set; }
-        public IList<Document> Documents { get; set; }
+        public IList<Patch> Patches { get; set; }
     }
 }

@@ -60,7 +60,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntity
-            Patch entity = _repositories.PatchRepository.Get(userInput.Entity.PatchID);
+            Patch entity = _repositories.PatchRepository.Get(userInput.Entity.ID);
 
             // ToViewModel
             PatchDetailsViewModel viewModel = CreateViewModel(entity);
@@ -86,7 +86,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntity
-            Patch entity = _repositories.PatchRepository.Get(userInput.Entity.PatchID);
+            Patch entity = _repositories.PatchRepository.Get(userInput.Entity.ID);
 
             // ToViewModel
             PatchDetailsViewModel viewModel = CreateViewModel(entity);
@@ -134,7 +134,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntity
-            Patch entity = _repositories.PatchRepository.Get(userInput.Entity.PatchID);
+            Patch entity = _repositories.PatchRepository.Get(userInput.Entity.ID);
 
             // Business
             var patchManager = new PatchManager(entity, _repositories);
@@ -164,7 +164,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntity
-            Patch patch = _repositories.PatchRepository.Get(userInput.Entity.PatchID);
+            Patch patch = _repositories.PatchRepository.Get(userInput.Entity.ID);
             Operator op = _repositories.OperatorRepository.Get(operatorID);
 
             // Business
@@ -193,7 +193,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntities
-            Patch patch = _repositories.PatchRepository.Get(userInput.Entity.PatchID);
+            Patch patch = _repositories.PatchRepository.Get(userInput.Entity.ID);
             Inlet inlet = _repositories.InletRepository.Get(inletID);
             Outlet inputOutlet = _repositories.OutletRepository.Get(inputOutletID);
 
@@ -226,7 +226,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntity
-            Patch entity = _repositories.PatchRepository.Get(userInput.Entity.PatchID);
+            Patch entity = _repositories.PatchRepository.Get(userInput.Entity.ID);
 
             // ToViewModel
             PatchDetailsViewModel viewModel = CreateViewModel(entity);
@@ -256,7 +256,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntity
-            Patch entity = _repositories.PatchRepository.Get(userInput.Entity.PatchID);
+            Patch entity = _repositories.PatchRepository.Get(userInput.Entity.ID);
 
             // ViewModel Validation
             if (userInput.SelectedOperator == null)
@@ -302,7 +302,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntity
-            Patch entity = _repositories.PatchRepository.Get(userInput.Entity.PatchID);
+            Patch entity = _repositories.PatchRepository.Get(userInput.Entity.ID);
 
             // Business
             var patchManager = new PatchManager(entity, _repositories);
@@ -368,7 +368,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // GetEntities
             Outlet outlet = selectedOperator.Outlets.Single();
-            AudioOutput audioOutput = outlet.Operator.Patch.Document.GetRootDocument().AudioOutput;
+            AudioOutput audioOutput = outlet.Operator.Patch.Document.AudioOutput;
 
             // Business
             var patchManager = new PatchManager(outlet.Operator.Patch, new PatchRepositories(repositories));
@@ -438,7 +438,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private PatchDetailsViewModel CreateViewModel(Patch patch)
         {
             return patch.ToDetailsViewModel(
-                _repositories.OperatorTypeRepository,
                 _repositories.SampleRepository,
                 _repositories.CurveRepository,
                 _repositories.PatchRepository,

@@ -22,7 +22,6 @@ namespace JJ.Business.Synthesizer.Helpers
         // Other
         public const string AudioFileOutputs = "AudioFileOutputs";
         public const string Cents = "Cents";
-        public const string ChildDocumentID = "ChildDocumentID";
         public const string CollectionRecalculation = "CollectionRecalculation";
         public const string Curve = "Curve";
         public const string CurveID = "CurveID";

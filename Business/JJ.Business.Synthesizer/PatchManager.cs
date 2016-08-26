@@ -20,6 +20,7 @@ using JJ.Business.Synthesizer.Validation.Operators;
 using JJ.Business.Synthesizer.Configuration;
 using JJ.Framework.Common;
 using JJ.Business.Synthesizer.Validation.Patches;
+using JJ.Business.Synthesizer.Dto;
 
 namespace JJ.Business.Synthesizer
 {
@@ -36,6 +37,22 @@ namespace JJ.Business.Synthesizer
 
         /// <summary> nullable </summary>
         public Patch Patch { get; set; }
+
+        public int? PatchID
+        {
+            get { return Patch?.ID; }
+            set
+            {
+                if (!value.HasValue)
+                {
+                    Patch = null;
+                }
+                else
+                {
+                    Patch = _repositories.PatchRepository.Get(value.Value);
+                }
+            }
+        }
 
         // Constructors
 
@@ -315,6 +332,95 @@ namespace JJ.Business.Synthesizer
                 Messages = validator.ValidationMessages.ToCanonical(),
                 Successful = validator.IsValid
             };
+        }
+
+        // Grouping
+
+
+        // Grouping 
+
+        public IList<PatchGroupDto> GetPatchGroupDtos_IncludingGroupless(IList<Patch> patchesInDocument)
+        {
+            if (patchesInDocument == null) throw new NullException(() => patchesInDocument);
+
+            var dtos = new List<PatchGroupDto>();
+
+            IList<Patch> grouplessPatches = GetGrouplessPatches(patchesInDocument);
+            dtos.Add(new PatchGroupDto { GroupName = null, Patches = grouplessPatches });
+
+            dtos.AddRange(GetPatchGroupDtos(patchesInDocument));
+
+            return dtos;
+        }
+
+        public IList<PatchGroupDto> GetPatchGroupDtos(IList<Patch> patchesInDocument)
+        {
+            if (patchesInDocument == null) throw new NullException(() => patchesInDocument);
+
+            // TODO: Low Priority:
+            // This reuses the logic in the other methods, so there can be no inconsistencies,
+            // but it would be faster to put all the code here.
+            // Perhaps you can group in one method and delegate the rest of the methods to
+            // the grouping method.
+
+            var dtos = new List<PatchGroupDto>();
+
+            IList<string> groupNames = GetPatchGroupNames(patchesInDocument);
+
+            foreach (string groupName in groupNames)
+            {
+                IList<Patch> patchesInGroup = GetPatchesInGroup(patchesInDocument, groupName);
+                dtos.Add(new PatchGroupDto { GroupName = groupName, Patches = patchesInGroup });
+            }
+
+            return dtos;
+        }
+
+        public IList<string> GetPatchGroupNames(IList<Patch> patchesInDocument)
+        {
+            if (patchesInDocument == null) throw new NullException(() => patchesInDocument);
+
+            IList<string> groupNames = patchesInDocument.Where(x => !String.IsNullOrWhiteSpace(x.GroupName))
+                                                        .Distinct(x => x.GroupName.ToLower())
+                                                        .Select(x => x.GroupName)
+                                                        .ToList();
+            return groupNames;
+        }
+
+        public IList<Patch> GetPatchesInGroup_IncludingGroupless(IList<Patch> patchesInDocument, string groupName)
+        {
+            if (patchesInDocument == null) throw new NullException(() => patchesInDocument);
+
+            if (String.IsNullOrWhiteSpace(groupName))
+            {
+                return GetGrouplessPatches(patchesInDocument);
+            }
+            else
+            {
+                return GetPatchesInGroup(patchesInDocument, groupName);
+            }
+        }
+
+        public IList<Patch> GetGrouplessPatches(IList<Patch> patchesInDocument)
+        {
+            if (patchesInDocument == null) throw new NullException(() => patchesInDocument);
+
+            IList<Patch> list = patchesInDocument.Where(x => String.IsNullOrWhiteSpace(x.GroupName)).ToArray();
+
+            return list;
+        }
+
+        public IList<Patch> GetPatchesInGroup(IList<Patch> patchesInDocument, string groupName)
+        {
+            if (patchesInDocument == null) throw new NullException(() => patchesInDocument);
+            if (String.IsNullOrWhiteSpace(groupName)) throw new NullOrWhiteSpaceException(() => groupName);
+
+            IList<Patch> patchesInGroup =
+                patchesInDocument.Where(x => !String.IsNullOrWhiteSpace(x.GroupName))
+                                 .Where(x => String.Equals(x.GroupName, groupName, StringComparison.OrdinalIgnoreCase))
+                                 .ToArray();
+
+            return patchesInGroup;
         }
 
         // Misc

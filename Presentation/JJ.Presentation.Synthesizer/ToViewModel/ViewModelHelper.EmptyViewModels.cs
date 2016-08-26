@@ -50,7 +50,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new CurrentPatchesViewModel
             {
-                List = new List<CurrentPatchItemViewModel>(),
+                List = new List<IDAndName>(),
                 ValidationMessages = new List<Message>()
             };
 
@@ -79,6 +79,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 CurrentPatches = CreateEmptyCurrentPatchesViewModel(),
                 CurveDetailsDictionary = new Dictionary<int, CurveDetailsViewModel>(),
                 CurveGrid = CreateEmptyCurveGridViewModel(),
+                CurveLookup = new List<IDAndName>(),
                 CurvePropertiesDictionary = new Dictionary<int, CurvePropertiesViewModel>(),
                 DocumentProperties = CreateEmptyDocumentPropertiesViewModel(),
                 DocumentTree = CreateEmptyDocumentTreeViewModel(),
@@ -97,15 +98,17 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorPropertiesDictionary_WithDimensionAndInterpolation = new Dictionary<int, OperatorPropertiesViewModel_WithDimensionAndInterpolation>(),
                 OperatorPropertiesDictionary_WithDimensionAndCollectionRecalculation = new Dictionary<int, OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation>(),
                 OperatorPropertiesDictionary_WithDimensionAndOutletCount  = new Dictionary<int, OperatorPropertiesViewModel_WithDimensionAndOutletCount>(),
-                OperatorPropertiesDictionary_WithInletCount  = new Dictionary<int, ViewModels.OperatorPropertiesViewModel_WithInletCount>(),
+                OperatorPropertiesDictionary_WithInletCount  = new Dictionary<int, OperatorPropertiesViewModel_WithInletCount>(),
+                PatchDetailsDictionary = new Dictionary<int, PatchDetailsViewModel>(),
                 PatchGridDictionary = new Dictionary<string, PatchGridViewModel>(),
-                PatchDocumentDictionary = new Dictionary<int, PatchDocumentViewModel>(),
+                PatchPropertiesDictionary = new Dictionary<int, PatchPropertiesViewModel>(),
                 SampleGrid = CreateEmptySampleGridViewModel(),
+                SampleLookup = new List<IDAndName>(),
                 SamplePropertiesDictionary = new Dictionary<int, SamplePropertiesViewModel>(),
                 ScaleGrid = CreateEmptyScaleGridViewModel(),
                 ScalePropertiesDictionary = new Dictionary<int, ScalePropertiesViewModel>(),
                 ToneGridEditDictionary = new Dictionary<int, ToneGridEditViewModel>(),
-                UnderlyingPatchLookup = new List<ChildDocumentIDAndNameViewModel>()
+                UnderlyingPatchLookup = new List<IDAndName>()
             };
 
             return viewModel;
@@ -182,15 +185,15 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 PatchesNode = new PatchesTreeNodeViewModel
                 {
-                    Text = ViewModelHelper.GetTreeNodeText(PropertyDisplayNames.Patches, count: 0),
+                    Text = GetTreeNodeText(PropertyDisplayNames.Patches, count: 0),
                     PatchNodes = new List<PatchTreeNodeViewModel>(),
                     PatchGroupNodes = new List<PatchGroupTreeNodeViewModel>()
                 },
-                CurvesNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.Curves, count: 0),
-                SamplesNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.Samples, count: 0),
-                ScalesNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.Scales, count: 0),
-                AudioOutputNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.AudioOutput),
-                AudioFileOutputListNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.AudioFileOutput, count: 0),
+                CurvesNode = CreateTreeLeafViewModel(PropertyDisplayNames.Curves, count: 0),
+                SamplesNode = CreateTreeLeafViewModel(PropertyDisplayNames.Samples, count: 0),
+                ScalesNode = CreateTreeLeafViewModel(PropertyDisplayNames.Scales, count: 0),
+                AudioOutputNode = CreateTreeLeafViewModel(PropertyDisplayNames.AudioOutput),
+                AudioFileOutputListNode = CreateTreeLeafViewModel(PropertyDisplayNames.AudioFileOutput, count: 0),
                 ValidationMessages = new List<Message>(),
                 ReferencedDocumentNode = new ReferencedDocumentsTreeNodeViewModel
                 {
@@ -238,7 +241,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new PatchGridViewModel
             {
-                List = new List<ChildDocumentIDAndNameViewModel>(),
+                List = new List<IDAndName>(),
                 ValidationMessages = new List<Message>()
             };
 
@@ -293,12 +296,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var idAndName = new IDAndName();
             return idAndName;
-        }
-
-        public static ChildDocumentIDAndNameViewModel CreateEmptyChildDocumentIDAndNameViewModel()
-        {
-            var viewModel = new ChildDocumentIDAndNameViewModel();
-            return viewModel;
         }
     }
 }

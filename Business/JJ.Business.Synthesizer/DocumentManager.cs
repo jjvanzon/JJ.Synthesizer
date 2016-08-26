@@ -48,31 +48,14 @@ namespace JJ.Business.Synthesizer
             return document;
         }
 
-        public Document CreateChildDocumentWithPatch(Document parentDocument, bool mustGenerateName = false)
+        public Document CreateWithPatch(bool mustGenerateName = false)
         {
-            if (parentDocument == null) throw new NullException(() => parentDocument);
+            Document document = Create();
 
-            // ParentDocument cannot yet again have a parent document.
-            if (parentDocument.ParentDocument != null)
-            {
-                throw new NotNullException(() => parentDocument.ParentDocument);
-            }
+            ISideEffect sideEffect = new Document_SideEffect_CreatePatch(document, new PatchRepositories(_repositories));
+            sideEffect.Execute();
 
-            var childDocument = new Document();
-            childDocument.ID = _repositories.IDRepository.GetID();
-            childDocument.LinkToParentDocument(parentDocument);
-            _repositories.DocumentRepository.Insert(childDocument);
-
-            if (mustGenerateName)
-            {
-                ISideEffect sideEffect = new Document_SideEffect_GenerateChildDocumentName(childDocument);
-                sideEffect.Execute();
-            }
-
-            ISideEffect sideEffect2 = new Document_SideEffect_CreatePatch(childDocument, new PatchRepositories(_repositories));
-            sideEffect2.Execute();
-
-            return childDocument;
+            return document;
         }
 
         // Save
@@ -97,21 +80,6 @@ namespace JJ.Business.Synthesizer
             return result;
         }
 
-        public VoidResult SaveChildDocument(Document entity)
-        {
-            IValidator validator = new DocumentValidator_Basic(entity);
-            if (!validator.IsValid)
-            {
-                return new VoidResult
-                {
-                    Successful = false,
-                    Messages = validator.ValidationMessages.ToCanonical()
-                };
-            }
-
-            return new VoidResult { Successful = true };
-        }
-
         // Delete
 
         public VoidResult DeleteWithRelatedEntities(int documentID)
@@ -131,7 +99,6 @@ namespace JJ.Business.Synthesizer
             }
 
             document.DeleteRelatedEntities(_repositories);
-            document.UnlinkRelatedEntities();
             _repositories.DocumentRepository.Delete(document);
 
             return new VoidResult { Successful = true };
@@ -156,92 +123,6 @@ namespace JJ.Business.Synthesizer
             {
                 return new VoidResult { Successful = true };
             }
-        }
-
-        // Grouping 
-
-        public IList<ChildDocumentGroupDto> GetChildDocumentGroupDtos_IncludingGroupless(Document rootDocument)
-        {
-            if (rootDocument == null) throw new NullException(() => rootDocument);
-
-            var dtos = new List<ChildDocumentGroupDto>();
-
-            IList<Document> grouplessChildDocuments = GetGrouplessChildDocuments(rootDocument);
-            dtos.Add(new ChildDocumentGroupDto { GroupName = null, Documents = grouplessChildDocuments });
-
-            dtos.AddRange(GetChildDocumentGroupDtos(rootDocument));
-
-            return dtos;
-        }
-
-        public IList<ChildDocumentGroupDto> GetChildDocumentGroupDtos(Document rootDocument)
-        {
-            if (rootDocument == null) throw new NullException(() => rootDocument);
-
-            // TODO: Low Priority:
-            // This reuses the logic in the other methods, so there can be no inconsistencies,
-            // but it would be faster to put all the code here.
-            // Perhaps you can group in one method and delegate the rest of the methods to
-            // the grouping method.
-
-            var dtos = new List<ChildDocumentGroupDto>();
-
-            IList<string> groupNames = GetChildDocumentGroupNames(rootDocument);
-
-            foreach (string groupName in groupNames)
-            {
-                IList<Document> documentsInGroup = GetChildDocumentsInGroup(rootDocument, groupName);
-                dtos.Add(new ChildDocumentGroupDto { GroupName = groupName, Documents = documentsInGroup });
-            }
-
-            return dtos;
-        }
-
-        public IList<string> GetChildDocumentGroupNames(Document rootDocument)
-        {
-            if (rootDocument == null) throw new NullException(() => rootDocument);
-
-            IList<string> groupNames = rootDocument.ChildDocuments
-                                                   .Where(x => !String.IsNullOrWhiteSpace(x.GroupName))
-                                                   .Distinct(x => x.GroupName.ToLower())
-                                                   .Select(x => x.GroupName)
-                                                   .ToList();
-            return groupNames;
-        }
-
-        public IList<Document> GetChildDocumentsInGroup_IncludingGroupless(Document rootDocument, string groupName)
-        {
-            if (rootDocument == null) throw new NullException(() => rootDocument);
-
-            if (String.IsNullOrWhiteSpace(groupName))
-            {
-                return GetGrouplessChildDocuments(rootDocument);
-            }
-            else
-            {
-                return GetChildDocumentsInGroup(rootDocument, groupName);
-            }
-        }
-
-        public IList<Document> GetGrouplessChildDocuments(Document rootDocument)
-        {
-            if (rootDocument == null) throw new NullException(() => rootDocument);
-
-            IList<Document> list = rootDocument.ChildDocuments.Where(x => String.IsNullOrWhiteSpace(x.GroupName)).ToArray();
-
-            return list;
-        }
-
-        public IList<Document> GetChildDocumentsInGroup(Document rootDocument, string groupName)
-        {
-            if (rootDocument == null) throw new NullException(() => rootDocument);
-            if (String.IsNullOrWhiteSpace(groupName)) throw new NullOrWhiteSpaceException(() => groupName);
-
-            IList<Document> documentsInGroup = rootDocument.ChildDocuments
-                                                           .Where(x => !String.IsNullOrWhiteSpace(x.GroupName))
-                                                           .Where(x => String.Equals(x.GroupName, groupName, StringComparison.OrdinalIgnoreCase))
-                                                           .ToArray();
-            return documentsInGroup;
         }
 
         // Other

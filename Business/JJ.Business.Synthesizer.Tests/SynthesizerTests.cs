@@ -1008,7 +1008,7 @@ namespace JJ.Business.Synthesizer.Tests
 
                 IList<Message> messages = new List<Message>();
 
-                IEnumerable<Document> rootDocuments = repositories.DocumentRepository.GetAll().Where(x => x.ParentDocument == null);
+                IEnumerable<Document> rootDocuments = repositories.DocumentRepository.GetAll();
                 foreach (Document rootDocument in rootDocuments)
                 {
                     VoidResult result = documentManager.Save(rootDocument);

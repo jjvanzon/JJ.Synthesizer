@@ -41,7 +41,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private new ScalePropertiesViewModel ViewModel => (ScalePropertiesViewModel)base.ViewModel;
 
-        protected override int GetKey()
+        protected override int GetID()
         {
             return ViewModel.Entity.ID;
         }

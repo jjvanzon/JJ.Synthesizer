@@ -57,8 +57,7 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             IEnumerable<Outlet> outletsEnumerable = 
-                Object.Document.EnumerateSelfAndParentAndTheirChildren()
-                               .SelectMany(x => x.Patches)
+                Object.Document.Patches
                                .SelectMany(x => x.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet))
                                .SelectMany(x => x.Outlets);
 

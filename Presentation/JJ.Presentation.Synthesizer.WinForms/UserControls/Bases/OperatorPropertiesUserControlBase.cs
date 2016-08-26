@@ -9,7 +9,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
     {
         private new OperatorPropertiesViewModelBase ViewModel => (OperatorPropertiesViewModelBase)base.ViewModel;
 
-        protected override int GetKey()
+        protected override int GetID()
         {
             return ViewModel.ID;
         }

@@ -164,6 +164,17 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
         }
 
+        public static IDAndName ToIDAndName(this Patch entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            return new IDAndName
+            {
+                ID = entity.ID,
+                Name = entity.Name
+            };
+        }
+
         public static IDAndName ToIDAndName(this Sample entity)
         {
             if (entity == null) throw new NullException(() => entity);

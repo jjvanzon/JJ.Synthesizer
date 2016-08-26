@@ -11,9 +11,7 @@ namespace JJ.Business.Synthesizer.Extensions
 {
     public static class RecursionExtensions
     {
-        /// <summary>
-        /// Tells us whether an operator is circular within a patch.
-        /// </summary>
+        /// <summary> Tells us whether an operator is circular within a patch. </summary>
         public static bool IsCircular(this Operator op)
         {
             if (op == null) throw new NullException(() => op);
@@ -110,12 +108,10 @@ namespace JJ.Business.Synthesizer.Extensions
 
             if (underlyingPatch != null)
             {
-                foreach (Document document in underlyingPatch.Document.EnumerateSelfAndParentAndTheirChildren())
+                Document document = underlyingPatch.Document;
+                if (document.HasCircularUnderlyingPatch(patchRepository, alreadyDone))
                 {
-                    if (document.HasCircularUnderlyingPatch(patchRepository, alreadyDone))
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
 
@@ -145,36 +141,6 @@ namespace JJ.Business.Synthesizer.Extensions
             return false;
         }
 
-        public static IEnumerable<Document> EnumerateSelfAndParentAndTheirChildren(this Document document)
-        {
-            if (document == null) throw new NullException(() => document);
-
-            Document rootDocument = document.ParentDocument ?? document;
-
-            yield return rootDocument;
-
-            foreach (Document childDocument in rootDocument.ChildDocuments)
-            {
-                yield return childDocument;
-            }
-        }
-
-        /// <summary> Gets the parent of the document or otherwise returns the document itself. </summary>
-        public static Document GetRootDocument(this Document document)
-        {
-            if (document == null) throw new NullException(() => document);
-
-            if (document.ParentDocument != null)
-            {
-                // Parent-Child relations go but one level deep, so parent document = root document.
-                return document.ParentDocument;
-            }
-            else
-            {
-                return document;
-            }
-        }
-
         /// <summary> Note that dependencies caused by library references (The DocumentReference entity) are not checked. </summary>
         public static IEnumerable<Operator> EnumerateDependentCustomOperators(this Patch patch, IPatchRepository patchRepository)
         {
@@ -187,14 +153,13 @@ namespace JJ.Business.Synthesizer.Extensions
                 return new Operator[0];
             }
 
-            // TODO: Program circularity check on parent-child relationships and check it.
-
             // We cannot use an SQL query, because that only operates on flushed / committed data.
-            IEnumerable<Operator> enumerable = patch.Document.EnumerateSelfAndParentAndTheirChildren()
-                                                             .SelectMany(x => x.Patches)
-                                                             .SelectMany(x => x.Operators)
-                                                             .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator &&
-                                                                         UnderlyingPatchIsMatch(patch, x, patchRepository));
+            IEnumerable<Operator> enumerable = 
+                patch.Document.Patches
+                     .SelectMany(x => x.Operators)
+                     .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator &&
+                                 UnderlyingPatchIsMatch(patch, x, patchRepository));
+
             return enumerable;
         }
 

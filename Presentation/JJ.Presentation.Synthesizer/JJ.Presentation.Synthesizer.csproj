@@ -91,7 +91,8 @@
     <Compile Include="Presenters\DocumentPropertiesPresenter.cs" />
     <Compile Include="Presenters\DocumentTreePresenter.cs" />
     <Compile Include="Presenters\MainPresenter.General.cs" />
-    <Compile Include="ToViewModel\ViewModelHelper.Document.cs" />
+    <Compile Include="ToEntity\ToEntityHelper.cs" />
+    <Compile Include="ToViewModel\2016-08-25 Backup of ViewModelHelper.Document.cs" />
     <Compile Include="ToViewModel\ToDocumentViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToListItemViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToScreenViewModelExtensions.cs" />
@@ -105,12 +106,12 @@
     <Compile Include="ViewModels\AudioOutputPropertiesViewModel.cs" />
     <Compile Include="ViewModels\CurrentPatchesViewModel.cs" />
     <Compile Include="ViewModels\Items\AudioOutputViewModel.cs" />
-    <Compile Include="ViewModels\Items\ChildDocumentIDAndNameViewModel.cs" />
+    <Compile Include="ViewModels\Items\2016-08-25 Backup of PatchIDAndNameViewModel.cs" />
     <Compile Include="ViewModels\Items\DimensionViewModel.cs" />
     <Compile Include="ViewModels\Items\ScaleViewModel.cs" />
     <Compile Include="ViewModels\Items\ToneViewModel.cs" />
-    <Compile Include="ViewModels\Items\PatchDocumentViewModel.cs" />
-    <Compile Include="ViewModels\Items\CurrentPatchItemViewModel.cs" />
+    <Compile Include="ViewModels\Items\2016-08-25 Backup of PatchDocumentViewModel.cs" />
+    <Compile Include="ViewModels\Items\2016-08-25 Backup of CurrentPatchItemViewModel.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_WithInletCount.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_WithDimension.cs" />

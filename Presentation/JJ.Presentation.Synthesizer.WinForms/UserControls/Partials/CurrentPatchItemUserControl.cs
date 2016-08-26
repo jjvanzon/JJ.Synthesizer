@@ -7,6 +7,7 @@ using System.Linq;
 using System.Windows.Forms;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
+using JJ.Data.Canonical;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 {
@@ -16,7 +17,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
         public event EventHandler<EventArgs<int>> RemoveRequested;
 
-        private CurrentPatchItemViewModel _viewModel;
+        private IDAndName _viewModel;
 
         public CurrentPatchItemUserControl()
         {
@@ -30,7 +31,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public CurrentPatchItemViewModel ViewModel
+        public IDAndName ViewModel
         {
             get { return _viewModel; }
             set
@@ -70,7 +71,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
         {
             if (RemoveRequested != null)
             {
-                var e2 = new EventArgs<int>(_viewModel.ChildDocumentID);
+                var e2 = new EventArgs<int>(_viewModel.ID);
                 RemoveRequested(this, e2);
             }
         }

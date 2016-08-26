@@ -6,7 +6,6 @@ using JJ.Framework.Reflection.Exceptions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Framework.Configuration;
 
@@ -117,7 +116,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _repositories.AudioOutputRepository,
                 _repositories.SpeakerSetupRepository, 
                 _repositories.IDRepository);
-            _currentPatchesPresenter = new CurrentPatchesPresenter(_repositories.DocumentRepository);
+            _currentPatchesPresenter = new CurrentPatchesPresenter(_repositories.PatchRepository);
             _curveDetailsPresenter = new CurveDetailsPresenter(_curveRepositories);
             _curveGridPresenter = new CurveGridPresenter(_repositories.DocumentRepository);
             _curvePropertiesPresenter = new CurvePropertiesPresenter(_curveRepositories);
@@ -127,7 +126,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentDetailsPresenter = new DocumentDetailsPresenter(_repositories);
             _documentGridPresenter = new DocumentGridPresenter(_repositories.DocumentRepository);
             _documentPropertiesPresenter = new DocumentPropertiesPresenter(_repositories);
-            _documentTreePresenter = new DocumentTreePresenter(_repositories);
+            _documentTreePresenter = new DocumentTreePresenter(_patchRepositories);
             _menuPresenter = new MenuPresenter();
             _nodePropertiesPresenter = new NodePropertiesPresenter(_curveRepositories);
             _operatorPropertiesPresenter = new OperatorPropertiesPresenter(_patchRepositories);
@@ -146,8 +145,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _operatorPropertiesPresenter_WithDimensionAndOutletCount = new OperatorPropertiesPresenter_WithDimensionAndOutletCount(_patchRepositories);
             _operatorPropertiesPresenter_WithInletCount = new OperatorPropertiesPresenter_WithInletCount(_patchRepositories);
             _patchDetailsPresenter = new PatchDetailsPresenter(_patchRepositories, _entityPositionManager);
-            _patchGridPresenter = new PatchGridPresenter(_repositories);
-            _patchPropertiesPresenter = new PatchPropertiesPresenter(_repositories);
+            _patchGridPresenter = new PatchGridPresenter(_patchRepositories);
+            _patchPropertiesPresenter = new PatchPropertiesPresenter(_patchRepositories);
             _sampleGridPresenter = new SampleGridPresenter(_repositories.DocumentRepository, _repositories.SampleRepository);
             _samplePropertiesPresenter = new SamplePropertiesPresenter(_sampleRepositories);
             _scaleGridPresenter = new ScaleGridPresenter(_repositories.DocumentRepository);
@@ -171,16 +170,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MainViewModel.Document.ScaleGrid.Visible = false;
 
             MainViewModel.Document.PatchGridDictionary.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.PatchDetailsDictionary.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.CurveDetailsDictionary.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.ToneGridEditDictionary.Values.ForEach(x => x.Visible = false);
-
-            foreach (PatchDocumentViewModel patchDocumentViewModel in MainViewModel.Document.PatchDocumentDictionary.Values)
-            {
-                patchDocumentViewModel.SampleGrid.Visible = false;
-                patchDocumentViewModel.CurveGrid.Visible = false;
-                patchDocumentViewModel.CurveDetailsDictionary.Values.ForEach(x => x.Visible = false);
-                patchDocumentViewModel.PatchDetails.Visible = false;
-            }
         }
 
         private void HideAllPropertiesViewModels()
@@ -210,10 +202,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MainViewModel.Document.ScalePropertiesDictionary.Values.ForEach(x => x.Visible = false);
 
             // Note that the not all entity types have Properties view inside the child documents.
-            MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.CurvePropertiesDictionary.Values).ForEach(x => x.Visible = false);
-            MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.NodePropertiesDictionary.Values).ForEach(x => x.Visible = false);
-            MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.SamplePropertiesDictionary.Values).ForEach(x => x.Visible = false);
-            MainViewModel.Document.PatchDocumentDictionary.Values.ForEach(x => x.PatchProperties.Visible = false);
+            MainViewModel.Document.PatchPropertiesDictionary.Values.ForEach(x => x.Visible = false);
         }
 
         private static string GetPlayOutputFilePath()

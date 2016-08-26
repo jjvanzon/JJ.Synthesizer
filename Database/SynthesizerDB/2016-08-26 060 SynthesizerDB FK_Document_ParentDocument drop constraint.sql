@@ -1,0 +1,1 @@
+alter table Document drop constraint FK_Document_ParentDocument;

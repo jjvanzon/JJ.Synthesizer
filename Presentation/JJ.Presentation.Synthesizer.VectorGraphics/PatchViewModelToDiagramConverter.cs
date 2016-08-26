@@ -70,10 +70,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
             _result = result;
 
-            bool isDifferentPatch = _result == null || sourcePatchViewModel.PatchID != _currentPatchID;
+            bool isDifferentPatch = _result == null || sourcePatchViewModel.ID != _currentPatchID;
             if (isDifferentPatch)
             {
-                _currentPatchID = sourcePatchViewModel.PatchID;
+                _currentPatchID = sourcePatchViewModel.ID;
 
                 _result = new PatchViewModelToDiagramConverterResult(_doubleClickSpeedInMilliseconds, _doubleClickDeltaInPixels);
 

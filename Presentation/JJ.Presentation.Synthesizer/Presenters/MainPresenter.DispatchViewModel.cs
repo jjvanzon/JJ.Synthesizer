@@ -157,7 +157,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (CurveDetailsViewModel)viewModel2;
 
-            var dictionary = ViewModelSelector.GetCurveDetailsViewModelDictionary_ByDocumentID(MainViewModel.Document, castedViewModel.DocumentID);
+            var dictionary = MainViewModel.Document.CurveDetailsDictionary;
             dictionary[castedViewModel.CurveID] = castedViewModel;
 
             if (castedViewModel.Visible)
@@ -174,17 +174,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (CurveGridViewModel)viewModel2;
 
-            // TODO: Move some of this code to ViewModelSelector.
-            bool isRootDocument = MainViewModel.Document.ID == castedViewModel.DocumentID;
-            if (isRootDocument)
-            {
-                MainViewModel.Document.CurveGrid = castedViewModel;
-            }
-            else
-            {
-                PatchDocumentViewModel patchDocumentViewModel = ViewModelSelector.GetPatchDocumentViewModel_ByChildDocumentID(MainViewModel.Document, castedViewModel.DocumentID);
-                patchDocumentViewModel.CurveGrid = castedViewModel;
-            }
+            MainViewModel.Document.CurveGrid = castedViewModel;
 
             if (castedViewModel.Visible)
             {
@@ -197,7 +187,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (CurvePropertiesViewModel)viewModel2;
 
-            var dictionary = ViewModelSelector.GetCurvePropertiesViewModelDictionary_ByDocumentID(MainViewModel.Document, castedViewModel.DocumentID);
+            var dictionary = MainViewModel.Document.CurvePropertiesDictionary;
             dictionary[castedViewModel.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
@@ -573,8 +563,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (PatchDetailsViewModel)viewModel2;
 
-            var dictionary = MainViewModel.Document.PatchDocumentDictionary;
-            dictionary[castedViewModel.Entity.ChildDocumentID].PatchDetails = castedViewModel;
+            var dictionary = MainViewModel.Document.PatchDetailsDictionary;
+            dictionary[castedViewModel.Entity.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
             {
@@ -608,8 +598,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (PatchPropertiesViewModel)viewModel2;
 
-            var dictionary = MainViewModel.Document.PatchDocumentDictionary;
-            dictionary[castedViewModel.ChildDocumentID].PatchProperties = castedViewModel;
+            var dictionary = MainViewModel.Document.PatchPropertiesDictionary;
+            dictionary[castedViewModel.ID]= castedViewModel;
 
             if (castedViewModel.Visible)
             {
@@ -625,17 +615,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (SampleGridViewModel)viewModel2;
 
-            // TODO: Move some of this code to ViewModelSelector.
-            bool isRootDocument = MainViewModel.Document.ID == castedViewModel.DocumentID;
-            if (isRootDocument)
-            {
-                MainViewModel.Document.SampleGrid = castedViewModel;
-            }
-            else
-            {
-                PatchDocumentViewModel patchDocumentViewModel = ViewModelSelector.GetPatchDocumentViewModel_ByChildDocumentID(MainViewModel.Document, castedViewModel.DocumentID);
-                patchDocumentViewModel.SampleGrid = castedViewModel;
-            }
+            MainViewModel.Document.SampleGrid = castedViewModel;
 
             if (castedViewModel.Visible)
             {
@@ -648,7 +628,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (SamplePropertiesViewModel)viewModel2;
 
-            var dictionary = ViewModelSelector.GetSamplePropertiesViewModelDictionary(MainViewModel.Document, castedViewModel.DocumentID);
+            var dictionary = MainViewModel.Document.SamplePropertiesDictionary;
             dictionary[castedViewModel.Entity.ID] = castedViewModel;
 
             if (castedViewModel.Visible)

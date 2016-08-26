@@ -29,7 +29,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntities
-            IList<Document> documents = _documentRepository.GetRootDocumentsOrderedByName();
+            IList<Document> documents = _documentRepository.OrderByName();
 
             // ToViewModel
             DocumentGridViewModel viewModel = documents.ToGridViewModel();
@@ -55,7 +55,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntities
-            IList<Document> documents = _documentRepository.GetRootDocumentsOrderedByName();
+            IList<Document> documents = _documentRepository.OrderByName();
 
             // ToViewModel
             DocumentGridViewModel viewModel = documents.ToGridViewModel();
@@ -85,7 +85,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntities
-            IList<Document> documents = _documentRepository.GetRootDocumentsOrderedByName();
+            IList<Document> documents = _documentRepository.OrderByName();
 
             // ToViewModel
             DocumentGridViewModel viewModel = documents.ToGridViewModel();

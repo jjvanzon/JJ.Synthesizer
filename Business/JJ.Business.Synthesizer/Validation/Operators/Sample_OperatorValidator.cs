@@ -40,19 +40,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                     bool mustCheckReference = op.Patch != null && op.Patch.Document != null;
                     if (mustCheckReference)
                     {
-                        bool isRootDocument = op.Patch.Document.ParentDocument == null;
-
-                        // If we're in a child document, we can reference the samples in both child document and root document,
-                        // if we are in the root document, the possible samples are only the ones in the root document.
-                        IEnumerable<Sample> samples;
-                        if (isRootDocument)
-                        {
-                            samples = op.Patch.Document.Samples;
-                        }
-                        else
-                        {
-                            samples = op.Patch.Document.Samples.Union(op.Patch.Document.ParentDocument.Samples);
-                        }
+                        IEnumerable<Sample> samples = op.Patch.Document.Samples;
 
                         bool isInList = samples.Any(x => x.ID == sampleID);
 

@@ -41,13 +41,6 @@ namespace JJ.Business.Synthesizer.Validation
             return GetMessagePrefix(PropertyDisplayNames.Document, entity.Name);
         }
 
-        public static string GetMessagePrefixForChildDocument(Document entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            return GetMessagePrefix(PropertyDisplayNames.ChildDocument, entity.Name);
-        }
-
         /// <param name="number">1-based</param>
         public static string GetMessagePrefix(Inlet entity, int? number = null)
         {

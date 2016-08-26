@@ -323,6 +323,9 @@
     <Content Include="2016-08-25 010 SynthesizerDB Patch.GroupName.sql" />
     <Content Include="2016-08-25 020 SynthesizerDB Patch.GroupName migrate from Document.GroupName.sql" />
     <Content Include="2016-08-25 030 SynthesizerDB Document.GroupName drop column.sql" />
+    <Content Include="2016-08-26 050 SynthesizerDB IX_Document_ParentDocumentID drop index.sql" />
+    <Content Include="2016-08-26 060 SynthesizerDB FK_Document_ParentDocument drop constraint.sql" />
+    <Content Include="2016-08-26 070 SynthesizerDB Document.ParentDocumentID drop column.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

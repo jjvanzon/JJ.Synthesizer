@@ -11,7 +11,6 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
 
             Map(x => x.Name);
 
-            References(x => x.ParentDocument, ColumnNames.ParentDocumentID);
             References(x => x.AudioOutput, ColumnNames.AudioOutputID);
 
             HasMany(x => x.Curves).KeyColumn(ColumnNames.DocumentID).Inverse();
@@ -19,7 +18,6 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
             HasMany(x => x.Samples).KeyColumn(ColumnNames.DocumentID).Inverse();
             HasMany(x => x.Scales).KeyColumn(ColumnNames.DocumentID).Inverse();
             HasMany(x => x.AudioFileOutputs).KeyColumn(ColumnNames.DocumentID).Inverse();
-            HasMany(x => x.ChildDocuments).KeyColumn(ColumnNames.ParentDocumentID).Inverse();
 
             HasMany(x => x.DependentOnDocuments).KeyColumn(ColumnNames.DependentDocumentID).Inverse();
             HasMany(x => x.DependentDocuments).KeyColumn(ColumnNames.DependentOnDocumentID).Inverse();

@@ -11,16 +11,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class PatchGridPresenter : PresenterBase<PatchGridViewModel>
     {
-        private readonly RepositoryWrapper _repositories;
-        private readonly DocumentManager _documentManager;
+        private readonly PatchRepositories _repositories;
 
-        public PatchGridPresenter(RepositoryWrapper repositories)
+        public PatchGridPresenter(PatchRepositories repositories)
         {
             if (repositories == null) throw new NullException(() => repositories);
 
             _repositories = repositories;
-
-            _documentManager = new DocumentManager(_repositories);
         }
 
         public PatchGridViewModel Show(PatchGridViewModel userInput)
@@ -89,13 +86,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private PatchGridViewModel CreateViewModel(PatchGridViewModel userInput)
         {
             // GetEntity
-            Document rootDocument = _repositories.DocumentRepository.Get(userInput.RootDocumentID);
+            Document document = _repositories.DocumentRepository.Get(userInput.DocumentID);
 
             // Business
-            IList<Document> childDocumentsInGroup = _documentManager.GetChildDocumentsInGroup_IncludingGroupless(rootDocument, userInput.Group);
+            var patchManager = new PatchManager(_repositories);
+            IList<Patch> patchesInGroup = patchManager.GetPatchesInGroup_IncludingGroupless(document.Patches, userInput.Group);
 
             // ToViewModel
-            PatchGridViewModel viewModel = childDocumentsInGroup.ToPatchGridViewModel(userInput.RootDocumentID, userInput.Group);
+            PatchGridViewModel viewModel = patchesInGroup.ToPatchGridViewModel(userInput.DocumentID, userInput.Group);
 
             // Non-Persisted
             viewModel.Visible = userInput.Visible;

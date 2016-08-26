@@ -40,7 +40,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private new NodePropertiesViewModel ViewModel => (NodePropertiesViewModel)base.ViewModel;
 
-        protected override int GetKey()
+        protected override int GetID()
         {
             return ViewModel.Entity.ID;
         }

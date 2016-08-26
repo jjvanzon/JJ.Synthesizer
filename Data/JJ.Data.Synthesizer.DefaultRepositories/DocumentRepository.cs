@@ -14,10 +14,9 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
             : base(context)
         { }
 
-        public virtual IList<Document> GetRootDocumentsOrderedByName()
+        public virtual IList<Document> OrderByName()
         {
             return _context.Query<Document>()
-                           .Where(x => x.ParentDocument == null)
                            .OrderBy(x => x.Name)
                            .ToArray();
         }

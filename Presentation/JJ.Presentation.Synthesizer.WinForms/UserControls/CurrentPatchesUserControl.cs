@@ -11,6 +11,7 @@ using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
+using JJ.Data.Canonical;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 {
@@ -47,7 +48,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             int minCount = new int[] { itemUserControls.Count, ViewModel.List.Count }.Min();
             for (int i = 0; i < minCount; i++)
             {
-                CurrentPatchItemViewModel itemViewModel = ViewModel.List[i];
+                IDAndName itemViewModel = ViewModel.List[i];
                 CurrentPatchItemUserControl itemUserControl = itemUserControls[i];
                 itemUserControl.ViewModel = itemViewModel;
             }
@@ -55,7 +56,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             // Insert
             for (int i = itemUserControls.Count; i < ViewModel.List.Count; i++)
             {
-                CurrentPatchItemViewModel itemViewModel = ViewModel.List[i];
+                IDAndName itemViewModel = ViewModel.List[i];
                 var itemUserControl = new CurrentPatchItemUserControl
                 {
                     Margin = new Padding(0)

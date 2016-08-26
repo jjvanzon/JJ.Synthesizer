@@ -202,26 +202,26 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         }
 
         public static DocumentTreeViewModel ToTreeViewModel(
-            this Document rootDocument, 
-            IList<Document> grouplessChildDocuments,
-            IList<ChildDocumentGroupDto> childDocumentGroupDtos)
+            this Document document, 
+            IList<Patch> grouplessPatches,
+            IList<PatchGroupDto> patchGroupDtos)
         {
-            if (rootDocument == null) throw new NullException(() => rootDocument);
-            if (grouplessChildDocuments == null) throw new NullException(() => grouplessChildDocuments);
-            if (childDocumentGroupDtos == null) throw new NullException(() => childDocumentGroupDtos);
+            if (document == null) throw new NullException(() => document);
+            if (grouplessPatches == null) throw new NullException(() => grouplessPatches);
+            if (patchGroupDtos == null) throw new NullException(() => patchGroupDtos);
 
             var viewModel = new DocumentTreeViewModel
             {
-                ID = rootDocument.ID,
-                CurvesNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.Curves, rootDocument.Curves.Count),
-                SamplesNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.Samples, rootDocument.Samples.Count),
-                ScalesNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.Scales, rootDocument.Scales.Count),
+                ID = document.ID,
+                CurvesNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.Curves, document.Curves.Count),
+                SamplesNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.Samples, document.Samples.Count),
+                ScalesNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.Scales, document.Scales.Count),
                 AudioOutputNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.AudioOutput),
-                AudioFileOutputListNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.AudioFileOutput, rootDocument.AudioFileOutputs.Count),
+                AudioFileOutputListNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.AudioFileOutput, document.AudioFileOutputs.Count),
                 ValidationMessages = new List<Message>(),
                 PatchesNode = new PatchesTreeNodeViewModel
                 {
-                    Text = ViewModelHelper.GetTreeNodeText(PropertyDisplayNames.Patches, rootDocument.ChildDocuments.Count),
+                    Text = ViewModelHelper.GetTreeNodeText(PropertyDisplayNames.Patches, document.Patches.Count),
                     PatchGroupNodes = new List<PatchGroupTreeNodeViewModel>()
                 },
                 ReferencedDocumentNode = new ReferencedDocumentsTreeNodeViewModel
@@ -230,30 +230,30 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 }
             };
 
-            viewModel.ReferencedDocumentNode.List = rootDocument.DependentOnDocuments.Select(x => x.DependentOnDocument)
-                                                                                  .Select(x => x.ToReferencedDocumentViewModelWithRelatedEntities())
-                                                                                  .OrderBy(x => x.Name)
-                                                                                  .ToList();
+            viewModel.ReferencedDocumentNode.List = document.DependentOnDocuments.Select(x => x.DependentOnDocument)
+                                                                                     .Select(x => x.ToReferencedDocumentViewModelWithRelatedEntities())
+                                                                                     .OrderBy(x => x.Name)
+                                                                                     .ToList();
 
-            viewModel.PatchesNode.PatchNodes = grouplessChildDocuments.OrderBy(x => x.Name)
-                                                                      .Select(x => x.ToPatchTreeNodeViewModel())
-                                                                      .ToList();
+            viewModel.PatchesNode.PatchNodes = grouplessPatches.OrderBy(x => x.Name)
+                                                               .Select(x => x.ToPatchTreeNodeViewModel())
+                                                               .ToList();
 
-            viewModel.PatchesNode.PatchGroupNodes = childDocumentGroupDtos.OrderBy(x => x.GroupName)
-                                                                          .Select(x => x.ToTreeNodeViewModel())
-                                                                          .ToList();
+            viewModel.PatchesNode.PatchGroupNodes = patchGroupDtos.OrderBy(x => x.GroupName)
+                                                                  .Select(x => x.ToTreeNodeViewModel())
+                                                                  .ToList();
             return viewModel;
         }
 
-        private static PatchGroupTreeNodeViewModel ToTreeNodeViewModel(this ChildDocumentGroupDto childDocumentGroup)
+        private static PatchGroupTreeNodeViewModel ToTreeNodeViewModel(this PatchGroupDto patchGroupDto)
         {
             return new PatchGroupTreeNodeViewModel
             {
-                GroupName = childDocumentGroup.GroupName,
-                Text = ViewModelHelper.GetTreeNodeText(childDocumentGroup.GroupName, childDocumentGroup.Documents.Count),
-                PatchNodes = childDocumentGroup.Documents.OrderBy(x => x.Name)
-                                                         .Select(x => x.ToPatchTreeNodeViewModel())
-                                                         .ToList()
+                GroupName = patchGroupDto.GroupName,
+                Text = ViewModelHelper.GetTreeNodeText(patchGroupDto.GroupName, patchGroupDto.Patches.Count),
+                PatchNodes = patchGroupDto.Patches.OrderBy(x => x.Name)
+                                                  .Select(x => x.ToPatchTreeNodeViewModel())
+                                                  .ToList()
             };
         }
 
@@ -504,11 +504,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             Patch underlyingPatch = wrapper.UnderlyingPatch;
             if (underlyingPatch != null)
             {
-                viewModel.UnderlyingPatch = underlyingPatch.Document.ToChildDocumentIDAndNameViewModel();
+                viewModel.UnderlyingPatch = underlyingPatch.ToIDAndName();
             }
             else
             {
-                viewModel.UnderlyingPatch = ViewModelHelper.CreateEmptyChildDocumentIDAndNameViewModel();
+                viewModel.UnderlyingPatch = ViewModelHelper.CreateEmptyIDAndName();
             }
 
             return viewModel;
@@ -707,7 +707,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new TViewModel
             {
                 ID = entity.ID,
-                ChildDocumentID = entity.Patch.Document.ID,
+                PatchID = entity.Patch.ID,
                 Name = entity.Name,
                 ValidationMessages = new List<Message>()
             };
@@ -719,29 +719,29 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static PatchDetailsViewModel ToDetailsViewModel(
             this Patch patch,
-            IOperatorTypeRepository operatorTypeRepository,
             ISampleRepository sampleRepository,
             ICurveRepository curveRepository,
             IPatchRepository patchRepository,
             EntityPositionManager entityPositionManager)
         {
             var converter = new RecursiveToViewModelConverter(
-                sampleRepository, curveRepository, patchRepository, entityPositionManager);
+                sampleRepository,
+                curveRepository,
+                patchRepository,
+                entityPositionManager);
 
             return converter.ConvertToDetailsViewModel(patch);
         }
 
-        public static PatchPropertiesViewModel ToPatchPropertiesViewModel(this Document childDocument)
+        public static PatchPropertiesViewModel ToPropertiesViewModel(this Patch patch)
         {
-            if (childDocument == null) throw new NullException(() => childDocument);
-            if (childDocument.Patches.Count < 1) throw new LessThanException(() => childDocument.Patches.Count, 1);
+            if (patch == null) throw new NullException(() => patch);
 
             var viewModel = new PatchPropertiesViewModel
             {
-                ChildDocumentID = childDocument.ID,
-                PatchID = childDocument.Patches[0].ID,
-                Name = childDocument.Name,
-                Group = childDocument.GroupName,
+                ID = patch.ID,
+                Name = patch.Name,
+                Group = patch.GroupName,
                 ValidationMessages = new List<Message>(),
                 CanAddToCurrentPatches = true
             };
@@ -750,20 +750,20 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         }
 
         public static PatchGridViewModel ToPatchGridViewModel(
-            this IList<Document> childDocumentsInGroup,
-            int rootDocumentID,
+            this IList<Patch> patchesInGroup,
+            int documentID,
             string group)
         {
-            if (childDocumentsInGroup == null) throw new NullException(() => childDocumentsInGroup);
+            if (patchesInGroup == null) throw new NullException(() => patchesInGroup);
 
             var viewModel = new PatchGridViewModel
             {
-                RootDocumentID = rootDocumentID,
+                DocumentID = documentID,
                 Group = group,
                 ValidationMessages = new List<Message>(),
-                List = childDocumentsInGroup.OrderBy(x => x.Name)
-                                            .Select(x => x.ToChildDocumentIDAndNameViewModel())
-                                            .ToList()
+                List = patchesInGroup.OrderBy(x => x.Name)
+                                     .Select(x => x.ToIDAndName())
+                                     .ToList()
             };
 
             return viewModel;

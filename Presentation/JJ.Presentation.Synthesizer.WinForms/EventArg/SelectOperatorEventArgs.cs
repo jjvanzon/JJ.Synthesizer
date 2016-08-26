@@ -4,12 +4,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.EventArg
 {
     internal class SelectOperatorEventArgs : EventArgs
     {
-        public int ChildDocumentID { get; }
+        public int PatchID { get; }
         public int OperatorID { get; }
 
-        public SelectOperatorEventArgs(int childDocumentID, int operatorID)
+        public SelectOperatorEventArgs(int patchID, int operatorID)
         {
-            ChildDocumentID = childDocumentID;
+            PatchID = patchID;
             OperatorID = operatorID;
         }
     }

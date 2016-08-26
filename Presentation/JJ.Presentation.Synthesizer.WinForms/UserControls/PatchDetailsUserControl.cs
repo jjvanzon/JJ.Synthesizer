@@ -16,20 +16,17 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.Configuration;
-using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class PatchDetailsUserControl : DetailsOrPropertiesUserControlBase
     {
-        /// <summary> Parameter is ChildDocumentID </summary>
         public event EventHandler<EventArgs<int>> DeleteOperatorRequested;
         public event EventHandler<CreateOperatorEventArgs> CreateOperatorRequested;
         public event EventHandler<MoveOperatorEventArgs> MoveOperatorRequested;
         public event EventHandler<ChangeInputOutletEventArgs> ChangeInputOutletRequested;
         public event EventHandler<SelectOperatorEventArgs> SelectOperatorRequested;
-        /// <summary> Parameter is ChildDocumentID </summary>
         public event EventHandler<EventArgs<int>> PlayRequested;
         public event EventHandler<EventArgs<int>> ShowOperatorPropertiesRequested;
         public event EventHandler<EventArgs<int>> ShowPatchPropertiesRequested;
@@ -74,9 +71,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private new PatchDetailsViewModel ViewModel => (PatchDetailsViewModel)base.ViewModel;
 
-        protected override int GetKey()
+        protected override int GetID()
         {
-            return ViewModel.Entity.ChildDocumentID;
+            return ViewModel.Entity.ID;
         }
 
         protected override void ApplyViewModelToControls()
@@ -119,7 +116,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ShowPatchPropertiesGesture_ShowPatchPropertiesRequested(object sender, EventArgs e)
         {
-            ShowPatchPropertiesRequested?.Invoke(this, new EventArgs<int>(ViewModel.Entity.ChildDocumentID));
+            ShowPatchPropertiesRequested?.Invoke(this, new EventArgs<int>(ViewModel.Entity.ID));
         }
 
         private void UnbindVectorGraphicsEvents()
@@ -139,7 +136,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
-        private void ApplyOperatorToolboxItemsViewModel(IList<IDAndName> operatorTypeToolboxItems)
+        private void ApplyOperatorToolboxItemsViewModel(IList<Data.Canonical.IDAndName> operatorTypeToolboxItems)
         {
             if (_operatorToolboxItemsViewModelIsApplied)
             {
@@ -149,7 +146,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             int i = 1;
 
-            foreach (IDAndName idAndName in operatorTypeToolboxItems)
+            foreach (Data.Canonical.IDAndName idAndName in operatorTypeToolboxItems)
             {
                 ToolStripItem toolStripItem = new ToolStripButton
                 {
@@ -179,7 +176,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             int outletID = VectorGraphicsTagHelper.GetOutletID(e.DraggedElement.Tag);
 
             ChangeInputOutletRequested?.Invoke(this, new ChangeInputOutletEventArgs(
-                ViewModel.Entity.ChildDocumentID,
+                ViewModel.Entity.ID,
                 inletID,
                 outletID));
         }
@@ -215,7 +212,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (ViewModel == null) return;
 
             MoveOperatorRequested?.Invoke(this, new MoveOperatorEventArgs(
-                ViewModel.Entity.ChildDocumentID,
+                ViewModel.Entity.ID,
                 operatorID,
                 centerX,
                 centerY));
@@ -228,7 +225,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ToolStripItem control = (ToolStripItem)sender;
             int operatorTypeID = (int)control.Tag;
 
-            CreateOperatorRequested?.Invoke(this, new CreateOperatorEventArgs(ViewModel.Entity.ChildDocumentID, operatorTypeID));
+            CreateOperatorRequested?.Invoke(this, new CreateOperatorEventArgs(ViewModel.Entity.ID, operatorTypeID));
         }
 
         private void SelectOperatorGesture_OperatorSelected(object sender, ElementEventArgs e)
@@ -237,7 +234,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             int operatorID = VectorGraphicsTagHelper.GetOperatorID(e.Element.Tag);
 
-            SelectOperatorRequested?.Invoke(this, new SelectOperatorEventArgs(ViewModel.Entity.ChildDocumentID, operatorID));
+            SelectOperatorRequested?.Invoke(this, new SelectOperatorEventArgs(ViewModel.Entity.ID, operatorID));
 
             _converterResult.ShowOperatorPropertiesKeyboardGesture.SelectedOperatorID = operatorID;
         }
@@ -245,7 +242,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void DeleteOperatorGesture_DeleteRequested(object sender, EventArgs e)
         {
             if (ViewModel == null) return;
-            DeleteOperatorRequested?.Invoke(this, new EventArgs<int>(ViewModel.Entity.ChildDocumentID));
+            DeleteOperatorRequested?.Invoke(this, new EventArgs<int>(ViewModel.Entity.ID));
         }
 
         private void ShowOperatorPropertiesMouseGesture_ShowOperatorPropertiesRequested(object sender, IDEventArgs e)
@@ -261,7 +258,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void buttonPlay_Click(object sender, EventArgs e)
         {
             if (ViewModel == null) return;
-            PlayRequested?.Invoke(this, new EventArgs<int>(ViewModel.Entity.ChildDocumentID));
+            PlayRequested?.Invoke(this, new EventArgs<int>(ViewModel.Entity.ID));
         }
 
         // TODO: Lower priority: You might want to use the presenter for the the following 3 things.

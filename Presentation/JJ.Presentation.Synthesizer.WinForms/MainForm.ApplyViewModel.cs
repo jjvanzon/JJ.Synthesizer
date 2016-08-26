@@ -40,9 +40,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             // CurveDetails
             curveDetailsUserControl.ViewModel =
-                Enumerable.Union(
-                    _presenter.MainViewModel.Document.CurveDetailsDictionary.Values,
-                    _presenter.MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.CurveDetailsDictionary.Values))
+                _presenter.MainViewModel.Document.CurveDetailsDictionary.Values
                .Where(x => x.Visible)
                .FirstOrDefault();
 
@@ -51,19 +49,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
             {
                 curveGridUserControl.ViewModel = _presenter.MainViewModel.Document.CurveGrid;
             }
-            else
-            {
-                curveGridUserControl.ViewModel = _presenter.MainViewModel.Document.PatchDocumentDictionary.Values
-                                                                                  .Select(x => x.CurveGrid)
-                                                                                  .Where(x => x.Visible)
-                                                                                  .FirstOrDefault();
-            }
 
             // CurveProperties
             curvePropertiesUserControl.ViewModel =
-                Enumerable.Union(
-                    _presenter.MainViewModel.Document.CurvePropertiesDictionary.Values,
-                    _presenter.MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.CurvePropertiesDictionary.Values))
+               _presenter.MainViewModel.Document.CurvePropertiesDictionary.Values
                .Where(x => x.Visible)
                .FirstOrDefault();
 
@@ -75,9 +64,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             // NodeProperties
             nodePropertiesUserControl.ViewModel =
-                Enumerable.Union(
-                    _presenter.MainViewModel.Document.NodePropertiesDictionary.Values,
-                    _presenter.MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.NodePropertiesDictionary.Values))
+               _presenter.MainViewModel.Document.NodePropertiesDictionary.Values
                .Where(x => x.Visible)
                .FirstOrDefault();
 
@@ -100,20 +87,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 .FirstOrDefault();
 
             // OperatorProperties_ForCurve
-            // (Needs slightly different code, because the CurveLookup is different for root documents and child documents.
-            OperatorPropertiesViewModel_ForCurve visibleOperatorPropertiesViewModel_ForCurve = 
+            operatorPropertiesUserControl_ForCurve.ViewModel =
                 _presenter.MainViewModel.Document.OperatorPropertiesDictionary_ForCurves.Values
                 .Where(x => x.Visible)
                 .FirstOrDefault();
-            if (visibleOperatorPropertiesViewModel_ForCurve != null)
-            {
-                operatorPropertiesUserControl_ForCurve.ViewModel = visibleOperatorPropertiesViewModel_ForCurve;
-
-                // Set Curve Lookup
-                int childDocumentID = visibleOperatorPropertiesViewModel_ForCurve.ChildDocumentID;
-                PatchDocumentViewModel patchDocumentViewModel = _presenter.MainViewModel.Document.PatchDocumentDictionary[childDocumentID];
-                operatorPropertiesUserControl_ForCurve.SetCurveLookup(patchDocumentViewModel.CurveLookup);
-            }
+            operatorPropertiesUserControl_ForCurve.SetCurveLookup(_presenter.MainViewModel.Document.CurveLookup);
 
             // OperatorProperties_ForCustomOperator
             operatorPropertiesUserControl_ForCustomOperator.ViewModel =
@@ -148,19 +126,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             // OperatorProperties_ForSample
             // (Needs slightly different code, because the SampleLookup is different for root documents and child documents.
-            operatorPropertiesUserControl_ForSample.ViewModel = null;
-            OperatorPropertiesViewModel_ForSample visibleOperatorPropertiesViewModel_ForSample =
+            operatorPropertiesUserControl_ForSample.ViewModel =
                 _presenter.MainViewModel.Document.OperatorPropertiesDictionary_ForSamples.Values
                 .Where(x => x.Visible)
                 .FirstOrDefault();
-            if (visibleOperatorPropertiesViewModel_ForSample != null)
-            {
-                operatorPropertiesUserControl_ForSample.ViewModel = visibleOperatorPropertiesViewModel_ForSample;
-
-                int childDocumentID = visibleOperatorPropertiesViewModel_ForSample.ChildDocumentID;
-                PatchDocumentViewModel patchDocumentViewModel = _presenter.MainViewModel.Document.PatchDocumentDictionary[childDocumentID];
-                operatorPropertiesUserControl_ForSample.SetSampleLookup(patchDocumentViewModel.SampleLookup);
-            }
+            operatorPropertiesUserControl_ForSample.SetSampleLookup(_presenter.MainViewModel.Document.SampleLookup);
 
             // OperatorProperties_WithDimension
             operatorPropertiesUserControl_WithDimension.ViewModel =
@@ -194,7 +164,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             // PatchDetails
             patchDetailsUserControl.ViewModel =
-                _presenter.MainViewModel.Document.PatchDocumentDictionary.Values.Select(x => x.PatchDetails)
+                _presenter.MainViewModel.Document.PatchDetailsDictionary.Values
                 .Where(x => x.Visible)
                 .FirstOrDefault();
 
@@ -204,8 +174,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                                                                               .FirstOrDefault();
 
             // PatchProperties
-            patchPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.PatchDocumentDictionary.Values
-                                                                                    .Select(x => x.PatchProperties)
+            patchPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.PatchPropertiesDictionary.Values
                                                                                     .Where(x => x.Visible)
                                                                                     .FirstOrDefault();
             // SampleGrid
@@ -213,19 +182,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
             {
                 sampleGridUserControl.ViewModel = _presenter.MainViewModel.Document.SampleGrid;
             }
-            else
-            {
-                sampleGridUserControl.ViewModel = _presenter.MainViewModel.Document.PatchDocumentDictionary.Values
-                                                                                   .Select(x => x.SampleGrid)
-                                                                                   .Where(x => x.Visible)
-                                                                                   .FirstOrDefault();
-            }
 
             // SampleProperties
             samplePropertiesUserControl.ViewModel =
-                Enumerable.Union(
-                    _presenter.MainViewModel.Document.SamplePropertiesDictionary.Values,
-                    _presenter.MainViewModel.Document.PatchDocumentDictionary.Values.SelectMany(x => x.SamplePropertiesDictionary.Values))
+                _presenter.MainViewModel.Document.SamplePropertiesDictionary.Values
                .Where(x => x.Visible)
                .FirstOrDefault();
 

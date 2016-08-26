@@ -11,6 +11,7 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Common;
 using JJ.Business.Synthesizer;
 
+
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
     internal static partial class ViewModelHelper
@@ -49,18 +50,17 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // Curve
 
-        public static IList<IDAndName> CreateCurveLookupViewModel(Document rootDocument, Document childDocument)
+        public static IList<IDAndName> CreateCurveLookupViewModel(Document document)
         {
-            if (rootDocument == null) throw new NullException(() => rootDocument);
-            if (childDocument == null) throw new NullException(() => childDocument);
+            if (document == null) throw new NullException(() => document);
 
-            var list = new List<IDAndName>(rootDocument.Curves.Count + childDocument.Curves.Count + 1);
+            var list = new List<IDAndName>(document.Curves.Count + 1);
 
             list.Add(new IDAndName { ID = 0, Name = null });
 
-            list.AddRange(Enumerable.Union(rootDocument.Curves, childDocument.Curves)
-                                    .OrderBy(x => x.Name)
-                                    .Select(x => x.ToIDAndName()));
+            list.AddRange(document.Curves
+                                  .OrderBy(x => x.Name)
+                                  .Select(x => x.ToIDAndName()));
             return list;
         }
 
@@ -168,32 +168,17 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // Sample
 
-        public static IList<IDAndName> CreateSampleLookupViewModel(Document rootDocument)
+        public static IList<IDAndName> CreateSampleLookupViewModel(Document document)
         {
-            if (rootDocument == null) throw new NullException(() => rootDocument);
+            if (document == null) throw new NullException(() => document);
 
-            var list = new List<IDAndName>(rootDocument.Samples.Count + 1);
+            var list = new List<IDAndName>(document.Samples.Count + 1);
 
             list.Add(new IDAndName { ID = 0, Name = null });
 
-            list.AddRange(rootDocument.Samples
+            list.AddRange(document.Samples
                                       .OrderBy(x => x.Name)
                                       .Select(x => x.ToIDAndName()));
-            return list;
-        }
-
-        public static IList<IDAndName> CreateSampleLookupViewModel(Document rootDocument, Document childDocument)
-        {
-            if (rootDocument == null) throw new NullException(() => rootDocument);
-            if (childDocument == null) throw new NullException(() => childDocument);
-
-            var list = new List<IDAndName>();
-
-            list.Add(new IDAndName { ID = 0, Name = null });
-
-            list.AddRange(Enumerable.Union(rootDocument.Samples, childDocument.Samples)
-                                    .OrderBy(x => x.Name)
-                                    .Select(x => x.ToIDAndName()));
             return list;
         }
 
@@ -249,13 +234,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // UnderlyingPatch
 
-        public static IList<ChildDocumentIDAndNameViewModel> CreateUnderlyingPatchLookupViewModel(IList<Patch> underlyingPatches)
+        public static IList<IDAndName> CreateUnderlyingPatchLookupViewModel(IList<Patch> underlyingPatches)
         {
             if (underlyingPatches == null) throw new NullException(() => underlyingPatches);
 
-            var list = new List<ChildDocumentIDAndNameViewModel>(underlyingPatches.Count + 1);
-            list.Add(new ChildDocumentIDAndNameViewModel { ChildDocumentID = 0, Name = null });
-            list.AddRange(underlyingPatches.OrderBy(x => x.Name).Select(x => x.Document.ToChildDocumentIDAndNameViewModel()));
+            var list = new List<IDAndName>(underlyingPatches.Count + 1);
+            list.Add(new IDAndName { ID = 0, Name = null });
+            list.AddRange(underlyingPatches.OrderBy(x => x.Name).Select(x => x.ToIDAndName()));
 
             return list;
         }

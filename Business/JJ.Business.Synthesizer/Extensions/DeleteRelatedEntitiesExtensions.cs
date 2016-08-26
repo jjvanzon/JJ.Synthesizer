@@ -27,14 +27,6 @@ namespace JJ.Business.Synthesizer.Extensions
             if (document == null) throw new NullException(() => document);
             if (repositories == null) throw new NullException(() => repositories);
 
-            foreach (Document childDocument in document.ChildDocuments.ToArray())
-            {
-                // Recursive call
-                childDocument.DeleteRelatedEntities(repositories);
-                childDocument.UnlinkRelatedEntities();
-                repositories.DocumentRepository.Delete(childDocument);
-            }
-
             foreach (Patch patch in document.Patches.ToArray())
             {
                 patch.DeleteRelatedEntities(repositories.OperatorRepository, repositories.InletRepository, repositories.OutletRepository, repositories.EntityPositionRepository);

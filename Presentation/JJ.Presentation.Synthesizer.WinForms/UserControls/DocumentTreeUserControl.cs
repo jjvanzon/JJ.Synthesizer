@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Windows.Forms;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.WinForms.Helpers;
-using JJ.Business.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Presentation.Synthesizer.Resources;
@@ -16,21 +13,18 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     {
         public event EventHandler CloseRequested;
 
-        public event EventHandler<EventArgs<int>> ExpandNodeRequested;
-        public event EventHandler<EventArgs<int>> CollapseNodeRequested;
-
         public event EventHandler<EventArgs<string>> ShowPatchGridRequested;
         public event EventHandler<EventArgs<int>> ShowPatchDetailsRequested;
-        public event EventHandler<EventArgs<int>> ShowCurvesRequested;
-        public event EventHandler<EventArgs<int>> ShowSamplesRequested;
+        public event EventHandler ShowCurvesRequested;
+        public event EventHandler ShowSamplesRequested;
         public event EventHandler ShowAudioOutputRequested;
         public event EventHandler ShowAudioFileOutputsRequested;
         public event EventHandler ShowScalesRequested;
 
         private HashSet<TreeNode> _patchesTreeNodes;
         private HashSet<TreeNode> _patchTreeNodes;
-        private HashSet<TreeNode> _samplesTreeNodes;
-        private HashSet<TreeNode> _curvesTreeNodes;
+        private TreeNode _samplesTreeNode;
+        private TreeNode _curvesTreeNode;
         private TreeNode _scalesTreeNode;
         private TreeNode _audioOutputNode;
         private TreeNode _audioFileOutputListTreeNode;
@@ -64,8 +58,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
                 _patchesTreeNodes = new HashSet<TreeNode>();
                 _patchTreeNodes = new HashSet<TreeNode>();
-                _samplesTreeNodes = new HashSet<TreeNode>();
-                _curvesTreeNodes = new HashSet<TreeNode>();
 
                 treeView.Nodes.Clear();
 
@@ -150,11 +142,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // Other Nodes
             var samplesTreeNode = new TreeNode(documentTreeViewModel.SamplesNode.Text);
             nodes.Add(samplesTreeNode);
-            _samplesTreeNodes.Add(samplesTreeNode);
+            _samplesTreeNode = samplesTreeNode;
 
             var curvesTreeNode = new TreeNode(documentTreeViewModel.CurvesNode.Text);
             nodes.Add(curvesTreeNode);
-            _curvesTreeNodes.Add(curvesTreeNode);
+            _curvesTreeNode = curvesTreeNode;
 
             _scalesTreeNode = new TreeNode(documentTreeViewModel.ScalesNode.Text);
             nodes.Add(_scalesTreeNode);
@@ -169,35 +161,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private TreeNode ConvertPatchTreeNode(PatchTreeNodeViewModel patchTreeNodeViewModel)
         {
             var patchTreeNode = new TreeNode(patchTreeNodeViewModel.Text);
-            patchTreeNode.Tag = patchTreeNodeViewModel.ChildDocumentID;
-
-            AddPatchDescendantNodes(patchTreeNode.Nodes, patchTreeNodeViewModel);
-
-            if (patchTreeNodeViewModel.IsExpanded)
-            {
-                patchTreeNode.Expand();
-            }
-            else
-            {
-                patchTreeNode.Collapse();
-            }
+            patchTreeNode.Tag = patchTreeNodeViewModel.PatchID;
 
             return patchTreeNode;
-        }
-
-        private void AddPatchDescendantNodes(TreeNodeCollection nodes, PatchTreeNodeViewModel patchTreeNodeViewModel)
-        {
-            object childDocumentTag = TagHelper.GetChildDocumentTag(patchTreeNodeViewModel.ChildDocumentID);
-
-            var samplesTreeNode = new TreeNode(patchTreeNodeViewModel.SamplesNode.Text);
-            samplesTreeNode.Tag = childDocumentTag;
-            nodes.Add(samplesTreeNode);
-            _samplesTreeNodes.Add(samplesTreeNode);
-
-            var curvesTreeNode = new TreeNode(patchTreeNodeViewModel.CurvesNode.Text);
-            curvesTreeNode.Tag = childDocumentTag;
-            nodes.Add(curvesTreeNode);
-            _curvesTreeNodes.Add(curvesTreeNode);
         }
 
         // Actions
@@ -214,34 +180,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             Close();
         }
 
-        private void treeView_AfterExpand(object sender, TreeViewEventArgs e)
-        {
-            if (_applyViewModelIsBusy)
-            {
-                return;
-            }
-
-            if (_patchTreeNodes.Contains(e.Node))
-            {
-                int id = (int)e.Node.Tag;
-                ExpandNodeRequested?.Invoke(this, new EventArgs<int>(id));
-            }
-        }
-
-        private void treeView_AfterCollapse(object sender, TreeViewEventArgs e)
-        {
-            if (_applyViewModelIsBusy)
-            {
-                return;
-            }
-
-            if (_patchTreeNodes.Contains(e.Node))
-            {
-                int id = (int)e.Node.Tag;
-                CollapseNodeRequested?.Invoke(this, new EventArgs<int>(id));
-            }
-        }
-
         private void treeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             HandleNodeKeyEnterOrDoubleClick(e.Node);
@@ -249,7 +187,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override bool ProcessCmdKey(ref System.Windows.Forms.Message msg, Keys keyData)
         {
-            // Use ProcessCmdKey,because OnKeyDown produces an annoying Ding sound 
+            // Use ProcessCmdKey,because OnKeyDown produces an annoying Ding sound.
             // every time you hit enter.
             if (keyData == Keys.Enter)
             {
@@ -279,9 +217,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 ShowAudioOutputRequested?.Invoke(this, EventArgs.Empty);
             }
 
-            if (_curvesTreeNodes.Contains(node))
+            if (node == _curvesTreeNode)
             {
-                ShowCurvesRequested?.Invoke(this, GetChildDocumentEventArgs(node.Tag));
+                ShowCurvesRequested?.Invoke(this, EventArgs.Empty);
             }
 
             if (_patchesTreeNodes.Contains(node))
@@ -295,22 +233,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 ShowPatchDetailsRequested?.Invoke(this, new EventArgs<int>(id));
             }
 
-            if (_samplesTreeNodes.Contains(node))
+            if (node == _samplesTreeNode)
             {
-                ShowSamplesRequested?.Invoke(this, GetChildDocumentEventArgs(node.Tag));
+                ShowSamplesRequested?.Invoke(this, EventArgs.Empty);
             }
 
             if (node == _scalesTreeNode)
             {
                 ShowScalesRequested?.Invoke(this, EventArgs.Empty);
             }
-        }
-
-        private EventArgs<int> GetChildDocumentEventArgs(object childDocumentTag)
-        {
-            int? childDocumentID = TagHelper.TryGetChildDocumentID(childDocumentTag);
-            int documentID = childDocumentID ?? ViewModel.ID;
-            return new EventArgs<int>(documentID);
         }
     }
 }

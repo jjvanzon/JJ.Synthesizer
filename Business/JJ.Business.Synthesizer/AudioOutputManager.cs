@@ -38,7 +38,6 @@ namespace JJ.Business.Synthesizer
         {
             if (document == null) throw new NullException(() => document);
             if (document.AudioOutput != null) throw new NotNullException(() => document.AudioOutput);
-            if (document.ParentDocument != null) throw new NotNullException(() => document.ParentDocument);
 
             var audioOutput = new AudioOutput();
             audioOutput.ID = _idRepository.GetID();

@@ -53,7 +53,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // ToEntity
-            Document document = userInput.ToEntity(
+            Document document = userInput.ToEntityWithAudioOutput(
                 _repositories.DocumentRepository,
                 _repositories.AudioOutputRepository,
                 _repositories.SpeakerSetupRepository,
@@ -102,7 +102,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // ToEntity
-            Document document = userInput.ToEntity(
+            Document document = userInput.ToEntityWithAudioOutput(
                 _repositories.DocumentRepository,
                 _repositories.AudioOutputRepository,
                 _repositories.SpeakerSetupRepository,

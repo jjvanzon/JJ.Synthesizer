@@ -20,6 +20,7 @@ using System.Text;
 using JJ.Presentation.Synthesizer.Resources;
 using JJ.Business.Synthesizer;
 using JJ.Framework.Mathematics;
+using JJ.Business.Synthesizer.Dto;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -345,13 +346,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // CurrentPatches
 
-        public static CurrentPatchesViewModel CreateCurrentPatchesViewModel(IList<Document> childDocuments)
+        public static CurrentPatchesViewModel CreateCurrentPatchesViewModel(IList<Patch> patches)
         {
-            if (childDocuments == null) throw new NullException(() => childDocuments);
+            if (patches == null) throw new NullException(() => patches);
 
             var viewModel = new CurrentPatchesViewModel
             {
-                List = childDocuments.Select(x => x.ToCurrentPatchViewModel()).ToList(),
+                List = patches.Select(x => x.ToIDAndName()).ToList(),
                 CanShowAutoPatchPolyphonic = _showAutoPatchPolyphonicEnabled,
                 ValidationMessages = new List<Message>()
             };
@@ -399,6 +400,22 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         }
 
         // Patch-Related
+
+        public static Dictionary<string, PatchGridViewModel> CreatePatchGridViewModelDictionary(
+            IList<Patch> grouplessPatches,
+            IList<PatchGroupDto> patchGroupDtos,
+            int rootDocumentID)
+        {
+            if (grouplessPatches == null) throw new NullException(() => grouplessPatches);
+            if (patchGroupDtos == null) throw new NullException(() => patchGroupDtos);
+
+            var list = new List<PatchGridViewModel>();
+
+            list.Add(grouplessPatches.ToPatchGridViewModel(rootDocumentID, null));
+            list.AddRange(patchGroupDtos.Select(x => x.Patches.ToPatchGridViewModel(rootDocumentID, x.GroupName)));
+
+            return list.ToDictionary(x => x.Group?.ToLower() ?? "");
+        }
 
         public static bool GetInletVisible(Inlet inlet)
         {

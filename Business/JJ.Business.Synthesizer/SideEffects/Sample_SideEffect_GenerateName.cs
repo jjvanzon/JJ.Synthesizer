@@ -22,9 +22,7 @@ namespace JJ.Business.Synthesizer.SideEffects
 
         public void Execute()
         {
-            IEnumerable<string> existingNames = _entity.Document.EnumerateSelfAndParentAndTheirChildren()
-                                                                .SelectMany(x => x.Samples)
-                                                                .Select(x => x.Name);
+            IEnumerable<string> existingNames = _entity.Document.Samples.Select(x => x.Name);
 
             _entity.Name = SideEffectHelper.GenerateName<Sample>(existingNames);
         }

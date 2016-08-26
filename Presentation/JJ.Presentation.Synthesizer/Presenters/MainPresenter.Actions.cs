@@ -87,10 +87,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 userInput.Successful = false;
 
                 // GetEntity
-                Document rootDocument = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
+                Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
 
                 // Business
-                audioFileOutput = _audioFileOutputManager.Create(rootDocument, mustGenerateName: true);
+                audioFileOutput = _audioFileOutputManager.Create(document, mustGenerateName: true);
 
                 // Successful
                 userInput.Successful = true;
@@ -230,31 +230,31 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _currentPatchesPresenter.Close(userInput));
         }
 
-        public void CurrentPatchAdd(int childDocumentID)
+        public void CurrentPatchAdd(int patchID)
         {
             // GetViewModel
             CurrentPatchesViewModel userInput = MainViewModel.Document.CurrentPatches;
 
             // TemplateMethod
-            TemplateActionMethod(userInput, () => _currentPatchesPresenter.Add(userInput, childDocumentID));
+            TemplateActionMethod(userInput, () => _currentPatchesPresenter.Add(userInput, patchID));
         }
 
-        public void CurrentPatchRemove(int childDocumentID)
+        public void CurrentPatchRemove(int patchID)
         {
             // GetViewModel
             CurrentPatchesViewModel userInput = MainViewModel.Document.CurrentPatches;
 
             // TemplateMethod
-            TemplateActionMethod(userInput, () => _currentPatchesPresenter.Remove(userInput, childDocumentID));
+            TemplateActionMethod(userInput, () => _currentPatchesPresenter.Remove(userInput, patchID));
         }
 
-        public void CurrentPatchMove(int childDocumentID, int newPosition)
+        public void CurrentPatchMove(int patchID, int newPosition)
         {
             // GetViewModel
             CurrentPatchesViewModel userInput = MainViewModel.Document.CurrentPatches;
 
             // TemplateMethod
-            TemplateActionMethod(userInput, () => _currentPatchesPresenter.Move(userInput, childDocumentID, newPosition));
+            TemplateActionMethod(userInput, () => _currentPatchesPresenter.Move(userInput, patchID, newPosition));
         }
 
         public void CurrentPatchesShowAutoPatchPolyphonic()
@@ -271,17 +271,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
             currentPatchesViewModel.Successful = false;
 
             // ToEntity
-            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
+            Document document = MainViewModel.ToEntityWithRelatedEntities(_repositories);
 
             // Get Entities
-            IList<Patch> underlyingPatches = currentPatchesViewModel.ToEntities(_repositories.DocumentRepository);
+            IList<Patch> underlyingPatches = currentPatchesViewModel.ToEntities(_repositories.PatchRepository);
 
             // Business
             var patchManager = new PatchManager(_patchRepositories);
             patchManager.AutoPatchPolyphonic(underlyingPatches, 2);
 
             // Business
-            IResult validationResult = _documentManager.Save(rootDocument);
+            IResult validationResult = _documentManager.Save(document);
             if (!validationResult.Successful)
             {
                 // Non-Persisted
@@ -295,7 +295,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // ToViewModel
             PatchDetailsViewModel detailsViewModel = patchManager.Patch.ToDetailsViewModel(
-                _repositories.OperatorTypeRepository,
                 _repositories.SampleRepository,
                 _repositories.CurveRepository,
                 _repositories.PatchRepository,
@@ -326,17 +325,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
             currentPatchesViewModel.Successful = false;
 
             // ToEntity
-            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
+            Document document = MainViewModel.ToEntityWithRelatedEntities(_repositories);
 
             // Get Entities
-            IList<Patch> underlyingPatches = currentPatchesViewModel.ToEntities(_repositories.DocumentRepository);
+            IList<Patch> underlyingPatches = currentPatchesViewModel.ToEntities(_repositories.PatchRepository);
 
             // Business
             var patchManager = new PatchManager(_patchRepositories);
             patchManager.AutoPatch(underlyingPatches);
 
             // Business
-            IResult validationResult = _documentManager.Save(rootDocument);
+            IResult validationResult = _documentManager.Save(document);
             if (!validationResult.Successful)
             {
                 // Non-Persisted
@@ -350,7 +349,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // ToViewModel
             PatchDetailsViewModel detailsViewModel = patchManager.Patch.ToDetailsViewModel(
-                _repositories.OperatorTypeRepository,
                 _repositories.SampleRepository,
                 _repositories.CurveRepository,
                 _repositories.PatchRepository,
@@ -374,28 +372,28 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Curve
 
-        public void CurveGridShow(int documentID)
+        public void CurveGridShow()
         {
             // GetViewModel
-            CurveGridViewModel userInput = ViewModelSelector.GetCurveGridViewModel(MainViewModel.Document, documentID);
+            CurveGridViewModel userInput = MainViewModel.Document.CurveGrid;
 
             // TemplateMethod
             TemplateActionMethod(userInput, () => _curveGridPresenter.Show(userInput));
         }
 
-        public void CurveGridClose(int documentID)
+        public void CurveGridClose()
         {
             // GetViewModel
-            CurveGridViewModel userInput = ViewModelSelector.GetCurveGridViewModel(MainViewModel.Document, documentID);
+            CurveGridViewModel userInput = MainViewModel.Document.CurveGrid;
 
             // TemplateMethod
             TemplateActionMethod(userInput, () => _curveGridPresenter.Close(userInput));
         }
 
-        public void CurveCreate(int documentID)
+        public void CurveCreate()
         {
             // GetViewModel
-            CurveGridViewModel userInput = ViewModelSelector.GetCurveGridViewModel(MainViewModel.Document, documentID);
+            CurveGridViewModel userInput = MainViewModel.Document.CurveGrid;
 
             // Template Method
             CurveGridViewModel viewModel = TemplateActionMethod(userInput, () =>
@@ -407,7 +405,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 userInput.Successful = false;
 
                 // GetEntity
-                Document document = _repositories.DocumentRepository.Get(documentID);
+                Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
 
                 // Business
                 Curve curve = _curveManager.Create(document, mustGenerateName: true);
@@ -425,10 +423,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void CurveDelete(int documentID, int curveID)
+        public void CurveDelete(int curveID)
         {
             // GetViewModel
-            CurveGridViewModel userInput = ViewModelSelector.GetCurveGridViewModel(MainViewModel.Document, documentID);
+            CurveGridViewModel userInput = MainViewModel.Document.CurveGrid;
 
             // Template Method
             CurveGridViewModel viewModel = TemplateActionMethod(userInput, () =>
@@ -687,16 +685,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void DocumentOpen(int id)
         {
             // GetEntity
-            Document rootDocument = _repositories.DocumentRepository.GetComplete(id);
+            Document document = _repositories.DocumentRepository.GetComplete(id);
 
             // Business
-            IList<Document> grouplessChildDocuments = _documentManager.GetGrouplessChildDocuments(rootDocument);
-            IList<ChildDocumentGroupDto> childDocumentGroupDtos = _documentManager.GetChildDocumentGroupDtos(rootDocument);
+            var patchManager = new PatchManager(_patchRepositories);
+            IList<Patch> grouplessPatches = patchManager.GetGrouplessPatches(document.Patches);
+            IList<PatchGroupDto> patchGroupDtos = patchManager.GetPatchGroupDtos(document.Patches);
 
             // ToViewModel
-            DocumentViewModel viewModel = rootDocument.ToViewModel(
-                grouplessChildDocuments,
-                childDocumentGroupDtos,
+            DocumentViewModel viewModel = document.ToViewModel(
+                grouplessPatches,
+                patchGroupDtos,
                 _repositories,
                 _entityPositionManager);
 
@@ -731,26 +730,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
             viewModel.OperatorPropertiesDictionary_WithDimensionAndInterpolation.Values.ForEach(x => x.Successful = true);
             viewModel.OperatorPropertiesDictionary_WithDimensionAndOutletCount.Values.ForEach(x => x.Successful = true);
             viewModel.OperatorPropertiesDictionary_WithInletCount.Values.ForEach(x => x.Successful = true);
+            viewModel.PatchDetailsDictionary.Values.ForEach(x => x.Successful = true);
             viewModel.PatchGridDictionary.Values.ForEach(x => x.Successful = true);
+            viewModel.PatchPropertiesDictionary.Values.ForEach(x => x.Successful = true);
             viewModel.SampleGrid.Successful = true;
             viewModel.SamplePropertiesDictionary.Values.ForEach(x => x.Successful = true);
+            viewModel.SamplePropertiesDictionary.Values.Select(x => x.Successful = true);
             viewModel.ScaleGrid.Successful = true;
             viewModel.ScalePropertiesDictionary.Values.ForEach(x => x.Successful = true);
             viewModel.ToneGridEditDictionary.Values.ForEach(x => x.Successful = true);
 
-            foreach (PatchDocumentViewModel patchDocumentViewModel in viewModel.PatchDocumentDictionary.Values)
-            {
-                patchDocumentViewModel.CurveDetailsDictionary.Values.ForEach(x => x.Successful = true);
-                patchDocumentViewModel.CurveGrid.Successful = true;
-                patchDocumentViewModel.CurvePropertiesDictionary.Values.ForEach(x => x.Successful = true);
-                patchDocumentViewModel.NodePropertiesDictionary.Values.ForEach(x => x.Successful = true);
-                patchDocumentViewModel.PatchDetails.Successful = true;
-                patchDocumentViewModel.PatchProperties.Successful = true;
-                patchDocumentViewModel.SampleGrid.Successful = true;
-                patchDocumentViewModel.SamplePropertiesDictionary.Values.Select(x => x.Successful = true);
-            }
-
-            string titleBar = _titleBarPresenter.Show(rootDocument);
+            string titleBar = _titleBarPresenter.Show(document);
             MenuViewModel menuViewModel = _menuPresenter.Show(documentIsOpen: true);
 
             // DispatchViewModel
@@ -843,24 +833,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Template Method
             TemplateActionMethod(userInput, () => _documentTreePresenter.Show(userInput));
-        }
-
-        public void DocumentTreeExpandNode(int nodeIndex)
-        {
-            // GetViewModel
-            DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
-
-            // Template Method
-            TemplateActionMethod(userInput, () => _documentTreePresenter.ExpandNode(userInput, nodeIndex));
-        }
-
-        public void DocumentTreeCollapseNode(int nodeIndex)
-        {
-            // GetViewModel
-            DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
-
-            // Template Method
-            TemplateActionMethod(userInput, () => _documentTreePresenter.CollapseNode(userInput, nodeIndex));
         }
 
         public void DocumentTreeClose()
@@ -1609,10 +1581,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void OperatorCreate(int childDocumentID, int operatorTypeID)
+        public void OperatorCreate(int patchID, int operatorTypeID)
         {
             // GetViewModel
-            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel_ByChildDocumentID(MainViewModel.Document, childDocumentID);
+            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, patchID);
 
             // TemplateMethod
             PatchDetailsViewModel viewModel = TemplateActionMethod(userInput, () => _patchDetailsPresenter.CreateOperator(userInput, operatorTypeID));
@@ -1624,11 +1596,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        /// <summary> Deletes the operator selected in PatchDetails. </summary>
-        public void OperatorDelete(int childDocumentID)
+        public void OperatorDeleteSelected(int patchID)
         {
             // GetViewModel
-            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel_ByChildDocumentID(MainViewModel.Document, childDocumentID);
+            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, patchID);
 
             // Template Method
             PatchDetailsViewModel viewModel = TemplateActionMethod(userInput, () => _patchDetailsPresenter.DeleteOperator(userInput));
@@ -1640,28 +1611,28 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void OperatorMove(int childDocumentID, int operatorID, float centerX, float centerY)
+        public void OperatorMove(int patchID, int operatorID, float centerX, float centerY)
         {
             // GetViewModel
-            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel_ByChildDocumentID(MainViewModel.Document, childDocumentID);
+            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, patchID);
 
             // TemplateMethod
             TemplateActionMethod(userInput, () => _patchDetailsPresenter.MoveOperator(userInput, operatorID, centerX, centerY));
         }
 
-        public void OperatorChangeInputOutlet(int childDocumentID, int inletID, int inputOutletID)
+        public void OperatorChangeInputOutlet(int patchID, int inletID, int inputOutletID)
         {
             // GetViewModel
-            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel_ByChildDocumentID(MainViewModel.Document, childDocumentID);
+            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, patchID);
 
             // TemplateMethod
             TemplateActionMethod(userInput, () => _patchDetailsPresenter.ChangeInputOutlet(userInput, inletID, inputOutletID));
         }
 
-        public void OperatorSelect(int childDocumentID, int operatorID)
+        public void OperatorSelect(int patchID, int operatorID)
         {
             // GetViewModel
-            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel_ByChildDocumentID(MainViewModel.Document, childDocumentID);
+            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, patchID);
 
             // Partial Action
             TemplateActionMethod(userInput, () => _patchDetailsPresenter.SelectOperator(userInput, operatorID));
@@ -1669,39 +1640,39 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Patch
 
-        public void PatchDetailsShow(int childDocumentID)
+        public void PatchDetailsShow(int patchID)
         {
             // GetViewModel
-            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel_ByChildDocumentID(MainViewModel.Document, childDocumentID);
+            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, patchID);
 
             // TemplateMethod
             TemplateActionMethod(userInput, () => _patchDetailsPresenter.Show(userInput));
         }
 
-        public void PatchDetailsClose(int childDocumentID)
+        public void PatchDetailsClose(int patchID)
         {
-            PatchDetailsCloseOrLoseFocus(_patchDetailsPresenter.Close, childDocumentID);
+            PatchDetailsCloseOrLoseFocus(_patchDetailsPresenter.Close, patchID);
         }
 
-        public void PatchDetailsLoseFocus(int childDocumentID)
+        public void PatchDetailsLoseFocus(int patchID)
         {
-            PatchDetailsCloseOrLoseFocus(_patchDetailsPresenter.LoseFocus, childDocumentID);
+            PatchDetailsCloseOrLoseFocus(_patchDetailsPresenter.LoseFocus, patchID);
         }
 
-        private void PatchDetailsCloseOrLoseFocus(Func<PatchDetailsViewModel, PatchDetailsViewModel> partialAction, int childDocumentID)
+        private void PatchDetailsCloseOrLoseFocus(Func<PatchDetailsViewModel, PatchDetailsViewModel> partialAction, int patchID)
         {
             // GetViewModel
-            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel_ByChildDocumentID(MainViewModel.Document, childDocumentID);
+            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, patchID);
 
             // TemplateMethod
             TemplateActionMethod(userInput, () => partialAction(userInput));
         }
 
         /// <summary> Returns output file path if ViewModel.Successful. <summary>
-        public string PatchPlay(int childDocumentID)
+        public string PatchPlay(int patchID)
         {
             // GetViewModel
-            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel_ByChildDocumentID(MainViewModel.Document, childDocumentID);
+            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, patchID);
 
             // TemplateMethod
             string outputFilePath = null;
@@ -1720,29 +1691,29 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return outputFilePath;
         }
 
-        public void PatchPropertiesShow(int childDocumentID)
+        public void PatchPropertiesShow(int patchID)
         {
             // GetViewModel
-            PatchPropertiesViewModel userInput = ViewModelSelector.GetPatchPropertiesViewModel_ByChildDocumentID(MainViewModel.Document, childDocumentID);
+            PatchPropertiesViewModel userInput = ViewModelSelector.GetPatchPropertiesViewModel(MainViewModel.Document, patchID);
 
             // Template Method
             TemplateActionMethod(userInput, () => _patchPropertiesPresenter.Show(userInput));
         }
 
-        public void PatchPropertiesClose(int childDocumentID)
+        public void PatchPropertiesClose(int patchID)
         {
-            PatchPropertiesCloseOrLoseFocus(_patchPropertiesPresenter.Close, childDocumentID);
+            PatchPropertiesCloseOrLoseFocus(_patchPropertiesPresenter.Close, patchID);
         }
 
-        public void PatchPropertiesLoseFocus(int childDocumentID)
+        public void PatchPropertiesLoseFocus(int patchID)
         {
-            PatchPropertiesCloseOrLoseFocus(_patchPropertiesPresenter.LoseFocus, childDocumentID);
+            PatchPropertiesCloseOrLoseFocus(_patchPropertiesPresenter.LoseFocus, patchID);
         }
 
-        private void PatchPropertiesCloseOrLoseFocus(Func<PatchPropertiesViewModel, PatchPropertiesViewModel> partialAction, int childDocumentID)
+        private void PatchPropertiesCloseOrLoseFocus(Func<PatchPropertiesViewModel, PatchPropertiesViewModel> partialAction, int patchID)
         {
             // GetViewModel
-            PatchPropertiesViewModel userInput = ViewModelSelector.GetPatchPropertiesViewModel_ByChildDocumentID(MainViewModel.Document, childDocumentID);
+            PatchPropertiesViewModel userInput = ViewModelSelector.GetPatchPropertiesViewModel(MainViewModel.Document, patchID);
 
             // Template Method
             PatchPropertiesViewModel viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
@@ -1788,13 +1759,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 userInput.Successful = false;
 
                 // GetEntity
-                Document rootDocument = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
+                Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
 
                 // Business
-                Document childDocument = _documentManager.CreateChildDocumentWithPatch(rootDocument, mustGenerateName: true);
-                childDocument.GroupName = group;
-
-                Patch patch = childDocument.Patches.Single();
+                var patchManager = new PatchManager(_patchRepositories);
+                patchManager.CreatePatch(document, mustGenerateName: true);
+                Patch patch = patchManager.Patch;
                 patch.GroupName = group;
 
                 // Successful
@@ -1810,7 +1780,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void PatchDelete(string group, int childDocumentID)
+        public void PatchDelete(string group, int patchID)
         {
             // GetViewModel
             PatchGridViewModel userInput = ViewModelSelector.GetPatchGridViewModel(MainViewModel.Document, group);
@@ -1825,10 +1795,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 userInput.Successful = false;
 
                 // GetEntity
-                Document childDocument = _repositories.DocumentRepository.Get(childDocumentID);
+                Patch patch = _repositories.PatchRepository.Get(patchID);
 
                 // Businesss
-                IResult result = _documentManager.DeleteWithRelatedEntities(childDocument);
+                var patchManager = new PatchManager(_patchRepositories);
+                patchManager.PatchID = patchID;
+                IResult result = patchManager.DeletePatchWithRelatedEntities();
 
                 // Non-Persisted
                 userInput.ValidationMessages.AddRange(result.Messages);
@@ -1848,28 +1820,28 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Sample
 
-        public void SampleGridShow(int documentID)
+        public void SampleGridShow()
         {
             // GetViewModel
-            SampleGridViewModel userInput = ViewModelSelector.GetSampleGridViewModel(MainViewModel.Document, documentID);
+            SampleGridViewModel userInput = MainViewModel.Document.SampleGrid;
 
             // Template Method
             TemplateActionMethod(userInput, () => _sampleGridPresenter.Show(userInput));
         }
 
-        public void SampleGridClose(int documentID)
+        public void SampleGridClose()
         {
             // GetViewModel
-            SampleGridViewModel userInput = ViewModelSelector.GetSampleGridViewModel(MainViewModel.Document, documentID);
+            SampleGridViewModel userInput = MainViewModel.Document.SampleGrid;
 
             // Template Method
             TemplateActionMethod(userInput, () => _sampleGridPresenter.Close(userInput));
         }
 
-        public void SampleCreate(int documentID)
+        public void SampleCreate()
         {
             // GetViewModel
-            SampleGridViewModel userInput = ViewModelSelector.GetSampleGridViewModel(MainViewModel.Document, documentID);
+            SampleGridViewModel userInput = MainViewModel.Document.SampleGrid;
 
             // Template Method
             SampleGridViewModel viewModel = TemplateActionMethod(userInput, () =>
@@ -1881,7 +1853,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 userInput.Successful = false;
 
                 // GetEntity
-                Document document = _repositories.DocumentRepository.Get(documentID);
+                Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
 
                 // Business
                 Sample sample = _sampleManager.CreateSample(document, mustGenerateName: true);
@@ -1899,10 +1871,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void SampleDelete(int documentID, int sampleID)
+        public void SampleDelete(int sampleID)
         {
             // GetViewModel
-            SampleGridViewModel userInput = ViewModelSelector.GetSampleGridViewModel(MainViewModel.Document, documentID);
+            SampleGridViewModel userInput = MainViewModel.Document.SampleGrid;
 
             // Template Method
             SampleGridViewModel viewModel = TemplateActionMethod(userInput, () =>
@@ -1960,8 +1932,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (viewModel.Successful)
             {
                 Sample sample = _repositories.SampleRepository.Get(sampleID);
-                SampleGridRefresh(sample.Document.ID);
-                SampleLookupsRefresh(sampleID);
+                SampleGridRefresh();
+                SampleLookupRefresh(sampleID);
                 OperatorViewModels_OfType_Refresh(OperatorTypeEnum.Sample);
             }
         }
@@ -2001,10 +1973,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 userInput.Successful = false;
 
                 // GetEntity
-                Document rootDocument = _repositories.DocumentRepository.Get(userInput.DocumentID);
+                Document document = _repositories.DocumentRepository.Get(userInput.DocumentID);
 
                 // Business
-                Scale scale = _scaleManager.Create(rootDocument, mustSetDefaults: true, mustGenerateName: true);
+                Scale scale = _scaleManager.Create(document, mustSetDefaults: true, mustGenerateName: true);
 
                 // Successful
                 userInput.Successful = true;
@@ -2072,7 +2044,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput2.Successful = false;
 
             // ToEntity
-            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
+            Document document = MainViewModel.ToEntityWithRelatedEntities(_repositories);
 
             // Partial Actions
             ScalePropertiesViewModel scalePropertiesViewModel = _scalePropertiesPresenter.Show(userInput1);
@@ -2092,7 +2064,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             toneGridEditViewModel.Successful = false;
 
             // Business
-            IResult validationResult = _documentManager.Save(rootDocument);
+            IResult validationResult = _documentManager.Save(document);
             if (!validationResult.Successful)
             {
                 scalePropertiesViewModel.ValidationMessages.AddRange(validationResult.Messages);
@@ -2296,20 +2268,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             // ToEntity
-            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
+            Document document = MainViewModel.ToEntityWithRelatedEntities(_repositories);
             Tone tone = _repositories.ToneRepository.Get(toneID);
-            AudioOutput audioOutput = rootDocument.AudioOutput;
+            AudioOutput audioOutput = document.AudioOutput;
 
             var underlyingPatches = new List<Patch>(MainViewModel.Document.CurrentPatches.List.Count);
-            foreach (CurrentPatchItemViewModel itemViewModel in MainViewModel.Document.CurrentPatches.List)
+            foreach (IDAndName itemViewModel in MainViewModel.Document.CurrentPatches.List)
             {
-                Document underlyingDocument = _repositories.DocumentRepository.Get(itemViewModel.ChildDocumentID);
-                if (underlyingDocument.Patches.Count != 1)
-                {
-                    throw new NotEqualException(() => underlyingDocument.Patches.Count, 1);
-                }
-
-                underlyingPatches.Add(underlyingDocument.Patches[0]);
+                Patch underlyingPatch = _repositories.PatchRepository.Get(itemViewModel.ID);
+                underlyingPatches.Add(underlyingPatch);
             }
 
             // Business
@@ -2328,7 +2295,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 outlet = x.Sine(x.PatchInlet(DimensionEnum.Frequency, frequency));
             }
 
-            IResult validationResult = _documentManager.Save(rootDocument);
+            IResult validationResult = _documentManager.Save(document);
             if (!validationResult.Successful)
             {
                 userInput.Successful = false;
@@ -2385,7 +2352,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // ToEntity
-            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
+            Document document = MainViewModel.ToEntityWithRelatedEntities(_repositories);
 
             // Partial Action
             TViewModel viewModel = partialAction();
@@ -2400,7 +2367,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             viewModel.Successful = false;
 
             // Business
-            IResult validationResult = _documentManager.Save(rootDocument);
+            IResult validationResult = _documentManager.Save(document);
             if (!validationResult.Successful)
             {
                 // Non-Persisted

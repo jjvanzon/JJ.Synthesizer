@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
@@ -12,10 +11,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class PatchGridUserControl : UserControlBase
     {
-        private const string CHILD_DOCUMENT_ID_COLUMN_NAME = "ChildDocumentIDColumn";
+        private const string ID_COLUMN_NAME = "IDColumn";
 
         public event EventHandler<EventArgs<string>> CreateRequested;
-        public event EventHandler<GroupAndChildDocumentIDEventArgs> DeleteRequested;
+        public event EventHandler<GroupAndPatchIDEventArgs> DeleteRequested;
         public event EventHandler<EventArgs<string>> CloseRequested;
         public event EventHandler<EventArgs<int>> ShowDetailsRequested;
 
@@ -55,10 +54,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (ViewModel == null) return;
 
-            int? id = TryGetSelectedChildDocumentID();
+            int? id = TryGetSelectedID();
             if (id.HasValue)
             {
-                DeleteRequested?.Invoke(this, new GroupAndChildDocumentIDEventArgs(ViewModel.Group, id.Value));
+                DeleteRequested?.Invoke(this, new GroupAndPatchIDEventArgs(ViewModel.Group, id.Value));
             }
         }
 
@@ -69,7 +68,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ShowProperties()
         {
-            int? id = TryGetSelectedChildDocumentID();
+            int? id = TryGetSelectedID();
             if (id.HasValue)
             {
                 var e = new EventArgs<int>(id.Value);
@@ -115,13 +114,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Helpers
 
-        private int? TryGetSelectedChildDocumentID()
+        private int? TryGetSelectedID()
         {
             if (specializedDataGridView.CurrentRow != null)
             {
-                DataGridViewCell cell = specializedDataGridView.CurrentRow.Cells[CHILD_DOCUMENT_ID_COLUMN_NAME];
-                int childDocumentID = (int)cell.Value;
-                return childDocumentID;
+                DataGridViewCell cell = specializedDataGridView.CurrentRow.Cells[ID_COLUMN_NAME];
+                int id = (int)cell.Value;
+                return id;
             }
 
             return null;

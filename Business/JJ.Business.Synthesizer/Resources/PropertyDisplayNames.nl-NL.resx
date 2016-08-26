@@ -228,17 +228,11 @@
   <data name="Patches" xml:space="preserve">
     <value>Schakelingen</value>
   </data>
-  <data name="ChildDocuments" xml:space="preserve">
-    <value>Onderliggende documenten</value>
-  </data>
   <data name="ReferencedDocuments" xml:space="preserve">
     <value>Bibliotheken</value>
   </data>
   <data name="IsActive" xml:space="preserve">
     <value>Actief</value>
-  </data>
-  <data name="ParentDocument" xml:space="preserve">
-    <value>Hoofddocument</value>
   </data>
   <data name="StartTime" xml:space="preserve">
     <value>Starttijd</value>
@@ -269,9 +263,6 @@
   </data>
   <data name="CustomOperator" xml:space="preserve">
     <value>Zelfgemaakte operator</value>
-  </data>
-  <data name="ChildDocumentCount" xml:space="preserve">
-    <value>Aantal onderliggende documenten</value>
   </data>
   <data name="ListIndex" xml:space="preserve">
     <value>Nummer (als we bij 0 beginnen te tellen)</value>
@@ -449,9 +440,6 @@
   </data>
   <data name="GroupName" xml:space="preserve">
     <value>Groep</value>
-  </data>
-  <data name="ChildDocument" xml:space="preserve">
-    <value>Onderliggend document</value>
   </data>
   <data name="NoteDuration" xml:space="preserve">
     <value>Noot tijdsduur</value>

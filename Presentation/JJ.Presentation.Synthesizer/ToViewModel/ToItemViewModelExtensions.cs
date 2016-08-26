@@ -8,12 +8,9 @@ using JJ.Data.Synthesizer;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
-using JJ.Presentation.Synthesizer.Helpers;
-using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
-using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Framework.Mathematics;
+using JJ.Data.Canonical;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -139,52 +136,24 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = new ReferencedDocumentViewModel
             {
+                ID = entity.ID,
                 Name = entity.Name,
-                Patches = entity.ChildDocuments.OrderBy(x => x.Name).Select(x => x.ToChildDocumentIDAndNameViewModel()).ToList(),
-                ID = entity.ID
+                Patches = entity.Patches.OrderBy(x => x.Name).Select(x => x.ToIDAndName()).ToList()
             };
 
             return viewModel;
-        }
-
-        public static CurrentPatchItemViewModel ToCurrentPatchViewModel(this Document document)
-        {
-            if (document == null) throw new NullException(() => document);
-
-            var viewModel = new CurrentPatchItemViewModel
-            {
-                ChildDocumentID = document.ID,
-                Name = document.Name
-            };
-
-            return viewModel;
-        }
-
-        public static ChildDocumentIDAndNameViewModel ToChildDocumentIDAndNameViewModel(this Document entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            return new ChildDocumentIDAndNameViewModel
-            {
-                ChildDocumentID = entity.ID,
-                Name = entity.Name
-            };
         }
 
         // Patch
 
-        public static PatchTreeNodeViewModel ToPatchTreeNodeViewModel(this Document childDocument)
+        public static PatchTreeNodeViewModel ToPatchTreeNodeViewModel(this Patch patch)
         {
-            if (childDocument == null) throw new NullException(() => childDocument);
-
-            int underlyingEntitiesCount = childDocument.Samples.Count + childDocument.Curves.Count;
+            if (patch == null) throw new NullException(() => patch);
 
             var viewModel = new PatchTreeNodeViewModel
             {
-                Text = ViewModelHelper.GetTreeNodeText(childDocument.Name, underlyingEntitiesCount),
-                CurvesNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.Curves, childDocument.Curves.Count),
-                SamplesNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.Samples, childDocument.Samples.Count),
-                ChildDocumentID = childDocument.ID
+                PatchID = patch.ID,
+                Text = patch.Name,
             };
 
             return viewModel;
@@ -196,8 +165,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = new PatchViewModel
             {
-                PatchID = entity.ID,
-                ChildDocumentID = entity.Document?.ID ?? 0 // Patch can be documentless, if it is the result of AutoPatch.
+                ID = entity.ID
             };
 
             return viewModel;
@@ -468,8 +436,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new ScaleViewModel
             {
                 ID = entity.ID,
-                BaseFrequency = entity.BaseFrequency,
                 Name = entity.Name,
+                BaseFrequency = entity.BaseFrequency,
                 ScaleType = new IDAndName()
             };
 

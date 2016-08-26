@@ -97,29 +97,6 @@ namespace JJ.Business.Synthesizer.LinkTo
             }
         }
 
-        public static void LinkToParentDocument(this Document childDocument, Document parentDocument)
-        {
-            if (childDocument == null) throw new NullException(() => childDocument);
-
-            if (childDocument.ParentDocument != null)
-            {
-                if (childDocument.ParentDocument.ChildDocuments.Contains(childDocument))
-                {
-                    childDocument.ParentDocument.ChildDocuments.Remove(childDocument);
-                }
-            }
-
-            childDocument.ParentDocument = parentDocument;
-
-            if (childDocument.ParentDocument != null)
-            {
-                if (!childDocument.ParentDocument.ChildDocuments.Contains(childDocument))
-                {
-                    childDocument.ParentDocument.ChildDocuments.Add(childDocument);
-                }
-            }
-        }
-
         public static void LinkToDependentDocument(this DocumentReference documentReference, Document dependentDocument)
         {
             // DocumentReference -> DependentDocument

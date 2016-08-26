@@ -1,0 +1,1 @@
+drop index Document.IX_Document_ParentDocumentID;

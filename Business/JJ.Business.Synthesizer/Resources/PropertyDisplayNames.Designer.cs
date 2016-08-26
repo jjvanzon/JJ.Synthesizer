@@ -376,33 +376,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Child Document.
-        /// </summary>
-        public static string ChildDocument {
-            get {
-                return ResourceManager.GetString("ChildDocument", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Child Document Count.
-        /// </summary>
-        public static string ChildDocumentCount {
-            get {
-                return ResourceManager.GetString("ChildDocumentCount", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Documents.
-        /// </summary>
-        public static string ChildDocuments {
-            get {
-                return ResourceManager.GetString("ChildDocuments", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Closest.
         /// </summary>
         public static string Closest {
@@ -1470,15 +1443,6 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string OutletType {
             get {
                 return ResourceManager.GetString("OutletType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Parent Document.
-        /// </summary>
-        public static string ParentDocument {
-            get {
-                return ResourceManager.GetString("ParentDocument", resourceCulture);
             }
         }
         

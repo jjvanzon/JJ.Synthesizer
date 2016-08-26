@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 using JJ.Presentation.Synthesizer.ViewModels;
@@ -14,9 +13,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     {
         private const string ID_COLUMN_NAME = "IDColumn";
 
-        public event EventHandler<EventArgs<int>> CreateRequested;
-        public event EventHandler<DocumentAndChildEntityEventArgs> DeleteRequested;
-        public event EventHandler<EventArgs<int>> CloseRequested;
+        public event EventHandler CreateRequested;
+        public event EventHandler<EventArgs<int>> DeleteRequested;
+        public event EventHandler CloseRequested;
         public event EventHandler<EventArgs<int>> ShowPropertiesRequested;
 
         public SampleGridUserControl()
@@ -70,26 +69,22 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             int? id = TryGetSelectedID();
             if (id.HasValue)
             {
-                DeleteRequested?.Invoke(this, new DocumentAndChildEntityEventArgs(ViewModel.DocumentID, id.Value));
+                DeleteRequested?.Invoke(this, new EventArgs<int>(id.Value));
             }
         }
 
         private void Close()
         {
             if (ViewModel == null) return;
-            CloseRequested?.Invoke(this, new EventArgs<int>(ViewModel.DocumentID));
+            CloseRequested?.Invoke(this, EventArgs.Empty);
         }
 
         private void ShowProperties()
         {
-            if (ShowPropertiesRequested != null)
+            int? id = TryGetSelectedID();
+            if (id.HasValue)
             {
-                int? id = TryGetSelectedID();
-                if (id.HasValue)
-                {
-                    var e = new EventArgs<int>(id.Value);
-                    ShowPropertiesRequested(this, e);
-                }
+                ShowPropertiesRequested?.Invoke(this, new EventArgs<int>(id.Value));
             }
         }
 

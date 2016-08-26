@@ -13,9 +13,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     {
         private const string ID_COLUMN_NAME = "IDColumn";
 
-        public event EventHandler<EventArgs<int>> CreateRequested;
-        public event EventHandler<DocumentAndChildEntityEventArgs> DeleteRequested;
-        public event EventHandler<EventArgs<int>> CloseRequested;
+        public event EventHandler CreateRequested;
+        public event EventHandler<EventArgs<int>> DeleteRequested;
+        public event EventHandler CloseRequested;
         public event EventHandler<EventArgs<int>> ShowDetailsRequested;
 
         public CurveGridUserControl()
@@ -46,7 +46,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void Create()
         {
-            CreateRequested?.Invoke(this, new EventArgs<int>(ViewModel.DocumentID));
+            CreateRequested?.Invoke(this, EventArgs.Empty);
         }
 
         private void Delete()
@@ -56,26 +56,22 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             int? id = TryGetSelectedID();
             if (id.HasValue)
             {
-                DeleteRequested?.Invoke(this, new DocumentAndChildEntityEventArgs(ViewModel.DocumentID, id.Value));
+                DeleteRequested?.Invoke(this, new EventArgs<int>(id.Value));
             }
         }
 
         private void Close()
         {
             if (ViewModel == null) return;
-            CloseRequested?.Invoke(this, new EventArgs<int>(ViewModel.DocumentID));
+            CloseRequested?.Invoke(this, EventArgs.Empty);
         }
 
         private void ShowDetails()
         {
-            if (ShowDetailsRequested != null)
+            int? id = TryGetSelectedID();
+            if (id.HasValue)
             {
-                int? id = TryGetSelectedID();
-                if (id.HasValue)
-                {
-                    var e = new EventArgs<int>(id.Value);
-                    ShowDetailsRequested(this, e);
-                }
+                ShowDetailsRequested?.Invoke(this, new EventArgs<int>(id.Value));
             }
         }
 

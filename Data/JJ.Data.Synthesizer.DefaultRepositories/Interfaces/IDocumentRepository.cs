@@ -5,7 +5,7 @@ namespace JJ.Data.Synthesizer.DefaultRepositories.Interfaces
 {
     public interface IDocumentRepository : IRepository<Document, int>
     {
-        IList<Document> GetRootDocumentsOrderedByName();
+        IList<Document> OrderByName();
 
         /// <summary>
         /// Gets the Document entity including all its descendant entities in one blow,

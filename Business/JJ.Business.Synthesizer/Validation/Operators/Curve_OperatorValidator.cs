@@ -39,21 +39,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                     bool mustCheckReference = op.Patch != null && op.Patch.Document != null;
                     if (mustCheckReference)
                     {
-                        bool isRootDocument = op.Patch.Document.ParentDocument == null;
-
-                        // If we're in a child document, we can reference the curves in both child document and root document,
-                        // if we are in the root document, the possible curves are only the ones in the root document.
-                        IEnumerable<Curve> curves;
-                        if (isRootDocument)
-                        {
-                            curves = op.Patch.Document.Curves;
-                        }
-                        else
-                        {
-                            curves = op.Patch.Document.Curves.Union(op.Patch.Document.ParentDocument.Curves);
-                        }
-
-                        bool isInList = curves.Any(x => x.ID == curveID);
+                        bool isInList = op.Patch.Document.Curves.Any(x => x.ID == curveID);
 
                         if (!isInList)
                         {

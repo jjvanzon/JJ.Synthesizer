@@ -33,13 +33,6 @@ namespace JJ.Business.Synthesizer.Extensions
             curve.UnlinkDocument();
         }
 
-        public static void UnlinkRelatedEntities(this Document document)
-        {
-            if (document == null) throw new NullException(() => document);
-
-            document.UnlinkParentDocument();
-        }
-
         public static void UnlinkRelatedEntities(this DocumentReference documentReference)
         {
             if (documentReference == null) throw new NullException(() => documentReference);

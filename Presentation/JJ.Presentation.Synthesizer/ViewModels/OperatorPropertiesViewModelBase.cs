@@ -7,7 +7,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
     public abstract class OperatorPropertiesViewModelBase : ViewModelBase
     {
         public int ID { get; set; }
-        public int ChildDocumentID { get; set; }
+        public int PatchID { get; set; }
         public string Name { get; set; }
     }
 }

@@ -68,5 +68,5 @@ namespace JJ.Business.Synthesizer.Validation.Patches
                     _alreadyDone));
             }
         }
-   }
+    }
 }

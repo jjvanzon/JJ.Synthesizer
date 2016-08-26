@@ -2240,82 +2240,82 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
         }
 
-        public static void Migrate_Move_CurvesSamplesAndPatch_FromChildDocuments_ToRootDocuments(Action<string> progressCallback)
-        {
-            if (progressCallback == null) throw new NullException(() => progressCallback);
+        //public static void Migrate_Move_CurvesSamplesAndPatch_FromChildDocuments_ToRootDocuments(Action<string> progressCallback)
+        //{
+        //    if (progressCallback == null) throw new NullException(() => progressCallback);
 
-            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+        //    progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
 
-            using (IContext context = PersistenceHelper.CreateContext())
-            {
-                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+        //    using (IContext context = PersistenceHelper.CreateContext())
+        //    {
+        //        RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-                IList<Document> rootDocuments = repositories.DocumentRepository.GetRootDocumentsOrderedByName();
+        //        IList<Document> rootDocuments = repositories.DocumentRepository.OrderByName();
 
-                for (int i = 0; i < rootDocuments.Count; i++)
-                {
-                    Document rootDocument = rootDocuments[i];
+        //        for (int i = 0; i < rootDocuments.Count; i++)
+        //        {
+        //            Document rootDocument = rootDocuments[i];
 
-                    var documentManager = new DocumentManager(repositories);
+        //            var documentManager = new DocumentManager(repositories);
 
-                    HashSet<string> existingSampleNamesLowerCase = rootDocument.Samples
-                                                                               .Select(x => x.Name.ToLower())
-                                                                               .ToHashSet();
+        //            HashSet<string> existingSampleNamesLowerCase = rootDocument.Samples
+        //                                                                       .Select(x => x.Name.ToLower())
+        //                                                                       .ToHashSet();
 
-                    foreach (Document childDocument in rootDocument.ChildDocuments.ToArray())
-                    {
-                        foreach (Curve curve in childDocument.Curves.ToArray())
-                        {
-                            curve.LinkTo(rootDocument);
-                        }
+        //            foreach (Document childDocument in rootDocument.ChildDocuments.ToArray())
+        //            {
+        //                foreach (Curve curve in childDocument.Curves.ToArray())
+        //                {
+        //                    curve.LinkTo(rootDocument);
+        //                }
 
-                        foreach (Sample sample in childDocument.Samples.ToArray())
-                        {
-                            string newSampleName = sample.Name;
-                            int number = 2;
-                            while (existingSampleNamesLowerCase.Contains(newSampleName.ToLower()))
-                            {
-                                newSampleName = $"{sample.Name} ({number})";
-                                number++;
-                            }
-                            existingSampleNamesLowerCase.Add(newSampleName.ToLower());
+        //                foreach (Sample sample in childDocument.Samples.ToArray())
+        //                {
+        //                    string newSampleName = sample.Name;
+        //                    int number = 2;
+        //                    while (existingSampleNamesLowerCase.Contains(newSampleName.ToLower()))
+        //                    {
+        //                        newSampleName = $"{sample.Name} ({number})";
+        //                        number++;
+        //                    }
+        //                    existingSampleNamesLowerCase.Add(newSampleName.ToLower());
 
-                            sample.Name = newSampleName;
-                            sample.LinkTo(rootDocument);
-                        }
+        //                    sample.Name = newSampleName;
+        //                    sample.LinkTo(rootDocument);
+        //                }
 
-                        Patch patch = childDocument.Patches.Single();
-                        patch.LinkTo(rootDocument);
+        //                Patch patch = childDocument.Patches.Single();
+        //                patch.LinkTo(rootDocument);
 
-                        //repositories.DocumentRepository.Delete(childDocument);
+        //                //repositories.DocumentRepository.Delete(childDocument);
 
-                        VoidResult result = documentManager.DeleteWithRelatedEntities(childDocument);
-                        result.Assert();
-                    }
+        //                VoidResult result = documentManager.DeleteWithRelatedEntities(childDocument);
+        //                result.Assert();
+        //            }
 
-                    string progressMessage = String.Format("Migrated Document {0}/{1}.", i + 1, rootDocuments.Count);
-                    progressCallback(progressMessage);
-                }
+        //            string progressMessage = String.Format("Migrated Document {0}/{1}.", i + 1, rootDocuments.Count);
+        //            progressCallback(progressMessage);
+        //        }
 
-                // Flush to make NHibernate not accidently mistake the deleted child documents for root documents.
-                // (for some reason that happens).
-                context.Flush();
+        //        // Flush to make NHibernate not accidently mistake the deleted child documents for root documents.
+        //        // (for some reason that happens).
+        //        context.Flush();
 
-                AssertDocuments(repositories, progressCallback);
+        //        AssertDocuments(repositories, progressCallback);
 
-                //throw new Exception("Temporarily not committing, for debugging.");
+        //        //throw new Exception("Temporarily not committing, for debugging.");
 
-                context.Commit();
-            }
+        //        context.Commit();
+        //    }
 
-            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
-        }
+        //    progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        //}
 
         // Helpers
 
         private static void AssertDocuments(RepositoryWrapper repositories, Action<string> progressCallback)
         {
-            IList<Document> rootDocuments = repositories.DocumentRepository.GetAll().Where(x => x.ParentDocument == null).ToArray();
+            IList<Document> rootDocuments = repositories.DocumentRepository.GetAll();
 
             AssertDocuments(rootDocuments, repositories, progressCallback);
         }

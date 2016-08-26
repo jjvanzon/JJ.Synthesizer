@@ -12,13 +12,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class CurrentPatchesPresenter : PresenterBase<CurrentPatchesViewModel>
     {
-        private IDocumentRepository _documentRepository;
+        private readonly IPatchRepository _patchRepository;
 
-        public CurrentPatchesPresenter(IDocumentRepository documentRepository)
+        public CurrentPatchesPresenter(IPatchRepository patchRepository)
         {
-            if (documentRepository == null) throw new NullException(() => documentRepository);
+            if (patchRepository == null) throw new NullException(() => patchRepository);
 
-            _documentRepository = documentRepository;
+            _patchRepository = patchRepository;
         }
 
         public CurrentPatchesViewModel Show(CurrentPatchesViewModel userInput)
@@ -32,11 +32,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntities
-            IEnumerable<int> childDocumentIDs = userInput.List.Select(x => x.ChildDocumentID);
-            IList<Document> childDocuments = childDocumentIDs.Select(x => _documentRepository.Get(x)).ToList();
+            IEnumerable<int> ids = userInput.List.Select(x => x.ID);
+            IList<Patch> entities = ids.Select(x => _patchRepository.Get(x)).ToList();
 
             // ToViewModel
-            CurrentPatchesViewModel viewModel = ViewModelHelper.CreateCurrentPatchesViewModel(childDocuments);
+            CurrentPatchesViewModel viewModel = ViewModelHelper.CreateCurrentPatchesViewModel(entities);
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
@@ -59,11 +59,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntities
-            IEnumerable<int> childDocumentIDs = userInput.List.Select(x => x.ChildDocumentID);
-            IList<Document> childDocuments = childDocumentIDs.Select(x => _documentRepository.Get(x)).ToList();
+            IEnumerable<int> ids = userInput.List.Select(x => x.ID);
+            IList<Patch> entities = ids.Select(x => _patchRepository.Get(x)).ToList();
 
             // ToViewModel
-            CurrentPatchesViewModel viewModel = ViewModelHelper.CreateCurrentPatchesViewModel(childDocuments);
+            CurrentPatchesViewModel viewModel = ViewModelHelper.CreateCurrentPatchesViewModel(entities);
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
@@ -75,7 +75,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel;
         }
 
-        public CurrentPatchesViewModel Add(CurrentPatchesViewModel userInput, int childDocumentID)
+        public CurrentPatchesViewModel Add(CurrentPatchesViewModel userInput, int patchID)
         {
             if (userInput == null) throw new NullException(() => userInput);
 
@@ -86,15 +86,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntities
-            IEnumerable<int> childDocumentIDs = userInput.List.Select(x => x.ChildDocumentID);
-            IList<Document> childDocuments = childDocumentIDs.Select(x => _documentRepository.Get(x)).ToList();
+            IEnumerable<int> ids = userInput.List.Select(x => x.ID);
+            IList<Patch> entities = ids.Select(x => _patchRepository.Get(x)).ToList();
 
             // Business
-            Document childDocument = _documentRepository.Get(childDocumentID);
-            childDocuments.Add(childDocument);
+            Patch entity = _patchRepository.Get(patchID);
+            entities.Add(entity);
 
             // ToViewModel
-            CurrentPatchesViewModel viewModel = ViewModelHelper.CreateCurrentPatchesViewModel(childDocuments);
+            CurrentPatchesViewModel viewModel = ViewModelHelper.CreateCurrentPatchesViewModel(entities);
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
@@ -105,7 +105,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel;
         }
 
-        public CurrentPatchesViewModel Remove(CurrentPatchesViewModel userInput, int childDocumentID)
+        public CurrentPatchesViewModel Remove(CurrentPatchesViewModel userInput, int patchID)
         {
             if (userInput == null) throw new NullException(() => userInput);
 
@@ -116,14 +116,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntities
-            IEnumerable<int> childDocumentIDs = userInput.List.Select(x => x.ChildDocumentID);
-            IList<Document> childDocuments = childDocumentIDs.Select(x => _documentRepository.Get(x)).ToList();
+            IEnumerable<int> ids = userInput.List.Select(x => x.ID);
+            IList<Patch> entities = ids.Select(x => _patchRepository.Get(x)).ToList();
 
             // Business
-            childDocuments.RemoveFirst(x => x.ID == childDocumentID);
+            entities.RemoveFirst(x => x.ID == patchID);
 
             // ToViewModel
-            CurrentPatchesViewModel viewModel = ViewModelHelper.CreateCurrentPatchesViewModel(childDocuments);
+            CurrentPatchesViewModel viewModel = ViewModelHelper.CreateCurrentPatchesViewModel(entities);
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
@@ -134,7 +134,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel;
         }
 
-        public CurrentPatchesViewModel Move(CurrentPatchesViewModel userInput, int childDocumentID, int newPosition)
+        public CurrentPatchesViewModel Move(CurrentPatchesViewModel userInput, int patchID, int newPosition)
         {
             if (userInput == null) throw new NullException(() => userInput);
 
@@ -145,17 +145,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntities
-            IEnumerable<int> childDocumentIDs = userInput.List.Select(x => x.ChildDocumentID);
-            IList<Document> childDocuments = childDocumentIDs.Select(x => _documentRepository.Get(x)).ToList();
+            IEnumerable<int> ids = userInput.List.Select(x => x.ID);
+            IList<Patch> entities = ids.Select(x => _patchRepository.Get(x)).ToList();
 
             // Business
-            int currentPosition = childDocuments.IndexOf(x => x.ID == childDocumentID);
-            Document childDocument = childDocuments[currentPosition];
-            childDocuments.RemoveAt(currentPosition);
-            childDocuments.Insert(newPosition, childDocument);
+            int currentPosition = entities.IndexOf(x => x.ID == patchID);
+            Patch entity = entities[currentPosition];
+            entities.RemoveAt(currentPosition);
+            entities.Insert(newPosition, entity);
 
             // ToViewModel
-            CurrentPatchesViewModel viewModel = ViewModelHelper.CreateCurrentPatchesViewModel(childDocuments);
+            CurrentPatchesViewModel viewModel = ViewModelHelper.CreateCurrentPatchesViewModel(entities);
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
@@ -175,11 +175,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntities
-            IEnumerable<int> childDocumentIDs = userInput.List.Select(x => x.ChildDocumentID);
-            IList<Document> childDocuments = childDocumentIDs.Select(x => _documentRepository.Get(x)).ToList();
+            IEnumerable<int> ids = userInput.List.Select(x => x.ID);
+            IList<Patch> entites = ids.Select(x => _patchRepository.Get(x)).ToList();
 
             // ToViewModel
-            CurrentPatchesViewModel viewModel = ViewModelHelper.CreateCurrentPatchesViewModel(childDocuments);
+            CurrentPatchesViewModel viewModel = ViewModelHelper.CreateCurrentPatchesViewModel(entites);
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);

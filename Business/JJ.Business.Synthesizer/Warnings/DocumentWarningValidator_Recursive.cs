@@ -52,12 +52,6 @@ namespace JJ.Business.Synthesizer.Warnings
                 ExecuteValidator(new CurveWarningValidator(curve), messagePrefix);
             }
 
-            foreach (Document childDocument in document.ChildDocuments)
-            {
-                string messagePrefix = ValidationHelper.GetMessagePrefixForChildDocument(childDocument);
-                ExecuteValidator(new DocumentWarningValidator_Recursive(childDocument, _sampleRepository, _alreadyDone), messagePrefix);
-            }
-
             foreach (Patch patch in document.Patches)
             {
                 string messagePrefix = ValidationHelper.GetMessagePrefix(patch);
@@ -75,7 +69,6 @@ namespace JJ.Business.Synthesizer.Warnings
             // TODO:
 
             // DocumentWarningValidator_Basic?
-            // ParentDocument
             // DependentOnDocuments
             // DependentDocuments
 

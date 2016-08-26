@@ -99,14 +99,8 @@ namespace JJ.Business.Synthesizer.Validation.Documents
                 ExecuteValidator(new SampleValidator(sample), ValidationHelper.GetMessagePrefix(sample));
             }
 
-            foreach (Document childDocument in document.ChildDocuments)
-            {
-                ExecuteValidator(new Recursive_DocumentValidator(childDocument, _curveRepository, _sampleRepository, _patchRepository, _alreadyDone), ValidationHelper.GetMessagePrefixForChildDocument(childDocument));
-            }
-
             // TODO:
 
-            // ParentDocument
             // DependentOnDocuments
             // DependentDocuments
 

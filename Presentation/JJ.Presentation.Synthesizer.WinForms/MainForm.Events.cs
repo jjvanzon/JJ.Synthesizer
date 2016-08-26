@@ -48,8 +48,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentPropertiesUserControl.CloseRequested += documentPropertiesUserControl_CloseRequested;
             documentPropertiesUserControl.LoseFocusRequested += documentPropertiesUserControl_LoseFocusRequested;
             documentTreeUserControl.CloseRequested += documentTreeUserControl_CloseRequested;
-            documentTreeUserControl.CollapseNodeRequested += documentTreeUserControl_CollapseNodeRequested;
-            documentTreeUserControl.ExpandNodeRequested += documentTreeUserControl_ExpandNodeRequested;
             documentTreeUserControl.ShowAudioOutputRequested += documentTreeUserControl_ShowAudioOutputRequested;
             documentTreeUserControl.ShowAudioFileOutputsRequested += documentTreeUserControl_ShowAudioFileOutputsRequested;
             documentTreeUserControl.ShowCurvesRequested += documentTreeUserControl_ShowCurvesRequested;
@@ -234,19 +232,19 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Curve
 
-        private void curveGridUserControl_CreateRequested(object sender, EventArgs<int> e)
+        private void curveGridUserControl_CreateRequested(object sender, EventArgs e)
         {
-            TemplateEventHandler(() => _presenter.CurveCreate(e.Value));
+            TemplateEventHandler(_presenter.CurveCreate);
         }
 
-        private void curveGridUserControl_DeleteRequested(object sender, DocumentAndChildEntityEventArgs e)
+        private void curveGridUserControl_DeleteRequested(object sender, EventArgs<int> e)
         {
-            TemplateEventHandler(() => _presenter.CurveDelete(e.DocumentID, e.ChildEntityID));
+            TemplateEventHandler(() => _presenter.CurveDelete(e.Value));
         }
 
-        private void curveGridUserControl_CloseRequested(object sender, EventArgs<int> e)
+        private void curveGridUserControl_CloseRequested(object sender, EventArgs e)
         {
-            TemplateEventHandler(() => _presenter.CurveGridClose(e.Value));
+            TemplateEventHandler(_presenter.CurveGridClose);
         }
 
         private void curveGridUserControl_ShowDetailsRequested(object sender, EventArgs<int> e)
@@ -362,16 +360,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(_presenter.DocumentTreeClose);
         }
 
-        private void documentTreeUserControl_CollapseNodeRequested(object sender, EventArgs<int> e)
-        {
-            TemplateEventHandler(() => _presenter.DocumentTreeCollapseNode(e.Value));
-        }
-
-        private void documentTreeUserControl_ExpandNodeRequested(object sender, EventArgs<int> e)
-        {
-            TemplateEventHandler(() => _presenter.DocumentTreeExpandNode(e.Value));
-        }
-
         private void documentTreeUserControl_ShowAudioFileOutputsRequested(object sender, EventArgs e)
         {
             TemplateEventHandler(_presenter.AudioFileOutputGridShow);
@@ -382,9 +370,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(_presenter.AudioOutputPropertiesShow);
         }
 
-        private void documentTreeUserControl_ShowCurvesRequested(object sender, EventArgs<int> e)
+        private void documentTreeUserControl_ShowCurvesRequested(object sender, EventArgs e)
         {
-            TemplateEventHandler(() => _presenter.CurveGridShow(e.Value));
+            TemplateEventHandler(_presenter.CurveGridShow);
         }
 
         private void documentTreeUserControl_ShowPatchGridRequested(object sender, EventArgs<string> e)
@@ -397,9 +385,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(() => _presenter.PatchDetailsShow(e.Value));
         }
 
-        private void documentTreeUserControl_ShowSamplesRequested(object sender, EventArgs<int> e)
+        private void documentTreeUserControl_ShowSamplesRequested(object sender, EventArgs e)
         {
-            TemplateEventHandler(() => _presenter.SampleGridShow(e.Value));
+            TemplateEventHandler(_presenter.SampleGridShow);
         }
 
         private void documentTreeUserControl_ShowScalesRequested(object sender, EventArgs e)
@@ -630,9 +618,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(() => _presenter.PatchCreate(e.Value));
         }
 
-        private void patchGridUserControl_DeleteRequested(object sender, GroupAndChildDocumentIDEventArgs e)
+        private void patchGridUserControl_DeleteRequested(object sender, GroupAndPatchIDEventArgs e)
         {
-            TemplateEventHandler(() => _presenter.PatchDelete(e.Group, e.ChildDocumentID));
+            TemplateEventHandler(() => _presenter.PatchDelete(e.Group, e.PatchID));
         }
 
         private void patchGridUserControl_CloseRequested(object sender, EventArgs<string> e)
@@ -661,27 +649,27 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void patchDetailsUserControl_SelectOperatorRequested(object sender, SelectOperatorEventArgs e)
         {
-            TemplateEventHandler(() => _presenter.OperatorSelect(e.ChildDocumentID, e.OperatorID));
+            TemplateEventHandler(() => _presenter.OperatorSelect(e.PatchID, e.OperatorID));
         }
 
         private void patchDetailsUserControl_ChangeInputOutletRequested(object sender, ChangeInputOutletEventArgs e)
         {
-            TemplateEventHandler(() => _presenter.OperatorChangeInputOutlet(e.ChildDocumentID, e.InletID, e.InputOutletID));
+            TemplateEventHandler(() => _presenter.OperatorChangeInputOutlet(e.PatchID, e.InletID, e.InputOutletID));
         }
 
         private void patchDetailsUserControl_MoveOperatorRequested(object sender, MoveOperatorEventArgs e)
         {
-            TemplateEventHandler(() => _presenter.OperatorMove(e.ChildDocumentID, e.OperatorID, e.X, e.Y));
+            TemplateEventHandler(() => _presenter.OperatorMove(e.PatchID, e.OperatorID, e.X, e.Y));
         }
 
         private void patchDetailsUserControl_CreateOperatorRequested(object sender, CreateOperatorEventArgs e)
         {
-            TemplateEventHandler(() => _presenter.OperatorCreate(e.ChildDocumentID, e.OperatorTypeID));
+            TemplateEventHandler(() => _presenter.OperatorCreate(e.PatchID, e.OperatorTypeID));
         }
 
         private void patchDetailsUserControl_DeleteOperatorRequested(object sender, EventArgs<int> e)
         {
-            TemplateEventHandler(() => _presenter.OperatorDelete(e.Value));
+            TemplateEventHandler(() => _presenter.OperatorDeleteSelected(e.Value));
         }
 
         private void patchDetailsUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
@@ -716,19 +704,19 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Sample
 
-        private void sampleGridUserControl_CreateRequested(object sender, EventArgs<int> e)
+        private void sampleGridUserControl_CreateRequested(object sender, EventArgs e)
         {
-            TemplateEventHandler(() => _presenter.SampleCreate(e.Value));
+            TemplateEventHandler(_presenter.SampleCreate);
         }
 
-        private void sampleGridUserControl_DeleteRequested(object sender, DocumentAndChildEntityEventArgs e)
+        private void sampleGridUserControl_DeleteRequested(object sender, EventArgs<int> e)
         {
-            TemplateEventHandler(() => _presenter.SampleDelete(e.DocumentID, e.ChildEntityID));
+            TemplateEventHandler(() => _presenter.SampleDelete(e.Value));
         }
 
-        private void sampleGridUserControl_CloseRequested(object sender, EventArgs<int> e)
+        private void sampleGridUserControl_CloseRequested(object sender, EventArgs e)
         {
-            TemplateEventHandler(() => _presenter.SampleGridClose(e.Value));
+            TemplateEventHandler(_presenter.SampleGridClose);
         }
 
         private void sampleGridUserControl_ShowPropertiesRequested(object sender, EventArgs<int> e)

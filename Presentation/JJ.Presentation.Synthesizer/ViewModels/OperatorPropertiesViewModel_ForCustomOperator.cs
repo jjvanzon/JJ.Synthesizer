@@ -10,6 +10,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         /// The lookup is inside the DocumentViewModel,
         /// to prevent a lot of repeated data. So use the lookup from there.
         /// </summary>
-        public ChildDocumentIDAndNameViewModel UnderlyingPatch { get; set; }
+        public IDAndName UnderlyingPatch { get; set; }
     }
 }
