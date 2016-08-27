@@ -11,7 +11,7 @@ using JJ.Presentation.Synthesizer.ToViewModel;
 using System;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.Dto;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 
 namespace JJ.Presentation.Synthesizer.Presenters

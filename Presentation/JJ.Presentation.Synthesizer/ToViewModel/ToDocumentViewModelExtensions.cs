@@ -5,8 +5,7 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using System.Collections.Generic;
-using JJ.Business.Synthesizer.Dto;
-using JJ.Presentation.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {

@@ -6,7 +6,7 @@ using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Api;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Patches;
-using JJ.Business.Synthesizer.Dto;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.LinkTo;

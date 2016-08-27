@@ -20,7 +20,6 @@ using JJ.Business.Synthesizer.Validation.Operators;
 using JJ.Business.Synthesizer.Configuration;
 using JJ.Framework.Common;
 using JJ.Business.Synthesizer.Validation.Patches;
-using JJ.Business.Synthesizer.Dto;
 
 namespace JJ.Business.Synthesizer
 {

@@ -225,7 +225,7 @@
     <Compile Include="Calculation\Operators\Number_OperatorCalculator.cs" />
     <Compile Include="Calculation\Patches\OptimizedPatchCalculatorVisitorResult.cs" />
     <Compile Include="Calculation\Patches\ResettableOperatorTuple.cs" />
-    <Compile Include="Dto\PatchGroupDto.cs" />
+    <Compile Include="Helpers\PatchGroupDto.cs" />
     <Compile Include="Extensions\OperatorExtensions.cs" />
     <Compile Include="Calculation\BiQuadFilter.cs" />
     <Compile Include="CopiedCode\FromFramework\CollectionHelper.cs" />
@@ -373,6 +373,7 @@
     <Compile Include="Helpers\PatchRepositories.cs" />
     <Compile Include="Helpers\SampleInfo.cs" />
     <Compile Include="Helpers\ScaleRepositories.cs" />
+    <Compile Include="Helpers\UsedInDto.cs" />
     <Compile Include="Helpers\WavHeaderConstants.cs" />
     <Compile Include="Converters\AudioFileInfoToWavHeaderStructConverter.cs" />
     <Compile Include="Converters\WavHeaderStructToAudioFileInfoConverter.cs" />
@@ -829,7 +830,9 @@
     <Content Include="CopiedCode\FromFramework\README.TXT" />
     <Content Include="CopiedCode\FromNAudio\README.TXT" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Dto\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -20,7 +20,6 @@ using System.Text;
 using JJ.Presentation.Synthesizer.Resources;
 using JJ.Business.Synthesizer;
 using JJ.Framework.Mathematics;
-using JJ.Business.Synthesizer.Dto;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {

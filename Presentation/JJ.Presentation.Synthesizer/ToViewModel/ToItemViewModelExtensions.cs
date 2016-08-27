@@ -11,7 +11,7 @@ using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Data.Canonical;
-using JJ.Presentation.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
