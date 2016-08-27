@@ -5,6 +5,8 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Data.Canonical;
+using JJ.Presentation.Synthesizer.Helpers;
+using System;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -54,6 +56,17 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // Curves
 
+        public static IList<CurveListItemViewModel> ToListItemViewModels(this IList<CurveUsedInDto> dtos)
+        {
+            if (dtos == null) throw new NullException(() => dtos);
+
+            IList<CurveListItemViewModel> viewModels = dtos.Select(x => x.ToListItemViewModel())
+                                                           .OrderBy(x => x.Name)
+                                                           .ToList();
+            return viewModels;
+        }
+
+        [Obsolete("Use the overload that takes IList<CurveUsedInDto> instead.")]
         public static IList<CurveListItemViewModel> ToListItemViewModels(this IList<Curve> entities)
         {
             if (entities == null) throw new NullException(() => entities);
@@ -64,6 +77,21 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModels;
         }
 
+        public static CurveListItemViewModel ToListItemViewModel(this CurveUsedInDto dto)
+        {
+            if (dto == null) throw new NullException(() => dto);
+
+            var viewModel = new CurveListItemViewModel
+            {
+                ID = dto.Curve.ID,
+                Name = dto.Curve.Name,
+                UsedIn = String.Join(", ", dto.UsedIn.Select(x => x.Name))
+            };
+
+            return viewModel;
+        }
+
+        [Obsolete("Use the overload that takes CurveUsedInDto instead.")]
         public static CurveListItemViewModel ToListItemViewModel(this Curve entity)
         {
             if (entity == null) throw new NullException(() => entity);

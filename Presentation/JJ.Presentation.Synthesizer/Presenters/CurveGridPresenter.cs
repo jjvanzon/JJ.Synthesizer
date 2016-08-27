@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
+using JJ.Presentation.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -97,19 +98,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetEntity
             Document document = _repositories.DocumentRepository.Get(userInput.DocumentID);
 
-            // ToViewModel
-            CurveGridViewModel viewModel = document.Curves.ToGridViewModel(userInput.DocumentID);
-
-            // TODO: Code smell: throughput, converting view models to view models.
-
             // Business
-            foreach (CurveListItemViewModel itemViewModel in viewModel.List)
-            {
-                Curve curve = _repositories.CurveRepository.Get(itemViewModel.ID);
-                IList<IDAndName> usedInIDAndNames = _documentManager.GetUsedIn(curve);
-                string concatinatedUsedIn = String.Join(", ", usedInIDAndNames.Select(x => x.Name));
-                itemViewModel.UsedIn = concatinatedUsedIn;
-            }
+            IList<CurveUsedInDto> curveUsedInDtos = document.Curves
+                                                            .Select(x => new CurveUsedInDto
+                                                            {
+                                                                Curve = x,
+                                                                UsedIn = _documentManager.GetUsedIn(x)
+                                                            })
+                                                            .ToArray();
+            // ToViewModel
+            CurveGridViewModel viewModel = curveUsedInDtos.ToGridViewModel(userInput.DocumentID);
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);

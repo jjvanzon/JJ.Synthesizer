@@ -17,6 +17,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Framework.Common;
+using JJ.Presentation.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -100,6 +101,21 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
+        public static CurveGridViewModel ToGridViewModel(this IList<CurveUsedInDto> entities, int documentID)
+        {
+            if (entities == null) throw new NullException(() => entities);
+
+            var viewModel = new CurveGridViewModel
+            {
+                DocumentID = documentID,
+                List = entities.ToListItemViewModels(),
+                ValidationMessages = new List<Message>()
+            };
+
+            return viewModel;
+        }
+
+        [Obsolete("Use the overload that takes IList<CurveUsedInDto> instead.")]
         public static CurveGridViewModel ToGridViewModel(this IList<Curve> entities, int documentID)
         {
             if (entities == null) throw new NullException(() => entities);
