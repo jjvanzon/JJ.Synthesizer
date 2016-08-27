@@ -141,6 +141,17 @@ namespace JJ.Business.Synthesizer
             return result;
         }
 
+        public IList<UsedInDto> GetUsedIn(IList<Curve> entities)
+        {
+            IList<UsedInDto> dtos = entities.Select(x => new UsedInDto
+                                             {
+                                                 EntityIDAndName = x.ToIDAndName(),
+                                                 UsedInIDAndNames = GetUsedIn(x)
+                                             })
+                                            .ToArray();
+            return dtos;
+        }
+
         public IList<IDAndName> GetUsedIn(Curve curve)
         {
             if (curve == null) throw new NullException(() => curve);
@@ -159,6 +170,17 @@ namespace JJ.Business.Synthesizer
             return idAndNames;
         }
 
+        public IList<UsedInDto> GetUsedIn(IList<Sample> entities)
+        {
+            IList<UsedInDto> dtos = entities.Select(x => new UsedInDto
+                                             {
+                                                 EntityIDAndName = x.ToIDAndName(),
+                                                 UsedInIDAndNames = GetUsedIn(x)
+                                             })
+                                            .ToArray();
+            return dtos;
+        }
+
         public IList<IDAndName> GetUsedIn(Sample sample)
         {
             if (sample == null) throw new NullException(() => sample);
@@ -175,6 +197,17 @@ namespace JJ.Business.Synthesizer
             IList<IDAndName> idAndNames = patches.Select(x => new IDAndName { ID = x.ID, Name = x.Name }).ToArray();
 
             return idAndNames;
+        }
+
+        public IList<UsedInDto> GetUsedIn(IList<Patch> entities)
+        {
+            IList<UsedInDto> dtos = entities.Select(x => new UsedInDto
+                                             {
+                                                 EntityIDAndName = x.ToIDAndName(),
+                                                 UsedInIDAndNames = GetUsedIn(x)
+                                             })
+                                            .ToArray();
+            return dtos;
         }
 
         public IList<IDAndName> GetUsedIn(Patch patch)

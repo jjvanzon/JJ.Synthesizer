@@ -157,13 +157,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
 
             // Business
-            IList<UsedInDto> curveUsedInDtos = document.Curves
-                                                            .Select(x => new UsedInDto
-                                                            {
-                                                                EntityIDAndName = x.ToIDAndName(),
-                                                                UsedInIDAndNames = _documentManager.GetUsedIn(x)
-                                                            })
-                                                            .ToArray();
+            IList<UsedInDto> curveUsedInDtos = _documentManager.GetUsedIn(document.Curves);
+
             // ToViewModel
             MainViewModel.Document.CurveLookup = ViewModelHelper.CreateCurveLookupViewModel(curveUsedInDtos);
         }
