@@ -26,7 +26,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public DocumentDetailsViewModel Create()
         {
             // Business
-            Document document = _documentManager.Create();
+            Document document = _documentManager.CreateWithPatch();
 
             // ToViewModel
             DocumentDetailsViewModel viewModel = document.ToDetailsViewModel();
@@ -56,8 +56,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Document document = userInput.ToEntityWithAudioOutput(
                 _repositories.DocumentRepository,
                 _repositories.AudioOutputRepository,
-                _repositories.SpeakerSetupRepository,
-                _repositories.IDRepository);
+                _repositories.PatchRepository,
+                _repositories.SpeakerSetupRepository);
 
             // Business
             VoidResult result = _documentManager.Save(document);
@@ -78,7 +78,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _repositories.DocumentRepository.Commit();
 
                 // ToViewModel
-                DocumentDetailsViewModel viewModel = ViewModelHelper.CreateEmptyDocumentDetailsViewModel();
+                DocumentDetailsViewModel viewModel = document.ToDetailsViewModel();
 
                 // Non-Persisted
                 CopyNonPersistedProperties(userInput, viewModel);
@@ -105,8 +105,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Document document = userInput.ToEntityWithAudioOutput(
                 _repositories.DocumentRepository,
                 _repositories.AudioOutputRepository,
-                _repositories.SpeakerSetupRepository,
-                _repositories.IDRepository);
+                _repositories.PatchRepository,
+                _repositories.SpeakerSetupRepository);
 
             // ToViewModel
             DocumentDetailsViewModel viewModel = document.ToDetailsViewModel();

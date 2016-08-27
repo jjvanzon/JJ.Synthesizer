@@ -47,7 +47,7 @@ namespace JJ.Business.Synthesizer
             return document;
         }
 
-        public Document CreateWithPatch(bool mustGenerateName = false)
+        public Document CreateWithPatch()
         {
             Document document = Create();
 

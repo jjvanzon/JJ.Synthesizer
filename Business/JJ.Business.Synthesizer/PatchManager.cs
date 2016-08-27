@@ -211,6 +211,12 @@ namespace JJ.Business.Synthesizer
         {
             AssertPatchNotNull();
 
+            IValidator validator = new PatchValidator_Delete(Patch, _repositories.PatchRepository);
+            if (!validator.IsValid)
+            {
+                return validator.ToResult();
+            }
+
             Patch.DeleteRelatedEntities(_repositories.OperatorRepository, _repositories.InletRepository, _repositories.OutletRepository, _repositories.EntityPositionRepository);
             Patch.UnlinkRelatedEntities();
             _repositories.PatchRepository.Delete(Patch);

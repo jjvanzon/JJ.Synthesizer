@@ -16,11 +16,13 @@ namespace JJ.Business.Synthesizer.Validation.Patches
         private readonly IPatchRepository _patchRepository;
 
         public PatchValidator_Delete(Patch obj, IPatchRepository patchRepository) 
-            : base(obj, postponeExecute:true)
+            : base(obj, postponeExecute: true)
         {
             if (patchRepository == null) throw new NullException(() => patchRepository);
 
             _patchRepository = patchRepository;
+
+            Execute();
         }
 
         protected override void Execute()

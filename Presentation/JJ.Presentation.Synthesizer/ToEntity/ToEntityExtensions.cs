@@ -74,7 +74,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return entity;
         }
 
-        public static void ToAudioFileOutputs(
+        public static void ToEntities(
             this IEnumerable<AudioFileOutputPropertiesViewModel> viewModelList,
             Document destDocument,
             AudioFileOutputRepositories repositories)
@@ -111,12 +111,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         public static AudioOutput ToEntity(
             this AudioOutputPropertiesViewModel viewModel,
             IAudioOutputRepository audioOutputRepository,
-            ISpeakerSetupRepository speakerSetupRepository,
-            IIDRepository idRepository)
+            ISpeakerSetupRepository speakerSetupRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            AudioOutput entity = viewModel.Entity.ToEntity(audioOutputRepository, speakerSetupRepository, idRepository);
+            AudioOutput entity = viewModel.Entity.ToEntity(audioOutputRepository, speakerSetupRepository);
 
             return entity;
         }
@@ -124,19 +123,17 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         public static AudioOutput ToEntity(
             this AudioOutputViewModel viewModel, 
             IAudioOutputRepository audioOutputRepository,
-            ISpeakerSetupRepository speakerSetupRepository,
-            IIDRepository idRepository)
+            ISpeakerSetupRepository speakerSetupRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (audioOutputRepository == null) throw new NullException(() => audioOutputRepository);
             if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
-            if (idRepository == null) throw new NullException(() => idRepository);
 
             AudioOutput entity = audioOutputRepository.TryGet(viewModel.ID);
             if (entity == null)
             {
                 entity = new AudioOutput();
-                entity.ID = idRepository.GetID();
+                entity.ID = viewModel.ID;
                 audioOutputRepository.Insert(entity);
             }
 
@@ -382,15 +379,15 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 destDocument,
                 patchRepositories);
 
-            userInput.AudioFileOutputPropertiesDictionary.Values.ToAudioFileOutputs(destDocument, new AudioFileOutputRepositories(repositories));
-            userInput.AudioOutputProperties.ToEntity(repositories.AudioOutputRepository, repositories.SpeakerSetupRepository, repositories.IDRepository);
+            userInput.AudioFileOutputPropertiesDictionary.Values.ToEntities(destDocument, new AudioFileOutputRepositories(repositories));
+            userInput.AudioOutputProperties.ToEntity(repositories.AudioOutputRepository, repositories.SpeakerSetupRepository);
             userInput.CurvePropertiesDictionary.Values.ToEntities(destDocument, curveRepositories);
             // Order-Dependence: NodeProperties are leading over the CurveDetails Nodes.
             userInput.CurveDetailsDictionary.Values.ToEntitiesWithNodes(destDocument, curveRepositories);
             // TODO: Low priority: It is not tidy to not have a plural variation that also does the delete operations,
             // even though the CurveDetailsList ToEntity already covers deletion.
             userInput.NodePropertiesDictionary.Values.ForEach(x => x.ToEntity(repositories.NodeRepository, repositories.NodeTypeRepository));
-            userInput.SamplePropertiesDictionary.Values.ToSamples(destDocument, new SampleRepositories(repositories));
+            userInput.SamplePropertiesDictionary.Values.ToEntities(destDocument, new SampleRepositories(repositories));
             userInput.ScalePropertiesDictionary.Values.ToEntities(scaleRepositories, destDocument);
             userInput.ToneGridEditDictionary.Values.ForEach(x => x.ToEntityWithRelatedEntities(scaleRepositories));
 
@@ -427,20 +424,20 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             this DocumentDetailsViewModel viewModel, 
             IDocumentRepository documentRepository,
             IAudioOutputRepository audioOutputRepository,
-            ISpeakerSetupRepository speakerSetupRepository,
-            IIDRepository idRepository)
+            IPatchRepository patchRepository,
+            ISpeakerSetupRepository speakerSetupRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
             // NOTE: AudioOutput must be created first and then Document, or you get a FK constraint violation.
 
-            AudioOutput audioOutput = viewModel.AudioOutput.ToEntity(
-                audioOutputRepository, 
-                speakerSetupRepository, 
-                idRepository);
+            AudioOutput audioOutput = viewModel.AudioOutput.ToEntity(audioOutputRepository, speakerSetupRepository);
 
             Document document = viewModel.Document.ToDocument(documentRepository);
             document.LinkTo(audioOutput);
+
+            Patch patch = viewModel.Patch.ToPatch(patchRepository);
+            patch.LinkTo(document);
 
             return document;
         }
@@ -1120,7 +1117,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         // Patch
 
-        public static Patch ToPatch(this PatchViewModel viewModel, IPatchRepository patchRepository)
+        public static Patch ToEntity(this PatchViewModel viewModel, IPatchRepository patchRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (patchRepository == null) throw new NullException(() => patchRepository);
@@ -1136,7 +1133,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return entity;
         }
 
-        public static ToPatchWithRelatedEntitiesResult ToPatchWithRelatedEntities(
+        public static ToPatchWithRelatedEntitiesResult ToEntityWithRelatedEntities(
             this PatchViewModel viewModel, 
             PatchRepositories repositories)
         {
@@ -1145,7 +1142,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             var converter = new RecursiveToEntityConverter(repositories);
             var convertedOperators = new HashSet<Operator>();
 
-            Patch patch = viewModel.ToPatch(repositories.PatchRepository);
+            Patch patch = viewModel.ToEntity(repositories.PatchRepository);
 
             foreach (OperatorViewModel operatorViewModel in viewModel.OperatorDictionary.Values)
             {
@@ -1166,7 +1163,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return result;
         }
 
-        public static Patch ToPatch(this PatchPropertiesViewModel viewModel, IPatchRepository patchRepository)
+        public static Patch ToEntity(this PatchPropertiesViewModel viewModel, IPatchRepository patchRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (patchRepository == null) throw new NullException(() => patchRepository);
@@ -1184,15 +1181,32 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return patch;
         }
 
-        public static ToPatchWithRelatedEntitiesResult ToPatchWithRelatedEntities(this PatchDetailsViewModel viewModel, PatchRepositories repositories)
+        public static ToPatchWithRelatedEntitiesResult ToEntityWithRelatedEntities(this PatchDetailsViewModel viewModel, PatchRepositories repositories)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            ToPatchWithRelatedEntitiesResult result = viewModel.Entity.ToPatchWithRelatedEntities(repositories);
+            ToPatchWithRelatedEntitiesResult result = viewModel.Entity.ToEntityWithRelatedEntities(repositories);
             Patch patch = result.Patch;
             IList<Operator> operatorsToDelete = result.OperatorsToDelete;
 
             return result;
+        }
+
+        public static Patch ToPatch(this IDAndName idAndName, IPatchRepository patchRepository)
+        {
+            if (idAndName == null) throw new NullException(() => idAndName);
+            if (patchRepository == null) throw new NullException(() => patchRepository);
+
+            Patch entity = patchRepository.TryGet(idAndName.ID);
+            if (entity == null)
+            {
+                entity = patchRepository.Create();
+                entity.ID = idAndName.ID;
+            }
+
+            entity.Name = idAndName.Name;
+
+            return entity;
         }
 
         // Sample
@@ -1242,7 +1256,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return entity;
         }
 
-        public static void ToSamples(this IEnumerable<SamplePropertiesViewModel> viewModelList, Document destDocument, SampleRepositories repositories)
+        public static void ToEntities(this IEnumerable<SamplePropertiesViewModel> viewModelList, Document destDocument, SampleRepositories repositories)
         {
             if (viewModelList == null) throw new NullException(() => viewModelList);
             if (destDocument == null) throw new NullException(() => destDocument);

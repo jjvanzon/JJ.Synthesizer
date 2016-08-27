@@ -590,10 +590,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // DispatchViewModel
             DispatchViewModel(viewModel);
 
-            // Refresh
             if (viewModel.Successful)
             {
+                // Refresh
                 DocumentGridRefresh();
+
+                // Redirect
+                DocumentOpen(viewModel.Document.ID);
             }
         }
 
@@ -752,10 +755,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MainViewModel.TitleBar = titleBar;
             MainViewModel.Menu = menuViewModel;
 
-            // Non-Persisted
+            // Redirections
             MainViewModel.DocumentGrid.Visible = false;
-
             CurrentPatchesShow();
+            if (document.Patches.Count == 1)
+            {
+                PatchDetailsShow(document.Patches[0].ID);
+            }
         }
 
         public void DocumentSave()
@@ -791,6 +797,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.TitleBar = titleBar;
                 MainViewModel.Menu = menuViewModel;
                 MainViewModel.Document = documentViewModel;
+
+                // Redirections
+                DocumentGridShow();
             }
         }
 

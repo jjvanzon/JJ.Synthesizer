@@ -63,11 +63,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (patchPropertiesViewModel == null) throw new NullException(() => patchPropertiesViewModel);
             if (repositories == null) throw new NullException(() => repositories);
 
-            ToPatchWithRelatedEntitiesResult result = patchDetailsViewModel.ToPatchWithRelatedEntities(repositories);
+            ToPatchWithRelatedEntitiesResult result = patchDetailsViewModel.ToEntityWithRelatedEntities(repositories);
             Patch patch = result.Patch;
             IList<Operator> operatorsToDelete = result.OperatorsToDelete;
 
-            patchPropertiesViewModel.ToPatch(repositories.PatchRepository);
+            patchPropertiesViewModel.ToEntity(repositories.PatchRepository);
 
             // Order-Dependence: 
             // Deleting operators is deferred from converting PatchDetails to after converting operator property boxes,

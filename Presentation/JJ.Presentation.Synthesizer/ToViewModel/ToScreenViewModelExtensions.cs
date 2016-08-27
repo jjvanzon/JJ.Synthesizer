@@ -151,6 +151,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 Document = document.ToIDAndName(),
                 AudioOutput = document.AudioOutput.ToViewModel(),
+                // Single Patch, because this is only used upon creating a new document.
+                Patch = document.Patches.Single().ToIDAndName(),
                 ValidationMessages = new List<Message>()
             };
 
