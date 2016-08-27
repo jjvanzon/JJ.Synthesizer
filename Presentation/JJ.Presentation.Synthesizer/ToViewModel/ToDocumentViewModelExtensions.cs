@@ -6,6 +6,7 @@ using JJ.Business.Synthesizer;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Dto;
+using JJ.Presentation.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -15,10 +16,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             this Document document,
             IList<Patch> grouplessPatches,
             IList<PatchGroupDto> patchGroupDtos,
+            IList<CurveUsedInDto> curveUsedInDtos,
             RepositoryWrapper repositories, 
             EntityPositionManager entityPositionManager)
         {
             if (document == null) throw new NullException(() => document);
+            if (curveUsedInDtos == null) throw new NullException(() => curveUsedInDtos);
             if (repositories == null) throw new NullException(() => repositories);
 
             var sampleRepositories = new SampleRepositories(repositories);
@@ -31,7 +34,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 AutoPatchDetails = ViewModelHelper.CreateEmptyPatchDetailsViewModel(),
                 CurrentPatches = ViewModelHelper.CreateEmptyCurrentPatchesViewModel(),
                 CurveDetailsDictionary = document.Curves.Select(x => x.ToDetailsViewModel()).ToDictionary(x => x.CurveID),
-                CurveGrid = document.Curves.ToGridViewModel(document.ID),
+                CurveGrid = curveUsedInDtos.ToGridViewModel(document.ID),
                 CurveLookup = ViewModelHelper.CreateCurveLookupViewModel(document),
                 CurvePropertiesDictionary = document.Curves.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.ID),
                 DocumentProperties = document.ToPropertiesViewModel(),

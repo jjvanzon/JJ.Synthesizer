@@ -66,17 +66,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModels;
         }
 
-        [Obsolete("Use the overload that takes IList<CurveUsedInDto> instead.")]
-        public static IList<CurveListItemViewModel> ToListItemViewModels(this IList<Curve> entities)
-        {
-            if (entities == null) throw new NullException(() => entities);
-
-            IList<CurveListItemViewModel> viewModels = entities.OrderBy(x => x.Name)
-                                                               .Select(x => x.ToListItemViewModel())
-                                                               .ToList();
-            return viewModels;
-        }
-
         public static CurveListItemViewModel ToListItemViewModel(this CurveUsedInDto dto)
         {
             if (dto == null) throw new NullException(() => dto);
@@ -86,20 +75,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ID = dto.Curve.ID,
                 Name = dto.Curve.Name,
                 UsedIn = String.Join(", ", dto.UsedIn.Select(x => x.Name))
-            };
-
-            return viewModel;
-        }
-
-        [Obsolete("Use the overload that takes CurveUsedInDto instead.")]
-        public static CurveListItemViewModel ToListItemViewModel(this Curve entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            var viewModel = new CurveListItemViewModel
-            {
-                ID = entity.ID,
-                Name = entity.Name
             };
 
             return viewModel;

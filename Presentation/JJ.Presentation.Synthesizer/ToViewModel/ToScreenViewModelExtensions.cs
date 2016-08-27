@@ -115,21 +115,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        [Obsolete("Use the overload that takes IList<CurveUsedInDto> instead.")]
-        public static CurveGridViewModel ToGridViewModel(this IList<Curve> entities, int documentID)
-        {
-            if (entities == null) throw new NullException(() => entities);
-
-            var viewModel = new CurveGridViewModel
-            {
-                DocumentID = documentID,
-                List = entities.ToListItemViewModels(),
-                ValidationMessages = new List<Message>()
-            };
-
-            return viewModel;
-        }
-
         public static CurvePropertiesViewModel ToPropertiesViewModel(this Curve entity)
         {
             if (entity == null) throw new NullException(() => entity);
