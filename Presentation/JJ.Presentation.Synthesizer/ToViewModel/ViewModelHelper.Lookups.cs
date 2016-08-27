@@ -10,7 +10,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Common;
 using JJ.Business.Synthesizer;
-
+using JJ.Presentation.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -50,17 +50,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // Curve
 
-        public static IList<IDAndName> CreateCurveLookupViewModel(Document document)
+        public static IList<IDAndName> CreateCurveLookupViewModel(IList<CurveUsedInDto> curveUsedInDtos)
         {
-            if (document == null) throw new NullException(() => document);
+            if (curveUsedInDtos == null) throw new NullException(() => curveUsedInDtos);
 
-            var list = new List<IDAndName>(document.Curves.Count + 1);
+            var list = new List<IDAndName>(curveUsedInDtos.Count + 1);
 
             list.Add(new IDAndName { ID = 0, Name = null });
 
-            list.AddRange(document.Curves
-                                  .OrderBy(x => x.Name)
-                                  .Select(x => x.ToIDAndName()));
+            list.AddRange(curveUsedInDtos.OrderBy(x => x.Curve.Name).Select(x => x.ToIDAndNameWithUsedIn()));
+
             return list;
         }
 

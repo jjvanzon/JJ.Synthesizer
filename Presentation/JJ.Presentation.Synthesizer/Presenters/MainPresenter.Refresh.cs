@@ -153,8 +153,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void CurveLookupRefresh()
         {
+            // GetEntity
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-            MainViewModel.Document.CurveLookup = ViewModelHelper.CreateCurveLookupViewModel(document);
+
+            // Business
+            IList<CurveUsedInDto> curveUsedInDtos = document.Curves
+                                                            .Select(x => new CurveUsedInDto
+                                                            {
+                                                                Curve = x,
+                                                                UsedIn = _documentManager.GetUsedIn(x)
+                                                            })
+                                                            .ToArray();
+            // ToViewModel
+            MainViewModel.Document.CurveLookup = ViewModelHelper.CreateCurveLookupViewModel(curveUsedInDtos);
         }
 
         private void CurveLookupItemRefresh(int curveID)

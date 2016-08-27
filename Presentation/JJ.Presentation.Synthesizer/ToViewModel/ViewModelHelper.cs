@@ -1105,5 +1105,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             return text;
         }
+
+        // Other
+
+        public static string ConcatinateUsedIn(IList<IDAndName> idAndNames)
+        {
+            if (idAndNames == null) throw new NullException(() => idAndNames);
+
+            string concatinatedUsedIn = String.Join(", ", idAndNames.Select(x => x.Name));
+
+            return concatinatedUsedIn;
+        }
     }
 }

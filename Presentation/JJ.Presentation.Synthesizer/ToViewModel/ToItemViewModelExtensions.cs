@@ -11,6 +11,8 @@ using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Data.Canonical;
+using JJ.Presentation.Synthesizer.Helpers;
+using JJ.Presentation.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -126,6 +128,20 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.Caption = String.Format("{0:0.####}, {1:0.####}", entity.X, entity.Y);
 
             return viewModel;
+        }
+
+        public static IDAndName ToIDAndNameWithUsedIn(this CurveUsedInDto dto)
+        {
+            if (dto == null) throw new NullException(() => dto);
+
+            var idAndName = new IDAndName
+            {
+                ID = dto.Curve.ID,
+            };
+
+            idAndName.Name = String.Format("{0} ({1}: {2})", dto.Curve.Name, Titles.UsedIn, ViewModelHelper.ConcatinateUsedIn(dto.UsedIn));
+
+            return idAndName;
         }
 
         // Document

@@ -35,7 +35,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 CurrentPatches = ViewModelHelper.CreateEmptyCurrentPatchesViewModel(),
                 CurveDetailsDictionary = document.Curves.Select(x => x.ToDetailsViewModel()).ToDictionary(x => x.CurveID),
                 CurveGrid = curveUsedInDtos.ToGridViewModel(document.ID),
-                CurveLookup = ViewModelHelper.CreateCurveLookupViewModel(document),
+                CurveLookup = ViewModelHelper.CreateCurveLookupViewModel(curveUsedInDtos),
                 CurvePropertiesDictionary = document.Curves.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.ID),
                 DocumentProperties = document.ToPropertiesViewModel(),
                 DocumentTree = document.ToTreeViewModel(grouplessPatches, patchGroupDtos),

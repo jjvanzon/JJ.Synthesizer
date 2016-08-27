@@ -74,7 +74,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 ID = dto.Curve.ID,
                 Name = dto.Curve.Name,
-                UsedIn = String.Join(", ", dto.UsedIn.Select(x => x.Name))
+                UsedIn = ViewModelHelper.ConcatinateUsedIn(dto.UsedIn)
             };
 
             return viewModel;
