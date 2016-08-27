@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
@@ -9,6 +8,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
     {
         public int DocumentID { get; set; }
         public string Group { get; set; }
-        public IList<IDAndName> List { get; set; }
+        public IList<PatchListItemViewModel> List { get; set; }
     }
 }

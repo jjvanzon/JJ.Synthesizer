@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Data.Canonical;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ToViewModel;
@@ -12,12 +14,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
     internal class PatchGridPresenter : PresenterBase<PatchGridViewModel>
     {
         private readonly PatchRepositories _repositories;
+        private readonly DocumentManager _documentManager;
 
-        public PatchGridPresenter(PatchRepositories repositories)
+        public PatchGridPresenter(RepositoryWrapper repositories)
         {
             if (repositories == null) throw new NullException(() => repositories);
 
-            _repositories = repositories;
+            _documentManager = new DocumentManager(repositories);
+            _repositories = new PatchRepositories(repositories);
         }
 
         public PatchGridViewModel Show(PatchGridViewModel userInput)
@@ -91,9 +95,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Business
             var patchManager = new PatchManager(_repositories);
             IList<Patch> patchesInGroup = patchManager.GetPatchesInGroup_IncludingGroupless(document.Patches, userInput.Group);
+            IList<UsedInDto<Patch>> usedInDtos = _documentManager.GetUsedIn(patchesInGroup);
 
             // ToViewModel
-            PatchGridViewModel viewModel = patchesInGroup.ToPatchGridViewModel(userInput.DocumentID, userInput.Group);
+            PatchGridViewModel viewModel = usedInDtos.ToPatchGridViewModel(userInput.DocumentID, userInput.Group);
 
             // Non-Persisted
             viewModel.Visible = userInput.Visible;

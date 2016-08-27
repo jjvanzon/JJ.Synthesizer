@@ -749,20 +749,20 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         }
 
         public static PatchGridViewModel ToPatchGridViewModel(
-            this IList<Patch> patchesInGroup,
+            this IList<UsedInDto<Patch>> patchUsedInDtosInGroup,
             int documentID,
             string group)
         {
-            if (patchesInGroup == null) throw new NullException(() => patchesInGroup);
+            if (patchUsedInDtosInGroup == null) throw new NullException(() => patchUsedInDtosInGroup);
 
             var viewModel = new PatchGridViewModel
             {
                 DocumentID = documentID,
                 Group = group,
                 ValidationMessages = new List<Message>(),
-                List = patchesInGroup.OrderBy(x => x.Name)
-                                     .Select(x => x.ToIDAndName())
-                                     .ToList()
+                List = patchUsedInDtosInGroup.OrderBy(x => x.Entity.Name)
+                                             .Select(x => x.ToListItemViewModel())
+                                             .ToList()
             };
 
             return viewModel;

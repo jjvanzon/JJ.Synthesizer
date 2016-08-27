@@ -145,7 +145,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _operatorPropertiesPresenter_WithDimensionAndOutletCount = new OperatorPropertiesPresenter_WithDimensionAndOutletCount(_patchRepositories);
             _operatorPropertiesPresenter_WithInletCount = new OperatorPropertiesPresenter_WithInletCount(_patchRepositories);
             _patchDetailsPresenter = new PatchDetailsPresenter(_patchRepositories, _entityPositionManager);
-            _patchGridPresenter = new PatchGridPresenter(_patchRepositories);
+            _patchGridPresenter = new PatchGridPresenter(repositories);
             _patchPropertiesPresenter = new PatchPropertiesPresenter(_patchRepositories);
             _sampleGridPresenter = new SampleGridPresenter(_repositories);
             _samplePropertiesPresenter = new SamplePropertiesPresenter(_sampleRepositories);

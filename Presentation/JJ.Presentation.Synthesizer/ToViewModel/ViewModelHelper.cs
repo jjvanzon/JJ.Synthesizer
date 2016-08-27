@@ -401,17 +401,17 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         // Patch-Related
 
         public static Dictionary<string, PatchGridViewModel> CreatePatchGridViewModelDictionary(
-            IList<Patch> grouplessPatches,
-            IList<PatchGroupDto> patchGroupDtos,
+            IList<UsedInDto<Patch>> grouplessPatchUsedInDtos,
+            IList<PatchGroupDto_WithUsedIn> patchGroupDtos,
             int rootDocumentID)
         {
-            if (grouplessPatches == null) throw new NullException(() => grouplessPatches);
+            if (grouplessPatchUsedInDtos == null) throw new NullException(() => grouplessPatchUsedInDtos);
             if (patchGroupDtos == null) throw new NullException(() => patchGroupDtos);
 
             var list = new List<PatchGridViewModel>();
 
-            list.Add(grouplessPatches.ToPatchGridViewModel(rootDocumentID, null));
-            list.AddRange(patchGroupDtos.Select(x => x.Patches.ToPatchGridViewModel(rootDocumentID, x.GroupName)));
+            list.Add(grouplessPatchUsedInDtos.ToPatchGridViewModel(rootDocumentID, null));
+            list.AddRange(patchGroupDtos.Select(x => x.PatchUsedInDtos.ToPatchGridViewModel(rootDocumentID, x.GroupName)));
 
             return list.ToDictionary(x => x.Group?.ToLower() ?? "");
         }

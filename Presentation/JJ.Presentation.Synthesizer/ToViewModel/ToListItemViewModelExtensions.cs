@@ -6,8 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Helpers;
 using System;
-using JJ.Data.Canonical;
-using JJ.Presentation.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -81,6 +79,32 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
+        // Patches
+
+        public static IList<PatchListItemViewModel> ToListItemViewModels(this IList<UsedInDto<Patch>> dtos)
+        {
+            if (dtos == null) throw new NullException(() => dtos);
+
+            IList<PatchListItemViewModel> viewModels = dtos.Select(x => x.ToListItemViewModel())
+                                                           .OrderBy(x => x.Name)
+                                                           .ToList();
+            return viewModels;
+        }
+
+        public static PatchListItemViewModel ToListItemViewModel(this UsedInDto<Patch> dto)
+        {
+            if (dto == null) throw new NullException(() => dto);
+
+            var viewModel = new PatchListItemViewModel
+            {
+                ID = dto.Entity.ID,
+                Name = dto.Entity.Name,
+                UsedIn = ViewModelHelper.FormatUsedInList(dto.UsedInIDAndNames)
+            };
+
+            return viewModel;
+        }
+
         // Samples
 
         public static IList<SampleListItemViewModel> ToListItemViewModels(this IList<UsedInDto<Sample>> dtos)
@@ -121,6 +145,5 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             return viewModel;
         }
-
     }
 }

@@ -697,10 +697,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IList<UsedInDto<Curve>> curveUsedInDtos = _documentManager.GetUsedIn(document.Curves);
             IList<UsedInDto<Sample>> sampleUsedInDtos = _documentManager.GetUsedIn(document.Samples);
 
+            // TODO: Ugly code.
+            IList<UsedInDto<Patch>> grouplessPatchUsedInDtos = _documentManager.GetUsedIn(grouplessPatches);
+            IList<PatchGroupDto_WithUsedIn> patchGroupDtos_WithUsedIn = patchGroupDtos.Select(x => new PatchGroupDto_WithUsedIn
+            {
+                GroupName = x.GroupName,
+                PatchUsedInDtos = _documentManager.GetUsedIn(x.Patches)
+            }).ToArray();
+
             // ToViewModel
             DocumentViewModel viewModel = document.ToViewModel(
-                grouplessPatches,
-                patchGroupDtos,
+                grouplessPatchUsedInDtos,
+                patchGroupDtos_WithUsedIn,
                 curveUsedInDtos,
                 sampleUsedInDtos,
                 _repositories,

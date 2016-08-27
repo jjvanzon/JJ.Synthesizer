@@ -34,6 +34,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
             this.IDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.UsedInColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.specializedDataGridView)).BeginInit();
             this.tableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
@@ -47,10 +48,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.specializedDataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.specializedDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.specializedDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.specializedDataGridView.ColumnHeadersVisible = false;
             this.specializedDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.IDColumn,
-            this.NameColumn});
+            this.NameColumn,
+            this.UsedInColumn});
             this.specializedDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.specializedDataGridView.Location = new System.Drawing.Point(0, 26);
             this.specializedDataGridView.Margin = new System.Windows.Forms.Padding(0);
@@ -111,6 +112,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.NameColumn.Name = "NameColumn";
             this.NameColumn.ReadOnly = true;
             // 
+            // UsedInColumn
+            // 
+            this.UsedInColumn.DataPropertyName = "UsedIn";
+            this.UsedInColumn.HeaderText = "UsedIn";
+            this.UsedInColumn.Name = "UsedInColumn";
+            this.UsedInColumn.ReadOnly = true;
+            this.UsedInColumn.Width = 180;
+            // 
             // PatchGridUserControl
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -131,5 +140,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private TitleBarUserControl titleBarUserControl;
         private System.Windows.Forms.DataGridViewTextBoxColumn IDColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn NameColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn UsedInColumn;
     }
 }

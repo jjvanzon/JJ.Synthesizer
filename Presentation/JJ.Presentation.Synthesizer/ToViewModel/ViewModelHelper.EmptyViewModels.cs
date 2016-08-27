@@ -241,7 +241,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new PatchGridViewModel
             {
-                List = new List<IDAndName>(),
+                List = new List<PatchListItemViewModel>(),
                 ValidationMessages = new List<Message>()
             };
 

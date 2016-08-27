@@ -922,7 +922,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 if (viewModel == null)
                 {
                     IList<Patch> patchesInGroup = patchManager.GetPatchesInGroup_IncludingGroupless(document.Patches, group);
-                    viewModel = patchesInGroup.ToPatchGridViewModel(document.ID, group);
+                    IList<UsedInDto<Patch>> usedInDtos = _documentManager.GetUsedIn(patchesInGroup);
+
+                    viewModel = usedInDtos.ToPatchGridViewModel(document.ID, group);
                     viewModel.Successful = true;
                     MainViewModel.Document.PatchGridDictionary[group] = viewModel;
                 }
@@ -966,12 +968,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IList<Patch> grouplessPatches = patchManager.GetGrouplessPatches(document.Patches);
             IList<PatchGroupDto> patchGroupDtos = patchManager.GetPatchGroupDtos(document.Patches);
 
+            // TODO: Ugly code.
+            IList<UsedInDto<Patch>> grouplessPatchUsedInDtos = _documentManager.GetUsedIn(grouplessPatches);
+            IList<PatchGroupDto_WithUsedIn> patchGroupDtos_WithUsedIn = patchGroupDtos.Select(x => new PatchGroupDto_WithUsedIn
+            {
+                GroupName = x.GroupName,
+                PatchUsedInDtos = _documentManager.GetUsedIn(x.Patches)
+            }).ToArray();
+
             // ToViewModel
             // Patch grids can be updated, created and deleted as group names are changed.
             // All the logic in CreatePatchGridViewModelDictionary is required for this.
             MainViewModel.Document.PatchGridDictionary = ViewModelHelper.CreatePatchGridViewModelDictionary(
-                grouplessPatches,
-                patchGroupDtos,
+                grouplessPatchUsedInDtos,
+                patchGroupDtos_WithUsedIn,
                 document.ID);
 
             // DispatchViewModel

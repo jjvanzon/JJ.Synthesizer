@@ -12,8 +12,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
     {
         public static DocumentViewModel ToViewModel(
             this Document document,
-            IList<Patch> grouplessPatches,
-            IList<PatchGroupDto> patchGroupDtos,
+            IList<UsedInDto<Patch>> grouplessPatchUsedInDtos,
+            IList<PatchGroupDto_WithUsedIn> patchGroupDtos_WithUsedIn,
             IList<UsedInDto<Curve>> curveUsedInDtos,
             IList<UsedInDto<Sample>> sampleUsedInDtos,
             RepositoryWrapper repositories, 
@@ -25,6 +25,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (repositories == null) throw new NullException(() => repositories);
 
             var sampleRepositories = new SampleRepositories(repositories);
+
+            // TODO: This looks like a lot of stuff for a ToViewModel method.
+            IList<Patch> grouplessPatches = grouplessPatchUsedInDtos.Select(x => x.Entity).ToArray();
+            IList<PatchGroupDto> patchGroupDtos = patchGroupDtos_WithUsedIn.Select(x => new PatchGroupDto
+            {
+                GroupName = x.GroupName,
+                Patches = x.PatchUsedInDtos.Select(y => y.Entity).ToArray()
+            }).ToArray();
 
             var viewModel = new DocumentViewModel
             {
@@ -56,7 +64,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorPropertiesDictionary_WithDimensionAndOutletCount = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithDimensionAndOutletCount()).ToDictionary(x => x.ID),
                 OperatorPropertiesDictionary_WithInletCount = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithInletCount()).ToDictionary(x => x.ID),
                 PatchDetailsDictionary = document.Patches.Select(x => x.ToDetailsViewModel(repositories.SampleRepository, repositories.CurveRepository, repositories.PatchRepository, entityPositionManager)).ToDictionary(x => x.Entity.ID),
-                PatchGridDictionary = ViewModelHelper.CreatePatchGridViewModelDictionary(grouplessPatches, patchGroupDtos, document.ID),
+                PatchGridDictionary = ViewModelHelper.CreatePatchGridViewModelDictionary(grouplessPatchUsedInDtos, patchGroupDtos_WithUsedIn, document.ID),
                 PatchPropertiesDictionary = document.Patches.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.ID),
                 SampleLookup = ViewModelHelper.CreateSampleLookupViewModel(document),
                 SampleGrid = sampleUsedInDtos.ToGridViewModel(document.ID),
