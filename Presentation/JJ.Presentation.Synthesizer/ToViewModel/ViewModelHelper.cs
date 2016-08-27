@@ -1107,11 +1107,28 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // Other
 
-        public static string ConcatinateUsedIn(IList<IDAndName> idAndNames)
+        public static string FormatUsedInDto(UsedInDto dto)
+        {
+            if (dto == null) throw new NullException(() => dto);
+
+            var sb = new StringBuilder();
+
+            sb.Append(dto.EntityIDAndName.Name);
+
+            if (dto.UsedInIDAndNames.Count > 0)
+            {
+                string formattedUsedInList = FormatUsedInList(dto.UsedInIDAndNames);
+                sb.AppendFormat(" ({0}: {1})", Titles.UsedIn, formattedUsedInList);
+            }
+
+            return sb.ToString();
+        }
+
+        public static string FormatUsedInList(IList<IDAndName> idAndNames)
         {
             if (idAndNames == null) throw new NullException(() => idAndNames);
 
-            string concatinatedUsedIn = String.Join(", ", idAndNames.Select(x => x.Name));
+            string concatinatedUsedIn = String.Join(", ", idAndNames.Select(x => x.Name).OrderBy(x => x));
 
             return concatinatedUsedIn;
         }

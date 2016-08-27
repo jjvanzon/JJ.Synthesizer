@@ -73,7 +73,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 ID = dto.EntityIDAndName.ID,
                 Name = dto.EntityIDAndName.Name,
-                UsedIn = ViewModelHelper.ConcatinateUsedIn(dto.UsedInIDAndNames)
+                UsedIn = ViewModelHelper.FormatUsedInList(dto.UsedInIDAndNames)
             };
 
             return viewModel;

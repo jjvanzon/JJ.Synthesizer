@@ -12,7 +12,6 @@ using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Data.Canonical;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Presentation.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -137,9 +136,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var idAndName = new IDAndName
             {
                 ID = dto.EntityIDAndName.ID,
+                Name = ViewModelHelper.FormatUsedInDto(dto)
             };
-
-            idAndName.Name = String.Format("{0} ({1}: {2})", dto.EntityIDAndName.Name, Titles.UsedIn, ViewModelHelper.ConcatinateUsedIn(dto.UsedInIDAndNames));
 
             return idAndName;
         }
