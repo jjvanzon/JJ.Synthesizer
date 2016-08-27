@@ -19,6 +19,7 @@ using JJ.Business.Synthesizer.Validation.Operators;
 using JJ.Business.Synthesizer.Configuration;
 using JJ.Framework.Common;
 using JJ.Business.Synthesizer.Validation.Patches;
+using System.Collections;
 
 namespace JJ.Business.Synthesizer
 {

@@ -295,9 +295,15 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             destDocument = userInput.ToEntity(repositories.DocumentRepository);
             userInput.DocumentProperties.ToEntity(repositories.DocumentRepository);
 
+            ToEntityHelper.ConvertToEntitiesWithRelatedEntities(
+                userInput.PatchDetailsDictionary.Values,
+                userInput.PatchPropertiesDictionary.Values,
+                destDocument,
+                patchRepositories);
+
             // Operator Properties
             // (Operators are converted with the PatchDetails view models, 
-            //  but data the property boxes would be leading or missing from PatchDetails.)
+            //  but data the from property boxes would be leading or missing from PatchDetails.)
             foreach (OperatorPropertiesViewModel propertiesViewModel in userInput.OperatorPropertiesDictionary.Values)
             {
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
@@ -372,12 +378,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             {
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
             }
-
-            ToEntityHelper.ConvertToEntitiesWithRelatedEntities(
-                userInput.PatchDetailsDictionary.Values,
-                userInput.PatchPropertiesDictionary.Values,
-                destDocument,
-                patchRepositories);
 
             userInput.AudioFileOutputPropertiesDictionary.Values.ToEntities(destDocument, new AudioFileOutputRepositories(repositories));
             userInput.AudioOutputProperties.ToEntity(repositories.AudioOutputRepository, repositories.SpeakerSetupRepository);
