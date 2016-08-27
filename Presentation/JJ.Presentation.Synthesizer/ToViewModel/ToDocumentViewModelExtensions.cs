@@ -16,7 +16,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             this Document document,
             IList<Patch> grouplessPatches,
             IList<PatchGroupDto> patchGroupDtos,
-            IList<CurveUsedInDto> curveUsedInDtos,
+            IList<UsedInDto> curveUsedInDtos,
             RepositoryWrapper repositories, 
             EntityPositionManager entityPositionManager)
         {

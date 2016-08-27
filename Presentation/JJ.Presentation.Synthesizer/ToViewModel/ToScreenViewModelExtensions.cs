@@ -101,7 +101,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static CurveGridViewModel ToGridViewModel(this IList<CurveUsedInDto> entities, int documentID)
+        public static CurveGridViewModel ToGridViewModel(this IList<UsedInDto> entities, int documentID)
         {
             if (entities == null) throw new NullException(() => entities);
 

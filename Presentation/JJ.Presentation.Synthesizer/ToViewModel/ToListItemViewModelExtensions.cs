@@ -56,7 +56,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // Curves
 
-        public static IList<CurveListItemViewModel> ToListItemViewModels(this IList<CurveUsedInDto> dtos)
+        public static IList<CurveListItemViewModel> ToListItemViewModels(this IList<UsedInDto> dtos)
         {
             if (dtos == null) throw new NullException(() => dtos);
 
@@ -66,15 +66,15 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModels;
         }
 
-        public static CurveListItemViewModel ToListItemViewModel(this CurveUsedInDto dto)
+        public static CurveListItemViewModel ToListItemViewModel(this UsedInDto dto)
         {
             if (dto == null) throw new NullException(() => dto);
 
             var viewModel = new CurveListItemViewModel
             {
-                ID = dto.Curve.ID,
-                Name = dto.Curve.Name,
-                UsedIn = ViewModelHelper.ConcatinateUsedIn(dto.UsedIn)
+                ID = dto.EntityIDAndName.ID,
+                Name = dto.EntityIDAndName.Name,
+                UsedIn = ViewModelHelper.ConcatinateUsedIn(dto.UsedInIDAndNames)
             };
 
             return viewModel;

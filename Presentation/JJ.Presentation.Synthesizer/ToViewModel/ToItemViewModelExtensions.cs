@@ -130,16 +130,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static IDAndName ToIDAndNameWithUsedIn(this CurveUsedInDto dto)
+        public static IDAndName ToIDAndNameWithUsedIn(this UsedInDto dto)
         {
             if (dto == null) throw new NullException(() => dto);
 
             var idAndName = new IDAndName
             {
-                ID = dto.Curve.ID,
+                ID = dto.EntityIDAndName.ID,
             };
 
-            idAndName.Name = String.Format("{0} ({1}: {2})", dto.Curve.Name, Titles.UsedIn, ViewModelHelper.ConcatinateUsedIn(dto.UsedIn));
+            idAndName.Name = String.Format("{0} ({1}: {2})", dto.EntityIDAndName.Name, Titles.UsedIn, ViewModelHelper.ConcatinateUsedIn(dto.UsedInIDAndNames));
 
             return idAndName;
         }

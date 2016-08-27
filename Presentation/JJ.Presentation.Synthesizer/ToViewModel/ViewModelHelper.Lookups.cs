@@ -50,7 +50,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // Curve
 
-        public static IList<IDAndName> CreateCurveLookupViewModel(IList<CurveUsedInDto> curveUsedInDtos)
+        public static IList<IDAndName> CreateCurveLookupViewModel(IList<UsedInDto> curveUsedInDtos)
         {
             if (curveUsedInDtos == null) throw new NullException(() => curveUsedInDtos);
 
@@ -58,7 +58,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             list.Add(new IDAndName { ID = 0, Name = null });
 
-            list.AddRange(curveUsedInDtos.OrderBy(x => x.Curve.Name).Select(x => x.ToIDAndNameWithUsedIn()));
+            list.AddRange(curveUsedInDtos.OrderBy(x => x.EntityIDAndName.Name).Select(x => x.ToIDAndNameWithUsedIn()));
 
             return list;
         }
