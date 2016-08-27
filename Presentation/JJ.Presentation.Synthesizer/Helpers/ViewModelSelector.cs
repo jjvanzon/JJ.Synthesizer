@@ -507,14 +507,16 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (documentViewModel == null) throw new NullException(() => documentViewModel);
 
+            string key = group?.ToLower() ?? "";
+
             PatchGridViewModel viewModel;
-            if (documentViewModel.PatchGridDictionary.TryGetValue(group, out viewModel))
+            if (documentViewModel.PatchGridDictionary.TryGetValue(key, out viewModel))
             {
                 return viewModel;
             }
 
             throw new NotFoundException<PatchGridViewModel>(new { group });
-        }
+        } 
 
         // Sample
 

@@ -516,7 +516,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Refresh
             if (viewModel.Successful)
             {
-                DocumentViewModelRefresh(); // Things that need to be refreshed: PatchDetails, Curve lookups, Curve Grid.
+                DocumentViewModelRefresh();
             }
         }
 
@@ -1412,7 +1412,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Refresh
             if (viewModel.Successful)
             {
-                PatchDetails_RefreshOperator(userInput.ID);
+                DocumentViewModelRefresh();
             }
         }
 
@@ -1427,7 +1427,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Refresh
             if (viewModel.Successful)
             {
-                PatchDetails_RefreshOperator(userInput.ID);
+                DocumentViewModelRefresh();
             }
         }
 
@@ -1504,7 +1504,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Refresh
             if (viewModel.Successful)
             {
-                PatchDetails_RefreshOperator(userInput.ID);
+                DocumentViewModelRefresh();
             }
         }
 
