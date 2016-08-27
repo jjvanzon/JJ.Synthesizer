@@ -141,14 +141,14 @@ namespace JJ.Business.Synthesizer
             return result;
         }
 
-        public IList<UsedInDto> GetUsedIn(IList<Curve> entities)
+        public IList<UsedInDto<Curve>> GetUsedIn(IList<Curve> entities)
         {
-            IList<UsedInDto> dtos = entities.Select(x => new UsedInDto
-                                             {
-                                                 EntityIDAndName = x.ToIDAndName(),
-                                                 UsedInIDAndNames = GetUsedIn(x)
-                                             })
-                                            .ToArray();
+            IList<UsedInDto<Curve>> dtos = entities.Select(x => new UsedInDto<Curve>
+                                                   {
+                                                       Entity = x,
+                                                       UsedInIDAndNames = GetUsedIn(x)
+                                                   })
+                                                   .ToArray();
             return dtos;
         }
 
@@ -170,14 +170,14 @@ namespace JJ.Business.Synthesizer
             return idAndNames;
         }
 
-        public IList<UsedInDto> GetUsedIn(IList<Sample> entities)
+        public IList<UsedInDto<Sample>> GetUsedIn(IList<Sample> entities)
         {
-            IList<UsedInDto> dtos = entities.Select(x => new UsedInDto
-                                             {
-                                                 EntityIDAndName = x.ToIDAndName(),
-                                                 UsedInIDAndNames = GetUsedIn(x)
-                                             })
-                                            .ToArray();
+            IList<UsedInDto<Sample>> dtos = entities.Select(x => new UsedInDto<Sample>
+                                                    {
+                                                        Entity = x,
+                                                        UsedInIDAndNames = GetUsedIn(x)
+                                                    })
+                                                    .ToArray();
             return dtos;
         }
 
@@ -199,14 +199,14 @@ namespace JJ.Business.Synthesizer
             return idAndNames;
         }
 
-        public IList<UsedInDto> GetUsedIn(IList<Patch> entities)
+        public IList<UsedInDto<Patch>> GetUsedIn(IList<Patch> entities)
         {
-            IList<UsedInDto> dtos = entities.Select(x => new UsedInDto
-                                             {
-                                                 EntityIDAndName = x.ToIDAndName(),
-                                                 UsedInIDAndNames = GetUsedIn(x)
-                                             })
-                                            .ToArray();
+            IList<UsedInDto<Patch>> dtos = entities.Select(x => new UsedInDto<Patch>
+                                                   {
+                                                       Entity = x,
+                                                       UsedInIDAndNames = GetUsedIn(x)
+                                                   })
+                                                   .ToArray();
             return dtos;
         }
 

@@ -44,6 +44,7 @@
     <Compile Include="Helpers\ConfigurationSection.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Helpers\PresentationPropertyNames.cs" />
+    <Compile Include="Helpers\2016-08-27 Backup of SampleUsedInDto.cs" />
     <Compile Include="Helpers\StyleGradeEnum.cs" />
     <Compile Include="Helpers\ToPatchWithRelatedEntitiesResult.cs" />
     <Compile Include="Helpers\ViewModelNotFoundByIDException.cs" />

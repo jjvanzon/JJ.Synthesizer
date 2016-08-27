@@ -691,13 +691,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
             var patchManager = new PatchManager(_patchRepositories);
             IList<Patch> grouplessPatches = patchManager.GetGrouplessPatches(document.Patches);
             IList<PatchGroupDto> patchGroupDtos = patchManager.GetPatchGroupDtos(document.Patches);
-            IList<UsedInDto> curveUsedInDtos = _documentManager.GetUsedIn(document.Curves);
+            IList<UsedInDto<Curve>> curveUsedInDtos = _documentManager.GetUsedIn(document.Curves);
+            IList<UsedInDto<Sample>> sampleUsedInDtos = _documentManager.GetUsedIn(document.Samples);
 
             // ToViewModel
             DocumentViewModel viewModel = document.ToViewModel(
                 grouplessPatches,
                 patchGroupDtos,
                 curveUsedInDtos,
+                sampleUsedInDtos,
                 _repositories,
                 _entityPositionManager);
 

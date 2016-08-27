@@ -7,22 +7,21 @@ using System;
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
-using JJ.Presentation.Synthesizer.Helpers;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class CurveGridPresenter : PresenterBase<CurveGridViewModel>
     {
-        private readonly RepositoryWrapper _repositories;
+        private readonly IDocumentRepository _documentRepository;
         private readonly DocumentManager _documentManager;
 
         public CurveGridPresenter(RepositoryWrapper repositories)
         {
             if (repositories == null) throw new NullException(() => repositories);
 
-            _repositories = repositories;
-
-            _documentManager = new DocumentManager(_repositories);
+            _documentRepository = repositories.DocumentRepository;
+            _documentManager = new DocumentManager(repositories);
         }
 
         public CurveGridViewModel Show(CurveGridViewModel userInput)
@@ -93,13 +92,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private CurveGridViewModel CreateViewModel(CurveGridViewModel userInput)
         {
             // GetEntity
-            Document document = _repositories.DocumentRepository.Get(userInput.DocumentID);
+            Document document = _documentRepository.Get(userInput.DocumentID);
 
             // Business
-            IList<UsedInDto> curveUsedInDtos = _documentManager.GetUsedIn(document.Curves);
+            IList<UsedInDto<Curve>> dtos = _documentManager.GetUsedIn(document.Curves);
 
             // ToViewModel
-            CurveGridViewModel viewModel = curveUsedInDtos.ToGridViewModel(userInput.DocumentID);
+            CurveGridViewModel viewModel = dtos.ToGridViewModel(userInput.DocumentID);
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);

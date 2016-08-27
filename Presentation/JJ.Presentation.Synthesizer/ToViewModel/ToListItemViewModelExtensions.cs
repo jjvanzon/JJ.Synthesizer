@@ -6,10 +6,12 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Helpers;
 using System;
+using JJ.Data.Canonical;
+using JJ.Presentation.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
-    public static class ToListItemViewModelExtensions
+    internal static class ToListItemViewModelExtensions
     {
         // AudioFileOutput
 
@@ -55,7 +57,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // Curves
 
-        public static IList<CurveListItemViewModel> ToListItemViewModels(this IList<UsedInDto> dtos)
+        public static IList<CurveListItemViewModel> ToListItemViewModels(this IList<UsedInDto<Curve>> dtos)
         {
             if (dtos == null) throw new NullException(() => dtos);
 
@@ -65,14 +67,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModels;
         }
 
-        public static CurveListItemViewModel ToListItemViewModel(this UsedInDto dto)
+        public static CurveListItemViewModel ToListItemViewModel(this UsedInDto<Curve> dto)
         {
             if (dto == null) throw new NullException(() => dto);
 
             var viewModel = new CurveListItemViewModel
             {
-                ID = dto.EntityIDAndName.ID,
-                Name = dto.EntityIDAndName.Name,
+                ID = dto.Entity.ID,
+                Name = dto.Entity.Name,
                 UsedIn = ViewModelHelper.FormatUsedInList(dto.UsedInIDAndNames)
             };
 
@@ -81,26 +83,29 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // Samples
 
-        public static IList<SampleListItemViewModel> ToListItemViewModels(this IList<Sample> entities)
+        public static IList<SampleListItemViewModel> ToListItemViewModels(this IList<UsedInDto<Sample>> dtos)
         {
-            if (entities == null) throw new NullException(() => entities);
+            if (dtos == null) throw new NullException(() => dtos);
 
-            IList<SampleListItemViewModel> viewModels = entities.OrderBy(x => x.Name)
-                                                                .Select(x => x.ToListItemViewModel())
-                                                                .ToList();
+            IList<SampleListItemViewModel> viewModels = dtos.Select(x => x.ToListItemViewModel())
+                                                            .OrderBy(x => x.Name)
+                                                            .ToList();
             return viewModels;
         }
 
-        public static SampleListItemViewModel ToListItemViewModel(this Sample entity)
+        public static SampleListItemViewModel ToListItemViewModel(this UsedInDto<Sample> dto)
         {
-            if (entity == null) throw new NullException(() => entity);
+            if (dto == null) throw new NullException(() => dto);
+
+            Sample entity = dto.Entity;
 
             var viewModel = new SampleListItemViewModel
             {
                 IsActive = entity.IsActive,
                 Name = entity.Name,
                 SamplingRate = entity.SamplingRate,
-                ID = entity.ID
+                ID = entity.ID,
+                UsedIn = ViewModelHelper.FormatUsedInList(dto.UsedInIDAndNames)
             };
 
             // TODO: Do this with enums.
@@ -116,5 +121,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             return viewModel;
         }
+
     }
 }

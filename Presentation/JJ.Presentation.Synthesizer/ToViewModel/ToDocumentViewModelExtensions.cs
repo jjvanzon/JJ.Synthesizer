@@ -14,12 +14,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             this Document document,
             IList<Patch> grouplessPatches,
             IList<PatchGroupDto> patchGroupDtos,
-            IList<UsedInDto> curveUsedInDtos,
+            IList<UsedInDto<Curve>> curveUsedInDtos,
+            IList<UsedInDto<Sample>> sampleUsedInDtos,
             RepositoryWrapper repositories, 
             EntityPositionManager entityPositionManager)
         {
             if (document == null) throw new NullException(() => document);
             if (curveUsedInDtos == null) throw new NullException(() => curveUsedInDtos);
+            if (sampleUsedInDtos == null) throw new NullException(() => sampleUsedInDtos);
             if (repositories == null) throw new NullException(() => repositories);
 
             var sampleRepositories = new SampleRepositories(repositories);
@@ -57,7 +59,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 PatchGridDictionary = ViewModelHelper.CreatePatchGridViewModelDictionary(grouplessPatches, patchGroupDtos, document.ID),
                 PatchPropertiesDictionary = document.Patches.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.ID),
                 SampleLookup = ViewModelHelper.CreateSampleLookupViewModel(document),
-                SampleGrid = document.Samples.ToGridViewModel(document.ID),
+                SampleGrid = sampleUsedInDtos.ToGridViewModel(document.ID),
                 SamplePropertiesDictionary = document.Samples.Select(x => x.ToPropertiesViewModel(sampleRepositories)).ToDictionary(x => x.Entity.ID),
                 ScaleGrid = document.Scales.ToGridViewModel(document.ID),
                 ScalePropertiesDictionary = document.Scales.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.Entity.ID),

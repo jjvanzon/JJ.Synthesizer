@@ -52,6 +52,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 x.SamplingRate,
                 x.SampleDataType,
                 x.SpeakerSetup,
+                x.UsedIn
             }).ToArray();
         }
 
@@ -59,6 +60,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void Create()
         {
+            if (ViewModel == null) return;
+
             CreateRequested?.Invoke(this, new EventArgs<int>(ViewModel.DocumentID));
         }
 

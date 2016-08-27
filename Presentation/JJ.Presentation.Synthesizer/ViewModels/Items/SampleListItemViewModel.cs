@@ -8,5 +8,6 @@
         public int SamplingRate { get; set; }
         public string SampleDataType { get; set; }
         public string SpeakerSetup { get; set; }
+        public string UsedIn { get; set; }
     }
 }

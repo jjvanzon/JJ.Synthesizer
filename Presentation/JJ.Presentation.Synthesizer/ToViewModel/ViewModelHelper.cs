@@ -1107,13 +1107,30 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // Other
 
-        public static string FormatUsedInDto(UsedInDto dto)
+        public static string FormatUsedInDto(UsedInDto<Curve> dto)
         {
             if (dto == null) throw new NullException(() => dto);
 
             var sb = new StringBuilder();
 
-            sb.Append(dto.EntityIDAndName.Name);
+            sb.Append(dto.Entity.Name);
+
+            if (dto.UsedInIDAndNames.Count > 0)
+            {
+                string formattedUsedInList = FormatUsedInList(dto.UsedInIDAndNames);
+                sb.AppendFormat(" ({0}: {1})", Titles.UsedIn, formattedUsedInList);
+            }
+
+            return sb.ToString();
+        }
+
+        public static string FormatUsedInDto(UsedInDto<Sample> dto)
+        {
+            if (dto == null) throw new NullException(() => dto);
+
+            var sb = new StringBuilder();
+
+            sb.Append(dto.Entity.Name);
 
             if (dto.UsedInIDAndNames.Count > 0)
             {

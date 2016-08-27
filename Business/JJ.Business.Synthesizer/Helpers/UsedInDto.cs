@@ -5,9 +5,9 @@ using JJ.Data.Canonical;
 
 namespace JJ.Business.Synthesizer.Helpers
 {
-    public class UsedInDto
+    public class UsedInDto<TEntity>
     {
-        public IDAndName EntityIDAndName { get; set; }
+        public TEntity Entity { get; set; }
         public IList<IDAndName> UsedInIDAndNames { get; set; }
     }
 }

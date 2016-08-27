@@ -37,6 +37,7 @@
             this.SpeakerSetupColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SamplingRateColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IsActiveColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.UsedInColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.specializedDataGridView)).BeginInit();
             this.tableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
@@ -56,7 +57,8 @@
             this.SampleDataTypeColumn,
             this.SpeakerSetupColumn,
             this.SamplingRateColumn,
-            this.IsActiveColumn});
+            this.IsActiveColumn,
+            this.UsedInColumn});
             this.specializedDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.specializedDataGridView.Location = new System.Drawing.Point(0, 26);
             this.specializedDataGridView.Margin = new System.Windows.Forms.Padding(0);
@@ -148,6 +150,14 @@
             this.IsActiveColumn.Name = "IsActiveColumn";
             this.IsActiveColumn.ReadOnly = true;
             // 
+            // UsedInColumn
+            // 
+            this.UsedInColumn.DataPropertyName = "UsedIn";
+            this.UsedInColumn.HeaderText = "UsedIn";
+            this.UsedInColumn.Name = "UsedInColumn";
+            this.UsedInColumn.ReadOnly = true;
+            this.UsedInColumn.Width = 180;
+            // 
             // SampleGridUserControl
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -171,5 +181,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn SpeakerSetupColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn SamplingRateColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn IsActiveColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn UsedInColumn;
     }
 }

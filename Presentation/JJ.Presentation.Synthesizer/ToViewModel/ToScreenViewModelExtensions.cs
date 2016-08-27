@@ -15,6 +15,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Presentation.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -98,14 +99,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static CurveGridViewModel ToGridViewModel(this IList<UsedInDto> entities, int documentID)
+        public static CurveGridViewModel ToGridViewModel(this IList<UsedInDto<Curve>> dtos, int documentID)
         {
-            if (entities == null) throw new NullException(() => entities);
+            if (dtos == null) throw new NullException(() => dtos);
 
             var viewModel = new CurveGridViewModel
             {
                 DocumentID = documentID,
-                List = entities.ToListItemViewModels(),
+                List = dtos.ToListItemViewModels(),
                 ValidationMessages = new List<Message>()
             };
 
@@ -788,14 +789,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static SampleGridViewModel ToGridViewModel(this IList<Sample> entities, int documentID)
+        public static SampleGridViewModel ToGridViewModel(this IList<UsedInDto<Sample>> dtos, int documentID)
         {
-            if (entities == null) throw new NullException(() => entities);
+            if (dtos == null) throw new NullException(() => dtos);
 
             var viewModel = new SampleGridViewModel
             {
                 DocumentID = documentID,
-                List = entities.ToListItemViewModels(),
+                List = dtos.ToListItemViewModels(),
                 ValidationMessages = new List<Message>()
             };
 
