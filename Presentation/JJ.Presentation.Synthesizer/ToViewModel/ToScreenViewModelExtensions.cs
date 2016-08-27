@@ -107,9 +107,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new CurveGridViewModel
             {
                 DocumentID = documentID,
-                List = entities.OrderBy(x => x.Name)
-                               .Select(x => x.ToIDAndName())
-                               .ToList(),
+                List = entities.ToListItemViewModels(),
                 ValidationMessages = new List<Message>()
             };
 

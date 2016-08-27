@@ -158,4 +158,7 @@
   <data name="Type" xml:space="preserve">
     <value>Soort</value>
   </data>
+  <data name="UsedIn" xml:space="preserve">
+    <value>Gebruikt in</value>
+  </data>
 </root>

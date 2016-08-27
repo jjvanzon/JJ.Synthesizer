@@ -7,6 +7,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
     public sealed class CurveGridViewModel : ViewModelBase
     {
         public int DocumentID { get; set; }
-        public IList<IDAndName> List { get; set; }
+        public IList<CurveListItemViewModel> List { get; set; }
     }
 }

@@ -6,6 +6,8 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
+using JJ.Framework.Presentation.Resources;
+using JJ.Presentation.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -29,6 +31,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void SetTitles()
         {
             titleBarUserControl.Text = PropertyDisplayNames.Curves;
+            NameColumn.HeaderText = CommonTitles.Name;
+            UsedInColumn.HeaderText = Titles.UsedIn;
         }
 
         // Binding

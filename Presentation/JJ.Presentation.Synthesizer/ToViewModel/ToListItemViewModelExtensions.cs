@@ -52,6 +52,31 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
+        // Curves
+
+        public static IList<CurveListItemViewModel> ToListItemViewModels(this IList<Curve> entities)
+        {
+            if (entities == null) throw new NullException(() => entities);
+
+            IList<CurveListItemViewModel> viewModels = entities.OrderBy(x => x.Name)
+                                                               .Select(x => x.ToListItemViewModel())
+                                                               .ToList();
+            return viewModels;
+        }
+
+        public static CurveListItemViewModel ToListItemViewModel(this Curve entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            var viewModel = new CurveListItemViewModel
+            {
+                ID = entity.ID,
+                Name = entity.Name
+            };
+
+            return viewModel;
+        }
+
         // Samples
 
         public static IList<SampleListItemViewModel> ToListItemViewModels(this IList<Sample> entities)

@@ -118,7 +118,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _repositories.IDRepository);
             _currentPatchesPresenter = new CurrentPatchesPresenter(_repositories.PatchRepository);
             _curveDetailsPresenter = new CurveDetailsPresenter(_curveRepositories);
-            _curveGridPresenter = new CurveGridPresenter(_repositories.DocumentRepository);
+            _curveGridPresenter = new CurveGridPresenter(_repositories);
             _curvePropertiesPresenter = new CurvePropertiesPresenter(_curveRepositories);
             _documentCannotDeletePresenter = new DocumentCannotDeletePresenter(_repositories.DocumentRepository);
             _documentDeletedPresenter = new DocumentDeletedPresenter();

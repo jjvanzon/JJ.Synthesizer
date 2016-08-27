@@ -61,7 +61,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new CurveGridViewModel
             {
-                List = new List<IDAndName>(),
+                List = new List<CurveListItemViewModel>(),
                 ValidationMessages = new List<Message>()
             };
 

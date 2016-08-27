@@ -29,10 +29,11 @@
         private void InitializeComponent()
         {
             this.specializedDataGridView = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.SpecializedDataGridView();
-            this.IDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.IDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.UsedInColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.specializedDataGridView)).BeginInit();
             this.tableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
@@ -46,10 +47,10 @@
             this.specializedDataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.specializedDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.specializedDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.specializedDataGridView.ColumnHeadersVisible = false;
             this.specializedDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.IDColumn,
-            this.NameColumn});
+            this.NameColumn,
+            this.UsedInColumn});
             this.specializedDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.specializedDataGridView.Location = new System.Drawing.Point(0, 26);
             this.specializedDataGridView.Margin = new System.Windows.Forms.Padding(0);
@@ -57,25 +58,8 @@
             this.specializedDataGridView.RowHeadersVisible = false;
             this.specializedDataGridView.Size = new System.Drawing.Size(413, 219);
             this.specializedDataGridView.TabIndex = 0;
-            this.specializedDataGridView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.specializedDataGridView_KeyDown);
             this.specializedDataGridView.DoubleClick += new System.EventHandler(this.specializedDataGridView_DoubleClick);
-            // 
-            // IDColumn
-            // 
-            this.IDColumn.DataPropertyName = "ID";
-            this.IDColumn.HeaderText = "ID";
-            this.IDColumn.Name = "IDColumn";
-            this.IDColumn.ReadOnly = true;
-            this.IDColumn.Visible = false;
-            this.IDColumn.Width = 80;
-            // 
-            // NameColumn
-            // 
-            this.NameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.NameColumn.DataPropertyName = "Name";
-            this.NameColumn.HeaderText = "Name";
-            this.NameColumn.Name = "NameColumn";
-            this.NameColumn.ReadOnly = true;
+            this.specializedDataGridView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.specializedDataGridView_KeyDown);
             // 
             // titleBarUserControl
             // 
@@ -109,6 +93,31 @@
             this.tableLayoutPanel.Size = new System.Drawing.Size(413, 245);
             this.tableLayoutPanel.TabIndex = 5;
             // 
+            // IDColumn
+            // 
+            this.IDColumn.DataPropertyName = "ID";
+            this.IDColumn.HeaderText = "ID";
+            this.IDColumn.Name = "IDColumn";
+            this.IDColumn.ReadOnly = true;
+            this.IDColumn.Visible = false;
+            this.IDColumn.Width = 80;
+            // 
+            // NameColumn
+            // 
+            this.NameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.NameColumn.DataPropertyName = "Name";
+            this.NameColumn.HeaderText = "Name";
+            this.NameColumn.Name = "NameColumn";
+            this.NameColumn.ReadOnly = true;
+            // 
+            // UsedInColumn
+            // 
+            this.UsedInColumn.DataPropertyName = "UsedIn";
+            this.UsedInColumn.HeaderText = "UsedIn";
+            this.UsedInColumn.Name = "UsedInColumn";
+            this.UsedInColumn.ReadOnly = true;
+            this.UsedInColumn.Width = 180;
+            // 
             // CurveGridUserControl
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -128,5 +137,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
         private System.Windows.Forms.DataGridViewTextBoxColumn IDColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn NameColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn UsedInColumn;
     }
 }

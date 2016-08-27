@@ -107,6 +107,7 @@
     <Compile Include="ViewModels\CurrentPatchesViewModel.cs" />
     <Compile Include="ViewModels\Items\AudioOutputViewModel.cs" />
     <Compile Include="ViewModels\Items\2016-08-25 Backup of PatchIDAndNameViewModel.cs" />
+    <Compile Include="ViewModels\Items\CurveListItemViewModel.cs" />
     <Compile Include="ViewModels\Items\DimensionViewModel.cs" />
     <Compile Include="ViewModels\Items\ScaleViewModel.cs" />
     <Compile Include="ViewModels\Items\ToneViewModel.cs" />

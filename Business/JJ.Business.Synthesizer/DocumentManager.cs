@@ -1,12 +1,10 @@
 ﻿using JJ.Data.Canonical;
-using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
 using JJ.Business.Synthesizer.Helpers;
 using System;
-using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.SideEffects;
 using JJ.Framework.Business;
 using System.Collections.Generic;
@@ -14,8 +12,9 @@ using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Warnings;
 using JJ.Business.Synthesizer.Validation.Documents;
 using System.Linq;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Framework.Common;
-using JJ.Business.Synthesizer.Dto;
 
 namespace JJ.Business.Synthesizer
 {
@@ -140,6 +139,60 @@ namespace JJ.Business.Synthesizer
             };
 
             return result;
+        }
+
+        public IList<IDAndName> GetUsedIn(Curve curve)
+        {
+            if (curve == null) throw new NullException(() => curve);
+
+            IEnumerable<Patch> patches = 
+                curve.Document
+                     .Patches
+                     .SelectMany(x => x.Operators)
+                     .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.Curve &&
+                                 new Curve_OperatorWrapper(x, _repositories.CurveRepository).CurveID == curve.ID)
+                     .Select(x => x.Patch)
+                     .Distinct(x => x.ID);
+
+            IList<IDAndName> idAndNames = patches.Select(x => new IDAndName { ID = x.ID, Name = x.Name }).ToArray();
+
+            return idAndNames;
+        }
+
+        public IList<IDAndName> GetUsedIn(Sample sample)
+        {
+            if (sample == null) throw new NullException(() => sample);
+
+            IEnumerable<Patch> patches =
+                sample.Document
+                      .Patches
+                      .SelectMany(x => x.Operators)
+                      .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.Sample &&
+                                  new Sample_OperatorWrapper(x, _repositories.SampleRepository).SampleID == sample.ID)
+                      .Select(x => x.Patch)
+                      .Distinct(x => x.ID);
+
+            IList<IDAndName> idAndNames = patches.Select(x => new IDAndName { ID = x.ID, Name = x.Name }).ToArray();
+
+            return idAndNames;
+        }
+
+        public IList<IDAndName> GetUsedIn(Patch patch)
+        {
+            if (patch == null) throw new NullException(() => patch);
+
+            IEnumerable<Patch> patches =
+                patch.Document
+                     .Patches
+                     .SelectMany(x => x.Operators)
+                     .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator &&
+                                 new CustomOperator_OperatorWrapper(x, _repositories.PatchRepository).UnderlyingPatchID == patch.ID)
+                     .Select(x => x.Patch)
+                     .Distinct(x => x.ID);
+
+            IList<IDAndName> idAndNames = patches.Select(x => new IDAndName { ID = x.ID, Name = x.Name }).ToArray();
+
+            return idAndNames;
         }
     }
 }

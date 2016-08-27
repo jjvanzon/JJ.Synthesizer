@@ -176,5 +176,14 @@ namespace JJ.Presentation.Synthesizer.Resources {
                 return ResourceManager.GetString("Type", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Used In.
+        /// </summary>
+        public static string UsedIn {
+            get {
+                return ResourceManager.GetString("UsedIn", resourceCulture);
+            }
+        }
     }
 }
