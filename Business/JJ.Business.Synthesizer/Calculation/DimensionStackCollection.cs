@@ -7,10 +7,6 @@ using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer.Calculation
 {
-    /// <summary>
-    /// This class maintains for each dimension a stack of values 
-    /// and tries to make access to these values as fast as possible.
-    /// </summary>
     internal class DimensionStackCollection
     {
         private static int _dimensionCount = GetDimensionCount();
@@ -47,60 +43,6 @@ namespace JJ.Business.Synthesizer.Calculation
         public DimensionStack GetDimensionStack(DimensionEnum dimensionEnum)
         {
             return _stacks[(int)dimensionEnum];
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Push(DimensionEnum dimensionEnum, double value)
-        {
-            GetDimensionStack(dimensionEnum).Push(value);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Pop(DimensionEnum dimensionEnum)
-        {
-            GetDimensionStack(dimensionEnum).Pop();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public double PopAndGet(DimensionEnum dimensionEnum)
-        {
-            double value = GetDimensionStack(dimensionEnum).PopAndGet();
-            return value;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public double Get(DimensionEnum dimensionEnum)
-        {
-            return GetDimensionStack(dimensionEnum).Get();
-        }
-
-        /// <summary>
-        /// A slightly quicker alternative to a subsequent Pop and Push,
-        /// when you know there will not be any stack operators in between,
-        /// or when you know you are at the top level of the stack.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Set(DimensionEnum dimensionEnum, double value)
-        {
-            GetDimensionStack(dimensionEnum).Set(value);
-        }
-
-        /// <summary>
-        /// A slightly quicker alternative to a subsequent Pop and Push,
-        /// when you know there will not be any stack operators in between,
-        /// or when you know you are at the top level of the stack.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Set(DimensionEnum dimensionEnum, int i, double value)
-        {
-            GetDimensionStack(dimensionEnum).Set(i, value);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public int Count(DimensionEnum dimensionEnum)
-        {
-            int count = GetDimensionStack(dimensionEnum).Count;
-            return count;
         }
     }
 }

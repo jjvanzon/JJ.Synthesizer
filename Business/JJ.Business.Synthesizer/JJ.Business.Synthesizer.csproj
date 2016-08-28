@@ -86,6 +86,7 @@
     <Compile Include="Calculation\Curves\ICurveCalculator.cs" />
     <Compile Include="Calculation\Curves\CurveCalculator_MinXZero.cs" />
     <Compile Include="Calculation\Curves\CurveCalculator_MinX.cs" />
+    <Compile Include="Calculation\2016-08-28 Backup of DimensionStackCollection.cs" />
     <Compile Include="Calculation\DimensionStackCollection.cs" />
     <Compile Include="Calculation\Operators\Add OperatorCalculator Classes Only Vars.cs">
       <DependentUpon>Add OperatorCalculator Classes Only Vars.tt</DependentUpon>
