@@ -23,14 +23,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Gui
 
-        protected override void AddProperties()
-        {
-            AddProperty(labelOperatorTypeTitle, labelOperatorTypeValue);
-            AddProperty(labelSample, comboBoxSample);
-            AddProperty(labelDimension, comboBoxDimension);
-            AddProperty(labelName, textBoxName);
-        }
-
         protected override void SetTitles()
         {
             TitleBarText = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Operator);
@@ -39,6 +31,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelOperatorTypeValue.Text = PropertyDisplayNames.Sample;
             labelSample.Text = PropertyDisplayNames.Sample;
             labelDimension.Text = PropertyDisplayNames.Dimension;
+            labelCustomDimensionName.Text = Titles.CustomDimension;
+        }
+
+        protected override void AddProperties()
+        {
+            AddProperty(labelOperatorTypeTitle, labelOperatorTypeValue);
+            AddProperty(labelSample, comboBoxSample);
+            AddProperty(labelDimension, comboBoxDimension);
+            AddProperty(labelCustomDimensionName, textBoxCustomDimensionName);
+            AddProperty(labelName, textBoxName);
         }
 
         // Binding
@@ -48,6 +50,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         protected override void ApplyViewModelToControls()
         {
             textBoxName.Text = ViewModel.Name;
+            textBoxCustomDimensionName.Text = ViewModel.CustomDimensionName;
 
             // Sample
             if (ViewModel.Sample != null)
@@ -95,6 +98,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ViewModel.Name = textBoxName.Text;
             ViewModel.Sample = (IDAndName)comboBoxSample.SelectedItem;
             ViewModel.Dimension = (IDAndName)comboBoxDimension.SelectedItem;
+            ViewModel.CustomDimensionName = textBoxCustomDimensionName.Text;
         }
 
         // Helpers

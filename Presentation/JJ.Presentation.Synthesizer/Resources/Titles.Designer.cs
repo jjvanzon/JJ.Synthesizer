@@ -88,6 +88,15 @@ namespace JJ.Presentation.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Custom Dimension.
+        /// </summary>
+        public static string CustomDimension {
+            get {
+                return ResourceManager.GetString("CustomDimension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Document List.
         /// </summary>
         public static string DocumentList {

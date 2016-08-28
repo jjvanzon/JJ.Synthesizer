@@ -21,14 +21,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Gui
 
-        protected override void AddProperties()
-        {
-            AddProperty(labelOperatorTypeTitle, labelOperatorTypeValue);
-            AddProperty(labelInterpolation, comboBoxInterpolation);
-            AddProperty(labelDimension, comboBoxDimension);
-            AddProperty(labelName, textBoxName);
-        }
-
         protected override void SetTitles()
         {
             TitleBarText = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Operator);
@@ -36,10 +28,19 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelOperatorTypeTitle.Text = Titles.Type + ":";
             labelInterpolation.Text = PropertyDisplayNames.Interpolation;
             labelDimension.Text = PropertyDisplayNames.Dimension;
+            labelCustomDimensionName.Text = Titles.CustomDimension;
+        }
+
+        protected override void AddProperties()
+        {
+            AddProperty(labelOperatorTypeTitle, labelOperatorTypeValue);
+            AddProperty(labelInterpolation, comboBoxInterpolation);
+            AddProperty(labelDimension, comboBoxDimension);
+            AddProperty(labelCustomDimensionName, textBoxCustomDimensionName);
+            AddProperty(labelName, textBoxName);
         }
 
         // Binding
-
 
         private new OperatorPropertiesViewModel_WithDimensionAndInterpolation ViewModel =>
                    (OperatorPropertiesViewModel_WithDimensionAndInterpolation)base.ViewModel;
@@ -48,6 +49,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             textBoxName.Text = ViewModel.Name;
             labelOperatorTypeValue.Text = ViewModel.OperatorType.Name;
+            textBoxCustomDimensionName.Text = ViewModel.CustomDimensionName;
 
             // Interpolation
             if (comboBoxInterpolation.DataSource == null)
@@ -87,6 +89,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ViewModel.Name = textBoxName.Text;
             ViewModel.Interpolation = (IDAndName)comboBoxInterpolation.SelectedItem;
             ViewModel.Dimension = (IDAndName)comboBoxDimension.SelectedItem;
+            ViewModel.CustomDimensionName = textBoxCustomDimensionName.Text;
         }
     }
 }

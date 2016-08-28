@@ -76,21 +76,37 @@ namespace JJ.Presentation.Synthesizer.Converters
         private Dictionary<int, OperatorViewModel> ConvertToViewModelDictionaryRecursive(IList<Operator> operators)
         {
             var operatorViewModels = new List<OperatorViewModel>(operators.Count);
-            var dimensionIDs = new HashSet<int>();
+            var dimensionIdentifiers = new HashSet<object>();
 
             foreach (Operator op in operators)
             {
                 OperatorViewModel operatorViewModel = ConvertToViewModelRecursive(op);
-                operatorViewModel.Dimension = op.GetDimensionEnum().ToViewModel();
+
+                DimensionEnum dimensionEnum = op.GetDimensionEnum();
+                if (dimensionEnum != DimensionEnum.Undefined)
+                {
+                    operatorViewModel.Dimension = dimensionEnum.ToViewModel();
+                    dimensionIdentifiers.Add(dimensionEnum);
+                }
+                else
+                {
+                    // TOdO: It is strange that dimensionEnum has a ToViewmodel and CustomDimensionName does not.
+                    string dimensionIdentifier = op.CustomDimensionName ?? "";
+                    operatorViewModel.Dimension = new DimensionViewModel
+                    {
+                        Identifier = dimensionIdentifier,
+                        Name = op.CustomDimensionName
+                    };
+                    dimensionIdentifiers.Add(dimensionIdentifier);
+                }
+
                 operatorViewModel.Dimension.Visible = ViewModelHelper.OperatorTypeEnums_WithStyledDimension.Contains(op.GetOperatorTypeEnum());
 
                 operatorViewModels.Add(operatorViewModel);
-
-                dimensionIDs.Add(operatorViewModel.Dimension.ID);
             }
 
             // Assign style depending on Dimension.
-            if (dimensionIDs.Count <= 1)
+            if (dimensionIdentifiers.Count <= 1)
             {
                 // Max 1 dimensions: display neutrally.
                 operatorViewModels.ForEach(x => x.StyleGrade = STYLE_GRADE_NEUTRAL);
@@ -99,7 +115,7 @@ namespace JJ.Presentation.Synthesizer.Converters
             {
                 IList<OperatorViewModel> operatorViewModelsWithStyleGrades =
                     operatorViewModels.Where(x => x.Dimension.Visible &&
-                                                  x.Dimension.ID != (int)DimensionEnum.Time) // Time should be displayed neutrally.
+                                                  !Equals(x.Dimension.Identifier, DimensionEnum.Time)) // Time should be displayed neutrally.
                                       .ToArray();
 
                 IList<OperatorViewModel> operatorViewModelsWithNeutralStyleGrade = operatorViewModels.Except(operatorViewModelsWithStyleGrades).ToArray();
@@ -108,28 +124,28 @@ namespace JJ.Presentation.Synthesizer.Converters
 
                 // Rest should be displayed in equally spread grades,
                 // sorted by dimension ID (arbitrary, but at least consistent).
-                IList<int> remainingDimensionIDsSorted = dimensionIDs.Except((int)DimensionEnum.Time)
-                                                                     .OrderBy(x => x)
-                                                                     .ToArray();
+                IList<object> remainingDimensionIdentifiersSorted = dimensionIdentifiers.Except(DimensionEnum.Time)
+                                                                                        .OrderBy(x => x)
+                                                                                        .ToArray();
 
                 // Just do not use StyleGrade16 anymore here. That's the easiest.
                 int remainingGradeCount = 15;
-                int remainingDimensionCount = remainingDimensionIDsSorted.Count;
+                int remainingDimensionCount = remainingDimensionIdentifiersSorted.Count;
                 double step = (double)remainingGradeCount / (double)remainingDimensionCount;
 
-                var dimensionID_To_StyleGrade_Dictionary = new Dictionary<int, StyleGradeEnum>(remainingDimensionCount);
+                var dimensionID_To_StyleGrade_Dictionary = new Dictionary<object, StyleGradeEnum>(remainingDimensionCount);
                 for (int i = 0; i < remainingDimensionCount; i++)
                 {
-                    int dimensionID = remainingDimensionIDsSorted[i];
+                    object dimensionIdentifer = remainingDimensionIdentifiersSorted[i];
                     StyleGradeEnum styleGradeEnum = (StyleGradeEnum)(i * step) + 1;
 
-                    dimensionID_To_StyleGrade_Dictionary.Add(dimensionID, styleGradeEnum);
+                    dimensionID_To_StyleGrade_Dictionary.Add(dimensionIdentifer, styleGradeEnum);
                 }
 
                 foreach (OperatorViewModel operatorViewModel in operatorViewModelsWithStyleGrades)
                 {
-                    int dimensionID = operatorViewModel.Dimension.ID;
-                    StyleGradeEnum styleGradeEnum = dimensionID_To_StyleGrade_Dictionary[dimensionID];
+                    object dimensionIdentifier = operatorViewModel.Dimension.Identifier;
+                    StyleGradeEnum styleGradeEnum = dimensionID_To_StyleGrade_Dictionary[dimensionIdentifier];
                     operatorViewModel.StyleGrade = styleGradeEnum;
                 }
             }

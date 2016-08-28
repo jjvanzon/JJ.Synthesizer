@@ -126,6 +126,9 @@
   <data name="CurrentPatches" xml:space="preserve">
     <value>Huidige schakelingen</value>
   </data>
+  <data name="CustomDimension" xml:space="preserve">
+    <value>Afwijkende dimensie</value>
+  </data>
   <data name="DocumentList" xml:space="preserve">
     <value>Documentenlijst</value>
   </data>

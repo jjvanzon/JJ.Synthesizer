@@ -37,6 +37,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelOperatorTypeValue = new System.Windows.Forms.Label();
             this.labelDimension = new System.Windows.Forms.Label();
             this.comboBoxDimension = new System.Windows.Forms.ComboBox();
+            this.textBoxCustomDimensionName = new System.Windows.Forms.TextBox();
+            this.labelCustomDimensionName = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // labelCurve
@@ -117,12 +119,32 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.comboBoxDimension.Size = new System.Drawing.Size(421, 24);
             this.comboBoxDimension.TabIndex = 24;
             // 
+            // textBoxCustomDimensionName
+            // 
+            this.textBoxCustomDimensionName.Location = new System.Drawing.Point(121, 61);
+            this.textBoxCustomDimensionName.Margin = new System.Windows.Forms.Padding(0);
+            this.textBoxCustomDimensionName.Name = "textBoxCustomDimensionName";
+            this.textBoxCustomDimensionName.Size = new System.Drawing.Size(71, 22);
+            this.textBoxCustomDimensionName.TabIndex = 33;
+            // 
+            // labelCustomDimensionName
+            // 
+            this.labelCustomDimensionName.Location = new System.Drawing.Point(-42, 62);
+            this.labelCustomDimensionName.Margin = new System.Windows.Forms.Padding(0);
+            this.labelCustomDimensionName.Name = "labelCustomDimensionName";
+            this.labelCustomDimensionName.Size = new System.Drawing.Size(113, 28);
+            this.labelCustomDimensionName.TabIndex = 32;
+            this.labelCustomDimensionName.Text = "labelCustomDimensionName";
+            this.labelCustomDimensionName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // OperatorPropertiesUserControl_ForCurve
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.Controls.Add(this.textBoxCustomDimensionName);
+            this.Controls.Add(this.labelCustomDimensionName);
             this.Controls.Add(this.labelCurve);
             this.Controls.Add(this.comboBoxCurve);
             this.Controls.Add(this.labelName);
@@ -131,7 +153,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.Controls.Add(this.labelOperatorTypeValue);
             this.Controls.Add(this.labelDimension);
             this.Controls.Add(this.comboBoxDimension);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "OperatorPropertiesUserControl_ForCurve";
             this.Controls.SetChildIndex(this.comboBoxDimension, 0);
             this.Controls.SetChildIndex(this.labelDimension, 0);
@@ -141,6 +163,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.Controls.SetChildIndex(this.labelName, 0);
             this.Controls.SetChildIndex(this.comboBoxCurve, 0);
             this.Controls.SetChildIndex(this.labelCurve, 0);
+            this.Controls.SetChildIndex(this.labelCustomDimensionName, 0);
+            this.Controls.SetChildIndex(this.textBoxCustomDimensionName, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -156,5 +180,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private System.Windows.Forms.Label labelOperatorTypeValue;
         private System.Windows.Forms.Label labelDimension;
         private System.Windows.Forms.ComboBox comboBoxDimension;
+        private System.Windows.Forms.TextBox textBoxCustomDimensionName;
+        private System.Windows.Forms.Label labelCustomDimensionName;
     }
 }

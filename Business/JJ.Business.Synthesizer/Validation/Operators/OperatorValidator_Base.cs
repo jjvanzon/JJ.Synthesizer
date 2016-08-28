@@ -10,6 +10,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Common;
 using JJ.Business.Synthesizer.Validation.DataProperty;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
@@ -57,8 +58,16 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             For(() => op.GetOperatorTypeEnum(), PropertyDisplayNames.OperatorType).Is(_expectedOperatorTypeEnum);
 
-            For(() => op.Inlets.Count, GetPropertyDisplayName_ForInletCount())
-                .Is(_expectedInletCount);
+            // Dimension
+            bool dimensionIsFilledIn = op.GetDimensionEnum() != DimensionEnum.Undefined;
+            bool customDimensionNameIsFilledIn = !String.IsNullOrWhiteSpace(op.CustomDimensionName);
+            if (dimensionIsFilledIn && customDimensionNameIsFilledIn)
+            {
+                ValidationMessages.AddNotBothValidationMessage(PropertyNames.Dimension, PropertyDisplayNames.Dimension, PropertyDisplayNames.CustomDimensionName);
+            }
+
+            // Inlets
+            For(() => op.Inlets.Count, GetPropertyDisplayName_ForInletCount()).Is(_expectedInletCount);
 
             if (op.Inlets.Count == _expectedInletCount)
             {
@@ -73,8 +82,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 }
             }
 
-            For(() => op.Outlets.Count, GetPropertyDisplayName_ForOutletCount())
-                .Is(_expectedOutletCount);
+            // Outlets
+            For(() => op.Outlets.Count, GetPropertyDisplayName_ForOutletCount()).Is(_expectedOutletCount);
 
             if (op.Outlets.Count == _expectedOutletCount)
             {

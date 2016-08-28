@@ -37,6 +37,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.numericUpDownOutletCount = new System.Windows.Forms.NumericUpDown();
             this.comboBoxDimension = new System.Windows.Forms.ComboBox();
             this.labelDimension = new System.Windows.Forms.Label();
+            this.textBoxCustomDimensionName = new System.Windows.Forms.TextBox();
+            this.labelCustomDimensionName = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownOutletCount)).BeginInit();
             this.SuspendLayout();
             // 
@@ -126,11 +128,32 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelDimension.Text = "labelDimension";
             this.labelDimension.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // textBoxCustomDimensionName
+            // 
+            this.textBoxCustomDimensionName.Location = new System.Drawing.Point(51, -9);
+            this.textBoxCustomDimensionName.Margin = new System.Windows.Forms.Padding(0);
+            this.textBoxCustomDimensionName.Name = "textBoxCustomDimensionName";
+            this.textBoxCustomDimensionName.Size = new System.Drawing.Size(71, 22);
+            this.textBoxCustomDimensionName.TabIndex = 33;
+            // 
+            // labelCustomDimensionName
+            // 
+            this.labelCustomDimensionName.Location = new System.Drawing.Point(-112, -8);
+            this.labelCustomDimensionName.Margin = new System.Windows.Forms.Padding(0);
+            this.labelCustomDimensionName.Name = "labelCustomDimensionName";
+            this.labelCustomDimensionName.Size = new System.Drawing.Size(113, 28);
+            this.labelCustomDimensionName.TabIndex = 32;
+            this.labelCustomDimensionName.Text = "labelCustomDimensionName";
+            this.labelCustomDimensionName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // OperatorPropertiesUserControl_WithDimensionAndOutletCount
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.Controls.Add(this.textBoxCustomDimensionName);
+            this.Controls.Add(this.labelCustomDimensionName);
             this.Controls.Add(this.labelName);
             this.Controls.Add(this.textBoxName);
             this.Controls.Add(this.labelOperatorTypeTitle);
@@ -139,12 +162,22 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.Controls.Add(this.numericUpDownOutletCount);
             this.Controls.Add(this.comboBoxDimension);
             this.Controls.Add(this.labelDimension);
-            this.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "OperatorPropertiesUserControl_WithDimensionAndOutletCount";
             this.Size = new System.Drawing.Size(10, 10);
+            this.Controls.SetChildIndex(this.labelDimension, 0);
+            this.Controls.SetChildIndex(this.comboBoxDimension, 0);
+            this.Controls.SetChildIndex(this.numericUpDownOutletCount, 0);
+            this.Controls.SetChildIndex(this.labelOutletCount, 0);
+            this.Controls.SetChildIndex(this.labelOperatorTypeValue, 0);
+            this.Controls.SetChildIndex(this.labelOperatorTypeTitle, 0);
+            this.Controls.SetChildIndex(this.textBoxName, 0);
+            this.Controls.SetChildIndex(this.labelName, 0);
+            this.Controls.SetChildIndex(this.labelCustomDimensionName, 0);
+            this.Controls.SetChildIndex(this.textBoxCustomDimensionName, 0);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownOutletCount)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -158,5 +191,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private System.Windows.Forms.NumericUpDown numericUpDownOutletCount;
         private System.Windows.Forms.ComboBox comboBoxDimension;
         private System.Windows.Forms.Label labelDimension;
+        private System.Windows.Forms.TextBox textBoxCustomDimensionName;
+        private System.Windows.Forms.Label labelCustomDimensionName;
     }
 }

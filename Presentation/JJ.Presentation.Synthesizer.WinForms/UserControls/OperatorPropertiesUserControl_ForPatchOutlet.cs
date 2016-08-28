@@ -22,15 +22,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Gui
 
-        protected override void AddProperties()
-        {
-            AddProperty(labelOperatorTypeTitle, labelOperatorTypeValue);
-            AddProperty(labelDimension, comboBoxDimension);
-            AddProperty(labelName, textBoxName);
-            AddProperty(labelNumber, numericUpDownNumber);
-        }
-
-
         protected override void SetTitles()
         {
             TitleBarText = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Operator);
@@ -39,6 +30,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelOperatorTypeValue.Text = PropertyDisplayNames.PatchOutlet;
             labelNumber.Text = Titles.Number;
             labelDimension.Text = PropertyDisplayNames.Dimension;
+            labelCustomDimensionName.Text = Titles.CustomDimension;
+        }
+
+        protected override void AddProperties()
+        {
+            AddProperty(labelOperatorTypeTitle, labelOperatorTypeValue);
+            AddProperty(labelDimension, comboBoxDimension);
+            AddProperty(labelCustomDimensionName, textBoxCustomDimensionName);
+            AddProperty(labelName, textBoxName);
+            AddProperty(labelNumber, numericUpDownNumber);
         }
 
         // Binding
@@ -49,6 +50,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             textBoxName.Text = ViewModel.Name;
             numericUpDownNumber.Value = ViewModel.Number;
+            textBoxCustomDimensionName.Text = ViewModel.CustomDimensionName;
 
             if (comboBoxDimension.DataSource == null)
             {
@@ -72,6 +74,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ViewModel.Name = textBoxName.Text;
             ViewModel.Number = (int)numericUpDownNumber.Value;
             ViewModel.Dimension = (IDAndName)comboBoxDimension.SelectedItem;
+            ViewModel.CustomDimensionName = textBoxCustomDimensionName.Text;
         }
     }
 }

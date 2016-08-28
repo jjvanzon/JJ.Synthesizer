@@ -441,11 +441,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
 
-            var viewModel = CreateOperatorPropertiesViewModel_Base<OperatorPropertiesViewModel_ForBundle>(entity);
+            var viewModel = CreateOperatorPropertiesViewModel_WithDimension_Base<OperatorPropertiesViewModel_ForBundle>(entity);
 
             viewModel.InletCount = entity.Inlets.Count;
-            viewModel.Dimension = entity.GetDimensionEnum().ToIDAndDisplayName();
-            viewModel.DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel();
 
             return viewModel;
         }
@@ -454,7 +452,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
 
-            var viewModel = CreateOperatorPropertiesViewModel_Base<OperatorPropertiesViewModel_ForCache>(entity);
+            var viewModel = CreateOperatorPropertiesViewModel_WithDimension_Base<OperatorPropertiesViewModel_ForCache>(entity);
 
             var wrapper = new Cache_OperatorWrapper(entity);
 
@@ -462,8 +460,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.InterpolationLookup = ViewModelHelper.GetInterpolationTypeLookupViewModel(interpolationTypeRepository);
             viewModel.SpeakerSetup = wrapper.SpeakerSetup.ToIDAndDisplayName();
             viewModel.SpeakerSetupLookup = ViewModelHelper.GetSpeakerSetupLookupViewModel();
-            viewModel.Dimension = entity.GetDimensionEnum().ToIDAndDisplayName();
-            viewModel.DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel();
 
             return viewModel;
         }
@@ -472,12 +468,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
 
-            var viewModel = CreateOperatorPropertiesViewModel_Base<OperatorPropertiesViewModel_ForCurve>(entity);
+            var viewModel = CreateOperatorPropertiesViewModel_WithDimension_Base<OperatorPropertiesViewModel_ForCurve>(entity);
 
             var wrapper = new Curve_OperatorWrapper(entity, curveRepository);
-
-            viewModel.Dimension = entity.GetDimensionEnum().ToIDAndDisplayName();
-            viewModel.DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel();
 
             Curve curve = wrapper.Curve;
             if (curve != null)
@@ -517,13 +510,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
 
-            var viewModel = CreateOperatorPropertiesViewModel_Base<OperatorPropertiesViewModel_ForMakeContinuous>(entity);
+            var viewModel = CreateOperatorPropertiesViewModel_WithDimension_Base<OperatorPropertiesViewModel_ForMakeContinuous>(entity);
 
             var wrapper = new MakeContinuous_OperatorWrapper(entity);
 
             viewModel.InletCount = entity.Inlets.Count;
-            viewModel.Dimension = entity.GetDimensionEnum().ToIDAndDisplayName();
-            viewModel.DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel();
             viewModel.Interpolation = wrapper.InterpolationType.ToIDAndDisplayName();
             viewModel.InterpolationLookup = ViewModelHelper.GetResampleInterpolationLookupViewModel();
 
@@ -547,18 +538,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
 
-            var viewModel = CreateOperatorPropertiesViewModel_Base<OperatorPropertiesViewModel_ForPatchInlet>(entity);
+            var viewModel = CreateOperatorPropertiesViewModel_WithDimension_Base<OperatorPropertiesViewModel_ForPatchInlet>(entity);
 
             var wrapper = new PatchInlet_OperatorWrapper(entity);
 
-            viewModel.DefaultValue = Convert.ToString(wrapper.Inlet.DefaultValue);
-            viewModel.DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel();
-
-            if (wrapper.ListIndex.HasValue)
-            {
-                viewModel.Number = wrapper.ListIndex.Value + 1;
-            }
-
+            // In case of PatchInlet Dimension has to come from Inlet, not Operator.
             DimensionEnum dimensionEnum = wrapper.Inlet.GetDimensionEnum();
             if (dimensionEnum != DimensionEnum.Undefined)
             {
@@ -569,6 +553,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 viewModel.Dimension = new IDAndName();
             }
 
+            viewModel.DefaultValue = Convert.ToString(wrapper.Inlet.DefaultValue);
+
+            if (wrapper.ListIndex.HasValue)
+            {
+                viewModel.Number = wrapper.ListIndex.Value + 1;
+            }
+
             return viewModel;
         }
 
@@ -576,17 +567,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
 
-            var viewModel = CreateOperatorPropertiesViewModel_Base<OperatorPropertiesViewModel_ForPatchOutlet>(entity);
+            var viewModel = CreateOperatorPropertiesViewModel_WithDimension_Base<OperatorPropertiesViewModel_ForPatchOutlet>(entity);
 
             var wrapper = new PatchOutlet_OperatorWrapper(entity);
-
-            viewModel.DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel();
 
             if (wrapper.ListIndex.HasValue)
             {
                 viewModel.Number = wrapper.ListIndex.Value + 1;
             }
 
+            // In case of PatchInlet Dimension has to come from Outlet, not Operator.
             DimensionEnum dimensionEnum = wrapper.Result.GetDimensionEnum();
             if (dimensionEnum != DimensionEnum.Undefined)
             {
@@ -604,12 +594,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
 
-            var viewModel = CreateOperatorPropertiesViewModel_Base<OperatorPropertiesViewModel_ForSample>(entity);
+            var viewModel = CreateOperatorPropertiesViewModel_WithDimension_Base<OperatorPropertiesViewModel_ForSample>(entity);
 
             var wrapper = new Sample_OperatorWrapper(entity, sampleRepository);
-
-            viewModel.Dimension = entity.GetDimensionEnum().ToIDAndDisplayName();
-            viewModel.DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel();
 
             Sample sample = wrapper.Sample;
             if (sample != null)
@@ -628,11 +615,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
 
-            var viewModel = CreateOperatorPropertiesViewModel_Base<OperatorPropertiesViewModel_WithDimension>(entity);
+            var viewModel = CreateOperatorPropertiesViewModel_WithDimension_Base<OperatorPropertiesViewModel_WithDimension>(entity);
 
             viewModel.OperatorType = entity.OperatorType.ToIDAndDisplayName();
-            viewModel.Dimension = entity.GetDimensionEnum().ToIDAndDisplayName();
-            viewModel.DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel();
 
             return viewModel;
         }
@@ -641,15 +626,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
 
-            var viewModel = CreateOperatorPropertiesViewModel_Base<OperatorPropertiesViewModel_WithDimensionAndInterpolation>(entity);
+            var viewModel = CreateOperatorPropertiesViewModel_WithDimension_Base<OperatorPropertiesViewModel_WithDimensionAndInterpolation>(entity);
 
             var wrapper = new Resample_OperatorWrapper(entity);
 
             viewModel.OperatorType = entity.OperatorType.ToIDAndDisplayName();
             viewModel.Interpolation = wrapper.InterpolationType.ToIDAndDisplayName();
             viewModel.InterpolationLookup = ViewModelHelper.GetResampleInterpolationLookupViewModel();
-            viewModel.Dimension = entity.GetDimensionEnum().ToIDAndDisplayName();
-            viewModel.DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel();
 
             return viewModel;
         }
@@ -658,15 +641,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
 
-            var viewModel = CreateOperatorPropertiesViewModel_Base<OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation>(entity);
+            var viewModel = CreateOperatorPropertiesViewModel_WithDimension_Base<OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation>(entity);
 
             var wrapper = new SumOverDimension_OperatorWrapper(entity);
 
             viewModel.OperatorType = entity.OperatorType.ToIDAndDisplayName();
             viewModel.CollectionRecalculation = wrapper.CollectionRecalculation.ToIDAndDisplayName();
             viewModel.CollectionRecalculationLookup = ViewModelHelper.GetCollectionRecalculationLookupViewModel();
-            viewModel.Dimension = entity.GetDimensionEnum().ToIDAndDisplayName();
-            viewModel.DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel();
 
             return viewModel;
         }
@@ -675,12 +656,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
 
-            var viewModel = CreateOperatorPropertiesViewModel_Base<OperatorPropertiesViewModel_WithDimensionAndOutletCount>(entity);
+            var viewModel = CreateOperatorPropertiesViewModel_WithDimension_Base<OperatorPropertiesViewModel_WithDimensionAndOutletCount>(entity);
 
             viewModel.OperatorType = entity.OperatorType.ToIDAndDisplayName();
             viewModel.OutletCount = entity.Outlets.Count;
-            viewModel.Dimension = entity.GetDimensionEnum().ToIDAndDisplayName();
-            viewModel.DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel();
 
             return viewModel;
         }
@@ -694,6 +673,28 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.OperatorType = entity.OperatorType.ToIDAndDisplayName();
             viewModel.InletCount = entity.Inlets.Count;
             viewModel.ValidationMessages = new List<Message>();
+
+            return viewModel;
+        }
+
+        private static TViewModel CreateOperatorPropertiesViewModel_WithDimension_Base<TViewModel>(Operator entity)
+            where TViewModel : OperatorPropertiesViewModelBase, new()
+        {
+            TViewModel viewModel = CreateOperatorPropertiesViewModel_Base<TViewModel>(entity);
+
+            viewModel.DimensionVisible = true;
+            viewModel.DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel();
+            viewModel.CustomDimensionName = entity.CustomDimensionName;
+
+            DimensionEnum dimensionEnum = entity.GetDimensionEnum();
+            if (dimensionEnum != DimensionEnum.Undefined)
+            {
+                viewModel.Dimension = dimensionEnum.ToIDAndDisplayName();
+            }
+            else
+            {
+                viewModel.Dimension = new IDAndName();
+            }
 
             return viewModel;
         }

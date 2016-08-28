@@ -21,20 +21,21 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         }
 
         // Gui
-
-        protected override void AddProperties()
-        {
-            AddProperty(labelOperatorTypeTitle, labelOperatorTypeValue);
-            AddProperty(labelDimension, comboBoxDimension);
-            AddProperty(labelName, textBoxName);
-        }
-
         protected override void SetTitles()
         {
             TitleBarText = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Operator);
             labelName.Text = CommonTitles.Name;
             labelOperatorTypeTitle.Text = Titles.Type + ":";
             labelDimension.Text = PropertyDisplayNames.Dimension;
+            labelCustomDimensionName.Text = Titles.CustomDimension;
+        }
+
+        protected override void AddProperties()
+        {
+            AddProperty(labelOperatorTypeTitle, labelOperatorTypeValue);
+            AddProperty(labelDimension, comboBoxDimension);
+            AddProperty(labelCustomDimensionName, textBoxCustomDimensionName);
+            AddProperty(labelName, textBoxName);
         }
 
         // Binding
@@ -45,6 +46,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             textBoxName.Text = ViewModel.Name;
             labelOperatorTypeValue.Text = ViewModel.OperatorType.Name;
+            textBoxCustomDimensionName.Text = ViewModel.CustomDimensionName;
 
             if (comboBoxDimension.DataSource == null)
             {
@@ -67,6 +69,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             ViewModel.Name = textBoxName.Text;
             ViewModel.Dimension = (IDAndName)comboBoxDimension.SelectedItem;
+            ViewModel.CustomDimensionName = textBoxCustomDimensionName.Text;
         }
     }
 }

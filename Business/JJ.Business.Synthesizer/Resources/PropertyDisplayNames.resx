@@ -868,4 +868,7 @@
   <data name="PassThrough" xml:space="preserve">
     <value>Passthrough</value>
   </data>
+  <data name="CustomDimensionName" xml:space="preserve">
+    <value>Custom Dimension Name</value>
+  </data>
 </root>

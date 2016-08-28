@@ -30,6 +30,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelCurve.Text = PropertyDisplayNames.Curve;
             labelDimension.Text = PropertyDisplayNames.Dimension;
             labelOperatorTypeValue.Text = PropertyDisplayNames.Curve;
+            labelCustomDimensionName.Text = Titles.CustomDimension;
         }
 
         protected override void AddProperties()
@@ -37,6 +38,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             AddProperty(labelOperatorTypeTitle, labelOperatorTypeValue);
             AddProperty(labelCurve, comboBoxCurve);
             AddProperty(labelDimension, comboBoxDimension);
+            AddProperty(labelCustomDimensionName, textBoxCustomDimensionName);
             AddProperty(labelName, textBoxName);
         }
 
@@ -47,6 +49,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         protected override void ApplyViewModelToControls()
         {
             textBoxName.Text = ViewModel.Name;
+            textBoxCustomDimensionName.Text = ViewModel.CustomDimensionName;
 
             if (ViewModel.Curve != null)
             {
@@ -101,6 +104,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ViewModel.Name = textBoxName.Text;
             ViewModel.Curve = (IDAndName)comboBoxCurve.SelectedItem;
             ViewModel.Dimension = (IDAndName)comboBoxDimension.SelectedItem;
+            ViewModel.CustomDimensionName = textBoxCustomDimensionName.Text;
         }
     }
 }

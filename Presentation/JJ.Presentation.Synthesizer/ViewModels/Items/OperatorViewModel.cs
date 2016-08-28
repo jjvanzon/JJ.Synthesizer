@@ -19,6 +19,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public float CenterX { get; set; }
         public float CenterY { get; set; }
         public bool IsSelected { get; set; }
+
+        /// <summary> not editable </summary>
         public DimensionViewModel Dimension { get; set; }
         public StyleGradeEnum StyleGrade { get; set; }
 

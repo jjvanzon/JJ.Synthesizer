@@ -21,14 +21,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Gui
 
-        protected override void AddProperties()
-        {
-            AddProperty(labelOperatorTypeTitle, labelOperatorTypeValue);
-            AddProperty(labelDimension, comboBoxDimension);
-            AddProperty(labelRecalculation, comboBoxCollectionRecalculation);
-            AddProperty(labelName, textBoxName);
-        }
-
         protected override void SetTitles()
         {
             TitleBarText = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Operator);
@@ -36,6 +28,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelOperatorTypeTitle.Text = Titles.Type + ":";
             labelRecalculation.Text = PropertyDisplayNames.CollectionRecalculation;
             labelDimension.Text = PropertyDisplayNames.Dimension;
+            labelCustomDimensionName.Text = Titles.CustomDimension;
+        }
+
+        protected override void AddProperties()
+        {
+            AddProperty(labelOperatorTypeTitle, labelOperatorTypeValue);
+            AddProperty(labelDimension, comboBoxDimension);
+            AddProperty(labelCustomDimensionName, textBoxCustomDimensionName);
+            AddProperty(labelRecalculation, comboBoxCollectionRecalculation);
+            AddProperty(labelName, textBoxName);
         }
 
         // Binding
@@ -47,6 +49,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             textBoxName.Text = ViewModel.Name;
             labelOperatorTypeValue.Text = ViewModel.OperatorType.Name;
+            textBoxCustomDimensionName.Text = ViewModel.CustomDimensionName;
 
             // Recalculation
             if (comboBoxCollectionRecalculation.DataSource == null)
@@ -86,6 +89,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ViewModel.Name = textBoxName.Text;
             ViewModel.CollectionRecalculation = (IDAndName)comboBoxCollectionRecalculation.SelectedItem;
             ViewModel.Dimension = (IDAndName)comboBoxDimension.SelectedItem;
+            ViewModel.CustomDimensionName = textBoxCustomDimensionName.Text;
         }
     }
 }

@@ -7,7 +7,5 @@ namespace JJ.Presentation.Synthesizer.ViewModels
     {
         public IDAndName OperatorType { get; set; }
         public int OutletCount { get; set; }
-        public IDAndName Dimension { get; set; }
-        public IList<IDAndName> DimensionLookup { get; set; }
     }
 }

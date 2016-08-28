@@ -502,6 +502,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Custom Dimension Name.
+        /// </summary>
+        public static string CustomDimensionName {
+            get {
+                return ResourceManager.GetString("CustomDimensionName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Custom Operator.
         /// </summary>
         public static string CustomOperator {

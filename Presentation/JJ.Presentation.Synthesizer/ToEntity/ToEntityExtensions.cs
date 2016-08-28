@@ -306,7 +306,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             //  but data the from property boxes would be leading or missing from PatchDetails.)
             foreach (OperatorPropertiesViewModel propertiesViewModel in userInput.OperatorPropertiesDictionary.Values)
             {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository);
             }
 
             foreach (OperatorPropertiesViewModel_ForBundle propertiesViewModel in userInput.OperatorPropertiesDictionary_ForBundles.Values)
@@ -326,7 +326,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             foreach (OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel in userInput.OperatorPropertiesDictionary_ForCustomOperators.Values)
             {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.PatchRepository);
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.PatchRepository, repositories.DimensionRepository);
             }
 
             foreach (OperatorPropertiesViewModel_ForMakeContinuous propertiesViewModel in userInput.OperatorPropertiesDictionary_ForMakeContinuous.Values)
@@ -336,7 +336,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             foreach (OperatorPropertiesViewModel_ForNumber propertiesViewModel in userInput.OperatorPropertiesDictionary_ForNumbers.Values)
             {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository);
             }
 
             foreach (OperatorPropertiesViewModel_ForPatchInlet propertiesViewModel in userInput.OperatorPropertiesDictionary_ForPatchInlets.Values)
@@ -376,7 +376,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             foreach (OperatorPropertiesViewModel_WithInletCount propertiesViewModel in userInput.OperatorPropertiesDictionary_WithInletCount.Values)
             {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository);
             }
 
             userInput.AudioFileOutputPropertiesDictionary.Values.ToEntities(destDocument, new AudioFileOutputRepositories(repositories));
@@ -460,6 +460,56 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return entity;
         }
 
+        // EntityPosition
+
+        public static EntityPosition ToEntityPosition(this OperatorViewModel viewModel, IEntityPositionRepository entityPositionRepository)
+        {
+            // TODO: Low priority: Delegate ToEntityPosition to the EntityPositionManager?
+            // Because now the ToEntityPosition method needs to know too much about how EntityPosition works. 
+
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (entityPositionRepository == null) throw new NullException(() => entityPositionRepository);
+
+            EntityPosition entityPosition = entityPositionRepository.TryGet(viewModel.EntityPositionID);
+            if (entityPosition == null)
+            {
+                entityPosition = new EntityPosition();
+                entityPosition.ID = viewModel.EntityPositionID;
+                entityPositionRepository.Insert(entityPosition);
+            }
+            entityPosition.X = viewModel.CenterX;
+            entityPosition.Y = viewModel.CenterY;
+            entityPosition.EntityTypeName = typeof(Operator).Name;
+            entityPosition.EntityID = viewModel.ID;
+
+            return entityPosition;
+        }
+
+        // Inlet
+
+        public static Inlet ToEntity(this InletViewModel viewModel, IInletRepository inletRepository, IDimensionRepository dimensionRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (inletRepository == null) throw new NullException(() => inletRepository);
+            if (dimensionRepository == null) throw new NullException(() => dimensionRepository);
+
+            Inlet entity = inletRepository.TryGet(viewModel.ID);
+            if (entity == null)
+            {
+                entity = new Inlet();
+                entity.ID = viewModel.ID;
+                inletRepository.Insert(entity);
+            }
+            entity.ListIndex = viewModel.ListIndex;
+            entity.Name = viewModel.Name;
+            entity.DefaultValue = viewModel.DefaultValue;
+
+            DimensionEnum dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
+            entity.SetDimensionEnum(dimensionEnum, dimensionRepository);
+
+            return entity;
+        }
+
         // Nodes
 
         public static void ToEntities(
@@ -526,7 +576,10 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         // Operator 
 
-        public static Operator ToEntity(this OperatorViewModel viewModel, IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository)
+        public static Operator ToEntity(
+            this OperatorViewModel viewModel, 
+            IOperatorRepository operatorRepository, 
+            IOperatorTypeRepository operatorTypeRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
@@ -546,92 +599,16 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return entity;
         }
 
-        public static Inlet ToEntity(this InletViewModel viewModel, IInletRepository inletRepository, IDimensionRepository dimensionRepository)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            if (inletRepository == null) throw new NullException(() => inletRepository);
-            if (dimensionRepository == null) throw new NullException(() => dimensionRepository);
-
-            Inlet entity = inletRepository.TryGet(viewModel.ID);
-            if (entity == null)
-            {
-                entity = new Inlet();
-                entity.ID = viewModel.ID;
-                inletRepository.Insert(entity);
-            }
-            entity.ListIndex = viewModel.ListIndex;
-            entity.Name = viewModel.Name;
-            entity.DefaultValue = viewModel.DefaultValue;
-
-            DimensionEnum dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
-            entity.SetDimensionEnum(dimensionEnum, dimensionRepository);
-
-            return entity;
-        }
-
-        public static Outlet ToEntity(this OutletViewModel viewModel, IOutletRepository outletRepository, IDimensionRepository dimensionRepository)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            if (outletRepository == null) throw new NullException(() => outletRepository);
-            if (dimensionRepository == null) throw new NullException(() => dimensionRepository);
-
-            Outlet entity = outletRepository.TryGet(viewModel.ID);
-            if (entity == null)
-            {
-                entity = new Outlet();
-                entity.ID = viewModel.ID;
-                outletRepository.Insert(entity);
-            }
-            entity.ListIndex = viewModel.ListIndex;
-            entity.Name = viewModel.Name;
-
-            DimensionEnum dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
-            entity.SetDimensionEnum(dimensionEnum, dimensionRepository);
-
-            return entity;
-        }
-
-        public static EntityPosition ToEntityPosition(this OperatorViewModel viewModel, IEntityPositionRepository entityPositionRepository)
-        {
-            // TODO: Low priority: Delegate ToEntityPosition to the EntityPositionManager?
-            // Because now the ToEntityPosition method needs to know too much about how EntityPosition works. 
-
-            if (viewModel == null) throw new NullException(() => viewModel);
-            if (entityPositionRepository == null) throw new NullException(() => entityPositionRepository);
-
-            EntityPosition entityPosition = entityPositionRepository.TryGet(viewModel.EntityPositionID);
-            if (entityPosition == null)
-            {
-                entityPosition = new EntityPosition();
-                entityPosition.ID = viewModel.EntityPositionID;
-                entityPositionRepository.Insert(entityPosition);
-            }
-            entityPosition.X = viewModel.CenterX;
-            entityPosition.Y = viewModel.CenterY;
-            entityPosition.EntityTypeName = typeof(Operator).Name;
-            entityPosition.EntityID = viewModel.ID;
-
-            return entityPosition;
-        }
-
         public static Operator ToEntity(
             this OperatorPropertiesViewModel viewModel,
-            IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository)
+            IOperatorRepository operatorRepository, 
+            IOperatorTypeRepository operatorTypeRepository,
+            IDimensionRepository dimensionRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
-            if (operatorRepository == null) throw new NullException(() => operatorRepository);
 
-            Operator entity = operatorRepository.TryGet(viewModel.ID);
-            if (entity == null)
-            {
-                entity = new Operator();
-                entity.ID = viewModel.ID;
-                operatorRepository.Insert(entity);
-            }
+            Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, dimensionRepository);
 
-            entity.Name = viewModel.Name;
-
-            // Added this so operator properties lose focus on a new operator would be able to do some basic validation.
             OperatorTypeEnum operatorTypeEnum = (OperatorTypeEnum)(viewModel.OperatorType?.ID ?? 0);
             entity.SetOperatorTypeEnum(operatorTypeEnum, operatorTypeRepository);
 
@@ -645,22 +622,10 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             IDimensionRepository dimensionRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
-            if (operatorRepository == null) throw new NullException(() => operatorRepository);
-            if (dimensionRepository == null) throw new NullException(() => dimensionRepository);
 
-            Operator entity = operatorRepository.TryGet(viewModel.ID);
-            if (entity == null)
-            {
-                entity = new Operator();
-                entity.ID = viewModel.ID;
-                operatorRepository.Insert(entity);
-            }
+            Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, dimensionRepository);
 
-            entity.Name = viewModel.Name;
             entity.SetOperatorTypeEnum(OperatorTypeEnum.Bundle, operatorTypeRepository);
-
-            DimensionEnum dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
-            entity.SetDimensionEnum(dimensionEnum, dimensionRepository);
 
             return entity;
         }
@@ -672,24 +637,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             IDimensionRepository dimensionRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
-            if (operatorRepository == null) throw new NullException(() => operatorRepository);
 
-            Operator entity = operatorRepository.TryGet(viewModel.ID);
-            if (entity == null)
-            {
-                entity = new Operator();
-                entity.ID = viewModel.ID;
-                operatorRepository.Insert(entity);
-            }
+            Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, dimensionRepository);
 
-            entity.Name = viewModel.Name;
             entity.SetOperatorTypeEnum(OperatorTypeEnum.Cache, operatorTypeRepository);
 
-            DimensionEnum dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
-            entity.SetDimensionEnum(dimensionEnum, dimensionRepository);
-
             var wrapper = new Cache_OperatorWrapper(entity);
-
             wrapper.InterpolationType = (InterpolationTypeEnum)(viewModel.Interpolation?.ID ?? 0);
             wrapper.SpeakerSetup = (SpeakerSetupEnum)(viewModel.SpeakerSetup?.ID ?? 0);
 
@@ -704,25 +657,13 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             IDimensionRepository dimensionRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
-            if (operatorRepository == null) throw new NullException(() => operatorRepository);
 
-            Operator entity = operatorRepository.TryGet(viewModel.ID);
-            if (entity == null)
-            {
-                entity = new Operator();
-                entity.ID = viewModel.ID;
-                operatorRepository.Insert(entity);
-            }
+            Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, dimensionRepository);
 
-            entity.Name = viewModel.Name;
             entity.SetOperatorTypeEnum(OperatorTypeEnum.Curve, operatorTypeRepository);
-
-            DimensionEnum dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
-            entity.SetDimensionEnum(dimensionEnum, dimensionRepository);
 
             var wrapper = new Curve_OperatorWrapper(entity, curveRepository);
 
-            // Curve
             bool curveIsFilledIn = viewModel.Curve != null && viewModel.Curve.ID != 0;
             if (curveIsFilledIn)
             {
@@ -740,30 +681,21 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             this OperatorPropertiesViewModel_ForCustomOperator viewModel,
             IOperatorRepository operatorRepository, 
             IOperatorTypeRepository operatorTypeRepository, 
-            IPatchRepository patchRepository)
+            IPatchRepository patchRepository,
+            IDimensionRepository dimensionRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
-            if (operatorRepository == null) throw new NullException(() => operatorRepository);
-            if (patchRepository == null) throw new NullException(() => patchRepository);
 
-            Operator entity = operatorRepository.TryGet(viewModel.ID);
-            if (entity == null)
-            {
-                entity = new Operator();
-                entity.ID = viewModel.ID;
-                operatorRepository.Insert(entity);
-            }
+            Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, dimensionRepository);
 
-            entity.Name = viewModel.Name;
             entity.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, operatorTypeRepository);
 
-            // UnderlyingPatch
             var wrapper = new CustomOperator_OperatorWrapper(entity, patchRepository);
+
             bool underlyingPatchIsFilledIn = viewModel.UnderlyingPatch != null && viewModel.UnderlyingPatch.ID != 0;
             if (underlyingPatchIsFilledIn)
             {
-                Patch patch = patchRepository.Get(viewModel.UnderlyingPatch.ID);
-                wrapper.UnderlyingPatchID = patch.ID;
+                wrapper.UnderlyingPatchID = viewModel.UnderlyingPatch.ID;
             }
             else
             {
@@ -780,21 +712,10 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             IDimensionRepository dimensionRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
-            if (operatorRepository == null) throw new NullException(() => operatorRepository);
 
-            Operator entity = operatorRepository.TryGet(viewModel.ID);
-            if (entity == null)
-            {
-                entity = new Operator();
-                entity.ID = viewModel.ID;
-                operatorRepository.Insert(entity);
-            }
+            Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, dimensionRepository);
 
-            entity.Name = viewModel.Name;
             entity.SetOperatorTypeEnum(OperatorTypeEnum.MakeContinuous, operatorTypeRepository);
-
-            DimensionEnum dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
-            entity.SetDimensionEnum(dimensionEnum, dimensionRepository);
 
             var wrapper = new MakeContinuous_OperatorWrapper(entity);
 
@@ -806,20 +727,13 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         public static Operator ToEntity(
             this OperatorPropertiesViewModel_ForNumber viewModel,
             IOperatorRepository operatorRepository, 
-            IOperatorTypeRepository operatorTypeRepository)
+            IOperatorTypeRepository operatorTypeRepository,
+            IDimensionRepository dimensionRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
-            if (operatorRepository == null) throw new NullException(() => operatorRepository);
 
-            Operator entity = operatorRepository.TryGet(viewModel.ID);
-            if (entity == null)
-            {
-                entity = new Operator();
-                entity.ID = viewModel.ID;
-                operatorRepository.Insert(entity);
-            }
+            Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, dimensionRepository);
 
-            entity.Name = viewModel.Name;
             entity.SetOperatorTypeEnum(OperatorTypeEnum.Number, operatorTypeRepository);
 
             // TODO: Low Priority: ViewModel validator to detect, that it is not a valid integer number.
@@ -840,14 +754,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (viewModel == null) throw new NullException(() => viewModel);
             if (repositories == null) throw new NullException(() => repositories);
 
-            Operator op = repositories.OperatorRepository.TryGet(viewModel.ID);
-            if (op == null)
-            {
-                op = new Operator();
-                op.ID = viewModel.ID;
-                repositories.OperatorRepository.Insert(op);
-            }
-            op.Name = viewModel.Name;
+            Operator op = ConvertToOperator_Base(viewModel, repositories.OperatorRepository, repositories.DimensionRepository);
+
             op.SetOperatorTypeEnum(OperatorTypeEnum.PatchInlet, repositories.OperatorTypeRepository);
 
             var wrapper = new PatchInlet_OperatorWrapper(op);
@@ -875,9 +783,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 inlet.DefaultValue = null;
             }
 
-            var dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
-            inlet.SetDimensionEnum(dimensionEnum, repositories.DimensionRepository);
-
             // Delete excessive inlets.
             var patchManager = new PatchManager(repositories);
             IList<Inlet> inletsToDelete = op.Inlets.Except(inlet).ToArray();
@@ -896,14 +801,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (viewModel == null) throw new NullException(() => viewModel);
             if (repositories == null) throw new NullException(() => repositories);
 
-            Operator op = repositories.OperatorRepository.TryGet(viewModel.ID);
-            if (op == null)
-            {
-                op = new Operator();
-                op.ID = viewModel.ID;
-                repositories.OperatorRepository.Insert(op);
-            }
-            op.Name = viewModel.Name;
+            Operator op = ConvertToOperator_Base(viewModel, repositories.OperatorRepository, repositories.DimensionRepository);
+
             op.SetOperatorTypeEnum(OperatorTypeEnum.PatchOutlet, repositories.OperatorTypeRepository);
 
             var wrapper = new PatchOutlet_OperatorWrapper(op);
@@ -916,9 +815,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 outlet.ID = repositories.IDRepository.GetID();
                 repositories.OutletRepository.Insert(outlet);
             }
-
-            var dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
-            outlet.SetDimensionEnum(dimensionEnum, repositories.DimensionRepository);
 
             // Delete excessive outlets.
             var patchManager = new PatchManager(repositories);
@@ -939,25 +835,13 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             IDimensionRepository dimensionRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
-            if (operatorRepository == null) throw new NullException(() => operatorRepository);
 
-            Operator entity = operatorRepository.TryGet(viewModel.ID);
-            if (entity == null)
-            {
-                entity = new Operator();
-                entity.ID = viewModel.ID;
-                operatorRepository.Insert(entity);
-            }
+            Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, dimensionRepository);
 
-            entity.Name = viewModel.Name;
             entity.SetOperatorTypeEnum(OperatorTypeEnum.Sample, operatorTypeRepository);
-
-            DimensionEnum dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
-            entity.SetDimensionEnum(dimensionEnum, dimensionRepository);
 
             var wrapper = new Sample_OperatorWrapper(entity, sampleRepository);
 
-            // Sample
             bool sampleIsFilledIn = viewModel.Sample != null && viewModel.Sample.ID != 0;
             if (sampleIsFilledIn)
             {
@@ -978,24 +862,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             IDimensionRepository dimensionRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
-            if (operatorRepository == null) throw new NullException(() => operatorRepository);
-            if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
 
-            Operator entity = operatorRepository.TryGet(viewModel.ID);
-            if (entity == null)
-            {
-                entity = new Operator();
-                entity.ID = viewModel.ID;
-                operatorRepository.Insert(entity);
-            }
-
-            entity.Name = viewModel.Name;
+            Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, dimensionRepository);
 
             OperatorTypeEnum operatorTypeEnum = (OperatorTypeEnum)(viewModel.OperatorType?.ID ?? 0);
             entity.SetOperatorTypeEnum(operatorTypeEnum, operatorTypeRepository);
-
-            DimensionEnum dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
-            entity.SetDimensionEnum(dimensionEnum, dimensionRepository);
 
             return entity;
         }
@@ -1007,22 +878,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             IDimensionRepository dimensionRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
-            if (operatorRepository == null) throw new NullException(() => operatorRepository);
-            if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
 
-            Operator entity = operatorRepository.TryGet(viewModel.ID);
-            if (entity == null)
-            {
-                entity = new Operator();
-                entity.ID = viewModel.ID;
-                operatorRepository.Insert(entity);
-            }
+            Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, dimensionRepository);
 
-            entity.Name = viewModel.Name;
-            entity.LinkTo(operatorTypeRepository.Get(viewModel.OperatorType.ID));
-
-            DimensionEnum dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
-            entity.SetDimensionEnum(dimensionEnum, dimensionRepository);
+            OperatorTypeEnum operatorTypeEnum = (OperatorTypeEnum)(viewModel.OperatorType?.ID ?? 0);
+            entity.SetOperatorTypeEnum(operatorTypeEnum, operatorTypeRepository);
 
             var wrapper = new Resample_OperatorWrapper(entity);
 
@@ -1039,22 +899,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             IDimensionRepository dimensionRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
-            if (operatorRepository == null) throw new NullException(() => operatorRepository);
-            if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
 
-            Operator entity = operatorRepository.TryGet(viewModel.ID);
-            if (entity == null)
-            {
-                entity = new Operator();
-                entity.ID = viewModel.ID;
-                operatorRepository.Insert(entity);
-            }
+            Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, dimensionRepository);
 
-            entity.Name = viewModel.Name;
-            entity.LinkTo(operatorTypeRepository.Get(viewModel.OperatorType.ID));
-
-            DimensionEnum dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
-            entity.SetDimensionEnum(dimensionEnum, dimensionRepository);
+            OperatorTypeEnum operatorTypeEnum = (OperatorTypeEnum)(viewModel.OperatorType?.ID ?? 0);
+            entity.SetOperatorTypeEnum(operatorTypeEnum, operatorTypeRepository);
 
             var wrapper = new SumOverDimension_OperatorWrapper(entity);
 
@@ -1070,23 +919,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             IDimensionRepository dimensionRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
-            if (operatorRepository == null) throw new NullException(() => operatorRepository);
 
-            Operator entity = operatorRepository.TryGet(viewModel.ID);
-            if (entity == null)
-            {
-                entity = new Operator();
-                entity.ID = viewModel.ID;
-                operatorRepository.Insert(entity);
-            }
-
-            entity.Name = viewModel.Name;
+            Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, dimensionRepository);
 
             OperatorTypeEnum operatorTypeEnum = (OperatorTypeEnum)(viewModel.OperatorType?.ID ?? 0);
             entity.SetOperatorTypeEnum(operatorTypeEnum, operatorTypeRepository);
-
-            DimensionEnum dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
-            entity.SetDimensionEnum(dimensionEnum, dimensionRepository);
 
             return entity;
         }
@@ -1094,12 +931,27 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         public static Operator ToEntity(
             this OperatorPropertiesViewModel_WithInletCount viewModel,
             IOperatorRepository operatorRepository,
-            IOperatorTypeRepository operatorTypeRepository)
+            IOperatorTypeRepository operatorTypeRepository,
+            IDimensionRepository dimensionRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, dimensionRepository);
+
+            OperatorTypeEnum operatorTypeEnum = (OperatorTypeEnum)(viewModel.OperatorType?.ID ?? 0);
+            entity.SetOperatorTypeEnum(operatorTypeEnum, operatorTypeRepository);
+
+            return entity;
+        }
+
+        private static Operator ConvertToOperator_Base(
+            OperatorPropertiesViewModelBase viewModel,
+            IOperatorRepository operatorRepository,
+            IDimensionRepository dimensionRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
-            if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
-            if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
+            if (dimensionRepository == null) throw new NullException(() => dimensionRepository);
 
             Operator entity = operatorRepository.TryGet(viewModel.ID);
             if (entity == null)
@@ -1108,9 +960,35 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 entity.ID = viewModel.ID;
                 operatorRepository.Insert(entity);
             }
-
             entity.Name = viewModel.Name;
-            entity.LinkTo(operatorTypeRepository.Get(viewModel.OperatorType.ID));
+            entity.CustomDimensionName = viewModel.CustomDimensionName;
+
+            DimensionEnum dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
+            entity.SetDimensionEnum(dimensionEnum, dimensionRepository);
+
+            return entity;
+        }
+
+        // Outlet 
+
+        public static Outlet ToEntity(this OutletViewModel viewModel, IOutletRepository outletRepository, IDimensionRepository dimensionRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (outletRepository == null) throw new NullException(() => outletRepository);
+            if (dimensionRepository == null) throw new NullException(() => dimensionRepository);
+
+            Outlet entity = outletRepository.TryGet(viewModel.ID);
+            if (entity == null)
+            {
+                entity = new Outlet();
+                entity.ID = viewModel.ID;
+                outletRepository.Insert(entity);
+            }
+            entity.ListIndex = viewModel.ListIndex;
+            entity.Name = viewModel.Name;
+
+            DimensionEnum dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
+            entity.SetDimensionEnum(dimensionEnum, dimensionRepository);
 
             return entity;
         }

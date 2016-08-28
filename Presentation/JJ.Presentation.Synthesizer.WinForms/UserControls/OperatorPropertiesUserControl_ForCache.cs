@@ -30,6 +30,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelSpeakerSetup.Text = PropertyDisplayNames.SpeakerSetup;
             labelDimension.Text = PropertyDisplayNames.Dimension;
             labelOperatorTypeValue.Text = PropertyDisplayNames.Cache;
+            labelCustomDimensionName.Text = Titles.CustomDimension;
         }
 
         protected override void AddProperties()
@@ -38,6 +39,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             AddProperty(labelInterpolation, comboBoxInterpolation);
             AddProperty(labelSpeakerSetup, comboBoxSpeakerSetup);
             AddProperty(labelDimension, comboBoxDimension);
+            AddProperty(labelCustomDimensionName, textBoxCustomDimensionName);
             AddProperty(labelName, textBoxName);
         }
 
@@ -48,6 +50,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         protected override void ApplyViewModelToControls()
         {
             textBoxName.Text = ViewModel.Name;
+            textBoxCustomDimensionName.Text = ViewModel.CustomDimensionName;
 
             // Interpolation
             if (comboBoxInterpolation.DataSource == null)
@@ -104,6 +107,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ViewModel.Interpolation = (IDAndName)comboBoxInterpolation.SelectedItem;
             ViewModel.SpeakerSetup = (IDAndName)comboBoxSpeakerSetup.SelectedItem;
             ViewModel.Dimension = (IDAndName)comboBoxDimension.SelectedItem;
+            ViewModel.CustomDimensionName = textBoxCustomDimensionName.Text;
         }
     }
 }

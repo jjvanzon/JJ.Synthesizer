@@ -10,8 +10,5 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         /// to prevent a lot of repeated data. So use the lookup from there.
         /// </summary>
         public IDAndName Sample { get; set; }
-
-        public IDAndName Dimension { get; set; }
-        public IList<IDAndName> DimensionLookup { get; set; }
     }
 }

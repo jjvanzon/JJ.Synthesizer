@@ -29,6 +29,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelOperatorTypeValue.Text = PropertyDisplayNames.Bundle;
             labelInletCount.Text = CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Inlets);
             labelDimension.Text = PropertyDisplayNames.Dimension;
+            labelCustomDimensionName.Text = Titles.CustomDimension;
         }
 
         protected override void AddProperties()
@@ -36,6 +37,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             AddProperty(labelOperatorTypeTitle, labelOperatorTypeValue);
             AddProperty(labelInletCount, numericUpDownInletCount);
             AddProperty(labelDimension, comboBoxDimension);
+            AddProperty(labelCustomDimensionName, textBoxCustomDimensionName);
             AddProperty(labelName, textBoxName);
         }
 
@@ -47,6 +49,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             textBoxName.Text = ViewModel.Name;
             numericUpDownInletCount.Value = ViewModel.InletCount;
+            textBoxCustomDimensionName.Text = ViewModel.CustomDimensionName;
 
             if (comboBoxDimension.DataSource == null)
             {
@@ -70,6 +73,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ViewModel.Name = textBoxName.Text;
             ViewModel.InletCount = (int)numericUpDownInletCount.Value;
             ViewModel.Dimension = (IDAndName)comboBoxDimension.SelectedItem;
+            ViewModel.CustomDimensionName = textBoxCustomDimensionName.Text;
         }
     }
 }

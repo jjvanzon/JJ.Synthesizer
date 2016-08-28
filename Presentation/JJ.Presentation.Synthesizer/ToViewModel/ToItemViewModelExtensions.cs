@@ -103,32 +103,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // Curve
 
-        public static Dictionary<int, NodeViewModel> ToViewModelDictionary(this IList<Node> entities)
-        {
-            if (entities == null) throw new NullException(() => entities);
-
-            Dictionary<int, NodeViewModel> viewModels = entities.Select(x => x.ToViewModel()).ToDictionary(x => x.ID);
-
-            return viewModels;
-        }
-
-        public static NodeViewModel ToViewModel(this Node entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            var viewModel = new NodeViewModel
-            {
-                X = entity.X,
-                Y = entity.Y,
-                NodeType = entity.NodeType.ToIDAndDisplayName(),
-                ID = entity.ID
-            };
-
-            viewModel.Caption = String.Format("{0:0.####}, {1:0.####}", entity.X, entity.Y);
-
-            return viewModel;
-        }
-
         public static IDAndName ToIDAndNameWithUsedIn(this UsedInDto<Curve> dto)
         {
             if (dto == null) throw new NullException(() => dto);
@@ -140,6 +114,27 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
 
             return idAndName;
+        }
+        
+        // Dimension
+
+        public static DimensionViewModel ToViewModel(this DimensionEnum dimensionEnum)
+        {
+            var viewModel = new DimensionViewModel
+            {
+                Identifier = dimensionEnum
+            };
+
+            if (dimensionEnum != DimensionEnum.Undefined)
+            {
+                viewModel.Name = ResourceHelper.GetPropertyDisplayName(dimensionEnum);
+            }
+            else
+            {
+                viewModel.Name = null;
+            }
+
+            return viewModel;
         }
 
         // Document
@@ -158,55 +153,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        // Patch
-
-        public static PatchTreeNodeViewModel ToPatchTreeNodeViewModel(this Patch patch)
-        {
-            if (patch == null) throw new NullException(() => patch);
-
-            var viewModel = new PatchTreeNodeViewModel
-            {
-                PatchID = patch.ID,
-                Text = patch.Name,
-            };
-
-            return viewModel;
-        }
-
-        public static PatchViewModel ToViewModel(this Patch entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            var viewModel = new PatchViewModel
-            {
-                ID = entity.ID
-            };
-
-            return viewModel;
-        }
-
-        public static OperatorViewModel ToViewModel(
-            this Operator entity,
-            ISampleRepository sampleRepository,
-            ICurveRepository curveRepository,
-            IPatchRepository patchRepository,
-            EntityPositionManager entityPositionManager)
-        {
-            if (entity == null) throw new NullException(() => entity);
-            if (entityPositionManager == null) throw new NullException(() => entityPositionManager);
-
-            var viewModel = new OperatorViewModel();
-
-            ViewModelHelper.RefreshViewModel(
-                entity,
-                viewModel,
-                sampleRepository,
-                curveRepository,
-                patchRepository,
-                entityPositionManager);
-
-            return viewModel;
-        }
+        // Inlet
 
         public static IList<InletViewModel> ToViewModels(
             this IList<Inlet> entities,
@@ -273,6 +220,86 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
         }
 
+        // Node
+
+        public static Dictionary<int, NodeViewModel> ToViewModelDictionary(this IList<Node> entities)
+        {
+            if (entities == null) throw new NullException(() => entities);
+
+            Dictionary<int, NodeViewModel> viewModels = entities.Select(x => x.ToViewModel()).ToDictionary(x => x.ID);
+
+            return viewModels;
+        }
+
+        public static NodeViewModel ToViewModel(this Node entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            var viewModel = new NodeViewModel
+            {
+                X = entity.X,
+                Y = entity.Y,
+                NodeType = entity.NodeType.ToIDAndDisplayName(),
+                ID = entity.ID
+            };
+
+            viewModel.Caption = String.Format("{0:0.####}, {1:0.####}", entity.X, entity.Y);
+
+            return viewModel;
+        }
+
+        // Operator
+
+        public static OperatorViewModel ToViewModel(
+            this Operator entity,
+            ISampleRepository sampleRepository,
+            ICurveRepository curveRepository,
+            IPatchRepository patchRepository,
+            EntityPositionManager entityPositionManager)
+        {
+            if (entity == null) throw new NullException(() => entity);
+            if (entityPositionManager == null) throw new NullException(() => entityPositionManager);
+
+            var viewModel = new OperatorViewModel();
+
+            ViewModelHelper.RefreshViewModel(
+                entity,
+                viewModel,
+                sampleRepository,
+                curveRepository,
+                patchRepository,
+                entityPositionManager);
+
+            return viewModel;
+        }
+
+        public static OperatorViewModel ToViewModel_WithRelatedEntities_AndInverseProperties(
+            this Operator op,
+            ISampleRepository sampleRepository,
+            ICurveRepository curveRepository,
+            IPatchRepository patchRepository,
+            EntityPositionManager entityPositionManager)
+        {
+            if (op == null) throw new NullException(() => op);
+            if (entityPositionManager == null) throw new NullException(() => entityPositionManager);
+            if (sampleRepository == null) throw new NullException(() => sampleRepository);
+            if (patchRepository == null) throw new NullException(() => patchRepository);
+
+            OperatorViewModel operatorViewModel = op.ToViewModel(sampleRepository, curveRepository, patchRepository, entityPositionManager);
+            operatorViewModel.Inlets = op.Inlets.ToViewModels(curveRepository, sampleRepository, patchRepository, entityPositionManager);
+            operatorViewModel.Outlets = op.Outlets.ToViewModels(curveRepository, sampleRepository, patchRepository, entityPositionManager);
+
+            // This is the inverse property in the view model!
+            foreach (OutletViewModel outletViewModel in operatorViewModel.Outlets)
+            {
+                outletViewModel.Operator = operatorViewModel;
+            }
+
+            return operatorViewModel;
+        }
+
+        // Outlet
+
         public static IList<OutletViewModel> ToViewModels(
             this IList<Outlet> entities,
             ICurveRepository curveRepository,
@@ -332,53 +359,31 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
         }
 
-        public static DimensionViewModel ToViewModel(this DimensionEnum dimensionEnum)
-        {
-            var viewModel = new DimensionViewModel
-            {
-                ID = (int)dimensionEnum
-            };
+        // Patch
 
-            if (dimensionEnum != DimensionEnum.Undefined)
+        public static PatchTreeNodeViewModel ToPatchTreeNodeViewModel(this Patch patch)
+        {
+            if (patch == null) throw new NullException(() => patch);
+
+            var viewModel = new PatchTreeNodeViewModel
             {
-                viewModel.Name = ResourceHelper.GetPropertyDisplayName(dimensionEnum);
-            }
-            else
-            {
-                viewModel.Name = null;
-            }
+                PatchID = patch.ID,
+                Text = patch.Name,
+            };
 
             return viewModel;
         }
 
-        /// <summary>
-        /// Includes its inlets and outlets.
-        /// Also includes the inverse property OutletViewModel.Operator.
-        /// That view model is one the few with an inverse property.
-        /// </summary>
-        public static OperatorViewModel ToViewModelWithRelatedEntitiesAndInverseProperties(
-            this Operator op,
-            ISampleRepository sampleRepository,
-            ICurveRepository curveRepository,
-            IPatchRepository patchRepository,
-            EntityPositionManager entityPositionManager)
+        public static PatchViewModel ToViewModel(this Patch entity)
         {
-            if (op == null) throw new NullException(() => op);
-            if (entityPositionManager == null) throw new NullException(() => entityPositionManager);
-            if (sampleRepository == null) throw new NullException(() => sampleRepository);
-            if (patchRepository == null) throw new NullException(() => patchRepository);
+            if (entity == null) throw new NullException(() => entity);
 
-            OperatorViewModel operatorViewModel = op.ToViewModel(sampleRepository, curveRepository, patchRepository, entityPositionManager);
-            operatorViewModel.Inlets = op.Inlets.ToViewModels(curveRepository, sampleRepository, patchRepository, entityPositionManager);
-            operatorViewModel.Outlets = op.Outlets.ToViewModels(curveRepository, sampleRepository, patchRepository, entityPositionManager);
-
-            // This is the inverse property in the view model!
-            foreach (OutletViewModel outletViewModel in operatorViewModel.Outlets)
+            var viewModel = new PatchViewModel
             {
-                outletViewModel.Operator = operatorViewModel;
-            }
+                ID = entity.ID
+            };
 
-            return operatorViewModel;
+            return viewModel;
         }
 
         // Sample
@@ -466,6 +471,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             return viewModel;
         }
+
+        // Tone
 
         public static ToneViewModel ToViewModel(this Tone entity)
         {

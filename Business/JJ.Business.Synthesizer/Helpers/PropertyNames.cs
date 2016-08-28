@@ -28,6 +28,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public const string Curves = "Curves";
         public const string DataKey = "DataKey";
         public const string DataKeys = "DataKeys";
+        public const string Dimension = "Dimension";
         public const string Document = "Document";
         public const string DocumentReference = "DocumentReference";
         public const string Documents = "Documents";

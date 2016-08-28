@@ -866,4 +866,7 @@
   <data name="PassThrough" xml:space="preserve">
     <value>Doorgang</value>
   </data>
+  <data name="CustomDimensionName" xml:space="preserve">
+    <value>Afwijkende dimensienaam</value>
+  </data>
 </root>

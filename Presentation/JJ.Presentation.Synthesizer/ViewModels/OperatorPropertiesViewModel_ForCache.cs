@@ -9,7 +9,5 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public IList<IDAndName> InterpolationLookup { get; set; }
         public IDAndName SpeakerSetup { get; set; }
         public IList<IDAndName> SpeakerSetupLookup { get; set; }
-        public IDAndName Dimension { get; set; }
-        public IList<IDAndName> DimensionLookup { get; set; }
     }
 }
