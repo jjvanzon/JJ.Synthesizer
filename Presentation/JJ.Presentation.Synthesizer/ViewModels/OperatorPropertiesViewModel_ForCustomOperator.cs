@@ -1,10 +1,9 @@
 ﻿using JJ.Data.Canonical;
 using System.Collections.Generic;
-using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
-    public sealed class OperatorPropertiesViewModel_ForCustomOperator : OperatorPropertiesViewModelBase
+    public sealed class OperatorPropertiesViewModel_ForCustomOperator : OperatorPropertiesViewModel
     {
         /// <summary>
         /// The lookup is inside the DocumentViewModel,

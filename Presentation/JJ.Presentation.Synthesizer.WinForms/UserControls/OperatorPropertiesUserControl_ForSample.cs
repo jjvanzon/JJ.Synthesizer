@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Canonical;
-using JJ.Presentation.Synthesizer.WinForms.Helpers;
-using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
@@ -25,13 +22,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void SetTitles()
         {
-            TitleBarText = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Operator);
-            labelName.Text = CommonTitles.Name;
-            labelOperatorTypeTitle.Text = Titles.Type + ":";
-            labelOperatorTypeValue.Text = PropertyDisplayNames.Sample;
+            base.SetTitles();
+
             labelSample.Text = PropertyDisplayNames.Sample;
-            labelDimension.Text = PropertyDisplayNames.Dimension;
-            labelCustomDimensionName.Text = Titles.CustomDimension;
         }
 
         protected override void AddProperties()
@@ -49,34 +42,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            textBoxName.Text = ViewModel.Name;
-            textBoxCustomDimensionName.Text = ViewModel.CustomDimensionName;
+            base.ApplyViewModelToControls();
 
-            // Sample
-            if (ViewModel.Sample != null)
-            {
-                comboBoxSample.SelectedValue = ViewModel.Sample.ID;
-            }
-            else
-            {
-                comboBoxSample.SelectedValue = 0;
-            }
+            comboBoxSample.SelectedValue = ViewModel.Sample?.ID ?? 0;
+        }
 
-            // Dimension
-            if (comboBoxDimension.DataSource == null)
-            {
-                comboBoxDimension.ValueMember = PropertyNames.ID;
-                comboBoxDimension.DisplayMember = PropertyNames.Name;
-                comboBoxDimension.DataSource = ViewModel.DimensionLookup;
-            }
-            if (ViewModel.Dimension != null)
-            {
-                comboBoxDimension.SelectedValue = ViewModel.Dimension.ID;
-            }
-            else
-            {
-                comboBoxDimension.SelectedValue = 0;
-            }
+        protected override void ApplyControlsToViewModel()
+        {
+            base.ApplyControlsToViewModel();
+
+            ViewModel.Sample = (IDAndName)comboBoxSample.SelectedItem;
         }
 
         public void SetSampleLookup(IList<IDAndName> sampleLookup)
@@ -91,14 +66,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 comboBoxSample.SelectedValue = selectedID;
             }
-        }
-
-        protected override void ApplyControlsToViewModel()
-        {
-            ViewModel.Name = textBoxName.Text;
-            ViewModel.Sample = (IDAndName)comboBoxSample.SelectedItem;
-            ViewModel.Dimension = (IDAndName)comboBoxDimension.SelectedItem;
-            ViewModel.CustomDimensionName = textBoxCustomDimensionName.Text;
         }
 
         // Helpers

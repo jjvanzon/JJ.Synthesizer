@@ -25,11 +25,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void SetTitles()
         {
-            TitleBarText = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Operator);
-            labelName.Text = CommonTitles.Name;
-            labelOperatorTypeTitle.Text = Titles.Type + ":";
+            base.SetTitles();
+
             labelUnderlyingPatch.Text = PropertyDisplayNames.UnderlyingPatch;
-            labelOperatorTypeValue.Text = PropertyDisplayNames.CustomOperator;
         }
 
         protected override void AddProperties()
@@ -45,16 +43,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            textBoxName.Text = ViewModel.Name;
+            base.ApplyViewModelToControls();
 
-            if (ViewModel.UnderlyingPatch != null)
-            {
-                comboBoxUnderlyingPatch.SelectedValue = ViewModel.UnderlyingPatch.ID;
-            }
-            else
-            {
-                comboBoxUnderlyingPatch.SelectedValue = 0;
-            }
+            comboBoxUnderlyingPatch.SelectedValue = ViewModel.UnderlyingPatch?.ID ?? 0;
+        }
+
+        protected override void ApplyControlsToViewModel()
+        {
+            base.ApplyControlsToViewModel();
+
+            ViewModel.UnderlyingPatch = (IDAndName)comboBoxUnderlyingPatch.SelectedItem;
         }
 
         public void SetUnderlyingPatchLookup(IList<IDAndName> underlyingPatchLookup)
@@ -78,12 +76,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             IDAndName idAndName = (IDAndName)comboBoxUnderlyingPatch.SelectedItem;
             if (idAndName == null) return null;
             return idAndName.ID;
-        }
-
-        protected override void ApplyControlsToViewModel()
-        {
-            ViewModel.Name = textBoxName.Text;
-            ViewModel.UnderlyingPatch = (IDAndName)comboBoxUnderlyingPatch.SelectedItem;
         }
     }
 }

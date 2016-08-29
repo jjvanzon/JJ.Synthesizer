@@ -4,7 +4,6 @@ using System.Windows.Forms;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
@@ -19,6 +18,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Gui
 
+        protected override void SetTitles()
+        {
+            base.SetTitles();
+
+            labelInletCount.Text = CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Inlets);
+        }
+
         protected override void AddProperties()
         {
             AddProperty(labelOperatorTypeTitle, labelOperatorTypeValue);
@@ -26,28 +32,22 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             AddProperty(labelName, textBoxName);
         }
 
-        protected override void SetTitles()
-        {
-            TitleBarText = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Operator);
-            labelName.Text = CommonTitles.Name;
-            labelOperatorTypeTitle.Text = Titles.Type + ":";
-            labelInletCount.Text = CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Inlets);
-        }
-
         // Binding
 
-        private new OperatorPropertiesViewModel_WithInletCount ViewModel => (OperatorPropertiesViewModel_WithInletCount)base.ViewModel;
+        private new OperatorPropertiesViewModel_WithInletCount ViewModel => 
+                   (OperatorPropertiesViewModel_WithInletCount)base.ViewModel;
 
         protected override void ApplyViewModelToControls()
         {
-            textBoxName.Text = ViewModel.Name;
+            base.ApplyViewModelToControls();
+
             numericUpDownInletCount.Value = ViewModel.InletCount;
-            labelOperatorTypeValue.Text = ViewModel.OperatorType.Name;
         }
 
         protected override void ApplyControlsToViewModel()
         {
-            ViewModel.Name = textBoxName.Text;
+            base.ApplyControlsToViewModel();
+
             ViewModel.InletCount = (int)numericUpDownInletCount.Value;
         }
     }

@@ -31,18 +31,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             this.labelUnderlyingPatch = new System.Windows.Forms.Label();
             this.comboBoxUnderlyingPatch = new System.Windows.Forms.ComboBox();
-            this.labelName = new System.Windows.Forms.Label();
-            this.textBoxName = new System.Windows.Forms.TextBox();
-            this.labelOperatorTypeTitle = new System.Windows.Forms.Label();
-            this.labelOperatorTypeValue = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // labelUnderlyingPatch
             // 
-            this.labelUnderlyingPatch.Location = new System.Drawing.Point(0, 48);
+            this.labelUnderlyingPatch.Location = new System.Drawing.Point(0, 59);
             this.labelUnderlyingPatch.Margin = new System.Windows.Forms.Padding(0);
             this.labelUnderlyingPatch.Name = "labelUnderlyingPatch";
-            this.labelUnderlyingPatch.Size = new System.Drawing.Size(120, 24);
+            this.labelUnderlyingPatch.Size = new System.Drawing.Size(160, 30);
             this.labelUnderlyingPatch.TabIndex = 15;
             this.labelUnderlyingPatch.Text = "labelUnderlyingPatch";
             this.labelUnderlyingPatch.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -51,75 +47,31 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             this.comboBoxUnderlyingPatch.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxUnderlyingPatch.FormattingEnabled = true;
-            this.comboBoxUnderlyingPatch.Location = new System.Drawing.Point(120, 48);
+            this.comboBoxUnderlyingPatch.Location = new System.Drawing.Point(160, 59);
             this.comboBoxUnderlyingPatch.Margin = new System.Windows.Forms.Padding(0);
             this.comboBoxUnderlyingPatch.Name = "comboBoxUnderlyingPatch";
-            this.comboBoxUnderlyingPatch.Size = new System.Drawing.Size(10, 21);
+            this.comboBoxUnderlyingPatch.Size = new System.Drawing.Size(12, 24);
             this.comboBoxUnderlyingPatch.TabIndex = 16;
-            // 
-            // labelName
-            // 
-            this.labelName.Location = new System.Drawing.Point(0, 24);
-            this.labelName.Margin = new System.Windows.Forms.Padding(0);
-            this.labelName.Name = "labelName";
-            this.labelName.Size = new System.Drawing.Size(120, 24);
-            this.labelName.TabIndex = 2;
-            this.labelName.Text = "labelName";
-            this.labelName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // textBoxName
-            // 
-            this.textBoxName.Location = new System.Drawing.Point(120, 24);
-            this.textBoxName.Margin = new System.Windows.Forms.Padding(0);
-            this.textBoxName.Name = "textBoxName";
-            this.textBoxName.Size = new System.Drawing.Size(10, 20);
-            this.textBoxName.TabIndex = 11;
-            // 
-            // labelOperatorTypeTitle
-            // 
-            this.labelOperatorTypeTitle.Location = new System.Drawing.Point(0, 0);
-            this.labelOperatorTypeTitle.Margin = new System.Windows.Forms.Padding(0);
-            this.labelOperatorTypeTitle.Name = "labelOperatorTypeTitle";
-            this.labelOperatorTypeTitle.Size = new System.Drawing.Size(120, 24);
-            this.labelOperatorTypeTitle.TabIndex = 17;
-            this.labelOperatorTypeTitle.Text = "labelOperatorTypeTitle";
-            this.labelOperatorTypeTitle.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // labelOperatorTypeValue
-            // 
-            this.labelOperatorTypeValue.Location = new System.Drawing.Point(120, 0);
-            this.labelOperatorTypeValue.Margin = new System.Windows.Forms.Padding(0);
-            this.labelOperatorTypeValue.Name = "labelOperatorTypeValue";
-            this.labelOperatorTypeValue.Size = new System.Drawing.Size(10, 24);
-            this.labelOperatorTypeValue.TabIndex = 18;
-            this.labelOperatorTypeValue.Text = "labelOperatorTypeValue";
-            this.labelOperatorTypeValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // OperatorPropertiesUserControl_ForCustomOperator
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.Controls.Add(this.labelUnderlyingPatch);
             this.Controls.Add(this.comboBoxUnderlyingPatch);
-            this.Controls.Add(this.labelName);
-            this.Controls.Add(this.textBoxName);
-            this.Controls.Add(this.labelOperatorTypeTitle);
-            this.Controls.Add(this.labelOperatorTypeValue);
-            this.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "OperatorPropertiesUserControl_ForCustomOperator";
-            this.Size = new System.Drawing.Size(10, 10);
+            this.Size = new System.Drawing.Size(13, 12);
+            this.Controls.SetChildIndex(this.comboBoxUnderlyingPatch, 0);
+            this.Controls.SetChildIndex(this.labelUnderlyingPatch, 0);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Label labelName;
-        private System.Windows.Forms.TextBox textBoxName;
         private System.Windows.Forms.Label labelUnderlyingPatch;
         private System.Windows.Forms.ComboBox comboBoxUnderlyingPatch;
-        private System.Windows.Forms.Label labelOperatorTypeTitle;
-        private System.Windows.Forms.Label labelOperatorTypeValue;
     }
 }

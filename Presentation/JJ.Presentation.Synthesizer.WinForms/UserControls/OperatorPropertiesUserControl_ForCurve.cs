@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Canonical;
-using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
@@ -24,13 +22,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void SetTitles()
         {
-            TitleBarText = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Operator);
-            labelName.Text = CommonTitles.Name;
-            labelOperatorTypeTitle.Text = Titles.Type + ":";
+            base.SetTitles();
+
             labelCurve.Text = PropertyDisplayNames.Curve;
-            labelDimension.Text = PropertyDisplayNames.Dimension;
-            labelOperatorTypeValue.Text = PropertyDisplayNames.Curve;
-            labelCustomDimensionName.Text = Titles.CustomDimension;
         }
 
         protected override void AddProperties()
@@ -48,33 +42,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            textBoxName.Text = ViewModel.Name;
-            textBoxCustomDimensionName.Text = ViewModel.CustomDimensionName;
+            base.ApplyViewModelToControls();
 
-            if (ViewModel.Curve != null)
-            {
-                comboBoxCurve.SelectedValue = ViewModel.Curve.ID;
-            }
-            else
-            {
-                comboBoxCurve.SelectedValue = 0;
-            }
+            comboBoxCurve.SelectedValue = ViewModel.Curve?.ID ?? 0;
+        }
 
-            // Dimension
-            if (comboBoxDimension.DataSource == null)
-            {
-                comboBoxDimension.ValueMember = PropertyNames.ID;
-                comboBoxDimension.DisplayMember = PropertyNames.Name;
-                comboBoxDimension.DataSource = ViewModel.DimensionLookup;
-            }
-            if (ViewModel.Dimension != null)
-            {
-                comboBoxDimension.SelectedValue = ViewModel.Dimension.ID;
-            }
-            else
-            {
-                comboBoxDimension.SelectedValue = 0;
-            }
+        protected override void ApplyControlsToViewModel()
+        {
+            base.ApplyControlsToViewModel();
+
+            ViewModel.Curve = (IDAndName)comboBoxCurve.SelectedItem;
         }
 
         public void SetCurveLookup(IList<IDAndName> curveLookup)
@@ -97,14 +74,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             IDAndName idAndName = (IDAndName)comboBoxCurve.SelectedItem;
             if (idAndName == null) return null;
             return idAndName.ID;
-        }
-
-        protected override void ApplyControlsToViewModel()
-        {
-            ViewModel.Name = textBoxName.Text;
-            ViewModel.Curve = (IDAndName)comboBoxCurve.SelectedItem;
-            ViewModel.Dimension = (IDAndName)comboBoxDimension.SelectedItem;
-            ViewModel.CustomDimensionName = textBoxCustomDimensionName.Text;
         }
     }
 }

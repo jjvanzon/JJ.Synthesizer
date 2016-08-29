@@ -29,51 +29,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         /// </summary>
         private void InitializeComponent()
         {
-            this.labelName = new System.Windows.Forms.Label();
-            this.textBoxName = new System.Windows.Forms.TextBox();
-            this.labelOperatorTypeTitle = new System.Windows.Forms.Label();
-            this.labelOperatorTypeValue = new System.Windows.Forms.Label();
             this.labelNumber = new System.Windows.Forms.Label();
             this.textBoxNumber = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
-            // 
-            // labelName
-            // 
-            this.labelName.Location = new System.Drawing.Point(0, 30);
-            this.labelName.Margin = new System.Windows.Forms.Padding(0);
-            this.labelName.Name = "labelName";
-            this.labelName.Size = new System.Drawing.Size(147, 30);
-            this.labelName.TabIndex = 2;
-            this.labelName.Text = "labelName";
-            this.labelName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // textBoxName
-            // 
-            this.textBoxName.Location = new System.Drawing.Point(147, 30);
-            this.textBoxName.Margin = new System.Windows.Forms.Padding(0);
-            this.textBoxName.Name = "textBoxName";
-            this.textBoxName.Size = new System.Drawing.Size(549, 22);
-            this.textBoxName.TabIndex = 11;
-            // 
-            // labelOperatorTypeTitle
-            // 
-            this.labelOperatorTypeTitle.Location = new System.Drawing.Point(0, 0);
-            this.labelOperatorTypeTitle.Margin = new System.Windows.Forms.Padding(0);
-            this.labelOperatorTypeTitle.Name = "labelOperatorTypeTitle";
-            this.labelOperatorTypeTitle.Size = new System.Drawing.Size(147, 30);
-            this.labelOperatorTypeTitle.TabIndex = 12;
-            this.labelOperatorTypeTitle.Text = "labelOperatorTypeTitle";
-            this.labelOperatorTypeTitle.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // labelOperatorTypeValue
-            // 
-            this.labelOperatorTypeValue.Location = new System.Drawing.Point(147, 0);
-            this.labelOperatorTypeValue.Margin = new System.Windows.Forms.Padding(0);
-            this.labelOperatorTypeValue.Name = "labelOperatorTypeValue";
-            this.labelOperatorTypeValue.Size = new System.Drawing.Size(549, 30);
-            this.labelOperatorTypeValue.TabIndex = 13;
-            this.labelOperatorTypeValue.Text = "labelOperatorTypeValue";
-            this.labelOperatorTypeValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // labelNumber
             // 
@@ -98,26 +56,20 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.Controls.Add(this.labelName);
-            this.Controls.Add(this.textBoxName);
-            this.Controls.Add(this.labelOperatorTypeTitle);
-            this.Controls.Add(this.labelOperatorTypeValue);
+            this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.Controls.Add(this.labelNumber);
             this.Controls.Add(this.textBoxNumber);
-            this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "OperatorPropertiesUserControl_ForNumber";
             this.Size = new System.Drawing.Size(663, 451);
+            this.Controls.SetChildIndex(this.textBoxNumber, 0);
+            this.Controls.SetChildIndex(this.labelNumber, 0);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Label labelName;
-        private System.Windows.Forms.TextBox textBoxName;
-        private System.Windows.Forms.Label labelOperatorTypeTitle;
-        private System.Windows.Forms.Label labelOperatorTypeValue;
         private System.Windows.Forms.Label labelNumber;
         private System.Windows.Forms.TextBox textBoxNumber;
     }

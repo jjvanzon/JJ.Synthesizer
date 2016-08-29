@@ -29,52 +29,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         /// </summary>
         private void InitializeComponent()
         {
-            this.labelName = new System.Windows.Forms.Label();
-            this.textBoxName = new System.Windows.Forms.TextBox();
-            this.labelOperatorTypeTitle = new System.Windows.Forms.Label();
-            this.labelOperatorTypeValue = new System.Windows.Forms.Label();
             this.labelInletCount = new System.Windows.Forms.Label();
             this.numericUpDownInletCount = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownInletCount)).BeginInit();
             this.SuspendLayout();
-            // 
-            // labelName
-            // 
-            this.labelName.Location = new System.Drawing.Point(0, 30);
-            this.labelName.Margin = new System.Windows.Forms.Padding(0);
-            this.labelName.Name = "labelName";
-            this.labelName.Size = new System.Drawing.Size(147, 30);
-            this.labelName.TabIndex = 2;
-            this.labelName.Text = "labelName";
-            this.labelName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // textBoxName
-            // 
-            this.textBoxName.Location = new System.Drawing.Point(147, 30);
-            this.textBoxName.Margin = new System.Windows.Forms.Padding(0);
-            this.textBoxName.Name = "textBoxName";
-            this.textBoxName.Size = new System.Drawing.Size(10, 22);
-            this.textBoxName.TabIndex = 11;
-            // 
-            // labelOperatorTypeTitle
-            // 
-            this.labelOperatorTypeTitle.Location = new System.Drawing.Point(0, 0);
-            this.labelOperatorTypeTitle.Margin = new System.Windows.Forms.Padding(0);
-            this.labelOperatorTypeTitle.Name = "labelOperatorTypeTitle";
-            this.labelOperatorTypeTitle.Size = new System.Drawing.Size(147, 30);
-            this.labelOperatorTypeTitle.TabIndex = 12;
-            this.labelOperatorTypeTitle.Text = "labelOperatorTypeTitle";
-            this.labelOperatorTypeTitle.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // labelOperatorTypeValue
-            // 
-            this.labelOperatorTypeValue.Location = new System.Drawing.Point(147, 0);
-            this.labelOperatorTypeValue.Margin = new System.Windows.Forms.Padding(0);
-            this.labelOperatorTypeValue.Name = "labelOperatorTypeValue";
-            this.labelOperatorTypeValue.Size = new System.Drawing.Size(10, 30);
-            this.labelOperatorTypeValue.TabIndex = 13;
-            this.labelOperatorTypeValue.Text = "labelOperatorTypeValue";
-            this.labelOperatorTypeValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // labelInletCount
             // 
@@ -114,27 +72,20 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.Controls.Add(this.labelName);
-            this.Controls.Add(this.textBoxName);
-            this.Controls.Add(this.labelOperatorTypeTitle);
-            this.Controls.Add(this.labelOperatorTypeValue);
+            this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.Controls.Add(this.labelInletCount);
             this.Controls.Add(this.numericUpDownInletCount);
-            this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "OperatorPropertiesUserControl_WithInletCount";
             this.Size = new System.Drawing.Size(10, 10);
+            this.Controls.SetChildIndex(this.numericUpDownInletCount, 0);
+            this.Controls.SetChildIndex(this.labelInletCount, 0);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownInletCount)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Label labelName;
-        private System.Windows.Forms.TextBox textBoxName;
-        private System.Windows.Forms.Label labelOperatorTypeTitle;
-        private System.Windows.Forms.Label labelOperatorTypeValue;
         private System.Windows.Forms.Label labelInletCount;
         private System.Windows.Forms.NumericUpDown numericUpDownInletCount;
     }

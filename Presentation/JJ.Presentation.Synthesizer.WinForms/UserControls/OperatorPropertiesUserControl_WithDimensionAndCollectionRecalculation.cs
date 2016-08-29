@@ -2,11 +2,9 @@
 using System.ComponentModel;
 using System.Windows.Forms;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Canonical;
-using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
@@ -23,12 +21,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void SetTitles()
         {
-            TitleBarText = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Operator);
-            labelName.Text = CommonTitles.Name;
-            labelOperatorTypeTitle.Text = Titles.Type + ":";
+            base.SetTitles();
+
             labelRecalculation.Text = PropertyDisplayNames.CollectionRecalculation;
-            labelDimension.Text = PropertyDisplayNames.Dimension;
-            labelCustomDimensionName.Text = Titles.CustomDimension;
         }
 
         protected override void AddProperties()
@@ -47,49 +42,22 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            textBoxName.Text = ViewModel.Name;
-            labelOperatorTypeValue.Text = ViewModel.OperatorType.Name;
-            textBoxCustomDimensionName.Text = ViewModel.CustomDimensionName;
+            base.ApplyViewModelToControls();
 
-            // Recalculation
             if (comboBoxCollectionRecalculation.DataSource == null)
             {
                 comboBoxCollectionRecalculation.ValueMember = PropertyNames.ID;
                 comboBoxCollectionRecalculation.DisplayMember = PropertyNames.Name;
                 comboBoxCollectionRecalculation.DataSource = ViewModel.CollectionRecalculationLookup;
             }
-            if (ViewModel.CollectionRecalculation != null)
-            {
-                comboBoxCollectionRecalculation.SelectedValue = ViewModel.CollectionRecalculation.ID;
-            }
-            else
-            {
-                comboBoxCollectionRecalculation.SelectedValue = 0;
-            }
-
-            // Dimension
-            if (comboBoxDimension.DataSource == null)
-            {
-                comboBoxDimension.ValueMember = PropertyNames.ID;
-                comboBoxDimension.DisplayMember = PropertyNames.Name;
-                comboBoxDimension.DataSource = ViewModel.DimensionLookup;
-            }
-            if (ViewModel.Dimension != null)
-            {
-                comboBoxDimension.SelectedValue = ViewModel.Dimension.ID;
-            }
-            else
-            {
-                comboBoxDimension.SelectedValue = 0;
-            }
+            comboBoxCollectionRecalculation.SelectedValue = ViewModel.CollectionRecalculation?.ID ?? 0;
         }
 
         protected override void ApplyControlsToViewModel()
         {
-            ViewModel.Name = textBoxName.Text;
+            base.ApplyControlsToViewModel();
+
             ViewModel.CollectionRecalculation = (IDAndName)comboBoxCollectionRecalculation.SelectedItem;
-            ViewModel.Dimension = (IDAndName)comboBoxDimension.SelectedItem;
-            ViewModel.CustomDimensionName = textBoxCustomDimensionName.Text;
         }
     }
 }

@@ -19,20 +19,18 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Gui
 
+        protected override void SetTitles()
+        {
+            base.SetTitles();
+
+            labelNumber.Text = PropertyDisplayNames.Number;
+        }
+
         protected override void AddProperties()
         {
             AddProperty(labelOperatorTypeTitle, labelOperatorTypeValue);
             AddProperty(labelNumber, textBoxNumber);
             AddProperty(labelName, textBoxName);
-        }
-
-        protected override void SetTitles()
-        {
-            TitleBarText = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Operator);
-            labelName.Text = CommonTitles.Name;
-            labelOperatorTypeTitle.Text = Titles.Type + ":";
-            labelNumber.Text = PropertyDisplayNames.Number;
-            labelOperatorTypeValue.Text = PropertyDisplayNames.Number;
         }
 
         // Binding
@@ -41,13 +39,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            textBoxName.Text = ViewModel.Name;
+            base.ApplyViewModelToControls();
+
             textBoxNumber.Text = ViewModel.Number;
         }
 
         protected override void ApplyControlsToViewModel()
         {
-            ViewModel.Name = textBoxName.Text;
+            base.ApplyControlsToViewModel();
+
             ViewModel.Number = textBoxNumber.Text;
         }
     }

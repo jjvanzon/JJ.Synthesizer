@@ -172,7 +172,7 @@
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForBundle.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForSample.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForCustomOperator.cs" />
-    <Compile Include="ViewModels\OperatorPropertiesViewModel.cs" />
+    <Compile Include="ViewModels\2016-08-29 Backup of OperatorPropertiesViewModel_Old.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForNumber.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForPatchOutlet.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForPatchInlet.cs" />
@@ -191,7 +191,7 @@
     <Compile Include="ViewModels\ToneGridEditViewModel.cs" />
     <Compile Include="ViewModels\ScaleGridViewModel.cs" />
     <Compile Include="ViewModels\ScalePropertiesViewModel.cs" />
-    <Compile Include="ViewModels\OperatorPropertiesViewModelBase.cs" />
+    <Compile Include="ViewModels\OperatorPropertiesViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>

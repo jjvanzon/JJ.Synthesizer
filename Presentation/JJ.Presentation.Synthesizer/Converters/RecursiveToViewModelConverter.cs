@@ -12,6 +12,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Common;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Extensions;
+using System;
 
 namespace JJ.Presentation.Synthesizer.Converters
 {
@@ -124,8 +125,8 @@ namespace JJ.Presentation.Synthesizer.Converters
 
                 // Rest should be displayed in equally spread grades,
                 // sorted by dimension ID (arbitrary, but at least consistent).
-                IList<object> remainingDimensionIdentifiersSorted = dimensionIdentifiers.Except(DimensionEnum.Time)
-                                                                                        .OrderBy(x => x)
+                IList<object> remainingDimensionIdentifiersSorted = dimensionIdentifiers.Where(x => !Equals(x, DimensionEnum.Time))
+                                                                                        .OrderBy(x => Convert.ToString(x))
                                                                                         .ToArray();
 
                 // Just do not use StyleGrade16 anymore here. That's the easiest.

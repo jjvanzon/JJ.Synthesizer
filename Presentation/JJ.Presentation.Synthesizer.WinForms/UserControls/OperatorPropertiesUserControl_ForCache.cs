@@ -2,9 +2,7 @@
 using System.ComponentModel;
 using System.Windows.Forms;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Presentation.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
@@ -23,14 +21,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void SetTitles()
         {
-            TitleBarText = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Operator);
-            labelName.Text = CommonTitles.Name;
-            labelOperatorTypeTitle.Text = Titles.Type + ":";
+            base.SetTitles();
+
             labelInterpolation.Text = PropertyDisplayNames.Interpolation;
             labelSpeakerSetup.Text = PropertyDisplayNames.SpeakerSetup;
-            labelDimension.Text = PropertyDisplayNames.Dimension;
-            labelOperatorTypeValue.Text = PropertyDisplayNames.Cache;
-            labelCustomDimensionName.Text = Titles.CustomDimension;
         }
 
         protected override void AddProperties()
@@ -49,8 +43,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            textBoxName.Text = ViewModel.Name;
-            textBoxCustomDimensionName.Text = ViewModel.CustomDimensionName;
+            base.ApplyViewModelToControls();
 
             // Interpolation
             if (comboBoxInterpolation.DataSource == null)
@@ -59,14 +52,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 comboBoxInterpolation.DisplayMember = PropertyNames.Name;
                 comboBoxInterpolation.DataSource = ViewModel.InterpolationLookup;
             }
-            if (ViewModel.Interpolation != null)
-            {
-                comboBoxInterpolation.SelectedValue = ViewModel.Interpolation.ID;
-            }
-            else
-            {
-                comboBoxInterpolation.SelectedValue = 0;
-            }
+            comboBoxInterpolation.SelectedValue = ViewModel.Interpolation?.ID ?? 0;
 
             // SpeakerSetup
             if (comboBoxSpeakerSetup.DataSource == null)
@@ -75,39 +61,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 comboBoxSpeakerSetup.DisplayMember = PropertyNames.Name;
                 comboBoxSpeakerSetup.DataSource = ViewModel.SpeakerSetupLookup;
             }
-            if (ViewModel.SpeakerSetup != null)
-            {
-                comboBoxSpeakerSetup.SelectedValue = ViewModel.SpeakerSetup.ID;
-            }
-            else
-            {
-                comboBoxSpeakerSetup.SelectedValue = 0;
-            }
-
-            // Dimension
-            if (comboBoxDimension.DataSource == null)
-            {
-                comboBoxDimension.ValueMember = PropertyNames.ID;
-                comboBoxDimension.DisplayMember = PropertyNames.Name;
-                comboBoxDimension.DataSource = ViewModel.DimensionLookup;
-            }
-            if (ViewModel.Dimension != null)
-            {
-                comboBoxDimension.SelectedValue = ViewModel.Dimension.ID;
-            }
-            else
-            {
-                comboBoxDimension.SelectedValue = 0;
-            }
+            comboBoxSpeakerSetup.SelectedValue = ViewModel.SpeakerSetup?.ID ?? 0;
         }
 
         protected override void ApplyControlsToViewModel()
         {
-            ViewModel.Name = textBoxName.Text;
+            base.ApplyControlsToViewModel();
+
             ViewModel.Interpolation = (IDAndName)comboBoxInterpolation.SelectedItem;
             ViewModel.SpeakerSetup = (IDAndName)comboBoxSpeakerSetup.SelectedItem;
-            ViewModel.Dimension = (IDAndName)comboBoxDimension.SelectedItem;
-            ViewModel.CustomDimensionName = textBoxCustomDimensionName.Text;
         }
     }
 }
