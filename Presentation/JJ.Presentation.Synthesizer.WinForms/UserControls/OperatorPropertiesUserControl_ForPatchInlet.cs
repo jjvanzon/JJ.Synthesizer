@@ -30,7 +30,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             AddProperty(labelOperatorTypeTitle, labelOperatorTypeValue);
             AddProperty(labelDimension, comboBoxDimension);
-            AddProperty(labelCustomDimensionName, textBoxCustomDimensionName);
             AddProperty(labelDefaultValue, textBoxDefaultValue);
             AddProperty(labelName, textBoxName);
             AddProperty(labelNumber, numericUpDownNumber);

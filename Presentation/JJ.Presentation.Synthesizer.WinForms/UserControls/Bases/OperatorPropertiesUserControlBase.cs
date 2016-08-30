@@ -49,8 +49,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
             comboBoxDimension.Visible = ViewModel.DimensionVisible;
             labelDimension.Visible = ViewModel.DimensionVisible;
-            labelCustomDimensionName.Visible = ViewModel.DimensionVisible;
-            textBoxCustomDimensionName.Visible = ViewModel.DimensionVisible;
+            labelCustomDimensionName.Visible = ViewModel.CustomDimensionNameVisible;
+            textBoxCustomDimensionName.Visible = ViewModel.CustomDimensionNameVisible;
 
             textBoxCustomDimensionName.Text = ViewModel.CustomDimensionName;
 

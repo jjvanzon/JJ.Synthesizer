@@ -550,6 +550,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 viewModel.Dimension = new IDAndName();
             }
+            viewModel.CustomDimensionNameVisible = false;
 
             return viewModel;
         }
@@ -577,7 +578,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 viewModel.Dimension = new IDAndName();
             }
-            viewModel.DimensionVisible = true;
+            viewModel.CustomDimensionNameVisible = false;
 
             return viewModel;
         }
@@ -670,6 +671,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             viewModel.DimensionVisible = true;
             viewModel.DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel();
+            viewModel.CustomDimensionNameVisible = true;
             viewModel.CustomDimensionName = entity.CustomDimensionName;
 
             DimensionEnum dimensionEnum = entity.GetDimensionEnum();
