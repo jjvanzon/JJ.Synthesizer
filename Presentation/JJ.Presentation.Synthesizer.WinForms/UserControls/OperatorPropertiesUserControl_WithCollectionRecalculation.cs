@@ -9,10 +9,10 @@ using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class OperatorPropertiesUserControl_WithDimensionAndCollectionRecalculation 
+    internal partial class OperatorPropertiesUserControl_WithCollectionRecalculation 
         : OperatorPropertiesUserControlBase
     {
-        public OperatorPropertiesUserControl_WithDimensionAndCollectionRecalculation()
+        public OperatorPropertiesUserControl_WithCollectionRecalculation()
         {
             InitializeComponent();
         }
@@ -37,8 +37,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Binding
 
-        private new OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation ViewModel =>
-                   (OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation)base.ViewModel;
+        private new OperatorPropertiesViewModel_WithCollectionRecalculation ViewModel =>
+                   (OperatorPropertiesViewModel_WithCollectionRecalculation)base.ViewModel;
 
         protected override void ApplyViewModelToControls()
         {

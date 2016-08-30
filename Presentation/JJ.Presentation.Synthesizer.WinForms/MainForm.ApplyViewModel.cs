@@ -132,21 +132,21 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 .FirstOrDefault();
             operatorPropertiesUserControl_ForSample.SetSampleLookup(_presenter.MainViewModel.Document.SampleLookup);
 
-            // OperatorProperties_WithDimensionAndInterpolation
-            operatorPropertiesUserControl_WithDimensionAndInterpolation.ViewModel =
-                _presenter.MainViewModel.Document.OperatorPropertiesDictionary_WithDimensionAndInterpolation.Values
+            // OperatorProperties_WithInterpolation
+            operatorPropertiesUserControl_WithInterpolation.ViewModel =
+                _presenter.MainViewModel.Document.OperatorPropertiesDictionary_WithInterpolation.Values
                 .Where(x => x.Visible)
                 .FirstOrDefault();
 
-            // OperatorProperties_WithDimensionAndCollectionRecalculation
-            operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation.ViewModel =
-                _presenter.MainViewModel.Document.OperatorPropertiesDictionary_WithDimensionAndCollectionRecalculation.Values
+            // OperatorProperties_WithCollectionRecalculation
+            operatorPropertiesUserControl_WithCollectionRecalculation.ViewModel =
+                _presenter.MainViewModel.Document.OperatorPropertiesDictionary_WithCollectionRecalculation.Values
                 .Where(x => x.Visible)
                 .FirstOrDefault();
 
-            // OperatorProperties_WithDimensionAndOutletCount
-            operatorPropertiesUserControl_WithDimensionAndOutletCount.ViewModel =
-                _presenter.MainViewModel.Document.OperatorPropertiesDictionary_WithDimensionAndOutletCount.Values
+            // OperatorProperties_WithOutletCount
+            operatorPropertiesUserControl_WithOutletCount.ViewModel =
+                _presenter.MainViewModel.Document.OperatorPropertiesDictionary_WithOutletCount.Values
                 .Where(x => x.Visible)
                 .FirstOrDefault();
 

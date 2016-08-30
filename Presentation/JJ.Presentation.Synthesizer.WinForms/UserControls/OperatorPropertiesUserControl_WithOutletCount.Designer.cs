@@ -1,7 +1,7 @@
 ﻿using JJ.Presentation.Synthesizer.WinForms.UserControls.Partials;
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    partial class OperatorPropertiesUserControl_WithDimensionAndOutletCount
+    partial class OperatorPropertiesUserControl_WithOutletCount
     {
         /// <summary> 
         /// Required designer variable.
@@ -62,7 +62,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             0,
             0});
             // 
-            // OperatorPropertiesUserControl_WithDimensionAndOutletCount
+            // OperatorPropertiesUserControl_WithOutletCount
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -71,7 +71,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.Controls.Add(this.labelOutletCount);
             this.Controls.Add(this.numericUpDownOutletCount);
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.Name = "OperatorPropertiesUserControl_WithDimensionAndOutletCount";
+            this.Name = "OperatorPropertiesUserControl_WithOutletCount";
             this.Size = new System.Drawing.Size(10, 10);
             this.Controls.SetChildIndex(this.numericUpDownOutletCount, 0);
             this.Controls.SetChildIndex(this.labelOutletCount, 0);

@@ -63,9 +63,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly OperatorPropertiesPresenter_ForPatchInlet _operatorPropertiesPresenter_ForPatchInlet;
         private readonly OperatorPropertiesPresenter_ForPatchOutlet _operatorPropertiesPresenter_ForPatchOutlet;
         private readonly OperatorPropertiesPresenter_ForSample _operatorPropertiesPresenter_ForSample;
-        private readonly OperatorPropertiesPresenter_WithDimensionAndInterpolation _operatorPropertiesPresenter_WithDimensionAndInterpolation;
-        private readonly OperatorPropertiesPresenter_WithDimensionAndCollectionRecalculation _operatorPropertiesPresenter_WithDimensionAndCollectionRecalculation;
-        private readonly OperatorPropertiesPresenter_WithDimensionAndOutletCount _operatorPropertiesPresenter_WithDimensionAndOutletCount;
+        private readonly OperatorPropertiesPresenter_WithInterpolation _operatorPropertiesPresenter_WithInterpolation;
+        private readonly OperatorPropertiesPresenter_WithCollectionRecalculation _operatorPropertiesPresenter_WithCollectionRecalculation;
+        private readonly OperatorPropertiesPresenter_WithOutletCount _operatorPropertiesPresenter_WithOutletCount;
         private readonly OperatorPropertiesPresenter_WithInletCount _operatorPropertiesPresenter_WithInletCount;
         private readonly PatchDetailsPresenter _patchDetailsPresenter;
         private readonly PatchGridPresenter _patchGridPresenter;
@@ -138,9 +138,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _operatorPropertiesPresenter_ForPatchInlet = new OperatorPropertiesPresenter_ForPatchInlet(_patchRepositories);
             _operatorPropertiesPresenter_ForPatchOutlet = new OperatorPropertiesPresenter_ForPatchOutlet(_patchRepositories);
             _operatorPropertiesPresenter_ForSample = new OperatorPropertiesPresenter_ForSample(_patchRepositories);
-            _operatorPropertiesPresenter_WithDimensionAndInterpolation = new OperatorPropertiesPresenter_WithDimensionAndInterpolation(_patchRepositories);
-            _operatorPropertiesPresenter_WithDimensionAndCollectionRecalculation= new OperatorPropertiesPresenter_WithDimensionAndCollectionRecalculation(_patchRepositories);
-            _operatorPropertiesPresenter_WithDimensionAndOutletCount = new OperatorPropertiesPresenter_WithDimensionAndOutletCount(_patchRepositories);
+            _operatorPropertiesPresenter_WithInterpolation = new OperatorPropertiesPresenter_WithInterpolation(_patchRepositories);
+            _operatorPropertiesPresenter_WithCollectionRecalculation= new OperatorPropertiesPresenter_WithCollectionRecalculation(_patchRepositories);
+            _operatorPropertiesPresenter_WithOutletCount = new OperatorPropertiesPresenter_WithOutletCount(_patchRepositories);
             _operatorPropertiesPresenter_WithInletCount = new OperatorPropertiesPresenter_WithInletCount(_patchRepositories);
             _patchDetailsPresenter = new PatchDetailsPresenter(_patchRepositories, _entityPositionManager);
             _patchGridPresenter = new PatchGridPresenter(repositories);
@@ -191,9 +191,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MainViewModel.Document.OperatorPropertiesDictionary_ForPatchInlets.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.OperatorPropertiesDictionary_ForPatchOutlets.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.OperatorPropertiesDictionary_ForSamples.Values.ForEach(x => x.Visible = false);
-            MainViewModel.Document.OperatorPropertiesDictionary_WithDimensionAndCollectionRecalculation.Values.ForEach(x => x.Visible = false);
-            MainViewModel.Document.OperatorPropertiesDictionary_WithDimensionAndInterpolation.Values.ForEach(x => x.Visible = false);
-            MainViewModel.Document.OperatorPropertiesDictionary_WithDimensionAndOutletCount.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.OperatorPropertiesDictionary_WithCollectionRecalculation.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.OperatorPropertiesDictionary_WithInterpolation.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.OperatorPropertiesDictionary_WithOutletCount.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.OperatorPropertiesDictionary_WithInletCount.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.SamplePropertiesDictionary.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.ScalePropertiesDictionary.Values.ForEach(x => x.Visible = false);

@@ -264,9 +264,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesDictionary_ForPatchInlets_Refresh();
             OperatorPropertiesDictionary_ForPatchOutlets_Refresh();
             OperatorPropertiesDictionary_ForSamples_Refresh();
-            OperatorPropertiesDictionary_WithDimensionAndCollectionRecalculation_Refresh();
-            OperatorPropertiesDictionary_WithDimensionAndInterpolation_Refresh();
-            OperatorPropertiesDictionary_WithDimensionAndOutletCount_Refresh();
+            OperatorPropertiesDictionary_WithCollectionRecalculation_Refresh();
+            OperatorPropertiesDictionary_WithInterpolation_Refresh();
+            OperatorPropertiesDictionary_WithOutletCount_Refresh();
             OperatorPropertiesDictionary_WithInletCount_Refresh();
             OperatorPropertiesDictionaryRefresh();
             PatchDetailsDictionaryRefresh();
@@ -395,21 +395,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(viewModel);
         }
 
-        private void OperatorProperties_WithDimensionAndInterpolation_Refresh(OperatorPropertiesViewModel_WithDimensionAndInterpolation userInput)
+        private void OperatorProperties_WithInterpolation_Refresh(OperatorPropertiesViewModel_WithInterpolation userInput)
         {
-            OperatorPropertiesViewModel_WithDimensionAndInterpolation viewModel = _operatorPropertiesPresenter_WithDimensionAndInterpolation.Refresh(userInput);
+            OperatorPropertiesViewModel_WithInterpolation viewModel = _operatorPropertiesPresenter_WithInterpolation.Refresh(userInput);
             DispatchViewModel(viewModel);
         }
 
-        private void OperatorProperties_WithDimensionAndCollectionRecalculation_Refresh(OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation userInput)
+        private void OperatorProperties_WithCollectionRecalculation_Refresh(OperatorPropertiesViewModel_WithCollectionRecalculation userInput)
         {
-            OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation viewModel = _operatorPropertiesPresenter_WithDimensionAndCollectionRecalculation.Refresh(userInput);
+            OperatorPropertiesViewModel_WithCollectionRecalculation viewModel = _operatorPropertiesPresenter_WithCollectionRecalculation.Refresh(userInput);
             DispatchViewModel(viewModel);
         }
 
-        private void OperatorProperties_WithDimensionAndOutletCount_Refresh(OperatorPropertiesViewModel_WithDimensionAndOutletCount userInput)
+        private void OperatorProperties_WithOutletCount_Refresh(OperatorPropertiesViewModel_WithOutletCount userInput)
         {
-            OperatorPropertiesViewModel_WithDimensionAndOutletCount viewModel = _operatorPropertiesPresenter_WithDimensionAndOutletCount.Refresh(userInput);
+            OperatorPropertiesViewModel_WithOutletCount viewModel = _operatorPropertiesPresenter_WithOutletCount.Refresh(userInput);
             DispatchViewModel(viewModel);
         }
 
@@ -637,86 +637,86 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DeleteOperatorViewModels(MainViewModel.Document.OperatorPropertiesDictionary_ForSamples, operators);
         }
 
-        private void OperatorPropertiesDictionary_WithDimensionAndInterpolation_Refresh()
+        private void OperatorPropertiesDictionary_WithInterpolation_Refresh()
         {
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
 
             IList<Operator> operators = document.Patches
                                                 .SelectMany(x => x.Operators)
-                                                .Where(x => ViewModelHelper.OperatorTypeEnums_WithDimensionAndInterpolationPropertyViews.Contains(x.GetOperatorTypeEnum()))
+                                                .Where(x => ViewModelHelper.OperatorTypeEnums_WithInterpolationPropertyViews.Contains(x.GetOperatorTypeEnum()))
                                                 .ToArray();
             foreach (Operator op in operators)
             {
-                OperatorPropertiesViewModel_WithDimensionAndInterpolation viewModel = 
-                    ViewModelSelector.TryGetOperatorPropertiesViewModel_WithDimensionAndInterpolation(MainViewModel.Document, op.ID);
+                OperatorPropertiesViewModel_WithInterpolation viewModel = 
+                    ViewModelSelector.TryGetOperatorPropertiesViewModel_WithInterpolation(MainViewModel.Document, op.ID);
 
                 if (viewModel == null)
                 {
-                    viewModel = op.ToPropertiesViewModel_WithDimensionAndInterpolation();
+                    viewModel = op.ToPropertiesViewModel_WithInterpolation();
                     viewModel.Successful = true;
-                    MainViewModel.Document.OperatorPropertiesDictionary_WithDimensionAndInterpolation[op.ID] = viewModel;
+                    MainViewModel.Document.OperatorPropertiesDictionary_WithInterpolation[op.ID] = viewModel;
                 }
                 else
                 {
-                    OperatorProperties_WithDimensionAndInterpolation_Refresh(viewModel);
+                    OperatorProperties_WithInterpolation_Refresh(viewModel);
                 }
             }
 
-            DeleteOperatorViewModels(MainViewModel.Document.OperatorPropertiesDictionary_WithDimensionAndInterpolation, operators);
+            DeleteOperatorViewModels(MainViewModel.Document.OperatorPropertiesDictionary_WithInterpolation, operators);
         }
 
-        private void OperatorPropertiesDictionary_WithDimensionAndCollectionRecalculation_Refresh()
+        private void OperatorPropertiesDictionary_WithCollectionRecalculation_Refresh()
         {
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
 
             IList<Operator> operators = document.Patches
                                                 .SelectMany(x => x.Operators)
-                                                .Where(x => ViewModelHelper.OperatorTypeEnums_WithDimensionAndCollectionRecalculationPropertyViews.Contains(x.GetOperatorTypeEnum()))
+                                                .Where(x => ViewModelHelper.OperatorTypeEnums_WithCollectionRecalculationPropertyViews.Contains(x.GetOperatorTypeEnum()))
                                                 .ToArray();
             foreach (Operator op in operators)
             {
-                OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation viewModel =
-                    ViewModelSelector.TryGetOperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation(MainViewModel.Document, op.ID);
+                OperatorPropertiesViewModel_WithCollectionRecalculation viewModel =
+                    ViewModelSelector.TryGetOperatorPropertiesViewModel_WithCollectionRecalculation(MainViewModel.Document, op.ID);
 
                 if (viewModel == null)
                 {
-                    viewModel = op.ToPropertiesViewModel_WithDimensionAndCollectionRecalculation();
+                    viewModel = op.ToPropertiesViewModel_WithCollectionRecalculation();
                     viewModel.Successful = true;
-                    MainViewModel.Document.OperatorPropertiesDictionary_WithDimensionAndCollectionRecalculation[op.ID] = viewModel;
+                    MainViewModel.Document.OperatorPropertiesDictionary_WithCollectionRecalculation[op.ID] = viewModel;
                 }
                 else
                 {
-                    OperatorProperties_WithDimensionAndCollectionRecalculation_Refresh(viewModel);
+                    OperatorProperties_WithCollectionRecalculation_Refresh(viewModel);
                 }
             }
 
-            DeleteOperatorViewModels(MainViewModel.Document.OperatorPropertiesDictionary_WithDimensionAndCollectionRecalculation, operators);
+            DeleteOperatorViewModels(MainViewModel.Document.OperatorPropertiesDictionary_WithCollectionRecalculation, operators);
         }
 
-        private void OperatorPropertiesDictionary_WithDimensionAndOutletCount_Refresh()
+        private void OperatorPropertiesDictionary_WithOutletCount_Refresh()
         {
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
             IList<Operator> operators = document.Patches
                                                 .SelectMany(x => x.Operators)
-                                                .Where(x => ViewModelHelper.OperatorTypeEnums_WithDimensionAndOutletCountPropertyViews.Contains(x.GetOperatorTypeEnum()))
+                                                .Where(x => ViewModelHelper.OperatorTypeEnums_WithOutletCountPropertyViews.Contains(x.GetOperatorTypeEnum()))
                                                 .ToArray();
 
             foreach (Operator op in operators)
             {
-                OperatorPropertiesViewModel_WithDimensionAndOutletCount viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_WithDimensionAndOutletCount(MainViewModel.Document, op.ID);
+                OperatorPropertiesViewModel_WithOutletCount viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_WithOutletCount(MainViewModel.Document, op.ID);
                 if (viewModel == null)
                 {
-                    viewModel = op.ToPropertiesViewModel_WithDimensionAndOutletCount();
+                    viewModel = op.ToPropertiesViewModel_WithOutletCount();
                     viewModel.Successful = true;
-                    MainViewModel.Document.OperatorPropertiesDictionary_WithDimensionAndOutletCount[op.ID] = viewModel;
+                    MainViewModel.Document.OperatorPropertiesDictionary_WithOutletCount[op.ID] = viewModel;
                 }
                 else
                 {
-                    OperatorProperties_WithDimensionAndOutletCount_Refresh(viewModel);
+                    OperatorProperties_WithOutletCount_Refresh(viewModel);
                 }
             }
 
-            DeleteOperatorViewModels(MainViewModel.Document.OperatorPropertiesDictionary_WithDimensionAndOutletCount, operators);
+            DeleteOperatorViewModels(MainViewModel.Document.OperatorPropertiesDictionary_WithOutletCount, operators);
         }
 
         private void OperatorPropertiesDictionary_WithInletCount_Refresh()

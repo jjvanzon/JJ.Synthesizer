@@ -83,12 +83,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
             operatorPropertiesUserControl_ForPatchOutlet.LoseFocusRequested += operatorPropertiesUserControl_ForPatchOutlet_LoseFocusRequested;
             operatorPropertiesUserControl_ForSample.CloseRequested += operatorPropertiesUserControl_ForSample_CloseRequested;
             operatorPropertiesUserControl_ForSample.LoseFocusRequested += operatorPropertiesUserControl_ForSample_LoseFocusRequested;
-            operatorPropertiesUserControl_WithDimensionAndInterpolation.CloseRequested += operatorPropertiesUserControl_WithDimensionAndInterpolation_CloseRequested;
-            operatorPropertiesUserControl_WithDimensionAndInterpolation.LoseFocusRequested += operatorPropertiesUserControl_WithDimensionAndInterpolation_LoseFocusRequested;
-            operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation.CloseRequested += operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation_CloseRequested;
-            operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation.LoseFocusRequested += operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation_LoseFocusRequested;
-            operatorPropertiesUserControl_WithDimensionAndOutletCount.CloseRequested += operatorPropertiesUserControl_WithDimensionAndOutletCount_CloseRequested;
-            operatorPropertiesUserControl_WithDimensionAndOutletCount.LoseFocusRequested += operatorPropertiesUserControl_WithDimensionAndOutletCount_LoseFocusRequested;
+            operatorPropertiesUserControl_WithInterpolation.CloseRequested += operatorPropertiesUserControl_WithInterpolation_CloseRequested;
+            operatorPropertiesUserControl_WithInterpolation.LoseFocusRequested += operatorPropertiesUserControl_WithInterpolation_LoseFocusRequested;
+            operatorPropertiesUserControl_WithCollectionRecalculation.CloseRequested += operatorPropertiesUserControl_WithCollectionRecalculation_CloseRequested;
+            operatorPropertiesUserControl_WithCollectionRecalculation.LoseFocusRequested += operatorPropertiesUserControl_WithCollectionRecalculation_LoseFocusRequested;
+            operatorPropertiesUserControl_WithOutletCount.CloseRequested += operatorPropertiesUserControl_WithOutletCount_CloseRequested;
+            operatorPropertiesUserControl_WithOutletCount.LoseFocusRequested += operatorPropertiesUserControl_WithOutletCount_LoseFocusRequested;
             operatorPropertiesUserControl_WithInletCount.CloseRequested += operatorPropertiesUserControl_WithInletCount_CloseRequested;
             operatorPropertiesUserControl_WithInletCount.LoseFocusRequested += operatorPropertiesUserControl_WithInletCount_LoseFocusRequested;
             patchDetailsUserControl.ChangeInputOutletRequested += patchDetailsUserControl_ChangeInputOutletRequested;
@@ -559,34 +559,34 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(() => _presenter.OperatorPropertiesClose_ForSample(e.Value));
         }
 
-        private void operatorPropertiesUserControl_WithDimensionAndInterpolation_LoseFocusRequested(object sender, EventArgs<int> e)
+        private void operatorPropertiesUserControl_WithInterpolation_LoseFocusRequested(object sender, EventArgs<int> e)
         {
-            TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus_WithDimensionAndInterpolation(e.Value));
+            TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus_WithInterpolation(e.Value));
         }
 
-        private void operatorPropertiesUserControl_WithDimensionAndInterpolation_CloseRequested(object sender, EventArgs<int> e)
+        private void operatorPropertiesUserControl_WithInterpolation_CloseRequested(object sender, EventArgs<int> e)
         {
-            TemplateEventHandler(() => _presenter.OperatorPropertiesClose_WithDimensionAndInterpolation(e.Value));
+            TemplateEventHandler(() => _presenter.OperatorPropertiesClose_WithInterpolation(e.Value));
         }
 
-        private void operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation_LoseFocusRequested(object sender, EventArgs<int> e)
+        private void operatorPropertiesUserControl_WithCollectionRecalculation_LoseFocusRequested(object sender, EventArgs<int> e)
         {
-            TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus_WithDimensionAndCollectionRecalculation(e.Value));
+            TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus_WithCollectionRecalculation(e.Value));
         }
 
-        private void operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation_CloseRequested(object sender, EventArgs<int> e)
+        private void operatorPropertiesUserControl_WithCollectionRecalculation_CloseRequested(object sender, EventArgs<int> e)
         {
-            TemplateEventHandler(() => _presenter.OperatorPropertiesClose_WithDimensionAndCollectionRecalculation(e.Value));
+            TemplateEventHandler(() => _presenter.OperatorPropertiesClose_WithCollectionRecalculation(e.Value));
         }
 
-        private void operatorPropertiesUserControl_WithDimensionAndOutletCount_LoseFocusRequested(object sender, EventArgs<int> e)
+        private void operatorPropertiesUserControl_WithOutletCount_LoseFocusRequested(object sender, EventArgs<int> e)
         {
-            TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus_WithDimensionAndOutletCount(e.Value));
+            TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus_WithOutletCount(e.Value));
         }
 
-        private void operatorPropertiesUserControl_WithDimensionAndOutletCount_CloseRequested(object sender, EventArgs<int> e)
+        private void operatorPropertiesUserControl_WithOutletCount_CloseRequested(object sender, EventArgs<int> e)
         {
-            TemplateEventHandler(() => _presenter.OperatorPropertiesClose_WithDimensionAndOutletCount(e.Value));
+            TemplateEventHandler(() => _presenter.OperatorPropertiesClose_WithOutletCount(e.Value));
         }
 
         private void operatorPropertiesUserControl_WithInletCount_LoseFocusRequested(object sender, EventArgs<int> e)

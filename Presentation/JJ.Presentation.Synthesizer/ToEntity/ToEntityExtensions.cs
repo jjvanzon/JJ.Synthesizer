@@ -354,17 +354,17 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.SampleRepository, repositories.DimensionRepository);
             }
 
-            foreach (OperatorPropertiesViewModel_WithDimensionAndInterpolation propertiesViewModel in userInput.OperatorPropertiesDictionary_WithDimensionAndInterpolation.Values)
+            foreach (OperatorPropertiesViewModel_WithInterpolation propertiesViewModel in userInput.OperatorPropertiesDictionary_WithInterpolation.Values)
             {
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository);
             }
 
-            foreach (OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation propertiesViewModel in userInput.OperatorPropertiesDictionary_WithDimensionAndCollectionRecalculation.Values)
+            foreach (OperatorPropertiesViewModel_WithCollectionRecalculation propertiesViewModel in userInput.OperatorPropertiesDictionary_WithCollectionRecalculation.Values)
             {
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository);
             }
 
-            foreach (OperatorPropertiesViewModel_WithDimensionAndOutletCount propertiesViewModel in userInput.OperatorPropertiesDictionary_WithDimensionAndOutletCount.Values)
+            foreach (OperatorPropertiesViewModel_WithOutletCount propertiesViewModel in userInput.OperatorPropertiesDictionary_WithOutletCount.Values)
             {
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository);
             }
@@ -840,7 +840,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         }
 
         public static Operator ToEntity(
-            this OperatorPropertiesViewModel_WithDimensionAndInterpolation viewModel,
+            this OperatorPropertiesViewModel_WithInterpolation viewModel,
             IOperatorRepository operatorRepository,
             IOperatorTypeRepository operatorTypeRepository,
             IDimensionRepository dimensionRepository)
@@ -856,7 +856,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         }
 
         public static Operator ToEntity(
-            this OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation viewModel,
+            this OperatorPropertiesViewModel_WithCollectionRecalculation viewModel,
             IOperatorRepository operatorRepository,
             IOperatorTypeRepository operatorTypeRepository,
             IDimensionRepository dimensionRepository)
@@ -872,7 +872,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         }
 
         public static Operator ToEntity(
-            this OperatorPropertiesViewModel_WithDimensionAndOutletCount viewModel,
+            this OperatorPropertiesViewModel_WithOutletCount viewModel,
             IOperatorRepository operatorRepository,
             IOperatorTypeRepository operatorTypeRepository,
             IDimensionRepository dimensionRepository)

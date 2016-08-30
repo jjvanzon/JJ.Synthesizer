@@ -361,60 +361,60 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return viewModel;
         }
 
-        public static OperatorPropertiesViewModel_WithDimensionAndInterpolation GetOperatorPropertiesViewModel_WithDimensionAndInterpolation(DocumentViewModel documentViewModel, int operatorID)
+        public static OperatorPropertiesViewModel_WithInterpolation GetOperatorPropertiesViewModel_WithInterpolation(DocumentViewModel documentViewModel, int operatorID)
         {
-            OperatorPropertiesViewModel_WithDimensionAndInterpolation viewModel = TryGetOperatorPropertiesViewModel_WithDimensionAndInterpolation(documentViewModel, operatorID);
+            OperatorPropertiesViewModel_WithInterpolation viewModel = TryGetOperatorPropertiesViewModel_WithInterpolation(documentViewModel, operatorID);
             if (viewModel == null)
             {
-                throw new NotFoundException<OperatorPropertiesViewModel_WithDimensionAndInterpolation>(operatorID);
+                throw new NotFoundException<OperatorPropertiesViewModel_WithInterpolation>(operatorID);
             }
             return viewModel;
         }
 
-        public static OperatorPropertiesViewModel_WithDimensionAndInterpolation TryGetOperatorPropertiesViewModel_WithDimensionAndInterpolation(DocumentViewModel documentViewModel, int operatorID)
+        public static OperatorPropertiesViewModel_WithInterpolation TryGetOperatorPropertiesViewModel_WithInterpolation(DocumentViewModel documentViewModel, int operatorID)
         {
             if (documentViewModel == null) throw new NullException(() => documentViewModel);
 
-            OperatorPropertiesViewModel_WithDimensionAndInterpolation viewModel;
-            documentViewModel.OperatorPropertiesDictionary_WithDimensionAndInterpolation.TryGetValue(operatorID, out viewModel);
+            OperatorPropertiesViewModel_WithInterpolation viewModel;
+            documentViewModel.OperatorPropertiesDictionary_WithInterpolation.TryGetValue(operatorID, out viewModel);
             return viewModel;
         }
 
-        public static OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation GetOperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation(DocumentViewModel documentViewModel, int operatorID)
+        public static OperatorPropertiesViewModel_WithCollectionRecalculation GetOperatorPropertiesViewModel_WithCollectionRecalculation(DocumentViewModel documentViewModel, int operatorID)
         {
-            OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation viewModel = TryGetOperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation(documentViewModel, operatorID);
+            OperatorPropertiesViewModel_WithCollectionRecalculation viewModel = TryGetOperatorPropertiesViewModel_WithCollectionRecalculation(documentViewModel, operatorID);
             if (viewModel == null)
             {
-                throw new NotFoundException<OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation>(operatorID);
+                throw new NotFoundException<OperatorPropertiesViewModel_WithCollectionRecalculation>(operatorID);
             }
             return viewModel;
         }
 
-        public static OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation TryGetOperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation(DocumentViewModel documentViewModel, int operatorID)
+        public static OperatorPropertiesViewModel_WithCollectionRecalculation TryGetOperatorPropertiesViewModel_WithCollectionRecalculation(DocumentViewModel documentViewModel, int operatorID)
         {
             if (documentViewModel == null) throw new NullException(() => documentViewModel);
 
-            OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation viewModel;
-            documentViewModel.OperatorPropertiesDictionary_WithDimensionAndCollectionRecalculation.TryGetValue(operatorID, out viewModel);
+            OperatorPropertiesViewModel_WithCollectionRecalculation viewModel;
+            documentViewModel.OperatorPropertiesDictionary_WithCollectionRecalculation.TryGetValue(operatorID, out viewModel);
             return viewModel;
         }
 
-        public static OperatorPropertiesViewModel_WithDimensionAndOutletCount GetOperatorPropertiesViewModel_WithDimensionAndOutletCount(DocumentViewModel documentViewModel, int operatorID)
+        public static OperatorPropertiesViewModel_WithOutletCount GetOperatorPropertiesViewModel_WithOutletCount(DocumentViewModel documentViewModel, int operatorID)
         {
-            OperatorPropertiesViewModel_WithDimensionAndOutletCount viewModel = TryGetOperatorPropertiesViewModel_WithDimensionAndOutletCount(documentViewModel, operatorID);
+            OperatorPropertiesViewModel_WithOutletCount viewModel = TryGetOperatorPropertiesViewModel_WithOutletCount(documentViewModel, operatorID);
             if (viewModel == null)
             {
-                throw new NotFoundException<OperatorPropertiesViewModel_WithDimensionAndOutletCount>(operatorID);
+                throw new NotFoundException<OperatorPropertiesViewModel_WithOutletCount>(operatorID);
             }
             return viewModel;
         }
 
-        public static OperatorPropertiesViewModel_WithDimensionAndOutletCount TryGetOperatorPropertiesViewModel_WithDimensionAndOutletCount(DocumentViewModel documentViewModel, int operatorID)
+        public static OperatorPropertiesViewModel_WithOutletCount TryGetOperatorPropertiesViewModel_WithOutletCount(DocumentViewModel documentViewModel, int operatorID)
         {
             if (documentViewModel == null) throw new NullException(() => documentViewModel);
 
-            OperatorPropertiesViewModel_WithDimensionAndOutletCount viewModel;
-            documentViewModel.OperatorPropertiesDictionary_WithDimensionAndOutletCount.TryGetValue(operatorID, out viewModel);
+            OperatorPropertiesViewModel_WithOutletCount viewModel;
+            documentViewModel.OperatorPropertiesDictionary_WithOutletCount.TryGetValue(operatorID, out viewModel);
             return viewModel;
         }
 

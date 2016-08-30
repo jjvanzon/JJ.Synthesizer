@@ -135,11 +135,11 @@
     <Compile Include="UserControls\Bases\PropertiesUserControlBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\OperatorPropertiesUserControl_WithDimensionAndCollectionRecalculation.cs">
+    <Compile Include="UserControls\OperatorPropertiesUserControl_WithCollectionRecalculation.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\OperatorPropertiesUserControl_WithDimensionAndCollectionRecalculation.Designer.cs">
-      <DependentUpon>OperatorPropertiesUserControl_WithDimensionAndCollectionRecalculation.cs</DependentUpon>
+    <Compile Include="UserControls\OperatorPropertiesUserControl_WithCollectionRecalculation.Designer.cs">
+      <DependentUpon>OperatorPropertiesUserControl_WithCollectionRecalculation.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_WithInletCount.cs">
       <SubType>UserControl</SubType>
@@ -181,11 +181,11 @@
     <Compile Include="UserControls\NodePropertiesUserControl.Designer.cs">
       <DependentUpon>NodePropertiesUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\OperatorPropertiesUserControl_WithDimensionAndInterpolation.cs">
+    <Compile Include="UserControls\OperatorPropertiesUserControl_WithInterpolation.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\OperatorPropertiesUserControl_WithDimensionAndInterpolation.Designer.cs">
-      <DependentUpon>OperatorPropertiesUserControl_WithDimensionAndInterpolation.cs</DependentUpon>
+    <Compile Include="UserControls\OperatorPropertiesUserControl_WithInterpolation.Designer.cs">
+      <DependentUpon>OperatorPropertiesUserControl_WithInterpolation.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_ForCache.cs">
       <SubType>UserControl</SubType>
@@ -193,11 +193,11 @@
     <Compile Include="UserControls\OperatorPropertiesUserControl_ForCache.Designer.cs">
       <DependentUpon>OperatorPropertiesUserControl_ForCache.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\OperatorPropertiesUserControl_WithDimensionAndOutletCount.cs">
+    <Compile Include="UserControls\OperatorPropertiesUserControl_WithOutletCount.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\OperatorPropertiesUserControl_WithDimensionAndOutletCount.Designer.cs">
-      <DependentUpon>OperatorPropertiesUserControl_WithDimensionAndOutletCount.cs</DependentUpon>
+    <Compile Include="UserControls\OperatorPropertiesUserControl_WithOutletCount.Designer.cs">
+      <DependentUpon>OperatorPropertiesUserControl_WithOutletCount.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_ForCustomOperator.cs">
       <SubType>UserControl</SubType>
@@ -389,8 +389,8 @@
     <EmbeddedResource Include="UserControls\CurrentPatchesUserControl.resx">
       <DependentUpon>CurrentPatchesUserControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_WithDimensionAndCollectionRecalculation.resx">
-      <DependentUpon>OperatorPropertiesUserControl_WithDimensionAndCollectionRecalculation.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_WithCollectionRecalculation.resx">
+      <DependentUpon>OperatorPropertiesUserControl_WithCollectionRecalculation.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_WithInletCount.resx">
       <DependentUpon>OperatorPropertiesUserControl_WithInletCount.cs</DependentUpon>
@@ -413,14 +413,14 @@
     <EmbeddedResource Include="UserControls\NodePropertiesUserControl.resx">
       <DependentUpon>NodePropertiesUserControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_WithDimensionAndInterpolation.resx">
-      <DependentUpon>OperatorPropertiesUserControl_WithDimensionAndInterpolation.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_WithInterpolation.resx">
+      <DependentUpon>OperatorPropertiesUserControl_WithInterpolation.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForCache.resx">
       <DependentUpon>OperatorPropertiesUserControl_ForCache.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_WithDimensionAndOutletCount.resx">
-      <DependentUpon>OperatorPropertiesUserControl_WithDimensionAndOutletCount.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_WithOutletCount.resx">
+      <DependentUpon>OperatorPropertiesUserControl_WithOutletCount.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForCustomOperator.resx">
       <DependentUpon>OperatorPropertiesUserControl_ForCustomOperator.cs</DependentUpon>

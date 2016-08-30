@@ -8,10 +8,10 @@ using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class OperatorPropertiesUserControl_WithDimensionAndOutletCount 
+    internal partial class OperatorPropertiesUserControl_WithOutletCount 
         : OperatorPropertiesUserControlBase
     {
-        public OperatorPropertiesUserControl_WithDimensionAndOutletCount()
+        public OperatorPropertiesUserControl_WithOutletCount()
         {
             InitializeComponent();
         }
@@ -36,8 +36,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Binding
 
-        private new OperatorPropertiesViewModel_WithDimensionAndOutletCount ViewModel => 
-                   (OperatorPropertiesViewModel_WithDimensionAndOutletCount)base.ViewModel;
+        private new OperatorPropertiesViewModel_WithOutletCount ViewModel => 
+                   (OperatorPropertiesViewModel_WithOutletCount)base.ViewModel;
 
         protected override void ApplyViewModelToControls()
         {

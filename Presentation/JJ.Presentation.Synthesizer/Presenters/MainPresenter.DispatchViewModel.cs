@@ -45,9 +45,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(OperatorPropertiesViewModel_ForPatchInlet), DispatchOperatorPropertiesViewModel_ForPatchInlet },
                 { typeof(OperatorPropertiesViewModel_ForPatchOutlet), DispatchOperatorPropertiesViewModel_ForPatchOutlet },
                 { typeof(OperatorPropertiesViewModel_ForSample), DispatchOperatorPropertiesViewModel_ForSample },
-                { typeof(OperatorPropertiesViewModel_WithDimensionAndInterpolation), DispatchOperatorPropertiesViewModel_WithDimensionAndInterpolation },
-                { typeof(OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation), DispatchOperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation },
-                { typeof(OperatorPropertiesViewModel_WithDimensionAndOutletCount), DispatchOperatorPropertiesViewModel_WithDimensionAndOutletCount },
+                { typeof(OperatorPropertiesViewModel_WithInterpolation), DispatchOperatorPropertiesViewModel_WithInterpolation },
+                { typeof(OperatorPropertiesViewModel_WithCollectionRecalculation), DispatchOperatorPropertiesViewModel_WithCollectionRecalculation },
+                { typeof(OperatorPropertiesViewModel_WithOutletCount), DispatchOperatorPropertiesViewModel_WithOutletCount },
                 { typeof(OperatorPropertiesViewModel_WithInletCount), DispatchOperatorPropertiesViewModel_WithInletCount },
                 { typeof(PatchDetailsViewModel), DispatchPatchDetailsViewModel },
                 { typeof(PatchGridViewModel), DispatchPatchGridViewModel },
@@ -473,11 +473,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             castedViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchOperatorPropertiesViewModel_WithDimensionAndInterpolation(object viewModel2)
+        private void DispatchOperatorPropertiesViewModel_WithInterpolation(object viewModel2)
         {
-            var castedViewModel = (OperatorPropertiesViewModel_WithDimensionAndInterpolation)viewModel2;
+            var castedViewModel = (OperatorPropertiesViewModel_WithInterpolation)viewModel2;
 
-            var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_WithDimensionAndInterpolation;
+            var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_WithInterpolation;
             dictionary[castedViewModel.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
@@ -490,11 +490,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             castedViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchOperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation(object viewModel2)
+        private void DispatchOperatorPropertiesViewModel_WithCollectionRecalculation(object viewModel2)
         {
-            var castedViewModel = (OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation)viewModel2;
+            var castedViewModel = (OperatorPropertiesViewModel_WithCollectionRecalculation)viewModel2;
 
-            var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_WithDimensionAndCollectionRecalculation;
+            var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_WithCollectionRecalculation;
             dictionary[castedViewModel.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
@@ -507,11 +507,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             castedViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchOperatorPropertiesViewModel_WithDimensionAndOutletCount(object viewModel2)
+        private void DispatchOperatorPropertiesViewModel_WithOutletCount(object viewModel2)
         {
-            var castedViewModel = (OperatorPropertiesViewModel_WithDimensionAndOutletCount)viewModel2;
+            var castedViewModel = (OperatorPropertiesViewModel_WithOutletCount)viewModel2;
 
-            var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_WithDimensionAndOutletCount;
+            var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_WithOutletCount;
             dictionary[castedViewModel.ID] = castedViewModel;
 
             if (castedViewModel.Visible)

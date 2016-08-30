@@ -11,10 +11,10 @@ using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class OperatorPropertiesUserControl_WithDimensionAndInterpolation 
+    internal partial class OperatorPropertiesUserControl_WithInterpolation 
         : OperatorPropertiesUserControlBase
     {
-        public OperatorPropertiesUserControl_WithDimensionAndInterpolation()
+        public OperatorPropertiesUserControl_WithInterpolation()
         {
             InitializeComponent();
         }
@@ -39,8 +39,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Binding
 
-        private new OperatorPropertiesViewModel_WithDimensionAndInterpolation ViewModel =>
-                   (OperatorPropertiesViewModel_WithDimensionAndInterpolation)base.ViewModel;
+        private new OperatorPropertiesViewModel_WithInterpolation ViewModel =>
+                   (OperatorPropertiesViewModel_WithInterpolation)base.ViewModel;
 
         protected override void ApplyViewModelToControls()
         {

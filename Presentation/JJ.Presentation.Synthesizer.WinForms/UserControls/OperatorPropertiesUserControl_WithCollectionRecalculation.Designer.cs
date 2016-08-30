@@ -1,7 +1,7 @@
 ﻿using JJ.Presentation.Synthesizer.WinForms.UserControls.Partials;
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    partial class OperatorPropertiesUserControl_WithDimensionAndCollectionRecalculation
+    partial class OperatorPropertiesUserControl_WithCollectionRecalculation
     {
         /// <summary> 
         /// Required designer variable.
@@ -53,7 +53,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.comboBoxCollectionRecalculation.Size = new System.Drawing.Size(10, 24);
             this.comboBoxCollectionRecalculation.TabIndex = 21;
             // 
-            // OperatorPropertiesUserControl_WithDimensionAndCollectionRecalculation
+            // OperatorPropertiesUserControl_WithCollectionRecalculation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -62,7 +62,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.Controls.Add(this.labelRecalculation);
             this.Controls.Add(this.comboBoxCollectionRecalculation);
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.Name = "OperatorPropertiesUserControl_WithDimensionAndCollectionRecalculation";
+            this.Name = "OperatorPropertiesUserControl_WithCollectionRecalculation";
             this.Size = new System.Drawing.Size(10, 10);
             this.Controls.SetChildIndex(this.comboBoxCollectionRecalculation, 0);
             this.Controls.SetChildIndex(this.labelRecalculation, 0);

@@ -31,9 +31,9 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public Dictionary<int, OperatorPropertiesViewModel_ForPatchInlet> OperatorPropertiesDictionary_ForPatchInlets { get; set; }
         public Dictionary<int, OperatorPropertiesViewModel_ForPatchOutlet> OperatorPropertiesDictionary_ForPatchOutlets { get; set; }
         public Dictionary<int, OperatorPropertiesViewModel_ForSample> OperatorPropertiesDictionary_ForSamples { get; set; }
-        public Dictionary<int, OperatorPropertiesViewModel_WithDimensionAndInterpolation> OperatorPropertiesDictionary_WithDimensionAndInterpolation { get; set; }
-        public Dictionary<int, OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation> OperatorPropertiesDictionary_WithDimensionAndCollectionRecalculation { get; set; }
-        public Dictionary<int, OperatorPropertiesViewModel_WithDimensionAndOutletCount> OperatorPropertiesDictionary_WithDimensionAndOutletCount { get; set; }
+        public Dictionary<int, OperatorPropertiesViewModel_WithInterpolation> OperatorPropertiesDictionary_WithInterpolation { get; set; }
+        public Dictionary<int, OperatorPropertiesViewModel_WithCollectionRecalculation> OperatorPropertiesDictionary_WithCollectionRecalculation { get; set; }
+        public Dictionary<int, OperatorPropertiesViewModel_WithOutletCount> OperatorPropertiesDictionary_WithOutletCount { get; set; }
         public Dictionary<int, OperatorPropertiesViewModel_WithInletCount> OperatorPropertiesDictionary_WithInletCount { get; set; }
         public Dictionary<int, PatchDetailsViewModel> PatchDetailsDictionary { get; set; }
         /// <summary> Key is GroupName lower case. Groupless patches have key "". </summary>

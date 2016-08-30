@@ -374,30 +374,30 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                         .ToList();
         }
 
-        public static IList<OperatorPropertiesViewModel_WithDimensionAndInterpolation> ToPropertiesViewModelList_WithDimensionAndInterpolation(this Patch patch)
+        public static IList<OperatorPropertiesViewModel_WithInterpolation> ToPropertiesViewModelList_WithInterpolation(this Patch patch)
         {
             if (patch == null) throw new NullException(() => patch);
 
-            return patch.Operators.Where(x => ViewModelHelper.OperatorTypeEnums_WithDimensionAndInterpolationPropertyViews.Contains(x.GetOperatorTypeEnum()))
-                        .Select(x => x.ToPropertiesViewModel_WithDimensionAndInterpolation())
+            return patch.Operators.Where(x => ViewModelHelper.OperatorTypeEnums_WithInterpolationPropertyViews.Contains(x.GetOperatorTypeEnum()))
+                        .Select(x => x.ToPropertiesViewModel_WithInterpolation())
                         .ToList();
         }
 
-        public static IList<OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation> ToPropertiesViewModelList_WithDimensionAndCollectionRecalculation(this Patch patch)
+        public static IList<OperatorPropertiesViewModel_WithCollectionRecalculation> ToPropertiesViewModelList_WithCollectionRecalculation(this Patch patch)
         {
             if (patch == null) throw new NullException(() => patch);
 
-            return patch.Operators.Where(x => ViewModelHelper.OperatorTypeEnums_WithDimensionAndCollectionRecalculationPropertyViews.Contains(x.GetOperatorTypeEnum()))
-                        .Select(x => x.ToPropertiesViewModel_WithDimensionAndCollectionRecalculation())
+            return patch.Operators.Where(x => ViewModelHelper.OperatorTypeEnums_WithCollectionRecalculationPropertyViews.Contains(x.GetOperatorTypeEnum()))
+                        .Select(x => x.ToPropertiesViewModel_WithCollectionRecalculation())
                         .ToList();
         }
 
-        public static IList<OperatorPropertiesViewModel_WithDimensionAndOutletCount> ToPropertiesViewModelList_WithDimensionAndOutletCount(this Patch patch)
+        public static IList<OperatorPropertiesViewModel_WithOutletCount> ToPropertiesViewModelList_WithOutletCount(this Patch patch)
         {
             if (patch == null) throw new NullException(() => patch);
 
-            return patch.Operators.Where(x => ViewModelHelper.OperatorTypeEnums_WithDimensionAndOutletCountPropertyViews.Contains(x.GetOperatorTypeEnum()))
-                        .Select(x => x.ToPropertiesViewModel_WithDimensionAndOutletCount())
+            return patch.Operators.Where(x => ViewModelHelper.OperatorTypeEnums_WithOutletCountPropertyViews.Contains(x.GetOperatorTypeEnum()))
+                        .Select(x => x.ToPropertiesViewModel_WithOutletCount())
                         .ToList();
         }
 
@@ -595,11 +595,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static OperatorPropertiesViewModel_WithDimensionAndInterpolation ToPropertiesViewModel_WithDimensionAndInterpolation(this Operator entity)
+        public static OperatorPropertiesViewModel_WithInterpolation ToPropertiesViewModel_WithInterpolation(this Operator entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
-            var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel_WithDimensionAndInterpolation>(entity);
+            var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel_WithInterpolation>(entity);
 
             var wrapper = new Resample_OperatorWrapper(entity);
 
@@ -609,11 +609,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation ToPropertiesViewModel_WithDimensionAndCollectionRecalculation(this Operator entity)
+        public static OperatorPropertiesViewModel_WithCollectionRecalculation ToPropertiesViewModel_WithCollectionRecalculation(this Operator entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
-            var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation>(entity);
+            var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel_WithCollectionRecalculation>(entity);
 
             var wrapper = new SumOverDimension_OperatorWrapper(entity);
 
@@ -623,11 +623,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static OperatorPropertiesViewModel_WithDimensionAndOutletCount ToPropertiesViewModel_WithDimensionAndOutletCount(this Operator entity)
+        public static OperatorPropertiesViewModel_WithOutletCount ToPropertiesViewModel_WithOutletCount(this Operator entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
-            var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel_WithDimensionAndOutletCount>(entity);
+            var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel_WithOutletCount>(entity);
 
             viewModel.OutletCount = entity.Outlets.Count;
 

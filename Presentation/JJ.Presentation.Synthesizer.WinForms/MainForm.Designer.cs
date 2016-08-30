@@ -29,13 +29,13 @@
             this.patchDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.PatchDetailsUserControl();
             this.sampleGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.SampleGridUserControl();
             this.operatorPropertiesUserControl_ForNumber = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForNumber();
-            this.operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_WithDimensionAndCollectionRecalculation();
+            this.operatorPropertiesUserControl_WithCollectionRecalculation = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_WithCollectionRecalculation();
             this.operatorPropertiesUserControl_WithInletCount = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_WithInletCount();
             this.operatorPropertiesUserControl_ForMakeContinuous = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForMakeContinuous();
             this.audioOutputPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.AudioOutputPropertiesUserControl();
             this.operatorPropertiesUserControl_ForCache = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForCache();
-            this.operatorPropertiesUserControl_WithDimensionAndInterpolation = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_WithDimensionAndInterpolation();
-            this.operatorPropertiesUserControl_WithDimensionAndOutletCount = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_WithDimensionAndOutletCount();
+            this.operatorPropertiesUserControl_WithInterpolation = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_WithInterpolation();
+            this.operatorPropertiesUserControl_WithOutletCount = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_WithOutletCount();
             this.operatorPropertiesUserControl_ForBundle = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForBundle();
             this.nodePropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.NodePropertiesUserControl();
             this.curvePropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurvePropertiesUserControl();
@@ -117,13 +117,13 @@
             // 
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForBundle);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForNumber);
-            this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation);
+            this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_WithCollectionRecalculation);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_WithInletCount);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForMakeContinuous);
             this.splitContainerProperties.Panel2.Controls.Add(this.audioOutputPropertiesUserControl);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForCache);
-            this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_WithDimensionAndInterpolation);
-            this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_WithDimensionAndOutletCount);
+            this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_WithInterpolation);
+            this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_WithOutletCount);
             this.splitContainerProperties.Panel2.Controls.Add(this.nodePropertiesUserControl);
             this.splitContainerProperties.Panel2.Controls.Add(this.curvePropertiesUserControl);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForCurve);
@@ -267,17 +267,17 @@
             this.operatorPropertiesUserControl_ForNumber.TabIndex = 1;
             this.operatorPropertiesUserControl_ForNumber.TitleBarText = "Operator Properties";
             // 
-            // operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation
+            // operatorPropertiesUserControl_WithCollectionRecalculation
             // 
-            this.operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation.Font = new System.Drawing.Font("Verdana", 10F);
-            this.operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation.Location = new System.Drawing.Point(0, 0);
-            this.operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation.Name = "operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation";
-            this.operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation.Size = new System.Drawing.Size(333, 814);
-            this.operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation.TabIndex = 1;
+            this.operatorPropertiesUserControl_WithCollectionRecalculation.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.operatorPropertiesUserControl_WithCollectionRecalculation.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.operatorPropertiesUserControl_WithCollectionRecalculation.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.operatorPropertiesUserControl_WithCollectionRecalculation.Font = new System.Drawing.Font("Verdana", 10F);
+            this.operatorPropertiesUserControl_WithCollectionRecalculation.Location = new System.Drawing.Point(0, 0);
+            this.operatorPropertiesUserControl_WithCollectionRecalculation.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.operatorPropertiesUserControl_WithCollectionRecalculation.Name = "operatorPropertiesUserControl_WithCollectionRecalculation";
+            this.operatorPropertiesUserControl_WithCollectionRecalculation.Size = new System.Drawing.Size(333, 814);
+            this.operatorPropertiesUserControl_WithCollectionRecalculation.TabIndex = 1;
             // 
             // operatorPropertiesUserControl_WithInletCount
             // 
@@ -326,29 +326,29 @@
             this.operatorPropertiesUserControl_ForCache.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl_ForCache.TabIndex = 1;
             // 
-            // operatorPropertiesUserControl_WithDimensionAndInterpolation
+            // operatorPropertiesUserControl_WithInterpolation
             // 
-            this.operatorPropertiesUserControl_WithDimensionAndInterpolation.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.operatorPropertiesUserControl_WithDimensionAndInterpolation.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.operatorPropertiesUserControl_WithDimensionAndInterpolation.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.operatorPropertiesUserControl_WithDimensionAndInterpolation.Font = new System.Drawing.Font("Verdana", 10F);
-            this.operatorPropertiesUserControl_WithDimensionAndInterpolation.Location = new System.Drawing.Point(0, 0);
-            this.operatorPropertiesUserControl_WithDimensionAndInterpolation.Margin = new System.Windows.Forms.Padding(4);
-            this.operatorPropertiesUserControl_WithDimensionAndInterpolation.Name = "operatorPropertiesUserControl_WithDimensionAndInterpolation";
-            this.operatorPropertiesUserControl_WithDimensionAndInterpolation.Size = new System.Drawing.Size(333, 814);
-            this.operatorPropertiesUserControl_WithDimensionAndInterpolation.TabIndex = 1;
+            this.operatorPropertiesUserControl_WithInterpolation.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.operatorPropertiesUserControl_WithInterpolation.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.operatorPropertiesUserControl_WithInterpolation.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.operatorPropertiesUserControl_WithInterpolation.Font = new System.Drawing.Font("Verdana", 10F);
+            this.operatorPropertiesUserControl_WithInterpolation.Location = new System.Drawing.Point(0, 0);
+            this.operatorPropertiesUserControl_WithInterpolation.Margin = new System.Windows.Forms.Padding(4);
+            this.operatorPropertiesUserControl_WithInterpolation.Name = "operatorPropertiesUserControl_WithInterpolation";
+            this.operatorPropertiesUserControl_WithInterpolation.Size = new System.Drawing.Size(333, 814);
+            this.operatorPropertiesUserControl_WithInterpolation.TabIndex = 1;
             // 
-            // operatorPropertiesUserControl_WithDimensionAndOutletCount
+            // operatorPropertiesUserControl_WithOutletCount
             // 
-            this.operatorPropertiesUserControl_WithDimensionAndOutletCount.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.operatorPropertiesUserControl_WithDimensionAndOutletCount.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.operatorPropertiesUserControl_WithDimensionAndOutletCount.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.operatorPropertiesUserControl_WithDimensionAndOutletCount.Font = new System.Drawing.Font("Verdana", 10F);
-            this.operatorPropertiesUserControl_WithDimensionAndOutletCount.Location = new System.Drawing.Point(0, 0);
-            this.operatorPropertiesUserControl_WithDimensionAndOutletCount.Margin = new System.Windows.Forms.Padding(5);
-            this.operatorPropertiesUserControl_WithDimensionAndOutletCount.Name = "operatorPropertiesUserControl_WithDimensionAndOutletCount";
-            this.operatorPropertiesUserControl_WithDimensionAndOutletCount.Size = new System.Drawing.Size(333, 814);
-            this.operatorPropertiesUserControl_WithDimensionAndOutletCount.TabIndex = 1;
+            this.operatorPropertiesUserControl_WithOutletCount.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.operatorPropertiesUserControl_WithOutletCount.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.operatorPropertiesUserControl_WithOutletCount.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.operatorPropertiesUserControl_WithOutletCount.Font = new System.Drawing.Font("Verdana", 10F);
+            this.operatorPropertiesUserControl_WithOutletCount.Location = new System.Drawing.Point(0, 0);
+            this.operatorPropertiesUserControl_WithOutletCount.Margin = new System.Windows.Forms.Padding(5);
+            this.operatorPropertiesUserControl_WithOutletCount.Name = "operatorPropertiesUserControl_WithOutletCount";
+            this.operatorPropertiesUserControl_WithOutletCount.Size = new System.Drawing.Size(333, 814);
+            this.operatorPropertiesUserControl_WithOutletCount.TabIndex = 1;
             // 
             // operatorPropertiesUserControl_ForBundle
             // 
@@ -595,13 +595,13 @@
         private UserControls.CurvePropertiesUserControl curvePropertiesUserControl;
         private UserControls.NodePropertiesUserControl nodePropertiesUserControl;
         private UserControls.OperatorPropertiesUserControl_ForBundle operatorPropertiesUserControl_ForBundle;
-        private UserControls.OperatorPropertiesUserControl_WithDimensionAndOutletCount operatorPropertiesUserControl_WithDimensionAndOutletCount;
+        private UserControls.OperatorPropertiesUserControl_WithOutletCount operatorPropertiesUserControl_WithOutletCount;
         private UserControls.Partials.CurrentPatchesUserControl currentPatchesUserControl;
-        private UserControls.OperatorPropertiesUserControl_WithDimensionAndInterpolation operatorPropertiesUserControl_WithDimensionAndInterpolation;
+        private UserControls.OperatorPropertiesUserControl_WithInterpolation operatorPropertiesUserControl_WithInterpolation;
         private UserControls.OperatorPropertiesUserControl_ForCache operatorPropertiesUserControl_ForCache;
         private UserControls.AudioOutputPropertiesUserControl audioOutputPropertiesUserControl;
         private UserControls.OperatorPropertiesUserControl_ForMakeContinuous operatorPropertiesUserControl_ForMakeContinuous;
         private UserControls.OperatorPropertiesUserControl_WithInletCount operatorPropertiesUserControl_WithInletCount;
-        private UserControls.OperatorPropertiesUserControl_WithDimensionAndCollectionRecalculation operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation;
+        private UserControls.OperatorPropertiesUserControl_WithCollectionRecalculation operatorPropertiesUserControl_WithCollectionRecalculation;
     }
 }

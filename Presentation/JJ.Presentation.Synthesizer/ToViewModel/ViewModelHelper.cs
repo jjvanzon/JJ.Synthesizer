@@ -31,7 +31,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // OperatorTypeEnum HashSets
 
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithDimensionAndCollectionRecalculationPropertyViews { get; } =
+        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithCollectionRecalculationPropertyViews { get; } =
                   new HashSet<OperatorTypeEnum>
         {
             OperatorTypeEnum.AverageOverDimension,
@@ -43,14 +43,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.SumOverDimension
         };
 
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithDimensionAndInterpolationPropertyViews { get; } =
+        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithInterpolationPropertyViews { get; } =
                   new HashSet<OperatorTypeEnum>
         {
             OperatorTypeEnum.Random,
             OperatorTypeEnum.Resample
         };
 
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithDimensionAndOutletCountPropertyViews { get; } =
+        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithOutletCountPropertyViews { get; } =
                   new HashSet<OperatorTypeEnum>
         {
             OperatorTypeEnum.MakeDiscrete,
@@ -131,9 +131,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithoutAlternativePropertiesView { get; } =
             EnumHelper.GetValues<OperatorTypeEnum>().Except(OperatorTypeEnums_WithTheirOwnPropertyViews)
-                                                    .Except(OperatorTypeEnums_WithDimensionAndInterpolationPropertyViews)
-                                                    .Except(OperatorTypeEnums_WithDimensionAndCollectionRecalculationPropertyViews)
-                                                    .Except(OperatorTypeEnums_WithDimensionAndOutletCountPropertyViews)
+                                                    .Except(OperatorTypeEnums_WithInterpolationPropertyViews)
+                                                    .Except(OperatorTypeEnums_WithCollectionRecalculationPropertyViews)
+                                                    .Except(OperatorTypeEnums_WithOutletCountPropertyViews)
                                                     .Except(OperatorTypeEnums_WithInletCountPropertyViews)
                                                     .ToHashSet();
 
