@@ -451,6 +451,7 @@
     <Compile Include="Validation\Operators\ClosestExp_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Closest_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\LowShelfFilter_OperatorValidator.cs" />
+    <Compile Include="Validation\Operators\OperatorValidator_NoDimension.cs" />
     <Compile Include="Validation\Operators\PeakingEQFilter_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\SortOverDimension_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Sort_OperatorValidator.cs" />

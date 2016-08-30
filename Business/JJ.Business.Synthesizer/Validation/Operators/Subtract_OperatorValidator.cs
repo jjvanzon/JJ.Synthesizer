@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         protected override void Execute()
         {
-            For(() => Object.Dimension, PropertyDisplayNames.Dimension).IsNull();
+            ExecuteValidator(new OperatorValidator_NoDimension(Object));
 
             base.Execute();
         }
