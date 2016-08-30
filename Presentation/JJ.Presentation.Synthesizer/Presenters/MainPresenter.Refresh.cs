@@ -264,7 +264,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesDictionary_ForPatchInlets_Refresh();
             OperatorPropertiesDictionary_ForPatchOutlets_Refresh();
             OperatorPropertiesDictionary_ForSamples_Refresh();
-            OperatorPropertiesDictionary_WithDimension_Refresh();
             OperatorPropertiesDictionary_WithDimensionAndCollectionRecalculation_Refresh();
             OperatorPropertiesDictionary_WithDimensionAndInterpolation_Refresh();
             OperatorPropertiesDictionary_WithDimensionAndOutletCount_Refresh();
@@ -393,12 +392,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void OperatorProperties_ForSample_Refresh(OperatorPropertiesViewModel_ForSample userInput)
         {
             OperatorPropertiesViewModel_ForSample viewModel = _operatorPropertiesPresenter_ForSample.Refresh(userInput);
-            DispatchViewModel(viewModel);
-        }
-
-        private void OperatorProperties_WithDimension_Refresh(OperatorPropertiesViewModel_WithDimension userInput)
-        {
-            OperatorPropertiesViewModel_WithDimension viewModel = _operatorPropertiesPresenter_WithDimension.Refresh(userInput);
             DispatchViewModel(viewModel);
         }
 
@@ -642,32 +635,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             DeleteOperatorViewModels(MainViewModel.Document.OperatorPropertiesDictionary_ForSamples, operators);
-        }
-
-        private void OperatorPropertiesDictionary_WithDimension_Refresh()
-        {
-            Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-
-            IList<Operator> operators = document.Patches
-                                                .SelectMany(x => x.Operators)
-                                                .Where(x => ViewModelHelper.OperatorTypeEnums_WithDimensionPropertyViews.Contains(x.GetOperatorTypeEnum()))
-                                                .ToArray();
-            foreach (Operator op in operators)
-            {
-                OperatorPropertiesViewModel_WithDimension viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_WithDimension(MainViewModel.Document, op.ID);
-                if (viewModel == null)
-                {
-                    viewModel = op.ToPropertiesViewModel_WithDimension();
-                    viewModel.Successful = true;
-                    MainViewModel.Document.OperatorPropertiesDictionary_WithDimension[op.ID] = viewModel;
-                }
-                else
-                {
-                    OperatorProperties_WithDimension_Refresh(viewModel);
-                }
-            }
-
-            DeleteOperatorViewModels(MainViewModel.Document.OperatorPropertiesDictionary_WithDimension, operators);
         }
 
         private void OperatorPropertiesDictionary_WithDimensionAndInterpolation_Refresh()

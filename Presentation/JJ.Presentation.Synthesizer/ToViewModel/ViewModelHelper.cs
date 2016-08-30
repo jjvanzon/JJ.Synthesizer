@@ -47,7 +47,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                   new HashSet<OperatorTypeEnum>
         {
             OperatorTypeEnum.Random,
-            OperatorTypeEnum.Resample,
+            OperatorTypeEnum.Resample
         };
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithDimensionAndOutletCountPropertyViews { get; } =
@@ -57,31 +57,49 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.Unbundle
         };
 
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithDimensionPropertyViews { get; } =
+        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithDimension { get; } =
                   new HashSet<OperatorTypeEnum>
         {
             OperatorTypeEnum.AverageFollower,
+            OperatorTypeEnum.AverageOverDimension,
+            OperatorTypeEnum.Bundle,
+            OperatorTypeEnum.Cache,
+            OperatorTypeEnum.ClosestOverDimension,
+            OperatorTypeEnum.ClosestOverDimensionExp,
+            OperatorTypeEnum.Curve,
             OperatorTypeEnum.GetDimension,
             OperatorTypeEnum.Loop,
+            OperatorTypeEnum.MakeContinuous,
+            OperatorTypeEnum.MakeDiscrete,
             OperatorTypeEnum.MaxFollower,
+            OperatorTypeEnum.MaxOverDimension,
             OperatorTypeEnum.MinFollower,
-            OperatorTypeEnum.Squash,
+            OperatorTypeEnum.MinOverDimension,
             OperatorTypeEnum.Noise,
+            OperatorTypeEnum.PatchInlet,
+            OperatorTypeEnum.PatchOutlet,
             OperatorTypeEnum.Pulse,
+            OperatorTypeEnum.Random,
             OperatorTypeEnum.Range,
+            OperatorTypeEnum.Resample,
             OperatorTypeEnum.Reverse,
+            OperatorTypeEnum.Sample,
             OperatorTypeEnum.SawDown,
             OperatorTypeEnum.SawUp,
             OperatorTypeEnum.Select,
             OperatorTypeEnum.SetDimension,
             OperatorTypeEnum.Shift,
             OperatorTypeEnum.Sine,
+            OperatorTypeEnum.SortOverDimension,
             OperatorTypeEnum.Spectrum,
             OperatorTypeEnum.Square,
+            OperatorTypeEnum.Squash,
             OperatorTypeEnum.Stretch,
             OperatorTypeEnum.SumFollower,
+            OperatorTypeEnum.SumOverDimension,
             OperatorTypeEnum.TimePower,
-            OperatorTypeEnum.Triangle
+            OperatorTypeEnum.Triangle,
+            OperatorTypeEnum.Unbundle
         };
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithInletCountPropertyViews { get; } =
@@ -113,7 +131,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithoutAlternativePropertiesView { get; } =
             EnumHelper.GetValues<OperatorTypeEnum>().Except(OperatorTypeEnums_WithTheirOwnPropertyViews)
-                                                    .Except(OperatorTypeEnums_WithDimensionPropertyViews)
                                                     .Except(OperatorTypeEnums_WithDimensionAndInterpolationPropertyViews)
                                                     .Except(OperatorTypeEnums_WithDimensionAndCollectionRecalculationPropertyViews)
                                                     .Except(OperatorTypeEnums_WithDimensionAndOutletCountPropertyViews)

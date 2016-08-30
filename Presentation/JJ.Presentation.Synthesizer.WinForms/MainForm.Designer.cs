@@ -33,7 +33,6 @@
             this.operatorPropertiesUserControl_WithInletCount = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_WithInletCount();
             this.operatorPropertiesUserControl_ForMakeContinuous = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForMakeContinuous();
             this.audioOutputPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.AudioOutputPropertiesUserControl();
-            this.operatorPropertiesUserControl_WithDimension = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_WithDimension();
             this.operatorPropertiesUserControl_ForCache = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForCache();
             this.operatorPropertiesUserControl_WithDimensionAndInterpolation = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_WithDimensionAndInterpolation();
             this.operatorPropertiesUserControl_WithDimensionAndOutletCount = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_WithDimensionAndOutletCount();
@@ -122,7 +121,6 @@
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_WithInletCount);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForMakeContinuous);
             this.splitContainerProperties.Panel2.Controls.Add(this.audioOutputPropertiesUserControl);
-            this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_WithDimension);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForCache);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_WithDimensionAndInterpolation);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_WithDimensionAndOutletCount);
@@ -315,18 +313,6 @@
             this.audioOutputPropertiesUserControl.Name = "audioOutputPropertiesUserControl";
             this.audioOutputPropertiesUserControl.Size = new System.Drawing.Size(333, 814);
             this.audioOutputPropertiesUserControl.TabIndex = 1;
-            // 
-            // operatorPropertiesUserControl_WithDimension
-            // 
-            this.operatorPropertiesUserControl_WithDimension.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.operatorPropertiesUserControl_WithDimension.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.operatorPropertiesUserControl_WithDimension.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.operatorPropertiesUserControl_WithDimension.Font = new System.Drawing.Font("Verdana", 10F);
-            this.operatorPropertiesUserControl_WithDimension.Location = new System.Drawing.Point(0, 0);
-            this.operatorPropertiesUserControl_WithDimension.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.operatorPropertiesUserControl_WithDimension.Name = "operatorPropertiesUserControl_WithDimension";
-            this.operatorPropertiesUserControl_WithDimension.Size = new System.Drawing.Size(333, 814);
-            this.operatorPropertiesUserControl_WithDimension.TabIndex = 1;
             // 
             // operatorPropertiesUserControl_ForCache
             // 
@@ -613,7 +599,6 @@
         private UserControls.Partials.CurrentPatchesUserControl currentPatchesUserControl;
         private UserControls.OperatorPropertiesUserControl_WithDimensionAndInterpolation operatorPropertiesUserControl_WithDimensionAndInterpolation;
         private UserControls.OperatorPropertiesUserControl_ForCache operatorPropertiesUserControl_ForCache;
-        private UserControls.OperatorPropertiesUserControl_WithDimension operatorPropertiesUserControl_WithDimension;
         private UserControls.AudioOutputPropertiesUserControl audioOutputPropertiesUserControl;
         private UserControls.OperatorPropertiesUserControl_ForMakeContinuous operatorPropertiesUserControl_ForMakeContinuous;
         private UserControls.OperatorPropertiesUserControl_WithInletCount operatorPropertiesUserControl_WithInletCount;

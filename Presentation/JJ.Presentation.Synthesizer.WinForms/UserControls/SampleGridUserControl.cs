@@ -42,8 +42,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            if (ViewModel == null) return;
-
             specializedDataGridView.DataSource = ViewModel.List.Select(x => new
             {
                 x.ID,

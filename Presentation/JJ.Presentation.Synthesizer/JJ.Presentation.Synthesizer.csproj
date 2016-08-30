@@ -55,7 +55,7 @@
     <Compile Include="Presenters\OperatorPropertiesPresenter_WithDimensionAndCollectionRecalculation.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_WithInletCount.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForMakeContinuous.cs" />
-    <Compile Include="Presenters\OperatorPropertiesPresenter_WithDimension.cs" />
+    <Compile Include="Presenters\2016-08-30 Backup of OperatorPropertiesPresenter_WithDimension.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_WithDimensionAndInterpolation.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForCache.cs" />
     <Compile Include="Presenters\PatchGridPresenter.cs" />
@@ -118,7 +118,7 @@
     <Compile Include="ViewModels\Items\2016-08-25 Backup of CurrentPatchItemViewModel.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_WithInletCount.cs" />
-    <Compile Include="ViewModels\OperatorPropertiesViewModel_WithDimension.cs" />
+    <Compile Include="ViewModels\2016-08-30 Backup of OperatorPropertiesViewModel_WithDimension.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForMakeContinuous.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_WithDimensionAndInterpolation.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForCache.cs" />

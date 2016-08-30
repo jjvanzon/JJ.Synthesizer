@@ -94,7 +94,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorPropertiesDictionary_ForPatchInlets = new Dictionary<int, OperatorPropertiesViewModel_ForPatchInlet>(),
                 OperatorPropertiesDictionary_ForPatchOutlets = new Dictionary<int, OperatorPropertiesViewModel_ForPatchOutlet>(),
                 OperatorPropertiesDictionary_ForSamples = new Dictionary<int, OperatorPropertiesViewModel_ForSample>(),
-                OperatorPropertiesDictionary_WithDimension = new Dictionary<int, OperatorPropertiesViewModel_WithDimension>(),
                 OperatorPropertiesDictionary_WithDimensionAndInterpolation = new Dictionary<int, OperatorPropertiesViewModel_WithDimensionAndInterpolation>(),
                 OperatorPropertiesDictionary_WithDimensionAndCollectionRecalculation = new Dictionary<int, OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation>(),
                 OperatorPropertiesDictionary_WithDimensionAndOutletCount  = new Dictionary<int, OperatorPropertiesViewModel_WithDimensionAndOutletCount>(),

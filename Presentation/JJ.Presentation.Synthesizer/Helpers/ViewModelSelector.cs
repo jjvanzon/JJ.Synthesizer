@@ -361,25 +361,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return viewModel;
         }
 
-        public static OperatorPropertiesViewModel_WithDimension GetOperatorPropertiesViewModel_WithDimension(DocumentViewModel documentViewModel, int operatorID)
-        {
-            OperatorPropertiesViewModel_WithDimension viewModel = TryGetOperatorPropertiesViewModel_WithDimension(documentViewModel, operatorID);
-            if (viewModel == null)
-            {
-                throw new NotFoundException<OperatorPropertiesViewModel_WithDimension>(operatorID);
-            }
-            return viewModel;
-        }
-
-        public static OperatorPropertiesViewModel_WithDimension TryGetOperatorPropertiesViewModel_WithDimension(DocumentViewModel documentViewModel, int operatorID)
-        {
-            if (documentViewModel == null) throw new NullException(() => documentViewModel);
-
-            OperatorPropertiesViewModel_WithDimension viewModel;
-            documentViewModel.OperatorPropertiesDictionary_WithDimension.TryGetValue(operatorID, out viewModel);
-            return viewModel;
-        }
-
         public static OperatorPropertiesViewModel_WithDimensionAndInterpolation GetOperatorPropertiesViewModel_WithDimensionAndInterpolation(DocumentViewModel documentViewModel, int operatorID)
         {
             OperatorPropertiesViewModel_WithDimensionAndInterpolation viewModel = TryGetOperatorPropertiesViewModel_WithDimensionAndInterpolation(documentViewModel, operatorID);

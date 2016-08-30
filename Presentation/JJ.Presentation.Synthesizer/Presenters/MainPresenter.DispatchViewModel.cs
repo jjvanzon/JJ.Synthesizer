@@ -45,7 +45,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(OperatorPropertiesViewModel_ForPatchInlet), DispatchOperatorPropertiesViewModel_ForPatchInlet },
                 { typeof(OperatorPropertiesViewModel_ForPatchOutlet), DispatchOperatorPropertiesViewModel_ForPatchOutlet },
                 { typeof(OperatorPropertiesViewModel_ForSample), DispatchOperatorPropertiesViewModel_ForSample },
-                { typeof(OperatorPropertiesViewModel_WithDimension), DispatchOperatorPropertiesViewModel_WithDimension },
                 { typeof(OperatorPropertiesViewModel_WithDimensionAndInterpolation), DispatchOperatorPropertiesViewModel_WithDimensionAndInterpolation },
                 { typeof(OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation), DispatchOperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation },
                 { typeof(OperatorPropertiesViewModel_WithDimensionAndOutletCount), DispatchOperatorPropertiesViewModel_WithDimensionAndOutletCount },
@@ -462,23 +461,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             var castedViewModel = (OperatorPropertiesViewModel_ForSample)viewModel2;
 
             var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForSamples;
-            dictionary[castedViewModel.ID] = castedViewModel;
-
-            if (castedViewModel.Visible)
-            {
-                HideAllPropertiesViewModels();
-                castedViewModel.Visible = true;
-            }
-
-            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
-            castedViewModel.ValidationMessages.Clear();
-        }
-
-        private void DispatchOperatorPropertiesViewModel_WithDimension(object viewModel2)
-        {
-            var castedViewModel = (OperatorPropertiesViewModel_WithDimension)viewModel2;
-
-            var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_WithDimension;
             dictionary[castedViewModel.ID] = castedViewModel;
 
             if (castedViewModel.Visible)

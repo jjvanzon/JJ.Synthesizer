@@ -83,8 +83,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             operatorPropertiesUserControl_ForPatchOutlet.LoseFocusRequested += operatorPropertiesUserControl_ForPatchOutlet_LoseFocusRequested;
             operatorPropertiesUserControl_ForSample.CloseRequested += operatorPropertiesUserControl_ForSample_CloseRequested;
             operatorPropertiesUserControl_ForSample.LoseFocusRequested += operatorPropertiesUserControl_ForSample_LoseFocusRequested;
-            operatorPropertiesUserControl_WithDimension.CloseRequested += operatorPropertiesUserControl_WithDimension_CloseRequested;
-            operatorPropertiesUserControl_WithDimension.LoseFocusRequested += operatorPropertiesUserControl_WithDimension_LoseFocusRequested;
             operatorPropertiesUserControl_WithDimensionAndInterpolation.CloseRequested += operatorPropertiesUserControl_WithDimensionAndInterpolation_CloseRequested;
             operatorPropertiesUserControl_WithDimensionAndInterpolation.LoseFocusRequested += operatorPropertiesUserControl_WithDimensionAndInterpolation_LoseFocusRequested;
             operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation.CloseRequested += operatorPropertiesUserControl_WithDimensionAndCollectionRecalculation_CloseRequested;
@@ -559,16 +557,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void operatorPropertiesUserControl_ForSample_CloseRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.OperatorPropertiesClose_ForSample(e.Value));
-        }
-
-        private void operatorPropertiesUserControl_WithDimension_LoseFocusRequested(object sender, EventArgs<int> e)
-        {
-            TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus_WithDimension(e.Value));
-        }
-
-        private void operatorPropertiesUserControl_WithDimension_CloseRequested(object sender, EventArgs<int> e)
-        {
-            TemplateEventHandler(() => _presenter.OperatorPropertiesClose_WithDimension(e.Value));
         }
 
         private void operatorPropertiesUserControl_WithDimensionAndInterpolation_LoseFocusRequested(object sender, EventArgs<int> e)

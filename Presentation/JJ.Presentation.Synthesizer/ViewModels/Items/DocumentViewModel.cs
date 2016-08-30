@@ -31,7 +31,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public Dictionary<int, OperatorPropertiesViewModel_ForPatchInlet> OperatorPropertiesDictionary_ForPatchInlets { get; set; }
         public Dictionary<int, OperatorPropertiesViewModel_ForPatchOutlet> OperatorPropertiesDictionary_ForPatchOutlets { get; set; }
         public Dictionary<int, OperatorPropertiesViewModel_ForSample> OperatorPropertiesDictionary_ForSamples { get; set; }
-        public Dictionary<int, OperatorPropertiesViewModel_WithDimension> OperatorPropertiesDictionary_WithDimension { get; set; }
         public Dictionary<int, OperatorPropertiesViewModel_WithDimensionAndInterpolation> OperatorPropertiesDictionary_WithDimensionAndInterpolation { get; set; }
         public Dictionary<int, OperatorPropertiesViewModel_WithDimensionAndCollectionRecalculation> OperatorPropertiesDictionary_WithDimensionAndCollectionRecalculation { get; set; }
         public Dictionary<int, OperatorPropertiesViewModel_WithDimensionAndOutletCount> OperatorPropertiesDictionary_WithDimensionAndOutletCount { get; set; }

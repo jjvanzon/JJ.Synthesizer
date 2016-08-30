@@ -63,7 +63,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly OperatorPropertiesPresenter_ForPatchInlet _operatorPropertiesPresenter_ForPatchInlet;
         private readonly OperatorPropertiesPresenter_ForPatchOutlet _operatorPropertiesPresenter_ForPatchOutlet;
         private readonly OperatorPropertiesPresenter_ForSample _operatorPropertiesPresenter_ForSample;
-        private readonly OperatorPropertiesPresenter_WithDimension _operatorPropertiesPresenter_WithDimension;
         private readonly OperatorPropertiesPresenter_WithDimensionAndInterpolation _operatorPropertiesPresenter_WithDimensionAndInterpolation;
         private readonly OperatorPropertiesPresenter_WithDimensionAndCollectionRecalculation _operatorPropertiesPresenter_WithDimensionAndCollectionRecalculation;
         private readonly OperatorPropertiesPresenter_WithDimensionAndOutletCount _operatorPropertiesPresenter_WithDimensionAndOutletCount;
@@ -139,7 +138,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _operatorPropertiesPresenter_ForPatchInlet = new OperatorPropertiesPresenter_ForPatchInlet(_patchRepositories);
             _operatorPropertiesPresenter_ForPatchOutlet = new OperatorPropertiesPresenter_ForPatchOutlet(_patchRepositories);
             _operatorPropertiesPresenter_ForSample = new OperatorPropertiesPresenter_ForSample(_patchRepositories);
-            _operatorPropertiesPresenter_WithDimension = new OperatorPropertiesPresenter_WithDimension(_patchRepositories);
             _operatorPropertiesPresenter_WithDimensionAndInterpolation = new OperatorPropertiesPresenter_WithDimensionAndInterpolation(_patchRepositories);
             _operatorPropertiesPresenter_WithDimensionAndCollectionRecalculation= new OperatorPropertiesPresenter_WithDimensionAndCollectionRecalculation(_patchRepositories);
             _operatorPropertiesPresenter_WithDimensionAndOutletCount = new OperatorPropertiesPresenter_WithDimensionAndOutletCount(_patchRepositories);
@@ -193,7 +191,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MainViewModel.Document.OperatorPropertiesDictionary_ForPatchInlets.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.OperatorPropertiesDictionary_ForPatchOutlets.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.OperatorPropertiesDictionary_ForSamples.Values.ForEach(x => x.Visible = false);
-            MainViewModel.Document.OperatorPropertiesDictionary_WithDimension.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.OperatorPropertiesDictionary_WithDimensionAndCollectionRecalculation.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.OperatorPropertiesDictionary_WithDimensionAndInterpolation.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.OperatorPropertiesDictionary_WithDimensionAndOutletCount.Values.ForEach(x => x.Visible = false);

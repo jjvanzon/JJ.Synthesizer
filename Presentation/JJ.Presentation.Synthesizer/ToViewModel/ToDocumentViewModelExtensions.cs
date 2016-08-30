@@ -58,7 +58,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorPropertiesDictionary_ForPatchInlets = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForPatchInlets()).ToDictionary(x => x.ID),
                 OperatorPropertiesDictionary_ForPatchOutlets = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForPatchOutlets()).ToDictionary(x => x.ID),
                 OperatorPropertiesDictionary_ForSamples = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForSamples(repositories.SampleRepository)).ToDictionary(x => x.ID),
-                OperatorPropertiesDictionary_WithDimension = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithDimension()).ToDictionary(x => x.ID),
                 OperatorPropertiesDictionary_WithDimensionAndCollectionRecalculation = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithDimensionAndCollectionRecalculation()).ToDictionary(x => x.ID),
                 OperatorPropertiesDictionary_WithDimensionAndInterpolation = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithDimensionAndInterpolation()).ToDictionary(x => x.ID),
                 OperatorPropertiesDictionary_WithDimensionAndOutletCount = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithDimensionAndOutletCount()).ToDictionary(x => x.ID),

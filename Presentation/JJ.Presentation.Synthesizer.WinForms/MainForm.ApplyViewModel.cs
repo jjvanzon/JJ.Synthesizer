@@ -132,12 +132,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 .FirstOrDefault();
             operatorPropertiesUserControl_ForSample.SetSampleLookup(_presenter.MainViewModel.Document.SampleLookup);
 
-            // OperatorProperties_WithDimension
-            operatorPropertiesUserControl_WithDimension.ViewModel =
-                _presenter.MainViewModel.Document.OperatorPropertiesDictionary_WithDimension.Values
-                .Where(x => x.Visible)
-                .FirstOrDefault();
-
             // OperatorProperties_WithDimensionAndInterpolation
             operatorPropertiesUserControl_WithDimensionAndInterpolation.ViewModel =
                 _presenter.MainViewModel.Document.OperatorPropertiesDictionary_WithDimensionAndInterpolation.Values

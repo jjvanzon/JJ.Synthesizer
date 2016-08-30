@@ -121,6 +121,7 @@
     <Compile Include="UserControls\Bases\DetailsOrPropertiesUserControlBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="UserControls\Bases\2016-08-30 Backup of PropertiesUserControlBase.cs" />
     <Compile Include="UserControls\CurrentPatchesUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -152,11 +153,9 @@
     <Compile Include="UserControls\OperatorPropertiesUserControl_ForMakeContinuous.Designer.cs">
       <DependentUpon>OperatorPropertiesUserControl_ForMakeContinuous.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\OperatorPropertiesUserControl_WithDimension.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\OperatorPropertiesUserControl_WithDimension.Designer.cs">
-      <DependentUpon>OperatorPropertiesUserControl_WithDimension.cs</DependentUpon>
+    <Compile Include="UserControls\2016-08-30 Backup of OperatorPropertiesUserControl_WithDimension.cs" />
+    <Compile Include="UserControls\2016-08-30 Backup of OperatorPropertiesUserControl_WithDimension.Designer.cs">
+      <DependentUpon>2016-08-30 Backup of OperatorPropertiesUserControl_WithDimension.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Partials\CurrentPatchItemUserControl.cs">
       <SubType>UserControl</SubType>
@@ -381,6 +380,9 @@
     <EmbeddedResource Include="UserControls\Bases\OperatorPropertiesUserControlBase.resx">
       <DependentUpon>OperatorPropertiesUserControlBase.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\Bases\2016-08-30 Backup of PropertiesUserControlBase.resx">
+      <DependentUpon>2016-08-30 Backup of PropertiesUserControlBase.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\Bases\PropertiesUserControlBase.resx">
       <DependentUpon>PropertiesUserControlBase.cs</DependentUpon>
     </EmbeddedResource>
@@ -396,8 +398,8 @@
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForMakeContinuous.resx">
       <DependentUpon>OperatorPropertiesUserControl_ForMakeContinuous.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_WithDimension.resx">
-      <DependentUpon>OperatorPropertiesUserControl_WithDimension.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\2016-08-30 Backup of OperatorPropertiesUserControl_WithDimension.resx">
+      <DependentUpon>2016-08-30 Backup of OperatorPropertiesUserControl_WithDimension.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\Partials\CurrentPatchItemUserControl.resx">
       <DependentUpon>CurrentPatchItemUserControl.cs</DependentUpon>
