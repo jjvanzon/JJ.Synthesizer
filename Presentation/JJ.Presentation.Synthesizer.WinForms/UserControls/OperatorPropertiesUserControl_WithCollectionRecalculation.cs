@@ -29,7 +29,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         protected override void AddProperties()
         {
             AddProperty(labelOperatorTypeTitle, labelOperatorTypeValue);
-            AddProperty(labelDimension, comboBoxDimension);
+            AddProperty(labelStandardDimension, comboBoxStandardDimension);
             AddProperty(labelCustomDimensionName, textBoxCustomDimensionName);
             AddProperty(labelRecalculation, comboBoxCollectionRecalculation);
             AddProperty(labelName, textBoxName);

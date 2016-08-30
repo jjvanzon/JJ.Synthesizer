@@ -120,12 +120,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 throw new NotEqualException(() => _stack.Count, 0);
             }
 
-            foreach (DimensionEnum dimensionEnum in EnumHelper.GetValues<DimensionEnum>())
+            foreach (DimensionEnum standardDimensionEnum in EnumHelper.GetValues<DimensionEnum>())
             {
-                DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+                DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
                 if (dimensionStack.Count != 1) // 1, because a single item is added by default as when the DimensionStackCollection is initialized.
                 {
-                    throw new Exception(String.Format("DimensionStack.Count for DimensionEnum '{0}' should be 1 but it is {1}.", dimensionEnum, dimensionStack.Count));
+                    throw new Exception(String.Format("DimensionStack.Count for DimensionEnum '{0}' should be 1 but it is {1}.", standardDimensionEnum, dimensionStack.Count));
                 }
             }
 
@@ -369,8 +369,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitAverageOverDimension(Operator op)
         {
-            DimensionEnum dimensionEnum = op.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
 
             base.VisitAverageOverDimension(op);
 
@@ -451,8 +451,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitAverageFollower(Operator op)
         {
-            DimensionEnum dimensionEnum = op.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
 
             base.VisitAverageFollower(op);
 
@@ -617,8 +617,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 throw new Exception("VisitBundle should not execute if BUNDLE_POSITIONS_ARE_INVARIANT.");
             }
 
-            DimensionEnum dimensionEnum = op.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
 
             // No pushing and popping from the dimension stack here.
 
@@ -642,8 +642,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitCache(Operator op)
         {
-            DimensionEnum dimensionEnum = op.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
             DimensionStack channelDimensionStack = _dimensionStackCollection.GetDimensionStack(DimensionEnum.Channel);
 
             base.VisitCache(op);
@@ -1037,8 +1037,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitClosestOverDimension(Operator op)
         {
-            DimensionEnum dimensionEnum = op.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
 
             base.VisitClosestOverDimension(op);
 
@@ -1132,8 +1132,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitClosestOverDimensionExp(Operator op)
         {
-            DimensionEnum dimensionEnum = op.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
 
             base.VisitClosestOverDimensionExp(op);
 
@@ -1227,8 +1227,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitCurveOperator(Operator op)
         {
-            DimensionEnum dimensionEnum = op.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
 
             base.VisitCurveOperator(op);
 
@@ -1247,7 +1247,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 var curveCalculator_MinPosition = curveCalculator as CurveCalculator_MinX;
                 if (curveCalculator_MinPosition != null)
                 {
-                    if (dimensionEnum == DimensionEnum.Time)
+                    if (standardDimensionEnum == DimensionEnum.Time)
                     {
                         calculator = new Curve_OperatorCalculator_MinX_WithOriginShifting(curveCalculator_MinPosition, dimensionStack);
                     }
@@ -1260,7 +1260,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 var curveCalculator_MinPositionZero = curveCalculator as CurveCalculator_MinXZero;
                 if (curveCalculator_MinPositionZero != null)
                 {
-                    if (dimensionEnum == DimensionEnum.Time)
+                    if (standardDimensionEnum == DimensionEnum.Time)
                     {
                         calculator = new Curve_OperatorCalculator_MinXZero_WithOriginShifting(curveCalculator_MinPositionZero, dimensionStack);
                     }
@@ -1281,8 +1281,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitShift(Operator op)
         {
-            DimensionEnum dimensionEnum = op.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
             dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
 
             base.VisitShift(op);
@@ -1552,8 +1552,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitGetDimension(Operator op)
         {
-            DimensionEnum dimensionEnum = op.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
 
             base.VisitGetDimension(op);
 
@@ -1961,8 +1961,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitLoop(Operator op)
         {
-            DimensionEnum dimensionEnum = op.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
             dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
 
             base.VisitLoop(op);
@@ -2204,8 +2204,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitMakeContinuous(Operator op)
         {
-            DimensionEnum dimensionEnum = op.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
 
             // No pushing and popping from the dimension stack here.
 
@@ -2298,8 +2298,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitMaxFollower(Operator op)
         {
-            DimensionEnum dimensionEnum = op.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
             dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
 
             base.VisitMaxFollower(op);
@@ -2332,8 +2332,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitMaxOverDimension(Operator op)
         {
-            DimensionEnum dimensionEnum = op.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
 
             base.VisitMaxOverDimension(op);
 
@@ -2476,8 +2476,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitMinFollower(Operator op)
         {
-            DimensionEnum dimensionEnum = op.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
             dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
 
             base.VisitMinFollower(op);
@@ -2510,8 +2510,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitMinOverDimension(Operator op)
         {
-            DimensionEnum dimensionEnum = op.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
 
             base.VisitMinOverDimension(op);
 
@@ -2777,8 +2777,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitNoise(Operator op)
         {
-            DimensionEnum dimensionEnum = op.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
 
             base.VisitNoise(op);
 
@@ -3179,8 +3179,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitPulse(Operator op)
         {
-            DimensionEnum dimensionEnum = op.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
 
             base.VisitPulse(op);
 
@@ -3222,51 +3222,51 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = new Zero_OperatorCalculator();
             }
-            else if (frequencyIsConst && widthIsConstHalf && dimensionEnum == DimensionEnum.Time)
+            else if (frequencyIsConst && widthIsConstHalf && standardDimensionEnum == DimensionEnum.Time)
             {
                 calculator = new Pulse_OperatorCalculator_ConstFrequency_HalfWidth_WithOriginShifting(frequency, dimensionStack);
             }
-            else if (frequencyIsConst && widthIsConstHalf && dimensionEnum != DimensionEnum.Time)
+            else if (frequencyIsConst && widthIsConstHalf && standardDimensionEnum != DimensionEnum.Time)
             {
                 calculator = new Pulse_OperatorCalculator_ConstFrequency_HalfWidth_NoOriginShifting(frequency, dimensionStack);
             }
-            else if (frequencyIsConst && widthIsConst && dimensionEnum == DimensionEnum.Time)
+            else if (frequencyIsConst && widthIsConst && standardDimensionEnum == DimensionEnum.Time)
             {
                 calculator = new Pulse_OperatorCalculator_ConstFrequency_ConstWidth_WithOriginShifting(frequency, width, dimensionStack);
             }
-            else if (frequencyIsConst && widthIsConst && dimensionEnum != DimensionEnum.Time)
+            else if (frequencyIsConst && widthIsConst && standardDimensionEnum != DimensionEnum.Time)
             {
                 calculator = new Pulse_OperatorCalculator_ConstFrequency_ConstWidth_NoOriginShifting(frequency, width, dimensionStack);
             }
-            else if (frequencyIsConst && !widthIsConst && dimensionEnum == DimensionEnum.Time)
+            else if (frequencyIsConst && !widthIsConst && standardDimensionEnum == DimensionEnum.Time)
             {
                 calculator = new Pulse_OperatorCalculator_ConstFrequency_VarWidth_WithOriginShifting(frequency, widthCalculator, dimensionStack);
             }
-            else if (frequencyIsConst && !widthIsConst && dimensionEnum != DimensionEnum.Time)
+            else if (frequencyIsConst && !widthIsConst && standardDimensionEnum != DimensionEnum.Time)
             {
                 calculator = new Pulse_OperatorCalculator_ConstFrequency_VarWidth_NoOriginShifting(frequency, widthCalculator,dimensionStack);
             }
-            else if (!frequencyIsConst && widthIsConstHalf && dimensionEnum == DimensionEnum.Time)
+            else if (!frequencyIsConst && widthIsConstHalf && standardDimensionEnum == DimensionEnum.Time)
             {
                 calculator = new Pulse_OperatorCalculator_VarFrequency_HalfWidth_WithPhaseTracking(frequencyCalculator, dimensionStack);
             }
-            else if (!frequencyIsConst && widthIsConstHalf && dimensionEnum != DimensionEnum.Time)
+            else if (!frequencyIsConst && widthIsConstHalf && standardDimensionEnum != DimensionEnum.Time)
             {
                 calculator = new Pulse_OperatorCalculator_VarFrequency_HalfWidth_NoPhaseTracking(frequencyCalculator, dimensionStack);
             }
-            else if (!frequencyIsConst && widthIsConst && dimensionEnum == DimensionEnum.Time)
+            else if (!frequencyIsConst && widthIsConst && standardDimensionEnum == DimensionEnum.Time)
             {
                 calculator = new Pulse_OperatorCalculator_VarFrequency_ConstWidth_WithPhaseTracking(frequencyCalculator, width, dimensionStack);
             }
-            else if (!frequencyIsConst && widthIsConst && dimensionEnum != DimensionEnum.Time)
+            else if (!frequencyIsConst && widthIsConst && standardDimensionEnum != DimensionEnum.Time)
             {
                 calculator = new Pulse_OperatorCalculator_VarFrequency_ConstWidth_NoPhaseTracking(frequencyCalculator, width, dimensionStack);
             }
-            else if (!frequencyIsConst && !widthIsConst && dimensionEnum == DimensionEnum.Time)
+            else if (!frequencyIsConst && !widthIsConst && standardDimensionEnum == DimensionEnum.Time)
             {
                 calculator = new Pulse_OperatorCalculator_VarFrequency_VarWidth_WithPhaseTracking(frequencyCalculator, widthCalculator, dimensionStack);
             }
-            else if (!frequencyIsConst && !widthIsConst && dimensionEnum != DimensionEnum.Time)
+            else if (!frequencyIsConst && !widthIsConst && standardDimensionEnum != DimensionEnum.Time)
             {
                 calculator = new Pulse_OperatorCalculator_VarFrequency_VarWidth_NoPhaseTracking(frequencyCalculator, widthCalculator, dimensionStack);
             }
@@ -3311,8 +3311,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitRandom(Operator op)
         {
-            DimensionEnum dimensionEnum = op.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
 
             base.VisitRandom(op);
 
@@ -3410,8 +3410,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitRange(Operator op)
         {
-            DimensionEnum dimensionEnum = op.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
 
             base.VisitRange(op);
 
@@ -3470,8 +3470,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitResample(Operator op)
         {
-            DimensionEnum dimensionEnum = op.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
             dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
 
             base.VisitResample(op);
@@ -3526,8 +3526,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitReverse(Operator op)
         {
-            DimensionEnum dimensionEnum = op.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
             dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
 
             base.VisitReverse(op);
@@ -3573,19 +3573,19 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = signalCalculator;
             }
-            else if (speedIsConst && dimensionEnum == DimensionEnum.Time)
+            else if (speedIsConst && standardDimensionEnum == DimensionEnum.Time)
             {
                 calculator = new Reverse_OperatorCalculator_ConstSpeed_WithOriginShifting(signalCalculator, speed, dimensionStack);
             }
-            else if (speedIsConst && dimensionEnum != DimensionEnum.Time)
+            else if (speedIsConst && standardDimensionEnum != DimensionEnum.Time)
             {
                 calculator = new Reverse_OperatorCalculator_ConstSpeed_NoOriginShifting(signalCalculator, speed, dimensionStack);
             }
-            else if (!speedIsConst && dimensionEnum == DimensionEnum.Time)
+            else if (!speedIsConst && standardDimensionEnum == DimensionEnum.Time)
             {
                 calculator = new Reverse_OperatorCalculator_VarSpeed_WithPhaseTracking(signalCalculator, speedCalculator, dimensionStack);
             }
-            else if (!speedIsConst && dimensionEnum != DimensionEnum.Time)
+            else if (!speedIsConst && standardDimensionEnum != DimensionEnum.Time)
             {
                 calculator = new Reverse_OperatorCalculator_VarSpeed_NoPhaseTracking(signalCalculator, speedCalculator, dimensionStack);
             }
@@ -3676,8 +3676,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitSampleOperator(Operator op)
         {
-            DimensionEnum dimensionEnum = op.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
             DimensionStack channelDimensionStack = _dimensionStackCollection.GetDimensionStack(DimensionEnum.Channel);
 
             base.VisitSampleOperator(op);
@@ -3710,57 +3710,57 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
                 if (sampleChannelCount == _channelCount)
                 {
-                    if (frequencyIsConst && dimensionEnum == DimensionEnum.Time)
+                    if (frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
                     {
                         calculator = new Sample_OperatorCalculator_ConstFrequency_WithOriginShifting(frequency, sampleCalculator, dimensionStack, channelDimensionStack);
                     }
-                    else if (frequencyIsConst && dimensionEnum != DimensionEnum.Time)
+                    else if (frequencyIsConst && standardDimensionEnum != DimensionEnum.Time)
                     {
                         calculator = new Sample_OperatorCalculator_ConstFrequency_NoOriginShifting(frequency, sampleCalculator, dimensionStack, channelDimensionStack);
                     }
-                    else if (!frequencyIsConst && dimensionEnum == DimensionEnum.Time)
+                    else if (!frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
                     {
                         calculator = new Sample_OperatorCalculator_VarFrequency_WithPhaseTracking(frequencyCalculator, sampleCalculator, dimensionStack, channelDimensionStack);
                     }
-                    else if (!frequencyIsConst && dimensionEnum != DimensionEnum.Time)
+                    else if (!frequencyIsConst && standardDimensionEnum != DimensionEnum.Time)
                     {
                         calculator = new Sample_OperatorCalculator_VarFrequency_NoPhaseTracking(frequencyCalculator, sampleCalculator, dimensionStack, channelDimensionStack);
                     }
                 }
                 else if (sampleChannelCount == 1 && _channelCount == 2)
                 {
-                    if (frequencyIsConst && dimensionEnum == DimensionEnum.Time)
+                    if (frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
                     {
                         calculator = new Sample_OperatorCalculator_ConstFrequency_MonoToStereo_WithOriginShifting(frequency, sampleCalculator, dimensionStack);
                     }
-                    else if (frequencyIsConst && dimensionEnum != DimensionEnum.Time)
+                    else if (frequencyIsConst && standardDimensionEnum != DimensionEnum.Time)
                     {
                         calculator = new Sample_OperatorCalculator_ConstFrequency_MonoToStereo_NoOriginShifting(frequency, sampleCalculator, dimensionStack);
                     }
-                    else if (!frequencyIsConst && dimensionEnum == DimensionEnum.Time)
+                    else if (!frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
                     {
                         calculator = new Sample_OperatorCalculator_VarFrequency_MonoToStereo_WithPhaseTracking(frequencyCalculator, sampleCalculator, dimensionStack);
                     }
-                    else if (!frequencyIsConst && dimensionEnum != DimensionEnum.Time)
+                    else if (!frequencyIsConst && standardDimensionEnum != DimensionEnum.Time)
                     {
                         calculator = new Sample_OperatorCalculator_VarFrequency_MonoToStereo_NoPhaseTracking(frequencyCalculator, sampleCalculator, dimensionStack);
                     }
                 }
                 else if (sampleChannelCount == 2 && _channelCount == 1)
                 {
-                    if (frequencyIsConst && dimensionEnum == DimensionEnum.Time)
+                    if (frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
                     {
                         calculator = new Sample_OperatorCalculator_ConstFrequency_StereoToMono_WithOriginShifting(frequency, sampleCalculator, dimensionStack);
                     }
-                    else if (frequencyIsConst && dimensionEnum != DimensionEnum.Time)
+                    else if (frequencyIsConst && standardDimensionEnum != DimensionEnum.Time)
                     {
                         calculator = new Sample_OperatorCalculator_ConstFrequency_StereoToMono_NoOriginShifting(frequency, sampleCalculator, dimensionStack);
                     }
-                    else if (!frequencyIsConst && dimensionEnum == DimensionEnum.Time)
+                    else if (!frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
                     {
                         calculator = new Sample_OperatorCalculator_VarFrequency_StereoToMono_WithPhaseTracking(frequencyCalculator, sampleCalculator, dimensionStack);
                     }
-                    else if (!frequencyIsConst && dimensionEnum != DimensionEnum.Time)
+                    else if (!frequencyIsConst && standardDimensionEnum != DimensionEnum.Time)
                     {
                         calculator = new Sample_OperatorCalculator_VarFrequency_StereoToMono_NoPhaseTracking(frequencyCalculator, sampleCalculator, dimensionStack);
                     }
@@ -3777,8 +3777,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitSawDown(Operator op)
         {
-            DimensionEnum dimensionEnum = op.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
 
             base.VisitSawDown(op);
 
@@ -3798,19 +3798,19 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 // Special Value
                 calculator = new Zero_OperatorCalculator();
             }
-            else if (frequencyIsConst && dimensionEnum == DimensionEnum.Time)
+            else if (frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
             {
                 calculator = new SawDown_OperatorCalculator_ConstFrequency_WithOriginShifting(frequency, dimensionStack);
             }
-            else if (frequencyIsConst && dimensionEnum != DimensionEnum.Time)
+            else if (frequencyIsConst && standardDimensionEnum != DimensionEnum.Time)
             {
                 calculator = new SawDown_OperatorCalculator_ConstFrequency_NoOriginShifting(frequency, dimensionStack);
             }
-            else if (!frequencyIsConst && dimensionEnum == DimensionEnum.Time)
+            else if (!frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
             {
                 calculator = new SawDown_OperatorCalculator_VarFrequency_WithPhaseTracking(frequencyCalculator, dimensionStack);
             }
-            else if (!frequencyIsConst && dimensionEnum != DimensionEnum.Time)
+            else if (!frequencyIsConst && standardDimensionEnum != DimensionEnum.Time)
             {
                 calculator = new SawDown_OperatorCalculator_VarFrequency_NoPhaseTracking(frequencyCalculator, dimensionStack);
             }
@@ -3824,8 +3824,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitSawUp(Operator op)
         {
-            DimensionEnum dimensionEnum = op.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
 
             base.VisitSawUp(op);
 
@@ -3843,35 +3843,35 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 // Special Value
                 calculator = new Zero_OperatorCalculator();
             }
-            else if (frequencyIsConst && dimensionEnum == DimensionEnum.Time)
+            else if (frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
             {
                 calculator = new SawUp_OperatorCalculator_ConstFrequency_WithOriginShifting(frequency, dimensionStack);
             }
-            else if (frequencyIsConst && dimensionEnum != DimensionEnum.Time)
+            else if (frequencyIsConst && standardDimensionEnum != DimensionEnum.Time)
             {
                 calculator = new SawUp_OperatorCalculator_ConstFrequency_NoOriginShifting(frequency, dimensionStack);
             }
-            else if (!frequencyIsConst && dimensionEnum == DimensionEnum.Time)
+            else if (!frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
             {
                 calculator = new SawUp_OperatorCalculator_VarFrequency_WithPhaseTracking(frequencyCalculator, dimensionStack);
             }
-            else if (!frequencyIsConst && dimensionEnum != DimensionEnum.Time)
+            else if (!frequencyIsConst && standardDimensionEnum != DimensionEnum.Time)
             {
                 calculator = new SawUp_OperatorCalculator_VarFrequency_NoPhaseTracking(frequencyCalculator, dimensionStack);
             }
-            else if (frequencyIsConst && dimensionEnum == DimensionEnum.Time)
+            else if (frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
             {
                 calculator = new SawUp_OperatorCalculator_ConstFrequency_WithOriginShifting(frequency, dimensionStack);
             }
-            else if (frequencyIsConst && dimensionEnum != DimensionEnum.Time)
+            else if (frequencyIsConst && standardDimensionEnum != DimensionEnum.Time)
             {
                 calculator = new SawUp_OperatorCalculator_ConstFrequency_NoOriginShifting(frequency, dimensionStack);
             }
-            else if (!frequencyIsConst && dimensionEnum == DimensionEnum.Time)
+            else if (!frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
             {
                 calculator = new SawUp_OperatorCalculator_VarFrequency_WithPhaseTracking(frequencyCalculator, dimensionStack);
             }
-            else if (!frequencyIsConst && dimensionEnum != DimensionEnum.Time)
+            else if (!frequencyIsConst && standardDimensionEnum != DimensionEnum.Time)
             {
                 calculator = new SawUp_OperatorCalculator_VarFrequency_NoPhaseTracking(frequencyCalculator, dimensionStack);
             }
@@ -3925,8 +3925,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitSelect(Operator op)
         {
-            DimensionEnum dimensionEnum = op.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
             dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
 
             base.VisitSelect(op);
@@ -3964,8 +3964,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitSetDimension(Operator op)
         {
-            DimensionEnum dimensionEnum = op.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
             dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
 
             base.VisitSetDimension(op);
@@ -4003,8 +4003,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitSine(Operator op)
         {
-            DimensionEnum dimensionEnum = op.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
 
             base.VisitSine(op);
 
@@ -4027,19 +4027,19 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 // Frequency 0 means time stands still.
                 calculator = new Zero_OperatorCalculator();
             }
-            else if (frequencyIsConst && dimensionEnum == DimensionEnum.Time)
+            else if (frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
             {
                 calculator = new Sine_OperatorCalculator_ConstFrequency_WithOriginShifting(frequency, dimensionStack);
             }
-            else if (frequencyIsConst && dimensionEnum != DimensionEnum.Time)
+            else if (frequencyIsConst && standardDimensionEnum != DimensionEnum.Time)
             {
                 calculator = new Sine_OperatorCalculator_ConstFrequency_NoOriginShifting(frequency, dimensionStack);
             }
-            else if (!frequencyIsConst && dimensionEnum == DimensionEnum.Time)
+            else if (!frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
             {
                 calculator = new Sine_OperatorCalculator_VarFrequency_WithPhaseTracking(frequencyCalculator, dimensionStack);
             }
-            else if (!frequencyIsConst && dimensionEnum != DimensionEnum.Time)
+            else if (!frequencyIsConst && standardDimensionEnum != DimensionEnum.Time)
             {
                 calculator = new Sine_OperatorCalculator_VarFrequency_NoPhaseTracking(frequencyCalculator, dimensionStack);
             }
@@ -4053,8 +4053,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitSort(Operator op)
         {
-            //DimensionEnum dimensionEnum = op.GetDimensionEnum();
-            //DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            //DimensionEnum standardDimensionEnum = op.GetDimensionEnum();
+            //DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
             throw new NotImplementedException();
 
             base.VisitSort(op);
@@ -4087,8 +4087,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitSortOverDimension(Operator op)
         {
-            DimensionEnum dimensionEnum = op.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
 
             base.VisitSortOverDimension(op);
 
@@ -4169,8 +4169,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitSpectrum(Operator op)
         {
-            DimensionEnum dimensionEnum = op.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
             dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
 
             base.VisitSpectrum(op);
@@ -4234,8 +4234,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitSquare(Operator op)
         {
-            DimensionEnum dimensionEnum = op.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
 
             base.VisitSquare(op);
 
@@ -4258,19 +4258,19 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 // Special Value
                 calculator = new Zero_OperatorCalculator();
             }
-            else if (frequencyIsConst && dimensionEnum == DimensionEnum.Time)
+            else if (frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
             {
                 calculator = new Pulse_OperatorCalculator_ConstFrequency_HalfWidth_WithOriginShifting(frequency, dimensionStack);
             }
-            else if (frequencyIsConst && dimensionEnum != DimensionEnum.Time)
+            else if (frequencyIsConst && standardDimensionEnum != DimensionEnum.Time)
             {
                 calculator = new Pulse_OperatorCalculator_ConstFrequency_HalfWidth_NoOriginShifting(frequency, dimensionStack);
             }
-            else if (!frequencyIsConst && dimensionEnum == DimensionEnum.Time)
+            else if (!frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
             {
                 calculator = new Pulse_OperatorCalculator_VarFrequency_HalfWidth_WithPhaseTracking(frequencyCalculator, dimensionStack);
             }
-            else if (!frequencyIsConst && dimensionEnum != DimensionEnum.Time)
+            else if (!frequencyIsConst && standardDimensionEnum != DimensionEnum.Time)
             {
                 calculator = new Pulse_OperatorCalculator_VarFrequency_HalfWidth_NoPhaseTracking(frequencyCalculator, dimensionStack);
             }
@@ -4284,8 +4284,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitSquash(Operator op)
         {
-            DimensionEnum dimensionEnum = op.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
             dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
 
             base.VisitSquash(op);
@@ -4343,7 +4343,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = signalCalculator;
             }
-            else if (dimensionEnum == DimensionEnum.Time)
+            else if (standardDimensionEnum == DimensionEnum.Time)
             {
                 if (!signalIsConst && factorIsConst)
                 {
@@ -4392,8 +4392,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitStretch(Operator op)
         {
-            DimensionEnum dimensionEnum = op.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
             dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
 
             base.VisitStretch(op);
@@ -4451,7 +4451,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = signalCalculator;
             }
-            else if (dimensionEnum == DimensionEnum.Time)
+            else if (standardDimensionEnum == DimensionEnum.Time)
             {
                 if (!signalIsConst && factorIsConst)
                 {
@@ -4547,8 +4547,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitSumOverDimension(Operator op)
         {
-            DimensionEnum dimensionEnum = op.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
 
             base.VisitSumOverDimension(op);
 
@@ -4641,8 +4641,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitSumFollower(Operator op)
         {
-            DimensionEnum dimensionEnum = op.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
 
             base.VisitSumFollower(op);
 
@@ -4672,8 +4672,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitTimePower(Operator op)
         {
-            DimensionEnum dimensionEnum = op.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
             dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
 
             base.VisitTimePower(op);
@@ -4758,8 +4758,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitTriangle(Operator op)
         {
-            DimensionEnum dimensionEnum = op.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
 
             base.VisitTriangle(op);
 
@@ -4782,19 +4782,19 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 // Special Value
                 calculator = new Zero_OperatorCalculator();
             }
-            else if (frequencyIsConst && dimensionEnum == DimensionEnum.Time)
+            else if (frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
             {
                 calculator = new Triangle_OperatorCalculator_ConstFrequency_WithOriginShifting(frequency, dimensionStack);
             }
-            else if (frequencyIsConst && dimensionEnum != DimensionEnum.Time)
+            else if (frequencyIsConst && standardDimensionEnum != DimensionEnum.Time)
             {
                 calculator = new Triangle_OperatorCalculator_ConstFrequency_NoOriginShifting(frequency, dimensionStack);
             }
-            else if (!frequencyIsConst && dimensionEnum == DimensionEnum.Time)
+            else if (!frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
             {
                 calculator = new Triangle_OperatorCalculator_VarFrequency_WithPhaseTracking(frequencyCalculator, dimensionStack);
             }
-            else if (!frequencyIsConst && dimensionEnum != DimensionEnum.Time)
+            else if (!frequencyIsConst && standardDimensionEnum != DimensionEnum.Time)
             {
                 calculator = new Triangle_OperatorCalculator_VarFrequency_NoPhaseTracking(frequencyCalculator, dimensionStack);
             }
@@ -4813,8 +4813,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 throw new Exception("VisitUnbundle should not execute if BUNDLE_POSITIONS_ARE_INVARIANT.");
             }
 
-            DimensionEnum dimensionEnum = op.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
 
             // NOTE: Pushing and popping from the dimension stack is done in VisitUnbundleOutlet_WithVariableBundlePositions.
 
@@ -4892,7 +4892,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
                     variableInputCalculator = new VariableInput_OperatorCalculator
                     (
-                        dimensionEnum: inlet.GetDimensionEnum(),
+                        standardDimensionEnum: inlet.GetDimensionEnum(),
                         name: wrapper.Name,
                         listIndex: wrapper.ListIndex ?? 0,
                         defaultValue: inlet.DefaultValue ?? 0.0
@@ -4973,15 +4973,15 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         private void VisitBundleOutlet_WithInvariantBundlePositions(Outlet outlet)
         {
-            DimensionEnum dimensionEnum = outlet.Operator.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = outlet.Operator.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
 
             if (dimensionStack.Count == 0)
             {
                 throw new NotSupportedException(String.Format(
                     "Bundle Operator with ID '{0}' and Dimension '{1}' encountered without first encountering an Unbundle Operator. This is not yet supported.",
                     outlet.Operator.ID,
-                    outlet.Operator.GetDimensionEnum()));
+                    outlet.Operator.GetStandardDimensionEnum()));
             }
 
             double bundleIndexDouble = dimensionStack.PopAndGet();
@@ -4992,7 +4992,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     "Index '{0}' cannot be cast to non-negative Int32 for Bundle Operator with ID '{1}' and Dimension '{2}'.",
                     bundleIndexDouble,
                     outlet.Operator.ID,
-                    outlet.Operator.GetDimensionEnum()));
+                    outlet.Operator.GetStandardDimensionEnum()));
             }
 
             if (bundleIndexDouble >= outlet.Operator.Inlets.Count)
@@ -5001,7 +5001,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     "Index '{0}' does not exist in Bundle Operator with ID '{1}' and Dimension '{2}'.",
                     bundleIndexDouble,
                     outlet.Operator.ID,
-                    outlet.Operator.GetDimensionEnum()));
+                    outlet.Operator.GetStandardDimensionEnum()));
             }
 
             int bundleIndexInt32 = (int)bundleIndexDouble;
@@ -5052,8 +5052,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                                              .OrderBy(x => x.ListIndex)
                                              .IndexOf(x => x == outlet);
 
-            DimensionEnum dimensionEnum = op.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
 
             dimensionStack.Push(outletIndex);
 
@@ -5068,8 +5068,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                                              .OrderBy(x => x.ListIndex)
                                              .IndexOf(x => x == outlet);
 
-            DimensionEnum dimensionEnum = outlet.Operator.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = outlet.Operator.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
 
             dimensionStack.Push(outletIndex);
 
@@ -5089,8 +5089,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                                              .OrderBy(x => x.ListIndex)
                                              .IndexOf(x => x == outlet);
 
-            DimensionEnum dimensionEnum = outlet.Operator.GetDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
+            DimensionEnum standardDimensionEnum = outlet.Operator.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
 
             dimensionStack.Push(outletIndex);
 

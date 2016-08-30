@@ -535,11 +535,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             DimensionEnum dimensionEnum = wrapper.Inlet.GetDimensionEnum();
             if (dimensionEnum != DimensionEnum.Undefined)
             {
-                viewModel.Dimension = dimensionEnum.ToIDAndDisplayName();
+                viewModel.StandardDimension = dimensionEnum.ToIDAndDisplayName();
             }
             else
             {
-                viewModel.Dimension = new IDAndName();
+                viewModel.StandardDimension = new IDAndName();
             }
             viewModel.CustomDimensionNameVisible = false;
 
@@ -563,11 +563,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             DimensionEnum dimensionEnum = wrapper.Result.GetDimensionEnum();
             if (dimensionEnum != DimensionEnum.Undefined)
             {
-                viewModel.Dimension = dimensionEnum.ToIDAndDisplayName();
+                viewModel.StandardDimension = dimensionEnum.ToIDAndDisplayName();
             }
             else
             {
-                viewModel.Dimension = new IDAndName();
+                viewModel.StandardDimension = new IDAndName();
             }
             viewModel.CustomDimensionNameVisible = false;
 
@@ -672,19 +672,19 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             if (ViewModelHelper.OperatorTypeEnums_WithDimension.Contains(operatorTypeEnum))
             {
-                viewModel.DimensionVisible = true;
-                viewModel.DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel();
+                viewModel.StandardDimensionVisible = true;
+                viewModel.StandardDimensionLookup = ViewModelHelper.GetDimensionLookupViewModel();
                 viewModel.CustomDimensionNameVisible = true;
                 viewModel.CustomDimensionName = entity.CustomDimensionName;
 
-                DimensionEnum dimensionEnum = entity.GetDimensionEnum();
+                DimensionEnum dimensionEnum = entity.GetStandardDimensionEnum();
                 if (dimensionEnum != DimensionEnum.Undefined)
                 {
-                    viewModel.Dimension = dimensionEnum.ToIDAndDisplayName();
+                    viewModel.StandardDimension = dimensionEnum.ToIDAndDisplayName();
                 }
                 else
                 {
-                    viewModel.Dimension = new IDAndName();
+                    viewModel.StandardDimension = new IDAndName();
                 }
             }
 

@@ -758,11 +758,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
 
             // HACK: Clear dimension of operator.
-            op.SetDimensionEnum(DimensionEnum.Undefined, repositories.DimensionRepository);
+            op.SetStandardDimensionEnum(DimensionEnum.Undefined, repositories.DimensionRepository);
             op.CustomDimensionName = null;
             // Set dimension of inlet.
-            var dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
-            inlet.SetDimensionEnum(dimensionEnum, repositories.DimensionRepository);
+            var standardDimensionEnum = (DimensionEnum)(viewModel.StandardDimension?.ID ?? 0);
+            inlet.SetDimensionEnum(standardDimensionEnum, repositories.DimensionRepository);
 
             // Delete excessive inlets.
             var patchManager = new PatchManager(repositories);
@@ -796,11 +796,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
 
             // HACK: Clear dimension of operator.
-            op.SetDimensionEnum(DimensionEnum.Undefined, repositories.DimensionRepository);
+            op.SetStandardDimensionEnum(DimensionEnum.Undefined, repositories.DimensionRepository);
             op.CustomDimensionName = null;
             // Set dimension of inlet.
-            var dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
-            outlet.SetDimensionEnum(dimensionEnum, repositories.DimensionRepository);
+            var standardDimensionEnum = (DimensionEnum)(viewModel.StandardDimension?.ID ?? 0);
+            outlet.SetDimensionEnum(standardDimensionEnum, repositories.DimensionRepository);
 
             // Delete excessive outlets.
             var patchManager = new PatchManager(repositories);
@@ -918,8 +918,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.Name = viewModel.Name;
             entity.CustomDimensionName = viewModel.CustomDimensionName;
 
-            DimensionEnum dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
-            entity.SetDimensionEnum(dimensionEnum, dimensionRepository);
+            DimensionEnum standardDimensionEnum = (DimensionEnum)(viewModel.StandardDimension?.ID ?? 0);
+            entity.SetStandardDimensionEnum(standardDimensionEnum, dimensionRepository);
 
             OperatorTypeEnum operatorTypeEnum = (OperatorTypeEnum)(viewModel.OperatorType?.ID ?? 0);
             entity.SetOperatorTypeEnum(operatorTypeEnum, operatorTypeRepository);

@@ -8,13 +8,29 @@ namespace JJ.Business.Synthesizer.Validation
 {
     internal class NameValidator : FluentValidator_WithoutConstructorArgumentNullCheck<string>
     {
-        private static int? _nameMaxLength = GetNameMaxLength();
+        private const bool DEFAULT_REQUIRED = true;
+        private readonly static string _defaultPropertyDisplayName = CommonTitles.Name;
+        private readonly static int? _nameMaxLength = GetNameMaxLength();
 
-        private bool _required;
+        private readonly bool _required;
+        private readonly string _propertyDisplayName;
 
-        public NameValidator(string obj, bool required = true)
+        public NameValidator(string obj)
+            : this(obj, DEFAULT_REQUIRED)
+        { }
+
+        public NameValidator(string obj, bool required)
+            : this(obj, _defaultPropertyDisplayName, required)
+        { }
+
+        public NameValidator(string obj, string propertyDisplayName)
+            : this(obj, propertyDisplayName, DEFAULT_REQUIRED)
+        { }
+
+        public NameValidator(string obj, string propertyDisplayName, bool required)
             : base(obj, postponeExecute: true)
         {
+            _propertyDisplayName = propertyDisplayName;
             _required = required;
 
             Execute();
@@ -26,13 +42,13 @@ namespace JJ.Business.Synthesizer.Validation
 
             if (_required)
             {
-                For(() => name, CommonTitles.Name)
+                For(() => name, _propertyDisplayName)
                     .NotNullOrWhiteSpace();
             }
 
             if (_nameMaxLength.HasValue)
             {
-                For(() => name, CommonTitles.Name)
+                For(() => name, _propertyDisplayName)
                     .MaxLength(_nameMaxLength.Value);
             }
         }

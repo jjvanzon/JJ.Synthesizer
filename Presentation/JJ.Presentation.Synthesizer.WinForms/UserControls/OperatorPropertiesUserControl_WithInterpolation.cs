@@ -32,7 +32,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             AddProperty(labelOperatorTypeTitle, labelOperatorTypeValue);
             AddProperty(labelInterpolation, comboBoxInterpolation);
-            AddProperty(labelDimension, comboBoxDimension);
+            AddProperty(labelStandardDimension, comboBoxStandardDimension);
             AddProperty(labelCustomDimensionName, textBoxCustomDimensionName);
             AddProperty(labelName, textBoxName);
         }

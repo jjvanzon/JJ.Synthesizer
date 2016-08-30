@@ -33,7 +33,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             AddProperty(labelOperatorTypeTitle, labelOperatorTypeValue);
             AddProperty(labelInletCount, numericUpDownInletCount);
             AddProperty(labelInterpolation, comboBoxInterpolation);
-            AddProperty(labelDimension, comboBoxDimension);
+            AddProperty(labelStandardDimension, comboBoxStandardDimension);
             AddProperty(labelCustomDimensionName, textBoxCustomDimensionName);
             AddProperty(labelName, textBoxName);
         }

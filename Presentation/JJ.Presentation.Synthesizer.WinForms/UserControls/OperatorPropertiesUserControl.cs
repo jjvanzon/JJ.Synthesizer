@@ -22,7 +22,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // Trying to close the gap where the invisible controls are, proved a disaster.
             // TableLayoutPanel cannot help us with it.
             // Trying to recreate the rows dynamically made a total mess of my base class.
-            AddProperty(labelDimension, comboBoxDimension);
+            AddProperty(labelStandardDimension, comboBoxStandardDimension);
             AddProperty(labelCustomDimensionName, textBoxCustomDimensionName);
         }
     }

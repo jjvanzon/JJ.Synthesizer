@@ -59,12 +59,13 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             For(() => op.GetOperatorTypeEnum(), PropertyDisplayNames.OperatorType).Is(_expectedOperatorTypeEnum);
 
             // Dimension
-            bool dimensionIsFilledIn = op.GetDimensionEnum() != DimensionEnum.Undefined;
+            bool dimensionIsFilledIn = op.GetStandardDimensionEnum() != DimensionEnum.Undefined;
             bool customDimensionNameIsFilledIn = !String.IsNullOrWhiteSpace(op.CustomDimensionName);
             if (dimensionIsFilledIn && customDimensionNameIsFilledIn)
             {
-                ValidationMessages.AddNotBothValidationMessage(PropertyNames.Dimension, PropertyDisplayNames.Dimension, PropertyDisplayNames.CustomDimensionName);
+                ValidationMessages.AddNotBothValidationMessage(PropertyNames.Dimension, PropertyDisplayNames.StandardDimension, PropertyDisplayNames.CustomDimensionName);
             }
+            ExecuteValidator(new NameValidator(op.CustomDimensionName, PropertyDisplayNames.CustomDimensionName, required: false));
 
             // Inlets
             For(() => op.Inlets.Count, GetPropertyDisplayName_ForInletCount()).Is(_expectedInletCount);

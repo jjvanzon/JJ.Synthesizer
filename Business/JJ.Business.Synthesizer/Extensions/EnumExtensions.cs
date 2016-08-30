@@ -162,22 +162,22 @@ namespace JJ.Business.Synthesizer.Extensions
 
         // Operator
 
-        public static DimensionEnum GetDimensionEnum(this Operator entity)
+        public static DimensionEnum GetStandardDimensionEnum(this Operator entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
-            if (entity.Dimension == null) return DimensionEnum.Undefined;
+            if (entity.StandardDimension == null) return DimensionEnum.Undefined;
 
-            return (DimensionEnum)entity.Dimension.ID;
+            return (DimensionEnum)entity.StandardDimension.ID;
         }
 
-        public static void SetDimensionEnum(this Operator entity, DimensionEnum enumValue, IDimensionRepository repository)
+        public static void SetStandardDimensionEnum(this Operator entity, DimensionEnum enumValue, IDimensionRepository repository)
         {
             if (repository == null) throw new NullException(() => repository);
 
             if (enumValue == DimensionEnum.Undefined)
             {
-                entity.UnlinkDimension();
+                entity.UnlinkStandardDimension();
             }
             else
             {

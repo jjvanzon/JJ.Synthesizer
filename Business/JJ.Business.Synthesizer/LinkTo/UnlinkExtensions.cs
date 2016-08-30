@@ -161,7 +161,7 @@ namespace JJ.Business.Synthesizer.LinkTo
             op.LinkTo((OperatorType)null);
         }
 
-        public static void UnlinkDimension(this Operator op)
+        public static void UnlinkStandardDimension(this Operator op)
         {
             if (op == null) throw new NullException(() => op);
 

@@ -292,7 +292,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 VariableInput_OperatorCalculator inputCalculator = _inputOperatorCalculators[i];
 
-                if (inputCalculator.DimensionEnum == dimensionEnum)
+                if (inputCalculator.StandardDimensionEnum == dimensionEnum)
                 {
                     list.Add(i);
                 }
@@ -342,7 +342,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 VariableInput_OperatorCalculator inputCalculator = _inputOperatorCalculators[i];
 
-                if (inputCalculator.DimensionEnum == dimensionEnum)
+                if (inputCalculator.StandardDimensionEnum == dimensionEnum)
                 {
                     if (j == listIndex)
                     {

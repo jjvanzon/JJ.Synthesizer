@@ -1957,7 +1957,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                     Operator op = operators[i];
 
                     DimensionEnum dimensionEnum = DataPropertyParser.GetEnum<DimensionEnum>(op, PropertyNames.Dimension);
-                    op.SetDimensionEnum(dimensionEnum, repositories.DimensionRepository);
+                    op.SetStandardDimensionEnum(dimensionEnum, repositories.DimensionRepository);
                     DataPropertyParser.RemoveKey(op, PropertyNames.Dimension);
 
                     // Cannot validate the operator, because it will do a recursive validation,

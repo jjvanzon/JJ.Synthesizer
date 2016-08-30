@@ -412,7 +412,7 @@ namespace JJ.Business.Synthesizer.LinkTo
         {
             if (op == null) throw new NullException(() => op);
 
-            op.Dimension = dimension;
+            op.StandardDimension = dimension;
 
             // No inverse property.
         }

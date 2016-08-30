@@ -65,7 +65,7 @@ namespace JJ.Business.Synthesizer.Extensions
 
             op.UnlinkPatch();
             op.UnlinkOperatorType();
-            op.UnlinkDimension();
+            op.UnlinkStandardDimension();
         }
 
         public static void UnlinkRelatedEntities(this Outlet outlet)

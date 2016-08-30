@@ -327,6 +327,8 @@
     <Content Include="2016-08-26 060 SynthesizerDB FK_Document_ParentDocument drop constraint.sql" />
     <Content Include="2016-08-26 070 SynthesizerDB Document.ParentDocumentID drop column.sql" />
     <Content Include="2016-08-28 010 SynthesizerDB Operator.CustomOperatorName.sql" />
+    <Content Include="2016-08-30 010 SynthesizerDB rename Operator.DimensionID to StandardDimensionID.sql" />
+    <Content Include="2016-08-30 020 SynthesizerDB IX_Operator_StandardDimensionID.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

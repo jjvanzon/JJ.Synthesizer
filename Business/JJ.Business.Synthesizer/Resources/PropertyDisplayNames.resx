@@ -871,4 +871,7 @@
   <data name="CustomDimensionName" xml:space="preserve">
     <value>Custom Dimension Name</value>
   </data>
+  <data name="StandardDimension" xml:space="preserve">
+    <value>Standard Dimension</value>
+  </data>
 </root>

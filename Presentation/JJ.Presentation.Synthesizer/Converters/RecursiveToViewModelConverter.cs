@@ -83,11 +83,11 @@ namespace JJ.Presentation.Synthesizer.Converters
             {
                 OperatorViewModel operatorViewModel = ConvertToViewModelRecursive(op);
 
-                DimensionEnum dimensionEnum = op.GetDimensionEnum();
-                if (dimensionEnum != DimensionEnum.Undefined)
+                DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+                if (standardDimensionEnum != DimensionEnum.Undefined)
                 {
-                    operatorViewModel.Dimension = dimensionEnum.ToViewModel();
-                    dimensionIdentifiers.Add(dimensionEnum);
+                    operatorViewModel.Dimension = standardDimensionEnum.ToViewModel();
+                    dimensionIdentifiers.Add(standardDimensionEnum);
                 }
                 else
                 {

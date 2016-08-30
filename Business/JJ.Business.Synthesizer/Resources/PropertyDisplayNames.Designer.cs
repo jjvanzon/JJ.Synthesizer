@@ -1951,6 +1951,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Standard Dimension.
+        /// </summary>
+        public static string StandardDimension {
+            get {
+                return ResourceManager.GetString("StandardDimension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Start.
         /// </summary>
         public static string Start {

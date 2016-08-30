@@ -456,7 +456,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                     if (inlet.ListIndex == STRETCH_AND_SQUASH_ORIGIN_LIST_INDEX)
                     {
                         var wrapper = new Stretch_OperatorWrapper(inlet.Operator);
-                        if (op.GetDimensionEnum() == DimensionEnum.Time)
+                        if (op.GetStandardDimensionEnum() == DimensionEnum.Time)
                         {
                             return false;
                         }
@@ -904,7 +904,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         private static string GetOperatorCaption_WithDimensionPlaceholder(Operator op, string operatorTypeDisplayNameWithPlaceholder)
         {
-            DimensionEnum dimensionEnum = op.GetDimensionEnum();
+            DimensionEnum dimensionEnum = op.GetStandardDimensionEnum();
             string formattedOperatorTypeDisplayName;
             if (dimensionEnum != DimensionEnum.Undefined)
             {

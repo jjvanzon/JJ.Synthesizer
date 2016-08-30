@@ -16,8 +16,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         protected System.Windows.Forms.Label labelOperatorTypeTitle;
         protected System.Windows.Forms.Label labelOperatorTypeValue;
         protected System.Windows.Forms.TextBox textBoxCustomDimensionName;
-        protected System.Windows.Forms.Label labelDimension;
-        protected System.Windows.Forms.ComboBox comboBoxDimension;
+        protected System.Windows.Forms.Label labelStandardDimension;
+        protected System.Windows.Forms.ComboBox comboBoxStandardDimension;
         protected System.Windows.Forms.Label labelCustomDimensionName;
         protected System.Windows.Forms.TextBox textBoxName;
 
@@ -38,7 +38,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             TitleBarText = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Operator);
             labelName.Text = CommonTitles.Name;
             labelOperatorTypeTitle.Text = Titles.Type + ":";
-            labelDimension.Text = PropertyDisplayNames.Dimension;
+            labelStandardDimension.Text = PropertyDisplayNames.StandardDimension;
             labelCustomDimensionName.Text = Titles.CustomDimension;
         }
 
@@ -47,28 +47,28 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             textBoxName.Text = ViewModel.Name;
             labelOperatorTypeValue.Text = ViewModel.OperatorType.Name;
 
-            comboBoxDimension.Visible = ViewModel.DimensionVisible;
-            labelDimension.Visible = ViewModel.DimensionVisible;
+            comboBoxStandardDimension.Visible = ViewModel.StandardDimensionVisible;
+            labelStandardDimension.Visible = ViewModel.StandardDimensionVisible;
             labelCustomDimensionName.Visible = ViewModel.CustomDimensionNameVisible;
             textBoxCustomDimensionName.Visible = ViewModel.CustomDimensionNameVisible;
 
             textBoxCustomDimensionName.Text = ViewModel.CustomDimensionName;
 
-            if (comboBoxDimension.DataSource == null)
+            if (comboBoxStandardDimension.DataSource == null)
             {
-                comboBoxDimension.ValueMember = PropertyNames.ID;
-                comboBoxDimension.DisplayMember = PropertyNames.Name;
-                comboBoxDimension.DataSource = ViewModel.DimensionLookup;
+                comboBoxStandardDimension.ValueMember = PropertyNames.ID;
+                comboBoxStandardDimension.DisplayMember = PropertyNames.Name;
+                comboBoxStandardDimension.DataSource = ViewModel.StandardDimensionLookup;
             }
 
-            comboBoxDimension.SelectedValue = ViewModel.Dimension?.ID ?? 0;
+            comboBoxStandardDimension.SelectedValue = ViewModel.StandardDimension?.ID ?? 0;
         }
 
         protected override void ApplyControlsToViewModel()
         {
             ViewModel.Name = textBoxName.Text;
 
-            ViewModel.Dimension = (IDAndName)comboBoxDimension.SelectedItem;
+            ViewModel.StandardDimension = (IDAndName)comboBoxStandardDimension.SelectedItem;
             ViewModel.CustomDimensionName = textBoxCustomDimensionName.Text;
         }
 
@@ -79,8 +79,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             this.labelOperatorTypeValue = new System.Windows.Forms.Label();
             this.textBoxName = new System.Windows.Forms.TextBox();
             this.textBoxCustomDimensionName = new System.Windows.Forms.TextBox();
-            this.labelDimension = new System.Windows.Forms.Label();
-            this.comboBoxDimension = new System.Windows.Forms.ComboBox();
+            this.labelStandardDimension = new System.Windows.Forms.Label();
+            this.comboBoxStandardDimension = new System.Windows.Forms.ComboBox();
             this.labelCustomDimensionName = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -130,25 +130,25 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             this.textBoxCustomDimensionName.Size = new System.Drawing.Size(184, 22);
             this.textBoxCustomDimensionName.TabIndex = 34;
             // 
-            // labelDimension
+            // labelStandardDimension
             // 
-            this.labelDimension.Location = new System.Drawing.Point(82, 114);
-            this.labelDimension.Margin = new System.Windows.Forms.Padding(0);
-            this.labelDimension.Name = "labelDimension";
-            this.labelDimension.Size = new System.Drawing.Size(147, 30);
-            this.labelDimension.TabIndex = 35;
-            this.labelDimension.Text = "labelDimension";
-            this.labelDimension.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelStandardDimension.Location = new System.Drawing.Point(82, 114);
+            this.labelStandardDimension.Margin = new System.Windows.Forms.Padding(0);
+            this.labelStandardDimension.Name = "labelStandardDimension";
+            this.labelStandardDimension.Size = new System.Drawing.Size(147, 30);
+            this.labelStandardDimension.TabIndex = 35;
+            this.labelStandardDimension.Text = "labelStandardDimension";
+            this.labelStandardDimension.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // comboBoxDimension
+            // comboBoxStandardDimension
             // 
-            this.comboBoxDimension.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxDimension.FormattingEnabled = true;
-            this.comboBoxDimension.Location = new System.Drawing.Point(236, 120);
-            this.comboBoxDimension.Margin = new System.Windows.Forms.Padding(0);
-            this.comboBoxDimension.Name = "comboBoxDimension";
-            this.comboBoxDimension.Size = new System.Drawing.Size(353, 24);
-            this.comboBoxDimension.TabIndex = 36;
+            this.comboBoxStandardDimension.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxStandardDimension.FormattingEnabled = true;
+            this.comboBoxStandardDimension.Location = new System.Drawing.Point(236, 120);
+            this.comboBoxStandardDimension.Margin = new System.Windows.Forms.Padding(0);
+            this.comboBoxStandardDimension.Name = "comboBoxStandardDimension";
+            this.comboBoxStandardDimension.Size = new System.Drawing.Size(353, 24);
+            this.comboBoxStandardDimension.TabIndex = 36;
             // 
             // labelCustomDimensionName
             // 
@@ -163,8 +163,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             // OperatorPropertiesUserControlBase
             // 
             this.Controls.Add(this.labelCustomDimensionName);
-            this.Controls.Add(this.comboBoxDimension);
-            this.Controls.Add(this.labelDimension);
+            this.Controls.Add(this.comboBoxStandardDimension);
+            this.Controls.Add(this.labelStandardDimension);
             this.Controls.Add(this.textBoxCustomDimensionName);
             this.Controls.Add(this.labelName);
             this.Controls.Add(this.labelOperatorTypeTitle);
@@ -177,8 +177,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             this.Controls.SetChildIndex(this.labelOperatorTypeTitle, 0);
             this.Controls.SetChildIndex(this.labelName, 0);
             this.Controls.SetChildIndex(this.textBoxCustomDimensionName, 0);
-            this.Controls.SetChildIndex(this.labelDimension, 0);
-            this.Controls.SetChildIndex(this.comboBoxDimension, 0);
+            this.Controls.SetChildIndex(this.labelStandardDimension, 0);
+            this.Controls.SetChildIndex(this.comboBoxStandardDimension, 0);
             this.Controls.SetChildIndex(this.labelCustomDimensionName, 0);
             this.ResumeLayout(false);
             this.PerformLayout();

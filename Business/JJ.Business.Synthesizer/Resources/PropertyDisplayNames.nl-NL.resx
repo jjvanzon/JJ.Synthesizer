@@ -869,4 +869,7 @@
   <data name="CustomDimensionName" xml:space="preserve">
     <value>Afwijkende dimensienaam</value>
   </data>
+  <data name="StandardDimension" xml:space="preserve">
+    <value>Standaard dimensie</value>
+  </data>
 </root>

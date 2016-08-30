@@ -18,7 +18,7 @@ namespace JJ.Data.Synthesizer
         public virtual OperatorType OperatorType { get; set; }
         /// <summary> parent </summary>
         public virtual Patch Patch { get; set; }
-        public virtual Dimension Dimension { get; set; }
+        public virtual Dimension StandardDimension { get; set; }
         public virtual string CustomDimensionName { get; set; }
         public virtual string Data { get; set; }
         public virtual IList<Inlet> Inlets { get; set; }

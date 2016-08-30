@@ -14,9 +14,9 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         /// <summary> not editable </summary>
         public IDAndName OperatorType { get; set; }
 
-        public bool DimensionVisible { get; set; }
-        public IDAndName Dimension { get; set; }
-        public IList<IDAndName> DimensionLookup { get; set; }
+        public bool StandardDimensionVisible { get; set; }
+        public IDAndName StandardDimension { get; set; }
+        public IList<IDAndName> StandardDimensionLookup { get; set; }
 
         public bool CustomDimensionNameVisible { get; set; }
         public string CustomDimensionName { get; set; }
