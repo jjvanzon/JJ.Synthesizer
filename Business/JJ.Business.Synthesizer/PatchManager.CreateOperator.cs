@@ -267,9 +267,9 @@ namespace JJ.Business.Synthesizer
             return Bundle((IList<Outlet>)operands);
         }
 
-        public Bundle_OperatorWrapper Bundle(DimensionEnum dimension, params Outlet[] operands)
+        public Bundle_OperatorWrapper Bundle(DimensionEnum standardDimension, params Outlet[] operands)
         {
-            return Bundle(operands, dimension);
+            return Bundle(operands, standardDimension);
         }
 
         public Bundle_OperatorWrapper Bundle(
@@ -885,9 +885,9 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public MakeContinuous_OperatorWrapper MakeContinuous(ResampleInterpolationTypeEnum interpolation, DimensionEnum dimension, params Outlet[] operands)
+        public MakeContinuous_OperatorWrapper MakeContinuous(ResampleInterpolationTypeEnum interpolation, DimensionEnum standardDimension, params Outlet[] operands)
         {
-            return MakeContinuousPrivate(operands, interpolation, dimension);
+            return MakeContinuousPrivate(operands, interpolation, standardDimension);
         }
 
         public MakeContinuous_OperatorWrapper MakeContinuous(ResampleInterpolationTypeEnum interpolation, params Outlet[] operands)
@@ -895,9 +895,9 @@ namespace JJ.Business.Synthesizer
             return MakeContinuousPrivate(operands, interpolation, null);
         }
 
-        public MakeContinuous_OperatorWrapper MakeContinuous(DimensionEnum dimension, params Outlet[] operands)
+        public MakeContinuous_OperatorWrapper MakeContinuous(DimensionEnum standardDimension, params Outlet[] operands)
         {
-            return MakeContinuousPrivate(operands, null, dimension);
+            return MakeContinuousPrivate(operands, null, standardDimension);
         }
 
         public MakeContinuous_OperatorWrapper MakeContinuous(params Outlet[] operands)
@@ -905,9 +905,9 @@ namespace JJ.Business.Synthesizer
             return MakeContinuousPrivate(operands, null, null);
         }
 
-        public MakeContinuous_OperatorWrapper MakeContinuous(IList<Outlet> operands, ResampleInterpolationTypeEnum interpolation, DimensionEnum dimension)
+        public MakeContinuous_OperatorWrapper MakeContinuous(IList<Outlet> operands, ResampleInterpolationTypeEnum interpolation, DimensionEnum standardDimension)
         {
-            return MakeContinuousPrivate(operands, interpolation, dimension);
+            return MakeContinuousPrivate(operands, interpolation, standardDimension);
         }
 
         public MakeContinuous_OperatorWrapper MakeContinuous(IList<Outlet> operands, ResampleInterpolationTypeEnum interpolation)
@@ -915,9 +915,9 @@ namespace JJ.Business.Synthesizer
             return MakeContinuousPrivate(operands, interpolation, null);
         }
 
-        public MakeContinuous_OperatorWrapper MakeContinuous(IList<Outlet> operands, DimensionEnum dimension)
+        public MakeContinuous_OperatorWrapper MakeContinuous(IList<Outlet> operands, DimensionEnum standardDimension)
         {
-            return MakeContinuousPrivate(operands, null, dimension);
+            return MakeContinuousPrivate(operands, null, standardDimension);
         }
 
         public MakeContinuous_OperatorWrapper MakeContinuous(IList<Outlet> operands)
@@ -953,17 +953,17 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public MakeDiscrete_OperatorWrapper MakeDiscrete(Outlet operand, DimensionEnum dimension, string customDimension, int outletCount) 
-            => MakeDiscretePrivate(operand, dimension, customDimension, outletCount);
+        public MakeDiscrete_OperatorWrapper MakeDiscrete(Outlet operand, DimensionEnum standardDimension, string customDimension, int outletCount) 
+            => MakeDiscretePrivate(operand, standardDimension, customDimension, outletCount);
 
-        public MakeDiscrete_OperatorWrapper MakeDiscrete(Outlet operand, DimensionEnum dimension, string customDimension)
-            => MakeDiscretePrivate(operand, dimension, customDimension, null);
+        public MakeDiscrete_OperatorWrapper MakeDiscrete(Outlet operand, DimensionEnum standardDimension, string customDimension)
+            => MakeDiscretePrivate(operand, standardDimension, customDimension, null);
 
-        public MakeDiscrete_OperatorWrapper MakeDiscrete(Outlet operand, DimensionEnum dimension, int outletCount) 
-            => MakeDiscretePrivate(operand, dimension, null, outletCount);
+        public MakeDiscrete_OperatorWrapper MakeDiscrete(Outlet operand, DimensionEnum standardDimension, int outletCount) 
+            => MakeDiscretePrivate(operand, standardDimension, null, outletCount);
 
-        public MakeDiscrete_OperatorWrapper MakeDiscrete(Outlet operand, DimensionEnum dimension) 
-            => MakeDiscretePrivate(operand, dimension, null, null);
+        public MakeDiscrete_OperatorWrapper MakeDiscrete(Outlet operand, DimensionEnum standardDimension) 
+            => MakeDiscretePrivate(operand, standardDimension, null, null);
 
         public MakeDiscrete_OperatorWrapper MakeDiscrete(Outlet operand, string customDimension, int outletCount)
             => MakeDiscretePrivate(operand, null, customDimension, outletCount);
@@ -977,17 +977,17 @@ namespace JJ.Business.Synthesizer
         public MakeDiscrete_OperatorWrapper MakeDiscrete(Outlet operand) 
             => MakeDiscretePrivate(operand, null, null, null);
 
-        public MakeDiscrete_OperatorWrapper MakeDiscrete(DimensionEnum dimension, string customDimension, int outletCount) 
-            => MakeDiscretePrivate(null, dimension, customDimension, outletCount);
+        public MakeDiscrete_OperatorWrapper MakeDiscrete(DimensionEnum standardDimension, string customDimension, int outletCount) 
+            => MakeDiscretePrivate(null, standardDimension, customDimension, outletCount);
 
-        public MakeDiscrete_OperatorWrapper MakeDiscrete(DimensionEnum dimension, string customDimension)
-            => MakeDiscretePrivate(null, dimension, customDimension, null);
+        public MakeDiscrete_OperatorWrapper MakeDiscrete(DimensionEnum standardDimension, string customDimension)
+            => MakeDiscretePrivate(null, standardDimension, customDimension, null);
 
-        public MakeDiscrete_OperatorWrapper MakeDiscrete(DimensionEnum dimension, int outletCount) 
-            => MakeDiscretePrivate(null, dimension, null, outletCount);
+        public MakeDiscrete_OperatorWrapper MakeDiscrete(DimensionEnum standardDimension, int outletCount) 
+            => MakeDiscretePrivate(null, standardDimension, null, outletCount);
 
-        public MakeDiscrete_OperatorWrapper MakeDiscrete(DimensionEnum dimension) 
-            => MakeDiscretePrivate(null, dimension, null, null);
+        public MakeDiscrete_OperatorWrapper MakeDiscrete(DimensionEnum standardDimension) 
+            => MakeDiscretePrivate(null, standardDimension, null, null);
 
         public MakeDiscrete_OperatorWrapper MakeDiscrete(int outletCount, string customDimension) 
             => MakeDiscretePrivate(null, null, customDimension, outletCount);
@@ -1489,10 +1489,10 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public PatchOutlet_OperatorWrapper PatchOutlet(DimensionEnum dimensionEnum, Outlet input = null)
+        public PatchOutlet_OperatorWrapper PatchOutlet(DimensionEnum dimension, Outlet input = null)
         {
             PatchOutlet_OperatorWrapper wrapper = PatchOutlet(input);
-            wrapper.Result.SetDimensionEnum(dimensionEnum, _repositories.DimensionRepository);
+            wrapper.Result.SetDimensionEnum(dimension, _repositories.DimensionRepository);
 
             VoidResult result = ValidateOperatorNonRecursive(wrapper.WrappedOperator);
             ResultHelper.Assert(result);
@@ -2299,17 +2299,17 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Unbundle_OperatorWrapper Unbundle(Outlet operand, DimensionEnum dimension, string customDimension, int outletCount)
-            => UnbundlePrivate(operand, dimension, customDimension, outletCount);
+        public Unbundle_OperatorWrapper Unbundle(Outlet operand, DimensionEnum standardDimension, string customDimension, int outletCount)
+            => UnbundlePrivate(operand, standardDimension, customDimension, outletCount);
 
-        public Unbundle_OperatorWrapper Unbundle(Outlet operand, DimensionEnum dimension, string customDimension)
-            => UnbundlePrivate(operand, dimension, customDimension, null);
+        public Unbundle_OperatorWrapper Unbundle(Outlet operand, DimensionEnum standardDimension, string customDimension)
+            => UnbundlePrivate(operand, standardDimension, customDimension, null);
 
-        public Unbundle_OperatorWrapper Unbundle(Outlet operand, DimensionEnum dimension, int outletCount)
-            => UnbundlePrivate(operand, dimension, null, outletCount);
+        public Unbundle_OperatorWrapper Unbundle(Outlet operand, DimensionEnum standardDimension, int outletCount)
+            => UnbundlePrivate(operand, standardDimension, null, outletCount);
 
-        public Unbundle_OperatorWrapper Unbundle(Outlet operand, DimensionEnum dimension)
-            => UnbundlePrivate(operand, dimension, null, null);
+        public Unbundle_OperatorWrapper Unbundle(Outlet operand, DimensionEnum standardDimension)
+            => UnbundlePrivate(operand, standardDimension, null, null);
 
         public Unbundle_OperatorWrapper Unbundle(Outlet operand, string customDimension, int outletCount)
             => UnbundlePrivate(operand, null, customDimension, outletCount);
@@ -2323,17 +2323,17 @@ namespace JJ.Business.Synthesizer
         public Unbundle_OperatorWrapper Unbundle(Outlet operand)
             => UnbundlePrivate(operand, null, null, null);
 
-        public Unbundle_OperatorWrapper Unbundle(DimensionEnum dimension, string customDimension, int outletCount)
-            => UnbundlePrivate(null, dimension, customDimension, outletCount);
+        public Unbundle_OperatorWrapper Unbundle(DimensionEnum standardDimension, string customDimension, int outletCount)
+            => UnbundlePrivate(null, standardDimension, customDimension, outletCount);
 
-        public Unbundle_OperatorWrapper Unbundle(DimensionEnum dimension, string customDimension)
-            => UnbundlePrivate(null, dimension, customDimension, null);
+        public Unbundle_OperatorWrapper Unbundle(DimensionEnum standardDimension, string customDimension)
+            => UnbundlePrivate(null, standardDimension, customDimension, null);
 
-        public Unbundle_OperatorWrapper Unbundle(DimensionEnum dimension, int outletCount)
-            => UnbundlePrivate(null, dimension, null, outletCount);
+        public Unbundle_OperatorWrapper Unbundle(DimensionEnum standardDimension, int outletCount)
+            => UnbundlePrivate(null, standardDimension, null, outletCount);
 
-        public Unbundle_OperatorWrapper Unbundle(DimensionEnum dimension)
-            => UnbundlePrivate(null, dimension, null, null);
+        public Unbundle_OperatorWrapper Unbundle(DimensionEnum standardDimension)
+            => UnbundlePrivate(null, standardDimension, null, null);
 
         public Unbundle_OperatorWrapper Unbundle(int outletCount, string customDimension)
             => UnbundlePrivate(null, null, customDimension, outletCount);

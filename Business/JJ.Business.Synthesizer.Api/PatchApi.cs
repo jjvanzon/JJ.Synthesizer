@@ -14,10 +14,7 @@ namespace JJ.Business.Synthesizer.Api
     {
         private readonly PatchManager _patchManager;
 
-        public Patch Patch
-        {
-            get { return _patchManager.Patch; }
-        }
+        public Patch Patch => _patchManager.Patch;
 
         public PatchApi()
         {
@@ -249,11 +246,23 @@ namespace JJ.Business.Synthesizer.Api
         public MakeContinuous_OperatorWrapper MakeContinuous(IList<Outlet> operands)
             => _patchManager.MakeContinuous(operands);
 
+        public MakeDiscrete_OperatorWrapper MakeDiscrete(Outlet operand, DimensionEnum standardDimension, string customDimension, int outletCount)
+            => _patchManager.MakeDiscrete(operand, standardDimension, customDimension, outletCount);
+
+        public MakeDiscrete_OperatorWrapper MakeDiscrete(Outlet operand, DimensionEnum standardDimension, string customDimension)
+            => _patchManager.MakeDiscrete(operand, standardDimension, customDimension);
+
         public MakeDiscrete_OperatorWrapper MakeDiscrete(Outlet operand, DimensionEnum standardDimension, int outletCount)
             => _patchManager.MakeDiscrete(operand, standardDimension, outletCount);
 
         public MakeDiscrete_OperatorWrapper MakeDiscrete(Outlet operand, DimensionEnum standardDimension)
             => _patchManager.MakeDiscrete(operand, standardDimension);
+
+        public MakeDiscrete_OperatorWrapper MakeDiscrete(Outlet operand, string customDimension, int outletCount)
+            => _patchManager.MakeDiscrete(operand, customDimension, outletCount);
+
+        public MakeDiscrete_OperatorWrapper MakeDiscrete(Outlet operand, string customDimension)
+            => _patchManager.MakeDiscrete(operand, customDimension);
 
         public MakeDiscrete_OperatorWrapper MakeDiscrete(Outlet operand, int outletCount)
             => _patchManager.MakeDiscrete(operand, outletCount);
@@ -261,11 +270,23 @@ namespace JJ.Business.Synthesizer.Api
         public MakeDiscrete_OperatorWrapper MakeDiscrete(Outlet operand)
             => _patchManager.MakeDiscrete(operand);
 
+        public MakeDiscrete_OperatorWrapper MakeDiscrete(DimensionEnum standardDimension, string customDimension, int outletCount)
+            => _patchManager.MakeDiscrete(standardDimension, customDimension, outletCount);
+
+        public MakeDiscrete_OperatorWrapper MakeDiscrete(DimensionEnum standardDimension, string customDimension)
+            => _patchManager.MakeDiscrete(standardDimension, customDimension);
+
         public MakeDiscrete_OperatorWrapper MakeDiscrete(DimensionEnum standardDimension, int outletCount)
             => _patchManager.MakeDiscrete(standardDimension, outletCount);
 
         public MakeDiscrete_OperatorWrapper MakeDiscrete(DimensionEnum standardDimension)
             => _patchManager.MakeDiscrete(standardDimension);
+
+        public MakeDiscrete_OperatorWrapper MakeDiscrete(int outletCount, string customDimension)
+            => _patchManager.MakeDiscrete(outletCount, customDimension);
+
+        public MakeDiscrete_OperatorWrapper MakeDiscrete(string customDimension)
+            => _patchManager.MakeDiscrete(customDimension);
 
         public MakeDiscrete_OperatorWrapper MakeDiscrete(int outletCount)
             => _patchManager.MakeDiscrete(outletCount);
@@ -368,8 +389,8 @@ namespace JJ.Business.Synthesizer.Api
         public PatchInlet_OperatorWrapper PatchInlet()
             => _patchManager.PatchInlet();
 
-        public PatchInlet_OperatorWrapper PatchInlet(DimensionEnum standardDimension)
-            => _patchManager.PatchInlet(standardDimension);
+        public PatchInlet_OperatorWrapper PatchInlet(DimensionEnum dimension)
+            => _patchManager.PatchInlet(dimension);
 
         public PatchInlet_OperatorWrapper PatchInlet(string name)
             => _patchManager.PatchInlet(name);
@@ -377,14 +398,14 @@ namespace JJ.Business.Synthesizer.Api
         public PatchInlet_OperatorWrapper PatchInlet(string name, double defaultValue)
             => _patchManager.PatchInlet(name, defaultValue);
 
-        public PatchInlet_OperatorWrapper PatchInlet(DimensionEnum standardDimension, double defaultValue)
-            => _patchManager.PatchInlet(standardDimension, defaultValue);
+        public PatchInlet_OperatorWrapper PatchInlet(DimensionEnum dimension, double defaultValue)
+            => _patchManager.PatchInlet(dimension, defaultValue);
 
         public PatchOutlet_OperatorWrapper PatchOutlet(Outlet input = null)
             => _patchManager.PatchOutlet(input);
 
-        public PatchOutlet_OperatorWrapper PatchOutlet(DimensionEnum dimensionEnum, Outlet input = null)
-            => _patchManager.PatchOutlet(dimensionEnum, input);
+        public PatchOutlet_OperatorWrapper PatchOutlet(DimensionEnum dimension, Outlet input = null)
+            => _patchManager.PatchOutlet(dimension, input);
 
         public PatchOutlet_OperatorWrapper PatchOutlet(string name, Outlet input = null)
             => _patchManager.PatchOutlet(name, input);
@@ -541,11 +562,23 @@ namespace JJ.Business.Synthesizer.Api
         public Triangle_OperatorWrapper Triangle(Outlet frequency = null, DimensionEnum standardDimension = DimensionEnum.Time, string customDimension = null)
             => _patchManager.Triangle(frequency, standardDimension, customDimension);
 
+        public Unbundle_OperatorWrapper Unbundle(Outlet operand, DimensionEnum standardDimension, string customDimension, int outletCount)
+            => _patchManager.Unbundle(operand, standardDimension, customDimension, outletCount);
+
+        public Unbundle_OperatorWrapper Unbundle(Outlet operand, DimensionEnum standardDimension, string customDimension)
+            => _patchManager.Unbundle(operand, standardDimension, customDimension);
+
         public Unbundle_OperatorWrapper Unbundle(Outlet operand, DimensionEnum standardDimension, int outletCount)
             => _patchManager.Unbundle(operand, standardDimension, outletCount);
 
         public Unbundle_OperatorWrapper Unbundle(Outlet operand, DimensionEnum standardDimension)
             => _patchManager.Unbundle(operand, standardDimension);
+
+        public Unbundle_OperatorWrapper Unbundle(Outlet operand, string customDimension, int outletCount)
+            => _patchManager.Unbundle(operand, customDimension, outletCount);
+
+        public Unbundle_OperatorWrapper Unbundle(Outlet operand, string customDimension)
+            => _patchManager.Unbundle(operand, customDimension);
 
         public Unbundle_OperatorWrapper Unbundle(Outlet operand, int outletCount)
             => _patchManager.Unbundle(operand, outletCount);
@@ -553,11 +586,23 @@ namespace JJ.Business.Synthesizer.Api
         public Unbundle_OperatorWrapper Unbundle(Outlet operand)
             => _patchManager.Unbundle(operand);
 
+        public Unbundle_OperatorWrapper Unbundle(DimensionEnum standardDimension, string customDimension, int outletCount)
+            => _patchManager.Unbundle(standardDimension, customDimension, outletCount);
+
+        public Unbundle_OperatorWrapper Unbundle(DimensionEnum standardDimension, string customDimension)
+            => _patchManager.Unbundle(standardDimension, customDimension);
+
         public Unbundle_OperatorWrapper Unbundle(DimensionEnum standardDimension, int outletCount)
             => _patchManager.Unbundle(standardDimension, outletCount);
 
         public Unbundle_OperatorWrapper Unbundle(DimensionEnum standardDimension)
             => _patchManager.Unbundle(standardDimension);
+
+        public Unbundle_OperatorWrapper Unbundle(int outletCount, string customDimension)
+            => _patchManager.Unbundle(outletCount, customDimension);
+
+        public Unbundle_OperatorWrapper Unbundle(string customDimension)
+            => _patchManager.Unbundle(customDimension);
 
         public Unbundle_OperatorWrapper Unbundle(int outletCount)
             => _patchManager.Unbundle(outletCount);
