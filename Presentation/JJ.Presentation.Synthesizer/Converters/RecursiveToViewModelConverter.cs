@@ -18,6 +18,11 @@ using JJ.Framework.Mathematics;
 
 namespace JJ.Presentation.Synthesizer.Converters
 {
+    /// <summary>
+    /// Handles the recursive conversion of viewmodels of operators and their inlets and outlets
+    /// to entities. It delegates to the 'singular' forms of those conversions: the extension methods
+    /// that do not convert anything other than the entity itself without any related entities.
+    /// </summary>
     internal class RecursiveToViewModelConverter
     {
         private static readonly string _timeDimensionKey = ViewModelHelper.GetDimensionKey(DimensionEnum.Time);
@@ -184,7 +189,7 @@ namespace JJ.Presentation.Synthesizer.Converters
         {
             IList<StyleGradeEnum> list = EnumHelper.GetValues<StyleGradeEnum>()
                                                    .Except(StyleGradeEnum.Undefined)
-                                                   .Except(ViewModelHelper.NEUTRAL_STYLE_GRADE)
+                                                   .Except(StyleGradeEnum.StyleGradeNeutral)
                                                    .ToArray();
             return list;
         }

@@ -33,7 +33,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         private static readonly bool _showAutoPatchPolyphonicEnabled = CustomConfigurationManager.GetSection<ConfigurationSection>().ShowAutoPatchPolyphonicEnabled;
 
         public const string DIMENSION_KEY_EMPTY = "";
-        public const StyleGradeEnum NEUTRAL_STYLE_GRADE = StyleGradeEnum.StyleGrade16;
 
         // OperatorTypeEnum HashSets
 
@@ -629,7 +628,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (viewModel == null) throw new NullException(() => viewModel);
 
             viewModel.ID = entity.ID;
-            viewModel.StyleGrade = NEUTRAL_STYLE_GRADE;
+            viewModel.StyleGrade = StyleGradeEnum.StyleGradeNeutral;
             viewModel.Caption = GetOperatorCaption(entity, sampleRepository, curveRepository, patchRepository);
             viewModel.OperatorType = entity.OperatorType?.ToIDAndDisplayName();
             viewModel.IsOwned = GetOperatorIsOwned(entity);

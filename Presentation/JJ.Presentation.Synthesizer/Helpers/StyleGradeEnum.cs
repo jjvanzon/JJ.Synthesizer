@@ -22,6 +22,11 @@ namespace JJ.Presentation.Synthesizer.Helpers
         StyleGrade13,
         StyleGrade14,
         StyleGrade15,
-        StyleGrade16
+        StyleGradeNeutral,
+        StyleGrade16,
+        StyleGrade17,
+        StyleGrade18,
+        StyleGrade19,
+        StyleGrade20,
     }
 }

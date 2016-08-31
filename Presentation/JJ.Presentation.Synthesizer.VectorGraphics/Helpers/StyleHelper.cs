@@ -267,12 +267,13 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 
         private static Dictionary<StyleGradeEnum, BackStyle> Create_StyleGradeEnum_BackStyle_Dictionary()
         {
-            var dictinary = new Dictionary<StyleGradeEnum, BackStyle>();
+            var dictionary = new Dictionary<StyleGradeEnum, BackStyle>();
 
             int gradeCount = (int)EnumHelper.GetValues<StyleGradeEnum>().Max();
 
             double minBrightness = 0.8;
-            double deltaBrightness = 1.0 - minBrightness;
+            double maxBrightness = 1.075;
+            double deltaBrightness = maxBrightness - minBrightness;
 
             for (int i = 0; i < gradeCount; i++)
             {
@@ -284,10 +285,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 
                 StyleGradeEnum styleGradeEnum = (StyleGradeEnum)i + 1;
 
-                dictinary.Add(styleGradeEnum, gradedBackStyle);
+                dictionary.Add(styleGradeEnum, gradedBackStyle);
             }
 
-            return dictinary;
+            return dictionary;
         }
 
         public static BackStyle GetGradedBackStyle(StyleGradeEnum styleGradeEnum)
