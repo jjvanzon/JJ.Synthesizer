@@ -26,6 +26,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
     /// <summary> Empty view models start out with Visible = false. </summary>
     internal static partial class ViewModelHelper
     {
+        public const StyleGradeEnum NEUTRAL_STYLE_GRADE = StyleGradeEnum.StyleGrade16;
+
         private const int STRETCH_AND_SQUASH_ORIGIN_LIST_INDEX = 2;
         private static readonly bool _showAutoPatchPolyphonicEnabled = CustomConfigurationManager.GetSection<ConfigurationSection>().ShowAutoPatchPolyphonicEnabled;
 
@@ -623,6 +625,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (viewModel == null) throw new NullException(() => viewModel);
 
             viewModel.ID = entity.ID;
+            viewModel.StyleGrade = NEUTRAL_STYLE_GRADE;
             viewModel.Caption = GetOperatorCaption(entity, sampleRepository, curveRepository, patchRepository);
             viewModel.OperatorType = entity.OperatorType?.ToIDAndDisplayName();
             viewModel.IsOwned = GetOperatorIsOwned(entity);
