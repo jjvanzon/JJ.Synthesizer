@@ -58,7 +58,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             // Correct so that we round down and never up.
             double valueNonRoundedCorrected = valueNonRounded - step / 2.0;
 
-            double valueRounded = Maths.RoundWithStep(valueNonRoundedCorrected, step);
+            double valueRounded = MathHelper.RoundWithStep(valueNonRoundedCorrected, step);
 
             return valueRounded;
         }
@@ -116,7 +116,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             // Correct so that we round down and never up.
             double valueNonRoundedCorrected = valueNonRounded - _stepDividedBy2;
 
-            double valueRounded = Maths.RoundWithStep(valueNonRoundedCorrected, _step);
+            double valueRounded = MathHelper.RoundWithStep(valueNonRoundedCorrected, _step);
 
             return valueRounded;
         }

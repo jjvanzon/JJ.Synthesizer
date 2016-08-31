@@ -192,7 +192,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 return false;
             }
 
-            if (!Maths.IsPowerOf2((int)frequencyCount))
+            if (!MathHelper.IsPowerOf2((int)frequencyCount))
             {
                 return false;
             }

@@ -75,7 +75,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
 
             if (frequencyCount.HasValue)
             {
-                if (!Maths.IsPowerOf2((int)frequencyCount.Value))
+                if (!MathHelper.IsPowerOf2((int)frequencyCount.Value))
                 {
                     string message = MessageFormatter.MustBePowerOf2(PropertyDisplayNames.FrequencyCount);
                     ValidationMessages.Add(PropertyDisplayNames.FrequencyCount, message);

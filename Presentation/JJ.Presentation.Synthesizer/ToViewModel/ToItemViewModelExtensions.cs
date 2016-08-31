@@ -118,24 +118,25 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         
         // Dimension
 
-        public static DimensionViewModel ToViewModel(this DimensionEnum dimensionEnum)
-        {
-            var viewModel = new DimensionViewModel
-            {
-                Identifier = dimensionEnum
-            };
+        // TODO: Remove outcommented code.
+        //public static DimensionViewModel ToViewModel(this DimensionEnum dimensionEnum)
+        //{
+        //    var viewModel = new DimensionViewModel
+        //    {
+        //        Key = dimensionEnum
+        //    };
 
-            if (dimensionEnum != DimensionEnum.Undefined)
-            {
-                viewModel.Name = ResourceHelper.GetPropertyDisplayName(dimensionEnum);
-            }
-            else
-            {
-                viewModel.Name = null;
-            }
+        //    if (dimensionEnum != DimensionEnum.Undefined)
+        //    {
+        //        viewModel.Name = ResourceHelper.GetPropertyDisplayName(dimensionEnum);
+        //    }
+        //    else
+        //    {
+        //        viewModel.Name = null;
+        //    }
 
-            return viewModel;
-        }
+        //    return viewModel;
+        //}
 
         // Document
 

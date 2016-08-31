@@ -13,17 +13,26 @@ using JJ.Framework.Common;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Extensions;
 using System;
+using JJ.Business.Synthesizer.Resources;
+using JJ.Framework.Mathematics;
 
 namespace JJ.Presentation.Synthesizer.Converters
 {
     internal class RecursiveToViewModelConverter
     {
-        private const StyleGradeEnum STYLE_GRADE_NEUTRAL = StyleGradeEnum.StyleGrade16;
+        private const string STANDARD_DIMENSION_GUID = "0C26ADA8-0BFC-484C-BF80-774D055DAA3F";
+        private const string CUSTOM_DIMENSION_GUID = "5133584A-BA76-42DB-BD0E-42801FCB96DF";
+        private const StyleGradeEnum NEUTRAL_STYLE_GRADE = StyleGradeEnum.StyleGrade16;
+
         private readonly ISampleRepository _sampleRepository;
         private readonly ICurveRepository _curveRepository;
         private readonly IPatchRepository _patchRepository;
         private readonly EntityPositionManager _entityPositionManager;
+
+        private readonly string _timeDimensionKey = TryGetDimensionKey(DimensionEnum.Time);
+
         private Dictionary<Operator, OperatorViewModel> _dictionary;
+
 
         public RecursiveToViewModelConverter(
             ISampleRepository sampleRepository, 
@@ -73,80 +82,65 @@ namespace JJ.Presentation.Synthesizer.Converters
             return viewModel;
         }
 
+
         /// <summary> Does a ton of specific things regarding the display of dimensions. </summary>
         private Dictionary<int, OperatorViewModel> ConvertToViewModelDictionaryRecursive(IList<Operator> operators)
         {
             var operatorViewModels = new List<OperatorViewModel>(operators.Count);
-            var dimensionIdentifiers = new HashSet<object>();
+            var dimensionKeyHashSet = new HashSet<string>();
 
             foreach (Operator op in operators)
             {
                 OperatorViewModel operatorViewModel = ConvertToViewModelRecursive(op);
 
-                DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
-                if (standardDimensionEnum != DimensionEnum.Undefined)
+                operatorViewModel.Dimension = new DimensionViewModel
                 {
-                    operatorViewModel.Dimension = standardDimensionEnum.ToViewModel();
-                    dimensionIdentifiers.Add(standardDimensionEnum);
-                }
-                else
-                {
-                    // TOdO: It is strange that dimensionEnum has a ToViewmodel and CustomDimensionName does not.
-                    string dimensionIdentifier = op.CustomDimensionName ?? "";
-                    operatorViewModel.Dimension = new DimensionViewModel
-                    {
-                        Identifier = dimensionIdentifier,
-                        Name = op.CustomDimensionName
-                    };
-                    dimensionIdentifiers.Add(dimensionIdentifier);
-                }
-
-                operatorViewModel.Dimension.Visible = ViewModelHelper.OperatorTypeEnums_WithStyledDimension.Contains(op.GetOperatorTypeEnum());
+                    Key = TryGetDimensionKey(op),
+                    Name = TryGetDimensionName(op),
+                    Visible = ViewModelHelper.OperatorTypeEnums_WithStyledDimension.Contains(op.GetOperatorTypeEnum())
+                };
 
                 operatorViewModels.Add(operatorViewModel);
+                dimensionKeyHashSet.Add(operatorViewModel.Dimension.Key);
             }
 
             // Assign style depending on Dimension.
-            if (dimensionIdentifiers.Count <= 1)
+            if (dimensionKeyHashSet.Count <= 1)
             {
-                // Max 1 dimensions: display neutrally.
-                operatorViewModels.ForEach(x => x.StyleGrade = STYLE_GRADE_NEUTRAL);
+                // Only 1 dimensions: display neutrally.
+                // TODO: I might disagree with this.
+                operatorViewModels.ForEach(x => x.StyleGrade = NEUTRAL_STYLE_GRADE);
             }
             else
             {
-                IList<OperatorViewModel> operatorViewModelsWithStyleGrades =
+                IList<OperatorViewModel> operatorViewModelsWithStyledDimensions =
                     operatorViewModels.Where(x => x.Dimension.Visible &&
-                                                  !Equals(x.Dimension.Identifier, DimensionEnum.Time)) // Time should be displayed neutrally.
+                                                  // Time should be displayed neutrally.
+                                                  !String.Equals(x.Dimension.Key, _timeDimensionKey)) 
                                       .ToArray();
 
-                IList<OperatorViewModel> operatorViewModelsWithNeutralStyleGrade = operatorViewModels.Except(operatorViewModelsWithStyleGrades).ToArray();
-
-                operatorViewModelsWithNeutralStyleGrade.ForEach(x => x.StyleGrade = STYLE_GRADE_NEUTRAL);
+                IList<OperatorViewModel> operatorViewModelsWithNeutralDimensionStyle = operatorViewModels.Except(operatorViewModelsWithStyledDimensions).ToArray();
+                operatorViewModelsWithNeutralDimensionStyle.ForEach(x => x.StyleGrade = NEUTRAL_STYLE_GRADE);
 
                 // Rest should be displayed in equally spread grades,
                 // sorted by dimension ID (arbitrary, but at least consistent).
-                IList<object> remainingDimensionIdentifiersSorted = dimensionIdentifiers.Where(x => !Equals(x, DimensionEnum.Time))
-                                                                                        .OrderBy(x => Convert.ToString(x))
-                                                                                        .ToArray();
+                IList<string> remainingDimensionKeys = dimensionKeyHashSet.Except((string)null)
+                                                                          .Except(_timeDimensionKey)
+                                                                          .OrderBy(x => x)
+                                                                          .ToArray();
 
-                // Just do not use StyleGrade16 anymore here. That's the easiest.
-                int remainingGradeCount = 15;
-                int remainingDimensionCount = remainingDimensionIdentifiersSorted.Count;
-                double step = (double)remainingGradeCount / (double)remainingDimensionCount;
+                // TODO: Cache this statically?
+                IList<StyleGradeEnum> remainingStyleGrades = EnumHelper.GetValues<StyleGradeEnum>()
+                                                                       .Except(StyleGradeEnum.Undefined)
+                                                                       .Except(NEUTRAL_STYLE_GRADE)
+                                                                       .ToArray();
 
-                var dimensionID_To_StyleGrade_Dictionary = new Dictionary<object, StyleGradeEnum>(remainingDimensionCount);
-                for (int i = 0; i < remainingDimensionCount; i++)
+                Dictionary<string, StyleGradeEnum> dimensionKey_To_StyleGrade_Dictionary = MathHelper.Spread(remainingDimensionKeys, remainingStyleGrades);
+
+                foreach (OperatorViewModel operatorViewModel in operatorViewModelsWithStyledDimensions)
                 {
-                    object dimensionIdentifer = remainingDimensionIdentifiersSorted[i];
-                    StyleGradeEnum styleGradeEnum = (StyleGradeEnum)(i * step) + 1;
-
-                    dimensionID_To_StyleGrade_Dictionary.Add(dimensionIdentifer, styleGradeEnum);
-                }
-
-                foreach (OperatorViewModel operatorViewModel in operatorViewModelsWithStyleGrades)
-                {
-                    object dimensionIdentifier = operatorViewModel.Dimension.Identifier;
-                    StyleGradeEnum styleGradeEnum = dimensionID_To_StyleGrade_Dictionary[dimensionIdentifier];
+                    string dimensionKey = operatorViewModel.Dimension.Key;
+                    StyleGradeEnum styleGradeEnum = dimensionKey_To_StyleGrade_Dictionary[dimensionKey];
                     operatorViewModel.StyleGrade = styleGradeEnum;
                 }
             }
@@ -154,6 +148,42 @@ namespace JJ.Presentation.Synthesizer.Converters
             Dictionary<int, OperatorViewModel> dictionary = operatorViewModels.ToDictionary(x => x.ID);
 
             return dictionary;
+        }
+
+        private string TryGetDimensionKey(Operator op)
+        {
+            if (!String.IsNullOrEmpty(op.CustomDimensionName))
+            {
+                return String.Format("{0}{1}", CUSTOM_DIMENSION_GUID, op.CustomDimensionName);
+            }
+
+            return TryGetDimensionKey(op.GetStandardDimensionEnum());
+        }
+
+        private static string TryGetDimensionKey(DimensionEnum standardDimensionEnum)
+        {
+            if (standardDimensionEnum != DimensionEnum.Undefined)
+            {
+                return String.Format("{0}{1}", STANDARD_DIMENSION_GUID, standardDimensionEnum);
+            }
+
+            return null;
+        }
+
+        private string TryGetDimensionName(Operator op)
+        {
+            if (!String.IsNullOrEmpty(op.CustomDimensionName))
+            {
+                return op.CustomDimensionName;
+            }
+
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            if (standardDimensionEnum != DimensionEnum.Undefined)
+            {
+                return ResourceHelper.GetDisplayName(standardDimensionEnum);
+            }
+
+            return null;
         }
 
         private OperatorViewModel ConvertToViewModelRecursive(Operator op)

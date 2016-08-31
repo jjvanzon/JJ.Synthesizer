@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double step = _stepCalculator.Calculate();
             double offset = _offsetCalculator.Calculate();
 
-            double result = Maths.RoundWithStep(signal, step, offset);
+            double result = MathHelper.RoundWithStep(signal, step, offset);
             return result;
         }
     }
@@ -66,7 +66,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double signal = _signalCalculator.Calculate();
             double step = _stepCalculator.Calculate();
 
-            double result = Maths.RoundWithStep(signal, step, _offset);
+            double result = MathHelper.RoundWithStep(signal, step, _offset);
             return result;
         }
     }
@@ -94,7 +94,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double signal = _signalCalculator.Calculate();
             double step = _stepCalculator.Calculate();
 
-            double result = Maths.RoundWithStep(signal, step);
+            double result = MathHelper.RoundWithStep(signal, step);
             return result;
         }
     }
@@ -126,7 +126,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double signal = _signalCalculator.Calculate();
             double offset = _offsetCalculator.Calculate();
 
-            double result = Maths.RoundWithStep(signal, _step, offset);
+            double result = MathHelper.RoundWithStep(signal, _step, offset);
             return result;
         }
     }
@@ -157,7 +157,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double signal = _signalCalculator.Calculate();
 
-            double result = Maths.RoundWithStep(signal, _step, _offset);
+            double result = MathHelper.RoundWithStep(signal, _step, _offset);
             return result;
         }
     }
@@ -184,7 +184,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double signal = _signalCalculator.Calculate();
 
-            double result = Maths.RoundWithStep(signal, _step);
+            double result = MathHelper.RoundWithStep(signal, _step);
             return result;
         }
     }
@@ -217,7 +217,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double step = _stepCalculator.Calculate();
             double offset = _offsetCalculator.Calculate();
 
-            double result = Maths.RoundWithStep(_signal, step, offset);
+            double result = MathHelper.RoundWithStep(_signal, step, offset);
             return result;
         }
     }
