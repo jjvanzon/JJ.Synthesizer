@@ -20,11 +20,7 @@ namespace JJ.Presentation.Synthesizer.Converters
 {
     internal class RecursiveToViewModelConverter
     {
-        private const string STANDARD_DIMENSION_KEY_PREFIX = "StandardDimension-0C26ADA8-0BFC-484C-BF80-774D055DAA3F-";
-        private const string CUSTOM_DIMENSION_KEY_PREFIX = "CustomDimension-5133584A-BA76-42DB-BD0E-42801FCB96DF-";
-        private const string DIMENSION_KEY_EMPTY = "";
-
-        private static readonly string _timeDimensionKey = GetDimensionKey(DimensionEnum.Time);
+        private static readonly string _timeDimensionKey = ViewModelHelper.GetDimensionKey(DimensionEnum.Time);
         private static readonly IList<StyleGradeEnum> _nonNeutralStyleGrades = GetNonNeutralStyleGrades();
 
         private readonly ISampleRepository _sampleRepository;
@@ -82,70 +78,36 @@ namespace JJ.Presentation.Synthesizer.Converters
             return viewModel;
         }
 
-
-        /// <summary> Does a ton of specific things regarding the display of dimensions. </summary>
         private Dictionary<int, OperatorViewModel> ConvertToViewModelDictionaryRecursive(IList<Operator> operators)
         {
-            var operatorViewModels = new List<OperatorViewModel>(operators.Count);
+            IList<OperatorViewModel> operatorViewModels = operators.Select(x => ConvertToViewModelRecursive(x)).ToArray();
 
-            foreach (Operator op in operators)
+            IList<string> dimensionKeysToStyle = operatorViewModels.Select(x => x.Dimension)
+                                                                   .Where(x => x.Visible)
+                                                                   .Select(x => x.Key)
+                                                                   .Except(ViewModelHelper.DIMENSION_KEY_EMPTY)
+                                                                   .Except(_timeDimensionKey)
+                                                                   .OrderBy(x => x) // Sort arbitrary, but at least consistent.
+                                                                   .ToArray();
+            if (dimensionKeysToStyle.Count > 0)
             {
-                OperatorViewModel operatorViewModel = ConvertToViewModelRecursive(op);
+                Dictionary<string, StyleGradeEnum> dimensionKey_To_StyleGrade_Dictionary =
+                    MathHelper.Spread(dimensionKeysToStyle, _nonNeutralStyleGrades);
 
-                // TODO: Seems this needs to put put in a separate method and called in ConvertToViewModelRecursive.
-                // But then you make yourself dependent on the DimensionViewModel.Key, which I might want to refactor out.
-                operatorViewModel.Dimension = new DimensionViewModel
+                foreach (OperatorViewModel operatorViewModel in operatorViewModels)
                 {
-                    Key = GetDimensionKey(op),
-                    Name = TryGetDimensionName(op),
-                    Visible = ViewModelHelper.OperatorTypeEnums_WithStyledDimension.Contains(op.GetOperatorTypeEnum())
-                };
-
-                operatorViewModels.Add(operatorViewModel);
-            }
-
-            IList<string> styledDimensionKeys = operatorViewModels.Select(x => x.Dimension)
-                                                                  .Where(x => x.Visible)
-                                                                  .Select(x => x.Key)
-                                                                  .Except(DIMENSION_KEY_EMPTY)
-                                                                  .Except(_timeDimensionKey)
-                                                                  .OrderBy(x => x) // Sort arbitrary, but at least consistent.
-                                                                  .ToArray();
-
-            Dictionary<string, StyleGradeEnum> dimensionKey_To_StyleGrade_Dictionary =
-                MathHelper.Spread(styledDimensionKeys, _nonNeutralStyleGrades);
-
-            foreach (OperatorViewModel operatorViewModel in operatorViewModels)
-            {
-                if (operatorViewModel.Dimension.Visible)
-                {
-                    StyleGradeEnum styleGradeEnum;
-                    if (dimensionKey_To_StyleGrade_Dictionary.TryGetValue(operatorViewModel.Dimension.Key, out styleGradeEnum))
+                    if (operatorViewModel.Dimension.Visible)
                     {
-                        operatorViewModel.StyleGrade = styleGradeEnum;
+                        StyleGradeEnum styleGradeEnum;
+                        if (dimensionKey_To_StyleGrade_Dictionary.TryGetValue(operatorViewModel.Dimension.Key, out styleGradeEnum))
+                        {
+                            operatorViewModel.StyleGrade = styleGradeEnum;
+                        }
                     }
                 }
             }
 
-            Dictionary<int, OperatorViewModel> dictionary = operatorViewModels.ToDictionary(x => x.ID);
-
-            return dictionary;
-        }
-
-        private string TryGetDimensionName(Operator op)
-        {
-            if (!String.IsNullOrEmpty(op.CustomDimensionName))
-            {
-                return op.CustomDimensionName;
-            }
-
-            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
-            if (standardDimensionEnum != DimensionEnum.Undefined)
-            {
-                return ResourceHelper.GetDisplayName(standardDimensionEnum);
-            }
-
-            return null;
+            return operatorViewModels.ToDictionary(x => x.ID);
         }
 
         private OperatorViewModel ConvertToViewModelRecursive(Operator op)
@@ -226,25 +188,5 @@ namespace JJ.Presentation.Synthesizer.Converters
                                                    .ToArray();
             return list;
         }
-
-        private string GetDimensionKey(Operator op)
-        {
-            if (!String.IsNullOrEmpty(op.CustomDimensionName))
-            {
-                return String.Format("{0}{1}", CUSTOM_DIMENSION_KEY_PREFIX, op.CustomDimensionName);
-            }
-
-            return GetDimensionKey(op.GetStandardDimensionEnum());
-        }
-
-        private static string GetDimensionKey(DimensionEnum standardDimensionEnum)
-        {
-            if (standardDimensionEnum != DimensionEnum.Undefined)
-            {
-                return String.Format("{0}{1}", STANDARD_DIMENSION_KEY_PREFIX, standardDimensionEnum);
-            }
-
-            return DIMENSION_KEY_EMPTY;
-        }
-    }
+   }
 }

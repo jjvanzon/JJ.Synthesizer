@@ -26,10 +26,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
     /// <summary> Empty view models start out with Visible = false. </summary>
     internal static partial class ViewModelHelper
     {
-        public const StyleGradeEnum NEUTRAL_STYLE_GRADE = StyleGradeEnum.StyleGrade16;
+        private const string STANDARD_DIMENSION_KEY_PREFIX = "0C26ADA8-0BFC-484C-BF80-774D055DAA3F-StandardDimension-";
+        private const string CUSTOM_DIMENSION_KEY_PREFIX = "5133584A-BA76-42DB-BD0E-42801FCB96DF-CustomDimension-";
 
         private const int STRETCH_AND_SQUASH_ORIGIN_LIST_INDEX = 2;
         private static readonly bool _showAutoPatchPolyphonicEnabled = CustomConfigurationManager.GetSection<ConfigurationSection>().ShowAutoPatchPolyphonicEnabled;
+
+        public const string DIMENSION_KEY_EMPTY = "";
+        public const StyleGradeEnum NEUTRAL_STYLE_GRADE = StyleGradeEnum.StyleGrade16;
 
         // OperatorTypeEnum HashSets
 
@@ -634,6 +638,19 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.EntityPositionID = entityPosition.ID;
             viewModel.CenterX = entityPosition.X;
             viewModel.CenterY = entityPosition.Y;
+            viewModel.Dimension = entity.ToDimensionViewModel();
+        }
+
+        public static DimensionViewModel ToDimensionViewModel(this Operator entity)
+        {
+            var viewModel = new DimensionViewModel
+            {
+                Key = GetDimensionKey(entity),
+                Name = TryGetDimensionName(entity),
+                Visible = OperatorTypeEnums_WithStyledDimension.Contains(entity.GetOperatorTypeEnum())
+            };
+
+            return viewModel;
         }
 
         public static string GetOperatorCaption(
@@ -1168,6 +1185,42 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             string concatinatedUsedIn = String.Join(", ", idAndNames.Select(x => x.Name).OrderBy(x => x));
 
             return concatinatedUsedIn;
+        }
+
+        public static string GetDimensionKey(Operator op)
+        {
+            if (!String.IsNullOrEmpty(op.CustomDimensionName))
+            {
+                return String.Format("{0}{1}", CUSTOM_DIMENSION_KEY_PREFIX, op.CustomDimensionName);
+            }
+
+            return GetDimensionKey(op.GetStandardDimensionEnum());
+        }
+
+        public static string GetDimensionKey(DimensionEnum standardDimensionEnum)
+        {
+            if (standardDimensionEnum != DimensionEnum.Undefined)
+            {
+                return String.Format("{0}{1}", STANDARD_DIMENSION_KEY_PREFIX, standardDimensionEnum);
+            }
+
+            return DIMENSION_KEY_EMPTY;
+        }
+
+        public static string TryGetDimensionName(Operator op)
+        {
+            if (!String.IsNullOrEmpty(op.CustomDimensionName))
+            {
+                return op.CustomDimensionName;
+            }
+
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            if (standardDimensionEnum != DimensionEnum.Undefined)
+            {
+                return ResourceHelper.GetDisplayName(standardDimensionEnum);
+            }
+
+            return null;
         }
     }
 }
