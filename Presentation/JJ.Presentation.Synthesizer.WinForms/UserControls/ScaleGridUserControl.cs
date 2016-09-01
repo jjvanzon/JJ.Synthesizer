@@ -42,7 +42,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 return;
             }
 
-            specializedDataGridView.DataSource = ViewModel.List;
+            specializedDataGridView.DataSource = ViewModel.Dictionary.Values.ToArray();
         }
 
         // Actions

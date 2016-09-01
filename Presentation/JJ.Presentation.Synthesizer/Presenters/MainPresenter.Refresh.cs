@@ -163,18 +163,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MainViewModel.Document.CurveLookup = ViewModelHelper.CreateCurveLookupViewModel(curveUsedInDtos);
         }
 
-        private void CurveLookupItemRefresh(int curveID)
-        {
-            Curve curve = _repositories.CurveRepository.Get(curveID);
-
-            IDAndName idAndName = MainViewModel.Document.CurveLookup.Where(x => x.ID == curve.ID).FirstOrDefault();
-            if (idAndName != null)
-            {
-                idAndName.Name = curve.Name;
-                MainViewModel.Document.CurveLookup = MainViewModel.Document.CurveLookup.OrderBy(x => x.Name).ToList();
-            }
-        }
-
         private void CurvePropertiesDictionaryRefresh()
         {
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
@@ -1006,18 +994,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
             MainViewModel.Document.SampleLookup = ViewModelHelper.CreateSampleLookupViewModel(document);
-        }
-
-        private void SampleLookupItemRefresh(int sampleID)
-        {
-            Sample sample = _repositories.SampleRepository.Get(sampleID);
-
-            IDAndName idAndName = MainViewModel.Document.SampleLookup.Where(x => x.ID == sample.ID).FirstOrDefault();
-            if (idAndName != null)
-            {
-                idAndName.Name = sample.Name;
-                MainViewModel.Document.SampleLookup = MainViewModel.Document.SampleLookup.OrderBy(x => x.Name).ToList();
-            }
         }
 
         private void SamplePropertiesDictionaryRefresh()

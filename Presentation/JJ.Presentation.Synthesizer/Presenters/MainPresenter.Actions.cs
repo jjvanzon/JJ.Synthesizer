@@ -1920,7 +1920,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 Sample sample = _repositories.SampleRepository.Get(sampleID);
                 SampleGridRefresh();
-                SampleLookupItemRefresh(sampleID);
+                SampleLookupRefresh();
                 OperatorViewModels_OfType_Refresh(OperatorTypeEnum.Sample);
             }
         }
@@ -2007,7 +2007,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (viewModel.Successful)
             {
                 // ToViewModel
-                MainViewModel.Document.ScaleGrid.List.RemoveFirst(x => x.ID == id);
+                MainViewModel.Document.ScaleGrid.Dictionary.Remove(id);
                 MainViewModel.Document.ToneGridEditDictionary.Remove(id);
                 MainViewModel.Document.ScalePropertiesDictionary.Remove(id);
 

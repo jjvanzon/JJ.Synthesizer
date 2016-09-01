@@ -175,8 +175,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             list.Add(new IDAndName { ID = 0, Name = null });
 
             list.AddRange(document.Samples
-                                      .OrderBy(x => x.Name)
-                                      .Select(x => x.ToIDAndName()));
+                                  .OrderBy(x => x.Name)
+                                  .Select(x => x.ToIDAndName()));
             return list;
         }
 

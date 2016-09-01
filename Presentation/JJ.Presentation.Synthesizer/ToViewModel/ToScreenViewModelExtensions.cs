@@ -806,9 +806,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 DocumentID = documentID,
                 ValidationMessages = new List<Message>(),
-                List = entities.OrderBy(x => x.Name)
-                               .Select(x => x.ToIDAndName())
-                               .ToList(),
+                Dictionary = entities.OrderBy(x => x.Name)
+                                     .Select(x => x.ToIDAndName())
+                                     .ToDictionary(x => x.ID)
             };
 
             return viewModel;

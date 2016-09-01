@@ -262,7 +262,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new ScaleGridViewModel
             {
-                List = new List<IDAndName>(),
+                Dictionary = new Dictionary<int, IDAndName>(),
                 ValidationMessages = new List<Message>()
             };
 
