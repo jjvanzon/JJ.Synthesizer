@@ -27,9 +27,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void AddProperties()
         {
-            AddProperty(labelOperatorTypeTitle, labelOperatorTypeValue);
+            AddProperty(_labelOperatorTypeTitle, _labelOperatorTypeValue);
             AddProperty(labelInletCount, numericUpDownInletCount);
-            AddProperty(labelName, textBoxName);
+            AddProperty(_labelName, _textBoxName);
         }
 
         // Binding

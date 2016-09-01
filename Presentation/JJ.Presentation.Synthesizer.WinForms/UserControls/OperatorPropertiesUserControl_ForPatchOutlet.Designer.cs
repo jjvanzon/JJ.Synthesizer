@@ -38,39 +38,39 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // labelName
             // 
-            this.labelName.TabIndex = 6;
-            this.labelName.Text = "Name";
+            this._labelName.TabIndex = 6;
+            this._labelName.Text = "Name";
             // 
             // labelOperatorTypeTitle
             // 
-            this.labelOperatorTypeTitle.TabIndex = 4;
-            this.labelOperatorTypeTitle.Text = "Type:";
+            this._labelOperatorTypeTitle.TabIndex = 4;
+            this._labelOperatorTypeTitle.Text = "Type:";
             // 
             // labelOperatorTypeValue
             // 
-            this.labelOperatorTypeValue.TabIndex = 5;
+            this._labelOperatorTypeValue.TabIndex = 5;
             // 
             // textBoxCustomDimensionName
             // 
-            this.textBoxCustomDimensionName.TabIndex = 11;
+            this._textBoxCustomDimensionName.TabIndex = 11;
             // 
             // labelStandardDimension
             // 
-            this.labelStandardDimension.TabIndex = 8;
-            this.labelStandardDimension.Text = "Standard Dimension";
+            this._labelStandardDimension.TabIndex = 8;
+            this._labelStandardDimension.Text = "Standard Dimension";
             // 
             // comboBoxStandardDimension
             // 
-            this.comboBoxStandardDimension.TabIndex = 9;
+            this._comboBoxStandardDimension.TabIndex = 9;
             // 
             // labelCustomDimensionName
             // 
-            this.labelCustomDimensionName.TabIndex = 10;
-            this.labelCustomDimensionName.Text = "Custom Dimension";
+            this._labelCustomDimensionName.TabIndex = 10;
+            this._labelCustomDimensionName.Text = "Custom Dimension";
             // 
             // textBoxName
             // 
-            this.textBoxName.TabIndex = 7;
+            this._textBoxName.TabIndex = 7;
             // 
             // labelNumber
             // 
@@ -139,14 +139,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.Name = "OperatorPropertiesUserControl_ForPatchOutlet";
             this.Size = new System.Drawing.Size(669, 414);
             this.TitleBarText = "Operator Properties";
-            this.Controls.SetChildIndex(this.textBoxName, 0);
-            this.Controls.SetChildIndex(this.labelOperatorTypeValue, 0);
-            this.Controls.SetChildIndex(this.labelOperatorTypeTitle, 0);
-            this.Controls.SetChildIndex(this.labelName, 0);
-            this.Controls.SetChildIndex(this.textBoxCustomDimensionName, 0);
-            this.Controls.SetChildIndex(this.labelStandardDimension, 0);
-            this.Controls.SetChildIndex(this.comboBoxStandardDimension, 0);
-            this.Controls.SetChildIndex(this.labelCustomDimensionName, 0);
+            this.Controls.SetChildIndex(this._textBoxName, 0);
+            this.Controls.SetChildIndex(this._labelOperatorTypeValue, 0);
+            this.Controls.SetChildIndex(this._labelOperatorTypeTitle, 0);
+            this.Controls.SetChildIndex(this._labelName, 0);
+            this.Controls.SetChildIndex(this._textBoxCustomDimensionName, 0);
+            this.Controls.SetChildIndex(this._labelStandardDimension, 0);
+            this.Controls.SetChildIndex(this._comboBoxStandardDimension, 0);
+            this.Controls.SetChildIndex(this._labelCustomDimensionName, 0);
             this.Controls.SetChildIndex(this.numericUpDownNumber, 0);
             this.Controls.SetChildIndex(this.labelNumber, 0);
             this.Controls.SetChildIndex(this.comboBoxDimension, 0);
