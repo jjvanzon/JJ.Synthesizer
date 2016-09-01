@@ -62,7 +62,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.Unbundle
         };
 
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithDimension { get; } =
+        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithCustomAndStandardDimension { get; } =
                   new HashSet<OperatorTypeEnum>
         {
             OperatorTypeEnum.AverageFollower,
@@ -81,8 +81,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.MinFollower,
             OperatorTypeEnum.MinOverDimension,
             OperatorTypeEnum.Noise,
-            OperatorTypeEnum.PatchInlet,
-            OperatorTypeEnum.PatchOutlet,
+            // These get a different Dimension property, applied to either PatchInlet.Inlet or PatchOutlet.Outlet.
+            //OperatorTypeEnum.PatchInlet,
+            //OperatorTypeEnum.PatchOutlet,
             OperatorTypeEnum.Pulse,
             OperatorTypeEnum.Random,
             OperatorTypeEnum.Range,

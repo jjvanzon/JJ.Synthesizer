@@ -757,12 +757,9 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 inlet.DefaultValue = null;
             }
 
-            // HACK: Clear dimension of operator.
-            op.SetStandardDimensionEnum(DimensionEnum.Undefined, repositories.DimensionRepository);
-            op.CustomDimensionName = null;
-            // Set dimension of inlet.
-            var standardDimensionEnum = (DimensionEnum)(viewModel.StandardDimension?.ID ?? 0);
-            inlet.SetDimensionEnum(standardDimensionEnum, repositories.DimensionRepository);
+            // Set Dimension of Inlet.
+            DimensionEnum dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
+            inlet.SetDimensionEnum(dimensionEnum, repositories.DimensionRepository);
 
             // Delete excessive inlets.
             var patchManager = new PatchManager(repositories);
@@ -795,12 +792,9 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 repositories.OutletRepository.Insert(outlet);
             }
 
-            // HACK: Clear dimension of operator.
-            op.SetStandardDimensionEnum(DimensionEnum.Undefined, repositories.DimensionRepository);
-            op.CustomDimensionName = null;
-            // Set dimension of inlet.
-            var standardDimensionEnum = (DimensionEnum)(viewModel.StandardDimension?.ID ?? 0);
-            outlet.SetDimensionEnum(standardDimensionEnum, repositories.DimensionRepository);
+            // Set Dimension of Outlet.
+            DimensionEnum dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
+            outlet.SetDimensionEnum(dimensionEnum, repositories.DimensionRepository);
 
             // Delete excessive outlets.
             var patchManager = new PatchManager(repositories);

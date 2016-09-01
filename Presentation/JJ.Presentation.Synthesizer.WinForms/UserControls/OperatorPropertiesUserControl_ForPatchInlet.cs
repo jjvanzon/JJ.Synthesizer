@@ -5,6 +5,8 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Data.Canonical;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -29,7 +31,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         protected override void AddProperties()
         {
             AddProperty(labelOperatorTypeTitle, labelOperatorTypeValue);
-            AddProperty(labelStandardDimension, comboBoxStandardDimension);
+            AddProperty(labelDimension, comboBoxDimension);
             AddProperty(labelDefaultValue, textBoxDefaultValue);
             AddProperty(labelName, textBoxName);
             AddProperty(labelNumber, numericUpDownNumber);
@@ -46,6 +48,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             numericUpDownNumber.Value = ViewModel.Number;
             textBoxDefaultValue.Text = ViewModel.DefaultValue;
+
+            if (comboBoxDimension.DataSource == null)
+            {
+                comboBoxDimension.ValueMember = PropertyNames.ID;
+                comboBoxDimension.DisplayMember = PropertyNames.Name;
+                comboBoxDimension.DataSource = ViewModel.DimensionLookup;
+            }
+
+            comboBoxDimension.SelectedValue = ViewModel.Dimension?.ID ?? 0;
         }
 
         protected override void ApplyControlsToViewModel()
@@ -54,6 +65,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             ViewModel.Number = (int)numericUpDownNumber.Value;
             ViewModel.DefaultValue = textBoxDefaultValue.Text;
+            ViewModel.Dimension = (IDAndName)comboBoxDimension.SelectedItem;
         }
     }
 }

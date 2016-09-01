@@ -532,16 +532,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
 
             // In case of PatchInlet Dimension has to come from Inlet, not Operator.
+            viewModel.DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel();
             DimensionEnum dimensionEnum = wrapper.Inlet.GetDimensionEnum();
             if (dimensionEnum != DimensionEnum.Undefined)
             {
-                viewModel.StandardDimension = dimensionEnum.ToIDAndDisplayName();
+                viewModel.Dimension = dimensionEnum.ToIDAndDisplayName();
             }
             else
             {
-                viewModel.StandardDimension = new IDAndName();
+                viewModel.Dimension = new IDAndName();
             }
-            viewModel.CustomDimensionNameVisible = false;
 
             return viewModel;
         }
@@ -560,16 +560,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
 
             // In case of PatchInlet Dimension has to come from Outlet, not Operator.
+            viewModel.DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel();
             DimensionEnum dimensionEnum = wrapper.Result.GetDimensionEnum();
             if (dimensionEnum != DimensionEnum.Undefined)
             {
-                viewModel.StandardDimension = dimensionEnum.ToIDAndDisplayName();
+                viewModel.Dimension = dimensionEnum.ToIDAndDisplayName();
             }
             else
             {
-                viewModel.StandardDimension = new IDAndName();
+                viewModel.Dimension = new IDAndName();
             }
-            viewModel.CustomDimensionNameVisible = false;
 
             return viewModel;
         }
@@ -670,12 +670,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             OperatorTypeEnum operatorTypeEnum = entity.GetOperatorTypeEnum();
 
-            if (ViewModelHelper.OperatorTypeEnums_WithDimension.Contains(operatorTypeEnum))
+            if (ViewModelHelper.OperatorTypeEnums_WithCustomAndStandardDimension.Contains(operatorTypeEnum))
             {
-                viewModel.StandardDimensionVisible = true;
-                viewModel.StandardDimensionLookup = ViewModelHelper.GetDimensionLookupViewModel();
                 viewModel.CustomDimensionNameVisible = true;
                 viewModel.CustomDimensionName = entity.CustomDimensionName;
+                viewModel.StandardDimensionVisible = true;
+                viewModel.StandardDimensionLookup = ViewModelHelper.GetDimensionLookupViewModel();
 
                 DimensionEnum dimensionEnum = entity.GetStandardDimensionEnum();
                 if (dimensionEnum != DimensionEnum.Undefined)

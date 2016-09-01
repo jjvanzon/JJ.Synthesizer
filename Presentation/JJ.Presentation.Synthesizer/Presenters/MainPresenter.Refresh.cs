@@ -1008,7 +1008,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MainViewModel.Document.SampleLookup = ViewModelHelper.CreateSampleLookupViewModel(document);
         }
 
-        private void SampleLookupRefresh(int sampleID)
+        private void SampleLookupItemRefresh(int sampleID)
         {
             Sample sample = _repositories.SampleRepository.Get(sampleID);
 

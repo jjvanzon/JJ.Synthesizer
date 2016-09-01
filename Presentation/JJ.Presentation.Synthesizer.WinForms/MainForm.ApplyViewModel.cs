@@ -266,6 +266,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 }
             }
         }
+
         private bool MustBecomeVisible(UserControlBase userControl)
         {
             return userControl.ViewModel != null &&

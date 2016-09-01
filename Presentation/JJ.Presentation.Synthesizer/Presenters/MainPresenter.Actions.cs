@@ -1920,7 +1920,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 Sample sample = _repositories.SampleRepository.Get(sampleID);
                 SampleGridRefresh();
-                SampleLookupRefresh(sampleID);
+                SampleLookupItemRefresh(sampleID);
                 OperatorViewModels_OfType_Refresh(OperatorTypeEnum.Sample);
             }
         }
