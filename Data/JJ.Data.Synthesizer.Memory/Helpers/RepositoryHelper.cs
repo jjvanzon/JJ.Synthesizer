@@ -43,7 +43,7 @@ namespace JJ.Data.Synthesizer.Memory.Helpers
             return _speakerSetupChannelRepository;
         }
 
-        public static void EnsureEnumEntity<TEntity>(RepositoryBase<TEntity, int> repository, int id, string name)
+        public static TEntity EnsureEnumEntity<TEntity>(RepositoryBase<TEntity, int> repository, int id, string name)
             where TEntity : class, new()
         {
             if (repository == null) throw new NullException(() => repository);
@@ -71,6 +71,8 @@ namespace JJ.Data.Synthesizer.Memory.Helpers
 
                 repository.Insert(entity);
             }
+
+            return entity;
         }
     }
 }

@@ -329,6 +329,9 @@
     <Content Include="2016-08-28 010 SynthesizerDB Operator.CustomOperatorName.sql" />
     <Content Include="2016-08-30 010 SynthesizerDB rename Operator.DimensionID to StandardDimensionID.sql" />
     <Content Include="2016-08-30 020 SynthesizerDB IX_Operator_StandardDimensionID.sql" />
+    <Content Include="2016-09-03 010 SynthesizerDB OperatorType.HasDimension.sql" />
+    <Content Include="2016-09-03 020 SynthesizerDB OperatorType.HasDimension not null.sql" />
+    <Content Include="2016-09-03 030 SynthesizerDB OperatorType.HasDimension update to 1 for some records.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -13,12 +13,5 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 new DimensionEnum[] { DimensionEnum.Undefined, DimensionEnum.Undefined },
                 new DimensionEnum[] { DimensionEnum.Undefined })
         { }
-
-        protected override void Execute()
-        {
-            ExecuteValidator(new OperatorValidator_NoDimension(Object));
-
-            base.Execute();
-        }
     }
 }

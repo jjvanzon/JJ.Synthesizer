@@ -15,12 +15,5 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 new DimensionEnum[] { DimensionEnum.Undefined },
                 expectedDataKeys: new string[] { PropertyNames.ListIndex })
         { }
-
-        protected override void Execute()
-        {
-            ExecuteValidator(new OperatorValidator_NoDimension(Object));
-
-            base.Execute();
-        }
     }
 }

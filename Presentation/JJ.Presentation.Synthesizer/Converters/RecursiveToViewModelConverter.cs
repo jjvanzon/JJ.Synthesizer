@@ -26,7 +26,7 @@ namespace JJ.Presentation.Synthesizer.Converters
     internal class RecursiveToViewModelConverter
     {
         private static readonly string _timeDimensionKey = ViewModelHelper.GetDimensionKey(DimensionEnum.Time);
-        private static readonly IList<StyleGradeEnum> _nonNeutralStyleGrades = GetNonNeutralStyleGrades();
+        private static readonly IList<StyleGradeEnum> _styleGradesNonNeutral = GetStyleGradesNonNeutral();
 
         private readonly ISampleRepository _sampleRepository;
         private readonly ICurveRepository _curveRepository;
@@ -92,12 +92,12 @@ namespace JJ.Presentation.Synthesizer.Converters
                                                                    .Select(x => x.Key)
                                                                    .Except(ViewModelHelper.DIMENSION_KEY_EMPTY)
                                                                    .Except(_timeDimensionKey)
-                                                                   .OrderBy(x => x) // Sort arbitrary, but at least consistent.
+                                                                   .OrderBy(x => x) // Sort arbitrary, but consistently.
                                                                    .ToArray();
             if (dimensionKeysToStyle.Count > 0)
             {
                 Dictionary<string, StyleGradeEnum> dimensionKey_To_StyleGrade_Dictionary =
-                    MathHelper.Spread(dimensionKeysToStyle, _nonNeutralStyleGrades);
+                    MathHelper.Spread(dimensionKeysToStyle, _styleGradesNonNeutral);
 
                 foreach (OperatorViewModel operatorViewModel in operatorViewModels)
                 {
@@ -185,7 +185,7 @@ namespace JJ.Presentation.Synthesizer.Converters
 
         // Helpers
 
-        private static IList<StyleGradeEnum> GetNonNeutralStyleGrades()
+        private static IList<StyleGradeEnum> GetStyleGradesNonNeutral()
         {
             IList<StyleGradeEnum> list = EnumHelper.GetValues<StyleGradeEnum>()
                                                    .Except(StyleGradeEnum.Undefined)

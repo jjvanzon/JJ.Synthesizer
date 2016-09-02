@@ -26,13 +26,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
     /// <summary> Empty view models start out with Visible = false. </summary>
     internal static partial class ViewModelHelper
     {
+        public const string DIMENSION_KEY_EMPTY = "";
         private const string STANDARD_DIMENSION_KEY_PREFIX = "0C26ADA8-0BFC-484C-BF80-774D055DAA3F-StandardDimension-";
         private const string CUSTOM_DIMENSION_KEY_PREFIX = "5133584A-BA76-42DB-BD0E-42801FCB96DF-CustomDimension-";
-
         private const int STRETCH_AND_SQUASH_ORIGIN_LIST_INDEX = 2;
-        private static readonly bool _showAutoPatchPolyphonicEnabled = CustomConfigurationManager.GetSection<ConfigurationSection>().ShowAutoPatchPolyphonicEnabled;
 
-        public const string DIMENSION_KEY_EMPTY = "";
+        private static readonly bool _showAutoPatchPolyphonicEnabled = CustomConfigurationManager.GetSection<ConfigurationSection>().ShowAutoPatchPolyphonicEnabled;
 
         // OperatorTypeEnum HashSets
 
@@ -59,52 +58,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                   new HashSet<OperatorTypeEnum>
         {
             OperatorTypeEnum.MakeDiscrete,
-            OperatorTypeEnum.Unbundle
-        };
-
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithCustomAndStandardDimension { get; } =
-                  new HashSet<OperatorTypeEnum>
-        {
-            OperatorTypeEnum.AverageFollower,
-            OperatorTypeEnum.AverageOverDimension,
-            OperatorTypeEnum.Bundle,
-            OperatorTypeEnum.Cache,
-            OperatorTypeEnum.ClosestOverDimension,
-            OperatorTypeEnum.ClosestOverDimensionExp,
-            OperatorTypeEnum.Curve,
-            OperatorTypeEnum.GetDimension,
-            OperatorTypeEnum.Loop,
-            OperatorTypeEnum.MakeContinuous,
-            OperatorTypeEnum.MakeDiscrete,
-            OperatorTypeEnum.MaxFollower,
-            OperatorTypeEnum.MaxOverDimension,
-            OperatorTypeEnum.MinFollower,
-            OperatorTypeEnum.MinOverDimension,
-            OperatorTypeEnum.Noise,
-            // These get a different Dimension property, applied to either PatchInlet.Inlet or PatchOutlet.Outlet.
-            //OperatorTypeEnum.PatchInlet,
-            //OperatorTypeEnum.PatchOutlet,
-            OperatorTypeEnum.Pulse,
-            OperatorTypeEnum.Random,
-            OperatorTypeEnum.Range,
-            OperatorTypeEnum.Resample,
-            OperatorTypeEnum.Reverse,
-            OperatorTypeEnum.Sample,
-            OperatorTypeEnum.SawDown,
-            OperatorTypeEnum.SawUp,
-            OperatorTypeEnum.Select,
-            OperatorTypeEnum.SetDimension,
-            OperatorTypeEnum.Shift,
-            OperatorTypeEnum.Sine,
-            OperatorTypeEnum.SortOverDimension,
-            OperatorTypeEnum.Spectrum,
-            OperatorTypeEnum.Square,
-            OperatorTypeEnum.Squash,
-            OperatorTypeEnum.Stretch,
-            OperatorTypeEnum.SumFollower,
-            OperatorTypeEnum.SumOverDimension,
-            OperatorTypeEnum.TimePower,
-            OperatorTypeEnum.Triangle,
             OperatorTypeEnum.Unbundle
         };
 
@@ -142,50 +95,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                                                     .Except(OperatorTypeEnums_WithOutletCountPropertyViews)
                                                     .Except(OperatorTypeEnums_WithInletCountPropertyViews)
                                                     .ToHashSet();
-
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithStyledDimension { get; } =
-                  new HashSet<OperatorTypeEnum>
-        {
-            OperatorTypeEnum.Sine,
-            OperatorTypeEnum.TimePower,
-            OperatorTypeEnum.Curve,
-            OperatorTypeEnum.Sample,
-            OperatorTypeEnum.Noise,
-            OperatorTypeEnum.Resample,
-            OperatorTypeEnum.SawUp,
-            OperatorTypeEnum.Square,
-            OperatorTypeEnum.Triangle,
-            OperatorTypeEnum.Loop,
-            OperatorTypeEnum.Select,
-            OperatorTypeEnum.Bundle,
-            OperatorTypeEnum.Unbundle,
-            OperatorTypeEnum.Stretch,
-            OperatorTypeEnum.Squash,
-            OperatorTypeEnum.Shift,
-            OperatorTypeEnum.Spectrum,
-            OperatorTypeEnum.Pulse,
-            OperatorTypeEnum.Random,
-            OperatorTypeEnum.MinFollower,
-            OperatorTypeEnum.MaxFollower,
-            OperatorTypeEnum.AverageFollower,
-            OperatorTypeEnum.SawDown,
-            OperatorTypeEnum.Reverse,
-            OperatorTypeEnum.Cache,
-            // Specifically not:
-            // OperatorTypeEnum.GetDimension
-            // OperatorTypeEnum.SetDimension
-            OperatorTypeEnum.Range,
-            OperatorTypeEnum.MakeDiscrete,
-            OperatorTypeEnum.MakeContinuous,
-            OperatorTypeEnum.MaxOverDimension,
-            OperatorTypeEnum.MinOverDimension,
-            OperatorTypeEnum.AverageOverDimension,
-            OperatorTypeEnum.SumOverDimension,
-            OperatorTypeEnum.SumFollower,
-            OperatorTypeEnum.ClosestOverDimension,
-            OperatorTypeEnum.ClosestOverDimensionExp,
-            OperatorTypeEnum.SortOverDimension
-        };
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithHiddenInletNames { get; } =
                   new HashSet<OperatorTypeEnum>
@@ -647,7 +556,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 Key = GetDimensionKey(entity),
                 Name = TryGetDimensionName(entity),
-                Visible = OperatorTypeEnums_WithStyledDimension.Contains(entity.GetOperatorTypeEnum())
+                Visible = MustStyleDimension(entity)
             };
 
             return viewModel;
@@ -1221,6 +1130,23 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
 
             return null;
+        }
+
+        private static bool MustStyleDimension(Operator entity)
+        {
+            if (entity.OperatorType == null)
+            {
+                return false;
+            }
+
+            switch (entity.GetOperatorTypeEnum())
+            {
+                case OperatorTypeEnum.GetDimension:
+                case OperatorTypeEnum.SetDimension:
+                    return false;
+            }
+
+            return entity.OperatorType.HasDimension;
         }
     }
 }

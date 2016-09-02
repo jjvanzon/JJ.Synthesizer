@@ -12,12 +12,5 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         public Multiply_OperatorValidator(Operator obj)
             : base(obj, OperatorTypeEnum.Multiply, expectedDataKeys: new string[0])
         { }
-
-        protected override void Execute()
-        {
-            ExecuteValidator(new OperatorValidator_NoDimension(Object));
-
-            base.Execute();
-        }
     }
 }

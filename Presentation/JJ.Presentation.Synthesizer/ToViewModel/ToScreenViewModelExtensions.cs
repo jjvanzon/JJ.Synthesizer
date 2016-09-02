@@ -668,24 +668,24 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 viewModel.OperatorType = ViewModelHelper.CreateEmptyIDAndName();
             }
 
-            OperatorTypeEnum operatorTypeEnum = entity.GetOperatorTypeEnum();
+            viewModel.CustomDimensionName = entity.CustomDimensionName;
 
-            if (ViewModelHelper.OperatorTypeEnums_WithCustomAndStandardDimension.Contains(operatorTypeEnum))
+            DimensionEnum dimensionEnum = entity.GetStandardDimensionEnum();
+            if (dimensionEnum != DimensionEnum.Undefined)
+            {
+                viewModel.StandardDimension = dimensionEnum.ToIDAndDisplayName();
+            }
+            else
+            {
+                viewModel.StandardDimension = new IDAndName();
+            }
+
+            if (entity.OperatorType != null &&
+                entity.OperatorType.HasDimension)
             {
                 viewModel.CustomDimensionNameVisible = true;
-                viewModel.CustomDimensionName = entity.CustomDimensionName;
                 viewModel.StandardDimensionVisible = true;
                 viewModel.StandardDimensionLookup = ViewModelHelper.GetDimensionLookupViewModel();
-
-                DimensionEnum dimensionEnum = entity.GetStandardDimensionEnum();
-                if (dimensionEnum != DimensionEnum.Undefined)
-                {
-                    viewModel.StandardDimension = dimensionEnum.ToIDAndDisplayName();
-                }
-                else
-                {
-                    viewModel.StandardDimension = new IDAndName();
-                }
             }
 
             return viewModel;

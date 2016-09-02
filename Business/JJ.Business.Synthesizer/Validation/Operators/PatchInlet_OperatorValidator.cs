@@ -22,8 +22,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         protected override void Execute()
         {
-            ExecuteValidator(new OperatorValidator_NoDimension(Object));
-
             ExecuteValidator(new ListIndex_DataProperty_Validator(Object.Data));
 
             base.Execute();

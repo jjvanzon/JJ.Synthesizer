@@ -18,8 +18,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         protected override void Execute()
         {
-            ExecuteValidator(new OperatorValidator_NoDimension(Object));
-
             string numberString = DataPropertyParser.TryGetString(Object, PropertyNames.Number);
             For(() => numberString, PropertyDisplayNames.Number, DataPropertyParser.FormattingCulture)
                 .NotNullOrEmpty()

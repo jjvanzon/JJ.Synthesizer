@@ -12,12 +12,5 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         public Sort_OperatorValidator(Operator obj)
             : base(obj, OperatorTypeEnum.Sort, expectedDataKeys: new string[0])
         { }
-
-        protected override void Execute()
-        {
-            ExecuteValidator(new OperatorValidator_NoDimension(Object));
-
-            base.Execute();
-        }
     }
 }

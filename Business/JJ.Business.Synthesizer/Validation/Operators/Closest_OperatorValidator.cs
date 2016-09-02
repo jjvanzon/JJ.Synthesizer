@@ -20,14 +20,5 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 new DimensionEnum[] { DimensionEnum.Undefined },
                 expectedDataKeys: new string[0])
         { }
-
-        protected override void Execute()
-        {
-            ExecuteValidator(new OperatorValidator_NoDimension(Object));
-
-            For(() => Object.Inlets.Count, CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Inlets)).GreaterThanOrEqual(MINIMUM_INLET_COUNT);
-
-            base.Execute();
-        }
     }
 }

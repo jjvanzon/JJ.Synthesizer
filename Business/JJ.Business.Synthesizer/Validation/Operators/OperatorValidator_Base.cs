@@ -58,14 +58,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             For(() => op.GetOperatorTypeEnum(), PropertyDisplayNames.OperatorType).Is(_expectedOperatorTypeEnum);
 
-            // Dimension
-            bool dimensionIsFilledIn = op.GetStandardDimensionEnum() != DimensionEnum.Undefined;
-            bool customDimensionNameIsFilledIn = !String.IsNullOrWhiteSpace(op.CustomDimensionName);
-            if (dimensionIsFilledIn && customDimensionNameIsFilledIn)
-            {
-                ValidationMessages.AddNotBothValidationMessage(PropertyNames.Dimension, PropertyDisplayNames.StandardDimension, PropertyDisplayNames.CustomDimensionName);
-            }
-            ExecuteValidator(new NameValidator(op.CustomDimensionName, PropertyDisplayNames.CustomDimensionName, required: false));
+            ExecuteValidator(new OperatorValidator_Dimension(op));
+            ExecuteValidator(new DataPropertyValidator(op.Data, _expectedDataKeys));
 
             // Inlets
             For(() => op.Inlets.Count, GetPropertyDisplayName_ForInletCount()).Is(_expectedInletCount);
@@ -98,8 +92,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                     ExecuteValidator(new OutletValidator_NotForCustomOperator(outlet, i, expectedDimensionEnum), messagePrefix);
                 }
             }
-
-            ExecuteValidator(new DataPropertyValidator(op.Data, _expectedDataKeys));
         }
 
         private string GetPropertyDisplayName_ForInletCount()
