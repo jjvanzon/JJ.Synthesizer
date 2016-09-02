@@ -39,8 +39,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Binding
 
-        private new OperatorPropertiesViewModel_ForPatchInlet ViewModel => 
-                   (OperatorPropertiesViewModel_ForPatchInlet)base.ViewModel;
+        public new OperatorPropertiesViewModel_ForPatchInlet ViewModel
+        {
+            get { return (OperatorPropertiesViewModel_ForPatchInlet)base.ViewModel; }
+            set { base.ViewModel = value; }
+        }
 
         protected override void ApplyViewModelToControls()
         {

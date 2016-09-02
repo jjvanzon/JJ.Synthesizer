@@ -31,28 +31,28 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public Dictionary<int, OperatorPropertiesViewModel_ForBundle> OperatorPropertiesDictionary_ForBundles { get; set; }
         public OperatorPropertiesViewModel_ForCache VisibleOperatorProperties_ForCache { get; set; }
         public Dictionary<int, OperatorPropertiesViewModel_ForCache> OperatorPropertiesDictionary_ForCaches { get; set; }
-        public OperatorPropertiesViewModel VisibleOperatorProperties_ForCurve { get; set; }
+        public OperatorPropertiesViewModel_ForCurve VisibleOperatorProperties_ForCurve { get; set; }
         public Dictionary<int, OperatorPropertiesViewModel_ForCurve> OperatorPropertiesDictionary_ForCurves { get; set; }
-        public OperatorPropertiesViewModel VisibleOperatorProperties_ForCustomOperator { get; set; }
+        public OperatorPropertiesViewModel_ForCustomOperator VisibleOperatorProperties_ForCustomOperator { get; set; }
         public Dictionary<int, OperatorPropertiesViewModel_ForCustomOperator> OperatorPropertiesDictionary_ForCustomOperators { get; set; }
-        public OperatorPropertiesViewModel VisibleOperatorProperties_ForMakeContinuous { get; set; }
+        public OperatorPropertiesViewModel_ForMakeContinuous VisibleOperatorProperties_ForMakeContinuous { get; set; }
         public Dictionary<int, OperatorPropertiesViewModel_ForMakeContinuous> OperatorPropertiesDictionary_ForMakeContinuous { get; set; }
-        public OperatorPropertiesViewModel VisibleOperatorProperties_ForNumber { get; set; }
+        public OperatorPropertiesViewModel_ForNumber VisibleOperatorProperties_ForNumber { get; set; }
         public Dictionary<int, OperatorPropertiesViewModel_ForNumber> OperatorPropertiesDictionary_ForNumbers { get; set; }
-        public OperatorPropertiesViewModel VisibleOperatorProperties_ForPatchInlet { get; set; }
+        public OperatorPropertiesViewModel_ForPatchInlet VisibleOperatorProperties_ForPatchInlet { get; set; }
         public Dictionary<int, OperatorPropertiesViewModel_ForPatchInlet> OperatorPropertiesDictionary_ForPatchInlets { get; set; }
-        public OperatorPropertiesViewModel VisibleOperatorProperties_ForPatchOutlet { get; set; }
+        public OperatorPropertiesViewModel_ForPatchOutlet VisibleOperatorProperties_ForPatchOutlet { get; set; }
         public Dictionary<int, OperatorPropertiesViewModel_ForPatchOutlet> OperatorPropertiesDictionary_ForPatchOutlets { get; set; }
-        public OperatorPropertiesViewModel VisibleOperatorProperties_ForSample { get; set; }
+        public OperatorPropertiesViewModel_ForSample VisibleOperatorProperties_ForSample { get; set; }
         public Dictionary<int, OperatorPropertiesViewModel_ForSample> OperatorPropertiesDictionary_ForSamples { get; set; }
-        public OperatorPropertiesViewModel VisibleOperatorProperties_WithInterpolation { get; set; }
+        public OperatorPropertiesViewModel_WithInterpolation VisibleOperatorProperties_WithInterpolation { get; set; }
         public Dictionary<int, OperatorPropertiesViewModel_WithInterpolation> OperatorPropertiesDictionary_WithInterpolation { get; set; }
-        public OperatorPropertiesViewModel VisibleOperatorProperties_WithCollectionRecalculation { get; set; }
+        public OperatorPropertiesViewModel_WithCollectionRecalculation VisibleOperatorProperties_WithCollectionRecalculation { get; set; }
         public Dictionary<int, OperatorPropertiesViewModel_WithCollectionRecalculation> OperatorPropertiesDictionary_WithCollectionRecalculation { get; set; }
-        public OperatorPropertiesViewModel VisibleOperatorProperties_WithOutletCount { get; set; }
-        public Dictionary<int, OperatorPropertiesViewModel_WithOutletCount> OperatorPropertiesDictionary_WithOutletCount { get; set; }
-        public OperatorPropertiesViewModel VisibleOperatorProperties_WithInletCount { get; set; }
+        public OperatorPropertiesViewModel_WithInletCount VisibleOperatorProperties_WithInletCount { get; set; }
         public Dictionary<int, OperatorPropertiesViewModel_WithInletCount> OperatorPropertiesDictionary_WithInletCount { get; set; }
+        public OperatorPropertiesViewModel_WithOutletCount VisibleOperatorProperties_WithOutletCount { get; set; }
+        public Dictionary<int, OperatorPropertiesViewModel_WithOutletCount> OperatorPropertiesDictionary_WithOutletCount { get; set; }
         public PatchDetailsViewModel VisiblePatchDetails { get; set; }
         public Dictionary<int, PatchDetailsViewModel> PatchDetailsDictionary { get; set; }
         public PatchGridViewModel VisiblePatchGrid { get; set; }

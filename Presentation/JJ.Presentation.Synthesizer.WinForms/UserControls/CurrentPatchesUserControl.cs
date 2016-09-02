@@ -31,7 +31,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
         // Binding
 
-        private new CurrentPatchesViewModel ViewModel => (CurrentPatchesViewModel)base.ViewModel;
+        public new CurrentPatchesViewModel ViewModel
+        {
+            get { return (CurrentPatchesViewModel)base.ViewModel; }
+            set { base.ViewModel = value; }
+        }
 
         protected override void ApplyViewModelToControls()
         {

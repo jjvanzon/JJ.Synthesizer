@@ -892,7 +892,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         }
 
         private static Operator ConvertToOperator_Base(
-            OperatorPropertiesViewModel viewModel,
+            OperatorPropertiesViewModelBase viewModel,
             IOperatorRepository operatorRepository,
             IOperatorTypeRepository operatorTypeRepository,
             IDimensionRepository dimensionRepository)

@@ -73,7 +73,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Binding
 
-        private new CurveDetailsViewModel ViewModel => (CurveDetailsViewModel)base.ViewModel;
+        public new CurveDetailsViewModel ViewModel
+        {
+            get { return (CurveDetailsViewModel)base.ViewModel; }
+            set { base.ViewModel = value; }
+        }
 
         protected override int GetID()
         {

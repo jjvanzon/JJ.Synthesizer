@@ -51,7 +51,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Binding
 
-        private new AudioFileOutputPropertiesViewModel ViewModel => (AudioFileOutputPropertiesViewModel)base.ViewModel;
+        public new AudioFileOutputPropertiesViewModel ViewModel
+        {
+            get { return (AudioFileOutputPropertiesViewModel)base.ViewModel; }
+            set { base.ViewModel = value; }
+        }
 
         protected override int GetID()
         {

@@ -52,7 +52,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             Controls.Add(_textBoxName);
         }
 
-        private new OperatorPropertiesViewModel ViewModel => (OperatorPropertiesViewModel)base.ViewModel;
+        public new OperatorPropertiesViewModelBase ViewModel
+        {
+            get { return (OperatorPropertiesViewModelBase)base.ViewModel; }
+            set { base.ViewModel = value; }
+        }
 
         protected override int GetID()
         {

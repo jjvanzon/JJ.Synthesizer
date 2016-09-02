@@ -38,7 +38,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Binding
 
-        private new PatchGridViewModel ViewModel => (PatchGridViewModel)base.ViewModel;
+        public new PatchGridViewModel ViewModel
+        {
+            get { return (PatchGridViewModel)base.ViewModel; }
+            set { base.ViewModel = value; }
+        }
 
         protected override void ApplyViewModelToControls()
         {

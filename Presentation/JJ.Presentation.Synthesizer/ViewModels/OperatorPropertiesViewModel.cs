@@ -1,24 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Data.Canonical;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
-    public class OperatorPropertiesViewModel : ViewModelBase
+    public sealed class OperatorPropertiesViewModel : OperatorPropertiesViewModelBase
     {
-        public int ID { get; set; }
-        public int PatchID { get; set; }
-        public string Name { get; set; }
-
-        /// <summary> not editable </summary>
-        public IDAndName OperatorType { get; set; }
-
-        public bool StandardDimensionVisible { get; set; }
-        public IDAndName StandardDimension { get; set; }
-        public IList<IDAndName> StandardDimensionLookup { get; set; }
-
-        public bool CustomDimensionNameVisible { get; set; }
-        public string CustomDimensionName { get; set; }
+        // Even though OperatorPropertiesViewModel does not add anything to OperatorPropertiesViewModelBase,
+        // it is safer this way, to prevent that OperatorPropertiesViewModel can be polymorphic.
     }
 }

@@ -38,7 +38,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Binding
 
-        private new NodePropertiesViewModel ViewModel => (NodePropertiesViewModel)base.ViewModel;
+        public new NodePropertiesViewModel ViewModel
+        {
+            get { return (NodePropertiesViewModel)base.ViewModel; }
+            set { base.ViewModel = value; }
+        }
 
         protected override int GetID()
         {

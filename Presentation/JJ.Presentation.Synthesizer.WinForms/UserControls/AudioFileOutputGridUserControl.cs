@@ -44,7 +44,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             specializedDataGridView.DataSource = ViewModel.List;
         }
 
-        private new AudioFileOutputGridViewModel ViewModel => (AudioFileOutputGridViewModel)base.ViewModel;
+        public new AudioFileOutputGridViewModel ViewModel
+        {
+            get { return (AudioFileOutputGridViewModel)base.ViewModel; }
+            set { base.ViewModel = value; }
+        }
 
         // Events
 

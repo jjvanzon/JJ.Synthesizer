@@ -44,7 +44,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Binding
 
-        private new DocumentTreeViewModel ViewModel => (DocumentTreeViewModel)base.ViewModel;
+        public new DocumentTreeViewModel ViewModel
+        {
+            get { return (DocumentTreeViewModel)base.ViewModel; }
+            set { base.ViewModel = value; }
+        }
 
         private bool _applyViewModelIsBusy = false;
 

@@ -66,7 +66,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Binding
 
-        private new SamplePropertiesViewModel ViewModel => (SamplePropertiesViewModel)base.ViewModel;
+        public new SamplePropertiesViewModel ViewModel
+        {
+            get { return (SamplePropertiesViewModel)base.ViewModel; }
+            set { base.ViewModel = value; }
+        }
 
         protected override int GetID()
         {

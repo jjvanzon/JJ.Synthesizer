@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
-    public sealed class OperatorPropertiesViewModel_ForCurve : OperatorPropertiesViewModel
+    public sealed class OperatorPropertiesViewModel_ForCurve : OperatorPropertiesViewModelBase
     {
         /// <summary>
         /// The lookup is inside the DocumentViewModel,

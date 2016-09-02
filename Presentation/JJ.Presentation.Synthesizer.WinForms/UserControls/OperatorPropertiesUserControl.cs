@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows.Forms;
+using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
@@ -10,6 +11,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public OperatorPropertiesUserControl()
         {
             InitializeComponent();
+        }
+
+        public new OperatorPropertiesViewModel ViewModel
+        {
+            get { return (OperatorPropertiesViewModel)base.ViewModel; }
+            set { base.ViewModel = value; }
         }
 
         protected override void AddProperties()

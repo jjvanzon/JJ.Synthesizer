@@ -158,41 +158,43 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // TemplateMethod
             AudioFileOutputPropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _audioFileOutputPropertiesPresenter.Show(userInput));
-        }
-
-        public void AudioFileOutputPropertiesClose(int id)
-        {
-            AudioFileOutputPropertiesViewModel viewModel = AudioFileOutputPropertiesCloseOrLoseFocus(_audioFileOutputPropertiesPresenter.Close, id);
 
             if (viewModel.Successful)
             {
-                if (MainViewModel.Document.VisibleAudioFileOutputProperties?.Entity.ID == id)
-                {
-                    MainViewModel.Document.VisibleAudioFileOutputProperties = null;
-                }
+                MainViewModel.Document.VisibleAudioFileOutputProperties = viewModel;
             }
         }
 
-        public void AudioFileOutputPropertiesLoseFocus(int id)
-        {
-            AudioFileOutputPropertiesCloseOrLoseFocus(_audioFileOutputPropertiesPresenter.LoseFocus, id);
-        }
-
-        private AudioFileOutputPropertiesViewModel AudioFileOutputPropertiesCloseOrLoseFocus(Func<AudioFileOutputPropertiesViewModel, AudioFileOutputPropertiesViewModel> partialAction, int id)
+        public void AudioFileOutputPropertiesClose(int id)
         {
             // GetViewModel
             AudioFileOutputPropertiesViewModel userInput = ViewModelSelector.GetAudioFileOutputPropertiesViewModel(MainViewModel.Document, id);
 
             // TemplateMethod
-            AudioFileOutputPropertiesViewModel viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
+            AudioFileOutputPropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _audioFileOutputPropertiesPresenter.Close(userInput));
+
+            if (viewModel.Successful)
+            {
+                MainViewModel.Document.VisibleAudioFileOutputProperties = null;
+
+                // Refresh
+                AudioFileOutputGridRefresh();
+            }
+        }
+
+        public void AudioFileOutputPropertiesLoseFocus(int id)
+        {
+            // GetViewModel
+            AudioFileOutputPropertiesViewModel userInput = ViewModelSelector.GetAudioFileOutputPropertiesViewModel(MainViewModel.Document, id);
+
+            // TemplateMethod
+            AudioFileOutputPropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _audioFileOutputPropertiesPresenter.LoseFocus(userInput));
 
             // Refresh
             if (viewModel.Successful)
             {
                 AudioFileOutputGridRefresh();
             }
-
-            return viewModel;
         }
 
         // AudioOutput
@@ -208,21 +210,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void AudioOutputPropertiesClose()
         {
-            AudioOutputPropertiesCloseOrLoseFocus(_audioOutputPropertiesPresenter.Close);
+            // GetViewModel
+            AudioOutputPropertiesViewModel userInput = MainViewModel.Document.AudioOutputProperties;
+
+            // TemplateMethod
+            TemplateActionMethod(userInput, () => _audioOutputPropertiesPresenter.Close(userInput));
         }
 
         public void AudioOutputPropertiesLoseFocus()
-        {
-            AudioOutputPropertiesCloseOrLoseFocus(_audioOutputPropertiesPresenter.LoseFocus);
-        }
-
-        private void AudioOutputPropertiesCloseOrLoseFocus(Func<AudioOutputPropertiesViewModel, AudioOutputPropertiesViewModel> partialAction)
         {
             // GetViewModel
             AudioOutputPropertiesViewModel userInput = MainViewModel.Document.AudioOutputProperties;
 
             // TemplateMethod
-            AudioOutputPropertiesViewModel viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
+            TemplateActionMethod(userInput, () => _audioOutputPropertiesPresenter.LoseFocus(userInput));
         }
 
         // CurrentPatches
@@ -481,6 +482,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // TemplateMethod
             CurveDetailsViewModel viewModel = TemplateActionMethod(userInput, () => _curveDetailsPresenter.Show(userInput));
+
+            if (viewModel.Successful)
+            {
+                MainViewModel.Document.VisibleCurveDetails = viewModel;
+            }
         }
 
         public void CurveDetailsClose(int id)
@@ -493,11 +499,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             if (viewModel.Successful)
             {
-                // ToViewModel
-                if (MainViewModel.Document.VisibleCurveDetails?.CurveID == id)
-                {
-                    MainViewModel.Document.VisibleCurveDetails = null;
-                }
+                MainViewModel.Document.VisibleCurveDetails = null;
             }
         }
 
@@ -516,42 +518,44 @@ namespace JJ.Presentation.Synthesizer.Presenters
             CurvePropertiesViewModel userInput = ViewModelSelector.GetCurvePropertiesViewModel(MainViewModel.Document, id);
 
             // TemplateMethod
-            TemplateActionMethod(userInput, () => _curvePropertiesPresenter.Show(userInput));
-        }
-
-        public void CurvePropertiesClose(int id)
-        {
-            CurvePropertiesViewModel viewModel = CurvePropertiesCloseOrLoseFocus(_curvePropertiesPresenter.Close, id);
+            CurvePropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _curvePropertiesPresenter.Show(userInput));
 
             if (viewModel.Successful)
             {
-                if (MainViewModel.Document.VisibleCurveProperties?.ID == id)
-                {
-                    MainViewModel.Document.VisibleCurveProperties = null;
-                }
+                MainViewModel.Document.VisibleCurveProperties = viewModel;
             }
         }
 
-        public void CurvePropertiesLoseFocus(int id)
-        {
-            CurvePropertiesCloseOrLoseFocus(_curvePropertiesPresenter.LoseFocus, id);
-        }
-
-        private CurvePropertiesViewModel CurvePropertiesCloseOrLoseFocus(Func<CurvePropertiesViewModel, CurvePropertiesViewModel> partialAction, int id)
+        public void CurvePropertiesClose(int id)
         {
             // GetViewModel
             CurvePropertiesViewModel userInput = ViewModelSelector.GetCurvePropertiesViewModel(MainViewModel.Document, id);
 
             // TemplateMethod
-            CurvePropertiesViewModel viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
+            CurvePropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _curvePropertiesPresenter.Close(userInput));
+
+            if (viewModel.Successful)
+            {
+                MainViewModel.Document.VisibleCurveProperties = null;
+
+                // Refresh
+                DocumentViewModelRefresh();
+            }
+        }
+
+        public void CurvePropertiesLoseFocus(int id)
+        {
+            // GetViewModel
+            CurvePropertiesViewModel userInput = ViewModelSelector.GetCurvePropertiesViewModel(MainViewModel.Document, id);
+
+            // TemplateMethod
+            CurvePropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _curvePropertiesPresenter.LoseFocus(userInput));
 
             // Refresh
             if (viewModel.Successful)
             {
                 DocumentViewModelRefresh();
             }
-
-            return viewModel;
         }
 
         // Document Grid
@@ -906,34 +910,39 @@ namespace JJ.Presentation.Synthesizer.Presenters
             NodePropertiesViewModel userInput = ViewModelSelector.GetNodePropertiesViewModel(MainViewModel.Document, id);
 
             // Template Method
-            TemplateActionMethod(userInput, () => _nodePropertiesPresenter.Show(userInput));
-        }
-
-        public void NodePropertiesClose(int id)
-        {
-            NodePropertiesViewModel viewModel = NodePropertiesCloseOrLoseFocus(_nodePropertiesPresenter.Close, id);
+            NodePropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _nodePropertiesPresenter.Show(userInput));
 
             if (viewModel.Successful)
             {
-                if (MainViewModel.Document.VisibleNodeProperties?.Entity.ID == id)
-                {
-                    MainViewModel.Document.VisibleNodeProperties = null;
-                }
+                MainViewModel.Document.VisibleNodeProperties = viewModel;
             }
         }
 
-        public void NodePropertiesLoseFocus(int id)
-        {
-            NodePropertiesCloseOrLoseFocus(_nodePropertiesPresenter.LoseFocus, id);
-        }
-
-        public NodePropertiesViewModel NodePropertiesCloseOrLoseFocus(Func<NodePropertiesViewModel, NodePropertiesViewModel> partialAction, int id)
+        public void NodePropertiesClose(int id)
         {
             // GetViewModel
             NodePropertiesViewModel userInput = ViewModelSelector.GetNodePropertiesViewModel(MainViewModel.Document, id);
 
             // TemplateMethod
-            NodePropertiesViewModel viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
+            NodePropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _nodePropertiesPresenter.Close(userInput));
+
+            if (viewModel.Successful)
+            {
+                MainViewModel.Document.VisibleNodeProperties = null;
+
+                // Refresh
+                Node node = _repositories.NodeRepository.Get(id);
+                CurveDetailsNodeRefresh(node.Curve.ID, id);
+            }
+        }
+
+        public void NodePropertiesLoseFocus(int id)
+        {
+            // GetViewModel
+            NodePropertiesViewModel userInput = ViewModelSelector.GetNodePropertiesViewModel(MainViewModel.Document, id);
+
+            // TemplateMethod
+            NodePropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _nodePropertiesPresenter.LoseFocus(userInput));
 
             // Refresh
             if (viewModel.Successful)
@@ -941,8 +950,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Node node = _repositories.NodeRepository.Get(id);
                 CurveDetailsNodeRefresh(node.Curve.ID, id);
             }
-
-            return viewModel;
         }
 
         public void NodeSelect(int curveID, int nodeID)
@@ -1148,7 +1155,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel(MainViewModel.Document, id);
                 if (userInput != null)
                 {
-                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter.Show(userInput));
+                    OperatorPropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter.Show(userInput));
+                    if (viewModel.Successful)
+                    {
+                        MainViewModel.Document.VisibleOperatorProperties = viewModel;
+                    }
                     return;
                 }
             }
@@ -1156,7 +1167,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForBundle userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForBundle(MainViewModel.Document, id);
                 if (userInput != null)
                 {
-                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForBundle.Show(userInput));
+                    OperatorPropertiesViewModel_ForBundle viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForBundle.Show(userInput));
+                    if (viewModel.Successful)
+                    {
+                        MainViewModel.Document.VisibleOperatorProperties_ForBundle = viewModel;
+                    }
                     return;
                 }
             }
@@ -1164,7 +1179,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForCache userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForCache(MainViewModel.Document, id);
                 if (userInput != null)
                 {
-                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForCache.Show(userInput));
+                    OperatorPropertiesViewModel_ForCache viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForCache.Show(userInput));
+                    if (viewModel.Successful)
+                    {
+                        MainViewModel.Document.VisibleOperatorProperties_ForCache = viewModel;
+                    }
                     return;
                 }
             }
@@ -1172,7 +1191,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForCurve userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForCurve(MainViewModel.Document, id);
                 if (userInput != null)
                 {
-                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForCurve.Show(userInput));
+                    OperatorPropertiesViewModel_ForCurve viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForCurve.Show(userInput));
+                    if (viewModel.Successful)
+                    {
+                        MainViewModel.Document.VisibleOperatorProperties_ForCurve = viewModel;
+                    }
                     return;
                 }
             }
@@ -1180,7 +1203,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForCustomOperator userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForCustomOperator(MainViewModel.Document, id);
                 if (userInput != null)
                 {
-                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForCustomOperator.Show(userInput));
+                    OperatorPropertiesViewModel_ForCustomOperator viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForCustomOperator.Show(userInput));
+                    if (viewModel.Successful)
+                    {
+                        MainViewModel.Document.VisibleOperatorProperties_ForCustomOperator = viewModel;
+                    }
                     return;
                 }
             }
@@ -1188,7 +1215,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForMakeContinuous userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForMakeContinuous(MainViewModel.Document, id);
                 if (userInput != null)
                 {
-                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForMakeContinuous.Show(userInput));
+                    OperatorPropertiesViewModel_ForMakeContinuous viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForMakeContinuous.Show(userInput));
+                    if (viewModel.Successful)
+                    {
+                        MainViewModel.Document.VisibleOperatorProperties_ForMakeContinuous = viewModel;
+                    }
                     return;
                 }
             }
@@ -1196,7 +1227,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForNumber userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForNumber(MainViewModel.Document, id);
                 if (userInput != null)
                 {
-                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForNumber.Show(userInput));
+                    OperatorPropertiesViewModel_ForNumber viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForNumber.Show(userInput));
+                    if (viewModel.Successful)
+                    {
+                        MainViewModel.Document.VisibleOperatorProperties_ForNumber = viewModel;
+                    }
                     return;
                 }
             }
@@ -1204,7 +1239,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForPatchInlet userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForPatchInlet(MainViewModel.Document, id);
                 if (userInput != null)
                 {
-                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForPatchInlet.Show(userInput));
+                    OperatorPropertiesViewModel_ForPatchInlet viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForPatchInlet.Show(userInput));
+                    if (viewModel.Successful)
+                    {
+                        MainViewModel.Document.VisibleOperatorProperties_ForPatchInlet = viewModel;
+                    }
                     return;
                 }
             }
@@ -1212,7 +1251,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForPatchOutlet userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForPatchOutlet(MainViewModel.Document, id);
                 if (userInput != null)
                 {
-                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForPatchOutlet.Show(userInput));
+                    OperatorPropertiesViewModel_ForPatchOutlet viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForPatchOutlet.Show(userInput));
+                    if (viewModel.Successful)
+                    {
+                        MainViewModel.Document.VisibleOperatorProperties_ForPatchOutlet = viewModel;
+                    }
                     return;
                 }
             }
@@ -1220,7 +1263,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForSample userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForSample(MainViewModel.Document, id);
                 if (userInput != null)
                 {
-                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForSample.Show(userInput));
+                    OperatorPropertiesViewModel_ForSample viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForSample.Show(userInput));
+                    if (viewModel.Successful)
+                    {
+                        MainViewModel.Document.VisibleOperatorProperties_ForSample = viewModel;
+                    }
                     return;
                 }
             }
@@ -1228,7 +1275,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_WithInterpolation userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_WithInterpolation(MainViewModel.Document, id);
                 if (userInput != null)
                 {
-                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithInterpolation.Show(userInput));
+                    OperatorPropertiesViewModel_WithInterpolation viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithInterpolation.Show(userInput));
+                    if (viewModel.Successful)
+                    {
+                        MainViewModel.Document.VisibleOperatorProperties_WithInterpolation = viewModel;
+                    }
                     return;
                 }
             }
@@ -1236,15 +1287,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_WithCollectionRecalculation userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_WithCollectionRecalculation(MainViewModel.Document, id);
                 if (userInput != null)
                 {
-                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithCollectionRecalculation.Show(userInput));
-                    return;
-                }
-            }
-            {
-                OperatorPropertiesViewModel_WithOutletCount userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_WithOutletCount(MainViewModel.Document, id);
-                if (userInput != null)
-                {
-                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithOutletCount.Show(userInput));
+                    OperatorPropertiesViewModel_WithCollectionRecalculation viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithCollectionRecalculation.Show(userInput));
+                    if (viewModel.Successful)
+                    {
+                        MainViewModel.Document.VisibleOperatorProperties_WithCollectionRecalculation = viewModel;
+                    }
                     return;
                 }
             }
@@ -1252,7 +1299,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_WithInletCount userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_WithInletCount(MainViewModel.Document, id);
                 if (userInput != null)
                 {
-                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithInletCount.Show(userInput));
+                    OperatorPropertiesViewModel_WithInletCount viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithInletCount.Show(userInput));
+                    if (viewModel.Successful)
+                    {
+                        MainViewModel.Document.VisibleOperatorProperties_WithInletCount = viewModel;
+                    }
+                    return;
+                }
+            }
+            {
+                OperatorPropertiesViewModel_WithOutletCount userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_WithOutletCount(MainViewModel.Document, id);
+                if (userInput != null)
+                {
+                    OperatorPropertiesViewModel_WithOutletCount viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithOutletCount.Show(userInput));
+                    if (viewModel.Successful)
+                    {
+                        MainViewModel.Document.VisibleOperatorProperties_WithOutletCount = viewModel;
+                    }
                     return;
                 }
             }
@@ -1262,382 +1325,356 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void OperatorPropertiesClose(int id)
         {
-            OperatorPropertiesViewModel viewModel = OperatorPropertiesCloseOrLoseFocus(_operatorPropertiesPresenter.Close, id);
+            // GetViewModel
+            OperatorPropertiesViewModel userInput = ViewModelSelector.GetOperatorPropertiesViewModel(MainViewModel.Document, id);
+
+            // TemplateMethod
+            OperatorPropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter.Close(userInput));
 
             if (viewModel.Successful)
             {
-                if (MainViewModel.Document.VisibleOperatorProperties?.ID == id)
-                {
-                    MainViewModel.Document.VisibleOperatorProperties = null;
-                }
+                MainViewModel.Document.VisibleOperatorProperties = null;
+
+                // Refresh
+                PatchDetails_RefreshOperator(userInput.ID);
             }
         }
 
         public void OperatorPropertiesClose_ForBundle(int id)
         {
-            OperatorPropertiesViewModel_ForBundle viewModel = OperatorPropertiesCloseOrLoseFocus_ForBundle(_operatorPropertiesPresenter_ForBundle.Close, id);
+            // GetViewModel
+            OperatorPropertiesViewModel_ForBundle userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForBundle(MainViewModel.Document, id);
+
+            // TemplateMethod
+            OperatorPropertiesViewModel_ForBundle viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForBundle.Close(userInput));
 
             if (viewModel.Successful)
             {
-                if (MainViewModel.Document.VisibleOperatorProperties_ForBundle?.ID == id)
-                {
-                    MainViewModel.Document.VisibleOperatorProperties_ForBundle = null;
-                }
+                MainViewModel.Document.VisibleOperatorProperties_ForBundle = null;
+             
+                // Refresh
+                PatchDetails_RefreshOperator(userInput.ID);
             }
         }
 
         public void OperatorPropertiesClose_ForCache(int id)
         {
-            OperatorPropertiesViewModel_ForCache viewModel = OperatorPropertiesCloseOrLoseFocus_ForCache(_operatorPropertiesPresenter_ForCache.Close, id);
+            // GetViewModel
+            OperatorPropertiesViewModel_ForCache userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForCache(MainViewModel.Document, id);
+
+            // TemplateMethod
+            OperatorPropertiesViewModel_ForCache viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForCache.Close(userInput));
 
             if (viewModel.Successful)
             {
-                if (MainViewModel.Document.VisibleOperatorProperties_ForCache?.ID == id)
-                {
-                    MainViewModel.Document.VisibleOperatorProperties_ForCache = null;
-                }
+                MainViewModel.Document.VisibleOperatorProperties_ForCache = null;
+
+                // Refresh
+                PatchDetails_RefreshOperator(userInput.ID);
             }
         }
 
         public void OperatorPropertiesClose_ForCurve(int id)
         {
-            OperatorPropertiesViewModel_ForCurve viewModel = OperatorPropertiesCloseOrLoseFocus_ForCurve(_operatorPropertiesPresenter_ForCurve.Close, id);
+            // GetViewModel
+            OperatorPropertiesViewModel_ForCurve userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForCurve(MainViewModel.Document, id);
+
+            // TemplateMethod
+            OperatorPropertiesViewModel_ForCurve viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForCurve.Close(userInput));
 
             if (viewModel.Successful)
             {
-                if (MainViewModel.Document.VisibleOperatorProperties_ForCurve?.ID == id)
-                {
-                    MainViewModel.Document.VisibleOperatorProperties_ForCurve = null;
-                }
+                MainViewModel.Document.VisibleOperatorProperties_ForCurve = null;
+
+                // Refresh
+                DocumentViewModelRefresh();
             }
         }
 
         public void OperatorPropertiesClose_ForCustomOperator(int id)
         {
-            OperatorPropertiesViewModel_ForCustomOperator viewModel = OperatorPropertiesCloseOrLoseFocus_ForCustomOperator(_operatorPropertiesPresenter_ForCustomOperator.Close, id);
+            // GetViewModel
+            OperatorPropertiesViewModel_ForCustomOperator userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForCustomOperator(MainViewModel.Document, id);
+
+            // TemplateMethod
+            OperatorPropertiesViewModel_ForCustomOperator viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForCustomOperator.Close(userInput));
 
             if (viewModel.Successful)
             {
-                if (MainViewModel.Document.VisibleOperatorProperties_ForCustomOperator?.ID == id)
-                {
-                    MainViewModel.Document.VisibleOperatorProperties_ForCustomOperator = null;
-                }
+                MainViewModel.Document.VisibleOperatorProperties_ForCustomOperator = null;
+
+                // Refresh
+                DocumentViewModelRefresh();
             }
         }
 
         public void OperatorPropertiesClose_ForMakeContinuous(int id)
         {
-            OperatorPropertiesViewModel_ForMakeContinuous viewModel = OperatorPropertiesCloseOrLoseFocus_ForMakeContinuous(_operatorPropertiesPresenter_ForMakeContinuous.Close, id);
+            // GetViewModel
+            OperatorPropertiesViewModel_ForMakeContinuous userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForMakeContinuous(MainViewModel.Document, id);
+
+            // TemplateMethod
+            OperatorPropertiesViewModel_ForMakeContinuous viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForMakeContinuous.Close(userInput));
 
             if (viewModel.Successful)
             {
-                if (MainViewModel.Document.VisibleOperatorProperties_ForMakeContinuous?.ID == id)
-                {
-                    MainViewModel.Document.VisibleOperatorProperties_ForMakeContinuous = null;
-                }
+                MainViewModel.Document.VisibleOperatorProperties_ForMakeContinuous = null;
+
+                // Refresh
+                PatchDetails_RefreshOperator(userInput.ID);
             }
         }
 
         public void OperatorPropertiesClose_ForNumber(int id)
         {
-            OperatorPropertiesViewModel_ForNumber viewModel = OperatorPropertiesCloseOrLoseFocus_ForNumber(_operatorPropertiesPresenter_ForNumber.Close, id);
+            // GetViewModel
+            OperatorPropertiesViewModel_ForNumber userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForNumber(MainViewModel.Document, id);
+
+            // TemplateMethod
+            OperatorPropertiesViewModel_ForNumber viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForNumber.Close(userInput));
 
             if (viewModel.Successful)
             {
-                if (MainViewModel.Document.VisibleOperatorProperties_ForNumber?.ID == id)
-                {
-                    MainViewModel.Document.VisibleOperatorProperties_ForNumber = null;
-                }
+                MainViewModel.Document.VisibleOperatorProperties_ForNumber = null;
+
+                // Refresh
+                PatchDetails_RefreshOperator(userInput.ID);
             }
         }
 
         public void OperatorPropertiesClose_ForPatchInlet(int id)
         {
-            OperatorPropertiesViewModel_ForPatchInlet viewModel = OperatorPropertiesCloseOrLoseFocus_ForPatchInlet(_operatorPropertiesPresenter_ForPatchInlet.Close, id);
+            // GetViewModel
+            OperatorPropertiesViewModel_ForPatchInlet userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForPatchInlet(MainViewModel.Document, id);
+
+            // TemplateMethod
+            OperatorPropertiesViewModel_ForPatchInlet viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForPatchInlet.Close(userInput));
 
             if (viewModel.Successful)
             {
-                if (MainViewModel.Document.VisibleOperatorProperties_ForPatchInlet?.ID == id)
-                {
-                    MainViewModel.Document.VisibleOperatorProperties_ForPatchInlet = null;
-                }
+                MainViewModel.Document.VisibleOperatorProperties_ForPatchInlet = null;
+
+                // Refresh
+                PatchDetails_RefreshOperator(userInput.ID);
+                OperatorViewModels_OfType_Refresh(OperatorTypeEnum.CustomOperator); // Refresh Dependencies
             }
         }
 
         public void OperatorPropertiesClose_ForPatchOutlet(int id)
         {
-            OperatorPropertiesViewModel_ForPatchOutlet viewModel = OperatorPropertiesCloseOrLoseFocus_ForPatchOutlet(_operatorPropertiesPresenter_ForPatchOutlet.Close, id);
+            // GetViewModel
+            OperatorPropertiesViewModel_ForPatchOutlet userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForPatchOutlet(MainViewModel.Document, id);
+
+            // TemplateMethod
+            OperatorPropertiesViewModel_ForPatchOutlet viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForPatchOutlet.Close(userInput));
 
             if (viewModel.Successful)
             {
-                if (MainViewModel.Document.VisibleOperatorProperties_ForPatchOutlet?.ID == id)
-                {
-                    MainViewModel.Document.VisibleOperatorProperties_ForPatchOutlet = null;
-                }
+                MainViewModel.Document.VisibleOperatorProperties_ForPatchOutlet = null;
+
+                // Refresh
+                PatchDetails_RefreshOperator(userInput.ID);
+                OperatorViewModels_OfType_Refresh(OperatorTypeEnum.CustomOperator); // Refresh Dependent Things
             }
         }
 
         public void OperatorPropertiesClose_ForSample(int id)
         {
-            OperatorPropertiesViewModel_ForSample viewModel = OperatorPropertiesCloseOrLoseFocus_ForSample(_operatorPropertiesPresenter_ForSample.Close, id);
+            // GetViewModel
+            OperatorPropertiesViewModel_ForSample userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForSample(MainViewModel.Document, id);
+
+            // TemplateMethod
+            OperatorPropertiesViewModel_ForSample viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForSample.Close(userInput));
 
             if (viewModel.Successful)
             {
-                if (MainViewModel.Document.VisibleOperatorProperties_ForSample?.ID == id)
-                {
-                    MainViewModel.Document.VisibleOperatorProperties_ForSample = null;
-                }
+                MainViewModel.Document.VisibleOperatorProperties_ForSample = null;
+
+                // Refresh
+                DocumentViewModelRefresh();
             }
         }
 
         public void OperatorPropertiesClose_WithInterpolation(int id)
         {
-            OperatorPropertiesViewModel_WithInterpolation viewModel = OperatorPropertiesCloseOrLoseFocus_WithInterpolation(_operatorPropertiesPresenter_WithInterpolation.Close, id);
+            // GetViewModel
+            OperatorPropertiesViewModel_WithInterpolation userInput = ViewModelSelector.GetOperatorPropertiesViewModel_WithInterpolation(MainViewModel.Document, id);
+
+            // TemplateMethod
+            OperatorPropertiesViewModel_WithInterpolation viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithInterpolation.Close(userInput));
 
             if (viewModel.Successful)
             {
-                if (MainViewModel.Document.VisibleOperatorProperties_WithInterpolation?.ID == id)
-                {
-                    MainViewModel.Document.VisibleOperatorProperties_WithInterpolation = null;
-                }
+                MainViewModel.Document.VisibleOperatorProperties_WithInterpolation = null;
+
+                // Refresh
+                PatchDetails_RefreshOperator(userInput.ID);
             }
         }
 
         public void OperatorPropertiesClose_WithCollectionRecalculation(int id)
         {
-            OperatorPropertiesViewModel_WithCollectionRecalculation viewModel = OperatorPropertiesCloseOrLoseFocus_WithCollectionRecalculation(_operatorPropertiesPresenter_WithCollectionRecalculation.Close, id);
+            // GetViewModel
+            OperatorPropertiesViewModel_WithCollectionRecalculation userInput = ViewModelSelector.GetOperatorPropertiesViewModel_WithCollectionRecalculation(MainViewModel.Document, id);
+
+            // TemplateMethod
+            OperatorPropertiesViewModel_WithCollectionRecalculation viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithCollectionRecalculation.Close(userInput));
 
             if (viewModel.Successful)
             {
-                if (MainViewModel.Document.VisibleOperatorProperties_WithCollectionRecalculation?.ID == id)
-                {
-                    MainViewModel.Document.VisibleOperatorProperties_WithCollectionRecalculation = null;
-                }
+                MainViewModel.Document.VisibleOperatorProperties_WithCollectionRecalculation = null;
+
+                // Refresh
+                PatchDetails_RefreshOperator(userInput.ID);
             }
         }
 
         public void OperatorPropertiesClose_WithInletCount(int id)
         {
-            OperatorPropertiesViewModel_WithInletCount viewModel = OperatorPropertiesCloseOrLoseFocus_WithInletCount(_operatorPropertiesPresenter_WithInletCount.Close, id);
+            // GetViewModel
+            OperatorPropertiesViewModel_WithInletCount userInput = ViewModelSelector.GetOperatorPropertiesViewModel_WithInletCount(MainViewModel.Document, id);
+
+            // TemplateMethod
+            OperatorPropertiesViewModel_WithInletCount viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithInletCount.Close(userInput));
 
             if (viewModel.Successful)
             {
-                if (MainViewModel.Document.VisibleOperatorProperties_WithInletCount?.ID == id)
-                {
-                    MainViewModel.Document.VisibleOperatorProperties_WithInletCount = null;
-                }
+                MainViewModel.Document.VisibleOperatorProperties_WithInletCount = null;
+
+                // Refresh
+                PatchDetails_RefreshOperator(userInput.ID);
             }
         }
 
         public void OperatorPropertiesClose_WithOutletCount(int id)
         {
-            OperatorPropertiesViewModel_WithOutletCount viewModel = OperatorPropertiesCloseOrLoseFocus_WithOutletCount(_operatorPropertiesPresenter_WithOutletCount.Close, id);
+            // GetViewModel
+            OperatorPropertiesViewModel_WithOutletCount userInput = ViewModelSelector.GetOperatorPropertiesViewModel_WithOutletCount(MainViewModel.Document, id);
+
+            // TemplateMethod
+            OperatorPropertiesViewModel_WithOutletCount viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithOutletCount.Close(userInput));
 
             if (viewModel.Successful)
             {
-                if (MainViewModel.Document.VisibleOperatorProperties_WithOutletCount?.ID == id)
-                {
-                    MainViewModel.Document.VisibleOperatorProperties_WithOutletCount = null;
-                }
+                MainViewModel.Document.VisibleOperatorProperties_WithInletCount = null;
+
+                // Refresh
+                PatchDetails_RefreshOperator(userInput.ID);
             }
         }
 
         public void OperatorPropertiesLoseFocus(int id)
         {
-            OperatorPropertiesCloseOrLoseFocus(_operatorPropertiesPresenter.LoseFocus, id);
-        }
-
-        public void OperatorPropertiesLoseFocus_ForBundle(int id)
-        {
-            OperatorPropertiesCloseOrLoseFocus_ForBundle(_operatorPropertiesPresenter_ForBundle.LoseFocus, id);
-        }
-
-        public void OperatorPropertiesLoseFocus_ForCache(int id)
-        {
-            OperatorPropertiesCloseOrLoseFocus_ForCache(_operatorPropertiesPresenter_ForCache.LoseFocus, id);
-        }
-
-        public void OperatorPropertiesLoseFocus_ForCurve(int id)
-        {
-            OperatorPropertiesCloseOrLoseFocus_ForCurve(_operatorPropertiesPresenter_ForCurve.LoseFocus, id);
-        }
-
-        public void OperatorPropertiesLoseFocus_ForCustomOperator(int id)
-        {
-            OperatorPropertiesCloseOrLoseFocus_ForCustomOperator(_operatorPropertiesPresenter_ForCustomOperator.LoseFocus, id);
-        }
-
-        public void OperatorPropertiesLoseFocus_ForMakeContinuous(int id)
-        {
-            OperatorPropertiesCloseOrLoseFocus_ForMakeContinuous(_operatorPropertiesPresenter_ForMakeContinuous.LoseFocus, id);
-        }
-
-        public void OperatorPropertiesLoseFocus_ForNumber(int id)
-        {
-            OperatorPropertiesCloseOrLoseFocus_ForNumber(_operatorPropertiesPresenter_ForNumber.LoseFocus, id);
-        }
-
-        public void OperatorPropertiesLoseFocus_ForPatchInlet(int id)
-        {
-            OperatorPropertiesCloseOrLoseFocus_ForPatchInlet(_operatorPropertiesPresenter_ForPatchInlet.LoseFocus, id);
-        }
-
-        public void OperatorPropertiesLoseFocus_ForPatchOutlet(int id)
-        {
-            OperatorPropertiesCloseOrLoseFocus_ForPatchOutlet(_operatorPropertiesPresenter_ForPatchOutlet.LoseFocus, id);
-        }
-
-        public void OperatorPropertiesLoseFocus_ForSample(int id)
-        {
-            OperatorPropertiesCloseOrLoseFocus_ForSample(_operatorPropertiesPresenter_ForSample.LoseFocus, id);
-        }
-
-        public void OperatorPropertiesLoseFocus_WithInterpolation(int id)
-        {
-            OperatorPropertiesCloseOrLoseFocus_WithInterpolation(_operatorPropertiesPresenter_WithInterpolation.LoseFocus, id);
-        }
-
-        public void OperatorPropertiesLoseFocus_WithCollectionRecalculation(int id)
-        {
-            OperatorPropertiesCloseOrLoseFocus_WithCollectionRecalculation(_operatorPropertiesPresenter_WithCollectionRecalculation.LoseFocus, id);
-        }
-
-        public void OperatorPropertiesLoseFocus_WithOutletCount(int id)
-        {
-            OperatorPropertiesCloseOrLoseFocus_WithOutletCount(_operatorPropertiesPresenter_WithOutletCount.LoseFocus, id);
-        }
-
-        public void OperatorPropertiesLoseFocus_WithInletCount(int id)
-        {
-            OperatorPropertiesCloseOrLoseFocus_WithInletCount(_operatorPropertiesPresenter_WithInletCount.LoseFocus, id);
-        }
-
-        private OperatorPropertiesViewModel OperatorPropertiesCloseOrLoseFocus(Func<OperatorPropertiesViewModel, OperatorPropertiesViewModel> partialAction, int id)
-        {
             // GetViewModel
             OperatorPropertiesViewModel userInput = ViewModelSelector.GetOperatorPropertiesViewModel(MainViewModel.Document, id);
 
             // TemplateMethod
-            OperatorPropertiesViewModel viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
+            OperatorPropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter.LoseFocus(userInput));
 
             // Refresh
             if (viewModel.Successful)
             {
                 PatchDetails_RefreshOperator(userInput.ID);
             }
-
-            return viewModel;
         }
 
-        private OperatorPropertiesViewModel_ForBundle OperatorPropertiesCloseOrLoseFocus_ForBundle(Func<OperatorPropertiesViewModel_ForBundle, OperatorPropertiesViewModel_ForBundle> partialAction, int id)
+        public void OperatorPropertiesLoseFocus_ForBundle(int id)
         {
             // GetViewModel
             OperatorPropertiesViewModel_ForBundle userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForBundle(MainViewModel.Document, id);
 
             // TemplateMethod
-            OperatorPropertiesViewModel_ForBundle viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
+            OperatorPropertiesViewModel_ForBundle viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForBundle.LoseFocus(userInput));
 
-            // Refresh
             if (viewModel.Successful)
             {
+                // Refresh
                 PatchDetails_RefreshOperator(userInput.ID);
             }
-
-            return viewModel;
         }
 
-        private OperatorPropertiesViewModel_ForCache OperatorPropertiesCloseOrLoseFocus_ForCache(Func<OperatorPropertiesViewModel_ForCache, OperatorPropertiesViewModel_ForCache> partialAction, int id)
+        public void OperatorPropertiesLoseFocus_ForCache(int id)
         {
             // GetViewModel
             OperatorPropertiesViewModel_ForCache userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForCache(MainViewModel.Document, id);
 
             // TemplateMethod
-            OperatorPropertiesViewModel_ForCache viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
+            OperatorPropertiesViewModel_ForCache viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForCache.LoseFocus(userInput));
 
             // Refresh
             if (viewModel.Successful)
             {
                 PatchDetails_RefreshOperator(userInput.ID);
             }
-
-            return viewModel;
         }
 
-        private OperatorPropertiesViewModel_ForCurve OperatorPropertiesCloseOrLoseFocus_ForCurve(Func<OperatorPropertiesViewModel_ForCurve, OperatorPropertiesViewModel_ForCurve> partialAction, int id)
+        public void OperatorPropertiesLoseFocus_ForCurve(int id)
         {
             // GetViewModel
             OperatorPropertiesViewModel_ForCurve userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForCurve(MainViewModel.Document, id);
 
             // TemplateMethod
-            OperatorPropertiesViewModel_ForCurve viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
+            OperatorPropertiesViewModel_ForCurve viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForCurve.LoseFocus(userInput));
 
             // Refresh
             if (viewModel.Successful)
             {
                 DocumentViewModelRefresh();
             }
-
-            return viewModel;
         }
 
-        private OperatorPropertiesViewModel_ForCustomOperator OperatorPropertiesCloseOrLoseFocus_ForCustomOperator(Func<OperatorPropertiesViewModel_ForCustomOperator, OperatorPropertiesViewModel_ForCustomOperator> partialAction, int id)
+        public void OperatorPropertiesLoseFocus_ForCustomOperator(int id)
         {
             // GetViewModel
             OperatorPropertiesViewModel_ForCustomOperator userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForCustomOperator(MainViewModel.Document, id);
 
             // TemplateMethod
-            OperatorPropertiesViewModel_ForCustomOperator viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
+            OperatorPropertiesViewModel_ForCustomOperator viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForCustomOperator.LoseFocus(userInput));
 
             // Refresh
             if (viewModel.Successful)
             {
                 DocumentViewModelRefresh();
             }
-
-            return viewModel;
         }
 
-        private OperatorPropertiesViewModel_ForMakeContinuous OperatorPropertiesCloseOrLoseFocus_ForMakeContinuous(Func<OperatorPropertiesViewModel_ForMakeContinuous, OperatorPropertiesViewModel_ForMakeContinuous> partialAction, int id)
+        public void OperatorPropertiesLoseFocus_ForMakeContinuous(int id)
         {
             // GetViewModel
             OperatorPropertiesViewModel_ForMakeContinuous userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForMakeContinuous(MainViewModel.Document, id);
 
             // TemplateMethod
-            OperatorPropertiesViewModel_ForMakeContinuous viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
+            OperatorPropertiesViewModel_ForMakeContinuous viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForMakeContinuous.LoseFocus(userInput));
 
             // Refresh
             if (viewModel.Successful)
             {
                 PatchDetails_RefreshOperator(userInput.ID);
             }
-
-            return viewModel;
         }
 
-        private OperatorPropertiesViewModel_ForNumber OperatorPropertiesCloseOrLoseFocus_ForNumber(Func<OperatorPropertiesViewModel_ForNumber, OperatorPropertiesViewModel_ForNumber> partialAction, int id)
+        public void OperatorPropertiesLoseFocus_ForNumber(int id)
         {
             // GetViewModel
             OperatorPropertiesViewModel_ForNumber userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForNumber(MainViewModel.Document, id);
 
             // TemplateMethod
-            OperatorPropertiesViewModel_ForNumber viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
+            OperatorPropertiesViewModel_ForNumber viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForNumber.LoseFocus(userInput));
 
             // Refresh
             if (viewModel.Successful)
             {
                 PatchDetails_RefreshOperator(userInput.ID);
             }
-
-            return viewModel;
         }
 
-        private OperatorPropertiesViewModel_ForPatchInlet OperatorPropertiesCloseOrLoseFocus_ForPatchInlet(Func<OperatorPropertiesViewModel_ForPatchInlet, OperatorPropertiesViewModel_ForPatchInlet> partialAction, int id)
+        public void OperatorPropertiesLoseFocus_ForPatchInlet(int id)
         {
             // GetViewModel
             OperatorPropertiesViewModel_ForPatchInlet userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForPatchInlet(MainViewModel.Document, id);
 
             // TemplateMethod
-            OperatorPropertiesViewModel_ForPatchInlet viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
+            OperatorPropertiesViewModel_ForPatchInlet viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForPatchInlet.LoseFocus(userInput));
 
             // Refresh
             if (viewModel.Successful)
@@ -1645,17 +1682,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 PatchDetails_RefreshOperator(userInput.ID);
                 OperatorViewModels_OfType_Refresh(OperatorTypeEnum.CustomOperator); // Refresh Dependencies
             }
-
-            return viewModel;
         }
 
-        private OperatorPropertiesViewModel_ForPatchOutlet OperatorPropertiesCloseOrLoseFocus_ForPatchOutlet(Func<OperatorPropertiesViewModel_ForPatchOutlet, OperatorPropertiesViewModel_ForPatchOutlet> partialAction, int id)
+        public void OperatorPropertiesLoseFocus_ForPatchOutlet(int id)
         {
             // GetViewModel
             OperatorPropertiesViewModel_ForPatchOutlet userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForPatchOutlet(MainViewModel.Document, id);
 
             // TemplateMethod
-            OperatorPropertiesViewModel_ForPatchOutlet viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
+            OperatorPropertiesViewModel_ForPatchOutlet viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForPatchOutlet.LoseFocus(userInput));
 
             // Refresh
             if (viewModel.Successful)
@@ -1663,93 +1698,81 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 PatchDetails_RefreshOperator(userInput.ID);
                 OperatorViewModels_OfType_Refresh(OperatorTypeEnum.CustomOperator); // Refresh Dependent Things
             }
-
-            return viewModel;
         }
 
-        private OperatorPropertiesViewModel_ForSample OperatorPropertiesCloseOrLoseFocus_ForSample(Func<OperatorPropertiesViewModel_ForSample, OperatorPropertiesViewModel_ForSample> partialAction, int id)
+        public void OperatorPropertiesLoseFocus_ForSample(int id)
         {
             // GetViewModel
             OperatorPropertiesViewModel_ForSample userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForSample(MainViewModel.Document, id);
 
             // TemplateMethod
-            OperatorPropertiesViewModel_ForSample viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
+            OperatorPropertiesViewModel_ForSample viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForSample.LoseFocus(userInput));
 
             // Refresh
             if (viewModel.Successful)
             {
                 DocumentViewModelRefresh();
             }
-
-            return viewModel;
         }
 
-        private OperatorPropertiesViewModel_WithInterpolation OperatorPropertiesCloseOrLoseFocus_WithInterpolation(Func<OperatorPropertiesViewModel_WithInterpolation, OperatorPropertiesViewModel_WithInterpolation> partialAction, int id)
+        public void OperatorPropertiesLoseFocus_WithInterpolation(int id)
         {
             // GetViewModel
             OperatorPropertiesViewModel_WithInterpolation userInput = ViewModelSelector.GetOperatorPropertiesViewModel_WithInterpolation(MainViewModel.Document, id);
 
             // TemplateMethod
-            OperatorPropertiesViewModel_WithInterpolation viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
+            OperatorPropertiesViewModel_WithInterpolation viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithInterpolation.LoseFocus(userInput));
 
             // Refresh
             if (viewModel.Successful)
             {
                 PatchDetails_RefreshOperator(userInput.ID);
             }
-
-            return viewModel;
         }
 
-        private OperatorPropertiesViewModel_WithCollectionRecalculation OperatorPropertiesCloseOrLoseFocus_WithCollectionRecalculation(Func<OperatorPropertiesViewModel_WithCollectionRecalculation, OperatorPropertiesViewModel_WithCollectionRecalculation> partialAction, int id)
+        public void OperatorPropertiesLoseFocus_WithCollectionRecalculation(int id)
         {
             // GetViewModel
             OperatorPropertiesViewModel_WithCollectionRecalculation userInput = ViewModelSelector.GetOperatorPropertiesViewModel_WithCollectionRecalculation(MainViewModel.Document, id);
 
             // TemplateMethod
-            OperatorPropertiesViewModel_WithCollectionRecalculation viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
+            OperatorPropertiesViewModel_WithCollectionRecalculation viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithCollectionRecalculation.LoseFocus(userInput));
 
             // Refresh
             if (viewModel.Successful)
             {
                 PatchDetails_RefreshOperator(userInput.ID);
             }
-
-            return viewModel;
         }
 
-        private OperatorPropertiesViewModel_WithOutletCount OperatorPropertiesCloseOrLoseFocus_WithOutletCount(Func<OperatorPropertiesViewModel_WithOutletCount, OperatorPropertiesViewModel_WithOutletCount> partialAction, int id)
-        {
-            // GetViewModel
-            OperatorPropertiesViewModel_WithOutletCount userInput = ViewModelSelector.GetOperatorPropertiesViewModel_WithOutletCount(MainViewModel.Document, id);
-
-            // TemplateMethod
-            OperatorPropertiesViewModel_WithOutletCount viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
-
-            // Refresh
-            if (viewModel.Successful)
-            {
-                PatchDetails_RefreshOperator(userInput.ID);
-            }
-
-            return viewModel;
-        }
-
-        private OperatorPropertiesViewModel_WithInletCount OperatorPropertiesCloseOrLoseFocus_WithInletCount(Func<OperatorPropertiesViewModel_WithInletCount, OperatorPropertiesViewModel_WithInletCount> partialAction, int id)
+        public void OperatorPropertiesLoseFocus_WithInletCount(int id)
         {
             // GetViewModel
             OperatorPropertiesViewModel_WithInletCount userInput = ViewModelSelector.GetOperatorPropertiesViewModel_WithInletCount(MainViewModel.Document, id);
 
             // TemplateMethod
-            OperatorPropertiesViewModel_WithInletCount viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
+            OperatorPropertiesViewModel_WithInletCount viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithInletCount.LoseFocus(userInput));
 
             // Refresh
             if (viewModel.Successful)
             {
                 PatchDetails_RefreshOperator(userInput.ID);
             }
+        }
 
-            return viewModel;
+        public void OperatorPropertiesLoseFocus_WithOutletCount(int id)
+        {
+            // GetViewModel
+            OperatorPropertiesViewModel_WithOutletCount userInput = ViewModelSelector.GetOperatorPropertiesViewModel_WithOutletCount(MainViewModel.Document, id);
+
+            // TemplateMethod
+            OperatorPropertiesViewModel_WithOutletCount viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithOutletCount.LoseFocus(userInput));
+
+            // Refresh
+            if (viewModel.Successful)
+            {
+                PatchDetails_RefreshOperator(userInput.ID);
+            }
         }
 
         public void OperatorCreate(int patchID, int operatorTypeID)
@@ -1817,34 +1840,35 @@ namespace JJ.Presentation.Synthesizer.Presenters
             PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, id);
 
             // TemplateMethod
-            TemplateActionMethod(userInput, () => _patchDetailsPresenter.Show(userInput));
-        }
-
-        public void PatchDetailsClose(int id)
-        {
-            PatchDetailsViewModel viewModel = PatchDetailsCloseOrLoseFocus(_patchDetailsPresenter.Close, id);
+            PatchDetailsViewModel viewModel = TemplateActionMethod(userInput, () => _patchDetailsPresenter.Show(userInput));
 
             if (viewModel.Successful)
             {
-                if (MainViewModel.Document.VisiblePatchDetails?.Entity.ID == id)
-                {
-                    MainViewModel.Document.VisiblePatchDetails = null;
-                }
+                MainViewModel.Document.VisiblePatchDetails = viewModel;
             }
         }
 
-        public void PatchDetailsLoseFocus(int id)
-        {
-            PatchDetailsCloseOrLoseFocus(_patchDetailsPresenter.LoseFocus, id);
-        }
-
-        private PatchDetailsViewModel PatchDetailsCloseOrLoseFocus(Func<PatchDetailsViewModel, PatchDetailsViewModel> partialAction, int id)
+        public void PatchDetailsClose(int id)
         {
             // GetViewModel
             PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, id);
 
             // TemplateMethod
-            return TemplateActionMethod(userInput, () => partialAction(userInput));
+            PatchDetailsViewModel viewModel = TemplateActionMethod(userInput, () => _patchDetailsPresenter.Close(userInput));
+
+            if (viewModel.Successful)
+            {
+                MainViewModel.Document.VisiblePatchDetails = null;
+            }
+        }
+
+        public void PatchDetailsLoseFocus(int id)
+        {
+            // GetViewModel
+            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, id);
+
+            // TemplateMethod
+            TemplateActionMethod(userInput, () => _patchDetailsPresenter.LoseFocus(userInput));
         }
 
         public void PatchGridShow(string group)
@@ -1853,7 +1877,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             PatchGridViewModel userInput = ViewModelSelector.GetPatchGridViewModel_ByGroup(MainViewModel.Document, group);
 
             // Template Method
-            TemplateActionMethod(userInput, () => _patchGridPresenter.Show(userInput));
+            PatchGridViewModel viewModel = TemplateActionMethod(userInput, () => _patchGridPresenter.Show(userInput));
+
+            if (viewModel.Successful)
+            {
+                MainViewModel.Document.VisiblePatchGrid = viewModel;
+            }
         }
 
         public void PatchGridClose(string group)
@@ -1866,10 +1895,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             if (viewModel.Successful)
             {
-                if (String.Equals(MainViewModel.Document.VisiblePatchGrid?.Group?.ToLower() ?? "", group?.ToLower() ?? ""))
-                {
-                    MainViewModel.Document.VisiblePatchGrid = null;
-                }
+                MainViewModel.Document.VisiblePatchGrid = null;
             }
         }
 
@@ -1902,43 +1928,44 @@ namespace JJ.Presentation.Synthesizer.Presenters
             PatchPropertiesViewModel userInput = ViewModelSelector.GetPatchPropertiesViewModel(MainViewModel.Document, id);
 
             // Template Method
-            TemplateActionMethod(userInput, () => _patchPropertiesPresenter.Show(userInput));
+            PatchPropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _patchPropertiesPresenter.Show(userInput));
+
+            if (viewModel.Successful)
+            {
+                MainViewModel.Document.VisiblePatchProperties = viewModel;
+            }
         }
 
         public void PatchPropertiesClose(int id)
         {
-            PatchPropertiesViewModel viewModel = PatchPropertiesCloseOrLoseFocus(_patchPropertiesPresenter.Close, id);
+            // GetViewModel
+            PatchPropertiesViewModel userInput = ViewModelSelector.GetPatchPropertiesViewModel(MainViewModel.Document, id);
+
+            // Template Method
+            PatchPropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _patchPropertiesPresenter.Close(userInput));
 
             if (viewModel.Successful)
             {
-                if (MainViewModel.Document.VisiblePatchProperties?.ID == id)
-                {
-                    MainViewModel.Document.VisiblePatchProperties = null;
-                }
-            }
+                MainViewModel.Document.VisiblePatchProperties = null;
 
+                // Refresh
+                DocumentViewModelRefresh();
+            }
         }
 
         public void PatchPropertiesLoseFocus(int id)
         {
-            PatchPropertiesCloseOrLoseFocus(_patchPropertiesPresenter.LoseFocus, id);
-        }
-
-        private PatchPropertiesViewModel PatchPropertiesCloseOrLoseFocus(Func<PatchPropertiesViewModel, PatchPropertiesViewModel> partialAction, int patchID)
-        {
             // GetViewModel
-            PatchPropertiesViewModel userInput = ViewModelSelector.GetPatchPropertiesViewModel(MainViewModel.Document, patchID);
+            PatchPropertiesViewModel userInput = ViewModelSelector.GetPatchPropertiesViewModel(MainViewModel.Document, id);
 
             // Template Method
-            PatchPropertiesViewModel viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
+            PatchPropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _patchPropertiesPresenter.LoseFocus(userInput));
 
             // Refresh
             if (viewModel.Successful)
             {
                 DocumentViewModelRefresh();
             }
-
-            return viewModel;
         }
 
         /// <param name="group">nullable</param>
@@ -2105,45 +2132,50 @@ namespace JJ.Presentation.Synthesizer.Presenters
             SamplePropertiesViewModel userInput = ViewModelSelector.GetSamplePropertiesViewModel(MainViewModel.Document, id);
 
             // Template Method
-            TemplateActionMethod(userInput, () => _samplePropertiesPresenter.Show(userInput));
+            SamplePropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _samplePropertiesPresenter.Show(userInput));
+
+            if (viewModel.Successful)
+            {
+                MainViewModel.Document.VisibleSampleProperties = viewModel;
+            }
         }
 
         public void SamplePropertiesClose(int id)
         {
-            SamplePropertiesViewModel viewModel = SamplePropertiesCloseOrLoseFocus(_samplePropertiesPresenter.Close, id);
+            // GetViewModel
+            SamplePropertiesViewModel userInput = ViewModelSelector.GetSamplePropertiesViewModel(MainViewModel.Document, id);
+
+            // TemplateMethod
+            SamplePropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _samplePropertiesPresenter.Close(userInput));
 
             if (viewModel.Successful)
             {
-                if (MainViewModel.Document.VisibleSampleProperties?.Entity.ID == id)
-                {
-                    MainViewModel.Document.VisibleSampleProperties = null;
-                }
+                MainViewModel.Document.VisibleSampleProperties = null;
+
+                // Refresh
+                Sample sample = _repositories.SampleRepository.Get(id);
+                SampleGridRefresh();
+                SampleLookupRefresh();
+                OperatorViewModels_OfType_Refresh(OperatorTypeEnum.Sample);
             }
         }
 
         public void SamplePropertiesLoseFocus(int id)
         {
-            SamplePropertiesCloseOrLoseFocus(_samplePropertiesPresenter.LoseFocus, id);
-        }
-
-        private SamplePropertiesViewModel SamplePropertiesCloseOrLoseFocus(Func<SamplePropertiesViewModel, SamplePropertiesViewModel> partialAction, int sampleID)
-        {
             // GetViewModel
-            SamplePropertiesViewModel userInput = ViewModelSelector.GetSamplePropertiesViewModel(MainViewModel.Document, sampleID);
+            SamplePropertiesViewModel userInput = ViewModelSelector.GetSamplePropertiesViewModel(MainViewModel.Document, id);
 
             // TemplateMethod
-            SamplePropertiesViewModel viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
+            SamplePropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _samplePropertiesPresenter.LoseFocus(userInput));
 
             // Refresh
             if (viewModel.Successful)
             {
-                Sample sample = _repositories.SampleRepository.Get(sampleID);
+                Sample sample = _repositories.SampleRepository.Get(id);
                 SampleGridRefresh();
                 SampleLookupRefresh();
                 OperatorViewModels_OfType_Refresh(OperatorTypeEnum.Sample);
             }
-
-            return viewModel;
         }
 
         // Scale
@@ -2296,33 +2328,36 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // DispatchViewModel
             DispatchViewModel(scalePropertiesViewModel);
             DispatchViewModel(toneGridEditViewModel);
+
+            MainViewModel.Document.VisibleScaleProperties = scalePropertiesViewModel;
+            MainViewModel.Document.VisibleToneGridEdit = toneGridEditViewModel;
         }
 
         public void ScalePropertiesClose(int id)
-        {
-            ScalePropertiesViewModel viewModel = ScalePropertiesCloseOrLoseFocus(_scalePropertiesPresenter.Close, id);
-
-            if (viewModel.Successful)
-            {
-                if (MainViewModel.Document.VisibleScaleProperties?.Entity.ID == id)
-                {
-                    MainViewModel.Document.VisibleScaleProperties = null;
-                }
-            }
-        }
-
-        public void ScalePropertiesLoseFocus(int id)
-        {
-            ScalePropertiesCloseOrLoseFocus(_scalePropertiesPresenter.LoseFocus, id);
-        }
-
-        private ScalePropertiesViewModel ScalePropertiesCloseOrLoseFocus(Func<ScalePropertiesViewModel, ScalePropertiesViewModel> partialAction, int id)
         {
             // Get ViewModel
             ScalePropertiesViewModel userInput = ViewModelSelector.GetScalePropertiesViewModel(MainViewModel.Document, id);
 
             // Template Method
-            ScalePropertiesViewModel viewModel = TemplateActionMethod(userInput, () => partialAction(userInput));
+            ScalePropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _scalePropertiesPresenter.Close(userInput));
+
+            if (viewModel.Successful)
+            {
+                MainViewModel.Document.VisibleScaleProperties = null;
+
+                // Refresh
+                ToneGridEditRefresh(userInput.Entity.ID);
+                ScaleGridRefresh();
+            }
+        }
+
+        public void ScalePropertiesLoseFocus(int id)
+        {
+            // Get ViewModel
+            ScalePropertiesViewModel userInput = ViewModelSelector.GetScalePropertiesViewModel(MainViewModel.Document, id);
+
+            // Template Method
+            ScalePropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _scalePropertiesPresenter.LoseFocus(userInput));
 
             // Refresh
             if (viewModel.Successful)
@@ -2330,8 +2365,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 ToneGridEditRefresh(userInput.Entity.ID);
                 ScaleGridRefresh();
             }
-
-            return viewModel;
         }
 
         // Tone
@@ -2446,10 +2479,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             if (viewModel.Successful)
             {
-                if (MainViewModel.Document.VisibleToneGridEdit?.ScaleID == scaleID)
-                {
-                    MainViewModel.Document.VisibleToneGridEdit = null;
-                }
+                MainViewModel.Document.VisibleToneGridEdit = null;
             }
         }
 

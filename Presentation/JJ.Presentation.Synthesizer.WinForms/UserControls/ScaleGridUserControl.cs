@@ -33,7 +33,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Binding
 
-        private new ScaleGridViewModel ViewModel => (ScaleGridViewModel)base.ViewModel;
+        public new ScaleGridViewModel ViewModel
+        {
+            get { return (ScaleGridViewModel)base.ViewModel; }
+            set { base.ViewModel = value; }
+        }
 
         protected override void ApplyViewModelToControls()
         {

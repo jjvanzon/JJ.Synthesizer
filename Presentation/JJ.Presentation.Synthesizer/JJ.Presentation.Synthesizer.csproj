@@ -116,6 +116,7 @@
     <Compile Include="ViewModels\Items\ToneViewModel.cs" />
     <Compile Include="ViewModels\Items\2016-08-25 Backup of PatchDocumentViewModel.cs" />
     <Compile Include="ViewModels\Items\2016-08-25 Backup of CurrentPatchItemViewModel.cs" />
+    <Compile Include="ViewModels\OperatorPropertiesViewModel.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_WithCollectionRecalculation.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_WithInletCount.cs" />
     <Compile Include="ViewModels\2016-08-30 Backup of OperatorPropertiesViewModel_WithDimension.cs" />
@@ -191,7 +192,7 @@
     <Compile Include="ViewModels\ToneGridEditViewModel.cs" />
     <Compile Include="ViewModels\ScaleGridViewModel.cs" />
     <Compile Include="ViewModels\ScalePropertiesViewModel.cs" />
-    <Compile Include="ViewModels\OperatorPropertiesViewModel.cs" />
+    <Compile Include="ViewModels\OperatorPropertiesViewModelBase.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>

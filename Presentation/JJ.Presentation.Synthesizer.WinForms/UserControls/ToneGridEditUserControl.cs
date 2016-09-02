@@ -42,7 +42,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Binding
 
-        private new ToneGridEditViewModel ViewModel => (ToneGridEditViewModel)base.ViewModel;
+        public new ToneGridEditViewModel ViewModel
+        {
+            get { return (ToneGridEditViewModel)base.ViewModel; }
+            set { base.ViewModel = value; }
+        }
 
         protected override void ApplyViewModelToControls()
         {

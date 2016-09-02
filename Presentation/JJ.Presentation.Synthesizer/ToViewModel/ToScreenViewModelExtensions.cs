@@ -647,7 +647,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         }
 
         private static TViewModel CreateOperatorPropertiesViewModel_Generic<TViewModel>(Operator entity)
-            where TViewModel : OperatorPropertiesViewModel, new()
+            where TViewModel : OperatorPropertiesViewModelBase, new()
         {
             if (entity == null) throw new NullException(() => entity);
 

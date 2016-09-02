@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Windows.Forms;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
-using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -39,7 +36,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Binding
 
-        private new OperatorPropertiesViewModel_ForCurve ViewModel => (OperatorPropertiesViewModel_ForCurve)base.ViewModel;
+        public new OperatorPropertiesViewModel_ForCurve ViewModel
+        {
+            get { return (OperatorPropertiesViewModel_ForCurve)base.ViewModel; }
+            set { base.ViewModel = value; }
+        }
 
         protected override void ApplyViewModelToControls()
         {

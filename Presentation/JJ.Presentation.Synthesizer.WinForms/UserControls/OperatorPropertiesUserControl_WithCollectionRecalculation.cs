@@ -37,8 +37,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Binding
 
-        private new OperatorPropertiesViewModel_WithCollectionRecalculation ViewModel =>
-                   (OperatorPropertiesViewModel_WithCollectionRecalculation)base.ViewModel;
+        public new OperatorPropertiesViewModel_WithCollectionRecalculation ViewModel
+        {
+            get { return (OperatorPropertiesViewModel_WithCollectionRecalculation)base.ViewModel; }
+            set { base.ViewModel = value; }
+        }
 
         protected override void ApplyViewModelToControls()
         {

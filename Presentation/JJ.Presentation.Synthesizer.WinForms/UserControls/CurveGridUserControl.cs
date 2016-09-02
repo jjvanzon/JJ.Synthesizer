@@ -37,7 +37,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Binding
 
-        private new CurveGridViewModel ViewModel => (CurveGridViewModel)base.ViewModel;
+        public new CurveGridViewModel ViewModel
+        {
+            get { return (CurveGridViewModel)base.ViewModel; }
+            set { base.ViewModel = value; }
+        }
 
         protected override void ApplyViewModelToControls()
         {

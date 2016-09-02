@@ -40,7 +40,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Binding
 
-        private new OperatorPropertiesViewModel_ForMakeContinuous ViewModel => (OperatorPropertiesViewModel_ForMakeContinuous)base.ViewModel;
+        public new OperatorPropertiesViewModel_ForMakeContinuous ViewModel
+        {
+            get { return (OperatorPropertiesViewModel_ForMakeContinuous)base.ViewModel; }
+            set { base.ViewModel = value; }
+        }
 
         protected override void ApplyViewModelToControls()
         {

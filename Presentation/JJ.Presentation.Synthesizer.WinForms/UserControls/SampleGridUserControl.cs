@@ -38,7 +38,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Binding
 
-        private new SampleGridViewModel ViewModel => (SampleGridViewModel)base.ViewModel;
+        public new SampleGridViewModel ViewModel
+        {
+            get { return (SampleGridViewModel)base.ViewModel; }
+            set { base.ViewModel = value; }
+        }
 
         protected override void ApplyViewModelToControls()
         {

@@ -27,7 +27,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Gui
 
-        private new DocumentDetailsViewModel ViewModel => (DocumentDetailsViewModel)base.ViewModel;
+        public new DocumentDetailsViewModel ViewModel
+        {
+            get { return (DocumentDetailsViewModel)base.ViewModel; }
+            set { base.ViewModel = value; }
+        }
 
         private void SetTitles()
         {

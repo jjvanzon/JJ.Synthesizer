@@ -45,7 +45,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Binding
 
-        private new DocumentCannotDeleteViewModel ViewModel => (DocumentCannotDeleteViewModel)base.ViewModel;
+        public new DocumentCannotDeleteViewModel ViewModel
+        {
+            get { return (DocumentCannotDeleteViewModel)base.ViewModel; }
+            set { base.ViewModel = value; }
+        }
 
         protected override void ApplyViewModelToControls()
         {

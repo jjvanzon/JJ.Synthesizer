@@ -13,7 +13,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     /// <summary> Contains all code shared by operator properties presenters. </summary>
     internal abstract class OperatorPropertiesPresenterBase<TViewModel> : PresenterBase<TViewModel>
-        where TViewModel : OperatorPropertiesViewModel
+        where TViewModel : OperatorPropertiesViewModelBase
     {
         protected PatchRepositories _repositories;
 

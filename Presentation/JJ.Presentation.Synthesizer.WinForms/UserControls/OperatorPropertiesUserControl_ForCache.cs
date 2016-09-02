@@ -39,7 +39,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Binding
 
-        private new OperatorPropertiesViewModel_ForCache ViewModel => (OperatorPropertiesViewModel_ForCache)base.ViewModel;
+        public new OperatorPropertiesViewModel_ForCache ViewModel
+        {
+            get { return (OperatorPropertiesViewModel_ForCache)base.ViewModel; }
+            set { base.ViewModel = value; }
+        }
 
         protected override void ApplyViewModelToControls()
         {
