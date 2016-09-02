@@ -157,7 +157,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Helpers
 
-        private void HideAllListAndDetailViewModels()
+        private void HideAllGridAndDetailViewModels()
         {
             MainViewModel.DocumentDetails.Visible = false;
             MainViewModel.DocumentGrid.Visible = false;
@@ -167,9 +167,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MainViewModel.Document.SampleGrid.Visible = false;
             MainViewModel.Document.ScaleGrid.Visible = false;
 
-            MainViewModel.Document.PatchGridDictionary.Values.ForEach(x => x.Visible = false);
-            MainViewModel.Document.PatchDetailsDictionary.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.VisibleCurveDetails = null;
             MainViewModel.Document.CurveDetailsDictionary.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.VisiblePatchGrid = null;
+            MainViewModel.Document.PatchGridDictionary.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.VisiblePatchDetails = null;
+            MainViewModel.Document.PatchDetailsDictionary.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.VisibleToneGridEdit = null;
             MainViewModel.Document.ToneGridEditDictionary.Values.ForEach(x => x.Visible = false);
         }
 
@@ -177,29 +181,47 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             MainViewModel.DocumentDetails.Visible = false;
             MainViewModel.Document.AudioOutputProperties.Visible = false;
+            MainViewModel.Document.VisibleAudioFileOutputProperties = null;
             MainViewModel.Document.AudioFileOutputPropertiesDictionary.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.VisibleCurveProperties = null;
             MainViewModel.Document.CurvePropertiesDictionary.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.DocumentProperties.Visible = false;
+            MainViewModel.Document.VisibleNodeProperties = null;
             MainViewModel.Document.NodePropertiesDictionary.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.VisibleOperatorProperties = null;
             MainViewModel.Document.OperatorPropertiesDictionary.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.VisibleOperatorProperties_ForBundle = null;
             MainViewModel.Document.OperatorPropertiesDictionary_ForBundles.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.VisibleOperatorProperties_ForCache = null;
             MainViewModel.Document.OperatorPropertiesDictionary_ForCaches.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.VisibleOperatorProperties_ForCurve = null;
             MainViewModel.Document.OperatorPropertiesDictionary_ForCurves.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.VisibleOperatorProperties_ForCustomOperator = null;
             MainViewModel.Document.OperatorPropertiesDictionary_ForCustomOperators.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.VisibleOperatorProperties_ForMakeContinuous = null;
             MainViewModel.Document.OperatorPropertiesDictionary_ForMakeContinuous.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.VisibleOperatorProperties_ForNumber = null;
             MainViewModel.Document.OperatorPropertiesDictionary_ForNumbers.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.VisibleOperatorProperties_ForPatchInlet = null;
             MainViewModel.Document.OperatorPropertiesDictionary_ForPatchInlets.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.VisibleOperatorProperties_ForPatchOutlet = null;
             MainViewModel.Document.OperatorPropertiesDictionary_ForPatchOutlets.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.VisibleOperatorProperties_ForSample = null;
             MainViewModel.Document.OperatorPropertiesDictionary_ForSamples.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.VisibleOperatorProperties_WithCollectionRecalculation = null;
             MainViewModel.Document.OperatorPropertiesDictionary_WithCollectionRecalculation.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.VisibleOperatorProperties_WithInterpolation = null;
             MainViewModel.Document.OperatorPropertiesDictionary_WithInterpolation.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.VisibleOperatorProperties_WithOutletCount = null;
             MainViewModel.Document.OperatorPropertiesDictionary_WithOutletCount.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.VisibleOperatorProperties_WithInletCount = null;
             MainViewModel.Document.OperatorPropertiesDictionary_WithInletCount.Values.ForEach(x => x.Visible = false);
-            MainViewModel.Document.SamplePropertiesDictionary.Values.ForEach(x => x.Visible = false);
-            MainViewModel.Document.ScalePropertiesDictionary.Values.ForEach(x => x.Visible = false);
-
-            // Note that the not all entity types have Properties view inside the child documents.
+            MainViewModel.Document.VisiblePatchProperties = null;
             MainViewModel.Document.PatchPropertiesDictionary.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.VisibleSampleProperties = null;
+            MainViewModel.Document.SamplePropertiesDictionary.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.VisibleScaleProperties = null;
+            MainViewModel.Document.ScalePropertiesDictionary.Values.ForEach(x => x.Visible = false);
         }
 
         private static string GetPlayOutputFilePath()

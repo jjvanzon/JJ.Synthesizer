@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
-using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
-using JJ.Presentation.Synthesizer.WinForms.UserControls;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 using Message = JJ.Data.Canonical.Message;
 
@@ -21,176 +17,45 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             menuUserControl.Show(_presenter.MainViewModel.Menu);
 
-            // AudioFileOutput
-            audioFileOutputGridUserControl.ViewModel = _presenter.MainViewModel.Document.AudioFileOutputGrid;
-            audioFileOutputPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.AudioFileOutputPropertiesDictionary.Values
-                                                                                              .Where(x => x.Visible)
-                                                                                              .FirstOrDefault();
-
-            // AudioOutput
-            audioOutputPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.AudioOutputProperties;
-
-            // AutoPatch
             _autoPatchDetailsForm.ViewModel = _presenter.MainViewModel.Document.AutoPatchDetails;
             _autoPatchDetailsForm.Visible = _presenter.MainViewModel.Document.AutoPatchDetails.Visible;
-
-            // CurrentPatches
+            audioFileOutputGridUserControl.ViewModel = _presenter.MainViewModel.Document.AudioFileOutputGrid;
+            audioFileOutputPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.VisibleAudioFileOutputProperties;
+            audioOutputPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.AudioOutputProperties;
             currentPatchesUserControl.ViewModel = _presenter.MainViewModel.Document.CurrentPatches;
             currentPatchesUserControl.Visible = currentPatchesUserControl.ViewModel.Visible;
-
-            // CurveDetails
-            curveDetailsUserControl.ViewModel =
-                _presenter.MainViewModel.Document.CurveDetailsDictionary.Values
-               .Where(x => x.Visible)
-               .FirstOrDefault();
-
-            // CurveGrid
-            if (_presenter.MainViewModel.Document.CurveGrid.Visible)
-            {
-                curveGridUserControl.ViewModel = _presenter.MainViewModel.Document.CurveGrid;
-            }
-
-            // CurveProperties
-            curvePropertiesUserControl.ViewModel =
-               _presenter.MainViewModel.Document.CurvePropertiesDictionary.Values
-               .Where(x => x.Visible)
-               .FirstOrDefault();
-
-            // Document
+            curveDetailsUserControl.ViewModel = _presenter.MainViewModel.Document.VisibleCurveDetails;
+            curveGridUserControl.ViewModel = _presenter.MainViewModel.Document.CurveGrid;
+            curvePropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.VisibleCurveProperties;
             documentDetailsUserControl.ViewModel = _presenter.MainViewModel.DocumentDetails;
             documentGridUserControl.ViewModel = _presenter.MainViewModel.DocumentGrid;
             documentPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.DocumentProperties;
             documentTreeUserControl.ViewModel = _presenter.MainViewModel.Document.DocumentTree;
-
-            // NodeProperties
-            nodePropertiesUserControl.ViewModel =
-               _presenter.MainViewModel.Document.NodePropertiesDictionary.Values
-               .Where(x => x.Visible)
-               .FirstOrDefault();
-
-            // OperatorProperties
-            operatorPropertiesUserControl.ViewModel =
-                _presenter.MainViewModel.Document.OperatorPropertiesDictionary.Values
-                .Where(x => x.Visible)
-                .FirstOrDefault();
-
-            // OperatorProperties_ForBundle
-            operatorPropertiesUserControl_ForBundle.ViewModel =
-                _presenter.MainViewModel.Document.OperatorPropertiesDictionary_ForBundles.Values
-                .Where(x => x.Visible)
-                .FirstOrDefault();
-
-            // OperatorProperties_ForCache
-            operatorPropertiesUserControl_ForCache.ViewModel =
-                _presenter.MainViewModel.Document.OperatorPropertiesDictionary_ForCaches.Values
-                .Where(x => x.Visible)
-                .FirstOrDefault();
-
-            // OperatorProperties_ForCurve
-            operatorPropertiesUserControl_ForCurve.ViewModel =
-                _presenter.MainViewModel.Document.OperatorPropertiesDictionary_ForCurves.Values
-                .Where(x => x.Visible)
-                .FirstOrDefault();
+            nodePropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.VisibleNodeProperties;
+            operatorPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties;
+            operatorPropertiesUserControl_ForBundle.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_ForBundle;
+            operatorPropertiesUserControl_ForCache.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_ForCache;
             operatorPropertiesUserControl_ForCurve.SetCurveLookup(_presenter.MainViewModel.Document.CurveLookup);
-
-            // OperatorProperties_ForCustomOperator
-            operatorPropertiesUserControl_ForCustomOperator.ViewModel =
-                _presenter.MainViewModel.Document.OperatorPropertiesDictionary_ForCustomOperators.Values
-                .Where(x => x.Visible)
-                .FirstOrDefault();
-            operatorPropertiesUserControl_ForCustomOperator.SetUnderlyingPatchLookup(_presenter.MainViewModel.Document.UnderlyingPatchLookup);
-
-            // OperatorProperties_ForMakeContinuous
-            operatorPropertiesUserControl_ForMakeContinuous.ViewModel =
-                _presenter.MainViewModel.Document.OperatorPropertiesDictionary_ForMakeContinuous.Values
-                .Where(x => x.Visible)
-                .FirstOrDefault();
-
-            // OperatorProperties_ForNumber
-            operatorPropertiesUserControl_ForNumber.ViewModel =
-                _presenter.MainViewModel.Document.OperatorPropertiesDictionary_ForNumbers.Values
-                .Where(x => x.Visible)
-                .FirstOrDefault();
-
-            // OperatorProperties_ForPatchInlet
-            operatorPropertiesUserControl_ForPatchInlet.ViewModel =
-                _presenter.MainViewModel.Document.OperatorPropertiesDictionary_ForPatchInlets.Values
-                .Where(x => x.Visible)
-                .FirstOrDefault();
-
-            // OperatorProperties_ForPatchOutlet
-            operatorPropertiesUserControl_ForPatchOutlet.ViewModel =
-                _presenter.MainViewModel.Document.OperatorPropertiesDictionary_ForPatchOutlets.Values
-                .Where(x => x.Visible)
-                .FirstOrDefault();
-
-            // OperatorProperties_ForSample
-            // (Needs slightly different code, because the SampleLookup is different for root documents and child documents.
-            operatorPropertiesUserControl_ForSample.ViewModel =
-                _presenter.MainViewModel.Document.OperatorPropertiesDictionary_ForSamples.Values
-                .Where(x => x.Visible)
-                .FirstOrDefault();
+            operatorPropertiesUserControl_ForCurve.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_ForCurve;
+            operatorPropertiesUserControl_ForCustomOperator.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_ForCustomOperator;
+            operatorPropertiesUserControl_ForMakeContinuous.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_ForMakeContinuous;
+            operatorPropertiesUserControl_ForNumber.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_ForNumber;
+            operatorPropertiesUserControl_ForPatchInlet.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_ForPatchInlet;
+            operatorPropertiesUserControl_ForPatchOutlet.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_ForPatchOutlet;
             operatorPropertiesUserControl_ForSample.SetSampleLookup(_presenter.MainViewModel.Document.SampleLookup);
-
-            // OperatorProperties_WithInterpolation
-            operatorPropertiesUserControl_WithInterpolation.ViewModel =
-                _presenter.MainViewModel.Document.OperatorPropertiesDictionary_WithInterpolation.Values
-                .Where(x => x.Visible)
-                .FirstOrDefault();
-
-            // OperatorProperties_WithCollectionRecalculation
-            operatorPropertiesUserControl_WithCollectionRecalculation.ViewModel =
-                _presenter.MainViewModel.Document.OperatorPropertiesDictionary_WithCollectionRecalculation.Values
-                .Where(x => x.Visible)
-                .FirstOrDefault();
-
-            // OperatorProperties_WithOutletCount
-            operatorPropertiesUserControl_WithOutletCount.ViewModel =
-                _presenter.MainViewModel.Document.OperatorPropertiesDictionary_WithOutletCount.Values
-                .Where(x => x.Visible)
-                .FirstOrDefault();
-
-            // OperatorProperties_WithInletCount
-            operatorPropertiesUserControl_WithInletCount.ViewModel =
-                _presenter.MainViewModel.Document.OperatorPropertiesDictionary_WithInletCount.Values
-                .Where(x => x.Visible)
-                .FirstOrDefault();
-
-            // PatchDetails
-            patchDetailsUserControl.ViewModel =
-                _presenter.MainViewModel.Document.PatchDetailsDictionary.Values
-                .Where(x => x.Visible)
-                .FirstOrDefault();
-
-            // PatchGrid
-            patchGridUserControl.ViewModel = _presenter.MainViewModel.Document.PatchGridDictionary.Values
-                                                                              .Where(x => x.Visible)
-                                                                              .FirstOrDefault();
-
-            // PatchProperties
-            patchPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.PatchPropertiesDictionary.Values
-                                                                                    .Where(x => x.Visible)
-                                                                                    .FirstOrDefault();
-            // SampleGrid
-            if (_presenter.MainViewModel.Document.SampleGrid.Visible)
-            {
-                sampleGridUserControl.ViewModel = _presenter.MainViewModel.Document.SampleGrid;
-            }
-
-            // SampleProperties
-            samplePropertiesUserControl.ViewModel =
-                _presenter.MainViewModel.Document.SamplePropertiesDictionary.Values
-               .Where(x => x.Visible)
-               .FirstOrDefault();
-
-            // Scale
+            operatorPropertiesUserControl_ForSample.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_ForSample;
+            operatorPropertiesUserControl_WithCollectionRecalculation.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_WithCollectionRecalculation;
+            operatorPropertiesUserControl_WithInletCount.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_WithInletCount;
+            operatorPropertiesUserControl_WithInterpolation.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_WithInterpolation;
+            operatorPropertiesUserControl_WithOutletCount.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_WithOutletCount;
+            patchDetailsUserControl.ViewModel = _presenter.MainViewModel.Document.VisiblePatchDetails;
+            patchGridUserControl.ViewModel = _presenter.MainViewModel.Document.VisiblePatchGrid;
+            patchPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.VisiblePatchProperties;
+            sampleGridUserControl.ViewModel = _presenter.MainViewModel.Document.SampleGrid;
+            samplePropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.VisibleSampleProperties;
             scaleGridUserControl.ViewModel = _presenter.MainViewModel.Document.ScaleGrid;
-            toneGridEditUserControl.ViewModel = _presenter.MainViewModel.Document.ToneGridEditDictionary.Values
-                                                                                 .Where(x => x.Visible)
-                                                                                 .FirstOrDefault();
-            scalePropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.ScalePropertiesDictionary.Values
-                                                                                    .Where(x => x.Visible)
-                                                                                    .FirstOrDefault();
+            scalePropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.VisibleScaleProperties;
+            toneGridEditUserControl.ViewModel = _presenter.MainViewModel.Document.VisibleToneGridEdit;
 
             // Applying Visible = true first and then Visible = false prevents flickering.
             foreach (UserControlBase userControl in _userControls)

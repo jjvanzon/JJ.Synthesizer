@@ -93,7 +93,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             if (castedViewModel.Visible)
             {
-                HideAllListAndDetailViewModels();
+                HideAllGridAndDetailViewModels();
                 castedViewModel.Visible = true;
             }
         }
@@ -111,6 +111,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 HideAllPropertiesViewModels();
                 castedViewModel.Visible = true;
+                MainViewModel.Document.VisibleAudioFileOutputProperties = castedViewModel;
             }
 
             MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
@@ -161,8 +162,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             if (castedViewModel.Visible)
             {
-                HideAllListAndDetailViewModels();
+                HideAllGridAndDetailViewModels();
                 castedViewModel.Visible = true;
+                MainViewModel.Document.VisibleCurveDetails = castedViewModel;
             }
 
             MainViewModel.ValidationMessages.AddRange(castedViewModel.ValidationMessages);
@@ -177,7 +179,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             if (castedViewModel.Visible)
             {
-                HideAllListAndDetailViewModels();
+                HideAllGridAndDetailViewModels();
                 castedViewModel.Visible = true;
             }
         }
@@ -193,6 +195,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 HideAllPropertiesViewModels();
                 castedViewModel.Visible = true;
+                MainViewModel.Document.VisibleCurveProperties = castedViewModel;
             }
 
             MainViewModel.ValidationMessages.AddRange(castedViewModel.ValidationMessages);
@@ -237,7 +240,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             if (documentDetailsViewModel.Visible)
             {
-                HideAllListAndDetailViewModels();
+                HideAllGridAndDetailViewModels();
                 documentDetailsViewModel.Visible = true;
             }
 
@@ -253,7 +256,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             if (castedViewModel.Visible)
             {
-                HideAllListAndDetailViewModels();
+                HideAllGridAndDetailViewModels();
                 castedViewModel.Visible = true;
             }
         }
@@ -297,6 +300,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 HideAllPropertiesViewModels();
                 castedViewModel.Visible = true;
+                MainViewModel.Document.VisibleNodeProperties = castedViewModel;
             }
 
             MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
@@ -314,6 +318,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 HideAllPropertiesViewModels();
                 castedViewModel.Visible = true;
+                MainViewModel.Document.VisibleOperatorProperties = castedViewModel;
             }
 
             MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
@@ -331,6 +336,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 HideAllPropertiesViewModels();
                 castedViewModel.Visible = true;
+                MainViewModel.Document.VisibleOperatorProperties_ForBundle = castedViewModel;
             }
 
             MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
@@ -348,6 +354,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 HideAllPropertiesViewModels();
                 castedViewModel.Visible = true;
+                MainViewModel.Document.VisibleOperatorProperties_ForCache = castedViewModel;
             }
 
             MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
@@ -365,6 +372,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 HideAllPropertiesViewModels();
                 castedViewModel.Visible = true;
+                MainViewModel.Document.VisibleOperatorProperties_ForCurve = castedViewModel;
             }
 
             MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
@@ -382,6 +390,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 HideAllPropertiesViewModels();
                 castedViewModel.Visible = true;
+                MainViewModel.Document.VisibleOperatorProperties_ForCustomOperator = castedViewModel;
             }
 
             MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
@@ -399,6 +408,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 HideAllPropertiesViewModels();
                 castedViewModel.Visible = true;
+                MainViewModel.Document.VisibleOperatorProperties_ForMakeContinuous = castedViewModel;
             }
 
             MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
@@ -416,8 +426,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 HideAllPropertiesViewModels();
                 castedViewModel.Visible = true;
+                MainViewModel.Document.VisibleOperatorProperties_ForNumber = castedViewModel;
             }
-
+            
             MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
             castedViewModel.ValidationMessages.Clear();
         }
@@ -433,6 +444,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 HideAllPropertiesViewModels();
                 castedViewModel.Visible = true;
+                MainViewModel.Document.VisibleOperatorProperties_ForPatchInlet = castedViewModel;
             }
 
             MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
@@ -450,6 +462,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 HideAllPropertiesViewModels();
                 castedViewModel.Visible = true;
+                MainViewModel.Document.VisibleOperatorProperties_ForPatchOutlet = castedViewModel;
             }
 
             MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
@@ -467,6 +480,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 HideAllPropertiesViewModels();
                 castedViewModel.Visible = true;
+                MainViewModel.Document.VisibleOperatorProperties_ForSample = castedViewModel;
             }
 
             MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
@@ -484,6 +498,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 HideAllPropertiesViewModels();
                 castedViewModel.Visible = true;
+                MainViewModel.Document.VisibleOperatorProperties_WithInterpolation = castedViewModel;
             }
 
             MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
@@ -501,6 +516,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 HideAllPropertiesViewModels();
                 castedViewModel.Visible = true;
+                MainViewModel.Document.VisibleOperatorProperties_WithCollectionRecalculation = castedViewModel;
             }
 
             MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
@@ -518,6 +534,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 HideAllPropertiesViewModels();
                 castedViewModel.Visible = true;
+                MainViewModel.Document.VisibleOperatorProperties_WithOutletCount = castedViewModel;
             }
 
             MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
@@ -535,6 +552,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 HideAllPropertiesViewModels();
                 castedViewModel.Visible = true;
+                MainViewModel.Document.VisibleOperatorProperties_WithInletCount = castedViewModel;
             }
 
             MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
@@ -550,8 +568,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             if (castedViewModel.Visible)
             {
-                HideAllListAndDetailViewModels();
+                HideAllGridAndDetailViewModels();
                 castedViewModel.Visible = true;
+                MainViewModel.Document.VisiblePatchDetails = castedViewModel;
             }
 
             MainViewModel.ValidationMessages.AddRange(castedViewModel.ValidationMessages);
@@ -568,8 +587,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             if (castedViewModel.Visible)
             {
-                HideAllListAndDetailViewModels();
+                HideAllGridAndDetailViewModels();
                 castedViewModel.Visible = true;
+                MainViewModel.Document.VisiblePatchGrid = castedViewModel;
             }
 
             MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
@@ -587,6 +607,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 HideAllPropertiesViewModels();
                 castedViewModel.Visible = true;
+                MainViewModel.Document.VisiblePatchProperties = castedViewModel;
             }
 
             MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
@@ -601,7 +622,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             if (castedViewModel.Visible)
             {
-                HideAllListAndDetailViewModels();
+                HideAllGridAndDetailViewModels();
                 castedViewModel.Visible = true;
             }
         }
@@ -617,6 +638,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 HideAllPropertiesViewModels();
                 castedViewModel.Visible = true;
+                MainViewModel.Document.VisibleSampleProperties = castedViewModel;
             }
 
             MainViewModel.ValidationMessages.AddRange(castedViewModel.ValidationMessages);
@@ -631,7 +653,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             if (castedViewModel.Visible)
             {
-                HideAllListAndDetailViewModels();
+                HideAllGridAndDetailViewModels();
                 castedViewModel.Visible = true;
             }
         }
@@ -647,6 +669,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 HideAllPropertiesViewModels();
                 castedViewModel.Visible = true;
+                MainViewModel.Document.VisibleScaleProperties = castedViewModel;
             }
 
             MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
@@ -662,8 +685,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             if (castedViewModel.Visible)
             {
-                HideAllListAndDetailViewModels();
+                HideAllGridAndDetailViewModels();
                 castedViewModel.Visible = true;
+                MainViewModel.Document.VisibleToneGridEdit = castedViewModel;
             }
 
             MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);

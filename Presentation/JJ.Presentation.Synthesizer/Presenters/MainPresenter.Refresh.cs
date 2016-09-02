@@ -1,18 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using JJ.Framework.Common;
-using JJ.Data.Synthesizer;
-using JJ.Data.Canonical;
+using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Presentation.Synthesizer.Helpers;
-using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ViewModels.Items;
-using JJ.Presentation.Synthesizer.ToViewModel;
-using System;
-using JJ.Framework.Reflection.Exceptions;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer;
+using JJ.Data.Synthesizer;
+using JJ.Framework.Common;
+using JJ.Framework.Reflection.Exceptions;
+using JJ.Presentation.Synthesizer.Helpers;
+using JJ.Presentation.Synthesizer.ToViewModel;
+using JJ.Presentation.Synthesizer.ViewModels;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -30,7 +29,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(viewModel);
         }
 
-        private void AudioFileOutputPropertiesRefresh()
+        private void AudioFileOutputPropertiesDictionaryRefresh()
         {
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
             IList<AudioFileOutput> entities = document.AudioFileOutputs;
@@ -57,6 +56,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             foreach (int idToDelete in idsToDelete.ToArray())
             {
                 MainViewModel.Document.AudioFileOutputPropertiesDictionary.Remove(idToDelete);
+
+                if (MainViewModel.Document.VisibleAudioFileOutputProperties?.Entity.ID == idToDelete)
+                {
+                    MainViewModel.Document.VisibleAudioFileOutputProperties = null;
+                }
             }
         }
 
@@ -120,9 +124,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
             foreach (int idToDelete in idsToDelete.ToArray())
             {
                 MainViewModel.Document.CurveDetailsDictionary.Remove(idToDelete);
+
+                if (MainViewModel.Document.VisibleCurveDetails?.CurveID == idToDelete)
+                {
+                    MainViewModel.Document.VisibleCurveDetails = null;
+                }
             }
         }
-
+    
         private void CurveDetailsNodeRefresh(int curveID, int nodeID)
         {
             CurveDetailsViewModel detailsViewModel = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, curveID);
@@ -190,6 +199,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             foreach (int idToDelete in idsToDelete.ToArray())
             {
                 MainViewModel.Document.CurvePropertiesDictionary.Remove(idToDelete);
+                
+                if (MainViewModel.Document.VisibleCurveProperties?.ID == idToDelete)
+                {
+                    MainViewModel.Document.VisibleCurveProperties = null;
+                }
             }
         }
 
@@ -232,7 +246,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void DocumentViewModelRefresh()
         {
             AudioFileOutputGridRefresh();
-            AudioFileOutputPropertiesRefresh();
+            AudioFileOutputPropertiesDictionaryRefresh();
             AudioOutputPropertiesRefresh();
             AudioOutputPropertiesRefresh();
             CurrentPatchesRefresh();
@@ -298,6 +312,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             foreach (int idToDelete in idsToDelete.ToArray())
             {
                 MainViewModel.Document.NodePropertiesDictionary.Remove(idToDelete);
+
+                if (MainViewModel.Document.VisibleNodeProperties?.Entity.ID == idToDelete)
+                {
+                    MainViewModel.Document.VisibleNodeProperties = null;
+                }
             }
         }
 
@@ -852,6 +871,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             foreach (int idToDelete in idsToDelete.ToArray())
             {
                 MainViewModel.Document.PatchDetailsDictionary.Remove(idToDelete);
+
+                if (MainViewModel.Document.VisiblePatchDetails?.Entity.ID == idToDelete)
+                {
+                    MainViewModel.Document.VisiblePatchDetails = null;
+                }
             }
         }
 
@@ -896,6 +920,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             foreach (string groupToDelete in groupsToDelete)
             {
                 MainViewModel.Document.PatchGridDictionary.Remove(groupToDelete);
+                if (String.Equals(MainViewModel.Document.VisiblePatchGrid?.Group?.ToLower() ?? "", groupToDelete))
+                {
+                    MainViewModel.Document.VisiblePatchGrid = null;
+                }
             }
         }
 
@@ -974,6 +1002,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             foreach (int idToDelete in idsToDelete.ToArray())
             {
                 MainViewModel.Document.PatchPropertiesDictionary.Remove(idToDelete);
+
+                if (MainViewModel.Document.VisiblePatchProperties?.ID == idToDelete)
+                {
+                    MainViewModel.Document.VisiblePatchProperties = null;
+                }
             }
         }
 
@@ -1023,6 +1056,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             foreach (int idToDelete in idsToDelete.ToArray())
             {
                 MainViewModel.Document.SamplePropertiesDictionary.Remove(idToDelete);
+
+                if (MainViewModel.Document.VisibleSampleProperties?.Entity.ID == idToDelete)
+                {
+                    MainViewModel.Document.VisibleSampleProperties = null;
+                }
             }
         }
 
@@ -1071,6 +1109,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             foreach (int idToDelete in idsToDelete.ToArray())
             {
                 MainViewModel.Document.ScalePropertiesDictionary.Remove(idToDelete);
+
+                if (MainViewModel.Document.VisibleScaleProperties?.Entity.ID == idToDelete)
+                {
+                    MainViewModel.Document.VisibleScaleProperties = null;
+                }
             }
         }
 
@@ -1108,13 +1151,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
 
-            IEnumerable<int> existingIDs = MainViewModel.Document.ToneGridEditDictionary.Keys;
-            IEnumerable<int> idsToKeep = entities.Select(x => x.ID);
-            IEnumerable<int> idsToDelete = existingIDs.Except(idsToKeep);
+            IEnumerable<int> existingScaleIDs = MainViewModel.Document.ToneGridEditDictionary.Keys;
+            IEnumerable<int> scaleIDsToKeep = entities.Select(x => x.ID);
+            IEnumerable<int> scaleIDsToDelete = existingScaleIDs.Except(scaleIDsToKeep);
 
-            foreach (int idToDelete in idsToDelete.ToArray())
+            foreach (int scaleIDToDelete in scaleIDsToDelete.ToArray())
             {
-                MainViewModel.Document.ToneGridEditDictionary.Remove(idToDelete);
+                MainViewModel.Document.ToneGridEditDictionary.Remove(scaleIDToDelete);
+
+                if (MainViewModel.Document.VisibleToneGridEdit?.ScaleID == scaleIDToDelete)
+                {
+                    MainViewModel.Document.VisibleToneGridEdit = null;
+                }
             }
         }
 
@@ -1139,7 +1187,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Helpers
 
-        private static void DeleteOperatorViewModels<TViewModel>(Dictionary<int, TViewModel> viewModelDictionary, IList<Operator> operators)
+        private void DeleteOperatorViewModels<TViewModel>(Dictionary<int, TViewModel> viewModelDictionary, IList<Operator> operators)
         {
             IEnumerable<int> existingIDs = viewModelDictionary.Keys;
             IEnumerable<int> idsToKeep = operators.Select(x => x.ID);
@@ -1148,6 +1196,77 @@ namespace JJ.Presentation.Synthesizer.Presenters
             foreach (int idToDelete in idsToDelete.ToArray())
             {
                 viewModelDictionary.Remove(idToDelete);
+
+                // TODO: Not so efficient.
+                if (MainViewModel.Document.VisibleOperatorProperties?.ID == idToDelete)
+                {
+                    MainViewModel.Document.VisibleOperatorProperties = null;
+                }
+
+                if (MainViewModel.Document.VisibleOperatorProperties_ForBundle?.ID == idToDelete)
+                {
+                    MainViewModel.Document.VisibleOperatorProperties_ForBundle = null;
+                }
+
+                if (MainViewModel.Document.VisibleOperatorProperties_ForCache?.ID == idToDelete)
+                {
+                    MainViewModel.Document.VisibleOperatorProperties_ForCache = null;
+                }
+
+                if (MainViewModel.Document.VisibleOperatorProperties_ForCurve?.ID == idToDelete)
+                {
+                    MainViewModel.Document.VisibleOperatorProperties_ForCurve = null;
+                }
+
+                if (MainViewModel.Document.VisibleOperatorProperties_ForCustomOperator?.ID == idToDelete)
+                {
+                    MainViewModel.Document.VisibleOperatorProperties_ForCustomOperator = null;
+                }
+
+                if (MainViewModel.Document.VisibleOperatorProperties_ForMakeContinuous?.ID == idToDelete)
+                {
+                    MainViewModel.Document.VisibleOperatorProperties_ForMakeContinuous = null;
+                }
+
+                if (MainViewModel.Document.VisibleOperatorProperties_ForNumber?.ID == idToDelete)
+                {
+                    MainViewModel.Document.VisibleOperatorProperties_ForNumber = null;
+                }
+
+                if (MainViewModel.Document.VisibleOperatorProperties_ForPatchInlet?.ID == idToDelete)
+                {
+                    MainViewModel.Document.VisibleOperatorProperties_ForPatchInlet = null;
+                }
+
+                if (MainViewModel.Document.VisibleOperatorProperties_ForPatchOutlet?.ID == idToDelete)
+                {
+                    MainViewModel.Document.VisibleOperatorProperties_ForPatchOutlet = null;
+                }
+
+                if (MainViewModel.Document.VisibleOperatorProperties_ForSample?.ID == idToDelete)
+                {
+                    MainViewModel.Document.VisibleOperatorProperties_ForSample = null;
+                }
+
+                if (MainViewModel.Document.VisibleOperatorProperties_WithInterpolation?.ID == idToDelete)
+                {
+                    MainViewModel.Document.VisibleOperatorProperties_WithInterpolation = null;
+                }
+
+                if (MainViewModel.Document.VisibleOperatorProperties_WithCollectionRecalculation?.ID == idToDelete)
+                {
+                    MainViewModel.Document.VisibleOperatorProperties_WithCollectionRecalculation = null;
+                }
+
+                if (MainViewModel.Document.VisibleOperatorProperties_WithOutletCount?.ID == idToDelete)
+                {
+                    MainViewModel.Document.VisibleOperatorProperties_WithOutletCount = null;
+                }
+
+                if (MainViewModel.Document.VisibleOperatorProperties_WithInletCount?.ID == idToDelete)
+                {
+                    MainViewModel.Document.VisibleOperatorProperties_WithInletCount = null;
+                }
             }
         }
     }
