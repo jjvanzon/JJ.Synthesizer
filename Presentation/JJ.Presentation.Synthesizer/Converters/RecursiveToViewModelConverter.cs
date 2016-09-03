@@ -90,7 +90,6 @@ namespace JJ.Presentation.Synthesizer.Converters
             IList<string> dimensionKeysToStyle = operatorViewModels.Select(x => x.Dimension)
                                                                    .Where(x => x.Visible)
                                                                    .Select(x => x.Key)
-                                                                   .Except(ViewModelHelper.DIMENSION_KEY_EMPTY)
                                                                    .Except(_timeDimensionKey)
                                                                    .OrderBy(x => x) // Sort arbitrary, but consistently.
                                                                    .ToArray();
