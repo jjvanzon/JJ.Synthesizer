@@ -88,6 +88,15 @@ namespace JJ.Presentation.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Custom.
+        /// </summary>
+        public static string Custom {
+            get {
+                return ResourceManager.GetString("Custom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Custom Dimension.
         /// </summary>
         public static string CustomDimension {
@@ -165,6 +174,15 @@ namespace JJ.Presentation.Synthesizer.Resources {
         public static string SetDimensionWithPlaceholder {
             get {
                 return ResourceManager.GetString("SetDimensionWithPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Standard.
+        /// </summary>
+        public static string Standard {
+            get {
+                return ResourceManager.GetString("Standard", resourceCulture);
             }
         }
         

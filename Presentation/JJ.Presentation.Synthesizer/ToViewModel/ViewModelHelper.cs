@@ -27,8 +27,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
     internal static partial class ViewModelHelper
     {
         public const string DIMENSION_KEY_EMPTY = "";
-        private const string STANDARD_DIMENSION_KEY_PREFIX = "0C26ADA8-0BFC-484C-BF80-774D055DAA3F-StandardDimension-";
-        private const string CUSTOM_DIMENSION_KEY_PREFIX = "5133584A-BA76-42DB-BD0E-42801FCB96DF-CustomDimension-";
+        public const string STANDARD_DIMENSION_KEY_PREFIX = "0C26ADA8-0BFC-484C-BF80-774D055DAA3F-StandardDimension-";
+        public const string CUSTOM_DIMENSION_KEY_PREFIX = "5133584A-BA76-42DB-BD0E-42801FCB96DF-CustomDimension-";
         private const int STRETCH_AND_SQUASH_ORIGIN_LIST_INDEX = 2;
 
         private static readonly bool _showAutoPatchPolyphonicEnabled = CustomConfigurationManager.GetSection<ConfigurationSection>().ShowAutoPatchPolyphonicEnabled;

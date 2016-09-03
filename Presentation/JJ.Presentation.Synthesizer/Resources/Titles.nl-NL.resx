@@ -126,6 +126,9 @@
   <data name="CurrentPatches" xml:space="preserve">
     <value>Huidige schakelingen</value>
   </data>
+  <data name="Custom" xml:space="preserve">
+    <value>Afwijkend</value>
+  </data>
   <data name="CustomDimension" xml:space="preserve">
     <value>Afwijkende dimensie</value>
   </data>
@@ -154,6 +157,9 @@
   <data name="SetDimensionWithPlaceholder" xml:space="preserve">
     <value>{0} instellen</value>
     <comment>{0} = dimension, example: Set Time</comment>
+  </data>
+  <data name="Standard" xml:space="preserve">
+    <value>Standaard</value>
   </data>
   <data name="Sum" xml:space="preserve">
     <value>Som</value>

@@ -126,6 +126,9 @@
   <data name="CurrentPatches" xml:space="preserve">
     <value>Current Patches</value>
   </data>
+  <data name="Custom" xml:space="preserve">
+    <value>Custom</value>
+  </data>
   <data name="CustomDimension" xml:space="preserve">
     <value>Custom Dimension</value>
   </data>
@@ -154,6 +157,9 @@
   <data name="SetDimensionWithPlaceholder" xml:space="preserve">
     <value>Set {0}</value>
     <comment>{0} = dimension, example: Set Time</comment>
+  </data>
+  <data name="Standard" xml:space="preserve">
+    <value>Standard</value>
   </data>
   <data name="Sum" xml:space="preserve">
     <value>Sum</value>

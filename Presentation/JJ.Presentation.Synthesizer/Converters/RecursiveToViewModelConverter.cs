@@ -1,20 +1,21 @@
-﻿using JJ.Data.Canonical;
-using JJ.Business.Synthesizer;
-using JJ.Framework.Reflection.Exceptions;
-using JJ.Data.Synthesizer;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
-using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ViewModels.Items;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Presentation.Synthesizer.ToViewModel;
+using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Framework.Common;
-using JJ.Presentation.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Extensions;
-using System;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Data.Canonical;
+using JJ.Data.Synthesizer;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Framework.Common;
 using JJ.Framework.Mathematics;
+using JJ.Framework.Reflection.Exceptions;
+using JJ.Presentation.Synthesizer.Helpers;
+using JJ.Presentation.Synthesizer.Resources;
+using JJ.Presentation.Synthesizer.ToViewModel;
+using JJ.Presentation.Synthesizer.ViewModels;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.Converters
 {
@@ -87,6 +88,7 @@ namespace JJ.Presentation.Synthesizer.Converters
         {
             IList<OperatorViewModel> operatorViewModels = operators.Select(x => ConvertToViewModelRecursive(x)).ToArray();
 
+            // Style the different dimensions.
             IList<string> dimensionKeysToStyle = operatorViewModels.Select(x => x.Dimension)
                                                                    .Where(x => x.Visible)
                                                                    .Select(x => x.Key)
@@ -106,6 +108,32 @@ namespace JJ.Presentation.Synthesizer.Converters
                         if (dimensionKey_To_StyleGrade_Dictionary.TryGetValue(operatorViewModel.Dimension.Key, out styleGradeEnum))
                         {
                             operatorViewModel.StyleGrade = styleGradeEnum;
+                        }
+                    }
+                }
+            }
+
+            // A custom dimension name could clash with a standard dimension name.
+            var dimensionNameGroups = operatorViewModels.GroupBy(x => NameHelper.ToCanonical(x.Dimension.Name));
+
+            foreach (var dimensionNameGroup in dimensionNameGroups)
+            {
+                var dimensionKeyGroups = dimensionNameGroup.GroupBy(x => x.Dimension.Key);
+
+                if (dimensionKeyGroups.Take(2).Count() >= 2)
+                {
+                    foreach (var dimensionKeyGroup in dimensionKeyGroups)
+                    {
+                        foreach (OperatorViewModel operatorViewModel in dimensionKeyGroup)
+                        {
+                            if (operatorViewModel.Dimension.Key.StartsWith(ViewModelHelper.CUSTOM_DIMENSION_KEY_PREFIX))
+                            {
+                                operatorViewModel.Dimension.Name += String.Format(" ({0})", Titles.Custom);
+                            }
+                            else
+                            {
+                                operatorViewModel.Dimension.Name += String.Format(" ({0})", Titles.Standard);
+                            }
                         }
                     }
                 }
