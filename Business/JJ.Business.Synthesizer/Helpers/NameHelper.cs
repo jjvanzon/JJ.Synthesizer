@@ -6,7 +6,7 @@ namespace JJ.Business.Synthesizer.Helpers
 {
     internal static class NameHelper
     {
-        internal static string ToCanonicalForm(string name)
+        public static string ToCanonicalForm(string name)
         {
             name = name ?? "";
 

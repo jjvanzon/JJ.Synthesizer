@@ -4868,8 +4868,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
                     variableInputCalculator = new VariableInput_OperatorCalculator
                     (
-                        standardDimensionEnum: inlet.GetDimensionEnum(),
-                        name: wrapper.Name,
+                        dimensionEnum: inlet.GetDimensionEnum(),
+                        canonicalName: NameHelper.ToCanonicalForm(wrapper.Name),
                         listIndex: wrapper.ListIndex ?? 0,
                         defaultValue: inlet.DefaultValue ?? 0.0
                     );

@@ -11,14 +11,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         /// <summary> Public field for performance. </summary>
         public double _value;
 
-        public DimensionEnum StandardDimensionEnum { get; private set; }
-        public string Name { get; private set; }
+        public DimensionEnum DimensionEnum { get; private set; }
+        public string CanonicalName { get; private set; }
         public int ListIndex { get; private set; }
 
-        public VariableInput_OperatorCalculator(DimensionEnum standardDimensionEnum, string name, int listIndex, double defaultValue)
+        public VariableInput_OperatorCalculator(
+            DimensionEnum dimensionEnum, 
+            string canonicalName,
+            int listIndex, 
+            double defaultValue)
         {
-            StandardDimensionEnum = standardDimensionEnum;
-            Name = name;
+            DimensionEnum = dimensionEnum;
+            CanonicalName = canonicalName;
             ListIndex = listIndex;
 
             _value = defaultValue;
