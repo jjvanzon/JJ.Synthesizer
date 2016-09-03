@@ -1102,8 +1102,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 return String.Format("{0}{1}", CUSTOM_DIMENSION_KEY_PREFIX, op.CustomDimensionName);
             }
-
-            return GetDimensionKey(op.GetStandardDimensionEnum());
+            else
+            {
+                return GetDimensionKey(op.GetStandardDimensionEnum());
+            }
         }
 
         public static string GetDimensionKey(DimensionEnum standardDimensionEnum)

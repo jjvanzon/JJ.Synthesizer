@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Helpers
         /// </summary>
         public static bool IsFilledIn(string name)
         {
-            return String.IsNullOrWhiteSpace(name);
+            return !String.IsNullOrWhiteSpace(name);
         }
 
         /// <summary>
