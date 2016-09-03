@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Calculation
 {
@@ -9,10 +11,25 @@ namespace JJ.Business.Synthesizer.Calculation
     {
         private const int DEFAULT_CAPACITY = 128;
 
+        public DimensionEnum StandardDimensionEnum { get; }
+        public string CustomDimensionName { get; }
+
         private int _count;
         private double[] _array;
 
-        public DimensionStack()
+        public DimensionStack(DimensionEnum standardDimensionEnum)
+            : this()
+        {
+            StandardDimensionEnum = standardDimensionEnum;
+        }
+
+        public DimensionStack(string customDimensionName)
+            : this()
+        {
+            CustomDimensionName = customDimensionName;
+        }
+
+        private DimensionStack()
         {
             _array = new double[DEFAULT_CAPACITY];
             _count = 0;

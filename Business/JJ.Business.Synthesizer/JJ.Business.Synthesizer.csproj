@@ -227,6 +227,7 @@
     <Compile Include="Calculation\Patches\OptimizedPatchCalculatorVisitorResult.cs" />
     <Compile Include="Calculation\Patches\ResettableOperatorTuple.cs" />
     <Compile Include="Extensions\2016-08-27 Backup of ToIDAndNameExtensions.cs" />
+    <Compile Include="Helpers\NameHelper.cs" />
     <Compile Include="Helpers\PatchGroupDto.cs" />
     <Compile Include="Extensions\OperatorExtensions.cs" />
     <Compile Include="Calculation\BiQuadFilter.cs" />
