@@ -66,14 +66,14 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _outputOperatorCalculator = result.Output_OperatorCalculator;
             _inputOperatorCalculators = result.Input_OperatorCalculators.OrderBy(x => x.ListIndex).ToArray();
             _listIndex_To_ResettableOperatorCalculators_Dictionary = result.ResettableOperatorTuples.Where(x => x.ListIndex.HasValue).ToNonUniqueDictionary(x => x.ListIndex.Value, x => x.OperatorCalculator);
-            _name_To_ResettableOperatorCalculators_Dictionary = result.ResettableOperatorTuples.ToNonUniqueDictionary(x => x.Name ?? "", x => x.OperatorCalculator);
+            _name_To_ResettableOperatorCalculators_Dictionary = result.ResettableOperatorTuples.ToNonUniqueDictionary(x => NameHelper.ToCanonical(x.Name), x => x.OperatorCalculator);
 
             foreach (VariableInput_OperatorCalculator inputOperatorCalculator in _inputOperatorCalculators)
             {
                 double value = inputOperatorCalculator._value;
                 int listIndex = inputOperatorCalculator.ListIndex;
                 DimensionEnum dimensionEnum = inputOperatorCalculator.DimensionEnum;
-                string name = NameHelper.ToCanonicalForm(inputOperatorCalculator.CanonicalName);
+                string name = NameHelper.ToCanonical(inputOperatorCalculator.CanonicalName);
 
                 // Copy input calculator (default) values to dimensions.
                 DimensionStack dimensionStackByEnum = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
@@ -195,7 +195,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         public double GetValue(string name)
         {
-            string canonicalName = NameHelper.ToCanonicalForm(name);
+            string canonicalName = NameHelper.ToCanonical(name);
 
             double value;
             _name_To_Value_Dictionary.TryGetValue(canonicalName, out value);
@@ -204,7 +204,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         public void SetValue(string name, double value)
         {
-            string canonicalName = NameHelper.ToCanonicalForm(name);
+            string canonicalName = NameHelper.ToCanonical(name);
 
             _name_To_Value_Dictionary[canonicalName] = value;
 
@@ -213,7 +213,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             foreach (VariableInput_OperatorCalculator inputCalculator in _inputOperatorCalculators)
             {
-                if (String.Equals(inputCalculator.CanonicalName, canonicalName, StringComparison.Ordinal))
+                if (String.Equals(inputCalculator.CanonicalName, canonicalName))
                 {
                     inputCalculator._value = value;
                 }
@@ -256,7 +256,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         public double GetValue(string name, int listIndex)
         {
-            string canonicalName = NameHelper.ToCanonicalForm(name);
+            string canonicalName = NameHelper.ToCanonical(name);
 
             var key = new Tuple<string, int>(canonicalName, listIndex);
 
@@ -267,7 +267,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         public void SetValue(string name, int listIndex, double value)
         {
-            string canonicalName = NameHelper.ToCanonicalForm(name);
+            string canonicalName = NameHelper.ToCanonical(name);
 
             var key = new Tuple<string, int>(canonicalName, listIndex);
 
@@ -279,7 +279,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             int listIndex2 = 0;
             foreach (VariableInput_OperatorCalculator inputCalculator in _inputOperatorCalculators)
             {
-                if (String.Equals(inputCalculator.CanonicalName, canonicalName, StringComparison.Ordinal))
+                if (String.Equals(inputCalculator.CanonicalName, canonicalName))
                 {
                     if (listIndex2 == listIndex)
                     {
@@ -359,10 +359,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         public void Reset(double time, string name)
         {
-            // Necessary for using null or empty string as the key of a dictionary.
-            // The dictionary neither accepts null as a key,
-            // and also null and empty must have the same behavior.
-            name = name ?? "";
+            string canonicalName = NameHelper.ToCanonical(name);
 
 #if !USE_INVAR_INDICES
             _timeDimensionStack.Set(time);
@@ -382,7 +379,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             //}
 
             IList<OperatorCalculatorBase> calculators;
-            if (_name_To_ResettableOperatorCalculators_Dictionary.TryGetValue(name, out calculators))
+            if (_name_To_ResettableOperatorCalculators_Dictionary.TryGetValue(canonicalName, out calculators))
             {
                 foreach (OperatorCalculatorBase calculator in calculators)
                 {

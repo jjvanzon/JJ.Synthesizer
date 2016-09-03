@@ -385,8 +385,8 @@ namespace JJ.Business.Synthesizer
         {
             if (patchesInDocument == null) throw new NullException(() => patchesInDocument);
 
-            IList<string> groupNames = patchesInDocument.Where(x => !String.IsNullOrWhiteSpace(x.GroupName))
-                                                        .Distinct(x => x.GroupName.ToLower())
+            IList<string> groupNames = patchesInDocument.Where(x => NameHelper.IsFilledIn(x.GroupName))
+                                                        .Distinct(x => NameHelper.ToCanonical(x.GroupName))
                                                         .Select(x => x.GroupName)
                                                         .ToList();
             return groupNames;
@@ -420,9 +420,11 @@ namespace JJ.Business.Synthesizer
             if (patchesInDocument == null) throw new NullException(() => patchesInDocument);
             if (String.IsNullOrWhiteSpace(groupName)) throw new NullOrWhiteSpaceException(() => groupName);
 
+            string canonicalGroupName = NameHelper.ToCanonical(groupName);
+
             IList<Patch> patchesInGroup =
-                patchesInDocument.Where(x => !String.IsNullOrWhiteSpace(x.GroupName))
-                                 .Where(x => String.Equals(x.GroupName, groupName, StringComparison.OrdinalIgnoreCase))
+                patchesInDocument.Where(x => NameHelper.IsFilledIn(x.GroupName))
+                                 .Where(x => String.Equals(NameHelper.ToCanonical(x.GroupName), canonicalGroupName))
                                  .ToArray();
 
             return patchesInGroup;

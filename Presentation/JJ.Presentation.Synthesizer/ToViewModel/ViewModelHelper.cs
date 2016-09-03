@@ -345,7 +345,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             list.Add(grouplessPatchUsedInDtos.ToPatchGridViewModel(rootDocumentID, null));
             list.AddRange(patchGroupDtos.Select(x => x.PatchUsedInDtos.ToPatchGridViewModel(rootDocumentID, x.GroupName)));
 
-            return list.ToDictionary(x => x.Group?.ToLower() ?? "");
+            return list.ToDictionary(x => NameHelper.ToCanonical(x.Group));
         }
 
         public static bool GetInletVisible(Inlet inlet)

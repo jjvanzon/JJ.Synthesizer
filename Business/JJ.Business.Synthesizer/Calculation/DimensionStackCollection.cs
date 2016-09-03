@@ -47,7 +47,7 @@ namespace JJ.Business.Synthesizer.Calculation
 
         public DimensionStack GetDimensionStack(string customDimensionName)
         {
-            string formattedCustomDimensionName = NameHelper.ToCanonicalForm(customDimensionName);
+            string formattedCustomDimensionName = NameHelper.ToCanonical(customDimensionName);
 
             DimensionStack dimensionStack;
             if (!_customDimensionName_To_DimensionStack_Dictionary.TryGetValue(formattedCustomDimensionName, out dimensionStack))

@@ -1120,13 +1120,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             // Delete operations
-            IEnumerable<string> existingGroups = viewModelDictionary.Keys;
-            IEnumerable<string> groupsToDelete = groups.Select(x => x?.ToLower() ?? "").Except(existingGroups);
+            string canonicalVisiblePatchGridGroup = NameHelper.ToCanonical(MainViewModel.Document.VisiblePatchGrid?.Group);
 
-            foreach (string groupToDelete in groupsToDelete)
+            IEnumerable<string> canonicalExistingGroups = viewModelDictionary.Keys.Select(x => NameHelper.ToCanonical(x));
+            IEnumerable<string> canonicalGroupsToDelete = groups.Select(x => NameHelper.ToCanonical(x)).Except(canonicalExistingGroups);
+
+            foreach (string canonicalGroupToDelete in canonicalGroupsToDelete)
             {
-                viewModelDictionary.Remove(groupToDelete);
-                if (String.Equals(MainViewModel.Document.VisiblePatchGrid?.Group?.ToLower() ?? "", groupToDelete))
+                viewModelDictionary.Remove(canonicalGroupToDelete);
+
+                if (String.Equals(canonicalVisiblePatchGridGroup, canonicalGroupToDelete))
                 {
                     MainViewModel.Document.VisiblePatchGrid = null;
                 }

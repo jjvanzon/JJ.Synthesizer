@@ -25,22 +25,17 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (document == null) throw new NullException(() => document);
 
-            int nameCount = document.AudioFileOutputs
-                                    .Where(x => String.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase))
-                                    .Count();
+            bool isUnique = NameIsUnique(document.AudioFileOutputs.Select(x => x.Name), name);
 
-            return nameCount <= 1;
+            return isUnique;
         }
 
         public static IList<string> GetDuplicateAudioFileOutputNames(Document document)
         {
             if (document == null) throw new NullException(() => document);
 
-            IList<string> duplicateNames = document.AudioFileOutputs
-                                                   .GroupBy(x => x.Name?.ToLower())
-                                                   .Where(x => x.Count() > 1)
-                                                   .Select(x => x.Key)
-                                                   .ToArray();
+            IList<string> duplicateNames = GetDuplicateNames(document.AudioFileOutputs.Select(x => x.Name));
+
             return duplicateNames;
         }
 
@@ -51,8 +46,8 @@ namespace JJ.Business.Synthesizer.Validation
             if (patch == null) throw new NullException(() => patch);
 
             IList<string> names = patch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
-                                       .Where(x => !String.IsNullOrEmpty(x.Name))
-                                       .Select(x => x.Name.ToLower())
+                                       .Where(x => NameHelper.IsFilledIn(x.Name))
+                                       .Select(x => NameHelper.ToCanonical(x.Name))
                                        .ToArray();
 
             bool namesAreUnique = names.Distinct().Count() == names.Count;
@@ -94,8 +89,8 @@ namespace JJ.Business.Synthesizer.Validation
             if (patch == null) throw new NullException(() => patch);
 
             IList<string> names = patch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
-                                       .Where(x => !String.IsNullOrEmpty(x.Name))
-                                       .Select(x => x.Name.ToLower())
+                                       .Where(x => NameHelper.IsFilledIn(x.Name))
+                                       .Select(x => NameHelper.ToCanonical(x.Name))
                                        .ToArray();
 
             bool namesAreUnique = names.Distinct().Count() == names.Count;
@@ -109,6 +104,7 @@ namespace JJ.Business.Synthesizer.Validation
             if (patch == null) throw new NullException(() => patch);
 
             bool isUnique = PatchNameIsUnique(patch.Document, patch.Name);
+
             return isUnique;
         }
 
@@ -116,22 +112,17 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (document == null) throw new NullException(() => document);
 
-            int nameCount = document.Patches
-                                    .Where(x => String.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase))
-                                    .Count();
+            bool isUnique = NameIsUnique(document.Patches.Select(x => x.Name), name);
 
-            return nameCount <= 1;
+            return isUnique;
         }
 
         public static IList<string> GetDuplicatePatchNames(Document document)
         {
             if (document == null) throw new NullException(() => document);
 
-            IList<string> duplicateNames = document.Patches
-                                                   .GroupBy(x => x.Name?.ToLower())
-                                                   .Where(x => x.Count() > 1)
-                                                   .Select(x => x.Key)
-                                                   .ToArray();
+            IList<string> duplicateNames = GetDuplicateNames(document.Patches.Select(x => x.Name));
+
             return duplicateNames;
         }
 
@@ -142,6 +133,7 @@ namespace JJ.Business.Synthesizer.Validation
             if (sample == null) throw new NullException(() => sample);
 
             bool isUnique = SampleNameIsUnique(sample.Document, sample.Name);
+
             return isUnique;
         }
 
@@ -149,22 +141,17 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (document == null) throw new NullException(() => document);
 
-            int nameCount = document.Samples
-                                    .Where(x => String.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase))
-                                    .Count();
+            bool isUnique = NameIsUnique(document.Samples.Select(x => x.Name), name);
 
-            return nameCount <= 1;
+            return isUnique;
         }
 
         public static IList<string> GetDuplicateSampleNames(Document document)
         {
             if (document == null) throw new NullException(() => document);
 
-            IList<string> duplicateNames = document.Samples
-                                                   .GroupBy(x => x.Name?.ToLower())
-                                                   .Where(x => x.Count() > 1)
-                                                   .Select(x => x.Key)
-                                                   .ToArray();
+            IList<string> duplicateNames = GetDuplicateNames(document.Samples.Select(x => x.Name));
+
             return duplicateNames;
         }
 
@@ -175,6 +162,7 @@ namespace JJ.Business.Synthesizer.Validation
             if (scale == null) throw new NullException(() => scale);
 
             bool isUnique = ScaleNameIsUnique(scale.Document, scale.Name);
+
             return isUnique;
         }
 
@@ -182,23 +170,37 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (document == null) throw new NullException(() => document);
 
-            int nameCount = document.Scales
-                                    .Where(x => String.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase))
-                                    .Count();
+            bool isUnique = NameIsUnique(document.Scales.Select(x => x.Name), name);
 
-            return nameCount <= 1;
+            return isUnique;
         }
 
         public static IList<string> GetDuplicateScaleNames(Document document)
         {
             if (document == null) throw new NullException(() => document);
 
-            IList<string> duplicateNames = document.Scales
-                                                   .GroupBy(x => x.Name?.ToLower())
-                                                   .Where(x => x.Count() > 1)
-                                                   .Select(x => x.Key)
-                                                   .ToArray();
+            IList<string> duplicateNames = GetDuplicateNames(document.Scales.Select(x => x.Name));
+
             return duplicateNames;
+        }
+
+        private static IList<string> GetDuplicateNames(IEnumerable<string> nameEnumerable)
+        {
+            IList<string> duplicateNames = nameEnumerable.GroupBy(x => NameHelper.ToCanonical(x))
+                                                         .Where(x => x.Count() > 1)
+                                                         .Select(x => x.First())
+                                                         .ToArray();
+            return duplicateNames;
+        }
+
+        private static bool NameIsUnique(IEnumerable<string> nameEnumerable, string name)
+        {
+            string canonicalName = NameHelper.ToCanonical(name);
+
+            int nameCount = nameEnumerable.Where(x => String.Equals(NameHelper.ToCanonical(x), canonicalName))
+                                          .Take(2)
+                                          .Count();
+            return nameCount <= 1;
         }
     }
 }

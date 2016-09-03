@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Framework.Common.Exceptions;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.Helpers
 {
@@ -49,7 +50,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (documentViewModel == null) throw new NullException(() => documentViewModel);
 
-            string key = group?.ToLower() ?? "";
+            string key = NameHelper.ToCanonical(group);
 
             PatchGridViewModel viewModel;
 
@@ -488,7 +489,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (documentViewModel == null) throw new NullException(() => documentViewModel);
 
-            string key = group?.ToLower() ?? "";
+            string key = NameHelper.ToCanonical(group);
 
             PatchGridViewModel viewModel;
             if (documentViewModel.PatchGridDictionary.TryGetValue(key, out viewModel))

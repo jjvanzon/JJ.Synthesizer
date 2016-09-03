@@ -4,6 +4,7 @@ using System.Linq;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Reflection.Exceptions;
@@ -20,15 +21,17 @@ namespace JJ.Business.Synthesizer
             var sourcePatchInletWrapper = new PatchInlet_OperatorWrapper(sourcePatchInlet);
 
             // Try match by name
-            bool nameIsFilledIn = !String.IsNullOrEmpty(sourcePatchInlet.Name);
-            if (nameIsFilledIn)
+            if (NameHelper.IsFilledIn(sourcePatchInlet.Name))
             {
+                string canonical_SourcePatchInlet_Name = NameHelper.ToCanonical(sourcePatchInlet.Name);
+
                 foreach (Inlet destCustomOperatorInlet in destCustomOperatorInlets)
                 {
+                    string canonical_DestCustomOperatorInlet_Name = NameHelper.ToCanonical(destCustomOperatorInlet.Name);
+
                     bool namesAreEqual = String.Equals(
-                        destCustomOperatorInlet.Name,
-                        sourcePatchInlet.Name,
-                        StringComparison.OrdinalIgnoreCase);
+                        canonical_DestCustomOperatorInlet_Name,
+                        canonical_SourcePatchInlet_Name);
 
                     if (namesAreEqual)
                     {
@@ -71,15 +74,17 @@ namespace JJ.Business.Synthesizer
             var sourcePatchOutletWrapper = new PatchOutlet_OperatorWrapper(sourcePatchOutlet);
 
             // Try match by name
-            bool nameIsFilledIn = !String.IsNullOrEmpty(sourcePatchOutlet.Name);
-            if (nameIsFilledIn)
+            if (NameHelper.IsFilledIn(sourcePatchOutlet.Name))
             {
+                string canonical_SourcePatchOutlet_Name = NameHelper.ToCanonical(sourcePatchOutlet.Name);
+
                 foreach (Outlet destCustomOperatorOutlet in destCustomOperatorOutlets)
                 {
+                    string canoncial_DestCustomOperatorOutlet_Name = NameHelper.ToCanonical(destCustomOperatorOutlet.Name);
+
                     bool namesAreEqual = String.Equals(
-                        destCustomOperatorOutlet.Name,
-                        sourcePatchOutlet.Name,
-                        StringComparison.OrdinalIgnoreCase);
+                        canoncial_DestCustomOperatorOutlet_Name,
+                        canonical_SourcePatchOutlet_Name);
 
                     if (namesAreEqual)
                     {
@@ -146,15 +151,17 @@ namespace JJ.Business.Synthesizer
             }
 
             // Try match by name
-            bool nameIsFilledIn = !String.IsNullOrEmpty(source_CustomOperator_Inlet.Name);
-            if (nameIsFilledIn)
+            if (NameHelper.IsFilledIn(source_CustomOperator_Inlet.Name))
             {
+                string canonical_Source_CustomOperator_Inlet_Name = NameHelper.ToCanonical(source_CustomOperator_Inlet.Name);
+
                 foreach (Operator dest_UnderlyingPatch_PatchInlet in dest_UnderlyingPatch_PatchInlets)
                 {
+                    string canonical_Dest_UnderlyingPatch_PatchInlet_Name = NameHelper.ToCanonical(dest_UnderlyingPatch_PatchInlet.Name);
+
                     bool namesAreEqual = String.Equals(
-                        dest_UnderlyingPatch_PatchInlet.Name,
-                        source_CustomOperator_Inlet.Name,
-                        StringComparison.OrdinalIgnoreCase);
+                        canonical_Dest_UnderlyingPatch_PatchInlet_Name,
+                        canonical_Source_CustomOperator_Inlet_Name);
 
                     if (namesAreEqual)
                     {
@@ -233,15 +240,17 @@ namespace JJ.Business.Synthesizer
             }
 
             // Try match by name
-            bool nameIsFilledIn = !String.IsNullOrEmpty(source_CustomOperator_Outlet.Name);
-            if (nameIsFilledIn)
+            if (NameHelper.IsFilledIn(source_CustomOperator_Outlet.Name))
             {
+                string canonical_Source_CustomOperator_Outlet_Name = NameHelper.ToCanonical(source_CustomOperator_Outlet.Name);
+
                 foreach (Operator dest_UnderlyingPatch_PatchOutlet in dest_UnderlyingPatch_PatchOutlets)
                 {
+                    string canonical_Dest_UnderlyingPatch_PatchOutlet_Name = NameHelper.ToCanonical(dest_UnderlyingPatch_PatchOutlet.Name);
+
                     bool namesAreEqual = String.Equals(
-                        dest_UnderlyingPatch_PatchOutlet.Name,
-                        source_CustomOperator_Outlet.Name,
-                        StringComparison.OrdinalIgnoreCase);
+                        canonical_Dest_UnderlyingPatch_PatchOutlet_Name,
+                        canonical_Source_CustomOperator_Outlet_Name);
 
                     if (namesAreEqual)
                     {
@@ -294,11 +303,9 @@ namespace JJ.Business.Synthesizer
             if (inlet == null) throw new NullException(() => inlet);
 
             // Try match by name
-            bool nameIsfilledIn = !String.IsNullOrEmpty(outlet.Name);
-            if (nameIsfilledIn)
+            if (NameHelper.IsFilledIn(outlet.Name))
             {
-                bool namesAreEqual = String.Equals(outlet.Name, inlet.Name, StringComparison.OrdinalIgnoreCase);
-                if (namesAreEqual)
+                if (NameHelper.AreEqual(outlet.Name, inlet.Name))
                 {
                     return true;
                 }

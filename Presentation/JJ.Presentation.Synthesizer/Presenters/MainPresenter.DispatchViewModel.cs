@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Common;
 using JJ.Framework.Presentation;
 using JJ.Framework.Reflection.Exceptions;
@@ -581,7 +582,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (PatchGridViewModel)viewModel2;
 
-            string key = (castedViewModel.Group ?? "").ToLower();
+            string key = NameHelper.ToCanonical(castedViewModel.Group);
 
             MainViewModel.Document.PatchGridDictionary[key] = castedViewModel;
 
