@@ -86,7 +86,6 @@
     <Compile Include="Calculation\Curves\ICurveCalculator.cs" />
     <Compile Include="Calculation\Curves\CurveCalculator_MinXZero.cs" />
     <Compile Include="Calculation\Curves\CurveCalculator_MinX.cs" />
-    <Compile Include="Calculation\2016-08-28 Backup of DimensionStackCollection.cs" />
     <Compile Include="Calculation\DimensionStackCollection.cs" />
     <Compile Include="Calculation\Operators\Add OperatorCalculator Classes Only Vars.cs">
       <DependentUpon>Add OperatorCalculator Classes Only Vars.tt</DependentUpon>
@@ -226,7 +225,6 @@
     <Compile Include="Calculation\Operators\Number_OperatorCalculator.cs" />
     <Compile Include="Calculation\Patches\OptimizedPatchCalculatorVisitorResult.cs" />
     <Compile Include="Calculation\Patches\ResettableOperatorTuple.cs" />
-    <Compile Include="Extensions\2016-08-27 Backup of ToIDAndNameExtensions.cs" />
     <Compile Include="Helpers\NameHelper.cs" />
     <Compile Include="Helpers\PatchGroupDto.cs" />
     <Compile Include="Extensions\OperatorExtensions.cs" />
@@ -430,12 +428,10 @@
     <Compile Include="SideEffects\Document_SideEffect_AutoCreateAudioOutput.cs" />
     <Compile Include="SideEffects\Document_SideEffect_CreatePatch.cs" />
     <Compile Include="SideEffects\Operator_SideEffect_UpdateDependentCustomOperators.cs" />
-    <Compile Include="SideEffects\2016-08-19 Backup of Generic_SideEffect_GenerateNameBase.cs" />
     <Compile Include="SideEffects\SideEffectHelper.cs" />
     <Compile Include="Validation\AudioOutputValidator.cs" />
     <Compile Include="Validation\Curves\CurveValidator_InDocument.cs" />
     <Compile Include="Validation\Curves\CurveValidator_Nodes.cs" />
-    <Compile Include="Validation\Documents\2016-08-25 Backup of RootDocument_DocumentValidator.cs" />
     <Compile Include="Validation\DataProperty\CollectionRecalculation_DataProperty_Validator.cs" />
     <Compile Include="Validation\DataProperty\ResampleInterpolationType_DataProperty_Validator.cs" />
     <Compile Include="Validation\DataProperty\ListIndex_DataProperty_Validator.cs" />
@@ -453,7 +449,6 @@
     <Compile Include="Validation\Operators\Closest_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\LowShelfFilter_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_Dimension.cs" />
-    <Compile Include="Validation\Operators\2016-09-03 Backup of OperatorValidator_NoDimension.cs" />
     <Compile Include="Validation\Operators\PeakingEQFilter_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\SortOverDimension_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Sort_OperatorValidator.cs" />
@@ -517,7 +512,6 @@
     <Compile Include="Validation\Patches\PatchValidator_UniqueInletNames.cs" />
     <Compile Include="Validation\SampleValidator_UniqueName.cs" />
     <Compile Include="Validation\Patches\PatchValidator_UniqueName.cs" />
-    <Compile Include="Validation\Curves\2016-08-25 Backup of CurveValidator_UniqueName.cs" />
     <Compile Include="Validation\Documents\DocumentValidator_Unicity.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_SetInletCount.cs" />
     <Compile Include="PatchManager.CreateOperator.cs" />
@@ -598,7 +592,6 @@
     <Compile Include="Resources\ResourceHelper.cs" />
     <Compile Include="SideEffects\AudioFileOutput_SideEffect_SetDefaults.cs" />
     <Compile Include="SideEffects\AudioFileOutput_SideEffect_GenerateName.cs" />
-    <Compile Include="SideEffects\2016-08-21 Backup of Curve_SideEffect_SetDefaults_Basic.cs" />
     <Compile Include="SideEffects\Scale_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Operator_SideEffect_GeneratePatchOutletListIndex.cs" />
     <Compile Include="SideEffects\Operator_SideEffect_GeneratePatchInletListIndex.cs" />
@@ -607,11 +600,9 @@
     <Compile Include="SideEffects\Patch_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Sample_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Curve_SideEffect_GenerateName.cs" />
-    <Compile Include="SideEffects\2016-08-25 Backup of Document_SideEffect_GenerateChildDocumentName.cs" />
     <Compile Include="SideEffects\Sample_SideEffect_SetDefaults.cs" />
     <Compile Include="Helpers\WavHeaderStruct.cs" />
     <Compile Include="SideEffects\Scale_SideEffect_SetDefaults.cs" />
-    <Compile Include="Validation\Documents\2016-08-25 Backup of ChildDocument_DocumentValidator.cs" />
     <Compile Include="Validation\AudioFileOutputValidator_InDocument.cs" />
     <Compile Include="Validation\Curves\CurveValidator_WithoutNodes.cs" />
     <Compile Include="Validation\NodeValidator_Parent.cs" />

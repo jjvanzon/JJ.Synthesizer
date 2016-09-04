@@ -67,16 +67,13 @@
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="EventArg\EventArgsOfT.cs" />
     <Compile Include="EventArg\ScaleAndToneEventArgs.cs" />
-    <Compile Include="EventArg\2016-08-27 Backup of DocumentAndChildEntityEventArgs.cs" />
     <Compile Include="EventArg\GroupAndPatchIDEventArgs.cs" />
     <Compile Include="EventArg\NodeEventArgs.cs" />
     <Compile Include="EventArg\SelectOperatorEventArgs.cs" />
     <Compile Include="EventArg\CreateOperatorEventArgs.cs" />
     <Compile Include="EventArg\ChangeInputOutletEventArgs.cs" />
     <Compile Include="EventArg\MoveOperatorEventArgs.cs" />
-    <Compile Include="EventArg\2016-08-24 Backup of StringEventArgs.cs" />
     <Compile Include="EventArg\MoveNodeEventArgs.cs" />
-    <Compile Include="EventArg\2016-08-24 Backup of Int32EventArgs.cs" />
     <Compile Include="Forms\DocumentCannotDeleteForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -90,7 +87,6 @@
       <DependentUpon>PatchDetailsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\MessageBoxHelper.cs" />
-    <Compile Include="Helpers\2016-08-26 Backup of TagHelper.cs" />
     <Compile Include="MainForm.ApplyViewModel.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -121,14 +117,12 @@
     <Compile Include="UserControls\Bases\DetailsOrPropertiesUserControlBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\Bases\2016-08-30 Backup of PropertiesUserControlBase.cs" />
     <Compile Include="UserControls\CurrentPatchesUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UserControls\CurrentPatchesUserControl.Designer.cs">
       <DependentUpon>CurrentPatchesUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Bases\2016-08-27 Backup of DetailsOrPropertiesUserControlBaseOfTKey.cs" />
     <Compile Include="UserControls\Bases\OperatorPropertiesUserControlBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -152,10 +146,6 @@
     </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_ForMakeContinuous.Designer.cs">
       <DependentUpon>OperatorPropertiesUserControl_ForMakeContinuous.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\2016-08-30 Backup of OperatorPropertiesUserControl_WithDimension.cs" />
-    <Compile Include="UserControls\2016-08-30 Backup of OperatorPropertiesUserControl_WithDimension.Designer.cs">
-      <DependentUpon>2016-08-30 Backup of OperatorPropertiesUserControl_WithDimension.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Partials\CurrentPatchItemUserControl.cs">
       <SubType>UserControl</SubType>
@@ -380,9 +370,6 @@
     <EmbeddedResource Include="UserControls\Bases\OperatorPropertiesUserControlBase.resx">
       <DependentUpon>OperatorPropertiesUserControlBase.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\Bases\2016-08-30 Backup of PropertiesUserControlBase.resx">
-      <DependentUpon>2016-08-30 Backup of PropertiesUserControlBase.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\Bases\PropertiesUserControlBase.resx">
       <DependentUpon>PropertiesUserControlBase.cs</DependentUpon>
     </EmbeddedResource>
@@ -397,9 +384,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForMakeContinuous.resx">
       <DependentUpon>OperatorPropertiesUserControl_ForMakeContinuous.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\2016-08-30 Backup of OperatorPropertiesUserControl_WithDimension.resx">
-      <DependentUpon>2016-08-30 Backup of OperatorPropertiesUserControl_WithDimension.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\Partials\CurrentPatchItemUserControl.resx">
       <DependentUpon>CurrentPatchItemUserControl.cs</DependentUpon>
