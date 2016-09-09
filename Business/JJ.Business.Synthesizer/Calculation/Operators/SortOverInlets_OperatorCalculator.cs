@@ -5,7 +5,7 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Sort_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class SortOverInlets_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase[] _itemCalculators;
         private readonly double[] _items;
@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
-        public Sort_OperatorCalculator(
+        public SortOverInlets_OperatorCalculator(
             IList<OperatorCalculatorBase> itemCalculators,
             DimensionStack dimensionStack) 
             : base(itemCalculators)

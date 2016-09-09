@@ -773,14 +773,14 @@
   <data name="MakeDiscrete" xml:space="preserve">
     <value>Maak afzonderlijk</value>
   </data>
-  <data name="Max" xml:space="preserve">
-    <value>Max</value>
+  <data name="MaxOverInlets" xml:space="preserve">
+    <value>Max over ingangen</value>
   </data>
-  <data name="Min" xml:space="preserve">
-    <value>Minimum</value>
+  <data name="MinOverInlets" xml:space="preserve">
+    <value>Minimum over ingangen</value>
   </data>
-  <data name="Average" xml:space="preserve">
-    <value>Gemiddeld</value>
+  <data name="AverageOverInlets" xml:space="preserve">
+    <value>Gemiddelde over ingangen</value>
   </data>
   <data name="MaxOverDimension" xml:space="preserve">
     <value>Max over dimensie</value>
@@ -809,20 +809,20 @@
   <data name="CollectionRecalculation" xml:space="preserve">
     <value>Verzameling herberekenen</value>
   </data>
-  <data name="Closest" xml:space="preserve">
-    <value>Dichtstbijzijnd</value>
+  <data name="ClosestOverInlets" xml:space="preserve">
+    <value>Dichtstbijzijnd over ingangen</value>
   </data>
   <data name="ClosestOverDimension" xml:space="preserve">
     <value>Dichtstbijzijnd over dimensie</value>
   </data>
-  <data name="ClosestExp" xml:space="preserve">
-    <value>Dichtstbijzijnd exp</value>
+  <data name="ClosestOverInletsExp" xml:space="preserve">
+    <value>Dichtstbijzijnd over ingangen exp</value>
   </data>
   <data name="ClosestOverDimensionExp" xml:space="preserve">
     <value>Dichtstbijzijnd over dimensie exp</value>
   </data>
-  <data name="Sort" xml:space="preserve">
-    <value>Sorteren</value>
+  <data name="SortOverInlets" xml:space="preserve">
+    <value>Sorteren over ingangen</value>
   </data>
   <data name="SortOverDimension" xml:space="preserve">
     <value>Sorteren over dimensie</value>

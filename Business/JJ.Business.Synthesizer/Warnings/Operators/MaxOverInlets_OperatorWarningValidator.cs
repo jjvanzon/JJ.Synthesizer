@@ -5,9 +5,9 @@ using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
-    internal class Sort_OperatorWarningValidator : OperatorWarningValidator_Base_AnyInletsFilledInOrHaveDefaults
+    internal class MaxOverInlets_OperatorWarningValidator : OperatorWarningValidator_Base_AnyInletsFilledInOrHaveDefaults
     {
-        public Sort_OperatorWarningValidator(Operator obj)
+        public MaxOverInlets_OperatorWarningValidator(Operator obj)
             : base(obj)
         { }
     }

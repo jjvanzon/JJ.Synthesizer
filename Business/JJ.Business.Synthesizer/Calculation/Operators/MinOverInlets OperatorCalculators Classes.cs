@@ -6,13 +6,16 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Max_OperatorCalculator_WithConst_AndVarArray : OperatorCalculatorBase_WithChildCalculators
+    // You could imagine many more optimized calculations, such as first operand is const and several,
+    // that omit the loop, but future optimizations will just make that work obsolete again.
+
+    internal class MinOverInlets_OperatorCalculator_WithConst_AndVarArray : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly double _constValue;
         private readonly OperatorCalculatorBase[] _varOperandCalculators;
         private readonly double _varOperandCalculatorsCount;
 
-        public Max_OperatorCalculator_WithConst_AndVarArray(double constValue, IList<OperatorCalculatorBase> operandCalculators)
+        public MinOverInlets_OperatorCalculator_WithConst_AndVarArray(double constValue, IList<OperatorCalculatorBase> operandCalculators)
             : base(operandCalculators)
         {
             if (operandCalculators == null) throw new NullException(() => operandCalculators);
@@ -25,29 +28,29 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double max = _constValue;
+            double min = _constValue;
 
             for (int i = 0; i < _varOperandCalculatorsCount; i++)
             {
                 double value = _varOperandCalculators[i].Calculate();
 
-                if (max < value)
+                if (min > value)
                 {
-                    max = value;
+                    min = value;
                 }
             }
 
-            return max;
+            return min;
         }
     }
 
-    internal class Max_OperatorCalculator_AllVars : OperatorCalculatorBase_WithChildCalculators
+    internal class MinOverInlets_OperatorCalculator_AllVars : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _firstOperandCalculator;
         private readonly OperatorCalculatorBase[] _remainingOperandCalculators;
         private readonly double _remainingOperandCalculatorsCount;
-
-        public Max_OperatorCalculator_AllVars(IList<OperatorCalculatorBase> operandCalculators)
+        
+        public MinOverInlets_OperatorCalculator_AllVars(IList<OperatorCalculatorBase> operandCalculators)
             : base(operandCalculators)
         {
             if (operandCalculators == null) throw new NullException(() => operandCalculators);
@@ -61,28 +64,28 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double max = _firstOperandCalculator.Calculate();
+            double result = _firstOperandCalculator.Calculate();
 
             for (int i = 0; i < _remainingOperandCalculatorsCount; i++)
             {
-                double value = _remainingOperandCalculators[i].Calculate();
+                double result2 = _remainingOperandCalculators[i].Calculate();
 
-                if (max < value)
+                if (result2 < result)
                 {
-                    max = value;
+                    result = result2;
                 }
             }
 
-            return max;
+            return result;
         }
     }
 
-    internal class Max_OperatorCalculator_OneConst_OneVar : OperatorCalculatorBase_WithChildCalculators
+    internal class MinOverInlets_OperatorCalculator_OneConst_OneVar : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly double _constValue;
         private readonly OperatorCalculatorBase _varCalculator;
 
-        public Max_OperatorCalculator_OneConst_OneVar(double constValue, OperatorCalculatorBase varCalculator)
+        public MinOverInlets_OperatorCalculator_OneConst_OneVar(double constValue, OperatorCalculatorBase varCalculator)
             : base(new OperatorCalculatorBase[] { varCalculator })
         {
             if (varCalculator == null) throw new NullException(() => varCalculator);
@@ -96,7 +99,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double varValue = _varCalculator.Calculate();
 
-            if (_constValue > varValue)
+            if (_constValue < varValue)
             {
                 return _constValue;
             }
@@ -107,12 +110,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Max_OperatorCalculator_TwoVars : OperatorCalculatorBase_WithChildCalculators
+    internal class MinOverInlets_OperatorCalculator_TwoVars : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _aCalculator;
         private readonly OperatorCalculatorBase _bCalculator;
 
-        public Max_OperatorCalculator_TwoVars(
+        public MinOverInlets_OperatorCalculator_TwoVars(
             OperatorCalculatorBase aCalculator,
             OperatorCalculatorBase bCalculator)
             : base(new OperatorCalculatorBase[] { aCalculator, bCalculator })
@@ -130,7 +133,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double a = _aCalculator.Calculate();
             double b = _bCalculator.Calculate();
 
-            if (a > b)
+            if (a < b)
             {
                 return a;
             }

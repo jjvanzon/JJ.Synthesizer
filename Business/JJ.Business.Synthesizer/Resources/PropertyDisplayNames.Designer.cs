@@ -160,15 +160,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Average.
-        /// </summary>
-        public static string Average {
-            get {
-                return ResourceManager.GetString("Average", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Average Follower.
         /// </summary>
         public static string AverageFollower {
@@ -183,6 +174,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string AverageOverDimension {
             get {
                 return ResourceManager.GetString("AverageOverDimension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Average over Inlets.
+        /// </summary>
+        public static string AverageOverInlets {
+            get {
+                return ResourceManager.GetString("AverageOverInlets", resourceCulture);
             }
         }
         
@@ -376,24 +376,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Closest.
-        /// </summary>
-        public static string Closest {
-            get {
-                return ResourceManager.GetString("Closest", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Closest Exp.
-        /// </summary>
-        public static string ClosestExp {
-            get {
-                return ResourceManager.GetString("ClosestExp", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Closest over Dimension.
         /// </summary>
         public static string ClosestOverDimension {
@@ -408,6 +390,24 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string ClosestOverDimensionExp {
             get {
                 return ResourceManager.GetString("ClosestOverDimensionExp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Closest over Inlets.
+        /// </summary>
+        public static string ClosestOverInlets {
+            get {
+                return ResourceManager.GetString("ClosestOverInlets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Closest over Inlets Exp.
+        /// </summary>
+        public static string ClosestOverInletsExp {
+            get {
+                return ResourceManager.GetString("ClosestOverInletsExp", resourceCulture);
             }
         }
         
@@ -1114,15 +1114,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Max.
-        /// </summary>
-        public static string Max {
-            get {
-                return ResourceManager.GetString("Max", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Concurrent Notes.
         /// </summary>
         public static string MaxConcurrentNotes {
@@ -1159,11 +1150,11 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Min.
+        ///   Looks up a localized string similar to Max over Inlets.
         /// </summary>
-        public static string Min {
+        public static string MaxOverInlets {
             get {
-                return ResourceManager.GetString("Min", resourceCulture);
+                return ResourceManager.GetString("MaxOverInlets", resourceCulture);
             }
         }
         
@@ -1191,6 +1182,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string MinOverDimension {
             get {
                 return ResourceManager.GetString("MinOverDimension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Min over Inlets.
+        /// </summary>
+        public static string MinOverInlets {
+            get {
+                return ResourceManager.GetString("MinOverInlets", resourceCulture);
             }
         }
         
@@ -1870,20 +1870,20 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sort.
-        /// </summary>
-        public static string Sort {
-            get {
-                return ResourceManager.GetString("Sort", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Sort over Dimension.
         /// </summary>
         public static string SortOverDimension {
             get {
                 return ResourceManager.GetString("SortOverDimension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sort over Inlets.
+        /// </summary>
+        public static string SortOverInlets {
+            get {
+                return ResourceManager.GetString("SortOverInlets", resourceCulture);
             }
         }
         

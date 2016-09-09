@@ -123,6 +123,15 @@
   <data name="ApplicationName" xml:space="preserve">
     <value>Synthesizer</value>
   </data>
+  <data name="Average" xml:space="preserve">
+    <value>Average</value>
+  </data>
+  <data name="Closest" xml:space="preserve">
+    <value>Closest</value>
+  </data>
+  <data name="ClosestExp" xml:space="preserve">
+    <value>Closest Exp</value>
+  </data>
   <data name="CurrentPatches" xml:space="preserve">
     <value>Current Patches</value>
   </data>
@@ -148,6 +157,12 @@
   <data name="Group" xml:space="preserve">
     <value>Group</value>
   </data>
+  <data name="Max" xml:space="preserve">
+    <value>Max</value>
+  </data>
+  <data name="Min" xml:space="preserve">
+    <value>Min</value>
+  </data>
   <data name="Number" xml:space="preserve">
     <value>Number</value>
   </data>
@@ -157,6 +172,9 @@
   <data name="SetDimensionWithPlaceholder" xml:space="preserve">
     <value>Set {0}</value>
     <comment>{0} = dimension, example: Set Time</comment>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Sort</value>
   </data>
   <data name="Standard" xml:space="preserve">
     <value>Standard</value>

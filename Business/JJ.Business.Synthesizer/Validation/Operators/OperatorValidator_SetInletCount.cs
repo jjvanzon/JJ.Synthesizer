@@ -16,15 +16,15 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         private static readonly HashSet<OperatorTypeEnum> _allowedOperatorTypeEnums = new HashSet<OperatorTypeEnum>
         {
             OperatorTypeEnum.Add,
-            OperatorTypeEnum.Average,
+            OperatorTypeEnum.AverageOverInlets,
             OperatorTypeEnum.Bundle,
-            OperatorTypeEnum.Closest,
-            OperatorTypeEnum.ClosestExp,
+            OperatorTypeEnum.ClosestOverInlets,
+            OperatorTypeEnum.ClosestOverInletsExp,
             OperatorTypeEnum.MakeContinuous,
-            OperatorTypeEnum.Max,
-            OperatorTypeEnum.Min,
+            OperatorTypeEnum.MaxOverInlets,
+            OperatorTypeEnum.MinOverInlets,
             OperatorTypeEnum.Multiply,
-            OperatorTypeEnum.Sort
+            OperatorTypeEnum.SortOverInlets
         };
 
         private static readonly IList<string> _allowedOperatorTypeDisplayNames = _allowedOperatorTypeEnums.Select(x => ResourceHelper.GetDisplayName(x)).ToArray();

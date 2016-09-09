@@ -773,14 +773,14 @@
   <data name="MakeDiscrete" xml:space="preserve">
     <value>Make Discrete</value>
   </data>
-  <data name="Max" xml:space="preserve">
-    <value>Max</value>
+  <data name="MaxOverInlets" xml:space="preserve">
+    <value>Max over Inlets</value>
   </data>
-  <data name="Min" xml:space="preserve">
-    <value>Min</value>
+  <data name="MinOverInlets" xml:space="preserve">
+    <value>Min over Inlets</value>
   </data>
-  <data name="Average" xml:space="preserve">
-    <value>Average</value>
+  <data name="AverageOverInlets" xml:space="preserve">
+    <value>Average over Inlets</value>
   </data>
   <data name="MaxOverDimension" xml:space="preserve">
     <value>Max over Dimension</value>
@@ -809,22 +809,22 @@
   <data name="CollectionRecalculation" xml:space="preserve">
     <value>Collection Recalculation</value>
   </data>
-  <data name="Closest" xml:space="preserve">
-    <value>Closest</value>
+  <data name="ClosestOverInlets" xml:space="preserve">
+    <value>Closest over Inlets</value>
   </data>
   <data name="ClosestOverDimension" xml:space="preserve">
     <value>Closest over Dimension</value>
   </data>
-  <data name="ClosestExp" xml:space="preserve">
-    <value>Closest Exp</value>
+  <data name="ClosestOverInletsExp" xml:space="preserve">
+    <value>Closest over Inlets Exp</value>
     <comment>'Exp' is an abbrevation of 'exponential'.</comment>
   </data>
   <data name="ClosestOverDimensionExp" xml:space="preserve">
     <value>Closest over Dimension Exp</value>
     <comment>'Exp' is an abbrevation of 'exponential'.</comment>
   </data>
-  <data name="Sort" xml:space="preserve">
-    <value>Sort</value>
+  <data name="SortOverInlets" xml:space="preserve">
+    <value>Sort over Inlets</value>
   </data>
   <data name="SortOverDimension" xml:space="preserve">
     <value>Sort over Dimension</value>

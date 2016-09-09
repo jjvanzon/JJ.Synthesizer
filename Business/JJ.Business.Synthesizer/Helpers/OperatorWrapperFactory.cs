@@ -20,15 +20,15 @@ namespace JJ.Business.Synthesizer.Helpers
             { OperatorTypeEnum.AllPassFilter, Create_AllPassFilter_OperatorWrapper },
             { OperatorTypeEnum.And, Create_And_OperatorWrapper },
             { OperatorTypeEnum.AverageOverDimension, Create_AverageOverDimension_OperatorWrapper },
-            { OperatorTypeEnum.Average, Create_Average_OperatorWrapper },
+            { OperatorTypeEnum.AverageOverInlets, Create_Average_OperatorWrapper },
             { OperatorTypeEnum.AverageFollower, Create_AverageFollower_OperatorWrapper },
             { OperatorTypeEnum.BandPassFilterConstantPeakGain, Create_BandPassFilterConstantPeakGain_OperatorWrapper },
             { OperatorTypeEnum.BandPassFilterConstantTransitionGain, Create_BandPassFilterConstantTransitionGain_OperatorWrapper },
             { OperatorTypeEnum.Bundle, Create_Bundle_OperatorWrapper },
             { OperatorTypeEnum.Cache, Create_Cache_OperatorWrapper },
             { OperatorTypeEnum.ChangeTrigger, Create_ChangeTrigger_OperatorWrapper },
-            { OperatorTypeEnum.Closest, Create_Closest_OperatorWrapper },
-            { OperatorTypeEnum.ClosestExp, Create_ClosestExp_OperatorWrapper },
+            { OperatorTypeEnum.ClosestOverInlets, Create_Closest_OperatorWrapper },
+            { OperatorTypeEnum.ClosestOverInletsExp, Create_ClosestExp_OperatorWrapper },
             { OperatorTypeEnum.ClosestOverDimension, Create_ClosestOverDimension_OperatorWrapper },
             { OperatorTypeEnum.ClosestOverDimensionExp, Create_ClosestOverDimensionExp_OperatorWrapper },
             { OperatorTypeEnum.Divide , Create_Divide_OperatorWrapper },
@@ -49,10 +49,10 @@ namespace JJ.Business.Synthesizer.Helpers
             { OperatorTypeEnum.MakeContinuous, Create_MakeContinuous_OperatorWrapper },
             { OperatorTypeEnum.MakeDiscrete, Create_MakeDiscrete_OperatorWrapper },
             { OperatorTypeEnum.MaxOverDimension, Create_MaxOverDimension_OperatorWrapper },
-            { OperatorTypeEnum.Max, Create_Max_OperatorWrapper },
+            { OperatorTypeEnum.MaxOverInlets, Create_Max_OperatorWrapper },
             { OperatorTypeEnum.MaxFollower, Create_MaxFollower_OperatorWrapper },
             { OperatorTypeEnum.MinOverDimension, Create_MinOverDimension_OperatorWrapper },
-            { OperatorTypeEnum.Min, Create_Min_OperatorWrapper },
+            { OperatorTypeEnum.MinOverInlets, Create_Min_OperatorWrapper },
             { OperatorTypeEnum.MinFollower, Create_MinFollower_OperatorWrapper },
             { OperatorTypeEnum.Multiply, Create_Multiply_OperatorWrapper },
             { OperatorTypeEnum.MultiplyWithOrigin , Create_MultiplyWithOrigin_OperatorWrapper },
@@ -83,7 +83,7 @@ namespace JJ.Business.Synthesizer.Helpers
             { OperatorTypeEnum.SetDimension, Create_SetDimension_OperatorWrapper },
             { OperatorTypeEnum.Shift, Create_Shift_OperatorWrapper },
             { OperatorTypeEnum.Sine , Create_Sine_OperatorWrapper },
-            { OperatorTypeEnum.Sort, Create_Sort_OperatorWrapper },
+            { OperatorTypeEnum.SortOverInlets, Create_Sort_OperatorWrapper },
             { OperatorTypeEnum.SortOverDimension, Create_SortOverDimension_OperatorWrapper },
             { OperatorTypeEnum.Spectrum, Create_Spectrum_OperatorWrapper },
             { OperatorTypeEnum.Square, Create_Square_OperatorWrapper },
@@ -140,12 +140,12 @@ namespace JJ.Business.Synthesizer.Helpers
         private static BandPassFilterConstantPeakGain_OperatorWrapper Create_BandPassFilterConstantPeakGain_OperatorWrapper(Operator op) { return new BandPassFilterConstantPeakGain_OperatorWrapper(op); }
         private static BandPassFilterConstantTransitionGain_OperatorWrapper Create_BandPassFilterConstantTransitionGain_OperatorWrapper(Operator op) { return new BandPassFilterConstantTransitionGain_OperatorWrapper(op); }
         private static AverageOverDimension_OperatorWrapper Create_AverageOverDimension_OperatorWrapper(Operator op) { return new AverageOverDimension_OperatorWrapper(op); }
-        private static Average_OperatorWrapper Create_Average_OperatorWrapper(Operator op) { return new Average_OperatorWrapper(op); }
+        private static AverageOverInlets_OperatorWrapper Create_Average_OperatorWrapper(Operator op) { return new AverageOverInlets_OperatorWrapper(op); }
         private static Bundle_OperatorWrapper Create_Bundle_OperatorWrapper(Operator op) { return new Bundle_OperatorWrapper(op); }
         private static Cache_OperatorWrapper Create_Cache_OperatorWrapper(Operator op) { return new Cache_OperatorWrapper(op); }
         private static ChangeTrigger_OperatorWrapper Create_ChangeTrigger_OperatorWrapper(Operator op) { return new ChangeTrigger_OperatorWrapper(op); }
-        private static Closest_OperatorWrapper Create_Closest_OperatorWrapper(Operator op) { return new Closest_OperatorWrapper(op); }
-        private static ClosestExp_OperatorWrapper Create_ClosestExp_OperatorWrapper(Operator op) { return new ClosestExp_OperatorWrapper(op); }
+        private static ClosestOverInlets_OperatorWrapper Create_Closest_OperatorWrapper(Operator op) { return new ClosestOverInlets_OperatorWrapper(op); }
+        private static ClosestOverInletsExp_OperatorWrapper Create_ClosestExp_OperatorWrapper(Operator op) { return new ClosestOverInletsExp_OperatorWrapper(op); }
         private static ClosestOverDimension_OperatorWrapper Create_ClosestOverDimension_OperatorWrapper(Operator op) { return new ClosestOverDimension_OperatorWrapper(op); }
         private static ClosestOverDimensionExp_OperatorWrapper Create_ClosestOverDimensionExp_OperatorWrapper(Operator op) { return new ClosestOverDimensionExp_OperatorWrapper(op); }
         private static Divide_OperatorWrapper Create_Divide_OperatorWrapper(Operator op) { return new Divide_OperatorWrapper(op); }
@@ -166,10 +166,10 @@ namespace JJ.Business.Synthesizer.Helpers
         private static MakeContinuous_OperatorWrapper Create_MakeContinuous_OperatorWrapper(Operator op) { return new MakeContinuous_OperatorWrapper(op); }
         private static MakeDiscrete_OperatorWrapper Create_MakeDiscrete_OperatorWrapper(Operator op) { return new MakeDiscrete_OperatorWrapper(op); }
         private static MaxOverDimension_OperatorWrapper Create_MaxOverDimension_OperatorWrapper(Operator op) { return new MaxOverDimension_OperatorWrapper(op); }
-        private static Max_OperatorWrapper Create_Max_OperatorWrapper(Operator op) { return new Max_OperatorWrapper(op); }
+        private static MaxOverInlets_OperatorWrapper Create_Max_OperatorWrapper(Operator op) { return new MaxOverInlets_OperatorWrapper(op); }
         private static MaxFollower_OperatorWrapper Create_MaxFollower_OperatorWrapper(Operator op) { return new MaxFollower_OperatorWrapper(op); }
         private static MinOverDimension_OperatorWrapper Create_MinOverDimension_OperatorWrapper(Operator op) { return new MinOverDimension_OperatorWrapper(op); }
-        private static Min_OperatorWrapper Create_Min_OperatorWrapper(Operator op) { return new Min_OperatorWrapper(op); }
+        private static MinOverInlets_OperatorWrapper Create_Min_OperatorWrapper(Operator op) { return new MinOverInlets_OperatorWrapper(op); }
         private static MinFollower_OperatorWrapper Create_MinFollower_OperatorWrapper(Operator op) { return new MinFollower_OperatorWrapper(op); }
         private static Multiply_OperatorWrapper Create_Multiply_OperatorWrapper(Operator op) { return new Multiply_OperatorWrapper(op); }
         private static MultiplyWithOrigin_OperatorWrapper Create_MultiplyWithOrigin_OperatorWrapper(Operator op) { return new MultiplyWithOrigin_OperatorWrapper(op); }
@@ -201,7 +201,7 @@ namespace JJ.Business.Synthesizer.Helpers
         private static SetDimension_OperatorWrapper Create_SetDimension_OperatorWrapper(Operator op) { return new SetDimension_OperatorWrapper(op); }
         private static Shift_OperatorWrapper Create_Shift_OperatorWrapper(Operator op) { return new Shift_OperatorWrapper(op); }
         private static Sine_OperatorWrapper Create_Sine_OperatorWrapper(Operator op) { return new Sine_OperatorWrapper(op); }
-        private static Sort_OperatorWrapper Create_Sort_OperatorWrapper(Operator op) { return new Sort_OperatorWrapper(op); }
+        private static SortOverInlets_OperatorWrapper Create_Sort_OperatorWrapper(Operator op) { return new SortOverInlets_OperatorWrapper(op); }
         private static SortOverDimension_OperatorWrapper Create_SortOverDimension_OperatorWrapper(Operator op) { return new SortOverDimension_OperatorWrapper(op); }
         private static Spectrum_OperatorWrapper Create_Spectrum_OperatorWrapper(Operator op) { return new Spectrum_OperatorWrapper(op); }
         private static Square_OperatorWrapper Create_Square_OperatorWrapper(Operator op) { return new Square_OperatorWrapper(op); }

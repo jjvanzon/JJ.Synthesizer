@@ -40,11 +40,11 @@ namespace JJ.Business.Synthesizer.Api
             Outlet bandWidth = null)
             => _patchManager.AllPassFilter(signal, centerFrequency, bandWidth);
 
-        public Average_OperatorWrapper Average(params Outlet[] operands)
-            => _patchManager.Average(operands);
+        public AverageOverInlets_OperatorWrapper AverageOverInlets(params Outlet[] operands)
+            => _patchManager.AverageOverInlets(operands);
 
-        public Average_OperatorWrapper Average(IList<Outlet> operands)
-            => _patchManager.Average(operands);
+        public AverageOverInlets_OperatorWrapper AverageOverInlets(IList<Outlet> operands)
+            => _patchManager.AverageOverInlets(operands);
 
         public AverageOverDimension_OperatorWrapper AverageOverDimension(
             Outlet signal = null,
@@ -107,17 +107,17 @@ namespace JJ.Business.Synthesizer.Api
         public ChangeTrigger_OperatorWrapper ChangeTrigger(Outlet calculation, Outlet reset)
             => _patchManager.ChangeTrigger(calculation, reset);
 
-        public Closest_OperatorWrapper Closest(Outlet input, params Outlet[] items)
-            => _patchManager.Closest(input, items);
+        public ClosestOverInlets_OperatorWrapper ClosestOverInlets(Outlet input, params Outlet[] items)
+            => _patchManager.ClosestOverInlets(input, items);
 
-        public Closest_OperatorWrapper Closest(Outlet input, IList<Outlet> items)
-            => _patchManager.Closest(input, items);
+        public ClosestOverInlets_OperatorWrapper ClosestOverInlets(Outlet input, IList<Outlet> items)
+            => _patchManager.ClosestOverInlets(input, items);
 
-        public ClosestExp_OperatorWrapper ClosestExp(Outlet input, params Outlet[] items)
-            => _patchManager.ClosestExp(input, items);
+        public ClosestOverInletsExp_OperatorWrapper ClosestExpOverInlets(Outlet input, params Outlet[] items)
+            => _patchManager.ClosestOverInletsExp(input, items);
 
-        public ClosestExp_OperatorWrapper ClosestExp(Outlet input, IList<Outlet> items)
-            => _patchManager.ClosestExp(input, items);
+        public ClosestOverInletsExp_OperatorWrapper ClosestExpOverInlets(Outlet input, IList<Outlet> items)
+            => _patchManager.ClosestOverInletsExp(input, items);
 
         public ClosestOverDimension_OperatorWrapper ClosestOverDimension(
             Outlet input = null,
@@ -294,11 +294,11 @@ namespace JJ.Business.Synthesizer.Api
         public MakeDiscrete_OperatorWrapper MakeDiscrete()
             => _patchManager.MakeDiscrete();
 
-        public Max_OperatorWrapper Max(params Outlet[] operands)
-            => _patchManager.Max(operands);
+        public MaxOverInlets_OperatorWrapper MaxOverInlets(params Outlet[] operands)
+            => _patchManager.MaxOverInlets(operands);
 
-        public Max_OperatorWrapper Max(IList<Outlet> operands)
-            => _patchManager.Max(operands);
+        public MaxOverInlets_OperatorWrapper MaxOverInlets(IList<Outlet> operands)
+            => _patchManager.MaxOverInlets(operands);
 
         public MaxFollower_OperatorWrapper MaxFollower(
             Outlet signal = null,
@@ -318,11 +318,11 @@ namespace JJ.Business.Synthesizer.Api
             CollectionRecalculationEnum collectionRecalculation = CollectionRecalculationEnum.Continuous)
             => _patchManager.MaxOverDimension(signal, from, till, step, standardDimension, customDimension, collectionRecalculation);
 
-        public Min_OperatorWrapper Min(params Outlet[] operands)
-            => _patchManager.Min(operands);
+        public MinOverInlets_OperatorWrapper MinOverInlets(params Outlet[] operands)
+            => _patchManager.MinOverInlets(operands);
 
-        public Min_OperatorWrapper Min(IList<Outlet> operands)
-            => _patchManager.Min(operands);
+        public MinOverInlets_OperatorWrapper MinOverInlets(IList<Outlet> operands)
+            => _patchManager.MinOverInlets(operands);
 
         public MinFollower_OperatorWrapper MinFollower(
             Outlet signal = null, 
@@ -491,11 +491,11 @@ namespace JJ.Business.Synthesizer.Api
         public Sine_OperatorWrapper Sine(Outlet frequency = null, DimensionEnum standardDimension = DimensionEnum.Time, string customDimension = null)
             => _patchManager.Sine(frequency, standardDimension, customDimension);
 
-        public Sort_OperatorWrapper Sort(params Outlet[] operands)
-            => _patchManager.Sort(operands);
+        public SortOverInlets_OperatorWrapper SortOverInlets(params Outlet[] operands)
+            => _patchManager.SortOverInlets(operands);
 
-        public Sort_OperatorWrapper Sort(IList<Outlet> operands)
-            => _patchManager.Sort(operands);
+        public SortOverInlets_OperatorWrapper SortOverInlets(IList<Outlet> operands)
+            => _patchManager.SortOverInlets(operands);
 
         public SortOverDimension_OperatorWrapper SortOverDimension(
             Outlet signal = null,

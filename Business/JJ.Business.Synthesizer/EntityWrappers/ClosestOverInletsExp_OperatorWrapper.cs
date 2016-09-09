@@ -5,9 +5,9 @@ using System.Linq;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class ClosestExp_OperatorWrapper : Closest_OperatorWrapper
+    public class ClosestOverInletsExp_OperatorWrapper : ClosestOverInlets_OperatorWrapper
     {
-        public ClosestExp_OperatorWrapper(Operator op)
+        public ClosestOverInletsExp_OperatorWrapper(Operator op)
             : base(op)
         { }
     }

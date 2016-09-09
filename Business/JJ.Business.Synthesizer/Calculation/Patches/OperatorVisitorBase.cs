@@ -23,14 +23,14 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.And, VisitAnd },
                 { OperatorTypeEnum.AverageFollower, VisitAverageFollower },
                 { OperatorTypeEnum.AverageOverDimension, VisitAverageOverDimension },
-                { OperatorTypeEnum.Average, VisitAverage },
+                { OperatorTypeEnum.AverageOverInlets, VisitAverageOverInlets },
                 { OperatorTypeEnum.BandPassFilterConstantPeakGain, VisitBandPassFilterConstantPeakGain },
                 { OperatorTypeEnum.BandPassFilterConstantTransitionGain, VisitBandPassFilterConstantTransitionGain },
                 { OperatorTypeEnum.Bundle, VisitBundle },
                 { OperatorTypeEnum.Cache, VisitCache },
                 { OperatorTypeEnum.ChangeTrigger, VisitChangeTrigger },
-                { OperatorTypeEnum.Closest, VisitClosest },
-                { OperatorTypeEnum.ClosestExp, VisitClosestExp },
+                { OperatorTypeEnum.ClosestOverInlets, VisitClosestOverInlets },
+                { OperatorTypeEnum.ClosestOverInletsExp, VisitClosestOverInletsExp },
                 { OperatorTypeEnum.ClosestOverDimension, VisitClosestOverDimension },
                 { OperatorTypeEnum.ClosestOverDimensionExp, VisitClosestOverDimensionExp },
                 { OperatorTypeEnum.Curve, VisitCurveOperator },
@@ -52,10 +52,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.LowShelfFilter, VisitLowShelfFilter },
                 { OperatorTypeEnum.MakeContinuous, VisitMakeContinuous },
                 { OperatorTypeEnum.MakeDiscrete, VisitMakeDiscrete },
-                { OperatorTypeEnum.Max, VisitMax },
+                { OperatorTypeEnum.MaxOverInlets, VisitMaxOverInlets },
                 { OperatorTypeEnum.MaxFollower, VisitMaxFollower },
                 { OperatorTypeEnum.MaxOverDimension, VisitMaxOverDimension },
-                { OperatorTypeEnum.Min, VisitMin },
+                { OperatorTypeEnum.MinOverInlets, VisitMinOverInlets },
                 { OperatorTypeEnum.MinFollower, VisitMinFollower },
                 { OperatorTypeEnum.MinOverDimension, VisitMinOverDimension },
                 { OperatorTypeEnum.Multiply, VisitMultiply },
@@ -88,7 +88,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.SetDimension, VisitSetDimension },
                 { OperatorTypeEnum.Shift, VisitShift },
                 { OperatorTypeEnum.Sine, VisitSine },
-                { OperatorTypeEnum.Sort, VisitSort },
+                { OperatorTypeEnum.SortOverInlets, VisitSortOverInlets },
                 { OperatorTypeEnum.SortOverDimension, VisitSortOverDimension },
                 { OperatorTypeEnum.Spectrum, VisitSpectrum },
                 { OperatorTypeEnum.Square, VisitSquare },
@@ -192,7 +192,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         }
 
         [DebuggerHidden]
-        protected virtual void VisitAverage(Operator op)
+        protected virtual void VisitAverageOverInlets(Operator op)
         {
             VisitOperatorBase(op);
         }
@@ -222,13 +222,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         }
 
         [DebuggerHidden]
-        protected virtual void VisitClosest(Operator op)
+        protected virtual void VisitClosestOverInlets(Operator op)
         {
             VisitOperatorBase(op);
         }
 
         [DebuggerHidden]
-        protected virtual void VisitClosestExp(Operator op)
+        protected virtual void VisitClosestOverInletsExp(Operator op)
         {
             VisitOperatorBase(op);
         }
@@ -372,7 +372,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         }
 
         [DebuggerHidden]
-        protected virtual void VisitMax(Operator op)
+        protected virtual void VisitMaxOverInlets(Operator op)
         {
             VisitOperatorBase(op);
         }
@@ -390,7 +390,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         }
 
         [DebuggerHidden]
-        protected virtual void VisitMin(Operator op)
+        protected virtual void VisitMinOverInlets(Operator op)
         {
             VisitOperatorBase(op);
         }
@@ -588,7 +588,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         }
 
         [DebuggerHidden]
-        protected virtual void VisitSort(Operator op)
+        protected virtual void VisitSortOverInlets(Operator op)
         {
             VisitOperatorBase(op);
         }

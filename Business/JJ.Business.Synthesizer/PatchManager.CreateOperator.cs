@@ -125,21 +125,21 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Average_OperatorWrapper Average(params Outlet[] operands)
+        public AverageOverInlets_OperatorWrapper AverageOverInlets(params Outlet[] operands)
         {
-            return Average((IList<Outlet>)operands);
+            return AverageOverInlets((IList<Outlet>)operands);
         }
 
-        public Average_OperatorWrapper Average(IList<Outlet> operands)
+        public AverageOverInlets_OperatorWrapper AverageOverInlets(IList<Outlet> operands)
         {
             if (operands == null) throw new NullException(() => operands);
 
-            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.Average, operands);
+            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.AverageOverInlets, operands);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
-            var wrapper = new Average_OperatorWrapper(op);
+            var wrapper = new AverageOverInlets_OperatorWrapper(op);
             return wrapper;
         }
 
@@ -347,18 +347,18 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Closest_OperatorWrapper Closest(Outlet input, params Outlet[] items)
+        public ClosestOverInlets_OperatorWrapper ClosestOverInlets(Outlet input, params Outlet[] items)
         {
-            return Closest(input, (IList<Outlet>)items);
+            return ClosestOverInlets(input, (IList<Outlet>)items);
         }
 
-        public Closest_OperatorWrapper Closest(Outlet input, IList<Outlet> items)
+        public ClosestOverInlets_OperatorWrapper ClosestOverInlets(Outlet input, IList<Outlet> items)
         {
             Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(
-                OperatorTypeEnum.Closest,
+                OperatorTypeEnum.ClosestOverInlets,
                 input.Concat(items).ToArray());
 
-            var wrapper = new Closest_OperatorWrapper(op);
+            var wrapper = new ClosestOverInlets_OperatorWrapper(op);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -366,18 +366,18 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public ClosestExp_OperatorWrapper ClosestExp(Outlet input, params Outlet[] items)
+        public ClosestOverInletsExp_OperatorWrapper ClosestOverInletsExp(Outlet input, params Outlet[] items)
         {
-            return ClosestExp(input, (IList<Outlet>)items);
+            return ClosestOverInletsExp(input, (IList<Outlet>)items);
         }
 
-        public ClosestExp_OperatorWrapper ClosestExp(Outlet input, IList<Outlet> items)
+        public ClosestOverInletsExp_OperatorWrapper ClosestOverInletsExp(Outlet input, IList<Outlet> items)
         {
             Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(
-                OperatorTypeEnum.ClosestExp,
+                OperatorTypeEnum.ClosestOverInletsExp,
                 input.Concat(items).ToArray());
 
-            var wrapper = new ClosestExp_OperatorWrapper(op);
+            var wrapper = new ClosestOverInletsExp_OperatorWrapper(op);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1034,21 +1034,21 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Max_OperatorWrapper Max(params Outlet[] operands)
+        public MaxOverInlets_OperatorWrapper MaxOverInlets(params Outlet[] operands)
         {
-            return Max((IList<Outlet>)operands);
+            return MaxOverInlets((IList<Outlet>)operands);
         }
 
-        public Max_OperatorWrapper Max(IList<Outlet> operands)
+        public MaxOverInlets_OperatorWrapper MaxOverInlets(IList<Outlet> operands)
         {
             if (operands == null) throw new NullException(() => operands);
 
-            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.Max, operands);
+            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.MaxOverInlets, operands);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
-            var wrapper = new Max_OperatorWrapper(op);
+            var wrapper = new MaxOverInlets_OperatorWrapper(op);
             return wrapper;
         }
 
@@ -1119,21 +1119,21 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Min_OperatorWrapper Min(params Outlet[] operands)
+        public MinOverInlets_OperatorWrapper MinOverInlets(params Outlet[] operands)
         {
-            return Min((IList<Outlet>)operands);
+            return MinOverInlets((IList<Outlet>)operands);
         }
 
-        public Min_OperatorWrapper Min(IList<Outlet> operands)
+        public MinOverInlets_OperatorWrapper MinOverInlets(IList<Outlet> operands)
         {
             if (operands == null) throw new NullException(() => operands);
 
-            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.Min, operands);
+            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.MinOverInlets, operands);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
-            var wrapper = new Min_OperatorWrapper(op);
+            var wrapper = new MinOverInlets_OperatorWrapper(op);
             return wrapper;
         }
 
@@ -1970,21 +1970,21 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Sort_OperatorWrapper Sort(params Outlet[] operands)
+        public SortOverInlets_OperatorWrapper SortOverInlets(params Outlet[] operands)
         {
-            return Sort((IList<Outlet>)operands);
+            return SortOverInlets((IList<Outlet>)operands);
         }
 
-        public Sort_OperatorWrapper Sort(IList<Outlet> operands)
+        public SortOverInlets_OperatorWrapper SortOverInlets(IList<Outlet> operands)
         {
             if (operands == null) throw new NullException(() => operands);
 
-            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.Sort, operands);
+            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.SortOverInlets, operands);
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
-            var wrapper = new Sort_OperatorWrapper(op);
+            var wrapper = new SortOverInlets_OperatorWrapper(op);
             return wrapper;
         }
 
@@ -2417,7 +2417,7 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.Add: return Add(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.AllPassFilter: return AllPassFilter();
                 case OperatorTypeEnum.And: return And();
-                case OperatorTypeEnum.Average: return Average(new Outlet[variableInletOrOutletCount]);
+                case OperatorTypeEnum.AverageOverInlets: return AverageOverInlets(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.AverageFollower: return AverageFollower();
                 case OperatorTypeEnum.AverageOverDimension: return AverageOverDimension();
                 case OperatorTypeEnum.BandPassFilterConstantPeakGain: return BandPassFilterConstantPeakGain();
@@ -2425,8 +2425,8 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.Bundle: return Bundle(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.ChangeTrigger: return ChangeTrigger();
                 case OperatorTypeEnum.Cache: return Cache();
-                case OperatorTypeEnum.Closest: return Closest(null, new Outlet[variableInletOrOutletCount]);
-                case OperatorTypeEnum.ClosestExp: return ClosestExp(null, new Outlet[variableInletOrOutletCount]);
+                case OperatorTypeEnum.ClosestOverInlets: return ClosestOverInlets(null, new Outlet[variableInletOrOutletCount]);
+                case OperatorTypeEnum.ClosestOverInletsExp: return ClosestOverInletsExp(null, new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.ClosestOverDimension: return ClosestOverDimension();
                 case OperatorTypeEnum.ClosestOverDimensionExp: return ClosestOverDimensionExp();
                 case OperatorTypeEnum.Curve: return Curve();
@@ -2449,10 +2449,10 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.MakeContinuous: return MakeContinuous(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.MakeDiscrete: return MakeDiscrete(null, variableInletOrOutletCount);
                 case OperatorTypeEnum.MaxOverDimension: return MaxOverDimension();
-                case OperatorTypeEnum.Max: return Max(new Outlet[variableInletOrOutletCount]);
+                case OperatorTypeEnum.MaxOverInlets: return MaxOverInlets(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.MaxFollower: return MaxFollower();
                 case OperatorTypeEnum.MinOverDimension: return MinOverDimension();
-                case OperatorTypeEnum.Min: return Min(new Outlet[variableInletOrOutletCount]);
+                case OperatorTypeEnum.MinOverInlets: return MinOverInlets(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.MinFollower: return MinFollower();
                 case OperatorTypeEnum.Multiply: return Multiply(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.MultiplyWithOrigin: return MultiplyWithOrigin();
@@ -2484,7 +2484,7 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.SetDimension: return SetDimension();
                 case OperatorTypeEnum.Shift: return Shift();
                 case OperatorTypeEnum.Sine: return Sine();
-                case OperatorTypeEnum.Sort: return Sort(new Outlet[variableInletOrOutletCount]);
+                case OperatorTypeEnum.SortOverInlets: return SortOverInlets(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.SortOverDimension: return SortOverDimension();
                 case OperatorTypeEnum.Spectrum: return Spectrum();
                 case OperatorTypeEnum.Square: return Square();

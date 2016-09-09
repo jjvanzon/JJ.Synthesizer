@@ -464,15 +464,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 case OperatorTypeEnum.Multiply:
                     return DEFAULT_MULTIPLY_INLET_COUNT;
 
-                case OperatorTypeEnum.Max:
-                case OperatorTypeEnum.Min:
+                case OperatorTypeEnum.MaxOverInlets:
+                case OperatorTypeEnum.MinOverInlets:
                     return DEFAULT_DISCRETE_AGGREGATE_INLET_COUNT;
 
-                case OperatorTypeEnum.Closest:
-                case OperatorTypeEnum.ClosestExp:
+                case OperatorTypeEnum.ClosestOverInlets:
+                case OperatorTypeEnum.ClosestOverInletsExp:
                     return DEFAULT_CLOSEST_ITEM_COUNT;
 
-                case OperatorTypeEnum.Sort:
+                case OperatorTypeEnum.SortOverInlets:
                     return DEFAULT_SORT_INLET_COUNT;
 
                 default:

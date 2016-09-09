@@ -76,20 +76,20 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             EnsureEntity(66, "Range", hasDimension: true);
             EnsureEntity(67, "MakeDiscrete", hasDimension: true);
             EnsureEntity(68, "MakeContinuous", hasDimension: true);
-            EnsureEntity(69, "Max");
-            EnsureEntity(70, "Min");
-            EnsureEntity(71, "Average");
+            EnsureEntity(69, "MaxOverInlets");
+            EnsureEntity(70, "MinOverInlets");
+            EnsureEntity(71, "AverageOverInlets");
             EnsureEntity(72, "MaxOverDimension", hasDimension: true);
             EnsureEntity(73, "MinOverDimension", hasDimension: true);
             EnsureEntity(74, "AverageOverDimension", hasDimension: true);
             EnsureEntity(75, "SumOverDimension", hasDimension: true);
             EnsureEntity(76, "SumFollower", hasDimension: true);
             EnsureEntity(77, "Multiply");
-            EnsureEntity(78, "Closest");
+            EnsureEntity(78, "ClosestOverInlets");
             EnsureEntity(79, "ClosestOverDimension", hasDimension: true);
-            EnsureEntity(80, "ClosestExp");
+            EnsureEntity(80, "ClosestOverInletsExp");
             EnsureEntity(81, "ClosestOverDimensionExp", hasDimension: true);
-            EnsureEntity(82, "Sort");
+            EnsureEntity(82, "SortOverInlets");
             EnsureEntity(83, "SortOverDimension", hasDimension: true);
             EnsureEntity(84, "BandPassFilterConstantSkirtGain");
             EnsureEntity(85, "BandPassFilterConstantPeakGain");
@@ -104,7 +104,6 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
         {
             OperatorType entity = RepositoryHelper.EnsureEnumEntity(this, id, name);
             entity.HasDimension = hasDimension;
-
         }
     }
 }

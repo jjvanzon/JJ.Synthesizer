@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.SideEffects
         private readonly Scale _scale;
         private readonly IScaleTypeRepository _scaleTypeRepository;
 
-        private static double _defaultBaseFrequency = GetDefaultBaseFrequency();
+        private static readonly double _defaultBaseFrequency = GetDefaultBaseFrequency();
 
         /// <summary> Sets the scale properties to practical defaults, also slightly dependent on the scale type. </summary>
         public Scale_SideEffect_SetDefaults(Scale scale, IScaleTypeRepository scaleTypeRepository)

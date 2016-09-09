@@ -1,25 +1,25 @@
-﻿using JJ.Business.Synthesizer.EntityWrappers;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using JJ.Business.Synthesizer;
+using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Data.Canonical;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Framework.Common;
+using JJ.Framework.Configuration;
+using JJ.Framework.Mathematics;
 using JJ.Framework.Reflection.Exceptions;
+using JJ.Presentation.Synthesizer.Helpers;
+using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using JJ.Data.Canonical;
-using JJ.Framework.Configuration;
-using JJ.Presentation.Synthesizer.Helpers;
-using JJ.Framework.Common;
-using JJ.Business.Synthesizer.Helpers;
-using System.Text;
-using JJ.Presentation.Synthesizer.Resources;
-using JJ.Business.Synthesizer;
-using JJ.Framework.Mathematics;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -65,13 +65,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                   new HashSet<OperatorTypeEnum>
         {
             OperatorTypeEnum.Add,
-            OperatorTypeEnum.Average,
-            OperatorTypeEnum.Closest,
-            OperatorTypeEnum.ClosestExp,
-            OperatorTypeEnum.Max,
-            OperatorTypeEnum.Min,
+            OperatorTypeEnum.AverageOverInlets,
+            OperatorTypeEnum.ClosestOverInlets,
+            OperatorTypeEnum.ClosestOverInletsExp,
+            OperatorTypeEnum.MaxOverInlets,
+            OperatorTypeEnum.MinOverInlets,
             OperatorTypeEnum.Multiply,
-            OperatorTypeEnum.Sort
+            OperatorTypeEnum.SortOverInlets
         };
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithTheirOwnPropertyViews { get; } =
@@ -161,20 +161,20 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             //OperatorTypeEnum.Range,
             OperatorTypeEnum.MakeDiscrete,
             OperatorTypeEnum.MakeContinuous,
-            OperatorTypeEnum.Max,
-            OperatorTypeEnum.Min,
-            OperatorTypeEnum.Average,
+            OperatorTypeEnum.MaxOverInlets,
+            OperatorTypeEnum.MinOverInlets,
+            OperatorTypeEnum.AverageOverInlets,
             //OperatorTypeEnum.MaxOverDimension,
             //OperatorTypeEnum.MinOverDimension,
             //OperatorTypeEnum.AverageOverDimension,
             //OperatorTypeEnum.SumOverDimension,
             //OperatorTypeEnum.SumFollower,
             OperatorTypeEnum.Multiply,
-            //OperatorTypeEnum.Closest,
+            //OperatorTypeEnum.ClosestOverInlets,
             //OperatorTypeEnum.ClosestOverDimension,
-            //OperatorTypeEnum.ClosestExp,
+            //OperatorTypeEnum.ClosestOverInletsExp,
             //OperatorTypeEnum.ClosestOverDimensionExp,
-            //OperatorTypeEnum.Sort,
+            OperatorTypeEnum.SortOverInlets,
             //OperatorTypeEnum.SortOverDimension,
             //OperatorTypeEnum.BandPassFilterConstantTransitionGain,
             //OperatorTypeEnum.BandPassFilterConstantPeakGain,
@@ -186,14 +186,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         };
 
         // A list until it will have more items.
-        public static List<OperatorTypeEnum> OperatorTypeEnums_WithVisibleOutletNames { get; } =
-                  new List<OperatorTypeEnum>
+        public static IList<OperatorTypeEnum> OperatorTypeEnums_WithVisibleOutletNames { get; } =
+                   new List<OperatorTypeEnum>
         {
             //OperatorTypeEnum.Absolute,
             //OperatorTypeEnum.Add,
             //OperatorTypeEnum.AllPassFilter,
             //OperatorTypeEnum.And,
-            //OperatorTypeEnum.Average,
+            //OperatorTypeEnum.AverageOverInlets,
             //OperatorTypeEnum.AverageFollower,
             //OperatorTypeEnum.AverageOverDimension,
             //OperatorTypeEnum.BandPassFilterConstantPeakGain,
@@ -201,8 +201,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             //OperatorTypeEnum.Bundle,
             //OperatorTypeEnum.Cache,
             OperatorTypeEnum.ChangeTrigger,
-            //OperatorTypeEnum.Closest,
-            //OperatorTypeEnum.ClosestExp,
+            //OperatorTypeEnum.ClosestOverInlets,
+            //OperatorTypeEnum.ClosestOverInletsExp,
             //OperatorTypeEnum.ClosestOverDimension,
             //OperatorTypeEnum.ClosestOverDimensionExp,
             //OperatorTypeEnum.Curve,
@@ -224,10 +224,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             //OperatorTypeEnum.LowShelfFilter,
             //OperatorTypeEnum.MakeContinuous,
             //OperatorTypeEnum.MakeDiscrete,
-            //OperatorTypeEnum.Max,
+            //OperatorTypeEnum.MaxOverInlets,
             //OperatorTypeEnum.MaxFollower,
             //OperatorTypeEnum.MaxOverDimension,
-            //OperatorTypeEnum.Min,
+            //OperatorTypeEnum.MinOverInlets,
             //OperatorTypeEnum.MinFollower,
             //OperatorTypeEnum.MinOverDimension,
             //OperatorTypeEnum.Multiply,
@@ -260,7 +260,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.SetDimension,
             //OperatorTypeEnum.Shift,
             //OperatorTypeEnum.Sine,
-            //OperatorTypeEnum.Sort,
+            //OperatorTypeEnum.SortOverInlets,
             //OperatorTypeEnum.SortOverDimension,
             //OperatorTypeEnum.Spectrum,
             //OperatorTypeEnum.Square,
@@ -602,25 +602,31 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                     return GetOperatorCaption_ForSetDimension(op);
 
                 case OperatorTypeEnum.MaxOverDimension:
-                    return GetOperatorCaption_ForMaxOverDimension(op);
+                case OperatorTypeEnum.MaxOverInlets:
+                    return Titles.Max;
 
                 case OperatorTypeEnum.MinOverDimension:
-                    return GetOperatorCaption_ForMinOverDimension(op);
+                case OperatorTypeEnum.MinOverInlets:
+                    return Titles.Min;
 
                 case OperatorTypeEnum.AverageOverDimension:
-                    return GetOperatorCaption_ForAverageOverDimension(op);
+                case OperatorTypeEnum.AverageOverInlets:
+                    return Titles.Average;
 
                 case OperatorTypeEnum.SumOverDimension:
-                    return GetOperatorCaption_ForSumOverDimension(op);
+                    return Titles.Sum;
 
                 case OperatorTypeEnum.ClosestOverDimension:
-                    return GetOperatorCaption_ForClosestOverDimension(op);
+                case OperatorTypeEnum.ClosestOverInlets:
+                    return Titles.Closest;
 
                 case OperatorTypeEnum.ClosestOverDimensionExp:
-                    return GetOperatorCaption_ForClosestOverDimensionExp(op);
+                case OperatorTypeEnum.ClosestOverInletsExp:
+                    return Titles.ClosestExp;
 
                 case OperatorTypeEnum.SortOverDimension:
-                    return GetOperatorCaption_ForSortOverDimension(op);
+                case OperatorTypeEnum.SortOverInlets:
+                    return Titles.Sort;
 
                 default:
                     return GetOperatorCaption_ForOtherOperators(op);
@@ -794,41 +800,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         private static string GetOperatorCaption_ForSetDimension(Operator op)
         {
             return GetOperatorCaption_WithDimensionPlaceholder(op, Titles.SetDimensionWithPlaceholder);
-        }
-
-        private static string GetOperatorCaption_ForMaxOverDimension(Operator op)
-        {
-            return PropertyDisplayNames.Max;
-        }
-
-        private static string GetOperatorCaption_ForMinOverDimension(Operator op)
-        {
-            return PropertyDisplayNames.Min;
-        }
-
-        private static string GetOperatorCaption_ForAverageOverDimension(Operator op)
-        {
-            return PropertyDisplayNames.Average;
-        }
-
-        private static string GetOperatorCaption_ForSumOverDimension(Operator op)
-        {
-            return Titles.Sum;
-        }
-
-        private static string GetOperatorCaption_ForClosestOverDimension(Operator op)
-        {
-            return PropertyDisplayNames.Closest;
-        }
-
-        private static string GetOperatorCaption_ForClosestOverDimensionExp(Operator op)
-        {
-            return PropertyDisplayNames.ClosestExp;
-        }
-
-        private static string GetOperatorCaption_ForSortOverDimension(Operator op)
-        {
-            return PropertyDisplayNames.Sort;
         }
 
         private static string GetOperatorCaption_WithDimensionPlaceholder(Operator op, string operatorTypeDisplayNameWithPlaceholder)

@@ -335,9 +335,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitAverage(Operator op)
+        protected override void VisitAverageOverInlets(Operator op)
         {
-            base.VisitAverage(op);
+            base.VisitAverageOverInlets(op);
 
             OperatorCalculatorBase calculator;
 
@@ -362,7 +362,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     break;
 
                 default:
-                    calculator = new Average_OperatorCalculator(operandCalculators);
+                    calculator = new AverageOverInlets_OperatorCalculator(operandCalculators);
                     break;
             }
 
@@ -917,9 +917,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(operatorCalculator);
         }
 
-        protected override void VisitClosest(Operator op)
+        protected override void VisitClosestOverInlets(Operator op)
         {
-            base.VisitClosest(op);
+            base.VisitClosestOverInlets(op);
 
             OperatorCalculatorBase calculator;
 
@@ -960,24 +960,24 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 if (items.Count == 2)
                 {
-                    calculator = new Closest_OperatorCalculator_VarInput_2ConstItems(inputCalculator, items[0], items[1]);
+                    calculator = new ClosestOverInlets_OperatorCalculator_VarInput_2ConstItems(inputCalculator, items[0], items[1]);
                 }
                 else
                 {
-                    calculator = new Closest_OperatorCalculator_VarInput_ConstItems(inputCalculator, items);
+                    calculator = new ClosestOverInlets_OperatorCalculator_VarInput_ConstItems(inputCalculator, items);
                 }
             }
             else
             {
-                calculator = new Closest_OperatorCalculator_AllVars(inputCalculator, itemCalculators);
+                calculator = new ClosestOverInlets_OperatorCalculator_AllVars(inputCalculator, itemCalculators);
             }
 
             _stack.Push(calculator);
         }
 
-        protected override void VisitClosestExp(Operator op)
+        protected override void VisitClosestOverInletsExp(Operator op)
         {
-            base.VisitClosestExp(op);
+            base.VisitClosestOverInletsExp(op);
 
             OperatorCalculatorBase calculator;
 
@@ -1018,16 +1018,16 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 if (items.Count == 2)
                 {
-                    calculator = new ClosestExp_OperatorCalculator_VarInput_2ConstItems(inputCalculator, items[0], items[1]);
+                    calculator = new ClosestOverInletsExp_OperatorCalculator_VarInput_2ConstItems(inputCalculator, items[0], items[1]);
                 }
                 else
                 {
-                    calculator = new ClosestExp_OperatorCalculator_VarInput_ConstItems(inputCalculator, items);
+                    calculator = new ClosestOverInletsExp_OperatorCalculator_VarInput_ConstItems(inputCalculator, items);
                 }
             }
             else
             {
-                calculator = new ClosestExp_OperatorCalculator_AllVars(inputCalculator, itemCalculators);
+                calculator = new ClosestOverInletsExp_OperatorCalculator_AllVars(inputCalculator, itemCalculators);
             }
 
             _stack.Push(calculator);
@@ -2226,9 +2226,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             VisitUnbundle(op);
         }
 
-        protected override void VisitMax(Operator op)
+        protected override void VisitMaxOverInlets(Operator op)
         {
-            base.VisitMax(op);
+            base.VisitMaxOverInlets(op);
 
             OperatorCalculatorBase calculator;
 
@@ -2259,13 +2259,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     {
                         OperatorCalculatorBase aCalculator = operandCalculators[0];
                         OperatorCalculatorBase bCalculator = operandCalculators[1];
-                        calculator = new Max_OperatorCalculator_TwoVars(aCalculator, bCalculator);
+                        calculator = new MaxOverInlets_OperatorCalculator_TwoVars(aCalculator, bCalculator);
                     }
                     else
                     {
                         double constValue = constOperandCalculator.Calculate();
                         OperatorCalculatorBase varCalculator = operandCalculators.Except(constOperandCalculator).Single();
-                        calculator = new Max_OperatorCalculator_OneConst_OneVar(constValue, varCalculator);
+                        calculator = new MaxOverInlets_OperatorCalculator_OneConst_OneVar(constValue, varCalculator);
                     }
                     break;
 
@@ -2273,14 +2273,14 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
                     if (constOperandCalculator == null)
                     {
-                        calculator = new Max_OperatorCalculator_AllVars(operandCalculators);
+                        calculator = new MaxOverInlets_OperatorCalculator_AllVars(operandCalculators);
                     }
                     else
                     {
                         IList<OperatorCalculatorBase> varOperandCalculators = operandCalculators.Except(constOperandCalculator).ToArray();
                         double constValue = constOperandCalculator.Calculate();
 
-                        calculator =  new Max_OperatorCalculator_WithConst_AndVarArray(constValue, varOperandCalculators);
+                        calculator =  new MaxOverInlets_OperatorCalculator_WithConst_AndVarArray(constValue, varOperandCalculators);
                     }
                     break;
             }
@@ -2402,9 +2402,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(operatorCalculator);
         }
 
-        protected override void VisitMin(Operator op)
+        protected override void VisitMinOverInlets(Operator op)
         {
-            base.VisitMin(op);
+            base.VisitMinOverInlets(op);
 
             OperatorCalculatorBase calculator;
 
@@ -2435,27 +2435,27 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     {
                         OperatorCalculatorBase aCalculator = operandCalculators[0];
                         OperatorCalculatorBase bCalculator = operandCalculators[1];
-                        calculator = new Min_OperatorCalculator_TwoVars(aCalculator, bCalculator);
+                        calculator = new MinOverInlets_OperatorCalculator_TwoVars(aCalculator, bCalculator);
                     }
                     else
                     {
                         double constValue = constOperandCalculator.Calculate();
                         OperatorCalculatorBase varCalculator = operandCalculators.Except(constOperandCalculator).Single();
-                        calculator = new Min_OperatorCalculator_OneConst_OneVar(constValue, varCalculator);
+                        calculator = new MinOverInlets_OperatorCalculator_OneConst_OneVar(constValue, varCalculator);
                     }
                     break;
 
                 default:
                     if (constOperandCalculator == null)
                     {
-                        calculator = new Min_OperatorCalculator_AllVars(operandCalculators);
+                        calculator = new MinOverInlets_OperatorCalculator_AllVars(operandCalculators);
                     }
                     else
                     {
                         IList<OperatorCalculatorBase> varOperandCalculators = operandCalculators.Except(constOperandCalculator).ToArray();
                         double constValue = constOperandCalculator.Calculate();
 
-                        calculator = new Min_OperatorCalculator_WithConst_AndVarArray(constValue, varOperandCalculators);
+                        calculator = new MinOverInlets_OperatorCalculator_WithConst_AndVarArray(constValue, varOperandCalculators);
                     }
 
                     break;
@@ -4033,13 +4033,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitSort(Operator op)
+        protected override void VisitSortOverInlets(Operator op)
         {
             //DimensionEnum standardDimensionEnum = op.GetDimensionEnum();
             //DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
             throw new NotImplementedException();
 
-            base.VisitSort(op);
+            base.VisitSortOverInlets(op);
 
             OperatorCalculatorBase calculator;
 

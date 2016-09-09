@@ -6,14 +6,14 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Closest_OperatorCalculator_AllVars : OperatorCalculatorBase_WithChildCalculators
+    internal class ClosestOverInletsExp_OperatorCalculator_AllVars : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _inputCalculator;
         private readonly OperatorCalculatorBase _firstItemCalculators;
         private readonly OperatorCalculatorBase[] _remainingItemCalculators;
         private readonly int _remainingItemCalculatorsCount;
 
-        public Closest_OperatorCalculator_AllVars(
+        public ClosestOverInletsExp_OperatorCalculator_AllVars(
             OperatorCalculatorBase inputCalculator,
             IList<OperatorCalculatorBase> itemCalculators)
             : base(new List<OperatorCalculatorBase>(itemCalculators) { inputCalculator })
@@ -33,7 +33,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double input = _inputCalculator.Calculate();
             double firstItem = _firstItemCalculators.Calculate();
 
-            double smallestDistance = Geometry.AbsoluteDistance(input, firstItem);
+            double logInput = Math.Log(input);
+
+            double smallestDistance = Geometry.AbsoluteDistance(logInput, Math.Log(firstItem));
             double closestItem = firstItem;
 
             for (int i = 0; i < _remainingItemCalculatorsCount; i++)
@@ -41,7 +43,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 OperatorCalculatorBase itemCalculator = _remainingItemCalculators[i];
                 double item = itemCalculator.Calculate();
 
-                double distance = Geometry.AbsoluteDistance(input, item);
+                double distance = Geometry.AbsoluteDistance(logInput, Math.Log(item));
                 if (smallestDistance > distance)
                 {
                     smallestDistance = distance;
@@ -53,14 +55,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Closest_OperatorCalculator_VarInput_ConstItems : OperatorCalculatorBase_WithChildCalculators
+    internal class ClosestOverInletsExp_OperatorCalculator_VarInput_ConstItems : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _inputCalculator;
         private readonly double _firstItem;
         private readonly double[] _remainingItems;
-        private readonly int _remainingItemsLength;
+        private readonly int _remainingItemsCount;
 
-        public Closest_OperatorCalculator_VarInput_ConstItems(
+        public ClosestOverInletsExp_OperatorCalculator_VarInput_ConstItems(
             OperatorCalculatorBase inputCalculator,
             IList<double> items)
             : base(new OperatorCalculatorBase[] { inputCalculator })
@@ -72,26 +74,26 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _inputCalculator = inputCalculator;
             _firstItem = items[0];
             _remainingItems = items.Skip(1).ToArray();
-            _remainingItemsLength = _remainingItems.Length;
+            _remainingItemsCount = _remainingItems.Length;
         }
 
         public override double Calculate()
         {
             double input = _inputCalculator.Calculate();
 
-            double result = AggregateCalculator.ClosestUnsafe(input, _firstItem, _remainingItems, _remainingItemsLength);
+            double result = AggregateCalculator.ClosestExpUnsafe(input, _firstItem, _remainingItems, _remainingItemsCount);
 
             return result;
         }
     }
 
-    internal class Closest_OperatorCalculator_VarInput_2ConstItems : OperatorCalculatorBase_WithChildCalculators
+    internal class ClosestOverInletsExp_OperatorCalculator_VarInput_2ConstItems : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _inputCalculator;
         private readonly double _item1;
         private readonly double _item2;
 
-        public Closest_OperatorCalculator_VarInput_2ConstItems(
+        public ClosestOverInletsExp_OperatorCalculator_VarInput_2ConstItems(
             OperatorCalculatorBase inputCalculator,
             double item1,
             double item2)
@@ -108,7 +110,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double input = _inputCalculator.Calculate();
 
-            double result = AggregateCalculator.Closest(input, _item1, _item2);
+            double result = AggregateCalculator.ClosestExp(input, _item1, _item2);
 
             return result;
         }

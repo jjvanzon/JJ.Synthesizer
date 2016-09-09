@@ -10,12 +10,12 @@ using JJ.Framework.Presentation.Resources;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Closest_OperatorWrapper : OperatorWrapperBase
+    public class ClosestOverInlets_OperatorWrapper : OperatorWrapperBase
     {
         private const int INPUT_INDEX = 0;
         private const int RESULT_INDEX = 0;
 
-        public Closest_OperatorWrapper(Operator op)
+        public ClosestOverInlets_OperatorWrapper(Operator op)
             : base(op)
         { }
 

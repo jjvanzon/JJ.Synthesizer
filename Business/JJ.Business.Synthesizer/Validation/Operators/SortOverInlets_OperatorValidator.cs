@@ -7,10 +7,10 @@ using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class Sort_OperatorValidator : OperatorValidator_Base_VariableInletCountOneOutlet
+    internal class SortOverInlets_OperatorValidator : OperatorValidator_Base_VariableInletCountOneOutlet
     {
-        public Sort_OperatorValidator(Operator obj)
-            : base(obj, OperatorTypeEnum.Sort, expectedDataKeys: new string[0])
+        public SortOverInlets_OperatorValidator(Operator obj)
+            : base(obj, OperatorTypeEnum.SortOverInlets, expectedDataKeys: new string[0])
         { }
     }
 }
