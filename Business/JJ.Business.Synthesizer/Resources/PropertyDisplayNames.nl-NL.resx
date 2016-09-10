@@ -258,8 +258,8 @@
   <data name="Noise" xml:space="preserve">
     <value>Ruis</value>
   </data>
-  <data name="Resample" xml:space="preserve">
-    <value>Resample</value>
+  <data name="Interpolate" xml:space="preserve">
+    <value>Interpoleren</value>
   </data>
   <data name="CustomOperator" xml:space="preserve">
     <value>Zelfgemaakte operator</value>

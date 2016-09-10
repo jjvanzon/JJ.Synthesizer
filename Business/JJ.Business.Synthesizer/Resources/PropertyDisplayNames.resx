@@ -259,8 +259,8 @@
   <data name="Number" xml:space="preserve">
     <value>Number</value>
   </data>
-  <data name="Resample" xml:space="preserve">
-    <value>Resample</value>
+  <data name="Interpolate" xml:space="preserve">
+    <value>Interpolate</value>
   </data>
   <data name="CustomOperator" xml:space="preserve">
     <value>Custom Operator</value>

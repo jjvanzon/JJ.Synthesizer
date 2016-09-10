@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     internal class MakeContinuous_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly OperatorCalculatorBase _resampleOperator;
+        private readonly OperatorCalculatorBase _interpolateOperator;
 
         public MakeContinuous_OperatorCalculator(
             IList<OperatorCalculatorBase> operandCalculators,
@@ -23,12 +23,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             // HACK in a piece of patch, 
             // to reuse the behavior of Unbundle
-            // and to reuse the Resample_OperatorCalculator's capability of
+            // and to reuse the Interpolate_OperatorCalculator's capability of
             // handling many types of interpolation.
 
             var bundleCalculator = new Bundle_OperatorCalculator(operandCalculators, dimensionStack);
 
-            _resampleOperator = OperatorCalculatorFactory.CreateResample_OperatorCalculator(
+            _interpolateOperator = OperatorCalculatorFactory.CreateInterpolate_OperatorCalculator(
                 resampleInterpolationTypeEnum,
                 bundleCalculator,
                 new One_OperatorCalculator(),
@@ -38,13 +38,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            return _resampleOperator.Calculate();
+            return _interpolateOperator.Calculate();
         }
 
         public override void Reset()
         {
             // HACK
-            _resampleOperator.Reset();
+            _interpolateOperator.Reset();
         }
     }
 }

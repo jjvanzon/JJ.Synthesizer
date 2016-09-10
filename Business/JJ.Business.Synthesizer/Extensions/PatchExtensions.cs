@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Extensions
             { typeof(Curve_OperatorWrapper), OperatorTypeEnum.Curve },
             { typeof(Sample_OperatorWrapper), OperatorTypeEnum.Sample },
             { typeof(Noise_OperatorWrapper), OperatorTypeEnum.Noise },
-            { typeof(Resample_OperatorWrapper), OperatorTypeEnum.Resample },
+            { typeof(Interpolate_OperatorWrapper), OperatorTypeEnum.Interpolate },
             { typeof(CustomOperator_OperatorWrapper), OperatorTypeEnum.CustomOperator },
             { typeof(SawUp_OperatorWrapper), OperatorTypeEnum.SawUp },
             { typeof(Square_OperatorWrapper), OperatorTypeEnum.Square },

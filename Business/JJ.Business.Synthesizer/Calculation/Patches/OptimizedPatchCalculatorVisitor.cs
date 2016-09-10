@@ -3453,12 +3453,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(operatorCalculator);
         }
 
-        protected override void VisitResample(Operator op)
+        protected override void VisitInterpolate(Operator op)
         {
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(op);
             dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
 
-            base.VisitResample(op);
+            base.VisitInterpolate(op);
 
             OperatorCalculatorBase calculator;
 
@@ -3499,10 +3499,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                var wrapper = new Resample_OperatorWrapper(op);
+                var wrapper = new Interpolate_OperatorWrapper(op);
                 ResampleInterpolationTypeEnum resampleInterpolationTypeEnum = wrapper.InterpolationType;
 
-                calculator = OperatorCalculatorFactory.CreateResample_OperatorCalculator(resampleInterpolationTypeEnum, signalCalculator, samplingRateCalculator, dimensionStack);
+                calculator = OperatorCalculatorFactory.CreateInterpolate_OperatorCalculator(resampleInterpolationTypeEnum, signalCalculator, samplingRateCalculator, dimensionStack);
             }
 
             _stack.Push(calculator);

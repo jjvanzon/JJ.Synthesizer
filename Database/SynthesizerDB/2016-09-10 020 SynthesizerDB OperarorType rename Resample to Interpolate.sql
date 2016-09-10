@@ -1,0 +1,1 @@
+update OperatorType set Name = 'Interpolate' where ID = 19 and Name = 'Resample'; -- Name filter just in case.

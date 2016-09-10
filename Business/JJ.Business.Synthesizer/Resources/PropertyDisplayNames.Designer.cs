@@ -925,6 +925,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Interpolate.
+        /// </summary>
+        public static string Interpolate {
+            get {
+                return ResourceManager.GetString("Interpolate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Interpolation.
         /// </summary>
         public static string Interpolation {
@@ -1614,15 +1623,6 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string ReleaseEndMarker {
             get {
                 return ResourceManager.GetString("ReleaseEndMarker", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Resample.
-        /// </summary>
-        public static string Resample {
-            get {
-                return ResourceManager.GetString("Resample", resourceCulture);
             }
         }
         

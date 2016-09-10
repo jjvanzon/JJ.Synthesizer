@@ -601,7 +601,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel_WithInterpolation>(entity);
 
-            var wrapper = new Resample_OperatorWrapper(entity);
+            var wrapper = new Interpolate_OperatorWrapper(entity);
 
             viewModel.Interpolation = wrapper.InterpolationType.ToIDAndDisplayName();
             viewModel.InterpolationLookup = ViewModelHelper.GetResampleInterpolationLookupViewModel();

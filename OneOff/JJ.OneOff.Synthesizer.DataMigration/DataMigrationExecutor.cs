@@ -2035,8 +2035,8 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                 inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Pulse, 0, DimensionEnum.Frequency));
                 outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Pulse, 0, DimensionEnum.Signal));
 
-                inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Resample, 0, DimensionEnum.Signal));
-                outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Resample, 0, DimensionEnum.Signal));
+                inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Interpolate, 0, DimensionEnum.Signal));
+                outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Interpolate, 0, DimensionEnum.Signal));
 
                 inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Reverse, 0, DimensionEnum.Signal));
                 outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Reverse, 0, DimensionEnum.Signal));

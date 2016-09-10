@@ -28,7 +28,7 @@
         /// and Random between 0 and 1 and it has other advantanges for random number generation too.
         /// </summary>
         Noise = 18,
-        Resample = 19,
+        Interpolate = 19,
         CustomOperator = 20,
         SawUp = 21,
         Square = 22,

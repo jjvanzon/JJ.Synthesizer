@@ -4,7 +4,11 @@ using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Resample_OperatorCalculator_Hermite : OperatorCalculatorBase_WithChildCalculators
+    /// <summary>
+    /// A weakness though is, that the sampling rate is remembered until the next sample,
+    /// which may work poorly when a very low sampling rate is provided.
+    /// </summary>
+    internal class Interpolate_OperatorCalculator_CubicEquidistant : OperatorCalculatorBase_WithChildCalculators
     {
         private const double MINIMUM_SAMPLING_RATE = 0.01666666666666667; // Once a minute
 
@@ -14,26 +18,19 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly int _nextDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
 
-        private double _xMinus1;
-        private double _x0;
-        private double _x1;
-        private double _x2;
-        private double _dx;
-        private double _yMinus1;
-        private double _y0;
-        private double _y1;
-        private double _y2;
-
-        public Resample_OperatorCalculator_Hermite(
+        public Interpolate_OperatorCalculator_CubicEquidistant(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase samplingRateCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] { signalCalculator, samplingRateCalculator })
+            : base(new OperatorCalculatorBase[]
+            {
+                signalCalculator,
+                samplingRateCalculator
+            })
         {
-            if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Number_OperatorCalculator) throw new InvalidTypeException<Number_OperatorCalculator>(() => signalCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
             if (samplingRateCalculator == null) throw new NullException(() => samplingRateCalculator);
-            // TODO: Resample with constant sampling rate does not have specialized calculators yet. Reactivate code line after those specialized calculators have been programmed.
+            // TODO: Interpolate with constant sampling rate does not have specialized calculators yet. Reactivate code line after those specialized calculators have been programmed.
             //if (samplingRateCalculator is Number_OperatorCalculator) throw new IsNotTypeException<Number_OperatorCalculator>(() => samplingRateCalculator);
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
@@ -42,9 +39,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionStack = dimensionStack;
             _previousDimensionStackIndex = dimensionStack.CurrentIndex;
             _nextDimensionStackIndex = dimensionStack.CurrentIndex + 1;
-
-            ResetNonRecursive();
         }
+
+        // TODO: These are meaningless defaults.
+        private double _x0 = 0.0;
+        private double _x1 = 0.2;
+        private double _dx = 0.2;
+        private double _yMinus1 = 0.0;
+        private double _y0 = 0.0;
+        private double _y1 = 12000.0;
+        private double _y2 = -24000.0;
 
         public override double Calculate()
         {
@@ -57,8 +61,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
 #endif
 
-            // TODO: What if position goes in reverse?
-            // TODO: What if _x0 or _x1 are way off? How will it correct itself?
             double x = position;
             if (x > _x1)
             {
@@ -73,21 +75,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
                 double samplingRate = GetSamplingRate();
 
-#if !USE_INVAR_INDICES
-                _dimensionStack.Pop();
-#endif
                 _dx = 1.0 / samplingRate;
                 _x1 += _dx;
 
                 // x'es must be equidistant for the interpolation we use.
                 _x0 = _x1 - _dx;
-                _xMinus1 = _x0 - _dx;
-                _x2 = _x1 + _dx;
+                double xMinus1 = _x0 - _dx;
+                double x2 = _x1 + _dx;
 
 #if !USE_INVAR_INDICES
-                _dimensionStack.Push(_xMinus1);
+                _dimensionStack.Set(xMinus1);
 #else
-                _dimensionStack.Set(_nextDimensionStackIndex, _xMinus1);
+                _dimensionStack.Set(_nextDimensionStackIndex, xMinus1);
 #endif
 #if ASSERT_INVAR_INDICES
                 OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
@@ -118,9 +117,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 _y1 = _signalCalculator.Calculate();
 
 #if !USE_INVAR_INDICES
-                _dimensionStack.Set(_x2);
+                _dimensionStack.Set(x2);
 #else
-                _dimensionStack.Set(_nextDimensionStackIndex, _x2);
+                _dimensionStack.Set(_nextDimensionStackIndex, x2);
 #endif
 #if ASSERT_INVAR_INDICES
                 OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
@@ -135,7 +134,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             double t = (x - _x0) / _dx;
 
-            double y = Interpolator.Interpolate_Hermite_4pt3oX(_yMinus1, _y0, _y1, _y2, t);
+            double y = Interpolator.Interpolate_Cubic_Equidistant(_yMinus1, _y0, _y1, _y2, t);
             return y;
         }
 
@@ -152,37 +151,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             }
 
             return samplingRate;
-        }
-
-        public override void Reset()
-        {
-            base.Reset();
-
-            ResetNonRecursive();
-        }
-
-        private void ResetNonRecursive()
-        {
-#if !USE_INVAR_INDICES
-            double position = _dimensionStack.Get();
-#else
-            double position = _dimensionStack.Get(_previousDimensionStackIndex);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
-#endif
-
-            _xMinus1 = CalculationHelper.VERY_LOW_VALUE;
-            _x0 = position - CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
-            _x1 = position;
-            _x2 = position + CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
-            _dx = CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
-
-            // Assume values begin at 0
-            _yMinus1 = 0;
-            _y0 = 0;
-            _y1 = 0;
-            _y2 = 0;
         }
     }
 }

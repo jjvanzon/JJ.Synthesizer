@@ -51,7 +51,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                   new HashSet<OperatorTypeEnum>
         {
             OperatorTypeEnum.Random,
-            OperatorTypeEnum.Resample
+            OperatorTypeEnum.Interpolate
         };
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithOutletCountPropertyViews { get; } =
@@ -112,7 +112,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.Curve,
             //OperatorTypeEnum.Sample,
             OperatorTypeEnum.Noise,
-            //OperatorTypeEnum.Resample,
+            //OperatorTypeEnum.Interpolate,
             //OperatorTypeEnum.CustomOperator,
             //OperatorTypeEnum.SawUp,
             //OperatorTypeEnum.Square,
@@ -217,6 +217,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             //OperatorTypeEnum.HighShelfFilter,
             //OperatorTypeEnum.Hold,
             //OperatorTypeEnum.If,
+            //OperatorTypeEnum.Interpolate,
             //OperatorTypeEnum.LessThan,
             //OperatorTypeEnum.LessThanOrEqual,
             //OperatorTypeEnum.Loop,
@@ -248,7 +249,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.PulseTrigger,
             //OperatorTypeEnum.Random,
             //OperatorTypeEnum.Range,
-            //OperatorTypeEnum.Resample,
             OperatorTypeEnum.Reset,
             //OperatorTypeEnum.Reverse,
             //OperatorTypeEnum.Round,

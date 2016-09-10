@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Random_OperatorCalculator_OtherInterpolationTypes : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly OperatorCalculatorBase _resampleOperator;
+        private readonly OperatorCalculatorBase _interpolateOperator;
 
         public Random_OperatorCalculator_OtherInterpolationTypes(
             RandomCalculatorBase randomCalculator,
@@ -22,15 +22,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[] { rateCalculator })
         {
-            // HACK in a piece of patch, to reuse the Resample_OperatorCalculator's capability of
+            // HACK in a piece of patch, to reuse the Interpolate_OperatorCalculator's capability of
             // handling many types of interpolation.
 
             // Create a second Random operator calculator.
             var randomCalculator2 = new Random_OperatorCalculator_BlockAndStripe_VarFrequency(
                 randomCalculator, randomCalculatorOffset, rateCalculator, dimensionStack);
 
-            // Lead their outputs to a Resample operator calculator
-            _resampleOperator = OperatorCalculatorFactory.CreateResample_OperatorCalculator(
+            // Lead their outputs to a Interpolate operator calculator
+            _interpolateOperator = OperatorCalculatorFactory.CreateInterpolate_OperatorCalculator(
                 resampleInterpolationTypeEnum,
                 signalCalculator: randomCalculator2,
                 samplingRateCalculator: rateCalculator,
@@ -40,13 +40,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            return _resampleOperator.Calculate();
+            return _interpolateOperator.Calculate();
         }
 
         public override void Reset()
         {
             // HACK
-            _resampleOperator.Reset();
+            _interpolateOperator.Reset();
         }
     }
 }

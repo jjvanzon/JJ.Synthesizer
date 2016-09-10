@@ -6,12 +6,12 @@ using JJ.Business.Synthesizer.Validation.DataProperty;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class Resample_OperatorValidator : OperatorValidator_Base
+    internal class Interpolate_OperatorValidator : OperatorValidator_Base
     {
-        public Resample_OperatorValidator(Operator obj)
+        public Interpolate_OperatorValidator(Operator obj)
             : base(
                 obj,
-                OperatorTypeEnum.Resample,
+                OperatorTypeEnum.Interpolate,
                 new DimensionEnum[] { DimensionEnum.Signal, DimensionEnum.Undefined },
                 new DimensionEnum[] { DimensionEnum.Signal },
                 expectedDataKeys: new string[] { PropertyNames.InterpolationType })

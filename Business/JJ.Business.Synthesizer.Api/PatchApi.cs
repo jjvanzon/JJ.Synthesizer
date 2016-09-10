@@ -433,13 +433,13 @@ namespace JJ.Business.Synthesizer.Api
         public Random_OperatorWrapper Random(Outlet rate = null, DimensionEnum standardDimension = DimensionEnum.Time, string customDimension = null)
             => _patchManager.Random(rate, standardDimension, customDimension);
 
-        public Resample_OperatorWrapper Resample(
+        public Interpolate_OperatorWrapper Interpolate(
             Outlet signal = null,
             Outlet samplingRate = null,
             ResampleInterpolationTypeEnum interpolationType = ResampleInterpolationTypeEnum.CubicSmoothSlope,
             DimensionEnum standardDimension = DimensionEnum.Time,
             string customDimension = null)
-            => _patchManager.Resample(signal, samplingRate, interpolationType, standardDimension, customDimension);
+            => _patchManager.Interpolate(signal, samplingRate, interpolationType, standardDimension, customDimension);
 
         public Reset_OperatorWrapper Reset(Outlet operand = null, int? listIndex = null)
             => _patchManager.Reset(operand, listIndex);

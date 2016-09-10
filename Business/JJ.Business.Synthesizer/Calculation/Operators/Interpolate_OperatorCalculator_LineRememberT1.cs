@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     /// A weakness though is, that the sampling rate is remembered until the next sample,
     /// which may work poorly when a very low sampling rate is provided.
     /// </summary>
-    internal class Resample_OperatorCalculator_LineRememberT1 : OperatorCalculatorBase_WithChildCalculators
+    internal class Interpolate_OperatorCalculator_LineRememberT1 : OperatorCalculatorBase_WithChildCalculators
     {
         private const double MINIMUM_SAMPLING_RATE = 0.01666666666666667; // Once a minute
 
@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _y1;
         private double _a;
 
-        public Resample_OperatorCalculator_LineRememberT1(
+        public Interpolate_OperatorCalculator_LineRememberT1(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase samplingRateCalculator,
             DimensionStack dimensionStack)
@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (signalCalculator is Number_OperatorCalculator) throw new InvalidTypeException<Number_OperatorCalculator>(() => signalCalculator);
             if (samplingRateCalculator == null) throw new NullException(() => samplingRateCalculator);
-            // TODO: Resample with constant sampling rate does not have specialized calculators yet. Reactivate code line after those specialized calculators have been programmed.
+            // TODO: Interpolate with constant sampling rate does not have specialized calculators yet. Reactivate code line after those specialized calculators have been programmed.
             //if (samplingRateCalculator is Number_OperatorCalculator) throw new IsNotTypeException<Number_OperatorCalculator>(() => samplingRateCalculator);
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 

@@ -843,7 +843,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, operatorTypeRepository, dimensionRepository);
 
-            var wrapper = new Resample_OperatorWrapper(entity);
+            var wrapper = new Interpolate_OperatorWrapper(entity);
             wrapper.InterpolationType = (ResampleInterpolationTypeEnum)(viewModel.Interpolation?.ID ?? 0);
 
             return entity;

@@ -1666,7 +1666,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Resample_OperatorWrapper Resample(
+        public Interpolate_OperatorWrapper Interpolate(
             Outlet signal = null, 
             Outlet samplingRate = null, 
             ResampleInterpolationTypeEnum interpolationType = ResampleInterpolationTypeEnum.CubicSmoothSlope,
@@ -1674,14 +1674,14 @@ namespace JJ.Business.Synthesizer
             string customDimension = null)
         {
             Operator op = CreateOperatorBase(
-                OperatorTypeEnum.Resample,
+                OperatorTypeEnum.Interpolate,
                 new DimensionEnum[] { DimensionEnum.Signal, DimensionEnum.Undefined },
                 new DimensionEnum[] { DimensionEnum.Signal });
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
 
-            var wrapper = new Resample_OperatorWrapper(op)
+            var wrapper = new Interpolate_OperatorWrapper(op)
             {
                 Signal = signal,
                 SamplingRate = samplingRate,
@@ -2472,7 +2472,7 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.PulseTrigger: return PulseTrigger();
                 case OperatorTypeEnum.Random: return Random();
                 case OperatorTypeEnum.Range: return Range();
-                case OperatorTypeEnum.Resample: return Resample();
+                case OperatorTypeEnum.Interpolate: return Interpolate();
                 case OperatorTypeEnum.Reset: return Reset();
                 case OperatorTypeEnum.Reverse: return Reverse();
                 case OperatorTypeEnum.Round: return Round();

@@ -8,13 +8,13 @@ using System;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Resample_OperatorWrapper : OperatorWrapperBase
+    public class Interpolate_OperatorWrapper : OperatorWrapperBase
     {
         private const int SIGNAL_INDEX = 0;
         private const int SAMPLING_RATE_INDEX = 1;
         private const int RESULT_INDEX = 0;
 
-        public Resample_OperatorWrapper(Operator op)
+        public Interpolate_OperatorWrapper(Operator op)
             : base(op)
         { }
 
@@ -46,15 +46,15 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         {
             switch (listIndex)
             {
-                case SAMPLING_RATE_INDEX:
-                    {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => SamplingRate);
-                        return name;
-                    }
-
                 case SIGNAL_INDEX:
                     {
                         string name = ResourceHelper.GetPropertyDisplayName(() => Signal);
+                        return name;
+                    }
+
+                case SAMPLING_RATE_INDEX:
+                    {
+                        string name = ResourceHelper.GetPropertyDisplayName(() => SamplingRate);
                         return name;
                     }
 
@@ -71,6 +71,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             return name;
         }
 
-        public static implicit operator Outlet(Resample_OperatorWrapper wrapper) => wrapper?.Result;
+        public static implicit operator Outlet(Interpolate_OperatorWrapper wrapper) => wrapper?.Result;
     }
 }

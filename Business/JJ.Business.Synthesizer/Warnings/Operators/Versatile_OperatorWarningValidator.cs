@@ -71,7 +71,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             { OperatorTypeEnum.PulseTrigger, typeof(PulseTrigger_OperatorWarningValidator) },
             { OperatorTypeEnum.Random, typeof(Random_OperatorWarningValidator) },
             { OperatorTypeEnum.Range, typeof(Range_OperatorWarningValidator) },
-            { OperatorTypeEnum.Resample, typeof(Resample_OperatorWarningValidator) },
+            { OperatorTypeEnum.Interpolate, typeof(Interpolate_OperatorWarningValidator) },
             { OperatorTypeEnum.Reset, typeof(Reset_OperatorWarningValidator) },
             { OperatorTypeEnum.Reverse , typeof(Reverse_OperatorWarningValidator ) },
             { OperatorTypeEnum.Round , typeof(Round_OperatorWarningValidator ) },

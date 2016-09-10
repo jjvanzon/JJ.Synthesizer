@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Helpers
     /// </summary>
     internal static partial class OperatorCalculatorFactory
     {
-        public static OperatorCalculatorBase CreateResample_OperatorCalculator(
+        public static OperatorCalculatorBase CreateInterpolate_OperatorCalculator(
             ResampleInterpolationTypeEnum resampleInterpolationTypeEnum,
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase samplingRateCalculator,
@@ -24,35 +24,35 @@ namespace JJ.Business.Synthesizer.Helpers
             switch (resampleInterpolationTypeEnum)
             {
                 case ResampleInterpolationTypeEnum.Block:
-                    calculator = new Resample_OperatorCalculator_Block(signalCalculator, samplingRateCalculator, dimensionStack);
+                    calculator = new Interpolate_OperatorCalculator_Block(signalCalculator, samplingRateCalculator, dimensionStack);
                     break;
 
                 case ResampleInterpolationTypeEnum.Stripe:
-                    calculator = new Resample_OperatorCalculator_Stripe(signalCalculator, samplingRateCalculator, dimensionStack);
+                    calculator = new Interpolate_OperatorCalculator_Stripe(signalCalculator, samplingRateCalculator, dimensionStack);
                     break;
 
                 case ResampleInterpolationTypeEnum.LineRememberT0:
-                    calculator = new Resample_OperatorCalculator_LineRememberT0(signalCalculator, samplingRateCalculator, dimensionStack);
+                    calculator = new Interpolate_OperatorCalculator_LineRememberT0(signalCalculator, samplingRateCalculator, dimensionStack);
                     break;
 
                 case ResampleInterpolationTypeEnum.LineRememberT1:
-                    calculator = new Resample_OperatorCalculator_LineRememberT1(signalCalculator, samplingRateCalculator, dimensionStack);
+                    calculator = new Interpolate_OperatorCalculator_LineRememberT1(signalCalculator, samplingRateCalculator, dimensionStack);
                     break;
 
                 case ResampleInterpolationTypeEnum.CubicEquidistant:
-                    calculator = new Resample_OperatorCalculator_CubicEquidistant(signalCalculator, samplingRateCalculator, dimensionStack);
+                    calculator = new Interpolate_OperatorCalculator_CubicEquidistant(signalCalculator, samplingRateCalculator, dimensionStack);
                     break;
 
                 case ResampleInterpolationTypeEnum.CubicAbruptSlope:
-                    calculator = new Resample_OperatorCalculator_CubicAbruptSlope(signalCalculator, samplingRateCalculator, dimensionStack);
+                    calculator = new Interpolate_OperatorCalculator_CubicAbruptSlope(signalCalculator, samplingRateCalculator, dimensionStack);
                     break;
 
                 case ResampleInterpolationTypeEnum.CubicSmoothSlope:
-                    calculator = new Resample_OperatorCalculator_CubicSmoothSlope(signalCalculator, samplingRateCalculator, dimensionStack);
+                    calculator = new Interpolate_OperatorCalculator_CubicSmoothSlope(signalCalculator, samplingRateCalculator, dimensionStack);
                     break;
 
                 case ResampleInterpolationTypeEnum.Hermite:
-                    calculator = new Resample_OperatorCalculator_Hermite(signalCalculator, samplingRateCalculator, dimensionStack);
+                    calculator = new Interpolate_OperatorCalculator_Hermite(signalCalculator, samplingRateCalculator, dimensionStack);
                     break;
 
                 default:

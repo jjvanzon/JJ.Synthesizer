@@ -565,7 +565,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_Synthesizer_ResampleOperator_ConstantSamplingRate_Noise()
+        public void Test_Synthesizer_InterpolateOperator_ConstantSamplingRate_Noise()
         {
             double duration = 2;
             int outputSamplingRate = 100;
@@ -581,29 +581,29 @@ namespace JJ.Business.Synthesizer.Tests
                 AudioFileOutputManager audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
 
                 Outlet noise = x.MultiplyWithOrigin(x.Noise(), x.Number(amplification));
-                Outlet resampledNoise = x.Resample(noise, x.Number(alternativeSamplingRate));
+                Outlet interpolatedNoise = x.Interpolate(noise, x.Number(alternativeSamplingRate));
 
                 IPatchCalculator patchCalculator;
 
                 AudioFileOutput audioFileOutput = audioFileOutputManager.Create();
                 audioFileOutput.Duration = duration;
 
-                audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_ConstantSamplingRate_Noise_Input.wav";
+                audioFileOutput.FilePath = "Test_Synthesizer_InterpolateOperator_ConstantSamplingRate_Noise_Input.wav";
                 audioFileOutput.SamplingRate = outputSamplingRate;
                 audioFileOutput.LinkTo(noise);
                 patchCalculator = x.CreateCalculator(noise, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
                 audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
 
-                audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_ConstantSamplingRate_Noise_WithLowerSamplingRate.wav";
+                audioFileOutput.FilePath = "Test_Synthesizer_InterpolateOperator_ConstantSamplingRate_Noise_WithLowerSamplingRate.wav";
                 audioFileOutput.SamplingRate = alternativeSamplingRate;
                 audioFileOutput.LinkTo(noise);
                 patchCalculator = x.CreateCalculator(noise, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
                 audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
 
-                audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_ConstantSamplingRate_Noise_WithResampleOperator.wav";
+                audioFileOutput.FilePath = "Test_Synthesizer_InterpolateOperator_ConstantSamplingRate_Noise_WithInterpolateOperator.wav";
                 audioFileOutput.SamplingRate = outputSamplingRate;
-                audioFileOutput.LinkTo(resampledNoise);
-                patchCalculator = x.CreateCalculator(resampledNoise, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
+                audioFileOutput.LinkTo(interpolatedNoise);
+                patchCalculator = x.CreateCalculator(interpolatedNoise, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
 
                 // Only test performance here and not in the other tests.
 
@@ -629,7 +629,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_Synthesizer_ResampleOperator_ConstantSamplingRate_Sample()
+        public void Test_Synthesizer_InterpolateOperator_ConstantSamplingRate_Sample()
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
@@ -650,35 +650,35 @@ namespace JJ.Business.Synthesizer.Tests
                 sample.BytesToSkip = 200;
 
                 Outlet input = x.Sample(sample);
-                Outlet resampled = x.Resample(input, x.Number(alternativeSamplingRate));
+                Outlet interpolated = x.Interpolate(input, x.Number(alternativeSamplingRate));
 
                 IPatchCalculator patchCalculator;
 
                 AudioFileOutput audioFileOutput = audioFileOutputManager.Create();
                 audioFileOutput.Duration = duration;
 
-                audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_ConstantSamplingRate_Sample_Input.wav";
+                audioFileOutput.FilePath = "Test_Synthesizer_InterpolateOperator_ConstantSamplingRate_Sample_Input.wav";
                 audioFileOutput.SamplingRate = outputSamplingRate;
                 audioFileOutput.LinkTo(input);
                 patchCalculator = x.CreateCalculator(input, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
                 audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
 
-                audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_ConstantSamplingRate_Sample_WithLowerSamplingRate.wav";
+                audioFileOutput.FilePath = "Test_Synthesizer_InterpolateOperator_ConstantSamplingRate_Sample_WithLowerSamplingRate.wav";
                 audioFileOutput.SamplingRate = alternativeSamplingRate;
                 audioFileOutput.LinkTo(input);
                 patchCalculator = x.CreateCalculator(input, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
                 audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
 
-                audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_ConstantSamplingRate_Sample_WithResampleOperator.wav";
+                audioFileOutput.FilePath = "Test_Synthesizer_InterpolateOperator_ConstantSamplingRate_Sample_WithInterpolateOperator.wav";
                 audioFileOutput.SamplingRate = outputSamplingRate;
-                audioFileOutput.LinkTo(resampled);
-                patchCalculator = x.CreateCalculator(resampled, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
+                audioFileOutput.LinkTo(interpolated);
+                patchCalculator = x.CreateCalculator(interpolated, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
                 audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
             }
         }
 
         [TestMethod]
-        public void Test_Synthesizer_ResampleOperator_ConstantSamplingRate_Curve()
+        public void Test_Synthesizer_InterpolateOperator_ConstantSamplingRate_Curve()
         {
             // DO NOT JUST CHANGE THIS TEST. THIS GAVE VERY GOOD ERRORS TO DEBUG!
             double duration = 2;
@@ -717,35 +717,35 @@ namespace JJ.Business.Synthesizer.Tests
                 );
 
                 Outlet curveIn = x.MultiplyWithOrigin(x.Curve(curve), x.Number(amplification));
-                Outlet resampled = x.Resample(curveIn, x.Number(alternativeSamplingRate));
+                Outlet interpolated = x.Interpolate(curveIn, x.Number(alternativeSamplingRate));
 
                 IPatchCalculator patchCalculator;
 
                 AudioFileOutput audioFileOutput = audioFileOutputManager.Create();
                 audioFileOutput.Duration = duration;
 
-                audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_ConstantSamplingRate_Curve_Input.wav";
+                audioFileOutput.FilePath = "Test_Synthesizer_InterpolateOperator_ConstantSamplingRate_Curve_Input.wav";
                 audioFileOutput.SamplingRate = outputSamplingRate;
                 audioFileOutput.LinkTo(curveIn);
                 patchCalculator = x.CreateCalculator(curveIn, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
                 audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
 
-                audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_ConstantSamplingRate_Curve_WithLowerSamplingRate.wav";
+                audioFileOutput.FilePath = "Test_Synthesizer_InterpolateOperator_ConstantSamplingRate_Curve_WithLowerSamplingRate.wav";
                 audioFileOutput.SamplingRate = alternativeSamplingRate;
                 audioFileOutput.LinkTo(curveIn);
                 patchCalculator = x.CreateCalculator(curveIn, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
                 audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
 
-                audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_ConstantSamplingRate_Curve_WithResampleOperator.wav";
+                audioFileOutput.FilePath = "Test_Synthesizer_InterpolateOperator_ConstantSamplingRate_Curve_WithInterpolateOperator.wav";
                 audioFileOutput.SamplingRate = outputSamplingRate;
-                audioFileOutput.LinkTo(resampled);
-                patchCalculator = x.CreateCalculator(resampled, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
+                audioFileOutput.LinkTo(interpolated);
+                patchCalculator = x.CreateCalculator(interpolated, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
                 audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
             }
         }
 
         [TestMethod]
-        public void Test_Synthesizer_ResampleOperator_VariableSamplingRate_Noise()
+        public void Test_Synthesizer_InterpolateOperator_VariableSamplingRate_Noise()
         {
             double duration = 6;
             int outputSamplingRate = 44100;
@@ -764,13 +764,13 @@ namespace JJ.Business.Synthesizer.Tests
                 Curve curve = curveManager.Create(duration, samplingRate1, samplingRate2);
 
                 Outlet input = x.MultiplyWithOrigin(x.Noise(), x.Number(amplification));
-                Outlet outlet = x.Resample(input, x.Curve(curve));
+                Outlet outlet = x.Interpolate(input, x.Curve(curve));
 
                 IPatchCalculator patchCalculator = x.CreateCalculator(outlet, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
 
                 AudioFileOutput audioFileOutput = audioFileOutputManager.Create();
                 audioFileOutput.Duration = duration;
-                audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_WithVariableSamplingRate_Noise.wav";
+                audioFileOutput.FilePath = "Test_Synthesizer_InterpolateOperator_WithVariableSamplingRate_Noise.wav";
                 audioFileOutput.SamplingRate = outputSamplingRate;
                 audioFileOutput.LinkTo(outlet);
 
@@ -779,7 +779,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_Synthesizer_ResampleOperator_VariableSamplingRate_Sample()
+        public void Test_Synthesizer_InterpolateOperator_VariableSamplingRate_Sample()
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
@@ -804,13 +804,13 @@ namespace JJ.Business.Synthesizer.Tests
                 sample.BytesToSkip = 200;
 
                 Outlet input = x.Sample(sample);
-                Outlet outlet = x.Resample(input, x.Curve(curve));
+                Outlet outlet = x.Interpolate(input, x.Curve(curve));
 
                 IPatchCalculator patchCalculator = x.CreateCalculator(outlet, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
 
                 AudioFileOutput audioFileOutput = audioFileOutputManager.Create();
                 audioFileOutput.Duration = duration;
-                audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_WithVariableSamplingRate_Sample.wav";
+                audioFileOutput.FilePath = "Test_Synthesizer_InterpolateOperator_WithVariableSamplingRate_Sample.wav";
                 audioFileOutput.SamplingRate = outputSamplingRate;
                 audioFileOutput.LinkTo(outlet);
 
@@ -819,7 +819,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_Synthesizer_ResampleOperator_Sine()
+        public void Test_Synthesizer_InterpolateOperator_Sine()
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
@@ -833,7 +833,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Outlet sine = x.Multiply(x.Number(volume), x.Sine(x.Number(frequency)));
 
                 double newSamplingRate = 4;
-                Outlet resampled = x.Resample(sine, x.Number(newSamplingRate));
+                Outlet interpolated = x.Interpolate(sine, x.Number(newSamplingRate));
 
                 IPatchCalculator patchCalculator;
 
@@ -841,14 +841,14 @@ namespace JJ.Business.Synthesizer.Tests
                 audioFileOutput.Duration = 2;
                 audioFileOutput.SamplingRate = 44100;
 
-                audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_Sine_Input.wav";
+                audioFileOutput.FilePath = "Test_Synthesizer_InterpolateOperator_Sine_Input.wav";
                 audioFileOutput.LinkTo(sine);
                 patchCalculator = x.CreateCalculator(sine, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
                 audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
 
-                audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_Sine_Resampled.wav";
-                audioFileOutput.LinkTo(resampled);
-                patchCalculator = x.CreateCalculator(resampled, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
+                audioFileOutput.FilePath = "Test_Synthesizer_InterpolateOperator_Sine_Interpolated.wav";
+                audioFileOutput.LinkTo(interpolated);
+                patchCalculator = x.CreateCalculator(interpolated, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
                 audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
             }
         }
