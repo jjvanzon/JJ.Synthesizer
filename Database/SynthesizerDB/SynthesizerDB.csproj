@@ -332,6 +332,7 @@
     <Content Include="2016-09-03 010 SynthesizerDB OperatorType.HasDimension.sql" />
     <Content Include="2016-09-03 020 SynthesizerDB OperatorType.HasDimension not null.sql" />
     <Content Include="2016-09-03 030 SynthesizerDB OperatorType.HasDimension update to 1 for some records.sql" />
+    <Content Include="2016-09-10 030 SynthesizerDB OperarorType rename MakeDiscrete to DimensionToOutlets.sql" />
     <Content Include="2016-09-10 020 SynthesizerDB OperarorType rename Resample to Interpolate.sql" />
     <Content Include="2016-09-10 010 SynthesizerDB OperatorType update Name of OperatorTypes OverInlets.sql" />
   </ItemGroup>

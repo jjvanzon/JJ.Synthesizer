@@ -2220,7 +2220,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitMakeDiscrete(Operator op)
+        protected override void VisitDimensionToOutlets(Operator op)
         {
             // Exactly the same behavior as Unbundle.
             VisitUnbundle(op);
@@ -4908,9 +4908,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 VisitMakeContinuousOutlet(outlet);
             }
-            else if (operatorTypeEnum == OperatorTypeEnum.MakeDiscrete)
+            else if (operatorTypeEnum == OperatorTypeEnum.DimensionToOutlets)
             {
-                VisitMakeDiscreteOutlet(outlet);
+                Visit_DimensionToOutlets_Outlet(outlet);
             }
             else
             {
@@ -5056,7 +5056,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             base.VisitOutlet(outlet);
         }
 
-        private void VisitMakeDiscreteOutlet(Outlet outlet)
+        private void Visit_DimensionToOutlets_Outlet(Outlet outlet)
         {
             int outletIndex = outlet.Operator.Outlets
                                              .OrderBy(x => x.ListIndex)

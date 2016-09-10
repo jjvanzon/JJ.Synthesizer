@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             { OperatorTypeEnum.LowShelfFilter, typeof(LowShelfFilter_OperatorWarningValidator) },
             { OperatorTypeEnum.LowPassFilter, typeof(LowPassFilter_OperatorWarningValidator) },
             { OperatorTypeEnum.MakeContinuous, typeof(MakeContinuous_OperatorWarningValidator) },
-            { OperatorTypeEnum.MakeDiscrete, typeof(MakeDiscrete_OperatorWarningValidator) },
+            { OperatorTypeEnum.DimensionToOutlets, typeof(DimensionToOutlets_OperatorWarningValidator) },
             { OperatorTypeEnum.MaxOverDimension, typeof(MaxOverDimension_OperatorWarningValidator) },
             { OperatorTypeEnum.MaxOverInlets, typeof(MaxOverInlets_OperatorWarningValidator) },
             { OperatorTypeEnum.MaxFollower, typeof(MaxFollower_OperatorWarningValidator) },

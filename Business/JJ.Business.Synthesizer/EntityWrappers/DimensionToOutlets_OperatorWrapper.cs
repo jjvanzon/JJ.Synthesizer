@@ -9,11 +9,11 @@ using System;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class MakeDiscrete_OperatorWrapper : OperatorWrapperBase
+    public class DimensionToOutlets_OperatorWrapper : OperatorWrapperBase
     {
         private const int OPERAND_INDEX = 0;
 
-        public MakeDiscrete_OperatorWrapper(Operator op)
+        public DimensionToOutlets_OperatorWrapper(Operator op)
             : base(op)
         { }
 

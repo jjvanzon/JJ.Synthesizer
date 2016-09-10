@@ -7,12 +7,12 @@ using System.Linq;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class MakeDiscrete_OperatorValidator : OperatorValidator_Base_WithoutData
+    internal class DimensionToOutlets_OperatorValidator : OperatorValidator_Base_WithoutData
     {
-        public MakeDiscrete_OperatorValidator(Operator obj)
+        public DimensionToOutlets_OperatorValidator(Operator obj)
             : base(
                 obj,
-                OperatorTypeEnum.MakeDiscrete,
+                OperatorTypeEnum.DimensionToOutlets,
                 new DimensionEnum[] { DimensionEnum.Undefined },
                 Enumerable.Repeat(DimensionEnum.Undefined, obj?.Outlets.Count ?? 0).ToArray())
         { }

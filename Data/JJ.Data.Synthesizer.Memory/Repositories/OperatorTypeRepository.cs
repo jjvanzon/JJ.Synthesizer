@@ -26,7 +26,7 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             EnsureEntity(16, "Curve", hasDimension: true);
             EnsureEntity(17, "Sample", hasDimension: true);
             EnsureEntity(18, "Noise", hasDimension: true);
-            EnsureEntity(19, "Resample", hasDimension: true);
+            EnsureEntity(19, "Interpolate", hasDimension: true);
             EnsureEntity(20, "CustomOperator");
             EnsureEntity(21, "SawUp", hasDimension: true);
             EnsureEntity(22, "Square", hasDimension: true);
@@ -74,7 +74,7 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             EnsureEntity(64, "SetDimension", hasDimension: true);
             EnsureEntity(65, "Hold");
             EnsureEntity(66, "Range", hasDimension: true);
-            EnsureEntity(67, "MakeDiscrete", hasDimension: true);
+            EnsureEntity(67, "DimensionToOutlets", hasDimension: true);
             EnsureEntity(68, "MakeContinuous", hasDimension: true);
             EnsureEntity(69, "MaxOverInlets");
             EnsureEntity(70, "MinOverInlets");

@@ -94,7 +94,7 @@
         SetDimension = 64,
         Hold = 65,
         Range = 66,
-        MakeDiscrete = 67,
+        DimensionToOutlets = 67,
         MakeContinuous = 68,
         MaxOverInlets = 69,
         MinOverInlets = 70,

@@ -1,0 +1,1 @@
+update OperatorType set Name = 'DimensionToOutlets' where ID = 67 and Name = 'MakeDiscrete'; -- Name filter just in case.

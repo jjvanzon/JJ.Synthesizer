@@ -312,7 +312,7 @@
     <Compile Include="EntityWrappers\Negative_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\MaxOverDimension_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Range_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\MakeDiscrete_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\DimensionToOutlets_OperatorWrapper.cs" />
     <Compile Include="Enums\CollectionRecalculationEnum.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Helpers\OperatorCalculatorFactory.cs" />
@@ -501,7 +501,7 @@
     <Compile Include="Validation\Operators\Pulse_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Reverse_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Stretch_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\MakeDiscrete_OperatorValidator.cs" />
+    <Compile Include="Validation\Operators\DimensionToOutlets_OperatorValidator.cs" />
     <Compile Include="Validation\OutletValidator_NotForCustomOperator.cs" />
     <Compile Include="Validation\InletValidator_NotForCustomOperator.cs" />
     <Compile Include="Validation\Patches\PatchValidator_Delete.cs" />
@@ -581,7 +581,7 @@
     <Compile Include="Warnings\Operators\Pulse_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Reverse_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Stretch_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\MakeDiscrete_OperatorWarningValidator.cs" />
+    <Compile Include="Warnings\Operators\DimensionToOutlets_OperatorWarningValidator.cs" />
     <Compile Include="WavHeaderManager.cs" />
     <Compile Include="Resources\Messages.Designer.cs">
       <AutoGen>True</AutoGen>

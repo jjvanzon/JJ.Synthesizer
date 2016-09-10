@@ -246,53 +246,53 @@ namespace JJ.Business.Synthesizer.Api
         public MakeContinuous_OperatorWrapper MakeContinuous(IList<Outlet> operands)
             => _patchManager.MakeContinuous(operands);
 
-        public MakeDiscrete_OperatorWrapper MakeDiscrete(Outlet operand, DimensionEnum standardDimension, string customDimension, int outletCount)
-            => _patchManager.MakeDiscrete(operand, standardDimension, customDimension, outletCount);
+        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand, DimensionEnum standardDimension, string customDimension, int outletCount)
+            => _patchManager.DimensionToOutlets(operand, standardDimension, customDimension, outletCount);
 
-        public MakeDiscrete_OperatorWrapper MakeDiscrete(Outlet operand, DimensionEnum standardDimension, string customDimension)
-            => _patchManager.MakeDiscrete(operand, standardDimension, customDimension);
+        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand, DimensionEnum standardDimension, string customDimension)
+            => _patchManager.DimensionToOutlets(operand, standardDimension, customDimension);
 
-        public MakeDiscrete_OperatorWrapper MakeDiscrete(Outlet operand, DimensionEnum standardDimension, int outletCount)
-            => _patchManager.MakeDiscrete(operand, standardDimension, outletCount);
+        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand, DimensionEnum standardDimension, int outletCount)
+            => _patchManager.DimensionToOutlets(operand, standardDimension, outletCount);
 
-        public MakeDiscrete_OperatorWrapper MakeDiscrete(Outlet operand, DimensionEnum standardDimension)
-            => _patchManager.MakeDiscrete(operand, standardDimension);
+        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand, DimensionEnum standardDimension)
+            => _patchManager.DimensionToOutlets(operand, standardDimension);
 
-        public MakeDiscrete_OperatorWrapper MakeDiscrete(Outlet operand, string customDimension, int outletCount)
-            => _patchManager.MakeDiscrete(operand, customDimension, outletCount);
+        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand, string customDimension, int outletCount)
+            => _patchManager.DimensionToOutlets(operand, customDimension, outletCount);
 
-        public MakeDiscrete_OperatorWrapper MakeDiscrete(Outlet operand, string customDimension)
-            => _patchManager.MakeDiscrete(operand, customDimension);
+        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand, string customDimension)
+            => _patchManager.DimensionToOutlets(operand, customDimension);
 
-        public MakeDiscrete_OperatorWrapper MakeDiscrete(Outlet operand, int outletCount)
-            => _patchManager.MakeDiscrete(operand, outletCount);
+        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand, int outletCount)
+            => _patchManager.DimensionToOutlets(operand, outletCount);
 
-        public MakeDiscrete_OperatorWrapper MakeDiscrete(Outlet operand)
-            => _patchManager.MakeDiscrete(operand);
+        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand)
+            => _patchManager.DimensionToOutlets(operand);
 
-        public MakeDiscrete_OperatorWrapper MakeDiscrete(DimensionEnum standardDimension, string customDimension, int outletCount)
-            => _patchManager.MakeDiscrete(standardDimension, customDimension, outletCount);
+        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(DimensionEnum standardDimension, string customDimension, int outletCount)
+            => _patchManager.DimensionToOutlets(standardDimension, customDimension, outletCount);
 
-        public MakeDiscrete_OperatorWrapper MakeDiscrete(DimensionEnum standardDimension, string customDimension)
-            => _patchManager.MakeDiscrete(standardDimension, customDimension);
+        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(DimensionEnum standardDimension, string customDimension)
+            => _patchManager.DimensionToOutlets(standardDimension, customDimension);
 
-        public MakeDiscrete_OperatorWrapper MakeDiscrete(DimensionEnum standardDimension, int outletCount)
-            => _patchManager.MakeDiscrete(standardDimension, outletCount);
+        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(DimensionEnum standardDimension, int outletCount)
+            => _patchManager.DimensionToOutlets(standardDimension, outletCount);
 
-        public MakeDiscrete_OperatorWrapper MakeDiscrete(DimensionEnum standardDimension)
-            => _patchManager.MakeDiscrete(standardDimension);
+        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(DimensionEnum standardDimension)
+            => _patchManager.DimensionToOutlets(standardDimension);
 
-        public MakeDiscrete_OperatorWrapper MakeDiscrete(int outletCount, string customDimension)
-            => _patchManager.MakeDiscrete(outletCount, customDimension);
+        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(int outletCount, string customDimension)
+            => _patchManager.DimensionToOutlets(outletCount, customDimension);
 
-        public MakeDiscrete_OperatorWrapper MakeDiscrete(string customDimension)
-            => _patchManager.MakeDiscrete(customDimension);
+        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(string customDimension)
+            => _patchManager.DimensionToOutlets(customDimension);
 
-        public MakeDiscrete_OperatorWrapper MakeDiscrete(int outletCount)
-            => _patchManager.MakeDiscrete(outletCount);
+        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(int outletCount)
+            => _patchManager.DimensionToOutlets(outletCount);
 
-        public MakeDiscrete_OperatorWrapper MakeDiscrete()
-            => _patchManager.MakeDiscrete();
+        public DimensionToOutlets_OperatorWrapper DimensionToOutlets()
+            => _patchManager.DimensionToOutlets();
 
         public MaxOverInlets_OperatorWrapper MaxOverInlets(params Outlet[] operands)
             => _patchManager.MaxOverInlets(operands);

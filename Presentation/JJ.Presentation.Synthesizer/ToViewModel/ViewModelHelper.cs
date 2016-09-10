@@ -57,7 +57,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithOutletCountPropertyViews { get; } =
                   new HashSet<OperatorTypeEnum>
         {
-            OperatorTypeEnum.MakeDiscrete,
+            OperatorTypeEnum.DimensionToOutlets,
             OperatorTypeEnum.Unbundle
         };
 
@@ -159,7 +159,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             //OperatorTypeEnum.SetDimension,
             OperatorTypeEnum.Hold,
             //OperatorTypeEnum.Range,
-            OperatorTypeEnum.MakeDiscrete,
+            OperatorTypeEnum.DimensionToOutlets,
             OperatorTypeEnum.MakeContinuous,
             OperatorTypeEnum.MaxOverInlets,
             OperatorTypeEnum.MinOverInlets,
@@ -224,7 +224,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             //OperatorTypeEnum.LowPassFilter,
             //OperatorTypeEnum.LowShelfFilter,
             //OperatorTypeEnum.MakeContinuous,
-            //OperatorTypeEnum.MakeDiscrete,
+            //OperatorTypeEnum.DimensionToOutlets,
             //OperatorTypeEnum.MaxOverInlets,
             //OperatorTypeEnum.MaxFollower,
             //OperatorTypeEnum.MaxOverDimension,

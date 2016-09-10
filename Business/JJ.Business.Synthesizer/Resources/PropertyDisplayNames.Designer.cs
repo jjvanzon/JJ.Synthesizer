@@ -610,6 +610,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dimension to Outlets.
+        /// </summary>
+        public static string DimensionToOutlets {
+            get {
+                return ResourceManager.GetString("DimensionToOutlets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ÷.
         /// </summary>
         public static string Divide {
@@ -1110,15 +1119,6 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string MakeContinuous {
             get {
                 return ResourceManager.GetString("MakeContinuous", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Make Discrete.
-        /// </summary>
-        public static string MakeDiscrete {
-            get {
-                return ResourceManager.GetString("MakeDiscrete", resourceCulture);
             }
         }
         

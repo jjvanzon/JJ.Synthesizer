@@ -8,9 +8,9 @@ using JJ.Business.Synthesizer.Validation;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
-    internal class MakeDiscrete_OperatorWarningValidator : FluentValidator<Operator>
+    internal class DimensionToOutlets_OperatorWarningValidator : FluentValidator<Operator>
     {
-        public MakeDiscrete_OperatorWarningValidator(Operator obj)
+        public DimensionToOutlets_OperatorWarningValidator(Operator obj)
             : base(obj)
         { }
 

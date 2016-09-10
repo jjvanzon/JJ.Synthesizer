@@ -47,7 +47,7 @@ namespace JJ.Business.Synthesizer.Helpers
             { OperatorTypeEnum.LowPassFilter, Create_LowPassFilter_OperatorWrapper },
             { OperatorTypeEnum.LowShelfFilter, Create_LowShelfFilter_OperatorWrapper },
             { OperatorTypeEnum.MakeContinuous, Create_MakeContinuous_OperatorWrapper },
-            { OperatorTypeEnum.MakeDiscrete, Create_MakeDiscrete_OperatorWrapper },
+            { OperatorTypeEnum.DimensionToOutlets, Create_DimensionToOutlets_OperatorWrapper },
             { OperatorTypeEnum.MaxOverDimension, Create_MaxOverDimension_OperatorWrapper },
             { OperatorTypeEnum.MaxOverInlets, Create_Max_OperatorWrapper },
             { OperatorTypeEnum.MaxFollower, Create_MaxFollower_OperatorWrapper },
@@ -164,7 +164,7 @@ namespace JJ.Business.Synthesizer.Helpers
         private static LowPassFilter_OperatorWrapper Create_LowPassFilter_OperatorWrapper(Operator op) { return new LowPassFilter_OperatorWrapper(op); }
         private static LowShelfFilter_OperatorWrapper Create_LowShelfFilter_OperatorWrapper(Operator op) { return new LowShelfFilter_OperatorWrapper(op); }
         private static MakeContinuous_OperatorWrapper Create_MakeContinuous_OperatorWrapper(Operator op) { return new MakeContinuous_OperatorWrapper(op); }
-        private static MakeDiscrete_OperatorWrapper Create_MakeDiscrete_OperatorWrapper(Operator op) { return new MakeDiscrete_OperatorWrapper(op); }
+        private static DimensionToOutlets_OperatorWrapper Create_DimensionToOutlets_OperatorWrapper(Operator op) { return new DimensionToOutlets_OperatorWrapper(op); }
         private static MaxOverDimension_OperatorWrapper Create_MaxOverDimension_OperatorWrapper(Operator op) { return new MaxOverDimension_OperatorWrapper(op); }
         private static MaxOverInlets_OperatorWrapper Create_Max_OperatorWrapper(Operator op) { return new MaxOverInlets_OperatorWrapper(op); }
         private static MaxFollower_OperatorWrapper Create_MaxFollower_OperatorWrapper(Operator op) { return new MaxFollower_OperatorWrapper(op); }

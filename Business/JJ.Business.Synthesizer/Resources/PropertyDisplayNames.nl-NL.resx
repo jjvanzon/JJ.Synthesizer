@@ -770,8 +770,8 @@
   <data name="MakeContinuous" xml:space="preserve">
     <value>Maak aaneengesloten</value>
   </data>
-  <data name="MakeDiscrete" xml:space="preserve">
-    <value>Maak afzonderlijk</value>
+  <data name="DimensionToOutlets" xml:space="preserve">
+    <value>Dimensie naar uitgangen</value>
   </data>
   <data name="MaxOverInlets" xml:space="preserve">
     <value>Max over ingangen</value>
