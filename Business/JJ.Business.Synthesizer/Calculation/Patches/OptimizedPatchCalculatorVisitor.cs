@@ -3394,11 +3394,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitRange(Operator op)
+        protected override void VisitRangeOverDimension(Operator op)
         {
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(op);
 
-            base.VisitRange(op);
+            base.VisitRangeOverDimension(op);
 
             OperatorCalculatorBase operatorCalculator;
 
@@ -3435,15 +3435,15 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (fromIsConst && tillIsConst && stepIsConstOne)
             {
-                operatorCalculator = new Range_OperatorCalculator_WithConstants_AndStepOne(from, till, dimensionStack);
+                operatorCalculator = new RangeOverDimension_OperatorCalculator_WithConstants_AndStepOne(from, till, dimensionStack);
             }
             else if (fromIsConst && tillIsConst && stepIsConst)
             {
-                operatorCalculator = new Range_OperatorCalculator_WithConstants(from, till, step, dimensionStack);
+                operatorCalculator = new RangeOverDimension_OperatorCalculator_WithConstants(from, till, step, dimensionStack);
             }
             else if (!fromIsConst && !tillIsConst && !stepIsConst)
             {
-                operatorCalculator = new Range_OperatorCalculator_WithVariables(fromCalculator, tillCalculator, stepCalculator, dimensionStack);
+                operatorCalculator = new RangeOverDimension_OperatorCalculator_WithVariables(fromCalculator, tillCalculator, stepCalculator, dimensionStack);
             }
             else
             {

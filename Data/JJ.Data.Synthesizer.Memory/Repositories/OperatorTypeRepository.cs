@@ -73,7 +73,7 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             EnsureEntity(63, "GetDimension", hasDimension: true);
             EnsureEntity(64, "SetDimension", hasDimension: true);
             EnsureEntity(65, "Hold");
-            EnsureEntity(66, "Range", hasDimension: true);
+            EnsureEntity(66, "RangeOverDimension", hasDimension: true);
             EnsureEntity(67, "DimensionToOutlets", hasDimension: true);
             EnsureEntity(68, "InletsToDimension", hasDimension: true);
             EnsureEntity(69, "MaxOverInlets");

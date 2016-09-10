@@ -169,6 +169,9 @@
   <data name="Play" xml:space="preserve">
     <value>Play</value>
   </data>
+  <data name="Range" xml:space="preserve">
+    <value>Range</value>
+  </data>
   <data name="SetDimensionWithPlaceholder" xml:space="preserve">
     <value>Set {0}</value>
     <comment>{0} = dimension, example: Set Time</comment>

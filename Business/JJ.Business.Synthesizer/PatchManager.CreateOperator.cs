@@ -1634,7 +1634,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Range_OperatorWrapper Range(
+        public RangeOverDimension_OperatorWrapper RangeOverDimension(
             Outlet from = null, 
             Outlet till = null, 
             Outlet step = null,
@@ -1642,14 +1642,14 @@ namespace JJ.Business.Synthesizer
             string customDimension = null)
         {
             Operator op = CreateOperatorBase(
-                OperatorTypeEnum.Range,
+                OperatorTypeEnum.RangeOverDimension,
                 new DimensionEnum[] { DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined },
                 new DimensionEnum[] { DimensionEnum.Undefined });
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
 
-            var wrapper = new Range_OperatorWrapper(op)
+            var wrapper = new RangeOverDimension_OperatorWrapper(op)
             {
                 From = from,
                 Till = till,
@@ -2471,7 +2471,7 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.Pulse: return Pulse();
                 case OperatorTypeEnum.PulseTrigger: return PulseTrigger();
                 case OperatorTypeEnum.Random: return Random();
-                case OperatorTypeEnum.Range: return Range();
+                case OperatorTypeEnum.RangeOverDimension: return RangeOverDimension();
                 case OperatorTypeEnum.Interpolate: return Interpolate();
                 case OperatorTypeEnum.Reset: return Reset();
                 case OperatorTypeEnum.Reverse: return Reverse();

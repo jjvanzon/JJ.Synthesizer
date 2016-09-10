@@ -433,6 +433,14 @@ namespace JJ.Business.Synthesizer.Api
         public Random_OperatorWrapper Random(Outlet rate = null, DimensionEnum standardDimension = DimensionEnum.Time, string customDimension = null)
             => _patchManager.Random(rate, standardDimension, customDimension);
 
+        public RangeOverDimension_OperatorWrapper RangeOverDimension(
+            Outlet from = null,
+            Outlet till = null,
+            Outlet step = null,
+            DimensionEnum standardDimension = DimensionEnum.Undefined,
+            string customDimension = null)
+            => _patchManager.RangeOverDimension(from, till, step, standardDimension, customDimension);
+
         public Interpolate_OperatorWrapper Interpolate(
             Outlet signal = null,
             Outlet samplingRate = null,

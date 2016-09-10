@@ -93,7 +93,7 @@
         GetDimension = 63,
         SetDimension = 64,
         Hold = 65,
-        Range = 66,
+        RangeOverDimension = 66,
         DimensionToOutlets = 67,
         InletsToDimension = 68,
         MaxOverInlets = 69,

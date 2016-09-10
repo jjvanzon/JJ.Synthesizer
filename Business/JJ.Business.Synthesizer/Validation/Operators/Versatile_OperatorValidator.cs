@@ -71,7 +71,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             { OperatorTypeEnum.Power, typeof(Power_OperatorValidator) },
             { OperatorTypeEnum.Pulse, typeof(Pulse_OperatorValidator) },
             { OperatorTypeEnum.Random, typeof(Random_OperatorValidator) },
-            { OperatorTypeEnum.Range, typeof(Range_OperatorValidator) },
+            { OperatorTypeEnum.RangeOverDimension, typeof(RangeOverDimension_OperatorValidator) },
             { OperatorTypeEnum.Interpolate, typeof(Interpolate_OperatorValidator) },
             { OperatorTypeEnum.Reset, typeof(Reset_OperatorValidator) },
             { OperatorTypeEnum.Reverse, typeof(Reverse_OperatorValidator) },

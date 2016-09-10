@@ -7,9 +7,9 @@ using System;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Range_OperatorWrapper : OperatorWrapperBase
+    public class RangeOverDimension_OperatorWrapper : OperatorWrapperBase
     {
-        public Range_OperatorWrapper(Operator op)
+        public RangeOverDimension_OperatorWrapper(Operator op)
             : base(op)
         { }
 
@@ -74,6 +74,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             return name;
         }
 
-        public static implicit operator Outlet(Range_OperatorWrapper wrapper) => wrapper?.Result;
+        public static implicit operator Outlet(RangeOverDimension_OperatorWrapper wrapper) => wrapper?.Result;
     }
 }

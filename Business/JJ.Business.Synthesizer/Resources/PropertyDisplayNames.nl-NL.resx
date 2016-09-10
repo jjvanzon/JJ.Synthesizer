@@ -758,8 +758,8 @@
   <data name="Hold" xml:space="preserve">
     <value>Aanhouden</value>
   </data>
-  <data name="Range" xml:space="preserve">
-    <value>Reeks</value>
+  <data name="RangeOverDimension" xml:space="preserve">
+    <value>Reeks over dimensie</value>
   </data>
   <data name="From" xml:space="preserve">
     <value>Van</value>

@@ -4,9 +4,9 @@ using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
-    internal class Range_OperatorWarningValidator : OperatorWarningValidator_Base_SpecificInletsFilledInOrHaveDefaults
+    internal class RangeOverDimension_OperatorWarningValidator : OperatorWarningValidator_Base_SpecificInletsFilledInOrHaveDefaults
     {
-        public Range_OperatorWarningValidator(Operator obj)
+        public RangeOverDimension_OperatorWarningValidator(Operator obj)
             : base(obj, OperatorConstants.RANGE_TILL_INDEX)
         { }
     }

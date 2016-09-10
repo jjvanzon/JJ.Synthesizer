@@ -3,12 +3,12 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class Range_OperatorValidator : OperatorValidator_Base_WithoutData
+    internal class RangeOverDimension_OperatorValidator : OperatorValidator_Base_WithoutData
     {
-        public Range_OperatorValidator(Operator obj)
+        public RangeOverDimension_OperatorValidator(Operator obj)
             : base(
                 obj,
-                OperatorTypeEnum.Range,
+                OperatorTypeEnum.RangeOverDimension,
                 new DimensionEnum[] { DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined },
                 new DimensionEnum[] { DimensionEnum.Undefined })
         { }

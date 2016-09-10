@@ -1,0 +1,1 @@
+update OperatorType set Name = 'RangeOverDimension' where ID = 66 and Name = 'Range'; -- Name filter just in case.

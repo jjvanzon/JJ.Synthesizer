@@ -1564,11 +1564,11 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Range.
+        ///   Looks up a localized string similar to Range over Dimension.
         /// </summary>
-        public static string Range {
+        public static string RangeOverDimension {
             get {
-                return ResourceManager.GetString("Range", resourceCulture);
+                return ResourceManager.GetString("RangeOverDimension", resourceCulture);
             }
         }
         

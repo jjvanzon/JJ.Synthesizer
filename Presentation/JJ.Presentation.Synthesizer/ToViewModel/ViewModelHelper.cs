@@ -577,11 +577,34 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             switch (operatorTypeEnum)
             {
+                case OperatorTypeEnum.AverageOverDimension:
+                case OperatorTypeEnum.AverageOverInlets:
+                    return Titles.Average;
+
+                case OperatorTypeEnum.ClosestOverDimension:
+                case OperatorTypeEnum.ClosestOverInlets:
+                    return Titles.Closest;
+
+                case OperatorTypeEnum.ClosestOverDimensionExp:
+                case OperatorTypeEnum.ClosestOverInletsExp:
+                    return Titles.ClosestExp;
+
                 case OperatorTypeEnum.Curve:
                     return GetOperatorCaption_ForCurve(op, curveRepository);
 
                 case OperatorTypeEnum.CustomOperator:
                     return GetOperatorCaption_ForCustomOperator(op, patchRepository);
+
+                case OperatorTypeEnum.GetDimension:
+                    return GetOperatorCaption_ForGetDimension(op);
+
+                case OperatorTypeEnum.MaxOverDimension:
+                case OperatorTypeEnum.MaxOverInlets:
+                    return Titles.Max;
+
+                case OperatorTypeEnum.MinOverDimension:
+                case OperatorTypeEnum.MinOverInlets:
+                    return Titles.Min;
 
                 case OperatorTypeEnum.Number:
                     return GetOperatorCaption_ForNumber(op);
@@ -592,41 +615,21 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 case OperatorTypeEnum.PatchOutlet:
                     return GetOperatorCaption_ForPatchOutlet(op);
 
+                case OperatorTypeEnum.RangeOverDimension:
+                    return Titles.Range;
+
                 case OperatorTypeEnum.Sample:
                     return GetOperatorCaption_ForSample(op, sampleRepository);
-
-                case OperatorTypeEnum.GetDimension:
-                    return GetOperatorCaption_ForGetDimension(op);
 
                 case OperatorTypeEnum.SetDimension:
                     return GetOperatorCaption_ForSetDimension(op);
 
-                case OperatorTypeEnum.MaxOverDimension:
-                case OperatorTypeEnum.MaxOverInlets:
-                    return Titles.Max;
-
-                case OperatorTypeEnum.MinOverDimension:
-                case OperatorTypeEnum.MinOverInlets:
-                    return Titles.Min;
-
-                case OperatorTypeEnum.AverageOverDimension:
-                case OperatorTypeEnum.AverageOverInlets:
-                    return Titles.Average;
-
-                case OperatorTypeEnum.SumOverDimension:
-                    return Titles.Sum;
-
-                case OperatorTypeEnum.ClosestOverDimension:
-                case OperatorTypeEnum.ClosestOverInlets:
-                    return Titles.Closest;
-
-                case OperatorTypeEnum.ClosestOverDimensionExp:
-                case OperatorTypeEnum.ClosestOverInletsExp:
-                    return Titles.ClosestExp;
-
                 case OperatorTypeEnum.SortOverDimension:
                 case OperatorTypeEnum.SortOverInlets:
                     return Titles.Sort;
+
+                case OperatorTypeEnum.SumOverDimension:
+                    return Titles.Sum;
 
                 default:
                     return GetOperatorCaption_ForOtherOperators(op);
