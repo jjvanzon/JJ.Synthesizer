@@ -35,8 +35,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public Dictionary<int, OperatorPropertiesViewModel_ForCurve> OperatorPropertiesDictionary_ForCurves { get; set; }
         public OperatorPropertiesViewModel_ForCustomOperator VisibleOperatorProperties_ForCustomOperator { get; set; }
         public Dictionary<int, OperatorPropertiesViewModel_ForCustomOperator> OperatorPropertiesDictionary_ForCustomOperators { get; set; }
-        public OperatorPropertiesViewModel_ForMakeContinuous VisibleOperatorProperties_ForMakeContinuous { get; set; }
-        public Dictionary<int, OperatorPropertiesViewModel_ForMakeContinuous> OperatorPropertiesDictionary_ForMakeContinuous { get; set; }
+        public OperatorPropertiesViewModel_ForInletsToDimension VisibleOperatorProperties_ForInletsToDimension { get; set; }
+        public Dictionary<int, OperatorPropertiesViewModel_ForInletsToDimension> OperatorPropertiesDictionary_ForInletsToDimension { get; set; }
         public OperatorPropertiesViewModel_ForNumber VisibleOperatorProperties_ForNumber { get; set; }
         public Dictionary<int, OperatorPropertiesViewModel_ForNumber> OperatorPropertiesDictionary_ForNumbers { get; set; }
         public OperatorPropertiesViewModel_ForPatchInlet VisibleOperatorProperties_ForPatchInlet { get; set; }

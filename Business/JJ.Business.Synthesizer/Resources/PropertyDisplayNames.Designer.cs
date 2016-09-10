@@ -889,6 +889,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Inlets to Dimension.
+        /// </summary>
+        public static string InletsToDimension {
+            get {
+                return ResourceManager.GetString("InletsToDimension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Input.
         /// </summary>
         public static string Input {
@@ -1110,15 +1119,6 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string LowShelfFilter {
             get {
                 return ResourceManager.GetString("LowShelfFilter", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Make Continuous.
-        /// </summary>
-        public static string MakeContinuous {
-            get {
-                return ResourceManager.GetString("MakeContinuous", resourceCulture);
             }
         }
         

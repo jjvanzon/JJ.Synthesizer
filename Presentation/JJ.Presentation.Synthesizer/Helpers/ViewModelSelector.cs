@@ -267,22 +267,22 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return viewModel;
         }
 
-        public static OperatorPropertiesViewModel_ForMakeContinuous GetOperatorPropertiesViewModel_ForMakeContinuous(DocumentViewModel documentViewModel, int operatorID)
+        public static OperatorPropertiesViewModel_ForInletsToDimension GetOperatorPropertiesViewModel_ForInletsToDimension(DocumentViewModel documentViewModel, int operatorID)
         {
-            OperatorPropertiesViewModel_ForMakeContinuous viewModel = TryGetOperatorPropertiesViewModel_ForMakeContinuous(documentViewModel, operatorID);
+            OperatorPropertiesViewModel_ForInletsToDimension viewModel = TryGetOperatorPropertiesViewModel_ForInletsToDimension(documentViewModel, operatorID);
             if (viewModel == null)
             {
-                throw new NotFoundException<OperatorPropertiesViewModel_ForMakeContinuous>(operatorID);
+                throw new NotFoundException<OperatorPropertiesViewModel_ForInletsToDimension>(operatorID);
             }
             return viewModel;
         }
 
-        public static OperatorPropertiesViewModel_ForMakeContinuous TryGetOperatorPropertiesViewModel_ForMakeContinuous(DocumentViewModel documentViewModel, int operatorID)
+        public static OperatorPropertiesViewModel_ForInletsToDimension TryGetOperatorPropertiesViewModel_ForInletsToDimension(DocumentViewModel documentViewModel, int operatorID)
         {
             if (documentViewModel == null) throw new NullException(() => documentViewModel);
 
-            OperatorPropertiesViewModel_ForMakeContinuous viewModel;
-            documentViewModel.OperatorPropertiesDictionary_ForMakeContinuous.TryGetValue(operatorID, out viewModel);
+            OperatorPropertiesViewModel_ForInletsToDimension viewModel;
+            documentViewModel.OperatorPropertiesDictionary_ForInletsToDimension.TryGetValue(operatorID, out viewModel);
             return viewModel;
         }
 

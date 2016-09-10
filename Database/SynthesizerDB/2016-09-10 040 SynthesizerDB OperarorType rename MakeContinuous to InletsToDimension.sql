@@ -1,0 +1,1 @@
+update OperatorType set Name = 'InletsToDimension' where ID = 68 and Name = 'MakeContinuous'; -- Name filter just in case.

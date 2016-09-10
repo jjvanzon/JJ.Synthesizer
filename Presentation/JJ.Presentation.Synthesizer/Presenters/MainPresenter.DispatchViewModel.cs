@@ -41,7 +41,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(OperatorPropertiesViewModel_ForCache), DispatchOperatorPropertiesViewModel_ForCache },
                 { typeof(OperatorPropertiesViewModel_ForCurve), DispatchOperatorPropertiesViewModel_ForCurve },
                 { typeof(OperatorPropertiesViewModel_ForCustomOperator), DispatchOperatorPropertiesViewModel_ForCustomOperator },
-                { typeof(OperatorPropertiesViewModel_ForMakeContinuous), DispatchOperatorPropertiesViewModel_ForMakeContinuous },
+                { typeof(OperatorPropertiesViewModel_ForInletsToDimension), DispatchOperatorPropertiesViewModel_ForInletsToDimension },
                 { typeof(OperatorPropertiesViewModel_ForNumber), DispatchOperatorPropertiesViewModel_ForNumber },
                 { typeof(OperatorPropertiesViewModel_ForPatchInlet), DispatchOperatorPropertiesViewModel_ForPatchInlet },
                 { typeof(OperatorPropertiesViewModel_ForPatchOutlet), DispatchOperatorPropertiesViewModel_ForPatchOutlet },
@@ -398,18 +398,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
             castedViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchOperatorPropertiesViewModel_ForMakeContinuous(object viewModel2)
+        private void DispatchOperatorPropertiesViewModel_ForInletsToDimension(object viewModel2)
         {
-            var castedViewModel = (OperatorPropertiesViewModel_ForMakeContinuous)viewModel2;
+            var castedViewModel = (OperatorPropertiesViewModel_ForInletsToDimension)viewModel2;
 
-            var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForMakeContinuous;
+            var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForInletsToDimension;
             dictionary[castedViewModel.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
             {
                 HideAllPropertiesViewModels();
                 castedViewModel.Visible = true;
-                MainViewModel.Document.VisibleOperatorProperties_ForMakeContinuous = castedViewModel;
+                MainViewModel.Document.VisibleOperatorProperties_ForInletsToDimension = castedViewModel;
             }
 
             MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);

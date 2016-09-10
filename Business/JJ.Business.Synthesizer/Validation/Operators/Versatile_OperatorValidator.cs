@@ -47,7 +47,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             { OperatorTypeEnum.Loop, typeof(OperatorValidator_Loop) },
             { OperatorTypeEnum.LowPassFilter, typeof(LowPassFilter_OperatorValidator) },
             { OperatorTypeEnum.LowShelfFilter, typeof(LowShelfFilter_OperatorValidator) },
-            { OperatorTypeEnum.MakeContinuous, typeof(MakeContinuous_OperatorValidator) },
+            { OperatorTypeEnum.InletsToDimension, typeof(InletsToDimension_OperatorValidator) },
             { OperatorTypeEnum.DimensionToOutlets, typeof(DimensionToOutlets_OperatorValidator) },
             { OperatorTypeEnum.MaxOverDimension, typeof(MaxOverDimension_OperatorValidator) },
             { OperatorTypeEnum.MaxOverInlets, typeof(MaxOverInlets_OperatorValidator) },

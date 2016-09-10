@@ -885,47 +885,47 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public MakeContinuous_OperatorWrapper MakeContinuous(ResampleInterpolationTypeEnum interpolation, DimensionEnum standardDimension, params Outlet[] operands)
+        public InletsToDimension_OperatorWrapper InletsToDimension(ResampleInterpolationTypeEnum interpolation, DimensionEnum standardDimension, params Outlet[] operands)
         {
-            return MakeContinuousPrivate(operands, interpolation, standardDimension);
+            return InletsToDimensionPrivate(operands, interpolation, standardDimension);
         }
 
-        public MakeContinuous_OperatorWrapper MakeContinuous(ResampleInterpolationTypeEnum interpolation, params Outlet[] operands)
+        public InletsToDimension_OperatorWrapper InletsToDimension(ResampleInterpolationTypeEnum interpolation, params Outlet[] operands)
         {
-            return MakeContinuousPrivate(operands, interpolation, null);
+            return InletsToDimensionPrivate(operands, interpolation, null);
         }
 
-        public MakeContinuous_OperatorWrapper MakeContinuous(DimensionEnum standardDimension, params Outlet[] operands)
+        public InletsToDimension_OperatorWrapper InletsToDimension(DimensionEnum standardDimension, params Outlet[] operands)
         {
-            return MakeContinuousPrivate(operands, null, standardDimension);
+            return InletsToDimensionPrivate(operands, null, standardDimension);
         }
 
-        public MakeContinuous_OperatorWrapper MakeContinuous(params Outlet[] operands)
+        public InletsToDimension_OperatorWrapper InletsToDimension(params Outlet[] operands)
         {
-            return MakeContinuousPrivate(operands, null, null);
+            return InletsToDimensionPrivate(operands, null, null);
         }
 
-        public MakeContinuous_OperatorWrapper MakeContinuous(IList<Outlet> operands, ResampleInterpolationTypeEnum interpolation, DimensionEnum standardDimension)
+        public InletsToDimension_OperatorWrapper InletsToDimension(IList<Outlet> operands, ResampleInterpolationTypeEnum interpolation, DimensionEnum standardDimension)
         {
-            return MakeContinuousPrivate(operands, interpolation, standardDimension);
+            return InletsToDimensionPrivate(operands, interpolation, standardDimension);
         }
 
-        public MakeContinuous_OperatorWrapper MakeContinuous(IList<Outlet> operands, ResampleInterpolationTypeEnum interpolation)
+        public InletsToDimension_OperatorWrapper InletsToDimension(IList<Outlet> operands, ResampleInterpolationTypeEnum interpolation)
         {
-            return MakeContinuousPrivate(operands, interpolation, null);
+            return InletsToDimensionPrivate(operands, interpolation, null);
         }
 
-        public MakeContinuous_OperatorWrapper MakeContinuous(IList<Outlet> operands, DimensionEnum standardDimension)
+        public InletsToDimension_OperatorWrapper InletsToDimension(IList<Outlet> operands, DimensionEnum standardDimension)
         {
-            return MakeContinuousPrivate(operands, null, standardDimension);
+            return InletsToDimensionPrivate(operands, null, standardDimension);
         }
 
-        public MakeContinuous_OperatorWrapper MakeContinuous(IList<Outlet> operands)
+        public InletsToDimension_OperatorWrapper InletsToDimension(IList<Outlet> operands)
         {
-            return MakeContinuousPrivate(operands, null, null);
+            return InletsToDimensionPrivate(operands, null, null);
         }
 
-        private MakeContinuous_OperatorWrapper MakeContinuousPrivate(
+        private InletsToDimension_OperatorWrapper InletsToDimensionPrivate(
             IList<Outlet> operands, 
             ResampleInterpolationTypeEnum? interpolation, 
             DimensionEnum? dimension,
@@ -935,14 +935,14 @@ namespace JJ.Business.Synthesizer
             interpolation = interpolation ?? ResampleInterpolationTypeEnum.Block;
             dimension = dimension ?? DimensionEnum.Undefined;
 
-            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.MakeContinuous, operands);
+            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.InletsToDimension, operands);
             if (dimension.HasValue)
             {
                 op.SetStandardDimensionEnum(dimension.Value, _repositories.DimensionRepository);
             }
             op.CustomDimensionName = customDimension;
 
-            var wrapper = new MakeContinuous_OperatorWrapper(op)
+            var wrapper = new InletsToDimension_OperatorWrapper(op)
             {
                 InterpolationType = interpolation.Value
             };
@@ -2446,7 +2446,7 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.Loop: return Loop();
                 case OperatorTypeEnum.LowPassFilter: return LowPassFilter();
                 case OperatorTypeEnum.LowShelfFilter: return LowShelfFilter();
-                case OperatorTypeEnum.MakeContinuous: return MakeContinuous(new Outlet[variableInletOrOutletCount]);
+                case OperatorTypeEnum.InletsToDimension: return InletsToDimension(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.DimensionToOutlets: return DimensionToOutlets(null, variableInletOrOutletCount);
                 case OperatorTypeEnum.MaxOverDimension: return MaxOverDimension();
                 case OperatorTypeEnum.MaxOverInlets: return MaxOverInlets(new Outlet[variableInletOrOutletCount]);

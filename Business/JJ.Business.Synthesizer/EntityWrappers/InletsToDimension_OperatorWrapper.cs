@@ -8,11 +8,11 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class MakeContinuous_OperatorWrapper : OperatorWrapperBase
+    public class InletsToDimension_OperatorWrapper : OperatorWrapperBase
     {
         private const int RESULT_INDEX = 0;
 
-        public MakeContinuous_OperatorWrapper(Operator op)
+        public InletsToDimension_OperatorWrapper(Operator op)
             : base(op)
         { }
 
@@ -47,6 +47,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             return name;
         }
 
-        public static implicit operator Outlet(MakeContinuous_OperatorWrapper wrapper) => wrapper?.Result;
+        public static implicit operator Outlet(InletsToDimension_OperatorWrapper wrapper) => wrapper?.Result;
     }
 }

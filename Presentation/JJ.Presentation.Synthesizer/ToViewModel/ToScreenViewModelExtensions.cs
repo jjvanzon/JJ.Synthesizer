@@ -329,12 +329,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                         .ToList();
         }
 
-        public static IList<OperatorPropertiesViewModel_ForMakeContinuous> ToPropertiesViewModelList_ForMakeContinuous(this Patch patch)
+        public static IList<OperatorPropertiesViewModel_ForInletsToDimension> ToPropertiesViewModelList_ForInletsToDimension(this Patch patch)
         {
             if (patch == null) throw new NullException(() => patch);
 
-            return patch.GetOperatorsOfType(OperatorTypeEnum.MakeContinuous)
-                        .Select(x => x.ToPropertiesViewModel_ForMakeContinuous())
+            return patch.GetOperatorsOfType(OperatorTypeEnum.InletsToDimension)
+                        .Select(x => x.ToPropertiesViewModel_ForInletsToDimension())
                         .ToList();
         }
 
@@ -488,13 +488,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static OperatorPropertiesViewModel_ForMakeContinuous ToPropertiesViewModel_ForMakeContinuous(this Operator entity)
+        public static OperatorPropertiesViewModel_ForInletsToDimension ToPropertiesViewModel_ForInletsToDimension(this Operator entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
-            var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel_ForMakeContinuous>(entity);
+            var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel_ForInletsToDimension>(entity);
 
-            var wrapper = new MakeContinuous_OperatorWrapper(entity);
+            var wrapper = new InletsToDimension_OperatorWrapper(entity);
 
             viewModel.InletCount = entity.Inlets.Count;
             viewModel.Interpolation = wrapper.InterpolationType.ToIDAndDisplayName();

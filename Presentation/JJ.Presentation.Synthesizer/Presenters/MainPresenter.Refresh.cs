@@ -267,7 +267,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesDictionary_ForCaches_Refresh();
             OperatorPropertiesDictionary_ForCurves_Refresh();
             OperatorPropertiesDictionary_ForCustomOperators_Refresh();
-            OperatorPropertiesDictionary_ForMakeContinuous_Refresh();
+            OperatorPropertiesDictionary_ForInletsToDimension_Refresh();
             OperatorPropertiesDictionary_ForNumbers_Refresh();
             OperatorPropertiesDictionary_ForPatchInlets_Refresh();
             OperatorPropertiesDictionary_ForPatchOutlets_Refresh();
@@ -386,9 +386,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        private void OperatorProperties_ForMakeContinuous_Refresh(OperatorPropertiesViewModel_ForMakeContinuous userInput)
+        private void OperatorProperties_ForInletsToDimension_Refresh(OperatorPropertiesViewModel_ForInletsToDimension userInput)
         {
-            OperatorPropertiesViewModel_ForMakeContinuous viewModel = _operatorPropertiesPresenter_ForMakeContinuous.Refresh(userInput);
+            OperatorPropertiesViewModel_ForInletsToDimension viewModel = _operatorPropertiesPresenter_ForInletsToDimension.Refresh(userInput);
             DispatchViewModel(viewModel);
         }
 
@@ -633,26 +633,26 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        private void OperatorPropertiesDictionary_ForMakeContinuous_Refresh()
+        private void OperatorPropertiesDictionary_ForInletsToDimension_Refresh()
         {
-            var viewModelDictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForMakeContinuous;
+            var viewModelDictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForInletsToDimension;
 
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
             IList<Operator> operators = document.Patches
-                                                .SelectMany(x => x.GetOperatorsOfType(OperatorTypeEnum.MakeContinuous))
+                                                .SelectMany(x => x.GetOperatorsOfType(OperatorTypeEnum.InletsToDimension))
                                                 .ToArray();
             foreach (Operator op in operators)
             {
-                OperatorPropertiesViewModel_ForMakeContinuous viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForMakeContinuous(MainViewModel.Document, op.ID);
+                OperatorPropertiesViewModel_ForInletsToDimension viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForInletsToDimension(MainViewModel.Document, op.ID);
                 if (viewModel == null)
                 {
-                    viewModel = op.ToPropertiesViewModel_ForMakeContinuous();
+                    viewModel = op.ToPropertiesViewModel_ForInletsToDimension();
                     viewModel.Successful = true;
                     viewModelDictionary[op.ID] = viewModel;
                 }
                 else
                 {
-                    OperatorProperties_ForMakeContinuous_Refresh(viewModel);
+                    OperatorProperties_ForInletsToDimension_Refresh(viewModel);
                 }
             }
 
@@ -664,9 +664,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 viewModelDictionary.Remove(idToDelete);
 
-                if (MainViewModel.Document.VisibleOperatorProperties_ForMakeContinuous?.ID == idToDelete)
+                if (MainViewModel.Document.VisibleOperatorProperties_ForInletsToDimension?.ID == idToDelete)
                 {
-                    MainViewModel.Document.VisibleOperatorProperties_ForMakeContinuous = null;
+                    MainViewModel.Document.VisibleOperatorProperties_ForInletsToDimension = null;
                 }
             }
         }

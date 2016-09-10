@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
-    public sealed class OperatorPropertiesViewModel_ForMakeContinuous : OperatorPropertiesViewModelBase
+    public sealed class OperatorPropertiesViewModel_ForInletsToDimension : OperatorPropertiesViewModelBase
     {
         public int InletCount { get; set; }
         public IDAndName Interpolation { get; set; }

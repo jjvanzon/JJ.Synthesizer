@@ -31,7 +31,7 @@
             this.operatorPropertiesUserControl_ForNumber = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForNumber();
             this.operatorPropertiesUserControl_WithCollectionRecalculation = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_WithCollectionRecalculation();
             this.operatorPropertiesUserControl_WithInletCount = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_WithInletCount();
-            this.operatorPropertiesUserControl_ForMakeContinuous = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForMakeContinuous();
+            this.operatorPropertiesUserControl_ForInletsToDimension = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForInletsToDimension();
             this.audioOutputPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.AudioOutputPropertiesUserControl();
             this.operatorPropertiesUserControl_ForCache = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForCache();
             this.operatorPropertiesUserControl_WithInterpolation = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_WithInterpolation();
@@ -119,7 +119,7 @@
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForNumber);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_WithCollectionRecalculation);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_WithInletCount);
-            this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForMakeContinuous);
+            this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForInletsToDimension);
             this.splitContainerProperties.Panel2.Controls.Add(this.audioOutputPropertiesUserControl);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForCache);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_WithInterpolation);
@@ -291,17 +291,17 @@
             this.operatorPropertiesUserControl_WithInletCount.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl_WithInletCount.TabIndex = 1;
             // 
-            // operatorPropertiesUserControl_ForMakeContinuous
+            // operatorPropertiesUserControl_ForInletsToDimension
             // 
-            this.operatorPropertiesUserControl_ForMakeContinuous.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.operatorPropertiesUserControl_ForMakeContinuous.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.operatorPropertiesUserControl_ForMakeContinuous.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.operatorPropertiesUserControl_ForMakeContinuous.Font = new System.Drawing.Font("Verdana", 10F);
-            this.operatorPropertiesUserControl_ForMakeContinuous.Location = new System.Drawing.Point(0, 0);
-            this.operatorPropertiesUserControl_ForMakeContinuous.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.operatorPropertiesUserControl_ForMakeContinuous.Name = "operatorPropertiesUserControl_ForMakeContinuous";
-            this.operatorPropertiesUserControl_ForMakeContinuous.Size = new System.Drawing.Size(333, 814);
-            this.operatorPropertiesUserControl_ForMakeContinuous.TabIndex = 1;
+            this.operatorPropertiesUserControl_ForInletsToDimension.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.operatorPropertiesUserControl_ForInletsToDimension.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.operatorPropertiesUserControl_ForInletsToDimension.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.operatorPropertiesUserControl_ForInletsToDimension.Font = new System.Drawing.Font("Verdana", 10F);
+            this.operatorPropertiesUserControl_ForInletsToDimension.Location = new System.Drawing.Point(0, 0);
+            this.operatorPropertiesUserControl_ForInletsToDimension.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.operatorPropertiesUserControl_ForInletsToDimension.Name = "operatorPropertiesUserControl_ForInletsToDimension";
+            this.operatorPropertiesUserControl_ForInletsToDimension.Size = new System.Drawing.Size(333, 814);
+            this.operatorPropertiesUserControl_ForInletsToDimension.TabIndex = 1;
             // 
             // audioOutputPropertiesUserControl
             // 
@@ -600,7 +600,7 @@
         private UserControls.OperatorPropertiesUserControl_WithInterpolation operatorPropertiesUserControl_WithInterpolation;
         private UserControls.OperatorPropertiesUserControl_ForCache operatorPropertiesUserControl_ForCache;
         private UserControls.AudioOutputPropertiesUserControl audioOutputPropertiesUserControl;
-        private UserControls.OperatorPropertiesUserControl_ForMakeContinuous operatorPropertiesUserControl_ForMakeContinuous;
+        private UserControls.OperatorPropertiesUserControl_ForInletsToDimension operatorPropertiesUserControl_ForInletsToDimension;
         private UserControls.OperatorPropertiesUserControl_WithInletCount operatorPropertiesUserControl_WithInletCount;
         private UserControls.OperatorPropertiesUserControl_WithCollectionRecalculation operatorPropertiesUserControl_WithCollectionRecalculation;
     }

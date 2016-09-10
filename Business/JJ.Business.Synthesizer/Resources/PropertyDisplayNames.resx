@@ -767,8 +767,8 @@
   <data name="Till" xml:space="preserve">
     <value>Till</value>
   </data>
-  <data name="MakeContinuous" xml:space="preserve">
-    <value>Make Continuous</value>
+  <data name="InletsToDimension" xml:space="preserve">
+    <value>Inlets to Dimension</value>
   </data>
   <data name="DimensionToOutlets" xml:space="preserve">
     <value>Dimension to Outlets</value>

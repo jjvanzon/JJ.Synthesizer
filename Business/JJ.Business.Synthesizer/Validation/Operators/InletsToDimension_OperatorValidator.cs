@@ -7,12 +7,12 @@ using JJ.Business.Synthesizer.Validation.DataProperty;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class MakeContinuous_OperatorValidator : OperatorValidator_Base_VariableInletCountOneOutlet
+    internal class InletsToDimension_OperatorValidator : OperatorValidator_Base_VariableInletCountOneOutlet
     {
-        public MakeContinuous_OperatorValidator(Operator obj)
+        public InletsToDimension_OperatorValidator(Operator obj)
             : base(
                 obj,
-                OperatorTypeEnum.MakeContinuous,
+                OperatorTypeEnum.InletsToDimension,
                 expectedDataKeys: new string[] { PropertyNames.InterpolationType })
         { }
 

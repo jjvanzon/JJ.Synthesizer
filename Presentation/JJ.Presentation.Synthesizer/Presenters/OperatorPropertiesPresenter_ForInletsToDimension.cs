@@ -12,20 +12,20 @@ using JJ.Framework.Common;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class OperatorPropertiesPresenter_ForMakeContinuous
-        : OperatorPropertiesPresenterBase<OperatorPropertiesViewModel_ForMakeContinuous>
+    internal class OperatorPropertiesPresenter_ForInletsToDimension
+        : OperatorPropertiesPresenterBase<OperatorPropertiesViewModel_ForInletsToDimension>
     {
-        public OperatorPropertiesPresenter_ForMakeContinuous(PatchRepositories repositories)
+        public OperatorPropertiesPresenter_ForInletsToDimension(PatchRepositories repositories)
             : base(repositories)
         { }
 
-        protected override OperatorPropertiesViewModel_ForMakeContinuous ToViewModel(Operator op)
+        protected override OperatorPropertiesViewModel_ForInletsToDimension ToViewModel(Operator op)
         {
-            OperatorPropertiesViewModel_ForMakeContinuous viewModel = op.ToPropertiesViewModel_ForMakeContinuous();
+            OperatorPropertiesViewModel_ForInletsToDimension viewModel = op.ToPropertiesViewModel_ForInletsToDimension();
             return viewModel;
         }
 
-        protected override OperatorPropertiesViewModel_ForMakeContinuous Update(OperatorPropertiesViewModel_ForMakeContinuous userInput)
+        protected override OperatorPropertiesViewModel_ForInletsToDimension Update(OperatorPropertiesViewModel_ForInletsToDimension userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
 
@@ -45,7 +45,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (!result1.Successful)
             {
                 // ToViewModel
-                OperatorPropertiesViewModel_ForMakeContinuous viewModel = entity.ToPropertiesViewModel_ForMakeContinuous();
+                OperatorPropertiesViewModel_ForInletsToDimension viewModel = entity.ToPropertiesViewModel_ForInletsToDimension();
 
                 // Non-Persisted
                 CopyNonPersistedProperties(userInput, viewModel);
@@ -58,7 +58,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (!result2.Successful)
             {
                 // ToViewModel
-                OperatorPropertiesViewModel_ForMakeContinuous viewModel = entity.ToPropertiesViewModel_ForMakeContinuous();
+                OperatorPropertiesViewModel_ForInletsToDimension viewModel = entity.ToPropertiesViewModel_ForInletsToDimension();
 
                 // Non-Persisted
                 CopyNonPersistedProperties(userInput, viewModel);
@@ -68,7 +68,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             // ToViewModel
-            OperatorPropertiesViewModel_ForMakeContinuous viewModel2 = entity.ToPropertiesViewModel_ForMakeContinuous();
+            OperatorPropertiesViewModel_ForInletsToDimension viewModel2 = entity.ToPropertiesViewModel_ForInletsToDimension();
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel2);

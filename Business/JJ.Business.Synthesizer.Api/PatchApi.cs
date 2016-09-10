@@ -222,29 +222,29 @@ namespace JJ.Business.Synthesizer.Api
             Outlet dbGain = null)
             => _patchManager.LowShelfFilter(signal, shelfFrequency, shelfSlope, dbGain);
 
-        public MakeContinuous_OperatorWrapper MakeContinuous(ResampleInterpolationTypeEnum interpolation, DimensionEnum standardDimension, params Outlet[] operands)
-            => _patchManager.MakeContinuous(interpolation, standardDimension, operands);
+        public InletsToDimension_OperatorWrapper InletsToDimension(ResampleInterpolationTypeEnum interpolation, DimensionEnum standardDimension, params Outlet[] operands)
+            => _patchManager.InletsToDimension(interpolation, standardDimension, operands);
 
-        public MakeContinuous_OperatorWrapper MakeContinuous(ResampleInterpolationTypeEnum interpolation, params Outlet[] operands)
-            => _patchManager.MakeContinuous(interpolation, operands);
+        public InletsToDimension_OperatorWrapper InletsToDimension(ResampleInterpolationTypeEnum interpolation, params Outlet[] operands)
+            => _patchManager.InletsToDimension(interpolation, operands);
 
-        public MakeContinuous_OperatorWrapper MakeContinuous(DimensionEnum standardDimension, params Outlet[] operands)
-            => _patchManager.MakeContinuous(standardDimension, operands);
+        public InletsToDimension_OperatorWrapper InletsToDimension(DimensionEnum standardDimension, params Outlet[] operands)
+            => _patchManager.InletsToDimension(standardDimension, operands);
 
-        public MakeContinuous_OperatorWrapper MakeContinuous(params Outlet[] operands)
-            => _patchManager.MakeContinuous(operands);
+        public InletsToDimension_OperatorWrapper InletsToDimension(params Outlet[] operands)
+            => _patchManager.InletsToDimension(operands);
 
-        public MakeContinuous_OperatorWrapper MakeContinuous(IList<Outlet> operands, ResampleInterpolationTypeEnum interpolation, DimensionEnum standardDimension)
-            => _patchManager.MakeContinuous(operands, interpolation, standardDimension);
+        public InletsToDimension_OperatorWrapper InletsToDimension(IList<Outlet> operands, ResampleInterpolationTypeEnum interpolation, DimensionEnum standardDimension)
+            => _patchManager.InletsToDimension(operands, interpolation, standardDimension);
 
-        public MakeContinuous_OperatorWrapper MakeContinuous(IList<Outlet> operands, ResampleInterpolationTypeEnum interpolation)
-            => _patchManager.MakeContinuous(operands, interpolation);
+        public InletsToDimension_OperatorWrapper InletsToDimension(IList<Outlet> operands, ResampleInterpolationTypeEnum interpolation)
+            => _patchManager.InletsToDimension(operands, interpolation);
 
-        public MakeContinuous_OperatorWrapper MakeContinuous(IList<Outlet> operands, DimensionEnum standardDimension)
-            => _patchManager.MakeContinuous(operands, standardDimension);
+        public InletsToDimension_OperatorWrapper InletsToDimension(IList<Outlet> operands, DimensionEnum standardDimension)
+            => _patchManager.InletsToDimension(operands, standardDimension);
 
-        public MakeContinuous_OperatorWrapper MakeContinuous(IList<Outlet> operands)
-            => _patchManager.MakeContinuous(operands);
+        public InletsToDimension_OperatorWrapper InletsToDimension(IList<Outlet> operands)
+            => _patchManager.InletsToDimension(operands);
 
         public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand, DimensionEnum standardDimension, string customDimension, int outletCount)
             => _patchManager.DimensionToOutlets(operand, standardDimension, customDimension, outletCount);

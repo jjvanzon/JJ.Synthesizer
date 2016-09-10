@@ -50,7 +50,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.Loop, VisitLoop },
                 { OperatorTypeEnum.LowPassFilter, VisitLowPassFilter },
                 { OperatorTypeEnum.LowShelfFilter, VisitLowShelfFilter },
-                { OperatorTypeEnum.MakeContinuous, VisitMakeContinuous },
+                { OperatorTypeEnum.InletsToDimension, VisitInletsToDimension },
                 { OperatorTypeEnum.DimensionToOutlets, VisitDimensionToOutlets },
                 { OperatorTypeEnum.MaxOverInlets, VisitMaxOverInlets },
                 { OperatorTypeEnum.MaxFollower, VisitMaxFollower },
@@ -354,7 +354,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         }
 
         [DebuggerHidden]
-        protected virtual void VisitMakeContinuous(Operator op)
+        protected virtual void VisitInletsToDimension(Operator op)
         {
             VisitOperatorBase(op);
         }

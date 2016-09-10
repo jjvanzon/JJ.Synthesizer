@@ -141,11 +141,11 @@
     <Compile Include="UserControls\OperatorPropertiesUserControl_WithInletCount.Designer.cs">
       <DependentUpon>OperatorPropertiesUserControl_WithInletCount.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\OperatorPropertiesUserControl_ForMakeContinuous.cs">
+    <Compile Include="UserControls\OperatorPropertiesUserControl_ForInletsToDimension.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\OperatorPropertiesUserControl_ForMakeContinuous.Designer.cs">
-      <DependentUpon>OperatorPropertiesUserControl_ForMakeContinuous.cs</DependentUpon>
+    <Compile Include="UserControls\OperatorPropertiesUserControl_ForInletsToDimension.Designer.cs">
+      <DependentUpon>OperatorPropertiesUserControl_ForInletsToDimension.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Partials\CurrentPatchItemUserControl.cs">
       <SubType>UserControl</SubType>
@@ -382,8 +382,8 @@
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_WithInletCount.resx">
       <DependentUpon>OperatorPropertiesUserControl_WithInletCount.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForMakeContinuous.resx">
-      <DependentUpon>OperatorPropertiesUserControl_ForMakeContinuous.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForInletsToDimension.resx">
+      <DependentUpon>OperatorPropertiesUserControl_ForInletsToDimension.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\Partials\CurrentPatchItemUserControl.resx">
       <DependentUpon>CurrentPatchItemUserControl.cs</DependentUpon>

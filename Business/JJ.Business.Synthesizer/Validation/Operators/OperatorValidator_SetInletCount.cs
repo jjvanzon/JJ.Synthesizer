@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             OperatorTypeEnum.Bundle,
             OperatorTypeEnum.ClosestOverInlets,
             OperatorTypeEnum.ClosestOverInletsExp,
-            OperatorTypeEnum.MakeContinuous,
+            OperatorTypeEnum.InletsToDimension,
             OperatorTypeEnum.MaxOverInlets,
             OperatorTypeEnum.MinOverInlets,
             OperatorTypeEnum.Multiply,

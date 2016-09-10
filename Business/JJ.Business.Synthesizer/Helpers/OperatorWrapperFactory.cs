@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Helpers
             { OperatorTypeEnum.Loop, Create_Loop_OperatorWrapper },
             { OperatorTypeEnum.LowPassFilter, Create_LowPassFilter_OperatorWrapper },
             { OperatorTypeEnum.LowShelfFilter, Create_LowShelfFilter_OperatorWrapper },
-            { OperatorTypeEnum.MakeContinuous, Create_MakeContinuous_OperatorWrapper },
+            { OperatorTypeEnum.InletsToDimension, Create_InletsToDimension_OperatorWrapper },
             { OperatorTypeEnum.DimensionToOutlets, Create_DimensionToOutlets_OperatorWrapper },
             { OperatorTypeEnum.MaxOverDimension, Create_MaxOverDimension_OperatorWrapper },
             { OperatorTypeEnum.MaxOverInlets, Create_Max_OperatorWrapper },
@@ -163,7 +163,7 @@ namespace JJ.Business.Synthesizer.Helpers
         private static Loop_OperatorWrapper Create_Loop_OperatorWrapper(Operator op) { return new Loop_OperatorWrapper(op); }
         private static LowPassFilter_OperatorWrapper Create_LowPassFilter_OperatorWrapper(Operator op) { return new LowPassFilter_OperatorWrapper(op); }
         private static LowShelfFilter_OperatorWrapper Create_LowShelfFilter_OperatorWrapper(Operator op) { return new LowShelfFilter_OperatorWrapper(op); }
-        private static MakeContinuous_OperatorWrapper Create_MakeContinuous_OperatorWrapper(Operator op) { return new MakeContinuous_OperatorWrapper(op); }
+        private static InletsToDimension_OperatorWrapper Create_InletsToDimension_OperatorWrapper(Operator op) { return new InletsToDimension_OperatorWrapper(op); }
         private static DimensionToOutlets_OperatorWrapper Create_DimensionToOutlets_OperatorWrapper(Operator op) { return new DimensionToOutlets_OperatorWrapper(op); }
         private static MaxOverDimension_OperatorWrapper Create_MaxOverDimension_OperatorWrapper(Operator op) { return new MaxOverDimension_OperatorWrapper(op); }
         private static MaxOverInlets_OperatorWrapper Create_Max_OperatorWrapper(Operator op) { return new MaxOverInlets_OperatorWrapper(op); }

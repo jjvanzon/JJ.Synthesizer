@@ -773,7 +773,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             viewModel.OperatorPropertiesDictionary_ForCaches.Values.ForEach(x => x.Successful = true);
             viewModel.OperatorPropertiesDictionary_ForCurves.Values.ForEach(x => x.Successful = true);
             viewModel.OperatorPropertiesDictionary_ForCustomOperators.Values.ForEach(x => x.Successful = true);
-            viewModel.OperatorPropertiesDictionary_ForMakeContinuous.Values.ForEach(x => x.Successful = true);
+            viewModel.OperatorPropertiesDictionary_ForInletsToDimension.Values.ForEach(x => x.Successful = true);
             viewModel.OperatorPropertiesDictionary_ForNumbers.Values.ForEach(x => x.Successful = true);
             viewModel.OperatorPropertiesDictionary_ForPatchInlets.Values.ForEach(x => x.Successful = true);
             viewModel.OperatorPropertiesDictionary_ForPatchOutlets.Values.ForEach(x => x.Successful = true);
@@ -1212,13 +1212,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
             {
-                OperatorPropertiesViewModel_ForMakeContinuous userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForMakeContinuous(MainViewModel.Document, id);
+                OperatorPropertiesViewModel_ForInletsToDimension userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForInletsToDimension(MainViewModel.Document, id);
                 if (userInput != null)
                 {
-                    OperatorPropertiesViewModel_ForMakeContinuous viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForMakeContinuous.Show(userInput));
+                    OperatorPropertiesViewModel_ForInletsToDimension viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForInletsToDimension.Show(userInput));
                     if (viewModel.Successful)
                     {
-                        MainViewModel.Document.VisibleOperatorProperties_ForMakeContinuous = viewModel;
+                        MainViewModel.Document.VisibleOperatorProperties_ForInletsToDimension = viewModel;
                     }
                     return;
                 }
@@ -1408,17 +1408,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void OperatorPropertiesClose_ForMakeContinuous(int id)
+        public void OperatorPropertiesClose_ForInletsToDimension(int id)
         {
             // GetViewModel
-            OperatorPropertiesViewModel_ForMakeContinuous userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForMakeContinuous(MainViewModel.Document, id);
+            OperatorPropertiesViewModel_ForInletsToDimension userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForInletsToDimension(MainViewModel.Document, id);
 
             // TemplateMethod
-            OperatorPropertiesViewModel_ForMakeContinuous viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForMakeContinuous.Close(userInput));
+            OperatorPropertiesViewModel_ForInletsToDimension viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForInletsToDimension.Close(userInput));
 
             if (viewModel.Successful)
             {
-                MainViewModel.Document.VisibleOperatorProperties_ForMakeContinuous = null;
+                MainViewModel.Document.VisibleOperatorProperties_ForInletsToDimension = null;
 
                 // Refresh
                 PatchDetails_RefreshOperator(userInput.ID);
@@ -1638,13 +1638,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void OperatorPropertiesLoseFocus_ForMakeContinuous(int id)
+        public void OperatorPropertiesLoseFocus_ForInletsToDimension(int id)
         {
             // GetViewModel
-            OperatorPropertiesViewModel_ForMakeContinuous userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForMakeContinuous(MainViewModel.Document, id);
+            OperatorPropertiesViewModel_ForInletsToDimension userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForInletsToDimension(MainViewModel.Document, id);
 
             // TemplateMethod
-            OperatorPropertiesViewModel_ForMakeContinuous viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForMakeContinuous.LoseFocus(userInput));
+            OperatorPropertiesViewModel_ForInletsToDimension viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForInletsToDimension.LoseFocus(userInput));
 
             // Refresh
             if (viewModel.Successful)

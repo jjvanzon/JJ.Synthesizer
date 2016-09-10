@@ -10,10 +10,10 @@ using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class OperatorPropertiesUserControl_ForMakeContinuous 
+    internal partial class OperatorPropertiesUserControl_ForInletsToDimension 
         : OperatorPropertiesUserControlBase
     {
-        public OperatorPropertiesUserControl_ForMakeContinuous()
+        public OperatorPropertiesUserControl_ForInletsToDimension()
         {
             InitializeComponent();
         }
@@ -40,9 +40,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Binding
 
-        public new OperatorPropertiesViewModel_ForMakeContinuous ViewModel
+        public new OperatorPropertiesViewModel_ForInletsToDimension ViewModel
         {
-            get { return (OperatorPropertiesViewModel_ForMakeContinuous)base.ViewModel; }
+            get { return (OperatorPropertiesViewModel_ForInletsToDimension)base.ViewModel; }
             set { base.ViewModel = value; }
         }
 

@@ -73,8 +73,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             operatorPropertiesUserControl_ForCurve.LoseFocusRequested += operatorPropertiesUserControl_ForCurve_LoseFocusRequested;
             operatorPropertiesUserControl_ForCustomOperator.CloseRequested += operatorPropertiesUserControl_ForCustomOperator_CloseRequested;
             operatorPropertiesUserControl_ForCustomOperator.LoseFocusRequested += operatorPropertiesUserControl_ForCustomOperator_LoseFocusRequested;
-            operatorPropertiesUserControl_ForMakeContinuous.CloseRequested += operatorPropertiesUserControl_ForMakeContinuous_CloseRequested;
-            operatorPropertiesUserControl_ForMakeContinuous.LoseFocusRequested += operatorPropertiesUserControl_ForMakeContinuous_LoseFocusRequested;
+            operatorPropertiesUserControl_ForInletsToDimension.CloseRequested += operatorPropertiesUserControl_ForInletsToDimension_CloseRequested;
+            operatorPropertiesUserControl_ForInletsToDimension.LoseFocusRequested += operatorPropertiesUserControl_ForInletsToDimension_LoseFocusRequested;
             operatorPropertiesUserControl_ForNumber.CloseRequested += operatorPropertiesUserControl_ForNumber_CloseRequested;
             operatorPropertiesUserControl_ForNumber.LoseFocusRequested += operatorPropertiesUserControl_ForNumber_LoseFocusRequested;
             operatorPropertiesUserControl_ForPatchInlet.CloseRequested += operatorPropertiesUserControl_ForPatchInlet_CloseRequested;
@@ -509,14 +509,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(() => _presenter.OperatorPropertiesClose_ForCustomOperator(e.Value));
         }
 
-        private void operatorPropertiesUserControl_ForMakeContinuous_LoseFocusRequested(object sender, EventArgs<int> e)
+        private void operatorPropertiesUserControl_ForInletsToDimension_LoseFocusRequested(object sender, EventArgs<int> e)
         {
-            TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus_ForMakeContinuous(e.Value));
+            TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus_ForInletsToDimension(e.Value));
         }
 
-        private void operatorPropertiesUserControl_ForMakeContinuous_CloseRequested(object sender, EventArgs<int> e)
+        private void operatorPropertiesUserControl_ForInletsToDimension_CloseRequested(object sender, EventArgs<int> e)
         {
-            TemplateEventHandler(() => _presenter.OperatorPropertiesClose_ForMakeContinuous(e.Value));
+            TemplateEventHandler(() => _presenter.OperatorPropertiesClose_ForInletsToDimension(e.Value));
         }
 
         private void operatorPropertiesUserControl_ForNumber_LoseFocusRequested(object sender, EventArgs<int> e)

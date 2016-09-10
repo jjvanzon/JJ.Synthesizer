@@ -58,7 +58,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly OperatorPropertiesPresenter_ForCache _operatorPropertiesPresenter_ForCache;
         private readonly OperatorPropertiesPresenter_ForCurve _operatorPropertiesPresenter_ForCurve;
         private readonly OperatorPropertiesPresenter_ForCustomOperator _operatorPropertiesPresenter_ForCustomOperator;
-        private readonly OperatorPropertiesPresenter_ForMakeContinuous _operatorPropertiesPresenter_ForMakeContinuous;
+        private readonly OperatorPropertiesPresenter_ForInletsToDimension _operatorPropertiesPresenter_ForInletsToDimension;
         private readonly OperatorPropertiesPresenter_ForNumber _operatorPropertiesPresenter_ForNumber;
         private readonly OperatorPropertiesPresenter_ForPatchInlet _operatorPropertiesPresenter_ForPatchInlet;
         private readonly OperatorPropertiesPresenter_ForPatchOutlet _operatorPropertiesPresenter_ForPatchOutlet;
@@ -133,7 +133,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _operatorPropertiesPresenter_ForCache = new OperatorPropertiesPresenter_ForCache(_patchRepositories);
             _operatorPropertiesPresenter_ForCurve = new OperatorPropertiesPresenter_ForCurve(_patchRepositories);
             _operatorPropertiesPresenter_ForCustomOperator = new OperatorPropertiesPresenter_ForCustomOperator(_patchRepositories);
-            _operatorPropertiesPresenter_ForMakeContinuous = new OperatorPropertiesPresenter_ForMakeContinuous(_patchRepositories);
+            _operatorPropertiesPresenter_ForInletsToDimension = new OperatorPropertiesPresenter_ForInletsToDimension(_patchRepositories);
             _operatorPropertiesPresenter_ForNumber = new OperatorPropertiesPresenter_ForNumber(_patchRepositories);
             _operatorPropertiesPresenter_ForPatchInlet = new OperatorPropertiesPresenter_ForPatchInlet(_patchRepositories);
             _operatorPropertiesPresenter_ForPatchOutlet = new OperatorPropertiesPresenter_ForPatchOutlet(_patchRepositories);
@@ -198,8 +198,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MainViewModel.Document.OperatorPropertiesDictionary_ForCurves.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.VisibleOperatorProperties_ForCustomOperator = null;
             MainViewModel.Document.OperatorPropertiesDictionary_ForCustomOperators.Values.ForEach(x => x.Visible = false);
-            MainViewModel.Document.VisibleOperatorProperties_ForMakeContinuous = null;
-            MainViewModel.Document.OperatorPropertiesDictionary_ForMakeContinuous.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.VisibleOperatorProperties_ForInletsToDimension = null;
+            MainViewModel.Document.OperatorPropertiesDictionary_ForInletsToDimension.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.VisibleOperatorProperties_ForNumber = null;
             MainViewModel.Document.OperatorPropertiesDictionary_ForNumbers.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.VisibleOperatorProperties_ForPatchInlet = null;

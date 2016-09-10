@@ -89,7 +89,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorPropertiesDictionary_ForCaches = new Dictionary<int, OperatorPropertiesViewModel_ForCache>(),
                 OperatorPropertiesDictionary_ForCurves = new Dictionary<int, OperatorPropertiesViewModel_ForCurve>(),
                 OperatorPropertiesDictionary_ForCustomOperators = new Dictionary<int, OperatorPropertiesViewModel_ForCustomOperator>(),
-                OperatorPropertiesDictionary_ForMakeContinuous = new Dictionary<int, OperatorPropertiesViewModel_ForMakeContinuous>(),
+                OperatorPropertiesDictionary_ForInletsToDimension = new Dictionary<int, OperatorPropertiesViewModel_ForInletsToDimension>(),
                 OperatorPropertiesDictionary_ForNumbers = new Dictionary<int, OperatorPropertiesViewModel_ForNumber>(),
                 OperatorPropertiesDictionary_ForPatchInlets = new Dictionary<int, OperatorPropertiesViewModel_ForPatchInlet>(),
                 OperatorPropertiesDictionary_ForPatchOutlets = new Dictionary<int, OperatorPropertiesViewModel_ForPatchOutlet>(),

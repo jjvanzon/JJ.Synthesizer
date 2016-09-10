@@ -329,7 +329,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.PatchRepository, repositories.DimensionRepository);
             }
 
-            foreach (OperatorPropertiesViewModel_ForMakeContinuous propertiesViewModel in userInput.OperatorPropertiesDictionary_ForMakeContinuous.Values)
+            foreach (OperatorPropertiesViewModel_ForInletsToDimension propertiesViewModel in userInput.OperatorPropertiesDictionary_ForInletsToDimension.Values)
             {
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository);
             }
@@ -687,7 +687,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         }
 
         public static Operator ToEntity(
-            this OperatorPropertiesViewModel_ForMakeContinuous viewModel,
+            this OperatorPropertiesViewModel_ForInletsToDimension viewModel,
             IOperatorRepository operatorRepository,
             IOperatorTypeRepository operatorTypeRepository,
             IDimensionRepository dimensionRepository)
@@ -696,7 +696,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, operatorTypeRepository, dimensionRepository);
 
-            var wrapper = new MakeContinuous_OperatorWrapper(entity);
+            var wrapper = new InletsToDimension_OperatorWrapper(entity);
             wrapper.InterpolationType = (ResampleInterpolationTypeEnum)(viewModel.Interpolation?.ID ?? 0);
 
             return entity;

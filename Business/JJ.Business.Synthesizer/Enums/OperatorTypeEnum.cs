@@ -95,7 +95,7 @@
         Hold = 65,
         Range = 66,
         DimensionToOutlets = 67,
-        MakeContinuous = 68,
+        InletsToDimension = 68,
         MaxOverInlets = 69,
         MinOverInlets = 70,
         AverageOverInlets = 71,

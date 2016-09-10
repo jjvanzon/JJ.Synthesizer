@@ -1,7 +1,7 @@
 ﻿using JJ.Presentation.Synthesizer.WinForms.UserControls.Partials;
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    partial class OperatorPropertiesUserControl_ForMakeContinuous
+    partial class OperatorPropertiesUserControl_ForInletsToDimension
     {
         /// <summary> 
         /// Required designer variable.
@@ -89,7 +89,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.comboBoxInterpolation.Size = new System.Drawing.Size(10, 24);
             this.comboBoxInterpolation.TabIndex = 25;
             // 
-            // OperatorPropertiesUserControl_ForMakeContinuous
+            // OperatorPropertiesUserControl_ForInletsToDimension
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -100,7 +100,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.Controls.Add(this.labelInterpolation);
             this.Controls.Add(this.comboBoxInterpolation);
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.Name = "OperatorPropertiesUserControl_ForMakeContinuous";
+            this.Name = "OperatorPropertiesUserControl_ForInletsToDimension";
             this.Size = new System.Drawing.Size(234, 185);
             this.Controls.SetChildIndex(this.comboBoxInterpolation, 0);
             this.Controls.SetChildIndex(this.labelInterpolation, 0);

@@ -2195,13 +2195,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitMakeContinuous(Operator op)
+        protected override void VisitInletsToDimension(Operator op)
         {
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(op);
 
             // No pushing and popping from the dimension stack here.
 
-            base.VisitMakeContinuous(op);
+            base.VisitInletsToDimension(op);
 
             var operandCalculators = new List<OperatorCalculatorBase>(op.Inlets.Count);
 
@@ -2214,8 +2214,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 operandCalculators.Add(operandCalculator);
             }
 
-            var wrapper = new MakeContinuous_OperatorWrapper(op);
-            OperatorCalculatorBase calculator = new MakeContinuous_OperatorCalculator(operandCalculators, wrapper.InterpolationType, dimensionStack);
+            var wrapper = new InletsToDimension_OperatorWrapper(op);
+            OperatorCalculatorBase calculator = new InletsToDimension_OperatorCalculator(operandCalculators, wrapper.InterpolationType, dimensionStack);
 
             _stack.Push(calculator);
         }
@@ -4904,9 +4904,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 VisitUnbundleOutlet(outlet);
             }
-            else if (operatorTypeEnum == OperatorTypeEnum.MakeContinuous)
+            else if (operatorTypeEnum == OperatorTypeEnum.InletsToDimension)
             {
-                VisitMakeContinuousOutlet(outlet);
+                Visit_InletsToDimension_Outlet(outlet);
             }
             else if (operatorTypeEnum == OperatorTypeEnum.DimensionToOutlets)
             {
@@ -5051,7 +5051,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             dimensionStack.Pop();
         }
 
-        private void VisitMakeContinuousOutlet(Outlet outlet)
+        private void Visit_InletsToDimension_Outlet(Outlet outlet)
         {
             base.VisitOutlet(outlet);
         }
