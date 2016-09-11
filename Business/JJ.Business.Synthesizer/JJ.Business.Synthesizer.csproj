@@ -225,6 +225,7 @@
     <Compile Include="Calculation\Operators\Number_OperatorCalculator.cs" />
     <Compile Include="Calculation\Patches\OptimizedPatchCalculatorVisitorResult.cs" />
     <Compile Include="Calculation\Patches\ResettableOperatorTuple.cs" />
+    <Compile Include="EntityWrappers\RangeOverOutlets_OperatorWrapper.cs" />
     <Compile Include="Helpers\NameHelper.cs" />
     <Compile Include="Helpers\PatchGroupDto.cs" />
     <Compile Include="Extensions\OperatorExtensions.cs" />
@@ -450,6 +451,7 @@
     <Compile Include="Validation\Operators\LowShelfFilter_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_Dimension.cs" />
     <Compile Include="Validation\Operators\PeakingEQFilter_OperatorValidator.cs" />
+    <Compile Include="Validation\Operators\RangeOverOutlets_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\SortOverDimension_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\SortOverInlets_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_Base_AggregateOverDimension.cs" />
@@ -531,6 +533,7 @@
     <Compile Include="Warnings\Operators\ClosestOverDimensionExp_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\ClosestOverDimension_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\BandPassFilterConstantTransitionGain_OperatorWarningValidator.cs" />
+    <Compile Include="Warnings\Operators\RangeOverOutlets_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\SortOverDimension_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\SortOverInlets_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Multiply_OperatorWarningValidator.cs" />

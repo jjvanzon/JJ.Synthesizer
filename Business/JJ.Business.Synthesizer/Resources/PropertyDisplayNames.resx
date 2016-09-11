@@ -874,4 +874,7 @@
   <data name="StandardDimension" xml:space="preserve">
     <value>Standard Dimension</value>
   </data>
+  <data name="RangeOverOutlets" xml:space="preserve">
+    <value>Range over Outlets</value>
+  </data>
 </root>

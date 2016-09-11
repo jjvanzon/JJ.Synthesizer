@@ -1666,6 +1666,40 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        public RangeOverOutlets_OperatorWrapper RangeOverOutlets(
+            Outlet from = null,
+            Outlet step = null,
+            DimensionEnum standardDimension = DimensionEnum.Undefined,
+            string customDimension = null,
+            int? outletCount = null)
+        {
+            outletCount = outletCount ?? 1;
+
+            if (outletCount < 1) throw new LessThanException(() => outletCount, 1);
+
+            Operator op = CreateOperatorBase(
+                OperatorTypeEnum.RangeOverOutlets,
+                new DimensionEnum[] { DimensionEnum.Undefined, DimensionEnum.Undefined },
+                Enumerable.Repeat(DimensionEnum.Undefined, outletCount.Value).ToArray());
+
+            op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
+            op.CustomDimensionName = customDimension;
+
+            var wrapper = new RangeOverOutlets_OperatorWrapper(op)
+            {
+                From = from,
+                Step = step
+            };
+
+            wrapper.FromInlet.DefaultValue = DEFAULT_RANGE_FROM;
+            wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
+
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
         public Interpolate_OperatorWrapper Interpolate(
             Outlet signal = null, 
             Outlet samplingRate = null, 
@@ -2417,50 +2451,51 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.Add: return Add(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.AllPassFilter: return AllPassFilter();
                 case OperatorTypeEnum.And: return And();
-                case OperatorTypeEnum.AverageOverInlets: return AverageOverInlets(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.AverageFollower: return AverageFollower();
                 case OperatorTypeEnum.AverageOverDimension: return AverageOverDimension();
+                case OperatorTypeEnum.AverageOverInlets: return AverageOverInlets(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.BandPassFilterConstantPeakGain: return BandPassFilterConstantPeakGain();
                 case OperatorTypeEnum.BandPassFilterConstantTransitionGain: return BandPassFilterConstantTransitionGain();
                 case OperatorTypeEnum.Bundle: return Bundle(new Outlet[variableInletOrOutletCount]);
-                case OperatorTypeEnum.ChangeTrigger: return ChangeTrigger();
                 case OperatorTypeEnum.Cache: return Cache();
-                case OperatorTypeEnum.ClosestOverInlets: return ClosestOverInlets(null, new Outlet[variableInletOrOutletCount]);
-                case OperatorTypeEnum.ClosestOverInletsExp: return ClosestOverInletsExp(null, new Outlet[variableInletOrOutletCount]);
+                case OperatorTypeEnum.ChangeTrigger: return ChangeTrigger();
                 case OperatorTypeEnum.ClosestOverDimension: return ClosestOverDimension();
                 case OperatorTypeEnum.ClosestOverDimensionExp: return ClosestOverDimensionExp();
+                case OperatorTypeEnum.ClosestOverInlets: return ClosestOverInlets(null, new Outlet[variableInletOrOutletCount]);
+                case OperatorTypeEnum.ClosestOverInletsExp: return ClosestOverInletsExp(null, new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.Curve: return Curve();
                 case OperatorTypeEnum.CustomOperator: return CustomOperator();
-                case OperatorTypeEnum.GetDimension: return GetDimension();
+                case OperatorTypeEnum.DimensionToOutlets: return DimensionToOutlets(null, variableInletOrOutletCount);
                 case OperatorTypeEnum.Divide: return Divide();
                 case OperatorTypeEnum.Equal: return Equal();
                 case OperatorTypeEnum.Exponent: return Exponent();
+                case OperatorTypeEnum.GetDimension: return GetDimension();
                 case OperatorTypeEnum.GreaterThan: return GreaterThan();
                 case OperatorTypeEnum.GreaterThanOrEqual: return GreaterThanOrEqual();
-                case OperatorTypeEnum.HighShelfFilter: return HighShelfFilter();
                 case OperatorTypeEnum.HighPassFilter: return HighPassFilter();
+                case OperatorTypeEnum.HighShelfFilter: return HighShelfFilter();
                 case OperatorTypeEnum.Hold: return Hold();
                 case OperatorTypeEnum.If: return If();
+                case OperatorTypeEnum.InletsToDimension: return InletsToDimension(new Outlet[variableInletOrOutletCount]);
+                case OperatorTypeEnum.Interpolate: return Interpolate();
                 case OperatorTypeEnum.LessThan: return LessThan();
                 case OperatorTypeEnum.LessThanOrEqual: return LessThanOrEqual();
                 case OperatorTypeEnum.Loop: return Loop();
                 case OperatorTypeEnum.LowPassFilter: return LowPassFilter();
                 case OperatorTypeEnum.LowShelfFilter: return LowShelfFilter();
-                case OperatorTypeEnum.InletsToDimension: return InletsToDimension(new Outlet[variableInletOrOutletCount]);
-                case OperatorTypeEnum.DimensionToOutlets: return DimensionToOutlets(null, variableInletOrOutletCount);
+                case OperatorTypeEnum.MaxFollower: return MaxFollower();
                 case OperatorTypeEnum.MaxOverDimension: return MaxOverDimension();
                 case OperatorTypeEnum.MaxOverInlets: return MaxOverInlets(new Outlet[variableInletOrOutletCount]);
-                case OperatorTypeEnum.MaxFollower: return MaxFollower();
+                case OperatorTypeEnum.MinFollower: return MinFollower();
                 case OperatorTypeEnum.MinOverDimension: return MinOverDimension();
                 case OperatorTypeEnum.MinOverInlets: return MinOverInlets(new Outlet[variableInletOrOutletCount]);
-                case OperatorTypeEnum.MinFollower: return MinFollower();
                 case OperatorTypeEnum.Multiply: return Multiply(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.MultiplyWithOrigin: return MultiplyWithOrigin();
+                case OperatorTypeEnum.Negative: return Negative();
                 case OperatorTypeEnum.Noise: return Noise();
                 case OperatorTypeEnum.Not: return Not();
                 case OperatorTypeEnum.NotchFilter: return NotchFilter();
                 case OperatorTypeEnum.NotEqual: return NotEqual();
-                case OperatorTypeEnum.Negative: return Negative();
                 case OperatorTypeEnum.Number: return Number();
                 case OperatorTypeEnum.OneOverX: return OneOverX();
                 case OperatorTypeEnum.Or: return Or();
@@ -2472,7 +2507,7 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.PulseTrigger: return PulseTrigger();
                 case OperatorTypeEnum.Random: return Random();
                 case OperatorTypeEnum.RangeOverDimension: return RangeOverDimension();
-                case OperatorTypeEnum.Interpolate: return Interpolate();
+                case OperatorTypeEnum.RangeOverOutlets: return RangeOverOutlets(outletCount: variableInletOrOutletCount);
                 case OperatorTypeEnum.Reset: return Reset();
                 case OperatorTypeEnum.Reverse: return Reverse();
                 case OperatorTypeEnum.Round: return Round();
@@ -2484,15 +2519,15 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.SetDimension: return SetDimension();
                 case OperatorTypeEnum.Shift: return Shift();
                 case OperatorTypeEnum.Sine: return Sine();
-                case OperatorTypeEnum.SortOverInlets: return SortOverInlets(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.SortOverDimension: return SortOverDimension();
+                case OperatorTypeEnum.SortOverInlets: return SortOverInlets(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.Spectrum: return Spectrum();
                 case OperatorTypeEnum.Square: return Square();
                 case OperatorTypeEnum.Squash: return Squash();
                 case OperatorTypeEnum.Stretch: return Stretch();
                 case OperatorTypeEnum.Subtract: return Subtract();
-                case OperatorTypeEnum.SumOverDimension: return SumOverDimension();
                 case OperatorTypeEnum.SumFollower: return SumFollower();
+                case OperatorTypeEnum.SumOverDimension: return SumOverDimension();
                 case OperatorTypeEnum.TimePower: return TimePower();
                 case OperatorTypeEnum.ToggleTrigger: return ToggleTrigger();
                 case OperatorTypeEnum.Triangle: return Triangle();

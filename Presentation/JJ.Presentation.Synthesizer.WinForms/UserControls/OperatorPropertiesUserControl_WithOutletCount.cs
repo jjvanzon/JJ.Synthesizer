@@ -29,9 +29,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             AddProperty(_labelOperatorTypeTitle, _labelOperatorTypeValue);
             AddProperty(labelOutletCount, numericUpDownOutletCount);
+            AddProperty(_labelName, _textBoxName);
             AddProperty(_labelStandardDimension, _comboBoxStandardDimension);
             AddProperty(_labelCustomDimensionName, _textBoxCustomDimensionName);
-            AddProperty(_labelName, _textBoxName);
         }
 
         // Binding

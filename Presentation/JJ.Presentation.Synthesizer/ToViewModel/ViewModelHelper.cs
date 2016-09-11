@@ -58,7 +58,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                   new HashSet<OperatorTypeEnum>
         {
             OperatorTypeEnum.DimensionToOutlets,
-            OperatorTypeEnum.Unbundle
+            OperatorTypeEnum.Unbundle,
+            OperatorTypeEnum.RangeOverOutlets
         };
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithInletCountPropertyViews { get; } =
@@ -158,7 +159,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.GetDimension,
             //OperatorTypeEnum.SetDimension,
             OperatorTypeEnum.Hold,
-            //OperatorTypeEnum.Range,
+            //OperatorTypeEnum.RangeOverDimension,
+            //OperatorTypeEnum.RangeOverOutlets,
             OperatorTypeEnum.DimensionToOutlets,
             OperatorTypeEnum.InletsToDimension,
             OperatorTypeEnum.MaxOverInlets,
@@ -248,7 +250,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             //OperatorTypeEnum.Pulse,
             OperatorTypeEnum.PulseTrigger,
             //OperatorTypeEnum.Random,
-            //OperatorTypeEnum.Range,
+            //OperatorTypeEnum.RangeOverDimension,
+            //OperatorTypeEnum.RangeOverOutlets,
             OperatorTypeEnum.Reset,
             //OperatorTypeEnum.Reverse,
             //OperatorTypeEnum.Round,
@@ -616,6 +619,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                     return GetOperatorCaption_ForPatchOutlet(op);
 
                 case OperatorTypeEnum.RangeOverDimension:
+                case OperatorTypeEnum.RangeOverOutlets:
                     return Titles.Range;
 
                 case OperatorTypeEnum.Sample:

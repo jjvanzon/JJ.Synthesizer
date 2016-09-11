@@ -25,6 +25,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Inlet Inlet => OperatorHelper.GetInlet(WrappedOperator, OPERAND_INDEX);
 
+        public IList<Outlet> Results => WrappedOperator.Outlets; 
+
         public override string GetInletDisplayName(int listIndex)
         {
             if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
@@ -40,11 +42,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
             string name = String.Format("{0} {1}", PropertyDisplayNames.Outlet, listIndex + 1);
             return name;
-        }
-
-        public IList<Outlet> Results
-        {
-            get { return WrappedOperator.Outlets; }
         }
     }
 }

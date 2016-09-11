@@ -7,7 +7,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
     internal class RangeOverDimension_OperatorWarningValidator : OperatorWarningValidator_Base_SpecificInletsFilledInOrHaveDefaults
     {
         public RangeOverDimension_OperatorWarningValidator(Operator obj)
-            : base(obj, OperatorConstants.RANGE_TILL_INDEX)
+            : base(obj, OperatorConstants.RANGE_OVER_DIMENSION_TILL_INDEX)
         { }
     }
 }

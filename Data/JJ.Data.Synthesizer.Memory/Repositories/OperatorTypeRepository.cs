@@ -98,6 +98,7 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             EnsureEntity(88, "PeakingEQFilter");
             EnsureEntity(89, "LowShelfFilter");
             EnsureEntity(90, "HighShelfFilter");
+            EnsureEntity(91, "RangeOverOutlets");
         }
 
         private void EnsureEntity(int id, string name, bool hasDimension = false)

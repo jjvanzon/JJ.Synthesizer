@@ -441,6 +441,14 @@ namespace JJ.Business.Synthesizer.Api
             string customDimension = null)
             => _patchManager.RangeOverDimension(from, till, step, standardDimension, customDimension);
 
+        public RangeOverOutlets_OperatorWrapper RangeOverOutlets(
+            Outlet from = null,
+            Outlet step = null,
+            DimensionEnum standardDimension = DimensionEnum.Undefined,
+            string customDimension = null,
+            int? outletCount = null)
+            => _patchManager.RangeOverOutlets(from, step, standardDimension, customDimension, outletCount);
+
         public Interpolate_OperatorWrapper Interpolate(
             Outlet signal = null,
             Outlet samplingRate = null,

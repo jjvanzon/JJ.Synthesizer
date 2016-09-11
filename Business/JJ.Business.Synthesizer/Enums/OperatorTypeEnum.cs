@@ -117,6 +117,7 @@
         AllPassFilter = 87,
         PeakingEQFilter = 88,
         LowShelfFilter = 89,
-        HighShelfFilter = 90
+        HighShelfFilter = 90,
+        RangeOverOutlets = 91
     }
 }

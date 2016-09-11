@@ -1573,6 +1573,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Range over Outlets.
+        /// </summary>
+        public static string RangeOverOutlets {
+            get {
+                return ResourceManager.GetString("RangeOverOutlets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rate.
         /// </summary>
         public static string Rate {

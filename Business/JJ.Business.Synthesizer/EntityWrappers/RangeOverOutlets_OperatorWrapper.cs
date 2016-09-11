@@ -1,0 +1,68 @@
+﻿using JJ.Data.Synthesizer;
+using JJ.Business.Synthesizer.LinkTo;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Resources;
+using JJ.Framework.Reflection.Exceptions;
+using System;
+using System.Collections.Generic;
+
+namespace JJ.Business.Synthesizer.EntityWrappers
+{
+    public class RangeOverOutlets_OperatorWrapper : OperatorWrapperBase
+    {
+        private const int FROM_INDEX = 0;
+        private const int STEP_INDEX = 1;
+
+        public RangeOverOutlets_OperatorWrapper(Operator op)
+            : base(op)
+        { }
+
+        public Outlet From
+        {
+            get { return FromInlet.InputOutlet; }
+            set { FromInlet.LinkTo(value); }
+        }
+
+        public Inlet FromInlet => OperatorHelper.GetInlet(WrappedOperator, FROM_INDEX);
+
+        public Outlet Step
+        {
+            get { return StepInlet.InputOutlet; }
+            set { StepInlet.LinkTo(value); }
+        }
+
+        public Inlet StepInlet => OperatorHelper.GetInlet(WrappedOperator, STEP_INDEX);
+
+        public IList<Outlet> Results => WrappedOperator.Outlets;
+
+        public override string GetInletDisplayName(int listIndex)
+        {
+            switch (listIndex)
+            {
+                case FROM_INDEX:
+                    {
+                        string name = ResourceHelper.GetPropertyDisplayName(() => From);
+                        return name;
+                    }
+
+                case STEP_INDEX:
+                    {
+                        string name = ResourceHelper.GetPropertyDisplayName(() => Step);
+                        return name;
+                    }
+
+                default:
+                    throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Inlets.Count);
+            }
+        }
+
+        public override string GetOutletDisplayName(int listIndex)
+        {
+            if (listIndex < 0) throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Outlets.Count);
+            if (listIndex > WrappedOperator.Outlets.Count) throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Outlets.Count);
+
+            string name = String.Format("{0} {1}", PropertyDisplayNames.Outlet, listIndex + 1);
+            return name;
+        }
+    }
+}

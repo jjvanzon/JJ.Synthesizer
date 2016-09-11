@@ -1,0 +1,1 @@
+insert into OperatorType (ID, Name, HasDimension) values (91, 'RangeOverOutlets', 0);

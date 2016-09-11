@@ -23,17 +23,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class PatchDetailsPresenter : PresenterBase<PatchDetailsViewModel>
     {
-        private const int DEFAULT_DISCRETE_AGGREGATE_INLET_COUNT = 3;
-        private const int DEFAULT_VARIABLE_INLET_OR_OUTLET_COUNT = 16;
         private const int DEFAULT_ADD_INLET_COUNT = 2;
-        private const int DEFAULT_MULTIPLY_INLET_COUNT = 3;
-        private const int DEFAULT_CLOSEST_ITEM_COUNT = 3;
-        private const int DEFAULT_SORT_INLET_COUNT = 8;
+        private const int DEFAULT_AGGREGATE_OVER_INLETS_INLET_COUNT = 3;
+        private const int DEFAULT_CLOSEST_OVER_INLETS_ITEM_COUNT = 3;
+        private const int DEFAULT_RANGE_OVER_OUTLETS_OUTLET_COUNT = 16;
+        private const int DEFAULT_MULTIPLY_INLET_COUNT = 2;
+        private const int DEFAULT_SORT_OVER_INLETS_INLET_COUNT = 8;
+        private const int DEFAULT_VARIABLE_INLET_OR_OUTLET_COUNT = 16;
 
         // TODO: These two constants do not belong here, because they should be determined by the vector graphics.
         private const float ESTIMATED_OPERATOR_WIDTH = 50f;
         private const float OPERATOR_HEIGHT = 30f;
-
         private static double _patchPlayDuration = GetPatchPlayDuration();
         private static string _patchPlayOutputFilePath = GetPatchPlayOutputFilePath();
 
@@ -461,19 +461,22 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 case OperatorTypeEnum.Add:
                     return DEFAULT_ADD_INLET_COUNT;
 
+                case OperatorTypeEnum.ClosestOverInlets:
+                case OperatorTypeEnum.ClosestOverInletsExp:
+                    return DEFAULT_CLOSEST_OVER_INLETS_ITEM_COUNT;
+
+                case OperatorTypeEnum.RangeOverOutlets:
+                    return DEFAULT_RANGE_OVER_OUTLETS_OUTLET_COUNT;
+
                 case OperatorTypeEnum.Multiply:
                     return DEFAULT_MULTIPLY_INLET_COUNT;
 
                 case OperatorTypeEnum.MaxOverInlets:
                 case OperatorTypeEnum.MinOverInlets:
-                    return DEFAULT_DISCRETE_AGGREGATE_INLET_COUNT;
-
-                case OperatorTypeEnum.ClosestOverInlets:
-                case OperatorTypeEnum.ClosestOverInletsExp:
-                    return DEFAULT_CLOSEST_ITEM_COUNT;
+                    return DEFAULT_AGGREGATE_OVER_INLETS_INLET_COUNT;
 
                 case OperatorTypeEnum.SortOverInlets:
-                    return DEFAULT_SORT_INLET_COUNT;
+                    return DEFAULT_SORT_OVER_INLETS_INLET_COUNT;
 
                 default:
                     return DEFAULT_VARIABLE_INLET_OR_OUTLET_COUNT;

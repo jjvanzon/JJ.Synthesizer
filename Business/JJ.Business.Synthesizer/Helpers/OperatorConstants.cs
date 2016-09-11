@@ -25,10 +25,10 @@
         public const int LOOP_RELEASE_END_MARKER_INDEX = 4;
         public const int LOOP_NOTE_DURATION_INDEX = 5;
         public const int LOOP_RESULT_INDEX = 0;
-        public const int RANGE_FROM_INDEX = 0;
-        public const int RANGE_TILL_INDEX = 1;
-        public const int RANGE_STEP_INDEX = 2;
-        public const int RANGE_RESULT_INDEX = 0;
+        public const int RANGE_OVER_DIMENSION_FROM_INDEX = 0;
+        public const int RANGE_OVER_DIMENSION_TILL_INDEX = 1;
+        public const int RANGE_OVER_DIMENSION_STEP_INDEX = 2;
+        public const int RANGE_OVER_DIMENSION_RESULT_INDEX = 0;
         public const int SPECTRUM_SIGNAL_INDEX = 0;
         public const int SPECTRUM_START_INDEX = 1;
         public const int SPECTRUM_END_INDEX = 2;
