@@ -57,6 +57,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private Dictionary<Operator, int> _operator_RandomOffsetInSeconds_Dictionary;
         private Dictionary<Operator, VariableInput_OperatorCalculator> _patchInlet_Calculator_Dictionary;
         private IList<ResettableOperatorTuple> _resettableOperatorTuples;
+        private Outlet _current_RangeOverOutlets_Outlet;
 
         public OptimizedPatchCalculatorVisitor(
             Outlet outlet, 
@@ -3453,6 +3454,61 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(operatorCalculator);
         }
 
+        protected override void VisitRangeOverOutlets(Operator op)
+        {
+            base.VisitRangeOverDimension(op);
+
+            OperatorCalculatorBase calculator = null;
+
+            OperatorCalculatorBase fromCalculator = _stack.Pop();
+            OperatorCalculatorBase stepCalculator = _stack.Pop();
+
+            fromCalculator = fromCalculator ?? new One_OperatorCalculator();
+            stepCalculator = stepCalculator ?? new One_OperatorCalculator();
+
+            bool fromIsConst = fromCalculator is Number_OperatorCalculator;
+            bool stepIsConst = stepCalculator is Number_OperatorCalculator;
+
+            double from = fromIsConst ? fromCalculator.Calculate() : 0.0;
+            double step = stepIsConst ? stepCalculator.Calculate() : 0.0;
+
+            bool stepIsConstZero = stepIsConst && step == 0.0;
+
+            bool fromIsConstSpecialValue = fromIsConst && DoubleHelper.IsSpecialValue(from);
+            bool stepIsConstSpecialValue = stepIsConst && DoubleHelper.IsSpecialValue(step);
+
+            int position = _current_RangeOverOutlets_Outlet.Operator.Outlets
+                                                                    .OrderBy(x => x.ListIndex)
+                                                                    .IndexOf(x => x == _current_RangeOverOutlets_Outlet);
+            if (fromIsConstSpecialValue || stepIsConstSpecialValue)
+            {
+                calculator = new Number_OperatorCalculator(Double.NaN);
+            }
+            else if (stepIsConstZero)
+            {
+                calculator = fromCalculator;
+            }
+            else if (stepIsConst && fromIsConst)
+            {
+                double value = from + step * position;
+                calculator = new Number_OperatorCalculator(value);
+            }
+            else if (fromIsConst)
+            {
+                calculator = new RangeOverOutlets_OperatorCalculator_ConstFrom_VarStep(from, stepCalculator, position);
+            }
+            else if (stepIsConst)
+            {
+                calculator = new RangeOverOutlets_OperatorCalculator_VarFrom_ConstStep(fromCalculator, step, position);
+            }
+            else
+            {
+                calculator = new RangeOverOutlets_OperatorCalculator_VarFrom_VarStep(fromCalculator, stepCalculator, position);
+            }
+
+            _stack.Push(calculator);
+        }
+
         protected override void VisitInterpolate(Operator op)
         {
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(op);
@@ -4892,62 +4948,53 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             OperatorTypeEnum operatorTypeEnum = outlet.Operator.GetOperatorTypeEnum();
 
-            if (operatorTypeEnum == OperatorTypeEnum.CustomOperator)
+            switch (operatorTypeEnum)
             {
-                VisitCustomOperatorOutlet(outlet);
-            }
-            else if (operatorTypeEnum == OperatorTypeEnum.Bundle)
-            {
-                VisitBundleOutlet(outlet);
-            }
-            else if (operatorTypeEnum == OperatorTypeEnum.Unbundle)
-            {
-                VisitUnbundleOutlet(outlet);
-            }
-            else if (operatorTypeEnum == OperatorTypeEnum.InletsToDimension)
-            {
-                Visit_InletsToDimension_Outlet(outlet);
-            }
-            else if (operatorTypeEnum == OperatorTypeEnum.DimensionToOutlets)
-            {
-                Visit_DimensionToOutlets_Outlet(outlet);
-            }
-            else
-            {
-                base.VisitOutlet(outlet);
+                case OperatorTypeEnum.Bundle:
+                    Visit_Bundle_Outlet(outlet);
+                    break;
+
+                case OperatorTypeEnum.CustomOperator:
+                    Visit_CustomOperator_Outlet(outlet);
+                    break;
+
+                case OperatorTypeEnum.DimensionToOutlets:
+                    Visit_DimensionToOutlets_Outlet(outlet);
+                    break;
+
+                case OperatorTypeEnum.InletsToDimension:
+                    Visit_InletsToDimension_Outlet(outlet);
+                    break;
+
+                case OperatorTypeEnum.RangeOverOutlets:
+                    Visit_RangeOverOutlets_Outlet(outlet);
+                    break;
+
+                case OperatorTypeEnum.Unbundle:
+                    Visit_Unbundle_Outlet(outlet);
+                    break;
+
+                default:
+                    base.VisitOutlet(outlet);
+                    break;
             }
         }
 
         // TODO: Low Priority: Get rid of the asymmetry in the Operators with one outlet and the ones with multiple outlets.
 
-        private void VisitCustomOperatorOutlet(Outlet outlet)
-        {
-            // As soon as you encounter a CustomOperator's Outlet,
-            // the evaluation has to take a completely different course.
-            Outlet customOperatorOutlet = outlet;
-            Outlet patchOutlet_Outlet = PatchCalculationHelper.TryApplyCustomOperatorToUnderlyingPatch(customOperatorOutlet, _patchRepository);
-
-            if (patchOutlet_Outlet == null)
-            {
-                throw new Exception("patchOutlet_Outlet was null after TryApplyCustomOperatorToUnderlyingPatch.");
-            }
-
-            VisitOperatorPolymorphic(patchOutlet_Outlet.Operator);
-        }
-
-        private void VisitBundleOutlet(Outlet outlet)
+        private void Visit_Bundle_Outlet(Outlet outlet)
         {
             if (BUNDLE_POSITIONS_ARE_INVARIANT)
             {
-                VisitBundleOutlet_WithInvariantBundlePositions(outlet);
+                Visit_Bundle_Outlet_WithInvariantBundlePositions(outlet);
             }
             else
             {
-                VisitBundleOutlet_WithVariableBundlePositions(outlet);
+                Visit_Bundle_Outlet_WithVariableBundlePositions(outlet);
             }
         }
 
-        private void VisitBundleOutlet_WithInvariantBundlePositions(Outlet outlet)
+        private void Visit_Bundle_Outlet_WithInvariantBundlePositions(Outlet outlet)
         {
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(outlet.Operator);
 
@@ -4995,24 +5042,66 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             dimensionStack.Push(bundleIndexDouble);
         }
 
-        private void VisitBundleOutlet_WithVariableBundlePositions(Outlet outlet)
+        private void Visit_Bundle_Outlet_WithVariableBundlePositions(Outlet outlet)
         {
             base.VisitOutlet(outlet);
         }
 
-        private void VisitUnbundleOutlet(Outlet outlet)
+        private void Visit_CustomOperator_Outlet(Outlet outlet)
+        {
+            // As soon as you encounter a CustomOperator's Outlet,
+            // the evaluation has to take a completely different course.
+            Outlet customOperatorOutlet = outlet;
+            Outlet patchOutlet_Outlet = PatchCalculationHelper.TryApplyCustomOperatorToUnderlyingPatch(customOperatorOutlet, _patchRepository);
+
+            if (patchOutlet_Outlet == null)
+            {
+                throw new Exception("patchOutlet_Outlet was null after TryApplyCustomOperatorToUnderlyingPatch.");
+            }
+
+            VisitOperatorPolymorphic(patchOutlet_Outlet.Operator);
+        }
+
+        private void Visit_DimensionToOutlets_Outlet(Outlet outlet)
+        {
+            int outletIndex = outlet.Operator.Outlets
+                                             .OrderBy(x => x.ListIndex)
+                                             .IndexOf(x => x == outlet);
+
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(outlet.Operator);
+
+            dimensionStack.Push(outletIndex);
+
+            base.VisitOutlet(outlet);
+
+            dimensionStack.Pop();
+        }
+
+        private void Visit_InletsToDimension_Outlet(Outlet outlet)
+        {
+            base.VisitOutlet(outlet);
+        }
+
+        private void Visit_RangeOverOutlets_Outlet(Outlet outlet)
+        {
+            _current_RangeOverOutlets_Outlet = outlet;
+
+            base.VisitOutlet(outlet);
+        }
+
+        private void Visit_Unbundle_Outlet(Outlet outlet)
         {
             if (BUNDLE_POSITIONS_ARE_INVARIANT)
             {
-                VisitUnbundleOutlet_WithInvariantBundlePositions(outlet);
+                Visit_Unbundle_Outlet_WithInvariantBundlePositions(outlet);
             }
             else
             {
-                VisitUnbundleOutlet_WithVariableBundlePositions(outlet);
+                Visit_Unbundle_Outlet_WithVariableBundlePositions(outlet);
             }
         }
 
-        private void VisitUnbundleOutlet_WithInvariantBundlePositions(Outlet outlet)
+        private void Visit_Unbundle_Outlet_WithInvariantBundlePositions(Outlet outlet)
         {
             Operator op = outlet.Operator;
             Inlet inlet = op.Inlets.Single();
@@ -5036,27 +5125,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             dimensionStack.Pop();
         }
 
-        private void VisitUnbundleOutlet_WithVariableBundlePositions(Outlet outlet)
-        {
-            int outletIndex = outlet.Operator.Outlets
-                                             .OrderBy(x => x.ListIndex)
-                                             .IndexOf(x => x == outlet);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(outlet.Operator);
-
-            dimensionStack.Push(outletIndex);
-
-            base.VisitOutlet(outlet);
-
-            dimensionStack.Pop();
-        }
-
-        private void Visit_InletsToDimension_Outlet(Outlet outlet)
-        {
-            base.VisitOutlet(outlet);
-        }
-
-        private void Visit_DimensionToOutlets_Outlet(Outlet outlet)
+        private void Visit_Unbundle_Outlet_WithVariableBundlePositions(Outlet outlet)
         {
             int outletIndex = outlet.Operator.Outlets
                                              .OrderBy(x => x.ListIndex)
@@ -5117,6 +5186,5 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                                                                                                 .ToList();
             return truncatedOperandCalculatorList;
         }
-
     }
 }

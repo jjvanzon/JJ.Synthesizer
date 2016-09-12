@@ -51,6 +51,7 @@ namespace JJ.Business.Synthesizer.Tests
                 double duration = sample.GetDuration(stream.Length);
 
                 PatchManager x = new PatchManager(new PatchRepositories(repositories));
+                x.CreatePatch();
                 Outlet outlet = x.Stretch(x.Sample(sample), x.Number(timeMultiplier));
                 IPatchCalculator patchCalculator = x.CreateCalculator(outlet, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
 
@@ -87,11 +88,14 @@ namespace JJ.Business.Synthesizer.Tests
                 Sample sample = sampleInfo.Sample;
 
                 PatchManager x = new PatchManager(new PatchRepositories(repositories));
+
+                x.CreatePatch();
+
                 Outlet outlet = x.Sample(sample);
 
                 // Trigger SampleCalculation
                 IPatchCalculator calculator = x.CreateCalculator(outlet, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
-                double value = calculator.Calculate(0, 0);
+                double value = calculator.Calculate(0);
             }
         }
 

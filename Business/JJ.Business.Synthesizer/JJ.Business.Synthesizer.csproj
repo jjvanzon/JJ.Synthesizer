@@ -110,6 +110,7 @@
     <Compile Include="Calculation\Operators\ClosestOverDimensionExp_OperatorCalculator_CollectionRecalculationContinuous.cs" />
     <Compile Include="Calculation\Operators\ClosestOverDimensionExp_OperatorCalculator_CollectionRecalculationUponReset.cs" />
     <Compile Include="Calculation\Operators\AllPassFilter OperatorCalculator Classes.cs" />
+    <Compile Include="Calculation\Operators\RangeOverOutlets OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\SortOverInlets_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\SortOverDimension_OperatorCalculator_CollectionRecalculationContinuous.cs" />
     <Compile Include="Calculation\Operators\SortOverDimension_OperatorCalculator_Base.cs" />
