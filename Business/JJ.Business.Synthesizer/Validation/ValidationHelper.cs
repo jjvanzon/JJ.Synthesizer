@@ -77,23 +77,5 @@ namespace JJ.Business.Synthesizer.Validation
             string outletIdentifier = String.Format("{0} {1}", PropertyDisplayNames.Outlet, outlet.ListIndex);
             return outletIdentifier;
         }
-
-        public static double? TryGetConstantNumberFromInlet(Inlet inlet)
-        {
-            if (inlet == null) throw new NullException(() => inlet);
-
-            if (inlet.InputOutlet?.Operator?.GetOperatorTypeEnum() != OperatorTypeEnum.Number)
-            {
-                return null;
-            }
-
-            if (DataPropertyParser.DataIsWellFormed(inlet.InputOutlet.Operator.Data))
-            {
-                double? number = DataPropertyParser.TryParseDouble(inlet.InputOutlet.Operator, PropertyNames.Number);
-                return number;
-            }
-
-            return null;
-        }
     }
 }

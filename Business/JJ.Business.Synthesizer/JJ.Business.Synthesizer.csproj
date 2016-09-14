@@ -227,6 +227,7 @@
     <Compile Include="Calculation\Patches\OptimizedPatchCalculatorVisitorResult.cs" />
     <Compile Include="Calculation\Patches\ResettableOperatorTuple.cs" />
     <Compile Include="EntityWrappers\RangeOverOutlets_OperatorWrapper.cs" />
+    <Compile Include="Extensions\InletExtensions.cs" />
     <Compile Include="Helpers\NameHelper.cs" />
     <Compile Include="Helpers\PatchGroupDto.cs" />
     <Compile Include="Extensions\OperatorExtensions.cs" />

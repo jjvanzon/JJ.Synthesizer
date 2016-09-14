@@ -1,4 +1,5 @@
 ﻿using System;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Validation;
@@ -23,7 +24,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
 
             foreach (Inlet inlet in Object.Inlets)
             {
-                double? number = ValidationHelper.TryGetConstantNumberFromInlet(inlet);
+                double? number = inlet.TryGetConstantNumber();
 
                 switch (inlet.ListIndex)
                 {

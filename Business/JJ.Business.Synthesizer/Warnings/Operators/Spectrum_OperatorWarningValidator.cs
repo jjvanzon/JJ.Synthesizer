@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
 
             foreach (Inlet inlet in Object.Inlets)
             {
-                double? number = ValidationHelper.TryGetConstantNumberFromInlet(inlet);
+                double? number = inlet.TryGetConstantNumber();
 
                 switch (inlet.ListIndex)
                 {

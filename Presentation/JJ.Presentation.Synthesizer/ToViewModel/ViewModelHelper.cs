@@ -30,7 +30,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public const string STANDARD_DIMENSION_KEY_PREFIX = "0C26ADA8-0BFC-484C-BF80-774D055DAA3F-StandardDimension-";
         public const string CUSTOM_DIMENSION_KEY_PREFIX = "5133584A-BA76-42DB-BD0E-42801FCB96DF-CustomDimension-";
         private const int STRETCH_AND_SQUASH_ORIGIN_LIST_INDEX = 2;
-
+        private const int RANGE_OVER_OUTLETS_FROM_LIST_INDEX = 0;
+        private const int RANGE_OVER_OUTLETS_STEP_LIST_INDEX = 1;
         private static readonly bool _showAutoPatchPolyphonicEnabled = CustomConfigurationManager.GetSection<ConfigurationSection>().ShowAutoPatchPolyphonicEnabled;
 
         // OperatorTypeEnum HashSets
@@ -884,11 +885,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             if (inlet.IsObsolete)
             {
-                if (sb.Length != 0)
-                {
-                    sb.Append(' ');
-                }
-                sb.AppendFormat("({0})", PropertyDisplayNames.IsObsolete);
+                AppendObsoleteFlag(sb);
             }
 
             return sb.ToString();
@@ -922,17 +919,47 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 }
             }
 
+            // Display literal numbers as outlet caption in case of RangeOverOutlets and all inlets const.
+            if (operatorTypeEnum == OperatorTypeEnum.RangeOverOutlets)
+            {
+                int? listIndex = outlet.Operator?.Outlets.IndexOf(outlet);
+                if (listIndex.HasValue)
+                {
+                    double? from = outlet.Operator?.Inlets
+                                         .Where(x => x.ListIndex == RANGE_OVER_OUTLETS_FROM_LIST_INDEX)
+                                         .Select(x => x.TryGetConstantNumber())
+                                         .FirstOrDefault();
+                    if (from.HasValue)
+                    {
+                        double? step = outlet.Operator?.Inlets
+                                             .Where(x => x.ListIndex == RANGE_OVER_OUTLETS_STEP_LIST_INDEX)
+                                             .Select(x => x.TryGetConstantNumber())
+                                             .FirstOrDefault();
+                        if (step.HasValue)
+                        {
+                            double value = from.Value + step.Value * listIndex.Value;
+                            sb.Append(value.ToString("0.####"));
+                        }
+                    }
+                }
+            }
+
             if (outlet.IsObsolete)
             {
-                if (sb.Length != 0)
-                {
-                    sb.Append(' ');
-                }
-
-                sb.AppendFormat("({0})", PropertyDisplayNames.IsObsolete);
+                AppendObsoleteFlag(sb);
             }
 
             return sb.ToString();
+        }
+
+        private static void AppendObsoleteFlag(StringBuilder sb)
+        {
+            if (sb.Length != 0)
+            {
+                sb.Append(' ');
+            }
+
+            sb.AppendFormat("({0})", PropertyDisplayNames.IsObsolete);
         }
 
         public static float? TryGetConnectionDistance(Inlet entity, EntityPositionManager entityPositionManager)
