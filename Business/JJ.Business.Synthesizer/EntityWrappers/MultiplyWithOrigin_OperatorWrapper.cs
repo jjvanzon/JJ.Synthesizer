@@ -6,32 +6,13 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class MultiplyWithOrigin_OperatorWrapper : OperatorWrapperBase
+    public class MultiplyWithOrigin_OperatorWrapper : OperatorWrapperBase_WithAAndB
     {
-        private const int A_INDEX = 0;
-        private const int B_INDEX = 1;
         private const int ORIGIN_INDEX = 2;
-        private const int RESULT_INDEX = 0;
 
         public MultiplyWithOrigin_OperatorWrapper(Operator op)
             : base(op)
         { }
-
-        public Outlet A
-        {
-            get { return AInlet.InputOutlet; }
-            set { AInlet.LinkTo(value); }
-        }
-
-        public Inlet AInlet => OperatorHelper.GetInlet(WrappedOperator, A_INDEX);
-
-        public Outlet B
-        {
-            get { return BInlet.InputOutlet; }
-            set { BInlet.LinkTo(value); }
-        }
-
-        public Inlet BInlet => OperatorHelper.GetInlet(WrappedOperator, B_INDEX);
 
         public Outlet Origin
         {
@@ -41,24 +22,10 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Inlet OriginInlet => OperatorHelper.GetInlet(WrappedOperator, ORIGIN_INDEX);
 
-        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX);
-
         public override string GetInletDisplayName(int listIndex)
         {
             switch (listIndex)
             {
-                case A_INDEX:
-                    {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => A);
-                        return name;
-                    }
-
-                case B_INDEX:
-                    {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => B);
-                        return name;
-                    }
-
                 case ORIGIN_INDEX:
                     {
                         string name = ResourceHelper.GetPropertyDisplayName(() => Origin);
@@ -66,7 +33,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
                     }
 
                 default:
-                    throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Inlets.Count);
+                    return base.GetInletDisplayName(listIndex);
             }
         }
 
@@ -77,7 +44,5 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             string name = ResourceHelper.GetPropertyDisplayName(() => Result);
             return name;
         }
-
-        public static implicit operator Outlet(MultiplyWithOrigin_OperatorWrapper wrapper) => wrapper?.Result;
     }
 }

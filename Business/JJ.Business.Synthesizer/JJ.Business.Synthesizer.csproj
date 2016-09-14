@@ -226,6 +226,7 @@
     <Compile Include="Calculation\Operators\Number_OperatorCalculator.cs" />
     <Compile Include="Calculation\Patches\OptimizedPatchCalculatorVisitorResult.cs" />
     <Compile Include="Calculation\Patches\ResettableOperatorTuple.cs" />
+    <Compile Include="EntityWrappers\OperatorWrapperBase_WithAAndB.cs" />
     <Compile Include="EntityWrappers\RangeOverOutlets_OperatorWrapper.cs" />
     <Compile Include="Extensions\InletExtensions.cs" />
     <Compile Include="Helpers\NameHelper.cs" />
