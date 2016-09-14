@@ -1,13 +1,12 @@
 ﻿using System;
-using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
-    internal class RangeOverDimension_OperatorWarningValidator : OperatorWarningValidator_Base_SpecificInletsFilledInOrHaveDefaults
+    internal class RangeOverDimension_OperatorWarningValidator : OperatorWarningValidator_Base_AllInletsFilledInOrHaveDefaults
     {
         public RangeOverDimension_OperatorWarningValidator(Operator obj)
-            : base(obj, OperatorConstants.RANGE_OVER_DIMENSION_TILL_INDEX)
+            : base(obj)
         { }
     }
 }

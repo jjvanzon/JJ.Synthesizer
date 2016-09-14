@@ -10,6 +10,13 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public class ClosestOverDimension_OperatorWrapper : OperatorWrapperBase
     {
+        private const int INPUT_INDEX = 0;
+        private const int COLLECTION_INDEX = 1;
+        private const int FROM_INDEX = 2;
+        private const int TILL_INDEX = 3;
+        private const int STEP_INDEX = 4;
+        private const int RESULT_INDEX = 0;
+
         public ClosestOverDimension_OperatorWrapper(Operator op)
             : base(op)
         { }
@@ -20,7 +27,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { InputInlet.LinkTo(value); }
         }
 
-        public Inlet InputInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CLOSEST_OVER_DIMENSION_INPUT_INDEX);
+        public Inlet InputInlet => OperatorHelper.GetInlet(WrappedOperator, INPUT_INDEX);
 
         public Outlet Collection
         {
@@ -30,7 +37,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Inlet CollectionInlet
         {
-            get { return OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CLOSEST_OVER_DIMENSION_COLLECTION_INDEX); }
+            get { return OperatorHelper.GetInlet(WrappedOperator, COLLECTION_INDEX); }
         }
 
         public Outlet From
@@ -39,7 +46,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { FromInlet.LinkTo(value); }
         }
 
-        public Inlet FromInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CLOSEST_OVER_DIMENSION_FROM_INDEX);
+        public Inlet FromInlet => OperatorHelper.GetInlet(WrappedOperator, FROM_INDEX);
 
         public Outlet Till
         {
@@ -47,7 +54,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { TillInlet.LinkTo(value); }
         }
 
-        public Inlet TillInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CLOSEST_OVER_DIMENSION_TILL_INDEX);
+        public Inlet TillInlet => OperatorHelper.GetInlet(WrappedOperator, TILL_INDEX);
 
         public Outlet Step
         {
@@ -55,9 +62,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { StepInlet.LinkTo(value); }
         }
 
-        public Inlet StepInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CLOSEST_OVER_DIMENSION_STEP_INDEX);
+        public Inlet StepInlet => OperatorHelper.GetInlet(WrappedOperator, STEP_INDEX);
 
-        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, OperatorConstants.CLOSEST_OVER_DIMENSION_RESULT_INDEX);
+        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX);
 
         public CollectionRecalculationEnum CollectionRecalculation
         {
@@ -69,31 +76,31 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         {
             switch (listIndex)
             {
-                case OperatorConstants.CLOSEST_OVER_DIMENSION_INPUT_INDEX:
+                case INPUT_INDEX:
                     {
                         string name = ResourceHelper.GetPropertyDisplayName(() => Input);
                         return name;
                     }
 
-                case OperatorConstants.CLOSEST_OVER_DIMENSION_COLLECTION_INDEX:
+                case COLLECTION_INDEX:
                     {
                         string name = ResourceHelper.GetPropertyDisplayName(() => Collection);
                         return name;
                     }
 
-                case OperatorConstants.CLOSEST_OVER_DIMENSION_FROM_INDEX:
+                case FROM_INDEX:
                     {
                         string name = ResourceHelper.GetPropertyDisplayName(() => From);
                         return name;
                     }
 
-                case OperatorConstants.CLOSEST_OVER_DIMENSION_TILL_INDEX:
+                case TILL_INDEX:
                     {
                         string name = ResourceHelper.GetPropertyDisplayName(() => Till);
                         return name;
                     }
 
-                case OperatorConstants.CLOSEST_OVER_DIMENSION_STEP_INDEX:
+                case STEP_INDEX:
                     {
                         string name = ResourceHelper.GetPropertyDisplayName(() => Step);
                         return name;

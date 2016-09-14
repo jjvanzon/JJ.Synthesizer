@@ -1,5 +1,4 @@
 ﻿using System;
-using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
 using System.Linq;
 

@@ -9,6 +9,11 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public class RangeOverDimension_OperatorWrapper : OperatorWrapperBase
     {
+        private const int FROM_INDEX = 0;
+        private const int TILL_INDEX = 1;
+        private const int STEP_INDEX = 2;
+        private const int RESULT_INDEX = 0;
+
         public RangeOverDimension_OperatorWrapper(Operator op)
             : base(op)
         { }
@@ -19,7 +24,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { FromInlet.LinkTo(value); }
         }
 
-        public Inlet FromInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.RANGE_OVER_DIMENSION_FROM_INDEX);
+        public Inlet FromInlet => OperatorHelper.GetInlet(WrappedOperator, FROM_INDEX);
 
         public Outlet Till
         {
@@ -27,7 +32,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { TillInlet.LinkTo(value); }
         }
 
-        public Inlet TillInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.RANGE_OVER_DIMENSION_TILL_INDEX);
+        public Inlet TillInlet => OperatorHelper.GetInlet(WrappedOperator, TILL_INDEX);
 
         public Outlet Step
         {
@@ -35,27 +40,27 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { StepInlet.LinkTo(value); }
         }
 
-        public Inlet StepInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.RANGE_OVER_DIMENSION_STEP_INDEX);
+        public Inlet StepInlet => OperatorHelper.GetInlet(WrappedOperator, STEP_INDEX);
 
-        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, OperatorConstants.RANGE_OVER_DIMENSION_RESULT_INDEX);
+        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX);
 
         public override string GetInletDisplayName(int listIndex)
         {
             switch (listIndex)
             {
-                case OperatorConstants.RANGE_OVER_DIMENSION_FROM_INDEX:
+                case FROM_INDEX:
                     {
                         string name = ResourceHelper.GetPropertyDisplayName(() => From);
                         return name;
                     }
 
-                case OperatorConstants.RANGE_OVER_DIMENSION_TILL_INDEX:
+                case TILL_INDEX:
                     {
                         string name = ResourceHelper.GetPropertyDisplayName(() => Till);
                         return name;
                     }
 
-                case OperatorConstants.RANGE_OVER_DIMENSION_STEP_INDEX:
+                case STEP_INDEX:
                     {
                         string name = ResourceHelper.GetPropertyDisplayName(() => Step);
                         return name;

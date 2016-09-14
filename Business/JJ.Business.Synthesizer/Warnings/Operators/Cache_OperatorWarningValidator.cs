@@ -2,7 +2,6 @@
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
