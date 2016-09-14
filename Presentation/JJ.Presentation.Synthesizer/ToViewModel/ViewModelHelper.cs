@@ -899,49 +899,91 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (outlet == null) throw new NullException(() => outlet);
 
+            switch (outlet.Operator.GetOperatorTypeEnum())
+            {
+                case OperatorTypeEnum.CustomOperator:
+                    return GetOutletCaption_ForCustomOperator(outlet, patchRepository);
+
+                case OperatorTypeEnum.RangeOverOutlets:
+                    return GetOutletCaption_ForRangeOverOutlets(outlet);
+
+                default:
+                    return GetOutletCaption_ForOtherOperatorType(outlet, sampleRepository, curveRepository, patchRepository);
+            }
+        }
+
+        private static string GetOutletCaption_ForCustomOperator(Outlet outlet, IPatchRepository patchRepository)
+        {
+            var sb = new StringBuilder();
+
+            bool hasSingleOutlet = outlet.Operator.Outlets.Count == 1;
+            if (!hasSingleOutlet)
+            {
+                var wrapper = new CustomOperator_OperatorWrapper(outlet.Operator, patchRepository);
+
+                string inletDisplayName = wrapper.GetOutletDisplayName(outlet.ListIndex);
+                sb.Append(inletDisplayName);
+            }
+
+            if (outlet.IsObsolete)
+            {
+                AppendObsoleteFlag(sb);
+            }
+
+            return sb.ToString();
+        }
+
+        private static string GetOutletCaption_ForRangeOverOutlets(Outlet outlet)
+        {
+            var sb = new StringBuilder();
+
+            double? from = outlet.Operator.Inlets
+                                 .Where(x => x.ListIndex == RANGE_OVER_OUTLETS_FROM_LIST_INDEX)
+                                 .Select(x => x.TryGetConstantNumber())
+                                 .FirstOrDefault();
+            if (from.HasValue)
+            {
+                double? step = outlet.Operator.Inlets
+                                     .Where(x => x.ListIndex == RANGE_OVER_OUTLETS_STEP_LIST_INDEX)
+                                     .Select(x => x.TryGetConstantNumber())
+                                     .FirstOrDefault();
+                if (step.HasValue)
+                {
+                    int listIndex = outlet.Operator.Outlets.IndexOf(outlet);
+
+                    double value = from.Value + step.Value * listIndex;
+
+                    sb.Append(value.ToString("0.####"));
+                }
+            }
+
+            if (outlet.IsObsolete)
+            {
+                AppendObsoleteFlag(sb);
+            }
+
+            return sb.ToString();
+        }
+
+        private static string GetOutletCaption_ForOtherOperatorType(
+            Outlet outlet,
+            ISampleRepository sampleRepository,
+            ICurveRepository curveRepository,
+            IPatchRepository patchRepository)
+        {
             var sb = new StringBuilder();
 
             OperatorTypeEnum operatorTypeEnum = outlet.Operator.GetOperatorTypeEnum();
             if (OperatorTypeEnums_WithVisibleOutletNames.Contains(operatorTypeEnum))
             {
-                bool isCustomOperatorWithSingleOutlet = operatorTypeEnum == OperatorTypeEnum.CustomOperator &&
-                                                        outlet.Operator.Outlets.Count == 1;
-                if (!isCustomOperatorWithSingleOutlet)
-                {
-                    var wrapper = OperatorWrapperFactory.CreateOperatorWrapper(
-                        outlet.Operator,
-                        curveRepository,
-                        sampleRepository,
-                        patchRepository);
+                var wrapper = OperatorWrapperFactory.CreateOperatorWrapper(
+                    outlet.Operator,
+                    curveRepository,
+                    sampleRepository,
+                    patchRepository);
 
-                    string inletDisplayName = wrapper.GetOutletDisplayName(outlet.ListIndex);
-                    sb.Append(inletDisplayName);
-                }
-            }
-
-            // Display literal numbers as outlet caption in case of RangeOverOutlets and all inlets const.
-            if (operatorTypeEnum == OperatorTypeEnum.RangeOverOutlets)
-            {
-                int? listIndex = outlet.Operator?.Outlets.IndexOf(outlet);
-                if (listIndex.HasValue)
-                {
-                    double? from = outlet.Operator?.Inlets
-                                         .Where(x => x.ListIndex == RANGE_OVER_OUTLETS_FROM_LIST_INDEX)
-                                         .Select(x => x.TryGetConstantNumber())
-                                         .FirstOrDefault();
-                    if (from.HasValue)
-                    {
-                        double? step = outlet.Operator?.Inlets
-                                             .Where(x => x.ListIndex == RANGE_OVER_OUTLETS_STEP_LIST_INDEX)
-                                             .Select(x => x.TryGetConstantNumber())
-                                             .FirstOrDefault();
-                        if (step.HasValue)
-                        {
-                            double value = from.Value + step.Value * listIndex.Value;
-                            sb.Append(value.ToString("0.####"));
-                        }
-                    }
-                }
+                string inletDisplayName = wrapper.GetOutletDisplayName(outlet.ListIndex);
+                sb.Append(inletDisplayName);
             }
 
             if (outlet.IsObsolete)
