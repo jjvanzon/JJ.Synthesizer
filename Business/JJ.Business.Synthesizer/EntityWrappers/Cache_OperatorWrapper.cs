@@ -8,7 +8,7 @@ using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Cache_OperatorWrapper : OperatorWrapperBase
+    public class Cache_OperatorWrapper : OperatorWrapperBase_WithResult
     {
         public Cache_OperatorWrapper(Operator op)
             : base(op)
@@ -45,8 +45,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         }
 
         public Inlet SamplingRateInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CACHE_SAMPLING_RATE_INDEX);
-
-        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, OperatorConstants.CACHE_RESULT_INDEX);
 
         public InterpolationTypeEnum InterpolationType
         {
@@ -92,15 +90,5 @@ namespace JJ.Business.Synthesizer.EntityWrappers
                     throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Inlets.Count);
             }
         }
-
-        public override string GetOutletDisplayName(int listIndex)
-        {
-            if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
-
-            string name = ResourceHelper.GetPropertyDisplayName(() => Result);
-            return name;
-        }
-
-        public static implicit operator Outlet(Cache_OperatorWrapper wrapper) => wrapper?.Result;
     }
 }

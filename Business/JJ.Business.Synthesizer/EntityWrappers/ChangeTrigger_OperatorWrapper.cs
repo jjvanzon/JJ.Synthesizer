@@ -6,7 +6,7 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class ChangeTrigger_OperatorWrapper : OperatorWrapperBase
+    public class ChangeTrigger_OperatorWrapper : OperatorWrapperBase_WithSingleOutlet
     {
         private const int PASS_THROUGH_INLET_INDEX = 0;
         private const int RESET_INDEX = 1;
@@ -62,7 +62,5 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             string name = ResourceHelper.GetPropertyDisplayName(PropertyNames.PassThrough);
             return name;
         }
-
-        public static implicit operator Outlet(ChangeTrigger_OperatorWrapper wrapper) => wrapper?.PassThroughOutlet;
     }
 }

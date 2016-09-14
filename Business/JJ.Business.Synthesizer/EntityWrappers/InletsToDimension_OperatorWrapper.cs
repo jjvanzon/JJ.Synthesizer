@@ -8,10 +8,8 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class InletsToDimension_OperatorWrapper : OperatorWrapperBase
+    public class InletsToDimension_OperatorWrapper : OperatorWrapperBase_WithResult
     {
-        private const int RESULT_INDEX = 0;
-
         public InletsToDimension_OperatorWrapper(Operator op)
             : base(op)
         { }
@@ -21,8 +19,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         /// <summary> Executes a loop, so prevent calling it multiple times. summary>
         public IList<Inlet> Inlets => OperatorHelper.GetSortedInlets(WrappedOperator);
-
-        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX);
 
         public ResampleInterpolationTypeEnum InterpolationType
         {
@@ -38,15 +34,5 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             string name = String.Format("{0} {1}", PropertyDisplayNames.Inlet, listIndex + 1);
             return name;
         }
-
-        public override string GetOutletDisplayName(int listIndex)
-        {
-            if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
-
-            string name = ResourceHelper.GetPropertyDisplayName(() => Result);
-            return name;
-        }
-
-        public static implicit operator Outlet(InletsToDimension_OperatorWrapper wrapper) => wrapper?.Result;
     }
 }

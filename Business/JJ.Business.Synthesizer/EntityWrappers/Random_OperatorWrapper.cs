@@ -8,11 +8,10 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Random_OperatorWrapper : OperatorWrapperBase
+    public class Random_OperatorWrapper : OperatorWrapperBase_WithResult
     {
         private const int RATE_INDEX = 0;
         private const int PHASE_SHIFT_INDEX = 1;
-        private const int RESULT_INDEX = 0;
 
         public Random_OperatorWrapper(Operator op)
             : base(op)
@@ -25,8 +24,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         }
 
         public Inlet RateInlet => OperatorHelper.GetInlet(WrappedOperator, RATE_INDEX);
-
-        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX);
 
         public ResampleInterpolationTypeEnum InterpolationType
         {
@@ -48,15 +45,5 @@ namespace JJ.Business.Synthesizer.EntityWrappers
                     throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Inlets.Count);
             }
         }
-
-        public override string GetOutletDisplayName(int listIndex)
-        {
-            if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
-
-            string name = ResourceHelper.GetPropertyDisplayName(() => Result);
-            return name;
-        }
-
-        public static implicit operator Outlet(Random_OperatorWrapper wrapper) => wrapper?.Result;
     }
 }

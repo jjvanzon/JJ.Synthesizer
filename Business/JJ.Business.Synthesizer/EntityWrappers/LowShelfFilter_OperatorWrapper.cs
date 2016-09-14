@@ -7,7 +7,5 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         public LowShelfFilter_OperatorWrapper(Operator op)
             : base(op)
         { }
-
-        public static implicit operator Outlet(LowShelfFilter_OperatorWrapper wrapper) => wrapper?.Result;
     }
 }

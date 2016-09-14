@@ -7,7 +7,5 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         public MaxOverDimension_OperatorWrapper(Operator op)
             : base(op)
         { }
-
-        public static implicit operator Outlet(MaxOverDimension_OperatorWrapper wrapper) => wrapper?.Result;
     }
 }

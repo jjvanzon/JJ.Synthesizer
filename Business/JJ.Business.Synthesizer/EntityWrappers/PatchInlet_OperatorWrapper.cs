@@ -7,10 +7,9 @@ using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class PatchInlet_OperatorWrapper : OperatorWrapperBase
+    public class PatchInlet_OperatorWrapper : OperatorWrapperBase_WithResult
     {
         private const int INPUT_INDEX = 0;
-        private const int RESULT_INDEX = 0;
 
         public PatchInlet_OperatorWrapper(Operator op)
             : base(op)
@@ -23,8 +22,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         }
 
         public Inlet Inlet => OperatorHelper.GetInlet(WrappedOperator, INPUT_INDEX);
-
-        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX);
 
         public int? ListIndex
         {
@@ -39,15 +36,5 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             string name = ResourceHelper.GetPropertyDisplayName(() => Input);
             return name;
         }
-
-        public override string GetOutletDisplayName(int listIndex)
-        {
-            if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
-
-            string name = ResourceHelper.GetPropertyDisplayName(() => Result);
-            return name;
-        }
-
-        public static implicit operator Outlet(PatchInlet_OperatorWrapper wrapper) => wrapper?.Result;
     }
 }

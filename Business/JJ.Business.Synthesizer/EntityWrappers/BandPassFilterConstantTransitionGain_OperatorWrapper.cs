@@ -7,7 +7,7 @@ using System;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class BandPassFilterConstantTransitionGain_OperatorWrapper : OperatorWrapperBase
+    public class BandPassFilterConstantTransitionGain_OperatorWrapper : OperatorWrapperBase_WithResult
     {
         public BandPassFilterConstantTransitionGain_OperatorWrapper(Operator op)
             : base(op)
@@ -16,7 +16,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         private const int SIGNAL_INDEX = 0;
         private const int CENTER_FREQUENCY_INDEX = 1;
         private const int BAND_WIDTH_INDEX = 2;
-        private const int RESULT_INDEX = 0;
 
         public Outlet Signal
         {
@@ -41,8 +40,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         }
 
         public Inlet BandWidthInlet => OperatorHelper.GetInlet(WrappedOperator, BAND_WIDTH_INDEX);
-
-        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX);
 
         public override string GetInletDisplayName(int listIndex)
         {
@@ -70,15 +67,5 @@ namespace JJ.Business.Synthesizer.EntityWrappers
                     throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Inlets.Count);
             }
         }
-
-        public override string GetOutletDisplayName(int listIndex)
-        {
-            if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
-
-            string name = ResourceHelper.GetPropertyDisplayName(() => Result);
-            return name;
-        }
-
-        public static implicit operator Outlet(BandPassFilterConstantTransitionGain_OperatorWrapper wrapper) => wrapper?.Result;
     }
 }

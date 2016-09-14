@@ -7,7 +7,5 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         public SortOverDimension_OperatorWrapper(Operator op)
             : base(op)
         { }
-
-        public static implicit operator Outlet(SortOverDimension_OperatorWrapper wrapper) => wrapper?.Result;
     }
 }

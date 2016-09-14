@@ -7,12 +7,11 @@ using System;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Stretch_OperatorWrapper : OperatorWrapperBase
+    public class Stretch_OperatorWrapper : OperatorWrapperBase_WithResult
     {
         private const int SIGNAL_INDEX = 0;
         private const int FACTOR_INDEX = 1;
         private const int ORIGIN_INDEX = 2;
-        private const int RESULT_INDEX = 0;
 
         public Stretch_OperatorWrapper(Operator op)
             : base(op)
@@ -42,8 +41,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Inlet OriginInlet => OperatorHelper.GetInlet(WrappedOperator, ORIGIN_INDEX);
 
-        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX);
-
         public override string GetInletDisplayName(int listIndex)
         {
             switch (listIndex)
@@ -70,15 +67,5 @@ namespace JJ.Business.Synthesizer.EntityWrappers
                     throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Inlets.Count);
             }
         }
-
-        public override string GetOutletDisplayName(int listIndex)
-        {
-            if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
-
-            string name = ResourceHelper.GetPropertyDisplayName(() => Result);
-            return name;
-        }
-
-        public static implicit operator Outlet(Stretch_OperatorWrapper wrapper) => wrapper?.Result;
     }
 }

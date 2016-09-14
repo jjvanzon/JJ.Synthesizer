@@ -7,10 +7,8 @@ using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Curve_OperatorWrapper : OperatorWrapperBase
+    public class Curve_OperatorWrapper : OperatorWrapperBase_WithResult
     {
-        private const int RESULT_INDEX = 0;
-
         private readonly ICurveRepository _curveRepository;
 
         public Curve_OperatorWrapper(Operator op, ICurveRepository curveRepository)
@@ -51,21 +49,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             }
         }
 
-        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX);
-
         public override string GetInletDisplayName(int listIndex)
         {
             throw new NotSupportedException();
         }
-
-        public override string GetOutletDisplayName(int listIndex)
-        {
-            if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
-
-            string name = ResourceHelper.GetPropertyDisplayName(() => Result);
-            return name;
-        }
-
-        public static implicit operator Outlet(Curve_OperatorWrapper wrapper) => wrapper?.Result;
     }
 }

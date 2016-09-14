@@ -8,11 +8,10 @@ using System;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Interpolate_OperatorWrapper : OperatorWrapperBase
+    public class Interpolate_OperatorWrapper : OperatorWrapperBase_WithResult
     {
         private const int SIGNAL_INDEX = 0;
         private const int SAMPLING_RATE_INDEX = 1;
-        private const int RESULT_INDEX = 0;
 
         public Interpolate_OperatorWrapper(Operator op)
             : base(op)
@@ -33,8 +32,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         }
 
         public Inlet SamplingRateInlet => OperatorHelper.GetInlet(WrappedOperator, SAMPLING_RATE_INDEX);
-
-        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX);
 
         public ResampleInterpolationTypeEnum InterpolationType
         {
@@ -62,15 +59,5 @@ namespace JJ.Business.Synthesizer.EntityWrappers
                     throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Inlets.Count);
             }
         }
-
-        public override string GetOutletDisplayName(int listIndex)
-        {
-            if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
-
-            string name = ResourceHelper.GetPropertyDisplayName(() => Result);
-            return name;
-        }
-
-        public static implicit operator Outlet(Interpolate_OperatorWrapper wrapper) => wrapper?.Result;
     }
 }

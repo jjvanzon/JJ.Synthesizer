@@ -6,11 +6,10 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Power_OperatorWrapper : OperatorWrapperBase
+    public class Power_OperatorWrapper : OperatorWrapperBase_WithResult
     {
         private const int BASE_INDEX = 0;
         private const int EXPONENT_INDEX = 1;
-        private const int RESULT_INDEX = 0;
 
         public Power_OperatorWrapper(Operator op)
             : base(op)
@@ -32,8 +31,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Inlet ExponentInlet => OperatorHelper.GetInlet(WrappedOperator, EXPONENT_INDEX);
 
-        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX);
-
         public override string GetInletDisplayName(int listIndex)
         {
             switch (listIndex)
@@ -54,15 +51,5 @@ namespace JJ.Business.Synthesizer.EntityWrappers
                     throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Inlets.Count);
             }
         }
-
-        public override string GetOutletDisplayName(int listIndex)
-        {
-            if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
-
-            string name = ResourceHelper.GetPropertyDisplayName(() => Result);
-            return name;
-        }
-
-        public static implicit operator Outlet(Power_OperatorWrapper wrapper) => wrapper?.Result;
     }
 }

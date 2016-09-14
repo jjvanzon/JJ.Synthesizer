@@ -7,7 +7,7 @@ using System;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class SetDimension_OperatorWrapper : OperatorWrapperBase
+    public class SetDimension_OperatorWrapper : OperatorWrapperBase_WithSingleOutlet
     {
         private const int PASS_THROUGH_INLET_INDEX = 0;
         private const int VALUE_INDEX = 1;
@@ -63,7 +63,5 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             string name = ResourceHelper.GetPropertyDisplayName(PropertyNames.PassThrough);
             return name;
         }
-
-        public static implicit operator Outlet(SetDimension_OperatorWrapper wrapper) => wrapper?.Value;
     }
 }

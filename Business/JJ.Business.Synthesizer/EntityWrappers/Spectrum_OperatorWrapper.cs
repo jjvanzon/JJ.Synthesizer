@@ -7,7 +7,7 @@ using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Spectrum_OperatorWrapper : OperatorWrapperBase
+    public class Spectrum_OperatorWrapper : OperatorWrapperBase_WithResult
     {
         public Spectrum_OperatorWrapper(Operator op)
             : base(op)
@@ -45,8 +45,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Inlet FrequencyCountInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.SPECTRUM_FREQUENCY_COUNT_INDEX);
 
-        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, OperatorConstants.SPECTRUM_RESULT_INDEX);
-
         public override string GetInletDisplayName(int listIndex)
         {
             switch (listIndex)
@@ -79,15 +77,5 @@ namespace JJ.Business.Synthesizer.EntityWrappers
                     throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Inlets.Count);
             }
         }
-
-        public override string GetOutletDisplayName(int listIndex)
-        {
-            if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
-
-            string name = ResourceHelper.GetPropertyDisplayName(() => Result);
-            return name;
-        }
-
-        public static implicit operator Outlet(Spectrum_OperatorWrapper wrapper) => wrapper?.Result;
     }
 }

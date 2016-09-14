@@ -226,6 +226,9 @@
     <Compile Include="Calculation\Operators\Number_OperatorCalculator.cs" />
     <Compile Include="Calculation\Patches\OptimizedPatchCalculatorVisitorResult.cs" />
     <Compile Include="Calculation\Patches\ResettableOperatorTuple.cs" />
+    <Compile Include="EntityWrappers\OperatorWrapperBase_WithXAndResult.cs" />
+    <Compile Include="EntityWrappers\OperatorWrapperBase_WithSingleOutlet.cs" />
+    <Compile Include="EntityWrappers\OperatorWrapperBase_WithResult.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_WithAAndB.cs" />
     <Compile Include="EntityWrappers\RangeOverOutlets_OperatorWrapper.cs" />
     <Compile Include="Extensions\InletExtensions.cs" />
@@ -307,7 +310,7 @@
     <Compile Include="EntityWrappers\MinOverDimension_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_AggregateOverDimension.cs" />
     <Compile Include="EntityWrappers\MinOverInlets_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\OperatorWrapperBase_VariableInletCountOneOutlet.cs" />
+    <Compile Include="EntityWrappers\OperatorWrapperBase_VariableInletCountOneResult.cs" />
     <Compile Include="EntityWrappers\MaxOverInlets_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\InletsToDimension_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Cache_OperatorWrapper.cs" />
@@ -801,6 +804,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Multiply OperatorCalculator Classes OnlyVars.cs</LastGenOutput>
     </None>
+    <None Include="EntityWrappers\OperatorWrapper Inheritance.cd" />
     <None Include="Helpers\OperatorCalculatorFactory.CreateMultiplyCalculatorOnlyVars.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>OperatorCalculatorFactory.CreateMultiplyCalculatorOnlyVars.cs</LastGenOutput>

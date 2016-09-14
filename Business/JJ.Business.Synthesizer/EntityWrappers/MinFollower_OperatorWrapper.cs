@@ -8,7 +8,5 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         public MinFollower_OperatorWrapper(Operator op)
             : base(op)
         { }
-
-        public static implicit operator Outlet(MinFollower_OperatorWrapper wrapper) => wrapper?.Result;
     }
 }

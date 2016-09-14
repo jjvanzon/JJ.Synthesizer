@@ -7,7 +7,7 @@ using System;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class GetDimension_OperatorWrapper : OperatorWrapperBase
+    public class GetDimension_OperatorWrapper : OperatorWrapperBase_WithSingleOutlet
     {
         private const int VALUE_INDEX = 0;
 
@@ -29,7 +29,5 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             string name = ResourceHelper.GetPropertyDisplayName(() => Value);
             return name;
         }
-
-        public static implicit operator Outlet(GetDimension_OperatorWrapper wrapper) => wrapper?.Value;
     }
 }

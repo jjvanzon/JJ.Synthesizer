@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="JJ.Business.Synthesizer.EntityWrappers.OperatorWrapperBase" Collapsed="true">
+    <Position X="7.5" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAhAAAAAAAAAIAAAQAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>EntityWrappers\OperatorWrapperBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JJ.Business.Synthesizer.EntityWrappers.OperatorWrapperBase_AggregateFollower" Collapsed="true">
+    <Position X="5.5" Y="3.25" Width="2.75" />
+    <InheritanceLine Type="JJ.Business.Synthesizer.EntityWrappers.OperatorWrapperBase_WithResult" ManuallyRouted="true" FixedToPoint="true">
+      <Path>
+        <Point X="1.875" Y="1.206" />
+        <Point X="1.875" Y="1.581" />
+        <Point X="6.5" Y="1.581" />
+        <Point X="6.5" Y="3.25" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAQAJAAAAAEAEAAAAAAAIAAAAAABAAAAAEABA=</HashCode>
+      <FileName>EntityWrappers\OperatorWrapperBase_AggregateFollower.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JJ.Business.Synthesizer.EntityWrappers.OperatorWrapperBase_AggregateOverDimension" Collapsed="true">
+    <Position X="2" Y="3.25" Width="3.25" />
+    <InheritanceLine Type="JJ.Business.Synthesizer.EntityWrappers.OperatorWrapperBase_WithResult" ManuallyRouted="true" FixedToPoint="true">
+      <Path>
+        <Point X="1.875" Y="1.206" />
+        <Point X="1.875" Y="1.581" />
+        <Point X="3.317" Y="1.581" />
+        <Point X="3.317" Y="3.25" />
+        <Point X="3.188" Y="3.25" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AgCIAAEAAgIAAAAAAAEAAAAAAAIAEAAAIAAAACQAAAI=</HashCode>
+      <FileName>EntityWrappers\OperatorWrapperBase_AggregateOverDimension.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JJ.Business.Synthesizer.EntityWrappers.OperatorWrapperBase_ShelfFilter" Collapsed="true">
+    <Position X="8.5" Y="3.25" Width="2.25" />
+    <InheritanceLine Type="JJ.Business.Synthesizer.EntityWrappers.OperatorWrapperBase_WithResult" ManuallyRouted="true" FixedToPoint="true">
+      <Path>
+        <Point X="1.875" Y="1.206" />
+        <Point X="1.875" Y="1.564" />
+        <Point X="10.25" Y="1.564" />
+        <Point X="10.25" Y="3.25" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>QAEJAAAAAAIAAABAAQEAAAABAAIAAAAAAAAAAACEAAA=</HashCode>
+      <FileName>EntityWrappers\OperatorWrapperBase_ShelfFilter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JJ.Business.Synthesizer.EntityWrappers.OperatorWrapperBase_VariableInletCountOneResult" Collapsed="true">
+    <Position X="6.75" Y="2" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAABAAAAACAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EntityWrappers\OperatorWrapperBase_VariableInletCountOneResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JJ.Business.Synthesizer.EntityWrappers.OperatorWrapperBase_WithAAndB" Collapsed="true">
+    <Position X="0.5" Y="2" Width="2.5" />
+    <InheritanceLine Type="JJ.Business.Synthesizer.EntityWrappers.OperatorWrapperBase_WithResult" FixedToPoint="true">
+      <Path>
+        <Point X="1.875" Y="1.206" />
+        <Point X="1.875" Y="2" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAIAQAAAAAAAAACAAgAAAAAAAAAAAAAAAEAIAEAAAA=</HashCode>
+      <FileName>EntityWrappers\OperatorWrapperBase_WithAAndB.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JJ.Business.Synthesizer.EntityWrappers.OperatorWrapperBase_WithResult" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAQAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>EntityWrappers\OperatorWrapperBase_WithResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JJ.Business.Synthesizer.EntityWrappers.OperatorWrapperBase_WithSingleOutlet" Collapsed="true">
+    <Position X="4" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EntityWrappers\OperatorWrapperBase_WithSingleOutlet.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JJ.Business.Synthesizer.EntityWrappers.OperatorWrapperBase_WithXAndResult" Collapsed="true">
+    <Position X="3.5" Y="2" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAgAAAQAA=</HashCode>
+      <FileName>EntityWrappers\OperatorWrapperBase_WithXAndResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9.31" />
+</ClassDiagram>

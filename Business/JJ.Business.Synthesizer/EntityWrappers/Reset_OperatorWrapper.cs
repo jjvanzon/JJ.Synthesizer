@@ -7,7 +7,7 @@ using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Reset_OperatorWrapper : OperatorWrapperBase
+    public class Reset_OperatorWrapper : OperatorWrapperBase_WithSingleOutlet
     {
         private const int PASS_THROUGH_INLET_INDEX = 0;
         private const int PASS_THROUGH_OUTLET_INDEX = 0;
@@ -47,7 +47,5 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             string name = ResourceHelper.GetPropertyDisplayName(PropertyNames.PassThrough);
             return name;
         }
-
-        public static implicit operator Outlet(Reset_OperatorWrapper wrapper) => wrapper?.PassThroughOutlet;
     }
 }

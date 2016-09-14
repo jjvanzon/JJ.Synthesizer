@@ -5,14 +5,12 @@ using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using System;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Sample_OperatorWrapper : OperatorWrapperBase
+    public class Sample_OperatorWrapper : OperatorWrapperBase_WithResult
     {
         private const int FREQUENCY_INDEX = 0;
-        private const int RESULT_INDEX = 0;
 
         private readonly ISampleRepository _sampleRepository;
 
@@ -91,8 +89,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             }
         }
 
-        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX);
-
         public override string GetInletDisplayName(int listIndex)
         {
             if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
@@ -100,15 +96,5 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             string name = ResourceHelper.GetPropertyDisplayName(() => Frequency);
             return name;
         }
-
-        public override string GetOutletDisplayName(int listIndex)
-        {
-            if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
-
-            string name = ResourceHelper.GetPropertyDisplayName(() => Result);
-            return name;
-        }
-
-        public static implicit operator Outlet(Sample_OperatorWrapper wrapper) => wrapper?.Result;
     }
 }

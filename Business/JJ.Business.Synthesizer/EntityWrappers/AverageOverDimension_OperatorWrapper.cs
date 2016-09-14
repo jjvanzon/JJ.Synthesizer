@@ -7,7 +7,5 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         public AverageOverDimension_OperatorWrapper(Operator op)
             : base(op)
         { }
-
-        public static implicit operator Outlet(AverageOverDimension_OperatorWrapper wrapper) => wrapper?.Result;
     }
 }

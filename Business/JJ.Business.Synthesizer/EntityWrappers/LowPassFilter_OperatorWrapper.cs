@@ -6,12 +6,11 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class LowPassFilter_OperatorWrapper : OperatorWrapperBase
+    public class LowPassFilter_OperatorWrapper : OperatorWrapperBase_WithResult
     {
         private const int SIGNAL_INDEX = 0;
         private const int MAX_FREQUENCY_INDEX = 1;
         private const int BAND_WIDTH_INDEX = 2;
-        private const int RESULT_INDEX = 0;
 
         public LowPassFilter_OperatorWrapper(Operator op)
             : base(op)
@@ -41,8 +40,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Inlet BandWidthInlet => OperatorHelper.GetInlet(WrappedOperator, BAND_WIDTH_INDEX);
 
-        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, RESULT_INDEX);
-
         public override string GetInletDisplayName(int listIndex)
         {
             switch (listIndex)
@@ -69,15 +66,5 @@ namespace JJ.Business.Synthesizer.EntityWrappers
                     throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Inlets.Count);
             }
         }
-
-        public override string GetOutletDisplayName(int listIndex)
-        {
-            if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
-
-            string name = ResourceHelper.GetPropertyDisplayName(() => Result);
-            return name;
-        }
-
-        public static implicit operator Outlet(LowPassFilter_OperatorWrapper wrapper) => wrapper?.Result;
     }
 }
