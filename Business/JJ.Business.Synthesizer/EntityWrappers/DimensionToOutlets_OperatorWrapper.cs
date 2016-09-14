@@ -9,7 +9,7 @@ using System;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class DimensionToOutlets_OperatorWrapper : OperatorWrapperBase
+    public class DimensionToOutlets_OperatorWrapper : OperatorWrapperBase_VariableOutletCount
     {
         private const int OPERAND_INDEX = 0;
 
@@ -25,22 +25,11 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Inlet Inlet => OperatorHelper.GetInlet(WrappedOperator, OPERAND_INDEX);
 
-        public IList<Outlet> Results => WrappedOperator.Outlets; 
-
         public override string GetInletDisplayName(int listIndex)
         {
             if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
 
             string name = ResourceHelper.GetPropertyDisplayName(() => Operand);
-            return name;
-        }
-
-        public override string GetOutletDisplayName(int listIndex)
-        {
-            if (listIndex < 0) throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Outlets.Count);
-            if (listIndex > WrappedOperator.Outlets.Count) throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Outlets.Count);
-
-            string name = String.Format("{0} {1}", PropertyDisplayNames.Outlet, listIndex + 1);
             return name;
         }
     }

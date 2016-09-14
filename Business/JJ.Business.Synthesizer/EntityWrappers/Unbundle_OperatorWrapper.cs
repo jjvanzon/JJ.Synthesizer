@@ -9,7 +9,7 @@ using System;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Unbundle_OperatorWrapper : OperatorWrapperBase
+    public class Unbundle_OperatorWrapper : OperatorWrapperBase_VariableOutletCount
     {
         private const int OPERAND_INDEX = 0;
 
@@ -32,16 +32,5 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             string name = ResourceHelper.GetPropertyDisplayName(() => Operand);
             return name;
         }
-
-        public override string GetOutletDisplayName(int listIndex)
-        {
-            if (listIndex < 0) throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Outlets.Count);
-            if (listIndex > WrappedOperator.Outlets.Count) throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Outlets.Count);
-
-            string name = String.Format("{0} {1}", PropertyDisplayNames.Outlet, listIndex + 1);
-            return name;
-        }
-
-        public IList<Outlet> Results => WrappedOperator.Outlets;
     }
 }

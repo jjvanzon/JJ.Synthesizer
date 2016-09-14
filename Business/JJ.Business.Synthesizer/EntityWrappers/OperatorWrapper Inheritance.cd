@@ -94,5 +94,21 @@
       <FileName>EntityWrappers\OperatorWrapperBase_WithXAndResult.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="JJ.Business.Synthesizer.EntityWrappers.OperatorWrapperBase_VariableOutletCount" Collapsed="true">
+    <Position X="10.5" Y="2" Width="3" />
+    <InheritanceLine Type="JJ.Business.Synthesizer.EntityWrappers.OperatorWrapperBase" ManuallyRouted="true" FixedFromPoint="true">
+      <Path>
+        <Point X="10.25" Y="0.812" />
+        <Point X="10.828" Y="0.812" />
+        <Point X="10.828" Y="0.807" />
+        <Point X="12" Y="0.807" />
+        <Point X="12" Y="2" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EntityWrappers\OperatorWrapperBase_VariableOutletCount.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Font Name="Segoe UI" Size="9.31" />
 </ClassDiagram>
