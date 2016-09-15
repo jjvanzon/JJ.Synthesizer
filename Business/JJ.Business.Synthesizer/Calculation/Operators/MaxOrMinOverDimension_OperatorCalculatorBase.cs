@@ -76,6 +76,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             bool isForward = length > 0.0;
 
             #region InitializeSampling
+            #endregion InitializeSampling
+
+            double position = from;
 
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
@@ -85,11 +88,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #else
             _dimensionStack.Set(_dimensionStackIndex, position);
 #endif
-            double currentValue = _signalCalculator.Calculate();
+            double item = _signalCalculator.Calculate();
 
-            #endregion InitializeSampling
+            #region ProcessFirstSample
+            _aggregate = item;
+            #endregion ProcessFirstSample
 
-            double position = from;
+            position += _step;
 
             // TODO: Prevent infinite loops.
 
@@ -105,13 +110,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #else
                     _dimensionStack.Set(_dimensionStackIndex, position);
 #endif
-                    double item = _signalCalculator.Calculate();
+                    item = _signalCalculator.Calculate();
 
                     #region ProcessSample
-                    bool mustOverwrite = MustOverwrite(currentValue, item);
+                    bool mustOverwrite = MustOverwrite(item, item);
                     if (mustOverwrite)
                     {
-                        currentValue = item;
+                        item = item;
                     }
                     #endregion ProcessSample
 
@@ -131,15 +136,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #else
                     _dimensionStack.Set(_dimensionStackIndex, position);
 #endif
-                    double item = _signalCalculator.Calculate();
+                    item = _signalCalculator.Calculate();
 
-                    #region ProcessSample
-                    bool mustOverwrite = MustOverwrite(currentValue, item);
+                    #region ProcessNextSample
+                    bool mustOverwrite = MustOverwrite(item, item);
                     if (mustOverwrite)
                     {
-                        currentValue = item;
+                        item = item;
                     }
-                    #endregion ProcessSample
+                    #endregion ProcessNextSample
 
                     position += _step;
                 }
@@ -153,7 +158,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionStack.Set(_dimensionStackIndex, originalPosition);
 #endif
             #region FinalizeSampling
-            _aggregate = currentValue;
+            _aggregate = item;
             #endregion FinalizeSampling
         }
 

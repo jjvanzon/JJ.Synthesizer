@@ -102,6 +102,23 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             double position = from;
 
+#if ASSERT_INVAR_INDICES
+             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
+#if !USE_INVAR_INDICES
+            _dimensionStack.Set(position);
+#else
+            _dimensionStack.Set(_dimensionStackIndex, position);
+#endif
+            double item = _collectionCalculator.Calculate();
+
+            #region ProcessFirstSample
+            items[i] = item;
+            i++;
+            #endregion ProcessFirstSample
+
+            position += _step;
+
             // TODO: Prevent infinite loops.
 
             if (isForward)
@@ -116,12 +133,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #else
                     _dimensionStack.Set(_dimensionStackIndex, position);
 #endif
-                    double item = _collectionCalculator.Calculate();
+                    item = _collectionCalculator.Calculate();
 
-                    #region ProcessSample
+                    #region ProcessNextSample
                     items[i] = item;
                     i++;
-                    #endregion ProcessSample
+                    #endregion ProcessNextSample
 
                     position += _step;
                 }
@@ -139,12 +156,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #else
                     _dimensionStack.Set(_dimensionStackIndex, position);
 #endif
-                    double item = _collectionCalculator.Calculate();
+                    item = _collectionCalculator.Calculate();
 
-                    #region ProcessSample
+                    #region ProcessNextSample
                     items[i] = item;
                     i++;
-                    #endregion ProcessSample
+                    #endregion ProcessNextSample
 
                     position += _step;
                 }

@@ -77,11 +77,25 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             #region InitializeSampling
 
-            double sum = 0.0;
-
             #endregion InitializeSampling
 
             double position = from;
+
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
+#if !USE_INVAR_INDICES
+            _dimensionStack.Set(from);
+#else
+            _dimensionStack.Set(_dimensionStackIndex, position);
+#endif
+            double item = _signalCalculator.Calculate();
+
+            #region ProcessFirstSample
+            double sum = item;
+            #endregion ProcessFirstSample
+
+            position += _step;
 
             // TODO: Prevent infinite loops.
 
@@ -97,7 +111,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #else
                     _dimensionStack.Set(_dimensionStackIndex, position);
 #endif
-                    double item = _signalCalculator.Calculate();
+                    item = _signalCalculator.Calculate();
 
                     #region ProcessSample
                     sum += item;
@@ -119,7 +133,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #else
                     _dimensionStack.Set(_dimensionStackIndex, position);
 #endif
-                    double item = _signalCalculator.Calculate();
+                    item = _signalCalculator.Calculate();
 
                     #region ProcessSample
                     sum += item;
