@@ -4655,7 +4655,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                             stepCalculator,
                             dimensionStack);
                         }
-                            break;
+                        break;
 
                     case CollectionRecalculationEnum.UponReset:
                         operatorCalculator = new SumOverDimension_OperatorCalculator_CollectionRecalculationUponReset(

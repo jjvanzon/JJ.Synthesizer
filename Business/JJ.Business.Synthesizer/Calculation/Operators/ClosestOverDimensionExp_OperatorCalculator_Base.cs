@@ -24,17 +24,26 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                   dimensionStack)
         { }
 
-        protected override void RecalculateCollection()
+        protected override bool RecalculateCollection()
         {
-            base.RecalculateCollection();
-
-            for (int i = 0; i < _sortedItems.Length; i++)
+            bool success = base.RecalculateCollection();
+            if (success)
             {
-                _sortedItems[i] = Math.Log(_sortedItems[i]);
+                for (int i = 0; i < _sortedItems.Length; i++)
+                {
+                    _sortedItems[i] = Math.Log(_sortedItems[i]);
+                }
+
+                _min = Math.Log(_min);
+                _max = Math.Log(_max);
+            }
+            else
+            {
+                _min = 0.0;
+                _max = 0.0;
             }
 
-            _min = Math.Log(_min);
-            _max = Math.Log(_max);
+            return success;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

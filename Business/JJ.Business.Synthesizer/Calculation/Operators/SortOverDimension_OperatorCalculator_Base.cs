@@ -6,16 +6,20 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal abstract class SortOverDimension_OperatorCalculator_Base 
+    internal abstract class SortOverDimension_OperatorCalculator_Base
         : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly OperatorCalculatorBase _signalCalculator;
+        private readonly OperatorCalculatorBase _collectionCalculator;
         private readonly OperatorCalculatorBase _fromCalculator;
         private readonly OperatorCalculatorBase _tillCalculator;
         private readonly OperatorCalculatorBase _stepCalculator;
         protected readonly DimensionStack _dimensionStack;
+
         protected readonly int _dimensionStackIndex;
-        protected double[] _items;
+
+        protected double _step;
+        protected double[] _sortedItems;
+        protected int _countInt;
 
         public SortOverDimension_OperatorCalculator_Base(
             OperatorCalculatorBase signalCalculator,
@@ -33,7 +37,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
-            _signalCalculator = signalCalculator;
+            _collectionCalculator = signalCalculator;
             _fromCalculator = fromCalculator;
             _tillCalculator = tillCalculator;
             _stepCalculator = stepCalculator;
@@ -56,8 +60,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         protected virtual void ResetNonRecursive()
         { }
 
+        /// <summary> Returns false if some of the input was invalid. (NaN, negative count, etc.) </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual void RecalculateCollection()
+        protected virtual bool RecalculateCollection()
         {
 #if !USE_INVAR_INDICES
             double originalPosition = _dimensionStack.Get();
@@ -69,11 +74,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #endif
             double from = _fromCalculator.Calculate();
             double till = _tillCalculator.Calculate();
-            double step = _stepCalculator.Calculate();
+            _step = _stepCalculator.Calculate();
 
             double length = till - from;
 
-            double countDouble = length / step;
+            double countDouble = length / _step;
 
             // 0-3 has length 3 in doubles, but length 4 in integers.
             // But adding 1 works for non-integer double values too.
@@ -81,8 +86,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             if (!ConversionHelper.CanCastToNonNegativeInt32(countDouble))
             {
-                _items = new double[0];
-                return;
+                _sortedItems = new double[0];
+                return false;
             }
             int countInt = (int)countDouble;
 
@@ -100,10 +105,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #else
                 _dimensionStack.Set(_dimensionStackIndex, position);
 #endif
-                double item = _signalCalculator.Calculate();
+                double item = _collectionCalculator.Calculate();
                 items[i] = item;
 
-                position += step;
+                position += _step;
             }
 
             Array.Sort(items);
@@ -116,7 +121,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #else
             _dimensionStack.Set(_dimensionStackIndex, originalPosition);
 #endif
-            _items = items;
+            _sortedItems = items;
+            _countInt = countInt;
+
+            return true;
         }
     }
 }

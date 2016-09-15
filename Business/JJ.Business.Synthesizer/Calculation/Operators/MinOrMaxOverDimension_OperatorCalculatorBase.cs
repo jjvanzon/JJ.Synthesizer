@@ -83,7 +83,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             {
                 while (position <= till)
                 {
-
 #if !USE_INVAR_INDICES
                     _dimensionStack.Set(position);
 #else
@@ -103,7 +102,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 // Is backwards
                 while (position >= till)
                 {
-
 #if !USE_INVAR_INDICES
                     _dimensionStack.Set(position);
 #else

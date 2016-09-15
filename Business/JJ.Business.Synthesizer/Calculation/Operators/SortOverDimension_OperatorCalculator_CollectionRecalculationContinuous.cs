@@ -35,14 +35,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             // Stripe interpolation
             position += 0.5;
 
-            if (!ConversionHelper.CanCastToNonNegativeInt32WithMax(position, _items.Length))
+            if (!ConversionHelper.CanCastToNonNegativeInt32WithMax(position, _sortedItems.Length))
             {
                 return 0.0;
             }
 
             int i = (int)position;
 
-            double value = _items[i];
+            double value = _sortedItems[i];
             return value;
         }
     }

@@ -9,7 +9,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     internal abstract class OperatorCalculatorBase_WithChildCalculators : OperatorCalculatorBase
     {
-        private readonly OperatorCalculatorBase[] _childOperatorCalculators;
+        protected OperatorCalculatorBase[] _childOperatorCalculators;
         private readonly int _childOperatorCalculatorsCount;
 
         public OperatorCalculatorBase_WithChildCalculators(IList<OperatorCalculatorBase> childOperatorCalculators)

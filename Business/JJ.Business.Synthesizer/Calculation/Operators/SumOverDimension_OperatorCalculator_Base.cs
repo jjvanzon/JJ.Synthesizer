@@ -14,8 +14,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
-        protected double _aggregate;
         protected double _step;
+        protected double _aggregate;
 
         public SumOverDimension_OperatorCalculator_Base(
             OperatorCalculatorBase signalCalculator,
@@ -60,12 +60,20 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual void RecalculateAggregate()
         {
+#if !USE_INVAR_INDICES
+            double originalPosition = _dimensionStack.Get();
+#else
+            double originalPosition = _dimensionStack.Get(_dimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
             double from = _fromCalculator.Calculate();
             double till = _tillCalculator.Calculate();
             _step = _stepCalculator.Calculate();
 
             double length = till - from;
-            bool isForward = length > 0.0;
+            bool isForward = length >= 0.0;
 
             double position = from;
 
@@ -84,7 +92,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             {
                 while (position <= till)
                 {
-
 #if !USE_INVAR_INDICES
                     _dimensionStack.Set(position);
 #else
@@ -101,7 +108,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 // Is backwards
                 while (position >= till)
                 {
-
 #if !USE_INVAR_INDICES
                     _dimensionStack.Set(position);
 #else
@@ -114,6 +120,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 }
             }
 
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
+#if !USE_INVAR_INDICES
+            _dimensionStack.Set(originalPosition);
+#else
+            _dimensionStack.Set(_dimensionStackIndex, originalPosition);
+#endif
             _aggregate = sum;
         }
     }
