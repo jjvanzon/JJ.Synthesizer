@@ -149,7 +149,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     position += _step;
                 }
             }
-
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
 #endif

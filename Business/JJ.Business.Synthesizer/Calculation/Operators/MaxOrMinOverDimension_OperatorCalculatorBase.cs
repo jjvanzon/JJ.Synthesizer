@@ -14,6 +14,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
+        protected double _step;
         private double _aggregate;
 
         public MaxOrMinOverDimension_OperatorCalculatorBase(
@@ -59,25 +60,36 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected void RecalculateAggregate()
         {
+#if !USE_INVAR_INDICES
+            double originalPosition = _dimensionStack.Get();
+#else
+            double originalPosition = _dimensionStack.Get(_dimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
             double from = _fromCalculator.Calculate();
             double till = _tillCalculator.Calculate();
-            double step = _stepCalculator.Calculate();
+            _step = _stepCalculator.Calculate();
 
             double length = till - from;
             bool isForward = length > 0.0;
 
-            double position = from;
+            #region InitializeSampling
 
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
 #endif
 #if !USE_INVAR_INDICES
-            _dimensionStack.Set(position);
+            _dimensionStack.Set(from);
 #else
             _dimensionStack.Set(_dimensionStackIndex, position);
 #endif
             double currentValue = _signalCalculator.Calculate();
-            position += step;
+
+            #endregion InitializeSampling
+
+            double position = from;
 
             // TODO: Prevent infinite loops.
 
@@ -85,18 +97,25 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             {
                 while (position <= till)
                 {
+#if ASSERT_INVAR_INDICES
+                    OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
 #if !USE_INVAR_INDICES
                     _dimensionStack.Set(position);
 #else
                     _dimensionStack.Set(_dimensionStackIndex, position);
 #endif
-                    double newValue = _signalCalculator.Calculate();
-                    bool mustOverwrite = MustOverwrite(currentValue, newValue);
+                    double item = _signalCalculator.Calculate();
+
+                    #region ProcessSample
+                    bool mustOverwrite = MustOverwrite(currentValue, item);
                     if (mustOverwrite)
                     {
-                        currentValue = newValue;
+                        currentValue = item;
                     }
-                    position += step;
+                    #endregion ProcessSample
+
+                    position += _step;
                 }
             }
             else
@@ -104,22 +123,38 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 // Is backwards
                 while (position >= till)
                 {
+#if ASSERT_INVAR_INDICES
+                    OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
 #if !USE_INVAR_INDICES
                     _dimensionStack.Set(position);
 #else
                     _dimensionStack.Set(_dimensionStackIndex, position);
 #endif
-                    double newValue = _signalCalculator.Calculate();
-                    bool mustOverwrite = MustOverwrite(currentValue, newValue);
+                    double item = _signalCalculator.Calculate();
+
+                    #region ProcessSample
+                    bool mustOverwrite = MustOverwrite(currentValue, item);
                     if (mustOverwrite)
                     {
-                        currentValue = newValue;
+                        currentValue = item;
                     }
-                    position += step;
+                    #endregion ProcessSample
+
+                    position += _step;
                 }
             }
-
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
+#if !USE_INVAR_INDICES
+            _dimensionStack.Set(originalPosition);
+#else
+            _dimensionStack.Set(_dimensionStackIndex, originalPosition);
+#endif
+            #region FinalizeSampling
             _aggregate = currentValue;
+            #endregion FinalizeSampling
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
