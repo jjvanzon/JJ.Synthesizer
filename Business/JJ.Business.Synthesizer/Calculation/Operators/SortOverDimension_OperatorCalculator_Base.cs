@@ -77,6 +77,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _step = _stepCalculator.Calculate();
 
             double length = till - from;
+            bool isForward = length >= 0.0;
+
+            #region InitializeSampling
 
             double countDouble = length / _step;
 
@@ -93,25 +96,59 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             var items = new double[countInt];
 
+            int i = 0;
+
+            #endregion InitializeSampling
+
             double position = from;
 
-            for (int i = 0; i < countInt; i++)
+            // TODO: Prevent infinite loops.
+
+            if (isForward)
             {
+                while (position <= till)
+                {
 #if ASSERT_INVAR_INDICES
-                OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+                    OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
 #endif
 #if !USE_INVAR_INDICES
-                _dimensionStack.Set(position);
+                    _dimensionStack.Set(position);
 #else
-                _dimensionStack.Set(_dimensionStackIndex, position);
+                    _dimensionStack.Set(_dimensionStackIndex, position);
 #endif
-                double item = _collectionCalculator.Calculate();
-                items[i] = item;
+                    double item = _collectionCalculator.Calculate();
 
-                position += _step;
+                    #region ProcessSample
+                    items[i] = item;
+                    i++;
+                    #endregion ProcessSample
+
+                    position += _step;
+                }
             }
+            else
+            {
+                // Is backwards
+                while (position >= till)
+                {
+#if ASSERT_INVAR_INDICES
+                    OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
+#if !USE_INVAR_INDICES
+                    _dimensionStack.Set(position);
+#else
+                    _dimensionStack.Set(_dimensionStackIndex, position);
+#endif
+                    double item = _collectionCalculator.Calculate();
 
-            Array.Sort(items);
+                    #region ProcessSample
+                    items[i] = item;
+                    i++;
+                    #endregion ProcessSample
+
+                    position += _step;
+                }
+            }
 
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
@@ -121,8 +158,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #else
             _dimensionStack.Set(_dimensionStackIndex, originalPosition);
 #endif
+            #region FinalizeSampling
+            Array.Sort(items);
             _sortedItems = items;
             _countInt = countInt;
+            #endregion FinalizeSampling
 
             return true;
         }

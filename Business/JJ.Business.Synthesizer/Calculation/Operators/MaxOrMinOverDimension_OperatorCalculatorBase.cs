@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal abstract class MinOrMaxOverDimension_OperatorCalculatorBase : OperatorCalculatorBase_WithChildCalculators
+    internal abstract class MaxOrMinOverDimension_OperatorCalculatorBase : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _fromCalculator;
@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private double _aggregate;
 
-        public MinOrMaxOverDimension_OperatorCalculatorBase(
+        public MaxOrMinOverDimension_OperatorCalculatorBase(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase fromCalculator,
             OperatorCalculatorBase tillCalculator,
@@ -78,6 +78,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #endif
             double currentValue = _signalCalculator.Calculate();
             position += step;
+
+            // TODO: Prevent infinite loops.
 
             if (isForward)
             {

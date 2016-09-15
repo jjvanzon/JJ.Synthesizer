@@ -142,7 +142,7 @@
     <Compile Include="Calculation\Operators\SumOverDimension_OperatorCalculator_Base.cs" />
     <Compile Include="Calculation\Operators\AverageOverInlets_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\AverageOverDimension_OperatorCalculator_CollectionRecalculationUponReset.cs" />
-    <Compile Include="Calculation\Operators\MinOrMaxOverDimension_OperatorCalculatorBase.cs" />
+    <Compile Include="Calculation\Operators\MaxOrMinOverDimension_OperatorCalculatorBase.cs" />
     <Compile Include="Calculation\Operators\MinOverInlets OperatorCalculators Classes.cs" />
     <Compile Include="Calculation\Operators\MaxOverInlets OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\RangeOverDimension OperatorCalculator Classes.cs" />

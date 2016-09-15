@@ -75,30 +75,33 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double length = till - from;
             bool isForward = length >= 0.0;
 
+            #region InitializeSampling
+
+            double sum = 0.0;
+
+            #endregion InitializeSampling
+
             double position = from;
 
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
-#endif
-#if !USE_INVAR_INDICES
-            _dimensionStack.Set(position);
-#else
-            _dimensionStack.Set(_dimensionStackIndex, position);
-#endif
-            double sum = _signalCalculator.Calculate();
-            position += _step;
+            // TODO: Prevent infinite loops.
 
             if (isForward)
             {
                 while (position <= till)
                 {
+#if ASSERT_INVAR_INDICES
+                    OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
 #if !USE_INVAR_INDICES
                     _dimensionStack.Set(position);
 #else
                     _dimensionStack.Set(_dimensionStackIndex, position);
 #endif
-                    double newValue = _signalCalculator.Calculate();
-                    sum += newValue;
+                    double item = _signalCalculator.Calculate();
+
+                    #region ProcessSample
+                    sum += item;
+                    #endregion ProcessSample
 
                     position += _step;
                 }
@@ -108,13 +111,19 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 // Is backwards
                 while (position >= till)
                 {
+#if ASSERT_INVAR_INDICES
+                    OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
+#endif
 #if !USE_INVAR_INDICES
                     _dimensionStack.Set(position);
 #else
                     _dimensionStack.Set(_dimensionStackIndex, position);
 #endif
-                    double newValue = _signalCalculator.Calculate();
-                    sum += newValue;
+                    double item = _signalCalculator.Calculate();
+
+                    #region ProcessSample
+                    sum += item;
+                    #endregion ProcessSample
 
                     position += _step;
                 }
@@ -128,7 +137,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #else
             _dimensionStack.Set(_dimensionStackIndex, originalPosition);
 #endif
+            #region FinalizeSampling
             _aggregate = sum;
+            #endregion FinalizeSampling
         }
     }
 }
