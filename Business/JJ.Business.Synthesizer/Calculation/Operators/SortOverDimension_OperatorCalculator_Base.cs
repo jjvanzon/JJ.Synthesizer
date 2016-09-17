@@ -25,19 +25,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected override void ProcessFirstSample(double sample)
         {
-            InitializeSampling();
-            ProcessSample(sample);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected override void ProcessNextSample(double sample)
-        {
-            ProcessSample(sample);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void InitializeSampling()
-        {
             double countDouble = _length / _step;
 
             // 0-3 has length 3 in doubles, but length 4 in integers.
@@ -54,13 +41,21 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             }
 
             _samples = new double[_count];
+            _samples[0] = sample;
             _i = 0;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void ProcessSample(double sample)
+        protected override void ProcessNextSample(double sample)
         {
-            _samples[_i] = sample;
+            // Prevent crash:
+            // base class works with while loop with floating point imprecision,
+            // which does not agree with exact integer amounts.
+            if (_i < _count)
+            {
+                _samples[_i] = sample;
+            }
+
             _i++;
         }
 

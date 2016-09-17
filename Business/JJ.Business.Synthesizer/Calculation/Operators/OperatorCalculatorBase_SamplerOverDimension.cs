@@ -101,9 +101,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             ProcessFirstSample(sample);
 
-            position += _step;
+            // Prevent infinite loop.
+            if (_step == 0.0)
+            {
+                return;
+            }
 
-            // TODO: Prevent infinite loops.
+            position += _step;
 
             if (isForward)
             {
