@@ -7,180 +7,67 @@ using JJ.Business.Synthesizer.Helpers;
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal abstract class SortOverDimension_OperatorCalculator_Base
-        : OperatorCalculatorBase_WithChildCalculators
+        : OperatorCalculatorBase_SamplerOverDimension
     {
-        private readonly OperatorCalculatorBase _collectionCalculator;
-        private readonly OperatorCalculatorBase _fromCalculator;
-        private readonly OperatorCalculatorBase _tillCalculator;
-        private readonly OperatorCalculatorBase _stepCalculator;
-        protected readonly DimensionStack _dimensionStack;
-
-        protected readonly int _dimensionStackIndex;
-
-        protected double _step;
-        protected double[] _sortedItems;
-        protected int _countInt;
+        private int _i;
+        protected int _count;
+        protected double[] _samples;
 
         public SortOverDimension_OperatorCalculator_Base(
-            OperatorCalculatorBase signalCalculator,
+            OperatorCalculatorBase collectionCalculator,
             OperatorCalculatorBase fromCalculator,
             OperatorCalculatorBase tillCalculator,
             OperatorCalculatorBase stepCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[]
-            {
-                signalCalculator,
-                fromCalculator,
-                tillCalculator,
-                stepCalculator
-            })
-        {
-            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
-
-            _collectionCalculator = signalCalculator;
-            _fromCalculator = fromCalculator;
-            _tillCalculator = tillCalculator;
-            _stepCalculator = stepCalculator;
-            _dimensionStack = dimensionStack;
-            _dimensionStackIndex = dimensionStack.CurrentIndex;
-
-            ResetNonRecursive();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public sealed override void Reset()
-        {
-            base.Reset();
-
-            ResetNonRecursive();
-        }
-
-        /// <summary> does nothing </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual void ResetNonRecursive()
+            : base(collectionCalculator, fromCalculator, tillCalculator, stepCalculator, dimensionStack)
         { }
 
-        /// <summary> Returns false if some of the input was invalid. (NaN, negative count, etc.) </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual bool RecalculateCollection()
+        protected override void ProcessFirstSample(double sample)
         {
-#if !USE_INVAR_INDICES
-            double originalPosition = _dimensionStack.Get();
-#else
-            double originalPosition = _dimensionStack.Get(_dimensionStackIndex);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
-#endif
-            double from = _fromCalculator.Calculate();
-            double till = _tillCalculator.Calculate();
-            _step = _stepCalculator.Calculate();
+            InitializeSampling();
+            ProcessSample(sample);
+        }
 
-            double length = till - from;
-            bool isForward = length >= 0.0;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected override void ProcessNextSample(double sample)
+        {
+            ProcessSample(sample);
+        }
 
-            #region InitializeSampling
-
-            double countDouble = length / _step;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void InitializeSampling()
+        {
+            double countDouble = _length / _step;
 
             // 0-3 has length 3 in doubles, but length 4 in integers.
             // But adding 1 works for non-integer double values too.
             countDouble += 1;
 
-            if (!ConversionHelper.CanCastToNonNegativeInt32(countDouble))
+            if (ConversionHelper.CanCastToNonNegativeInt32(countDouble))
             {
-                _sortedItems = new double[0];
-                return false;
-            }
-            int countInt = (int)countDouble;
-
-            var items = new double[countInt];
-
-            int i = 0;
-
-            #endregion InitializeSampling
-
-            double position = from;
-
-#if ASSERT_INVAR_INDICES
-             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
-#endif
-#if !USE_INVAR_INDICES
-            _dimensionStack.Set(position);
-#else
-            _dimensionStack.Set(_dimensionStackIndex, position);
-#endif
-            double item = _collectionCalculator.Calculate();
-
-            #region ProcessFirstSample
-            items[i] = item;
-            i++;
-            #endregion ProcessFirstSample
-
-            position += _step;
-
-            // TODO: Prevent infinite loops.
-
-            if (isForward)
-            {
-                while (position <= till)
-                {
-#if ASSERT_INVAR_INDICES
-                    OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
-#endif
-#if !USE_INVAR_INDICES
-                    _dimensionStack.Set(position);
-#else
-                    _dimensionStack.Set(_dimensionStackIndex, position);
-#endif
-                    item = _collectionCalculator.Calculate();
-
-                    #region ProcessNextSample
-                    items[i] = item;
-                    i++;
-                    #endregion ProcessNextSample
-
-                    position += _step;
-                }
+                _count = (int)countDouble;
             }
             else
             {
-                // Is backwards
-                while (position >= till)
-                {
-#if ASSERT_INVAR_INDICES
-                    OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
-#endif
-#if !USE_INVAR_INDICES
-                    _dimensionStack.Set(position);
-#else
-                    _dimensionStack.Set(_dimensionStackIndex, position);
-#endif
-                    item = _collectionCalculator.Calculate();
-
-                    #region ProcessNextSample
-                    items[i] = item;
-                    i++;
-                    #endregion ProcessNextSample
-
-                    position += _step;
-                }
+                _count = 0;
             }
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
-#endif
-#if !USE_INVAR_INDICES
-            _dimensionStack.Set(originalPosition);
-#else
-            _dimensionStack.Set(_dimensionStackIndex, originalPosition);
-#endif
-            #region FinalizeSampling
-            Array.Sort(items);
-            _sortedItems = items;
-            _countInt = countInt;
-            #endregion FinalizeSampling
 
-            return true;
+            _samples = new double[_count];
+            _i = 0;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void ProcessSample(double sample)
+        {
+            _samples[_i] = sample;
+            _i++;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected override void FinalizeSampling()
+        {
+            Array.Sort(_samples);
         }
     }
 }

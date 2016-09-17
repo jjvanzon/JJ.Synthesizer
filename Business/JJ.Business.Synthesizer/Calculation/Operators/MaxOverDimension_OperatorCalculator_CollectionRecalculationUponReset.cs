@@ -5,8 +5,11 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class MaxOverDimension_OperatorCalculator_CollectionRecalculationUponReset : MaxOrMinOverDimension_OperatorCalculatorBase
+    internal class MaxOverDimension_OperatorCalculator_CollectionRecalculationUponReset
+        : OperatorCalculatorBase_SamplerOverDimension
     {
+        private double _aggregate;
+
         public MaxOverDimension_OperatorCalculator_CollectionRecalculationUponReset(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase fromCalculator,
@@ -19,13 +22,29 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected override void ResetNonRecursive()
         {
-            RecalculateAggregate();
+            RecalculateCollection();
+        }
+
+        /// <summary> Just returns _aggregate. </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override double Calculate()
+        {
+            return _aggregate;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected override bool MustOverwrite(double currentValue, double newValue)
+        protected override void ProcessFirstSample(double sample)
         {
-            return newValue > currentValue;
+            _aggregate = sample;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected override void ProcessNextSample(double sample)
+        {
+            if (sample > _aggregate)
+            {
+                _aggregate = sample;
+            }
         }
     }
 }

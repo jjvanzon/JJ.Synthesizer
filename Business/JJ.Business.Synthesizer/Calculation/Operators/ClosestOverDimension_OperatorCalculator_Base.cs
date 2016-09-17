@@ -23,12 +23,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase tillCalculator,
             OperatorCalculatorBase stepCalculator,
             DimensionStack dimensionStack)
-            : base(
-                collectionCalculator,
-                fromCalculator,
-                tillCalculator,
-                stepCalculator,
-                dimensionStack)
+            : base(collectionCalculator, fromCalculator, tillCalculator, stepCalculator, dimensionStack)
         {
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
@@ -48,7 +43,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double valueAfter;
 
             CollectionHelper.BinarySearchInexact(
-                _sortedItems,
+                _samples,
                 _halfCount,
                 _min,
                 _max,
@@ -70,14 +65,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected override bool RecalculateCollection()
+        protected override void RecalculateCollection()
         {
-            bool success = base.RecalculateCollection();
-            if (success)
+            base.RecalculateCollection();
+
+            if (_count != 0)
             {
-                _min = _sortedItems[0];
-                _max = _sortedItems[_countInt - 1];
-                _halfCount = _countInt >> 1;
+                _min = _samples[0];
+                _max = _samples[_count - 1];
+                _halfCount = _count >> 1;
             }
             else
             {
@@ -85,8 +81,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 _max = 0;
                 _halfCount = 0;
             }
-
-            return success;
         }
     }
 }

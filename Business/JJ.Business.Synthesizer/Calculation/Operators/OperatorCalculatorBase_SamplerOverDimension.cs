@@ -5,29 +5,36 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal abstract class MaxOrMinOverDimension_OperatorCalculatorBase : OperatorCalculatorBase_WithChildCalculators
+    internal abstract class OperatorCalculatorBase_SamplerOverDimension
+        : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly OperatorCalculatorBase _signalCalculator;
-        private readonly OperatorCalculatorBase _fromCalculator;
-        private readonly OperatorCalculatorBase _tillCalculator;
-        private readonly OperatorCalculatorBase _stepCalculator;
-        private readonly DimensionStack _dimensionStack;
-        private readonly int _dimensionStackIndex;
+        protected readonly OperatorCalculatorBase _collectionCalculator;
+        protected readonly OperatorCalculatorBase _fromCalculator;
+        protected readonly OperatorCalculatorBase _tillCalculator;
+        protected readonly OperatorCalculatorBase _stepCalculator;
+        protected readonly DimensionStack _dimensionStack;
+        protected readonly int _dimensionStackIndex;
 
         protected double _step;
-        private double _aggregate;
+        protected double _length;
 
-        public MaxOrMinOverDimension_OperatorCalculatorBase(
-            OperatorCalculatorBase signalCalculator,
+        public OperatorCalculatorBase_SamplerOverDimension(
+            OperatorCalculatorBase collectionCalculator,
             OperatorCalculatorBase fromCalculator,
             OperatorCalculatorBase tillCalculator,
             OperatorCalculatorBase stepCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] { signalCalculator, fromCalculator, tillCalculator, stepCalculator })
+            : base(new OperatorCalculatorBase[]
+            {
+                collectionCalculator,
+                fromCalculator,
+                tillCalculator,
+                stepCalculator
+            })
         {
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
-            _signalCalculator = signalCalculator;
+            _collectionCalculator = collectionCalculator;
             _fromCalculator = fromCalculator;
             _tillCalculator = tillCalculator;
             _stepCalculator = stepCalculator;
@@ -35,13 +42,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionStackIndex = dimensionStack.CurrentIndex;
 
             ResetNonRecursive();
-        }
-
-        /// <summary> Just returns _aggregate. </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate()
-        {
-            return _aggregate;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -52,13 +52,25 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             ResetNonRecursive();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual void ProcessFirstSample(double sample)
+        { }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual void ProcessNextSample(double sample)
+        { }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual void FinalizeSampling()
+        { }
+
         /// <summary> does nothing </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual void ResetNonRecursive()
         { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected void RecalculateAggregate()
+        protected virtual void RecalculateCollection()
         {
 #if !USE_INVAR_INDICES
             double originalPosition = _dimensionStack.Get();
@@ -72,11 +84,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double till = _tillCalculator.Calculate();
             _step = _stepCalculator.Calculate();
 
-            double length = till - from;
-            bool isForward = length > 0.0;
-
-            #region InitializeSampling
-            #endregion InitializeSampling
+            _length = till - from;
+            bool isForward = _length >= 0.0;
 
             double position = from;
 
@@ -88,11 +97,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #else
             _dimensionStack.Set(_dimensionStackIndex, position);
 #endif
-            double item = _signalCalculator.Calculate();
+            double sample = _collectionCalculator.Calculate();
 
-            #region ProcessFirstSample
-            _aggregate = item;
-            #endregion ProcessFirstSample
+            ProcessFirstSample(sample);
 
             position += _step;
 
@@ -110,15 +117,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #else
                     _dimensionStack.Set(_dimensionStackIndex, position);
 #endif
-                    item = _signalCalculator.Calculate();
+                    sample = _collectionCalculator.Calculate();
 
-                    #region ProcessSample
-                    bool mustOverwrite = MustOverwrite(item, item);
-                    if (mustOverwrite)
-                    {
-                        item = item;
-                    }
-                    #endregion ProcessSample
+                    ProcessNextSample(sample);
 
                     position += _step;
                 }
@@ -136,15 +137,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #else
                     _dimensionStack.Set(_dimensionStackIndex, position);
 #endif
-                    item = _signalCalculator.Calculate();
+                    sample = _collectionCalculator.Calculate();
 
-                    #region ProcessNextSample
-                    bool mustOverwrite = MustOverwrite(item, item);
-                    if (mustOverwrite)
-                    {
-                        item = item;
-                    }
-                    #endregion ProcessNextSample
+                    ProcessNextSample(sample);
 
                     position += _step;
                 }
@@ -157,12 +152,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #else
             _dimensionStack.Set(_dimensionStackIndex, originalPosition);
 #endif
-            #region FinalizeSampling
-            _aggregate = item;
-            #endregion FinalizeSampling
+            FinalizeSampling();
         }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected abstract bool MustOverwrite(double currentValue, double newValue);
     }
 }

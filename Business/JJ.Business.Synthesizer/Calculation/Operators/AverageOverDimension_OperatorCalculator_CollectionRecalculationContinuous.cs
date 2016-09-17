@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class AverageOverDimension_OperatorCalculator_CollectionRecalculationContinuous 
+    internal class AverageOverDimension_OperatorCalculator_CollectionRecalculationContinuous
         : SumOverDimension_OperatorCalculator_CollectionRecalculationContinuous
     {
         public AverageOverDimension_OperatorCalculator_CollectionRecalculationContinuous(
@@ -18,9 +18,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected override void RecalculateAggregate()
+        protected override void RecalculateCollection()
         {
-            base.RecalculateAggregate();
+            base.RecalculateCollection();
 
             _aggregate *= _step;
         }

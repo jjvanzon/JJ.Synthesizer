@@ -9,29 +9,30 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class ClosestOverDimensionExp_OperatorCalculator_Base : ClosestOverDimension_OperatorCalculator_Base
     {
         public ClosestOverDimensionExp_OperatorCalculator_Base(
-            OperatorCalculatorBase inputCalculator, 
-            OperatorCalculatorBase collectionCalculator, 
-            OperatorCalculatorBase fromCalculator, 
-            OperatorCalculatorBase tillCalculator, 
-            OperatorCalculatorBase stepCalculator, 
-            DimensionStack dimensionStack) 
+            OperatorCalculatorBase inputCalculator,
+            OperatorCalculatorBase collectionCalculator,
+            OperatorCalculatorBase fromCalculator,
+            OperatorCalculatorBase tillCalculator,
+            OperatorCalculatorBase stepCalculator,
+            DimensionStack dimensionStack)
             : base(
-                  inputCalculator, 
-                  collectionCalculator, 
-                  fromCalculator, 
-                  tillCalculator, 
-                  stepCalculator, 
+                  inputCalculator,
+                  collectionCalculator,
+                  fromCalculator,
+                  tillCalculator,
+                  stepCalculator,
                   dimensionStack)
         { }
 
-        protected override bool RecalculateCollection()
+        protected override void RecalculateCollection()
         {
-            bool success = base.RecalculateCollection();
-            if (success)
+            base.RecalculateCollection();
+
+            if (_count != 0)
             {
-                for (int i = 0; i < _sortedItems.Length; i++)
+                for (int i = 0; i < _samples.Length; i++)
                 {
-                    _sortedItems[i] = Math.Log(_sortedItems[i]);
+                    _samples[i] = Math.Log(_samples[i]);
                 }
 
                 _min = Math.Log(_min);
@@ -42,8 +43,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 _min = 0.0;
                 _max = 0.0;
             }
-
-            return success;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -57,7 +56,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             // Fields are log'ed already.
             CollectionHelper.BinarySearchInexact(
-                _sortedItems,
+                _samples,
                 _halfCount,
                 _min,
                 _max,

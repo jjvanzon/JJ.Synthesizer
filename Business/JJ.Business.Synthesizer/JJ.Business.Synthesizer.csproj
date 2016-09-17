@@ -111,6 +111,7 @@
     <Compile Include="Calculation\Operators\ClosestOverDimensionExp_OperatorCalculator_CollectionRecalculationUponReset.cs" />
     <Compile Include="Calculation\Operators\AllPassFilter OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\RangeOverOutlets OperatorCalculator Classes.cs" />
+    <Compile Include="Calculation\Operators\OperatorCalculatorBase_SamplerOverDimension.cs" />
     <Compile Include="Calculation\Operators\SortOverInlets_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\SortOverDimension_OperatorCalculator_CollectionRecalculationContinuous.cs" />
     <Compile Include="Calculation\Operators\SortOverDimension_OperatorCalculator_Base.cs" />
@@ -142,7 +143,7 @@
     <Compile Include="Calculation\Operators\SumOverDimension_OperatorCalculator_Base.cs" />
     <Compile Include="Calculation\Operators\AverageOverInlets_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\AverageOverDimension_OperatorCalculator_CollectionRecalculationUponReset.cs" />
-    <Compile Include="Calculation\Operators\MaxOrMinOverDimension_OperatorCalculatorBase.cs" />
+    <Compile Include="Calculation\Operators\2016-09-16 Backup of MaxOrMinOverDimension_OperatorCalculatorBase.cs" />
     <Compile Include="Calculation\Operators\MinOverInlets OperatorCalculators Classes.cs" />
     <Compile Include="Calculation\Operators\MaxOverInlets OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\RangeOverDimension OperatorCalculator Classes.cs" />

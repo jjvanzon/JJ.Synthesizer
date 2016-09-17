@@ -5,22 +5,22 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class ClosestOverDimensionExp_OperatorCalculator_CollectionRecalculationContinuous 
+    internal class ClosestOverDimensionExp_OperatorCalculator_CollectionRecalculationContinuous
         : ClosestOverDimensionExp_OperatorCalculator_Base
     {
         public ClosestOverDimensionExp_OperatorCalculator_CollectionRecalculationContinuous(
-            OperatorCalculatorBase inputCalculator, 
-            OperatorCalculatorBase collectionCalculator, 
-            OperatorCalculatorBase fromCalculator, 
-            OperatorCalculatorBase tillCalculator, 
-            OperatorCalculatorBase stepCalculator, 
-            DimensionStack dimensionStack) 
+            OperatorCalculatorBase inputCalculator,
+            OperatorCalculatorBase collectionCalculator,
+            OperatorCalculatorBase fromCalculator,
+            OperatorCalculatorBase tillCalculator,
+            OperatorCalculatorBase stepCalculator,
+            DimensionStack dimensionStack)
             : base(
                   inputCalculator,
-                  collectionCalculator, 
-                  fromCalculator, 
-                  tillCalculator, 
-                  stepCalculator, 
+                  collectionCalculator,
+                  fromCalculator,
+                  tillCalculator,
+                  stepCalculator,
                   dimensionStack)
         { }
 
