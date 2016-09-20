@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _x0;
         private double _x1;
         private double _x2;
-        private double _dx;
+        private double _dx1;
         private double _yMinus1;
         private double _y0;
         private double _y1;
@@ -58,9 +58,19 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #endif
             // TODO: What if position goes in reverse?
             // TODO: What if _x0 or _x1 are way off? How will it correct itself?
+            // When x goes past _x1 you must shift things.
             double x = position;
             if (x > _x1)
             {
+                // Shift the samples to the left.
+                _xMinus1 = _x0;
+                _x0 = _x1;
+                _x1 = _x2;
+                _yMinus1 = _y0;
+                _y0 = _y1;
+                _y1 = _y2;
+
+                // Determine next sample
 #if !USE_INVAR_INDICES
                 _dimensionStack.Push(_x1);
 #else
@@ -71,43 +81,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #endif
                 double samplingRate = GetSamplingRate();
 
-                _dx = 1.0 / samplingRate;
-                _x1 += _dx;
-
-                // x'es must be equidistant for the interpolation we use.
-                _x0 = _x1 - _dx;
-                _xMinus1 = _x0 - _dx;
-                _x2 = _x1 + _dx;
-
-#if !USE_INVAR_INDICES
-                _dimensionStack.Set(_xMinus1);
-#else
-                _dimensionStack.Set(_nextDimensionStackIndex, _xMinus1);
-#endif
-#if ASSERT_INVAR_INDICES
-                OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
-#endif
-                _yMinus1 = _signalCalculator.Calculate();
-
-#if !USE_INVAR_INDICES
-                _dimensionStack.Set(_x0);
-#else
-                _dimensionStack.Set(_nextDimensionStackIndex, _x0);
-#endif
-#if ASSERT_INVAR_INDICES
-                OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
-#endif
-                _y0 = _signalCalculator.Calculate();
-
-#if !USE_INVAR_INDICES
-                _dimensionStack.Set(_x1);
-#else
-                _dimensionStack.Set(_nextDimensionStackIndex, _x1);
-#endif
-#if ASSERT_INVAR_INDICES
-                OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
-#endif
-                _y1 = _signalCalculator.Calculate();
+                _dx1 = 1.0 / samplingRate;
+                _x2 = _x1 + _dx1;
 
 #if !USE_INVAR_INDICES
                 _dimensionStack.Set(_x2);
@@ -124,7 +99,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #endif
             }
 
-            double t = (x - _x0) / _dx;
+            double t = (x - _x0) / _dx1;
 
             double y = Interpolator.Interpolate_Hermite_4pt3oX(_yMinus1, _y0, _y1, _y2, t);
             return y;
@@ -167,7 +142,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _x0 = position - CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
             _x1 = position;
             _x2 = position + CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
-            _dx = CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
+            _dx1 = CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
 
             // Assume values begin at 0
             _yMinus1 = 0;

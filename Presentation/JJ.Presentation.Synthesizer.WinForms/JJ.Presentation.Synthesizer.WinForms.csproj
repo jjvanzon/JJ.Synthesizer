@@ -367,9 +367,6 @@
     <EmbeddedResource Include="UserControls\AudioFileOutputGridUserControl.resx">
       <DependentUpon>AudioFileOutputGridUserControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\Bases\OperatorPropertiesUserControlBase.resx">
-      <DependentUpon>OperatorPropertiesUserControlBase.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\Bases\PropertiesUserControlBase.resx">
       <DependentUpon>PropertiesUserControlBase.cs</DependentUpon>
     </EmbeddedResource>

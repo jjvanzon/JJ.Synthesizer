@@ -58,9 +58,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #endif
             // TODO: What if position goes in reverse?
             // TODO: What if _x0 or _x1 are way off? How will it correct itself?
-            double x = position;
-
             // When x goes past _x1 you must shift things.
+            double x = position;
             if (x >= _x1)
             {
                 // Shift the samples to the left.
