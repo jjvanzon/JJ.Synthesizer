@@ -6,7 +6,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Interpolate_OperatorCalculator_Hermite : OperatorCalculatorBase_WithChildCalculators
     {
-        private const double MINIMUM_SAMPLING_RATE = 0.01666666666666667; // Once a minute
+        private const double MINIMUM_SAMPLING_RATE = 1.0 / 60.0; // Once a minute
 
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _samplingRateCalculator;
@@ -30,8 +30,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionStack dimensionStack)
             : base(new OperatorCalculatorBase[] { signalCalculator, samplingRateCalculator })
         {
-            if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Number_OperatorCalculator) throw new InvalidTypeException<Number_OperatorCalculator>(() => signalCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
             if (samplingRateCalculator == null) throw new NullException(() => samplingRateCalculator);
             // TODO: Interpolate with constant sampling rate does not have specialized calculators yet. Reactivate code line after those specialized calculators have been programmed.
             //if (samplingRateCalculator is Number_OperatorCalculator) throw new IsNotTypeException<Number_OperatorCalculator>(() => samplingRateCalculator);
@@ -137,7 +136,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
 #endif
-            // The following assignment is not even relevant in this class.
             _xMinus1 = CalculationHelper.VERY_LOW_VALUE;
             _x0 = position - CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
             _x1 = position;

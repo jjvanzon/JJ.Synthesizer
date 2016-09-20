@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     /// </summary>
     internal class Interpolate_OperatorCalculator_CubicEquidistant : OperatorCalculatorBase_WithChildCalculators
     {
-        private const double MINIMUM_SAMPLING_RATE = 0.01666666666666667; // Once a minute
+        private const double MINIMUM_SAMPLING_RATE = 1.0 / 60.0; // Once a minute
 
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _samplingRateCalculator;
@@ -18,15 +18,21 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly int _nextDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
 
+        private double _xMinus1;
+        private double _x0;
+        private double _x1;
+        private double _x2;
+        private double _dx1;
+        private double _yMinus1;
+        private double _y0;
+        private double _y1;
+        private double _y2;
+
         public Interpolate_OperatorCalculator_CubicEquidistant(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase samplingRateCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[]
-            {
-                signalCalculator,
-                samplingRateCalculator
-            })
+            : base(new OperatorCalculatorBase[] { signalCalculator, samplingRateCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
             if (samplingRateCalculator == null) throw new NullException(() => samplingRateCalculator);
@@ -39,16 +45,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionStack = dimensionStack;
             _previousDimensionStackIndex = dimensionStack.CurrentIndex;
             _nextDimensionStackIndex = dimensionStack.CurrentIndex + 1;
-        }
 
-        // TODO: These are meaningless defaults.
-        private double _x0 = 0.0;
-        private double _x1 = 0.2;
-        private double _dx = 0.2;
-        private double _yMinus1 = 0.0;
-        private double _y0 = 0.0;
-        private double _y1 = 12000.0;
-        private double _y2 = -24000.0;
+            ResetNonRecursive();
+        }
 
         public override double Calculate()
         {
@@ -62,10 +61,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #endif
             // TODO: What if position goes in reverse?
             // TODO: What if _x0 or _x1 are way off? How will it correct itself?
+            // When x goes past _x1 you must shift things.
             double x = position;
-
             if (x > _x1)
             {
+                // Shift the samples to the left.
+                _xMinus1 = _x0;
+                _x0 = _x1;
+                _x1 = _x2;
+                _yMinus1 = _y0;
+                _y0 = _y1;
+                _y1 = _y2;
+
 #if !USE_INVAR_INDICES
                 _dimensionStack.Push(_x1);
 #else
@@ -76,47 +83,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #endif
                 double samplingRate = GetSamplingRate();
 
-                _dx = 1.0 / samplingRate;
-                _x1 += _dx;
-
-                // x'es must be equidistant for the interpolation we use.
-                _x0 = _x1 - _dx;
-                double xMinus1 = _x0 - _dx;
-                double x2 = _x1 + _dx;
+                _dx1 = 1.0 / samplingRate;
+                _x2 = _x1 + _dx1;
 
 #if !USE_INVAR_INDICES
-                _dimensionStack.Set(xMinus1);
-#else
-                _dimensionStack.Set(_nextDimensionStackIndex, xMinus1);
-#endif
-#if ASSERT_INVAR_INDICES
-                OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
-#endif
-                _yMinus1 = _signalCalculator.Calculate();
-
-#if !USE_INVAR_INDICES
-                _dimensionStack.Set(_x0);
-#else
-                _dimensionStack.Set(_nextDimensionStackIndex, _x0);
-#endif
-#if ASSERT_INVAR_INDICES
-                OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
-#endif
-
-                _y0 = _signalCalculator.Calculate();
-
-#if !USE_INVAR_INDICES
-                _dimensionStack.Set(_x1);
-#else
-                _dimensionStack.Set(_nextDimensionStackIndex, _x1);
-#endif
-#if ASSERT_INVAR_INDICES
-                OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
-#endif
-                _y1 = _signalCalculator.Calculate();
-
-#if !USE_INVAR_INDICES
-                _dimensionStack.Set(x2);
+                _dimensionStack.Set(_x2);
 #else
                 _dimensionStack.Set(_nextDimensionStackIndex, x2);
 #endif
@@ -130,7 +101,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #endif
             }
 
-            double t = (x - _x0) / _dx;
+            double t = (x - _x0) / _dx1;
 
             double y = Interpolator.Interpolate_Cubic_Equidistant(_yMinus1, _y0, _y1, _y2, t);
             return y;
@@ -149,6 +120,36 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             }
 
             return samplingRate;
+        }
+
+        public override void Reset()
+        {
+            base.Reset();
+
+            ResetNonRecursive();
+        }
+
+        private void ResetNonRecursive()
+        {
+#if !USE_INVAR_INDICES
+            double position = _dimensionStack.Get();
+#else
+            double position = _dimensionStack.Get(_previousDimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
+#endif
+            _xMinus1 = CalculationHelper.VERY_LOW_VALUE;
+            _x0 = position - CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
+            _x1 = position;
+            _x2 = position + CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
+            _dx1 = CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
+
+            // Assume values begin at 0
+            _yMinus1 = 0;
+            _y0 = 0;
+            _y1 = 0;
+            _y2 = 0;
         }
     }
 }
