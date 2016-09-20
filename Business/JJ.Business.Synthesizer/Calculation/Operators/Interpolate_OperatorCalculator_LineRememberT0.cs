@@ -54,7 +54,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
 #endif
-
             double samplingRate = _samplingRateCalculator.Calculate();
             if (samplingRate == 0)
             {
@@ -76,13 +75,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
                 OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
 #endif
-
                 _y0 = _signalCalculator.Calculate();
+
 #if !USE_INVAR_INDICES
                 _dimensionStack.Pop();
 #endif
                 x1 = _x0 + dx;
             }
+
 #if !USE_INVAR_INDICES
             _dimensionStack.Push(x1);
 #else
@@ -91,8 +91,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
 #endif
-
             double y1 = _signalCalculator.Calculate();
+
 #if !USE_INVAR_INDICES
             _dimensionStack.Pop();
 #endif

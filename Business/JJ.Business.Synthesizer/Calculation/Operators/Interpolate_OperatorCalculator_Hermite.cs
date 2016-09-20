@@ -56,7 +56,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
 #endif
-
             // TODO: What if position goes in reverse?
             // TODO: What if _x0 or _x1 are way off? How will it correct itself?
             double x = position;
@@ -70,12 +69,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
                 OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
 #endif
-
                 double samplingRate = GetSamplingRate();
 
-#if !USE_INVAR_INDICES
-                _dimensionStack.Pop();
-#endif
                 _dx = 1.0 / samplingRate;
                 _x1 += _dx;
 
@@ -85,14 +80,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 _x2 = _x1 + _dx;
 
 #if !USE_INVAR_INDICES
-                _dimensionStack.Push(_xMinus1);
+                _dimensionStack.Set(_xMinus1);
 #else
                 _dimensionStack.Set(_nextDimensionStackIndex, _xMinus1);
 #endif
 #if ASSERT_INVAR_INDICES
                 OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
 #endif
-
                 _yMinus1 = _signalCalculator.Calculate();
 
 #if !USE_INVAR_INDICES
@@ -103,7 +97,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
                 OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
 #endif
-
                 _y0 = _signalCalculator.Calculate();
 
 #if !USE_INVAR_INDICES
@@ -114,7 +107,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
                 OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
 #endif
-
                 _y1 = _signalCalculator.Calculate();
 
 #if !USE_INVAR_INDICES
@@ -125,7 +117,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
                 OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
 #endif
-
                 _y2 = _signalCalculator.Calculate();
 
 #if !USE_INVAR_INDICES
@@ -171,7 +162,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
 #endif
-
+            // The following assignment is not even relevant in this class.
             _xMinus1 = CalculationHelper.VERY_LOW_VALUE;
             _x0 = position - CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
             _x1 = position;

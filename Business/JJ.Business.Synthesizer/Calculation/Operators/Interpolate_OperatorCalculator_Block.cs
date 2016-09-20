@@ -57,7 +57,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
 #endif
-
             double offset = position - _position0;
             double sampleCount = offset * samplingRate;
             sampleCount = Math.Truncate(sampleCount);
@@ -74,7 +73,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
                 OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
 #endif
-
                 _value0 = _signalCalculator.Calculate();
 
 #if !USE_INVAR_INDICES

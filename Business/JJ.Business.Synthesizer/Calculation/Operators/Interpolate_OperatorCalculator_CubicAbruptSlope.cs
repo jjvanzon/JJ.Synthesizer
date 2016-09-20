@@ -66,8 +66,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
 #endif
-
+            // TODO: What if position goes in reverse?
+            // TODO: What if _x0 or _x1 are way off? How will it correct itself?
             double x = position;
+
+            // When x goes past _x1 you must shift things.
             if (x > _x1)
             {
                 _x0 = _x1;

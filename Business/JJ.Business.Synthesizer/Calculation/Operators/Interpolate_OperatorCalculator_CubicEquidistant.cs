@@ -60,8 +60,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
 #endif
-
+            // TODO: What if position goes in reverse?
+            // TODO: What if _x0 or _x1 are way off? How will it correct itself?
             double x = position;
+
             if (x > _x1)
             {
 #if !USE_INVAR_INDICES
@@ -72,7 +74,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
                 OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
 #endif
-
                 double samplingRate = GetSamplingRate();
 
                 _dx = 1.0 / samplingRate;
@@ -91,7 +92,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
                 OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
 #endif
-
                 _yMinus1 = _signalCalculator.Calculate();
 
 #if !USE_INVAR_INDICES
@@ -113,7 +113,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
                 OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
 #endif
-
                 _y1 = _signalCalculator.Calculate();
 
 #if !USE_INVAR_INDICES
@@ -124,7 +123,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
                 OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
 #endif
-
                 _y2 = _signalCalculator.Calculate();
 
 #if !USE_INVAR_INDICES

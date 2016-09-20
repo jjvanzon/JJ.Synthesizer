@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
-        private double _sampleLength;
+        private double _sampleDistance;
         protected double _sampleCountDouble;
 
         private Queue<double> _queue;
@@ -61,7 +61,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
 #endif
-
             // Update _passedSamplingLength
             double positionChange = position - _previousPosition;
             if (positionChange >= 0)
@@ -75,7 +74,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 _passedSamplingLength -= positionChange;
             }
 
-            if (_passedSamplingLength >= _sampleLength)
+            if (_passedSamplingLength >= _sampleDistance)
             {
                 // Use a queueing trick to update the average without traversing a whole list.
                 // This also makes the average update more continually.
@@ -142,7 +141,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 _sampleCountDouble = 0.0;
             }
 
-            _sampleLength = sliceLength / _sampleCountDouble;
+            _sampleDistance = sliceLength / _sampleCountDouble;
 
             _queue = CreateQueue(_sampleCountDouble);
         }
