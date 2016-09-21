@@ -78,9 +78,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
                 OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
 #endif
-                double samplingRate = GetSamplingRate();
+                double samplingRate1 = GetSamplingRate();
 
-                _dx1 = 1.0 / samplingRate;
+                _dx1 = 1.0 / samplingRate1;
                 _x2 = _x1 + _dx1;
 
 #if !USE_INVAR_INDICES

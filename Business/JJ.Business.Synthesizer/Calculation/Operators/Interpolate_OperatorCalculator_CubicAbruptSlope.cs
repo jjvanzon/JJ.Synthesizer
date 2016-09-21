@@ -18,6 +18,20 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly int _nextDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
 
+        // HACK: These defaults are hacks that are meaningless in practice.
+        private double _x0 = 0;
+        private double _x1 = 0.2;
+        private double _x2 = 0.4;
+
+        private double _y0 = 0;
+        private double _y1 = 12000.0 / Int16.MaxValue;
+        private double _y2 = -24000.0 / Int16.MaxValue;
+
+        private double _dx0 = 0.2;
+        private double _dx1 = 0.2;
+        private double _a0;
+        private double _a1;
+
         public Interpolate_OperatorCalculator_CubicAbruptSlope(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase samplingRateCalculator,
@@ -40,21 +54,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionStack = dimensionStack;
             _previousDimensionStackIndex = dimensionStack.CurrentIndex;
             _nextDimensionStackIndex = dimensionStack.CurrentIndex + 1;
+
+            ResetNonRecursive();
         }
-
-        // HACK: These defaults are hacks that are meaningless in practice.
-        private double _x0 = 0;
-        private double _x1 = 0.2;
-        private double _x2 = 0.4;
-
-        private double _y0 = 0;
-        private double _y1 = 12000;
-        private double _y2 = -24000;
-
-        private double _dx0 = 0.2;
-        private double _dx1 = 0.2;
-        private double _a0;
-        private double _a1;
 
         public override double Calculate()
         {
@@ -68,9 +70,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #endif
             // TODO: What if position goes in reverse?
             // TODO: What if _x0 or _x1 are way off? How will it correct itself?
-            double x = position;
-
             // When x goes past _x1 you must shift things.
+            double x = position;
             if (x > _x1)
             {
                 _x0 = _x1;
@@ -90,9 +91,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
                 OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
 #endif
-
                 double samplingRate1 = GetSamplingRate();
-                // TODO: Handle SamplingRate 0.
 
                 _dx1 = 1.0 / samplingRate1;
                 _x2 += _dx1;
@@ -105,28 +104,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
                 OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
 #endif
-
                 _y2 = _signalCalculator.Calculate();
 
 #if !USE_INVAR_INDICES
                 _dimensionStack.Pop();
 #endif
-
                 _a1 = (_y2 - _y0) / (_x2 - _x0);
-
-                if (Double.IsNaN(_a1))
-                {
-                    _a1 = 0;
-                }
             }
 
-            // TODO: What if _t1 exceeds _t2 already? What happens then?
+            // TODO: What if _x1 exceeds _x2 already? What happens then?
             double dx = x - _x0;
             double t = 0;
-            if (_dx0 != 0)
-            {
-                t = dx / _dx0;
-            }
+            t = dx / _dx0;
 
             // TODO: Figure out how to prevent t from becoming out of range.
             if (t > 1.0)
@@ -158,6 +147,39 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             }
 
             return samplingRate;
+        }
+
+        public override void Reset()
+        {
+            base.Reset();
+
+            ResetNonRecursive();
+        }
+
+        private void ResetNonRecursive()
+        {
+#if !USE_INVAR_INDICES
+            double position = _dimensionStack.Get();
+#else
+            double position = _dimensionStack.Get(_previousDimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
+#endif
+            _x0 = position - CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
+            _x1 = position;
+            _x2 = position + CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
+
+            // Assume values begin at 0
+            _y0 = 0.0;
+            _y1 = 0.0;
+            _y2 = 0.0;
+
+            _dx0 = CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
+            _dx1 = CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
+
+            _a0 = 0.0;
+            _a1 = 0.0;
         }
     }
 }
