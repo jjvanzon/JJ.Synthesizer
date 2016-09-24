@@ -95,6 +95,7 @@
     <Content Include="2015-10-26 010 SynthesizerDB Operator Type 25 - Loop.sql" />
     <Content Include="2015-11-07 030 SynthesizerDB rename OperatorType TimeSubtract to Earlier - Copy.sql" />
     <Content Include="2016-06-23 040 SynthesizerDB RUN UTILITY.sql" />
+    <Content Include="2016-09-24 020 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2016-09-24 010 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2016-09-11 010 SynthesizerDB OperatorType 91 - RangeOverOutlets.sql" />
     <Content Include="2016-07-02 080 SynthesizerDB OperatorType delete record 59 - Filter.sql" />

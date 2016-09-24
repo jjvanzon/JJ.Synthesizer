@@ -2313,7 +2313,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
         // Helpers
 
-        public static void Migrate_ResampleInterpolationType_LineRememberX0_To_LineRememberX1(Action<string> progressCallback)
+        public static void Migrate_ResampleInterpolationType_LineRememberT0_To_LineRememberT1(Action<string> progressCallback)
         {
             if (progressCallback == null) throw new NullException(() => progressCallback);
 
@@ -2335,7 +2335,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
                     if (String.Equals(interpolationType, "LineRememberT0"))
                     {
-                        DataPropertyParser.SetValue(op, PropertyNames.InterpolationType, ResampleInterpolationTypeEnum.LineRememberT1);
+                        DataPropertyParser.SetValue(op, PropertyNames.InterpolationType, "LineRememberT1");
                     }
 
                     string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
@@ -2351,6 +2351,43 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
         }
 
+        public static void Migrate_ResampleInterpolationType_Rename_LineRememberT1_To_Line(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                var patchManager = new PatchManager(new PatchRepositories(repositories));
+
+                IList<Operator> operators = repositories.OperatorRepository.GetAll();
+
+                for (int i = 0; i < operators.Count; i++)
+                {
+                    Operator op = operators[i];
+
+                    string interpolationType = DataPropertyParser.TryGetString(op, PropertyNames.InterpolationType);
+
+                    if (String.Equals(interpolationType, "LineRememberT1"))
+                    {
+                        DataPropertyParser.SetValue(op, PropertyNames.InterpolationType, "Line");
+                    }
+
+                    string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
+                    progressCallback(progressMessage);
+                }
+
+                AssertDocuments(repositories, progressCallback);
+
+                //throw new Exception("Temporarily not committing, for debugging.");
+                context.Commit();
+            }
+
+            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        }
 
         private static void AssertDocuments(RepositoryWrapper repositories, Action<string> progressCallback)
         {

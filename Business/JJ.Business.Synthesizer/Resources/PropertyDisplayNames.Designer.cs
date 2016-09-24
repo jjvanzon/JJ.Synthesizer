@@ -1024,15 +1024,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Line Remember T1.
-        /// </summary>
-        public static string LineRememberT1 {
-            get {
-                return ResourceManager.GetString("LineRememberT1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Number (when we start counting at 0).
         /// </summary>
         public static string ListIndex {

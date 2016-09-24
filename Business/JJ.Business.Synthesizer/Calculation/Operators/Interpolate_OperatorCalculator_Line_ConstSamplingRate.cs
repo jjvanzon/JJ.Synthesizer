@@ -4,7 +4,7 @@ using JJ.Framework.Reflection.Exceptions;
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     /// <summary> Not used. </summary>
-    internal class Interpolate_OperatorCalculator_LineWithConstSamplingRate : OperatorCalculatorBase_WithChildCalculators
+    internal class Interpolate_OperatorCalculator_Line_ConstSamplingRate : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _sampleLength;
@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly int _nextDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
 
-        public Interpolate_OperatorCalculator_LineWithConstSamplingRate(
+        public Interpolate_OperatorCalculator_Line_ConstSamplingRate(
             OperatorCalculatorBase signalCalculator,
             double samplingRate,
             DimensionStack dimensionStack)
