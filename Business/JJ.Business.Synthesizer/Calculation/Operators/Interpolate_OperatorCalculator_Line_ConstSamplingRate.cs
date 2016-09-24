@@ -11,6 +11,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly int _nextDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
         private readonly double _dx;
+
         private double _x0;
         private double _x1;
         private double _y0;
@@ -26,15 +27,17 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 signalCalculator
             })
         {
-            if (signalCalculator == null) throw new NullException(() => signalCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
             if (samplingRate <= 0) throw new LessThanOrEqualException(() => samplingRate, 0);
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _signalCalculator = signalCalculator;
             _dimensionStack = dimensionStack;
             _previousDimensionStackIndex = dimensionStack.CurrentIndex;
             _nextDimensionStackIndex = dimensionStack.CurrentIndex + 1;
             _dx = 1.0 / samplingRate;
+
+            ResetNonRecursive();
         }
 
         public override double Calculate()
@@ -96,6 +99,33 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double y = _y0 + _a * (x - _x0);
 
             return y;
+        }
+
+        public override void Reset()
+        {
+            base.Reset();
+
+            ResetNonRecursive();
+        }
+
+        private void ResetNonRecursive()
+        {
+#if !USE_INVAR_INDICES
+            double position = _dimensionStack.Get();
+#else
+            double position = _dimensionStack.Get(_previousDimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
+#endif
+            _x0 = position - CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
+            _x1 = position;
+
+            // Assume values begin at 0
+            _y0 = 0.0;
+            _y1 = 0.0;
+
+            _a = 0.0;
         }
     }
 }
