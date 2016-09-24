@@ -45,7 +45,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (samplingRate == 0.0)
             {
                 // Weird number: Cannot divide by 0. Time stands still. Do not advance the signal.
-                return _value0;
+                return _y0;
             }
 
             // Derived from the following:

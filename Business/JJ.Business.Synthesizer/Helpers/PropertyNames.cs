@@ -37,6 +37,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public const string Exponents = "Exponents";
         public const string Factors = "Factors";
         public const string FrequencyCount = "FrequencyCount";
+        public const string HarmonicNumber = "HarmonicNumber";
         public const string ID = "ID";
         public const string Inlet = "Inlet";
         public const string InletCount = "InletCount";

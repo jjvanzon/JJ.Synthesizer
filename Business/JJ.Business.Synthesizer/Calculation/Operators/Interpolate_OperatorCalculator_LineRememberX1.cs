@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     /// A weakness though is, that the sampling rate is remembered until the next sample,
     /// which may work poorly when a very low sampling rate is provided.
     /// </summary>
-    internal class Interpolate_OperatorCalculator_LineRememberT1 : OperatorCalculatorBase_WithChildCalculators
+    internal class Interpolate_OperatorCalculator_LineRememberX1 : OperatorCalculatorBase_WithChildCalculators
     {
         private const double MINIMUM_SAMPLING_RATE = 0.01666666666666667; // Once a minute
 
@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _y1;
         private double _a;
 
-        public Interpolate_OperatorCalculator_LineRememberT1(
+        public Interpolate_OperatorCalculator_LineRememberX1(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase samplingRateCalculator,
             DimensionStack dimensionStack)
@@ -78,32 +78,25 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if !USE_INVAR_INDICES
                 _dimensionStack.Pop();
 #endif
-                if (samplingRate == 0) // Minimum samplingRate value might become variable in the near future, so could be 0.
-                {
-                    _a = 0;
-                }
-                else
-                {
-                    double dx = 1.0 / samplingRate;
+                double dx = 1.0 / samplingRate;
 
-                    _x1 += dx;
+                _x1 += dx;
 
 #if !USE_INVAR_INDICES
-                    _dimensionStack.Push(_x1);
+                _dimensionStack.Push(_x1);
 #else
-                    _dimensionStack.Set(_nextDimensionStackIndex, _x1);
+                _dimensionStack.Set(_nextDimensionStackIndex, _x1);
 #endif
 #if ASSERT_INVAR_INDICES
-                    OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
+                OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
 #endif
-                    _y1 = _signalCalculator.Calculate();
+                _y1 = _signalCalculator.Calculate();
 
 #if !USE_INVAR_INDICES
-                    _dimensionStack.Pop();
+                _dimensionStack.Pop();
 #endif
-                    double dy = _y1 - _y0;
-                    _a = dy / dx;
-                }
+                double dy = _y1 - _y0;
+                _a = dy / dx;
             }
             else if (x < _x0)
             {
@@ -124,32 +117,25 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if !USE_INVAR_INDICES
                 _dimensionStack.Pop();
 #endif
-                if (samplingRate == 0)
-                {
-                    _a = 0;
-                }
-                else
-                {
-                    double dx = 1.0 / samplingRate;
+                double dx = 1.0 / samplingRate;
 
-                    _x0 -= dx;
+                _x0 -= dx;
 
 #if !USE_INVAR_INDICES
-                    _dimensionStack.Push(_x0);
+                _dimensionStack.Push(_x0);
 #else
-                    _dimensionStack.Set(_nextDimensionStackIndex, _x0);
+                _dimensionStack.Set(_nextDimensionStackIndex, _x0);
 #endif
 #if ASSERT_INVAR_INDICES
-                    OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
+                OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
 #endif
-                    _y0 = _signalCalculator.Calculate();
+                _y0 = _signalCalculator.Calculate();
 
 #if !USE_INVAR_INDICES
-                    _dimensionStack.Pop();
+                _dimensionStack.Pop();
 #endif
-                    double dy = _y1 - _y0;
-                    _a = dy / dx;
-                }
+                double dy = _y1 - _y0;
+                _a = dy / dx;
             }
 
             double y = _y0 + _a * (x - _x0);
@@ -184,10 +170,21 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private void ResetNonRecursive()
         {
-            _x0 = CalculationHelper.VERY_HIGH_VALUE;
-            _x1 = CalculationHelper.VERY_LOW_VALUE;
+#if !USE_INVAR_INDICES
+            double position = _dimensionStack.Get();
+#else
+            double position = _dimensionStack.Get(_previousDimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
+#endif
+            _x0 = position - CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
+            _x1 = position;
+
+            // Assume values begin at 0
             _y0 = 0.0;
             _y1 = 0.0;
+
             _a = 0.0;
         }
     }

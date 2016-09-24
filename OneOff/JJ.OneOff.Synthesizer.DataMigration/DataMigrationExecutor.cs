@@ -2313,6 +2313,48 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
         // Helpers
 
+        public static void Migrate_ResampleInterpolationType_LineRememberX0_To_LineRememberX1(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                var patchManager = new PatchManager(new PatchRepositories(repositories));
+
+                IList<Operator> operators = repositories.OperatorRepository.GetAll();
+
+                for (int i = 0; i < operators.Count; i++)
+                {
+                    Operator op = operators[i];
+
+                    string interpolationType = DataPropertyParser.TryGetString(op, PropertyNames.InterpolationType);
+
+                    if (String.Equals(interpolationType, ResampleInterpolationTypeEnum.LineRememberT0.ToString()))
+                    {
+                        DataPropertyParser.SetValue(op, PropertyNames.InterpolationType, ResampleInterpolationTypeEnum.LineRememberT1);
+                    }
+
+                    // Cannot validate the operator, because it will do a recursive validation,
+                    // validating not yet migrated operators.
+
+                    string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
+                    progressCallback(progressMessage);
+                }
+
+                AssertDocuments(repositories, progressCallback);
+
+                throw new Exception("Temporarily not committing, for debugging.");
+                //context.Commit();
+            }
+
+            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        }
+
+
         private static void AssertDocuments(RepositoryWrapper repositories, Action<string> progressCallback)
         {
             IList<Document> rootDocuments = repositories.DocumentRepository.GetAll();

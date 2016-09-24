@@ -42,7 +42,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
 #endif
-
             double remainder = x % _sampleLength;
 
             double x0 = x - remainder;
@@ -57,7 +56,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
 #endif
-
             double y0 = _signalCalculator.Calculate();
 
 #if !USE_INVAR_INDICES
@@ -68,8 +66,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
 #endif
-
             double y1 = _signalCalculator.Calculate();
+
 #if !USE_INVAR_INDICES
             _dimensionStack.Pop();
 #endif

@@ -32,11 +32,11 @@ namespace JJ.Business.Synthesizer.Helpers
                     break;
 
                 case ResampleInterpolationTypeEnum.LineRememberT0:
-                    calculator = new Interpolate_OperatorCalculator_LineRememberT0(signalCalculator, samplingRateCalculator, dimensionStack);
+                    calculator = new Interpolate_OperatorCalculator_LineRememberX0(signalCalculator, samplingRateCalculator, dimensionStack);
                     break;
 
                 case ResampleInterpolationTypeEnum.LineRememberT1:
-                    calculator = new Interpolate_OperatorCalculator_LineRememberT1(signalCalculator, samplingRateCalculator, dimensionStack);
+                    calculator = new Interpolate_OperatorCalculator_LineRememberX1(signalCalculator, samplingRateCalculator, dimensionStack);
                     break;
 
                 case ResampleInterpolationTypeEnum.CubicEquidistant:

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -15,8 +14,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly int _nextDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
 
-        private double _position0;
-        protected double _value0;
+        private double _x0;
+        protected double _y0;
 
         public Interpolate_OperatorCalculator_Block(
             OperatorCalculatorBase signalCalculator,
@@ -57,30 +56,31 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
 #endif
-            double offset = position - _position0;
-            double sampleCount = offset * samplingRate;
+            double x = position;
+            double dx = x - _x0;
+            double sampleCount = dx * samplingRate;
             sampleCount = Math.Truncate(sampleCount);
 
             if (sampleCount != 0.0)
             {
-                _position0 += sampleCount / samplingRate;
+                _x0 += sampleCount / samplingRate;
 
 #if !USE_INVAR_INDICES
-                _dimensionStack.Push(_position0);
+                _dimensionStack.Push(_x0);
 #else
                 _dimensionStack.Set(_nextDimensionStackIndex, _position0);
 #endif
 #if ASSERT_INVAR_INDICES
                 OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
 #endif
-                _value0 = _signalCalculator.Calculate();
+                _y0 = _signalCalculator.Calculate();
 
 #if !USE_INVAR_INDICES
                 _dimensionStack.Pop();
 #endif
             }
 
-            return _value0;
+            return _y0;
         }
     }
 }

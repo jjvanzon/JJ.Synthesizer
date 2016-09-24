@@ -1,5 +1,5 @@
-﻿using JJ.Framework.Reflection.Exceptions;
-using System;
+﻿using System;
+using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -9,8 +9,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     /// I see peaks, that I cannot explain, but my hunch it that it has to do
     /// with t catching up with t1 too quickly.
     /// </summary>
-    internal class Interpolate_OperatorCalculator_LineRememberT0 : OperatorCalculatorBase_WithChildCalculators
+    internal class Interpolate_OperatorCalculator_LineRememberX0 : OperatorCalculatorBase_WithChildCalculators
     {
+        private const double MINIMUM_SAMPLING_RATE = 0.01666666666666667; // Once a minute
+
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _samplingRateCalculator;
         private readonly DimensionStack _dimensionStack;
@@ -20,7 +22,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _x0;
         private double _y0;
 
-        public Interpolate_OperatorCalculator_LineRememberT0(
+        public Interpolate_OperatorCalculator_LineRememberX0(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase samplingRateCalculator,
             DimensionStack dimensionStack)
@@ -54,12 +56,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
 #endif
-            double samplingRate = _samplingRateCalculator.Calculate();
-            if (samplingRate == 0)
-            {
-                // TODO: Set fields if sampling rate is 0?
-                return 0;
-            }
+            double samplingRate = GetSamplingRate();
             double dx = 1.0 / samplingRate;
 
             double x1 = _x0 + dx;
@@ -101,6 +98,25 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             double y = _y0 + a * (x - _x0);
             return y;
+        }
+
+        /// <summary>
+        /// Gets the sampling rate, converts it to an absolute number
+        /// and ensures a minimum value.
+        /// </summary>
+        private double GetSamplingRate()
+        {
+            // _x1 was recently (2015-08-22) corrected to x which might make going in reverse work better.
+            double samplingRate = _samplingRateCalculator.Calculate();
+
+            samplingRate = Math.Abs(samplingRate);
+
+            if (samplingRate < MINIMUM_SAMPLING_RATE)
+            {
+                samplingRate = MINIMUM_SAMPLING_RATE;
+            }
+
+            return samplingRate;
         }
     }
 }
