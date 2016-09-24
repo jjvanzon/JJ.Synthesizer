@@ -61,9 +61,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate()
         {
 #if !USE_INVAR_INDICES
-            double position = _dimensionStack.Get();
+            double x = _dimensionStack.Get();
 #else
-            double position = _dimensionStack.Get(_previousDimensionStackIndex);
+            double x = _dimensionStack.Get(_previousDimensionStackIndex);
 #endif
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
@@ -71,7 +71,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             // TODO: What if position goes in reverse?
             // TODO: What if _x0 or _x1 are way off? How will it correct itself?
             // When x goes past _x1 you must shift things.
-            double x = position;
             if (x > _x1)
             {
                 _x0 = _x1;

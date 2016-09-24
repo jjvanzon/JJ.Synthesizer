@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     /// </summary>
     internal class Interpolate_OperatorCalculator_Line_VarSamplingRate : OperatorCalculatorBase_WithChildCalculators
     {
-        private const double MINIMUM_SAMPLING_RATE = 0.01666666666666667; // Once a minute
+        private const double MINIMUM_SAMPLING_RATE = 1.0 / 60.0; // Once a minute
 
         private OperatorCalculatorBase _signalCalculator;
         private OperatorCalculatorBase _samplingRateCalculator;
