@@ -2333,13 +2333,10 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
                     string interpolationType = DataPropertyParser.TryGetString(op, PropertyNames.InterpolationType);
 
-                    if (String.Equals(interpolationType, ResampleInterpolationTypeEnum.LineRememberT0.ToString()))
+                    if (String.Equals(interpolationType, "LineRememberT0"))
                     {
                         DataPropertyParser.SetValue(op, PropertyNames.InterpolationType, ResampleInterpolationTypeEnum.LineRememberT1);
                     }
-
-                    // Cannot validate the operator, because it will do a recursive validation,
-                    // validating not yet migrated operators.
 
                     string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
                     progressCallback(progressMessage);
@@ -2347,8 +2344,8 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
                 AssertDocuments(repositories, progressCallback);
 
-                throw new Exception("Temporarily not committing, for debugging.");
-                //context.Commit();
+                //throw new Exception("Temporarily not committing, for debugging.");
+                context.Commit();
             }
 
             progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));

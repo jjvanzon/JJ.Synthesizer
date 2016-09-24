@@ -9,7 +9,6 @@ namespace JJ.Business.Synthesizer.Enums
         Undefined,
         Block,
         Stripe,
-        LineRememberT0,
         LineRememberT1,
         CubicEquidistant,
         CubicAbruptSlope,

@@ -589,9 +589,6 @@
   <data name="Hermite" xml:space="preserve">
     <value>Hermite</value>
   </data>
-  <data name="LineRememberT0" xml:space="preserve">
-    <value>Line Remember T0</value>
-  </data>
   <data name="LineRememberT1" xml:space="preserve">
     <value>Line Remember T1</value>
   </data>

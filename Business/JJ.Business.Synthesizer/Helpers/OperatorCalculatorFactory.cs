@@ -31,10 +31,6 @@ namespace JJ.Business.Synthesizer.Helpers
                     calculator = new Interpolate_OperatorCalculator_Stripe(signalCalculator, samplingRateCalculator, dimensionStack);
                     break;
 
-                case ResampleInterpolationTypeEnum.LineRememberT0:
-                    calculator = new Interpolate_OperatorCalculator_LineRememberX0(signalCalculator, samplingRateCalculator, dimensionStack);
-                    break;
-
                 case ResampleInterpolationTypeEnum.LineRememberT1:
                     calculator = new Interpolate_OperatorCalculator_LineRememberX1(signalCalculator, samplingRateCalculator, dimensionStack);
                     break;

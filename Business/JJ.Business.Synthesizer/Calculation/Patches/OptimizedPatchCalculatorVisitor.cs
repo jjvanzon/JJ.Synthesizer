@@ -3368,7 +3368,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                             break;
                         }
 
-                    case ResampleInterpolationTypeEnum.LineRememberT0:
                     case ResampleInterpolationTypeEnum.LineRememberT1:
                     case ResampleInterpolationTypeEnum.CubicEquidistant:
                     case ResampleInterpolationTypeEnum.CubicAbruptSlope:
