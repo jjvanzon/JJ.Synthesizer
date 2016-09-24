@@ -32,7 +32,16 @@ namespace JJ.Business.Synthesizer.Helpers
                     break;
 
                 case ResampleInterpolationTypeEnum.Line:
-                    calculator = new Interpolate_OperatorCalculator_Line_VarSamplingRate(signalCalculator, samplingRateCalculator, dimensionStack);
+                    bool samplingRateIsConst = samplingRateCalculator is Number_OperatorCalculator;
+                    if (samplingRateIsConst)
+                    {
+                        double samplingRate = samplingRateCalculator.Calculate();
+                        calculator = new Interpolate_OperatorCalculator_Line_ConstSamplingRate(signalCalculator, samplingRate, dimensionStack);
+                    }
+                    else
+                    {
+                        calculator = new Interpolate_OperatorCalculator_Line_VarSamplingRate(signalCalculator, samplingRateCalculator, dimensionStack);
+                    }
                     break;
 
                 case ResampleInterpolationTypeEnum.CubicEquidistant:

@@ -69,7 +69,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #else
                 _dimensionStack.Set(_nextDimensionStackIndex, _x1);
 #endif
-
 #if ASSERT_INVAR_INDICES
                 OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
 #endif
