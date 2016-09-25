@@ -16,9 +16,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly int _nextDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
 
-        private double _xAtMinus1;
+        private double _x0;
         private double _xAtHalf;
-        private double _yAtMinus1;
+        private double _y0;
 
         public Interpolate_OperatorCalculator_Stripe(
             OperatorCalculatorBase signalCalculator,
@@ -65,25 +65,25 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 // and that you get the proper alignment that comes with striped
                 // interpolation.
 #if !USE_INVAR_INDICES
-                _dimensionStack.Push(_xAtMinus1);
+                _dimensionStack.Push(_x0);
 #else
                 _dimensionStack.Set(_nextDimensionStackIndex, _xAtHalf);
 #endif
 #if ASSERT_INVAR_INDICES
                 OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
 #endif
-                double samplingRateAtMinus1 = GetSamplingRate();
-                double dxAtMinus1 = 1.0 / samplingRateAtMinus1;
-                _xAtMinus1 += dxAtMinus1;
-                _xAtHalf += dxAtMinus1;
+                double samplingRate0 = GetSamplingRate();
+                double dx0 = 1.0 / samplingRate0;
+                _x0 += dx0;
+                _xAtHalf += dx0;
 
                 // It seems you should set x on the dimension stack
                 // to _xAtMinusHalf here, but x on the dimension stack is the 'old' _xAtHalf, 
                 // which is the new _xAtMinusHalf. So x on the dimension stack is already _xAtMinusHalf.
-                _yAtMinus1 = _signalCalculator.Calculate();
+                _y0 = _signalCalculator.Calculate();
             }
 
-            return _yAtMinus1;
+            return _y0;
         }
 
         /// <summary> Gets the sampling rate, converts it to an absolute number and ensures a minimum value. </summary>
@@ -125,11 +125,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double samplingRate = GetSamplingRate();
             double dx = 1.0 / samplingRate;
 
-            _xAtMinus1 = x - dx;
+            _x0 = x;
             _xAtHalf = x + dx / 2.0;
 
             // Y's are just set at a more practical default than 0.
-            _yAtMinus1 = y;
+            _y0 = y;
         }
     }
 }
