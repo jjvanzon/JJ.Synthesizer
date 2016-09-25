@@ -123,9 +123,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #endif
             double y = _signalCalculator.Calculate();
 
-            _x0 = x - CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
+            _x0 = x - _dx;
             _x1 = x;
 
+            // Y's are just set at a slightly more practical default than 0.
             _y0 = y;
             _y1 = y;
 

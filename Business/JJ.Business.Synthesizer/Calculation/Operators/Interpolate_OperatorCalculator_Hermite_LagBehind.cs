@@ -140,13 +140,17 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
 #endif
             double y = _signalCalculator.Calculate();
+            double samplingRate = GetSamplingRate();
 
-            _xMinus1 = CalculationHelper.VERY_LOW_VALUE;
-            _x0 = x - CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
+            double dx = 1.0 / samplingRate;
+
+            _xMinus1 = x - dx - dx;
+            _x0 = x - dx;
             _x1 = x;
-            _x2 = x + CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
-            _dx1 = CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
+            _x2 = x + dx;
+            _dx1 = dx;
 
+            // Y's are just set at a more practical default than 0.
             _yMinus1 = y;
             _y0 = y;
             _y1 = y;

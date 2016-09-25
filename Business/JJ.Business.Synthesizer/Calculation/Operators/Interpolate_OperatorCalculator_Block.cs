@@ -74,6 +74,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 // to _x0 here, but x on the dimension stack is the 'old' _x1, 
                 // which is the new _x0. So x on the dimension stack is already _x0.
                 _y0 = _signalCalculator.Calculate();
+
+                _dimensionStack.Pop();
             }
 
             return _y0;
@@ -114,10 +116,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
 #endif
             double y = _signalCalculator.Calculate();
+            double samplingRate = GetSamplingRate();
 
-            _x1 = x + CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
+            double dx = 1.0 / samplingRate;
 
-            // Y's are just set at a more practical default than 0.
+            _x1 = x + dx;
+
+            // Y's are just set at a slightly more practical default than 0.
             _y0 = y;
         }
     }

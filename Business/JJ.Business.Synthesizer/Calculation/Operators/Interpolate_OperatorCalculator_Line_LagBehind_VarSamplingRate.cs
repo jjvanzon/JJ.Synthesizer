@@ -72,16 +72,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
 #endif
                 double samplingRate = GetSamplingRate();
-
-#if !USE_INVAR_INDICES
-                _dimensionStack.Pop();
-#endif
                 double dx = 1.0 / samplingRate;
 
                 _x1 += dx;
 
 #if !USE_INVAR_INDICES
-                _dimensionStack.Push(_x1);
+                _dimensionStack.Set(_x1);
 #else
                 _dimensionStack.Set(_nextDimensionStackIndex, _x1);
 #endif
@@ -112,15 +108,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #endif
                 double samplingRate = GetSamplingRate();
 
-#if !USE_INVAR_INDICES
-                _dimensionStack.Pop();
-#endif
                 double dx = 1.0 / samplingRate;
 
                 _x0 -= dx;
 
 #if !USE_INVAR_INDICES
-                _dimensionStack.Push(_x0);
+                _dimensionStack.Set(_x0);
 #else
                 _dimensionStack.Set(_nextDimensionStackIndex, _x0);
 #endif
@@ -178,12 +171,17 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
 #endif
-            _x0 = x - CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
+            double y = _signalCalculator.Calculate();
+            double samplingRate = GetSamplingRate();
+
+            double dx = 1.0 / samplingRate;
+
+            _x0 = x - dx;
             _x1 = x;
 
-            // Assume values begin at 0
-            _y0 = 0.0;
-            _y1 = 0.0;
+            // Y's are just set at a slightly more practical default than 0.
+            _y0 = y;
+            _y1 = y;
 
             _a = 0.0;
         }
