@@ -1,6 +1,7 @@
 ﻿using JJ.Framework.Reflection.Exceptions;
 using System;
 using JJ.Business.Synthesizer.CopiedCode.FromFramework;
+using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -49,6 +50,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             ResetNonRecursive();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
 #if !USE_INVAR_INDICES
@@ -128,27 +130,29 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             ResetNonRecursive();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void ResetNonRecursive()
         {
 #if !USE_INVAR_INDICES
-            double position = _dimensionStack.Get();
+            double x = _dimensionStack.Get();
 #else
-            double position = _dimensionStack.Get(_previousDimensionStackIndex);
+            double x = _dimensionStack.Get(_previousDimensionStackIndex);
 #endif
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
 #endif
+            double y = _signalCalculator.Calculate();
+
             _xMinus1 = CalculationHelper.VERY_LOW_VALUE;
-            _x0 = position - CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
-            _x1 = position;
-            _x2 = position + CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
+            _x0 = x - CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
+            _x1 = x;
+            _x2 = x + CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
             _dx1 = CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
 
-            // Assume values begin at 0
-            _yMinus1 = 0;
-            _y0 = 0;
-            _y1 = 0;
-            _y2 = 0;
+            _yMinus1 = y;
+            _y0 = y;
+            _y1 = y;
+            _y2 = y;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -40,6 +41,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             ResetNonRecursive();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
 #if !USE_INVAR_INDICES
@@ -108,22 +110,24 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             ResetNonRecursive();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void ResetNonRecursive()
         {
 #if !USE_INVAR_INDICES
-            double position = _dimensionStack.Get();
+            double x = _dimensionStack.Get();
 #else
-            double position = _dimensionStack.Get(_previousDimensionStackIndex);
+            double x = _dimensionStack.Get(_previousDimensionStackIndex);
 #endif
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
 #endif
-            _x0 = position - CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
-            _x1 = position;
+            double y = _signalCalculator.Calculate();
 
-            // Assume values begin at 0
-            _y0 = 0.0;
-            _y1 = 0.0;
+            _x0 = x - CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
+            _x1 = x;
+
+            _y0 = y;
+            _y1 = y;
 
             _a = 0.0;
         }

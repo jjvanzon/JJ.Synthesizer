@@ -1,5 +1,6 @@
 ﻿using JJ.Framework.Reflection.Exceptions;
 using System;
+using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -47,6 +48,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             ResetNonRecursive();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
 #if !USE_INVAR_INDICES
@@ -142,6 +144,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         /// Gets the sampling rate, converts it to an absolute number
         /// and ensures a minimum value.
         /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private double GetSamplingRate()
         {
             // _x1 was recently (2015-08-22) corrected to x which might make going in reverse work better.
@@ -164,18 +167,19 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             ResetNonRecursive();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void ResetNonRecursive()
         {
 #if !USE_INVAR_INDICES
-            double position = _dimensionStack.Get();
+            double x = _dimensionStack.Get();
 #else
-            double position = _dimensionStack.Get(_previousDimensionStackIndex);
+            double x = _dimensionStack.Get(_previousDimensionStackIndex);
 #endif
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
 #endif
-            _x0 = position - CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
-            _x1 = position;
+            _x0 = x - CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
+            _x1 = x;
 
             // Assume values begin at 0
             _y0 = 0.0;

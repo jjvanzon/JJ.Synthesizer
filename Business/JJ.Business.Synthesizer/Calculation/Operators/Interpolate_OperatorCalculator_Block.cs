@@ -35,6 +35,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionStack = dimensionStack;
             _previousDimensionStackIndex = dimensionStack.CurrentIndex;
             _nextDimensionStackIndex = dimensionStack.CurrentIndex + 1;
+
+            ResetNonRecursive();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -46,17 +48,17 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
 
         /// <summary> This extra overload prevents additional invokations of the _samplingRateCalculator in derived classes </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected double Calculate(double samplingRate)
         {
 #if !USE_INVAR_INDICES
-            double position = _dimensionStack.Get();
+            double x = _dimensionStack.Get();
 #else
-            double position = _dimensionStack.Get(_previousDimensionStackIndex);
+            double x = _dimensionStack.Get(_previousDimensionStackIndex);
 #endif
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
 #endif
-            double x = position;
             double dx = x - _x0;
             double sampleCount = dx * samplingRate;
             sampleCount = Math.Truncate(sampleCount);
@@ -81,6 +83,29 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             }
 
             return _y0;
+        }
+
+        public override void Reset()
+        {
+            base.Reset();
+
+            ResetNonRecursive();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void ResetNonRecursive()
+        {
+#if !USE_INVAR_INDICES
+            double x = _dimensionStack.Get();
+#else
+            double x = _dimensionStack.Get(_previousDimensionStackIndex);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
+#endif
+            _x0 = x;
+
+            _y0 = _signalCalculator.Calculate();
         }
     }
 }

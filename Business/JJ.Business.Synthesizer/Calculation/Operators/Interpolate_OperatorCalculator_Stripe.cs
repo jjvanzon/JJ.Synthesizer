@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -30,6 +31,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _nextDimensionStackIndex = dimensionStack.CurrentIndex + 1;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
 #if !USE_INVAR_INDICES
