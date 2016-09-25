@@ -189,7 +189,7 @@
     <Compile Include="Calculation\Operators\PulseTrigger_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Random OperatorCalculator Classes, Block and Stripe Interpolation.cs" />
     <Compile Include="Calculation\Operators\Random OperatorCalculator Classes, Other Interpolations.cs" />
-    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Stripe.cs" />
+    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Stripe_LagBehind.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Block.cs" />
     <Compile Include="Calculation\Operators\Round OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\SawDown OperatorCalculator Classes.cs" />
@@ -203,13 +203,13 @@
     <Compile Include="Calculation\Operators\Select OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Loop_OperatorCalculator_ManyVariables.cs" />
     <Compile Include="Calculation\Operators\Exponent_OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_CubicSmoothSlope.cs" />
-    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Hermite.cs" />
+    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_CubicSmoothSlope_LagBehind.cs" />
+    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Hermite_LagBehind.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_CubicAbruptSlope.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_CubicEquidistant.cs" />
-    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Line_VarSamplingRate.cs" />
+    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Line_LagBehind_VarSamplingRate.cs" />
     <Compile Include="Calculation\Operators\2016-09-24 Backup of Interpolate_OperatorCalculator_LineRememberX0.cs" />
-    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Line_ConstSamplingRate.cs" />
+    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Line_LagBehind_ConstSamplingRate.cs" />
     <Compile Include="Calculation\Operators\Pulse OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Subtract OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\TimePower OperatorCalculator Classes.cs" />

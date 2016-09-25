@@ -9,7 +9,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     /// A weakness though is, that the sampling rate is remembered until the next sample,
     /// which may work poorly when a very low sampling rate is provided.
     /// </summary>
-    internal class Interpolate_OperatorCalculator_Line_VarSamplingRate : OperatorCalculatorBase_WithChildCalculators
+    internal class Interpolate_OperatorCalculator_Line_LagBehind_VarSamplingRate : OperatorCalculatorBase_WithChildCalculators
     {
         private const double MINIMUM_SAMPLING_RATE = 1.0 / 60.0; // Once a minute
 
@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _y1;
         private double _a;
 
-        public Interpolate_OperatorCalculator_Line_VarSamplingRate(
+        public Interpolate_OperatorCalculator_Line_LagBehind_VarSamplingRate(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase samplingRateCalculator,
             DimensionStack dimensionStack)

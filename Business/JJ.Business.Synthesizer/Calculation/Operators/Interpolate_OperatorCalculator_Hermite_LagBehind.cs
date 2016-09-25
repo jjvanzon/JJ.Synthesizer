@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Interpolate_OperatorCalculator_Hermite : OperatorCalculatorBase_WithChildCalculators
+    internal class Interpolate_OperatorCalculator_Hermite_LagBehind : OperatorCalculatorBase_WithChildCalculators
     {
         private const double MINIMUM_SAMPLING_RATE = 1.0 / 60.0; // Once a minute
 
@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _y1;
         private double _y2;
 
-        public Interpolate_OperatorCalculator_Hermite(
+        public Interpolate_OperatorCalculator_Hermite_LagBehind(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase samplingRateCalculator,
             DimensionStack dimensionStack)

@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Helpers
                     break;
 
                 case ResampleInterpolationTypeEnum.Stripe:
-                    calculator = new Interpolate_OperatorCalculator_Stripe(signalCalculator, samplingRateCalculator, dimensionStack);
+                    calculator = new Interpolate_OperatorCalculator_Stripe_LagBehind(signalCalculator, samplingRateCalculator, dimensionStack);
                     break;
 
                 case ResampleInterpolationTypeEnum.Line:
@@ -36,11 +36,11 @@ namespace JJ.Business.Synthesizer.Helpers
                     if (samplingRateIsConst)
                     {
                         double samplingRate = samplingRateCalculator.Calculate();
-                        calculator = new Interpolate_OperatorCalculator_Line_ConstSamplingRate(signalCalculator, samplingRate, dimensionStack);
+                        calculator = new Interpolate_OperatorCalculator_Line_LagBehind_ConstSamplingRate(signalCalculator, samplingRate, dimensionStack);
                     }
                     else
                     {
-                        calculator = new Interpolate_OperatorCalculator_Line_VarSamplingRate(signalCalculator, samplingRateCalculator, dimensionStack);
+                        calculator = new Interpolate_OperatorCalculator_Line_LagBehind_VarSamplingRate(signalCalculator, samplingRateCalculator, dimensionStack);
                     }
                     break;
 
@@ -53,11 +53,11 @@ namespace JJ.Business.Synthesizer.Helpers
                     break;
 
                 case ResampleInterpolationTypeEnum.CubicSmoothSlope:
-                    calculator = new Interpolate_OperatorCalculator_CubicSmoothSlope(signalCalculator, samplingRateCalculator, dimensionStack);
+                    calculator = new Interpolate_OperatorCalculator_CubicSmoothSlope_LagBehind(signalCalculator, samplingRateCalculator, dimensionStack);
                     break;
 
                 case ResampleInterpolationTypeEnum.Hermite:
-                    calculator = new Interpolate_OperatorCalculator_Hermite(signalCalculator, samplingRateCalculator, dimensionStack);
+                    calculator = new Interpolate_OperatorCalculator_Hermite_LagBehind(signalCalculator, samplingRateCalculator, dimensionStack);
                     break;
 
                 default:
