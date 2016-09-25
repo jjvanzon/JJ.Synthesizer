@@ -6,72 +6,130 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Interpolate_OperatorCalculator_Stripe : Interpolate_OperatorCalculator_Block
+    internal class Interpolate_OperatorCalculator_Stripe : OperatorCalculatorBase_WithChildCalculators
     {
+        private const double MINIMUM_SAMPLING_RATE = 1.0 / 60.0; // Once a minute
+
+        private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _samplingRateCalculator;
         private readonly DimensionStack _dimensionStack;
         private readonly int _nextDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
 
+        private double _xAtMinus1;
+        private double _xAtHalf;
+        private double _yAtMinus1;
+
         public Interpolate_OperatorCalculator_Stripe(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase samplingRateCalculator,
             DimensionStack dimensionStack)
-            : base(signalCalculator, samplingRateCalculator, dimensionStack)
+            : base(new OperatorCalculatorBase[] { signalCalculator, samplingRateCalculator })
         {
-            OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
+            if (signalCalculator == null) throw new NullException(() => signalCalculator);
+            if (signalCalculator is Number_OperatorCalculator) throw new InvalidTypeException<Number_OperatorCalculator>(() => signalCalculator);
             if (samplingRateCalculator == null) throw new NullException(() => samplingRateCalculator);
             // TODO: Interpolate with constant sampling rate does not have specialized calculators yet. Reactivate code line after those specialized calculators have been programmed.
             //if (samplingRateCalculator is Number_OperatorCalculator) throw new IsNotTypeException<Number_OperatorCalculator>(() => samplingRateCalculator);
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
+            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
+            _signalCalculator = signalCalculator;
             _samplingRateCalculator = samplingRateCalculator;
             _dimensionStack = dimensionStack;
             _previousDimensionStackIndex = dimensionStack.CurrentIndex;
             _nextDimensionStackIndex = dimensionStack.CurrentIndex + 1;
+
+            ResetNonRecursive();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
 #if !USE_INVAR_INDICES
-            double position = _dimensionStack.Get();
+            double x = _dimensionStack.Get();
 #else
-            double position = _dimensionStack.Get(_previousDimensionStackIndex);
+            double x = _dimensionStack.Get(_previousDimensionStackIndex);
 #endif
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
 #endif
-
-            double samplingRate = _samplingRateCalculator.Calculate();
-            if (samplingRate == 0.0)
+            // TODO: What if position goes in reverse?
+            // TODO: What if _x1 is way off? How will it correct itself?
+            // When x goes past _x1 you must shift things.
+            if (x > _xAtHalf)
             {
-                // Weird number: Cannot divide by 0. Time stands still. Do not advance the signal.
-                return _y0;
-            }
-
-            // Derived from the following:
-            // sampleLength = 1.0 / samplingRate;
-            // shift = sampleLength / 2.0;
-            double earlierPositionShiftToGetFromBlockedToStriped = 0.5 / samplingRate;
-
-            // IMPORTANT: To subtract time from the output, you have add time to the input.
-            double transformedPosition = position + earlierPositionShiftToGetFromBlockedToStriped;
-
+                // Determine next sample
+                // Note that you would like to look into the future, at x1,
+                // but you cannot do that real-time, in a lag-behind situation.
+                // What matters is that you lag behind no more than necessary,
+                // and that you get the proper alignment that comes with striped
+                // interpolation.
 #if !USE_INVAR_INDICES
-            _dimensionStack.Push(transformedPosition);
+                _dimensionStack.Push(_xAtMinus1);
 #else
-            _dimensionStack.Set(_nextDimensionStackIndex, transformedPosition);
+                _dimensionStack.Set(_nextDimensionStackIndex, _xAtHalf);
 #endif
 #if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
+                OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
 #endif
+                double samplingRateAtMinus1 = GetSamplingRate();
+                double dxAtMinus1 = 1.0 / samplingRateAtMinus1;
+                _xAtMinus1 += dxAtMinus1;
+                _xAtHalf += dxAtMinus1;
 
-            double value = Calculate(samplingRate);
+                // It seems you should set x on the dimension stack
+                // to _xAtMinusHalf here, but x on the dimension stack is the 'old' _xAtHalf, 
+                // which is the new _xAtMinusHalf. So x on the dimension stack is already _xAtMinusHalf.
+                _yAtMinus1 = _signalCalculator.Calculate();
+            }
+
+            return _yAtMinus1;
+        }
+
+        /// <summary> Gets the sampling rate, converts it to an absolute number and ensures a minimum value. </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private double GetSamplingRate()
+        {
+            double samplingRate = _samplingRateCalculator.Calculate();
+
+            samplingRate = Math.Abs(samplingRate);
+
+            if (samplingRate < MINIMUM_SAMPLING_RATE)
+            {
+                samplingRate = MINIMUM_SAMPLING_RATE;
+            }
+
+            return samplingRate;
+        }
+
+        public override void Reset()
+        {
+            base.Reset();
+
+            ResetNonRecursive();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void ResetNonRecursive()
+        {
 #if !USE_INVAR_INDICES
-            _dimensionStack.Pop();
+            double x = _dimensionStack.Get();
+#else
+            double x = _dimensionStack.Get(_previousDimensionStackIndex);
 #endif
-            return value;
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
+#endif
+            double y = _signalCalculator.Calculate();
+
+            double samplingRate = GetSamplingRate();
+            double dx = 1.0 / samplingRate;
+
+            _xAtMinus1 = x - dx;
+            _xAtHalf = x + dx / 2.0;
+
+            // Y's are just set at a more practical default than 0.
+            _yAtMinus1 = y;
         }
     }
 }

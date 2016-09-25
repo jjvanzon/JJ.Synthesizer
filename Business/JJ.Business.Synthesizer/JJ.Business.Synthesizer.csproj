@@ -208,7 +208,7 @@
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_CubicAbruptSlope.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_CubicEquidistant.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Line_VarSamplingRate.cs" />
-    <Compile Include="Calculation\Operators\2016-0-24 Backup of Interpolate_OperatorCalculator_LineRememberX0.cs" />
+    <Compile Include="Calculation\Operators\2016-09-24 Backup of Interpolate_OperatorCalculator_LineRememberX0.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Line_ConstSamplingRate.cs" />
     <Compile Include="Calculation\Operators\Pulse OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Subtract OperatorCalculator Classes.cs" />

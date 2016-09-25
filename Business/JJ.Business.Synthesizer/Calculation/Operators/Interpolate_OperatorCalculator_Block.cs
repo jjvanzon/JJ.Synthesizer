@@ -8,14 +8,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Interpolate_OperatorCalculator_Block : OperatorCalculatorBase_WithChildCalculators
     {
+        private const double MINIMUM_SAMPLING_RATE = 1.0 / 60.0; // Once a minute
+
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _samplingRateCalculator;
         private readonly DimensionStack _dimensionStack;
         private readonly int _nextDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
 
-        private double _x0;
-        protected double _y0;
+        private double _x1;
+        private double _y0;
 
         public Interpolate_OperatorCalculator_Block(
             OperatorCalculatorBase signalCalculator,
@@ -42,15 +44,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double samplingRate = _samplingRateCalculator.Calculate();
-
-            return Calculate(samplingRate);
-        }
-
-        /// <summary> This extra overload prevents additional invokations of the _samplingRateCalculator in derived classes </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected double Calculate(double samplingRate)
-        {
 #if !USE_INVAR_INDICES
             double x = _dimensionStack.Get();
 #else
@@ -59,30 +52,47 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
 #endif
-            double dx = x - _x0;
-            double sampleCount = dx * samplingRate;
-            sampleCount = Math.Truncate(sampleCount);
-
-            if (sampleCount != 0.0)
+            // TODO: What if position goes in reverse?
+            // TODO: What if _x1 is way off? How will it correct itself?
+            // When x goes past _x1 you must shift things.
+            if (x > _x1)
             {
-                _x0 += sampleCount / samplingRate;
-
+                // Determine next sample
 #if !USE_INVAR_INDICES
-                _dimensionStack.Push(_x0);
+                _dimensionStack.Push(_x1);
 #else
-                _dimensionStack.Set(_nextDimensionStackIndex, _position0);
+                _dimensionStack.Set(_nextDimensionStackIndex, _x1);
 #endif
 #if ASSERT_INVAR_INDICES
                 OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
 #endif
-                _y0 = _signalCalculator.Calculate();
+                double samplingRate1 = GetSamplingRate();
+                double dx1 = 1.0 / samplingRate1;
+                _x1 += dx1;
 
-#if !USE_INVAR_INDICES
-                _dimensionStack.Pop();
-#endif
+                // It seems you should set x on the dimension stack
+                // to _x0 here, but x on the dimension stack is the 'old' _x1, 
+                // which is the new _x0. So x on the dimension stack is already _x0.
+                _y0 = _signalCalculator.Calculate();
             }
 
             return _y0;
+        }
+
+        /// <summary> Gets the sampling rate, converts it to an absolute number and ensures a minimum value. </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private double GetSamplingRate()
+        {
+            double samplingRate = _samplingRateCalculator.Calculate();
+
+            samplingRate = Math.Abs(samplingRate);
+
+            if (samplingRate < MINIMUM_SAMPLING_RATE)
+            {
+                samplingRate = MINIMUM_SAMPLING_RATE;
+            }
+
+            return samplingRate;
         }
 
         public override void Reset()
@@ -103,9 +113,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
 #endif
-            _x0 = x;
+            double y = _signalCalculator.Calculate();
 
-            _y0 = _signalCalculator.Calculate();
+            _x1 = x + CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
+
+            // Y's are just set at a more practical default than 0.
+            _y0 = y;
         }
     }
 }
