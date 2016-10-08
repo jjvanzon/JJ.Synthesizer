@@ -101,6 +101,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Collections", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Reflection.Tests", "Framework\JJ.Framework.Reflection.Tests\JJ.Framework.Reflection.Tests.csproj", "{E150EBF6-16F7-4299-B4BD-791757D6CC9E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Demos.Synthesizer.Inlining", "Demos\JJ.Demos.Synthesizer.Inlining\JJ.Demos.Synthesizer.Inlining.csproj", "{58794EC8-775B-4EA6-A12C-F330AB03B0F8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1080,6 +1082,30 @@ Global
 		{E150EBF6-16F7-4299-B4BD-791757D6CC9E}.Release|x64.Build.0 = Release|Any CPU
 		{E150EBF6-16F7-4299-B4BD-791757D6CC9E}.Release|x86.ActiveCfg = Release|Any CPU
 		{E150EBF6-16F7-4299-B4BD-791757D6CC9E}.Release|x86.Build.0 = Release|Any CPU
+		{58794EC8-775B-4EA6-A12C-F330AB03B0F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58794EC8-775B-4EA6-A12C-F330AB03B0F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58794EC8-775B-4EA6-A12C-F330AB03B0F8}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{58794EC8-775B-4EA6-A12C-F330AB03B0F8}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{58794EC8-775B-4EA6-A12C-F330AB03B0F8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{58794EC8-775B-4EA6-A12C-F330AB03B0F8}.Debug|x64.Build.0 = Debug|Any CPU
+		{58794EC8-775B-4EA6-A12C-F330AB03B0F8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{58794EC8-775B-4EA6-A12C-F330AB03B0F8}.Debug|x86.Build.0 = Debug|Any CPU
+		{58794EC8-775B-4EA6-A12C-F330AB03B0F8}.NPDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58794EC8-775B-4EA6-A12C-F330AB03B0F8}.NPDebug|Any CPU.Build.0 = Debug|Any CPU
+		{58794EC8-775B-4EA6-A12C-F330AB03B0F8}.NPDebug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{58794EC8-775B-4EA6-A12C-F330AB03B0F8}.NPDebug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{58794EC8-775B-4EA6-A12C-F330AB03B0F8}.NPDebug|x64.ActiveCfg = Debug|Any CPU
+		{58794EC8-775B-4EA6-A12C-F330AB03B0F8}.NPDebug|x64.Build.0 = Debug|Any CPU
+		{58794EC8-775B-4EA6-A12C-F330AB03B0F8}.NPDebug|x86.ActiveCfg = Debug|Any CPU
+		{58794EC8-775B-4EA6-A12C-F330AB03B0F8}.NPDebug|x86.Build.0 = Debug|Any CPU
+		{58794EC8-775B-4EA6-A12C-F330AB03B0F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58794EC8-775B-4EA6-A12C-F330AB03B0F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58794EC8-775B-4EA6-A12C-F330AB03B0F8}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{58794EC8-775B-4EA6-A12C-F330AB03B0F8}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{58794EC8-775B-4EA6-A12C-F330AB03B0F8}.Release|x64.ActiveCfg = Release|Any CPU
+		{58794EC8-775B-4EA6-A12C-F330AB03B0F8}.Release|x64.Build.0 = Release|Any CPU
+		{58794EC8-775B-4EA6-A12C-F330AB03B0F8}.Release|x86.ActiveCfg = Release|Any CPU
+		{58794EC8-775B-4EA6-A12C-F330AB03B0F8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1118,7 +1144,7 @@ Global
 		{E150EBF6-16F7-4299-B4BD-791757D6CC9E} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 49
+		SccNumberOfProjects = 50
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = http://jjs-server:8080/tfs/defaultcollection
 		SccLocalPath0 = .
@@ -1237,7 +1263,6 @@ Global
 		SccProjectName31 = Framework/JJ.Framework.Presentation.WinForms.TestForms
 		SccLocalPath31 = Framework\\JJ.Framework.Presentation.WinForms.TestForms
 		SccProjectUniqueName32 = Framework\\JJ.Framework.Presentation.VectorGraphics.Tests\\JJ.Framework.Presentation.VectorGraphics.Tests.csproj
-		SccProjectTopLevelParentUniqueName32 = Synthesizer.sln
 		SccProjectName32 = Framework/JJ.Framework.Presentation.VectorGraphics.Tests
 		SccLocalPath32 = Framework\\JJ.Framework.Presentation.VectorGraphics.Tests
 		SccProjectUniqueName33 = Presentation\\JJ.Presentation.Synthesizer.WinForms\\JJ.Presentation.Synthesizer.WinForms.csproj
@@ -1298,5 +1323,9 @@ Global
 		SccProjectTopLevelParentUniqueName48 = Synthesizer.sln
 		SccProjectName48 = Framework/JJ.Framework.Reflection.Tests
 		SccLocalPath48 = Framework\\JJ.Framework.Reflection.Tests
+		SccProjectUniqueName49 = Demos\\JJ.Demos.Synthesizer.Inlining\\JJ.Demos.Synthesizer.Inlining.csproj
+		SccProjectTopLevelParentUniqueName49 = Synthesizer.sln
+		SccProjectName49 = Demos/JJ.Demos.Synthesizer.Inlining
+		SccLocalPath49 = Demos\\JJ.Demos.Synthesizer.Inlining
 	EndGlobalSection
 EndGlobal

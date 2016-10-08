@@ -9,6 +9,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     /// A weakness though is, that the sampling rate is remembered until the next sample,
     /// which may work poorly when a very low sampling rate is provided.
     /// </summary>
+    [Obsolete("Will be refactored away at some point.")]
     internal class Interpolate_OperatorCalculator_CubicEquidistant : OperatorCalculatorBase_WithChildCalculators
     {
         private const double MINIMUM_SAMPLING_RATE = 1.0 / 60.0; // Once a minute

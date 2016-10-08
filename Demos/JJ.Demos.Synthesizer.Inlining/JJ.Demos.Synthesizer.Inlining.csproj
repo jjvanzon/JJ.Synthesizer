@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{58794EC8-775B-4EA6-A12C-F330AB03B0F8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>JJ.Demos.Synthesizer.Inlining</RootNamespace>
+    <AssemblyName>JJ.Demos.Synthesizer.Inlining</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
+    <IsCodedUITest>False</IsCodedUITest>
+    <TestProjectType>UnitTest</TestProjectType>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <Choose>
+    <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+  <ItemGroup>
+    <Compile Include="Helpers\OperatorCalculatorFactory_WithInheritance.cs" />
+    <Compile Include="Helpers\OperatorCalculatorFactory_WithGenericMutableStructsAndHelpers.cs" />
+    <Compile Include="Shared\DimensionStack.cs" />
+    <Compile Include="Shared\SineCalculator.cs" />
+    <Compile Include="WithGenericMutableStructsAndHelpers\Number_OperatorCalculator.cs" />
+    <Compile Include="WithGenericMutableStructsAndHelpers\OperatorCalculatorHelper.cs" />
+    <Compile Include="WithGenericMutableStructsAndHelpers\Multiply_OperatorCalculator_VarA_ConstB.cs" />
+    <Compile Include="WithGenericMutableStructsAndHelpers\Add_OperatorCalculator_VarA_ConstB.cs" />
+    <Compile Include="WithGenericMutableStructsAndHelpers\Multiply_OperatorCalculator_VarA_VarB.cs" />
+    <Compile Include="WithGenericMutableStructsAndHelpers\Add_OperatorCalculator_VarA_VarB.cs" />
+    <Compile Include="WithGenericMutableStructsAndHelpers\IOperatorCalculator.cs" />
+    <Compile Include="WithGenericMutableStructsAndHelpers\Shift_OperatorCalculator_VarSignal_ConstDifference.cs" />
+    <Compile Include="WithGenericMutableStructsAndHelpers\Shift_OperatorCalculator_VarSignal_VarDifference.cs" />
+    <Compile Include="WithGenericMutableStructsAndHelpers\Sine_OperatorCalculator_ConstFrequency_NoOriginShifting.cs" />
+    <Compile Include="WithGenericMutableStructsAndHelpers\Sine_OperatorCalculator_VarFrequency_NoPhaseTracking.cs" />
+    <Compile Include="WithGenericMutableStructsAndHelpers\Sine_OperatorCalculator_VarFrequency_WithPhaseTracking.cs" />
+    <Compile Include="WithGenericMutableStructsAndHelpers\VariableInput_OperatorCalculator.cs" />
+    <Compile Include="WithInheritance\Add_OperatorCalculator_VarA_ConstB.cs" />
+    <Compile Include="WithInheritance\Add_OperatorCalculator_VarA_VarB.cs" />
+    <Compile Include="WithInheritance\Multiply_OperatorCalculator_VarA_ConstB.cs" />
+    <Compile Include="WithInheritance\Multiply_OperatorCalculator_VarA_VarB.cs" />
+    <Compile Include="2016-10-09 Backup of StructTests.cs" />
+    <Compile Include="SynthesizerInliningTests.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WithInheritance\Number_OperatorCalculator.cs" />
+    <Compile Include="WithInheritance\OperatorCalculatorBase.cs" />
+    <Compile Include="WithInheritance\OperatorCalculatorBase_WithChildCalculators.cs" />
+    <Compile Include="WithInheritance\Shift_OperatorCalculator_VarSignal_ConstDifference.cs" />
+    <Compile Include="WithInheritance\Shift_OperatorCalculator_VarSignal_VarDifference.cs" />
+    <Compile Include="WithInheritance\Sine_OperatorCalculator_ConstFrequency_NoOriginShifting.cs" />
+    <Compile Include="WithInheritance\2016-10-09 Backup of Sine_OperatorCalculator_ConstFrequency_WithOriginShifting %28Inlining Demo%29.cs" />
+    <Compile Include="WithInheritance\Sine_OperatorCalculator_VarFrequency_NoPhaseTracking.cs" />
+    <Compile Include="WithInheritance\Sine_OperatorCalculator_VarFrequency_WithPhaseTracking.cs" />
+    <Compile Include="WithInheritance\VariableInput_OperatorCalculator.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Framework\JJ.Framework.Mathematics\JJ.Framework.Mathematics.csproj">
+      <Project>{810b90b9-f501-4b91-b019-2ad5aad63304}</Project>
+      <Name>JJ.Framework.Mathematics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\JJ.Framework.Reflection\JJ.Framework.Reflection.csproj">
+      <Project>{1a8e047c-7893-4918-b415-ce3928e815d8}</Project>
+      <Name>JJ.Framework.Reflection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\JJ.Framework.Testing\JJ.Framework.Testing.csproj">
+      <Project>{369d4e9e-4eff-4699-83b3-c4951ee0a3c3}</Project>
+      <Name>JJ.Framework.Testing</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Choose>
+    <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.CodedUITestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Extension, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITesting, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
