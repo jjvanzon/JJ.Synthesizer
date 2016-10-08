@@ -106,11 +106,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
                 OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
 #endif
-                double samplingRate = GetSamplingRate();
-
-                double dx = 1.0 / samplingRate;
-
-                _x0 -= dx;
+                double samplingRate0 = GetSamplingRate();
+                double dx0 = 1.0 / samplingRate0;
+                _x0 -= dx0;
 
 #if !USE_INVAR_INDICES
                 _dimensionStack.Set(_x0);
@@ -126,7 +124,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 _dimensionStack.Pop();
 #endif
                 double dy = _y1 - _y0;
-                _a = dy / dx;
+                _a = dy / dx0;
             }
 
             double y = _y0 + _a * (x - _x0);

@@ -76,7 +76,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
 #endif
             bool isForward = position >= _previousPosition;
-
             if (isForward)
             {
                 bool mustUpdate = position > _nextSamplePosition;

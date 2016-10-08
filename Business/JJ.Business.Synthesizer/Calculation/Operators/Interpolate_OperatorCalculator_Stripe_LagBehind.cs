@@ -82,7 +82,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 // which is the new _xAtMinusHalf. So x on the dimension stack is already _xAtMinusHalf.
                 _y0 = _signalCalculator.Calculate();
 
+#if !USE_INVAR_INDICES
                 _dimensionStack.Pop();
+#endif
             }
 
             return _y0;

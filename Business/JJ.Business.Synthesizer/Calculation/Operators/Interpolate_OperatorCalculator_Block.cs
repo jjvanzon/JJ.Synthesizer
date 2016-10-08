@@ -16,6 +16,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly int _nextDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
 
+        private double _x0;
         private double _x1;
         private double _y0;
 
@@ -57,6 +58,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             // When x goes past _x1 you must shift things.
             if (x > _x1)
             {
+                // Shift samples to the left
+                _x0 = _x1;
+
                 // Determine next sample
 #if !USE_INVAR_INDICES
                 _dimensionStack.Push(_x1);
@@ -75,7 +79,41 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 // which is the new _x0. So x on the dimension stack is already _x0.
                 _y0 = _signalCalculator.Calculate();
 
+#if !USE_INVAR_INDICES
                 _dimensionStack.Pop();
+#endif
+            }
+            else if (x < _x0)
+            {
+                // Shift samples to the right.
+                _x1 = _x0;
+
+                // Determine next sample
+#if !USE_INVAR_INDICES
+                _dimensionStack.Push(_x0);
+#else
+                _dimensionStack.Set(_nextDimensionStackIndex, _x1);
+#endif
+#if ASSERT_INVAR_INDICES
+                OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
+#endif
+                double samplingRate0 = GetSamplingRate();
+                double dx0 = 1.0 / samplingRate0;
+                _x0 -= dx0;
+
+#if !USE_INVAR_INDICES
+                _dimensionStack.Set(_x0);
+#else
+                _dimensionStack.Set(_nextDimensionStackIndex, _x0);
+#endif
+#if ASSERT_INVAR_INDICES
+                OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
+#endif
+                _y0 = _signalCalculator.Calculate();
+
+#if !USE_INVAR_INDICES
+                _dimensionStack.Pop();
+#endif
             }
 
             return _y0;
@@ -120,6 +158,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             double dx = 1.0 / samplingRate;
 
+            _x0 = x;
             _x1 = x + dx;
 
             // Y's are just set at a slightly more practical default than 0.
