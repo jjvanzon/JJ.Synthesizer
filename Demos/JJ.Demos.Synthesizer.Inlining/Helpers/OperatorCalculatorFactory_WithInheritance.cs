@@ -9,7 +9,22 @@ namespace JJ.Demos.Synthesizer.Inlining.Helpers
 {
     internal static class OperatorCalculatorFactory_WithInheritance
     {
-        public static OperatorCalculatorBase CreateOperatorCalculatorStructure(DimensionStack dimensionStack)
+        public static OperatorCalculatorBase CreateOperatorCalculatorStructure_8Partials(DimensionStack dimensionStack)
+        {
+            var calculator = new Add_OperatorCalculator_8Vars(
+                CreateOperatorCalculatorStructure_SinglePartial(dimensionStack),
+                CreateOperatorCalculatorStructure_SinglePartial(dimensionStack),
+                CreateOperatorCalculatorStructure_SinglePartial(dimensionStack),
+                CreateOperatorCalculatorStructure_SinglePartial(dimensionStack),
+                CreateOperatorCalculatorStructure_SinglePartial(dimensionStack),
+                CreateOperatorCalculatorStructure_SinglePartial(dimensionStack),
+                CreateOperatorCalculatorStructure_SinglePartial(dimensionStack),
+                CreateOperatorCalculatorStructure_SinglePartial(dimensionStack));
+
+            return calculator;
+        }
+
+        private static OperatorCalculatorBase CreateOperatorCalculatorStructure_SinglePartial(DimensionStack dimensionStack)
         {
             if (dimensionStack == null) throw new NullException(() => dimensionStack);
 
@@ -20,7 +35,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Helpers
             var frequency_VariableInput_Calculator = new VariableInput_OperatorCalculator();
             frequency_VariableInput_Calculator._value = frequency;
 
-            var rootCalculator =
+            var calculator =
                 new Multiply_OperatorCalculator_VarA_ConstB
                 (
                     new Shift_OperatorCalculator_VarSignal_ConstDifference
@@ -36,7 +51,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Helpers
                     volume
                 );
 
-            return rootCalculator;
+            return calculator;
         }
     }
 }

@@ -8,7 +8,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>JJ.Demos.Synthesizer.Inlining</RootNamespace>
     <AssemblyName>JJ.Demos.Synthesizer.Inlining</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -20,6 +20,7 @@
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -59,7 +60,7 @@
     <Compile Include="Helpers\TestHelper.cs" />
     <Compile Include="Shared\DimensionStack.cs" />
     <Compile Include="Shared\SineCalculator.cs" />
-    <Compile Include="SynthesizerPerformanceTests_WithInheritance_ForComparison.cs" />
+    <Compile Include="SynthesizerPerformanceTests_NoInliningWithInheritance.cs" />
     <Compile Include="WithGenericMutableStructsAndHelpers\Add_OperatorCalculator_8Vars.cs" />
     <Compile Include="WithGenericMutableStructsAndHelpers\Number_OperatorCalculator.cs" />
     <Compile Include="WithGenericMutableStructsAndHelpers\OperatorCalculatorHelper.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="WithGenericMutableStructsAndHelpers\Sine_OperatorCalculator_VarFrequency_WithPhaseTracking.cs" />
     <Compile Include="WithGenericMutableStructsAndHelpers\VariableInput_OperatorCalculator.cs" />
     <Compile Include="WithInheritance\Add_OperatorCalculator_VarA_ConstB.cs" />
+    <Compile Include="WithInheritance\Add_OperatorCalculator_8Vars.cs" />
     <Compile Include="WithInheritance\Add_OperatorCalculator_VarA_VarB.cs" />
     <Compile Include="WithInheritance\Multiply_OperatorCalculator_VarA_ConstB.cs" />
     <Compile Include="WithInheritance\Multiply_OperatorCalculator_VarA_VarB.cs" />

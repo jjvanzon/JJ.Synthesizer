@@ -10,12 +10,12 @@ namespace JJ.Demos.Synthesizer.Inlining
     public class SynthesizerPerformanceTests_InliningWithStructs
     {
         [TestMethod]
-        public void Test_SynthesizerPerformance_InliningWithStructs_WithoutTime()
+        public void Test_SynthesizerPerformance_WithoutTime_8Partials_InliningWithStructs()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
 
-            var calculator = OperatorCalculatorFactory_WithGenericMutableStructsAndHelpers.CreateOperatorCalculatorStructure(dimensionStack);
+            var calculator = OperatorCalculatorFactory_WithGenericMutableStructsAndHelpers.CreateOperatorCalculatorStructure_8Partials(dimensionStack);
 
             var stopWatch = Stopwatch.StartNew();
 
@@ -32,19 +32,19 @@ namespace JJ.Demos.Synthesizer.Inlining
         }
 
         [TestMethod]
-        public void Test_SynthesizerPerformance_InliningWithStructs_WithTime()
+        public void Test_SynthesizerPerformance_WithTime_8Partials_InliningWithStructs()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
 
-            var calculator = OperatorCalculatorFactory_WithGenericMutableStructsAndHelpers.CreateOperatorCalculatorStructure(dimensionStack);
+            var calculator = OperatorCalculatorFactory_WithGenericMutableStructsAndHelpers.CreateOperatorCalculatorStructure_8Partials(dimensionStack);
 
             double t = 0.0;
             double dt = 1.0 / TestHelper.SAMPLING_RATE;
 
             var stopWatch = Stopwatch.StartNew();
 
-            while (t <= 20)
+            while (t <= TestHelper.SECONDS)
             {
                 dimensionStack.Set(t);
 

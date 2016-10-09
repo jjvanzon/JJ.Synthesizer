@@ -10,7 +10,7 @@ namespace JJ.Demos.Synthesizer.Inlining.WithGenericMutableStructsAndHelpers
         where TBCalculator : IOperatorCalculator
     {
         public TACalculator _aCalculator;
-        public TACalculator _bCalculator;
+        public TBCalculator _bCalculator;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double Calculate()
