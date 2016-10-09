@@ -7,23 +7,16 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Demos.Synthesizer.Inlining.WithInheritance
 {
-    internal class Shift_OperatorCalculator_VarSignal_VarDifference : OperatorCalculatorBase_WithChildCalculators
+    internal class Shift_OperatorCalculator_VarSignal_VarDifference : OperatorCalculatorBase
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _distanceCalculator;
         private readonly DimensionStack _dimensionStack;
-        private readonly int _nextDimensionStackIndex;
-        private readonly int _previousDimensionStackIndex;
 
         public Shift_OperatorCalculator_VarSignal_VarDifference(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase distanceCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[]
-            {
-                signalCalculator,
-                distanceCalculator
-            })
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (distanceCalculator == null) throw new NullException(() => distanceCalculator);
@@ -32,8 +25,6 @@ namespace JJ.Demos.Synthesizer.Inlining.WithInheritance
             _signalCalculator = signalCalculator;
             _distanceCalculator = distanceCalculator;
             _dimensionStack = dimensionStack;
-            _previousDimensionStackIndex = dimensionStack.CurrentIndex;
-            _nextDimensionStackIndex = dimensionStack.CurrentIndex + 1;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -6,7 +6,7 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Demos.Synthesizer.Inlining.WithInheritance
 {
-    internal class Add_OperatorCalculator_VarA_VarB : OperatorCalculatorBase_WithChildCalculators
+    internal class Add_OperatorCalculator_VarA_VarB : OperatorCalculatorBase
     {
         private readonly OperatorCalculatorBase _aCalculator;
         private readonly OperatorCalculatorBase _bCalculator;
@@ -14,7 +14,6 @@ namespace JJ.Demos.Synthesizer.Inlining.WithInheritance
         public Add_OperatorCalculator_VarA_VarB(
             OperatorCalculatorBase aCalculator,
             OperatorCalculatorBase bCalculator) 
-            : base(new OperatorCalculatorBase[] { aCalculator, bCalculator })
         {
             if (aCalculator == null) throw new NullException(() => aCalculator);
             if (bCalculator == null) throw new NullException(() => bCalculator);

@@ -6,7 +6,7 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Demos.Synthesizer.Inlining.WithInheritance
 {
-    internal class Multiply_OperatorCalculator_VarA_ConstB : OperatorCalculatorBase_WithChildCalculators
+    internal class Multiply_OperatorCalculator_VarA_ConstB : OperatorCalculatorBase
     {
         private readonly OperatorCalculatorBase _aCalculator;
         private readonly double _b;
@@ -14,7 +14,6 @@ namespace JJ.Demos.Synthesizer.Inlining.WithInheritance
         public Multiply_OperatorCalculator_VarA_ConstB(
             OperatorCalculatorBase aCalculator,
             double b)
-            : base(new OperatorCalculatorBase[] { aCalculator })
         {
             if (aCalculator == null) throw new NullException(() => aCalculator);
 

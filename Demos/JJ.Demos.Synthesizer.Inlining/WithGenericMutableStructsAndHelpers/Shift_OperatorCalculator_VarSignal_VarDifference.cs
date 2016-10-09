@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Demos.Synthesizer.Inlining.Shared;
-using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Demos.Synthesizer.Inlining.WithGenericMutableStructsAndHelpers
 {
-    internal class Shift_OperatorCalculator_VarSignal_VarDifference<TSignalCalculator, TDistanceCalculator> : IOperatorCalculator
+    internal struct Shift_OperatorCalculator_VarSignal_VarDifference<TSignalCalculator, TDistanceCalculator> : IOperatorCalculator
         where TSignalCalculator : IOperatorCalculator
         where TDistanceCalculator : IOperatorCalculator
     {

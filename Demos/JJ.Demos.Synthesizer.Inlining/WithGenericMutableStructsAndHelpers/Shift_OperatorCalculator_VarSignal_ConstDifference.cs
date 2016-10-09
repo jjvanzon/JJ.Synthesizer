@@ -6,7 +6,7 @@ using JJ.Demos.Synthesizer.Inlining.Shared;
 
 namespace JJ.Demos.Synthesizer.Inlining.WithGenericMutableStructsAndHelpers
 {
-    internal class Shift_OperatorCalculator_VarSignal_ConstDifference<TSignalCalculator> : IOperatorCalculator
+    internal struct Shift_OperatorCalculator_VarSignal_ConstDifference<TSignalCalculator> : IOperatorCalculator
         where TSignalCalculator : IOperatorCalculator
     {
         public TSignalCalculator _signalCalculator;

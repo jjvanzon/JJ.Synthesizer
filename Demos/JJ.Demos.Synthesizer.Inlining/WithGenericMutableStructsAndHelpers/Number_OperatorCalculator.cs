@@ -2,7 +2,7 @@
 
 namespace JJ.Demos.Synthesizer.Inlining.WithGenericMutableStructsAndHelpers
 {
-    internal class Number_OperatorCalculator : IOperatorCalculator
+    internal struct Number_OperatorCalculator : IOperatorCalculator
     {
         public double _number;
 

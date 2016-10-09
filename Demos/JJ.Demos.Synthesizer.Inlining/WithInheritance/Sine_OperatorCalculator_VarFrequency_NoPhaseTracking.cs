@@ -7,16 +7,14 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Demos.Synthesizer.Inlining.WithInheritance
 {
-    internal class Sine_OperatorCalculator_VarFrequency_NoPhaseTracking : OperatorCalculatorBase_WithChildCalculators
+    internal class Sine_OperatorCalculator_VarFrequency_NoPhaseTracking : OperatorCalculatorBase
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly DimensionStack _dimensionStack;
-        private readonly int _dimensionStackIndex;
 
         public Sine_OperatorCalculator_VarFrequency_NoPhaseTracking(
             OperatorCalculatorBase frequencyCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] { frequencyCalculator })
         {
             if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
             if (dimensionStack == null) throw new NullException(() => dimensionStack);

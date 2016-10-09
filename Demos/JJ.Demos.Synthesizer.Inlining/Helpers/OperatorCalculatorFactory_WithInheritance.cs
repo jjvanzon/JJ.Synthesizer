@@ -3,17 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Demos.Synthesizer.Inlining.Shared;
 using JJ.Demos.Synthesizer.Inlining.WithInheritance;
+using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Demos.Synthesizer.Inlining.Helpers
 {
     internal static class OperatorCalculatorFactory_WithInheritance
     {
-        public static OperatorCalculatorBase CreateOperatorCalculatorStructure()
+        public static OperatorCalculatorBase CreateOperatorCalculatorStructure(DimensionStack dimensionStack)
         {
-            var dimensionStack = new DimensionStack();
+            if (dimensionStack == null) throw new NullException(() => dimensionStack);
 
+            double frequency = 440.0;
             double volume = 10.0;
             double phaseShift = 0.25;
+
+            var frequency_VariableInput_Calculator = new VariableInput_OperatorCalculator();
+            frequency_VariableInput_Calculator._value = frequency;
 
             var rootCalculator =
                 new Multiply_OperatorCalculator_VarA_ConstB
@@ -22,7 +27,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Helpers
                     (
                         new Sine_OperatorCalculator_VarFrequency_WithPhaseTracking
                         (
-                            new VariableInput_OperatorCalculator(),
+                            frequency_VariableInput_Calculator,
                             dimensionStack
                         ),
                         phaseShift,

@@ -56,8 +56,11 @@
   <ItemGroup>
     <Compile Include="Helpers\OperatorCalculatorFactory_WithInheritance.cs" />
     <Compile Include="Helpers\OperatorCalculatorFactory_WithGenericMutableStructsAndHelpers.cs" />
+    <Compile Include="Helpers\TestHelper.cs" />
     <Compile Include="Shared\DimensionStack.cs" />
     <Compile Include="Shared\SineCalculator.cs" />
+    <Compile Include="SynthesizerPerformanceTests_WithInheritance_ForComparison.cs" />
+    <Compile Include="WithGenericMutableStructsAndHelpers\Add_OperatorCalculator_8Vars.cs" />
     <Compile Include="WithGenericMutableStructsAndHelpers\Number_OperatorCalculator.cs" />
     <Compile Include="WithGenericMutableStructsAndHelpers\OperatorCalculatorHelper.cs" />
     <Compile Include="WithGenericMutableStructsAndHelpers\Multiply_OperatorCalculator_VarA_ConstB.cs" />
@@ -76,11 +79,11 @@
     <Compile Include="WithInheritance\Multiply_OperatorCalculator_VarA_ConstB.cs" />
     <Compile Include="WithInheritance\Multiply_OperatorCalculator_VarA_VarB.cs" />
     <Compile Include="2016-10-09 Backup of StructTests.cs" />
-    <Compile Include="SynthesizerInliningTests.cs" />
+    <Compile Include="SynthesizerPerformanceTests_InliningWithStructs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WithInheritance\Number_OperatorCalculator.cs" />
     <Compile Include="WithInheritance\OperatorCalculatorBase.cs" />
-    <Compile Include="WithInheritance\OperatorCalculatorBase_WithChildCalculators.cs" />
+    <Compile Include="WithInheritance\2016-10-09 Backup of OperatorCalculatorBase_WithChildCalculators.cs" />
     <Compile Include="WithInheritance\Shift_OperatorCalculator_VarSignal_ConstDifference.cs" />
     <Compile Include="WithInheritance\Shift_OperatorCalculator_VarSignal_VarDifference.cs" />
     <Compile Include="WithInheritance\Sine_OperatorCalculator_ConstFrequency_NoOriginShifting.cs" />
