@@ -55,6 +55,24 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Dto\Add_OperatorDto_VarA_VarB.cs" />
+    <Compile Include="Dto\Add_OperatorDto_VarA_ConstB.cs" />
+    <Compile Include="Dto\Multiply_OperatorDto.cs" />
+    <Compile Include="Dto\Add_OperatorDto.cs" />
+    <Compile Include="Dto\InletDto.cs" />
+    <Compile Include="Dto\Multiply_OperatorDto_VarA_ConstB.cs" />
+    <Compile Include="Dto\Multiply_OperatorDto_VarA_VarB.cs" />
+    <Compile Include="Dto\Number_OperatorDto.cs" />
+    <Compile Include="Dto\OperatorDto.cs" />
+    <Compile Include="Dto\Shift_OperatorDto.cs" />
+    <Compile Include="Dto\Shift_OperatorDto_VarSignal_VarDifference.cs" />
+    <Compile Include="Dto\Shift_OperatorDto_VarSignal_ConstDifference.cs" />
+    <Compile Include="Dto\Sine_OperatorDto.cs" />
+    <Compile Include="Dto\Sine_OperatorDto_ConstFrequency_NoOriginShifting.cs" />
+    <Compile Include="Dto\Sine_OperatorDto_VarFrequency_NoPhaseTracking.cs" />
+    <Compile Include="Dto\Sine_OperatorDto_VarFrequency_WithPhaseTracking.cs" />
+    <Compile Include="Dto\VariableInput_OperatorDto.cs" />
+    <Compile Include="Helpers\OperatorDtoFactory.cs" />
     <Compile Include="Helpers\WithInheritance\OperatorCalculatorFactory.cs" />
     <Compile Include="Helpers\WithStucts\OperatorCalculatorFactory.cs" />
     <Compile Include="Helpers\TestHelper.cs" />
@@ -91,6 +109,12 @@
     <Compile Include="Calculation\Operators\WithInheritance\Sine_OperatorCalculator_VarFrequency_NoPhaseTracking.cs" />
     <Compile Include="Calculation\Operators\WithInheritance\Sine_OperatorCalculator_VarFrequency_WithPhaseTracking.cs" />
     <Compile Include="Calculation\Operators\WithInheritance\VariableInput_OperatorCalculator.cs" />
+    <Compile Include="Visitors\FactorizationDtoVisitor.cs" />
+    <Compile Include="Visitors\MathematicalPropertyDtoVisitor.cs" />
+    <Compile Include="Visitors\OperatorDtoVisitorBase.cs" />
+    <Compile Include="Visitors\SpecializationDtoVisitor.cs" />
+    <Compile Include="Visitors\WithInheritance\DtoToCalculatorVisitor.cs" />
+    <Compile Include="Visitors\WithStructs\DtoToCalculatorVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Framework\JJ.Framework.Mathematics\JJ.Framework.Mathematics.csproj">
@@ -106,11 +130,7 @@
       <Name>JJ.Framework.Testing</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Shared\" />
-    <Folder Include="WithInheritance\" />
-    <Folder Include="WithStructs\" />
-  </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
