@@ -24,7 +24,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Helpers
             return calculator;
         }
 
-        private static OperatorCalculatorBase CreateOperatorCalculatorStructure_SinglePartial(DimensionStack dimensionStack)
+        public static OperatorCalculatorBase CreateOperatorCalculatorStructure_SinglePartial(DimensionStack dimensionStack)
         {
             if (dimensionStack == null) throw new NullException(() => dimensionStack);
 

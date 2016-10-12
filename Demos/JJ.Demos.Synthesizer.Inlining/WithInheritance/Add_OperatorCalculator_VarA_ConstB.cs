@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using JJ.Demos.Synthesizer.Inlining.Shared;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Demos.Synthesizer.Inlining.WithInheritance
@@ -25,7 +26,7 @@ namespace JJ.Demos.Synthesizer.Inlining.WithInheritance
         public override double Calculate()
         {
             double a = _aCalculator.Calculate();
-            double result = a + _b;
+            double result = OperatorCalculatorHelper.Add(a, _b);
             return result;
         }
     }

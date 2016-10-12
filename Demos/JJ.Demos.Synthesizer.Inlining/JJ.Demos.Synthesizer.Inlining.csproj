@@ -63,7 +63,7 @@
     <Compile Include="SynthesizerPerformanceTests_NoInliningWithInheritance.cs" />
     <Compile Include="WithGenericMutableStructsAndHelpers\Add_OperatorCalculator_8Vars.cs" />
     <Compile Include="WithGenericMutableStructsAndHelpers\Number_OperatorCalculator.cs" />
-    <Compile Include="WithGenericMutableStructsAndHelpers\OperatorCalculatorHelper.cs" />
+    <Compile Include="Shared\OperatorCalculatorHelper.cs" />
     <Compile Include="WithGenericMutableStructsAndHelpers\Multiply_OperatorCalculator_VarA_ConstB.cs" />
     <Compile Include="WithGenericMutableStructsAndHelpers\Add_OperatorCalculator_VarA_ConstB.cs" />
     <Compile Include="WithGenericMutableStructsAndHelpers\Multiply_OperatorCalculator_VarA_VarB.cs" />

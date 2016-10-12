@@ -10,41 +10,63 @@ namespace JJ.Demos.Synthesizer.Inlining
     public class SynthesizerPerformanceTests_InliningWithStructs
     {
         [TestMethod]
-        public void Test_SynthesizerPerformance_WithoutTime_8Partials_InliningWithStructs()
+        public void Test_SynthesizerPerformance_WithoutTime_SinglePartial_500_000_Iterations_InliningWithStructs()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
 
-            var calculator = OperatorCalculatorFactory_WithGenericMutableStructsAndHelpers.CreateOperatorCalculatorStructure_8Partials(dimensionStack);
+            var calculator = OperatorCalculatorFactory_WithGenericMutableStructsAndHelpers.CreateOperatorCalculatorStructure_SinglePartial(dimensionStack);
 
             var stopWatch = Stopwatch.StartNew();
 
-            for (int i = 0; i < TestHelper.ITERATION_COUNT; i++)
+            for (int i = 0; i < 500000; i++)
             {
                 calculator.Calculate();
             }
 
             stopWatch.Stop();
 
-            string message = TestHelper.GetPerformanceInfoMessage(TestHelper.ITERATION_COUNT, stopWatch.Elapsed);
+            string message = TestHelper.GetPerformanceInfoMessage(500000, stopWatch.Elapsed);
 
             Assert.Inconclusive(message);
         }
 
         [TestMethod]
-        public void Test_SynthesizerPerformance_WithTime_8Partials_InliningWithStructs()
+        public void Test_SynthesizerPerformance_WithoutTime_8Partials_500_000_Iterations_InliningWithStructs()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
 
             var calculator = OperatorCalculatorFactory_WithGenericMutableStructsAndHelpers.CreateOperatorCalculatorStructure_8Partials(dimensionStack);
 
+            var stopWatch = Stopwatch.StartNew();
+
+            for (int i = 0; i < 500000; i++)
+            {
+                calculator.Calculate();
+            }
+
+            stopWatch.Stop();
+
+            string message = TestHelper.GetPerformanceInfoMessage(500000, stopWatch.Elapsed);
+
+            Assert.Inconclusive(message);
+        }
+
+        [TestMethod]
+        public void Test_SynthesizerPerformance_WithTime_SinglePartials_500_000_Iterations_InliningWithStructs()
+        {
+            var dimensionStack = new DimensionStack();
+            dimensionStack.Push(0.0);
+
+            var calculator = OperatorCalculatorFactory_WithGenericMutableStructsAndHelpers.CreateOperatorCalculatorStructure_SinglePartial(dimensionStack);
+
             double t = 0.0;
-            double dt = 1.0 / TestHelper.SAMPLING_RATE;
+            double dt = 1.0 / 500000.0;
 
             var stopWatch = Stopwatch.StartNew();
 
-            while (t <= TestHelper.SECONDS)
+            while (t <= 1.0)
             {
                 dimensionStack.Set(t);
 
@@ -55,9 +77,141 @@ namespace JJ.Demos.Synthesizer.Inlining
 
             stopWatch.Stop();
 
-            string message = TestHelper.GetPerformanceInfoMessage(TestHelper.ITERATION_COUNT, stopWatch.Elapsed);
+            string message = TestHelper.GetPerformanceInfoMessage(500000, stopWatch.Elapsed);
 
             Assert.Inconclusive(message);
         }
+
+        [TestMethod]
+        public void Test_SynthesizerPerformance_WithTime_8Partials_500_000_Iterations_InliningWithStructs()
+        {
+            var dimensionStack = new DimensionStack();
+            dimensionStack.Push(0.0);
+
+            var calculator = OperatorCalculatorFactory_WithGenericMutableStructsAndHelpers.CreateOperatorCalculatorStructure_8Partials(dimensionStack);
+
+            double t = 0.0;
+            double dt = 1.0 / 500000.0;
+
+            var stopWatch = Stopwatch.StartNew();
+
+            while (t <= 1.0)
+            {
+                dimensionStack.Set(t);
+
+                double value = calculator.Calculate();
+
+                t += dt;
+            }
+
+            stopWatch.Stop();
+
+            string message = TestHelper.GetPerformanceInfoMessage(500000, stopWatch.Elapsed);
+
+            Assert.Inconclusive(message);
+        }
+
+        [TestMethod]
+        public void Test_SynthesizerPerformance_WithoutTime_SinglePartial_50_000_Iterations_InliningWithStructs()
+        {
+            var dimensionStack = new DimensionStack();
+            dimensionStack.Push(0.0);
+
+            var calculator = OperatorCalculatorFactory_WithGenericMutableStructsAndHelpers.CreateOperatorCalculatorStructure_SinglePartial(dimensionStack);
+
+            var stopWatch = Stopwatch.StartNew();
+
+            for (int i = 0; i < 50000; i++)
+            {
+                calculator.Calculate();
+            }
+
+            stopWatch.Stop();
+
+            string message = TestHelper.GetPerformanceInfoMessage(50000, stopWatch.Elapsed);
+
+            Assert.Inconclusive(message);
+        }
+
+        [TestMethod]
+        public void Test_SynthesizerPerformance_WithoutTime_8Partials_50_000_Iterations_InliningWithStructs()
+        {
+            var dimensionStack = new DimensionStack();
+            dimensionStack.Push(0.0);
+
+            var calculator = OperatorCalculatorFactory_WithGenericMutableStructsAndHelpers.CreateOperatorCalculatorStructure_8Partials(dimensionStack);
+
+            var stopWatch = Stopwatch.StartNew();
+
+            for (int i = 0; i < 50000; i++)
+            {
+                calculator.Calculate();
+            }
+
+            stopWatch.Stop();
+
+            string message = TestHelper.GetPerformanceInfoMessage(50000, stopWatch.Elapsed);
+
+            Assert.Inconclusive(message);
+        }
+
+        [TestMethod]
+        public void Test_SynthesizerPerformance_WithTime_SinglePartials_50_000_Iterations_InliningWithStructs()
+        {
+            var dimensionStack = new DimensionStack();
+            dimensionStack.Push(0.0);
+
+            var calculator = OperatorCalculatorFactory_WithGenericMutableStructsAndHelpers.CreateOperatorCalculatorStructure_SinglePartial(dimensionStack);
+
+            double t = 0.0;
+            double dt = 1.0 / 50000.0;
+
+            var stopWatch = Stopwatch.StartNew();
+
+            while (t <= 1.0)
+            {
+                dimensionStack.Set(t);
+
+                double value = calculator.Calculate();
+
+                t += dt;
+            }
+
+            stopWatch.Stop();
+
+            string message = TestHelper.GetPerformanceInfoMessage(50000, stopWatch.Elapsed);
+
+            Assert.Inconclusive(message);
+        }
+
+        [TestMethod]
+        public void Test_SynthesizerPerformance_WithTime_8Partials_50_000_Iterations_InliningWithStructs()
+        {
+            var dimensionStack = new DimensionStack();
+            dimensionStack.Push(0.0);
+
+            var calculator = OperatorCalculatorFactory_WithGenericMutableStructsAndHelpers.CreateOperatorCalculatorStructure_8Partials(dimensionStack);
+
+            double t = 0.0;
+            double dt = 1.0 / 50000.0;
+
+            var stopWatch = Stopwatch.StartNew();
+
+            while (t <= 1.0)
+            {
+                dimensionStack.Set(t);
+
+                double value = calculator.Calculate();
+
+                t += dt;
+            }
+
+            stopWatch.Stop();
+
+            string message = TestHelper.GetPerformanceInfoMessage(50000, stopWatch.Elapsed);
+
+            Assert.Inconclusive(message);
+        }
+
     }
 }
