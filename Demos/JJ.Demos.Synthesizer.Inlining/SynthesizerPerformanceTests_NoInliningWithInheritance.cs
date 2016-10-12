@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
+using JJ.Demos.Synthesizer.Inlining.Calculation;
 using JJ.Demos.Synthesizer.Inlining.Helpers;
-using JJ.Demos.Synthesizer.Inlining.Shared;
+using JJ.Demos.Synthesizer.Inlining.Helpers.WithInheritance;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace JJ.Demos.Synthesizer.Inlining
@@ -15,7 +16,7 @@ namespace JJ.Demos.Synthesizer.Inlining
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
 
-            var calculator = OperatorCalculatorFactory_WithInheritance.CreateOperatorCalculatorStructure_SinglePartial(dimensionStack);
+            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorStructure_SinglePartial(dimensionStack);
 
             var stopWatch = Stopwatch.StartNew();
 
@@ -37,7 +38,7 @@ namespace JJ.Demos.Synthesizer.Inlining
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
 
-            var calculator = OperatorCalculatorFactory_WithInheritance.CreateOperatorCalculatorStructure_8Partials(dimensionStack);
+            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorStructure_8Partials(dimensionStack);
 
             var stopWatch = Stopwatch.StartNew();
 
@@ -59,7 +60,7 @@ namespace JJ.Demos.Synthesizer.Inlining
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
 
-            var calculator = OperatorCalculatorFactory_WithInheritance.CreateOperatorCalculatorStructure_SinglePartial(dimensionStack);
+            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorStructure_SinglePartial(dimensionStack);
 
             double t = 0.0;
             double dt = 1.0 / 500000.0;
@@ -88,7 +89,7 @@ namespace JJ.Demos.Synthesizer.Inlining
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
 
-            var calculator = OperatorCalculatorFactory_WithInheritance.CreateOperatorCalculatorStructure_8Partials(dimensionStack);
+            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorStructure_8Partials(dimensionStack);
 
             double t = 0.0;
             double dt = 1.0 / 500000.0;
@@ -117,7 +118,7 @@ namespace JJ.Demos.Synthesizer.Inlining
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
 
-            var calculator = OperatorCalculatorFactory_WithInheritance.CreateOperatorCalculatorStructure_SinglePartial(dimensionStack);
+            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorStructure_SinglePartial(dimensionStack);
 
             var stopWatch = Stopwatch.StartNew();
 
@@ -139,7 +140,7 @@ namespace JJ.Demos.Synthesizer.Inlining
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
 
-            var calculator = OperatorCalculatorFactory_WithInheritance.CreateOperatorCalculatorStructure_8Partials(dimensionStack);
+            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorStructure_8Partials(dimensionStack);
 
             var stopWatch = Stopwatch.StartNew();
 
@@ -161,7 +162,7 @@ namespace JJ.Demos.Synthesizer.Inlining
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
 
-            var calculator = OperatorCalculatorFactory_WithInheritance.CreateOperatorCalculatorStructure_SinglePartial(dimensionStack);
+            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorStructure_SinglePartial(dimensionStack);
 
             double t = 0.0;
             double dt = 1.0 / 50000.0;
@@ -190,7 +191,7 @@ namespace JJ.Demos.Synthesizer.Inlining
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
 
-            var calculator = OperatorCalculatorFactory_WithInheritance.CreateOperatorCalculatorStructure_8Partials(dimensionStack);
+            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorStructure_8Partials(dimensionStack);
 
             double t = 0.0;
             double dt = 1.0 / 50000.0;

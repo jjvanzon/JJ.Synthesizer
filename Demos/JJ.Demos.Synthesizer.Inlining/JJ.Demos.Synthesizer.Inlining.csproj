@@ -55,44 +55,42 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Helpers\OperatorCalculatorFactory_WithInheritance.cs" />
-    <Compile Include="Helpers\OperatorCalculatorFactory_WithGenericMutableStructsAndHelpers.cs" />
+    <Compile Include="Helpers\WithInheritance\OperatorCalculatorFactory.cs" />
+    <Compile Include="Helpers\WithStucts\OperatorCalculatorFactory.cs" />
     <Compile Include="Helpers\TestHelper.cs" />
-    <Compile Include="Shared\DimensionStack.cs" />
-    <Compile Include="Shared\SineCalculator.cs" />
+    <Compile Include="Calculation\DimensionStack.cs" />
+    <Compile Include="Calculation\SineCalculator.cs" />
     <Compile Include="SynthesizerPerformanceTests_NoInliningWithInheritance.cs" />
-    <Compile Include="WithGenericMutableStructsAndHelpers\Add_OperatorCalculator_8Vars.cs" />
-    <Compile Include="WithGenericMutableStructsAndHelpers\Number_OperatorCalculator.cs" />
-    <Compile Include="Shared\OperatorCalculatorHelper.cs" />
-    <Compile Include="WithGenericMutableStructsAndHelpers\Multiply_OperatorCalculator_VarA_ConstB.cs" />
-    <Compile Include="WithGenericMutableStructsAndHelpers\Add_OperatorCalculator_VarA_ConstB.cs" />
-    <Compile Include="WithGenericMutableStructsAndHelpers\Multiply_OperatorCalculator_VarA_VarB.cs" />
-    <Compile Include="WithGenericMutableStructsAndHelpers\Add_OperatorCalculator_VarA_VarB.cs" />
-    <Compile Include="WithGenericMutableStructsAndHelpers\IOperatorCalculator.cs" />
-    <Compile Include="WithGenericMutableStructsAndHelpers\Shift_OperatorCalculator_VarSignal_ConstDifference.cs" />
-    <Compile Include="WithGenericMutableStructsAndHelpers\Shift_OperatorCalculator_VarSignal_VarDifference.cs" />
-    <Compile Include="WithGenericMutableStructsAndHelpers\Sine_OperatorCalculator_ConstFrequency_NoOriginShifting.cs" />
-    <Compile Include="WithGenericMutableStructsAndHelpers\Sine_OperatorCalculator_VarFrequency_NoPhaseTracking.cs" />
-    <Compile Include="WithGenericMutableStructsAndHelpers\Sine_OperatorCalculator_VarFrequency_WithPhaseTracking.cs" />
-    <Compile Include="WithGenericMutableStructsAndHelpers\VariableInput_OperatorCalculator.cs" />
-    <Compile Include="WithInheritance\Add_OperatorCalculator_VarA_ConstB.cs" />
-    <Compile Include="WithInheritance\Add_OperatorCalculator_8Vars.cs" />
-    <Compile Include="WithInheritance\Add_OperatorCalculator_VarA_VarB.cs" />
-    <Compile Include="WithInheritance\Multiply_OperatorCalculator_VarA_ConstB.cs" />
-    <Compile Include="WithInheritance\Multiply_OperatorCalculator_VarA_VarB.cs" />
+    <Compile Include="Calculation\Operators\WithStructs\Add_OperatorCalculator_8Vars.cs" />
+    <Compile Include="Calculation\Operators\WithStructs\Number_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\OperatorCalculatorHelper.cs" />
+    <Compile Include="Calculation\Operators\WithStructs\Multiply_OperatorCalculator_VarA_ConstB.cs" />
+    <Compile Include="Calculation\Operators\WithStructs\Add_OperatorCalculator_VarA_ConstB.cs" />
+    <Compile Include="Calculation\Operators\WithStructs\Multiply_OperatorCalculator_VarA_VarB.cs" />
+    <Compile Include="Calculation\Operators\WithStructs\Add_OperatorCalculator_VarA_VarB.cs" />
+    <Compile Include="Calculation\Operators\WithStructs\IOperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\WithStructs\Shift_OperatorCalculator_VarSignal_ConstDifference.cs" />
+    <Compile Include="Calculation\Operators\WithStructs\Shift_OperatorCalculator_VarSignal_VarDifference.cs" />
+    <Compile Include="Calculation\Operators\WithStructs\Sine_OperatorCalculator_ConstFrequency_NoOriginShifting.cs" />
+    <Compile Include="Calculation\Operators\WithStructs\Sine_OperatorCalculator_VarFrequency_NoPhaseTracking.cs" />
+    <Compile Include="Calculation\Operators\WithStructs\Sine_OperatorCalculator_VarFrequency_WithPhaseTracking.cs" />
+    <Compile Include="Calculation\Operators\WithStructs\VariableInput_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\WithInheritance\Add_OperatorCalculator_VarA_ConstB.cs" />
+    <Compile Include="Calculation\Operators\WithInheritance\Add_OperatorCalculator_8Vars.cs" />
+    <Compile Include="Calculation\Operators\WithInheritance\Add_OperatorCalculator_VarA_VarB.cs" />
+    <Compile Include="Calculation\Operators\WithInheritance\Multiply_OperatorCalculator_VarA_ConstB.cs" />
+    <Compile Include="Calculation\Operators\WithInheritance\Multiply_OperatorCalculator_VarA_VarB.cs" />
     <Compile Include="2016-10-09 Backup of StructTests.cs" />
     <Compile Include="SynthesizerPerformanceTests_InliningWithStructs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WithInheritance\Number_OperatorCalculator.cs" />
-    <Compile Include="WithInheritance\OperatorCalculatorBase.cs" />
-    <Compile Include="WithInheritance\2016-10-09 Backup of OperatorCalculatorBase_WithChildCalculators.cs" />
-    <Compile Include="WithInheritance\Shift_OperatorCalculator_VarSignal_ConstDifference.cs" />
-    <Compile Include="WithInheritance\Shift_OperatorCalculator_VarSignal_VarDifference.cs" />
-    <Compile Include="WithInheritance\Sine_OperatorCalculator_ConstFrequency_NoOriginShifting.cs" />
-    <Compile Include="WithInheritance\2016-10-09 Backup of Sine_OperatorCalculator_ConstFrequency_WithOriginShifting %28Inlining Demo%29.cs" />
-    <Compile Include="WithInheritance\Sine_OperatorCalculator_VarFrequency_NoPhaseTracking.cs" />
-    <Compile Include="WithInheritance\Sine_OperatorCalculator_VarFrequency_WithPhaseTracking.cs" />
-    <Compile Include="WithInheritance\VariableInput_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\WithInheritance\Number_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\WithInheritance\OperatorCalculatorBase.cs" />
+    <Compile Include="Calculation\Operators\WithInheritance\Shift_OperatorCalculator_VarSignal_ConstDifference.cs" />
+    <Compile Include="Calculation\Operators\WithInheritance\Shift_OperatorCalculator_VarSignal_VarDifference.cs" />
+    <Compile Include="Calculation\Operators\WithInheritance\Sine_OperatorCalculator_ConstFrequency_NoOriginShifting.cs" />
+    <Compile Include="Calculation\Operators\WithInheritance\Sine_OperatorCalculator_VarFrequency_NoPhaseTracking.cs" />
+    <Compile Include="Calculation\Operators\WithInheritance\Sine_OperatorCalculator_VarFrequency_WithPhaseTracking.cs" />
+    <Compile Include="Calculation\Operators\WithInheritance\VariableInput_OperatorCalculator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Framework\JJ.Framework.Mathematics\JJ.Framework.Mathematics.csproj">
@@ -108,7 +106,11 @@
       <Name>JJ.Framework.Testing</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Shared\" />
+    <Folder Include="WithInheritance\" />
+    <Folder Include="WithStructs\" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
