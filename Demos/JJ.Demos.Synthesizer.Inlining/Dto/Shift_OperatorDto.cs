@@ -7,6 +7,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Dto
     internal class Shift_OperatorDto : OperatorDto
     {
         public Shift_OperatorDto(InletDto signalInletDto, InletDto distanceInletDto)
+            : base(new InletDto[] { signalInletDto, distanceInletDto })
         {
             SignalInletDto = signalInletDto;
             DistanceInletDto = distanceInletDto;

@@ -7,6 +7,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Dto
     internal class Multiply_OperatorDto : OperatorDto
     {
         public Multiply_OperatorDto(InletDto aInletDto, InletDto bInletDto)
+            : base(new InletDto[] { aInletDto, bInletDto })
         {
             AInletDto = aInletDto;
             BInletDto = bInletDto;
