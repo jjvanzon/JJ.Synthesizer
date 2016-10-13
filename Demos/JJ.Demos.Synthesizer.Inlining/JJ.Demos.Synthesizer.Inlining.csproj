@@ -109,9 +109,9 @@
     <Compile Include="Calculation\Operators\WithInheritance\Sine_OperatorCalculator_VarFrequency_NoPhaseTracking.cs" />
     <Compile Include="Calculation\Operators\WithInheritance\Sine_OperatorCalculator_VarFrequency_WithPhaseTracking.cs" />
     <Compile Include="Calculation\Operators\WithInheritance\VariableInput_OperatorCalculator.cs" />
-    <Compile Include="Visitors\FactorizationDtoVisitor.cs" />
     <Compile Include="Visitors\MathematicalPropertyDtoVisitor.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase.cs" />
+    <Compile Include="Visitors\PreProcessingDtoVisitor.cs" />
     <Compile Include="Visitors\SpecializationDtoVisitor.cs" />
     <Compile Include="Visitors\WithInheritance\DtoToCalculatorVisitor.cs" />
     <Compile Include="Visitors\WithStructs\DtoToCalculatorVisitor.cs" />

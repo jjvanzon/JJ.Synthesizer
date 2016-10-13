@@ -14,9 +14,9 @@ namespace JJ.Demos.Synthesizer.Inlining.Dto
             InputOperatorDto = inputOperatorDto;
         }
 
+        public bool IsConst { get; set; }
         public bool IsConstZero { get; set; }
         public bool IsConstOne { get; set; }
-        public bool IsConst { get; set; }
         public bool IsConstSpecialValue { get; set; }
         public double? Value { get; set; }
 
