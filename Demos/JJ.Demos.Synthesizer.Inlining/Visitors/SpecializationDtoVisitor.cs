@@ -14,6 +14,24 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
             return Visit_OperatorDto_Polymorphic(operatorDto);
         }
 
+        protected override OperatorDto Visit_OperatorDto_Polymorphic(OperatorDto operatorDto)
+        {
+            IList<InletDto> inletDtos = operatorDto.InletDtos;
+            int inletDtoCount = inletDtos.Count;
+
+            for (int i = 0; i < inletDtoCount; i++)
+            {
+                InletDto inletDto = inletDtos[i];
+
+                if (inletDto.IsConstSpecialValue)
+                {
+                    return new Number_OperatorDto_NaN();
+                }
+            }
+
+            return base.Visit_OperatorDto_Polymorphic(operatorDto);
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected override OperatorDto Visit_Add_OperatorDto_Concrete(Add_OperatorDto add_OperatorDto)
         {
@@ -21,16 +39,6 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
 
             InletDto aInletDto = add_OperatorDto.AInletDto;
             InletDto bInletDto = add_OperatorDto.BInletDto;
-
-            if (aInletDto.IsConstSpecialValue)
-            {
-                return new Number_OperatorDto_NaN();
-            }
-
-            if (bInletDto.IsConstSpecialValue)
-            {
-                return new Number_OperatorDto_NaN();
-            }
 
             if (aInletDto.IsConstZero)
             {
@@ -67,16 +75,6 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
 
             InletDto aInletDto = multiply_OperatorDto.AInletDto;
             InletDto bInletDto = multiply_OperatorDto.BInletDto;
-
-            if (aInletDto.IsConstSpecialValue)
-            {
-                return new Number_OperatorDto_NaN();
-            }
-
-            if (bInletDto.IsConstSpecialValue)
-            {
-                return new Number_OperatorDto_NaN();
-            }
 
             if (aInletDto.IsConstZero)
             {
@@ -141,8 +139,6 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
             return number_OperatorDto;
         }
 
-        // WAS HERE
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected override OperatorDto Visit_Shift_OperatorDto_Concrete(Shift_OperatorDto shift_OperatorDto)
         {
@@ -150,16 +146,6 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
 
             InletDto signalInletDto = shift_OperatorDto.SignalInletDto;
             InletDto distanceInletDto = shift_OperatorDto.DistanceInletDto;
-
-            if (signalInletDto.IsConstSpecialValue)
-            {
-                return new Number_OperatorDto_NaN();
-            }
-
-            if (distanceInletDto.IsConstSpecialValue)
-            {
-                return new Number_OperatorDto_NaN();
-            }
 
             if (signalInletDto.IsConst)
             {
@@ -189,11 +175,6 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
             base.Visit_Sine_OperatorDto_Concrete(sine_OperatorDto);
 
             InletDto frequencyInletDto = sine_OperatorDto.FrequencyInletDto;
-
-            if (frequencyInletDto.IsConstSpecialValue)
-            {
-                return new Number_OperatorDto_NaN();
-            }
 
             if (frequencyInletDto.IsConstZero)
             {
