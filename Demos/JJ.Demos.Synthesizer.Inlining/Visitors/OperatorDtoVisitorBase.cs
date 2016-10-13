@@ -29,6 +29,12 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
             {
                 Visit_Number_OperatorDto(number_OperatorDto);
             }
+
+            var shift_OperatorDto = operatorDto as Shift_OperatorDto;
+            if (shift_OperatorDto != null)
+            {
+                Visit_Shift_OperatorDto_ConcreteOrPolymorphic(shift_OperatorDto);
+            }
         }
 
         // Add
@@ -155,6 +161,136 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
         private void Visit_Number_OperatorDto(Number_OperatorDto number_OperatorDto)
         {
             Visit_OperatorDto_Base(number_OperatorDto);
+        }
+
+        // Shift
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual void Visit_Shift_OperatorDto_ConcreteOrPolymorphic(Shift_OperatorDto shift_OperatorDto)
+        {
+            bool isConcrete = shift_OperatorDto.GetType() == typeof(Shift_OperatorDto);
+
+            if (isConcrete)
+            {
+                Visit_Shift_OperatorDto_Concrete(shift_OperatorDto);
+            }
+            else
+            {
+                Visit_Shift_OperatorDto_Polymorphic(shift_OperatorDto);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual void Visit_Shift_OperatorDto_Concrete(Shift_OperatorDto shift_OperatorDto)
+        {
+            Visit_Shift_OperatorDto_Base(shift_OperatorDto);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual void Visit_Shift_OperatorDto_Polymorphic(Shift_OperatorDto shift_OperatorDto)
+        {
+            var shift_OperatorDto_VarSignal_VarDifference = shift_OperatorDto as Shift_OperatorDto_VarSignal_VarDifference;
+            if (shift_OperatorDto_VarSignal_VarDifference != null)
+            {
+                Visit_Shift_OperatorDto_VarSignal_VarDifference(shift_OperatorDto_VarSignal_VarDifference);
+            }
+
+            var shift_OperatorDto_VarSignal_ConstDifference = shift_OperatorDto as Shift_OperatorDto_VarSignal_ConstDifference;
+            if (shift_OperatorDto_VarSignal_ConstDifference != null)
+            {
+                Visit_Shift_OperatorDto_VarSignal_ConstDifference(shift_OperatorDto_VarSignal_ConstDifference);
+            }
+
+            throw new UnexpectedTypeException(() => shift_OperatorDto);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual void Visit_Shift_OperatorDto_VarSignal_VarDifference(Shift_OperatorDto_VarSignal_VarDifference shift_OperatorDto_VarSignal_VarDifference)
+        {
+            Visit_Shift_OperatorDto_Base(shift_OperatorDto_VarSignal_VarDifference);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual void Visit_Shift_OperatorDto_VarSignal_ConstDifference(Shift_OperatorDto_VarSignal_ConstDifference shift_OperatorDto_VarSignal_ConstDifference)
+        {
+            Visit_Shift_OperatorDto_Base(shift_OperatorDto_VarSignal_ConstDifference);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual void Visit_Shift_OperatorDto_Base(Shift_OperatorDto shift_OperatorDto)
+        {
+            Visit_OperatorDto_Base(shift_OperatorDto);
+        }
+
+        // Sine
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual void Visit_Sine_OperatorDto_ConcreteOrPolymorphic(Sine_OperatorDto sine_OperatorDto)
+        {
+            bool isConcrete = sine_OperatorDto.GetType() == typeof(Sine_OperatorDto);
+
+            if (isConcrete)
+            {
+                Visit_Sine_OperatorDto_Concrete(sine_OperatorDto);
+            }
+            else
+            {
+                Visit_Sine_OperatorDto_Polymorphic(sine_OperatorDto);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual void Visit_Sine_OperatorDto_Concrete(Sine_OperatorDto sine_OperatorDto)
+        {
+            Visit_Sine_OperatorDto_Base(sine_OperatorDto);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual void Visit_Sine_OperatorDto_Polymorphic(Sine_OperatorDto sine_OperatorDto)
+        {
+            var sine_OperatorDto_ConstFrequency_NoOriginShifting = sine_OperatorDto as Sine_OperatorDto_ConstFrequency_NoOriginShifting;
+            if (sine_OperatorDto_ConstFrequency_NoOriginShifting != null)
+            {
+                Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(sine_OperatorDto_ConstFrequency_NoOriginShifting);
+            }
+
+            var sine_OperatorDto_VarFrequency_NoPhaseTracking = sine_OperatorDto as Sine_OperatorDto_VarFrequency_NoPhaseTracking;
+            if (sine_OperatorDto_VarFrequency_NoPhaseTracking != null)
+            {
+                Visit_Sine_OperatorDto_VarFrequency_NoPhaseTracking(sine_OperatorDto_VarFrequency_NoPhaseTracking);
+            }
+
+            var sine_OperatorDto_VarFrequency_WithPhaseTracking = sine_OperatorDto as Sine_OperatorDto_VarFrequency_WithPhaseTracking;
+            if (sine_OperatorDto_VarFrequency_WithPhaseTracking != null)
+            {
+                Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(sine_OperatorDto_VarFrequency_WithPhaseTracking);
+            }
+
+            throw new UnexpectedTypeException(() => sine_OperatorDto);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual void Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(Sine_OperatorDto_ConstFrequency_NoOriginShifting sine_OperatorDto_ConstFrequency_NoOriginShifting)
+        {
+            Visit_Sine_OperatorDto_Base(sine_OperatorDto_ConstFrequency_NoOriginShifting);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual void Visit_Sine_OperatorDto_VarFrequency_NoPhaseTracking(Sine_OperatorDto_VarFrequency_NoPhaseTracking sine_OperatorDto_VarFrequency_NoPhaseTracking)
+        {
+            Visit_Sine_OperatorDto_Base(sine_OperatorDto_VarFrequency_NoPhaseTracking);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual void Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(Sine_OperatorDto_VarFrequency_WithPhaseTracking sine_OperatorDto_VarFrequency_WithPhaseTracking)
+        {
+            Visit_Sine_OperatorDto_Base(sine_OperatorDto_VarFrequency_WithPhaseTracking);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual void Visit_Sine_OperatorDto_Base(Sine_OperatorDto sine_OperatorDto)
+        {
+            Visit_OperatorDto_Base(sine_OperatorDto);
         }
 
         // Base
