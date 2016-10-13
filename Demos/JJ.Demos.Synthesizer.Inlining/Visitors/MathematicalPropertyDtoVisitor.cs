@@ -17,10 +17,12 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
             Visit_OperatorDto_Polymorphic(operatorDto);
         }
 
-        protected override void VisitInletDto(InletDto inletDto)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected override InletDto VisitInletDto(InletDto inletDto)
         {
             var number_OperatorDto = inletDto.InputOperatorDto as Number_OperatorDto;
 
+            inletDto.IsVar = number_OperatorDto == null;
             inletDto.IsConst = number_OperatorDto != null;
 
             if (inletDto.IsConst)
@@ -43,7 +45,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
                 }
             }
 
-            base.VisitInletDto(inletDto);
+            return base.VisitInletDto(inletDto);
         }
     }
 }

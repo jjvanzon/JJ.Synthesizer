@@ -62,11 +62,14 @@
     <Compile Include="Dto\InletDto.cs" />
     <Compile Include="Dto\Multiply_OperatorDto_VarA_ConstB.cs" />
     <Compile Include="Dto\Multiply_OperatorDto_VarA_VarB.cs" />
+    <Compile Include="Dto\Number_OperatorDto_Zero.cs" />
+    <Compile Include="Dto\Number_OperatorDto_One.cs" />
+    <Compile Include="Dto\Number_OperatorDto_NaN.cs" />
     <Compile Include="Dto\Number_OperatorDto.cs" />
     <Compile Include="Dto\OperatorDto.cs" />
     <Compile Include="Dto\Shift_OperatorDto.cs" />
-    <Compile Include="Dto\Shift_OperatorDto_VarSignal_VarDifference.cs" />
-    <Compile Include="Dto\Shift_OperatorDto_VarSignal_ConstDifference.cs" />
+    <Compile Include="Dto\Shift_OperatorDto_VarSignal_VarDistance.cs" />
+    <Compile Include="Dto\Shift_OperatorDto_VarSignal_ConstDistance.cs" />
     <Compile Include="Dto\Sine_OperatorDto.cs" />
     <Compile Include="Dto\Sine_OperatorDto_ConstFrequency_NoOriginShifting.cs" />
     <Compile Include="Dto\Sine_OperatorDto_VarFrequency_NoPhaseTracking.cs" />
@@ -117,6 +120,10 @@
     <Compile Include="Visitors\WithStructs\DtoToCalculatorVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Framework\JJ.Framework.Common\JJ.Framework.Common.csproj">
+      <Project>{44fd9133-5fe7-4824-bd35-27273706d127}</Project>
+      <Name>JJ.Framework.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Framework\JJ.Framework.Mathematics\JJ.Framework.Mathematics.csproj">
       <Project>{810b90b9-f501-4b91-b019-2ad5aad63304}</Project>
       <Name>JJ.Framework.Mathematics</Name>

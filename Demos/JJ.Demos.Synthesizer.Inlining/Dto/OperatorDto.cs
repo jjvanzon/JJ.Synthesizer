@@ -14,6 +14,6 @@ namespace JJ.Demos.Synthesizer.Inlining.Dto
             InletDtos = inletDtos;
         }
 
-        public IList<InletDto> InletDtos { get; }
+        public IList<InletDto> InletDtos { get; set; }
     }
 }
